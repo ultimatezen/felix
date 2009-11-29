@@ -1,0 +1,24 @@
+HKCR
+{
+	Felix.Record.1 = s 'Record Class'
+	{
+		CLSID = s '{FFC55E59-833C-469D-82EB-B1ABF765793D}'
+	}
+	Felix.Record = s 'Record Class'
+	{
+		CLSID = s '{FFC55E59-833C-469D-82EB-B1ABF765793D}'
+		CurVer = s 'Felix.Record.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FFC55E59-833C-469D-82EB-B1ABF765793D} = s 'Record Class'
+		{
+			ProgID = s 'Felix.Record.1'
+			VersionIndependentProgID = s 'Felix.Record'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

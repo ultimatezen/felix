@@ -1,0 +1,236 @@
+// Felix.idl : IDL source for Felix.exe
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Felix.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "atliface.idl";
+
+#include "olectl.h"
+
+// record
+[
+	object,
+	uuid(6195F62F-B419-4C98-B168-BDA736ADC407),
+	dual,
+	nonextensible,
+	helpstring("IRecord Interface"),
+	pointer_default(unique)
+]
+interface IRecord : IDispatch{
+	[propget, id(1), helpstring("property Source")] HRESULT Source([out, retval] BSTR* pVal);
+	[propput, id(1), helpstring("property Source")] HRESULT Source([in] BSTR newVal);
+	[propget, id(2), helpstring("property Trans")] HRESULT Trans([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property Trans")] HRESULT Trans([in] BSTR newVal);
+	[propget, id(3), helpstring("property Id")] HRESULT Id([out, retval] ULONG* pVal);
+	[propput, id(3), helpstring("property Id")] HRESULT Id([in] ULONG newVal);
+};
+// SearchResult
+[
+	object,
+	uuid(61647BA5-8AEA-487B-97B6-442CA9D0C433),
+	dual,
+	nonextensible,
+	helpstring("ISearchResult Interface"),
+	pointer_default(unique)
+]
+interface ISearchResult : IDispatch{
+	[propget, id(1), helpstring("property Record")] HRESULT Record([out, retval] IRecord** pVal);
+	[propput, id(1), helpstring("property Record")] HRESULT Record([in] IRecord* newVal);
+	[propget, id(2), helpstring("property Score")] HRESULT Score([out, retval] DOUBLE* pVal);
+};
+// App2
+[
+	object,
+	uuid(CC9981F5-4D27-4F01-A789-40FA4DFE5399),
+	dual,
+	nonextensible,
+	helpstring("IApp2 Interface"),
+	pointer_default(unique)
+]
+interface IApp2 : IDispatch{
+	[propget, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([out, retval] ISearchResult** pVal);
+	[propput, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([in] ISearchResult* newVal);
+	[id(2), helpstring("method ReflectChanges")] 
+		HRESULT ReflectChanges([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
+	[id(3), helpstring("method ReviewTranslation")] 
+		HRESULT ReviewTranslation([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
+};
+// App
+[
+	object,
+	uuid(C9063D7F-5F1F-4155-9666-C349030FC4B3),
+	dual,
+	nonextensible,
+	helpstring("IApp Interface"),
+	pointer_default(unique)
+]
+interface IApp : IDispatch{
+	[propget, id(1), helpstring("property Visible")] 
+		HRESULT Visible([out, retval] VARIANT_BOOL* pVal) ;
+	[propput, id(1), helpstring("property Visible")] 
+		HRESULT Visible([in] VARIANT_BOOL newVal) ;
+
+	[id(2), helpstring("method Quit")] 
+		HRESULT Quit(void) ;
+
+	[id(3), helpstring("method Lookup")] 
+		HRESULT Lookup([in] BSTR Query) ;
+
+	[id(4), helpstring("method LookupTrans")] 
+		HRESULT LookupTrans([in] BSTR Trans) ;
+
+	[id(5), helpstring("method Concordance")] 
+		HRESULT Concordance([in] BSTR Query) ;
+
+	[id(6), helpstring("method TransConcordance")] 
+		HRESULT TransConcordance(BSTR Trans) ;
+
+	[propget, id(7), helpstring("property Score")] 
+		HRESULT Score([out, retval] DOUBLE* pVal) ;
+
+	[propget, id(8), helpstring("property Query")] 
+		HRESULT Query([out, retval] BSTR* pVal) ;
+	[propput, id(8), helpstring("property Query")] 
+		HRESULT Query([in] BSTR pVal) ;
+
+	[propget, id(9), helpstring("property Trans")] 
+		HRESULT Trans([out, retval] BSTR* pVal) ;
+	[propput, id(9), helpstring("property Trans")] 
+		HRESULT Trans([in] BSTR pVal) ;
+
+	[id(10), helpstring("method Save")] 
+		HRESULT Save(void) ;
+
+	[id(11), helpstring("method NextTrans")] 
+		HRESULT NextTrans(void) ;
+
+	[id(12), helpstring("method PrevTrans")] 
+		HRESULT PrevTrans(void) ;
+
+	[propget, id(13), helpstring("property GlossMatch")] 
+		HRESULT GlossMatch([in] SHORT Index, [out, retval] BSTR* pVal) ;
+
+	[propget, id(14), helpstring("property NumGlossMatches")] 
+		HRESULT NumGlossMatches([out, retval] SHORT* pVal) ;
+
+	[id(15), helpstring("method LoadMemory")] 
+		HRESULT LoadMemory([in] BSTR MemoryName) ;
+
+	[id(16), helpstring("method LoadGlossary")] 
+		HRESULT LoadGlossary([in] BSTR GlossaryName) ;
+
+	[id(17), helpstring("method ClearMemories")] 
+		HRESULT ClearMemories(void) ;
+
+	[id(18), helpstring("method ClearGlossaries")] 
+		HRESULT ClearGlossaries(void) ;
+
+	[propget, id(19), helpstring("property ShowMarkup")] 
+		HRESULT ShowMarkup([out, retval] VARIANT_BOOL* pVal) ;
+	[propput, id(19), helpstring("property ShowMarkup")] 
+		HRESULT ShowMarkup([in] VARIANT_BOOL newVal) ;
+
+	[id(20), helpstring("method AddMemoryEntry")] 
+		HRESULT AddMemoryEntry([in] BSTR Source, [in] BSTR Trans, [in] BSTR EntryContext) ;
+
+	[id(21), helpstring("method AddGlossaryEntry")] 
+		HRESULT AddGlossaryEntry([in] BSTR Source, [in] BSTR Trans, [in] BSTR EntryContext) ;
+
+	[id(22), helpstring("method DeleteMemEntry")] 
+		HRESULT DeleteMemEntry(void) ;
+
+	[id(23), helpstring("method CorrectTrans")] 
+		HRESULT CorrectTrans([in] BSTR Trans) ;
+
+	[propget, id(24), helpstring("property NumMatches")] 
+		HRESULT NumMatches([out, retval] SHORT* pVal) ;
+		
+	[propget, id(25), helpstring("property App2")] 
+		HRESULT App2([out, retval] IApp2** pVal);
+};
+
+[
+	object,
+	uuid(13AA9D46-D1BD-4531-95F7-00357EB31D8D),
+	dual,
+	nonextensible,
+	helpstring("IFelixMemDocUIHandler Interface"),
+	pointer_default(unique)
+]
+interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
+};
+[
+	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
+	version(1.0),
+	helpstring("Felix 1.0 Type Library")
+]
+// library
+library Felix
+{
+	importlib("stdole32.tlb") ;
+	importlib("stdole2.tlb") ;
+
+	[
+		uuid(4948E973-2FE7-4E6B-914E-55417CCFDF22),
+		helpstring("App Class")
+	]
+	coclass App
+	{
+		[default] interface IApp;
+	};
+	[
+		uuid(C75C9294-5D81-43B9-BD63-B89C4CB0F8D9),
+		helpstring("_IApp2Events Interface")
+	]
+	dispinterface _IApp2Events
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(90BB5766-0F79-4E15-8866-D42634EE28E9),
+		helpstring("App2 Class")
+	]
+	coclass App2
+	{
+		[default] interface IApp2;
+		[default, source] dispinterface _IApp2Events;
+	};
+	[
+		uuid(4DB873D3-E714-45D7-A209-2E9389470F51),
+		helpstring("_IRecordEvents Interface")
+	]
+	dispinterface _IRecordEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(FFC55E59-833C-469D-82EB-B1ABF765793D),
+		helpstring("Record Class")
+	]
+	coclass Record
+	{
+		[default] interface IRecord;
+		[default, source] dispinterface _IRecordEvents;
+	};
+	[
+		uuid(BD1341E4-5BDB-4866-875E-5BB208AADEE4),
+		helpstring("SearchResult Class")
+	]
+	coclass SearchResult
+	{
+		[default] interface ISearchResult;
+	};
+	[
+		uuid(022ECF0F-E006-44D7-B9BA-ED4786FBDE76),
+		helpstring("FelixMemDocUIHandler Class")
+	]
+	coclass FelixMemDocUIHandler
+	{
+		[default] interface IFelixMemDocUIHandler;
+	};
+};

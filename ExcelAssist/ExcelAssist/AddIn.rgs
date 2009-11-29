@@ -1,0 +1,51 @@
+HKCR
+{
+	ExcelAssist.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{7C581B3C-C8F2-42D7-B12F-93484F14CF04}'
+	}
+	ExcelAssist.Connect = s 'Connect Class'
+	{
+		CLSID = s '{7C581B3C-C8F2-42D7-B12F-93484F14CF04}'
+		CurVer = s 'ExcelAssist.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{7C581B3C-C8F2-42D7-B12F-93484F14CF04}' = s 'Connect Class'
+		{
+			ProgID = s 'ExcelAssist.Connect.1'
+			VersionIndependentProgID = s 'ExcelAssist.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{A6FF7939-E14C-4C26-89B9-4803617A7DB6}'
+		}
+	}
+}
+HKLM
+{
+    NoRemove Software
+    {
+        NoRemove Microsoft
+        {
+            NoRemove Office
+            {
+                NoRemove Excel
+                {
+                    NoRemove Addins
+                    {
+                        ForceRemove 'ExcelAssist.Connect'
+                        {
+                            val FriendlyName = s 'Felix Addin'
+                            val Description = s 'Felix interface for Excel'
+                            val LoadBehavior = d '00000003'
+                            val CommandLineSafe = d '00000000' 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

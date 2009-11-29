@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(828EC85D-73CA-4B7D-B98C-6287F543C894),
+	version(1.0),
+	helpstring("PowerPointAssist 1.0 Type Library")
+]
+library PowerPointAssistLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(04C37B4E-06B9-4EE0-9167-DDC7734ED336),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+};

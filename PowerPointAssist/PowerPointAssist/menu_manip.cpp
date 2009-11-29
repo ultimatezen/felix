@@ -1,0 +1,41 @@
+#include "stdafx.h"
+#include "menu_manip.h"
+#include "Picture.h"
+#include "DispatchWrapper.h"
+
+bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
+{
+	try
+	{
+		CPicture pic ;
+		BOOL success = pic.Load( button_id ) ;
+		if ( ! success ) 
+		{
+			return false ;
+		}
+		_variant_t vPicture ( static_cast< IUnknown* >( pic ) ) ;
+		CDispatchWrapper wrapper( CComPtr< IDispatch >(static_cast< IDispatch* >( button ) ) );
+		wrapper.prop_put( L"Picture", vPicture ) ;
+	}
+	catch( CComException &e )
+	{
+		logging::log_error("Failed to load picture") ;
+		logging::log_exception(e) ;
+
+		return false ;
+	}
+
+	return true ;
+
+}
+
+
+bool item_needs_killing( _bstr_t caption )
+{
+	wstring candidate_for_death = (LPCWSTR)caption ;
+	str::replace_all( candidate_for_death, L"&", L"" ) ;
+	str::make_lower( candidate_for_death ) ;
+
+	wstring marked_for_death(L"felix") ;
+	return ( candidate_for_death.find( marked_for_death ) != wstring::npos  ) ;
+}

@@ -1,0 +1,61 @@
+#pragma once
+
+#include "atldlgs.h"
+#include "atlddx.h"
+#include "resource.h"
+#include "StringEx.h"
+#include "ui.h"			// windows_ui
+#include "MessageMapDefines.h"
+
+#include "WindowExceptionHandler.h"
+
+#pragma warning( disable:4100 ) // unreferenced format parameter
+
+/**
+	@class CMultitermConversionDlg 
+	@brief Dialog to get user input for import of MultiTerm glossary.
+ */
+class CMultitermConversionDlg : 
+	public CDialogImpl< CMultitermConversionDlg, TWindow >
+	, public CWinDataExchange< CMultitermConversionDlg >
+	, public CWindowExceptionHandler< CMultitermConversionDlg >
+{
+	bool	m_is_import ;
+	int	m_multiterm_version ;
+public:
+	enum { IDD = IDD_MULTITERM_CONVERSION_DLG } ;
+	DECLARE_SENSING_VAR ;
+
+	bool is_import() ;
+	void put_import_on() ;
+	void put_import_off() ;
+
+	int get_multiterm_version() ;
+	void set_multiterm_version( int setting ) ;
+
+	CMultitermConversionDlg();
+	virtual ~CMultitermConversionDlg();
+
+	LRESULT OnInitDialog( ) ;
+	LRESULT OnOK( ) ;
+	LRESULT OnCancel( ) ;
+	LRESULT OnMulti55( ) ;
+	LRESULT OnMulti66( ) ;
+
+	BEGIN_MAP_EX( CMultitermConversionDlg )
+	
+		MSG_HANDLER_0 ( WM_INITDIALOG,  OnInitDialog )
+		
+		BEGIN_CMD_HANDLER_EX
+			CMD_HANDLER_EX_0( IDOK,          OnOK   )
+			CMD_HANDLER_EX_0( IDCANCEL,      OnCancel   )
+			CMD_HANDLER_EX(IDC_MULTI55, BN_CLICKED, OnMulti55)
+			CMD_HANDLER_EX(IDC_MULTI6, BN_CLICKED, OnMulti66)
+		END_CMD_HANDLER_EX
+	
+	END_MAP_EX( _T("Action Failed") )
+
+};
+
+#pragma warning( default:4100 ) // unreferenced format parameter
+

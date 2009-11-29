@@ -1,0 +1,851 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SWITCH_TO_TRANS     BITMAP                  "bmp00001.bmp"
+IDB_SWITCH_TO_REVIEW    BITMAP                  "switch_t.bmp"
+IDB_SET_AND_NEXT        BITMAP                  "correct_and_next.bmp"
+IDB_SET                 BITMAP                  "next4.bmp"
+IDB_SAVE                BITMAP                  "save.bmp"
+IDB_RESTORE_AND_NEXT    BITMAP                  "next3.bmp"
+IDB_RESTORE             BITMAP                  "restore.bmp"
+IDB_PROPERTIES          BITMAP                  "PROP.BMP"
+IDB_LOOKUP_TRANS        BITMAP                  "lookup_trans.bmp"
+IDB_LOOKUP_NEXT_TRANS   BITMAP                  "bitmap1.bmp"
+IDB_LOOKUP_NEXT         BITMAP                  "lookup_next_trans.bmp"
+IDB_LOOKUP              BITMAP                  "next1.bmp"
+IDB_HELP                BITMAP                  "HELP.BMP"
+IDB_GLOSS_N             BITMAP                  "next6.bmp"
+IDB_GET_AND_NEXT        BITMAP                  "restore_and_next.bmp"
+IDB_GET                 BITMAP                  "next2.bmp"
+IDB_DELETE              BITMAP                  "DELETE.BMP"
+IDB_CORRECT_AND_NEXT    BITMAP                  "next5.bmp"
+IDB_CORRECT             BITMAP                  "correct.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROPSHEET_J DIALOGEX 0, 0, 262, 265
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felixのユーザ設定"
+FONT 10, "ＭＳ Ｐ明朝", 400, 0, 0x80
+BEGIN
+END
+
+IDD_PROPSHEET_E DIALOGEX 0, 0, 199, 180
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix Preferences"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+END
+
+IDD_PROPPAGE_VIEW_J DIALOGEX 0, 0, 203, 153
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "表示"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    GROUPBOX        "Ｉ／Ｆ言語",IDC_STATIC,9,5,106,44
+    CONTROL         "英語(&E)",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
+    CONTROL         "日本語(&J)",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    CONTROL         "従来のＩ／Ｆ(&C)",IDC_CLASSIC_INTERFACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,60,140,17
+END
+
+IDD_PROPPAGE_VIEW_E DIALOGEX 0, 0, 241, 144
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "View"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Interface Language",IDC_STATIC,9,5,106,44
+    CONTROL         "&English",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
+    CONTROL         "&Japanese",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    CONTROL         "&Classic Interface",IDC_CLASSIC_INTERFACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,60,140,17
+END
+
+IDD_PROPPAGE_SEGMENTATION_J DIALOGEX 0, 0, 273, 249
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "セグメントルール"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    LTEXT           "文末文字(&E):",IDC_STATIC,24,7,112,12
+    EDITTEXT        IDC_SEG_END_EDIT,24,21,165,12,ES_AUTOHSCROLL
+    CONTROL         "数字のみの文節を無視する(&N)",IDC_SKIP_NUMS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,50,196,12
+    GROUPBOX        "全角文字",IDC_STATIC,9,93,197,74
+    CONTROL         "全角文字があれば無視する(&S)",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP,24,109,172,14
+    CONTROL         "全角文字がなければ無視する(&U)",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON,24,127,178,15
+    CONTROL         "すべてを翻訳する(&A)",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON,24,146,161,11
+    CONTROL         "ピリオド(""."")の後の空白文字を選択(&P)",IDC_SELECT_SPACES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,188,192,12
+END
+
+IDD_PROPPAGE_SEGMENTATION_E DIALOGEX 0, 0, 245, 241
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Segmentation"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "&End of Segment Characters:",IDC_STATIC,22,18,112,12
+    EDITTEXT        IDC_SEG_END_EDIT,22,33,165,12,ES_AUTOHSCROLL
+    CONTROL         "Skip segments containing only &numbers",IDC_SKIP_NUMS_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,61,148,12
+    GROUPBOX        "Double-byte Characters",IDC_STATIC,18,89,197,74
+    CONTROL         "&Skip if there are Asian chars",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,26,106,169,14
+    CONTROL         "Skip &unless there are Asian chars",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,26,124,174,15
+    CONTROL         "Translate &all",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,26,143,161,11
+    CONTROL         "Select space after &period",IDC_SELECT_SPACES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,183,148,12
+END
+
+IDD_PROPPAGE_FORMAT_J DIALOGEX 0, 0, 262, 204
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "書式"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    CONTROL         "フォント名(&N)",IDC_FONT_FACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,162,16
+    CONTROL         "フォント色(&C)",IDC_FONT_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,37,162,16
+    CONTROL         "太字(&B)",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,54,162,16
+    CONTROL         "斜字(&I)",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,71,162,16
+    CONTROL         "下線(&U)",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,88,162,16
+    CONTROL         "上付き／下付き(&S)",IDC_FONT_SUPER_SUB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,105,162,16
+    LTEXT           "書式の維持:",IDC_STATIC,6,8,151,10
+END
+
+IDD_PROPPAGE_FORMAT_E DIALOGEX 0, 0, 219, 149
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Format"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    CONTROL         "Font &Name",IDC_FONT_FACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,20,162,16
+    CONTROL         "Font &Color",IDC_FONT_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,37,162,16
+    CONTROL         "&Bold",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,54,162,16
+    CONTROL         "&Italic",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,71,162,16
+    CONTROL         "&Underline",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,88,162,16
+    CONTROL         "&Superscript/subscript",IDC_FONT_SUPER_SUB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,105,162,16
+    LTEXT           "Preserve Formatting:",IDC_STATIC,6,8,151,10
+END
+
+IDD_INPUT_NUM_DLG DIALOGEX 0, 0, 122, 51
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Gloss Number"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,12,30,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,30,50,14
+    EDITTEXT        IDC_INPUT_EDIT,7,7,108,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_CONTEXT_ANCHOR DIALOGEX 0, 0, 77, 0
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TRANSPARENT
+CAPTION "Context Menu Selection"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
+BEGIN
+END
+
+IDD_PROPPAGE_TRANS_HIST_J DIALOGEX 0, 0, 231, 167
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "翻訳歴史"
+FONT 10, "ＭＳ Ｐ明朝", 400, 0, 0x0
+BEGIN
+    CONTROL         "翻訳歴史を活用する(&H)",IDC_USE_TRANS_HIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,34,155,17
+END
+
+IDD_PROPPAGE_TRANS_HIST_E DIALOGEX 0, 0, 231, 167
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Translation History"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    CONTROL         "Use translation &history",IDC_USE_TRANS_HIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,28,155,14
+END
+
+IDD_ADD_GLOSS_J_DLG DIALOGEX 0, 0, 274, 80
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix用語の登録"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "原語:",IDC_STATIC,7,7,31,10
+    EDITTEXT        IDC_SOURCE_EDIT,46,7,221,14,ES_AUTOHSCROLL
+    LTEXT           "訳語:",IDC_STATIC,7,30,29,10
+    EDITTEXT        IDC_TRANS_EDIT,46,30,221,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "登録(&A)",IDOK,157,59,50,14
+    PUSHBUTTON      "キャンセル(&C)",IDCANCEL,212,59,55,14
+END
+
+IDD_ADD_GLOSS_E_DLG DIALOGEX 0, 0, 274, 80
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix - Add Glossary Entry"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "Source:",IDC_STATIC,7,7,31,10
+    EDITTEXT        IDC_SOURCE_EDIT,46,7,221,14,ES_AUTOHSCROLL
+    LTEXT           "Trans:",IDC_STATIC,7,30,29,10
+    EDITTEXT        IDC_TRANS_EDIT,46,30,221,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Add",IDOK,158,59,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,217,59,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_CTL_CONTEXT_MENU_J MENU 
+BEGIN
+    POPUP "Context Menu"
+    BEGIN
+        MENUITEM "訳文の検索(&L)",                   IDS_MENU_LOOKUP_TRANS
+        MENUITEM "訳文のコンコーダンス(一致)検索(&C)",        IDS_MENU_CONCORDANCE_TRANS
+    END
+END
+
+IDR_CTL_CONTEXT_MENU MENU 
+BEGIN
+    POPUP "Context Menu"
+    BEGIN
+        MENUITEM "&Lookup Translation",         IDS_MENU_LOOKUP_TRANS
+        MENUITEM "Translation &Concordance",    IDS_MENU_CONCORDANCE_TRANS
+    END
+END
+
+IDR_CONTEXT_MENU_J MENU 
+BEGIN
+    POPUP "Context Menu"
+    BEGIN
+        MENUITEM "選択範囲の自動翻訳(&A)",               IDS_MENU_AUTO_TRANS_SEL
+        MENUITEM "グロサリエントリとしての登録(&G)",          IDS_MENU_REGISTER_GLOSS
+        MENUITEM "エントリ番号の指定...(&H)",            IDS_MENU_GLOSS_N
+        MENUITEM "コンコーダンス(一致)検索(&C)",           IDS_MENU_CONCORDANCE
+        MENUITEM "メモリの保存(&S)",                  IDS_MENU_SAVE
+    END
+END
+
+IDR_CONTEXT_MENU MENU 
+BEGIN
+    POPUP "Context Menu"
+    BEGIN
+        MENUITEM "&Auto Translate Selection",   IDS_MENU_AUTO_TRANS_SEL
+        MENUITEM "Register As &Glossary Entry", IDS_MENU_REGISTER_GLOSS
+        MENUITEM "Specify Number...(&H)",       IDS_MENU_GLOSS_N
+        MENUITEM "Find &Concordance",           IDS_MENU_CONCORDANCE
+        MENUITEM "&Save Memory",                IDS_MENU_SAVE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PROPPAGE_VIEW_E, DIALOG
+    BEGIN
+        RIGHTMARGIN, 240
+    END
+
+    IDD_INPUT_NUM_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 44
+    END
+
+    IDD_CONTEXT_ANCHOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 70
+    END
+
+    IDD_ADD_GLOSS_J_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_ADD_GLOSS_E_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "AddIn"
+    IDS_MENU_ANALYZE        "&Analyze"
+    IDS_MENU_ANALYZE_DESC   "Analyze the current document"
+    IDS_CANCEL_J            "キャンセル"
+    IDS_INPUT_NUM_J         "エントリ番号の入力"
+    IDS_LANG_CODE           "en"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_AUTO_TRANS_SEL "A&uto Translate Selection (Alt + M, A)"
+    IDS_MENU_AUTO_TRANS_SEL_TT "Auto translate current selection"
+    IDS_MENU_AUTO_TRANS_FUZZY "Translate to Fu&zzy (Alt + Z)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_AUTO_TRANS_FUZZY_TT "Translate to next fuzzy match."
+    IDS_MENU_LOOKUP_NEXT    "Look up &Next (Alt + R ARR)"
+    IDS_MENU_LOOKUP_NEXT_TT "Look up next"
+    IDS_MENU_LOOKUP         "&Look up Current Selection (Alt + L)"
+    IDS_MENU_LOOKUP_TT      "Look up"
+    IDS_MENU_EXTEND         "&Extend Lookup Selection (Ctrl + R ARR)"
+    IDS_MENU_EXTEND_TT      "Extend Lookup"
+    IDS_MENU_REGISTER       "Set &As Translation (Alt + UP ARR)"
+    IDS_MENU_REGISTER_TT    "Register"
+    IDS_MENU_REGISTER_GLOSS "Add to Glossa&ry (Alt + M, G)"
+    IDS_MENU_REGISTER_GLOSS_TT "Register Gloss Entry"
+    IDS_MENU_SET_AND_NEXT   "&Set And Next (Alt + S)"
+    IDS_MENU_SET_AND_NEXT_TT "Register and Next"
+    IDS_MENU_GET            "Get &Translation (Alt + DWN ARR)"
+    IDS_MENU_GET_TT         "Get"
+    IDS_MENU_GET_AND_NEXT   "&Get And Next (Alt + G)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_GET_AND_NEXT_TT "Get and Next"
+    IDS_MENU_GET_GLOSS      "Get Glossar&y Entry..."
+    IDS_MENU_GET_GLOSS_TT   "Gloss Entry"
+    IDS_MENU_ENTRY_0        "Entry &0 (Alt + 0)"
+    IDS_MENU_ENTRY_0_TT     "Entry 0"
+    IDS_MENU_ENTRY_1        "Entry &1 (Alt + 1)"
+    IDS_MENU_ENTRY_1_TT     "Entry 1"
+    IDS_MENU_ENTRY_2        "Entry &2 (Alt + 2)"
+    IDS_MENU_ENTRY_2_TT     "Entry 2"
+    IDS_MENU_ENTRY_3        "Entry &3 (Alt + 3)"
+    IDS_MENU_ENTRY_3_TT     "Entry 3"
+    IDS_MENU_ENTRY_4        "Entry &4 (Alt + 4)"
+    IDS_MENU_ENTRY_4_TT     "Entry 4"
+    IDS_MENU_ENTRY_5        "Entry &5 (Alt + 5)"
+    IDS_MENU_ENTRY_5_TT     "Entry 5"
+    IDS_MENU_ENTRY_6        "Entry &6 (Alt + 6)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ENTRY_6_TT     "Entry 6"
+    IDS_MENU_ENTRY_7        "Entry &7 (Alt + 7)"
+    IDS_MENU_ENTRY_7_TT     "Entry 7"
+    IDS_MENU_ENTRY_8        "Entry &8 (Alt + 8)"
+    IDS_MENU_ENTRY_8_TT     "Entry 8"
+    IDS_MENU_ENTRY_9        "Entry &9 (Alt + 9)"
+    IDS_MENU_ENTRY_9_TT     "Entry 9"
+    IDS_MENU_GLOSS_N        "Specify &Number... (Alt + M, H)"
+    IDS_MENU_GLOSS_N_TT     "Gloss Num"
+    IDS_MENU_DELETE         "&Delete Translation (Alt + D)"
+    IDS_MENU_DELETE_TT      "Delete"
+    IDS_MENU_NEXT           "&Next Translation (Alt + N)"
+    IDS_MENU_NEXT_TT        "Next"
+    IDS_MENU_PREV           "Pre&vious Translation (Alt + P)"
+    IDS_MENU_PREV_TT        "Previous"
+    IDS_MENU_CONCORDANCE    "Find &Concordance (Alt + M, C)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_CONCORDANCE_TT "Concordance"
+    IDS_MENU_LOOKUP_TRANS   "Loo&k Up Current Translation (Alt + L)"
+    IDS_MENU_LOOKUP_TRANS_TT "Look up Trans"
+    IDS_MENU_LOOKUP_NEXT_TRANS "Look U&p Next Translation (Alt + R ARR)"
+    IDS_MENU_LOOKUP_NEXT_TRANS_TT "Look up Next Trans"
+    IDS_MENU_CONCORDANCE_TRANS "Translat&ion Concordance (Alt + M, Alt + C)"
+    IDS_MENU_CONCORDANCE_TRANS_TT "Translation Concordance"
+    IDS_MENU_EXTEND_TRANS   "E&xtend Translation Lookup Selection (Ctrl + R ARR)"
+    IDS_MENU_EXTEND_TRANS_TT "Extend Trans Lookup"
+    IDS_MENU_CORRECT_TRANS  "Correct Translation (&B) (Alt + UP ARR)"
+    IDS_MENU_CORRECT_TRANS_TT "Correct Translation"
+    IDS_MENU_SAVE           "Save &Memory (Alt + M, S)"
+    IDS_MENU_SAVE_TT        "Save"
+    IDS_MENU_GUI            "S&with Menu to Japanese"
+    IDS_MENU_GUI_TT         "Menu to Japanese"
+    IDS_MENU_HELP           "&Help"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_HELP_TT        "View help for Felix Interface"
+    IDS_MENU_CORRECT_AND_NEXT "&Correct and Next (Alt + S)"
+    IDS_MENU_CORRECT_AND_NEXT_TT "Correct and Next"
+    IDS_MENU_RESTORE        "&Restore Translation (Alt + D ARR)"
+    IDS_MENU_RESTORE_TT     "Restore"
+    IDS_MENU_RESTORE_AND_NEXT "Restore and &Lookup Next Trans (Alt + G)"
+    IDS_MENU_RESTORE_AND_NEXT_TT "Restore and Next"
+    IDS_MENU_PREFERENCES    "Felix &Preferences"
+    IDS_MENU_PREFERENCES_TT "Preferences"
+    IDS_MENU_TO_TRANS_MODE  "S&witch to Translation Mode"
+    IDS_MENU_TO_TRANS_MODE_TT "To Translation Mode"
+    IDS_MENU_TO_REVIEW_MODE "S&witch to Review Mode"
+    IDS_MENU_TO_REVIEW_MODE_TT "To Review Mode"
+    IDS_MENU_MEMORY_TO_TRANS "&Memory to Translation"
+    IDS_MENU_MEMORY_TO_TRANS_TT "Reflect changes to memory in translation"
+    IDS_MENU_TRANS_TO_MEMORY "Reflect Tr&ans Edits"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_TRANS_TO_MEMORY_TT "Reflect changes to translation in memory"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_AUTO_TRANS_SEL_J "選択範囲の自動翻訳(&A) (Alt + M, A)"
+    IDS_MENU_AUTO_TRANS_SEL_TT_J "選択範囲の自動翻訳"
+    IDS_MENU_AUTO_TRANS_FUZZY_J "ファジーマッチまで自動翻訳(&Z) (Alt + Z)"
+    IDS_MENU_AUTO_TRANS_FUZZY_TT_J "ファジーマッチまで自動翻訳"
+    IDS_MENU_LOOKUP_NEXT_J  "次の文の検索(&L) (Alt + →)"
+    IDS_MENU_LOOKUP_NEXT_TT_J "次の文の検索"
+    IDS_MENU_LOOKUP_J       "選択範囲の検索(&C) (Alt + L)"
+    IDS_MENU_LOOKUP_TT_J    "選択範囲の検索"
+    IDS_MENU_EXTEND_J       "検索対象範囲の拡張(&E) (CTRL + →)"
+    IDS_MENU_EXTEND_TT_J    "検索対象範囲の拡張"
+    IDS_MENU_REGISTER_J     "訳文の登録(&R) (Alt + ↑)"
+    IDS_MENU_REGISTER_TT_J  "訳文の登録"
+    IDS_MENU_REGISTER_GLOSS_J "用語の登録(&T) (Alt M, G)"
+    IDS_MENU_REGISTER_GLOSS_TT_J "用語の登録"
+    IDS_MENU_SET_AND_NEXT_J "登録して次へ(&S) (Alt + S)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_SET_AND_NEXT_TT_J "訳文を登録して、次の文を検索します。"
+    IDS_MENU_GET_J          "訳文の取得(&U) (Alt + ↓)"
+    IDS_MENU_GET_TT_J       "訳文の取得"
+    IDS_MENU_GET_AND_NEXT_J "取得して次へ(&G) (Alt + G)"
+    IDS_MENU_GET_AND_NEXT_TT_J "取得して次へ"
+    IDS_MENU_GET_GLOSS_J    "グロサリエントリの取得...(&Y)"
+    IDS_MENU_GET_GLOSS_TT_J "グロサリエントリの取得"
+    IDS_MENU_ENTRY_0_J      "エントリ &0 (Alt + 0)"
+    IDS_MENU_ENTRY_0_TT_J   "エントリ 0"
+    IDS_MENU_ENTRY_1_J      "エントリ &1 (Alt + 1)"
+    IDS_MENU_ENTRY_1_TT_J   "エントリ 1"
+    IDS_MENU_ENTRY_2_J      "エントリ &2 (Alt + 2)"
+    IDS_MENU_ENTRY_2_TT_J   "エントリ 2"
+    IDS_MENU_ENTRY_3_J      "エントリ &3 (Alt + 3)"
+    IDS_MENU_ENTRY_3_TT_J   "エントリ 3"
+    IDS_MENU_ENTRY_4_J      "エントリ &4 (Alt + 4)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_ENTRY_4_TT_J   "エントリ 4"
+    IDS_MENU_ENTRY_5_J      "エントリ &5 (Alt + 5)"
+    IDS_MENU_ENTRY_5_TT_J   "エントリ 5"
+    IDS_MENU_ENTRY_6_J      "エントリ &6 (Alt + 6)"
+    IDS_MENU_ENTRY_6_TT_J   "エントリ 6"
+    IDS_MENU_ENTRY_7_J      "エントリ &7 (Alt + 7)"
+    IDS_MENU_ENTRY_7_TT_J   "エントリ 7"
+    IDS_MENU_ENTRY_8_J      "エントリ &8 (Alt + 8)"
+    IDS_MENU_ENTRY_8_TT_J   "エントリ 8"
+    IDS_MENU_ENTRY_9_J      "エントリ &9 (Alt + 9)"
+    IDS_MENU_ENTRY_9_TT_J   "エントリ 9"
+    IDS_MENU_GLOSS_N_J      "エントリ番号の指定...(&M) (Alt M, H)"
+    IDS_MENU_GLOSS_N_TT_J   "エントリ番号の指定"
+    IDS_MENU_DELETE_J       "エントリの削除(&D) (Alt + D)"
+    IDS_MENU_DELETE_TT_J    "削除"
+    IDS_MENU_NEXT_J         "次の訳文へ(&N) (Alt + N)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_NEXT_TT_J      "次へ"
+    IDS_MENU_PREV_J         "前の訳文へ(&V) (Alt + P)"
+    IDS_MENU_PREV_TT_J      "前へ"
+    IDS_MENU_CONCORDANCE_J  "コンコーダンス(一致)検索(&O) (Alt + M, C)"
+    IDS_MENU_CONCORDANCE_TT_J "コンコーダンス"
+    IDS_MENU_LOOKUP_TRANS_J "訳文の検索(&F) (Alt + L)"
+    IDS_MENU_LOOKUP_TRANS_TT_J "訳文の検索"
+    IDS_MENU_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (Alt + →)"
+    IDS_MENU_LOOKUP_NEXT_TRANS_TT_J "次の訳文の検索"
+    IDS_MENU_CONCORDANCE_TRANS_J "訳文のコンコーダンス(一致)検索(&I) (Alt + M, Alt + C)"
+    IDS_MENU_CONCORDANCE_TRANS_TT_J "訳文のコンコーダンス"
+    IDS_MENU_EXTEND_TRANS_J "訳文の検索対象範囲の拡張(&K) (Ctrl + →)"
+    IDS_MENU_EXTEND_TRANS_TT_J "訳文の検索対象範囲の拡張"
+    IDS_MENU_CORRECT_TRANS_J "訳文の訂正(&B) (Alt + M, Alt + ↑)"
+    IDS_MENU_CORRECT_TRANS_TT_J "訳文の訂正"
+    IDS_MENU_SAVE_J         "メモリの保存(&M) (Alt + M, S)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_SAVE_TT_J      "保存"
+    IDS_MENU_GUI_J          "メニューを英語に切替(&W)"
+    IDS_MENU_GUI_TT_J       "メニューを英語に切り替えます。"
+    IDS_MENU_HELP_J         "ヘルプ(&H)"
+    IDS_MENU_HELP_TT_J      "Felix I/Fヘルプの表示"
+    IDS_MENU_CORRECT_AND_NEXT_J "訂正して次へ(&S)(Alt + S)"
+    IDS_MENU_CORRECT_AND_NEXT_TT_J "訂正して次へ"
+    IDS_MENU_RESTORE_J      "訳文の復元(&R) (Alt + ↓)"
+    IDS_MENU_RESTORE_TT_J   "復元"
+    IDS_MENU_RESTORE_AND_NEXT_J "復元して次へ(&G) (Alt + G)"
+    IDS_MENU_RESTORE_AND_NEXT_TT_J "復元して次へ"
+    IDS_MENU_PREFERENCES_J  "Felixのユーザ設定(&P)"
+    IDS_MENU_PREFERENCES_TT_J "ユーザ設定"
+    IDS_MENU_TO_TRANS_MODE_J "翻訳モードに切替(&W)"
+    IDS_MENU_TO_TRANS_MODE_TT_J "翻訳モードへ"
+    IDS_MENU_TO_REVIEW_MODE_J "校正モードに切替(&W)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_TO_REVIEW_MODE_TT_J "校正モードへ"
+    IDS_MENU_MEMORY_TO_TRANS_J "メモリを訳文に反映(&M)"
+    IDS_MENU_MEMORY_TO_TRANS_TT_J "メモリへの変更を訳文に反映する"
+    IDS_MENU_TRANS_TO_MEMORY_J "訳文の変更をメモリに反映(&T)"
+    IDS_MENU_TRANS_TO_MEMORY_TT_J "訳文への変更をメモリに反映する"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_AUTO_TRANS_SEL "&Auto Translate Selection (Alt + M, A)"
+    IDS_CLASSIC_MENU_AUTO_TRANS_SEL_TT "Auto translate current selection"
+    IDS_CLASSIC_MENU_AUTO_TRANS_FUZZY "Translate to Fu&zzy (Alt + Z)"
+    IDS_CLASSIC_MENU_AUTO_TRANS_FUZZY_TT "Translate to next fuzzy match."
+    IDS_CLASSIC_MENU_LOOKUP_NEXT "&Look up Next Sentence (Alt + R ARR)"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TT "Look up next"
+    IDS_CLASSIC_MENU_LOOKUP "Look up &Current Selection (Alt + L)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_LOOKUP_TT "Look up"
+    IDS_CLASSIC_MENU_EXTEND "&Extend Lookup Sentence (Ctrl + R ARR)"
+    IDS_CLASSIC_MENU_EXTEND_TT "Extend Lookup"
+    IDS_CLASSIC_MENU_REGISTER "&Register Current Translation (Alt + UP ARR)"
+    IDS_CLASSIC_MENU_REGISTER_TT "Register"
+    IDS_CLASSIC_MENU_REGISTER_GLOSS "Regis&ter As Glossary Entry (Alt + M, G)"
+    IDS_CLASSIC_MENU_REGISTER_GLOSS_TT "Register Gloss Entry"
+    IDS_CLASSIC_MENU_SET_AND_NEXT "&Set And Next (Alt + S)"
+    IDS_CLASSIC_MENU_SET_AND_NEXT_TT "Register and Next"
+    IDS_CLASSIC_MENU_GET    "Get C&urrent Translation (Alt + DWN ARR)"
+    IDS_CLASSIC_MENU_GET_TT "Get"
+    IDS_CLASSIC_MENU_GET_AND_NEXT "&Get And Next (Alt + G)"
+    IDS_CLASSIC_MENU_GET_AND_NEXT_TT "Get and Next"
+    IDS_CLASSIC_MENU_GET_GLOSS "Get Glossar&y Entry..."
+    IDS_CLASSIC_MENU_GET_GLOSS_TT "Gloss Entry"
+    IDS_CLASSIC_MENU_ENTRY_0 "Entry &0 (Alt + 0)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_ENTRY_0_TT "Entry 0"
+    IDS_CLASSIC_MENU_ENTRY_1 "Entry &1 (Alt + 1)"
+    IDS_CLASSIC_MENU_ENTRY_1_TT "Entry 1"
+    IDS_CLASSIC_MENU_ENTRY_2 "Entry &2 (Alt + 2)"
+    IDS_CLASSIC_MENU_ENTRY_2_TT "Entry 2"
+    IDS_CLASSIC_MENU_ENTRY_3 "Entry &3 (Alt + 3)"
+    IDS_CLASSIC_MENU_ENTRY_3_TT "Entry 3"
+    IDS_CLASSIC_MENU_ENTRY_4 "Entry &4 (Alt + 4)"
+    IDS_CLASSIC_MENU_ENTRY_4_TT "Entry 4"
+    IDS_CLASSIC_MENU_ENTRY_5 "Entry &5 (Alt + 5)"
+    IDS_CLASSIC_MENU_ENTRY_5_TT "Entry 5"
+    IDS_CLASSIC_MENU_ENTRY_6 "Entry &6 (Alt + 6)"
+    IDS_CLASSIC_MENU_ENTRY_6_TT "Entry 6"
+    IDS_CLASSIC_MENU_ENTRY_7 "Entry &7 (Alt + 7)"
+    IDS_CLASSIC_MENU_ENTRY_7_TT "Entry 7"
+    IDS_CLASSIC_MENU_ENTRY_8 "Entry &8 (Alt + 8)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_ENTRY_8_TT "Entry 8"
+    IDS_CLASSIC_MENU_ENTRY_9 "Entry &9 (Alt + 9)"
+    IDS_CLASSIC_MENU_ENTRY_9_TT "Entry 9"
+    IDS_CLASSIC_MENU_GLOSS_N "Specify &Number... (Alt + M, H)"
+    IDS_CLASSIC_MENU_GLOSS_N_TT "Gloss Num"
+    IDS_CLASSIC_MENU_DELETE "&Delete Translation (Alt + D)"
+    IDS_CLASSIC_MENU_DELETE_TT "Delete"
+    IDS_CLASSIC_MENU_NEXT   "&Next Translation (Alt + N)"
+    IDS_CLASSIC_MENU_NEXT_TT "Next"
+    IDS_CLASSIC_MENU_PREV   "Pre&vious Translation (Alt + P)"
+    IDS_CLASSIC_MENU_PREV_TT "Previous"
+    IDS_CLASSIC_MENU_CONCORDANCE "Find C&oncordance (Alt + M, C)"
+    IDS_CLASSIC_MENU_CONCORDANCE_TT "Concordance"
+    IDS_CLASSIC_MENU_LOOKUP_TRANS "&Find Current Translation (Ctrl + Alt + L)"
+    IDS_CLASSIC_MENU_LOOKUP_TRANS_TT "Look up Trans"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TRANS 
+                            "Find Ne&xt Translation (Ctrl + Alt + R ARR)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TRANS_TT "Look up Next Trans"
+    IDS_CLASSIC_MENU_CONCORDANCE_TRANS 
+                            "Translat&ion Concordance (Ctrl + Alt + M, C)"
+    IDS_CLASSIC_MENU_CONCORDANCE_TRANS_TT "Translation Concordance"
+    IDS_CLASSIC_MENU_EXTEND_TRANS 
+                            "Extend Translation Loo&kup Sentence (Ctrl + Alt + E)"
+    IDS_CLASSIC_MENU_EXTEND_TRANS_TT "Extend Trans Lookup"
+    IDS_CLASSIC_MENU_CORRECT_TRANS 
+                            "Correct Translation (&B) (Ctrl + Alt + UP ARR)"
+    IDS_CLASSIC_MENU_CORRECT_TRANS_TT "Correct Translation"
+    IDS_CLASSIC_MENU_SAVE   "Save &Memory (Alt + M, S)"
+    IDS_CLASSIC_MENU_SAVE_TT "Save"
+    IDS_CLASSIC_MENU_GUI    "S&with Menu to Japanese"
+    IDS_CLASSIC_MENU_GUI_TT "Menu to Japanese"
+    IDS_CLASSIC_MENU_HELP   "&Help"
+    IDS_CLASSIC_MENU_HELP_TT "View help for Felix Interface"
+    IDS_CLASSIC_MENU_CORRECT_AND_NEXT "Correct and Next (Ctrl + Alt + S)"
+    IDS_CLASSIC_MENU_CORRECT_AND_NEXT_TT "Correct and Next"
+    IDS_CLASSIC_MENU_RESTORE "Restore Translation (Ctrl + Alt + D ARR)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_RESTORE_TT "Restore"
+    IDS_CLASSIC_MENU_RESTORE_AND_NEXT 
+                            "Restore and Lookup Next Trans (Ctrl + Alt + R ARR)"
+    IDS_CLASSIC_MENU_RESTORE_AND_NEXT_TT "Restore and Next"
+    IDS_CLASSIC_MENU_PREFERENCES "Felix &Preferences"
+    IDS_CLASSIC_MENU_PREFERENCES_TT "Preferences"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_AUTO_TRANS_SEL_J "選択範囲の自動翻訳(&A) (Alt + M, A)"
+    IDS_CLASSIC_MENU_AUTO_TRANS_SEL_TT_J "選択範囲の自動翻訳"
+    IDS_CLASSIC_MENU_AUTO_TRANS_FUZZY_J "ファジーマッチまで自動翻訳(&Z) (Alt + Z)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_AUTO_TRANS_FUZZY_TT_J "ファジーマッチまで自動翻訳"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_J "次の文の検索(&L) (Alt + →)"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TT_J "次の文の検索"
+    IDS_CLASSIC_MENU_LOOKUP_J "選択範囲の検索(&C) (Alt + L)"
+    IDS_CLASSIC_MENU_LOOKUP_TT_J "選択範囲の検索"
+    IDS_CLASSIC_MENU_EXTEND_J "検索対象範囲の拡張(&E) (CTRL + →)"
+    IDS_CLASSIC_MENU_EXTEND_TT_J "検索対象範囲の拡張"
+    IDS_CLASSIC_MENU_REGISTER_J "訳文の登録(&R) (Alt + ↑)"
+    IDS_CLASSIC_MENU_REGISTER_TT_J "訳文の登録"
+    IDS_CLASSIC_MENU_REGISTER_GLOSS_J "グロサリエントリとしての登録(&t) (Alt M, G)"
+    IDS_CLASSIC_MENU_REGISTER_GLOSS_TT_J "グロサリエントリとしての登録"
+    IDS_CLASSIC_MENU_SET_AND_NEXT_J "登録して次へ(&S) (Alt + S)"
+    IDS_CLASSIC_MENU_SET_AND_NEXT_TT_J "訳文を登録して、次の文を検索します。"
+    IDS_CLASSIC_MENU_GET_J  "訳文の取得(&U) (Alt + ↓)"
+    IDS_CLASSIC_MENU_GET_TT_J "訳文の取得"
+    IDS_CLASSIC_MENU_GET_AND_NEXT_J "取得して次へ(&G) (Alt + G)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_GET_AND_NEXT_TT_J "取得して次へ"
+    IDS_CLASSIC_MENU_GET_GLOSS_J "グロサリエントリの取得...(&Y)"
+    IDS_CLASSIC_MENU_GET_GLOSS_TT_J "グロサリエントリの取得"
+    IDS_CLASSIC_MENU_ENTRY_0_J "エントリ &0 (Alt + 0)"
+    IDS_CLASSIC_MENU_ENTRY_0_TT_J "エントリ 0"
+    IDS_CLASSIC_MENU_ENTRY_1_J "エントリ &1 (Alt + 1)"
+    IDS_CLASSIC_MENU_ENTRY_1_TT_J "エントリ 1"
+    IDS_CLASSIC_MENU_ENTRY_2_J "エントリ &2 (Alt + 2)"
+    IDS_CLASSIC_MENU_ENTRY_2_TT_J "エントリ 2"
+    IDS_CLASSIC_MENU_ENTRY_3_J "エントリ &3 (Alt + 3)"
+    IDS_CLASSIC_MENU_ENTRY_3_TT_J "エントリ 3"
+    IDS_CLASSIC_MENU_ENTRY_4_J "エントリ &4 (Alt + 4)"
+    IDS_CLASSIC_MENU_ENTRY_4_TT_J "エントリ 4"
+    IDS_CLASSIC_MENU_ENTRY_5_J "エントリ &5 (Alt + 5)"
+    IDS_CLASSIC_MENU_ENTRY_5_TT_J "エントリ 5"
+    IDS_CLASSIC_MENU_ENTRY_6_J "エントリ &6 (Alt + 6)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_ENTRY_6_TT_J "エントリ 6"
+    IDS_CLASSIC_MENU_ENTRY_7_J "エントリ &7 (Alt + 7)"
+    IDS_CLASSIC_MENU_ENTRY_7_TT_J "エントリ 7"
+    IDS_CLASSIC_MENU_ENTRY_8_J "エントリ &8 (Alt + 8)"
+    IDS_CLASSIC_MENU_ENTRY_8_TT_J "エントリ 8"
+    IDS_CLASSIC_MENU_ENTRY_9_J "エントリ &9 (Alt + 9)"
+    IDS_CLASSIC_MENU_ENTRY_9_TT_J "エントリ 9"
+    IDS_CLASSIC_MENU_GLOSS_N_J "エントリ番号の指定...(&M) (Alt M, H)"
+    IDS_CLASSIC_MENU_GLOSS_N_TT_J "エントリ番号の指定"
+    IDS_CLASSIC_MENU_DELETE_J "訳文の削除(&D) (Alt + D)"
+    IDS_CLASSIC_MENU_DELETE_TT_J "削除"
+    IDS_CLASSIC_MENU_NEXT_J "次の訳文へ(&N) (Alt + N)"
+    IDS_CLASSIC_MENU_NEXT_TT_J "次へ"
+    IDS_CLASSIC_MENU_PREV_J "前の訳文へ(&V) (Alt + P)"
+    IDS_CLASSIC_MENU_PREV_TT_J "前へ"
+    IDS_CLASSIC_MENU_CONCORDANCE_J "コンコーダンス(一致)検索(&O) (Alt + M, C)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_CONCORDANCE_TT_J "コンコーダンス"
+    IDS_CLASSIC_MENU_LOOKUP_TRANS_J "訳文の検索(&F) (Ctrl + Alt + L)"
+    IDS_CLASSIC_MENU_LOOKUP_TRANS_TT_J "訳文の検索"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (Ctrl + Alt + →)"
+    IDS_CLASSIC_MENU_LOOKUP_NEXT_TRANS_TT_J "次の訳文の検索"
+    IDS_CLASSIC_MENU_CONCORDANCE_TRANS_J 
+                            "訳文のコンコーダンス(一致)検索(&I) (Ctrl + Alt + M, C)"
+    IDS_CLASSIC_MENU_CONCORDANCE_TRANS_TT_J "訳文のコンコーダンス"
+    IDS_CLASSIC_MENU_EXTEND_TRANS_J "訳文の検索対象範囲の拡張(&K) (Ctrl + Alt + E)"
+    IDS_CLASSIC_MENU_EXTEND_TRANS_TT_J "訳文の検索対象範囲の拡張"
+    IDS_CLASSIC_MENU_CORRECT_TRANS_J "訳文の訂正(&B) (Ctrl + Alt + ↑)"
+    IDS_CLASSIC_MENU_CORRECT_TRANS_TT_J "訳文の訂正"
+    IDS_CLASSIC_MENU_SAVE_J "メモリの保存(&M) (Alt + M, S)"
+    IDS_CLASSIC_MENU_SAVE_TT_J "保存"
+    IDS_CLASSIC_MENU_GUI_J  "メニューを英語に切替(&W)"
+    IDS_CLASSIC_MENU_GUI_TT_J "メニューを英語に切り替えます。"
+    IDS_CLASSIC_MENU_HELP_J "ヘルプ(&H)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLASSIC_MENU_HELP_TT_J "Felix I/Fヘルプの表示"
+    IDS_CLASSIC_MENU_CORRECT_AND_NEXT_J "訂正して次へ(Ctrl + Alt + S)"
+    IDS_CLASSIC_MENU_CORRECT_AND_NEXT_TT_J "訂正して次へ"
+    IDS_CLASSIC_MENU_RESTORE_J "訳文の復元 (Ctrl + Alt + ↓)"
+    IDS_CLASSIC_MENU_RESTORE_TT_J "復元"
+    IDS_CLASSIC_MENU_RESTORE_AND_NEXT_J "復元して次へ(Ctrl + Alt + →)"
+    IDS_CLASSIC_MENU_RESTORE_AND_NEXT_TT_J "復元して次へ"
+    IDS_CLASSIC_MENU_PREFERENCES_J "Felixのユーザ設定(&P)"
+    IDS_CLASSIC_MENU_PREFERENCES_TT_J "ユーザ設定"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_PROPSHEET_TITLE_E   "Felix Preferences"
+    IDS_PROPSHEET_TITLE_J   "Felixのユーザ設定"
+END
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""AddIn.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,4,2,0
+ PRODUCTVERSION 1,4,2,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Part of the Assistant Suite"
+            VALUE "CompanyName", "Ginstrom IT Solutions (GITS)"
+            VALUE "FileDescription", "Felix Interface for MS Word"
+            VALUE "FileVersion", "1.4.2"
+            VALUE "InternalName", "WordAssist.dll"
+            VALUE "LegalCopyright", "(c) Ginstrom IT Solutions (GITS).  All rights reserved."
+            VALUE "OriginalFilename", "WordAssist.dll"
+            VALUE "ProductName", "Word Assist"
+            VALUE "ProductVersion", "1.4.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ADDIN               REGISTRY                "AddIn.rgs"
+IDR_WORD2HTMLPARSER     REGISTRY                "Word2HtmlParser.rgs"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "AddIn.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

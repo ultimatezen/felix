@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <head>
+    <language>JP</language>
+  </head>
+  <records>
+    <record>
+      <id>add_gloss</id>
+      <text>グロサリへの一括登録(&amp;R)</text>
+      <tooltip>Excel シート上のグロサリ テーブルをグロサリに一括登録します。</tooltip>
+    </record>
+    <record>
+      <id>add_memory</id>
+      <text>メモリへの一括登録(&amp;M)</text>
+      <tooltip>Excel シート上の翻訳エントリ テーブルを翻訳メモリに一括登録します。</tooltip>
+    </record>
+    <record>
+      <id>lookup</id>
+      <text>選択の検索(&amp;L)  (Alt+L)</text>
+      <tooltip>現在選択中のセルの内容を翻訳メモリ内で検索します。</tooltip>
+    </record>
+    <record>
+      <id>lookup_next</id>
+      <text>次の文の選択(&amp;X)  (Alt+→)</text>
+      <tooltip>次のセルを選択して、そのセルの内容を翻訳メモリ内で検索します。</tooltip>
+    </record>
+    <record>
+      <id>set</id>
+      <text>訳文の登録(&amp;E)  (Alt+↑)</text>
+      <tooltip>カーソルのすぐ左側のセルの内容を翻訳エントリの訳文として翻訳メモリに登録します。</tooltip>
+    </record>
+    <record>
+      <id>set_and_next</id>
+      <text>登録して次へ(&amp;S)  (Alt+S)</text>
+      <tooltip>現在の訳文を翻訳メモリに登録して、次のセルを検索します。</tooltip>
+    </record>
+    <record>
+      <id>get</id>
+      <text>訳文の取得(&amp;T)  (Alt+↓)</text>
+      <tooltip>Felix翻訳メモリ ウィンドウに表示された翻訳エントリから現在のセルに訳文を取り込みます。</tooltip>
+    </record>
+    <record>
+      <id>get_and_next</id>
+      <text>取得して次へ(&amp;G)  ( Alt+G)</text>
+      <tooltip>翻訳メモリから現在の訳文を取得した後、次のセルを検索します。</tooltip>
+    </record>
+    <record>
+      <id>next</id>
+      <text>次の訳文へ(&amp;N)  (Alt+N)</text>
+      <tooltip>翻訳メモリ内の次の訳文候補を表示します。</tooltip>
+    </record>
+    <record>
+      <id>prev</id>
+      <text>前の訳文へ(&amp;P)  (Alt+P)</text>
+      <tooltip>翻訳メモリ内の前の訳文候補を表示します。</tooltip>
+    </record>
+    <record>
+      <id>switch_lang</id>
+      <text>メニューを英語に切替(&amp;W)</text>
+      <tooltip>メニューの表示言語を英語に切り替えます。</tooltip>
+    </record>
+    <record>
+      <id>entry</id>
+      <text>エントリ</text>
+      <tooltip>エントリ</tooltip>
+    </record>
+    <record>
+      <id>gloss</id>
+      <text>グロサリエントリ(&amp;R)</text>
+      <tooltip>Felixから用語を取得します。</tooltip>
+    </record>
+    <record>
+      <id>auto_trans</id>
+      <text>自動翻訳...(&amp;A)</text>
+      <tooltip>Select and look up the next cell.</tooltip>
+    </record>
+    <record>
+      <id>auto_trans_sel</id>
+      <text>選択範囲(&amp;S)</text>
+      <tooltip>現在選択中の範囲を自動翻訳します。</tooltip>
+    </record>
+    <record>
+      <id>auto_trans_sheet</id>
+      <text>シート(&amp;H)</text>
+      <tooltip>現在のシートを自動翻訳します。</tooltip>
+    </record>
+    <record>
+      <id>auto_trans_all</id>
+      <text>すべてのワークブック(&amp;W)</text>
+      <tooltip>すべてのワークブックすべてのシートを自動翻訳します。</tooltip>
+    </record>
+
+  </records>  
+</root>

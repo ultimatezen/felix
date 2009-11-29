@@ -1,0 +1,51 @@
+HKCR
+{
+	PowerPointAssist.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{04C37B4E-06B9-4EE0-9167-DDC7734ED336}'
+	}
+	PowerPointAssist.Connect = s 'Connect Class'
+	{
+		CLSID = s '{04C37B4E-06B9-4EE0-9167-DDC7734ED336}'
+		CurVer = s 'PowerPointAssist.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{04C37B4E-06B9-4EE0-9167-DDC7734ED336}' = s 'Connect Class'
+		{
+			ProgID = s 'PowerPointAssist.Connect.1'
+			VersionIndependentProgID = s 'PowerPointAssist.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{828EC85D-73CA-4B7D-B98C-6287F543C894}'
+		}
+	}
+}
+HKLM
+{
+    NoRemove Software
+    {
+        NoRemove Microsoft
+        {
+            NoRemove Office
+            {
+                NoRemove PowerPoint
+                {
+                    NoRemove Addins
+                    {
+                        ForceRemove 'PowerPointAssist.Connect'
+                        {
+                            val FriendlyName = s 'Felix Addin'
+                            val Description = s 'Felix interface for PowerPoint'
+                            val LoadBehavior = d '00000003'
+                            val CommandLineSafe = d '00000000' 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

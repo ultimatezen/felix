@@ -1,0 +1,26 @@
+HKCR
+{
+	WordAssist.Word2HtmlParser.1 = s 'Word2HtmlParser Class'
+	{
+		CLSID = s '{D695331E-45B7-4EF2-9DC0-29EB314F68CB}'
+	}
+	WordAssist.Word2HtmlParser = s 'Word2HtmlParser Class'
+	{
+		CLSID = s '{D695331E-45B7-4EF2-9DC0-29EB314F68CB}'
+		CurVer = s 'WordAssist.Word2HtmlParser.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {D695331E-45B7-4EF2-9DC0-29EB314F68CB} = s 'Word2HtmlParser Class'
+		{
+			ProgID = s 'WordAssist.Word2HtmlParser.1'
+			VersionIndependentProgID = s 'WordAssist.Word2HtmlParser'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{D455DA16-6885-443C-87EA-4944A420EB40}'
+		}
+	}
+}

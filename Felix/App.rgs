@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.App.1 = s 'App Class'
+	{
+		CLSID = s '{4948E973-2FE7-4E6b-914E-55417CCFDF22}'
+	}
+	Felix.App = s 'App Class'
+	{
+		CLSID = s '{4948E973-2FE7-4E6b-914E-55417CCFDF22}'
+		CurVer = s 'Felix.App.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4948E973-2FE7-4E6b-914E-55417CCFDF22} = s 'App Class'
+		{
+			ProgID = s 'Felix.App.1'
+			VersionIndependentProgID = s 'Felix.App'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

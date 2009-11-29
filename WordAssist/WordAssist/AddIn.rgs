@@ -1,0 +1,51 @@
+HKCR
+{
+	WordAssist.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{E7986A6D-875D-459D-BD5C-69AB76E5A7D1}'
+	}
+	WordAssist.Connect = s 'Connect Class'
+	{
+		CLSID = s '{E7986A6D-875D-459D-BD5C-69AB76E5A7D1}'
+		CurVer = s 'WordAssist.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{E7986A6D-875D-459D-BD5C-69AB76E5A7D1}' = s 'Connect Class'
+		{
+			ProgID = s 'WordAssist.Connect.1'
+			VersionIndependentProgID = s 'WordAssist.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{D455DA16-6885-443C-87EA-4944A420EB40}'
+		}
+	}
+}
+HKLM
+{
+    NoRemove Software
+    {
+        NoRemove Microsoft
+        {
+            NoRemove Office
+            {
+                NoRemove Word
+                {
+                    NoRemove Addins
+                    {
+                        ForceRemove 'WordAssist.Connect'
+                        {
+                            val FriendlyName = s 'Felix Addin'
+                            val Description = s 'Felix interface for Word'
+                            val LoadBehavior = d '00000003'
+                            val CommandLineSafe = d '00000000' 
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

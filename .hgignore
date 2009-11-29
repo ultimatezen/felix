@@ -1,0 +1,14 @@
+syntax: glob
+Unicode_Debug/*
+Unicode_Release/*
+Testing/*
+Profiler/*
+Release/*
+Debug/*
+*~
+*.dat
+*.tlh
+*.tli
+*.ncb
+*.tlb
+
