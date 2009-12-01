@@ -72,7 +72,7 @@ const static int font_size[] =
 { 8, 10, 12, 14, 18, 24, 36 } ;
 
 
-CSourceAndHtmlEdit::CSourceAndHtmlEdit(void) : m_text(L"")
+CSourceAndHtmlEdit::CSourceAndHtmlEdit(void)
 {
 }
 
@@ -262,13 +262,14 @@ _bstr_t CSourceAndHtmlEdit::GetText()
 
 	if ( active_window == m_html_edit )
 	{
-		m_text = get_html_text();
+		return get_html_text();
 	}
 	else
 	{
-		m_text_edit.GetText( m_text ) ;
+		_bstr_t text ;
+		m_text_edit.GetText( text ) ;
+		return text ;
 	}
-	return m_text ;
 }
 void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 {
@@ -279,7 +280,6 @@ void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 	range.put_html_text(text) ;
 
 	m_text_edit.SetText( text ) ;
-	m_text = text ;
 }
 
 
@@ -398,12 +398,8 @@ HWND CSourceAndHtmlEdit::tab_sel_changing(LPNMCTC2ITEMS items)
 
 void CSourceAndHtmlEdit::load_source_into_html( )
 {
-#ifdef _UNICODE
 	_bstr_t text ;
 	m_text_edit.GetText( text ) ;
-#else // #ifdef _UNICODE
-	_bstr_t text( m_text_edit.GetText().c_str() ) ;
-#endif // #ifdef _UNICODE
 
 	ensure_document_complete( ) ;
 
@@ -434,17 +430,17 @@ void CSourceAndHtmlEdit::wrap_selection( LPCSTR tag )
 
 void CSourceAndHtmlEdit::handle_bold(void)
 {
-	wrap_selection( "B" ) ;
+	wrap_selection( "strong" ) ;
 }
 
 void CSourceAndHtmlEdit::handle_italic(void)
 {
-	wrap_selection( "I" ) ;
+	wrap_selection( "em" ) ;
 }
 
 void CSourceAndHtmlEdit::handle_underline(void)
 {
-	wrap_selection( "U" ) ;
+	wrap_selection( "u" ) ;
 }
 
 void CSourceAndHtmlEdit::detach(void)
@@ -475,11 +471,11 @@ void CSourceAndHtmlEdit::handle_return_key(void)
 	{
 		if ( control_is_down ) 
 		{
-			m_text_edit.ReplaceSelection( L"<P>" ) ;
+			m_text_edit.ReplaceSelection( L"<p>" ) ;
 		}
 		else
 		{
-			m_text_edit.ReplaceSelection( L"<BR>" ) ;
+			m_text_edit.ReplaceSelection( L"<br />" ) ;
 		}
 	}
 }
@@ -522,19 +518,18 @@ _bstr_t CSourceAndHtmlEdit::get_html_text()
 	return range.get_html_text() ;
 }
 
-void CSourceAndHtmlEdit::sendMouseClick(HWND hwnd, HWND hwndTop)
+void CSourceAndHtmlEdit::sendMouseClick(TWindow bottomwin, TWindow topwin)
 {
-	CRect rc ;
-	::GetWindowRect(hwndTop, &rc) ;
+	CWindowRect rc( topwin ) ;
 	POINT pt = {0} ;
 	pt.x = rc.left+10 ;
 	pt.y = rc.top+10 ;
 	ATLASSERT(rc.PtInRect(pt)) ;
 
-	SendMessage( hwnd, WM_MOUSEACTIVATE, (WPARAM)hwndTop, MAKELPARAM( HTCLIENT, WM_LBUTTONDOWN ) );
-	PostMessage( hwnd, WM_MOUSEMOVE, 0, MAKELPARAM( pt.x, pt.y ) );
-	PostMessage( hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM( pt.x, pt.y ) );
-	PostMessage( hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM( pt.x, pt.y ) );
+	bottomwin.SendMessage(WM_MOUSEACTIVATE, (WPARAM)topwin.m_hWnd, MAKELPARAM( HTCLIENT, WM_LBUTTONDOWN ) );
+	bottomwin.PostMessage(WM_MOUSEMOVE, 0, MAKELPARAM( pt.x, pt.y ) );
+	bottomwin.PostMessage(WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM( pt.x, pt.y ) );
+	bottomwin.PostMessage(WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM( pt.x, pt.y ) );
 }
 
 HWND CSourceAndHtmlEdit::getDocumentHWND()

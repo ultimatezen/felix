@@ -30,8 +30,6 @@ public:
 	html::CHtmlView		m_html_edit  ;
 	CScintillaEdit		m_text_edit ;
 
-	_bstr_t				m_text ;
-
 	TWindow				m_parent_dlg ;
 
 	void init_scintilla_edit( ) ;
@@ -75,7 +73,7 @@ public:
 	void detach(void);
 	void handle_return_key(void);
 
-	void sendMouseClick( HWND hwnd, HWND hwndTop);
+	void sendMouseClick(TWindow bottomwin, TWindow topwin);
 	HWND getDocumentHWND();
 	HWND getHwnd();
 };

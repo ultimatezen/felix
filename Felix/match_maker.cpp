@@ -11,11 +11,10 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 namespace memory_engine
 {
-
-	const static wstring nomatch_tag_open1(L"<FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>") ;
-	const static wstring nomatch_tag_open2(L"<FONT style=\"BACKGROUND-COLOR: #ff8000\"><STRONG>") ;
-	const static wstring nomatch_tag_open3(L"<FONT style=\"BACKGROUND-COLOR: #ffff80\"><STRONG>") ;
-	const static wstring nomatch_tag_close(L"</STRONG></FONT>") ;
+	const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
+	const static wstring nomatch_tag_open2(L"<span class=\"partial_match1\">") ;
+	const static wstring nomatch_tag_open3(L"<span class=\"partial_match2\">") ;
+	const static wstring nomatch_tag_close(L"</span>") ;
 
 
 	/**

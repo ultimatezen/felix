@@ -194,7 +194,7 @@ CExeModule
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
 
-#define VERSION "1.5.2"
+#define VERSION "1.5.3"
 #define LOGGING_SERVER L"FelixHelpers.FelixLogger"
 #define LOGFILE_NAME _T("felix.log")
 
