@@ -152,11 +152,10 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// this resolves ATL window thunking problem when Microsoft Layer for Unicode (MSLU) is used
 	::DefWindowProc(NULL, 0, 0, 0L) ;
 	ATLASSERT( ::GetLastError() == 1400 ) ;
-	TRACE_WINERR( ::GetLastError() ) ;
 	::SetLastError( 0 ) ; // clear the error caused by calling defwindowproc with NULL
 	
-	BOOL common_controls_inited = AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS);	// add flags to support other controls
-	ATLASSERT(common_controls_inited) ;
+	// add flags to support other controls
+	ATLVERIFY(AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS)) ;
 	CLibrary riched_lib( CWideRichEdit::GetLibraryName() ) ;
 
 	ATLASSERT( riched_lib.is_loaded() ) ;
@@ -225,6 +224,8 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		hRes = ::CoResumeClassObjects();
 		ATLASSERT(SUCCEEDED(hRes));
 		
+		// This starts the message loop without creating a main window.
+		// The user can then create the main window from the App object (App.Visible = TRUE).
 		if(bAutomation)
 		{
 			CMessageLoop theLoop;
@@ -250,7 +251,6 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 }
 
 /*!
- * \brief
  * Our program's entry point.
  * 
  * Main entry point of the program, called by the real main (which lives in crt land).
