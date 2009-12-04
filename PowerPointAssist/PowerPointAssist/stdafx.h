@@ -51,6 +51,21 @@
 #define _WTL_NO_UNION_CLASSES
 
 #include "atlapp.h"
+
+#include <atlwin.h>
+
+#ifdef UNIT_TEST
+#include "c:\dev\cpp\MyLibrary\fakewindow.h"
+#define TWindow CFakeWindow
+#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
+#define SENSE(x) m_sensing_variable.push_back(string(x))
+#else
+#define TWindow CWindow
+#define DECLARE_SENSING_VAR
+#define SENSE(x) (void)0
+#endif
+
+
 #include "atldlgs.h"
 
 // stl libraries we are using
