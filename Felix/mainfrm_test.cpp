@@ -463,7 +463,7 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>spam</STRONG></FONT> and egg" ;
+		SimpleString expected = "beans beans <span class=\"nomatch\">spam</span> and egg" ;
 		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -482,7 +482,7 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>ham</STRONG></FONT> and egg" ;
+		SimpleString expected = "beans beans <span class=\"nomatch\">ham</span> and egg" ;
 		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -728,34 +728,34 @@ namespace easyunit
 		mainframe.clear_memory() ;
 		ASSERT_EQUALS_V(0, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
 	}
-	TEST(TestCMainFrame, retrieve_record_new_state)
-	{
-		MainFrameModel model ;
-		CMainFrame mainframe(&model) ;
-		memory_pointer mem = mainframe.get_memory_model()->get_first_memory() ;
-		mainframe.m_editor.set_memory_id(mem->get_id());
-		mainframe.m_editor.set_new_record(record_pointer(new record_local)) ;
-		mainframe.m_editor.get_new_record()->set_source(L"spam") ;
-		mainframe.m_editor.get_new_record()->set_trans(L"egg") ;
+	//TEST(TestCMainFrame, retrieve_record_new_state)
+	//{
+	//	MainFrameModel model ;
+	//	CMainFrame mainframe(&model) ;
+	//	memory_pointer mem = mainframe.get_memory_model()->get_first_memory() ;
+	//	mainframe.m_editor.set_memory_id(mem->get_id());
+	//	mainframe.m_editor.set_new_record(record_pointer(new record_local)) ;
+	//	mainframe.m_editor.get_new_record()->set_source(L"spam") ;
+	//	mainframe.m_editor.get_new_record()->set_trans(L"egg") ;
 
-		ASSERT_EQUALS_V(0, (int)mem->size()) ;
-		mainframe.retrieve_record_new_state() ;
-		ASSERT_EQUALS_V(1, (int)mem->size()) ;
-	}
-	TEST(TestCMainFrame, retrieve_record_review_state)
-	{
-		MainFrameModel model ;
-		CMainFrame mainframe(&model) ;
-		memory_pointer mem = mainframe.get_memory_model()->get_first_memory() ;
-		mainframe.m_editor.m_memory_id = mem->get_id() ;
-		mainframe.m_editor.m_new_record = record_pointer(new record_local) ;
-		mainframe.m_editor.m_new_record->set_source(L"spam") ;
-		mainframe.m_editor.m_new_record->set_trans(L"egg") ;
+	//	ASSERT_EQUALS_V(0, (int)mem->size()) ;
+	//	mainframe.retrieve_record_new_state() ;
+	//	ASSERT_EQUALS_V(1, (int)mem->size()) ;
+	//}
+	//TEST(TestCMainFrame, retrieve_record_review_state)
+	//{
+	//	MainFrameModel model ;
+	//	CMainFrame mainframe(&model) ;
+	//	memory_pointer mem = mainframe.get_memory_model()->get_first_memory() ;
+	//	mainframe.m_editor.m_memory_id = mem->get_id() ;
+	//	mainframe.m_editor.m_new_record = record_pointer(new record_local) ;
+	//	mainframe.m_editor.m_new_record->set_source(L"spam") ;
+	//	mainframe.m_editor.m_new_record->set_trans(L"egg") ;
 
-		ASSERT_EQUALS_V(0, (int)mem->size()) ;
-		mainframe.retrieve_record_review_state() ;
-		ASSERT_EQUALS_V(1, (int)mem->size()) ;
-	}
+	//	ASSERT_EQUALS_V(0, (int)mem->size()) ;
+	//	mainframe.retrieve_record_review_state() ;
+	//	ASSERT_EQUALS_V(1, (int)mem->size()) ;
+	//}
 	//TEST(TestCMainFrame, retrieve_record_results_state)
 	//{
 	//	MainFrameModel model ;

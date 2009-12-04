@@ -9,10 +9,10 @@
 namespace easyunit
 {
 	using namespace memory_engine ;
-	const static wstring nomatch_tag_open1(L"<FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>") ;
-	const static wstring nomatch_tag_open2(L"<FONT style=\"BACKGROUND-COLOR: #ff8000\"><STRONG>") ;
-	const static wstring nomatch_tag_open3(L"<FONT style=\"BACKGROUND-COLOR: #ffff80\"><STRONG>") ;
-	const static wstring nomatch_tag_close(L"</STRONG></FONT>") ;
+	const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
+	const static wstring nomatch_tag_open2(L"<span class=\"partial_match1\">") ;
+	const static wstring nomatch_tag_open3(L"<span class=\"partial_match2\">") ;
+	const static wstring nomatch_tag_close(L"</span>") ;
 
 #define DELCARE_MATCH( match_name, source, trans) \
 	search_match_ptr match_name(new search_match) ;\
@@ -151,7 +151,7 @@ namespace easyunit
 		mm.get_score( query, source, IDC_ALGO_WORD, match ) ;
 
 		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
-		SimpleString expected = "I love <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>ham</STRONG></FONT> and eggs." ;
+		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
 		ASSERT_EQUALS(actual, expected) ;
 	}
 

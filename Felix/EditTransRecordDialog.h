@@ -19,7 +19,7 @@ public:
 	void fill_from_old_record() ;
 	void fill_new_record();
 
-	void set_new_record (record_type record ) { m_new_record = record ; }
+	void set_new_record (record_type record );
 	void set_old_record (record_type record );
 	record_type get_old_record();
 	record_type get_new_record();

@@ -122,7 +122,8 @@ CString get_docs_path()
  */
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
 	m_model( model ),
-	m_new_record(new record_local())
+	m_new_record(new record_local()),
+	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >()
 {
 	//m_new_record = record_pointer(new record_local()) ;
 	m_model->m_memories = m_model->create_memory_model() ; 
@@ -2697,10 +2698,6 @@ LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 	SENSE("on_user_add_to_glossary") ;
 
 	size_t index = static_cast<size_t>(lParam) ;
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
-
 	record_pointer rec ;
 	switch ( get_display_state() )
 	{
@@ -2727,6 +2724,10 @@ LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 			break ;
 		}
 	}
+#ifdef UNIT_TEST
+	return 0 ;
+#endif
+
 	m_glossary_windows[0]->add_record(rec->clone());
 	return 0 ;
 }
@@ -4675,7 +4676,7 @@ memory_engine::record_pointer CMainFrame::get_reg_gloss_record( LPARAM num )
 	}
 }
 
-//! make sure that the serach match index isn't out of bounds.
+//! make sure that the search match index isn't out of bounds.
 void CMainFrame::check_search_match_bounds(size_t num)
 {
 	if ( num >= m_search_matches.size() )
@@ -4712,7 +4713,9 @@ LRESULT CMainFrame::on_mru_file_open(WindowsMessage &message)
 	catch (...)
 	{
 		logging::log_error("Error removing item from MRU list") ;
+#ifndef UNIT_TEST
 		m_mru.RemoveFromList( index ) ;
+#endif		
 		throw ;
 	}
 	return 0L;
@@ -5723,6 +5726,9 @@ LRESULT CMainFrame::on_new_search( WindowsMessage &)
 
 void CMainFrame::set_doc_ui_handler()
 {
+#ifdef UNIT_TEST
+	return ;
+#endif
 	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))

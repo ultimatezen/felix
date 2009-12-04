@@ -266,7 +266,8 @@ void CCommonWindowFunctionality::init_edit_find_window( int show_command /* = SW
 CCommonWindowFunctionality::CCommonWindowFunctionality( )
 :	m_is_short_format( true ),
 	m_silent_mode( false ),
-	m_mousewheel_count(0)
+	m_mousewheel_count(0),
+	m_editor()
 {
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;

@@ -175,10 +175,10 @@ class CViewPage :
 	public CPropertyPageImpl< CViewPage >,
 	public CWinDataExchange< CViewPage >
 {
-	CStatic			m_back_color_box ;
-	CStatic			m_query_color_box ;
-	CStatic			m_source_bkcolor_box ;
-	CStatic			m_trans_bkcolor_box ;
+	CStaticT<TWindow>			m_back_color_box ;
+	CStaticT<TWindow>			m_query_color_box ;
+	CStaticT<TWindow>			m_source_bkcolor_box ;
+	CStaticT<TWindow>			m_trans_bkcolor_box ;
 
 	// prop values
 	app_props::properties_view *m_properties ;
@@ -211,7 +211,7 @@ public:
 
 	LRESULT OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled );
 
-	void fill_rect( CDC &dc, CStatic &static_control, int color );
+	void fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color );
 	void Rect2Points( RECT &rc, POINT *points );
 
 	LRESULT OnBack(WORD, WORD, HWND, BOOL& );

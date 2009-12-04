@@ -2645,6 +2645,9 @@ void CGlossaryWindow::retrieve_record_results_state()
 
 void CGlossaryWindow::set_doc_ui_handler()
 {
+#ifdef UNIT_TEST
+	return ;
+#endif
 	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))

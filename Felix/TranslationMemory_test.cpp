@@ -513,7 +513,7 @@ namespace easyunit
 		TransMatchContainer::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>ham</STRONG></FONT> and eggs." ;
+		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
 		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
 		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
@@ -537,7 +537,7 @@ namespace easyunit
 		TransMatchContainer::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>ham</STRONG></FONT> and eggs." ;
+		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
 		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
 		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
@@ -561,7 +561,7 @@ namespace easyunit
 		TransMatchContainer::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I LOVE <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>SPAM</STRONG></FONT> AND EGGS." ;
+		SimpleString expected = "I LOVE <span class=\"nomatch\">SPAM</span> AND EGGS." ;
 		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
 		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
@@ -585,7 +585,7 @@ namespace easyunit
 		TransMatchContainer::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <FONT style=\"BACKGROUND-COLOR: #f80000\"><STRONG>ham</STRONG></FONT> and eggs." ;
+		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
 		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
 		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
@@ -782,7 +782,9 @@ namespace easyunit
 		search_match_multiset::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		ASSERT_EQUALS(match->get_markup()->GetSource(), L"<FONT style=\"BACKGROUND-COLOR: #ff8000\"><STRONG>eggs</STRONG></FONT>") ;
+		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
+		SimpleString actual = string2string(match->get_markup()->GetSource()).c_str() ;
+		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
 	}
 	TEST(test_memory_local, test_get_glossary_matches_50_word)
@@ -806,7 +808,9 @@ namespace easyunit
 		search_match_multiset::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		ASSERT_EQUALS(match->get_markup()->GetSource(), L"<FONT style=\"BACKGROUND-COLOR: #ff8000\"><STRONG>eggs</STRONG></FONT>") ;
+		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
+		SimpleString actual = string2string(match->get_markup()->GetSource()).c_str() ;
+		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
 	}
 	TEST(test_memory_local, test_get_glossary_matches_ignore_case_query_char)

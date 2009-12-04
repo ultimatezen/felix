@@ -305,9 +305,7 @@ namespace easyunit
 			rec.set_reliability( 10 ) ;
 			rec.set_validated_on( ) ;
 
-			record_remote rec2 ;
-
-			ASSERT_TRUE( ! are_records_equal( rec2, rec ) ) ; 
+			record_remote rec2(L"Felix.RemoteRecordFake") ;
 
 			rec2 = rec ;
 

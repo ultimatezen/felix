@@ -123,3 +123,8 @@ LRESULT CEditTransRecordDialog::OnAddString()
 	add_string(m_new_record) ;
 	return 0L ;
 }
+
+void CEditTransRecordDialog::set_new_record( record_type record )
+{
+	m_new_record = record ;
+}

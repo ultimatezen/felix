@@ -280,42 +280,6 @@ namespace easyunit
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_delete" ) ;
 	}
 
-	TEST( CMainFrameMessages, OnNavAddGloss )
-	{
-		MainFrameModel model ;
-		CMainFrame main_frame( &model ) ;
-
-		try
-		{
-			main_frame.OnNavAddGloss(0) ;
-			FAIL_M( "We should get an out of bounds exception here." ) ;
-		}
-		catch (CException& e)
-		{
-			CStringA expected = "Index out of range" ;
-			CStringA actual = e.what() ;
-			ASSERT_EQUALS_V(expected, actual) ;
-		}
-	}
-	TEST( CMainFrameMessages, get_reg_gloss_record )
-	{
-		MainFrameModel model ;
-		CMainFrame main_frame( &model ) ;
-
-		main_frame.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
-		try
-		{
-			main_frame.OnNavAddGloss(0) ;
-			FAIL_M( "We should get an out of bounds exception here." ) ;
-		}
-		catch (CException& e)
-		{
-			CStringA expected = "Index out of range" ;
-			CStringA actual = e.what() ;
-			ASSERT_EQUALS_V(expected, actual) ;
-		}
-	}
-
 	TEST( CMainFrameMessages, TestOnNavAddToGloss )
 	{
 		MainFrameModel model ;

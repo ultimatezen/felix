@@ -679,10 +679,11 @@ void CSearchWindow::handle_replace_replace( doc3_wrapper_ptr doc )
 {
 	SENSE("handle_replace_replace") ;
 
-	if (m_current_match > m_replace_matches.size())
+	if (m_current_match >= m_replace_matches.size())
 	{
 		return; 
 	}
+	ATLASSERT(m_current_match>0) ;
 	search_match_ptr match = m_replace_matches[m_current_match-1] ;
 
 	element_wrapper_ptr replacefrom_box = doc->get_element_by_id(L"replacefrom") ;

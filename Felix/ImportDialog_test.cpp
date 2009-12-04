@@ -54,7 +54,7 @@ namespace easyunit
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
 		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnOK"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V(IDOK, (int)lResult) ;
 	}
 	TEST( TestCImportDialog, test_message_IDCANCEL)
 	{
@@ -64,7 +64,7 @@ namespace easyunit
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
 		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V(0, (int)lResult) ;
 	}
 	TEST( TestCImportDialog, test_message_ZERO)
 	{

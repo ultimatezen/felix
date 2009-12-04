@@ -29,10 +29,7 @@ bool CLanguageHolder::set_languages( std::set<tstring> &languages )
 // Extract the current selection from the combo box and set the source to that
 void CLanguageHolder::set_source(CComboBox & combo)
 {
-
-#ifndef UNIT_TEST
 	m_source = combo_sel_as_str( combo ) ;
-#endif
 }
 
 void CLanguageHolder::set_source( const tstring &source )
@@ -42,9 +39,7 @@ void CLanguageHolder::set_source( const tstring &source )
 // Extract the current selection from the combo box and set the source to that
 void CLanguageHolder::set_trans(CComboBox & combo)
 {
-#ifndef UNIT_TEST
 	m_trans = combo_sel_as_str( combo ) ;
-#endif
 }
 
 void CLanguageHolder::set_trans( const tstring &trans )
@@ -55,8 +50,12 @@ void CLanguageHolder::set_trans( const tstring &trans )
 tstring CLanguageHolder::combo_sel_as_str(CComboBox & combo)
 {
 	CString combo_text ;
+#ifndef UNIT_TEST
 	int sel = combo.GetCurSel() ;
 	combo.GetLBText( sel, combo_text ) ;
+#else
+	combo ;
+#endif	
 	return tstring( static_cast< LPCTSTR >( combo_text ) ) ;
 }
 

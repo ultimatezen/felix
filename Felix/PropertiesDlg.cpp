@@ -193,6 +193,10 @@ LRESULT CGlossaryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 	ATLASSERT( m_properties->m_data.m_numbering == 1 || m_properties->m_data.m_numbering == 0 ) ;
 
+#ifdef UNIT_TEST
+	return TRUE;
+#endif
+
 	if ( m_properties->m_data.m_numbering == 1)
 	{
 		SendDlgItemMessage( IDC_GLOSS_NUM_1, BM_SETCHECK, TRUE, 0 ) ;
@@ -316,7 +320,7 @@ LRESULT CViewPage::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	return 0 ;
 }
 
-void CViewPage::fill_rect( CDC &dc, CStatic &static_control, int color )
+void CViewPage::fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color )
 {
 	RECT rc = {0} ;
 	static_control.GetWindowRect( &rc ) ;

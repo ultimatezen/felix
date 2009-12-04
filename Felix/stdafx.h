@@ -100,7 +100,7 @@ using namespace boost::foreach ;
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
 
-#include <boost/spirit/phoenix.hpp>
+#include <boost/spirit/include/phoenix1.hpp>
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations
