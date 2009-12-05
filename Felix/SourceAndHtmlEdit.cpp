@@ -17,60 +17,6 @@ using namespace html ;
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-const COLORREF black = RGB(0,0,0);
-const COLORREF white = RGB(0xff,0xff,0xff);
-
-const char htmlKeyWords[] = 
-"a abbr acronym address applet area b base basefont "
-"bdo big blockquote body br button caption center "
-"cite code col colgroup dd del dfn dir div dl dt em "
-"fieldset font form frame frameset h1 h2 h3 h4 h5 h6 "
-"head hr html i iframe img input ins isindex kbd label "
-"legend li link map menu meta noframes noscript "
-"object ol optgroup option p param pre q s samp "
-"script select small span strike strong style sub sup "
-"table tbody td textarea tfoot th thead title tr tt u ul "
-"var xmlns "
-"abbr accept-charset accept accesskey action align alink "
-"alt archive axis background bgcolor border "
-"cellpadding cellspacing char charoff charset checked cite "
-"class classid clear codebase codetype color cols colspan "
-"compact content coords "
-"data datafld dataformats datapagesize datasrc datetime "
-"declare defer dir disabled enctype "
-"face for frame frameborder "
-"headers height href hreflang hspace http-equiv "
-"id ismap label lang language link longdesc "
-"marginwidth marginheight maxlength media method multiple "
-"name nohref noresize noshade nowrap "
-"object onblur onchange onclick ondblclick onfocus "
-"onkeydown onkeypress onkeyup onload onmousedown "
-"onmousemove onmouseover onmouseout onmouseup "
-"onreset onselect onsubmit onunload "
-"profile prompt readonly rel rev rows rowspan rules "
-"scheme scope shape size span src standby start style "
-"summary tabindex target text title type usemap "
-"valign value valuetype version vlink vspace width "
-"text password checkbox radio submit reset "
-"file hidden image "
-"public !doctype xml";
-
-const char jsKeyWords[] = 
-"break case catch continue default "
-"do else for function if return throw try var while";
-
-const char vbsKeyWords[] = 
-"and as byref byval case call const "
-"continue dim do each else elseif end error exit false for function global "
-"goto if in loop me new next not nothing on optional or private public "
-"redim rem resume select set sub then to true type while with "
-"boolean byte currency date double integer long object single string type "
-"variant";
-
-// font size array
-const static int font_size[] = 
-{ 8, 10, 12, 14, 18, 24, 36 } ;
-
 
 CSourceAndHtmlEdit::CSourceAndHtmlEdit(void)
 {
@@ -129,11 +75,12 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 		m_html_edit.ShowWindow( SW_SHOW ) ;
 
 		// we needed to add ES_NOHIDESEL in order to show the selection while doing search & replace
-		DWORD te_style = WS_TABSTOP | WS_VSCROLL | WS_CHILD | WS_VISIBLE | ES_NOHIDESEL | ES_SAVESEL | ES_MULTILINE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN ;
+		const DWORD te_style = WS_TABSTOP | WS_VSCROLL | WS_CHILD | WS_VISIBLE | ES_NOHIDESEL | ES_SAVESEL | ES_MULTILINE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN ;
 		m_text_edit.Create(m_tabs, TWindow::rcDefault, NULL, te_style, WS_EX_CLIENTEDGE ) ;
 		ATLASSERT( m_text_edit.IsWindow() ) ;
-
-		init_scintilla_edit( ) ;
+		m_text_edit.set_up_standard_syntax_coloring() ;
+		m_text_edit.SetCodePage( SC_CP_UTF8 ) ;
+		m_text_edit.SetLexer( SCLEX_HTML ) ;
 
 		m_tabs.AddTab( m_html_edit, R2T( IDS_EDITOR_TAB ) ) ;
 		m_tabs.AddTab( m_text_edit, R2T( IDS_SOURCE_TAB )  ) ;
@@ -158,17 +105,6 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 		throw ;
 	}
 }
-
-
-#ifdef _UNICODE
-
-void CSourceAndHtmlEdit::init_scintilla_edit( )
-{
-	m_text_edit.set_up_standard_syntax_coloring() ;
-}
-
-#endif // #ifdef _UNICODE
-
 
 BOOL CSourceAndHtmlEdit::pre_translate(MSG* pMsg)
 {
@@ -209,7 +145,7 @@ void CSourceAndHtmlEdit::insert_symbol(void)
 		return ;
 	}
 
-	wstring symbol = dialog.get_text() ;
+	const wstring symbol = dialog.get_text() ;
 
 	if ( symbol.empty() )
 	{
@@ -292,7 +228,7 @@ void CSourceAndHtmlEdit::set_html_back_color(const wstring color)
 
 	CStringW tagbase ;
 	tagbase.Format(L"background-color: %ls", color.c_str()) ;
-	_bstr_t bg_style = static_cast< LPCWSTR >( tagbase ) ;
+	const _bstr_t bg_style = static_cast< LPCWSTR >( tagbase ) ;
 
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
@@ -412,7 +348,7 @@ void CSourceAndHtmlEdit::load_html_into_source( )
 {
 	ensure_document_complete( ) ;
 
-	_bstr_t text = this->get_html_text() ;
+	const _bstr_t text = this->get_html_text() ;
 
 	m_text_edit.SetText( text ) ;
 }
@@ -450,7 +386,7 @@ void CSourceAndHtmlEdit::detach(void)
 
 void CSourceAndHtmlEdit::handle_return_key(void)
 {
-	bool control_is_down = ( ::GetKeyState( VK_CONTROL ) < 0 ) ;
+	const bool control_is_down = ( ::GetKeyState( VK_CONTROL ) < 0 ) ;
 
 	if ( m_html_edit == get_active_view() ) 
 	{
@@ -551,7 +487,7 @@ HWND CSourceAndHtmlEdit::getDocumentHWND()
 	return hwnd;
 }
 
-HWND CSourceAndHtmlEdit::getHwnd()
+HWND CSourceAndHtmlEdit::getHwnd() const
 {
 	return m_html_edit.m_hWnd ;
 }

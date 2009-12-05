@@ -425,8 +425,7 @@ wstring CTmxSymbolMapper::strip_html_symbols( const wstring &raw_wstring )
 
 	while ( reader.empty() == false ) 
 	{
-		wstring chunk ;
-		reader.getline( chunk, L"&", false ) ;
+		const wstring chunk = reader.getline(L'&', false ) ;
 		if ( chunk.empty() == false )
 		{
 			stripped_text += chunk ;

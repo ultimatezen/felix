@@ -149,7 +149,7 @@ void CImportMultitermFile::get_multiterm55_line( textstream_reader< char > &read
 	ATLASSERT( ! reader.empty() ) ;
 
 	reader.find( "<", true ) ;
-	reader.getline( col1, ">", true ) ;
+	reader.getline( col1, '>', true ) ;
 	reader.getline( col2, "\r\n", true ) ;
 	reader.eat_whitespace() ;
 }
@@ -272,9 +272,9 @@ void CImportMultitermFile::get_multiterm6_line( textstream_reader< wchar_t > &re
 {
 	ATLASSERT( ! reader.empty() ) ;
 
-	reader.getline( col1, L"\t", true ) ;
+	reader.getline( col1, L'\t', true ) ;
 	reader.eat_whitespace() ;
-	reader.getline( col2, L"\t", true ) ;
+	reader.getline( col2, L'\t', true ) ;
 	reader.eat_whitespace() ;
 	reader.getline( col3, L"\n\r", true ) ;
 	reader.eat_whitespace() ;

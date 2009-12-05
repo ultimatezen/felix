@@ -19,7 +19,7 @@ CString get_template_filename(CString filename)
 		/ _T("html")
 		/ R2T(IDS_LANG_CODE)
 		/ filename ;
-	CString tpl_filename = CString(pathname.string().c_str()) ;
+	const CString tpl_filename = CString(pathname.string().c_str()) ;
 	file::CPath fullpath(tpl_filename) ;
 	if (! fullpath.FileExists())
 	{
@@ -32,7 +32,7 @@ CString get_template_filename(CString filename)
 			/ _T("html")
 			/ R2T(IDS_LANG_CODE)
 			/ filename ;
-		CString module_filename = CString(fullpathname.string().c_str()) ;
+		const CString module_filename = CString(fullpathname.string().c_str()) ;
 		try
 		{
 			CDispatchWrapper utils(L"Felix.Utilities") ;
@@ -55,7 +55,7 @@ CString get_template_filename(CString filename)
 
 wstring get_template_text(CString filename)
 {
-	CString full_path = get_template_filename(filename) ;
+	const CString full_path = get_template_filename(filename) ;
 	file::view file_view ;
 	string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
 	return string2wstring(raw_text, CP_UTF8) ;

@@ -124,7 +124,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 		{
 			font_table_buffer.jump_to_first_of( char('\\'), true ) ;
 			string tag ;
-			font_table_buffer.getline( tag, " \\{", false ) ;
+			ATLVERIFY(font_table_buffer.getline(tag, " \\{", false )) ;
 
 			// check for font family
 			if ( tag == "fdecorative" )
@@ -146,7 +146,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 			{
 				font.set_charset( static_cast< unsigned char >(string2long( tag.substr(8) ) ) ) ;
 				font_table_buffer.advance() ;
-				font_table_buffer.getline( tag, char(';'), true ) ;
+				tag = font_table_buffer.getline(char(';'), true ) ;
 				font.set_name( CA2CT( unescape_string( tag ).c_str() ) ) ;
 
 			}
@@ -562,9 +562,8 @@ bool TradosDataExporter::write_rich_part( const wstring &rich_part )
 // Description	    : 
 // Return type		: bool 
 // Argument         : wstring &text
-wstring TradosDataExporter::replace_tags( wstring &text )
+const wstring TradosDataExporter::replace_tags( const wstring &text )
 {
-
 	return strip_tags( text ) ;
 }
 
@@ -572,17 +571,17 @@ wstring TradosDataExporter::replace_tags( wstring &text )
 // Description	    : 
 // Return type		: bool 
 // Argument         : wstring &text
-bool TradosDataExporter::write_plain_text( wstring &raw_text )
+bool TradosDataExporter::write_plain_text( const wstring &raw_text )
 {
 	BANNER( "TradosDataExporter::write_plain_text" ) ;
 
-	wstring text = replace_tags( raw_text ) ;
+	const wstring text = replace_tags( raw_text ) ;
 
 	const wchar_t *text_stream = text.c_str() ;
 
-	size_t len = text.length() ;
+	const size_t len = text.length() ;
 
-	unsigned int current_codepage = m_codepages.top() ;
+	const unsigned int current_codepage = m_codepages.top() ;
 
 	// go the slog route...
 	UINT old_codepage = _getmbcp() ;
@@ -770,19 +769,22 @@ bool TradosDataExporter::write_font( const wstring &font_info )
 	{
 		reader.eat_whitespace() ;
 
-		reader.getline( attribute, L"=", true ) ;
+		attribute = reader.getline(L'=', true ) ;
 
 		if ( reader.peek() == wchar_t('\"') ) // we have quotes
 		{
 			reader.advance() ;
-
-			reader.getline( value, L"\"", true ) ;
+			reader.getline(value, L'\"', true ) ;
+		}
+		else 
+		{
+			reader.getline(value, L" >", true ) ;
 		}
 
-		else reader.getline( value, L" >", true ) ;
-
 		if ( attribute == L"face" )
+		{
 			write_font_face( value ) ;
+		}
 		else 
 		{
 			write_key_value_pair( attribute, value ) ;
@@ -856,15 +858,14 @@ bool TradosDataExporter::write_rich_text( const wstring &rich_text )
 
 	while( reader.empty() == false )
 	{
-		wstring text ;
+		const wstring text = reader.getline(L'<', true ) ;
 
-		reader.getline( text, L"<", true ) ;
+		if ( text.empty() == false ) 
+		{
+			write_plain_text( text ) ;
+		}
 
-		if ( text.empty() == false ) write_plain_text( text ) ;
-
-		wstring tag ;
-
-		reader.getline( tag, L">", true ) ;
+		const wstring tag = reader.getline( L'>', true ) ;
 
 		if ( tag.empty() == false ) 
 		{

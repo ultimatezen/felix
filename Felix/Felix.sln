@@ -238,6 +238,7 @@ Global
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Testing|Win32.Build.0 = Testing|Win32
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Debug|Any CPU.ActiveCfg = Debug|Win32
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Debug|Win32.ActiveCfg = Debug|Win32
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Debug|Win32.Build.0 = Debug|Win32
 		{9D5D2E61-CF4D-448E-8F22-78E49F98DD99}.Unicode_Release|Any CPU.ActiveCfg = Release|Win32

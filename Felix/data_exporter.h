@@ -69,8 +69,8 @@ public:
 	bool write_source( const wstring &source ) ;
 	bool write_rich_part( const wstring &rich_part ) ;
 	bool write_trans( const wstring &trans ) ;
-	wstring replace_tags( wstring &text ) ;
-	bool write_plain_text( wstring &text ) ;
+	const wstring replace_tags( const wstring &text ) ;
+	bool write_plain_text( const wstring &text ) ;
 	bool write_formatting_tag( const wstring &wide_tag ) ;
 	bool write_font( const wstring &font_info ) ;
 	bool write_font_face( const wstring &value ) ;

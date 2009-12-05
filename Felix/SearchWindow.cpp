@@ -11,7 +11,7 @@
 #include "document_wrapper_fake.h"
 #endif
 
-bool ends_with(const wstring &haystack, wstring needle)
+bool ends_with(const wstring &haystack, const wstring needle)
 {
 	if (haystack.size() < needle.size())
 	{
@@ -26,7 +26,7 @@ wstring escape_entities(const wstring text)
 	return str::replace(str::replace(text, L"&", L"&amp;"), L"<", L"&lt;") ;
 }
 
-wstring tows(size_t i)
+wstring tows(const size_t i)
 {
 	return boost::lexical_cast<wstring>(i) ;
 }
@@ -39,7 +39,7 @@ LRESULT CSearchWindow::OnCreate( UINT, WPARAM, LPARAM )
 	logging::log_debug("Creating search window") ;
 
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
-	CString filename = get_template_filename(_T("start_search.html")) ;
+	const CString filename = get_template_filename(_T("start_search.html")) ;
 	m_view.create(*this, filename) ;
 
 	CWindowSettings ws;
@@ -122,7 +122,7 @@ void CSearchWindow::wait_for_doc_complete()
 void CSearchWindow::show_search_page()
 {
 	SENSE("CSearchWindow::show_search_page") ;
-	wstring filename = (LPCWSTR)get_template_filename(_T("start_search.html")) ;
+	const wstring filename = (LPCWSTR)get_template_filename(_T("start_search.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -136,7 +136,7 @@ void CSearchWindow::show_search_page()
 void CSearchWindow::handle_gotoreplace()
 {
 	SENSE("handle_gotoreplace") ;
-	wstring filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
+	const wstring filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -195,7 +195,7 @@ BOOL CSearchWindow::PreTranslateMessage( LPMSG pMsg )
 bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 {
 	SENSE("CSearchWindow::OnBeforeNavigate2") ;
-	wstring url = BSTR2wstring(burl) ;
+	const wstring url = BSTR2wstring(burl) ;
 
 	// "#" is used for JavaScript links.
 	if(ends_with(url, L"#"))
@@ -287,7 +287,7 @@ void CSearchWindow::perform_search(doc3_wrapper_ptr doc)
 	SENSE("CSearchWindow::perform_search") ;
 	element_wrapper_ptr search_box = doc->get_element_by_id(L"searchbox") ;
 
-	wstring term = retrieve_input_value(search_box) ;
+	const wstring term = retrieve_input_value(search_box) ;
 	if (term.empty())
 	{
 		ATLTRACE("Empty term in search box\n") ;
@@ -414,7 +414,7 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 		item->insert(std::make_pair(L"creator", record->get_creator())) ;
 		item->insert(std::make_pair(L"modified_by", record->get_modified_by())) ;
 		// other info
-		wstring filename = match->get_memory_location() ;
+		const wstring filename = match->get_memory_location() ;
 		wstring loc ;
 		if ( filename.empty() )
 		{
@@ -454,8 +454,8 @@ void CSearchWindow::retrieve_and_show_matches( doc3_wrapper_ptr doc )
 void CSearchWindow::handle_deletefilter(doc3_wrapper_ptr doc, wstring url)
 {
 	SENSE("handle_deletefilter") ;
-	size_t pos = get_pos_arg(url);
-	m_search_runner.remove_term(pos) ;
+
+	m_search_runner.remove_term(get_pos_arg(url)) ;
 
 	set_filterbox_text(doc, m_search_runner.get_terms());
 	retrieve_and_show_matches(doc);
@@ -504,7 +504,7 @@ void CSearchWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 void CSearchWindow::handle_undodelete( doc3_wrapper_ptr doc )
 {
 	SENSE("handle_undodelete") ;
-	int memid = m_deleted_match->get_memory_id() ;
+	const int memid = m_deleted_match->get_memory_id() ;
 	record_pointer record = m_deleted_match->get_record() ;
 
 	foreach(memory_engine::memory_pointer mem, m_controller->get_memories())
@@ -521,14 +521,14 @@ void CSearchWindow::handle_undodelete( doc3_wrapper_ptr doc )
 /*
  Extract the pos argument from the URL.
  */
-size_t CSearchWindow::get_pos_arg( wstring &url )
+size_t CSearchWindow::get_pos_arg( const wstring &url )
 {
 	textstream_reader<wchar_t> reader ;
 	reader.set_buffer(url.c_str()) ;
 	std::vector<wstring> tokens ;
 	reader.split(tokens, L"\\/") ;
-	size_t last = tokens.size() -1 ;
-
+	const size_t last = tokens.size() -1 ;
+	ATLASSERT(last > 0) ;
 	return boost::lexical_cast<size_t>(tokens[last-1]) ;
 }
 
@@ -537,11 +537,11 @@ size_t CSearchWindow::get_pos_arg( wstring &url )
 
  Recalculates the matches each time.
  */
-memory_engine::search_match_ptr CSearchWindow::get_match_at( size_t i )
+memory_engine::search_match_ptr CSearchWindow::get_match_at( const size_t i )
 {
 	match_vec matches; 
 	get_search_matches(matches);
-
+	ATLASSERT(i < matches.size()) ;
 	return matches[i] ;
 }
 
@@ -566,8 +566,7 @@ doc3_wrapper_ptr CSearchWindow::get_doc3()
  */
 void CSearchWindow::delete_record( search_match_ptr match )
 {
-	int memid = match->get_memory_id() ;
-	memory_pointer mem = m_controller->get_memory_by_id(memid) ;
+	memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
 
 	if (mem->erase(match->get_record()))
 	{
@@ -587,7 +586,7 @@ void CSearchWindow::handle_replace_find( doc3_wrapper_ptr doc )
 	SENSE("handle_replace_find") ;
 
 	element_wrapper_ptr search_box = doc->get_element_by_id(L"replacefrom") ;
-	wstring replace_from = search_box->get_attribute(L"value") ;
+	const wstring replace_from = search_box->get_attribute(L"value") ;
 	this->get_replace_matches(m_replace_matches, replace_from) ;
 
 	show_replace_results(doc, m_replace_matches) ;
@@ -664,7 +663,7 @@ void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &match
 
 	}
 
-	wstring text = text_template.Fetch(get_template_text(_T("replace_match.txt"))) ;
+	const wstring text = text_template.Fetch(get_template_text(_T("replace_match.txt"))) ;
 
 	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
 
@@ -687,10 +686,10 @@ void CSearchWindow::handle_replace_replace( doc3_wrapper_ptr doc )
 	search_match_ptr match = m_replace_matches[m_current_match-1] ;
 
 	element_wrapper_ptr replacefrom_box = doc->get_element_by_id(L"replacefrom") ;
-	wstring replace_from = replacefrom_box->get_attribute(L"value") ;
+	const wstring replace_from = replacefrom_box->get_attribute(L"value") ;
 
 	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
-	wstring replace_to = replaceto_box->get_attribute(L"value") ;
+	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
 
 	replace_in_memory(match, replace_from, replace_to);
 	handle_replace_find(doc) ;
@@ -763,7 +762,7 @@ void CSearchWindow::perform_replace(doc3_wrapper_ptr doc, record_pointer rec)
 /*
  Do the replacement in the memory.
  */
-void CSearchWindow::replace_in_memory( search_match_ptr match, wstring &replace_from, wstring &replace_to )
+void CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &replace_from, const wstring &replace_to )
 {
 	if (replace_from.empty())
 	{
@@ -773,7 +772,7 @@ void CSearchWindow::replace_in_memory( search_match_ptr match, wstring &replace_
 	record_pointer record = match->get_record() ;
 	record_pointer modified(new record_local(record)) ;
 	replacer::do_replace(modified, replace_from, replace_to) ;
-	int memid = match->get_memory_id() ;
+	const int memid = match->get_memory_id() ;
 	m_controller->get_memory_by_id(memid)->replace(record, modified) ;
 }
 
@@ -781,9 +780,9 @@ void CSearchWindow::replace_in_memory( search_match_ptr match, wstring &replace_
  Get the value of the specified input box, and clear that value
  afterward.
  */
-wstring retrieve_input_value( element_wrapper_ptr input_box )
+const wstring retrieve_input_value( element_wrapper_ptr input_box )
 {
-	wstring val = input_box->get_attribute(L"value") ;
+	const wstring val = input_box->get_attribute(L"value") ;
 	input_box->set_attribute(L"value", L"") ;
 	return val ;
 }
@@ -802,7 +801,7 @@ wstring get_filter_text( std::vector<wstring> & terms )
 	}
 	text_template.Assign( L"filters", filters ) ;
 
-	wstring text = get_template_text(_T("filter_list.txt")) ;
+	const wstring text = get_template_text(_T("filter_list.txt")) ;
 
 	return text_template.Fetch(text) ;
 }

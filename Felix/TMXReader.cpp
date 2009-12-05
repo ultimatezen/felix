@@ -21,7 +21,7 @@ using namespace memory_engine ;
 union cracker
 {
 	wchar_t	w ;
-	char		c[2] ;
+	char	c[2] ;
 } ;
 
 // tmx_strip_tags
@@ -63,8 +63,7 @@ wstring tmx_strip_tags( const wstring &raw_string )
 				if ( towlower( reader.peek() )== L't' )
 				{
 					reader.find( L">", true ) ;
-					wstring tagChunk ;
-					reader.getline( tagChunk, L'<', false ) ;
+					wstring tagChunk = reader.getline(L'<', false ) ;
 					str::make_lower( tagChunk ) ;
 					str::trim( tagChunk ) ;
 					if ( tagChunk == L"&lt;br&gt;" )
@@ -318,7 +317,7 @@ void CTMXReader::load_head()
 
 	wc_reader::bookmark_type head_tag_end = m_reader.get_current_pos() ;
 
-	wstring head_tag_text( head_start, head_tag_end ) ;
+	const wstring head_tag_text( head_start, head_tag_end ) ;
 
 	CTag<wchar_t> head_tag ;
 	head_tag.parse_tag( head_tag_text ) ;
@@ -336,7 +335,6 @@ void CTMXReader::load_head()
 	ATLASSERT ( m_memory->get_header().get_creation_tool() == m_header.m_creationtool ) ; 
 	ATLASSERT ( m_memory->get_header().get_creation_tool_version() == m_header.m_creationtoolversion ) ; 
 
-
 	// for now, we will forget about the prop and other features...
 
 	m_reader.find( L"</header>", true ) ;
@@ -349,15 +347,13 @@ void CTMXReader::load_head()
 	header_reader.set_buffer(header_text.c_str()) ;
 	while (header_reader.find(L"<prop", false ) ) 
 	{
-		wstring prop_tag_text ;
-		header_reader.getline(prop_tag_text, L'>', true ) ;
+		const wstring prop_tag_text = header_reader.getline(L'>', true ) ;
 		CTag<wchar_t> prop_tag ;
 		prop_tag.parse_tag( prop_tag_text ) ;
-		wstring type = prop_tag.get_attribute( L"type" ) ;
+		const wstring type = prop_tag.get_attribute( L"type" ) ;
 		if ( str::equal_nocase( type, L"RTFFontTable" ) )
 		{
-			wstring font_table_text ;
-			header_reader.getline( font_table_text, L'>', true ) ;
+			const wstring font_table_text = header_reader.getline(L'>', true ) ;
 			m_rtf_importer->parse_fonttbl( font_table_text ) ;
 		}
 	}
@@ -371,19 +367,16 @@ void CTMXReader::load_body()
 	{
 		wc_reader::bookmark_type tu_start = m_reader.get_current_pos() ;
 
-		bool success(false) ;
-		success = m_reader.find( L"</tu>" ) ;
-		ATLASSERT ( success ) ;
+		ATLVERIFY(m_reader.find( L"</tu>" )) ;
 
 		wc_reader::bookmark_type tu_end = m_reader.get_current_pos() ;
 
-		wstring tu_text( tu_start, tu_end ) ;
+		const wstring tu_text( tu_start, tu_end ) ;
 
 		++current_record ;
 		m_listener->OnProgressLoadUpdate(current_record) ;
 
 		load_tu( tu_text ) ;
-
 	}
 }
 
@@ -397,12 +390,11 @@ void CTMXReader::load_tu(const wstring & tu_text)
 
 	wc_reader::bookmark_type tu_tag_start = tu_reader.get_current_pos() ;
 
-	bool success = tu_reader.find(L">") ;
-	ATLASSERT ( success ) ; 
+	ATLVERIFY(tu_reader.find(L">")) ;
 	
 	wc_reader::bookmark_type tu_tag_end = tu_reader.get_current_pos() ;
 
-	wstring tu_tag_text(tu_tag_start, tu_tag_end) ;
+	const wstring tu_tag_text(tu_tag_start, tu_tag_end) ;
 
 	CTag<wchar_t> tu_tag ;
 	tu_tag.parse_tag(tu_tag_text) ;
@@ -414,13 +406,11 @@ void CTMXReader::load_tu(const wstring & tu_text)
 	tu.set_attributes(attributes) ;
 	tu.reflect_attributes(m_record) ;
 
-
 	while ( tu_reader.find(L"<tuv", false) ) 
 	{
 		wc_reader::bookmark_type tuv_tag_start = tu_reader.get_current_pos() ;
 
-		success = tu_reader.find(L">") ;
-		ATLASSERT ( success ) ; 
+		ATLVERIFY(tu_reader.find(L">")) ;
 
 		wc_reader::bookmark_type tuv_tag_end = tu_reader.get_current_pos() ;
 
@@ -435,12 +425,12 @@ void CTMXReader::load_tu(const wstring & tu_text)
 			xml_lang = tuv_tag.get_attribute( L"lang" ) ;
 		}
 
-		success = tu_reader.find(L"</tuv>") ;
-		ATLASSERT ( success ) ; 
+		ATLVERIFY(tu_reader.find(L"</tuv>")) ;
+
 		wc_reader::bookmark_type tuv_end = tu_reader.get_current_pos() ;
 		wstring tuv_text( tuv_tag_end, tuv_end ) ;
 
-		wstring seg_text = get_seg_text( tuv_text ) ;
+		const wstring seg_text = get_seg_text( tuv_text ) ;
 
 		if ( str::equal_nocase( xml_lang, m_header.m_srclang ) ) 
 		{
@@ -454,7 +444,7 @@ void CTMXReader::load_tu(const wstring & tu_text)
 
 	if ( m_record->is_valid_record() ) 
 	{
-		m_memory->add_record( m_record ) ;
+		m_memory->add_record(m_record) ;
 	}
 
 }
@@ -464,13 +454,11 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 	wc_reader seg_reader ;
 	seg_reader.set_buffer( tuv_text.c_str() ) ;
 
-	bool success = seg_reader.find(L"<seg>", true ) ;
-	ATLASSERT ( success ) ; 
+	ATLVERIFY(seg_reader.find(L"<seg>", true)) ;
 	
 	wc_reader::bookmark_type seg_tag_start = seg_reader.get_current_pos() ;
 
-	success = seg_reader.find(L"</seg>", false ) ;
-	ATLASSERT ( success ) ; 
+	ATLVERIFY(seg_reader.find(L"</seg>", false)) ;
 
 	wc_reader::bookmark_type seg_tag_end = seg_reader.get_current_pos() ;
 
@@ -515,7 +503,7 @@ void CTMXReader::load_utf16(const CString & file_name)
 
 void CTMXReader::load_utf16be(const CString & file_name)
 {
-	size_t file_size = get_file_size(file_name) ;
+	const size_t file_size = get_file_size(file_name) ;
 
 	LPCWSTR raw_text = (LPCWSTR)m_view.create_view(file_name) ;
 	LPWSTR flipped_text = m_buffer.buffer( (file_size / 2 ) + 1 ) ;
@@ -535,9 +523,9 @@ void CTMXReader::load_utf8(const CString & file_name)
 {
 	LPCSTR raw_text = (LPCSTR)m_view.create_view(file_name) ;
 	raw_text+= file::file::bom_size( get_bom(file_name) ) ;
-	int file_size = get_file_size( file_name ) - file::file::bom_size( get_bom(file_name) ) ;
+	const int file_size = get_file_size( file_name ) - file::file::bom_size( get_bom(file_name) ) ;
 
-	int len_needed = ::MultiByteToWideChar( CP_UTF8, 0, raw_text, file_size, NULL, 0 ) ;
+	const int len_needed = ::MultiByteToWideChar( CP_UTF8, 0, raw_text, file_size, NULL, 0 ) ;
 	LPWSTR dest_buf = m_buffer.buffer( len_needed+1 ) ;
 
 	::MultiByteToWideChar( CP_UTF8, 0, raw_text, file_size, dest_buf, len_needed ) ;
@@ -549,9 +537,9 @@ void CTMXReader::load_utf7(const CString & file_name)
 {
 	LPCSTR raw_text = (LPCSTR)m_view.create_view(file_name) ;
 	raw_text+= file::file::bom_size( file::file::UTF7_BOM ) ;
-	int file_size = get_file_size( file_name ) - file::file::bom_size( file::file::UTF7_BOM ) ;
+	const int file_size = get_file_size( file_name ) - file::file::bom_size( file::file::UTF7_BOM ) ;
 
-	int len_needed = ::MultiByteToWideChar( CP_UTF7, 0, raw_text, file_size, NULL, 0 ) ;
+	const int len_needed = ::MultiByteToWideChar( CP_UTF7, 0, raw_text, file_size, NULL, 0 ) ;
 	LPWSTR dest_buf = m_buffer.buffer( len_needed+1 ) ;
 
 	::MultiByteToWideChar( CP_UTF7, 0, raw_text, file_size, dest_buf, len_needed ) ;
@@ -611,8 +599,7 @@ void CTMXReader::set_only_target_lang(std::set< tstring >& target_languages)
 
 void CTMXReader::parse_tuv_for_language(std::set< tstring >& target_languages)
 {
-	wstring tuv_tag ;
-	m_reader.getline( tuv_tag, L'>' ) ;
+	const wstring tuv_tag = m_reader.getline(L'>') ;
 
 	wc_reader tuv_reader( tuv_tag.c_str() ) ;
 
@@ -623,19 +610,16 @@ void CTMXReader::parse_tuv_for_language(std::set< tstring >& target_languages)
 		return ;
 	}
 
-	wstring lang_name ;
-	tuv_reader.getline( lang_name, L'\"' ) ;
+	const wstring lang_name = tuv_reader.getline(L'\"') ;
 	if ( ! str::equal_nocase( lang_name, m_header.m_srclang ) )
 	{
-		str::make_upper( lang_name ) ;
-		target_languages.insert( string2tstring( lang_name ) ) ;
+		target_languages.insert(boost::to_upper_copy(string2tstring( lang_name ))) ;
 	}
 
 }
 
 namespace tmx_reader
 {
-
 	void CTU::set_attributes( std::map< wstring, wstring > &attributes )
 	{
 		// optional attributes
@@ -704,7 +688,7 @@ namespace tmx_reader
 		record->set_creator(m_creationid) ;
 		record->set_modified_by(m_changeid) ;
 		// Date in [ISO 8601] Format. The recommended pattern to use is: YYYYMMDDThhmmssZ
-		wstring canon_format = L"YYYYMMDDThhmmssZ" ;
+		const wstring canon_format = L"YYYYMMDDThhmmssZ" ;
 		if (m_creationdate.size() == canon_format.size())
 		{
 			try
@@ -736,12 +720,10 @@ namespace tmx_reader
 			}
 			catch (CException& e)
 			{
-				e ;
 				logging::log_exception(e) ;
 			}
 			catch(boost::bad_lexical_cast& e)
 			{
-				e ;
 				logging::log_error(e.what()) ;
 			}
 		}

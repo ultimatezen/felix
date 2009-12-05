@@ -32,7 +32,7 @@
 
 void ensure_file_exists( const CString & file_name );
 bool is_vista_or_later() ;
-CString get_load_failure_msg( const CString & file_name ) ;
+const CString get_load_failure_msg( const CString & file_name ) ;
 
 namespace memory_engine
 {
@@ -214,7 +214,6 @@ public:
 	void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
 
 	void loadRecords(const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved);
-	void loadRecords( const ATL::CString& file_name, c_reader& reader, int progress_interval, bool was_saved );
 
 	void check_progress_update( int progress_interval );
 	// glossary stuff

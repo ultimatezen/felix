@@ -32,8 +32,6 @@ public:
 
 	TWindow				m_parent_dlg ;
 
-	void init_scintilla_edit( ) ;
-
 	CSourceAndHtmlEdit(void);
 	~CSourceAndHtmlEdit(void);
 
@@ -75,5 +73,5 @@ public:
 
 	void sendMouseClick(TWindow bottomwin, TWindow topwin);
 	HWND getDocumentHWND();
-	HWND getHwnd();
+	HWND getHwnd() const;
 };

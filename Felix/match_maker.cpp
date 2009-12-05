@@ -296,7 +296,7 @@ namespace memory_engine
 		reader.find( L"<", true ) ;
 		while ( reader.empty() == false ) 
 		{
-			reader.getline( tag, L'>', true ) ;
+			tag = reader.getline(L'>', true ) ;
 			str::make_lower( tag ) ;
 			if ( tag.empty() == false && tag[0] != L'/' ) 
 			{

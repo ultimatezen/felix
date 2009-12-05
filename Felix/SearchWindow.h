@@ -12,11 +12,11 @@
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
 
-bool ends_with(const wstring &haystack, wstring needle) ;
+bool ends_with(const wstring &haystack, const wstring needle) ;
 wstring escape_entities(const wstring text) ;
 
 wstring get_filter_text(std::vector<wstring> & terms);
-wstring retrieve_input_value( element_wrapper_ptr input_box ) ;
+const wstring retrieve_input_value( element_wrapper_ptr input_box ) ;
 
 // The new search window
 // Uses hosted IE browser control to show content
@@ -94,8 +94,8 @@ public:
 	void handle_replace_all(doc3_wrapper_ptr doc);
 
 	void replace_in_memory( search_match_ptr match,
-				wstring &replace_from, 
-				wstring &replace_to );
+				const wstring &replace_from, 
+				const wstring &replace_to );
 
 	void delete_record(search_match_ptr match);
 	void handle_undodelete(doc3_wrapper_ptr doc);
@@ -106,8 +106,8 @@ public:
 	void show_replace_results_page();
 	void perform_search(doc3_wrapper_ptr doc);
 
-	size_t get_pos_arg(wstring &url);
-	memory_engine::search_match_ptr get_match_at( size_t i );
+	size_t get_pos_arg(const wstring &url);
+	memory_engine::search_match_ptr get_match_at( const size_t i );
 
 	void retrieve_and_show_matches( doc3_wrapper_ptr doc );
 	void show_search_results(doc3_wrapper_ptr doc, match_vec &matches);

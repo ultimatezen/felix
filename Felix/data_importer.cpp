@@ -223,14 +223,13 @@ bool  trados_data_importer::get_all_records( trans_set &records )
 // Return type		: string 
 wstring trados_data_importer::read_the_tag( )
 {
-	string tag ;
 	string html_tag ;
 	m_line_buffer.get( html_tag ) ;
 	ATLASSERT( html_tag == "<" ) ;
 
 	// get the tag
 	// also allow for a spaces here -- that means this is a seg tag
-	m_line_buffer.getline( tag, ">", true ) ;
+	string tag = m_line_buffer.getline('>', true ) ;
 	ATLASSERT( m_line_buffer.empty() == false ) ;
 
 	if ( str::equal_nocase( str::left( tag, 4 ), string("SEG ") ) ) // SEG tag!
@@ -243,8 +242,7 @@ wstring trados_data_importer::read_the_tag( )
 		ATLASSERT( tag_buffer.current_is( '=' ) ) ;
 		tag_buffer.advance() ;
 
-		string lang_tag ;
-		tag_buffer.getline( lang_tag, '>', true ) ;
+		const string lang_tag = tag_buffer.getline('>', true ) ;
 
 		// clear out current codepages
 		while ( ! m_codepage_stack.empty() )
@@ -279,8 +277,7 @@ size_t trados_data_importer::get_language_codes( language_code_set &languages )
 {
 	m_buffer.rewind() ;
 
-	string firstline ;
-	m_buffer.getline(firstline) ;
+	const string firstline = m_buffer.getline() ;
 	if (firstline.find("<TWBExportFile version=") != string::npos)
 	{
 		m_is_new_type = true ;
@@ -289,8 +286,7 @@ size_t trados_data_importer::get_language_codes( language_code_set &languages )
 	int num_segs = 0 ;
 	while ( m_buffer.find( "<Seg L=", true ) ==  true && num_segs < 100)
 	{
-		string_type language_code ;
-		m_buffer.getline( language_code, ">", true ) ;
+		const string_type language_code = m_buffer.getline('>', true ) ;
 		if ( language_code.empty() == false && language_code.length() < 10 )
 		{
 			languages.insert( string2tstring( language_code ) ) ;
@@ -441,20 +437,17 @@ wstring trados_data_importer::handle_f_tag(tag_stack &tags)
 
 	if ( tag == "fldinst" ) // we could have a hyperlink...
 	{
-		string see_what ;
-		m_line_buffer.getline( see_what, "}", true ) ;
+		const string see_what = m_line_buffer.getline('}', true ) ;
 		reader_type wot( see_what.c_str() ) ;
 		reader_type::bookmark_type bookmark = wot.get_current_pos() ;
 		if ( wot.find( "HYPERLINK", true ) )
 		{
-			string hlink ;
 			wot.eat_whitespace() ;
-			wot.getline( hlink, " ", true ) ;
+			const string hlink = wot.getline(' ', true ) ;
 			ATLASSERT( wot.empty() ) ;
 			tags.push(L"a") ;
-			wstring anchor_tag ;
 			ATLASSERT ( hlink[0] == '"' ) ; 
-			anchor_tag << L"<a href=" << string2wstring( hlink ) << L">" ;
+			const wstring anchor_tag = L"<a href=" + string2wstring( hlink ) + L">" ;
 
 			// we are going to skip over a lot of junk here ... don't try this at home kiddies!
 			m_line_buffer.find( "fldrslt ", true ) ;
@@ -477,7 +470,7 @@ wstring trados_data_importer::handle_f_tag(tag_stack &tags)
 	{
 		try
 		{
-			wstring font_tag = get_font_tag( tag ) ;
+			const wstring font_tag = get_font_tag( tag ) ;
 			if ( font_tag.empty() )
 			{
 				tags.push( wstring() ) ;
@@ -527,22 +520,19 @@ wstring tmx_data_importer::handle_f_tag(tag_stack &tags)
 
 	if ( tag == L"fldinst" ) // we could have a hyperlink...
 	{
-		wstring see_what ;
-		m_line_buffer.getline( see_what, L"}", true ) ;
+		const wstring see_what = m_line_buffer.getline(L'}', true ) ;
 		reader_type wot( see_what.c_str() ) ;
 		reader_type::bookmark_type bookmark = wot.get_current_pos() ;
 		if ( wot.find( L"HYPERLINK", true ) )
 		{
 			wot.eat_whitespace() ;
-			wstring hlink ;
-			wot.getline( hlink, L" ", true ) ;
+			const wstring hlink = wot.getline(L' ', true ) ;
 			ATLASSERT( wot.empty() ) ;
 			tags.push(L"a") ;
-			wstring anchor_tag ;
 
 			ATLASSERT ( hlink[0] == L'"' ) ; 
 			
-			anchor_tag << L"<a href=" << hlink << L">" ;
+			const wstring anchor_tag = L"<a href=" + hlink + L">" ;
 
 			// we are going to skip over a lot of junk here ... don't try this at home kiddies!
 			m_line_buffer.find( L"fldrslt ", true ) ;
@@ -662,8 +652,7 @@ bool trados_data_importer::process_line(const string &line)
 		m_html.erase() ;
 		while (! m_line_buffer.empty())
 		{
-			string chunk ;
-			m_line_buffer.getline(chunk, '{') ;
+			const string chunk = m_line_buffer.getline('{') ;
 			m_line_buffer.jump_to_first_of('}', true) ;
 			m_html += string2wstring(chunk, CP_UTF8) ;
 		}
@@ -792,8 +781,7 @@ bool trados_data_importer::get_language_code(language_code_set &languages)
 	if ( ! m_buffer.find( "<Seg L=", true )  )
 		return false ;
 
-	string_type language_code ;
-	m_buffer.getline( language_code, ">", true ) ;
+	const string_type language_code = m_buffer.getline('>', true ) ;
 	if ( language_code.empty() == false && language_code.length() < 10 )
 		languages.insert( string2tstring( language_code ) ) ;
 
@@ -1254,8 +1242,7 @@ bool trados_data_importer::load( const CString &location, memory_engine::memory_
 	ATLASSERT ( m_buffer.get_buffer() == m_buffer.get_current_pos() ) ; 
 
 	m_buffer.rewind() ;
-	string firstline ;
-	m_buffer.getline(firstline) ;
+	const string firstline = m_buffer.getline() ;
 	if (firstline.find("<TWBExportFile version=") != string::npos)
 	{
 		m_is_new_type = true ;

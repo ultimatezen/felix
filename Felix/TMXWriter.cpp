@@ -170,8 +170,7 @@ wstring CTMXWriter::get_segment(const wstring & text)
 
 	while ( ! reader.empty() ) 
 	{
-		wstring text_chunk ;
-		reader.getline( text_chunk, L'<', false ) ; // false means don't eat
+		wstring text_chunk = reader.getline(L'<', false ) ; // false means don't eat
 		if ( ! text_chunk.empty() ) 
 		{
 			ATLASSERT ( text_chunk.find( L'<' ) == wstring::npos ) ; 
@@ -222,9 +221,7 @@ wstring CTMXWriter::get_tag(wc_reader & reader)
 {
 	ATLASSERT ( reader.current_is( L'<' ) ) ; 
 	
-	wstring tag_text ;
-
-	reader.getline( tag_text, L'>', false ) ;
+	wstring tag_text = reader.getline(L'>', false ) ;
 	ATLASSERT ( reader.current_is( L'>' ) ) ;
 	reader.get( tag_text ) ;
 	ATLASSERT ( tag_text.find( L'&' ) == wstring::npos ) ; 

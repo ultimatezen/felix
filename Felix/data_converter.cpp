@@ -167,9 +167,8 @@ record_pointer CXml2RecordConverter::convert_from_xml_node( LPCWSTR node )
 	// clear the record
 	m_record = record_pointer((new record_local())) ;
 
-	m_parser.find( L"<", true ) ;
-	wstring tag ;
-	m_parser.getline( tag, L">", true ) ;
+	m_parser.find(L"<", true ) ;
+	wstring tag = m_parser.getline(L'>', true ) ;
 
 	tag_name_holder &tags = tag_name_holder::instance() ;
 	while ( m_parser.empty() == false )
@@ -195,8 +194,7 @@ record_pointer CXml2RecordConverter::convert_from_xml_node( LPCWSTR node )
 
 		// next child
 		m_parser.find( L"<", true ) ;
-		m_parser.getline( tag, L">", true ) ;
-
+		tag = m_parser.getline(L'>', true ) ;
 	}
 
 	return m_record ;

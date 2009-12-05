@@ -923,6 +923,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\font_tabulator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\font_tabulator_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="GlossaryDialog.cpp"
 				>
 				<FileConfiguration
@@ -1326,6 +1334,10 @@
 			</File>
 			<File
 				RelativePath=".\MinViewDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\miscwrappers_test.cpp"
 				>
 			</File>
 			<File
