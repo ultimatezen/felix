@@ -48,6 +48,7 @@
 //	#define _ATL_DEBUG_INTERFACES 
 #endif 
 
+
 #pragma warning(disable:4514) //  unreferenced inline function has been removed
 #include <Windows.h>
 #include <commdlg.h>

@@ -922,7 +922,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 		content += get_memory_name(mem) ;
 		content += _T("] ");
 		CString added ;
-		added.LoadString( IDS_ADDED_TRANSLATION ) ;
+		ATLVERIFY(added.LoadString( IDS_ADDED_TRANSLATION )) ;
 		content	+= added ;
 		content += _T(" ") ;
 		content	+=  system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
@@ -954,7 +954,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 void CGlossaryWindow::give_added_record_feedback(memory_pointer& mem)
 {
 	CString content ;
-	content.LoadString( IDS_ADDED_TRANSLATION ) ;
+	ATLVERIFY(content.LoadString( IDS_ADDED_TRANSLATION )) ;
 	content	+= _T(" ") ;
 	content	+=  system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
 	user_feedback( content ) ;
@@ -1352,7 +1352,7 @@ bool CGlossaryWindow::set_window_title()
 	CString title ;
 	if ( m_is_main )
 	{
-		title.LoadString( IDS_MAIN ) ;
+		ATLVERIFY(title.LoadString( IDS_MAIN )) ;
 		title += _T(" ") ;
 	}
 	title += R2TS( IDS_GLOSSARY ) ;
@@ -1707,7 +1707,7 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_recordConcordance()
 CString CGlossaryWindow::get_window_type_string()
 {
 	CString window_type_str ;
-	window_type_str.LoadString( IDS_GLOSSARY ) ;
+	ATLVERIFY(window_type_str.LoadString( IDS_GLOSSARY )) ;
 	return window_type_str ;
 }
 
@@ -1754,8 +1754,8 @@ bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
 
 		if ( ! pMsg ) 
 		{
-			file::CFileExtension ext = CString( COLE2CT(url) ) ;
-			return ! ext.is_html() ;
+			file::CFileExtension html_ext = CString( COLE2CT(url) ) ;
+			return ! html_ext.is_html() ;
 		}
 
 		route_nav_command(pMsg) ;
@@ -2315,7 +2315,10 @@ void CGlossaryWindow::refresh_menu()
 	LPCTSTR str = MAKEINTRESOURCE( IDR_GLOSSARYMENU ) ;
 	HMENU menu = GetMenu() ;
 	ATLASSERT( menu != NULL ) ;
-	::DestroyMenu( menu ) ;
+	if (menu)
+	{
+		::DestroyMenu( menu ) ;
+	}
 	menu = ::LoadMenu( h, str ) ;
 	ATLASSERT( menu != NULL ) ;
 	SetMenu( menu ) ;

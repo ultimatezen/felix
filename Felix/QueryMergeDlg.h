@@ -49,7 +49,7 @@ public:
 			logging::log_error("Error handling Query Merge Dialog message") ;
 			logging::log_exception(e) ;
 			CString msg ;
-			msg.LoadString( IDS_MSG_ACTION_FAILED ) ;
+			ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
 			e.notify_user( msg ) ;
 		}
 		catch ( std::exception &e ) 
@@ -58,7 +58,7 @@ public:
 			logging::log_error(e.what()) ;
 			CString emsg = CA2CT( e.what() ) ;
 			CString msg ;
-			msg.LoadString( IDS_MSG_ACTION_FAILED ) ;
+			ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
 			CException myEx( emsg ) ;
 			myEx.notify_user( msg ) ;
 		}
@@ -68,7 +68,7 @@ public:
 			logging::log_exception(e) ;
 			CComException comEx( e ) ;
 			CString msg ;
-			msg.LoadString( IDS_MSG_ACTION_FAILED ) ;
+			ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
 			comEx.notify_user( msg ) ;
 		}
 	END_MSG_MAP()

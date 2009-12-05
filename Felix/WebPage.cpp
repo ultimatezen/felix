@@ -159,7 +159,7 @@ namespace html
 		for( int i = 0; i < arraySize; i++)
 		{
 			CComBSTR bstr = paramArray.at(arraySize - 1 - i); // back reading
-			bstr.CopyTo(&dispparams.rgvarg[i].bstrVal);
+			ATLVERIFY(SUCCEEDED(bstr.CopyTo(&dispparams.rgvarg[i].bstrVal)));
 			dispparams.rgvarg[i].vt = VT_BSTR;
 		}
 		dispparams.cNamedArgs = 0;

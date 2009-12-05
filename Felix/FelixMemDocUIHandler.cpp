@@ -68,7 +68,7 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::ResizeBorder( /* [in] */ long /
 															  /* [in] */ long /*top*/, 
 															  /* [in] */ long /*right*/, 
 															  /* [in] */ long /*bottom*/, 
-															  /* [in] */ IUnknown */*pUIWindow*/, 
+															  /* [in] */ IUnknown * /*pUIWindow*/, 
 															  /* [in] */ VARIANT_BOOL /*fFrameWindow*/ )
 {
 	ATLTRACE("CFelixMemDocUIHandler::ResizeBorder\n") ;
@@ -81,7 +81,7 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::TranslateAccelerator( /* [in] *
 																	  /* [in] */ DWORD_PTR /*lParam*/, 
 																	  /* [in] */ BSTR /*bstrGuidCmdGroup*/, 
 																	  /* [in] */ DWORD /*nCmdID*/, 
-																	  /* [retval][out] */ HRESULT */*dwRetVal*/ )
+																	  /* [retval][out] */ HRESULT * /*dwRetVal*/ )
 {
 	ATLTRACE("CFelixMemDocUIHandler::TranslateAccelerator\n") ;
 	return E_NOTIMPL ;

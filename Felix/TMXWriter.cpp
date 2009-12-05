@@ -155,9 +155,10 @@ void CTMXWriter::write_tus(void)
 	textTemplate.Assign( L"translang", m_target_lang ) ;
 
 	ATLASSERT( m_tuid == 1 ) ;
-	for( memory_engine::record_iterator pos = m_memory->begin() ; pos != m_memory->end() ; ++pos )
+	m_tuid = 1 ;
+	foreach( memory_engine::record_pointer rec, m_memory->get_records())
 	{
-		write_tu( *pos ) ;
+		write_tu( rec ) ;
 		m_listener->OnProgressWriteUpdate( m_tuid ) ;
 		m_tuid++ ;
 	}

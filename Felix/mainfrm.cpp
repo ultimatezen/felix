@@ -80,19 +80,19 @@ CString get_help_file_path( CString path )
 {
 	file::CPath filePath( path ) ;
 	CString to_append ;
-	to_append.LoadString( IDS_HELPFILE_NAME ) ;
+	ATLVERIFY(to_append.LoadString( IDS_HELPFILE_NAME )) ;
 	filePath.Append( to_append ) ;
 
 	if ( ! filePath.FileExists() ) 
 	{
-		to_append.LoadString( IDS_PDF_HELPFILE_NAME ) ;
+		ATLVERIFY(to_append.LoadString( IDS_PDF_HELPFILE_NAME )) ;
 		filePath.ReplaceFileSpec( to_append ) ;
 	}
 
 	if ( ! filePath.FileExists() ) 
 	{
 		CString url ;
-		url.LoadString( IDS_ONLINE_HELPFILE_URL ) ;
+		ATLVERIFY(url.LoadString( IDS_ONLINE_HELPFILE_URL )) ;
 		return url ;
 	}
 
@@ -978,8 +978,8 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 				{
 					if( pMsg->lParam == 146 ) 
 					{
-						WindowsMessage message ;
-						show_about_dialog(message) ;
+						WindowsMessage dlg_message ;
+						show_about_dialog(dlg_message) ;
 					}
 					return true ;
 				}
@@ -1263,8 +1263,11 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	// unregister message filtering and idle updates
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
 	ATLASSERT(pLoop != NULL);
-	pLoop->RemoveMessageFilter(this);
-	pLoop->RemoveIdleHandler(this);
+	if (pLoop)
+	{
+		pLoop->RemoveMessageFilter(this);
+		pLoop->RemoveIdleHandler(this);
+	}
 	// if UI is the last thread, no need to wait
 	if(_Module.GetLockCount() == 1)
 	{
@@ -2921,7 +2924,7 @@ bool CMainFrame::set_window_title()
 	
 	CString title ;
 
-	title.LoadString( IDS_MEMORY ) ;
+	ATLVERIFY(title.LoadString( IDS_MEMORY )) ;
 	title += _T(" [") ;
 	title += active_memory_file_name ;
 	title += _T("]") ;
@@ -4183,7 +4186,7 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 	}
 	
 	CString content ;
-	content.LoadString( IDS_ADDED_TRANSLATION ) ;
+	ATLVERIFY(content.LoadString( IDS_ADDED_TRANSLATION )) ;
 	content += _T(" ") ;
 
 	CNumberFmt fm ;
@@ -4466,7 +4469,7 @@ bool CMainFrame::set_location( CString &location )
 CString CMainFrame::get_window_type_string() 
 {
 	CString window_type_str ;
-	window_type_str.LoadString( IDS_MEMORY ) ;
+	ATLVERIFY(window_type_str.LoadString( IDS_MEMORY )) ;
 	return window_type_str ;
 }
 
@@ -4788,7 +4791,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		logging::log_exception(sw_e) ;
 		CString language = L"English" ;
 		CString lang_code ;
-		lang_code.LoadString(IDS_LANG_CODE) ;
+		ATLVERIFY(lang_code.LoadString(IDS_LANG_CODE)) ;
 		if(lang_code == L"jp")
 		{
 			language = L"Japanese" ;
@@ -5486,7 +5489,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	}
 
 	CString command ;
-	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), filename) ;
+	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), static_cast<LPCTSTR>(filename)) ;
 
 	if(is_vista_or_later())
 	{
@@ -5645,7 +5648,7 @@ void CMainFrame::load_preferences( CString filename )
 	logging::log_debug("Loading preferences") ;
 
 	CString command ;
-	command.Format(_T("REG IMPORT \"%s\""), filename) ;
+	command.Format(_T("REG IMPORT \"%s\""), static_cast<LPCTSTR>(filename)) ;
 	CString error_message = _T("Failed to load preferences") ;
 	// create the process
 	create_process(command, error_message);
@@ -5817,4 +5820,17 @@ LRESULT CMainFrame::on_memory_close(WindowsMessage &)
 	user_feedback( status_text ) ;
 
 	return 0L ;
+}
+
+void CMainFrame::addToMessageLoop()
+{
+#ifndef UNIT_TEST
+	// register object for message filtering
+	CMessageLoop* pLoop = _Module.GetMessageLoop();
+	ATLASSERT(pLoop != NULL);
+	if (pLoop)
+	{
+		pLoop->AddMessageFilter(this);
+	}
+#endif
 }

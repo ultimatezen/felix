@@ -28,11 +28,11 @@ CString get_template_filename(CString filename)
 
 		file::CPath modpath ;
 		modpath.GetModulePath(_Module.GetModuleInstance()) ;
-		fs::wpath pathname = fs::wpath((LPCTSTR)modpath.Path()) 
+		fs::wpath fullpathname = fs::wpath((LPCTSTR)modpath.Path()) 
 			/ _T("html")
 			/ R2T(IDS_LANG_CODE)
 			/ filename ;
-		CString module_filename = CString(pathname.string().c_str()) ;
+		CString module_filename = CString(fullpathname.string().c_str()) ;
 		try
 		{
 			CDispatchWrapper utils(L"Felix.Utilities") ;

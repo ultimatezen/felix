@@ -80,6 +80,7 @@
 				WarnAsError="false"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
+				EnablePREfast="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -313,7 +314,7 @@
 				BrowseInformation="1"
 				BrowseInformationFile=".\Testing/"
 				WarningLevel="4"
-				WarnAsError="false"
+				WarnAsError="true"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
 			/>

@@ -229,7 +229,7 @@ LRESULT CMemoryManagerDlg::OnAdvanced()
 {
 	int sel = m_list_box.GetSelectedIndex() ;
 
-	if ( sel == -1 || sel == LB_ERR )
+	if ( sel == LB_ERR )
 	{
 		MessageBeep( MB_ICONERROR ) ;
 		return 0L ;
@@ -400,7 +400,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 	if (m_title_id)
 	{
 		CString title ;
-		title.LoadString(m_title_id) ;
+		ATLVERIFY(title.LoadString(m_title_id)) ;
 		this->SetWindowText(title) ;
 	}
 
@@ -473,7 +473,7 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 	file::OpenDlgList import_files ;
 	
 	CString dialog_title ;
-	dialog_title.LoadString( IDS_OPEN ) ;
+	ATLVERIFY(dialog_title.LoadString( IDS_OPEN )) ;
 
 	LPCTSTR filter = NULL ;
 	LPCTSTR fileext = NULL ;

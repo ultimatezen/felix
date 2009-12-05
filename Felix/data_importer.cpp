@@ -951,7 +951,7 @@ bool trados_data_importer::handle_backslash( )
 		// Unicode character
 		else if (	backslashed_sequence.size() >= 2 && 
 			backslashed_sequence[0] == 'u' && 
-			isdigit( backslashed_sequence[1] ) )
+			isdigit( static_cast<unsigned char>(backslashed_sequence[1]) ) )
 		{
 			m_line_buffer.eat_if( ' ' ) ;
 			if ( m_num_to_ignore )
@@ -964,7 +964,8 @@ bool trados_data_importer::handle_backslash( )
 			m_html << L"&#" << string2wstring( backslashed_sequence.substr(1) ) << L";" ;
 		}
 		// ignore directive
-		else if ( ! strncmp( backslashed_sequence.c_str(), "uc", 2 ) && isdigit( backslashed_sequence[2] ) )
+		else if ( ! strncmp( backslashed_sequence.c_str(), "uc", 2 ) && 
+				isdigit( static_cast<unsigned char>(backslashed_sequence[2]) ) )
 		{
 			m_line_buffer.eat_if( ' ' ) ;
 
@@ -1244,6 +1245,10 @@ bool trados_data_importer::load( const CString &location, memory_engine::memory_
 	ATLASSERT ( m_listener != NULL ) ; 
 	ATLASSERT ( file::file::exists(location) ) ; 
 
+	if (!m_listener)
+	{
+		throw CProgramException(_T("m_listener is NULL"));
+	}
 	m_listener->OnProgressInit(location, 0, size() ) ;
 
 	ATLASSERT ( m_buffer.get_buffer() == m_buffer.get_current_pos() ) ; 

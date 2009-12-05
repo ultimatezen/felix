@@ -755,7 +755,7 @@ public:
 		logging::log_exception(sw_e) ;
 		CString language = L"English" ;
 		CString lang_code ;
-		lang_code.LoadString(IDS_LANG_CODE) ;
+		ATLVERIFY(lang_code.LoadString(IDS_LANG_CODE)) ;
 		if(lang_code == L"jp")
 		{
 			language = L"Japanese" ;

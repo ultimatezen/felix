@@ -280,15 +280,15 @@ public:
 		switch( m_params.m_search_type )
 		{
 		case IDS_SEARCH_SOURCE:
-			id.LoadString( IDS_SOURCE_ID ) ;
+			ATLVERIFY(id.LoadString( IDS_SOURCE_ID )) ;
 			ATLASSERT( id == ( L"source" ) ) ;
 			break ;
 		case IDS_SEARCH_TRANS:
-			id.LoadString( IDS_TRANS_ID ) ;
+			ATLVERIFY(id.LoadString( IDS_TRANS_ID )) ;
 			ATLASSERT( id == (L"trans") ) ;
 			break ;
 		case IDS_SEARCH_CONTEXT:
-			id.LoadString( IDS_CONTEXT_ID ) ;
+			ATLVERIFY(id.LoadString( IDS_CONTEXT_ID )) ;
 			ATLASSERT( id == ( L"context" ) ) ;
 			break ;
 		default:

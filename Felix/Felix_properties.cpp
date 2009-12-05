@@ -91,7 +91,7 @@ namespace easyunit
 		app_props::properties_loaded_history props1 ;
 		props1.read_from_registry() ;
 
-	  _tcscpy_s( props1.m_data.m_mems[0], 260, _T("C:\\test.txt") ) ;
+		_tcscpy_s( props1.m_data.m_mems[0], 260, _T("C:\\test.txt") ) ;
 		props1.m_data.m_num_mems = 1 ;
 
 		props1.write_to_registry() ;

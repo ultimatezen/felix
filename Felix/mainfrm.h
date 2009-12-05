@@ -537,15 +537,7 @@ public:
 
 	void set_bg_color_if_needed();
 
-    virtual void addToMessageLoop()
-    {
-#ifndef UNIT_TEST
-        // register object for message filtering
-        CMessageLoop* pLoop = _Module.GetMessageLoop();
-        ATLASSERT(pLoop != NULL);
-        pLoop->AddMessageFilter(this);
-#endif
-    }
+    virtual void addToMessageLoop();
 	void get_matches(TransMatchContainer &matches, search_query_params &params) ;
 
 	void check_placement( TransMatchContainer &PlacedMatches, search_match_ptr match);
