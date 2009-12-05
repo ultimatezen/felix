@@ -196,6 +196,18 @@ namespace easyunit
 		ASSERT_EQUALS(false, mem.is_saved()) ;
 		ASSERT_TRUE(mem.m_file_location.IsEmpty()) ;
 	}
+	// remove_extra_string
+	TEST( TestMemory, remove_extra_string )
+	{
+		memory_local mem ;
+
+		mem.m_extra_strings[L"foo"] = L"bar" ;
+		ASSERT_TRUE(! mem.m_extra_strings.empty()) ;
+
+		mem.remove_extra_string(L"foo") ;
+
+		ASSERT_TRUE(mem.m_extra_strings.empty()) ;
+	}
 
 	// erase
 	TEST( TestMemory, erase )
@@ -214,16 +226,33 @@ namespace easyunit
 		ASSERT_EQUALS( 0u, mem.size() ) ;
 		ASSERT_EQUALS( true, mem.empty() ) ;
 	}
-	TEST( TestMemory, ExtraStrings )
+
+	// set_extra_string
+	TEST( TestMemory, set_extra_string_add )
 	{
 		memory_local mem ;
 		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
+		ASSERT_EQUALS_V(1, (int)mem.m_extra_strings.size()) ;
 		ASSERT_EQUALS( L"bar", mem.get_extra_string(L"foo") ) ;
+	}
+	TEST( TestMemory, set_extra_string_erase )
+	{
+		memory_local mem ;
+		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
+
+		mem.set_extra_string( L"foo", L"bar" ) ;
+		ASSERT_EQUALS_V(1, (int)mem.m_extra_strings.size()) ;
+		ASSERT_EQUALS( L"bar", mem.get_extra_string(L"foo") ) ;
+
+		mem.set_extra_string( L"foo", L"" ) ;
+		ASSERT_EQUALS_V(0, (int)mem.m_extra_strings.size()) ;
+		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
 	}
 
 
+	// get_correct_encoding
 	TEST( memory_localTestCase, GetFileEncodingXmlUtf8 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
@@ -287,6 +316,7 @@ namespace easyunit
 		ASSERT_EQUALS( 1200u, mem.get_correct_encoding( text, file_size ) ) ;
 	}
 
+	// load_text
 	TEST( test_memory_local, TestZeroEntries )
 	{
 		CMockListener listener ;

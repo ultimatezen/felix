@@ -4,8 +4,7 @@
 bool font_tabulator::tabulate_fonts( const wstring &text )
 {
 	textstream_reader< wchar_t > reader ;
-	const wstring bufftext = boost::to_lower_copy(text) ;
-	reader.set_buffer( bufftext.c_str() ) ;
+	reader.set_buffer( text.c_str() ) ;
 
 	while ( reader.find( L"<font", true ) ) 
 	{

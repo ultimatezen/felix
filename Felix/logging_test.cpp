@@ -18,15 +18,15 @@ public:
 	{
 		m_debug_calls.push_back("init") ;
 	}
-	void log_debug(string msg)
+	void log_debug(const string msg)
 	{
 		m_debug_calls.push_back(msg) ;
 	}
-	void log_warn(string msg)
+	void log_warn(const string msg)
 	{
 		m_warn_calls.push_back(msg) ;
 	}
-	void log_error(string msg)
+	void log_error(const string msg)
 	{
 		m_error_calls.push_back(msg) ;
 	}
@@ -38,7 +38,7 @@ public:
 	{
 		m_exception_calls.push_back((LPCSTR)CStringA(e.ErrorMessage())) ;
 	}
-	void send_report(CString language, CString filename)
+	void send_report(const CString language, const CString filename)
 	{
 		m_exception_calls.push_back("send_report") ;
 	}

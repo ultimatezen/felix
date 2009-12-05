@@ -135,8 +135,8 @@ public:
 	void set_properties_algo( const app_props::properties_algorithm &props ) ;
 	void refresh_properties() ;
 
-	bool remove_extra_string( const wstring &key ) ;
-	void set_extra_string( const wstring &key, const wstring &value ) ;
+	bool remove_extra_string(const wstring key) ;
+	void set_extra_string( const wstring key, const wstring value ) ;
 	const wstring get_extra_string( const wstring &key ) ;
 
 	memory_header &get_header() { return m_header ; }

@@ -5578,12 +5578,27 @@ LRESULT CMainFrame::on_help_check_updates( WindowsMessage &message )
 {
 	message ;
 	logging::log_debug("Checking for updates") ;
-	CDispatchWrapper utilities(L"Felix.Utilities") ;
-	CComBSTR langcode ;
-	langcode.LoadStringW(IDS_LANG_CODE) ;
-	CComVariant arg1(langcode) ;
-	utilities.method(L"CheckUpdatesRequested", arg1) ;
 
+	file::CPath path ;
+	path.GetModulePath(_Module.GetModuleInstance()) ;
+	path.Append(_T("pytools")) ;
+	path.Append(_T("CheckUpdates.exe")) ;
+
+	CString filepath = path.Path() ;
+#ifdef _DEBUG
+	filepath = "C:\\Program Files (x86)\\Assistant Suite\\Felix\\pytools\\CheckUpdates.exe" ;
+#endif
+
+	HINSTANCE result = ::ShellExecute(
+		m_hWnd,				// HWND hwnd, 
+		_T("open"),			// LPCTSTR lpOperation,
+		filepath,			// LPCTSTR lpFile, 
+		NULL,				// LPCTSTR lpParameters, 
+		NULL,				// LPCTSTR lpDirectory,
+		SW_SHOW				// INT nShowCmd
+		);	
+
+	check_shell_execute_result((int)result, filepath);
 	return 0L ;
 }
 

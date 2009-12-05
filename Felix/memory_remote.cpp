@@ -42,7 +42,7 @@ namespace memory_engine
 		// check each of the records for a match
 		foreach ( record_pointer record, candidates )
 		{
-			const double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
+			const double score = distance.edist_score(query_cmp, record->get_source_rich()) ;
 			if (score > best_score)
 			{
 				best_score = score ;
@@ -66,7 +66,7 @@ namespace memory_engine
 
 		set_cmp_params(params);
 
-		double min_score = static_cast< double >( m_gloss_properties.get_min_score() ) / 100.0f ;
+		const double min_score = static_cast< double >( m_gloss_properties.get_min_score() ) / 100.0f ;
 
 		CComVariant com_matches = this->m_engine.method(L"Gloss", params.m_rich_source.c_str(), min_score) ;
 		trans_set candidates ;
@@ -124,14 +124,12 @@ namespace memory_engine
 
 		if (! params.m_source.empty())
 		{
-			const wstring query_cmp = m_cmp_maker.make_cmp(params.m_source) ;
-			CComVariant com_matches = this->m_engine.method(L"Concordance", query_cmp.c_str()) ;
+			CComVariant com_matches = this->m_engine.method(L"Concordance", params.m_source.c_str()) ;
 			this->convert_candidates(candidates, com_matches) ;
 		}
 		else if (! params.m_trans.empty())
 		{
-			const wstring query_cmp = m_cmp_maker.make_cmp(params.m_trans) ;
-			CComVariant com_matches = this->m_engine.method(L"ReverseConcordance", query_cmp.c_str()) ;
+			CComVariant com_matches = this->m_engine.method(L"ReverseConcordance", params.m_trans.c_str()) ;
 			this->convert_candidates(candidates, com_matches) ;
 		}
 
