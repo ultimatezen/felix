@@ -171,7 +171,31 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
 		ASSERT_EQUALS_V(2, (int)mem.size()) ;
 	}
+	// clear_memory
+	TEST( TestMemory, clear_memory_empty )
+	{
+		memory_local mem ;
 
+		mem.clear_memory() ;
+		ASSERT_EQUALS(0u, mem.size()) ;
+		ASSERT_EQUALS(true, mem.is_saved()) ;
+		ASSERT_TRUE(mem.m_file_location.IsEmpty()) ;
+	}
+	TEST( TestMemory, clear_memory_nonempty )
+	{
+		memory_local mem ;
+		mem.set_location(_T("C:\\test\\memory_serves\\aga.xml")) ;
+
+		record_pointer rec(new record_local()) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		mem.add_record(rec) ;
+
+		mem.clear_memory() ;
+		ASSERT_EQUALS(0u, mem.size()) ;
+		ASSERT_EQUALS(false, mem.is_saved()) ;
+		ASSERT_TRUE(mem.m_file_location.IsEmpty()) ;
+	}
 
 	// erase
 	TEST( TestMemory, erase )

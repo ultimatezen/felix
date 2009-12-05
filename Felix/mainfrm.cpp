@@ -4451,16 +4451,15 @@ VARIANT_BOOL CMainFrame::get_show_marking()
 bool CMainFrame::set_location( CString &location ) 
 {
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
-	int id = mem->get_id() ;
-
 	try
 	{
-		return mem->set_location( location ) ;
+		mem->set_location( location ) ;
+		return true ;
 	}
 	catch( ... )
 	{
 		logging::log_error("Error while setting memory location. Removing memory.") ;
-		m_model->m_memories->remove_memory_by_id( id ) ;
+		m_model->m_memories->remove_memory_by_id( mem->get_id() ) ;
 	}
 	return false ;
 }

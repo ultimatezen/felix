@@ -184,7 +184,7 @@ public:
 	bool record_exists( record_pointer rec );
 	bool clear_memory();
 	// get/set functions
-	bool set_location( const CString &location ) ;
+	void set_location( const CString &location ) ;
 	// export/import
 	bool load( const CString &file_name ) ;
 
