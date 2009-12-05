@@ -208,7 +208,7 @@ namespace easyunit
 		_bstr_t url = L"/undodelete" ;
 		window.OnBeforeNavigate2(url) ;
 		ASSERT_EQUALS(1, (int)mem->size()) ;
-		ASSERT_EQUALS(L"foo", mem->get_record(0)->get_source_rich()) ;
+		ASSERT_EQUALS(L"foo", mem->get_record_at(0)->get_source_rich()) ;
 	}
 
 	TEST(TestCSearchWindow, test_OnBeforeNavigate2_pound)

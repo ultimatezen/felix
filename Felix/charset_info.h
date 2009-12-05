@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "label_name.h"
 #include <set>
 
 /**

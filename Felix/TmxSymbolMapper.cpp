@@ -4,53 +4,53 @@
 CTmxSymbolMapper::CTmxSymbolMapper(void)
 {
 	m_symbols[L"nbsp"] // non-breaking space
-	= wchar_t( 0x00A0 ) ; 
+		= wchar_t( 0x00A0 ) ; 
 	m_symbols[L"quot"]	// double quotation mark
-	= wchar_t('\"') ;
+		= wchar_t('\"') ;
 	m_symbols[L"apos"]	// single quotation mark (apostrophe)
-	= wchar_t('\'') ;
+		= wchar_t('\'') ;
 
 	m_symbols[L"iexcl"] // inverted exclamation
-	= wchar_t( 0x00A1 ) ; 
+		= wchar_t( 0x00A1 ) ; 
 	m_symbols[L"cent"] // cent mark
-	= wchar_t( 0x00A2 ) ; 
+		= wchar_t( 0x00A2 ) ; 
 	m_symbols[L"pound"] // British pound
-	= wchar_t( 0x00A3 ) ; 
+		= wchar_t( 0x00A3 ) ; 
 	m_symbols[L"curren"] // general currency
-	= wchar_t( 0x00A4 ) ; 
+		= wchar_t( 0x00A4 ) ; 
 	m_symbols[L"yen"] // yen
-	= wchar_t( 0x00A5 ) ; 
+		= wchar_t( 0x00A5 ) ; 
 
 	m_symbols[L"brvbar"] = wchar_t( 0x00A6 ) ; 
 	m_symbols[L"ben"] // broken (vertical) bar
-	= wchar_t( 0x00A6 ) ; 
+		= wchar_t( 0x00A6 ) ; 
 	m_symbols[L"sect"] 
-	= wchar_t( 0x00A7 ) ; 
+		= wchar_t( 0x00A7 ) ; 
 	m_symbols[L"Section"] // section sign
-	= wchar_t( 0x00A7 ) ; 
+		= wchar_t( 0x00A7 ) ; 
 	// no 00A8
 	m_symbols[L"copy"] 
-	= wchar_t( 0x00A9 ) ; 
+		= wchar_t( 0x00A9 ) ; 
 	m_symbols[L"copyright"] // copyright
-	= wchar_t( 0x00A9 ) ; 
+		= wchar_t( 0x00A9 ) ; 
 	m_symbols[L"ordf"] // ordinal indicator, feminine 
-	= wchar_t( 0x00AA ) ; 
+		= wchar_t( 0x00AA ) ; 
 	m_symbols[L"laquo"] 
-	= wchar_t( 0x00AB ) ; 
+		= wchar_t( 0x00AB ) ; 
 	m_symbols[L"LeftGuillemet"] // double angle quotation mark
-	= wchar_t( 0x00AB ) ; 
+		= wchar_t( 0x00AB ) ; 
 	m_symbols[L"not"] 
-	= wchar_t( 0x00AC ) ; 
+		= wchar_t( 0x00AC ) ; 
 	m_symbols[L"\\neg"] // negation sign
-	= wchar_t( 0x00AC ) ; 
+		= wchar_t( 0x00AC ) ; 
 	m_symbols[L"shy"] 
-	= wchar_t( 0x00AD ) ; 
+		= wchar_t( 0x00AD ) ; 
 	m_symbols[L"\\net"] // soft hyphen
-	= wchar_t( 0x00AD ) ; 
+		= wchar_t( 0x00AD ) ; 
 	m_symbols[L"reg"] 
-	= wchar_t( 0x00AE ) ; 
+		= wchar_t( 0x00AE ) ; 
 	m_symbols[L"\\net"] // registered sign
-	= wchar_t( 0x00AE ) ; 
+		= wchar_t( 0x00AE ) ; 
 
 	m_symbols[L"deg"] = wchar_t( 0x00B0 ) ;		//	degree sign
 	m_symbols[L"plusmn"] = wchar_t( 0x00B1 ) ;	//	/pm B: plus-or-minus sign
@@ -83,198 +83,198 @@ CTmxSymbolMapper::CTmxSymbolMapper(void)
 	m_symbols[L"thorn"] = wchar_t( 0x00FE ) ; //	thorn, lowercase
 
 	m_symbols[L"forall"]   // # FOR ALL
-	= wchar_t(0x2200) ;
+		= wchar_t(0x2200) ;
 	m_symbols[L"exist"]   // # THERE EXISTS
-	= wchar_t(0x2203) ;
+		= wchar_t(0x2203) ;
 	m_symbols[L"ni"] = wchar_t( 0x220B ) ; 
 	m_symbols[L"niv"] = wchar_t( 0x220B ) ; 
 	m_symbols[L"ReverseElement"] = wchar_t( 0x220B ) ; 
 	m_symbols[L"SuchThat"]   // # CONTAINS AS MEMBER
-	= wchar_t(0x220B) ;
+		= wchar_t(0x220B) ;
 	m_symbols[L"lowast"]   // # ASTERISK OPERATOR
-	= wchar_t(0x2217) ;
+		= wchar_t(0x2217) ;
 	m_symbols[L"minus"]   // # MINUS SIGN
-	= wchar_t(0x2212) ;
+		= wchar_t(0x2212) ;
 	m_symbols[L"cong"]   // # APPROXIMATELY EQUAL TO
-	= wchar_t(0x2245) ;
+		= wchar_t(0x2245) ;
 	m_symbols[L"Alpha"]   // # GREEK CAPITAL LETTER ALPHA
-	= wchar_t(0x391) ;
+		= wchar_t(0x391) ;
 	m_symbols[L"Beta"]   // # GREEK CAPITAL LETTER BETA
-	= wchar_t(0x392) ;
+		= wchar_t(0x392) ;
 	m_symbols[L"Chi"]   // # GREEK CAPITAL LETTER CHI
-	= wchar_t(0x3A7) ;
+		= wchar_t(0x3A7) ;
 	m_symbols[L"Delta"]   // # GREEK CAPITAL LETTER DELTA
-	= wchar_t(0x394) ;
+		= wchar_t(0x394) ;
 	m_symbols[L"x2206"]   // # INCREMENT
-	= wchar_t(0x2206) ;
+		= wchar_t(0x2206) ;
 	m_symbols[L"epsilon"]   // # GREEK CAPITAL LETTER EPSILON
-	= wchar_t(0x395) ;
+		= wchar_t(0x395) ;
 	m_symbols[L"Phi"]   // # GREEK CAPITAL LETTER PHI
-	= wchar_t(0x3A6) ;
+		= wchar_t(0x3A6) ;
 	m_symbols[L"Gamma"]   // # GREEK CAPITAL LETTER GAMMA
-	= wchar_t(0x393) ;
+		= wchar_t(0x393) ;
 	m_symbols[L"Eta"]   // # GREEK CAPITAL LETTER ETA
-	= wchar_t(0x397) ;
+		= wchar_t(0x397) ;
 	m_symbols[L"Iota"]   // # GREEK CAPITAL LETTER IOTA
-	= wchar_t(0x399) ;
+		= wchar_t(0x399) ;
 	m_symbols[L"Theta"]   // # GREEK THETA SYMBOL
-	= wchar_t(0x3D1) ;
+		= wchar_t(0x3D1) ;
 	m_symbols[L"Kappa"]   // # GREEK CAPITAL LETTER KAPPA
-	= wchar_t(0x39A) ;
+		= wchar_t(0x39A) ;
 	m_symbols[L"Lambda"]   // # GREEK CAPITAL LETTER LAMDA
-	= wchar_t(0x39B) ;
+		= wchar_t(0x39B) ;
 	m_symbols[L"Mu"]   // # GREEK CAPITAL LETTER MU
-	= wchar_t(0x39C) ;
+		= wchar_t(0x39C) ;
 	m_symbols[L"Nu"]   // # GREEK CAPITAL LETTER NU
-	= wchar_t(0x39D) ;
+		= wchar_t(0x39D) ;
 	m_symbols[L"Omicron"]   // # GREEK CAPITAL LETTER OMICRON
-	= wchar_t(0x39F) ;
+		= wchar_t(0x39F) ;
 	m_symbols[L"Pi"]   // # GREEK CAPITAL LETTER PI
-	= wchar_t(0x3A0) ;
+		= wchar_t(0x3A0) ;
 	m_symbols[L"Theta"]   // # GREEK CAPITAL LETTER THETA
-	= wchar_t(0x398) ;
+		= wchar_t(0x398) ;
 	m_symbols[L"Rho"]   // # GREEK CAPITAL LETTER RHO
-	= wchar_t(0x3A1) ;
+		= wchar_t(0x3A1) ;
 	m_symbols[L"Sigma"]   // # GREEK CAPITAL LETTER SIGMA
-	= wchar_t(0x3A3) ;
+		= wchar_t(0x3A3) ;
 	m_symbols[L"Tau"]   // # GREEK CAPITAL LETTER TAU
-	= wchar_t(0x3A4) ;
+		= wchar_t(0x3A4) ;
 	m_symbols[L"Upsilon"]   // # GREEK CAPITAL LETTER UPSILON
-	= wchar_t(0x3A5) ;
+		= wchar_t(0x3A5) ;
 	m_symbols[L"Sigma"]   // # GREEK SMALL LETTER FINAL SIGMA
-	= wchar_t(0x3C2) ;
+		= wchar_t(0x3C2) ;
 	m_symbols[L"Omega"]   // # GREEK CAPITAL LETTER OMEGA
-	= wchar_t(0x3A9) ;
+		= wchar_t(0x3A9) ;
 	m_symbols[L"Ohm"] = wchar_t( 0x2126 ) ; 
 	m_symbols[L"ohm"]   // # OHM SIGN
-	= wchar_t(0x2126) ;
+		= wchar_t(0x2126) ;
 	m_symbols[L"Xi"]   // # GREEK CAPITAL LETTER XI
-	= wchar_t(0x39E) ;
+		= wchar_t(0x39E) ;
 	m_symbols[L"Psi"]   // # GREEK CAPITAL LETTER PSI
-	= wchar_t(0x3A8) ;
+		= wchar_t(0x3A8) ;
 	m_symbols[L"Zeta"]  // # GREEK CAPITAL LETTER ZETA
-	= wchar_t(0x396) ;
+		= wchar_t(0x396) ;
 	m_symbols[L"there4"] = wchar_t( 0x2234 ) ; 
 	m_symbols[L"therefore"]   // # THEREFORE
-	= wchar_t(0x2234) ;
+		= wchar_t(0x2234) ;
 	m_symbols[L"bottom"]   // # UP TACK
-	= wchar_t(0x22A5) ;
+		= wchar_t(0x22A5) ;
 	m_symbols[L"radicalex"]   // # RADICAL EXTENDER
-	= wchar_t(0xF8E5) ;
+		= wchar_t(0xF8E5) ;
 	m_symbols[L"alpha"]   // # GREEK SMALL LETTER ALPHA
-	= wchar_t(0x3B1) ;
+		= wchar_t(0x3B1) ;
 	m_symbols[L"beta"]   // # GREEK SMALL LETTER BETA
-	= wchar_t(0x3B2) ;
+		= wchar_t(0x3B2) ;
 	m_symbols[L"chi"]   // # GREEK SMALL LETTER CHI
-	= wchar_t(0x3C7) ;
+		= wchar_t(0x3C7) ;
 	m_symbols[L"delta"]   // # GREEK SMALL LETTER DELTA
-	= wchar_t(0x3B4) ;
+		= wchar_t(0x3B4) ;
 	m_symbols[L"epsilon"]   // # GREEK SMALL LETTER EPSILON
-	= wchar_t(0x3B5) ;
+		= wchar_t(0x3B5) ;
 	m_symbols[L"phi"]   // # GREEK SMALL LETTER PHI
-	= wchar_t(0x3C6) ;
+		= wchar_t(0x3C6) ;
 	m_symbols[L"gamma"]   // # GREEK SMALL LETTER GAMMA
-	= wchar_t(0x3B3) ;
+		= wchar_t(0x3B3) ;
 	m_symbols[L"eta"]   // # GREEK SMALL LETTER ETA
-	= wchar_t(0x3B7) ;
+		= wchar_t(0x3B7) ;
 	m_symbols[L"iota"]   // # GREEK SMALL LETTER IOTA
-	= wchar_t(0x3B9) ;
+		= wchar_t(0x3B9) ;
 	m_symbols[L"phi"] // # GREEK PHI SYMBOL
-	= wchar_t(0x3D5) ;
+		= wchar_t(0x3D5) ;
 	m_symbols[L"kappa"]   // # GREEK SMALL LETTER KAPPA
-	= wchar_t(0x3BA) ;
+		= wchar_t(0x3BA) ;
 	m_symbols[L"lambda"]   // # GREEK SMALL LETTER LAMDA
-	= wchar_t(0x3BB) ;
+		= wchar_t(0x3BB) ;
 	m_symbols[L"mu"]   // # MICRO SIGN
-	= wchar_t(0xB5) ;
+		= wchar_t(0xB5) ;
 	m_symbols[L"mgr"]   // # GREEK SMALL LETTER MU
-	= wchar_t(0x3BC) ;
+		= wchar_t(0x3BC) ;
 	m_symbols[L"ngr"] = wchar_t( 0x3BD ) ; 
 	m_symbols[L"nu"]   // # GREEK SMALL LETTER NU
-	= wchar_t(0x3BD) ;
+		= wchar_t(0x3BD) ;
 	m_symbols[L"omicron"]   // # GREEK SMALL LETTER OMICRON
-	= wchar_t(0x3BF) ;
+		= wchar_t(0x3BF) ;
 	m_symbols[L"pi"]   // # GREEK SMALL LETTER PI
-	= wchar_t(0x3C0) ;
+		= wchar_t(0x3C0) ;
 	m_symbols[L"theta"]   // # GREEK SMALL LETTER THETA
-	= wchar_t(0x3B8) ;
+		= wchar_t(0x3B8) ;
 	m_symbols[L"rho"]   // # GREEK SMALL LETTER RHO
-	= wchar_t(0x3C1) ;
+		= wchar_t(0x3C1) ;
 	m_symbols[L"sigma"]   // # GREEK SMALL LETTER SIGMA
-	= wchar_t(0x3C3) ;
+		= wchar_t(0x3C3) ;
 	m_symbols[L"tau"]   // # GREEK SMALL LETTER TAU
-	= wchar_t(0x3C4) ;
+		= wchar_t(0x3C4) ;
 	m_symbols[L"upsilon"]   // # GREEK SMALL LETTER UPSILON
-	= wchar_t(0x3C5) ;
+		= wchar_t(0x3C5) ;
 	m_symbols[L"Pgr"]   // # GREEK PI SYMBOL
-	= wchar_t(0x3D6) ;
+		= wchar_t(0x3D6) ;
 	m_symbols[L"omega"]   // # GREEK SMALL LETTER OMEGA
-	= wchar_t(0x3C9) ;
+		= wchar_t(0x3C9) ;
 	m_symbols[L"xi"]   // # GREEK SMALL LETTER XI
-	= wchar_t(0x3BE) ;
+		= wchar_t(0x3BE) ;
 	m_symbols[L"psi"]   // # GREEK SMALL LETTER PSI
-	= wchar_t(0x3C8) ;
+		= wchar_t(0x3C8) ;
 	m_symbols[L"zeta"]   // # GREEK SMALL LETTER ZETA
-	= wchar_t(0x3B6) ;
+		= wchar_t(0x3B6) ;
 	m_symbols[L"thksim"] = wchar_t( 0x223C ) ; 
 	m_symbols[L"sim"]   // # TILDE OPERATOR"
-	= wchar_t(0x223C) ;
+		= wchar_t(0x223C) ;
 	m_symbols[L"euro"]   // # EURO SIGN
-	= wchar_t(0x20AC) ;
+		= wchar_t(0x20AC) ;
 	m_symbols[L"upsih"]   // # GREEK UPSILON WITH HOOK SYMBOL"
-	= wchar_t(0x3D2) ;
+		= wchar_t(0x3D2) ;
 	m_symbols[L"prime"]   // # PRIME
-	= wchar_t(0x2032) ;
+		= wchar_t(0x2032) ;
 	m_symbols[L"le"]   // # LESS-THAN OR EQUAL TO
-	= wchar_t(0x2264) ;
+		= wchar_t(0x2264) ;
 	m_symbols[L"frasl"]   // # FRACTION SLASH
-	= wchar_t(0x2044) ;
+		= wchar_t(0x2044) ;
 	m_symbols[L"fraction"]   // # DIVISION SLASH
-	= wchar_t(0x2215) ;
+		= wchar_t(0x2215) ;
 	m_symbols[L"infin"]   // # INFINITY
-	= wchar_t(0x221E) ;
+		= wchar_t(0x221E) ;
 	m_symbols[L"fnof"]   // # LATIN SMALL LETTER F WITH HOOK
-	= wchar_t(0x192) ;
+		= wchar_t(0x192) ;
 	m_symbols[L"clubs"]   // # BLACK CLUB SUIT"
-	= wchar_t(0x2663) ;
+		= wchar_t(0x2663) ;
 	m_symbols[L"hearts"]   // # BLACK DIAMOND SUIT
-	= wchar_t(0x2666) ;
+		= wchar_t(0x2666) ;
 	m_symbols[L"diams"]   // # BLACK HEART SUIT
-	= wchar_t(0x2665) ;
+		= wchar_t(0x2665) ;
 	m_symbols[L"spades"]   // # BLACK SPADE SUIT
-	= wchar_t(0x2660) ;
+		= wchar_t(0x2660) ;
 	m_symbols[L"harr"]   // # LEFT RIGHT ARROW
-	= wchar_t(0x2194) ;
+		= wchar_t(0x2194) ;
 	m_symbols[L"larr"]   // # LEFTWARDS ARROW
-	= wchar_t(0x2190) ;
+		= wchar_t(0x2190) ;
 	m_symbols[L"uarr"]   // # UPWARDS ARROW
-	= wchar_t(0x2191) ;
+		= wchar_t(0x2191) ;
 	m_symbols[L"rarr"]   // # RIGHTWARDS ARROW
-	= wchar_t(0x2192) ;
+		= wchar_t(0x2192) ;
 	m_symbols[L"darr"]   // # DOWNWARDS ARROW
-	= wchar_t(0x2193) ;
+		= wchar_t(0x2193) ;
 	m_symbols[L"Prime"]   // # DOUBLE PRIME"
-	= wchar_t(0x2033) ;
+		= wchar_t(0x2033) ;
 	m_symbols[L"ge"]   // # GREATER-THAN OR EQUAL TO
-	= wchar_t(0x2265) ;
+		= wchar_t(0x2265) ;
 	m_symbols[L"times"]   // # MULTIPLICATION SIGN
-	= wchar_t(0xD7) ;
+		= wchar_t(0xD7) ;
 	m_symbols[L"prop"]   // # PROPORTIONAL TO
-	= wchar_t(0x221D) ;
+		= wchar_t(0x221D) ;
 	m_symbols[L"part"]   // # PARTIAL DIFFERENTIAL
-	= wchar_t(0x2202) ;
+		= wchar_t(0x2202) ;
 	m_symbols[L"bull"]   // # BULLET
-	= wchar_t(0x2022) ;
+		= wchar_t(0x2022) ;
 	m_symbols[L"divide"]   // # DIVISION SIGN
-	= wchar_t(0xF7) ;
+		= wchar_t(0xF7) ;
 	m_symbols[L"ne"]   // # NOT EQUAL TO
-	= wchar_t(0x2260) ;
+		= wchar_t(0x2260) ;
 	m_symbols[L"equiv"]   // # IDENTICAL TO
-	= wchar_t(0x2261) ;
+		= wchar_t(0x2261) ;
 	m_symbols[L"asymp"]   // # ALMOST EQUAL TO
-	= wchar_t(0x2248) ;
+		= wchar_t(0x2248) ;
 	m_symbols[L"hellip"]   // # HORIZONTAL ELLIPSIS
-	= wchar_t(0x2026) ;
+		= wchar_t(0x2026) ;
 	m_symbols[L"arrowvertex"]   // # VERTICAL ARROW EXTENDER
 	= wchar_t(0xF8E6) ;
 	m_symbols[L"arrowhorizex"]   // # HORIZONTAL ARROW EXTENDER

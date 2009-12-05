@@ -42,7 +42,7 @@ namespace memory_engine
 		// check each of the records for a match
 		foreach ( record_pointer record, candidates )
 		{
-			double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
+			const double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
 			if (score > best_score)
 			{
 				best_score = score ;
@@ -67,10 +67,8 @@ namespace memory_engine
 		set_cmp_params(params);
 
 		double min_score = static_cast< double >( m_gloss_properties.get_min_score() ) / 100.0f ;
-		Segment query(m_cmp_maker, params.m_rich_source) ;
-		const wstring query_cmp = query.cmp() ;
 
-		CComVariant com_matches = this->m_engine.method(L"Gloss", query_cmp.c_str(), min_score) ;
+		CComVariant com_matches = this->m_engine.method(L"Gloss", params.m_rich_source.c_str(), min_score) ;
 		trans_set candidates ;
 		this->convert_candidates(candidates, com_matches) ;
 
@@ -95,6 +93,8 @@ namespace memory_engine
 		}
 		else
 		{
+			Segment segment(m_cmp_maker, params.m_rich_source) ;
+			const wstring query_cmp = segment.cmp() ;
 			gloss_match_tester tester(query_cmp) ;
 
 			foreach( record_pointer record, candidates)
@@ -218,10 +218,21 @@ namespace memory_engine
 			if (recvar.vt == VT_NULL)
 			{
 				record_remote *remrec = new record_remote(CDispatchWrapper(L"Felix.RemoteRecord")) ;
-				remrec->set_id(recid) ;
-				remrec->set_source(source) ;
-				remrec->set_trans(trans) ;
-				this->m_engine.method(L"AddRecord", remrec->get_engine()) ;
+				try
+				{
+					remrec->set_id(recid) ;
+					remrec->set_source(source) ;
+					remrec->set_trans(trans) ;
+					this->m_engine.method(L"AddRecord", remrec->get_engine()) ;
+				}
+				catch (...)
+				{
+					if (remrec)
+					{
+						delete remrec ;
+					}
+					throw ;				
+				}
 				return record_pointer(remrec) ;
 			}
 			record_pointer record(new record_remote(CDispatchWrapper(recvar.pdispVal))) ;

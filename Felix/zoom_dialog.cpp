@@ -35,7 +35,7 @@ LRESULT CZoomDlg::OnCancel( WORD wID )
 
 void CZoomDlg::OnZoomCtrl( int /*iType*/, short /*iTrackPos*/, HWND /*hWndTrackBar*/ )
 {
-	int thepos = m_ZoomCtrl.GetPos() ;
+	const int thepos = m_ZoomCtrl.GetPos() ;
 	if (thepos != m_zoom_level)
 	{
 		m_zoom_level = thepos ;

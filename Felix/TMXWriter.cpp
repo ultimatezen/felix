@@ -1,16 +1,5 @@
 /*!
  * \file TMXWriter.cpp
- *
- * \brief
- * Description of TMXWriter here.
- *
- * \date 2007/01/31
- * \version 1.0
- * \author Ryan Ginstrom
- *
- * Detailed description here.
- *
- * Copyright (C) Ryan Ginstrom.
  */
 
 #include "StdAfx.h"
@@ -30,12 +19,9 @@ CTMXWriter::CTMXWriter(CProgressListener *listener) :
 	, m_user_name( CUserName().as_wstring() )
 	, m_memory(new memory_engine::memory_local())
 {
-
 	app_props::properties_general props ;
 	props.read_from_registry() ;
 	m_user_name =  CT2W(props.m_data.m_user_name) ;
-
-
 }
 
 CTMXWriter::~CTMXWriter(void)
@@ -51,7 +37,6 @@ void CTMXWriter::write_memory(memory_engine::memory_pointer mem)
 	m_memory = mem ;
 	prepareToWrite();
 
-
 	write_header() ;
 
 	write_tus() ;
@@ -59,7 +44,6 @@ void CTMXWriter::write_memory(memory_engine::memory_pointer mem)
 	write_footer() ;
 
 	cleanup();
-
 }
 
 /*!
@@ -97,7 +81,7 @@ void CTMXWriter::write_header(void)
 	textTemplate.Assign( L"version", L"1.1" ) ;
 
 	CResHtmlFile resFile( _T("TMX_HEAD") ) ;
-	wstring tmplText = (LPCWSTR)resFile.text() ;
+	const wstring tmplText = (LPCWSTR)resFile.text() ;
 	ATLASSERT( ! tmplText.empty() ) ;
 
 	m_file.write( textTemplate.Fetch( tmplText ) ) ;
@@ -308,7 +292,7 @@ void CTMXWriter::prepareToWrite()
 	m_tuid = 1 ;
 
 	m_user_name = string2wstring( m_memory->get_header().get_creator() ) ;
-	CString location = m_memory->get_location() ;
+	const CString location = m_memory->get_location() ;
 	m_source_file_name = CT2W( file::name( location ).file_name() ) ;
 
 	m_listener->OnProgressInit( location, 0, m_memory->size() ) ;

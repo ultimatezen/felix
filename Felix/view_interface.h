@@ -36,7 +36,7 @@ public:
 	void set_listener( html::CHtmlViewListener *listener ) ;
 	void ensure_document_complete(HACCEL accel, HWND hwnd) ;
 	void ensure_navigation_complete(HACCEL accel, HWND hwnd) ;
-	wstring get_selection_text() ;
+	const wstring get_selection_text() ;
 
 	void create( HWND parent, HWND &client ) ;
 

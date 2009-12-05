@@ -1024,10 +1024,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\label_name.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\LanguageHolder.cpp"
 				>
 			</File>
@@ -2200,10 +2196,6 @@
 			</File>
 			<File
 				RelativePath="InputSymbolDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\label_name.h"
 				>
 			</File>
 			<File

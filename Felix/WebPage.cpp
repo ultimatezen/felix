@@ -48,7 +48,7 @@ namespace html
 	CString GetNextToken(CString& strSrc, const CString strDelim,bool bTrim, bool bFindOneOf)
 	{
 		CString strToken;
-		int idx = bFindOneOf? strSrc.FindOneOf(strDelim) : strSrc.Find(strDelim);
+		const int idx = bFindOneOf? strSrc.FindOneOf(strDelim) : strSrc.Find(strDelim);
 		if(idx != -1)
 		{
 			strToken  = strSrc.Left(idx);

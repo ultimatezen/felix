@@ -142,7 +142,7 @@ public:
 	memory_header &get_header() { return m_header ; }
 	void set_header( const memory_header &header );
 	void set_is_memory( const bool setting );
-	bool get_is_memory();
+	bool get_is_memory() const ;
 
 	void batch_set_reliability( size_t rel );
 	void batch_set_validation( bool val );
@@ -160,20 +160,20 @@ public:
 	{
 		m_listener = listener ;
 	}
-	size_t get_num_records( LPCSTR file_text );
+	const size_t get_num_records( LPCSTR file_text );
 
-	bool is_demo();
+	bool is_demo() const;
 	void refresh_status();
 	typedef trans_set::iterator	iterator_type ;
 
 	void set_minimum_score(const size_t score);
 
 	void tabulate_fonts( font_tabulator &tabulator );
-	record_pointer get_record( size_t index );
+	record_pointer get_record_at( const size_t index );
 	iterator_type begin( ) { return m_records.begin() ; }
 	iterator_type end( ) { return m_records.end() ; }
 	bool set_saved_flag( bool flag );
-	bool is_saved();
+	bool is_saved() const;
 	
 	void search_no_regex(const search_query_params & params, search_match_multiset &matches);
 	bool find_trans_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
@@ -199,17 +199,17 @@ public:
 	void refresh_user_name(void);
 	void get_date_created( const CString &location );
 
-	UINT get_correct_encoding(char *text, UINT text_size ) ;
+	UINT get_correct_encoding(const char *text, UINT text_size ) ;
 
 
 	UINT encoding_from_encoding_string(textstream_reader< char > & xml_reader);
-	UINT encoding_from_multi_lang(char* text, UINT text_size);
+	UINT encoding_from_multi_lang(const char* text, UINT text_size);
 
 	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, CException& e);
 
 	int setProgressInterval(int num_records);
 
-	void loadWideBuffer(char* raw_text, int file_len, CStringW& wide_buffer);
+	void loadWideBuffer(const char* raw_text, int file_len, CStringW& wide_buffer);
 
 	void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
 
@@ -236,7 +236,7 @@ public:
 // pure virtual methods
 	virtual bool add_record(record_pointer record) = 0;
 	virtual record_pointer add_by_id(size_t recid, const wstring source, const wstring trans) = 0 ;
-	virtual size_t size() = 0;
+	virtual size_t size() = 0; // Can't make it const because the remote memory makes a COM call.
 	virtual bool empty() = 0;
 	virtual CString get_location( ) =0;
 	virtual CString get_fullpath() = 0 ;
@@ -278,7 +278,7 @@ public:
 	bool add_record(record_pointer record) ;
 
 	size_t get_next_id();
-	size_t size();
+	size_t size() ;
 	bool empty();
 	bool erase( record_pointer record ) ;
 	CString get_location( );

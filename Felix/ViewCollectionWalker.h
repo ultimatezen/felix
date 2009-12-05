@@ -34,10 +34,7 @@ public:
 	~CViewCollectionWalker(void);
 
 	template< typename MatchContainerType >
-	void EraseCurrentRecord( SearchMatchType &match, 
-		MatchContainerType &matches, 
-		wstring &id, 
-		MemoryControllerType memories )
+	void EraseCurrentRecord( SearchMatchType &match, MatchContainerType &matches, const wstring &id, MemoryControllerType memories )
 	{
 		BANNER("CViewCollectionWalker::EraseCurrentRecord") ;
 		if ( matches.empty())
@@ -86,8 +83,8 @@ public:
 		}
 	}
 
-	void CheckLinkUrl( element_wrapper_ptr element, wstring doc_path );
-	void RepairLinkUrl( element_wrapper_ptr element, wstring &doc_path );
+	void CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path );
+	void RepairLinkUrl( element_wrapper_ptr element, const wstring &doc_path );
 	void SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record );
 	void SetValidatedFromElement( element_wrapper_ptr element, record_pointer & record );
 	void SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id );

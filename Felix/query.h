@@ -6,7 +6,6 @@
 #include "ArmadilloStuff.h"		// get them crackers!
 
 #include "PropertiesDlg.h"
-#include "label_name.h"
 
 #include "ColorRef.h"
 

@@ -109,7 +109,7 @@ namespace easyunit
 
 		app_props::properties_general props ;
 		props.read_from_registry() ;
-		_tcscpy(props.m_data.m_user_name, _T("Ryan")) ;
+		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
 		props.write_to_registry() ;
 
 		SimpleString actual = string2string(header->get_current_user()).c_str() ;

@@ -46,11 +46,11 @@ void view_interface::ensure_navigation_complete(HACCEL accel, HWND hwnd)
 
 }
 
-wstring view_interface::get_selection_text()
+const wstring view_interface::get_selection_text()
 {
 	html::CHtmlSelection selection = m_view.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
-	wstring selection_text = BSTR2wstring(range.get_html_text()) ;
+	const wstring selection_text = BSTR2wstring(range.get_html_text()) ;
 	range.collapse() ;
 	range.select() ;
 	return selection_text ;
@@ -99,7 +99,7 @@ void view_interface::set_bg_color( const wstring &color )
 
 	CStringW tagbase ;
 	tagbase.Format(L"background-color: %ls", color.c_str()) ;
-	_bstr_t bg_style = static_cast< LPCWSTR >( tagbase ) ;
+	const _bstr_t bg_style = static_cast< LPCWSTR >( tagbase ) ;
 
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
@@ -153,7 +153,7 @@ void view_interface::handle_enter_edit_mode_new_record_glossary( )
 	{
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( id == L"context_tmp"  )
 		{
@@ -190,7 +190,6 @@ void view_interface::handle_enter_edit_mode_concordance_glossary( memory_engine:
 	html::CHtmlSelection selection = m_view.get_selection() ;
 	html::CHtmlTextRange text_range = selection.create_text_range() ;
 	text_range.select() ;
-
 }
 
 
@@ -260,7 +259,7 @@ bool view_interface::handle_leave_edit_mode_concordance_glossary( MemoryControll
 		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item( _variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( ! id.empty() )
 		{
@@ -325,7 +324,7 @@ void view_interface::handle_enter_edit_mode_match( TransMatchQueryTrans &matches
 		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( id.empty() == false )
 		{
@@ -415,7 +414,7 @@ void view_interface::handle_leave_edit_mode_match( MemoryControllerType memories
 		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( ! id.empty() )
 		{
@@ -489,7 +488,7 @@ bool view_interface::handle_leave_edit_mode_concordance( MemoryControllerType me
 	{
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( ! id.empty() )
 		{
@@ -543,7 +542,7 @@ void view_interface::scroll_element_into_view( const wstring &current_id )
 	{
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		wstring id = BSTR2wstring( element->id ) ;
+		const wstring id = BSTR2wstring( element->id ) ;
 
 		if ( id == current_id )
 		{
@@ -580,7 +579,7 @@ void view_interface::clean_up_urls( html::collection_ptr &collection )
 
 	html::CHtmlDocument doc = m_view.get_document() ;
 
-	wstring doc_path = get_doc_path(BSTR2wstring(doc.get_url()));
+	const wstring doc_path = get_doc_path(BSTR2wstring(doc.get_url()));
 
 	CViewCollectionWalker walker ;
 

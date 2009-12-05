@@ -19,9 +19,9 @@ bool is_other_tag( wstring id, tag_name_holder &tags )
 		&& id != tags.rich_source_id;
 }
 
-void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, wstring doc_path )
+void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path )
 {
-	wstring tag_name = element->get_tag() ;
+	const wstring tag_name = element->get_tag() ;
 
 	if ( str::equal_nocase( tag_name, L"A" ))
 	{
@@ -29,7 +29,7 @@ void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, wstring d
 	}
 }
 
-void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, wstring &doc_path )
+void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const wstring &doc_path )
 {
 	wstring href = element->get_attribute(L"HREF") ;
 
@@ -65,7 +65,7 @@ void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, wstring 
 
 void CViewCollectionWalker::SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record )
 {
-	wstring rel_text = element->get_inner_text() ;
+	const wstring rel_text = element->get_inner_text() ;
 	if ( ! rel_text.empty() ) 
 	{
 		record->set_reliability( boost::lexical_cast< size_t >( rel_text ) ) ;
@@ -90,7 +90,7 @@ void CViewCollectionWalker::SetValidatedFromElement( element_wrapper_ptr element
 
 void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id )
 {
-	wstring tag_str = element->get_tag() ;
+	const wstring tag_str = element->get_tag() ;
 
 	if ( str::equal_nocase( tag_str, L"td" ) )
 	{
@@ -101,7 +101,7 @@ void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, rec
 void CViewCollectionWalker::ElementToRecord( element_wrapper_ptr element, record_pointer rec )
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
-	wstring id = element->get_id() ;
+	const wstring id = element->get_id() ;
 
 	if ( id.empty() )
 	{
@@ -178,7 +178,7 @@ void CViewCollectionWalker::AddRecordToList( record_pointer rec,
 void CViewCollectionWalker::RecordToElement( MSHTML::IHTMLElementPtr &element, record_pointer &rec )
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
-	wstring id = BSTR2wstring( element->id ) ;
+	const wstring id = BSTR2wstring( element->id ) ;
 
 	if ( id == tags.source_tag )	
 	{
@@ -226,3 +226,4 @@ CViewCollectionWalker::~CViewCollectionWalker( void )
 {
 
 }
+
