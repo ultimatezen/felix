@@ -126,7 +126,6 @@ public:
 	}
 
 	bool OnBeforeNavigate2( _bstr_t url ) ;
-	void OnNavShowAbout( );
 	void OnNavEdit( long index );
 	void OnNavDelete( long index );
 	void OnNavAddGloss( long index );

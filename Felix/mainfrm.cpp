@@ -3485,9 +3485,6 @@ LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 {
 	SENSE("on_tools_memory_manager") ;
 
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
 	if ( show_mem_mgr_dlg() )
 	{
 		set_window_title() ;
@@ -3656,7 +3653,6 @@ void CMainFrame::put_visible(int visibility)
 	{
 		gloss->ShowWindow(visibility) ;
 	}
-
 }
 
 /** Load the appropriate resource file according to the 
@@ -3672,7 +3668,7 @@ void CMainFrame::SetUILanguage(WORD lang_id)
 		m_appstate.m_preferred_gui_lang = lang_id ;
 		m_properties.m_gen_props.m_data.m_preferred_gui_lang = lang_id ;
 		m_appstate.write_to_registry() ;
-		m_properties.write_to_registry() ;
+		m_properties.m_gen_props.write_to_registry() ;
 	}
 	
 	if ( m_min_view.IsWindow() )
@@ -3681,7 +3677,6 @@ void CMainFrame::SetUILanguage(WORD lang_id)
 	}
 	
 	set_ui_to_current_language() ;
-
 }
 
 /** As a WORD (LANG_ENGLISH/LANG_JAPANESE).
@@ -3712,7 +3707,6 @@ void CMainFrame::reflect_preferences()
 	m_trans_matches.m_source_color = m_properties.m_view_props.m_data.m_source_color  ;
 	m_trans_matches.m_trans_color =	m_properties.m_view_props.m_data.m_trans_color ;
 }
-
 
 
 /** This is called with a PostMessage from OnCreate.
@@ -3826,12 +3820,11 @@ void CMainFrame::set_up_default_initial_size()
 {
 	// get dimensions of desktop
 	const CWindowRect desktop_rect(GetDesktopWindow()) ;
+	// dimensions of our top glossary window
+	const CWindowRect dialog_rect(m_glossary_windows[0]->m_hWnd) ;
 	
 	// get dimensions of the mainframe
 	CWindowRect frame_window_rect(*this) ;
-	
-	// dimensions of our top glossary window
-	const CWindowRect dialog_rect(m_glossary_windows[0]->m_hWnd) ;
 	
 	// calculate dialog size
 	const int width = ( desktop_rect.Width() ) - ( ( dialog_rect.Width() ) + 5 ) ;
@@ -3875,7 +3868,6 @@ void CMainFrame::set_up_command_bars()
 		IDB_CUT,			IDB_COPY,	IDB_PASTE,
 		IDB_SEARCH,			IDB_PROPERTIES,
 		IDB_HELP,			IDB_INFORMATION ;
-
 
 	CImageList images ;
 	images.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
@@ -4092,8 +4084,7 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 		return ;
 	}
 	
-	CString content ;
-	ATLVERIFY(content.LoadString( IDS_ADDED_TRANSLATION )) ;
+	CString content = resource_string( IDS_ADDED_TRANSLATION ) ;
 	content += _T(" ") ;
 
 	CNumberFmt fm ;
@@ -4168,18 +4159,14 @@ void CMainFrame::provide_user_trans_feedback()
 */
 void CMainFrame::match_count_feedback(size_t num)
 {
-	CString msg ;
-
 	if ( num == 1 )
 	{
-		msg.FormatMessage( IDS_FOUND_1_MATCH ) ;
+		user_feedback(IDS_FOUND_1_MATCH) ;
 	}
 	else
 	{
-		tstring arg = ulong2tstring(num) ;
-		msg.FormatMessage( IDS_FOUND_X_MATCHES, arg.c_str() ) ;
+		user_feedback(system_message(IDS_FOUND_X_MATCHES, int_arg(num))) ;
 	}
-	user_feedback( msg ) ;
 }
 
 /** Perform a search on the memories with the parameters from the find
@@ -4245,35 +4232,37 @@ void CMainFrame::refresh_mru_doc_list(HMENU menu)
 
 /** This is so we can call this from CCommonWindowFunctionality
 * 
+* Todo: localize
 * \see
 * CCommonWindowFunctionality | CGlossaryWindow
  */
 LPCTSTR CMainFrame::get_save_filter()
 {
-	static LPCTSTR memory_file_filter = 
+	static LPCTSTR memory_file_save_filter = 
 		_T("Felix Memory File (*.ftm)\0*.ftm\0")
 		_T("XML File (*.xml)\0*.xml\0")
 		_T("TMX File (*.tmx)\0*.tmx\0")
 		_T("Trados Text File (*.txt)\0*.txt\0") 
 		_T("Excel File (*.xls)\0*.xls\0") ;
 
-	return memory_file_filter ;
+	return memory_file_save_filter ;
 }
 
 /** This is so we can call this from CCommonWindowFunctionality
  * 
+ * Todo: localize
  * \see
  * CCommonWindowFunctionality | CGlossaryWindow
 */
 LPCTSTR CMainFrame::get_open_filter()
 {
-	static LPCTSTR memory_file_filter = 
+	static LPCTSTR memory_file_open_filter = 
 		_T("Felix Memory Files (*.ftm; *.xml)\0*.xml;*.ftm\0")
 		_T("TMX Files (*.tmx)\0*.tmx\0")
 		_T("Trados Text Files (*.txt)\0*.txt\0")
 		_T("All files (*.*)\0*.*\0") ;
 
-	return memory_file_filter ;
+	return memory_file_open_filter ;
 }
 
 
@@ -4343,7 +4332,6 @@ VARIANT_BOOL CMainFrame::get_show_marking()
 	}
 }
 
-
 /** Set the location of the top memory.
  */
 bool CMainFrame::set_location( CString &location ) 
@@ -4361,6 +4349,7 @@ bool CMainFrame::set_location( CString &location )
 	}
 	return false ;
 }
+
 /** Get the type string for the memory window (e.g. "Memory").
  */
 CString CMainFrame::get_window_type_string() 
@@ -4386,7 +4375,7 @@ void CMainFrame::show_min_view_match()
 
 		record_pointer rec = match->get_record() ;
 
-		double score = match->get_score() ;
+		const double score = match->get_score() ;
 
 		if ( FLOAT_EQ( score, 1.0 ) )
 		{
@@ -4435,8 +4424,7 @@ void CMainFrame::show_full_view_match()
 	{
 		m_view_interface.ensure_document_complete( m_hAccel, m_hWnd ) ;
 
-		wstring current_id = ulong2wstring( m_trans_matches.current_pos() ) ;
-
+		const wstring current_id = ulong2wstring( m_trans_matches.current_pos() ) ;
 		m_view_interface.scroll_element_into_view( current_id ) ;
 	}
 	set_bg_color_if_needed() ;
@@ -4487,7 +4475,6 @@ BOOL CMainFrame::should_save_memory_history()
 LRESULT CMainFrame::on_italic(WindowsMessage &)
 {
 	SENSE("on_italic") ;
-
 	return CCommonWindowFunctionality::on_italic( ) ;
 }
 
@@ -4495,7 +4482,6 @@ LRESULT CMainFrame::on_italic(WindowsMessage &)
 LRESULT CMainFrame::on_underline(WindowsMessage &)
 {
 	SENSE("on_underline") ;
-
 	return CCommonWindowFunctionality::on_underline( ) ;
 }
 
@@ -4774,9 +4760,7 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 	memory_pointer mem = dlg.m_memory ;
 	m_model->m_memories->insert_memory(mem) ;
 
-	CString feedback ;
-	feedback.FormatMessage(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location()) ;
-	user_feedback(feedback) ;
+	user_feedback(system_message(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location())) ;
 
 	this->set_window_title() ;
 	return 0L ;
@@ -4824,8 +4808,8 @@ LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/
 		const int cchBuff = 256;
 		wchar_t szBuff[cchBuff];
 		szBuff[0] = 0;
-		int id = toolmap[idCtrl] ;
-		int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
+		const int id = toolmap[idCtrl] ;
+		const int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
 		for(int i = 0; i < nRet; i++)
 		{
 			pDispInfo->szText[i] = szBuff[i] ;
@@ -4851,10 +4835,8 @@ void CMainFrame::load_failed_feedback( const CString & file_name )
 //! Tell the user that we're loading a file
 void CMainFrame::loading_file_feedback( const CString & file_name )
 {
-	file::CPath path( file_name ) ;
-	CString msg ;
-	msg.FormatMessage( IDS_MSG_LOADING, path.FindFileName() ) ;
-	user_feedback( msg );
+	const file::CPath path( file_name ) ;
+	user_feedback(system_message( IDS_MSG_LOADING, path.FindFileName()));
 }
 
 /** Loads a Felix memory.
@@ -4886,10 +4868,9 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 
-	bool success = false ;
 	try
 	{
-		success = mem->load( file_name )  ;
+		return mem->load( file_name )  ;
 	}
 	catch ( ... ) 
 	{
@@ -4900,8 +4881,6 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 		}
 		throw ;
 	}
-
-	return success ;
 }
 
 //! Set search params from registry settings.
@@ -4921,37 +4900,29 @@ void CMainFrame::init_lookup_properties( const app_props::properties &source, se
 //! Tell the user that we found x matches for the search string.
 void CMainFrame::source_concordance_feedback()
 {
-	wstring plain_text = m_search_matches.get_source_plain() ;
-
+	const wstring plain_text = m_search_matches.get_source_plain() ;
 	concordance_feedback(plain_text, m_search_matches.size()) ;
 }
 
 //! Tell the user that we found translation x matches for the search string.
 void CMainFrame::translation_concordance_feedback()
 {
-	wstring plain_text = m_search_matches.get_trans_plain() ;
-	
+	const wstring plain_text = m_search_matches.get_trans_plain() ;
 	concordance_feedback(plain_text, m_search_matches.size()) ;
 }
 
 //! Show concordance match count in status bar.
 void CMainFrame::concordance_feedback(const wstring plain_text, size_t num)
 {
-	wstring int_arg = ulong2wstring(num) ;
-	CString status_text ;
-	status_text.FormatMessage( IDS_FOUND_X_MATCHES_FOR_STRING, 
-		int_arg.c_str(), 
-		plain_text.c_str() ) ;
-	user_feedback( status_text ) ;
+	user_feedback(system_message(IDS_FOUND_X_MATCHES_FOR_STRING, int_arg(num), plain_text.c_str())) ;
 }
 
 //! Tell the user that we deleted a new record.
 void CMainFrame::deleted_new_record_feedback()
 {
-	wstring content ; 
-	content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
-
-	m_view_interface.set_text( content ) ;
+	const wstring feedback = L"<center><h1>" + resource_string_w( IDS_DELETED_ENTRY ) + L"</h1></center>" ;
+	m_view_interface.set_text(feedback) ;
+	user_feedback(IDS_DELETED_ENTRY) ;
 	check_mousewheel() ;
 	m_view_interface.set_scroll_pos(0) ;
 }
@@ -4961,7 +4932,7 @@ void CMainFrame::check_placement( TransMatchContainer &PlacedMatches,
 								 search_match_ptr match )
 {
 	record_pointer rec = match->get_record() ;
-	wstring trans = rec->get_trans_plain() ;
+	const wstring trans = rec->get_trans_plain() ;
 
 	memory_engine::markup_ptr mark ;
 	mark->SetQuery(match->MatchPairing().MarkupQuery()) ;
@@ -5004,7 +4975,7 @@ wstring CMainFrame::get_concordance_content_title()
 {
 	return wstring(L"<b>")
 		+ R2WSTR( IDS_SEARCH_RESULTS ) 
-		+ L":</b><br>";
+		+ L":</b><br />";
 }
 
 //! Make sure that ShellExecute didn't return an error code.
@@ -5013,18 +4984,8 @@ void CMainFrame::check_shell_execute_result( int result,
 {
 	if ( result <= 32 )
 	{
-		CString except_msg ;
-		except_msg.FormatMessage( IDS_SHOW_HELP_FAILED, 
-			(LPCTSTR)filePath ) ;
-		throw CWinException( except_msg, result ) ;
+		throw CWinException(system_message(IDS_SHOW_HELP_FAILED, (LPCTSTR)filePath), result ) ;
 	}
-}
-
-void CMainFrame::OnNavShowAbout()
-{
-	SENSE("OnNavShowAbout") ;
-	WindowsMessage dummy ;
-	this->show_about_dialog(dummy) ;
 }
 
 void CMainFrame::OnNavEdit( long index )
@@ -5159,6 +5120,7 @@ memory_engine::search_match_ptr CMainFrame::get_current_match()
 
 }
 
+// Content when using translation history
 wstring CMainFrame::get_review_content( memory_pointer mem )
 {
 	search_match_ptr match(new search_match) ;
@@ -5182,8 +5144,8 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	return content ;
 }
 
-
-
+// Edited record from translation history.
+// This is buggy!
 void CMainFrame::retrieve_record_review_state()
 {
 	memory_pointer mem = m_model->m_memories->get_memory_by_id(m_editor.get_memory_id()) ;
@@ -5191,6 +5153,8 @@ void CMainFrame::retrieve_record_review_state()
 	m_review_record = m_editor.get_new_record() ;
 }
 
+// Get the UTIL settings from our COM server.
+// Got to consolidate all prefs (using boost?).
 void CMainFrame::load_util_settings()
 {
 	try
@@ -5209,6 +5173,8 @@ void CMainFrame::load_util_settings()
 	}
 }
 
+// Serialize prefs in COM sever.
+// Got to consolidate all prefs (using boost?).
 void CMainFrame::save_util_settings()
 {
 	try
@@ -5224,6 +5190,7 @@ void CMainFrame::save_util_settings()
 	}
 }
 
+// Show the zoom dialog.
 LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
 {
 	CZoomDlg dlg ;
@@ -5240,6 +5207,8 @@ LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
 	return 0L ;
 }
 
+// Set zoom level in response to the zoom dialog, 
+// or loading from preferences.
 void CMainFrame::set_zoom_level( int zoom_level )
 {
 	m_view_interface.run_script("resetFontSizes") ;
@@ -5286,6 +5255,8 @@ void CMainFrame::load_history()
 	set_window_title() ;
 }
 
+// Load user preferences
+// Todo: restore background color preferences
 LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 {
 	// get the file name
@@ -5351,15 +5322,13 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	logging::log_debug("Saving preferences") ;
 	TRACE(filename) ;
 
-	m_properties.write_to_registry() ;
-	save_settings_close() ;
-	save_settings_destroy() ;
-
 	if (! m_glossary_windows.empty())
 	{
 		gloss_window_pointer gloss = m_glossary_windows[0];
 		gloss->save_prefs() ;
 	}
+	save_settings_close() ;
+	save_settings_destroy() ;
 
 	CString command ;
 	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), static_cast<LPCTSTR>(filename)) ;
@@ -5421,6 +5390,8 @@ void CMainFrame::save_settings_close()
 	m_appstate.m_rebar_has_linebreak = ReBar.GetRowCount() > 1 ;
 
 	m_appstate.write_to_registry() ;
+	m_properties.m_gloss_props.read_from_registry() ;
+	m_properties.write_to_registry() ;
 }
 
 void CMainFrame::save_settings_destroy()
@@ -5448,9 +5419,12 @@ wstring CMainFrame::get_record_translation( record_pointer &record )
 	return record->get_trans_rich() ;
 }
 
-LRESULT CMainFrame::on_help_check_updates( WindowsMessage &message )
+/* Show the updates dialog.
+ * This is in a separate process, so that in the future we can have this
+ * process shut us down, and download/install the update automatically.
+ */
+LRESULT CMainFrame::on_help_check_updates(WindowsMessage &)
 {
-	message ;
 	logging::log_debug("Checking for updates") ;
 
 	file::CPath path ;
@@ -5514,8 +5488,10 @@ void CMainFrame::set_module_library( WORD lang_id )
 		}
 		break ;
 	default:
-		logging::log_debug("Setting UI language to Japanese") ;
+		logging::log_warn("Unknown UI language setting") ;
+		logging::log_debug("Setting UI language to English") ;
 		ATLASSERT( FALSE && "Unknown language code!") ;
+		m_appstate.m_preferred_gui_lang = LANG_ENGLISH ;
 		if ( ! _Module.set_library( _T("lang\\EngResource.dll") ) )
 		{
 			CString msg ;
@@ -5528,7 +5504,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 
 void CMainFrame::load_preferences( const CString filename )
 {
-	WORD old_language = m_appstate.m_preferred_gui_lang ;
+	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
 	this->clear_memory() ;
 	m_model->m_memories->clear() ;
@@ -5596,7 +5572,7 @@ void CMainFrame::load_preferences( const CString filename )
 	}
 
 	// ===============
-
+	logging::log_debug("Loaded preferences") ;
 	user_feedback( IDS_PREFS_LOADED ) ;
 }
 
@@ -5615,6 +5591,7 @@ LRESULT CMainFrame::on_new_search( WindowsMessage &)
 	return 0L ;
 }
 
+// This lets us override the context menu.
 void CMainFrame::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
@@ -5632,6 +5609,12 @@ void CMainFrame::set_doc_ui_handler()
 	ATLASSERT(SUCCEEDED(hr)) ;
 }
 
+/* Display the context menu in response to a right click in the browser window.
+ Todo:
+	* Dynamic content
+	* More items
+	* images?
+ */
 HRESULT CMainFrame::get_doc_context_menu()
 {
 	BANNER("CMainFrame::get_doc_context_menu") ;
@@ -5648,6 +5631,7 @@ HRESULT CMainFrame::get_doc_context_menu()
 	add_popup_separator(menu) ;
 	add_popup_item(menu, ID_EDIT_DELETE, IDS_POPUP_DELETE) ;
 
+	// Show the menu at the cursor position
 	POINT ptScreen ;
 	::GetCursorPos(&ptScreen) ;
 	menu.TrackPopupMenu( TPM_LEFTALIGN | TPM_RIGHTBUTTON,	ptScreen.x, ptScreen.y, m_hWnd, NULL) ;
@@ -5702,10 +5686,7 @@ LRESULT CMainFrame::on_memory_close(WindowsMessage &)
 	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
 	this->set_window_title() ;
 
-	CString status_text ;
-	status_text.FormatMessage( IDS_CLOSED_MEMORY, 
-		mem->get_location()) ;
-	user_feedback( status_text ) ;
+	user_feedback(system_message(IDS_CLOSED_MEMORY, mem->get_location())) ;
 
 	return 0L ;
 }

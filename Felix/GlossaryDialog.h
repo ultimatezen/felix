@@ -94,12 +94,20 @@ public:
 	void import_multiterm( const file::OpenDlgList &import_files ) ;
 	void import_multiterm( const CString &multiterm_filename ) ;
 
-	void export_multiterm_55( memory_pointer mem, const CString &file_name ) ;
+	void export_multiterm_55( memory_pointer mem, 
+							  const CString &file_name ) ;
 
-	void export_multiterm_55_sub( string source_lang, string trans_lang, const CString & file_name, memory_pointer mem );
-	void export_multiterm_6( memory_pointer mem, const CString &file_name ) ;
+	void export_multiterm_55_sub( const string source_lang, 
+								  string trans_lang, 
+								  const CString & file_name, 
+								  memory_pointer mem );
+	void export_multiterm_6( memory_pointer mem, 
+							 const CString &file_name ) ;
 
-	void export_multiterm_6_sub( wstring source_lang, wstring trans_lang, const CString & file_name, memory_pointer mem );
+	void export_multiterm_6_sub( const wstring source_lang, 
+								 const wstring trans_lang, 
+								 const CString & file_name, 
+								 memory_pointer mem );
 	void set_up_recently_used_doclist() ;
 	void wait_until_view_not_busy() ;
 	bool init_status_bar() ;
@@ -147,11 +155,9 @@ public:
 	void show_post_edit_content() ;
 	void route_nav_command(LPMSG pMsg) ;
 
-	void SwapFindDialogs(bool edit_mode_enabled);
-
-	void SetEditModeMenuItems(bool edit_mode_enabled);
-
-	void ToggleEditMode( bool edit_mode_enabled ) ;
+	void SwapFindDialogs(const bool edit_mode_enabled);
+	void SetEditModeMenuItems(const bool edit_mode_enabled);
+	void ToggleEditMode(const bool edit_mode_enabled) ;
 
 	void HandleEditModeFind() ;
 
@@ -186,7 +192,7 @@ public:
 	wstring build_glossary_list(search_query_glossary &search_matches) ;
 	void handle_glossary_lookup(const std::wstring& query_text) ;
 	void report_deleted_entry() ;
-	wstring get_glossary_entry(int index) ;
+	wstring get_glossary_entry(const int index) ;
 	bool add_record(record_pointer record, const CString gloss_name = CString() ) ;
 	bool add_record(record_pointer record, const size_t i );
 	bool show_new_record() ;
@@ -204,8 +210,8 @@ public:
 	CString get_memory_name( memory_pointer mem);
 	bool pre_shutdown_save_check() ;
 	
-	bool get_translation_concordances(const wstring &query_string) ;
-	bool get_concordances( const wstring &query_string )  ;
+	bool get_translation_concordances(const wstring query_string) ;
+	bool get_concordances( const wstring query_string )  ;
 	LPCTSTR get_save_ext()
 	{
 		static LPCTSTR memory_file_ext = _T("fgloss") ;

@@ -802,7 +802,7 @@ namespace easyunit
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 		SimpleString actual = string2string(mainframe.create_concordance_list()).c_str() ;
-		SimpleString expected = "<b>Search Results:</b><br>Found 0 matches." ;
+		SimpleString expected = "<b>Search Results:</b><br />Found 0 matches." ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
 
@@ -826,7 +826,42 @@ namespace easyunit
 		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
 		SimpleString expected = "spam" ;
 		ASSERT_EQUALS_V(expected, actual) ;
-	}}
+	}
+	// match_count_feedback
+	TEST( CMainFrameMessageTestCase, match_count_feedback_1 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.match_count_feedback(1) ;
+		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 1 match." ) ;
+	}
+	TEST( CMainFrameMessageTestCase, match_count_feedback_0 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.match_count_feedback(0) ;
+		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 0 matches." ) ;
+	}
+	TEST( CMainFrameMessageTestCase, match_count_feedback_10 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.match_count_feedback(10) ;
+		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 10 matches." ) ;
+	}
+	TEST( CMainFrameMessageTestCase, match_count_feedback_1001 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.match_count_feedback(1001) ;
+		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 1,001 matches." ) ;
+	}
+
+}
 
 #endif 
 

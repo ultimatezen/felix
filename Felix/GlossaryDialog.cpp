@@ -21,6 +21,7 @@
 #include <atlframe.h>
 
 #include "NumberFmt.h"
+#include "xpmenu/Tools.h"		// CWindowRect
 
 #include "ExcelExporter.h"
 #include "stringconversions.h"
@@ -40,6 +41,26 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
 using namespace html ;
+
+// CTOR
+CGlossaryWindow::CGlossaryWindow( ) : 
+m_is_main( false ),
+m_listener( NULL),
+m_new_record(new record_local())
+{ 
+	//m_new_record = record_pointer(new record_local()) ;
+	seed_random_numbers();
+
+	m_memories = create_memory_model() ; 
+	m_editor.m_is_glossary = true ;
+}
+
+// DTOR
+CGlossaryWindow::~CGlossaryWindow() 
+{ 
+}
+
+
 //============================
 // Message handlers
 //============================
@@ -202,24 +223,26 @@ void CGlossaryWindow::import_multiterm( const CString &file_name )
 
 //! Export a multiterm 6 file.
 void CGlossaryWindow::export_multiterm_6( memory_pointer mem, 
-										 const CString &file_name )
+										  const CString &file_name )
 {
 	CExportDialog export_dialog ;
 	
 	if ( IDCANCEL == export_dialog.DoModal() )
+	{
 		return ;
+	}
 
-	wstring source_lang = string2wstring(export_dialog.get_source_full()) ;
-	wstring trans_lang = string2wstring(export_dialog.get_trans_full()) ;
+	const wstring source_lang = string2wstring(export_dialog.get_source_full()) ;
+	const wstring trans_lang = string2wstring(export_dialog.get_trans_full()) ;
 
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
 
 	export_multiterm_6_sub(source_lang, trans_lang, file_name, mem);
 }
-void CGlossaryWindow::export_multiterm_6_sub( wstring source_lang, 
-											 wstring trans_lang, 
-											 const CString & file_name, 
-											 memory_pointer mem )
+void CGlossaryWindow::export_multiterm_6_sub( const wstring source_lang, 
+											  const wstring trans_lang, 
+											  const CString & file_name, 
+											  memory_pointer mem )
 {
 	multiterm_data_exporter_6 exporter(this) ;
 	exporter.set_source(source_lang) ;
@@ -232,7 +255,7 @@ void CGlossaryWindow::export_multiterm_6_sub( wstring source_lang,
 }
 
 void CGlossaryWindow::export_multiterm_55( memory_pointer mem, 
-										  const CString &file_name )
+										   const CString &file_name )
 {
 	CExportDialog export_dialog ;
 	
@@ -241,17 +264,16 @@ void CGlossaryWindow::export_multiterm_55( memory_pointer mem,
 		user_feedback(IDS_CANCELLED_ACTION) ;
 		return ;
 	}
-	string source_lang = string2string(export_dialog.get_source_full()) ;
-	string trans_lang = string2string(export_dialog.get_trans_full()) ;
+	const string source_lang = string2string(export_dialog.get_source_full()) ;
+	const string trans_lang = string2string(export_dialog.get_trans_full()) ;
 
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
-
 	export_multiterm_55_sub(source_lang, trans_lang, file_name, mem);
 }
-void CGlossaryWindow::export_multiterm_55_sub( string source_lang, 
-											  string trans_lang, 
-											  const CString & file_name, 
-											  memory_pointer mem )
+void CGlossaryWindow::export_multiterm_55_sub( const string source_lang, 
+											   const string trans_lang, 
+											   const CString & file_name, 
+											   memory_pointer mem )
 {
 	multiterm_data_exporter_55 exporter(this) ;
 
@@ -381,8 +403,7 @@ void CGlossaryWindow::do_save( memory_pointer mem )
 
 }
 
-
-
+// File -> Save As...
 LRESULT CGlossaryWindow::on_file_save_as( )
 {
 	if ( m_memories->empty() )
@@ -414,9 +435,9 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 
 	dialog.set_filter( get_save_filter() ) ;
 
-	file_name = dialog.get_save_file() ;
+	CString save_as_file_name = dialog.get_save_file() ;
 
-	if ( file_name.IsEmpty() )
+	if ( save_as_file_name.IsEmpty() )
 	{
 		return false ;
 	}
@@ -427,32 +448,32 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 	{
 	case 1: case 6:
 		logging::log_debug("Saving glossary as fgloss file") ;
-		addExtensionAsNeeded( file_name,  _T( ".fgloss" ) ) ;
+		addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		break;
 
 	case 2:
 		logging::log_debug("Saving glossary as xml file") ;
-		addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
+		addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
 		break;
 
 	case 3:
 		logging::log_debug("Exporting glossary as Multiterm 5.5 file") ;
-		addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
-		export_multiterm_55( mem, file_name ) ;
+		addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		export_multiterm_55( mem, save_as_file_name ) ;
 		return 0L ;
 
 	case 4:
 		logging::log_debug("Exporting glossary as Multiterm 6.0 file") ;
-		addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
-		export_multiterm_6( mem, file_name ) ;
+		addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		export_multiterm_6( mem, save_as_file_name ) ;
 		return 0L ;
 
 	case 5:
 		{
 			logging::log_debug("Exporting glossary as Excel workbook") ;
-			addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
+			addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
-			exporter.export_excel( m_memories->get_first_memory(), file_name ) ;
+			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
 			return 0L ;
 		}
 
@@ -460,18 +481,18 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 		logging::log_warn("Unknown case is switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving glossary as fgloss file") ;
-		addExtensionAsNeeded( file_name,  _T( ".fgloss" ) ) ;
+		addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		return 0L ;
 	}
 
 	// If the name changes, then we make the current user into the creator
 	CString old_location = mem->get_location() ;
 
-	mem->set_location( file_name ) ;
+	mem->set_location( save_as_file_name ) ;
 
 	save_memory( mem ) ;
 
-	if ( 0 != old_location.CompareNoCase( file_name ) )
+	if ( 0 != old_location.CompareNoCase( save_as_file_name ) )
 	{
 		mem->set_creator_to_current_user( ) ;
 	}
@@ -485,7 +506,9 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 void CGlossaryWindow::HandleEditModeFind()
 {
 	if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
+	{
 		m_edit_replace.ShowWindow( SW_HIDE ) ;
+	}
 	m_edit_find.set_document( m_view_interface.get_document() ) ;
 	init_edit_find_window( SW_RESTORE ) ;
 }
@@ -747,9 +770,7 @@ void CGlossaryWindow::give_gloss_lookup_feedback()
 	}
 	else
 	{
-		CString arg ; arg.Format( _T("%d"), m_search_matches.size() ) ;
-		CString msg ; msg.FormatMessage( IDS_FOUND_X_MATCHES, arg ) ;
-		user_feedback( msg ) ;
+		user_feedback(system_message(IDS_FOUND_X_MATCHES, int_arg( m_search_matches.size()))) ;
 	}
 }
 
@@ -779,10 +800,9 @@ void CGlossaryWindow::report_deleted_entry()
 
 // 
 
-wstring CGlossaryWindow::get_glossary_entry(int index)
+wstring CGlossaryWindow::get_glossary_entry(const int index)
 {
-	int localIndex = index ;
-	localIndex -= m_properties_gloss.m_data.m_numbering ;
+	int localIndex = index - m_properties_gloss.m_data.m_numbering ;
 
 	if ( localIndex == -1 )
 	{
@@ -792,7 +812,10 @@ wstring CGlossaryWindow::get_glossary_entry(int index)
 	ATLASSERT( localIndex >= 0 && static_cast<size_t>( localIndex )  < m_search_matches.size() ) ;
 
 	if ( localIndex < 0 || static_cast<size_t>( localIndex )  >= m_search_matches.size() ) // idiot deflector code
+	{
+		user_feedback(IDS_OUT_OF_RANGE) ;
 		return wstring( ) ;
+	}
 
 	record_pointer entry_record(new record_local()) ;
 
@@ -850,10 +873,7 @@ bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name
 		mem = m_memories->get_memory_by_name( gloss_name ) ;
 	}
 	
-	bool added_record = false ;
-	added_record = mem->add_record( record )  ; 
-	
-	if ( ! added_record )
+	if ( !  mem->add_record( record ) )
 	{
 		if ( mem->is_locked() )
 		{
@@ -863,7 +883,6 @@ bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name
 		else
 		{
 			ATLASSERT( mem->record_exists( record ) ) ;
-
 			user_feedback( IDS_ENTRY_EXISTED ) ; // Entry already existed. Updated with any new information. 
 		}
 	}
@@ -899,10 +918,8 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 	memory_iterator mempos = this->get_memories().begin() ;
 	std::advance(mempos, i) ;
 	memory_pointer mem = *mempos ;
-	bool added_record = false ;
-	added_record = mem->add_record( record )  ; 
 
-	if ( ! added_record )
+	if ( ! mem->add_record( record ) )
 	{
 		if ( mem->is_locked() )
 		{
@@ -912,7 +929,6 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 		else
 		{
 			ATLASSERT( mem->record_exists( record ) ) ;
-
 			user_feedback( IDS_ENTRY_EXISTED ) ; // Entry already existed. Updated with any new information. 
 		}
 	}
@@ -927,7 +943,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 		user_feedback( content ) ;
 	}
 
-	wstring query = m_search_matches.get_query_rich( ) ;
+	const wstring query = m_search_matches.get_query_rich( ) ;
 
 	if ( get_display_state() == LOOKUP_DISPLAY_STATE )
 	{
@@ -951,13 +967,13 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 }
 void CGlossaryWindow::give_added_record_feedback(memory_pointer& mem)
 {
-	CString content ;
-	ATLVERIFY(content.LoadString( IDS_ADDED_TRANSLATION )) ;
+	CString content = resource_string(IDS_ADDED_TRANSLATION ) ;
 	content	+= _T(" ") ;
 	content	+=  system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
 	user_feedback( content ) ;
 }
 
+// Got to make this a template!
 bool CGlossaryWindow::show_new_record()
 {
 	BANNER( "CGlossaryDialog::show_new_record()" ) ;
@@ -991,6 +1007,7 @@ bool CGlossaryWindow::show_new_record()
 	return true ;
 }
 
+// File -> Open
 bool CGlossaryWindow::handle_open()
 {
 	user_feedback( IDS_OPEN_GLOSS_FILE ) ;
@@ -1009,9 +1026,7 @@ bool CGlossaryWindow::handle_open()
 		return false ;
 	}
 
-	int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
+	switch(dialog.get_selected_index()) 
 	{
 	case 1: case 3:
 		load_felix_files( import_files ) ;
@@ -1023,7 +1038,6 @@ bool CGlossaryWindow::handle_open()
 
 	default:
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
-
 	}
 
 	set_window_title() ;
@@ -1047,6 +1061,8 @@ void CGlossaryWindow::import_multiterm( const file::OpenDlgList &import_files )
 	set_window_title() ;
 }
 
+// Makes a fresh record so that we can modify it without
+// changing the actual glossary entry.
 record_pointer CGlossaryWindow::get_record( size_t pos ) 
 { 
 	BANNER( "CGlossaryDialog::get_record()" ) ;
@@ -1070,7 +1086,6 @@ LRESULT CGlossaryWindow::handle_user_search()
 
 void CGlossaryWindow::prep_user_search()
 {
-	// remember where we were, we may want to navigate back
 	// remember where we are, makes a difference how we respond to user input
 	set_display_state( CONCORDANCE_DISPLAY_STATE ) ;
 
@@ -1115,9 +1130,10 @@ void CGlossaryWindow::give_user_search_feedback()
 
 }
 
+
+// toggle toolbar visibility
 LRESULT CGlossaryWindow::on_view_toolbar( )
 {
-	// toggle window visibility
 	ATLASSERT( m_toolbar.IsWindow() ) ;
 	ATLASSERT( m_toolbar.IsWindowVisible() == m_appstate.m_is_toolbar_visible ) ;
 
@@ -1131,9 +1147,9 @@ LRESULT CGlossaryWindow::on_view_toolbar( )
 	return 0L ;
 }
 
+// toggle status bar visibility
 LRESULT CGlossaryWindow::on_view_status_bar( )
 {
-	// toggle window visibility
 	ATLASSERT( ::IsWindow( m_hWndStatusBar ) ) ;
 	ATLASSERT( ::IsWindowVisible(m_hWndStatusBar) == m_appstate.m_is_statusbar_visible ) ;
 
@@ -1141,40 +1157,33 @@ LRESULT CGlossaryWindow::on_view_status_bar( )
 
 	reflect_sb_vis() ;
 
-	// =====================================
 	// resize the view to fit the new area
-	// =====================================
-
-	// get the client rect
 	size_client_and_status_bar() ;
 
 	return 0L ;
 }
 
-
-
-LRESULT CGlossaryWindow::on_view_edit_mode(  WindowsMessage &message )
+// View -> Edit Mode
+LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
 {
-	message ;
+	SENSE( "on_view_edit_mode" ) ;
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	BANNER( "CGlossaryWindow::on_view_edit_mode" ) ;
 
-	bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
+	const bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
 
 	SetEditModeMenuItems(edit_mode_enabled);
 
 	// do the switcheroo on the find windows...
 	// swap out the various find dialogs...
 	SwapFindDialogs(edit_mode_enabled);
-
-	ToggleEditMode( edit_mode_enabled ) ;
+	ToggleEditMode(edit_mode_enabled) ;
 
 	return 0L ;
 }
 
-void CGlossaryWindow::ToggleEditMode( bool edit_mode_enabled )
+void CGlossaryWindow::ToggleEditMode(const bool edit_mode_enabled)
 {
 	switch( get_display_state() )
 	{
@@ -1194,13 +1203,17 @@ void CGlossaryWindow::ToggleEditMode( bool edit_mode_enabled )
 	}
 }
 
-void CGlossaryWindow::SetEditModeMenuItems( bool edit_mode_enabled )
+void CGlossaryWindow::SetEditModeMenuItems(const bool edit_mode_enabled)
 {
 	CheckMenuItem( GetMenu(), ID_VIEW_EDIT_MODE, ( edit_mode_enabled ? MF_UNCHECKED : MF_CHECKED ) ) ;
 	EnableMenuItem( GetMenu(), ID_EDIT_REPLACE, !! edit_mode_enabled ) ;
 }
 
-void CGlossaryWindow::SwapFindDialogs( bool edit_mode_enabled )
+// We have two find dialogs: 
+// * one for edit mode (find in the browser);
+// * and one for non-edit mode (quick search in glossary)
+// Swap them when we change the edit mode.
+void CGlossaryWindow::SwapFindDialogs(const bool edit_mode_enabled)
 {
 	if ( edit_mode_enabled )
 	{
@@ -1223,35 +1236,39 @@ void CGlossaryWindow::SwapFindDialogs( bool edit_mode_enabled )
 
 }
 
-
+// Leaving edit mode finishes our edits.
 void CGlossaryWindow::handle_new_record_edit( bool edit_mode_enabled )
 {
 	if ( ! edit_mode_enabled ) // we are entering edit mode
+	{
 		handle_enter_edit_mode_new_record() ;
+	}
 	else
+	{
 		handle_leave_edit_mode_new_record() ;
+	}
 }
 
-
+// Leaving edit mode finishes our edits.
 void CGlossaryWindow::handle_concordance_edit( bool edit_mode_enabled ) 
 {
 	if ( ! edit_mode_enabled ) // we are entering edit mode
+	{
 		handle_enter_edit_mode_concordance() ;
+	}
 	else 
+	{
 		handle_leave_edit_mode_concordance() ;
+	}
 }
 
 // =========================
 // for entering edit mode
 // =========================
-
-
 void CGlossaryWindow::handle_enter_edit_mode_new_record()
 {
 	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-
 	m_view_interface.handle_enter_edit_mode_new_record_glossary( ) ;
-	
 	user_feedback( IDS_IN_EDIT_MODE ) ;
 }
 
@@ -1259,17 +1276,13 @@ void CGlossaryWindow::handle_enter_edit_mode_new_record()
 void CGlossaryWindow::handle_enter_edit_mode_concordance()
 {
 	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-
 	m_view_interface.handle_enter_edit_mode_concordance_glossary( m_search_matches ) ;
-
 	user_feedback( IDS_IN_EDIT_MODE ) ;
 }
 
 // =========================
 // for leaving edit mode
 // =========================
-
-
 void CGlossaryWindow::handle_leave_edit_mode_new_record()
 {
 	user_feedback( IDS_LEAVING_EDIT_MODE ) ;
@@ -1291,8 +1304,6 @@ void CGlossaryWindow::handle_leave_edit_mode_new_record()
 	}
 
 }
-
-
 
 void CGlossaryWindow::handle_leave_edit_mode_concordance()
 {
@@ -1325,19 +1336,15 @@ void CGlossaryWindow::handle_leave_edit_mode_concordance()
 
 }
 
-
+// Make this the main glossary/not the main glossary
 bool CGlossaryWindow::set_main ( bool setting ) 
 { 
 	m_is_main = setting ;
-#ifdef UNIT_TEST
-	return true ;
-#endif
 	return set_window_title() ;
 }
 
-// Function name	: CGlossaryDialog::set_window_title
-// Description	    : 
-// Return type		: bool 
+// Set the window title.
+// Title consists of main declaration (if any) + Glossary - [Main Gloss]
 bool CGlossaryWindow::set_window_title()
 {
 	CString file_name ;
@@ -1362,6 +1369,8 @@ bool CGlossaryWindow::set_window_title()
 
 }							
 
+// Before shutting down, see if there are any glossaries
+// that need saving.
 bool CGlossaryWindow::pre_shutdown_save_check()
 {
 	if ( m_memories->empty() )
@@ -1378,24 +1387,7 @@ bool CGlossaryWindow::pre_shutdown_save_check()
 	return true ;
 }
 
-
-CGlossaryWindow::CGlossaryWindow( ) : 
-	m_is_main( false ),
-	m_listener( NULL),
-	m_new_record(new record_local())
-{ 
-	//m_new_record = record_pointer(new record_local()) ;
-	seed_random_numbers();
-
-	m_memories = create_memory_model() ; 
-	m_editor.m_is_glossary = true ;
-}
-
-CGlossaryWindow::~CGlossaryWindow() 
-{ 
-}
-
-
+// Exit without prompting to save memories.
 bool CGlossaryWindow::exit_silently()
 {
 	memory_list memories ;
@@ -1412,8 +1404,6 @@ bool CGlossaryWindow::exit_silently()
 	return true ;
 }
 
-
-
 BOOL CGlossaryWindow::PreTranslateMessage( LPMSG pMsg )
 {
 	ENSURE_FOCUS
@@ -1424,16 +1414,15 @@ BOOL CGlossaryWindow::PreTranslateMessage( LPMSG pMsg )
 	}
 	// intercept enter key in order to not shut down dialog 
 	if ( pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN )
+	{
 		return m_view_interface.PreTranslateMessage( pMsg ) ;
+	}
 
 	if ( IsDialogMessage( pMsg ) )
 		return TRUE ;
 
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
-
 }
-
-
 
 bool CGlossaryWindow::clear_memory()
 {
@@ -1476,7 +1465,7 @@ void CGlossaryWindow::set_properties_algo( const app_props::properties_algorithm
 // message handlers
 // ====================
 
-
+// User wants to edit an entry.
 LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 {
 	// get the record
@@ -1505,6 +1494,7 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 	return 0L ;
 }
 
+// User wants to delete an entry.
 LRESULT CGlossaryWindow::on_user_delete( LPARAM number )
 {
 	switch( get_display_state() )
@@ -1556,13 +1546,18 @@ int CGlossaryWindow::delete_from_concordance_state(LPARAM number)
 int CGlossaryWindow::delete_from_lookup_state(LPARAM number)
 {
 	if ( ! check_delete() )  
+	{
 		return 0 ;
+	}
 
-	TRUE_ENFORCE( static_cast<size_t>(number) < m_search_matches.size(), R2T( IDS_OUT_OF_RANGE ) ) ;
+	if (static_cast<size_t>(number) >= m_search_matches.size())
+	{
+		MessageBeep(MB_ICONEXCLAMATION) ;
+		user_feedback(IDS_OUT_OF_RANGE) ;
+		return 0 ;
+	}
 
 	search_match_ptr match = m_search_matches.at( number ) ;
-
-	CString loc = CW2CT( match->get_memory_location().c_str() ) ;
 
 	try
 	{
@@ -1576,8 +1571,7 @@ int CGlossaryWindow::delete_from_lookup_state(LPARAM number)
 		e.notify_user("Failed to remove record: glossary not found") ;
 	}
 
-	wstring content = build_glossary_list(m_search_matches) ;
-	m_view_interface.set_text( content ) ;
+	m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
 	check_mousewheel() ;
 	m_view_interface.set_scroll_pos(0) ;
 
@@ -1586,14 +1580,17 @@ int CGlossaryWindow::delete_from_lookup_state(LPARAM number)
 
 int CGlossaryWindow::delete_from_new_state()
 {
-	if ( ! check_delete() )  
+	if ( ! check_delete() ) 
+	{
 		return 0 ;
+	}
 
 	memory_pointer mem = m_memories->get_first_memory() ;
 
 	mem->erase( m_new_record ) ;
 	m_new_record = record_pointer(new record_local()) ;
 	m_view_interface.set_text( wstring( L"<b>" ) + R2WSTR( IDS_DELETED_ENTRY ) + wstring( L"</b>" ) ) ;
+	user_feedback(IDS_DELETED_ENTRY) ;
 	check_mousewheel() ;
 	m_view_interface.set_scroll_pos(0) ;
 
@@ -1607,12 +1604,9 @@ LRESULT CGlossaryWindow::on_user_search( LPARAM /* lParam */ )
 	return handle_user_search() ;
 }
 
-
-
 LRESULT CGlossaryWindow::on_user_edit_replace( LPARAM /* lParam */  )
 {
 	m_edit_find.set_search_params( m_edit_replace.get_search_params() ) ;
-
 	return 0L ;
 }
 
@@ -1730,8 +1724,8 @@ bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
 {
 	try
 	{
-		CString possible_xml_file(static_cast< LPCWSTR >( url )) ;
-		file::CFileExtension ext(possible_xml_file) ;
+		const CString possible_xml_file(static_cast< LPCWSTR >( url )) ;
+		const file::CFileExtension ext(possible_xml_file) ;
 		if (ext.is_xml() || ext.equals(_T(".fgloss")))
 		{
 			this->load(possible_xml_file) ;
@@ -1742,7 +1736,7 @@ bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
 			this->import_multiterm(possible_xml_file) ;
 		}
 
-		wstring raw_command = BSTR2wstring( url );
+		const wstring raw_command = BSTR2wstring( url );
 
 		// will return NULL if fails to parse
 		destination_parser parser ;
@@ -1750,23 +1744,25 @@ bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
 
 		if ( ! pMsg ) 
 		{
-			file::CFileExtension html_ext = CString( COLE2CT(url) ) ;
+			const file::CFileExtension html_ext = CString( COLE2CT(url) ) ;
+			// If it's an HTML file, don't cancel.
 			return ! html_ext.is_html() ;
 		}
 
 		route_nav_command(pMsg) ;
-
-		return true ;
 	}
 	catch (CException& e)
 	{
 		e.notify_user(_T("Failed to process action")) ;
+		return true ;
 	}
 	catch (_com_error& e)
 	{
 		CComException cx(e) ;
 		cx.notify_user(_T("Failed to process action\rAn error occurred connecting to a COM server.")) ;
+		return true ;
 	}
+
 	return true ;
 }
 
@@ -1784,16 +1780,12 @@ void CGlossaryWindow::get_gloss_names( std::list< CString > &names )
 
 	ATLASSERT ( ! m_memories->empty() ) ; 
 
-	memory_iterator pos ;
-	for ( pos = m_memories->begin() ; pos != m_memories->end() ; ++pos )
+	foreach(memory_pointer mem, m_memories->get_memories())
 	{
-		memory_pointer mem = *pos ;
 		names.push_back(mem->get_location( )) ;
 	}
 	ATLASSERT ( ! names.empty() ) ; 
 	ATLASSERT ( names.size() == m_memories->size() ) ; 
-
-
 }
 
 void CGlossaryWindow::put_show_marking( VARIANT_BOOL setting )
@@ -1825,8 +1817,6 @@ void CGlossaryWindow::show_post_edit_content()
 	show_view_content() ;
 	user_feedback( IDS_EDIT_COMPLETE ) ;
 }
-
-
 
 
 void CGlossaryWindow::set_ui_language()
@@ -1862,8 +1852,7 @@ bool CGlossaryWindow::show_view_content()
 	}
 	case LOOKUP_DISPLAY_STATE: // = glossary lookup
 	{
-		wstring content = build_glossary_list(m_search_matches) ;
-		m_view_interface.set_text( content ) ;
+		m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
 		m_view_interface.set_scroll_pos(0) ;
 		check_mousewheel() ;
 		return true ;
@@ -1916,29 +1905,25 @@ LRESULT CGlossaryWindow::on_view_search( )
 
 LRESULT CGlossaryWindow::on_source_concordance()
 {
-	wstring source = m_view_interface.get_selection_text() ;
-	
-	get_concordances( source ) ;
-	
+	get_concordances(m_view_interface.get_selection_text()) ;
 	return 0 ;
 }
 
 
 LRESULT CGlossaryWindow::on_trans_concordance()
 {
-	wstring trans = m_view_interface.get_selection_text() ;
-	
-	get_translation_concordances( trans ) ;
+	get_translation_concordances(m_view_interface.get_selection_text()) ;
 	
 	return 0 ;
-	
 }
 
-bool CGlossaryWindow::get_concordances( const wstring &query_string )
+bool CGlossaryWindow::get_concordances( const wstring query_string )
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
+		::MessageBeep(MB_ICONEXCLAMATION) ;
+		user_feedback(IDS_EMPTY_QUERY) ;
 		return false ;
 	}
 
@@ -1993,12 +1978,13 @@ void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
 	config_concordance_search_settings();
 }
 
-bool CGlossaryWindow::get_translation_concordances(const wstring &query_string)
+bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
-		::MessageBeep( MB_ICONHAND ) ;
+		::MessageBeep(MB_ICONEXCLAMATION) ;
+		user_feedback(IDS_EMPTY_QUERY) ;
 		return false ;
 	}
 
@@ -2012,19 +1998,14 @@ bool CGlossaryWindow::get_translation_concordances(const wstring &query_string)
 	
 	// remember where we were
 	// in the future, make an array of states to allow Explorer-style page navigation
-	set_display_state ( CONCORDANCE_DISPLAY_STATE ) ;
+	set_display_state (CONCORDANCE_DISPLAY_STATE) ;
 	show_view_content() ;
 	
 	// give the user feedback
-	wstring plain_trans = m_search_matches.get_trans_plain() ;
-	CString status_text = 
-		system_message
-		( 
-			IDS_FOUND_X_MATCHES_FOR_STRING, 
-			int_arg( m_search_matches.size() ), 
-			CString( plain_trans.c_str() ) 
-		) ;
-	user_feedback( status_text ) ;
+	const wstring plain_trans = m_search_matches.get_trans_plain() ;
+	user_feedback( system_message(IDS_FOUND_X_MATCHES_FOR_STRING, 
+								int_arg( m_search_matches.size() ), 
+								CString( plain_trans.c_str()))) ;
 	return true ; 
 }
 
@@ -2036,9 +2017,9 @@ LRESULT CGlossaryWindow::OnDrop(HDROP dropped)
 		return 0L ;
 	}
 
-	CDrop drop( dropped ) ;
+	const CDrop drop( dropped ) ;
 
-	UINT num_files = drop.NumDragFiles() ;
+	const UINT num_files = drop.NumDragFiles() ;
 
 	if ( ! num_files ) 
 	{
@@ -2054,6 +2035,9 @@ LRESULT CGlossaryWindow::OnDrop(HDROP dropped)
 	return 0L ;
 }
 
+// Show the Glossary Manager dialog.
+// If the top glossary changed, we'll need to
+// change the window title.
 LRESULT CGlossaryWindow::on_tools_memory_manager()
 {
 	if ( show_mem_mgr_dlg(IDS_GLOSSARY_MANAGER_TITLE) )
@@ -2064,9 +2048,7 @@ LRESULT CGlossaryWindow::on_tools_memory_manager()
 	return 0L ;
 }
 
-
-
-
+// User wants to switch focus to memory window.
 LRESULT CGlossaryWindow::on_view_switch()
 {
 	m_listener->gloss_view_switch(*this) ;
@@ -2076,34 +2058,28 @@ LRESULT CGlossaryWindow::on_view_switch()
 void CGlossaryWindow::set_up_initial_size()
 {
 	// get dimensions of desktop
-	RECT DesktopRect ;
-	WINERROR_SENTINEL ;
-	::GetWindowRect(GetDesktopWindow(), &DesktopRect ) ;
-	WINERROR_SENTINEL ;
+	const CWindowRect destop_rect(GetDesktopWindow()) ;
 	
 	// get dimensions of this dialog
-	RECT rcDlg;
-	ATLASSERT( IsWindow() ) ;
-	GetWindowRect( &rcDlg ) ;
+	CWindowRect dialog_rect(*this) ;
+
 	// calculate dialog size
-	int width = rcDlg.right - rcDlg.left ;
-	int height = rcDlg.bottom - rcDlg.top ;
-	rcDlg.right = DesktopRect.right ;
-	rcDlg.left = DesktopRect.right - width ;
-	rcDlg.top = DesktopRect.top ;
-	rcDlg.bottom = rcDlg.top + height ;
+	const int width = dialog_rect.right - dialog_rect.left ;
+	const int height = dialog_rect.bottom - dialog_rect.top ;
+	dialog_rect.right = destop_rect.right ;
+	dialog_rect.left = destop_rect.right - width ;
+	dialog_rect.top = destop_rect.top ;
+	dialog_rect.bottom = dialog_rect.top + height ;
 	
 	// justify dialog right, place it under parent
-	MoveWindow( &rcDlg, TRUE ) ;
-	SetWindowPos( HWND_BOTTOM, &rcDlg, SWP_NOACTIVATE | SWP_NOMOVE ) ;
+	MoveWindow( &dialog_rect, TRUE ) ;
+	SetWindowPos( HWND_BOTTOM, &dialog_rect, SWP_NOACTIVATE | SWP_NOMOVE ) ;
 }
 
 void CGlossaryWindow::size_client_and_status_bar()
 {
 	// get the client rect
-	CRect ClientRect ;
-	ClientRect.SetRectEmpty() ;
-	GetClientRect( &ClientRect ) ;
+	CClientRect client_rect(*this) ;
 	
 #ifdef UNIT_TEST
 	return ;
@@ -2111,15 +2087,13 @@ void CGlossaryWindow::size_client_and_status_bar()
 	// if the status bar is visible, subtract its height from the height of the browser view
 	if ( m_appstate.m_is_statusbar_visible )
 	{
-		CRect StatusBarRect ;
-		StatusBarRect.SetRectEmpty() ;
-		m_statusbar.m_mp_sbar.GetWindowRect( &StatusBarRect ) ;
-		ClientRect.bottom -= StatusBarRect.Height() ;
+		const CWindowRect statusbar_rect(m_statusbar.m_mp_sbar.m_hWnd) ;
+		client_rect.bottom -= statusbar_rect.Height() ;
 		
-		int width = StatusBarRect.Width() ;
+		const int width = statusbar_rect.Width() ;
 
 		BOOL success = FALSE ;
-		if ( width > 300 )
+		if ( width > 400 )
 		{
 			success = m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, 100 ) ;
 		}
@@ -2131,13 +2105,11 @@ void CGlossaryWindow::size_client_and_status_bar()
 	}
 	if ( m_appstate.m_is_toolbar_visible ) 
 	{
-		CRect ToolbarRect ;
-		ToolbarRect.SetRectEmpty() ;
-		m_toolbar.GetWindowRect( &ToolbarRect ) ;
-		ClientRect.top += ToolbarRect.Height() ;
+		const CWindowRect toolbar_rect(m_toolbar.m_hWnd) ;
+		client_rect.top += toolbar_rect.Height() ;
 	}
 	// resize edit window
-	m_view_interface.Move( &ClientRect ) ;
+	m_view_interface.Move( &client_rect ) ;
 }
 
 void CGlossaryWindow::reflect_tb_vis()
@@ -2157,8 +2129,10 @@ void CGlossaryWindow::reflect_tb_vis()
 	}
 }
 
+// Set up the toolbar buttons.
 void CGlossaryWindow::init_toolbar()
 {
+	// 0 is for separators.
 	std::vector< int > commands ;
 	commands += 
 		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	0,
@@ -2176,6 +2150,7 @@ void CGlossaryWindow::init_toolbar()
 
 	m_toolbar = CToolBarXP().Create24BitToolBarCtrl(*this, commands, FALSE,
 		ATL_SIMPLE_TOOLBAR_STYLE);
+	ATLASSERT(m_toolbar.IsWindow()) ;
 
 #ifdef UNIT_TEST
 	return ;
@@ -2222,13 +2197,11 @@ bool CGlossaryWindow::init_status_bar()
 	
 	ATLASSERT( TWindow( m_hWndStatusBar ).IsWindow() ) ;
 	
-	BOOL success = FALSE ;
 #ifdef UNIT_TEST
 	return true ;
 #endif
 
-	success = m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar ) ;
-	ATLASSERT( success ) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
 	ATLASSERT( m_statusbar.m_mp_sbar.IsWindow() ) ;
 	int arrParts[] = 
 	{ 
@@ -2236,17 +2209,13 @@ bool CGlossaryWindow::init_status_bar()
 		ID_PANE_2
 	};
 
-	int num_array_parts = sizeof(arrParts) / sizeof(arrParts[0]) ;
-	success = m_statusbar.m_mp_sbar.SetPanes(arrParts, num_array_parts, false);
-	ATLASSERT( success ) ;
+	const int num_array_parts = sizeof(arrParts) / sizeof(arrParts[0]) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPanes(arrParts, num_array_parts, false));
 
-	success = m_statusbar.m_mp_sbar.SetPaneWidth( arrParts[1], 100 ) ;
-	ATLASSERT( success ) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPaneWidth( arrParts[1], 100 )) ;
 
 	m_statusbar.m_mp_sbar.UpdatePanesLayout() ;
-
 	reflect_sb_vis();
-
 	return !! m_statusbar.m_mp_sbar.IsWindow() ;
 }
 
@@ -2265,9 +2234,9 @@ void CGlossaryWindow::set_up_recently_used_doclist()
 	m_mru.SetMaxItemLength( 400 ) ;
 }
 
-
 void CGlossaryWindow::check_save_history()
 {
+	// We only save the history for the main glossary.
 	if ( ! is_main() ) 
 	{
 		return ;
@@ -2278,6 +2247,7 @@ void CGlossaryWindow::check_save_history()
 
 	app_props::properties_loaded_history history_props ;
 	history_props.read_from_registry() ;
+
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
 	for ( memory_iterator pos = m_memories->begin() ; 
@@ -2285,7 +2255,7 @@ void CGlossaryWindow::check_save_history()
 		++pos )
 	{
 		memory_pointer mem = *pos ;
-		CString location = mem->get_fullpath() ;
+		const CString location = mem->get_fullpath() ;
 		if ( ::PathFileExists(location) && mem->is_local() ) 
 		{
 			StringCbCopy( history_props.m_data.m_glosses[mem_num], MAX_PATH, location ) ;
@@ -2354,6 +2324,8 @@ LPCTSTR CGlossaryWindow::get_open_filter()
 	return glossary_file_filter ;
 }
 
+// This is just to fool would-be crackers into going on a goose chase.
+// Consider removing.
 void CGlossaryWindow::seed_random_numbers()
 {
 	misc_wrappers::date current_date ;
@@ -2420,8 +2392,8 @@ LRESULT CGlossaryWindow::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandl
 		const int cchBuff = 256;
 		wchar_t szBuff[cchBuff];
 		szBuff[0] = 0;
-		int id = toolmap[idCtrl] ;
-		int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
+		const int id = toolmap[idCtrl] ;
+		const int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
 		for(int i = 0; i < nRet; i++)
 		{
 			pDispInfo->szText[i] = szBuff[i] ;
@@ -2641,7 +2613,7 @@ void CGlossaryWindow::retrieve_record_results_state()
 	mem->replace(old_rec, new_rec) ;
 }
 
-
+// Override the browser context menu.
 void CGlossaryWindow::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
@@ -2659,6 +2631,7 @@ void CGlossaryWindow::set_doc_ui_handler()
 	ATLASSERT(SUCCEEDED(hr)) ;
 }
 
+// Show context menu in response to right click in browser.
 HRESULT CGlossaryWindow::get_doc_context_menu()
 {
 	BANNER("CGlossaryWindow::get_doc_context_menu") ;
@@ -2721,7 +2694,6 @@ LRESULT CGlossaryWindow::on_memory_close()
 			// WTF...
 			ATLASSERT( "Unknown response!" && FALSE ) ;
 			return 0L ;
-
 		}
 	}
 
@@ -2729,10 +2701,6 @@ LRESULT CGlossaryWindow::on_memory_close()
 	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
 	this->set_window_title() ;
 
-	CString status_text ;
-	status_text.FormatMessage( IDS_CLOSED_GLOSSARY, 
-		mem->get_location()) ;
-	user_feedback( status_text ) ;
-
+	user_feedback( system_message(IDS_CLOSED_GLOSSARY, mem->get_location()) ) ;
 	return 0L ;
 }

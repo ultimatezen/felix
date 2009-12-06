@@ -72,14 +72,17 @@ bool CCommonWindowFunctionality::is_demo()
 /************************************************************************/
 bool CCommonWindowFunctionality::user_feedback( const CString &feedback, int pane )
 {
+	SENSE(CStringA(feedback)) ;
 	return m_statusbar.user_feedback(feedback, pane) ;
 }
 bool CCommonWindowFunctionality::user_feedback( const UINT id, int pane )
 {
+	SENSE(resource_string_a(id)) ;
 	return m_statusbar.user_feedback(id, pane) ;
 }
 bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pane )
 {
+	SENSE(string2string(feedback)) ;
 	return m_statusbar.user_feedback(feedback, pane) ;
 }
 //////////////////////// == end user-feedback related == //////////////////
@@ -854,7 +857,9 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 	CMemoryManagerDlg dlg(title_id) ;
 
 	dlg.set_memories( this->get_memory_model() ) ;
-
+#ifdef UNIT_TEST
+	return true ;
+#endif
 	if( IDOK != dlg.DoModal( ) )
 	{
 		return false ;

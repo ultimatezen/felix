@@ -29,23 +29,6 @@ void CNavUrl::process_url(_bstr_t& url)
 	{
 		switch( tags.get_tag_code( tokens[0] ) ) 
 		{
-		// register gloss entries page
-		//case CHrefTags::TAG_REG_GLOSS_SET_SOURCE:
-		//	m_interface->OnNavRegGlossSetSource() ;
-		//	return ;
-		//case CHrefTags::TAG_REG_GLOSS_SET_TRANS:
-		//	m_interface->OnNavRegGlossSetTrans() ;
-		//	return ;
-		//case CHrefTags::TAG_REG_GLOSS_BACK:
-		//	m_interface->OnNavRegGlossBack() ;
-		//	return ;
-		//case CHrefTags::TAG_REG_GLOSS_ADD:
-		//	m_interface->OnNavRegGlossAdd() ;
-		//	return ;
-		// initial page
-		case CHrefTags::TAG_SHOW_ABOUT:
-			m_interface->OnNavShowAbout() ;
-			return ;
 		// added trans page
 		case CHrefTags::TAG_EDIT:
 			m_interface->OnNavEdit( string2long( tokens[1] ) ) ;

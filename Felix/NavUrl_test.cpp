@@ -94,23 +94,6 @@ namespace easyunit
 
 	}
 
-	TEST( CNavUrlTestCase, NavInitialPage )
-	{
-		CNavInterfaceDummy dummy ;
-
-		CNavUrl nav_url( static_cast< CNavInterface* >( &dummy ) ) ;
-
-		_bstr_t url(L"100:show_about") ;
-		nav_url.process_url( url );
-		ASSERT_EQUALS( 1, dummy.m_call_history.size() ) ;
-		ASSERT_EQUALS( _T("OnNavShowAbout"), *(dummy.m_call_history.begin() ) ) ;
-
-		url = _bstr_t(L"http://www.ginstrom.com/" ) ;
-		nav_url.process_url( url );
-		ASSERT_EQUALS( 1, dummy.m_call_history.size() ) ;
-		ASSERT_EQUALS( _T("OnNavShowAbout"), *(dummy.m_call_history.begin() ) ) ;
-
-	}
 
 	TEST( CNavUrlTestCase, NavAddedTransPage )
 	{

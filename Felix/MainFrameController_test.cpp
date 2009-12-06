@@ -110,9 +110,10 @@ namespace easyunit
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_USER_SEARCH, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_search" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_user_replace_edit_record )
@@ -176,9 +177,10 @@ namespace easyunit
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_SOURCE_CONCORDANCE_SEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_source_concordance" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_trans_concordance)
@@ -187,9 +189,10 @@ namespace easyunit
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_TRANS_CONCORDANCE_SEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_trans_concordance" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 	}
 
@@ -321,9 +324,10 @@ namespace easyunit
 		LRESULT lResult = 1 ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Loading file [spam_n_bacon.xml]..." ) ;
 
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 
@@ -345,9 +349,12 @@ namespace easyunit
 		LRESULT lResult = 1 ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(5, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Loading file [sample.tmx]..." ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[3].c_str()), "Failed to load file [sample.tmx]" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[4].c_str()), "Failed to load file [sample.tmx]" ) ;
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, on_mru_file_open_direct_call)

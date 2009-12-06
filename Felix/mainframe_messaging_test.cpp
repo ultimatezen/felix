@@ -236,17 +236,6 @@ namespace easyunit
 		ASSERT_EQUALS_M( 0, lResult, "lResult should equal 0") ;
 	}
 
-	TEST( CMainFrameMessages, OnNavShowAbout )
-	{
-		MainFrameModel model ;
-		CMainFrame main_frame( &model ) ;
-
-		main_frame.OnNavShowAbout() ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnNavShowAbout"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "show_about_dialog" ) ;
-	}
-
 	TEST( CMainFrameMessages, OnNavEdit )
 	{
 		MainFrameModel model ;
