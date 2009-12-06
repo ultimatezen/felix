@@ -43,28 +43,22 @@ public:
 	{
 		logging::log_error("Error handling message in Input Symbol dialog.") ;
 		logging::log_exception(e) ;
-		CString msg ;
-		ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
-		e.notify_user( msg ) ;
+		e.notify_user( resource_string(IDS_MSG_ACTION_FAILED) ) ;
 	}
 	catch (std::exception&e)
 	{
 		logging::log_error("Error handling message in Input Symbol dialog.") ;
 		logging::log_error(e.what()) ;
 		CString emsg = CA2CT( e.what() ) ;
-		CString msg ;
-		ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
 		CException myEx( emsg ) ;
-		myEx.notify_user( msg ) ;
+		myEx.notify_user( resource_string(IDS_MSG_ACTION_FAILED) ) ;
 	}
 	catch ( _com_error &e ) 
 	{
 		logging::log_error("Error handling message in Input Symbol dialog.") ;
 		logging::log_exception(e) ;
 		CComException comEx( e ) ;
-		CString msg ;
-		ATLVERIFY(msg.LoadString( IDS_MSG_ACTION_FAILED )) ;
-		comEx.notify_user( msg ) ;
+		comEx.notify_user( resource_string(IDS_MSG_ACTION_FAILED) ) ;
 	}
 	END_MSG_MAP()
 

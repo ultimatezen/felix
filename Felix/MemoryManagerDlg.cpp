@@ -399,9 +399,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 
 	if (m_title_id)
 	{
-		CString title ;
-		ATLVERIFY(title.LoadString(m_title_id)) ;
-		this->SetWindowText(title) ;
+		this->SetWindowText(resource_string(m_title_id)) ;
 	}
 
 	return TRUE ;
@@ -472,8 +470,7 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 	windows_ui ui( m_hWnd ) ;
 	file::OpenDlgList import_files ;
 	
-	CString dialog_title ;
-	ATLVERIFY(dialog_title.LoadString( IDS_OPEN )) ;
+	const CString dialog_title = resource_string(IDS_OPEN);
 
 	LPCTSTR filter = NULL ;
 	LPCTSTR fileext = NULL ;

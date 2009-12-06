@@ -6,9 +6,7 @@ CQueryMergeDlg::CQueryMergeDlg(int title_res_id, int text_res_id, const tstring 
 	m_iMerge(IDC_MERGE)
 {
 	ATLVERIFY(m_title.LoadString(title_res_id)) ;
-	CString fmt ;
-	ATLVERIFY(fmt.LoadString(text_res_id)) ;
-	m_merge_message.Format(fmt, mem_name.c_str()) ;
+	m_merge_message.Format(resource_string(text_res_id), mem_name.c_str()) ;
 }
 
 LRESULT CQueryMergeDlg::OnDupMsgStnDblClk(int, UINT, HWND)

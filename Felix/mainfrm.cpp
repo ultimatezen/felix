@@ -79,21 +79,16 @@ const static wstring white_background	= L"#ffffff" ;
 CString get_help_file_path( CString path )
 {
 	file::CPath filePath( path ) ;
-	CString to_append ;
-	ATLVERIFY(to_append.LoadString( IDS_HELPFILE_NAME )) ;
-	filePath.Append( to_append ) ;
+	filePath.Append( resource_string(IDS_HELPFILE_NAME) ) ;
 
 	if ( ! filePath.FileExists() ) 
 	{
-		ATLVERIFY(to_append.LoadString( IDS_PDF_HELPFILE_NAME )) ;
-		filePath.ReplaceFileSpec( to_append ) ;
+		filePath.ReplaceFileSpec(resource_string(IDS_PDF_HELPFILE_NAME)) ;
 	}
 
 	if ( ! filePath.FileExists() ) 
 	{
-		CString url ;
-		ATLVERIFY(url.LoadString( IDS_ONLINE_HELPFILE_URL )) ;
-		return url ;
+		return resource_string(IDS_ONLINE_HELPFILE_URL) ;
 	}
 
 	return filePath.Path() ;
@@ -115,9 +110,6 @@ CString get_docs_path()
 }
 
 
-
-
-
 /** Constructor. Takes model interface.
  */
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
@@ -129,7 +121,7 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_model->m_memories = m_model->create_memory_model() ; 
 
 	m_properties.m_gen_props.read_from_registry() ;
-	BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
+	const BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
 	this->m_trans_matches.m_params.m_show_marking = !! show_markup ;
 
     addToMessageLoop();
@@ -178,7 +170,6 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	
 	this->register_command_event_listener( ID_FIND_QUICKSEARCH, boost::bind(&CMainFrame::on_find, this, _1 )) ;
 
-
 	this->register_command_event_listener( IDD_CONCORDANCE, boost::bind(&CMainFrame::on_concordance, this, _1 )) ;
 	this->register_command_event_listener( ID_EDIT_REPLACE, boost::bind(&CMainFrame::on_edit_replace, this, _1 )) ;
 
@@ -222,14 +213,17 @@ CMainFrame::~CMainFrame()
 {
 	ATLASSERT( FALSE == m_CmdBar.IsWindow() ) ;
 	if ( m_CmdBar.m_hWnd )
+	{
 		m_CmdBar.m_hWnd = NULL ;
-
+	}
 #ifndef UNIT_TEST
 	ATLASSERT( FALSE == IsWindow() ) ;
 #endif
 
 	if ( m_hWnd )
+	{
 		m_hWnd = NULL ;
+	}
 }
 
 /**************************************************
@@ -240,10 +234,6 @@ CMainFrame::~CMainFrame()
 
 
 /** We get a crack at messages before the are dispatched.
- * 
- * \param MSG* pMsg
- * MSG struct
- * 
  */
 BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 {
@@ -277,13 +267,15 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 
 	// let the frame window have a try
 	if( frame_class::PreTranslateMessage( pMsg ) )
+	{
 		return TRUE;
-
+	}
 	// prevent the view from eating our menu shortcut keys...
-	int nVirtKey = ::GetKeyState(VK_MENU);
+	const int nVirtKey = ::GetKeyState(VK_MENU);
 	if (nVirtKey & 0x8000)
+	{
 		return FALSE ;
-
+	}
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
 }
 
@@ -304,9 +296,7 @@ BOOL CMainFrame::OnIdle()
 //! Gets the background color.
 CColorRef CMainFrame::GetBackColor()
 {
-	wstring color_str = m_view_interface.get_bg_color() ;
-	CColorRef color( color_str ) ;
-	return color;
+	return CColorRef( m_view_interface.get_bg_color() ) ;
 }
 
 //! Respond to user command to format the background color.
@@ -315,7 +305,7 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	message ;
 	SENSE("OnFormatBackgroundColor") ;
 
-	CColorRef color = GetBackColor();
+	const CColorRef color = GetBackColor();
 
 	SENSE(color.as_string()) ;
 
@@ -326,16 +316,17 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	CColorDialog dialog( color.as_colorref() ) ; // current color is default
 	
 	if ( dialog.DoModal() == IDCANCEL )
+	{
 		return 0 ;
-	
+	}
 	// get the color the user picked
-	color = dialog.GetColor() ;
+	const CColorRef newcolor(dialog.GetColor()) ;
 	
-	m_properties.m_view_props.m_data.m_back_color = (int)color.as_colorref() ;
+	m_properties.m_view_props.m_data.m_back_color = (int)newcolor.as_colorref() ;
 	m_properties.m_view_props.write_to_registry() ;
 	
 	// turn it into an HTML tag
-	m_view_interface.set_bg_color( color.as_wstring() ) ;
+	m_view_interface.set_bg_color( newcolor.as_wstring() ) ;
 	
 	return 0 ;
 }
@@ -432,7 +423,6 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		// set big icon
 		SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_ICON ) ), TRUE ) ;
 
-		logging::log_debug("reading properties from registry") ;
 		// read our properties from the registry
 		m_appstate.read_from_registry() ;
 		load_util_settings();
@@ -467,10 +457,8 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		add_glossary_window(gloss_window) ;
 		ATLASSERT( m_glossary_windows.size() == 1 ) ; // one and only...
 
-		logging::log_debug("Initializing mainframe window size") ;
 		set_up_window_size() ;
 
-		logging::log_debug("Updating layout") ;
 		UpdateLayout() ; // the toolbar
 
 		init_item_colors();
@@ -485,11 +473,14 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		logging::log_debug("Checking load history") ;
 		check_load_history() ;
-		set_bg_color( static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color ) ) ;
-
+		const CColorRef background_color(static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color )) ;
+		if (! background_color.is_white())
+		{
+			set_bg_color(background_color.as_colorref()) ;
+		}
 
 		logging::log_debug("Checking command line") ;
-		int language = m_properties.m_gen_props.m_data.m_preferred_gui_lang ;
+		const int language = m_properties.m_gen_props.m_data.m_preferred_gui_lang ;
 		commandline_options options(GetCommandLine(), static_cast<WORD>(language)) ;
 		check_command_line(options) ;
 		if (language != options.m_language)
@@ -571,7 +562,7 @@ void CMainFrame::check_command_line(commandline_options &options)
 //! Add a record after editing.
 LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 {
-	LPARAM lparam = message.lParam ;
+	const LPARAM lparam = message.lParam ;
 	set_display_state( static_cast< DISPLAY_STATE >( lparam ) ) ;
 	ATLASSERT( get_display_state() == lparam ) ;
 
@@ -698,7 +689,9 @@ LRESULT CMainFrame::on_find( WindowsMessage &message  )
 	if ( m_view_interface.is_edit_mode() )
 	{
 		if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
+		{
 			m_edit_replace.ShowWindow( SW_HIDE ) ;
+		}
 		m_edit_find.set_document( m_view_interface.get_document() ) ;
 		// we will make sure that the edit find window
 		// is created, and then show it
@@ -731,7 +724,9 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 	else
 	{
 		if ( m_edit_find.IsWindow() && m_edit_find.IsWindowVisible() )
+		{
 			m_edit_find.ShowWindow( SW_HIDE ) ;
+		}
 		m_edit_replace.set_document( m_view_interface.get_document() ) ;
 		init_edit_replace_window( SW_RESTORE ) ;
 	}
@@ -757,7 +752,7 @@ LRESULT CMainFrame::on_concordance(  WindowsMessage &message )
 		return 0L ;
 	}
 
-	wstring query = string2wstring( dialog.get_text() ) ;
+	const wstring query = string2wstring( dialog.get_text() ) ;
 	if ( query.length() > 0 )
 	{
 		get_concordances( query ) ;
@@ -884,7 +879,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 		return 0L ;
 	}
 
-	int selected_index = dialog.get_selected_index() ;
+	const int selected_index = dialog.get_selected_index() ;
 
 	switch( selected_index ) 
 	{
@@ -905,6 +900,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 		
 	}
 
+	// They are regular memory files
 	foreach(CString filename, import_files.m_filenames)
 	{
 		load(filename) ;
@@ -924,8 +920,8 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 
 	try
 	{
-		CString filename(static_cast< LPCWSTR >( url )) ;
-		file::CFileExtension ext(filename) ;
+		const CString filename(static_cast< LPCWSTR >( url )) ;
+		const file::CFileExtension ext(filename) ;
 		if (ext.is_xml() || ext.equals(_T(".ftm")))
 		{
 			this->load(filename) ;
@@ -946,7 +942,7 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 
 		// will return NULL if fails to parse
 		destination_parser parser ;
-		LPMSG pMsg = parser.parse( raw_command ) ;
+		const LPMSG pMsg = parser.parse( raw_command ) ;
 
 		if ( pMsg ) 
 		{
@@ -1039,7 +1035,7 @@ LRESULT CMainFrame::on_file_save(WindowsMessage &)
  */
 void CMainFrame::do_save( memory_pointer mem )
 {
-	file::CFileExtension ext = mem->get_location() ;
+	const file::CFileExtension ext = mem->get_location() ;
 
 	if ( ext.equals( _T(".txt") ) || ext.equals( _T(".tmx") ) || ext.equals( _T(".xls") ) )
 	{
@@ -1055,7 +1051,7 @@ void CMainFrame::do_save( memory_pointer mem )
 
 /** Save a memory that was imported from another format.
  */
-void CMainFrame::handle_foreign_file_save(memory_pointer& mem, file::CFileExtension& ext)
+void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFileExtension& ext)
 {
 	switch ( wants_to_save_in_native_format() ) 
 	{
@@ -1101,18 +1097,13 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	}
 	// clearing location won't work, because we want to offer the current location
 	// as the default file name
-	CString file_name ;
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
-	if ( mem->is_new() == false )
-	{
-		file_name = mem->get_location() ;
-	}
 	
 	save_file_dlg dialog ;
 
-	if ( ! file_name.IsEmpty() ) 
+	if ( ! mem->is_new() ) 
 	{
-		file::CPath path( file_name ) ;
+		file::CPath path( mem->get_location() ) ;
 		path.RemoveExtension() ;
 		dialog.set_default_file( path.Path() ) ;
 	}
@@ -1123,7 +1114,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 
 	dialog.set_filter( get_save_filter() ) ;
 
-	file_name = dialog.get_save_file() ;
+	CString file_name = dialog.get_save_file() ;
 
 	if ( file_name.IsEmpty() )
 	{
@@ -1132,7 +1123,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 
 	file::CPath path( file_name ) ;
 
-	int selected_index = dialog.get_selected_index() ;
+	const int selected_index = dialog.get_selected_index() ;
 
 	switch( selected_index ) 
 	{
@@ -1177,7 +1168,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	}
 
 	// If the name changes, then we make the current user into the creator
-	CString old_location = mem->get_location() ;
+	const CString old_location = mem->get_location() ;
 
 	mem->set_location( file_name ) ;
 
@@ -1292,7 +1283,7 @@ void CMainFrame::check_save_history()
 		has_more_memory_history(pos, mem_num) ; ++pos )
 	{
 		memory_pointer mem = *pos ;
-		CString location = mem->get_fullpath() ;
+		const CString location = mem->get_fullpath() ;
 		if ( ::PathFileExists(location) && mem->is_local()) 
 		{
 			StringCbCopy( history_props.m_data.m_mems[mem_num], MAX_PATH, location ) ;
@@ -1329,7 +1320,7 @@ LRESULT CMainFrame::on_view_toolbar(WindowsMessage &)
 #endif
 	m_appstate.m_is_toolbar_visible = !m_appstate.m_is_toolbar_visible;
 	CReBarCtrl rebar = m_hWndToolBar;
-	int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1);	// toolbar is 2nd added band
+	const int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1);	// toolbar is 2nd added band
 	rebar.ShowBand(nBandIndex, m_appstate.m_is_toolbar_visible);
 	UISetCheck(ID_VIEW_TOOLBAR, m_appstate.m_is_toolbar_visible);
 	UpdateLayout();
@@ -1346,7 +1337,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
+	const bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
 
 	TRACE( edit_mode_enabled ) ;
 
@@ -1465,7 +1456,6 @@ void CMainFrame::handle_enter_edit_mode_concordance()
 	m_view_interface.handle_enter_edit_mode_concordance( m_search_matches ) ;
 
 	user_feedback( IDS_IN_EDIT_MODE ) ;
-
 }
 
 // =========================
@@ -1478,7 +1468,6 @@ void CMainFrame::handle_enter_edit_mode_concordance()
 void CMainFrame::handle_leave_edit_mode_match()
 {
 	user_feedback( IDS_LEAVING_EDIT_MODE ) ;
-	
 
 	if ( get_display_state() == NEW_RECORD_DISPLAY_STATE )
 	{
@@ -1983,7 +1972,7 @@ void CMainFrame::delete_current_translation()
 		return ;
 	}
 
-	size_t pos = m_trans_matches.current_pos( ) ;
+	const size_t pos = m_trans_matches.current_pos( ) ;
 	on_user_delete( static_cast< LPARAM >(pos) ) ;
 }
 
@@ -2093,14 +2082,9 @@ bool CMainFrame::show_new_record( )
  */
 wstring CMainFrame::create_concordance_list( )
 {
-	wstring concordance_list = get_concordance_content_title() ;
-
 	if ( m_search_matches.size() == 0 )
 	{
-		CStringW msg ;
-		msg = system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
-		concordance_list << (LPCWSTR)msg ;
-		return concordance_list ;
+		return get_concordance_content_title() + (LPCWSTR)system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
 	}
 
 	return m_search_matches.get_html_long() ;
@@ -2922,9 +2906,7 @@ bool CMainFrame::set_window_title()
 		active_memory_file_name = resource_string( IDS_NEW ) ;
 	}
 	
-	CString title ;
-
-	ATLVERIFY(title.LoadString( IDS_MEMORY )) ;
+	CString title = resource_string(IDS_MEMORY);
 	title += _T(" [") ;
 	title += active_memory_file_name ;
 	title += _T("]") ;
@@ -4467,9 +4449,7 @@ bool CMainFrame::set_location( CString &location )
  */
 CString CMainFrame::get_window_type_string() 
 {
-	CString window_type_str ;
-	ATLVERIFY(window_type_str.LoadString( IDS_MEMORY )) ;
-	return window_type_str ;
+	return resource_string(IDS_MEMORY) ;
 }
 
 /** Show the match in the minimized view.
@@ -4789,8 +4769,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		logging::log_error("Structured Windows Exception") ;
 		logging::log_exception(sw_e) ;
 		CString language = L"English" ;
-		CString lang_code ;
-		ATLVERIFY(lang_code.LoadString(IDS_LANG_CODE)) ;
+		const CString lang_code = resource_string(IDS_LANG_CODE);
 		if(lang_code == L"jp")
 		{
 			language = L"Japanese" ;
@@ -5652,7 +5631,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 	}
 }
 
-void CMainFrame::load_preferences( CString filename )
+void CMainFrame::load_preferences( const CString filename )
 {
 	WORD old_language = m_appstate.m_preferred_gui_lang ;
 

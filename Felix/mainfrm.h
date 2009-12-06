@@ -317,7 +317,7 @@ public:
 
 	LRESULT on_tools_load_preferences(WindowsMessage &message);
 
-	void load_preferences( CString filename );
+	void load_preferences( const CString filename );
 	LRESULT on_tools_save_preferences(WindowsMessage &message);
 
 	void create_process( CString &command, CString error_message );
@@ -390,7 +390,7 @@ public:
 	wstring create_concordance_list( );
 
 	wstring get_concordance_content_title();
-	void handle_foreign_file_save(memory_pointer& mem, file::CFileExtension& ext);
+	void handle_foreign_file_save(memory_pointer& mem, const file::CFileExtension& ext);
 
 	void feedback_loaded_mem( memory_pointer mem );
 

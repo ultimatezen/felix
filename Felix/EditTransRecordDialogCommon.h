@@ -754,8 +754,7 @@ public:
 		logging::log_error("Edit Trans Record Dialog - Structured Windows Exception") ;
 		logging::log_exception(sw_e) ;
 		CString language = L"English" ;
-		CString lang_code ;
-		ATLVERIFY(lang_code.LoadString(IDS_LANG_CODE)) ;
+		const CString lang_code = resource_string(IDS_LANG_CODE);
 		if(lang_code == L"jp")
 		{
 			language = L"Japanese" ;

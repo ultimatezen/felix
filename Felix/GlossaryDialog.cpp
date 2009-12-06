@@ -921,9 +921,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 		CString content = _T("[");
 		content += get_memory_name(mem) ;
 		content += _T("] ");
-		CString added ;
-		ATLVERIFY(added.LoadString( IDS_ADDED_TRANSLATION )) ;
-		content	+= added ;
+		content	+= resource_string(IDS_ADDED_TRANSLATION) ;
 		content += _T(" ") ;
 		content	+=  system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
 		user_feedback( content ) ;
@@ -1706,9 +1704,7 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_recordConcordance()
 
 CString CGlossaryWindow::get_window_type_string()
 {
-	CString window_type_str ;
-	ATLVERIFY(window_type_str.LoadString( IDS_GLOSSARY )) ;
-	return window_type_str ;
+	return resource_string(IDS_GLOSSARY) ;
 }
 
 void CGlossaryWindow::route_nav_command(LPMSG pMsg)
