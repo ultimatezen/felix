@@ -2150,7 +2150,6 @@ void CGlossaryWindow::init_toolbar()
 
 	m_toolbar = CToolBarXP().Create24BitToolBarCtrl(*this, commands, FALSE,
 		ATL_SIMPLE_TOOLBAR_STYLE);
-	ATLASSERT(m_toolbar.IsWindow()) ;
 
 #ifdef UNIT_TEST
 	return ;

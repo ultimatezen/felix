@@ -4,6 +4,7 @@
 #include "MemoryManagerDlg.h"	// CMemoryManagerDlg
 #include "NumberFmt.h"
 #include "DemoException.h"
+#include "xpmenu/Tools.h"		// CWindowRect
 
 
 #ifdef _DEBUG
@@ -11,6 +12,19 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__ ;
 #endif
+
+// CTOR
+CCommonWindowFunctionality::CCommonWindowFunctionality( )
+:	m_is_short_format( true ),
+m_silent_mode( false ),
+m_mousewheel_count(0),
+m_editor()
+{
+	// display state
+	set_display_state( INIT_DISPLAY_STATE ) ;
+}
+
+
 void add_popup_separator(CMenu &menu) 
 {
 	CMenuItemInfo menu_item ;
@@ -30,18 +44,6 @@ void add_popup_item( CMenu &menu, int command_id, int text_id )
 	menu_item.cch = copy_text.GetLength() ;
 	menu_item.dwTypeData = copy_text.GetBuffer() ;
 
-	//////////////////////////////////////////////////////////////////////////
-	// code below shows up with black background in menu.
-	// need owner drawn?
-	//////////////////////////////////////////////////////////////////////////
-
-	//CBitmap copy_bmp ;
-	//copy_bmp.LoadBitmap(IDB_COPY) ;
-	//images.Add(copy_bmp, RGB(255, 0, 255)) ;
-	//ICONINFO copy_icon_info ;
-	//::GetIconInfo(images.ExtractIcon(0), &copy_icon_info) ;
-	//copy_item.hbmpItem = copy_icon_info.hbmColor ;
-
 	::InsertMenuItem(menu, menu.GetMenuItemCount(), FALSE, (MENUITEMINFO*)&menu_item) ;
 }
 
@@ -55,15 +57,17 @@ CString CCommonWindowFunctionality::get_location()
 }
 
 // Function name	: is_demo
-// Description	    : 
-// Return type		: bool 
-bool CCommonWindowFunctionality::is_demo()
+bool CCommonWindowFunctionality::is_demo() const
 {
 	if ( armadillo::get_environment_var( R2A( IDS_USERKEY ) ).empty() )
+	{
 		return true ;
+	}
 	if ( armadillo::get_environment_var( "EXPIRED" ).empty() == false )
+	{
 		return true ;
-	
+	}
+
 	return false ;
 }
 
@@ -95,15 +99,14 @@ memory_list & CCommonWindowFunctionality::get_memories()
 }
 
 // Function name	: user_wants_to_save
-// Description	    : 
-// Return type		: INT_PTR 
+// Make this a dedicated dialog.
 INT_PTR CCommonWindowFunctionality::user_wants_to_save( const CString &f_name )
 {
 	CString user_prompt ;
-	
-	CString window_type = get_window_type_string() ;
 
-	user_prompt.FormatMessage( IDS_PROMPT_SAVE_MODIFIED, window_type, file::name( f_name ).file_name() ) ;
+	user_prompt.FormatMessage( IDS_PROMPT_SAVE_MODIFIED, 
+							   get_window_type_string(), 
+							   file::name( f_name ).file_name() ) ;
 	
 	ATLASSERT( user_prompt.IsEmpty() == false ) ;
 	ATLASSERT( IsWindow() ) ;
@@ -117,8 +120,6 @@ INT_PTR CCommonWindowFunctionality::user_wants_to_save( const CString &f_name )
 }
 
 // Function name	: check_save
-// Description	    : 
-// Return type		: bool 
 INT_PTR CCommonWindowFunctionality::check_save()
 {
 	memory_list memories_needing_saving ;
@@ -191,9 +192,8 @@ INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(memory_engine::memory_poin
 	do_save(mem) ;
 	return IDYES ;
 }
+
 // Function name	: check_location
-// Description	    : 
-// Return type		: bool 
 bool CCommonWindowFunctionality::check_location()
 {
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
@@ -208,37 +208,30 @@ bool CCommonWindowFunctionality::check_location()
 		msg.FormatMessage( IDS_SAVE, get_window_type_string() ) ;
 
 		CString file_name ;
-		bool success = ui.get_save_file( file_name, msg, XML_FILE_FILTER, XML_FILE_EXT ) ;
-		if ( ! success ) 
+		if ( ! ui.get_save_file( file_name, msg, XML_FILE_FILTER, XML_FILE_EXT ) ) 
 		{
 			return false ;
 		}
 		
 		mem->set_location( file_name ) ;
 		if ( ! mem->empty() )
+		{
 			mem->set_saved_flag( false ) ; // new location, so we have not saved to here before
+		}
 	}
 
 	return true ;
-
 }
 
 // Function name	: on_user_replace_edit_record
-// Description	    : 
-// Return type		: LRESULT 
-// Argument         : LPARAM /* lParam */
 LRESULT CCommonWindowFunctionality::on_user_replace_edit_record( )
 {
 	return 0L ;
 }
 
 // Function name	: init_edit_replace_window
-// Description	    : 
-// Return type		: void 
-// Argument         : int show_command = SW_HIDE
 void CCommonWindowFunctionality::init_edit_replace_window( int show_command /* = SW_HIDE */ )
 {
-
 	if ( ! m_edit_replace.IsWindow() )
 	{
 		ATLASSERT( IsWindow() ) ;	// let's make sure we are not passing around null HWNDs
@@ -255,7 +248,6 @@ void CCommonWindowFunctionality::init_edit_replace_window( int show_command /* =
 // Argument         : int show_command = SW_HIDE
 void CCommonWindowFunctionality::init_edit_find_window( int show_command /* = SW_HIDE */ )
 {
-
 	if ( ! m_edit_find.IsWindow() )
 	{
 		ATLASSERT( IsWindow() ) ;	// let's make sure we are not passing around null HWNDs
@@ -264,16 +256,6 @@ void CCommonWindowFunctionality::init_edit_find_window( int show_command /* = SW
 
 	ATLASSERT( m_edit_find.IsWindow() ) ;
 	m_edit_find.ShowWindow( show_command ) ;
-}
-
-CCommonWindowFunctionality::CCommonWindowFunctionality( )
-:	m_is_short_format( true ),
-	m_silent_mode( false ),
-	m_mousewheel_count(0),
-	m_editor()
-{
-	// display state
-	set_display_state( INIT_DISPLAY_STATE ) ;
 }
 
 HWND CCommonWindowFunctionality::init_view()
@@ -295,9 +277,8 @@ bool CCommonWindowFunctionality::check_delete()
 }
 
 
-bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry( const int title_id )
+bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_id)
 {
-	title_id ;
 	init_edit_window() ;
 	
 	// set the record into the edit dialog
@@ -312,8 +293,8 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry( const int title
 	
 	m_editor.set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
 
-#ifndef UNIT_TEST
 	m_editor.SetWindowText( R2T( title_id ) ) ;
+#ifndef UNIT_TEST
 	m_editor.ShowWindow( SW_SHOW ) ;
 #endif
 
@@ -321,9 +302,6 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry( const int title
 }
 
 // Function name	: CCommonWindowFunctionality::init_edit_window
-// Description	    : 
-// Return type		: bool 
-// Argument         : int show_command
 bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE */ )
 {
 
@@ -354,10 +332,9 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 
 }
 
+// Create a dialog the hard way, because it was failing before.
 void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogProc)
 {
-	CLEAR_WINERRORS ;
-
 	HINSTANCE hInstance = _Module.GetResourceInstance() ;
 	ATLASSERT( hInstance != NULL ) ;
 	TRUE_ENFORCE( hInstance != NULL, _T("Resource Instance not found") ) ;
@@ -366,9 +343,7 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 	HWND hWndParent = m_hWnd ;
 	LPARAM dwInitParam = 1 ;
 
-	BOOL success(FALSE) ;
-	success = AtlAxWinInit();
-	ATLASSERT( success ) ;
+	ATLVERIFY(AtlAxWinInit());
 
 	LPCTSTR lpTemplateName = MAKEINTRESOURCE( res_id ) ;
 	HRSRC hDlg = ::FindResource(hInstance, lpTemplateName, (LPCTSTR)RT_DIALOG);
@@ -389,6 +364,7 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 	if (hDlg)
 	{
 		HGLOBAL hResource = LoadResource(hInstance, hDlg);
+		ATLASSERT(hResource) ;
 		DLGTEMPLATE* pDlg = (DLGTEMPLATE*) LockResource(hResource);
 		LPCDLGTEMPLATE lpDialogTemplate;
 		lpDialogTemplate = _DialogSplitHelper::SplitDialogTemplate(pDlg, pInitData);
@@ -409,9 +385,6 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 }
 
 // Function name	: CCommonWindowFunctionality::init_find_window
-// Description	    : 
-// Return type		: bool 
-// Argument         : int show_command
 bool CCommonWindowFunctionality::init_find_window(int show_command /* = SW_HIDE */, int title /* = 0 */ )
 {
 
@@ -422,7 +395,9 @@ bool CCommonWindowFunctionality::init_find_window(int show_command /* = SW_HIDE 
 	ATLASSERT( m_find.IsWindow() ) ;
 
 	if ( title )
+	{
 		m_find.SetWindowText( R2T( title ) ) ;
+	}
 
 	m_find.ShowWindow( show_command ) ;
 
@@ -432,11 +407,8 @@ bool CCommonWindowFunctionality::init_find_window(int show_command /* = SW_HIDE 
 
 
 // Function name	: get_size
-// Description	    : 
-// Return type		: size_t 
-size_t CCommonWindowFunctionality::get_size() 
+size_t CCommonWindowFunctionality::get_size()
 { 
-
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 	return mem->size() ;
 }
@@ -449,8 +421,6 @@ size_t CCommonWindowFunctionality::get_size()
 // Argument         : UINT title_id = IDS_EDIT_GLOSS
 void CCommonWindowFunctionality::show_edit_dialog( record_pointer &record, const int memory_id, UINT title_id /* = IDS_EDIT_GLOSS */ )
 {
-	title_id ;
-
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 
 	// make sure the window is created, 
@@ -462,8 +432,8 @@ void CCommonWindowFunctionality::show_edit_dialog( record_pointer &record, const
 	m_editor.set_memory_id( memory_id ) ;
 	// remember our display state
 	m_editor.set_display_state( get_display_state() ) ;
-#ifndef UNIT_TEST
 	m_editor.SetWindowText( R2T( title_id ) ) ;
+#ifndef UNIT_TEST
 	// show the dialog
 	init_edit_window( SW_SHOW ) ;
 #endif
@@ -474,9 +444,6 @@ void CCommonWindowFunctionality::show_edit_dialog( record_pointer &record, const
 // (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_bold( )
 {
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
 	m_view_interface.do_bold() ;
 	return 0L ;
 }
@@ -487,9 +454,6 @@ LRESULT CCommonWindowFunctionality::on_bold( )
 // (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_underline( )
 {
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
 	m_view_interface.do_underline() ;
 	return 0L ;
 }
@@ -500,25 +464,17 @@ LRESULT CCommonWindowFunctionality::on_underline( )
 // (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_italic( )
 {
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
 	m_view_interface.do_italic() ;
 	return 0L ;
 }
 
 // Function name	: change_display_state
-// Description	    : 
-// Return type		: void 
-// Argument         : const int new_state
 void CCommonWindowFunctionality::set_display_state( DISPLAY_STATE new_state )
 {
 	m_display_state = new_state ;
 }
 
 // Function name	: get_display_sate
-// Description	    : 
-// Return type		: int 
 int CCommonWindowFunctionality::get_display_state()
 {
 	return m_display_state ;
@@ -526,8 +482,6 @@ int CCommonWindowFunctionality::get_display_state()
 
 
 // Function name	: prev_display_state
-// Description	    : 
-// Return type		: int 
 int CCommonWindowFunctionality::prev_display_state()
 {
 
@@ -543,8 +497,6 @@ int CCommonWindowFunctionality::prev_display_state()
 }
 
 // Function name	: next_display_state
-// Description	    : 
-// Return type		: int 
 int CCommonWindowFunctionality::next_display_state()
 {
 	return prev_display_state() ;
@@ -572,9 +524,8 @@ void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 	
 	CString location = mem->get_location() ;
-	file::CFileExtension ext(location) ;
-	CString mem_ext = _T(".") ;
-	mem_ext += this->get_save_ext() ;
+	const file::CFileExtension ext(location) ;
+	const CString mem_ext = CString(".") + this->get_save_ext() ;
 	if (! (ext.is_xml() || ext.equals(mem_ext)))
 	{
 		location += mem_ext ;
@@ -622,10 +573,7 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 			return 0L ;
 		}
 
-		memory_pointer mem = this->get_memory_model()->get_first_memory() ;
-		mem->refresh_status() ;
-
-		if ( ! mem->is_demo() )
+		if ( ! this->is_demo() )
 		{
 			return 0L ;
 		}
@@ -683,9 +631,8 @@ void CCommonWindowFunctionality::refresh_replace_window()
 		return ;
 	}
 
-	BOOL was_visible = m_edit_replace.IsWindowVisible() ;
-	RECT rect ;
-	m_edit_replace.GetWindowRect( &rect ) ;
+	const BOOL was_visible = m_edit_replace.IsWindowVisible() ;
+	CWindowRect rect(m_edit_replace) ;
 	m_edit_replace.DestroyWindow() ;
 	// initialize
 	init_edit_replace_window( was_visible ? SW_SHOW : SW_HIDE ) ;
@@ -703,9 +650,8 @@ void CCommonWindowFunctionality::refresh_edit_find_window()
 		return ;
 	}
 
-	BOOL was_visible = m_edit_find.IsWindowVisible() ;
-	RECT rect ;
-	m_edit_find.GetWindowRect( &rect ) ;
+	const BOOL was_visible = m_edit_find.IsWindowVisible() ;
+	CWindowRect rect(m_edit_find) ;
 	m_edit_find.DestroyWindow() ;
 	// initialize
 	init_edit_find_window( was_visible ? SW_SHOW : SW_HIDE ) ;
@@ -723,9 +669,8 @@ void CCommonWindowFunctionality::refresh_find_window()
 		return ;
 	}
 
-	BOOL was_visible = m_find.IsWindowVisible() ;
-	RECT rect ;
-	m_find.GetWindowRect( &rect ) ;
+	const BOOL was_visible = m_find.IsWindowVisible() ;
+	CWindowRect rect(m_find) ;
 	m_find.DestroyWindow() ;
 	// initialize
 	init_find_window( was_visible ? SW_SHOW : SW_HIDE, IDS_MEMORY_SEARCH ) ;
@@ -750,7 +695,7 @@ void CCommonWindowFunctionality::refresh_windows()
 void CCommonWindowFunctionality::refresh_view_content()
 {
 	// remember if we were in edit mode
-	bool was_enabled = m_view_interface.is_edit_mode() ;
+	const bool was_enabled = m_view_interface.is_edit_mode() ;
 
 	WindowsMessage message ;
 	if ( was_enabled ) 
@@ -795,8 +740,7 @@ BOOL CCommonWindowFunctionality::dropped_in_client( CDropHandle dropped )
 	CPoint p ;
 	dropped.DragQueryPoint( &p ) ;
 
-	CRect rect ;
-	GetClientRect( &rect ) ;
+	CClientRect rect(*this) ;
 	return rect.PtInRect( p ) ; 
 }
 
@@ -809,7 +753,7 @@ BOOL CCommonWindowFunctionality::handle_sw_exception( CSWException &e, const CSt
 {
 	user_feedback(failure_message) ;
 
-	CString message = get_swe_error_message(failure_message);
+	const CString message = get_swe_error_message(failure_message);
 	e.notify_user( message, MB_OK, _T("Structured Windows Exception"), m_hWnd ) ;		 
 
 	return FALSE ;											 
@@ -907,7 +851,7 @@ LRESULT CCommonWindowFunctionality::OnMouseWheel( UINT, WPARAM wparam, LPARAM )
 	{
 		return 1L;
 	}
-	short zDelta = ((short)HIWORD(wparam)) ;
+	const short zDelta = ((short)HIWORD(wparam)) ;
 	if (zDelta < 0)
 	{
 		m_view_interface.run_script("decreaseFont") ;
@@ -1002,7 +946,7 @@ CCommonWindowFunctionality::MERGE_CHOICE CCommonWindowFunctionality::get_merge_c
 */
 void CCommonWindowFunctionality::set_bg_color( COLORREF c )
 {
-	CColorRef color( c ) ;
+	const CColorRef color( c ) ;
 	// turn it into an HTML tag
 	wstring color_str = color.as_wstring() ;
 #ifndef UNIT_TEST

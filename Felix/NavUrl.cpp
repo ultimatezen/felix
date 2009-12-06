@@ -16,7 +16,7 @@ CNavUrl::~CNavUrl(void)
 }
 
 // Process a URL from BeforeNavigate2
-void CNavUrl::process_url(_bstr_t& url)
+void CNavUrl::process_url(const _bstr_t& url)
 {
 	m_should_cancel = true ;
 
@@ -62,7 +62,7 @@ bool CNavUrl::should_cancel(void)
 }
 
 // Process the url into tokens
-void CNavUrl::tokenize_url(_bstr_t& url, token_vec& tokens)
+void CNavUrl::tokenize_url(const _bstr_t& url, token_vec& tokens)
 {
 	textstream_reader< wchar_t > reader( url ) ;
 
@@ -76,7 +76,7 @@ void CNavUrl::tokenize_url(_bstr_t& url, token_vec& tokens)
 	}
 }
 
-bool CNavUrl::is_url(_bstr_t& url)
+bool CNavUrl::is_url(const _bstr_t& url)
 {
 	CString url_tchar = CW2T( url ) ;
 	return !! ::PathIsURL( url_tchar ) || !! ::PathFileExists(url_tchar) ;

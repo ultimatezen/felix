@@ -216,7 +216,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_underline" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V( 1, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_bold)
 	{
@@ -227,7 +227,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_bold" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V( 1, (int)lResult) ;
 	}
 
 	TEST( MainFrameControllerTests, Teston_italic)
@@ -239,7 +239,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_italic" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V( 1, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_format_background_color)
 	{

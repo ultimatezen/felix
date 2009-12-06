@@ -2896,9 +2896,7 @@ bool CMainFrame::set_window_title()
 	
 	try
 	{
-		memory_pointer mem(new memory_engine::memory_local()) ;
-		mem->refresh_status() ;
-		if (mem->is_demo())
+		if (this->is_demo())
 		{
 			title += _T(" - ") ;
 			title += resource_string( IDS_DEMO_VER ) ;
@@ -3374,9 +3372,7 @@ LRESULT CMainFrame::on_help_register(WindowsMessage &)
 	{
 		try
 		{
-			memory_pointer mem(new memory_local()) ;
-			mem->refresh_status() ;
-			if ( mem->is_demo() ) 
+			if ( this->is_demo() ) 
 			{
 				MessageBox( resource_string( IDS_NOT_REGISTERED_USER ), resource_string( IDS_NOT_REGISTERED_USER_TITLE ) ) ;
 				user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
@@ -3766,9 +3762,7 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 		return 0L ;
 	}
 
-	memory_local mem ;
-	mem.refresh_status() ;
-	if ( ! mem.is_demo() )
+	if ( ! this->is_demo() )
 	{
 		return 0L ;
 	}
@@ -4914,7 +4908,9 @@ void CMainFrame::translation_concordance_feedback()
 //! Show concordance match count in status bar.
 void CMainFrame::concordance_feedback(const wstring plain_text, size_t num)
 {
-	user_feedback(system_message(IDS_FOUND_X_MATCHES_FOR_STRING, int_arg(num), plain_text.c_str())) ;
+	user_feedback(system_message(IDS_FOUND_X_MATCHES_FOR_STRING, 
+								 int_arg(num), 
+								 plain_text.c_str())) ;
 }
 
 //! Tell the user that we deleted a new record.

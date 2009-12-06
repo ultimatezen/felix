@@ -132,7 +132,7 @@ public:
 	void do_percent_done_msg( size_t current_val ) ;
 
 	CString get_location() ;
-	bool is_demo() ;
+	bool is_demo() const;
 
 	bool user_feedback( const CString &feedback, int pane = 0) ;
 	bool user_feedback( const UINT id, int pane = 0) ;
@@ -171,7 +171,7 @@ public:
 	bool show_edit_dialog_for_new_entry( const int title_id ) ;
 	bool init_edit_window(int show_command = SW_HIDE) ;
 	bool init_find_window(int show_command = SW_HIDE, int title = 0 ) ;
-	size_t get_size()  ;
+	size_t get_size() ;
 	void show_edit_dialog( memory_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
 
 	void set_display_state( DISPLAY_STATE new_state ) ;

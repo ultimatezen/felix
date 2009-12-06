@@ -26,12 +26,12 @@ public:
 
 public:
 	// Process a URL from BeforeNavigate2
-	void process_url(_bstr_t& url);
+	void process_url(const _bstr_t& url);
 	// @brief Tells the caller whether navigation should be cancelled.
 	bool should_cancel(void);
 
 
 	// Process the url into tokens
-	void tokenize_url(_bstr_t& url, token_vec& tokens);
-	bool is_url(_bstr_t& url);
+	void tokenize_url(const _bstr_t& url, token_vec& tokens);
+	bool is_url(const _bstr_t& url);
 };
