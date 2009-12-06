@@ -69,6 +69,8 @@ public:
 	
 	DISPLAY_STATE		m_display_state ;
 
+	// Save the last deleted match, so we can undo...
+	search_match_ptr		m_deleted_match ;
 
 	// recent docs list
 	CMyRecentDocumentList		m_mru ;

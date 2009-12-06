@@ -75,10 +75,12 @@ namespace easyunit
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_FILE_SAVE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(4, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_save" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_file_save" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[3].c_str()), "empty" ) ;
+		ASSERT_EQUALS_V(0, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record )
 	{

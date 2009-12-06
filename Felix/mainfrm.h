@@ -56,15 +56,15 @@ public:
 	// ====================
 	// various records
 	// ====================
-	record_pointer				m_new_record ;
+	record_pointer			m_new_record ;	  // last added record
+	record_pointer			m_review_record ; // review mode
 
+	appstate_mainframe		m_appstate ;
 
-	appstate_mainframe			m_appstate ;
+	CMinViewDlg				m_min_view ;
 
-	CMinViewDlg					m_min_view ;
-
-	CCommandBarCtrlXP			m_CmdBar ;
-	CToolBarXP					m_stdToolbar ;
+	CCommandBarCtrlXP		m_CmdBar ;
+	CToolBarXP				m_stdToolbar ;
 
 	 // ====================
 	// translation matches
@@ -88,8 +88,6 @@ public:
 	app_props::properties				m_properties ;
 	// the memory controller
 	memory_model_mem	m_silent_memories ;
-
-	record_pointer		m_review_record ;
 
 	CSearchWindow		m_search_window ;
 public:

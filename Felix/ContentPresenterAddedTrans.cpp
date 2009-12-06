@@ -20,17 +20,15 @@ CContentPresenterAddedTrans::~CContentPresenterAddedTrans(void)
 }
 void CContentPresenterAddedTrans::present()
 {
-	wstring body_text = generate_text() ;
+	const wstring body_text = generate_text() ;
 
-#ifndef UNIT_TEST
 	m_view->set_body_text( body_text ) ;
-#endif
 }
 wstring CContentPresenterAddedTrans::generate_text()
 {
-	wstring tpl_text = get_template_text("match_new.txt") ;
-	CTextTemplate engine ;
+	const wstring tpl_text = get_template_text("match_new.txt") ;
 
+	CTextTemplate engine ;
 	engine.Assign(L"source", m_rec->get_source_rich()) ;
 	engine.Assign(L"trans", m_rec->get_trans_rich()) ;
 

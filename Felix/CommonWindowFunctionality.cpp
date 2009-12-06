@@ -785,6 +785,10 @@ LRESULT CCommonWindowFunctionality::on_user_edit_search( LPARAM lParam  )
 // Was the file dropped in the client rect?
 BOOL CCommonWindowFunctionality::dropped_in_client( CDropHandle dropped )
 {
+#ifdef UNIT_TEST
+	dropped ;
+	return TRUE ;
+#endif
 	CPoint p ;
 	dropped.DragQueryPoint( &p ) ;
 

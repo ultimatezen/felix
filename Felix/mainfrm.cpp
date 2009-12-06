@@ -919,15 +919,10 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 	{
 		const CString filename(static_cast< LPCWSTR >( url )) ;
 		const file::CFileExtension ext(filename) ;
-		if (ext.is_xml() || ext.equals(_T(".ftm")))
+		if (ext.is_xml() || ext.equals(_T(".ftm")) || ext.equals(_T(".tmx")) || ext.is_txt())
 		{
 			this->load(filename) ;
 			return true ; // should cancel
-		}
-		if (ext.equals(_T(".tmx")))
-		{
-			this->import_tmx(filename) ;
-			return true ;
 		}
 		if (ext.equals(".fprefs"))
 		{
@@ -2274,7 +2269,11 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 	{
 	case INIT_DISPLAY_STATE:
 	case REG_GLOSS_DISPLAY_STATE: 
-		throw CException( IDS_INVALID_STATE ) ;
+		{
+			MessageBeep(MB_ICONEXCLAMATION) ;
+			user_feedback(IDS_NO_MATCHES);
+			return 0L ;
+		}
 	case NEW_RECORD_DISPLAY_STATE: 
 		{
 			ATLASSERT( index == 0 ) ;
@@ -2427,8 +2426,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 bool CMainFrame::add_record( record_pointer record )
 {
 	SENSE("add_record") ;
-	ATLASSERT( record->get_source_rich().empty() == false ) ;
-	ATLASSERT( record->get_trans_rich().empty() == false ) ;
+	ATLASSERT( record->is_valid_record() ) ;
 
 	add_record_to_memory( record ) ;
 
@@ -2460,7 +2458,7 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
 {
 	ATLASSERT( ::IsWindow( focus_hwnd ) ) ;
 
-	size_t num_glossaries = m_glossary_windows.size() ;
+	const size_t num_glossaries = m_glossary_windows.size() ;
 	for ( size_t index=0 ; index<num_glossaries ; ++index )
 	{
 		if ( m_glossary_windows[index]->IsWindow() )
@@ -2518,6 +2516,7 @@ bool CMainFrame::show_view_content()
 				
 				m_min_view.m_view.set_body_text( wstring() ) ;
 				doc.set_bg_color( white_background ) ;
+				set_bg_color_if_needed() ;
 				check_mousewheel() ;
 				return true ;
 			}
@@ -2643,8 +2642,6 @@ LRESULT CMainFrame::on_user_nav(LPARAM lParam )
 
 	switch( lParam )
 	{
-	case IDD_CONCORDANCE:
-		return 0 ;
 	case IDC_PREV:
 		prev_display_state() ;
 		show_view_content() ;
@@ -2671,6 +2668,8 @@ LRESULT CMainFrame::on_user_nav(LPARAM lParam )
 
 
 /** Add the entry at index lParam to the glossary.
+ * If the index is out of range, then give a beep and feedback in the
+ * status bar (we used to throw an exception).
  */
 LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 {
@@ -2808,7 +2807,7 @@ LRESULT CMainFrame::on_tools_preferences(  WindowsMessage &message )
 
 	reflect_preferences() ;
 
-	wstring user_name = CT2W(m_properties.m_gen_props.m_data.m_user_name) ;
+	const wstring user_name = CT2W(m_properties.m_gen_props.m_data.m_user_name) ;
 	set_record_username(user_name) ;
 
 	user_feedback( IDS_PREFS_REGISTERED ) ;
@@ -2849,6 +2848,7 @@ LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 		SetUILanguage( LANG_JAPANESE ) ;
 		break ;
 	default:
+		ATLTRACE("** Unknown gui language: %d\n", m_appstate.m_preferred_gui_lang) ;
 		SetUILanguage( LANG_ENGLISH ) ;
 	}
 
@@ -2956,6 +2956,7 @@ void CMainFrame::set_translation_at(short index, const wstring &translation )
 {
 	if ( m_trans_matches.empty() )
 	{
+		user_feedback(IDS_OUT_OF_RANGE) ;
 		return ;
 	}
 	search_match_ptr current ;
@@ -2974,7 +2975,6 @@ void CMainFrame::set_translation_at(short index, const wstring &translation )
 		current = m_trans_matches.at( index ) ;
 	}
 	current->get_record()->set_trans( translation ) ;
-
 }
 
 /** import a list of tmx files.
@@ -3215,6 +3215,12 @@ bool CMainFrame::correct_trans(const wstring &trans)
 {
 	if ( m_model->m_memories->empty() )
 	{
+		user_feedback(IDS_NO_QUERIES) ;
+		return false ;
+	}
+	if (trans.empty())
+	{
+		user_feedback(IDS_EMPTY_QUERY) ;
 		return false ;
 	}
 
@@ -3230,8 +3236,14 @@ bool CMainFrame::correct_trans(const wstring &trans)
 			user_feedback( IDS_CORRECTED_TRANS ) ;
 			return true ;
 		}
-		// this must be true!
-		TRUE_ENFORCE( ! m_trans_matches.get_query_rich().empty(), IDS_NO_QUERIES ) ;
+
+		// must not be empty!
+		if (m_trans_matches.get_query_rich().empty())
+		{
+			MessageBeep(MB_ICONEXCLAMATION) ;
+			user_feedback(IDS_NO_QUERIES) ;
+			return false ;
+		}
 
 		if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 		{
@@ -3244,7 +3256,12 @@ bool CMainFrame::correct_trans(const wstring &trans)
 			return true ;
 		}
 
-		TRUE_ENFORCE( ! m_trans_matches.empty(), IDS_NO_QUERIES ) ;
+		if (m_trans_matches.empty())
+		{
+			MessageBeep(MB_ICONEXCLAMATION) ;
+			user_feedback(IDS_NO_QUERIES) ;
+			return false ;
+		}
 
 		// the match
 		search_match_ptr current = m_trans_matches.current() ;
@@ -3268,6 +3285,7 @@ bool CMainFrame::correct_trans(const wstring &trans)
 	{
 		logging::log_error("Failed to correct translation") ;
 		logging::log_exception(e) ;
+		user_feedback(IDS_TRANS_SET_FAILED) ;
 		e.notify_user( IDS_TRANS_SET_FAILED ) ; // TEXT("Failed to set translation.") ) ;
 		return false ;
 	}
@@ -3289,10 +3307,9 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
 
-
 	// this will hold our matches
 	m_search_matches.clear() ;
-	m_search_matches.set_trans( query_string ) ;
+	m_search_matches.set_trans(query_string) ;
 
 	m_search_matches.m_params.m_ignore_case = true ;
 
@@ -3319,12 +3336,7 @@ LRESULT CMainFrame::on_source_concordance(WindowsMessage &)
 {
 	SENSE("on_source_concordance") ;
 
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
-
 	get_concordances(m_view_interface.get_selection_text()) ;
-
 	return 0 ;
 }
 
@@ -3335,43 +3347,21 @@ LRESULT CMainFrame::on_trans_concordance(WindowsMessage &)
 {
 	SENSE("on_trans_concordance") ;
 
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
-
 	get_translation_concordances(m_view_interface.get_selection_text()) ;
-
 	return 0 ;
-
 }
 
 /** Help -> Register.
  * Show the register dialog.
  */
-LRESULT CMainFrame::on_help_register( WindowsMessage &message )
+LRESULT CMainFrame::on_help_register(WindowsMessage &)
 {
-	message ;
 	SENSE("on_help_register") ;
 
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	try
-	{
-		memory_pointer mem(new memory_local()) ;
-		mem->refresh_status() ;
-		if ( mem->is_demo()) 
-		{
-			CNagDialog nagger ;
-			if ( IDCANCEL == nagger.DoModal( ) )
-				return 0L ;
-		}
-	}
-	catch(...)
-	{
-		logging::log_error("An error occurred while showing the Nag dialog") ;
-		throw ;
-	}
+
 	// prompt him!
 	CInputKeyDlg input_key_dlg ;
 	
@@ -3379,30 +3369,31 @@ LRESULT CMainFrame::on_help_register( WindowsMessage &message )
 	{
 		MessageBox( resource_string( IDS_REGISTERED_USER ), resource_string( IDS_REGISTERED_USER_TITLE ) ) ;
 		user_feedback( IDS_REGISTERED_USER_TITLE ) ;
-		set_window_title() ;
 	}
-	
-	try
+	else
 	{
-		memory_pointer mem(new memory_local()) ;
-		mem->refresh_status() ;
-		if ( mem->is_demo() ) 
+		try
 		{
-
-			MessageBox( resource_string( IDS_NOT_REGISTERED_USER ), resource_string( IDS_NOT_REGISTERED_USER_TITLE ) ) ;
+			memory_pointer mem(new memory_local()) ;
+			mem->refresh_status() ;
+			if ( mem->is_demo() ) 
+			{
+				MessageBox( resource_string( IDS_NOT_REGISTERED_USER ), resource_string( IDS_NOT_REGISTERED_USER_TITLE ) ) ;
+				user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
+			}
+		}
+		catch(...)
+		{
+			logging::log_error("An error occurred while checking user registration") ;
 			user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
+			set_window_title() ;
+			return -1 ;
 		}
 	}
-	catch(...)
-	{
-		logging::log_error("An error occurred while checking user registration") ;
-		return -1 ;
-	}
+	
+	set_window_title() ;
 	return 0L ;
 }
-
-
-
 
 
 /** Toggle markup (matches) between on and off.
@@ -3436,10 +3427,6 @@ LRESULT CMainFrame::on_user_save(WindowsMessage &message)
 {
 	SENSE("on_user_save") ;
 
-#ifdef UNIT_TEST
-	return 0L;
-#endif
-
 	on_file_save(message) ;
 	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
@@ -3458,9 +3445,6 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 	HDROP dropped = (HDROP)message.wParam ;
 	SENSE("on_drop") ;
 
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
 	if ( ! dropped_in_client( dropped ) ) 
 	{
 		SetMsgHandled( FALSE ) ;
@@ -3473,7 +3457,9 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 	
 	if ( ! num_files ) 
 	{
+#ifndef UNIT_TEST
 		SetMsgHandled( FALSE ) ;
+#endif		
 		return 0L ;
 	}
 	
@@ -3509,6 +3495,7 @@ LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 
 	return 0L ;
 }
+
 
 LRESULT CMainFrame::on_toggle_views(WindowsMessage &)
 {
@@ -4810,7 +4797,6 @@ void CMainFrame::set_bg_color_if_needed()
  */
 LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/ )
 {
-
 	static std::map<int, int> toolmap ;
 
 	if( toolmap.empty() )

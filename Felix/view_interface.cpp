@@ -48,6 +48,9 @@ void view_interface::ensure_navigation_complete(HACCEL accel, HWND hwnd)
 
 const wstring view_interface::get_selection_text()
 {
+#ifdef UNIT_TEST
+	return L"spam" ;
+#endif
 	html::CHtmlSelection selection = m_view.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
 	const wstring selection_text = BSTR2wstring(range.get_html_text()) ;
