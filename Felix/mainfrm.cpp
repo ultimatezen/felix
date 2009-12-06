@@ -474,11 +474,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		logging::log_debug("Checking load history") ;
 		check_load_history() ;
-		const CColorRef background_color(static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color )) ;
-		if (! background_color.is_white())
-		{
-			set_bg_color(background_color.as_colorref()) ;
-		}
+		set_bg_color_if_needed() ;
 
 		logging::log_debug("Checking command line") ;
 		const int language = m_properties.m_gen_props.m_data.m_preferred_gui_lang ;
@@ -967,10 +963,6 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 				return true ;
 			case IDC_TOGGLE_MARK:
 				on_user_toggle_markup( message ) ;
-				return true ;
-			case IDC_CMD:
-			case 145:
-				show_about_dialog(message) ;
 				return true ;
 			}
 
@@ -4597,7 +4589,7 @@ LRESULT CMainFrame::on_mru_file_open(WindowsMessage &message)
 {
 	SENSE("on_mru_file_open") ;
 
-	int index = static_cast<int>(LOWORD( message.wParam )) ;
+	const int index = static_cast<int>(LOWORD( message.wParam )) ;
 	CString fname ;
 	m_mru.GetFromList(index, fname) ;
 
@@ -4621,9 +4613,8 @@ LRESULT CMainFrame::on_mru_file_open(WindowsMessage &message)
 
 
 //! We got rid of the WTL switch statement style to add flexibility
-BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID /*= 0*/ )
+BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD /*dwMsgMapID*/ /*= 0*/ )
 {
-	dwMsgMapID ;
 	try
 	{
 		BOOL bHandled = FALSE ;
@@ -4632,7 +4623,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		MESSAGE_HANDLER_EX(0x020A/*WM_MOUSEWHEEL*/, OnMouseWheel)
 
 		const messageMapType *theMessageMap = this->get_message_map( uMsg ) ;
-		UINT key = this->get_message_key( uMsg, wParam ) ;
+		const UINT key = this->get_message_key( uMsg, wParam ) ;
 
 		messageMapType::const_iterator pos = theMessageMap->find( key ) ;
 		if ( pos != theMessageMap->end() )
@@ -4649,7 +4640,9 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 		// chain to members
 		if( m_view_interface.ProcessWindowMessage(hWnd, uMsg, wParam, lParam, lResult) ) 
+		{
 			return TRUE; 
+		}
 
 		CHAIN_MSG_MAP(CUpdateUI<CMainFrame>) ;
 
@@ -4805,7 +4798,7 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 //! Set the background color unless it's white (the default)
 void CMainFrame::set_bg_color_if_needed()
 {
-	CColorRef color((COLORREF)m_properties.m_view_props.m_data.m_back_color) ;
+	const CColorRef color((COLORREF)m_properties.m_view_props.m_data.m_back_color) ;
 	if (! color.is_white())
 	{
 		m_view_interface.set_bg_color(color.as_wstring()) ;
