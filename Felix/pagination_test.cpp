@@ -66,7 +66,7 @@ namespace easyunit
 		Paginator paginator ;
 		paginator.set_num_records(1) ;
 		wstring text = get_pagination_text(paginator) ;
-		TRACE(text) ;
+
 		ASSERT_TRUE(text.find(L"Previous") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"Next") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"/next_page") == wstring::npos) ;
@@ -77,7 +77,7 @@ namespace easyunit
 		Paginator paginator ;
 		paginator.set_num_records(50) ;
 		wstring text = get_pagination_text(paginator) ;
-		TRACE(text) ;
+
 		ASSERT_TRUE(text.find(L"Previous") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"Next") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"/next_page") != wstring::npos) ;
@@ -89,7 +89,7 @@ namespace easyunit
 		paginator.set_num_records(50) ;
 		paginator.next_page() ;
 		wstring text = get_pagination_text(paginator) ;
-		TRACE(text) ;
+
 		ASSERT_TRUE(text.find(L"Previous") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"Next") != wstring::npos) ;
 		ASSERT_TRUE(text.find(L"/next_page") != wstring::npos) ;

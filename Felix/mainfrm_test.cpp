@@ -530,6 +530,7 @@ namespace easyunit
 		ASSERT_EQUALS_M(first_time, second_time, err_msg) ;
 	}
 
+	// recalculate_match
 	TEST(TestCMainFrame, recalculate_source)
 	{
 		MainFrameModel model ;
@@ -544,7 +545,7 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = CStringA(match->get_markup()->GetSource().c_str()) ;
+		SimpleString expected = "aa<span class=\"nomatch\">bb</span>cc" ;
 
 		mainframe.recalculate_match(match, params) ;
 		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
@@ -565,14 +566,80 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		SimpleString expected = "aa<span class=\"nomatch\">dd</span>cc" ;
 
 		mainframe.recalculate_match(match, params) ;
 		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST(TestCMainFrame, recalculate_source_trans_lookup)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
 
+		add_record(mainframe, L"aabbcc", L"112233") ;
+
+		search_query_params params ;
+		params.m_rich_source = L"11aa33" ;
+		params.m_source = L"11aa33" ;
+		params.m_match_algo = IDC_ALGO_CHAR ;
+
+		mainframe.lookup_trans(params.m_rich_source) ;
+		search_match_ptr match = mainframe.m_trans_matches.at(0) ;
+		model.m_is_reverse_lookup = true ;
+		mainframe.recalculate_match(match, params) ;
+
+		SimpleString expected = "aabbcc" ;
+		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCMainFrame, recalculate_trans_trans_lookup)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+
+		add_record(mainframe, L"aabbcc", L"112233") ;
+
+		search_query_params params ;
+		params.m_rich_source = L"11aa33" ;
+		params.m_source = L"11aa33" ;
+		params.m_match_algo = IDC_ALGO_CHAR ;
+
+		mainframe.lookup_trans(params.m_rich_source) ;
+		search_match_ptr match = mainframe.m_trans_matches.at(0) ;
+		model.m_is_reverse_lookup = true ;
+		mainframe.recalculate_match(match, params) ;
+
+		SimpleString expected = "11<span class=\"nomatch\">22</span>33" ;
+		SimpleString actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCMainFrame, recalculate_query_trans_lookup)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+
+		add_record(mainframe, L"aabbcc", L"112233") ;
+
+		search_query_params params ;
+		params.m_rich_source = L"11aa33" ;
+		params.m_source = L"11aa33" ;
+		params.m_match_algo = IDC_ALGO_CHAR ;
+
+		mainframe.lookup_trans(params.m_rich_source) ;
+		search_match_ptr match = mainframe.m_trans_matches.at(0) ;
+		model.m_is_reverse_lookup = true ;
+		mainframe.recalculate_match(match, params) ;
+
+		SimpleString expected = "11<span class=\"nomatch\">aa</span>33" ;
+		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	// init_lookup_properties
 	TEST(TestCMainFrame, test_init_trans_matches_for_lookup_on)
 	{
 		MainFrameModel model ;

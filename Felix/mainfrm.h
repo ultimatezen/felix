@@ -101,7 +101,7 @@ public:
 	messageMapType m_command_message_map ;
 	FelixModelInterface *m_model ;
 
-	void AddMenuBitmap( int BitmapId, int CmdId ) ;
+	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;
 
 	void set_zoom_level(int zoom_level);
 	LRESULT on_view_zoom(WindowsMessage &);
@@ -341,8 +341,6 @@ public:
 	LRESULT on_user_register(LPARAM num );
 
 	record_pointer get_reg_gloss_record( const size_t num );
-	void check_search_match_bounds(size_t num) ;
-	void check_trans_match_bounds(size_t num) ;
 
 	LRESULT on_user_delete( LPARAM num );
 
@@ -373,7 +371,6 @@ public:
 	void retrieve_record_review_state();
 	LRESULT on_user_add_to_glossary( LPARAM lParam );
 	LRESULT on_user_nav( LPARAM lParam );
-	LRESULT on_user_command( LPARAM lParam );
 	LRESULT on_user_save(WindowsMessage &message);
 	LRESULT on_user_view_min_end(WindowsMessage &message);
 	LRESULT on_user_toggle_markup(WindowsMessage &message)  ;

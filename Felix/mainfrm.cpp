@@ -37,6 +37,7 @@
 #include "Drop.h"				// CDrop
 
 #include "HtmlDocColorSetter.h"	// CHtmlDocColorSetter
+#include "xpmenu/Tools.h"		// CWindowRect
 
 #include "HtmlHelp.h"
 #pragma comment(lib, "HtmlHelp.lib")
@@ -952,9 +953,6 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 			case IDC_NAV:
 				on_user_nav( pMsg->lParam ) ;
 				return true ;
-			case IDC_CMD:
-				on_user_command( pMsg->lParam ) ;
-				return true ;
 			case IDC_EDIT:
 				on_user_edit( message ) ;
 				return true ;
@@ -970,15 +968,10 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 			case IDC_TOGGLE_MARK:
 				on_user_toggle_markup( message ) ;
 				return true ;
+			case IDC_CMD:
 			case 145:
-				{
-					if( pMsg->lParam == 146 ) 
-					{
-						WindowsMessage dlg_message ;
-						show_about_dialog(dlg_message) ;
-					}
-					return true ;
-				}
+				show_about_dialog(message) ;
+				return true ;
 			}
 
 		}
@@ -2117,7 +2110,12 @@ double CMainFrame::get_score( const short index )
 	}
 	else
 	{
-		check_trans_match_bounds(static_cast<size_t>( index )) ;
+		if ( static_cast<size_t>( index ) >= m_trans_matches.size() )
+		{
+			MessageBeep(MB_ICONEXCLAMATION) ;
+			user_feedback(IDS_OUT_OF_RANGE) ;
+			return 0.0 ;
+		}
 		return m_trans_matches.at( static_cast<size_t>(index) )->get_score() ;
 	}
 }
@@ -2273,6 +2271,8 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 	return 0 ;
 #endif
 
+	const size_t index = static_cast<size_t>(num) ;
+
 	if ( m_model->m_memories->empty() )
 	{
 		throw CException( IDS_INVALID_STATE ) ;
@@ -2285,7 +2285,7 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 		throw CException( IDS_INVALID_STATE ) ;
 	case NEW_RECORD_DISPLAY_STATE: 
 		{
-			ATLASSERT( num == 0 ) ;
+			ATLASSERT( index == 0 ) ;
 
 			if ( ! check_delete() )
 			{
@@ -2309,17 +2309,22 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 				return 0L ;
 			}
 
-			check_trans_match_bounds(static_cast<size_t>(num)) ;
+			if ( index >= m_trans_matches.size() )
+			{
+				MessageBeep(MB_ICONEXCLAMATION) ;
+				user_feedback(IDS_OUT_OF_RANGE) ;
+				return 0L ;
+			}
 			
 			if ( ! check_delete() )
 			{
 				return 0L ;
 			}
 
-			search_match_ptr match = m_trans_matches.at(num) ;
+			search_match_ptr match = m_trans_matches.at(index) ;
 			remove_match_record(match);
 
-			m_trans_matches.erase_at(num) ;
+			m_trans_matches.erase_at(index) ;
 
 			if ( m_trans_matches.empty() )
 			{
@@ -2344,16 +2349,22 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
-			check_search_match_bounds(static_cast<size_t>( num )) ;
+			if ( index >= m_search_matches.size() )
+			{
+				MessageBeep(MB_ICONEXCLAMATION) ;
+				user_feedback(IDS_OUT_OF_RANGE) ;
+				return 0L ;
+			}
 
 			if ( ! check_delete() )
+			{
 				return 0L ;
-
-			search_match_ptr match = m_search_matches.at( num ) ;
+			}
+			search_match_ptr match = m_search_matches.at( index ) ;
 
 			remove_match_record(match);
 
-			m_search_matches.erase_at( num ) ;
+			m_search_matches.erase_at( index ) ;
 			show_view_content() ;
 			break ;
 		}
@@ -2589,8 +2600,13 @@ wstring CMainFrame::get_translation_at(short index)
 	{
 		return wstring( ) ;
 	}
+	if ( static_cast<size_t>(index) >= m_trans_matches.size() )
+	{
+		MessageBeep(MB_ICONEXCLAMATION) ;
+		user_feedback(IDS_OUT_OF_RANGE) ;
+		return wstring() ;
+	}
 
-	check_trans_match_bounds(static_cast<size_t>( index )) ;
 	search_match_ptr current = m_trans_matches.at( index ) ;
 	return get_record_translation(current->get_record());
 }
@@ -2624,29 +2640,6 @@ void CMainFrame::destroy_all_gloss_windows()
 		}
 	}
 	m_glossary_windows.clear() ;
-}
-
-
-/** Responds to a user command
- */
-LRESULT CMainFrame::on_user_command(LPARAM lParam)
-{
-	SENSE("on_user_command") ;
-
-	ATLASSERT( lParam == IDC_ABOUT ) ;
-
-	if ( lParam != IDC_ABOUT )
-	{
-		return 0L;
-	}
-
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
-
-	WindowsMessage message ;
-	this->show_about_dialog(message) ;
-	return 0L;
 }
 
 
@@ -2707,13 +2700,23 @@ LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 	}
 	case MATCH_DISPLAY_STATE: 
 		{
-			check_trans_match_bounds(index) ;
+			if ( index >= m_trans_matches.size() )
+			{
+				MessageBeep(MB_ICONEXCLAMATION) ;
+				user_feedback(IDS_OUT_OF_RANGE) ;
+				return 0L ;
+			}
 			rec = m_trans_matches.at(index)->get_record() ;
 			break ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
-			check_search_match_bounds(index) ;
+			if ( index >= m_search_matches.size() )
+			{
+				MessageBeep(MB_ICONEXCLAMATION) ;
+				user_feedback(IDS_OUT_OF_RANGE) ;
+				return 0L ;
+			}
 			rec = m_search_matches.at(index)->get_record() ;
 			break ;
 		}
@@ -2970,7 +2973,12 @@ void CMainFrame::set_translation_at(short index, const wstring &translation )
 	}
 	else
 	{
-		check_trans_match_bounds(static_cast<size_t>( index )) ;
+		if ( static_cast<size_t>( index ) >= m_trans_matches.size() )
+		{
+			MessageBeep(MB_ICONEXCLAMATION) ;
+			user_feedback(IDS_OUT_OF_RANGE) ;
+			return ;
+		}
 		current = m_trans_matches.at( index ) ;
 	}
 	current->get_record()->set_trans( translation ) ;
@@ -3756,7 +3764,7 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 		return 0L ;
 	}
 
-	// only do this if it is the first launch
+	// only do this if it is not the first launch
 	app_props::properties_general gen_props ;
 	gen_props.read_from_registry() ;
 	if (! gen_props.m_data.m_first_launch)
@@ -3777,6 +3785,8 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 		return 0L ;
 	}
 
+	// We should have returned if it's not the first launch.
+	ATLASSERT(gen_props.m_data.m_first_launch) ;
 	SetFocus() ;
 	if ( ! ::GetFocus())
 	{
@@ -3790,14 +3800,14 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 		return 0L ;
 	}
 
-	// nag him!
+	// Demo version on first launch: nag him!
 	CNagDialog nagger ;
 	if ( IDCANCEL == nagger.DoModal( ) )
 	{
 		return 0L ;
 	}
 
-	// prompt him!
+	// User wants to register: prompt him!
 	CInputKeyDlg input_key_dlg ;
 	INT_PTR	input_key_result = input_key_dlg.DoModal( ) ;
 
@@ -3836,38 +3846,24 @@ void CMainFrame::add_memory(memory_pointer mem)
 void CMainFrame::set_up_default_initial_size()
 {
 	// get dimensions of desktop
-	CRect desktop_rect ;
-	desktop_rect.SetRectEmpty() ;
-	BOOL success = ::GetWindowRect(GetDesktopWindow(), &desktop_rect ) ;
-
-	ASSERT_WITH_WINERR( success ) ;
+	const CWindowRect desktop_rect(GetDesktopWindow()) ;
 	
 	// get dimensions of the mainframe
-	CRect frame_window_rect ;
-	frame_window_rect.SetRectEmpty() ;
-	success = GetWindowRect( &frame_window_rect ) ;
-	
-	ASSERT_WITH_WINERR( success ) ;
+	CWindowRect frame_window_rect(*this) ;
 	
 	// dimensions of our top glossary window
-	CRect dialog_rect ;
-	dialog_rect.SetRectEmpty() ;
-	success = m_glossary_windows[0]->GetWindowRect( &dialog_rect ) ;
-	
-	ASSERT_WITH_WINERR( success ) ;
+	const CWindowRect dialog_rect(m_glossary_windows[0]->m_hWnd) ;
 	
 	// calculate dialog size
-	int width = ( desktop_rect.Width() ) - ( ( dialog_rect.Width() ) + 5 ) ;
-	int height = dialog_rect.Height() ;
+	const int width = ( desktop_rect.Width() ) - ( ( dialog_rect.Width() ) + 5 ) ;
+	const int height = dialog_rect.Height() ;
 	frame_window_rect.right = 5 + desktop_rect.left + width ;
 	frame_window_rect.left = 5 ;
 	frame_window_rect.top = desktop_rect.top ;
 	frame_window_rect.bottom = frame_window_rect.top + height ;
 	
 	// justify window left, place it under parent
-	success = MoveWindow( &frame_window_rect, TRUE ) ;
-
-	ASSERT_WITH_WINERR( success ) ;
+	ATLVERIFY(MoveWindow( &frame_window_rect, TRUE )) ;
 }
 
 /** Add our tool bars and menu.
@@ -3919,9 +3915,7 @@ void CMainFrame::set_up_command_bars()
 	m_CmdBar.SetImageSize(16, 16) ;
 
 	// attach menu
-	BOOL success(FALSE) ;
-	success = m_CmdBar.AttachMenu(GetMenu()) ;
-	ASSERT_WITH_WINERR(success) ;
+	ATLVERIFY(m_CmdBar.AttachMenu(GetMenu())) ;
 
 	// remove old menu
 	SetMenu(NULL);
@@ -3944,17 +3938,15 @@ void CMainFrame::set_up_command_bars()
 	AddMenuBitmap(IDB_DELETE, ID_EDIT_DELETE) ;
 
 	// Create the rebar, and add the menu and toolbar to it.
-	success = CreateSimpleReBar(ATL_SIMPLE_REBAR_NOBORDER_STYLE) ;
-	ASSERT_WITH_WINERR(success) ;
+	ATLVERIFY(CreateSimpleReBar(ATL_SIMPLE_REBAR_NOBORDER_STYLE)) ;
 	AddSimpleReBarBand(m_CmdBar);
 	AddSimpleReBarBand(m_stdToolbar, NULL, m_appstate.m_rebar_has_linebreak);
 	SizeSimpleReBarBands() ;
-	success = UIAddToolBar(m_stdToolbar) ;
-	ASSERT_WITH_WINERR(success) ;
+	ATLVERIFY(UIAddToolBar(m_stdToolbar)) ;
 }
 
 //! Add a bitmap menu item.
-void CMainFrame::AddMenuBitmap( int BitmapId, int CmdId ) 
+void CMainFrame::AddMenuBitmap( const int BitmapId, const int CmdId ) 
 {
 	CBitmap bmp ;
 	bmp.LoadBitmap( BitmapId ) ;
@@ -3978,7 +3970,7 @@ void CMainFrame::show_initial_content()
 {
 	m_view_interface.ensure_document_complete( m_hAccel, m_hWnd ) ;
 
-	CString filename = get_template_filename(_T("start.html")) ;
+	const CString filename = get_template_filename(_T("start.html")) ;
 	m_view_interface.navigate(filename) ;
 
 	m_view_interface.ensure_document_complete( m_hAccel, m_hWnd ) ;
@@ -3992,12 +3984,10 @@ void CMainFrame::set_up_status_bar()
 	return ;
 #endif
 	// create the status bar
-	BOOL success = CreateSimpleStatusBar();
-	ASSERT_WITH_WINERR( success ) ;
+	ATLVERIFY(CreateSimpleStatusBar());
 	ATLASSERT( ::IsWindow(m_hWndStatusBar) ) ;
 	
-	success = m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar ) ;
-	ASSERT_WITH_WINERR( success ) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
 	ATLASSERT( m_statusbar.m_mp_sbar.IsWindow() ) ;
 
 	int arrParts[] = 
@@ -4007,51 +3997,43 @@ void CMainFrame::set_up_status_bar()
 		ID_PANE_2
 	} ;
 
-	success = m_statusbar.m_mp_sbar.SetPanes(arrParts, sizeof(arrParts) / sizeof(arrParts[0]), false) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPanes(arrParts, sizeof(arrParts) / sizeof(arrParts[0]), false)) ;
 	CString version_info ;
 	version_info.Format(_T("Felix v. %s"), _T(VERSION)) ;
 	user_feedback(version_info, 1) ;
-	ASSERT_WITH_WINERR( success ) ;
-
 }
 
 /** Set up the various menu checkmarks and such.
  */
 void CMainFrame::set_up_ui_state()
 {
-	BOOL success (FALSE) ;
 	if( m_appstate.m_is_toolbar_visible )
 	{
-		success = UISetCheck(ID_VIEW_TOOLBAR, 1) ;
-		ASSERT_WITH_WINERR(  success ) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, 1)) ;
 	}
 	else
 	{
-		success = UISetCheck(ID_VIEW_TOOLBAR, 0) ;
-		ASSERT_WITH_WINERR(  success ) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, 0)) ;
 		ATLASSERT( ::IsWindow( m_hWndToolBar ) ) ;
 
 		CReBarCtrl rebar = m_hWndToolBar ;
-		int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1) ;	// toolbar is 2nd added band
+		const int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1) ;	// toolbar is 2nd added band
 		rebar.ShowBand(nBandIndex, FALSE ) ;
 	}
 	
 	
-	success = UIEnable( ID_EDIT_REPLACE, FALSE, TRUE ) ;
-	ASSERT_WITH_WINERR(  success ) ;
-	
+	ATLVERIFY(UIEnable( ID_EDIT_REPLACE, FALSE, TRUE )) ;
 	
 	if( m_appstate.m_is_statusbar_visible )
 	{
-		success = UISetCheck(ID_VIEW_STATUS_BAR, 1) ;
-		ASSERT_WITH_WINERR(  success ) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, 1)) ;
 	}
 	else
 	{
+		// Returns: If the window was previously visible, the return value is nonzero.
 		::ShowWindow(m_hWndStatusBar, SW_HIDE ) ;
 		
-		success = UISetCheck(ID_VIEW_STATUS_BAR, 0) ;
-		ASSERT_WITH_WINERR(  success ) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, 0)) ;
 	}
 
 }
@@ -4117,10 +4099,7 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 {
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
 	
-	bool added_record = false ;
-	added_record = mem->add_record( record )  ; 
-	
-	if ( ! added_record )
+	if ( ! mem->add_record( record ) )
 	{
 		if ( mem->is_locked() )
 		{
@@ -4155,20 +4134,22 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 	maker.m_ignore_case = m_trans_matches.m_params.m_ignore_case ;
 	maker.m_ignore_hira_kata = m_trans_matches.m_params.m_ignore_hira_kata ;
 	maker.m_ignore_width = m_trans_matches.m_params.m_ignore_width ;
+	
+	const wstring search_segment = m_trans_matches.get_query_rich();
 
+	const Segment query(maker, search_segment) ;
 	record_pointer rec = match->get_record() ;
 	
-	wstring search_segment ;
-
+	int match_algo = m_trans_matches.m_params.m_match_algo ;
+	if ( match_algo == IDC_ALGO_AUTO )
+	{
+		match_algo = detect_match_algo(query.cmp()) ;
+	}
+	
 	if ( m_model->m_is_reverse_lookup )
 	{
-		Segment query(maker, m_trans_matches.get_query_rich()) ;
-		Segment source(maker, rec->get_trans_rich()) ;
-		int	match_algo = m_trans_matches.m_params.m_match_algo ;
-		if ( match_algo == IDC_ALGO_AUTO )
-		{
-			match_algo = detect_match_algo(query.cmp()) ;
-		}
+		// look up based on translation
+		const Segment source(maker, rec->get_trans_rich()) ;
 		matcher.get_trans_score(query, 
 								source, 
 								match_algo,
@@ -4176,13 +4157,8 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 	}
 	else
 	{
-		Segment query(maker, m_trans_matches.get_query_rich()) ;
-		Segment source(maker, rec->get_source_rich()) ;
-		int	match_algo = m_trans_matches.m_params.m_match_algo ;
-		if ( match_algo == IDC_ALGO_AUTO )
-		{
-			match_algo = detect_match_algo(query.cmp()) ;
-		}
+		// look up normally (using source)
+		const Segment source(maker, rec->get_source_rich()) ;
 		matcher.get_score(query, 
 						source, 
 						match_algo,
@@ -4247,7 +4223,6 @@ void CMainFrame::show_user_search_results()
 {
 	set_display_state ( CONCORDANCE_DISPLAY_STATE );
 	show_view_content() ;
-
 }
 
 /** Refresh the glossary window text after switching GUI languages.
@@ -4255,7 +4230,7 @@ void CMainFrame::show_user_search_results()
 void CMainFrame::set_lang_of_gloss_windows()
 {
 	// now set each of our glossaries...
-	size_t num_glossaries = m_glossary_windows.size() ;
+	const size_t num_glossaries = m_glossary_windows.size() ;
 	for ( size_t i=0 ; i<num_glossaries ; ++i )
 	{
 		if ( m_glossary_windows[i]->IsWindow() )
@@ -4273,10 +4248,8 @@ void CMainFrame::refresh_command_bar()
 	HMENU menu = ::LoadMenu( h, MAKEINTRESOURCE( IDR_MAINFRAME ) ) ;
 	ATLASSERT( menu != NULL ) ;
 	m_CmdBar.AttachMenu( menu );
-//	m_CmdBar.LoadImages(IDR_MAINFRAME) ;
 
 	refresh_mru_doc_list(menu);
-
 }
 
 /** We need to reload the MRU list after switching GUI languages.
@@ -4289,7 +4262,6 @@ void CMainFrame::refresh_mru_doc_list(HMENU menu)
 	m_mru.SetMenuHandle(::GetSubMenu(menu, 0));
 	// read our doc history back for the new menu
 	m_mru.ReadFromRegistry( resource_string( IDS_REG_KEY ) );
-
 }
 
 /** This is so we can call this from CCommonWindowFunctionality
@@ -4390,9 +4362,7 @@ VARIANT_BOOL CMainFrame::get_show_marking()
 	{
 		return VARIANT_TRUE ;
 	}
-
 }
-
 
 
 /** Set the location of the top memory.
@@ -4437,8 +4407,6 @@ void CMainFrame::show_min_view_match()
 
 		record_pointer rec = match->get_record() ;
 
-		wstring rich_trans = rec->get_trans_rich() ;
-
 		double score = match->get_score() ;
 
 		if ( FLOAT_EQ( score, 1.0 ) )
@@ -4454,8 +4422,8 @@ void CMainFrame::show_min_view_match()
 			doc.set_bg_color( orange_match ) ;	
 		}
 
-		wstring content = rich_trans ;
-		content << L"<hr>" ;
+		wstring content = rec->get_trans_rich() ;
+		content << L"<hr />" ;
 		content << R2W( IDS_SCORE ) << L": " << double2percent_wstring( score ) ;
 
 		m_min_view.m_view.set_body_text( content ) ;	
@@ -4537,43 +4505,38 @@ BOOL CMainFrame::should_save_memory_history()
 }
 
 //! Respond to italic command.
-LRESULT CMainFrame::on_italic( WindowsMessage &message )
+LRESULT CMainFrame::on_italic(WindowsMessage &)
 {
-	message ;
 	SENSE("on_italic") ;
 
 	return CCommonWindowFunctionality::on_italic( ) ;
 }
 
 //! Respond to an underline command.
-LRESULT CMainFrame::on_underline( WindowsMessage &message )
+LRESULT CMainFrame::on_underline(WindowsMessage &)
 {
-	message ;
 	SENSE("on_underline") ;
 
 	return CCommonWindowFunctionality::on_underline( ) ;
 }
 
 //! Respond to bold command.
-LRESULT CMainFrame::on_bold( WindowsMessage &message )
+LRESULT CMainFrame::on_bold(WindowsMessage &)
 {
-	message ;
 	SENSE("on_bold") ;
 	return CCommonWindowFunctionality::on_bold( ) ;
 }
 
 //! Save all open memory files.
-LRESULT CMainFrame::on_file_save_all( WindowsMessage &message )
+LRESULT CMainFrame::on_file_save_all(WindowsMessage &)
 {
-	message ;
 	SENSE("on_file_save_all") ;
 	return CCommonWindowFunctionality::on_file_save_all( ) ;
 }
 
 //! Replace the record with the one beind edited.
-LRESULT CMainFrame::on_user_replace_edit_record( WindowsMessage &message )
+LRESULT CMainFrame::on_user_replace_edit_record(WindowsMessage &)
 {
-	message ;
 	SENSE("on_user_replace_edit_record") ;
 	return CCommonWindowFunctionality::on_user_replace_edit_record( ) ;
 }
@@ -4626,24 +4589,6 @@ memory_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num
 
 		search_match_ptr match = m_search_matches.at( num ) ;
 		return match->get_record() ;
-	}
-}
-
-//! make sure that the search match index isn't out of bounds.
-void CMainFrame::check_search_match_bounds(size_t num)
-{
-	if ( num >= m_search_matches.size() )
-	{
-		throw CException( IDS_OUT_OF_RANGE ) ;
-	}
-}
-
-//! Make sure that the translation match index isn't out of bounds.
-void CMainFrame::check_trans_match_bounds(size_t num)
-{
-	if ( num >= m_trans_matches.size() )
-	{
-		throw CException( IDS_OUT_OF_RANGE ) ;
 	}
 }
 
