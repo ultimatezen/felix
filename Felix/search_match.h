@@ -81,6 +81,10 @@ private:
 
 		m_memory_location = cpy.m_memory_location ;
 		m_memory_id = cpy.m_memory_id ;
+
+		m_MatchPairing = cpy.m_MatchPairing ;
+		m_HasPlacement cpy.m_HasPlacement ;
+
 	}
 };
 

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "memory_remote.h"
 #include "DemoException.h"
+#include "logging.h"
 
 namespace memory_engine
 {
@@ -19,7 +20,7 @@ namespace memory_engine
 	void memory_remote::convert_candidates( trans_set &candidates, CComVariant disp )
 	{
 		CDispatchWrapper matches(disp.pdispVal) ;
-		int count = matches.prop_get(L"Count").iVal ;
+		const int count = matches.prop_get(L"Count").iVal ;
 
 		for (int i = 0 ; i < count ; ++i)
 		{
@@ -75,12 +76,12 @@ namespace memory_engine
 		if ( m_gloss_properties.get_min_score() < 100 )
 		{
 			set_minimum_score( m_gloss_properties.get_min_score() ) ;
-			Segment haystack(m_cmp_maker, params.m_rich_source) ;
+			const Segment haystack(m_cmp_maker, params.m_rich_source) ;
 
 			search_match_ptr match(new search_match) ;
 			foreach(record_pointer record, candidates)
 			{
-				Segment needle(m_cmp_maker, record->get_source_rich()) ;
+				const Segment needle(m_cmp_maker, record->get_source_rich()) ;
 				match->set_record(record) ;
 				if(m_match_maker.fuzzy_gloss_score(needle, haystack, match))
 				{
@@ -93,7 +94,7 @@ namespace memory_engine
 		}
 		else
 		{
-			Segment segment(m_cmp_maker, params.m_rich_source) ;
+			const Segment segment(m_cmp_maker, params.m_rich_source) ;
 			const wstring query_cmp = segment.cmp() ;
 			gloss_match_tester tester(query_cmp) ;
 
@@ -154,8 +155,8 @@ namespace memory_engine
 		catch (_com_error& e)
 		{
 			BANNER("Error in memory_remote::erase") ;
-			TRACE(e.Description()) ;
-			TRACE(e.ErrorMessage()) ;
+
+			logging::log_error("Failed to remove record from remote memory") ;
 
 			CComException com_e(e) ;
 			com_e.add_to_message(_T("Error removing record from remote memory")) ;
@@ -176,7 +177,6 @@ namespace memory_engine
 		{
 			BANNER("Error in memory_remote::add_record") ;
 			logging::log_error("Failed to add remote record") ;
-			logging::log_exception(e) ;
 
 			ATLASSERT("Failed to add remote record" && FALSE) ;
 
@@ -197,7 +197,7 @@ namespace memory_engine
 		}
 		// check for demo status
 		refresh_status() ;
-		if ( is_demo() )
+		if ( this->is_demo() )
 		{
 			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
 			{
@@ -216,6 +216,7 @@ namespace memory_engine
 			if (recvar.vt == VT_NULL)
 			{
 				record_remote *remrec = new record_remote(CDispatchWrapper(L"Felix.RemoteRecord")) ;
+				// prevent memory leaks
 				try
 				{
 					remrec->set_id(recid) ;
