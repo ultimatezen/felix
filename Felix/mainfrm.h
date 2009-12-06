@@ -165,6 +165,7 @@ public:
 
 	bool set_window_title() ;
 
+	CString get_active_mem_name();
 	bool add_glossary_window(gloss_window_pointer gloss_window, int show_cmd = SW_SHOWNOACTIVATE ) ;
 
 	// -------------
@@ -181,10 +182,10 @@ public:
 	// get glossary entry
 	wstring get_glossary_entry( short index ) ;
 	// concordance
-	bool get_concordances( const wstring &query );
+	bool get_concordances( const wstring query );
 	void source_concordance_feedback();
 
-	bool get_translation_concordances( const wstring &query_string );
+	bool get_translation_concordances( const wstring query_string );
 	void translation_concordance_feedback();
 
 	void concordance_feedback(const wstring plain_text, size_t num) ;

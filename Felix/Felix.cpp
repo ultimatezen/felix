@@ -168,10 +168,14 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	TRUE_ENFORCE( FALSE != AtlAxWinInit(), _T("Call to AtlAxWinInit() failed!") ) ;
 
-	TCHAR szTokens[] = _T("-/");
 	bool bRun = true;
 	bool bAutomation = false;
-	
+	bool bRegister = false ;
+#ifdef _DEBUG
+	bRegister = true ;
+#endif
+
+	TCHAR szTokens[] = _T("-/");
 	LPCTSTR lpszToken = _Module.FindOneOf(::GetCommandLine(), szTokens);
 	while(lpszToken != NULL)
 	{
@@ -183,8 +187,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		}
 		else if( ! _tcsicmp( lpszToken, _T("RegServer") )  )
 		{
-			COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
-			::MessageBeep( MB_ICONINFORMATION ) ;
+			bRegister = true ;
 			bRun = false;
 			break;
 		}
@@ -197,7 +200,11 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		lpszToken = _Module.FindOneOf(lpszToken, szTokens);
 	}
 	
-
+	if (bRegister)
+	{
+		COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
+		::MessageBeep( MB_ICONINFORMATION ) ;
+	}
 	if(bRun)
 	{
 #ifdef _DEBUG

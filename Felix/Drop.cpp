@@ -14,23 +14,23 @@ CDropHandle::~CDropHandle(void)
 
 
 
-BOOL CDropHandle::DragQueryPoint(POINT* pt)
+BOOL CDropHandle::DragQueryPoint(POINT* pt) const
 {
 	return ::DragQueryPoint( m_drop, pt );
 }
 
-UINT CDropHandle::NumDragFiles(void)
+UINT CDropHandle::NumDragFiles(void) const
 {
 	return ::DragQueryFile(m_drop, 0xffffFFFF, NULL, 0);
 }
 
 
-UINT CDropHandle::FileLen(UINT index)
+UINT CDropHandle::FileLen(UINT index) const
 {
 	return ::DragQueryFile(m_drop, index, NULL, 0 );
 }
 
-CString CDropHandle::DragQueryFile(UINT index)
+CString CDropHandle::DragQueryFile(UINT index) const
 {
 	UINT len = FileLen( index ) ;
 

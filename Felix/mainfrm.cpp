@@ -1981,7 +1981,7 @@ void CMainFrame::delete_current_translation()
  * Concordances are co-locations of query_string in the source
  * fields of memory records.
  */
-bool CMainFrame::get_concordances( const wstring &query_string )
+bool CMainFrame::get_concordances( const wstring query_string )
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
@@ -2095,7 +2095,9 @@ wstring CMainFrame::create_concordance_list( )
 wstring CMainFrame::get_glossary_entry(short index)
 {
 	if ( false == m_glossary_windows.empty() )
+	{
 		return m_glossary_windows[0]->get_glossary_entry( index ) ;
+	}
 	return wstring( ) ;
 }
 
@@ -2286,7 +2288,9 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 			ATLASSERT( num == 0 ) ;
 
 			if ( ! check_delete() )
+			{
 				return 0L ;
+			}
 
 			memory_pointer mem = m_model->m_memories->get_first_memory() ;
 			
@@ -2308,10 +2312,11 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 			check_trans_match_bounds(static_cast<size_t>(num)) ;
 			
 			if ( ! check_delete() )
+			{
 				return 0L ;
+			}
 
 			search_match_ptr match = m_trans_matches.at(num) ;
-
 			remove_match_record(match);
 
 			m_trans_matches.erase_at(num) ;
@@ -2462,7 +2467,6 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
 					m_glossary_windows[index]->IsChild( focus_hwnd ) 
 				)
 			{
-				TRACE( index ) ;
 				return index ;
 			}
 		}
@@ -2515,8 +2519,7 @@ bool CMainFrame::show_view_content()
 				return true ;
 			}
 			
-			const wstring content = create_concordance_list( ) ;
-			m_view_interface.set_text( content ) ;
+			m_view_interface.set_text( create_concordance_list( ) ) ;
 			check_mousewheel() ;
 			m_view_interface.set_scroll_pos(0) ;
 			return true ;
@@ -2621,7 +2624,6 @@ void CMainFrame::destroy_all_gloss_windows()
 		}
 	}
 	m_glossary_windows.clear() ;
-
 }
 
 
@@ -2689,7 +2691,7 @@ LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 {
 	SENSE("on_user_add_to_glossary") ;
 
-	size_t index = static_cast<size_t>(lParam) ;
+	const size_t index = static_cast<size_t>(lParam) ;
 	record_pointer rec ;
 	switch ( get_display_state() )
 	{
@@ -2820,21 +2822,22 @@ LRESULT CMainFrame::on_tools_preferences(  WindowsMessage &message )
 }
 
 
-LRESULT CMainFrame::on_test_exception(  WindowsMessage &message )
+/* This generates a divide-by-zero exception for
+ * testing purposes. It tests the exception logging and reporting
+ * feature.
+ */
+LRESULT CMainFrame::on_test_exception(WindowsMessage &)
 {
 	logging::log_debug("Generating test exception") ;
-	message ;
 	int x = 3 ;
-	int y = 4 ;
-	return (LRESULT)(y / (x - 3)) ;
+	return (LRESULT)(5 / (x - 3)) ;
 }
 
 /** Responds to Tools > Language menu selection.
  * Toggles UI language between Japanese and English.
  */
-LRESULT CMainFrame::on_tools_switch_language(  WindowsMessage &message )
+LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 {
-	message ;
 	SENSE("on_tools_switch_language") ;
 
 #ifdef UNIT_TEST
@@ -2873,8 +2876,7 @@ LRESULT CMainFrame::on_edit_entry(WindowsMessage &)
 {
 	SENSE("on_edit_entry") ;
 
-	size_t pos = m_trans_matches.current_pos() ;
-	WindowsMessage message( NULL, 0, 0, pos ) ;
+	WindowsMessage message( NULL, 0, 0, m_trans_matches.current_pos() ) ;
 	on_user_edit( message ) ;
 	return 0L ;
 }
@@ -2892,29 +2894,10 @@ LRESULT CMainFrame::on_add(WindowsMessage &)
  */
 bool CMainFrame::set_window_title()
 {
-	CString active_memory_file_name ;
-	if ( ! m_model->m_memories->empty() )
-	{
-		memory_pointer mem = m_model->m_memories->get_first_memory() ;
-		if (! mem->is_local())
-		{
-			active_memory_file_name = mem->get_location() ;
-		}
-		else
-		{
-			file::name fname =  mem->get_location() ;
-			active_memory_file_name = fname.file_name_part() ;
-		}
-	} 
-	if (active_memory_file_name.IsEmpty())
-	{
-		active_memory_file_name = resource_string( IDS_NEW ) ;
-	}
-	
-	CString title = resource_string(IDS_MEMORY);
-	title += _T(" [") ;
-	title += active_memory_file_name ;
-	title += _T("]") ;
+	CString title = resource_string(IDS_MEMORY) +
+				_T(" [") +
+				get_active_mem_name() +
+				_T("]") ;
 	
 	try
 	{
@@ -2930,6 +2913,7 @@ bool CMainFrame::set_window_title()
 	{
 		logging::log_error("Failed to retrieve demo status") ;
 		ATLASSERT(FALSE && "Error getting demo status") ;
+		SetWindowText( title ) ;
 		return false ;
 	}
 
@@ -2986,7 +2970,6 @@ void CMainFrame::set_translation_at(short index, const wstring &translation )
 	}
 	else
 	{
-		TRACE( index ) ;
 		check_trans_match_bounds(static_cast<size_t>( index )) ;
 		current = m_trans_matches.at( index ) ;
 	}
@@ -3149,7 +3132,7 @@ bool CMainFrame::load(const CString &file_name, bool check_empty )
 	// put message in status bar
 	loading_file_feedback(file_name);
 
-	file::CFileExtension ext = file_name ;
+	const file::CFileExtension ext = file_name ;
 
 	bool success = false ;
 	if ( ext.equals( _T(".txt") ) )
@@ -3293,7 +3276,7 @@ bool CMainFrame::correct_trans(const wstring &trans)
 
 /** Translation concordance.
  */
-bool CMainFrame::get_translation_concordances(const wstring &query_string)
+bool CMainFrame::get_translation_concordances(const wstring query_string)
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
@@ -3332,17 +3315,15 @@ bool CMainFrame::get_translation_concordances(const wstring &query_string)
 /** Alt + C.
 * Get concordance in the source fields.
 */
-LRESULT CMainFrame::on_source_concordance( WindowsMessage &message )
+LRESULT CMainFrame::on_source_concordance(WindowsMessage &)
 {
-	message ;
 	SENSE("on_source_concordance") ;
 
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	wstring source = m_view_interface.get_selection_text() ;
 
-	get_concordances( source ) ;
+	get_concordances(m_view_interface.get_selection_text()) ;
 
 	return 0 ;
 }
@@ -3350,17 +3331,15 @@ LRESULT CMainFrame::on_source_concordance( WindowsMessage &message )
 /** Ctrl + Alt + C.
  * Get concordance in the translation fields.
  */
-LRESULT CMainFrame::on_trans_concordance( WindowsMessage &message )
+LRESULT CMainFrame::on_trans_concordance(WindowsMessage &)
 {
-	message ;
 	SENSE("on_trans_concordance") ;
 
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	wstring trans = m_view_interface.get_selection_text() ;
 
-	get_translation_concordances( trans ) ;
+	get_translation_concordances(m_view_interface.get_selection_text()) ;
 
 	return 0 ;
 
@@ -3428,14 +3407,13 @@ LRESULT CMainFrame::on_help_register( WindowsMessage &message )
 
 /** Toggle markup (matches) between on and off.
  */
-LRESULT CMainFrame::on_user_toggle_markup( WindowsMessage &message )
+LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 {
 	SENSE("on_user_toggle_markup") ;
-	message ;
 
 	m_properties.m_gen_props.read_from_registry() ;
 
-	BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
+	const BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
 	if (show_markup)
 	{
 		put_show_marking( VARIANT_FALSE ) ;
@@ -3489,9 +3467,9 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 		return 0L ;
 	}
 
-	CDrop drop( dropped ) ;
+	const CDrop drop( dropped ) ;
 	
-	UINT num_files = drop.NumDragFiles() ;
+	const UINT num_files = drop.NumDragFiles() ;
 	
 	if ( ! num_files ) 
 	{
@@ -3501,8 +3479,8 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 	
 	for ( UINT current_file=0 ; current_file < num_files ; ++current_file )
 	{
-		CString filename = drop.DragQueryFile( current_file ) ;
-		file::CFileExtension ext = filename ;
+		const CString filename = drop.DragQueryFile( current_file ) ;
+		const file::CFileExtension ext = filename ;
 		if (ext.equals(".fprefs"))
 		{
 			this->load_preferences(filename) ;
@@ -3517,9 +3495,8 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 /** Tools -> Manage Memories.
  * Shows memory manager dialog.
  */
-LRESULT CMainFrame::on_tools_memory_manager( WindowsMessage &message )
+LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 {
-	message ;
 	SENSE("on_tools_memory_manager") ;
 
 #ifdef UNIT_TEST
@@ -3533,9 +3510,8 @@ LRESULT CMainFrame::on_tools_memory_manager( WindowsMessage &message )
 	return 0L ;
 }
 
-LRESULT CMainFrame::on_toggle_views(WindowsMessage &message)
+LRESULT CMainFrame::on_toggle_views(WindowsMessage &)
 {
-	message ;
 	logging::log_debug("Toggling view between match and concordance") ;
 
 	if (this->get_display_state() == MATCH_DISPLAY_STATE)
@@ -3571,9 +3547,8 @@ LRESULT CMainFrame::on_toggle_views(WindowsMessage &message)
 
 /** Switches focus to the glossary window.
  */
-LRESULT CMainFrame::on_view_switch( WindowsMessage &message )
+LRESULT CMainFrame::on_view_switch(WindowsMessage &)
 {
-	message ;
 	SENSE("on_view_switch") ;
 
 	gloss_window_iterator pos = m_glossary_windows.begin() ;
@@ -3585,9 +3560,6 @@ LRESULT CMainFrame::on_view_switch( WindowsMessage &message )
 
 	gloss_window_pointer gloss = *pos ;
 
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
 	gloss->SetFocus() ;
 
 	return 0L ;
@@ -3625,14 +3597,9 @@ void CMainFrame::gloss_view_switch(HWND child)
 /** View -> Compact View.
 * Hide the min view.
 */
-LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &message)
+LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &)
 {
-	message ;
 	SENSE("on_user_view_min_end") ;
-
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
 
 	ShowWindow( SW_SHOW ) ;
 
@@ -3652,14 +3619,9 @@ LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &message)
 /** View -> Compact View.
  * Show the min view.
  */
-LRESULT CMainFrame::on_view_min_begin( WindowsMessage &message )
+LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 {
-	message ;
 	SENSE("on_view_min_begin") ;
-
-#ifdef UNIT_TEST
-	return 0L ;
-#endif
 
 	foreach(gloss_window_pointer gloss, m_glossary_windows)
 	{
@@ -3679,7 +3641,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &message )
 
 	ATLASSERT( m_min_view.IsWindow() ) ;
 	
-	CRect rc(100, 100, 100, 100 ) ;
+	CRect rc(100, 100, 100, 100) ;
 	m_min_view.ShowWindow( SW_RESTORE ) ;
 	m_min_view.SetWindowPos( HWND_TOPMOST, &rc, SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOSIZE ) ;
 
@@ -5835,4 +5797,22 @@ void CMainFrame::addToMessageLoop()
 		pLoop->AddMessageFilter(this);
 	}
 #endif
+}
+
+CString CMainFrame::get_active_mem_name()
+{
+	if ( ! m_model->m_memories->empty() )
+	{
+		memory_pointer mem = m_model->m_memories->get_first_memory() ;
+		if (! mem->is_local())
+		{
+			return mem->get_location() ;
+		}
+		else
+		{
+			const file::name fname =  mem->get_location() ;
+			return fname.file_name_part() ;
+		}
+	} 
+	return resource_string( IDS_NEW ) ;
 }

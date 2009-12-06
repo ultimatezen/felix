@@ -20,10 +20,10 @@ protected:
 public:
 	CDropHandle(HDROP dropped);
 	virtual ~CDropHandle(void);
-	BOOL DragQueryPoint(POINT* pt);
-	UINT NumDragFiles(void);
-	UINT FileLen(UINT index);
-	CString DragQueryFile(UINT index);
+	BOOL DragQueryPoint(POINT* pt) const;
+	UINT NumDragFiles(void) const;
+	UINT FileLen(UINT index) const;
+	CString DragQueryFile(UINT index) const;
 };
 
 /**

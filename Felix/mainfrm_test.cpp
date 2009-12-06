@@ -738,7 +738,28 @@ namespace easyunit
 		SimpleString expected = "<b>Search Results:</b><br>Found 0 matches." ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
-}
+
+	// get_active_mem_name
+	TEST(TestCMainFrame, get_active_mem_name_new)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
+		SimpleString expected = "New" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCMainFrame, get_active_mem_name_spam)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		add_record(mainframe, L"aabbcc", L"112233") ;
+
+		mainframe.m_model->m_memories->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
+
+		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}}
 
 #endif 
 
