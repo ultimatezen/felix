@@ -59,7 +59,8 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="4"
+				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -164,7 +165,8 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="4"
+				WarnAsError="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -332,6 +334,10 @@
 			</File>
 			<File
 				RelativePath=".\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\resource_string.cpp"
 				>
 			</File>
 			<File
@@ -509,6 +515,10 @@
 			</File>
 			<File
 				RelativePath="Resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File

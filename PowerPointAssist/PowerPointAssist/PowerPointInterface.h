@@ -87,7 +87,7 @@ public:
 	PowerPoint::TextRangePtr select_next_table_cell( PowerPoint::TextRangePtr &sel_text_range );
 	PowerPoint::TextRangePtr select_next_notes_page(PowerPoint::TextRangePtr &sel_text_range) ;
 	PowerPoint::TextRangePtr select_next_text_frame( PowerPoint::ShapeRangePtr &shape_range );
-	HRESULT setNotesPage(PowerPoint::TextRangePtr &sel_text_range) ;
+	HRESULT setNotesPage(PowerPoint::TextRangePtr sel_text_range) ;
 	PowerPoint::TextRangePtr get_notes_textrange( ) ;
 
 	HRESULT OnGetAction( bool plaintext = false ) ;

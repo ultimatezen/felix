@@ -454,7 +454,7 @@ HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 // Function name	: CPowerPointInterface::OnRegisterGlossAction 
 // Description	    : 
 // Return type		: HRESULT 
-HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool as_plaintext)
+HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 {
 	BANNER( "CPowerPointInterface::OnRegisterGlossAction " ) ;
 	try 
@@ -804,7 +804,6 @@ HRESULT CPowerPointInterface::OnRestoreTransAction ( bool)
 }
 HRESULT CPowerPointInterface::OnRestoreAndNextTransAction ( bool) 
 {
-
 	return S_OK ;
 }
 
@@ -823,7 +822,7 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 	if ( ! selectionTextRange ) return E_FAIL ;
 
 	Felix::IAppPtr app = getAssistant() ;
-	_bstr_t entry = app->GlossMatch[ index ] ;
+	_bstr_t entry = app->GlossMatch[ static_cast<short>(index) ] ;
 
 	if ( plaintext )
 	{
@@ -1016,7 +1015,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::get_notes_textrange( )
 }
 
 
-HRESULT CPowerPointInterface::setNotesPage(PowerPoint::TextRangePtr &selectionTextRange)
+HRESULT CPowerPointInterface::setNotesPage(PowerPoint::TextRangePtr selectionTextRange)
 {
 	PowerPoint::TextRangePtr range = get_notes_textrange() ;
 

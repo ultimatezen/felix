@@ -9,7 +9,13 @@
 
 #pragma once
 
-#pragma warning( disable : 4996 ) 
+// Change these values to use different versions
+#define WINVER			0x0500  // Windows 2000
+#define _WINVER			0x0500  // Windows 2000
+#define _WIN32_IE		0x0600  // we need 6 or higher...
+#define WIN32_IE		0x0600  // we need 6 or higher...
+#define _RICHEDIT_VER	0x0300  // richedit2 and above has the unicode version
+
 #pragma warning( disable : 4267 ) // 'size_t' から 'DWORD' に変換しました。データが失われているかもしれません。
 #pragma warning( disable : 4312 ) // 'reinterpret_cast' : 'LONG' からより大きいサイズの 'HINSTANCE' へ変換します。
 
@@ -17,35 +23,16 @@
 #define STRICT
 #endif
 
-// Modify the following defines if you have to target a platform prior to the ones specified below.
-// Refer to MSDN for the latest info on corresponding values for different platforms.
-#ifndef WINVER				// Allow use of features specific to Windows 95 and Windows NT 4 or later.
-#define WINVER 0x0500		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
-#endif
-
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows NT 4 or later.
-#define _WIN32_WINNT 0x0400	// Change this to the appropriate value to target Windows 2000 or later.
-#endif						
-
-#ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
-#define _WIN32_WINDOWS 0x0410 // Change this to the appropriate value to target Windows Me or later.
-#endif
-
-#ifndef _WIN32_IE			// Allow use of features specific to IE 4.0 or later.
-#define _WIN32_IE 0x0500	// Change this to the appropriate value to target IE 5.0 or later.
-#endif
-
+// new defines for Atl7
+#define _ATL_ALL_WARNINGS
 #define _ATL_APARTMENT_THREADED
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
-
-// turns off ATL's hiding of some common and often safely ignored warning messages
-#define _ATL_ALL_WARNINGS
-//#define _ATL_DEBUG_INTERFACES
-
 // WTL 7 handlers for property sheets
 #define _WTL_NEW_PAGE_NOTIFY_HANDLERS
+
+#define _CRTDBG_MAP_ALLOC
+#define DEBUG_NEW new ( _NORMAL_BLOCK, __FILE__, __LINE__) 
 
 #include "resource.h"
 
@@ -97,7 +84,9 @@ using namespace boost::foreach ;
 #include <atlbase.h>
 #include <atlcom.h>
 
+#pragma warning( disable : 4996 ) 
 #include "atlapp.h"
+#pragma warning( default : 4996 ) 
 
 #include "stringex.h"
 #include "stringconversions.h"
@@ -117,6 +106,8 @@ using namespace boost::foreach ;
 class DECLSPEC_UUID("A6FF7939-E14C-4C26-89B9-4803617A7DB6") ExcelAssistLib;
 
 using namespace ATL;
+
+#include "resource_string.h"
 
 /*!
  * \brief
@@ -175,6 +166,6 @@ extern CAddInModule _AtlModule;
 #endif
 
 
-#define VERSION "1.5.2"
+#define VERSION "1.5.3"
 #define LOGGING_SERVER L"FelixHelpers.ExcelLogger"
 #define LOGFILE_NAME _T("excel_assist.log")

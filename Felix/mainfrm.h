@@ -339,7 +339,7 @@ public:
 	// handling of UWM_USER_MESSAGE messages
 	LRESULT on_user_register(LPARAM num );
 
-	record_pointer get_reg_gloss_record( LPARAM num );
+	record_pointer get_reg_gloss_record( const size_t num );
 	void check_search_match_bounds(size_t num) ;
 	void check_trans_match_bounds(size_t num) ;
 
@@ -470,7 +470,7 @@ public:
 	int get_focus_glossary(HWND focus_hwnd = ::GetFocus());
 	gloss_window_pointer get_glossary_window();
 
-	double get_score(short index = -1);
+	double get_score(const short index = -1);
 	bool register_trans_to_glossary(const wstring &trans) ;
 
 	void provide_user_trans_feedback() ;

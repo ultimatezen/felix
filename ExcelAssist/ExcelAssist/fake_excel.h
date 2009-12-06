@@ -61,7 +61,7 @@ namespace excel
 			m_calls.push_back("Activate") ;
 		}
 
-		range_ptr Cell( int row, int col )
+		range_ptr Cell( int /*row*/, int /*col*/ )
 		{
 			range_ptr cell = range_ptr(new range) ;
 			return cell ;

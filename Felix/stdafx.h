@@ -12,11 +12,10 @@
 #define WIN32_IE		0x0600  // we need 6 or higher...
 #define _RICHEDIT_VER	0x0300  // richedit2 and above has the unicode version
 
-#pragma warning( disable : 4996 ) // #pragma deprecated
 #pragma warning( disable : 4127 ) // #conditional expression is constant
 #pragma warning( disable : 4267 ) // 'size_t' から 'DWORD' に変換しました。データが失われているかもしれません。
 #pragma warning( disable : 4503 ) // 装飾された名前の長さが限界を超えました。名前は切り捨てられます。
-#pragma warning( disable : 4995 ) // #pragma deprecated
+// #pragma warning( disable : 4995 ) // #pragma deprecated
 
 #pragma warning( disable : 4510 ) // 'class' : default constructor could not be generated
 #pragma warning( disable : 4610 ) // object 'class' can never be instantiated - user-defined constructor required
@@ -112,7 +111,9 @@ namespace fs = boost::filesystem;
 // WTL Headers
 #include <atlbase.h>
 
-#include <atlapp.h>
+#pragma warning( disable : 4996 ) 
+#include "atlapp.h"
+#pragma warning( default : 4996 ) 
 
 #include "DebugUtilities.h"
 #include "StringEx.h"

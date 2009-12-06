@@ -8,8 +8,6 @@
 #define STRICT
 #endif
 
-#pragma warning( disable : 4996 ) 
-
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows 95 and Windows NT 4 or later.
@@ -48,6 +46,7 @@
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
+#include "resource_string.h"
 
 // stl libraries we are using
 #include <map>							// for record data
@@ -90,7 +89,9 @@ using namespace boost::foreach ;
 #include <atlbase.h>
 #include <atlcom.h>
 
+#pragma warning( disable : 4996 ) 
 #include "atlapp.h"
+#pragma warning( default : 4996 ) 
 
 #pragma warning( disable : 4278 )
 #pragma warning( disable : 4146 )

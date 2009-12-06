@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include ".\wordcontrollerhtml.h"
 
-CWordControllerHtml::CWordControllerHtml(LPCWSTR history_server) //:
+CWordControllerHtml::CWordControllerHtml(LPCWSTR) //:
 	//m_trans_history(history_server)
 {
 }

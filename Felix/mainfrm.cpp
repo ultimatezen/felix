@@ -2102,26 +2102,25 @@ wstring CMainFrame::get_glossary_entry(short index)
 /** Get the score for a given match.
  * If index is -1, returns the score for the current match.
  */
-double CMainFrame::get_score( short index )
+double CMainFrame::get_score( const short index )
 {
 	if ( m_trans_matches.size() == 0 )
-		return 0.0 ;
-
-	search_match_ptr current ;
-	if ( index < 0 ) // code for current match
 	{
-		current = m_trans_matches.current() ;
+		return 0.0 ;
+	}
+
+	if ( index < 0 ) // less than 0 means "current match"
+	{
+		return m_trans_matches.current()->get_score() ;
 	}
 	else
 	{
 		check_trans_match_bounds(static_cast<size_t>( index )) ;
-		current = m_trans_matches.at( static_cast<size_t>(index) ) ;
+		return m_trans_matches.at( static_cast<size_t>(index) )->get_score() ;
 	}
-	return current->get_score() ;
-
 }
 
-/** The glossary tells us to add a record.
+/** Callback from glossary window telling us to add a record.
  */
 bool CMainFrame::gloss_add_record( record_pointer rec )
 {
@@ -2137,7 +2136,7 @@ INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 {
 	memory_iterator pos ;
 	
-	CString mem_loc = mem->get_location() ;
+	const CString mem_loc = mem->get_location() ;
 
 	memory_list &memories = m_model->m_memories->get_memories() ;
 	for ( pos = memories.begin() ; pos != memories.end() ; ++pos )
@@ -2145,27 +2144,25 @@ INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 		memory_pointer my_mem = *pos ;
 		if ( 0 == mem_loc.CompareNoCase( my_mem->get_location() ) && mem->get_id() != my_mem->get_id() )
 		{
+			// Todo: make this a custom dialog
 			CString prompt ;
 			prompt.FormatMessage( IDS_PROMPT_OVERWRITE_MEMORY, (LPCTSTR)mem->get_location( ) ) ;
-			return (LRESULT)MessageBox( prompt, resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
+			return (LRESULT)MessageBox( prompt, 
+										resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), 
+										MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
 		}
 	}
 
 	return IDYES ;
-	
 }
 
 /** Do a search using the parameters in the find dialog.
  * The user has clicked "Find" in the find dialog.
  */
-LRESULT CMainFrame::on_user_search( WindowsMessage &message )
+LRESULT CMainFrame::on_user_search(WindowsMessage &)
 {	
-	message ;
 	SENSE("on_user_search") ;
 
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
 	perform_user_search();
 
 	show_user_search_results();
@@ -2179,9 +2176,8 @@ LRESULT CMainFrame::on_user_search( WindowsMessage &message )
 /** Transfers the parameters from the replace dialog to the
  * find dialog.
  */
-LRESULT CMainFrame::on_user_edit_replace(WindowsMessage &message)
+LRESULT CMainFrame::on_user_edit_replace(WindowsMessage &)
 {
-	message ;
 	SENSE("on_user_edit_replace") ;
 
 	m_edit_find.set_search_params( m_edit_replace.get_search_params() ) ;
@@ -2191,61 +2187,70 @@ LRESULT CMainFrame::on_user_edit_replace(WindowsMessage &message)
 
 
 /** The user has told us to edit an entry.
+ * If the index is out of range, call up the add record dialog instead.
  */
 LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 {
 	SENSE("on_user_edit") ;
 
-	LPARAM num = message.lParam ;
-	// is there anything to show?
-	if ( num < 0 || 
-		( get_display_state() == MATCH_DISPLAY_STATE       && static_cast<size_t>( num )  >= m_trans_matches.size() && ! m_trans_matches.empty() ) ||
-		( get_display_state() == CONCORDANCE_DISPLAY_STATE && static_cast<size_t>( num )  >= m_search_matches.size() ) ||
-		( get_display_state() == NEW_RECORD_DISPLAY_STATE  && static_cast<size_t>( num )  != 0 )
-		)
-	{
-		throw CException( IDS_OUT_OF_RANGE ) ;
-	}
+	const size_t num = static_cast<size_t>(message.lParam) ;
+
 	// get the current match & record
 	record_pointer record(new record_local()) ;
-	int memory_id = 0 ;
 	
-	if ( get_display_state() == MATCH_DISPLAY_STATE && m_trans_matches.empty() )
-	{
-		memory_id = get_first_mem_id();
-		record->set_source( m_trans_matches.get_query_rich() ) ;
-	}
-	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE || get_display_state() == INIT_DISPLAY_STATE ) 
+	int memory_id = 0 ;
+
+	// Showing a new record, or we've just started Felix
+	if ( get_display_state() == NEW_RECORD_DISPLAY_STATE || get_display_state() == INIT_DISPLAY_STATE ) 
 	{
 		memory_id = get_first_mem_id();
 		record = m_new_record ;
 	}
+	// Showing translation matches
 	else if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
-		ATLASSERT( m_properties.m_view_props.m_data.m_single_screen_matches || static_cast<size_t>( num ) == m_trans_matches.current_pos() ) ;
+		if (num < m_trans_matches.size())
+		{
+			ATLASSERT( m_properties.m_view_props.m_data.m_single_screen_matches || static_cast<size_t>( num ) == m_trans_matches.current_pos() ) ;
 
-		m_trans_matches.set_current( static_cast<size_t>( num ) ) ;
-		ATLASSERT( m_trans_matches.current_pos() == static_cast<size_t>( num ) ) ;
+			m_trans_matches.set_current( static_cast<size_t>( num ) ) ;
+			ATLASSERT( m_trans_matches.current_pos() == static_cast<size_t>( num ) ) ;
 
-		search_match_ptr current = m_trans_matches.current( ) ;
-		memory_id = current->get_memory_id() ;
-		record = current->get_record() ;
+			search_match_ptr current = m_trans_matches.current( ) ;
+			memory_id = current->get_memory_id() ;
+			record = current->get_record() ;
+		}
+		else
+		{
+			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
+			return 0L ;
+		}
 	}
+	// Reviewing a translation record
 	else if (get_display_state() == TRANS_REVIEW_STATE)
 	{
 		memory_id = get_first_mem_id();
 		record = m_review_record ;
 	}
+	// Showing concordance matches
 	else 
 	{
 		ATLASSERT ( get_display_state() == CONCORDANCE_DISPLAY_STATE ) ;
-		
-		m_search_matches.set_current( static_cast<size_t>( num ) ) ;
-		ATLASSERT( m_search_matches.current_pos() == static_cast<size_t>( num ) ) ;
+		if (num < m_search_matches.size())
+		{
+			// Make this the current match (number will be bolded in window)
+			m_search_matches.set_current( num ) ;
+			ATLASSERT( m_search_matches.current_pos() == num ) ;
 
-		search_match_ptr current = m_search_matches.current() ;
-		memory_id = current->get_memory_id() ;
-		record = current->get_record() ;
+			search_match_ptr current = m_search_matches.current() ;
+			memory_id = current->get_memory_id() ;
+			record = current->get_record() ;
+		}
+		else
+		{
+			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
+			return 0L ;
+		}
 	}
 
 	ATLASSERT( memory_id != 0 ) ;
@@ -2360,7 +2365,7 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 LRESULT CMainFrame::on_user_register(LPARAM num )
 {
 	SENSE("on_user_register") ;
-	record_pointer rec = get_reg_gloss_record(num);
+	record_pointer rec = get_reg_gloss_record(static_cast<size_t>(num));
 
 	m_reg_gloss_dlg.set_record( rec ) ;
 
@@ -4625,12 +4630,16 @@ LRESULT CMainFrame::on_user_edit_search( WindowsMessage &message )
 	return CCommonWindowFunctionality::on_user_edit_search( message.lParam ) ;
 }
 
-//! Get the appropriate record as basis for registering glossary entries
-memory_engine::record_pointer CMainFrame::get_reg_gloss_record( LPARAM num )
+/* 
+ * Get the appropriate record as basis for registering glossary entries.
+ * If the index is out of range, then just return an empty record. 
+ * The user should be able to register glossary entries without a template record.
+ */
+memory_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
 {
 	if (get_display_state() == TRANS_REVIEW_STATE)
 	{
-		return m_new_record ;
+		return m_review_record ;
 	}
 	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 	{
@@ -4638,7 +4647,7 @@ memory_engine::record_pointer CMainFrame::get_reg_gloss_record( LPARAM num )
 	}
 	else if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
-		if ( static_cast< size_t >( num ) >= m_trans_matches.size() )
+		if ( num >= m_trans_matches.size() )
 		{
 			return record_pointer(new record_local) ;
 		}
@@ -4648,7 +4657,7 @@ memory_engine::record_pointer CMainFrame::get_reg_gloss_record( LPARAM num )
 	}
 	else
 	{
-		if ( static_cast< size_t >( num ) >= m_search_matches.size() )
+		if ( num >= m_search_matches.size() )
 		{
 			return record_pointer(new record_local) ;
 		}

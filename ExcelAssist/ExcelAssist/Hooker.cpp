@@ -90,7 +90,8 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 		{
 			int x = 3 ;
 			int y = 5 ;
-			int z = 5 / (x - 3) ;
+			int z = y / (x - 3) ;
+			z = 0 ;
 		}
 		catch (CSWException &e)
 		{

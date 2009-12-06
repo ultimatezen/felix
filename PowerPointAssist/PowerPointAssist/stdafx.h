@@ -4,7 +4,6 @@
 
 #pragma once
 
-#pragma warning( disable : 4996 ) 
 #pragma warning( disable : 4267 ) // 'size_t' から 'DWORD' に変換しました。データが失われているかもしれません。
 #pragma warning( disable : 4312 ) // 'reinterpret_cast' : 'LONG' からより大きいサイズの 'HINSTANCE' へ変換します。
 
@@ -49,8 +48,11 @@
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
+#include "resource_string.h"
 
+#pragma warning( disable : 4996 ) 
 #include "atlapp.h"
+#pragma warning( default : 4996 ) 
 
 #include <atlwin.h>
 
@@ -175,7 +177,7 @@ extern CAddInModule _AtlModule;
 #define SENSE(x) (void)0
 #endif
 
-#define VERSION "1.5.2"
+#define VERSION "1.5.3"
 #define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"
 #define LOGFILE_NAME _T("ppt_assist.log")
 

@@ -819,7 +819,7 @@ void CConnect::advise_button_events()
 		"Failed to configure button (help)");
 }
 
-void __stdcall CConnect::OnSwitchModes( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault )
+void __stdcall CConnect::OnSwitchModes( IDispatch * /*Ctrl*/, VARIANT_BOOL * /*CancelDefault*/ )
 {
 	if (m_excelIF.is_trans_mode()) // go to review mode
 	{

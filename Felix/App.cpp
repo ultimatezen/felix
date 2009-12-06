@@ -441,6 +441,6 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 CApp::CApp()
 {
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
+	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;
-
 }

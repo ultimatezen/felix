@@ -2056,7 +2056,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 * \brief
 * Get a keyboard listener of the desired type.
 */
-CKeyboardListener* CConnect::get_listener(int listener_type)
+CKeyboardListener* CConnect::get_listener(int /*listener_type*/)
 {
 	logging::log_debug("Initializing listener") ;
 //	static CWordControllerHtml htmlController ;

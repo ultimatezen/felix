@@ -30,7 +30,7 @@
 #include ".\wordcontroller.h"
 
 #include "HtmlHelp.h"
-#pragma message("\tautomatic link to HtmlHelp.lib")
+#pragma message("   automatic link to HtmlHelp.lib")
 #pragma comment(lib, "HtmlHelp.lib")
 
 #include "easyunit/testharness.h"
@@ -809,7 +809,7 @@ bool WordController::OnExtendLookupAction( bool as_plaintext )
  * \brief
  * register a glossary entry.
  */
-bool WordController::OnRegisterGlossAction ( bool as_plaintext )
+bool WordController::OnRegisterGlossAction ( bool /*as_plaintext*/ )
 {
 	try
 	{
@@ -1660,7 +1660,7 @@ void WordController::write_gloss_entry( int index, bool as_plaintext )
 	ATLASSERT( index >= 0 ) ;
 
 	Felix::IAppPtr app = getAssistant( ) ;
-	wstring entry = BSTR2wstring( app->GlossMatch[index] );
+	wstring entry = BSTR2wstring( app->GlossMatch[static_cast<short>(index)] );
 	
 	if ( as_plaintext )
 	{

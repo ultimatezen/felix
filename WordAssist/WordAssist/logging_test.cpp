@@ -13,15 +13,15 @@ public:
 	std::vector<string> m_error_calls ;
 	std::vector<string> m_exception_calls ;
 
-	void log_debug(string msg)
+	void log_debug(const string msg)
 	{
 		m_debug_calls.push_back(msg) ;
 	}
-	void log_warn(string msg)
+	void log_warn(const string msg)
 	{
 		m_warn_calls.push_back(msg) ;
 	}
-	void log_error(string msg)
+	void log_error(const string msg)
 	{
 		m_error_calls.push_back(msg) ;
 	}

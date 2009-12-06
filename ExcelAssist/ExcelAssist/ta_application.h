@@ -47,7 +47,7 @@ public:
 
 	virtual _bstr_t GlossMatch( int num)
 	{
-		return m_app->GlossMatch[ num ] ;
+		return m_app->GlossMatch[ static_cast<short>(num) ] ;
 	}
 
 	virtual void NextTrans()

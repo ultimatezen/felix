@@ -283,6 +283,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
+	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;
 
 #ifdef UNIT_TEST
