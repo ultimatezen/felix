@@ -89,49 +89,49 @@ namespace easyunit
 	{
 		commandline_options options(_T("")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.parse_lang(_T("Japanese"))) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.parse_lang(_T("Japanese"))) ;
 	}
 	TEST(test_commandline_options, parse_language_ja)
 	{
 		commandline_options options(_T("")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.parse_lang(_T("ja"))) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.parse_lang(_T("ja"))) ;
 	}
 	TEST(test_commandline_options, parse_language_jp)
 	{
 		commandline_options options(_T("")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.parse_lang(_T("jp"))) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.parse_lang(_T("jp"))) ;
 	}
 	TEST(test_commandline_options, parse_language_english)
 	{
 		commandline_options options(_T("")) ;
 
-		ASSERT_EQUALS((int)LANG_ENGLISH, (int)options.parse_lang(_T("English"))) ;
+		ASSERT_EQUALS_V((int)LANG_ENGLISH, (int)options.parse_lang(_T("English"))) ;
 	}
 	TEST(test_commandline_options, language_switch_english)
 	{
 		commandline_options options(_T("-lang English")) ;
 
-		ASSERT_EQUALS((int)LANG_ENGLISH, (int)options.parse_lang(_T("English"))) ;
+		ASSERT_EQUALS_V((int)LANG_ENGLISH, (int)options.parse_lang(_T("English"))) ;
 	}
 	TEST(test_commandline_options, language_switch_japanese)
 	{
 		commandline_options options(_T("-lang Japanese")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.m_language) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.m_language) ;
 	}
 	TEST(test_commandline_options, language_switch_ja)
 	{
 		commandline_options options(_T("-lang ja")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.m_language) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.m_language) ;
 	}
 	TEST(test_commandline_options, language_switch_jp)
 	{
 		commandline_options options(_T("-lang jp")) ;
 
-		ASSERT_EQUALS((int)LANG_JAPANESE, (int)options.m_language) ;
+		ASSERT_EQUALS_V((int)LANG_JAPANESE, (int)options.m_language) ;
 	}
 
 	// single file

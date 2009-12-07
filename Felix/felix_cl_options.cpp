@@ -7,7 +7,7 @@
 */
 void parse_command_line(LPCTSTR text, std::vector<tstring> &tokens)
 {
-	LPTSTR *szArglist;
+	LPWSTR *szArglist;
 	int nArgs;
 
 	/* If this parameter is the empty string (""), the function returns 
@@ -37,7 +37,7 @@ commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENG
 	{
 		tstring token = tokens[i] ;
 
-		file::CFileExtension ext(CString(token.c_str())) ;
+		const file::CFileExtension ext(CString(token.c_str())) ;
 		if (ext.equals(_T(".ftm")))
 		{
 			m_tm_files.push_back(token) ;
@@ -71,20 +71,12 @@ commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENG
 }
 
 
-WORD commandline_options::parse_lang( tstring lang )
+WORD commandline_options::parse_lang( const tstring lang ) const
 {
-	boost::to_lower(lang) ;
-	if (lang == _T("japanese"))
+	const std::set<wstring> langs = list_of(L"japanese") (L"ja") (L"jp") ;
+	if (std::find(langs.begin(), langs.end(), boost::to_lower_copy(lang)) == langs.end())
 	{
-		return LANG_JAPANESE ;
+		return LANG_ENGLISH ;
 	}
-	if (lang == _T("ja")) 
-	{
-		return LANG_JAPANESE ;
-	}
-	if (lang == _T("jp"))
-	{
-		return LANG_JAPANESE ;
-	}
-	return LANG_ENGLISH ;
+	return LANG_JAPANESE ;
 }

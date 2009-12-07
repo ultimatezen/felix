@@ -18,5 +18,5 @@ struct commandline_options
 	WORD m_language ;
 
 	commandline_options(LPCTSTR text, WORD language=LANG_ENGLISH);
-	WORD parse_lang(tstring lang);
+	WORD parse_lang(const tstring lang) const;
 };

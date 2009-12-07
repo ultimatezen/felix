@@ -4,8 +4,13 @@
 #include "file.h"
 #include "logging.h"
 
+// So our text doesn't show up as (broken) formulas.
 wstring process_cell_text(const wstring text)
 {
+	if (text.empty())
+	{
+		return text ;
+	}
 	if (text[0] == L'=')
 	{
 		return L"\'" + text ;
@@ -91,7 +96,7 @@ void CExcelExporter::export_excel(memory_pointer mem, const CString& mem_name)
 		file::file::delete_file( mem_name ) ;
 	}
 
-	_bstr_t save_loc( mem_name ) ;
+	const _bstr_t save_loc( mem_name ) ;
 
 	_variant_t file_format(Excel::xlWorkbookNormal) ;
 	m_book->SaveAs( save_loc, 

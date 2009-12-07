@@ -16,8 +16,9 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CPropertiesDlg::CPropertiesDlg()
-: m_title( R2T( IDS_PREFERENCES_TITLE ) )
+CPropertiesDlg::CPropertiesDlg() : 
+	m_title( R2T( IDS_PREFERENCES_TITLE ) ),
+	m_properties(new app_props::properties)
 {
 	m_psh.dwFlags |= PSH_NOAPPLYNOW  ;
 	m_psh.pszCaption = (LPCTSTR)m_title ;
@@ -28,13 +29,13 @@ CPropertiesDlg::CPropertiesDlg()
 	AddPage(m_page4);
 	AddPage(m_page5);
 
-	m_properties.read_from_registry() ;
+	m_properties->read_from_registry() ;
 
-	m_page1.set_props( &m_properties.m_gen_props ) ;
-	m_page2.set_props( &m_properties.m_view_props ) ;
-	m_page3.set_props( &m_properties.m_mem_props ) ;
-	m_page4.set_props( &m_properties.m_gloss_props ) ;
-	m_page5.set_props( &m_properties.m_alg_props ) ;
+	m_page1.set_props( &m_properties->m_gen_props ) ;
+	m_page2.set_props( &m_properties->m_view_props ) ;
+	m_page3.set_props( &m_properties->m_mem_props ) ;
+	m_page4.set_props( &m_properties->m_gloss_props ) ;
+	m_page5.set_props( &m_properties->m_alg_props ) ;
 
 	SetActivePage(0);
 }
@@ -49,7 +50,7 @@ CString CPropertiesDlg::get_title()
 	return m_title ;
 }
 
-app_props::properties & CPropertiesDlg::get_properties()
+app_props::props_ptr CPropertiesDlg::get_properties()
 {
 	return m_properties ;
 }

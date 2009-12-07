@@ -84,7 +84,7 @@ public:
 	// ====================
 
 	// various user preferences
-	app_props::properties				m_properties ;
+	boost::shared_ptr<app_props::properties> m_properties ;
 	// the memory controller
 	memory_model_mem	m_silent_memories ;
 
@@ -193,7 +193,7 @@ public:
 
 	void init_trans_matches_for_lookup(const wstring & query) ;
 
-	void init_lookup_properties(const app_props::properties &source, 
+	void init_lookup_properties(const boost::shared_ptr<app_props::properties> source, 
 							search_query_params &dest);
 	void get_matches(TransMatchContainer matches);
 

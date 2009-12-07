@@ -36,8 +36,8 @@ public:
 	~CSourceAndHtmlEdit(void);
 
 	void SizeBox();
-	bool has_focus(HWND focus_hwnd);
-	HWND get_active_view(void);
+	bool has_focus(HWND focus_hwnd) const;
+	HWND get_active_view(void) const;
 	HWND create(TWindow box_window, TWindow dlg_window, HWND top_pos );
 	BOOL pre_translate(MSG* pMsg);
 

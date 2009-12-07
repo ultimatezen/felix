@@ -116,13 +116,14 @@ CString get_docs_path()
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
 	m_model( model ),
 	m_new_record(new record_local()),
-	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >()
+	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
+	m_properties(new app_props::properties())
 {
 	//m_new_record = record_pointer(new record_local()) ;
 	m_model->m_memories = m_model->create_memory_model() ; 
 
-	m_properties.m_gen_props.read_from_registry() ;
-	const BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
+	m_properties->m_gen_props.read_from_registry() ;
+	const BOOL show_markup = m_properties->m_gen_props.m_data.m_show_markup ;
 	this->m_trans_matches.m_params.m_show_marking = !! show_markup ;
 
     addToMessageLoop();
@@ -323,8 +324,8 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	// get the color the user picked
 	const CColorRef newcolor(dialog.GetColor()) ;
 	
-	m_properties.m_view_props.m_data.m_back_color = (int)newcolor.as_colorref() ;
-	m_properties.m_view_props.write_to_registry() ;
+	m_properties->m_view_props.m_data.m_back_color = (int)newcolor.as_colorref() ;
+	m_properties->m_view_props.write_to_registry() ;
 	
 	// turn it into an HTML tag
 	m_view_interface.set_bg_color( newcolor.as_wstring() ) ;
@@ -429,7 +430,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		load_util_settings();
 
 		// get our default properties
-		m_properties.read_from_registry() ;
+		m_properties->read_from_registry() ;
 
 		// the view
 		logging::log_debug("Initializing mainframe view") ;
@@ -477,7 +478,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		set_bg_color_if_needed() ;
 
 		logging::log_debug("Checking command line") ;
-		const int language = m_properties.m_gen_props.m_data.m_preferred_gui_lang ;
+		const int language = m_properties->m_gen_props.m_data.m_preferred_gui_lang ;
 		commandline_options options(GetCommandLine(), static_cast<WORD>(language)) ;
 		check_command_line(options) ;
 		if (language != options.m_language)
@@ -500,7 +501,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 //! memories, and load them if so.
 void CMainFrame::check_load_history( )
 {
-	if ( ! m_properties.m_gen_props.m_data.m_load_prev_mem_on_startup ) 
+	if ( ! m_properties->m_gen_props.m_data.m_load_prev_mem_on_startup ) 
 	{
 		return ;
 	}
@@ -790,8 +791,8 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 	gloss_window->set_listener( static_cast< CGlossaryWinListener* >( this ) ) ;
 
 	// the glossary window reads these itself
-//	gloss_window->set_properties_gloss( m_properties.m_gloss_props ) ;
-//	gloss_window->set_properties_algo( m_properties.m_alg_props ) ;
+//	gloss_window->set_properties_gloss( m_properties->m_gloss_props ) ;
+//	gloss_window->set_properties_algo( m_properties->m_alg_props ) ;
 	
 	m_glossary_windows += gloss_window ;
 	m_glossary_windows[0]->set_main( true ) ;
@@ -1885,8 +1886,8 @@ bool CMainFrame::set_translation( const wstring &translation)
 
 		// If the max add length is 0, then we don't add the entry to the glossary.
 		// Made this explicit in the code below.
-		if ( record->get_source_plain().length() <= m_properties.m_gloss_props.get_max_add() 
-			&& m_properties.m_gloss_props.get_max_add() > 0) 
+		if ( record->get_source_plain().length() <= m_properties->m_gloss_props.get_max_add() 
+			&& m_properties->m_gloss_props.get_max_add() > 0) 
 		{
 			if ( false == m_glossary_windows.empty() )
 			{
@@ -1982,8 +1983,8 @@ bool CMainFrame::get_concordances( const wstring query_string )
 	m_search_matches.set_query_rich( query_string ) ;
 
 	m_search_matches.m_params.m_ignore_case = true ;
-	m_search_matches.m_params.m_ignore_width =		!! m_properties.m_gloss_props.m_data.m_ignore_width ;
-	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties.m_gloss_props.m_data.m_ignore_hir_kat ;
+	m_search_matches.m_params.m_ignore_width =		!! m_properties->m_gloss_props.m_data.m_ignore_width ;
+	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties->m_gloss_props.m_data.m_ignore_hir_kat ;
 
 	search_match_multiset matches ;
 	m_model->m_memories->perform_search( matches, m_search_matches.m_params ) ;
@@ -2198,7 +2199,7 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	{
 		if (num < m_trans_matches.size())
 		{
-			ATLASSERT( m_properties.m_view_props.m_data.m_single_screen_matches || static_cast<size_t>( num ) == m_trans_matches.current_pos() ) ;
+			ATLASSERT( m_properties->m_view_props.m_data.m_single_screen_matches || static_cast<size_t>( num ) == m_trans_matches.current_pos() ) ;
 
 			m_trans_matches.set_current( static_cast<size_t>( num ) ) ;
 			ATLASSERT( m_trans_matches.current_pos() == static_cast<size_t>( num ) ) ;
@@ -2803,11 +2804,11 @@ LRESULT CMainFrame::on_tools_preferences(  WindowsMessage &message )
 
 	m_properties = props.get_properties() ;
 	
-	m_properties.write_to_registry() ;
+	m_properties->write_to_registry() ;
 
 	reflect_preferences() ;
 
-	const wstring user_name = CT2W(m_properties.m_gen_props.m_data.m_user_name) ;
+	const wstring user_name = CT2W(m_properties->m_gen_props.m_data.m_user_name) ;
 	set_record_username(user_name) ;
 
 	user_feedback( IDS_PREFS_REGISTERED ) ;
@@ -2934,7 +2935,7 @@ void CMainFrame::set_ui_to_current_language()
 
 		m_view_interface.ensure_document_complete( m_hAccel, m_hWnd ) ;
 		// query user for color
-		set_bg_color( static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color ) );	
+		set_bg_color( static_cast< COLORREF >( m_properties->m_view_props.m_data.m_back_color ) );	
 
 		// give user feedback
 		user_feedback( IDS_CHANGED_LANGUAGES ) ;
@@ -3398,9 +3399,9 @@ LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 {
 	SENSE("on_user_toggle_markup") ;
 
-	m_properties.m_gen_props.read_from_registry() ;
+	m_properties->m_gen_props.read_from_registry() ;
 
-	const BOOL show_markup = m_properties.m_gen_props.m_data.m_show_markup ;
+	const BOOL show_markup = m_properties->m_gen_props.m_data.m_show_markup ;
 	if (show_markup)
 	{
 		put_show_marking( VARIANT_FALSE ) ;
@@ -3409,9 +3410,9 @@ LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 	{
 		put_show_marking( VARIANT_TRUE ) ;
 	}
-	m_properties.m_gen_props.m_data.m_show_markup = ! show_markup ;
+	m_properties->m_gen_props.m_data.m_show_markup = ! show_markup ;
 
-	m_properties.m_gen_props.write_to_registry() ;
+	m_properties->m_gen_props.write_to_registry() ;
 
 	return 0L ;
 }
@@ -3662,9 +3663,9 @@ void CMainFrame::SetUILanguage(WORD lang_id)
 	if (m_appstate.m_preferred_gui_lang != lang_id)
 	{
 		m_appstate.m_preferred_gui_lang = lang_id ;
-		m_properties.m_gen_props.m_data.m_preferred_gui_lang = lang_id ;
+		m_properties->m_gen_props.m_data.m_preferred_gui_lang = lang_id ;
 		m_appstate.write_to_registry() ;
-		m_properties.m_gen_props.write_to_registry() ;
+		m_properties->m_gen_props.write_to_registry() ;
 	}
 	
 	if ( m_min_view.IsWindow() )
@@ -3686,22 +3687,22 @@ WORD CMainFrame::get_current_gui_language()
  */
 void CMainFrame::reflect_preferences()
 {
-	m_properties.read_from_registry() ;
+	m_properties->read_from_registry() ;
 
-	m_model->m_memories->set_properties_memory( m_properties.m_mem_props ) ;
-	m_model->m_memories->set_properties_gloss( m_properties.m_gloss_props ) ;
-	m_model->m_memories->set_properties_algo( m_properties.m_alg_props ) ;
+	m_model->m_memories->set_properties_memory( m_properties->m_mem_props ) ;
+	m_model->m_memories->set_properties_gloss( m_properties->m_gloss_props ) ;
+	m_model->m_memories->set_properties_algo( m_properties->m_alg_props ) ;
 	
 	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
-		gloss_win->set_properties_gloss( m_properties.m_gloss_props ) ;
-		gloss_win->set_properties_algo(  m_properties.m_alg_props ) ;
+		gloss_win->set_properties_gloss( m_properties->m_gloss_props ) ;
+		gloss_win->set_properties_algo(  m_properties->m_alg_props ) ;
 	}
 
-	set_bg_color( static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color ) );	
-	m_trans_matches.m_query_color =	m_properties.m_view_props.m_data.m_query_color  ;
-	m_trans_matches.m_source_color = m_properties.m_view_props.m_data.m_source_color  ;
-	m_trans_matches.m_trans_color =	m_properties.m_view_props.m_data.m_trans_color ;
+	set_bg_color( static_cast< COLORREF >( m_properties->m_view_props.m_data.m_back_color ) );	
+	m_trans_matches.m_query_color =	m_properties->m_view_props.m_data.m_query_color  ;
+	m_trans_matches.m_source_color = m_properties->m_view_props.m_data.m_source_color  ;
+	m_trans_matches.m_trans_color =	m_properties->m_view_props.m_data.m_trans_color ;
 }
 
 
@@ -4414,7 +4415,7 @@ void CMainFrame::show_full_view_match()
 	check_mousewheel() ;
 	m_view_interface.set_scroll_pos(0) ;
 
-	if ( m_properties.m_view_props.m_data.m_single_screen_matches ) 
+	if ( m_properties->m_view_props.m_data.m_single_screen_matches ) 
 	{
 		m_view_interface.ensure_document_complete( m_hAccel, m_hWnd ) ;
 
@@ -4428,7 +4429,7 @@ void CMainFrame::show_full_view_match()
  */
 std::wstring CMainFrame::get_match_content()
 {
-	if ( m_properties.m_view_props.m_data.m_single_screen_matches ) 
+	if ( m_properties->m_view_props.m_data.m_single_screen_matches ) 
 	{
 		return m_trans_matches.get_html_all() ;			
 	}
@@ -4449,7 +4450,7 @@ void CMainFrame::init_background_processor()
 //! Load color preferences from registry.
 void CMainFrame::init_item_colors()
 {
-	app_props::properties_view::props_data prop_data = m_properties.m_view_props.m_data ;
+	app_props::properties_view::props_data prop_data = m_properties->m_view_props.m_data ;
 
 	m_trans_matches.m_query_color = (COLORREF)prop_data.m_query_color ;
 	m_trans_matches.m_source_color = (COLORREF)prop_data.m_source_color ;
@@ -4763,7 +4764,7 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 //! Set the background color unless it's white (the default)
 void CMainFrame::set_bg_color_if_needed()
 {
-	const CColorRef color((COLORREF)m_properties.m_view_props.m_data.m_back_color) ;
+	const CColorRef color((COLORREF)m_properties->m_view_props.m_data.m_back_color) ;
 	if (! color.is_white())
 	{
 		m_view_interface.set_bg_color(color.as_wstring()) ;
@@ -4878,17 +4879,17 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 }
 
 //! Set search params from registry settings.
-void CMainFrame::init_lookup_properties( const app_props::properties &source, search_query_params &dest )
+void CMainFrame::init_lookup_properties( const boost::shared_ptr<app_props::properties> source, search_query_params &dest )
 {
-	dest.m_ignore_case = !! source.m_mem_props.m_data.m_ignore_case ;
-	dest.m_ignore_width = !! source.m_mem_props.m_data.m_ignore_width ;
-	dest.m_ignore_hira_kata = !! source.m_mem_props.m_data.m_ignore_hir_kat ;
+	dest.m_ignore_case = !! source->m_mem_props.m_data.m_ignore_case ;
+	dest.m_ignore_width = !! source->m_mem_props.m_data.m_ignore_width ;
+	dest.m_ignore_hira_kata = !! source->m_mem_props.m_data.m_ignore_hir_kat ;
 
-	dest.m_assess_format_penalty = !! source.m_mem_props.m_data.m_assess_format_penalty ;
-	dest.m_match_algo = source.m_alg_props.m_data.m_match_algo ;
+	dest.m_assess_format_penalty = !! source->m_mem_props.m_data.m_assess_format_penalty ;
+	dest.m_match_algo = source->m_alg_props.m_data.m_match_algo ;
 
-	dest.m_place_numbers = !! source.m_mem_props.m_data.m_place_numbers ;
-	dest.m_place_gloss = !! source.m_mem_props.m_data.m_place_gloss ;
+	dest.m_place_numbers = !! source->m_mem_props.m_data.m_place_numbers ;
+	dest.m_place_gloss = !! source->m_mem_props.m_data.m_place_gloss ;
 }
 
 //! Tell the user that we found x matches for the search string.
@@ -5035,7 +5036,7 @@ void CMainFrame::remove_match_record( search_match_ptr match )
 
 void CMainFrame::remove_record_from_glossaries( record_pointer rec )
 {
-	if (! m_glossary_windows.empty() && m_properties.m_gloss_props.get_max_add())
+	if (! m_glossary_windows.empty() && m_properties->m_gloss_props.get_max_add())
 	{
 		m_glossary_windows[0]->delete_record(rec) ;
 	}
@@ -5386,8 +5387,8 @@ void CMainFrame::save_settings_close()
 	m_appstate.m_rebar_has_linebreak = ReBar.GetRowCount() > 1 ;
 
 	m_appstate.write_to_registry() ;
-	m_properties.m_gloss_props.read_from_registry() ;
-	m_properties.write_to_registry() ;
+	m_properties->m_gloss_props.read_from_registry() ;
+	m_properties->write_to_registry() ;
 }
 
 void CMainFrame::save_settings_destroy()
@@ -5404,7 +5405,7 @@ wstring CMainFrame::get_record_translation( record_pointer &record )
 {
 	record->increment_refcount() ;
 
-	if ( m_properties.m_mem_props.m_data.m_plaintext )
+	if ( m_properties->m_mem_props.m_data.m_plaintext )
 	{
 		wstring plain = record->get_trans_plain() ;
 		str::replace_all(plain, L"&", L"&amp;") ;
@@ -5517,7 +5518,7 @@ void CMainFrame::load_preferences( const CString filename )
 	// read our properties from the registry
 	m_appstate.read_from_registry() ;
 	// get our default properties
-	m_properties.read_from_registry() ;
+	m_properties->read_from_registry() ;
 
 	set_up_ui_state() ;
 
@@ -5528,7 +5529,7 @@ void CMainFrame::load_preferences( const CString filename )
 
 	init_item_colors();
 
-	set_bg_color( static_cast< COLORREF >( m_properties.m_view_props.m_data.m_back_color ) ) ;
+	set_bg_color( static_cast< COLORREF >( m_properties->m_view_props.m_data.m_back_color ) ) ;
 
 	load_history() ;
 	load_util_settings() ;

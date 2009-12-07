@@ -37,7 +37,7 @@ namespace easyunit
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
-		mainframe.m_properties.m_mem_props.m_data.m_plaintext = FALSE ;
+		mainframe.m_properties->m_mem_props.m_data.m_plaintext = FALSE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"spam") ;
@@ -54,7 +54,7 @@ namespace easyunit
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
-		mainframe.m_properties.m_mem_props.m_data.m_plaintext = TRUE ;
+		mainframe.m_properties->m_mem_props.m_data.m_plaintext = TRUE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"<bold>spam &lt; &amp; &gt; eggs</bold>") ;
@@ -646,17 +646,17 @@ namespace easyunit
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
-		app_props::properties source ;
+		boost::shared_ptr<app_props::properties> source(new app_props::properties) ;
 
-		source.m_mem_props.m_data.m_ignore_case = TRUE ;
-		source.m_mem_props.m_data.m_ignore_width = TRUE ;
-		source.m_mem_props.m_data.m_ignore_hir_kat = TRUE ;
-		source.m_mem_props.m_data.m_assess_format_penalty = TRUE ;
+		source->m_mem_props.m_data.m_ignore_case = TRUE ;
+		source->m_mem_props.m_data.m_ignore_width = TRUE ;
+		source->m_mem_props.m_data.m_ignore_hir_kat = TRUE ;
+		source->m_mem_props.m_data.m_assess_format_penalty = TRUE ;
 
-		source.m_alg_props.m_data.m_match_algo = IDC_ALGO_WORD ;
+		source->m_alg_props.m_data.m_match_algo = IDC_ALGO_WORD ;
 
-		source.m_mem_props.m_data.m_place_numbers = TRUE ;
-		source.m_mem_props.m_data.m_place_gloss = TRUE ;
+		source->m_mem_props.m_data.m_place_numbers = TRUE ;
+		source->m_mem_props.m_data.m_place_gloss = TRUE ;
 
 		mainframe.init_lookup_properties(source, dest) ;
 		ASSERT_TRUE(dest.m_ignore_case) ;
@@ -676,17 +676,17 @@ namespace easyunit
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
-		app_props::properties source ;
+		boost::shared_ptr<app_props::properties> source(new app_props::properties) ;
 
-		source.m_mem_props.m_data.m_ignore_case = FALSE ;
-		source.m_mem_props.m_data.m_ignore_width = FALSE ;
-		source.m_mem_props.m_data.m_ignore_hir_kat = FALSE ;
-		source.m_mem_props.m_data.m_assess_format_penalty = FALSE ;
+		source->m_mem_props.m_data.m_ignore_case = FALSE ;
+		source->m_mem_props.m_data.m_ignore_width = FALSE ;
+		source->m_mem_props.m_data.m_ignore_hir_kat = FALSE ;
+		source->m_mem_props.m_data.m_assess_format_penalty = FALSE ;
 
-		source.m_alg_props.m_data.m_match_algo = IDC_ALGO_CHAR ;
+		source->m_alg_props.m_data.m_match_algo = IDC_ALGO_CHAR ;
 
-		source.m_mem_props.m_data.m_place_numbers = FALSE ;
-		source.m_mem_props.m_data.m_place_gloss = FALSE ;
+		source->m_mem_props.m_data.m_place_numbers = FALSE ;
+		source->m_mem_props.m_data.m_place_gloss = FALSE ;
 
 		mainframe.init_lookup_properties(source, dest) ;
 

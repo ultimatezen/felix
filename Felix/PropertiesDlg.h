@@ -227,7 +227,7 @@ public:
 class CPropertiesDlg  
 	: public CPropertySheetImpl<CPropertiesDlg>
 {
-	app_props::properties	m_properties ;
+	app_props::props_ptr	m_properties ;
 	CString					m_title ;
 
 	CGeneralPage	m_page1 ;
@@ -241,7 +241,7 @@ public:
 	DECLARE_SENSING_VAR ;
 
 	CString get_title();
-	app_props::properties &get_properties();
+	app_props::props_ptr get_properties();
 
 	CPropertiesDlg( );
 	virtual ~CPropertiesDlg();

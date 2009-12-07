@@ -27,7 +27,7 @@ CSourceAndHtmlEdit::~CSourceAndHtmlEdit(void)
 	m_html_edit.Detach() ;
 }
 
-bool CSourceAndHtmlEdit::has_focus(HWND focus_hwnd)
+bool CSourceAndHtmlEdit::has_focus(HWND focus_hwnd) const
 {
 	if ( ! m_tabs.IsWindow() ) 
 	{
@@ -42,7 +42,7 @@ bool CSourceAndHtmlEdit::has_focus(HWND focus_hwnd)
 	return false;
 }
 
-HWND CSourceAndHtmlEdit::get_active_view(void)
+HWND CSourceAndHtmlEdit::get_active_view(void) const
 {
 	return m_tabs.GetActiveView() ;
 }
@@ -58,8 +58,7 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 
 		m_box.Attach( box_window ) ;
 
-		RECT rc ;
-		m_box.GetWindowRect( &rc ) ;
+		CWindowRect rc(m_box) ;
 
 		m_parent_dlg.ScreenToClient( &rc ) ;
 
@@ -233,10 +232,8 @@ void CSourceAndHtmlEdit::set_html_back_color(const wstring color)
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		TRACE(element->tagName) ;
 		if ( 0 == _wcsicmp(static_cast< LPCWSTR >( element->tagName ), L"TD" ))
 		{
 			element->style->cssText = bg_style ;
@@ -387,6 +384,7 @@ void CSourceAndHtmlEdit::detach(void)
 void CSourceAndHtmlEdit::handle_return_key(void)
 {
 	const bool control_is_down = ( ::GetKeyState( VK_CONTROL ) < 0 ) ;
+	const bool alt_is_down = ( ::GetKeyState( VK_MENU ) < 0 ) ;
 
 	if ( m_html_edit == get_active_view() ) 
 	{
@@ -409,6 +407,10 @@ void CSourceAndHtmlEdit::handle_return_key(void)
 		{
 			m_text_edit.ReplaceSelection( L"<p>" ) ;
 		}
+		else if (alt_is_down)
+		{
+			m_text_edit.ReplaceSelection( L"\n" ) ;
+		}
 		else
 		{
 			m_text_edit.ReplaceSelection( L"<br />" ) ;
@@ -418,14 +420,14 @@ void CSourceAndHtmlEdit::handle_return_key(void)
 
 void CSourceAndHtmlEdit::SizeBox()
 {
-	CWindowRect BoxRect( m_box ) ;
+	CWindowRect boxrect( m_box ) ;
 
-	m_parent_dlg.ScreenToClient( &BoxRect ) ;
+	m_parent_dlg.ScreenToClient( &boxrect ) ;
 
 	m_box.ShowWindow( SW_HIDE ) ;
 
 	// move the html view into place
-	m_tabs.SetWindowPos(NULL, &BoxRect, SWP_NOZORDER | SWP_NOACTIVATE);
+	m_tabs.SetWindowPos(NULL, &boxrect, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 
@@ -435,7 +437,7 @@ void CSourceAndHtmlEdit::ensure_document_complete()
 	return ;
 #endif
 
-	MSG msg ;
+	MSG msg = {0};
 	while ( m_html_edit.is_document_complete() == false || m_html_edit.is_navigation_complete() == false) 
 	{
 		while ( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 

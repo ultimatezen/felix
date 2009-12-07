@@ -595,4 +595,6 @@ struct properties
 	}
 } ;
 
+typedef boost::shared_ptr<properties> props_ptr ;
+
 } ;

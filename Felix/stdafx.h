@@ -72,6 +72,8 @@
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
+#include <boost/assign/std/set.hpp>
+#include <boost/assign/list_of.hpp>
 using namespace boost::assign; // bring 'operator+=()' into scope
 
 #include <boost/format.hpp>
