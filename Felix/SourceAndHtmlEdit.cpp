@@ -165,7 +165,7 @@ void CSourceAndHtmlEdit::insert_symbol(void)
 	}
 
 }
-_bstr_t CSourceAndHtmlEdit::get_selected_text()
+_bstr_t CSourceAndHtmlEdit::get_selected_text(const bool all_if_none)
 {
 
 	TWindow active_window = get_active_view() ;
@@ -182,7 +182,7 @@ _bstr_t CSourceAndHtmlEdit::get_selected_text()
 		m_text_edit.GetSelection( text ) ;
 	}
 
-	if ( text.length() == 0 ) 
+	if ( text.length() == 0 && all_if_none) 
 	{
 		return GetText() ;
 	}

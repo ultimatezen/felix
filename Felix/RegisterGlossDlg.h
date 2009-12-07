@@ -132,7 +132,7 @@ public:
 	void SizeBoxes();
 	void sizeGripper(UINT type);
 
-	_bstr_t trim_text(_bstr_t before);
+	_bstr_t trim_text(const _bstr_t before) const ;
 	void set_initial_source(const _bstr_t selection);
 	void fresh_record_focus();
 	BEGIN_MSG_MAP_EX( CRegisterGlossDlg )

@@ -749,13 +749,19 @@ LRESULT CRegisterGlossDlg::OnCmdAddTrans()
 }
 
 
-_bstr_t CRegisterGlossDlg::trim_text(_bstr_t before)
+_bstr_t CRegisterGlossDlg::trim_text(const _bstr_t before) const
 {
-	wstring text(BSTR2wstring(before)) ;
-	if (text.empty())
+	const wstring pretext(BSTR2wstring(before)) ;
+	if (pretext.empty())
 	{
 		return before ;
 	}
+
+	// normalize whitespace
+	std::vector<wstring> tokens ;
+	textstream_reader<wchar_t> reader(pretext.c_str()) ;
+	reader.split(tokens, L"\r\n "); 
+	wstring text = str::join(L" ", tokens) ;
 
 	for (int i = (int)text.size()-1 ; i>=0 ; --i)
 	{
@@ -961,27 +967,23 @@ void CRegisterGlossDlg::add_gloss_entry()
 {
 	try
 	{
-		m_gloss_record->set_source(BSTR2wstring(m_gloss_source_edit.GetText())) ;
-		m_gloss_record->set_trans(BSTR2wstring(m_gloss_trans_edit.GetText())) ;
-
-		wstring source = m_gloss_record->get_source_plain() ;
-		if (source.empty()) 
+		wstring source = BSTR2wstring(m_gloss_source_edit.GetText()) ;
+		if (source.empty())
 		{
-			source = trim_text(m_rec_source_edit.get_selected_text()) ;
-			if (source.empty())
-			{
-				throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
-			}
+			source = trim_text(m_rec_source_edit.get_selected_text(false)) ;
 		}
+		m_gloss_record->set_source(source) ;
 
-		wstring trans = m_gloss_record->get_trans_plain() ;
-		if (trans.empty()) 
+		wstring trans = BSTR2wstring(m_gloss_trans_edit.GetText()) ;
+		if (trans.empty())
 		{
-			trans = trim_text(m_rec_trans_edit.get_selected_text()) ;
-			if (trans.empty())
-			{
-				throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
-			}
+			trans = trim_text(m_rec_trans_edit.get_selected_text(false)) ;
+		}
+		m_gloss_record->set_trans(trans) ;
+
+		if (! m_gloss_record->is_valid_record())
+		{
+			throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
 		}
 
 		refresh_current_add_pos();

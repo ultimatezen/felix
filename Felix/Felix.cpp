@@ -62,6 +62,8 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 /*!
 	@class CLeakChecker
 	@brief Checks for memory leaks.
+	Making it a module-level variable ensures that it sets the leak-check flags 
+	before other program code runs.
  */
 class CLeakChecker
 
@@ -98,19 +100,18 @@ void felix_invalid_parameter_handler(
 	throw CProgramException(err_msg) ;
 }
 
+// Our customized version of the server app module, to enable
+// the resource DLL to be loaded dynamically (according to language)
 CLocalizedServerAppModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
 END_OBJECT_MAP()
 
 /*!
- * \brief
  * Set up the app message loop.
  */
-int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
+int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 {
-	lpstrCmdLine ;
-
 	CMessageLoop theLoop;
 	_Module.AddMessageLoop(&theLoop);
 
@@ -129,7 +130,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	_Module.Lock();
 	view.put_visible(nCmdShow) ;
 
-	int nRet = theLoop.Run();
+	const int nRet = theLoop.Run();
 
 	_Module.RemoveMessageLoop();
 
@@ -264,9 +265,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
  */
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int nCmdShow)
 {
-	HRESULT hRes(S_OK) ;
-	hRes = ::OleInitialize(NULL);
-	ATLASSERT(SUCCEEDED(hRes));
+	ATLVERIFY(SUCCEEDED(::OleInitialize(NULL)));
 
 	// sets us to convert SEH into C++ exceptions,
 	// and sets up float exceptions as well
@@ -297,13 +296,13 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
     ATLTRACE( "Unit testing app...\n" ) ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
+	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
 	run_unit_tests() ;
-	_Module.Term();
-	::OleUninitialize();
+	_Module.Term() ;
+	::OleUninitialize() ;
     return EXIT_SUCCESS ;
 
 #endif
-
 
 	// going to a subroutine makes it cleaner to separate app code from error handling
 	try

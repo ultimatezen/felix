@@ -49,7 +49,7 @@ public:
 	_bstr_t get_html_text();
 	void SetText( const _bstr_t &text ) ;
 
-	_bstr_t get_selected_text() ;
+	_bstr_t get_selected_text(const bool all_if_none=true) ;
 
 	void handle_size(void);
 	void insert_symbol(void);

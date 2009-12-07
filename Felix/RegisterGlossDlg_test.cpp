@@ -121,6 +121,24 @@ namespace easyunit
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST( TestCRegisterGlossDlg, trim_text_nl)
+	{
+		CRegisterGlossDlg dialog ;
+		_bstr_t before = L"spam\negg" ;
+		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		SimpleString expected = "spam egg" ;
+		SimpleString actual(after) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST( TestCRegisterGlossDlg, trim_text_cr_nl)
+	{
+		CRegisterGlossDlg dialog ;
+		_bstr_t before = L"spam\r\negg" ;
+		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		SimpleString expected = "spam egg" ;
+		SimpleString actual(after) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
 
 	// messages
 	TEST( TestCRegisterGlossDlg, test_message_WM_INITDIALOG)
