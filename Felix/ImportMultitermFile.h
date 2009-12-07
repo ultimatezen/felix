@@ -2,9 +2,13 @@
 
 #include "ProgressListener.h"
 #include "TranslationMemory.h"
+#include <boost/tuple/tuple.hpp>
 
 using memory_engine::memory_pointer ;
 using memory_engine::memory_local ;
+
+typedef boost::tuple<string, string> strcols ;
+typedef boost::tuple<wstring, wstring, wstring> wstrcols ;
 
 class CImportMultitermFile
 {
@@ -18,19 +22,17 @@ public:
 
 	void import( const CString &file_name );
 
-	file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name );
+	const file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name ) const;
+
 	void import_multiterm55( const CString &file_name );
 	void import_multiterm_55_text(textstream_reader< char >& reader, const std::string& source_lang, const std::string& trans_lang, memory_engine::memory_pointer& mem);
-	void get_multiterm55_line( textstream_reader< char > &reader, 
-		string &col1, 
-		string &col2 );
+	const strcols get_multiterm55_line(textstream_reader< char > &reader) const;
+	const wstring massage_line(const string &line) const;
 
 	void import_multiterm6(const CString &file_name);
 	void import_multiterm_6_text(LPCWSTR file_text);
-	size_t get_num_lines(LPCWSTR file_text);
-	void get_multiterm6_line( textstream_reader< wchar_t > &reader, 
-		wstring &col1, 
-		wstring &col2, 
-		wstring &col3 );
+	const wstring massage_line(const wstring &line) const;
+	const size_t get_num_lines(LPCWSTR file_text) const;
+	const wstrcols get_multiterm6_line(textstream_reader< wchar_t > &reader) const;
 
 };

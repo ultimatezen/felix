@@ -60,8 +60,8 @@ class CExportDialog :
 	public CDialogImpl<CExportDialog, TWindow>
 	, public CWindowExceptionHandler< CImportDialog >
 {
-	CComboBox		m_source_combo ;
-	CComboBox		m_trans_combo ;
+	CComboBoxT<TWindow>		m_source_combo ;
+	CComboBoxT<TWindow>		m_trans_combo ;
 
 	typedef std::map< tstring, tstring > string_map ;
 
@@ -81,10 +81,12 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
 	LRESULT OnOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
-	tstring get_source_plain();
-	tstring get_trans_plain();
-	tstring get_source_full();
-	tstring get_trans_full();
+
+	const tstring get_combo_sel(CComboBoxT<TWindow> &combo) const;
+	const tstring get_source_plain() const;
+	const tstring get_trans_plain() const;
+	const tstring get_source_full() const;
+	const tstring get_trans_full() const;
 
 	BEGIN_MSG_MAP(CExportDialog)
 		MSG_TRY

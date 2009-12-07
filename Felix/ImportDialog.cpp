@@ -145,40 +145,40 @@ LRESULT CExportDialog::OnCancel( WORD, WORD wID, HWND, BOOL& )
 LRESULT CExportDialog::OnOK(WORD, WORD wID, HWND, BOOL&)
 {
 	SENSE("OnOK"); 
-	str::tbuffer tbuff ;
-	int sel = m_source_combo.GetCurSel() ;
-	int len = m_source_combo.GetLBTextLen( sel ) + 1 ;
-
-	m_source_combo.GetLBText( sel, tbuff.buffer( len ) ) ;
-	m_source_full = tbuff.buffer() ;
+	m_source_full = get_combo_sel(m_source_combo) ;
 	m_source = m_languages[ m_source_full ]  ;
 
-	sel = m_trans_combo.GetCurSel() ;
-	len = m_trans_combo.GetLBTextLen( sel ) + 1 ;
-	m_trans_combo.GetLBText( sel, tbuff.buffer( len ) ) ;
-	m_trans_full = tbuff.buffer() ;
+	m_trans_full = get_combo_sel(m_trans_combo) ;
 	m_trans = m_languages[ m_trans_full ]  ;
 
 	EndDialog(wID);
 	return 0;
 }
 
-tstring CExportDialog::get_source_plain()
+const tstring CExportDialog::get_source_plain() const
 {
 	return m_source ;
 }
 
-tstring CExportDialog::get_source_full()
+const tstring CExportDialog::get_source_full() const
 {
 	return m_source_full ;
 }
 
-tstring CExportDialog::get_trans_full()
+const tstring CExportDialog::get_trans_full() const
 {
 	return m_trans_full ;
 }
 
-tstring CExportDialog::get_trans_plain()
+const tstring CExportDialog::get_trans_plain() const
 {
 	return m_trans ;
+}
+
+// Get the text for the selected item in the combo box
+const tstring CExportDialog::get_combo_sel( CComboBoxT<TWindow> &combo ) const
+{
+	CString text ;
+	combo.GetLBText(combo.GetCurSel(), text) ;
+	return tstring(static_cast<LPCTSTR>(text)) ;
 }

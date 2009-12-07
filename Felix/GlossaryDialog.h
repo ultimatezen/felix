@@ -50,7 +50,6 @@ using namespace memory_engine ;
 class CGlossaryWindow :
 		public CDialogImpl< CGlossaryWindow, CCommonWindowFunctionality >
 		, public CWindowExceptionHandler< CGlossaryWindow >
-		, public CFileOpHandler< CGlossaryWindow >
 		, public CZoomInterface
 {
 public:

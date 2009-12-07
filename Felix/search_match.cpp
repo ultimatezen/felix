@@ -15,9 +15,20 @@ static char THIS_FILE[] = __FILE__ ;
 namespace memory_engine
 {
 
-// formatting penalty
+search_match::search_match() : 
+	m_memory_id(0),
+	m_HasPlacement(false)
+{
+	m_record = record_pointer(new record_local()) ;
+}
 
-void search_match::set_formatting_penalty(double formatting_pentaly)
+	search_match::search_match( const search_match &cpy )
+	{
+		internal_copy( cpy ) ;
+	}
+	// formatting penalty
+
+void search_match::set_formatting_penalty(const double formatting_pentaly)
 {
 	m_score.SetFormattingPenalty( formatting_pentaly ) ;
 }
@@ -32,7 +43,7 @@ const bool search_match::has_formatting_penalty() const
 }
 
 // base score
-void search_match::set_base_score(double score)
+void search_match::set_base_score(const double score)
 {
 	m_score.SetBaseScore( score ) ;
 }
@@ -84,4 +95,152 @@ void search_match::set_values_to_record()
 	m_markup->SetContext( m_record->get_context_rich() ) ;
 }
 
+void search_match::internal_copy( const search_match &cpy )
+{
+	m_record = record_pointer( cpy.m_record->clone() ) ;
+	*m_markup = *(cpy.m_markup) ;
+
+	m_score = cpy.m_score  ;
+
+	m_memory_location = cpy.m_memory_location ;
+	m_memory_id = cpy.m_memory_id ;
+
+	m_MatchPairing = cpy.m_MatchPairing ;
+	m_HasPlacement = cpy.m_HasPlacement ;
+}
+
+search_match& search_match::operator=( const search_match &cpy )
+{
+	internal_copy( cpy ) ;
+	return *this ;
+}
+
+void search_match::Placement()
+{
+	m_HasPlacement = true ;
+}
+
+bool search_match::HasPlacement()
+{
+	return m_HasPlacement ;
+}
+
+CMatchStringPairing& search_match::MatchPairing()
+{
+	return m_MatchPairing ;
+}
+
+void search_match::set_memory_id( const int id )
+{
+	m_memory_id = id ;
+}
+
+const int search_match::get_memory_id() const
+{
+	return m_memory_id ;
+}
+bool search_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs )
+{
+	record_pointer lrec = lhs->get_record() ;
+	record_pointer rrec = rhs->get_record() ;
+	if (lrec->get_refcount() > rrec->get_refcount()) 
+	{
+		return true ;
+	}
+	if (lrec->get_refcount() < rrec->get_refcount()) 
+	{
+		return false ;
+	}
+
+	if (lrec->get_reliability() > rrec->get_reliability()) 
+	{
+		return true ;
+	}
+	if (lrec->get_reliability() < rrec->get_reliability()) 
+	{
+		return false ;
+	}
+
+	if (lrec->is_validated() && ! rrec->is_validated()) 
+	{
+		return true ;
+	}
+	if (! lrec->is_validated() && rrec->is_validated()) 
+	{
+		return false ;
+	}
+
+	if (lrec->get_source_plain().size() > rrec->get_source_plain().size()) 
+	{
+		return true ;
+	}
+	if (lrec->get_source_plain().size() < rrec->get_source_plain().size()) 
+	{
+		return false ;
+	}
+
+	if (lrec->get_trans_plain().size() > rrec->get_trans_plain().size()) 
+	{
+		return true ;
+	}
+	if (lrec->get_trans_plain().size() < rrec->get_trans_plain().size()) 
+	{
+		return false ;
+	}
+
+	if (lrec->get_id() > rrec->get_id()) 
+	{
+		return true ;
+	}
+	if (lrec->get_id() < rrec->get_id()) 
+	{
+		return false ;
+	}
+
+	return(lrec->get_created() < rrec->get_created()) ;
+}
+
+bool translation_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs )
+{
+	// score
+	if ( lhs->get_score() > rhs->get_score() )
+		return true ;
+	if ( lhs->get_score() < rhs->get_score() )
+		return false ;
+
+	// placement
+	if ( ! lhs->HasPlacement() && rhs->HasPlacement() )
+	{
+		return true ;
+	}
+
+	record_pointer lrec = lhs->get_record() ;
+	record_pointer rrec = rhs->get_record() ;
+
+	// reliability
+	if ( lrec->get_reliability() > rrec->get_reliability() ) 
+		return true ;
+	if ( lrec->get_reliability() < rrec->get_reliability() ) 
+		return false ;
+
+	// validated
+	if ( lrec->is_validated() && ! rrec->is_validated() )
+		return true ;
+	if ( ! lrec->is_validated() && rrec->is_validated() )
+		return false ;
+
+	// refcount
+	if ( lrec->get_refcount() > rrec->get_refcount() ) 
+		return true ;
+	if ( lrec->get_refcount() < rrec->get_refcount() ) 
+		return false ;
+
+	// date
+	if ( lrec->get_modified() > rrec->get_modified() ) 
+		return true ;
+	if ( lrec->get_modified() < rrec->get_modified() ) 
+		return false ;
+
+	return false ;
+}
 }

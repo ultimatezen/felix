@@ -25,7 +25,7 @@ public:
 	enum { IDD = IDD_INPUT_SYMBOL_DLG };
 	DECLARE_SENSING_VAR ;
 
-	wstring get_text ();
+	wstring get_text() const ;
 
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);

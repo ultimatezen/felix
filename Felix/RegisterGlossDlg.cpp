@@ -951,6 +951,12 @@ void CRegisterGlossDlg::refresh_current_add_pos()
 	}
 }
 
+/* Get the source and translation from the right-hand dialog boxes,
+ * set them to the record, and then add that record to the glossary.
+ * Reset the record and right-hand combo edits afterward.
+ * If the right-hand edit box is empty, then use the selection on the left-hand
+ * side, if any.
+ */
 void CRegisterGlossDlg::add_gloss_entry()
 {
 	try
@@ -961,13 +967,21 @@ void CRegisterGlossDlg::add_gloss_entry()
 		wstring source = m_gloss_record->get_source_plain() ;
 		if (source.empty()) 
 		{
-			throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
+			source = trim_text(m_rec_source_edit.get_selected_text()) ;
+			if (source.empty())
+			{
+				throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
+			}
 		}
 
 		wstring trans = m_gloss_record->get_trans_plain() ;
 		if (trans.empty()) 
 		{
-			throw CException(R2T(IDS_MSG_NO_EMPTY_T_GLOSS)) ;
+			trans = trim_text(m_rec_trans_edit.get_selected_text()) ;
+			if (trans.empty())
+			{
+				throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
+			}
 		}
 
 		refresh_current_add_pos();

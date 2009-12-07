@@ -22,10 +22,9 @@ namespace easyunit
 		string text = "<English>Foo\r\n" ;
 		c_reader reader ;
 		reader.set_buffer(text.c_str()) ;
-		string col, val ;
-		importer.get_multiterm55_line(reader, col, val) ;
-		ASSERT_EQUALS_V("English", SimpleString(col.c_str())) ;
-		ASSERT_EQUALS_V("Foo", SimpleString(val.c_str())) ;
+		const strcols cols = importer.get_multiterm55_line(reader) ;
+		ASSERT_EQUALS_V("English", SimpleString(cols.get<0>().c_str())) ;
+		ASSERT_EQUALS_V("Foo", SimpleString(cols.get<1>().c_str())) ;
 	}
 	TEST( TestCImportMultitermFile, import_multiterm_55_text)
 	{
@@ -60,6 +59,18 @@ namespace easyunit
 		importer.import_multiterm_6_text(text.c_str()) ;
 		ASSERT_EQUALS_V(2, (int)importer.m_memory->size()) ;
 		ASSERT_EQUALS(L"English", importer.m_memory->get_header().get_source_language()) ;
+	}
+	TEST( TestCImportMultitermFile, get_multiterm6_line)
+	{
+		CMockListener listener ;
+		CImportMultitermFile importer(&listener) ;
+		wstring text = L"spam\teggs\tcontext\r\n" ;
+		textstream_reader<wchar_t> reader ;
+		reader.set_buffer(text.c_str()) ;
+		const wstrcols cols = importer.get_multiterm6_line(reader) ;
+		ASSERT_EQUALS_V("spam", SimpleString(string2string(cols.get<0>()).c_str())) ;
+		ASSERT_EQUALS_V("eggs", SimpleString(string2string(cols.get<1>()).c_str())) ;
+		ASSERT_EQUALS_V("context", SimpleString(string2string(cols.get<2>()).c_str())) ;
 	}
 
 }

@@ -11,11 +11,9 @@ CLanguageHolder::~CLanguageHolder(void)
 
 void CLanguageHolder::put_langs_into_combo(CComboBox & combo)
 {
-	size_t num_lingos = m_languages.size() ;
-	for( size_t i=0 ; i<num_lingos ; ++i )
+	foreach(tstring lang, m_languages)
 	{
-		CString lang = m_languages[i].c_str() ;
-		combo.AddString( lang ) ;
+		combo.AddString( lang.c_str() ) ;
 	}
 }
 
@@ -47,7 +45,7 @@ void CLanguageHolder::set_trans( const tstring &trans )
 	m_trans = trans ;
 }
 
-tstring CLanguageHolder::combo_sel_as_str(CComboBox & combo)
+const tstring CLanguageHolder::combo_sel_as_str(CComboBox & combo) const
 {
 	CString combo_text ;
 #ifndef UNIT_TEST
@@ -59,12 +57,12 @@ tstring CLanguageHolder::combo_sel_as_str(CComboBox & combo)
 	return tstring( static_cast< LPCTSTR >( combo_text ) ) ;
 }
 
-tstring CLanguageHolder::get_source_plain()
+const tstring CLanguageHolder::get_source_plain() const
 {
 	return m_source ;
 }
 
-tstring CLanguageHolder::get_trans_plain()
+const tstring CLanguageHolder::get_trans_plain() const
 {
 	return m_trans ;
 }

@@ -32,23 +32,17 @@ bool keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg ) ;
 
 bool shift_key_is_pressed()
 {
-	bool shift_key_state = false ;
-	shift_key_state = !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
-	return shift_key_state ;
+	return !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
 }
 
 bool control_key_is_pressed()
 {
-	bool control_key_state = false ;
-	control_key_state = !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-	return control_key_state ;
+	return !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
 }
 
 bool alt_key_is_pressed( WORD key_message )
 {
-	bool alt_key_state = false ;
-	alt_key_state = !! ( key_message & KF_ALTDOWN ) ;
-	return alt_key_state ;
+	return !! ( key_message & KF_ALTDOWN ) ;
 }
 
 LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,WPARAM wParam, 
@@ -62,7 +56,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,WPARAM w
 	}
 
 	// get the first word
-	WORD wKeystrokeMsg = (WORD)(lParam >> 16);
+	const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
 	// if the key is up, quit processing 
 	// if we are manipulating a menu, quit processing

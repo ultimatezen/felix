@@ -33,18 +33,17 @@ public:
 
 	bool set_languages( std::set<tstring> &languages ) ;
 
-	tstring get_source_plain();
-	tstring get_trans_plain();
-
-	void set_source( const tstring &source );
-	void set_trans( const tstring &trans );
+	const tstring get_source_plain() const ;
+	const tstring get_trans_plain() const ;
 
 	void put_langs_into_combo(CComboBox & combo);
 
 	// Extract the current selection from the combo box and set the source to that
 	void set_source(CComboBox & combo);
+	void set_source( const tstring &source );
 	// Extract the current selection from the combo box and set the trans to that
 	void set_trans(CComboBox & combo);
+	void set_trans( const tstring &trans );
 	// Extract the current selection from the combo box and return it as a tstring
-	tstring combo_sel_as_str(CComboBox & combo);
+	const tstring combo_sel_as_str(CComboBox & combo) const;
 };

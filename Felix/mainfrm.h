@@ -45,7 +45,6 @@ class CMainFrame :
 		, public CIdleHandler
 		, public CWindowExceptionHandler< CMainFrame >
 		, public CGlossaryWinListener
-		, public CFileOpHandler< CMainFrame >
 		, public CZoomInterface
 {
 #ifdef DEBUG

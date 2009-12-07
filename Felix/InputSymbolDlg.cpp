@@ -28,10 +28,12 @@ LRESULT CInputSymbolDlg::OnCloseCommand( WORD /*wNotifyCode*/, WORD wID, HWND /*
 	return 0;
 }
 
-wstring CInputSymbolDlg::get_text()
+wstring CInputSymbolDlg::get_text() const
 {
 	if ( m_text[0] == 0 )
+	{
 		return wstring() ;
+	}
 
 	return string2wstring((tformat(_T("&%1%;")) % m_text).str()) ;
 }

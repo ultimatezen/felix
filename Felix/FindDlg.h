@@ -61,6 +61,7 @@ public:
 
 	bool check_focus( LRESULT &lResult, WPARAM wparam, LPARAM lparam ) ;
 
+	bool has_focus( HWND focus_hwnd, TWindow window );
 	BEGIN_MAP_EX( CFindDlg )
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)

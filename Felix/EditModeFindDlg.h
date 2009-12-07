@@ -99,30 +99,26 @@ public:
 		return IsDialogMessage( pMsg ) ;
 	}
 
-	// Function name	: select_combo_item
-	// Description	    : 
-	// Return type		: void 
-	// Argument         : int item
-	void select_combo_item( int item )
+	// Selects the combo item matching the resource string
+	void select_combo_item(const int resource_id)
 	{
 		BANNER( "CEditModeCommonFunctions::select_combo_item" ) ;
 
-		CString item_str = resource_string( item ) ;
-
-		int count = m_search_type_combo.GetCount() ;
+		const CString item_str = resource_string(resource_id) ;
+		const int count = m_search_type_combo.GetCount() ;
 
 		for ( int i = 0 ; i < count ; ++i )
 		{
 			if ( item_str == get_combo_string( i ) )
+			{
 				m_search_type_combo.SetCurSel( i ) ;
+				return ;
+			}
 		}
 	}
 
 	// Function name	: get_combo_string
-	// Description	    : 
-	// Return type		: string 
-	// Argument         : int index
-	CString get_combo_string( int index )
+	CString get_combo_string( const int index )
 	{
 		BANNER( "get_combo_string" ) ;
 
@@ -326,7 +322,7 @@ public:
 		}
 
 		// we set up the flags according to our search params
-		long flags = set_up_flags() ;
+		const long flags = set_up_flags() ;
 		// then we actually look for the text
 		CHtmlTextRange range = get_range() ;
 		bool found = range.find_text( search_text, flags ) ;
@@ -369,7 +365,7 @@ public:
 		CHtmlElementCollection all_elements = m_doc.get_all() ;
 		CHtmlElement element ;
 
-		int count = all_elements.get_length() ;
+		const int count = all_elements.get_length() ;
 
 		for ( int i = 0 ; i<count ; ++i )
 		{
@@ -396,7 +392,9 @@ public:
 	{
 		// source
 		if ( ! m_find_edit.IsWindow() )
+		{
 			return ;
+		}
 
 		m_params.m_search_string = m_find_edit.GetText() ;
 	}
@@ -407,7 +405,9 @@ public:
 	{
 		ATLASSERT( IsWindow() ) ;
 		if ( ! IsWindow(  ) )
+		{
 			return ;
+		}
 
 #ifndef UNIT_TEST
 		// the checkboxes should be windows as well...
@@ -425,8 +425,11 @@ public:
 	{
 		// search type
 		if ( ! m_search_type_combo.IsWindow() )
+		{
 			return ;
-		tstring selected_item = get_combo_string( m_search_type_combo.GetCurSel() ) ;
+		}
+		
+		const tstring selected_item = get_combo_string( m_search_type_combo.GetCurSel() ) ;
 
 		if ( selected_item ==  R2T( IDS_SEARCH_ALL ) ) 
 		{

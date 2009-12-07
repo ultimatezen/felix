@@ -86,15 +86,10 @@ LRESULT CFindDlg::OnInitDialog( )
 	// checkbox setup
 	// ===============
 
-	// match case checkbox
 	CheckDlgButton( IDC_ONLY_VALIDATED_CHECK, ( m_params.m_only_validated ? BST_CHECKED : BST_UNCHECKED ) ) ;
-	// regex checkbox
 	CheckDlgButton( IDC_REGEX_CHECK, ( m_params.m_use_regex ? BST_CHECKED : BST_UNCHECKED ) ) ;
-	// only validated checkbox
 	CheckDlgButton( IDC_IGNORE_CASE_CHECK, ( m_params.m_ignore_case ? BST_CHECKED : BST_UNCHECKED ) ) ;
-	// only validated checkbox
 	CheckDlgButton( IDC_FIND_IGNORE_WIDTH_CHECK, ( m_params.m_ignore_width ? BST_CHECKED : BST_UNCHECKED ) ) ;
-	// only validated checkbox
 	CheckDlgButton( IDC_FIND_IGNORE_HIR_KAT_CHECK, ( m_params.m_ignore_hira_kata? BST_CHECKED : BST_UNCHECKED ) ) ;
 
 	// ===============
@@ -144,6 +139,7 @@ LRESULT CFindDlg::OnInitDialog( )
 
 	CUpDownCtrl reliability_spin = GetDlgItem( IDC_RELIABILITY_SPIN ) ;
 	reliability_spin.SetRange( 0, 9 ) ;
+	ATLASSERT(m_params.m_min_reliability <= 9) ;
 	reliability_spin.SetPos( (int) m_params.m_min_reliability ) ;
 
 	// make it first in the z, and hence tab, order
@@ -173,14 +169,13 @@ LRESULT CFindDlg::OnActivate( WPARAM wParam )
 			GetLastError() == 6				||
 			GetLastError() == 5
 			)	;		// Often, error 6 is set here.
-		// No idea why this happens, but
-		// it appears harmless. Will be 5 (access denied)
-		// on deactivate messages.
+						// No idea why this happens, but
+						// it appears harmless. Will be 5 (access denied)
+						// on deactivate messages.
 		CLEAR_WINERRORS ;
 		return 0 ;
 	}
-	ATLASSERT(  GetLastError() == ERROR_SUCCESS ||
-		GetLastError() == 5	) ;
+	ATLASSERT(  GetLastError() == ERROR_SUCCESS || GetLastError() == 5	) ;
 	CLEAR_WINERRORS ;
 
 	ATLTRACE( "This is a deactivation\n" ) ;
@@ -256,25 +251,32 @@ bool CFindDlg::check_focus( LRESULT &lResult, WPARAM wparam, LPARAM lparam )
 {
 	SENSE("check_focus") ;
 	HWND focus_hwnd = ::GetFocus() ;
-	TWindow client_window ;
 
-	if ( m_source_edit.IsWindow() && ( focus_hwnd == m_source_edit.m_hWnd || m_source_edit.IsChild( focus_hwnd ) ) )
-		client_window = m_source_edit.m_hWnd ;
-
-	else if ( m_trans_edit.IsWindow() && ( focus_hwnd == m_trans_edit.m_hWnd || m_trans_edit.IsChild( focus_hwnd ) )	)
-		client_window = m_trans_edit.m_hWnd ;
-
-	else if ( m_context_edit.IsWindow() &&  ( focus_hwnd == m_context_edit.m_hWnd || m_context_edit.IsChild( focus_hwnd ) )	)
-		client_window = m_context_edit.m_hWnd ;
-
-	else if ( m_reliability_edit.IsWindow() &&  ( focus_hwnd == m_reliability_edit.m_hWnd || m_reliability_edit.IsChild( focus_hwnd ) )	)
-		client_window = m_reliability_edit.m_hWnd ;
-
-	if ( client_window.IsWindow() )
+	if ( has_focus(focus_hwnd, m_source_edit) )
 	{
-		lResult = client_window.SendMessage( WM_COMMAND, wparam, lparam ) ;
+		lResult = m_source_edit.SendMessage( WM_COMMAND, wparam, lparam ) ;
+		return true ;
+	}
+	else if ( has_focus(focus_hwnd, m_trans_edit)	)
+	{
+		lResult = m_trans_edit.SendMessage( WM_COMMAND, wparam, lparam ) ;
+		return true ;
+	}
+	else if ( has_focus(focus_hwnd, m_context_edit)	)
+	{
+		lResult = m_context_edit.SendMessage( WM_COMMAND, wparam, lparam ) ;
+		return true ;
+	}
+	else if ( has_focus(focus_hwnd, m_reliability_edit)	)
+	{
+		lResult = m_reliability_edit.SendMessage( WM_COMMAND, wparam, lparam ) ;
 		return true ;
 	}
 
 	return false ;
+}
+
+bool CFindDlg::has_focus( HWND focus_hwnd, TWindow window )
+{
+	return window.IsWindow() && ( focus_hwnd == window.m_hWnd || window.IsChild( focus_hwnd ) );
 }
