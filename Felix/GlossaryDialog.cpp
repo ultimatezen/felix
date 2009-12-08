@@ -40,6 +40,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
+
 using namespace html ;
 
 // CTOR
@@ -448,30 +449,30 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 	{
 	case 1: case 6:
 		logging::log_debug("Saving glossary as fgloss file") ;
-		addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		break;
 
 	case 2:
 		logging::log_debug("Saving glossary as xml file") ;
-		addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
 		break;
 
 	case 3:
 		logging::log_debug("Exporting glossary as Multiterm 5.5 file") ;
-		addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
 		export_multiterm_55( mem, save_as_file_name ) ;
 		return 0L ;
 
 	case 4:
 		logging::log_debug("Exporting glossary as Multiterm 6.0 file") ;
-		addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
 		export_multiterm_6( mem, save_as_file_name ) ;
 		return 0L ;
 
 	case 5:
 		{
 			logging::log_debug("Exporting glossary as Excel workbook") ;
-			addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
+			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
 			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
 			return 0L ;
@@ -481,7 +482,7 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 		logging::log_warn("Unknown case is switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving glossary as fgloss file") ;
-		addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		return 0L ;
 	}
 
@@ -1664,7 +1665,7 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_recordNew()
 	retrieve_record_new_state();
 	user_feedback( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) ;
 	show_view_content() ;
-	return 0 ;
+	return 0L ;
 }
 
 LRESULT CGlossaryWindow::on_user_retrieve_edit_recordLookup()
@@ -1903,7 +1904,7 @@ LRESULT CGlossaryWindow::on_view_search( )
 LRESULT CGlossaryWindow::on_source_concordance()
 {
 	get_concordances(m_view_interface.get_selection_text()) ;
-	return 0 ;
+	return 0L ;
 }
 
 
@@ -1911,7 +1912,7 @@ LRESULT CGlossaryWindow::on_trans_concordance()
 {
 	get_translation_concordances(m_view_interface.get_selection_text()) ;
 	
-	return 0 ;
+	return 0L ;
 }
 
 bool CGlossaryWindow::get_concordances( const wstring query_string )
@@ -2075,6 +2076,9 @@ void CGlossaryWindow::set_up_initial_size()
 
 void CGlossaryWindow::size_client_and_status_bar()
 {
+	static const int SB_WIDTH_THRESHOLD = 400 ;
+	static const int SB_PANE2_WIDTH = 100 ;
+	static const int SB_PANE2_PROPORTION = 4 ;
 	// get the client rect
 	CClientRect client_rect(*this) ;
 	
@@ -2090,13 +2094,13 @@ void CGlossaryWindow::size_client_and_status_bar()
 		const int width = statusbar_rect.Width() ;
 
 		BOOL success = FALSE ;
-		if ( width > 400 )
+		if ( width > SB_WIDTH_THRESHOLD )
 		{
-			success = m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, 100 ) ;
+			success = m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, SB_PANE2_WIDTH ) ;
 		}
 		else
 		{
-			success = m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, ( width / 4 )  ) ;
+			success = m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, ( width / SB_PANE2_PROPORTION )  ) ;
 		}
 		ATLASSERT( success ) ;
 	}
@@ -2132,10 +2136,10 @@ void CGlossaryWindow::init_toolbar()
 	// 0 is for separators.
 	std::vector< int > commands ;
 	commands += 
-		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	0,
-		ID_FILE_SAVE,	ID_FILE_SAVE_ALL, 0,
-		ID_NEXT_PANE,   0,
-		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,	0,
+		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
+		ID_FILE_SAVE,	ID_FILE_SAVE_ALL, SEP_ID,
+		ID_NEXT_PANE,   SEP_ID,
+		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,	SEP_ID,
 		ID_EDIT_FIND ;
 	std::vector< int > StdBitmaps ;
 	StdBitmaps += 
@@ -2151,16 +2155,16 @@ void CGlossaryWindow::init_toolbar()
 #ifdef UNIT_TEST
 	return ;
 #endif
-	m_toolbar.SetBitmapSize(16, 16) ;
+	m_toolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
 	// set the system icon list into the tree view
 	CImageList images ;
-	images.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
+	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
 
 	foreach(int img_id, StdBitmaps)
 	{
 		CBitmap bmp ;
 		ATLVERIFY(bmp.LoadBitmap( img_id )) ;
-		images.Add( bmp, RGB( 255, 0, 255 ) ) ;
+		images.Add( bmp, MAGENTA ) ;
 	}
 	m_toolbar.SetImageList( images ) ;
 
@@ -2187,6 +2191,8 @@ void CGlossaryWindow::reflect_sb_vis()
 
 bool CGlossaryWindow::init_status_bar()
 {
+	const int PANE_WIDTH = 100 ;
+
 	// create status bar
 	DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SBARS_SIZEGRIP ;
 	m_hWndStatusBar = ::CreateStatusWindow( dwStyle, R2T( ATL_IDS_IDLEMESSAGE ), m_hWnd, ATL_IDW_STATUS_BAR ) ;
@@ -2208,7 +2214,7 @@ bool CGlossaryWindow::init_status_bar()
 	const int num_array_parts = sizeof(arrParts) / sizeof(arrParts[0]) ;
 	ATLVERIFY(m_statusbar.m_mp_sbar.SetPanes(arrParts, num_array_parts, false));
 
-	ATLVERIFY(m_statusbar.m_mp_sbar.SetPaneWidth( arrParts[1], 100 )) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPaneWidth( arrParts[1], PANE_WIDTH )) ;
 
 	m_statusbar.m_mp_sbar.UpdatePanesLayout() ;
 	reflect_sb_vis();
@@ -2222,12 +2228,15 @@ void CGlossaryWindow::wait_until_view_not_busy()
 
 void CGlossaryWindow::set_up_recently_used_doclist()
 {
+	const int MAX_NUM_ENTRIES = 15 ;
+	const int MAX_ITEM_LEN = 400 ; // pixels
+
 	// init recent documents list
     m_mru.SetMenuHandle(::GetSubMenu(GetMenu(), 0));
     m_mru.ReadFromRegistry( R2T( IDS_REG_KEY_GLOSS ) );
 	
-    m_mru.SetMaxEntries(15);	
-	m_mru.SetMaxItemLength( 400 ) ;
+    m_mru.SetMaxEntries(MAX_NUM_ENTRIES);	
+	m_mru.SetMaxItemLength(MAX_ITEM_LEN) ;
 }
 
 void CGlossaryWindow::check_save_history()
@@ -2634,7 +2643,8 @@ HRESULT CGlossaryWindow::get_doc_context_menu()
 	CMenu menu ;
 
 	CImageList images ;
-	images.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 2 ) ;
+	const int grow_size = 2 ;
+	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, grow_size ) ;
 
 	menu.CreatePopupMenu() ;
 	add_popup_item(menu, ID_EDIT_COPY, IDS_POPUP_COPY) ;

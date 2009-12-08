@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "zoom_dialog.h"
 
+static const int ZOOM_MIN = -10 ;
+static const int ZOOM_MAX = 10 ;
+static const int TIC_FREQ = 1 ;
 
 LRESULT CZoomDlg::OnInitDialog()
 {
 	SENSE("OnInitDialog") ;
 
 	m_ZoomCtrl.Attach(GetDlgItem(IDC_SLIDER1)) ;
-	m_ZoomCtrl.SetRange(-10, 10);
-	m_ZoomCtrl.SetTicFreq(1) ;
+	m_ZoomCtrl.SetRange(ZOOM_MIN, ZOOM_MAX);
+	m_ZoomCtrl.SetTicFreq(TIC_FREQ) ;
 	m_ZoomCtrl.SetPos(m_zoom_level);
 	m_ZoomCtrl.EnableWindow();
 	// set icon

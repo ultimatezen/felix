@@ -273,8 +273,8 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 	// prevent the view from eating our menu shortcut keys...
-	const int nVirtKey = ::GetKeyState(VK_MENU);
-	if (nVirtKey & 0x8000)
+	const int key_mask = 0x8000 ;
+	if (::GetKeyState(VK_MENU) & key_mask)
 	{
 		return FALSE ;
 	}
@@ -319,7 +319,7 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	
 	if ( dialog.DoModal() == IDCANCEL )
 	{
-		return 0 ;
+		return 0L ;
 	}
 	// get the color the user picked
 	const CColorRef newcolor(dialog.GetColor()) ;
@@ -330,7 +330,7 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	// turn it into an HTML tag
 	m_view_interface.set_bg_color( newcolor.as_wstring() ) ;
 	
-	return 0 ;
+	return 0L ;
 }
 
 //! Get the source and target languages for saving current memory as TMX.
@@ -347,7 +347,7 @@ bool CMainFrame::export_tmx( const CString &file_name )
 
 	if ( IDCANCEL == dialog.DoModal() )
 	{
-		return 0 ;
+		return false ;
 	}
 
 	CTMXWriter exporter( static_cast< CProgressListener* >( this ) ) ;
@@ -380,7 +380,7 @@ bool CMainFrame::export_trados( const CString &file_name )
 	
 	if ( IDCANCEL == dialog.DoModal() )
 	{
-		return 0 ;
+		return false ;
 	}
 
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
@@ -407,7 +407,7 @@ bool CMainFrame::export_trados( const CString &file_name )
 
 	exporter.export_trados( mem ) ;
 
-	return 0 ;
+	return true ;
 }
 
 //! WM_CREATE message handler
@@ -494,7 +494,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		throw ;
 	}
 
-	return 0;
+	return 0L;
 }
 
 //! Check whether the preferences say to load the previous
@@ -595,7 +595,7 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 		{
 			if ( m_trans_matches.empty() )
 			{
-				return 0 ;
+				return 0L ;
 			}
 			
 			search_match_ptr current_match = m_trans_matches.current() ;
@@ -634,7 +634,7 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 		ATLASSERT( "Unknown state" && FALSE ) ;
 	}
 	show_view_content() ;
-	return 0 ;
+	return 0L ;
 }
 
 
@@ -648,7 +648,7 @@ LRESULT CMainFrame::on_file_exit(  WindowsMessage &message )
 	return 0L ;
 #endif
 	PostMessage(WM_CLOSE);
-	return 0;
+	return 0L;
 }
 
 /** Deletes the current entry.
@@ -669,7 +669,7 @@ LRESULT CMainFrame::on_delete_entry(  WindowsMessage &message )
 	{
 		delete_current_translation() ;
 	}
-	return 0;
+	return 0L;
 }
 
 
@@ -699,7 +699,7 @@ LRESULT CMainFrame::on_find( WindowsMessage &message  )
 	{
 		handle_find() ;
 	}
-	return 0 ;
+	return 0L ;
 }
 
 /** The Replace dialog has told us that it's time to do a replace.
@@ -771,7 +771,7 @@ LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
 #endif
 	gloss_window_pointer gloss_window ;
 	add_glossary_window(gloss_window) ;
-	return 0 ;
+	return 0L ;
 }
 
 /** Adds a new glossary window.
@@ -847,7 +847,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 
 	user_feedback( IDS_NEW ) ;
 
-	return 0 ;
+	return 0L ;
 }
 
 /** Handles file open command.
@@ -1110,30 +1110,30 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	{
 	case 1: case 6:
 		logging::log_debug("Saving memory as ftm file") ;
-		addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
 		break;
 
 	case 2:
 		logging::log_debug("Saving memory as xml file") ;
-		addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
 		break;
 
 	case 3:
 		logging::log_debug("Saving memory as tmx file") ;
-		addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
 		export_tmx( file_name ) ;
 		return 0L ;
 
 	case 4:
 		logging::log_debug("Saving memory as Trados text file") ;
-		addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
 		export_trados( file_name ) ;
 		return 0L ;
 
 	case 5:
 		{
 			logging::log_debug("Saving memory as Excel file") ;
-			addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
+			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
 			exporter.export_excel( m_model->m_memories->get_first_memory(), file_name ) ;
 			return 0L ;
@@ -1143,7 +1143,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 		logging::log_warn("Unknown case is switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving memory as tmx file") ;
-		addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
 		export_tmx( file_name ) ;
 		break;
 	}
@@ -1177,18 +1177,18 @@ LRESULT CMainFrame::on_close( WindowsMessage &message )
 	if ( IDCANCEL == check_save() ) 
 	{
 		SetMsgHandled( TRUE ) ;
-		return 1 ;
+		return 1L ;
 	}
 
 	if ( false == gloss_win_shutdown_check() )
 	{
-		return 1 ;
+		return 1L ;
 	}
 
 	// do it twice, in case we chose a location that clashes after the check...
 	if ( false == gloss_win_shutdown_check() )
 	{
-		return 1 ;
+		return 1L ;
 	}
 
 	save_settings_close();
@@ -1198,7 +1198,7 @@ LRESULT CMainFrame::on_close( WindowsMessage &message )
 
 	message.notHandled() ;
 
-	return 0;
+	return 0L;
 }
 
 
@@ -1284,7 +1284,7 @@ void CMainFrame::check_save_history()
 }
 //! See if we have more memories to save to our history.
 bool CMainFrame::has_more_memory_history( memory_iterator pos, 
-										 size_t mem_num )
+										 const size_t mem_num )
 {
 	return (pos != m_model->m_memories->end() && 
 		mem_num < app_props::NumMems) ;
@@ -1701,6 +1701,8 @@ LRESULT CMainFrame::on_register_gloss(WindowsMessage &)
  */
 void CMainFrame::get_matches(TransMatchContainer &matches, search_query_params &params)
 {
+	const double MATCH_THRESHOLD = 0.9999 ;
+
 	m_model->m_memories->find_matches(matches, params) ;
 
 	if (!params.m_place_numbers)
@@ -1712,7 +1714,7 @@ void CMainFrame::get_matches(TransMatchContainer &matches, search_query_params &
 
 	foreach(search_match_ptr match, matches)
 	{
-		if ( match->get_score() < 0.9999 )
+		if ( match->get_score() < MATCH_THRESHOLD )
 		{
 			check_placement(PlacedMatches, match);
 		}
@@ -2245,7 +2247,7 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	
 	show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 
-	return 0 ;
+	return 0L ;
 }
 
 
@@ -2364,7 +2366,7 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 
 	// give the user feedback
 	user_feedback( IDS_DELETED_ENTRY ) ;
-	return 0 ;
+	return 0L ;
 }
 
 
@@ -2424,7 +2426,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 /** Adds a new record to the active memory.
  */
-bool CMainFrame::add_record( record_pointer record )
+bool CMainFrame::add_record( const record_pointer record )
 {
 	SENSE("add_record") ;
 	ATLASSERT( record->is_valid_record() ) ;
@@ -2583,7 +2585,8 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
  */
 wstring CMainFrame::get_translation_at(short index)
 {
-	if ( index == -1 )
+	const int CURRENT_INDEX = -1 ;
+	if ( index == CURRENT_INDEX )
 	{
 		return get_current_translation() ;
 	}
@@ -2608,10 +2611,9 @@ wstring CMainFrame::get_translation_at(short index)
  */
 void CMainFrame::report_memory_after_load(size_t original_num)
 {
-	// get number of records loaded
-	
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
 	
+	// get number of records loaded
 	const size_t num_records_after_load = mem->size() ;
 	const size_t num_records_loaded = num_records_after_load - original_num ;
 	CString arg1 ;
@@ -2637,7 +2639,7 @@ void CMainFrame::destroy_all_gloss_windows()
 
 /** Handles user navigation.
 */
-LRESULT CMainFrame::on_user_nav(LPARAM lParam )
+LRESULT CMainFrame::on_user_nav(const LPARAM lParam )
 {
 	SENSE("on_user_nav") ;
 
@@ -2646,24 +2648,24 @@ LRESULT CMainFrame::on_user_nav(LPARAM lParam )
 	case IDC_PREV:
 		prev_display_state() ;
 		show_view_content() ;
-		return 0 ;
+		return 0L ;
 	case IDC_PREV_MATCH:
 		prev_match() ;
-		return 0 ;
+		return 0L ;
 	case IDC_NEXT_MATCH:
 		next_match() ;
-		return 0 ;
+		return 0L ;
 	case IDC_MORE:
 		m_is_short_format = false ;
 		show_view_content() ;
-		return 0 ;
+		return 0L ;
 	case IDC_LESS:
 		m_is_short_format = true ;
 		show_view_content() ;
-		return 0 ;
+		return 0L ;
 	}
 	ATLASSERT( "We should never get here" && FALSE ) ;
-	return 0 ;
+	return 0L ;
 
 }
 
@@ -2672,7 +2674,7 @@ LRESULT CMainFrame::on_user_nav(LPARAM lParam )
  * If the index is out of range, then give a beep and feedback in the
  * status bar (we used to throw an exception).
  */
-LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
+LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
 {
 	SENSE("on_user_add_to_glossary") ;
 
@@ -2718,7 +2720,7 @@ LRESULT CMainFrame::on_user_add_to_glossary(LPARAM lParam )
 #endif
 
 	m_glossary_windows[0]->add_record(rec->clone());
-	return 0 ;
+	return 0L ;
 }
 
 
@@ -2783,9 +2785,8 @@ bool CMainFrame::clear_memory()
 
 /** Responds to Tools > Preferences menu selection.
 */
-LRESULT CMainFrame::on_tools_preferences(  WindowsMessage &message )
+LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 {
-	message ;
 	SENSE("on_tools_preferences") ;
 
 	user_feedback( IDS_SETTING_PREFS );
@@ -2863,7 +2864,7 @@ LRESULT CMainFrame::handle_find()
 {
 	init_find_window( SW_RESTORE, IDS_MEMORY_SEARCH ) ;
 
-	return 0 ;
+	return 0L ;
 }
 
 /** Edit the current translation match.
@@ -2953,13 +2954,15 @@ void CMainFrame::set_ui_to_current_language()
  */
 void CMainFrame::set_translation_at(short index, const wstring &translation )
 {
+	const int CURRENT_INDEX = -1 ;
+
 	if ( m_trans_matches.empty() )
 	{
 		user_feedback(IDS_OUT_OF_RANGE) ;
 		return ;
 	}
 	search_match_ptr current ;
-	if ( index == -1 )
+	if ( index == CURRENT_INDEX )
 	{
 		current = m_trans_matches.current() ;
 	}
@@ -3018,13 +3021,11 @@ bool CMainFrame::import_tmx( const CString &file_name )
 
 /** Give feedback for a loaded memory.
  */
-void CMainFrame::feedback_loaded_mem( memory_pointer mem )
+void CMainFrame::feedback_loaded_mem( const memory_pointer mem )
 {
-	CString file_name = mem->get_location() ;
-	CString int_arg ;
-	int_arg.Format( _T("%d"), mem->size() ) ;
+	const CString file_name = mem->get_location() ;
 	CString msg ;
-	msg.FormatMessage( IDS_DONE_LOADING, int_arg, file::name( file_name ).file_name() ) ;
+	msg.FormatMessage( IDS_DONE_LOADING, int_arg(mem->size()), file::name( file_name ).file_name() ) ;
 	user_feedback( msg ) ;
 
 }
@@ -3051,14 +3052,14 @@ bool CMainFrame::import_trados( const file::OpenDlgList &files )
 	return true ;
 }
 
-#pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
-
-
 
 /** Imports a Trados memory.
  */
 bool CMainFrame::import_trados(const CString &trados_file_name)
 {
+	const int PROGRESS_START = 0 ;
+	const int PROGRESS_END = 100 ;
+
 	trados_data_importer importer( static_cast< CProgressListener* >( this ) ) ;
 
 	user_feedback(IDS_RETRIEVING_LANG_CODES) ;
@@ -3066,13 +3067,14 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 
 	importer.open_data_source( trados_file_name ) ;
 
-	m_statusbar.init_progress_bar( 0, 100 ) ;
+	m_statusbar.init_progress_bar(PROGRESS_START, PROGRESS_END) ;
 
 	// convert them to internal format
 	trados_data_importer::language_code_set languages ;
 
-	int num_codes = 0 ;
-	while ( importer.get_language_code( languages ) && num_codes < 100)
+	for ( int num_codes = 0 ; 
+		  importer.get_language_code( languages ) && num_codes < PROGRESS_END ; 
+		  ++num_codes)
 	{
 		m_statusbar.set_pos( num_codes++ ) ;
 	}
@@ -3085,7 +3087,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 	if ( import_dialog.DoModal() == IDCANCEL )
 	{
 		user_feedback( IDS_IMPORT_ABORTED ) ;
-		return 0L ;
+		return false ;
 	}
 
 	importer.set_source_language( import_dialog.get_source_plain() ) ;
@@ -3602,6 +3604,8 @@ LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &)
  */
 LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 {
+	const int DEFAULT_SIZE = 100 ;
+
 	SENSE("on_view_min_begin") ;
 
 	foreach(gloss_window_pointer gloss, m_glossary_windows)
@@ -3622,7 +3626,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 
 	ATLASSERT( m_min_view.IsWindow() ) ;
 	
-	CRect rc(100, 100, 100, 100) ;
+	CRect rc(DEFAULT_SIZE, DEFAULT_SIZE, DEFAULT_SIZE, DEFAULT_SIZE) ;
 	m_min_view.ShowWindow( SW_RESTORE ) ;
 	m_min_view.SetWindowPos( HWND_TOPMOST, &rc, SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOSIZE ) ;
 
@@ -3813,6 +3817,8 @@ void CMainFrame::add_memory(memory_pointer mem)
  */
 void CMainFrame::set_up_default_initial_size()
 {
+	const int PADDING = 5 ;
+
 	// get dimensions of desktop
 	const CWindowRect desktop_rect(GetDesktopWindow()) ;
 	// dimensions of our top glossary window
@@ -3822,10 +3828,10 @@ void CMainFrame::set_up_default_initial_size()
 	CWindowRect frame_window_rect(*this) ;
 	
 	// calculate dialog size
-	const int width = ( desktop_rect.Width() ) - ( ( dialog_rect.Width() ) + 5 ) ;
+	const int width = ( desktop_rect.Width() ) - (dialog_rect.Width() + PADDING) ;
 	const int height = dialog_rect.Height() ;
-	frame_window_rect.right = 5 + desktop_rect.left + width ;
-	frame_window_rect.left = 5 ;
+	frame_window_rect.right = PADDING + desktop_rect.left + width ;
+	frame_window_rect.left = PADDING ;
 	frame_window_rect.top = desktop_rect.top ;
 	frame_window_rect.bottom = frame_window_rect.top + height ;
 	
@@ -3837,23 +3843,23 @@ void CMainFrame::set_up_default_initial_size()
  */
 void CMainFrame::set_up_command_bars()
 {
-#ifdef UNIT_TEST
-	return ;
-#endif
 	// Set the 24-bit color images in the toolbar's image list
 	std::vector< int > commands ;
 	commands += 
-		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	0,
-		ID_FILE_SAVE,	ID_FILE_SAVE_ALL,	0,
-		ID_NEXT_PANE,	0,
-		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,		0,
-		ID_EDIT_FIND,	ID_TOOLS_PREFERENCES,	0,
+		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
+		ID_FILE_SAVE,	ID_FILE_SAVE_ALL,	SEP_ID,
+		ID_NEXT_PANE,	SEP_ID,
+		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,		SEP_ID,
+		ID_EDIT_FIND,	ID_TOOLS_PREFERENCES,	SEP_ID,
 		ID_HELP,		ID_APP_ABOUT;
 
+#ifdef UNIT_TEST
+	return ;
+#endif
 	TWindow toolbarWnd = m_stdToolbar.Create24BitToolBarCtrl(*this, commands, FALSE );
 
 	m_stdToolbar.SubclassWindow( toolbarWnd, MAKEINTRESOURCE(IDR_MAINFRAME));
-	m_stdToolbar.SetBitmapSize(16, 16) ;
+	m_stdToolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
 
 	std::vector< int > StdBitmaps ;
 	StdBitmaps += 
@@ -3865,20 +3871,20 @@ void CMainFrame::set_up_command_bars()
 		IDB_HELP,			IDB_INFORMATION ;
 
 	CImageList images ;
-	images.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
+	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
 	foreach(int img_id, StdBitmaps)
 	{
 		CBitmap bmp ;
 		bmp.LoadBitmap(img_id) ;
-		images.Add(bmp, RGB(255, 0, 255)) ;
+		images.Add(bmp, MAGENTA) ;
 	}
 	m_stdToolbar.SetImageList(images) ;
 
 	// create command bar window
 	m_CmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
 	m_CmdBar.RemoveAllImages() ;
-	m_CmdBar.SetImageMaskColor(RGB(255, 0, 255)) ;
-	m_CmdBar.SetImageSize(16, 16) ;
+	m_CmdBar.SetImageMaskColor(MAGENTA) ;
+	m_CmdBar.SetImageSize(BM_SIZE, BM_SIZE) ;
 
 	// attach menu
 	ATLVERIFY(m_CmdBar.AttachMenu(GetMenu())) ;
@@ -3923,11 +3929,14 @@ void CMainFrame::AddMenuBitmap( const int BitmapId, const int CmdId )
  */
 void CMainFrame::set_up_recent_docs_list()
 {
+	const int MAX_NUM_ENTRIES = 15 ;
+	const int MAX_ITEM_LEN = 400 ; // pixels
+
 	// init recent documents list
     m_mru.SetMenuHandle(::GetSubMenu(GetMenu(), 0 ) ) ;
     m_mru.ReadFromRegistry( resource_string( IDS_REG_KEY ) ) ;
-	m_mru.SetMaxItemLength( 400 ) ;
-    m_mru.SetMaxEntries(15) ;
+	m_mru.SetMaxItemLength(MAX_ITEM_LEN) ;
+    m_mru.SetMaxEntries(MAX_NUM_ENTRIES) ;
 }
 
 /** Show the startup page.
@@ -3975,11 +3984,11 @@ void CMainFrame::set_up_ui_state()
 {
 	if( m_appstate.m_is_toolbar_visible )
 	{
-		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, 1)) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, TRUE)) ;
 	}
 	else
 	{
-		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, 0)) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, FALSE)) ;
 		ATLASSERT( ::IsWindow( m_hWndToolBar ) ) ;
 
 		CReBarCtrl rebar = m_hWndToolBar ;
@@ -3987,19 +3996,18 @@ void CMainFrame::set_up_ui_state()
 		rebar.ShowBand(nBandIndex, FALSE ) ;
 	}
 	
-	
 	ATLVERIFY(UIEnable( ID_EDIT_REPLACE, FALSE, TRUE )) ;
 	
 	if( m_appstate.m_is_statusbar_visible )
 	{
-		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, 1)) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, TRUE)) ;
 	}
 	else
 	{
 		// Returns: If the window was previously visible, the return value is nonzero.
 		::ShowWindow(m_hWndStatusBar, SW_HIDE ) ;
 		
-		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, 0)) ;
+		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, FALSE)) ;
 	}
 
 }
@@ -4294,7 +4302,7 @@ void CMainFrame::save_rebar_settings()
 
 /** Sets whether to show markup for matches.
  */
-void CMainFrame::put_show_marking( VARIANT_BOOL setting )
+void CMainFrame::put_show_marking( const VARIANT_BOOL setting )
 {
 	if ( setting == VARIANT_FALSE ) 
 	{
@@ -4329,7 +4337,7 @@ VARIANT_BOOL CMainFrame::get_show_marking()
 
 /** Set the location of the top memory.
  */
-bool CMainFrame::set_location( CString &location ) 
+bool CMainFrame::set_location( const CString &location ) 
 {
 	memory_pointer mem = m_model->m_memories->get_first_memory() ;
 	try
@@ -4509,7 +4517,7 @@ LRESULT CMainFrame::on_demo_check_excess_memories(WindowsMessage &)
 }
 
 //! User wants to search in edit mode.
-LRESULT CMainFrame::on_user_edit_search( WindowsMessage &message )
+LRESULT CMainFrame::on_user_edit_search(WindowsMessage &message)
 {
 	SENSE("on_user_edit_search") ;
 	return CCommonWindowFunctionality::on_user_edit_search( message.lParam ) ;
@@ -4588,7 +4596,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		BOOL bHandled = FALSE ;
 		COMMAND_ID_HANDLER_EX(ID_FILE_CONNECT, on_file_connect)
 		NOTIFY_CODE_HANDLER(TTN_GETDISPINFOW, OnToolTipTextW)
-		MESSAGE_HANDLER_EX(0x020A/*WM_MOUSEWHEEL*/, OnMouseWheel)
+		MESSAGE_HANDLER_EX(WM_MOUSEWHEEL /* 0x020A */, OnMouseWheel)
 
 		const messageMapType *theMessageMap = this->get_message_map( uMsg ) ;
 		const UINT key = this->get_message_key( uMsg, wParam ) ;
@@ -4817,7 +4825,7 @@ LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/
 		}
 	}
 
-	return 0;
+	return 0L;
 }
 
 //! Tell the user that we failed to load the memory
@@ -4928,6 +4936,8 @@ void CMainFrame::deleted_new_record_feedback()
 void CMainFrame::check_placement( TransMatchContainer &PlacedMatches, 
 								 search_match_ptr match )
 {
+	const double PLACEMENT_PENALTY = 0.00001 ;
+
 	record_pointer rec = match->get_record() ;
 	const wstring trans = rec->get_trans_plain() ;
 
@@ -4953,7 +4963,7 @@ void CMainFrame::check_placement( TransMatchContainer &PlacedMatches,
 
 		// score
 		// HACK -- to make sure that the placed matches sort below the non-placed ones
-		NewMatch->set_base_score( newPairing.CalcScore() - 0.00001 ) ;
+		NewMatch->set_base_score( newPairing.CalcScore() - PLACEMENT_PENALTY) ;
 		NewMatch->set_formatting_penalty( match->get_formatting_penalty() ) ;
 
 		// new query/source
@@ -4979,7 +4989,9 @@ wstring CMainFrame::get_concordance_content_title()
 void CMainFrame::check_shell_execute_result( int result, 
 											const CString & filePath )
 {
-	if ( result <= 32 )
+	const int ERR_THRESHOLD = 32 ;
+
+	if ( result <= ERR_THRESHOLD )
 	{
 		throw CWinException(system_message(IDS_SHOW_HELP_FAILED, (LPCTSTR)filePath), result ) ;
 	}
@@ -5278,18 +5290,18 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 	if ( IDCANCEL == check_save() ) 
 	{
 		SetMsgHandled( TRUE ) ;
-		return 1 ;
+		return 1L ;
 	}
 
 	if ( false == gloss_win_shutdown_check() )
 	{
-		return 1 ;
+		return 1L ;
 	}
 
 	// do it twice, in case we chose a location that clashes after the check...
 	if ( false == gloss_win_shutdown_check() )
 	{
-		return 1 ;
+		return 1L ;
 	}
 
 	load_preferences(filename);
@@ -5315,7 +5327,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 		user_feedback( IDS_CANCELLED_ACTION ) ;
 		return 0L ;
 	}
-	addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
+	fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
 	logging::log_debug("Saving preferences") ;
 	TRACE(filename) ;
 
@@ -5618,7 +5630,7 @@ HRESULT CMainFrame::get_doc_context_menu()
 	CMenu menu ;
 
 	CImageList images ;
-	images.Create(16, 16, ILC_COLOR24 | ILC_MASK, 0, 2 ) ;
+	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, 2 ) ;
 
 	menu.CreatePopupMenu() ;
 	add_popup_item(menu, ID_EDIT_COPY, IDS_POPUP_COPY) ;

@@ -6,6 +6,36 @@
 
 namespace easyunit
 {
+	// file_size2string
+	TEST(StringConversions, file_size2string_6_Bytes)
+	{
+		SimpleString actual = file_size2string(6).c_str() ;
+		SimpleString expected = "6 Bytes" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(StringConversions, file_size2string_64_KBytes)
+	{
+		SimpleString actual = file_size2string(64 * ONEK).c_str() ;
+		SimpleString expected = "64 KBytes" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(StringConversions, file_size2string_6_MBytes)
+	{
+		SimpleString actual = file_size2string(6*ONEM).c_str() ;
+		SimpleString expected = "6 MBytes" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(StringConversions, file_size2string_12_5_GBytes)
+	{
+		double oneg = static_cast<double>(ONEG) ;
+		double mult = 3.5 ;
+		size_t file_size = static_cast<size_t>(oneg * mult) ;
+		SimpleString actual = file_size2string(file_size).c_str() ;
+		SimpleString expected = "3.5 GBytes" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	// BSTR2wstring
 	TEST( StringConversions, TestBSTR2wstring_bstr_t )
 	{
 		wstring w = BSTR2wstring( _bstr_t(L"foo") ) ;

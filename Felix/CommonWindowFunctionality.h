@@ -47,6 +47,11 @@ class CCommonWindowFunctionality :
 {
 public:
 	DECLARE_SENSING_VAR ;
+
+	static const int BM_SIZE = 16 ;
+	static const int SEP_ID = 0 ;
+	static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
+
 	// various display states
 	enum DISPLAY_STATE
 	{ 

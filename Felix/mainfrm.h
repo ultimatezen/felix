@@ -168,7 +168,7 @@ public:
 	// initialization
 
 	// location
-	bool set_location( CString &location );
+	bool set_location( const CString &location );
 
 	// =================
 	// memory operations
