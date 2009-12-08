@@ -22,7 +22,7 @@ class CInputSymbolDlg :
 	CEdit	m_edit ;
 public:
 	TCHAR	m_text[512] ;
-	enum { IDD = IDD_INPUT_SYMBOL_DLG };
+	static const int IDD = IDD_INPUT_SYMBOL_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	wstring get_text() const ;

@@ -16,9 +16,9 @@
 */
 wchar_t narrow_num( wchar_t c )
 {
-	if ( c >= 0xFF10 && c <= 0xFF19 )
+	if ( str::is_fullwidth_number(c) )
 	{
-		return (wchar_t)(c - str::NUMBER_OFFSET );
+		return str::normalize_fullwidth_number(c);
 	}
 	return c ;
 }

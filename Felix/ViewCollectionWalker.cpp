@@ -226,4 +226,3 @@ CViewCollectionWalker::~CViewCollectionWalker( void )
 {
 
 }
-

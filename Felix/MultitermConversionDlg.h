@@ -9,8 +9,6 @@
 
 #include "WindowExceptionHandler.h"
 
-#pragma warning( disable:4100 ) // unreferenced format parameter
-
 /**
 	@class CMultitermConversionDlg 
 	@brief Dialog to get user input for import of MultiTerm glossary.
@@ -23,7 +21,7 @@ class CMultitermConversionDlg :
 	bool	m_is_import ;
 	int	m_multiterm_version ;
 public:
-	enum { IDD = IDD_MULTITERM_CONVERSION_DLG } ;
+	static const int IDD = IDD_MULTITERM_CONVERSION_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	bool is_import() ;
@@ -57,5 +55,4 @@ public:
 
 };
 
-#pragma warning( default:4100 ) // unreferenced format parameter
 

@@ -161,7 +161,7 @@ public:
 	void HandleEditModeFind() ;
 
 public:
-	enum { IDD = IDD_GLOSSARYVIEW };
+	static const int IDD = IDD_GLOSSARYVIEW ;
 
 	bool OnBeforeNavigate2( _bstr_t url ) ;
 	void set_listener( CGlossaryWinListener *listener) ;

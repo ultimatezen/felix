@@ -27,7 +27,7 @@ class CInputKeyDlg :
 	CEdit	m_edit ;
 
 public:
-	enum { IDD = IDD_INPUT_KEY_DLG };
+	static const int IDD = IDD_INPUT_KEY_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	LRESULT OnInitDialog( );

@@ -30,7 +30,7 @@ class CNagDialog
 	CString		m_nagPage ;
 
 public:
-	enum { IDD = IDD_NAG_BOX };
+	static const int IDD = IDD_NAG_BOX ;
 	DECLARE_SENSING_VAR ;
 
 	LRESULT OnInitDialog( );

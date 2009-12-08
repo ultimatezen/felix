@@ -33,7 +33,7 @@ class CTMXImportDlg :
 	CComboBox		m_trans_combo ;
 
 public:
-	enum { IDD = IDD_SELECT_LANG_DLG };
+	static const int IDD = IDD_SELECT_LANG_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	CTMXImportDlg() {}

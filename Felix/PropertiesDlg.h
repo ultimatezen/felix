@@ -18,7 +18,7 @@ class CMemoryPage :	public CPropertyPageImpl<CMemoryPage>,
 
 public:
 
-	enum { IDD = IDD_PROPPAGE_MEMORY };
+	static const int IDD = IDD_PROPPAGE_MEMORY ;
 	DECLARE_SENSING_VAR ;
 
 	void set_props( app_props::properties_memory *props );
@@ -57,7 +57,7 @@ class CGeneralPage :
 
 public:
 
-	enum { IDD = IDD_PROPPAGE_GENERAL };
+	static const int IDD = IDD_PROPPAGE_GENERAL ;
 	DECLARE_SENSING_VAR ;
 
 	void set_props( app_props::properties_general *props );
@@ -94,7 +94,7 @@ class CAlgorithmPage :
 
 public:
 
-	enum { IDD = IDD_PROPPAGE_ALGORITHM };
+	static const int IDD = IDD_PROPPAGE_ALGORITHM ;
 	DECLARE_SENSING_VAR ;
 
 	void set_props( app_props::properties_algorithm *props );
@@ -132,7 +132,7 @@ class CGlossaryPage :	public CPropertyPageImpl<CGlossaryPage>,
 
 public:
 
-	enum { IDD = IDD_PROPPAGE_GLOSSARY };
+	static const int IDD = IDD_PROPPAGE_GLOSSARY ;
 	DECLARE_SENSING_VAR ;
 
 	void set_props( app_props::properties_glossary *props );
@@ -185,7 +185,7 @@ class CViewPage :
 
 public:
 
-	enum { IDD = IDD_PROPPAGE_VIEW };
+	static const int IDD = IDD_PROPPAGE_VIEW ;
 	DECLARE_SENSING_VAR ;
 
 	void set_props( app_props::properties_view *props );
@@ -239,7 +239,7 @@ class CPropertiesDlg
 	CAlgorithmPage	m_page5 ;
 
 public:
-	enum { IDD = IDD_PROPSHEET };
+	static const int IDD = IDD_PROPSHEET ;
 	DECLARE_SENSING_VAR ;
 
 	CString get_title();

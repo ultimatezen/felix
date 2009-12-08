@@ -17,7 +17,7 @@ class CCRecordLabelPickerDlg :
 {
 	CCheckListViewCtrl	m_list ;
 public:
-	enum { IDD = IDD_CRECORDLABELPICKERDLG };
+	static const int IDD = IDD_CRECORDLABELPICKERDLG ;
 	DECLARE_SENSING_VAR ;
 
 	CCRecordLabelPickerDlg();

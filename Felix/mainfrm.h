@@ -90,7 +90,7 @@ public:
 
 	CSearchWindow		m_search_window ;
 public:
-	enum { IDD = IDR_MAINFRAME } ;
+	static const int IDD = IDR_MAINFRAME ;
 
 	typedef std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > messageMapType ;
 	messageMapType m_message_map ;

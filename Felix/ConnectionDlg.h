@@ -20,7 +20,7 @@ class CConnectionDlg :
 
 
 public:
-	enum { IDD = IDD_CONNECTION_DLG };
+	static const int IDD = IDD_CONNECTION_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	memory_engine::memory_pointer m_memory ;

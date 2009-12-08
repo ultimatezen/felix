@@ -28,7 +28,7 @@ class CConcordanceDialog  :
 	tstring		m_text ;
 
 public:
-	enum { IDD = IDD_CONCORDANCE_DIALOG } ;
+	static const int IDD = IDD_CONCORDANCE_DIALOG ;
 	DECLARE_SENSING_VAR ;
 
 	tstring get_text();

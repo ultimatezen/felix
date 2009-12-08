@@ -24,7 +24,7 @@ public:
 	CString m_merge_message ;
 	CString m_title ;
 
-	enum { IDD = IDD_QUERY_MERGE_DLG };
+	static const int IDD = IDD_QUERY_MERGE_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	CQueryMergeDlg(int title_res_id, int text_res_id, const tstring mem_name);

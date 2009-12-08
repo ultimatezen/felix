@@ -42,7 +42,7 @@ class CFindDlg  :
 	CCommandEdit		m_reliability_edit ;
 
 public:
-	enum { IDD = IDD_FIND_DLG } ;
+	static const int IDD = IDD_FIND_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	CFindDlg()  ;

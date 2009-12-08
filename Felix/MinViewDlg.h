@@ -39,7 +39,7 @@ class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
 public:
 	HWND m_parent ;
 		
-	enum {IDD = IDD_MIN_VIEW_DLG};
+	static const int IDD = IDD_MIN_VIEW_DLG ;
 	DECLARE_SENSING_VAR ;
 	
 	// view

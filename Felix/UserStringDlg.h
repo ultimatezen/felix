@@ -25,7 +25,7 @@ class CUserStringDlg :
 	CWideRichEdit		m_value_edit ;
 
 public:
-	enum {IDD = IDD_USER_STRING_DLG};
+	static const int IDD = IDD_USER_STRING_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	wstring				m_key ;
@@ -40,11 +40,11 @@ public:
 		END_CMD_HANDLER_EX
 	END_MAP_EX( _T("Action Failed") )
 
-		LRESULT OnInitDialog( );
-		LRESULT OnClose( ) ;
-		LRESULT OnOK(WORD wID) ;
+	LRESULT OnInitDialog( );
+	LRESULT OnClose( ) ;
+	LRESULT OnOK(WORD wID) ;
 
-		const std::wstring& GetKey();
-		const std::wstring& GetValue() ;
+	const std::wstring& GetKey() const ;
+	const std::wstring& GetValue() const ;
 };
 

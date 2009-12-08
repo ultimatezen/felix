@@ -42,7 +42,7 @@ LRESULT CUserStringDlg::OnClose( )
 	return 0L ;
 } 
 
-LRESULT CUserStringDlg::OnOK(WORD wID )
+LRESULT CUserStringDlg::OnOK(const WORD wID )
 {
 	SENSE("OnOK") ;
 	m_key = m_key_edit.GetText() ;
@@ -52,11 +52,11 @@ LRESULT CUserStringDlg::OnOK(WORD wID )
 	return 0L ;
 } 
 
-const std::wstring& CUserStringDlg::GetKey()
+const std::wstring& CUserStringDlg::GetKey() const
 {
 	return m_key;
 }
-const std::wstring& CUserStringDlg::GetValue()
+const std::wstring& CUserStringDlg::GetValue() const
 {
 	return m_value ;
 }

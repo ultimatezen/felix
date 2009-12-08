@@ -586,7 +586,7 @@ class CEditModeFindDlg  :
 {
 
 public:
-	enum { IDD = IDD_EDIT_FIND_DIALOG } ;
+	static const int IDD = IDD_EDIT_FIND_DIALOG ;
 
 	LRESULT OnInitDialog( ) ;
 	LRESULT OnActivate( WPARAM wParam ) ;
@@ -613,7 +613,7 @@ class CEditModeReplaceDlg  :
 
 public:
 	
-	enum { IDD = IDD_EDIT_MODE_REPLACE_DIALOG } ; // IDD_EDIT_MODE_REPLACE_DLG } ;
+	static const int IDD = IDD_EDIT_MODE_REPLACE_DIALOG  ; // IDD_EDIT_MODE_REPLACE_DLG } ;
 
 	LRESULT OnInitDialog( ) ;
 	LRESULT OnReplace( ) ;

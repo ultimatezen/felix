@@ -65,6 +65,9 @@ public:
 		m_old_record = record_type(new record_local) ;
 		m_accel.LoadAccelerators(IDC_EDIT_ACCELERATORS) ;
 	}
+	virtual ~CEditTransRecordDialogCommon()
+	{
+	}
 
 	void set_memory_id(const int id)
 	{
@@ -314,7 +317,7 @@ public:
 
 		_Module.GetMessageLoop()->RemoveMessageFilter(this);
 
-		return 0;
+		return 0L;
 	}
 
 	LRESULT OnFont()
@@ -332,7 +335,7 @@ public:
 			m_source_edit.handle_format() ;
 		}
 
-		return 0 ;
+		return 0L ;
 	}
 
 	void process_return_key()

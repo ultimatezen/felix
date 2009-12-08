@@ -28,7 +28,7 @@ class CImportDialog :
 	CComboBox		m_trans_combo ;
 
 public:
-	enum { IDD = IDD_IMPORT_DIALOG };
+	static const int IDD = IDD_IMPORT_DIALOG ;
 	DECLARE_SENSING_VAR ;
 
 	CImportDialog() {}
@@ -72,7 +72,7 @@ class CExportDialog :
 	tstring		m_trans_full ;
 
 public:
-	enum { IDD = IDD_IMPORT_DIALOG };
+	static const int IDD = IDD_IMPORT_DIALOG ;
 	DECLARE_SENSING_VAR ;
 
 	CExportDialog();

@@ -36,7 +36,7 @@ class CAdvancedMemMgrDlg :
 
 public:
 
-	enum{IDD = IDD_ADVANCED_MEM_MGR_DLG};
+	static const int IDD = IDD_ADVANCED_MEM_MGR_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	CAdvancedMemMgrDlg() : 

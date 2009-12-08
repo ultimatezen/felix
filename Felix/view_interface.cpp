@@ -27,7 +27,8 @@ void view_interface::ensure_document_complete(HACCEL accel, HWND hwnd)
 #ifdef UNIT_TEST
 	return ;
 #endif
-	background_processor backer( 100, accel, hwnd ) ;
+	const size_t num_iterations = 100 ;
+	background_processor backer( num_iterations, accel, hwnd ) ;
 
 	while ( m_view.is_document_complete() == false ) 
 	{
@@ -37,7 +38,8 @@ void view_interface::ensure_document_complete(HACCEL accel, HWND hwnd)
 
 void view_interface::ensure_navigation_complete(HACCEL accel, HWND hwnd)
 {
-	background_processor backer( 100, accel, hwnd ) ;
+	const size_t num_iterations = 100 ;
+	background_processor backer( num_iterations, accel, hwnd ) ;
 
 	while ( m_view.is_navigation_complete() == false ) 
 	{

@@ -9,6 +9,63 @@
 
 namespace easyunit
 {
+	// is_fullwidth_lower
+	TEST( TestStringEx, is_fullwidth_lower_false )
+	{
+		wchar_t c = L'Ç`' ;
+		ASSERT_TRUE(! str::is_fullwidth_lower(c)) ;
+	}
+	TEST( TestStringEx, is_fullwidth_lower_true )
+	{
+		wchar_t c = L'ÇÅ' ;
+		ASSERT_TRUE(str::is_fullwidth_lower(c)) ;
+	}
+
+	// is_fullwidth_number
+	TEST( TestStringEx, is_fullwidth_number_true)
+	{
+		wchar_t c = L'ÇS' ;
+		ASSERT_TRUE(str::is_fullwidth_number(c)) ;
+	}
+	TEST( TestStringEx, is_fullwidth_number_false)
+	{
+		wchar_t c = L'Ç`' ;
+		ASSERT_TRUE(! str::is_fullwidth_number(c)) ;
+	}
+
+	// is_fullwidth_upper
+	TEST( TestStringEx, is_fullwidth_upper_true )
+	{
+		wchar_t c = L'Ç`' ;
+		ASSERT_TRUE(str::is_fullwidth_upper(c)) ;
+	}
+	TEST( TestStringEx, is_fullwidth_upper_false )
+	{
+		wchar_t c = L'A' ;
+		ASSERT_TRUE(!str::is_fullwidth_upper(c)) ;
+	}
+
+
+	// normalize_fullwidth_upper
+	TEST( TestStringEx, normalize_fullwidth_upper )
+	{
+		wchar_t c = L'Ç`' ;
+		ASSERT_TRUE(L'A' == str::normalize_fullwidth_upper(c)) ;
+	}
+	// normalize_fullwidth_lower
+	TEST( TestStringEx, normalize_fullwidth_lower )
+	{
+		wchar_t c = L'ÇÅ' ;
+		ASSERT_TRUE(L'a' == str::normalize_fullwidth_lower(c)) ;
+	}
+	// normalize_fullwidth_number
+	TEST( TestStringEx, normalize_fullwidth_number)
+	{
+		wchar_t c = L'ÇS' ;
+		ASSERT_TRUE(L'4' == str::normalize_fullwidth_number(c)) ;
+	}
+
+	// normalize_width
 	TEST( NormalizeWidthTest, FullWidthPercent )
 	{
 		file::view fview ;

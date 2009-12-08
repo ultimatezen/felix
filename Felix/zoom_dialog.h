@@ -25,7 +25,7 @@ class CZoomDlg :
     CTrackBarCtrl m_ZoomCtrl; // ZOOM
 	
 public:
-	enum { IDD = IDD_ZOOM_DLG };
+	static const int IDD = IDD_ZOOM_DLG ;
 	DECLARE_SENSING_VAR ;
 	CZoomInterface *m_interface ;
 	int m_zoom_level ;
