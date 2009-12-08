@@ -439,6 +439,9 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 
 CApp::CApp()
 {
+	// Initialize the Scintilla module here, because we once got an error that this wasn't
+	// initialized.
+	// Really need to track this down so we only need to initialize it once.
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
 	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;

@@ -24,34 +24,25 @@ namespace memory_engine
 
 	void record_remote::copy_engine_values()
 	{
-		CComVariant result = m_engine.prop_get(L"Source") ;
-		wstring source(result.bstrVal) ;
+		wstring source(m_engine.prop_get(L"Source").bstrVal) ;
 		m_source.set_value(source) ;
 
-		result = m_engine.prop_get(L"Trans") ;
-		wstring trans(result.bstrVal) ;
+		wstring trans(m_engine.prop_get(L"Trans").bstrVal) ;
 		m_trans.set_value(trans) ;
 
-		result = m_engine.prop_get(L"Context") ;
-		wstring context(result.bstrVal) ;
+		wstring context( m_engine.prop_get(L"Context").bstrVal) ;
 		m_context.set_value(context) ;
 
-		result = m_engine.prop_get(L"Validated") ;
-		m_is_validated = result.boolVal != VARIANT_FALSE ;
+		m_is_validated = m_engine.prop_get(L"Validated").boolVal != VARIANT_FALSE ;
 
-		result = m_engine.prop_get(L"Reliability") ;
-		m_reliability = static_cast< size_t >( result.lVal ) ;
+		m_reliability = static_cast< size_t >( m_engine.prop_get(L"Reliability").lVal ) ;
 
-		result = m_engine.prop_get(L"RefCount") ;
-		m_refcount = static_cast< size_t >( result.lVal ) ;
+		m_refcount = static_cast< size_t >( m_engine.prop_get(L"RefCount").lVal ) ;
 
-		result = m_engine.prop_get(L"Created") ;
-		m_created = BSTR2tstring(result.bstrVal) ;
-		result = m_engine.prop_get(L"Modified") ;
-		m_modified = BSTR2tstring(result.bstrVal) ;
+		m_created = BSTR2tstring(m_engine.prop_get(L"Created").bstrVal) ;
+		m_modified = BSTR2tstring(m_engine.prop_get(L"Modified").bstrVal) ;
 
-		result = m_engine.prop_get(L"Id") ;
-		m_id = static_cast< size_t >( result.lVal ) ;
+		m_id = static_cast< size_t >( m_engine.prop_get(L"Id").lVal ) ;
 
 	}
 
@@ -109,7 +100,7 @@ namespace memory_engine
 	{
 		m_engine.prop_put(L"Reliability", reliability) ;
 		CComVariant result = m_engine.prop_get(L"Reliability") ;
-		m_reliability = result.lVal ;
+		m_reliability = static_cast<size_t>(result.lVal) ;
 	}
 
 	void record_remote::set_item( const wstring &key, const wstring &value )
