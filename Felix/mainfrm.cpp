@@ -3124,7 +3124,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 
 /** Loads a memory.
  */
-bool CMainFrame::load(const CString &file_name, bool check_empty )
+bool CMainFrame::load(const CString file_name, const bool check_empty )
 {
 	ensure_file_exists(file_name);
 

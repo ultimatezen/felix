@@ -185,7 +185,7 @@ public:
 	void save_all_memories();
 
 	void save_window_settings( LPCTSTR key_name );
-	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg );
+	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg ) ;
 /************************************************************************/
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
 /************************************************************************/

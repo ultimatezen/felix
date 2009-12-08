@@ -609,21 +609,18 @@ CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::check_empty_on_load()
 
 }
 
-bool CGlossaryWindow::load(const CString &file_name, bool check_empty /*= true*/ )
+bool CGlossaryWindow::load(const CString file_name, const bool check_empty /*= true*/ )
 {
 	if ( ! ::PathFileExists( file_name ) ) 
 	{
 		return false ;
 	}
 
-	MERGE_CHOICE should_merge = MERGE_CHOICE_SEPARATE ;
-	if (check_empty)
+	const MERGE_CHOICE should_merge = get_merge_type(check_empty);
+
+	if (should_merge == MERGE_CHOICE_CANCEL)
 	{
-		should_merge = check_empty_on_load() ;
-		if (should_merge == MERGE_CHOICE_CANCEL)
-		{
-			return false ;
-		}
+		return false ;
 	}
 
 	user_feedback( system_message( IDS_MSG_LOADING, file::name( file_name ).file_name() ) ) ;
@@ -2702,4 +2699,13 @@ LRESULT CGlossaryWindow::on_memory_close()
 
 	user_feedback( system_message(IDS_CLOSED_GLOSSARY, mem->get_location()) ) ;
 	return 0L ;
+}
+
+const CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::get_merge_type( const bool check_empty )
+{
+	if (check_empty)
+	{
+		return check_empty_on_load() ;
+	}
+	return MERGE_CHOICE_SEPARATE ;
 }

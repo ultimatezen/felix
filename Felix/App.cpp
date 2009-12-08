@@ -172,7 +172,7 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		wstring current_query = MainFrame.get_current_query( ) ;
+		const wstring current_query = MainFrame.get_current_query( ) ;
 		*pVal = ::SysAllocStringLen( current_query.c_str(), current_query.size() ) ;
 	}
 	TA_CATCH( "get_Query" ) ;
@@ -198,7 +198,7 @@ STDMETHODIMP CApp::get_Trans(BSTR* pVal)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		wstring trans = MainFrame.get_current_translation( ) ;
+		const wstring trans = MainFrame.get_current_translation( ) ;
 		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
 	}
 	TA_CATCH( "get_Trans" ) ;
@@ -210,8 +210,7 @@ STDMETHODIMP CApp::put_Trans(BSTR pVal)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		wstring w_trans( BSTR2wstring( pVal ) ) ;
-		MainFrame.set_translation( w_trans ) ;
+		MainFrame.set_translation(  BSTR2wstring( pVal ) ) ;
 	}
 	TA_CATCH( "put_Trans" ) ;
 
@@ -261,7 +260,7 @@ STDMETHODIMP CApp::get_GlossMatch(SHORT Index, BSTR* pVal)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		wstring entry = MainFrame.get_glossary_entry( Index ) ;
+		const wstring entry = MainFrame.get_glossary_entry( Index ) ;
 		*pVal = ::SysAllocStringLen( entry.c_str(), entry.size() ) ;
 	}
 	TA_CATCH( "get_GlossMatch" ) ;

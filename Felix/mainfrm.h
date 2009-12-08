@@ -440,7 +440,7 @@ public:
 	
 	bool correct_trans( const wstring &trans );
 	bool lookup_trans( const wstring &query );
-	bool load( const CString &file_name, bool check_empty = true ) ;
+	bool load( const CString file_name, const bool check_empty = true ) ;
 
 	bool load_felix_memory( bool check_empty, const CString & file_name );
 	void loading_file_feedback( const CString & file_name );

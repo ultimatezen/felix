@@ -186,7 +186,9 @@ public:
 	LRESULT handle_find() ;
 	
 	size_t num_matches() ;
-	bool load( const CString &file_name, bool check_empty = true  ) ;
+	bool load( const CString file_name, const bool check_empty = true  ) ;
+
+	const MERGE_CHOICE get_merge_type( const bool check_empty );
 	wstring create_concordance_list(search_query_glossary &search_matches) ;
 	wstring build_glossary_list(search_query_glossary &search_matches) ;
 	void handle_glossary_lookup(const std::wstring& query_text) ;
