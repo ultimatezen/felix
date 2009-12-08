@@ -18,7 +18,7 @@ wchar_t narrow_num( wchar_t c )
 {
 	if ( c >= 0xFF10 && c <= 0xFF19 )
 	{
-		return (wchar_t)(c - NUMBER_OFFSET );
+		return (wchar_t)(c - str::NUMBER_OFFSET );
 	}
 	return c ;
 }

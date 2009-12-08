@@ -25,7 +25,7 @@ namespace easyunit
 		SimpleString expected = "6 MBytes" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
-	TEST(StringConversions, file_size2string_12_5_GBytes)
+	TEST(StringConversions, file_size2string_3_5_GBytes)
 	{
 		double oneg = static_cast<double>(ONEG) ;
 		double mult = 3.5 ;
