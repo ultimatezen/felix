@@ -646,7 +646,7 @@ namespace easyunit
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
-		boost::shared_ptr<app_props::properties> source(new app_props::properties) ;
+		app_props::props_ptr source(new app_props::properties) ;
 
 		source->m_mem_props.m_data.m_ignore_case = TRUE ;
 		source->m_mem_props.m_data.m_ignore_width = TRUE ;
@@ -676,7 +676,7 @@ namespace easyunit
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
-		boost::shared_ptr<app_props::properties> source(new app_props::properties) ;
+		app_props::props_ptr source(new app_props::properties) ;
 
 		source->m_mem_props.m_data.m_ignore_case = FALSE ;
 		source->m_mem_props.m_data.m_ignore_width = FALSE ;

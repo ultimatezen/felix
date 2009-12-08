@@ -4,7 +4,7 @@
 #include "easyunit/testharness.h"
 #include "output_device_fake.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
@@ -51,8 +51,76 @@ namespace easyunit
 		memory_engine::record_pointer record = converter.convert_from_xml_node(text) ;
 		ASSERT_EQUALS(record->get_modified_by(), L"modified by xyz") ;
 	}
-
+	TEST(TestCXml2RecordConverter, PlainTextNode_plain)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"spam</foo>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		const _bstr_t end_tag = L"</foo>" ;
+		SimpleString actual = string2string(converter.PlainTextNode(end_tag)).c_str() ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCXml2RecordConverter, PlainTextNode_rich)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"<![CDATA[spam]]></foo>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		const _bstr_t end_tag = L"</foo>" ;
+		SimpleString actual = string2string(converter.PlainTextNode(end_tag)).c_str() ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCXml2RecordConverter, strip_cdata)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"<![CDATA[spam]]></foo><other>" ;
+		SimpleString actual = string2string(converter.strip_cdata(text)).c_str() ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCXml2RecordConverter, SizeNode)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"1001</foo>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		const _bstr_t end_tag = L"</foo>" ;
+		int actual = (int)converter.SizeNode(end_tag) ;
+		int expected = 1001 ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCXml2RecordConverter, SizeNode_rich)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"<![CDATA[54]]></foo><other>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		const _bstr_t end_tag = L"</foo>" ;
+		int actual = (int)converter.SizeNode(end_tag) ;
+		int expected = 54 ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST(TestCXml2RecordConverter, get_validated_value_true)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"true</validated>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		ASSERT_TRUE(converter.get_validated_value()) ;
+	}
+	TEST(TestCXml2RecordConverter, get_validated_value_false)
+	{
+		CXml2RecordConverter converter ;
+		const wstring text = L"false</validated>" ;
+		converter.m_parser.set_buffer(text.c_str()) ;
+		ASSERT_TRUE(!converter.get_validated_value()) ;
+	}
 	// CRecord2XmlConverter
+	TEST(TestCRecord2XmlConverter, init_char_conversion)
+	{
+		OutputDeviceFake output_device ;
+		CRecord2XmlConverter converter(&output_device) ;
+		ASSERT_EQUALS_V(SimpleString("\1"), converter.m_from_strings[0].c_str()) ;
+		ASSERT_EQUALS_V(SimpleString("&#1;"), converter.m_to_strings[0].c_str()) ;
+	}
 	TEST(TestCRecord2XmlConverter, convert_from_record)
 	{
 		OutputDeviceFake output_device ;
@@ -121,7 +189,8 @@ namespace easyunit
 
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+
 }
 
 
-#endif 
+#endif // UNIT_TEST

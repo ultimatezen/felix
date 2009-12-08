@@ -18,7 +18,7 @@ class CExtraStringsView
 public:
 	CExtraStringsView(void);
 	~CExtraStringsView(void);
-	bool has_focus(TWindow focus_window);
+	bool has_focus(TWindow focus_window) const;
 	LRESULT send_command(WPARAM wParam, LPARAM lParam);
 	void handle_size(void);
 	void create(HWND box_hwnd, HWND dlg_hwnd );
@@ -26,13 +26,13 @@ public:
 
 	void fill_user_strings( record_pointer &rec ) ;	
 
-	void eliminate_whitespace_and_punctuation(const std::wstring& setting, std::wstring& key) ;
+	void eliminate_whitespace_and_punctuation(const std::wstring& setting, std::wstring& key) const;
 
-	void write_table_entries(std::wstring& desc, record_pointer& rec) ;
+	void write_table_entries(std::wstring& desc, record_pointer& rec) const ;
 
 	BOOL pre_translate( MSG *pMsg );
 
-	bool is_edit_mode(void);
+	bool is_edit_mode(void) const;
 	void put_edit_mode(bool edit_mode);
 	void cleanup(void);
 	void gain_focus(void);

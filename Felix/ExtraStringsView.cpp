@@ -14,7 +14,7 @@ CExtraStringsView::~CExtraStringsView(void)
 {
 }
 
-bool CExtraStringsView::has_focus(TWindow focus_window )
+bool CExtraStringsView::has_focus(TWindow focus_window ) const
 {
 	if ( ! m_extra_strings_view->IsWindow() ) 
 	{
@@ -141,7 +141,7 @@ void CExtraStringsView::fill_user_strings( record_pointer &rec )
 }
 
 
-void CExtraStringsView::eliminate_whitespace_and_punctuation(const std::wstring& setting, std::wstring& key)
+void CExtraStringsView::eliminate_whitespace_and_punctuation(const std::wstring& setting, std::wstring& key) const
 {
 	// we will eliminate whitespace and punctuation
 	textstream_reader< wchar_t > reader ;
@@ -166,7 +166,7 @@ void CExtraStringsView::eliminate_whitespace_and_punctuation(const std::wstring&
 
 }
 
-void CExtraStringsView::write_table_entries(std::wstring& desc, record_pointer& rec)
+void CExtraStringsView::write_table_entries(std::wstring& desc, record_pointer& rec) const
 {
 	translation_record::record_data_iterator pos ;
 	int index = 0 ;
@@ -189,7 +189,7 @@ void CExtraStringsView::write_table_entries(std::wstring& desc, record_pointer& 
 
 }
 
-bool CExtraStringsView::is_edit_mode(void)
+bool CExtraStringsView::is_edit_mode(void) const
 {
 	return  !  m_extra_strings_view->get_edit_mode() ;
 }

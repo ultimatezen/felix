@@ -25,6 +25,9 @@ wstring TradosDate2FelixDate(const wstring &trados_date) ;
  */
 class CXml2RecordConverter 
 {
+#ifdef UNIT_TEST
+public:
+#endif
 	typedef textstream_reader< wchar_t >				reader_type ;
 	typedef textstream_reader< wchar_t >::bookmark_type bookmark_type ;
 
@@ -33,7 +36,7 @@ class CXml2RecordConverter
 	memory_engine::record_pointer	m_record ;
 
 public:
-	wstring strip_cdata( const wstring &data );
+	const wstring strip_cdata( const wstring &data ) const;
 	// constructors
 	CXml2RecordConverter( ) ;
 	CXml2RecordConverter( const CXml2RecordConverter &cpy ) ;
@@ -54,7 +57,11 @@ public:
 	void load_refcount( ) ;
 	void load_validated( ) ;
 
+	bool get_validated_value();
+
 	size_t SizeNode( const _bstr_t &EndTag ) ;
+
+	const wstring strip_if_needed( const wstring &record_text) const;
 	wstring PlainTextNode( const _bstr_t &EndTag ) ;
 	void RichTextNode( const _bstr_t &EndTag,
 				bookmark_type &bookmark_start,
@@ -76,8 +83,8 @@ class CRecord2XmlConverter
 
 public:
 
-	std::vector<string> from_strings ;
-	std::vector<string> to_strings ;
+	std::vector<string> m_from_strings ;
+	std::vector<string> m_to_strings ;
 
 	// constructors
 	CRecord2XmlConverter( OutputDevice *xml_file ) ;
@@ -91,20 +98,18 @@ public:
 	// convert_from_xml_node
 	bool convert_from_record( const memory_engine::record_pointer rec ) ;
 
-	bool convert_source() ;
-	bool convert_trans() ;
-	bool convert_context() ; 
-	bool convert_created() ;
-	bool convert_modified() ;
-	bool convert_rest() ;
+	bool convert_source()  ;
+	bool convert_trans()  ;
+	bool convert_context()  ; 
+	bool convert_created()  ;
+	bool convert_modified()  ;
+	bool convert_rest()  ;
 	bool convert_cdata_node( const string &tag, const string &end_tag, const wstring &text ) ;
 	bool convert_text_node( const string &tag, const string &end_tag, const string &text ) ;
 
-private:
-	bool convert_validated(void);
-public:
-	bool convert_reliability(void);
-	bool convert_refcount(void);
+	bool convert_reliability(void) ;
+	bool convert_refcount(void) ;
+	bool convert_validated(void) ;
 } ;
 
 

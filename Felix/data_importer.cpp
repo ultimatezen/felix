@@ -107,11 +107,13 @@ bool trados_data_importer::get_next_record( )
 		// we end up with this:
 		//		\r\n<SomeTag>...
 		if ( ! m_buffer.find( tru_start_tag.c_str(), true )  ) // true means eat the tag
+		{
 			return false ; // the tag wasn't found = no more entries
+		}
 
 		ATLASSERT( m_buffer.empty() == false ) ;
 
-		string node = get_tru() ;
+		const string node = get_tru() ;
 
 		// the buffer for this record
 		m_record_buffer.set_buffer( node.c_str() ) ;
@@ -122,8 +124,7 @@ bool trados_data_importer::get_next_record( )
 		while ( ! m_record_buffer.empty() )
 		{
 			// get the text up to the end of line.
-			string line ;
-			m_record_buffer.getline( line, "\r\n" ) ;
+			const string line = m_record_buffer.getline_delims("\r\n" ) ;
 			ATLASSERT( line.empty() == false ) ;
 			// process it
 			if ( ! process_line( line ) )
@@ -172,7 +173,9 @@ bool  trados_data_importer::get_all_records( trans_set &records )
 	// <--
 
 	if ( ! load_font_table() )
+	{
 		return false ;
+	}
 
 	CProgressBarCtrl progress_bar ;
 	if ( m_listener != NULL )
@@ -316,7 +319,7 @@ bool  trados_data_importer::load_font_table()
 // Function name	: trados_data_importer::next_tag_is_end_tag
 // Description	    : 
 // Return type		: bool  
-bool  trados_data_importer::next_tag_is_end_tag()
+bool trados_data_importer::next_tag_is_end_tag()
 {
 	m_line_buffer.eat_whitespace() ;
 	TRUE_ENFORCE( m_line_buffer.current_is('<'), CString( TEXT("Bad trados format -- expected start tag.") ) + CA2CT( dump_context().c_str() ) ) ;
@@ -325,7 +328,7 @@ bool  trados_data_importer::next_tag_is_end_tag()
 
 	m_line_buffer.advance() ;
 
-	bool is_end_tag = ( m_line_buffer.current_is('/') ) ;
+	const bool is_end_tag = ( m_line_buffer.current_is('/') ) ;
 
 	m_line_buffer.set_pos( bookmark ) ;
 
@@ -339,7 +342,7 @@ bool  trados_data_importer::next_tag_is_end_tag()
 // Description	    : 
 // Return type		: string 
 // Argument         : string_type &code
-wstring trados_data_importer::get_font_tag(string_type &code)
+wstring trados_data_importer::get_font_tag(const string_type &code)
 {
 	try
 	{
@@ -347,14 +350,12 @@ wstring trados_data_importer::get_font_tag(string_type &code)
 		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
 #pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 		
-		wstring tag ;
+		const wstring tag = L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 
-		tag << L"<font face=\"" << string2wstring( entry.m_name ) << L"\">" ;
-
-		charset_info info ;
-		unsigned int codepage = info.cp_from_charset( entry.m_font.get_charset() ) ;
+		const charset_info info ;
+		const unsigned int codepage = info.cp_from_charset( entry.m_font.get_charset() ) ;
 		
-		UINT old_mbcp = _getmbcp() ;
+		const UINT old_mbcp = _getmbcp() ;
 
 		if ( -1 == _setmbcp( codepage ) )
 		{
@@ -375,37 +376,16 @@ wstring trados_data_importer::get_font_tag(string_type &code)
 	}
 }
 
-wstring tmx_data_importer::get_font_tag(wstring &code)
+wstring tmx_data_importer::get_font_tag(const wstring &code)
 {
 #pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
 #pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 
-		wstring tag ;
-
-		tag << L"<font face=\"" << string2wstring( entry.m_name ) << L"\">" ;
-
-		return tag ;
+		return L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 }
 
-
-
-// Function name	: trados_data_importer::set_codepage
-// Description	    : 
-// Return type		: void 
-// Argument         : string &lang_tag
-//void trados_data_importer::set_codepage(string &lang_tag)
-//{
-//	BANNER( "trados_data_importer::set_codepage" ) ;
-//
-//	str::make_lower( lang_tag ) ;
-//}
-
-  
-
 // Function name	: trados_data_importer::dump_context
-// Description	    : 
-// Return type		: string 
 string trados_data_importer::dump_context( )
 {
 	BANNER( "trados_data_importer::dump_context" ) ;
@@ -413,10 +393,8 @@ string trados_data_importer::dump_context( )
 	reader_type temp_reader( m_record_buffer ) ;
 	temp_reader.rewind() ;
 
-	string context = "\r\rContext:\r\r" ;
-	context += temp_reader.get_current_pos() ;
-
-	return context ;
+	const string context = "\r\rContext:\r\r" ;
+	return context + temp_reader.get_current_pos() ;
 }
 
 // Function name	: trados_data_importer::handle_f_tag
@@ -425,8 +403,7 @@ string trados_data_importer::dump_context( )
 // Argument         : tag_stack &tags
 wstring trados_data_importer::handle_f_tag(tag_stack &tags)
 {
-	string tag ;
-	m_line_buffer.getline( tag, " \\", false ) ;
+	const string tag = m_line_buffer.getline_delims(" \\", false ) ;
 
 	// "field" tag -- used by TRADOS to mark symbols.
 	if ( tag == "field" )
@@ -508,8 +485,7 @@ wstring trados_data_importer::handle_f_tag(tag_stack &tags)
 
 wstring tmx_data_importer::handle_f_tag(tag_stack &tags)
 {
-	wstring tag ;
-	m_line_buffer.getline( tag, L" \\", false ) ;
+	const wstring tag = m_line_buffer.getline_delims(L" \\", false ) ;
 
 	// "field" tag -- used by TRADOS to mark symbols.
 	if ( tag == L"field" )
@@ -599,46 +575,45 @@ wstring tmx_data_importer::handle_f_tag(tag_stack &tags)
 // Argument         : const string &line
 bool trados_data_importer::process_line(const string &line)
 {
-
 	// set our buffer for this line
 	m_line_buffer.set_buffer( line.c_str() ) ;
 	// get the tag
-	wstring wrapper_tag = read_the_tag( ) ;
+	const wstring wrapper_tag = read_the_tag( ) ;
 
 	// do we need to process this guy?
 	if ( wrapper_tag == L"CrD" ) // date created
 	{
-		string date_string = m_line_buffer.get_current_pos() ;
+		const string date_string = m_line_buffer.get_current_pos() ;
 		m_current_record->set_created( TradosDate2FelixDate( string2wstring( date_string ) ) ) ;
 		return true ;
 	}
 	else if ( wrapper_tag == L"ChD" ) // last modified
 	{
-		string date_string = m_line_buffer.get_current_pos() ;
+		const string date_string = m_line_buffer.get_current_pos() ;
 		m_current_record->set_modified( TradosDate2FelixDate( string2wstring( date_string ) ) ) ;
 		return true ;
 	}
 	else if ( wrapper_tag == L"UsC" ) // usage count
 	{
-		string usage_count = m_line_buffer.get_current_pos() ;
+		const string usage_count = m_line_buffer.get_current_pos() ;
 		m_current_record->set_item( wrapper_tag, string2wstring( usage_count ) ) ;
 		return true ;
 	}
 	else if ( wrapper_tag == L"CrU" ) // creating user
 	{
-		string user = m_line_buffer.get_current_pos() ;
+		const string user = m_line_buffer.get_current_pos() ;
 		m_current_record->set_creator(string2wstring(user)) ;
 		return true ;
 	}
 	else if ( wrapper_tag == L"ChU" ) // changing user
 	{
-		string user = m_line_buffer.get_current_pos() ;
+		const string user = m_line_buffer.get_current_pos() ;
 		m_current_record->set_modified_by(string2wstring( user )) ;
 		return true ;
 	}
 	else if ( wrapper_tag == L"UsD" ) // using date
 	{
-		string date = m_line_buffer.get_current_pos() ;
+		const string date = m_line_buffer.get_current_pos() ;
 		m_current_record->set_item( wrapper_tag, string2wstring( date ) ) ;
 		return true ;
 	}
@@ -765,7 +740,7 @@ size_t trados_data_importer::file_size()
 
 size_t trados_data_importer::get_pos()
 {
-	size_t pos = m_file_pos ;
+	const size_t pos = m_file_pos ;
 	m_file_pos = m_buffer.get_offset( pos ) ;
 	return m_file_pos ;
 }
@@ -799,7 +774,7 @@ string trados_data_importer::read_backslashed_sequence()
 
 wstring tmx_data_importer::seg2html( const wstring &seg_text )
 {
-	wstring stripped_text = strip_tags(seg_text) ;
+	const wstring stripped_text = strip_tags(seg_text) ;
 
 	m_line_buffer.set_buffer(stripped_text.c_str()) ;
 
@@ -819,8 +794,7 @@ wstring tmx_data_importer::seg2html( const wstring &seg_text )
 
 	while ( m_line_buffer.empty() == false ) // read in the whole line
 	{
-		wstring chunk ;
-		m_line_buffer.getline( chunk, L"{}&<\\", false ) ;
+		const wstring chunk = m_line_buffer.getline_delims(L"{}&<\\", false ) ;
 
 		m_html += chunk ;
 
@@ -923,7 +897,7 @@ bool trados_data_importer::handle_backslash( )
 	}
 	else 
 	{
-		string backslashed_sequence = read_backslashed_sequence() ;
+		const string backslashed_sequence = read_backslashed_sequence() ;
 		// newline
 		if ( backslashed_sequence == line_str )
 		{
@@ -1076,8 +1050,7 @@ bool tmx_data_importer::handle_backslash( )
 	{
 		m_line_buffer.eat_if( wchar_t(' ') ) ;
 
-		wstring backslashed_sequence ;
-		m_line_buffer.getline( backslashed_sequence, L" \\", false ) ;
+		const wstring backslashed_sequence = m_line_buffer.getline_delims(L" \\", false ) ;
 
 		// newline
 		if ( backslashed_sequence == L"line" )
@@ -1292,7 +1265,7 @@ void trados_data_importer::process_formatted_line_old()
 
 	str::wbuffer buf ;
 
-	UINT old_mbcp = _getmbcp() ;
+	const UINT old_mbcp = _getmbcp() ;
 
 	while ( m_line_buffer.empty() == false ) // read in the whole rest of the line
 	{
@@ -1310,8 +1283,7 @@ void trados_data_importer::process_formatted_line_old()
 				_setmbcp( old_mbcp ) ;
 			}
 		}
-		string chunk ;
-		m_line_buffer.getline( chunk, "{}&<\\", false ) ;
+		const string chunk = m_line_buffer.getline_delims("{}&<\\", false ) ;
 
 
 		if ( m_codepage_stack.empty() == false ) 

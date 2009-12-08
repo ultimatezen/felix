@@ -41,9 +41,9 @@ LRESULT CEditTransRecordDialogModal::OnOK( )
 	try
 	{
 		// source
-		wstring source( strip_tags(BSTR2wstring(m_source_edit.GetText())) ) ;
+		const wstring source( strip_tags(BSTR2wstring(m_source_edit.GetText())) ) ;
 		// trans
-		wstring trans( strip_tags(BSTR2wstring(m_trans_edit.GetText())) ) ;
+		const wstring trans( strip_tags(BSTR2wstring(m_trans_edit.GetText())) ) ;
 
 		if ( source.empty() ) 
 		{

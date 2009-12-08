@@ -24,8 +24,8 @@ class charset_info
 	code_set codes ;
 
 public:
-	unsigned int cp_from_lang_str( const string lang );
-	unsigned int cp_from_charset( const BYTE charset );
+	unsigned int cp_from_lang_str( const string lang ) const;
+	unsigned int cp_from_charset( const BYTE charset ) const;
 	charset_info();
 	virtual ~charset_info();
 

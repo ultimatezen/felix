@@ -81,7 +81,7 @@ charset_info::~charset_info()
 }
 
 
-unsigned int charset_info::cp_from_charset( const BYTE charset )
+unsigned int charset_info::cp_from_charset( const BYTE charset ) const
 {
 	switch( charset )
 	{
@@ -134,12 +134,12 @@ unsigned int charset_info::cp_from_charset( const BYTE charset )
 // Description	    : 
 // Return type		: unsigned int 
 // Argument         : string lang
-unsigned int charset_info::cp_from_lang_str( const string lang )
+unsigned int charset_info::cp_from_lang_str( const string lang ) const
 {
 	// first element is the string, second is the code
 	foreach(code_pair this_pair, codes)
 	{
-		string code_string = this_pair.first ;
+		const string code_string = this_pair.first ;
 		if ( str::equal_nocase( code_string, lang ) == true ) 
 		{
 			return this_pair.second ;
@@ -147,8 +147,8 @@ unsigned int charset_info::cp_from_lang_str( const string lang )
 	}
 	foreach(code_pair this_pair, codes)
 	{
-		string code_string = this_pair.first ;
-		string for_comp_chunk = str::left( lang, code_string.size() ) ;
+		const string code_string = this_pair.first ;
+		const string for_comp_chunk = str::left( lang, code_string.size() ) ;
 		if ( str::equal_nocase( lang, code_string ) == true ) 
 		{
 			return this_pair.second ;

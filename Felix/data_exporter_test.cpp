@@ -11,11 +11,24 @@ using namespace memory_engine ;
 namespace easyunit
 {
 	// cp_from_lang_str
-	TEST( TestTradosDataExporter, test_intantiate )
+	TEST( TestTradosDataExporter, internal_date_to_trados_date )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
+
+		misc_wrappers::date thedate ;
+		thedate.wYear = 2000 ;
+		thedate.wMonth = 1 ;
+		thedate.wDay = 17 ;
+		thedate.wHour = 12; 
+		thedate.wMinute = 0 ;
+		thedate.wSecond = 0 ;
+		thedate.wMilliseconds = 0 ;
+
+		SimpleString actual = exporter.internal_date_to_trados_date(thedate).c_str() ;
+		SimpleString expected = "17012000, 12:00:00" ;
+		ASSERT_EQUALS_V(expected, actual) ;
 	}
 	TEST(test_multiterm_data_exporter_55, export_gloss)
 	{
@@ -93,6 +106,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, 
 			SimpleString(string2string(device->m_value, CP_UTF8).c_str())) ;
 	}
+
 }
 
 

@@ -21,22 +21,22 @@ wstring element_wrapper_html::get_id()
 	return BSTR2wstring( m_element->id ) ;
 }
 
-wstring element_wrapper_html::get_attribute( wstring key )
+wstring element_wrapper_html::get_attribute( const wstring key )
 {
-	_bstr_t bkey = key.c_str() ;
-	CComVariant var_href = m_element->getAttribute( bkey, 0 ) ;
+	const _bstr_t bkey = key.c_str() ;
+	const CComVariant var_href = m_element->getAttribute( bkey, 0 ) ;
 	ATLASSERT( var_href.vt == VT_BSTR ) ;
-	return wstring( (LPCWSTR)var_href.bstrVal, SysStringLen( var_href.bstrVal) )  ;
+	return BSTR2wstring(var_href.bstrVal) ;
 }
 
-void element_wrapper_html::set_attribute( wstring key, wstring val )
+void element_wrapper_html::set_attribute( const wstring key, const wstring val )
 {
-	_bstr_t bkey = key.c_str() ;
-	CComVariant var_val(val.c_str()) ;
+	const _bstr_t bkey = key.c_str() ;
+	const CComVariant var_val(val.c_str()) ;
 	m_element->setAttribute( bkey, var_val, 0 ) ;
 }
 
-void element_wrapper_html::set_inner_text( wstring text )
+void element_wrapper_html::set_inner_text( const wstring text )
 {
 	m_element->innerHTML = string2BSTR(text) ;
 }

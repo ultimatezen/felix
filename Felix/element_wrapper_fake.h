@@ -11,15 +11,15 @@ public:
 	std::map<wstring, wstring> m_attributes ;
 	wstring m_id ;
 
-	void set_inner_text(wstring text)
+	void set_inner_text(const wstring text)
 	{
 		m_inner_text = text ;
 	}
-	void set_tag(wstring tag)
+	void set_tag(const wstring tag)
 	{
 		m_tag = tag ;
 	}
-	void set_attribute(wstring key, wstring val)
+	void set_attribute(const wstring key, const wstring val)
 	{
 		m_attributes[key] = val ;
 	}
@@ -36,7 +36,7 @@ public:
 	{
 		return m_id ;
 	}
-	wstring get_attribute(wstring key)
+	wstring get_attribute(const wstring key)
 	{
 		return m_attributes[key]  ;
 	}

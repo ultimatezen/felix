@@ -20,11 +20,8 @@ CDemoException::~CDemoException(void)
  \param     const CString &title 
  \param     HWND parent_hwnd 
  */
-int CDemoException::notify_user( const CString &top_message,  UINT flags /*= MB_OK*/,  const CString &title /*= _T("ERROR")*/, HWND parent_hwnd /*= ::GetActiveWindow()  */ ) 
+int CDemoException::notify_user( const CString & /*top_message*/,  UINT /*flags*/ /*= MB_OK*/,  const CString & /*title*/ /*= _T("ERROR")*/, HWND parent_hwnd /*= ::GetActiveWindow()  */ ) 
 {
-	top_message ;
-	flags ;
-	title ;
 	// nag him!
 	CNagDialog nagger( _T("NAGPAGE_SIZE.HTML") ) ;
 	return  nagger.DoModal( parent_hwnd ) ;

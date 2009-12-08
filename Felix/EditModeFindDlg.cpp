@@ -228,11 +228,8 @@ LRESULT CEditModeReplaceDlg::OnReplaceAll( )
 		range.scroll_into_view() ;
 	}
 
-	CString message ;
-	CString arg1 ;
-	arg1.Format( _T("%d"), count ) ;
-	message.FormatMessage( IDS_MADE_REPLACEMENTS, arg1 ) ;
-	MessageBox( message, resource_string( IDS_MADE_REPLACEMENTS_TITLE ) ) ;
+	MessageBox( system_message(IDS_MADE_REPLACEMENTS, int_arg(count)), 
+				resource_string( IDS_MADE_REPLACEMENTS_TITLE ) ) ;
 
 	return 0L ;
 }

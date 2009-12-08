@@ -385,7 +385,7 @@ public:
 	void set_target_language( const tstring target_language ) { m_target_language = string2string( target_language ) ; }
 	string dump_context( );
 	//void set_codepage( string &lang_tag );
-	wstring get_font_tag( string_type &code );
+	wstring get_font_tag( const string_type &code );
 	bool next_tag_is_end_tag();
 	bool load_font_table();
 	size_t get_language_codes( language_code_set &languages ) ;
@@ -489,5 +489,5 @@ public:
 protected:
 private:
 	bool handle_close_bracket( tag_tracker &tags );
-	wstring get_font_tag(wstring &code) ;
+	wstring get_font_tag(const wstring &code) ;
 };

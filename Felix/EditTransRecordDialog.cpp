@@ -43,13 +43,13 @@ LRESULT CEditTransRecordDialog::OnOK( )
 	{
 		fill_new_record() ;
 		
-		wstring source = m_new_record->get_source_plain() ;
+		const wstring source = m_new_record->get_source_plain() ;
 		if ( source.empty() ) 
 		{
 			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
 		}
 
-		wstring trans = m_new_record->get_trans_plain() ;
+		const wstring trans = m_new_record->get_trans_plain() ;
 		if ( trans.empty() ) 
 		{
 			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;

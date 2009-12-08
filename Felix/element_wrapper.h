@@ -6,10 +6,10 @@ class element_wrapper
 public:
 	virtual ~element_wrapper(){}
 	virtual wstring get_inner_text() = 0 ;
-	virtual void set_inner_text(wstring text) = 0 ;
+	virtual void set_inner_text(const wstring text) = 0 ;
 	virtual wstring get_tag() = 0 ;
-	virtual wstring get_attribute(wstring key) = 0 ;
-	virtual void set_attribute(wstring key, wstring val) = 0 ;
+	virtual wstring get_attribute(const wstring key) = 0 ;
+	virtual void set_attribute(const wstring key, const wstring val) = 0 ;
 	virtual wstring get_id() = 0 ;
 };
 
@@ -22,11 +22,11 @@ class element_wrapper_html : public element_wrapper
 public:
 	void set_element(MSHTML::IHTMLElementPtr element);
 	wstring get_inner_text();
-	void set_inner_text(wstring text);
+	void set_inner_text (const wstring text);
 	wstring get_tag();
 	wstring get_id();
-	wstring get_attribute(wstring key);
-	void set_attribute(wstring key, wstring val);
+	wstring get_attribute(const wstring key);
+	void set_attribute(const wstring key, const wstring val);
 };
 
 

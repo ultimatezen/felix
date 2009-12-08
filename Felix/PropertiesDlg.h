@@ -217,6 +217,8 @@ public:
 	LRESULT OnBack(WORD, WORD, HWND, BOOL& );
 	LRESULT OnQuery(WORD, WORD, HWND, BOOL& );
 	LRESULT OnSource(WORD, WORD, HWND, BOOL& );
+
+	void invalidate_client_rect();
 	LRESULT OnTrans(WORD, WORD, HWND, BOOL& );
 };
 

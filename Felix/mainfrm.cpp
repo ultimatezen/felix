@@ -4879,7 +4879,7 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 }
 
 //! Set search params from registry settings.
-void CMainFrame::init_lookup_properties( const boost::shared_ptr<app_props::properties> source, search_query_params &dest )
+void CMainFrame::init_lookup_properties( const app_props::props_ptr source, search_query_params &dest )
 {
 	dest.m_ignore_case = !! source->m_mem_props.m_data.m_ignore_case ;
 	dest.m_ignore_width = !! source->m_mem_props.m_data.m_ignore_width ;

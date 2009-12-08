@@ -16,6 +16,10 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+/************************************************************************/
+/* CPropertiesDlg                                                       */
+/************************************************************************/
+
 CPropertiesDlg::CPropertiesDlg() : 
 	m_title( R2T( IDS_PREFERENCES_TITLE ) ),
 	m_properties(new app_props::properties)
@@ -55,6 +59,10 @@ app_props::props_ptr CPropertiesDlg::get_properties()
 	return m_properties ;
 }
 
+/************************************************************************/
+/* CMemoryPage                                                          */
+/************************************************************************/
+
 void CMemoryPage::set_props( app_props::properties_memory *props )
 {
 	m_properties = props ;
@@ -91,6 +99,10 @@ int CMemoryPage::OnApply()
 	return PSNRET_NOERROR  ;
 }
 
+/************************************************************************/
+/* CGeneralPage                                                         */
+/************************************************************************/
+
 void CGeneralPage::set_props( app_props::properties_general *props )
 {
 	m_properties = props ;
@@ -112,6 +124,10 @@ int CGeneralPage::OnApply()
 	DoDataExchange(TRUE) ;
 	return PSNRET_NOERROR  ;
 }
+
+/************************************************************************/
+/* CAlgorithmPage                                                       */
+/************************************************************************/
 
 void CAlgorithmPage::set_props( app_props::properties_algorithm *props )
 {
@@ -160,6 +176,10 @@ LRESULT CAlgorithmPage::OnAlgoAuto( WORD, WORD, HWND, BOOL& )
 	m_properties->m_data.m_match_algo = IDC_ALGO_AUTO;
 	return 0;
 }
+
+/************************************************************************/
+/* CGlossaryPage                                                        */
+/************************************************************************/
 
 void CGlossaryPage::set_props( app_props::properties_glossary *props )
 {
@@ -262,6 +282,10 @@ LRESULT CGlossaryPage::OnGlossNum( WORD wNotifyCode, WORD wID, HWND, BOOL& )
 	return 0;
 }
 
+/************************************************************************/
+/* CViewPage                                                            */
+/************************************************************************/
+
 void CViewPage::set_props( app_props::properties_view *props )
 {
 	m_properties = props ;
@@ -304,13 +328,10 @@ LRESULT CViewPage::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	// background color
 	fill_rect( dc, m_back_color_box, m_properties->m_data.m_back_color ) ;
-
 	// query color
 	fill_rect( dc, m_query_color_box, m_properties->m_data.m_query_color ) ;
-
 	// source color
 	fill_rect( dc, m_source_bkcolor_box, m_properties->m_data.m_source_color ) ;
-
 	// trans color
 	fill_rect( dc, m_trans_bkcolor_box, m_properties->m_data.m_trans_color ) ;
 
@@ -327,8 +348,7 @@ void CViewPage::fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color
 	static_control.GetWindowRect( &rc ) ;
 	ScreenToClient( &rc ) ;
 
-	COLORREF box_color = static_cast< COLORREF >( color ) ;
-	dc.FillSolidRect( &rc, box_color ) ;
+	dc.FillSolidRect( &rc, static_cast< COLORREF >( color ) ) ;
 
 	POINT points[5] ;
 	Rect2Points( rc, points ) ;
@@ -359,14 +379,14 @@ LRESULT CViewPage::OnBack( WORD, WORD, HWND, BOOL& )
 	CColorDialog dialog( (COLORREF)m_properties->m_data.m_back_color ) ; // current color is default
 
 	if ( dialog.DoModal() == IDCANCEL )
+	{
 		return 0 ;
+	}
 
 	// get the color the user picked
 	m_properties->m_data.m_back_color = (int)dialog.GetColor() ;
 
-	RECT rc = {0} ;
-	GetClientRect( &rc ) ;
-	InvalidateRect( &rc ) ;
+	invalidate_client_rect();
 
 	return 0;
 }
@@ -377,14 +397,14 @@ LRESULT CViewPage::OnQuery( WORD, WORD, HWND, BOOL& )
 	CColorDialog dialog( (COLORREF)m_properties->m_data.m_query_color ) ; // current color is default
 
 	if ( dialog.DoModal() == IDCANCEL )
+	{
 		return 0 ;
+	}
 
 	// get the color the user picked
 	m_properties->m_data.m_query_color = (int)dialog.GetColor() ;
 
-	RECT rc = {0} ;
-	GetClientRect( &rc ) ;
-	InvalidateRect( &rc ) ;
+	invalidate_client_rect();
 
 	return 0;
 }
@@ -395,14 +415,14 @@ LRESULT CViewPage::OnSource( WORD, WORD, HWND, BOOL& )
 	CColorDialog dialog( (COLORREF)m_properties->m_data.m_source_color ) ; // current color is default
 
 	if ( dialog.DoModal() == IDCANCEL )
+	{
 		return 0 ;
+	}
 
 	// get the color the user picked
 	m_properties->m_data.m_source_color = (int)dialog.GetColor() ;
 
-	RECT rc = {0} ;
-	GetClientRect( &rc ) ;
-	InvalidateRect( &rc ) ;
+	invalidate_client_rect();
 
 	return 0;
 }
@@ -413,14 +433,21 @@ LRESULT CViewPage::OnTrans( WORD, WORD, HWND, BOOL& )
 	CColorDialog dialog( (COLORREF)m_properties->m_data.m_trans_color ) ; // current color is default
 
 	if ( dialog.DoModal() == IDCANCEL )
+	{
 		return 0 ;
+	}
 
 	// get the color the user picked
 	m_properties->m_data.m_trans_color = (int)dialog.GetColor() ;
 
+	invalidate_client_rect();
+
+	return 0;
+}
+
+void CViewPage::invalidate_client_rect()
+{
 	RECT rc = {0} ;
 	GetClientRect( &rc ) ;
 	InvalidateRect( &rc ) ;
-
-	return 0;
 }

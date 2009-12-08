@@ -176,12 +176,9 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 		font_table_buffer.eat_whitespace() ;
 	}
 
-	font_set::iterator pos = fonts.begin() ;
-	while ( pos != fonts.end() )
+	foreach(const wstring font, fonts)
 	{
-		m_fonts.add_font( string2tstring( *pos ) ) ;
-
-		++pos ;
+		m_fonts.add_font(string2tstring(font)) ;
 	}
 
 	m_colors[L"black"		] = "0" ;
@@ -275,7 +272,6 @@ TradosDataExporter::~TradosDataExporter()
 
 void TradosDataExporter::set_source( tstring source ) 
 { 
-
 	m_source_lang = string2string( source ) ;
 	m_source_tag = "<Seg L=" + m_source_lang + ">" ; 
 }
@@ -284,15 +280,12 @@ void TradosDataExporter::set_target( tstring target )
 { 
 
 	m_target_lang = string2string( target ) ;
-
 	m_target_tag = "<Seg L=" + m_target_lang + ">" ; 
 }
 
 bool TradosDataExporter::open_destination( const CString &destination )
 {
-
 	m_file.close() ;
-
 	return m_file.open( destination ) ;
 }
 
@@ -320,28 +313,20 @@ bool TradosDataExporter::write_preamble()
 
 bool TradosDataExporter::write_record( record_pointer record )
 {
-
 	if ( m_file.is_open() == false ) 
 	{
 		THROW_WIN_EXCEPTION( system_message( IDS_FILE_NOT_OPEN_FOR_WRITING, m_file.file_name() ) )  ;
 	}
 
 	write_string( "\r\n<TrU>\r\n" ) ;
-
 	write_created( record->get_created() ) ;
-
 	write_modified( record->get_modified() ) ;
-
 	write_spillage( record ) ;
-
 	write_source( record->get_source_rich() ) ;
-
 	write_trans( record->get_trans_rich() ) ;
-
 	write_string( "</TrU>" ) ;
 
 	return true ;
-
 }
 
 
@@ -381,7 +366,6 @@ bool TradosDataExporter::write_spillage( record_pointer record )
 
 bool TradosDataExporter::write_created( const misc_wrappers::date &date )
 {
-
 	write_string( "<CrD>" ) ;
 
 	string date_string = internal_date_to_trados_date ( date ) + "\r\n" ;
@@ -400,91 +384,67 @@ bool TradosDataExporter::write_created( const misc_wrappers::date &date )
 
 bool TradosDataExporter::write_modified( const misc_wrappers::date &date )
 {
-
 	write_string( "<ChD>" ) ;
 	
-	string date_string = internal_date_to_trados_date ( date ) + "\r\n" ;
+	const string date_string = internal_date_to_trados_date ( date ) + "\r\n" ;
 	
 	write_string( date_string ) ;
 
 	return true ;
-
 }
 
 
 
 // Function name	: internal_date_to_trados_date
-// Description	    : 
-// Return type		: string TradosDataExporter:: 
-// Argument         : const misc_wrappers::date &date
 string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::date &date )
 {
-	CString date_str, date_chunk ;
+	CString date_str ;
+
 
 	// day
-	int unit = date.wDay ;
-	date_chunk.Format( _T("%d"), unit ) ;
-
-	if ( unit < 10 )
+	if ( date.wDay < 10 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
-
+	date_str += int_arg(date.wDay) ;
 	// month
-	unit = date.wMonth ;
-	date_chunk.Format( _T("%d"), unit ) ;
-	
-	if ( unit < 10 )
+	if ( date.wMonth < 10 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
-
+	date_str += int_arg(date.wMonth) ;
 	// year
-	unit = date.wYear ;
-	date_chunk.Format( _T("%d"), unit ) ;
-	
-	if ( unit < 1000 )
+	if ( date.wYear < 1000 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
+	date_str += int_arg(date.wYear, false) ;
 
 	// separator
 	date_str += _T(", ") ;
 
 	// hour
-	unit = date.wHour ;
-	date_chunk.Format( _T("%d"), unit ) ;
-	
-	if ( unit < 10 )
+	if ( date.wHour < 10 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
+	date_str += int_arg(date.wHour) ;
 	date_str += _T(":") ;
 
 	// minute
-	unit = date.wMinute ;
-	date_chunk.Format( _T("%d"), unit ) ;
-	
-	if ( unit < 10 )
+	if ( date.wMinute < 10 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
+	date_str += int_arg(date.wMinute) ;
 	date_str += _T(":") ;
 
 	// second
-	unit = date.wSecond ;
-	date_chunk.Format( _T("%d"), unit ) ;
-	
-	if ( unit < 10 )
+	if ( date.wSecond < 10 )
 	{
 		date_str += _T("0") ;
 	}
-	date_str += date_chunk ;
+	date_str += int_arg(date.wSecond) ;
 	
 	string trados_date = CT2A( date_str ) ;
 
