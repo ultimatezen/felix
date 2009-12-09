@@ -228,29 +228,16 @@ struct translation_match_query : public base_presentation
 	// =====================
 	// creating html content
 	// =====================
-	// ---
-	wstring make_left_cell( const wstring &content) ;
-	// ============
-	// make_row
-	// .. in its various permulations...
-	// ============
-
-	wstring make_right_color_cell( const int id, const CColorRef &color, const wstring &content ) ;
-	wstring make_source_row(const wstring &content ) ;
-	wstring make_trans_row(const wstring &content ) ;
 
 	wstring create_dummy_match( ) ;
 
 	wstring prev_score() ;
 	wstring next_score() ;
-
-	wstring get_links_part( size_t index, match_ptr match ) ;
 	
 	wstring get_html_all();
 
 	wstring get_score_text( match_ptr match );
 	wstring make_navigation_table( );
-	wstring make_record_row( size_t i, search_match_ptr match );
 	wstring get_html_short()  ;
 
 	wstring get_mem_name( wstring loc );

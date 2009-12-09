@@ -248,62 +248,6 @@ translation_match_query::translation_match_query()
 // implemented pure virtual functions
 // ===================================
 
-// =====================
-// creating html content
-// =====================
-// ---
-wstring translation_match_query::make_left_cell( const wstring &content)
-{
-	return L"<td bgcolor=\"#00CCFF\"><b>" + content + L"</b></td>" ;
-}
-
-// ============
-// make_row
-// ... in its various permutions...
-// ============
-
-wstring translation_match_query::make_right_color_cell( const int id, const CColorRef &color, const wstring &content )
-{
-	wstring cell ;
-	cell.reserve( 256 ) ;
-	
-	cell += wstring( L"<td class=\"match_content\" id=\"" ) + R2W( id ) +  wstring( L"\""
-		L" style=\"color: " ) + color.as_wstring() +  wstring( L"\""
-		 L">" ) +  content +  wstring( L"</td>" ) ;
-
-	return cell ;
-
-}
-
-wstring translation_match_query::make_source_row(const wstring &content )
-{
-	wstring row ;
-	
-	row << L"<tr>"
-
-		<< make_left_cell( R2W( IDS_SOURCE_TITLE ) )
-		
-		<< make_right_color_cell( IDS_SOURCE_ID, m_source_color, content ) 
-		
-		<< L"</tr>" ;
-	
-	return row ;
-}
-wstring translation_match_query::make_trans_row(const wstring &content )
-{
-	wstring row ;
-	row.reserve( 256 ) ;
-	
-	row << L"<tr>"
-
-		<< make_left_cell( R2W( IDS_TRANS_TITLE ) )
-		
-		<< make_right_color_cell(IDS_TRANS_ID, m_trans_color, content ) 
-		
-		<< L"</tr>" ;
-	
-	return row ;
-}
 
 // create_dummy_match
 wstring translation_match_query::create_dummy_match( )
@@ -561,35 +505,6 @@ wstring translation_match_query::get_html_all()
 	return engine.Fetch(tpl_text) ;
 }
 
-wstring translation_match_query::get_links_part( size_t index, match_ptr match )
-{
-	ATLASSERT( index < size() ) ;
-
-	wstring links ;
-	
-	wstring memory_name = get_mem_name(match->get_memory_location());
-	
-	links << L"<tr id=\"" << ulong2wstring( index ) << L"\"><td rowspan=\"4\">" ; 
-	if ( index == m_pos ) 
-	{
-		links << L"<b>" << ulong2wstring( index ) << L".</b><br>" ;
-	}
-	else
-	{
-		links << ulong2wstring( index ) << L".<br>" ;
-	}
-	links	<< make_href( IDC_EDIT, index , L"[E]", IDS_EDIT_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_DELETE, index , L"[D]", IDS_DELETE_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_REGISTER, index , L"[R]", IDS_REGISTER_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_ADD_TO_GLOSSARY, index , L"[G]", IDS_ADD2GLOSS_TITLE )			
-		<< L"<br>[" << memory_name << L"]</td>" ;
-	
-	return links ;
-	
-}
 
 wstring translation_match_query::get_mem_name( wstring loc )
 {
@@ -606,54 +521,6 @@ wstring translation_match_query::get_mem_name( wstring loc )
 	}
 
 	return loc ;
-}
-
-wstring translation_match_query::make_record_row( size_t i, search_match_ptr match )
-{
-	wstring html ;
-	html << get_links_part( i, match ) ;
-
-	markup_ptr markup = match->get_markup() ;
-	// query row
-	// query row
-	html << make_left_cell( R2W( IDS_QUERY_TITLE ) )
-		<< make_right_color_cell( IDS_QUERY_ID, m_query_color, markup->GetQuery() ) 
-		<< L"</tr>" ;
-
-	// source row
-	html << make_source_row(markup->GetSource()) ;
-
-	// trans row
-	html << make_trans_row(markup->GetTrans()) ;
-
-	html << L"<tr><td colspan=\"2\"><b>" 
-		<< R2W ( IDS_SCORE ) 
-		<< L"</b>: "  ;
-
-	html << double2percent_wstring( match->get_score() )  ;
-
-	if ( m_params.m_assess_format_penalty && match->get_formatting_penalty() > 0.0 ) 
-	{
-		html << L" <font color=\"#888888\">[F]</font>" ;
-	}
-
-	html << L"&nbsp;&nbsp;" ;
-
-	record_pointer rec = match->get_record() ;
-
-	html << L"<b>"
-		<< R2W( IDS_VALIDATED_TITLE ) << L"</b>: " 
-		<< bool2wstring( rec->is_validated() )
-		<< L"&nbsp;&nbsp;<b>"
-		<< R2W( IDS_RELIABILITY_TITLE ) << L"</b>: " 
-		<< ulong2wstring( rec->get_reliability() )
-		<< L"&nbsp;&nbsp;<b>"
-		<< R2W( IDS_REFCOUNT_TITLE ) << L"</b>: " 
-		<< ulong2wstring( rec->get_refcount() )
-		<< L"</td>"
-		<< L"</tr>" ;
-
-	return html ;
 }
 
 wstring translation_match_query::make_navigation_table()

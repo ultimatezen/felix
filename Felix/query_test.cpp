@@ -38,20 +38,7 @@ namespace easyunit
 			ASSERT_TRUE(true) ;
 		}
 	}
-	TEST(test_search_query_mainframe, get_links_part)
-	{
-		search_query_mainframe query ;
-		search_match_multiset matches ;
-		search_match_ptr m1(new search_match) ;
-		m1->set_memory_location(L"c:\\foo.xml") ;
-		matches.insert(m1) ;
-		query.set_matches(matches) ;
 
-		SimpleString actual(string2string(query.get_links_part(0, 2)).c_str()) ;
-		string text = "<tr id=\"0\"><td rowspan=\"2\"><b>0.</b><br><a href=\"142:0\" title=\"Edit entry\">[E]</a>-<a href=\"122:0\" title=\"Delete entry\">[D]</a>-<a href=\"127:0\" title=\"Register glossary entries\">[R]</a>-<a href=\"129:0\" title=\"Add entry to glossary\">[G]</a><br>[foo.xml]</td>" ;
-		SimpleString expected = text.c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
 	TEST(test_search_query_mainframe, show_marking)
 	{
 		search_query_mainframe query ;
@@ -497,22 +484,6 @@ namespace easyunit
 		ASSERT_EQUALS(L"spam", mem_name) ;
 	}
 
-	TEST(test_translation_match_query, make_source_row)
-	{
-		translation_match_query query ;
-		wstring content = L"spam" ;
-		SimpleString actual = string2string(query.make_source_row(content)).c_str() ;
-		SimpleString expected = "<tr><td bgcolor=\"#00CCFF\"><b>Source</b></td><td class=\"match_content\" id=\"source\" style=\"color: #000000\">spam</td></tr>" ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
-	TEST(test_translation_match_query, make_trans_row)
-	{
-		translation_match_query query ;
-		wstring content = L"spam" ;
-		SimpleString actual = string2string(query.make_trans_row(content)).c_str() ;
-		SimpleString expected = "<tr><td bgcolor=\"#00CCFF\"><b>Trans</b></td><td class=\"match_content\" id=\"trans\" style=\"color: #000000\">spam</td></tr>" ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
 	TEST(test_translation_match_query, create_dummy_match)
 	{
 		translation_match_query query ;
