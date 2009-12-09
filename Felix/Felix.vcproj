@@ -1182,14 +1182,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MatchString.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MatchString_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MatchStringPairing.cpp"
 				>
 			</File>
@@ -2256,10 +2248,6 @@
 			</File>
 			<File
 				RelativePath=".\match_tester.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MatchString.h"
 				>
 			</File>
 			<File

@@ -5,12 +5,12 @@
 #include "StdAfx.h"
 #include "memory_model.h"
 
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
+
 namespace memory_engine
 {
 
@@ -82,8 +82,6 @@ bool memory_model::empty()
  */
 void memory_model::get_memories_needing_saving(memory_list &memories)
 {
-	memory_iterator pos ;
-
 	foreach(memory_pointer mem, m_memories)
 	{
 		if ( mem->is_saved() == false )
@@ -106,7 +104,6 @@ bool memory_model::remove_memory_by_name( const CString &mem_name )
 			return true ;
 		}
 	}
-	
 	return false ;
 }
 
@@ -158,7 +155,9 @@ bool memory_model::get_glossary_matches( search_match_multiset &matches, const s
 	{
 		memory_pointer mem = *pos ;
 		if( mem->get_glossary_matches( matches, params ) )
+		{
 			search_success = true ;
+		}
 	}
 
 	return search_success ;

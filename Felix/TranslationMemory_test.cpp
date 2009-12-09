@@ -29,13 +29,17 @@ namespace easyunit
 	{
 		return make_record(string2wstring(source), string2wstring(trans)) ;
 	}
-	void add_record(memory_local &mem, string source, string trans)
+	record_pointer add_record(memory_local &mem, string source, string trans)
 	{
-		mem.add_record(make_record(source, trans)) ;
+		record_pointer rec = make_record(source, trans) ;
+		mem.add_record(rec) ;
+		return rec ;
 	}
-	void add_record(memory_local &mem, wstring source, wstring trans)
+	record_pointer add_record(memory_local &mem, wstring source, wstring trans)
 	{
+		record_pointer rec = make_record(source, trans) ;
 		mem.add_record(make_record(source, trans)) ;
+		return rec ;
 	}
 
 	TEST(TestMemoryFunctions, get_load_failure_msg)
@@ -81,6 +85,7 @@ namespace easyunit
 		ASSERT_EQUALS_V( "Ryan",  actual) ;
 	}
 
+	// add_record
 	TEST( TestMemory, AddRecord )
 	{
 		memory_local mem ;
@@ -89,11 +94,10 @@ namespace easyunit
 
 		add_record(mem, "dummy", "dummy") ;
 
-		ASSERT_EQUALS( 1u, mem.size() ) ;
+		ASSERT_EQUALS_V( 1, (int)mem.size() ) ;
 		ASSERT_EQUALS( false, mem.empty() ) ;
 
 	}
-
 	TEST( TestMemory, add_record_same_ids )
 	{
 		memory_local mem ;
@@ -111,6 +115,37 @@ namespace easyunit
 		ASSERT_TRUE( r2->get_id() != 3 ) ;
 
 	}
+
+	// batch_set_reliability
+	TEST(TestMemory, batch_set_reliability_5)
+	{
+		memory_local mem ;
+		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
+		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
+
+		ASSERT_EQUALS_V( 0, (int)rec1->get_reliability() ) ;
+		ASSERT_EQUALS_V( 0, (int)rec2->get_reliability() ) ;
+
+		mem.batch_set_reliability(5u) ;
+
+		ASSERT_EQUALS_V( 5, (int)rec1->get_reliability() ) ;
+		ASSERT_EQUALS_V( 5, (int)rec2->get_reliability() ) ;
+	}
+	TEST(TestMemory, batch_set_reliability_15_plus)
+	{
+		memory_local mem ;
+		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
+		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
+
+		ASSERT_EQUALS_V( 0, (int)rec1->get_reliability() ) ;
+		ASSERT_EQUALS_V( 0, (int)rec2->get_reliability() ) ;
+
+		mem.batch_set_reliability(memory_engine::MAX_RELIABILITY+15u) ;
+
+		ASSERT_EQUALS_V( (int)memory_engine::MAX_RELIABILITY, (int)rec1->get_reliability() ) ;
+		ASSERT_EQUALS_V( (int)memory_engine::MAX_RELIABILITY, (int)rec2->get_reliability() ) ;
+	}
+
 
 	// id
 	TEST( TestMemory, add_record_id_set )
@@ -132,6 +167,7 @@ namespace easyunit
 		mem.add_record(rec2) ;
 		ASSERT_TRUE_M(rec1->get_id() != rec2->get_id(), "The ids of the records should not be equal") ;
 	}
+
 	TEST( TestMemory, id_of_record_not_changed_if_nonzero )
 	{
 		memory_local mem ;

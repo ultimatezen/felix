@@ -11,9 +11,6 @@ CDropHandle::~CDropHandle(void)
 {
 }
 
-
-
-
 BOOL CDropHandle::DragQueryPoint(POINT* pt) const
 {
 	return ::DragQueryPoint( m_drop, pt );
@@ -29,7 +26,6 @@ UINT CDropHandle::NumDragFiles(void) const
 {
 	return ::DragQueryFile(m_drop, 0xffffFFFF, NULL, 0);
 }
-
 
 UINT CDropHandle::FileLen(UINT index) const
 {
@@ -47,8 +43,12 @@ CString CDropHandle::DragQueryFile(UINT index) const
 	return dropfile ;
 }
 
+//////////////////////////////////////////////////////////////////////////
+// CDrop
+//////////////////////////////////////////////////////////////////////////
+
 CDrop::CDrop(HDROP dropped) :
-	CDropHandle( dropped )
+CDropHandle( dropped )
 {
 }
 

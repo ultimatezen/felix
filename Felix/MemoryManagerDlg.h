@@ -222,5 +222,3 @@ public:
 
 	void add_memory_files( file::OpenDlgList &import_files ) ;
 };
-
-
