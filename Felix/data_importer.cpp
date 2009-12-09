@@ -36,7 +36,7 @@ bool  trados_data_importer::open_data_source(const CString &source_name)
 	m_file_size = file::file::size( source_name )  ;
 
 	m_file_name = CT2A( source_name );
-	m_buffer.set_buffer( (const char*)m_view.create_view( source_name ) ) ;
+	m_buffer.set_buffer( (const char*)m_view.create_view_readonly( source_name ) ) ;
 
 	return true ;
 }
@@ -75,14 +75,13 @@ string trados_data_importer::get_tru()
 	// So if we mess up, we only mess up the current record
 
 	// start pos
-	reader_type::bookmark_type bookmark_start = m_buffer.get_current_pos() ;
+	const reader_type::bookmark_type bookmark_start = m_buffer.get_current_pos() ;
 	// end pos
 	m_buffer.find( tru_end_tag.c_str() ) ; // eat up to the end-of-record tag (</TrU>)
-	reader_type::bookmark_type bookmark_end = m_buffer.get_current_pos() ;
+	const reader_type::bookmark_type bookmark_end = m_buffer.get_current_pos() ;
 
 	// put it in a string for permanence -- over use of memory?
-	string node ;
-	node.append( bookmark_start, bookmark_end ) ;
+	const string node( bookmark_start, bookmark_end ) ;
 
 	ATLASSERT( node.empty() == false ) ;
 
@@ -232,10 +231,11 @@ wstring trados_data_importer::read_the_tag( )
 
 	// get the tag
 	// also allow for a spaces here -- that means this is a seg tag
-	string tag = m_line_buffer.getline('>', true ) ;
+	const string tag = m_line_buffer.getline('>', true ) ;
 	ATLASSERT( m_line_buffer.empty() == false ) ;
 
-	if ( str::equal_nocase( str::left( tag, 4 ), string("SEG ") ) ) // SEG tag!
+	const string SEG = "SEG " ;
+	if ( str::equal_nocase( str::left( tag, SEG.size() ), SEG ) ) // SEG tag!
 	{
 		textstream_reader< char > tag_buffer( tag.c_str() ) ;
 		tag_buffer.find( " ", true ) ;
@@ -249,12 +249,14 @@ wstring trados_data_importer::read_the_tag( )
 
 		// clear out current codepages
 		while ( ! m_codepage_stack.empty() )
+		{
 			m_codepage_stack.pop() ;
+		}
 
-		charset_info info ;
+		const charset_info info ;
 		m_old_codepage = info.cp_from_lang_str( lang_tag ) ;
 		
-		m_codepage_stack.push( m_old_codepage ) ;
+		m_codepage_stack.push( get_old_codepage() ) ;
 
 		if ( lang_tag == m_source_language )
 			return L"source" ;
@@ -262,8 +264,7 @@ wstring trados_data_importer::read_the_tag( )
 			return L"target" ;
 
 		// some other misc language -- return it as-is
-		tag += " L=" + lang_tag ;
-		return string2wstring( tag ) ;
+		return string2wstring( tag + " L=" + lang_tag ) ;
 
 	}
 	return string2wstring( tag ) ;
@@ -286,11 +287,13 @@ size_t trados_data_importer::get_language_codes( language_code_set &languages )
 		m_is_new_type = true ;
 	}
 
+	const int MAX_SEGS = 100 ;
+	const int MAX_CODE_LEN = 10 ;
 	int num_segs = 0 ;
-	while ( m_buffer.find( "<Seg L=", true ) ==  true && num_segs < 100)
+	while ( m_buffer.find( "<Seg L=", true ) ==  true && num_segs < MAX_SEGS)
 	{
 		const string_type language_code = m_buffer.getline('>', true ) ;
-		if ( language_code.empty() == false && language_code.length() < 10 )
+		if ( language_code.empty() == false && language_code.length() < MAX_CODE_LEN )
 		{
 			languages.insert( string2tstring( language_code ) ) ;
 		}
@@ -346,9 +349,7 @@ wstring trados_data_importer::get_font_tag(const string_type &code)
 {
 	try
 	{
-#pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
-#pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 		
 		const wstring tag = L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 
@@ -378,9 +379,7 @@ wstring trados_data_importer::get_font_tag(const string_type &code)
 
 wstring tmx_data_importer::get_font_tag(const wstring &code)
 {
-#pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
-		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
-#pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
+		const rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
 
 		return L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 }
@@ -865,14 +864,8 @@ bool trados_data_importer::handle_backslash( )
 		}
 		m_line_buffer.eat_if( ' ' ) ;
 
-		long escaped_char = string2long( num, 16 ) ;
-		if ( escaped_char >= 256 && str::is_uint_rep( num ) ) 
-		{
-			escaped_char = string2long( num, 10 ) ;
-		}
-		ATLASSERT( escaped_char < 256 ) ; // it must be in range...
 		string escaped_text ;
-		escaped_text += static_cast< char >( escaped_char ) ;
+		escaped_text += get_escaped_char(num) ;
 
 		while ( m_line_buffer.current_is( '\\' ) )
 		{
@@ -887,9 +880,7 @@ bool trados_data_importer::handle_backslash( )
 			m_line_buffer.advance() ; // eat it
 			num.erase() ;
 			m_line_buffer.get( num, 2 ) ; // always 2 digits
-			escaped_char = (char)string2long( num, 16 ) ; // convert to char
-			ATLASSERT( -128 <= escaped_char && escaped_char <= 127 ) ; // it must be in range...
-			escaped_text += static_cast< char >( escaped_char ) ;
+			escaped_text += get_escaped_char(num) ;
 		}
 
 		m_html += string2wstring( escaped_text, m_codepage_stack.top() ) ;
@@ -1128,8 +1119,50 @@ bool tmx_data_importer::handle_backslash( )
 	return true ;
 }
 
+bool tmx_data_importer::close_off_tags( tag_tracker &tags )
+{
+	while ( tags.empty() == false )
+	{
+		tags.pop() ;
+	}
 
+	return true ;
+}
 
+wstring tmx_data_importer::handle_foreground_color_tag( tag_stack &tags )
+{
+	wstring html_tag = L"<font" ;
+	wstring color_num ;
+	m_line_buffer.advance() ;
+	while ( m_line_buffer.is_digit() )
+	{
+		TRUE_ENFORCE( m_line_buffer.empty() == false, R2TS( IDS_MSG_UNEXPECTED_EOF) );
+		m_line_buffer.get( color_num ) ;
+	}
+
+	ATLASSERT ( m_colors.find( string2string(color_num) ) != m_colors.end() ) ;
+	if ( m_colors.find( string2string(color_num) ) != m_colors.end() )
+	{
+		html_tag += L" color=\"" ;
+		html_tag += m_colors[string2string(color_num)] ;
+		html_tag += wchar_t(L'\"') ;
+	}
+	else html_tag += L" color=\"black\"" ;
+
+	html_tag += wchar_t(L'>') ;
+	tags.push( L"font" ) ;
+	return html_tag ;
+}
+
+void tmx_data_importer::parse_fonttbl( const wstring &fonttbl )
+{
+	wstring stripped = strip_tags(fonttbl) ;
+	string narrow_fonttbl = string2string(stripped) ;
+	c_reader reader(narrow_fonttbl.c_str() ) ;
+
+	m_fonts.clear() ;
+	m_fonts.parse_fonttbl(reader) ;
+}
 
 void trados_data_importer::handle_formatting_stack_top(data_importer< char >::tag_stack& format_tags)
 {
@@ -1355,4 +1388,17 @@ void trados_data_importer::process_formatted_line_old()
 	{
 		codepage = m_codepage_stack.top() ;
 	}
+}
+
+char trados_data_importer::get_escaped_char( const string num ) const
+{
+	const int hexadecimal = 16 ;
+	const long escaped_char = string2long( num, hexadecimal ) ;
+	if ( escaped_char >= 256 && str::is_uint_rep( num ) ) 
+	{
+		const int decimal = 10 ;
+		return static_cast<char>(string2long( num, decimal )) ;
+	}
+	ATLASSERT( escaped_char < 256 ) ; // it must be in range...
+	return static_cast<char>(escaped_char) ;
 }

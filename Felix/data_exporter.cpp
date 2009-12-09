@@ -400,21 +400,22 @@ string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::d
 {
 	CString date_str ;
 
-
+	const int two_digits = 10 ;
+	const int four_digits = 1000 ;
 	// day
-	if ( date.wDay < 10 )
+	if ( date.wDay < two_digits )
 	{
 		date_str += _T("0") ;
 	}
 	date_str += int_arg(date.wDay) ;
 	// month
-	if ( date.wMonth < 10 )
+	if ( date.wMonth < two_digits )
 	{
 		date_str += _T("0") ;
 	}
 	date_str += int_arg(date.wMonth) ;
 	// year
-	if ( date.wYear < 1000 )
+	if ( date.wYear < four_digits )
 	{
 		date_str += _T("0") ;
 	}
@@ -424,7 +425,7 @@ string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::d
 	date_str += _T(", ") ;
 
 	// hour
-	if ( date.wHour < 10 )
+	if ( date.wHour < two_digits )
 	{
 		date_str += _T("0") ;
 	}
@@ -432,7 +433,7 @@ string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::d
 	date_str += _T(":") ;
 
 	// minute
-	if ( date.wMinute < 10 )
+	if ( date.wMinute < two_digits )
 	{
 		date_str += _T("0") ;
 	}
@@ -440,7 +441,7 @@ string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::d
 	date_str += _T(":") ;
 
 	// second
-	if ( date.wSecond < 10 )
+	if ( date.wSecond < two_digits )
 	{
 		date_str += _T("0") ;
 	}
@@ -548,7 +549,8 @@ bool TradosDataExporter::write_plain_text( const wstring &raw_text )
 	_setmbcp( current_codepage ) ;
 	
 	string out ;
-	char output_buffer[10] ;
+	const size_t BUFLEN = 10 ;
+	char output_buffer[BUFLEN] ;
 	
 	size_t end_pos = 0 ;
 
@@ -564,7 +566,7 @@ bool TradosDataExporter::write_plain_text( const wstring &raw_text )
 			text_stream + i,			// address of wide-character string
 			1,							// number of characters in string
 			output_buffer,				// address of buffer for new string
-			10,							// size of buffer
+			BUFLEN,						// size of buffer
 			NULL,						// address of default for unmappable characters
 			&default_char_was_used		// address of flag set when default char used
 			);
@@ -979,10 +981,11 @@ string TradosDataExporter::create_unicode_escape(wchar_t c, char best_fit)
 
 bool TradosDataExporter::does_char_roundtrip( const wchar_t *c )
 {
-	char output_str[10] ;
+	const size_t BUFLEN = 10 ;
+	char output_str[BUFLEN] ;
 	BOOL default_used = FALSE ;
 
-	int bytes_needed = ::WideCharToMultiByte( m_codepages.top(), 0, c, 1, output_str, 10, NULL, &default_used ) ;
+	int bytes_needed = ::WideCharToMultiByte( m_codepages.top(), 0, c, 1, output_str, BUFLEN, NULL, &default_used ) ;
 
 	if ( bytes_needed == 0 )
 	{

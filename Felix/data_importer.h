@@ -98,6 +98,8 @@ public:
 		m_colors["16"] = L"#d3d3d3" ;
 
 	}
+	virtual ~data_importer()
+	{}
 
 	bool handle_open_bracket(tag_tracker &tags)
 	{
@@ -304,10 +306,10 @@ class trados_data_importer : public data_importer< char >
 {
 
 public:
-	string_type				tru_start_tag  ;
-	string_type				tru_end_tag  ;
-	string_type				tab_str  ;
-	string_type				line_str  ;
+	const string_type tru_start_tag	;
+	const string_type tru_end_tag ;
+	const string_type tab_str ;
+	const string_type line_str ;
 
 	reader_type				m_record_buffer ;
 
@@ -334,6 +336,26 @@ public:
 	bool	m_is_new_type ;
 	bool	m_in_bracket ;
 
+	trados_data_importer( CProgressListener *listener) :
+	m_listener( listener ), 
+		m_file_size( 0 ), 
+		m_file_pos( 0 ) ,
+		m_is_new_type(false),
+		m_in_bracket(false),
+		tru_start_tag("<TrU>"),
+		tru_end_tag("</TrU>"),
+		tab_str("tab"),
+		line_str("line"),
+		m_old_codepage(_getmbcp())
+	{
+	}
+
+	~trados_data_importer()
+	{
+		// set the old code page
+		_setmbcp( get_old_codepage() ) ;
+	}
+
 	bool load( const CString &location, memory_engine::memory_pointer mem );
 
 	string get_tru() ;
@@ -346,32 +368,13 @@ public:
 	{
 		return m_current_record ;
 	}
-	UINT get_old_codepage()
+	UINT get_old_codepage() const
 	{
 		return m_old_codepage ;
-	}
-
-	trados_data_importer( CProgressListener *listener) :
-		m_listener( listener ), 
-		m_file_size( 0 ), 
-		m_file_pos( 0 ) ,
-		m_is_new_type(false),
-		m_in_bracket(false)
-	{
-		tru_start_tag	= "<TrU>" ;
-		tru_end_tag		= "</TrU>" ;
-		tab_str			= "tab" ;
-		line_str		= "line" ;
-
-		// set the old code page
-		m_old_codepage = _getmbcp() ;
-
 	}
 	bool close_off_tags(tag_tracker &tags) ;
 
 	wstring handle_foreground_color_tag(tag_stack &tags);
-
-
 
 	string read_backslashed_sequence();
 	bool get_language_code( language_code_set &languages );
@@ -404,14 +407,9 @@ public:
 	wstring handle_f_tag( tag_stack &tags ) ;
 
 
-	~trados_data_importer()
-	{
-		// set the old code page
-		_setmbcp( m_old_codepage ) ;
-	}
-
 	bool handle_backslash() ;
 
+	char get_escaped_char( string num ) const;
 private:
 	bool handle_close_bracket( tag_tracker &tags );
 
@@ -435,51 +433,12 @@ public:
 		c_reader dummy_reader ;
 		m_fonts.parse_fonttbl(dummy_reader) ;
 	}
-	void parse_fonttbl( const wstring &fonttbl )
-	{
-		wstring stripped = strip_tags(fonttbl) ;
-		string narrow_fonttbl = string2string(stripped) ;
-		c_reader reader(narrow_fonttbl.c_str() ) ;
-
-		m_fonts.clear() ;
-		m_fonts.parse_fonttbl(reader) ;
-	}
+	void parse_fonttbl( const wstring &fonttbl );
 	wstring seg2html( const wstring &seg_text ) ;
 
 
-	bool close_off_tags(tag_tracker &tags)
-	{
-		while ( tags.empty() == false )
-		{
-			tags.pop() ;
-		}
-
-		return true ;
-	}
-	wstring handle_foreground_color_tag(tag_stack &tags)
-	{
-		wstring html_tag = L"<font" ;
-		wstring color_num ;
-		m_line_buffer.advance() ;
-		while ( m_line_buffer.is_digit() )
-		{
-			TRUE_ENFORCE( m_line_buffer.empty() == false, R2TS( IDS_MSG_UNEXPECTED_EOF) );
-			m_line_buffer.get( color_num ) ;
-		}
-
-		ATLASSERT ( m_colors.find( string2string(color_num) ) != m_colors.end() ) ;
-		if ( m_colors.find( string2string(color_num) ) != m_colors.end() )
-		{
-			html_tag += L" color=\"" ;
-			html_tag += m_colors[string2string(color_num)] ;
-			html_tag += wchar_t(L'\"') ;
-		}
-		else html_tag += L" color=\"black\"" ;
-
-		html_tag += wchar_t(L'>') ;
-		tags.push( L"font" ) ;
-		return html_tag ;
-	}
+	bool close_off_tags(tag_tracker &tags);
+	wstring handle_foreground_color_tag(tag_stack &tags);
 
 
 	wstring handle_f_tag(tag_stack &tags ) ;
