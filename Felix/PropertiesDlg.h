@@ -212,7 +212,7 @@ public:
 	LRESULT OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled );
 
 	void fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color );
-	void Rect2Points( RECT &rc, POINT *points );
+	void Rect2Points( RECT rc, POINT *points ) const;
 
 	LRESULT OnBack(WORD, WORD, HWND, BOOL& );
 	LRESULT OnQuery(WORD, WORD, HWND, BOOL& );

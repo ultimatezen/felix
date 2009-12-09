@@ -78,7 +78,9 @@ LRESULT CMemoryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 	CUpDownCtrl min_spinner = GetDlgItem( IDC_MIN_MATCH_SPIN ) ;
 
-	min_spinner.SetRange(0, 100) ;
+	const int MINRANGE = 0 ;
+	const int MAXRANGE = 100 ;
+	min_spinner.SetRange(MINRANGE, MAXRANGE) ;
 	min_spinner.SetPos( (int) m_properties->get_min_score() ) ;
 
 	DoDataExchange(FALSE); // FALSE means copy TO the dialog
@@ -189,14 +191,18 @@ void CGlossaryPage::set_props( app_props::properties_glossary *props )
 void CGlossaryPage::init_max_add_spin()
 {
 	CUpDownCtrl max_add = GetDlgItem( IDC_MAX_ADD_SPIN ) ;
-	max_add.SetRange(0, 50) ;
+	const int MINRANGE = 0 ;
+	const int MAXRANGE = 50 ;
+	max_add.SetRange(MINRANGE, MAXRANGE) ;
 	max_add.SetPos( (int) m_properties->get_max_add() ) ;
 }
 
 void CGlossaryPage::init_fuzzy_spin()
 {
 	CUpDownCtrl fuzzy_spin = GetDlgItem( IDC_FUZZY_SPIN ) ;
-	fuzzy_spin.SetRange(0, 100) ;
+	const int MINRANGE = 0 ;
+	const int MAXRANGE = 100 ;
+	fuzzy_spin.SetRange(MINRANGE, MAXRANGE) ;
 	fuzzy_spin.SetPos( (int) m_properties->get_min_score() ) ;
 }
 
@@ -279,7 +285,7 @@ LRESULT CGlossaryPage::OnGlossNum( WORD wNotifyCode, WORD wID, HWND, BOOL& )
 	{
 		m_properties->m_data.m_numbering = 0 ;
 	}
-	return 0;
+	return 0L;
 }
 
 /************************************************************************/
@@ -339,7 +345,7 @@ LRESULT CViewPage::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	// End Paint
 	// ==============
 	EndPaint( &ps ) ;
-	return 0 ;
+	return 0L ;
 }
 
 void CViewPage::fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color )
@@ -350,12 +356,13 @@ void CViewPage::fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color
 
 	dc.FillSolidRect( &rc, static_cast< COLORREF >( color ) ) ;
 
-	POINT points[5] ;
-	Rect2Points( rc, points ) ;
-	dc.Polyline( points, 5 ) ;
+	const size_t POINTS_IN_RECT = 5;
+	POINT points[POINTS_IN_RECT] ;
+	Rect2Points(rc, points) ;
+	dc.Polyline(points, POINTS_IN_RECT) ;
 }
 
-void CViewPage::Rect2Points( RECT &rc, POINT *points )
+void CViewPage::Rect2Points( const RECT rc, POINT *points ) const
 {
 	points[0].y = rc.top ;
 	points[0].x = rc.left ;
@@ -369,8 +376,7 @@ void CViewPage::Rect2Points( RECT &rc, POINT *points )
 	points[3].y = rc.bottom ;
 	points[3].x = rc.left ;
 
-	points[4].y = rc.top ;
-	points[4].x = rc.left ;
+	points[4] = points[0] ;
 }
 
 LRESULT CViewPage::OnBack( WORD, WORD, HWND, BOOL& )
