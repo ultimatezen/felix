@@ -472,11 +472,11 @@ public:
 		{
 			html_tag += L" color=\"" ;
 			html_tag += m_colors[string2string(color_num)] ;
-			html_tag += wchar_t('\"') ;
+			html_tag += wchar_t(L'\"') ;
 		}
 		else html_tag += L" color=\"black\"" ;
 
-		html_tag += wchar_t('>') ;
+		html_tag += wchar_t(L'>') ;
 		tags.push( L"font" ) ;
 		return html_tag ;
 	}

@@ -702,7 +702,7 @@ bool trados_data_importer::close_off_tags(tag_tracker &tags)
 // Argument         : tag_tracker &tags
 bool tmx_data_importer::handle_close_bracket(tag_tracker &tags)
 {
-	ATLASSERT( m_line_buffer.current_is( wchar_t('}') ) ) ;
+	ATLASSERT( m_line_buffer.current_is( wchar_t(L'}') ) ) ;
 	// this may be just a plain-old }, in which case we won't have
 	// any formatting to close off, and will only have the end-of-tag 
 	// tag left in our stack.
@@ -717,7 +717,7 @@ bool tmx_data_importer::handle_close_bracket(tag_tracker &tags)
 			// it could be empty if we ignored this formatting tag
 			if ( format_tags.top().empty() == false )
 			{
-				m_html += L"</" + format_tags.top() + wchar_t('>') ;
+				m_html += L"</" + format_tags.top() + wchar_t(L'>') ;
 			}
 			format_tags.pop() ;
 		}
@@ -907,7 +907,7 @@ bool trados_data_importer::handle_backslash( )
 		// tab
 		else if ( backslashed_sequence == tab_str )
 		{
-			m_html += wchar_t('\t') ; // accept no tab substitutes!
+			m_html += wchar_t(L'\t') ; // accept no tab substitutes!
 			m_line_buffer.eat_if( ' ' ) ;
 		}
 		// Unicode character
@@ -1011,7 +1011,7 @@ bool tmx_data_importer::handle_backslash( )
 			return true ;
 		}
 
-		m_line_buffer.eat_if( wchar_t(' ') ) ;
+		m_line_buffer.eat_if( wchar_t(L' ') ) ;
 
 		long escaped_char = string2long( num, 16 ) ;
 		if ( escaped_char >= 256 && str::is_uint_rep( num ) ) 
@@ -1048,7 +1048,7 @@ bool tmx_data_importer::handle_backslash( )
 	}
 	else 
 	{
-		m_line_buffer.eat_if( wchar_t(' ') ) ;
+		m_line_buffer.eat_if( wchar_t(L' ') ) ;
 
 		const wstring backslashed_sequence = m_line_buffer.getline_delims(L" \\", false ) ;
 
@@ -1060,7 +1060,7 @@ bool tmx_data_importer::handle_backslash( )
 		// tab
 		else if ( backslashed_sequence == L"tab" )
 		{
-			m_html += wchar_t('\t') ; // accept no tab substitutes!
+			m_html += wchar_t(L'\t') ; // accept no tab substitutes!
 		}
 		// Unicode character
 		else if (	backslashed_sequence.size() >= 2 && 
@@ -1141,7 +1141,7 @@ void trados_data_importer::handle_formatting_stack_top(data_importer< char >::ta
 		return ;
 	}
 
-	m_html += L"</" + format_tags.top() + wchar_t('>') ;
+	m_html += L"</" + format_tags.top() + wchar_t(L'>') ;
 	if ( format_tags.top() == L"font" ) // restore codepage
 	{
 		unsigned int codepage( m_current_codepage ) ;
@@ -1191,11 +1191,11 @@ wstring trados_data_importer::handle_foreground_color_tag( tag_stack &tags )
 	{
 		html_tag += L" color=\"" ;
 		html_tag += m_colors[color_num] ;
-		html_tag += wchar_t('\"') ;
+		html_tag += wchar_t(L'\"') ;
 	}
 	else html_tag += L" color=\"black\"" ;
 
-	html_tag += wchar_t('>') ;
+	html_tag += wchar_t(L'>') ;
 	m_codepage_stack.push( static_cast<unsigned int>( _getmbcp() ) ) ;
 	tags.push( L"font" ) ;
 	return html_tag ;

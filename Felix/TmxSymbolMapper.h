@@ -3,14 +3,15 @@
 #include "textstream_reader.h"
 #include <map>
 #include "stringex.h"
+#include "tag_stripper.h"
 
 class CTmxSymbolMapper
 {
-	std::map< wstring, wchar_t > m_symbols ;
+	symbol_map m_symbols ;
 	
 public:
-	bool exists( const wstring &key );
-	const wchar_t get_val( const wstring &key );
+	bool exists( const wstring &key ) const ;
+	const wchar_t get_val( const wstring &key ) const ;
 	CTmxSymbolMapper(void);
 	~CTmxSymbolMapper(void);
 

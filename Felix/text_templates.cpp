@@ -4,23 +4,18 @@
 #include "file.h"
 #include "Exceptions.h"
 #include "logging.h"
+// shell API support
+#include "FileOpHandler.h"
 
-CString get_template_filename(CString filename)
+CString get_template_filename(const CString filename)
 {
-	TCHAR szPath[MAX_PATH];
-	COM_ENFORCE(SHGetFolderPath(NULL, 
-		CSIDL_LOCAL_APPDATA, 
-		NULL, 
-		0, 
-		szPath), _T("Failed to retrieve local app data folder") ) ; 
-
-	fs::wpath pathname = fs::wpath(szPath) 
+	const fs::wpath pathname = fs::wpath(static_cast<LPCTSTR>(fileops::get_local_appdata_folder())) 
 		/ _T("Felix") 
 		/ _T("html")
 		/ R2T(IDS_LANG_CODE)
 		/ filename ;
 	const CString tpl_filename = CString(pathname.string().c_str()) ;
-	file::CPath fullpath(tpl_filename) ;
+	const file::CPath fullpath(tpl_filename) ;
 	if (! fullpath.FileExists())
 	{
 		ATLTRACE("** Html file doesn't exist\n") ;
@@ -28,7 +23,7 @@ CString get_template_filename(CString filename)
 
 		file::CPath modpath ;
 		modpath.GetModulePath(_Module.GetModuleInstance()) ;
-		fs::wpath fullpathname = fs::wpath((LPCTSTR)modpath.Path()) 
+		const fs::wpath fullpathname = fs::wpath((LPCTSTR)modpath.Path()) 
 			/ _T("html")
 			/ R2T(IDS_LANG_CODE)
 			/ filename ;
@@ -53,7 +48,7 @@ CString get_template_filename(CString filename)
 	return tpl_filename ;
 }
 
-wstring get_template_text(CString filename)
+wstring get_template_text(const CString filename)
 {
 	const CString full_path = get_template_filename(filename) ;
 	file::view file_view ;

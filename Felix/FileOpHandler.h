@@ -15,4 +15,6 @@ enum FileFormat {
 } ;
 
 unsigned int detect_codepage(LPCSTR text, FileFormat file_format) ;
+
+CString get_local_appdata_folder() ;
 }

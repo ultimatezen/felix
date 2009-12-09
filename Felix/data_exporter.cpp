@@ -731,7 +731,7 @@ bool TradosDataExporter::write_font( const wstring &font_info )
 
 		attribute = reader.getline(L'=', true ) ;
 
-		if ( reader.peek() == wchar_t('\"') ) // we have quotes
+		if ( reader.peek() == wchar_t(L'\"') ) // we have quotes
 		{
 			reader.advance() ;
 			reader.getline(value, L'\"', true ) ;
@@ -829,7 +829,7 @@ bool TradosDataExporter::write_rich_text( const wstring &rich_text )
 
 		if ( tag.empty() == false ) 
 		{
-			if ( tag[0] == wchar_t('/') )
+			if ( tag[0] == wchar_t(L'/') )
 			{
 				wstring tag_part = tag.substr(1) ;
 
@@ -874,7 +874,7 @@ bool TradosDataExporter::write_span( const wstring &span_info )
 
 	reader.find( L"style=", true ) ;
 
-	if ( reader.peek() == wchar_t('"') )
+	if ( reader.peek() == wchar_t(L'"') )
 	{
 		reader.advance() ;
 	}
