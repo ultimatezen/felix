@@ -523,19 +523,6 @@ wstring translation_match_query::get_mem_name( wstring loc )
 	return loc ;
 }
 
-wstring translation_match_query::make_navigation_table()
-{
-	wstring html ;
-	html << L"<table class=\"nav\">\n" ;
-	html << L"<td bgcolor=\"#0099FF\" align=\"right\">" ;
-	html << make_href( IDC_NAV, IDC_PREV_MATCH, R2WSTR( IDS_PREV ) ) ;
-	html << L" | " ;
-	html << make_href( IDC_NAV, IDC_NEXT_MATCH, R2WSTR( IDS_NEXT ) ) ;
-	html << L"</td>" ;
-	html << L"</tr></table>\n" ;
-	return html ;
-}
-
 wstring translation_match_query::get_score_text( match_ptr match )
 {
 	wstring score_text = double2percent_wstring( match->get_score() ) ;
@@ -554,28 +541,6 @@ wstring translation_match_query::get_score_text( match_ptr match )
 /* search_query_mainframe                                               */
 /************************************************************************/
 
-wstring search_query_mainframe::get_links_part( size_t index, int rowspan_count )
-{
-	ATLASSERT( index < size() ) ;
-
-	wstring memory_name = get_mem_name(at(index));
-
-	wstring links ;
-
-	links << L"<tr id=\"" << ulong2wstring( index ) << L"\"><td rowspan=\"" << ulong2wstring( rowspan_count ) << L"\">" 
-		<< L"<b>" << ulong2wstring( index ) << L".</b><br>"			
-		<< make_href( IDC_EDIT, index , L"[E]", IDS_EDIT_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_DELETE, index , L"[D]", IDS_DELETE_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_REGISTER, index , L"[R]", IDS_REGISTER_TITLE )			
-		<< L"-" 			
-		<< make_href( IDC_ADD_TO_GLOSSARY, index , L"[G]", IDS_ADD2GLOSS_TITLE )			
-		<< L"<br>[" << memory_name << L"]</td>" ;
-
-	return links ;
-
-}
 
 wstring search_query_mainframe::get_html_short()
 {
@@ -636,29 +601,6 @@ wstring search_query_glossary::get_html_short()
 	return engine.Fetch(tpl_text) ;
 }
 
-wstring search_query_glossary::get_links_part( size_t index, int rowspan_count )
-{
-	ATLASSERT( index < size() ) ;
-
-	wstring memory_name = get_mem_name(at(index));
-
-	wstring links ;
-	links << L"<tr id=\"" << ulong2wstring( static_cast< unsigned long >( index) ) << L"\">\n" ;
-	links << L"<td rowspan=\"" << int2wstring( rowspan_count ) << L"\">\n" ;
-	links << L"<b>" 
-		<< ulong2wstring( static_cast< unsigned long >( index + m_start_numbering ) )
-		<< L".</b><br />\n"
-		<< make_href( IDC_EDIT,  static_cast< int >( index ), L"[E]", IDS_EDIT_TITLE )
-		<< L"-" 
-		<< make_href( IDC_DELETE,  static_cast< int >( index ), L"[D]", IDS_DELETE_TITLE )
-		<< L"-" 
-		<< make_href( IDC_ADD,  static_cast< int >( index ), L"[M]", IDS_ADD2MEM_TITLE )
-		<< L"<br />\n["
-		<< memory_name
-		<< L"]</td>\n" ;
-
-	return links ;
-}
 
 
 /************************************************************************/

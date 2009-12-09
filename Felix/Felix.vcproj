@@ -2395,10 +2395,6 @@
 				>
 			</File>
 			<File
-				RelativePath="record_presenter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\record_remote.h"
 				>
 			</File>

@@ -358,80 +358,6 @@ namespace easyunit
 		}
 		ASSERT_EQUALS_V((int)items.size(), (int)outitems.size()) ;
 	}
-	TEST( test_search_query_glossary, get_links_part )
-	{
-		search_query_glossary query ;
-		search_match_ptr m1(new search_match) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"spam") ;
-		rec->set_trans(L"egg") ;
-		m1->set_record(rec) ;
-		m1->set_values_to_record() ;
-		m1->set_memory_location(L"c:\\foo.xml") ;
-		search_match_multiset matches ;
-		matches.insert(m1) ;
-		query.set_matches(matches) ;
-
-		wstring html = query.get_links_part(0, 2) ;
-		SimpleString actual = string2string(html).c_str() ;
-		string text = "<tr id=\"0\">\n" ;
-		text += "<td rowspan=\"2\">\n" ;
-		text += "<b>1.</b><br />\n" ;
-		text += "<a href=\"142:0\" title=\"Edit entry\">[E]</a>-<a href=\"122:0\" title=\"Delete entry\">[D]</a>-<a href=\"158:0\" title=\"Add entry to memory\">[M]</a><br />\n" ;
-		text += "[foo.xml]</td>\n" ;
-		SimpleString expected = text.c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
-
-	//TEST( test_search_query_glossary, get_html_long )
-	//{
-	//	search_query_glossary query ;
-	//	search_match_ptr m1(new search_match) ;
-	//	record_pointer rec(new record_local) ;
-	//	rec->set_source(L"spam") ;
-	//	rec->set_trans(L"egg") ;
-	//	m1->set_record(rec) ;
-	//	m1->set_values_to_record() ;
-	//	m1->set_memory_location(L"c:\\foo.xml") ;
-	//	search_match_multiset matches ;
-	//	matches.insert(m1) ;
-	//	query.set_matches(matches) ;
-
-	//	wstring html = query.get_html_long() ;
-	//	SimpleString actual = string2string(html).c_str() ;
-	//	string text = "<div><strong>Search Results:</strong></div>\n<table class=\"base\">\n" ;
-	//	text += "<tr id=\"0\">\n" ;
-	//	text += "<td rowspan=\"5\">\n" ;
-	//	text += "<b>0.</b><br />\n" ;
-	//	text += "<a href=\"142:0\" title=\"Edit entry\">[E]</a>-" ;
-	//	text += "<a href=\"122:0\" title=\"Delete entry\">[D]</a>-" ;
-	//	text += "<a href=\"158:0\" title=\"Add entry to memory\">[M]</a><br />\n" ;
-	//	text += "[foo.xml]</td>\n" ;
-	//	text += "<td><b>Source</b></td>\n" ;
-	//	text += "<td class=\"match_content\" id=\"source\">spam</td>\n" ;
-	//	text += "</tr>\n" ;
-	//	text += "<tr>\n" ;
-	//	text += "<td><b>Trans</b></td>\n" ;
-	//	text += "<td class=\"match_content\" id=\"trans\">egg</td>\n" ;
-	//	text += "</tr>\n" ;
-	//	text += "<tr>\n" ;
-	//	text += "<td><b>Context</b></td>\n" ;
-	//	text += "<td class=\"match_content\" id=\"context\">&nbsp;</td>\n" ;
-	//	text += "</tr>\n" ;
-	//	text += "<tr>\n" ;
-	//	text += "<td><b>Validated</b></td>\n" ;
-	//	text += "<td class=\"match_content\" id=\"validated\">FALSE</td>\n" ;
-	//	text += "</tr>\n" ;
-	//	text += "<tr>\n" ;
-	//	text += "<td><b>Reliability</b></td>\n" ;
-	//	text += "<td class=\"match_content\" id=\"reliability\">0</td>\n" ;
-	//	text += "</tr>\n" ;
-	//	text += "</table>\n" ;
-	//	SimpleString expected = text.c_str() ;
-	//	ASSERT_EQUALS_V(expected, actual) ;
-	//}
-
-	
 
 	TEST( test_search_query_glossary, get_fname_from_loc_with_root )
 	{
@@ -536,14 +462,6 @@ namespace easyunit
  		query.set_matches(matches) ;
 		wstring text = query.get_html_all() ;
 		ASSERT_TRUE(text.find(L"<table") != wstring::npos) ;
-	}
-	TEST(test_translation_match_query, make_navigation_table)
-	{
-		translation_match_query query ;
-		wstring text = query.make_navigation_table() ;
-		SimpleString actual = string2string(text).c_str() ;
-		SimpleString expected = "<table class=\"nav\">\n<td bgcolor=\"#0099FF\" align=\"right\"><a href=\"152:424\">Prev </a> | <a href=\"152:426\">Next </a></td></tr></table>\n" ;
-		ASSERT_EQUALS_V(expected, actual) ;
 	}
 
 	// prev/next scores

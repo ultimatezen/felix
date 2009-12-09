@@ -187,10 +187,6 @@ struct search_query
 
 	wstring get_mem_name(match_ptr match) ;
 	wstring get_html_long() ;
-
-	// virtual, baby!
-	virtual wstring get_links_part( size_t index, int rowspan_count ) = 0 ;
-
 } ;
 
 
@@ -200,7 +196,6 @@ struct search_query_mainframe : public search_query
 	search_query_mainframe() {}
 	virtual ~search_query_mainframe() {}
 
-	wstring get_links_part( size_t index, int rowspan_count ) ;
 	wstring get_html_short();
 } ;
 
@@ -211,7 +206,6 @@ struct search_query_glossary : public search_query
 	search_query_glossary(){}
 	virtual ~search_query_glossary(){}
 
-	wstring get_links_part( size_t index, int rowspan_count ) ;
 	wstring get_html_short() ;
 } ;
 
@@ -237,7 +231,6 @@ struct translation_match_query : public base_presentation
 	wstring get_html_all();
 
 	wstring get_score_text( match_ptr match );
-	wstring make_navigation_table( );
 	wstring get_html_short()  ;
 
 	wstring get_mem_name( wstring loc );
