@@ -31,10 +31,55 @@ wstring get_record_username()
 	return m_user_name ;
 }
 
+/************************************************************************/
+/* translation_record                                                   */
+/************************************************************************/
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+// set_validated
+void translation_record::set_validated( const bool setting )
+{
+	setting ? this->set_validated_on() : this->set_validated_off() ;
+}
+
+// increment_reliability
+void translation_record::increment_reliability()
+{
+	this->set_reliability( this->get_reliability() + 1u ) ;
+}
+
+// increment_refcount
+void translation_record::increment_refcount()
+{
+	this->set_refcount(this->get_refcount() + 1u) ;
+}
+
+// reset_refcount
+// If we actually change the refcount, then we update
+// the last-modified value.
+void translation_record::reset_refcount()
+{
+	if ( 0u < this->get_refcount() ) 
+	{
+		this->modify() ;
+		this->set_refcount(0u) ;
+	}
+}
+
+/************************************************************************/
+/* record_local                                                         */
+/************************************************************************/
+
+// CTOR
+record_local::record_local( ) : 
+	m_is_validated(false), 
+	m_reliability( 0u ),
+	m_refcount( 0u ),
+	m_id(0u)
+{
+	create() ;
+} 
+
+// remove_item
 bool record_local::remove_item(const wstring &key)
 {
 
@@ -50,27 +95,6 @@ bool record_local::remove_item(const wstring &key)
 
 	return false ;
 }
-
-// ************************************
-// *
-// * record_local member functions
-// *
-// *************************************
-
-// Constructors
-
-record_local::record_local( ) : 
-	m_is_validated(false), 
-	m_reliability( 0u ),
-	m_refcount( 0u ),
-	m_id(0u)
-{
-	create() ;
-} 
-
-
-
-// set record information
 
 // create
 bool record_local::create(  )
@@ -128,7 +152,7 @@ size_t record_local::get_reliability() const
 void record_local::set_reliability( const size_t reliability )  
 {
 	size_t rel = reliability ;
-	if ( rel > 9 )
+	if ( rel > MAX_RELIABILITY )
 	{
 		rel = 9 ;
 	}
@@ -484,4 +508,5 @@ wstring record_local::get_modified_by()
 	}
 	return m_modified_by ;
 }
+
 }

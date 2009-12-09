@@ -10,6 +10,9 @@
 
 namespace memory_engine
 {
+	static const size_t MIN_RELIABILITY = 0 ;
+	static const size_t MAX_RELIABILITY = 9 ;
+
 	void set_record_username(const wstring &username) ;
 	wstring get_record_username() ;
 	/**
@@ -27,17 +30,10 @@ namespace memory_engine
 		translation_record( ) {}
 		virtual ~translation_record() {}
 
-		void set_validated(bool setting)
-		{
-			if(setting)
-			{
-				this->set_validated_on() ;
-			}
-			else
-			{
-				this->set_validated_off() ;
-			}
-		}
+		void set_validated(bool setting);
+		void increment_reliability();
+		void increment_refcount();
+		void reset_refcount();
 
 		// pure virtual
 
@@ -58,12 +54,7 @@ namespace memory_engine
 
 		// reliability
 		virtual size_t get_reliability() const  = 0;
-		virtual void set_reliability( const size_t reliability )  = 0;
-		void increment_reliability()
-		{
-			size_t reliability = this->get_reliability() ;
-			this->set_reliability( reliability + 1u ) ;
-		}
+		virtual void set_reliability( size_t reliability )  = 0;
 
 		virtual void set_item( const wstring &key, const wstring &value )  = 0;
 
@@ -96,20 +87,8 @@ namespace memory_engine
 		virtual bool modify ( ) = 0;
 
 		// ref_count
-		void increment_refcount()
-		{
-			this->set_refcount(this->get_refcount()+1) ;
-		}
 		virtual void set_refcount( size_t count ) = 0;
 		virtual size_t get_refcount() const  = 0;
-		void reset_refcount()
-		{
-			if ( 0u < this->get_refcount() ) 
-			{
-				this->modify() ;
-				this->set_refcount(0u) ;
-			}
-		}
 
 		virtual bool is_valid_record() = 0;
 
@@ -218,7 +197,7 @@ namespace memory_engine
 
 		// reliability
 		size_t get_reliability() const ;
-		void set_reliability( const size_t reliability ) ;
+		void set_reliability( size_t reliability ) ;
 
 		// source, trans, and context
 		void set_source( const wstring source ) ;	

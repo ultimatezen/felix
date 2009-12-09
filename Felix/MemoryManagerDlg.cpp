@@ -15,6 +15,9 @@
 
 #include "UserName.h"
 #include "query.h"
+#include "xpmenu/Tools.h"
+#include "Drop.h"
+#include "system_message.h"
 
 using namespace html ;
 using namespace memory_engine ;
@@ -29,13 +32,12 @@ const wstring get_item(const wstring item)
 }
 
 
-void CMemoryManagerDlg::OnProgressInit( const CString &file_name, size_t min_val, size_t max_val )
+void CMemoryManagerDlg::OnProgressInit( const CString &, size_t min_val, size_t max_val )
 {
 	SENSE("OnProgressInit") ;
 #ifdef UNIT_TEST
 	return ;
 #endif
-	file_name ;
 	ATLASSERT ( m_progress_bar.IsWindow() ) ; 
 
 	m_progress_bar.ShowWindow( SW_SHOW ) ;
@@ -118,11 +120,10 @@ LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 	// get its position
 	sizeInfoBox();
 
-	RECT clientrect ;
-	this->GetClientRect(&clientrect) ;
+	const CClientRect clientrect(*this) ;
 
-	RECT listrect ;
-	m_list_box.GetWindowRect( &listrect ) ;
+	RECT listrect = {0} ;
+	m_list_box.GetWindowRect(&listrect) ;
 	//ScreenToClient(&listrect) ;
 	listrect.top = clientrect.top + 5 ;
 	listrect.left = clientrect.left + 10 ;
@@ -130,14 +131,12 @@ LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 
 	TWindow upbutton(GetDlgItem(IDC_UP)) ;
 
-	RECT uprect ;
-	upbutton.GetWindowRect(&uprect) ;
+	CWindowRect uprect(upbutton) ;
 	ScreenToClient(&uprect);
 	listrect.bottom = uprect.top - 15 ;
 
 	// move the html view into place
 	m_list_box.SetWindowPos(NULL, &listrect, SWP_NOZORDER | SWP_NOACTIVATE);
-
 
 	return 0L ;
 }
@@ -146,82 +145,68 @@ void CMemoryManagerDlg::sizeGripper(UINT type)
 {
 	TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 	if(type == SIZE_MAXIMIZED)
+	{
 		wndGripper.ShowWindow(SW_HIDE);
+	}
 	else if(type == SIZE_RESTORED)
+	{
 		wndGripper.ShowWindow(SW_SHOW);
-
+	}
 }
 
 void CMemoryManagerDlg::sizeInfoBox()
 {
-	RECT clientrect ;
-	this->GetClientRect(&clientrect) ;
+	const CClientRect clientrect(*this) ;
 
-
-	RECT rc ;
-	m_info_box.GetWindowRect( &rc ) ;
-	ScreenToClient( &rc ) ;
+	RECT listrect = {0} ;
+	m_list_box.GetWindowRect(&listrect) ;
+	ScreenToClient( &listrect ) ;
 	m_info_box.ShowWindow( SW_HIDE ) ;
 
-	rc.left = clientrect.left + 10 ;
-	rc.right = clientrect.right - 10 ;
+	listrect.left = clientrect.left + 10 ;
+	listrect.right = clientrect.right - 10 ;
 
 
 	TWindow button(GetDlgItem(IDC_EDIT_MEMORY)) ;
-	RECT editrect ;
-	button.GetWindowRect(&editrect) ;
+	CWindowRect editrect(button) ;
 	ScreenToClient(&editrect);
-	rc.bottom = editrect.top - 15 ;
+	listrect.bottom = editrect.top - 15 ;
 
 	// move the html view into place
-	m_info_view.SetWindowPos(NULL, &rc, SWP_NOZORDER | SWP_NOACTIVATE);
-
+	m_info_view.SetWindowPos(NULL, &listrect, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 LRESULT CMemoryManagerDlg::OnDropFiles( HDROP dropped ) 
 {
-	if ( ! is_dropped_in_listbox(dropped) )
+	const CDrop drop(dropped) ;
+
+	if ( ! is_dropped_in_listbox(drop.DragQueryPoint()) )
 	{
 		SetMsgHandled( FALSE ) ;
 		return 0L ;
 	} 
 
-	UINT num_files = ::DragQueryFile(dropped, 0xffffFFFF, NULL, 0);
+	const UINT num_files = drop.NumDragFiles() ;
 	
-	if ( ! num_files ) 
+	for ( UINT current_file=0 ; current_file < num_files ; ++current_file )
 	{
-		SetMsgHandled( FALSE ) ;
-		return 0L ;
+		dropFile(drop.DragQueryFile(current_file));	
 	}
-	
-	drop_files(dropped, num_files);
+
 	return 0L ;
 }
 
-bool CMemoryManagerDlg::is_dropped_in_listbox(HDROP dropped)
+bool CMemoryManagerDlg::is_dropped_in_listbox(const POINT p)
 {
-	POINT p ;
-	::DragQueryPoint(dropped, &p) ;
-	CRect rect ;
-	m_list_box.GetClientRect( &rect ) ;
-	return !! rect.PtInRect( p ) ;
+	CRect listrect ;
+	m_list_box.GetClientRect(&listrect) ;
+
+	return !! listrect.PtInRect( p ) ;
 }
 
-void CMemoryManagerDlg::drop_files(HDROP dropped, UINT num_files)
-{
-	for ( UINT current_file=0 ; current_file < num_files ; ++current_file )
-	{
-		dropFile(dropped, current_file);	
-	}
-}
 
-void CMemoryManagerDlg::dropFile(HDROP dropped, UINT current_file)
+void CMemoryManagerDlg::dropFile(const CString dropfile)
 {
-	UINT len ;
-	ATL::CString dropfile ;
-	len = ::DragQueryFile(dropped, current_file, NULL, 0 ) ;
-	::DragQueryFile( dropped, current_file, dropfile.GetBuffer(len+1), len+1 ) ;
-	dropfile.ReleaseBuffer(len) ;
 	add_memory_file( dropfile ) ;
 }
 
@@ -283,7 +268,10 @@ void CMemoryManagerDlg::getAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 
 void CMemoryManagerDlg::setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& dlg)
 {
-	size_t low, high ; double ave ;
+	const int HUNDRED_PERCENT = 100 ;
+
+	size_t low, high ; 
+	double ave ;
 	mem->get_reliability_stats( low, high, ave ) ;
 	if ( low == high )
 	{
@@ -291,26 +279,40 @@ void CMemoryManagerDlg::setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 	}
 	else
 	{
-		dlg.set_reliability( 100 );
+		dlg.set_reliability( HUNDRED_PERCENT );
 	}
 
 	dlg.set_lock( mem->is_locked() ? BST_CHECKED : BST_UNCHECKED ) ;
 	wstring vper =  mem->get_validated_percent() ;
 	if ( vper == L"100%" )
+	{
 		dlg.set_validation( BST_CHECKED ) ;
+	}
 	else if ( vper == L"0%" ) 
+	{
 		dlg.set_validation( BST_UNCHECKED ) ;
-	else dlg.set_validation( BST_INDETERMINATE ) ;
+	}
+	else 
+	{
+		dlg.set_validation( BST_INDETERMINATE ) ;
+	}
 
 }
 
 // list stuff
 void setListLineColor( LPNMLVCUSTOMDRAW pnmcd )
 {
+	const COLORREF even_line_color = RGB(220,220,255) ;
+	const COLORREF odd_line_color = RGB(255,255,255) ;
+
 	if ( (pnmcd->nmcd.dwItemSpec % 2) == 0 )
-		pnmcd->clrTextBk = RGB(220,220,255) ;
+	{
+		pnmcd->clrTextBk = even_line_color ;
+	}
 	else
-		pnmcd->clrTextBk = RGB(255,255,255) ;
+	{
+		pnmcd->clrTextBk = odd_line_color ;
+	}
 
 }
 
@@ -496,11 +498,10 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 		fileext = fileext_mem ;
 	}
 
-	bool success = ui.get_open_files( import_files, dialog_title, filter, fileext ) ;
-	
-	if ( ! success )
-		return 0 ;
-	
+	if ( ! ui.get_open_files( import_files, dialog_title, filter, fileext ) )
+	{
+		return 0L ;
+	}
 	add_memory_files(import_files);
 
 	return 0L ;
@@ -798,15 +799,16 @@ void CMemoryManagerDlg::fill_listview()
 		}
 
 		m_list_box.SetCheckState( m_list_box.GetItemCount()-1, !! mem->is_active() )	;
-
 	}
 }
 
 void CMemoryManagerDlg::reflect_checkstate()
 {
+	int i = 0 ;
 	memory_iterator pos ;
-	int i=0 ; 
-	for ( pos = m_memories.begin() ; pos != m_memories.end() ; ++pos, ++i )
+	for ( i = 0, pos = m_memories.begin() ; 
+				pos != m_memories.end() ; 
+				++pos, ++i )
 	{
 		memory_pointer mem = *pos ;
 		if ( m_list_box.GetCheckState( i ) ) 
@@ -818,7 +820,6 @@ void CMemoryManagerDlg::reflect_checkstate()
 			mem->set_active_off() ;
 		}
 	}
-	
 }
 
 void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
@@ -861,7 +862,6 @@ void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
 
 void CMemoryManagerDlg::display_info_for_item(int item)
 {
-	
 	memory_pointer mem = get_memory_at(item) ;
 	
 	wstring desc = get_info_for_item(mem);
@@ -890,15 +890,13 @@ CString CMemoryManagerDlg::get_save_prompt( memory_pointer mem )
 void CMemoryManagerDlg::save_memory(memory_pointer mem)
 {
 	showSavingMessage(mem);
-
 	reflect_checkstate() ;
-
 	perform_save(mem);
 }
 
 void CMemoryManagerDlg::set_button_focus()
 {
-	if (	m_list_box.GetItemCount() > 0 )
+	if (m_list_box.GetItemCount() > 0)
 	{
 		TWindow but = ( GetDlgItem( IDC_REMOVE_MEMORY ) ) ;
 		but.SetFocus() ;
@@ -923,25 +921,22 @@ void CMemoryManagerDlg::get_memories( boost::shared_ptr<memory_engine::memory_mo
 	memories->swap_memories( m_memories ) ;
 }
 
-memory_pointer CMemoryManagerDlg::get_memory_at( int sel )
+memory_pointer CMemoryManagerDlg::get_memory_at( const int sel )
 {
 	return *(get_pos_at(sel)) ;
 }
 
 wstring CMemoryManagerDlg::get_saving_feedback( memory_pointer& mem )
 {
-	CString user_prompt ;
-	user_prompt.FormatMessage( IDS_SAVING_RECORDS, resource_string(IDS_MEMORY), (LPCTSTR)mem->get_location() ) ;
-
 	wstring text ;
 
 	text = L"<b>" ;
-	text += CT2W( user_prompt );
+	text += CT2W( system_message(IDS_SAVING_RECORDS, resource_string(IDS_MEMORY), (LPCTSTR)mem->get_location()) );
 	text += L"</b>" ;
 	return text ;
 }
 
-void CMemoryManagerDlg::swap_memories( int index )
+void CMemoryManagerDlg::swap_memories( const int index )
 {
 	memory_iterator pos = get_pos_at(index) ;
 	memory_iterator pos2 = pos ; 
@@ -951,7 +946,7 @@ void CMemoryManagerDlg::swap_memories( int index )
 	*pos2 = mem ;
 }
 
-memory_engine::memory_iterator CMemoryManagerDlg::get_pos_at( int sel )
+memory_engine::memory_iterator CMemoryManagerDlg::get_pos_at( const int sel )
 {
 	if (static_cast<size_t>(sel) >= m_memories.size())
 	{
@@ -1047,9 +1042,10 @@ wstring CMemoryManagerDlg::get_reliability_range(memory_pointer mem)
 	double ave ;
 	mem->get_reliability_stats( low, high, ave ) ;
 
-	wchar_t buf[256] ;
+	const size_t BUFLEN = 256 ;
+	wchar_t buf[BUFLEN] ;
 	wchar_t *wbuf = buf ;
-	StringCbPrintfW( wbuf, 256, L"%d &ndash; %d (Ave: %3.1lf)", low, high, ave ) ;
+	StringCbPrintfW( wbuf, BUFLEN, L"%d &ndash; %d (Ave: %3.1lf)", low, high, ave ) ;
 
 	return wstring(wbuf) ;
 }

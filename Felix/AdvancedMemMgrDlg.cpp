@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "AdvancedMemMgrDlg.h"
+#include "record.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -20,7 +21,8 @@ LRESULT CAdvancedMemMgrDlg::OnInitDialog( )
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_ICON ) ), TRUE ) ;
 
 	m_idcReliabilitySpin = GetDlgItem(IDC_RELIABILITY_SPIN);
-	m_idcReliabilitySpin.SetRange(0, 10) ;
+	m_idcReliabilitySpin.SetRange(memory_engine::MIN_RELIABILITY, 
+								  memory_engine::MAX_RELIABILITY) ;
 
 	CString text ;
 	if ( m_reliability <= 10 )
@@ -83,32 +85,32 @@ int CAdvancedMemMgrDlg::parse_reliability( CString reliability_text )
 	}
 }
 
-int CAdvancedMemMgrDlg::get_validation()
+int CAdvancedMemMgrDlg::get_validation() const
 {
 	return m_validation ;
 }
 
-int CAdvancedMemMgrDlg::get_reliability()
+int CAdvancedMemMgrDlg::get_reliability() const
 {
 	return m_reliability ;
 }
 
-int CAdvancedMemMgrDlg::get_lock()
+int CAdvancedMemMgrDlg::get_lock() const
 {
 	return m_lock ;
 }
 
-void CAdvancedMemMgrDlg::set_validation( int setting )
+void CAdvancedMemMgrDlg::set_validation( const int setting )
 {
 	m_validation = setting ;
 }
 
-void CAdvancedMemMgrDlg::set_reliability( int setting )
+void CAdvancedMemMgrDlg::set_reliability( const int setting )
 {
 	m_reliability = setting ;
 }
 
-void CAdvancedMemMgrDlg::set_lock( int setting )
+void CAdvancedMemMgrDlg::set_lock( const int setting )
 {
 	m_lock = setting ;
 }

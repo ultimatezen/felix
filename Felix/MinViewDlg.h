@@ -33,14 +33,16 @@ class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
 {
 	CToolTipCtrl	m_tooltips ;
 
-	CButton     m_idcButton1;
-	CStatic     m_idcEditBox;
+	CButtonT<TWindow>     m_idcButton1;
+	CStaticT<TWindow>     m_idcEditBox;
 	
 public:
 	HWND m_parent ;
 		
 	static const int IDD = IDD_MIN_VIEW_DLG ;
 	DECLARE_SENSING_VAR ;
+
+	CMinViewDlg();
 	
 	// view
 	CHtmlView m_view ;
@@ -53,10 +55,7 @@ public:
 	LRESULT OnSize( UINT type, CSize size ) ;
 	
 	LRESULT OnRestoreFullView( ) ;
-	
-	CMinViewDlg();
 
-	
 	BOOL PreTranslateMessage( LPMSG pMsg );
 
 	BEGIN_MAP_EX(CMinViewDlg)

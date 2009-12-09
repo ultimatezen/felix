@@ -9,6 +9,7 @@
 #include "resource.h"
 #include "MinViewDlg.h"
 #include "resource_string.h"
+#include "xpmenu/Tools.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -35,33 +36,32 @@ LRESULT CMinViewDlg::OnInitDialog( )
 	DlgResize_Init();
 #endif
 	// get its position
-	RECT window_rc ;
-	GetWindowRect( &window_rc ) ;
+
+	const CWindowRect window_rc(*this) ;
 	
-	int height = window_rc.bottom - window_rc.top ;
+	const int padding = 4 ;
 #ifdef UNIT_TEST
 	return TRUE ;
 #endif
 
-	RECT rc ;
-	m_idcEditBox.GetWindowRect( &rc ) ;
+	CWindowRect rc(m_idcEditBox) ;
 	ScreenToClient( &rc ) ;
 	
 	rc.top = 0 ;
-	rc.bottom = height ;
-	rc.right -= 4 ;
+	rc.bottom = window_rc.Height() ;
+	rc.right -= padding ;
 	
 	// create the html view and move it into place
 	m_view.create( m_hWnd ) ;
 	ATLASSERT( m_view.IsWindow() ) ;
 	m_view.MoveWindow( &rc, TRUE ) ;
 
-	m_idcButton1.GetWindowRect( &rc ) ;
-	ScreenToClient( &rc ) ;
-	rc.left -= 4 ;
-	rc.top -= 4 ;
-	rc.bottom += 4 ;
-	m_idcButton1.SetWindowPos(NULL, &rc, SWP_NOZORDER | SWP_NOACTIVATE);
+	CWindowRect button_rect(m_idcButton1) ;
+	ScreenToClient( &button_rect ) ;
+	button_rect.left -= padding ;
+	button_rect.top -= padding ;
+	button_rect.bottom += padding ;
+	m_idcButton1.SetWindowPos(NULL, &button_rect, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	m_tooltips.Create( *this, NULL, NULL, TTS_NOPREFIX | TTS_BALLOON );
 	m_tooltips.Activate( TRUE ) ;

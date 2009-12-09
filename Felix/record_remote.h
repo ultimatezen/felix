@@ -42,7 +42,7 @@ namespace memory_engine
 		const wstring &get_context_cmp() const;
 		// reliability
 		size_t get_reliability() const;
-		void set_reliability( const size_t reliability );
+		void set_reliability( size_t reliability );
 
 		void set_item( const wstring &key, const wstring &value );
 

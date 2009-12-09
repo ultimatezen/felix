@@ -196,8 +196,7 @@ public:
 
 	END_MAP_EX( R2T( IDS_MSG_ACTION_FAILED ) )
 
-	void drop_files(HDROP dropped, UINT num_files) ;
-	void dropFile(HDROP dropped, UINT current_file) ;
+	void dropFile(const CString dropfile) ;
 
 	void setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& dlg);
 
@@ -216,7 +215,7 @@ public:
 	wstring get_saving_feedback( memory_pointer& mem );
 	void perform_save(memory_pointer& mem);
 
-	bool is_dropped_in_listbox(HDROP dropped);
+	bool is_dropped_in_listbox(POINT p);
 	CString  get_save_prompt( memory_pointer mem ) ;
 	void save_memory(memory_pointer mem) ;
 	void set_button_focus() ;

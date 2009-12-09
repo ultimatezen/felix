@@ -21,6 +21,7 @@ public:
 	CDropHandle(HDROP dropped);
 	virtual ~CDropHandle(void);
 	BOOL DragQueryPoint(POINT* pt) const;
+	POINT DragQueryPoint() const;
 	UINT NumDragFiles(void) const;
 	UINT FileLen(UINT index) const;
 	CString DragQueryFile(UINT index) const;

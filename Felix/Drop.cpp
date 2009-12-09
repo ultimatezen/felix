@@ -19,6 +19,12 @@ BOOL CDropHandle::DragQueryPoint(POINT* pt) const
 	return ::DragQueryPoint( m_drop, pt );
 }
 
+POINT CDropHandle::DragQueryPoint() const
+{
+	POINT pt ;
+	this->DragQueryPoint(&pt) ;
+	return pt ;
+}
 UINT CDropHandle::NumDragFiles(void) const
 {
 	return ::DragQueryFile(m_drop, 0xffffFFFF, NULL, 0);

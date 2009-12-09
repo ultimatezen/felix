@@ -45,9 +45,9 @@ public:
 		m_lock(BST_UNCHECKED)
 	{}
 
-	int get_validation();
-	int get_reliability();
-	int get_lock();
+	int get_validation() const;
+	int get_reliability() const;
+	int get_lock() const;
 
 	void set_validation(int setting);
 	void set_reliability(int setting);
@@ -60,8 +60,8 @@ public:
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 
 		BEGIN_CMD_HANDLER_EX
-		CMD_HANDLER_EX_ID(IDCANCEL, OnCancel)
-		CMD_HANDLER_EX_ID(IDOK, OnIdok)
+			CMD_HANDLER_EX_ID(IDCANCEL, OnCancel)
+			CMD_HANDLER_EX_ID(IDOK, OnIdok)
 		END_CMD_HANDLER_EX
 
 	END_MAP_EX( _T("Action Failed") )
