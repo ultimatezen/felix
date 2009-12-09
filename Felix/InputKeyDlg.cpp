@@ -21,16 +21,14 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 	str::tbuffer tbuff ;
 #ifndef UNIT_TEST
 	// get the text in the window
-	int len = m_edit.GetWindowTextLength() + 1 ;
+	const int len = m_edit.GetWindowTextLength() + 1 ;
 	m_edit.GetWindowText( tbuff.buffer( len ), len ) ;
 #else
 	_tcscpy(tbuff.buffer(20), _T("debug")) ;
 #endif
 	// load the name and key strings
-	std::string name, key ;
-
-	name = "REGISTERED" ;
-	key = CT2A( tbuff.buffer() ) ;
+	const string name = "REGISTERED" ;
+	string key = CT2A( tbuff.buffer() ) ;
 
 	// strip whitespace from key
 	str::replace_all( key, "\t", "" ) ;
@@ -49,14 +47,14 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 		m_edit.SetFocus() ;
 		m_edit.SetSelAll( ) ;
 		SetMsgHandled( TRUE ) ;
-		return 0 ;
+		return 0L ;
 	}
 
 	if ( ! armadillo::update_environment() )
 	{
 		MessageBox( CA2T( armadillo::get_arm_error_string().c_str() ), _T("FAILED TO UPDATE ARMADILLO ENVIRONMENT") ) ;
 		SetMsgHandled( TRUE ) ;
-		return 0 ;
+		return 0L ;
 	}
 
 	if ( ! armadillo::get_environment_var( "EXPIRED" ).empty() )
@@ -66,17 +64,17 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 		m_edit.SetFocus() ;
 		m_edit.SetSelAll( ) ;
 		SetMsgHandled( TRUE ) ;
-		return 0 ;
+		return 0L ;
 	}
 
 	EndDialog(wID);
 
-	return 0;
+	return 0L;
 }
 
 LRESULT CInputKeyDlg::OnCloseCommand( WORD wID )
 {
 	SENSE("OnCloseCommand") ;
 	EndDialog(wID);
-	return 0;
+	return 0L;
 }

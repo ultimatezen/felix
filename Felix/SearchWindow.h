@@ -15,7 +15,7 @@ typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
 bool ends_with(const wstring &haystack, const wstring needle) ;
 wstring escape_entities(const wstring text) ;
 
-wstring get_filter_text(std::vector<wstring> & terms);
+wstring get_filter_text(const std::vector<wstring> & terms) ;
 const wstring retrieve_input_value( element_wrapper_ptr input_box ) ;
 
 // The new search window
@@ -117,7 +117,7 @@ public:
 	void perform_replace(doc3_wrapper_ptr doc, memory_engine::record_pointer rec);
 	void get_replace_matches(match_vec &matches,
 		const wstring &replace_from);
-	void set_filterbox_text( doc3_wrapper_ptr doc, std::vector<wstring> &terms );
+	void set_filterbox_text( doc3_wrapper_ptr doc, const std::vector<wstring> &terms );
 	void wait_for_doc_complete();
 
 	// ========================

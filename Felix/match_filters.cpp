@@ -33,7 +33,7 @@ namespace memory_searcher
 		}
 	}
 
-	std::vector<wstring> & search_runner::get_terms()
+	const std::vector<wstring> & search_runner::get_terms()
 	{
 		return m_terms ;
 	}
@@ -43,7 +43,7 @@ namespace memory_searcher
 		m_terms.clear() ;
 	}
 
-	bool search_runner::is_match( record_pointer rec )
+	bool search_runner::is_match( const record_pointer rec ) const
 	{
 		foreach(wstring term, m_terms)
 		{
@@ -58,7 +58,7 @@ namespace memory_searcher
 	/*
 	Allows tags.
 	*/
-	bool search_runner::term_matches( record_pointer rec, const wstring &term )
+	bool search_runner::term_matches( const record_pointer rec, const wstring &term ) const
 	{
 		wstring tag ;
 
@@ -282,7 +282,7 @@ namespace memory_searcher
 		return false ;
 	}
 
-	void search_runner::mod_date( misc_wrappers::date &thedate, wstring datestring )
+	void search_runner::mod_date( misc_wrappers::date &thedate, const wstring datestring ) const
 	{
 		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(datestring.c_str()) ;

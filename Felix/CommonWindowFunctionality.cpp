@@ -24,7 +24,6 @@ m_editor()
 	set_display_state( INIT_DISPLAY_STATE ) ;
 }
 
-
 void add_popup_separator(CMenu &menu) 
 {
 	CMenuItemInfo menu_item ;
@@ -33,6 +32,7 @@ void add_popup_separator(CMenu &menu)
 
 	::InsertMenuItem(menu, menu.GetMenuItemCount(), FALSE, (MENUITEMINFO*)&menu_item) ;
 }
+
 void add_popup_item( CMenu &menu, int command_id, int text_id ) 
 {
 	CMenuItemInfo menu_item ;
@@ -46,8 +46,6 @@ void add_popup_item( CMenu &menu, int command_id, int text_id )
 
 	::InsertMenuItem(menu, menu.GetMenuItemCount(), FALSE, (MENUITEMINFO*)&menu_item) ;
 }
-
-
 
 CString CCommonWindowFunctionality::get_location()
 {
@@ -954,4 +952,3 @@ void CCommonWindowFunctionality::set_bg_color( COLORREF c )
 	doc.set_bg_color( color_str ) ;
 #endif
 }
-

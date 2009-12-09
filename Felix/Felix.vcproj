@@ -1963,10 +1963,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\AutomationObject.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\background_processor.h"
 				>
 			</File>
@@ -2048,6 +2044,10 @@
 			</File>
 			<File
 				RelativePath=".\DemoException.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\dispatchwrapper.h"
 				>
 			</File>
 			<File

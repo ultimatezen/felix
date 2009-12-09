@@ -60,8 +60,8 @@ public:
 	bool test_source( record_pointer rec ) ;
 	bool test_trans( record_pointer rec ) ;
 	bool test_context( record_pointer rec ) ;
-	bool test_validity( record_pointer rec ) ;
-	bool test_reliability( record_pointer rec ) ;
+	bool test_validity( const record_pointer rec ) const ;
+	bool test_reliability( const record_pointer rec ) const ;
 	bool is_match( record_pointer rec ) ;
 private:
 	void check_lower( wstring &to_search ) ;
@@ -83,8 +83,8 @@ public:
 	bool test_source( record_pointer rec ) ;
 	bool test_trans( record_pointer rec ) ;
 	bool test_context( record_pointer rec ) ;
-	bool test_validity( record_pointer rec ) ;
-	bool test_reliability( record_pointer rec ) ;
+	bool test_validity( const record_pointer rec ) const ;
+	bool test_reliability( const record_pointer rec ) const ;
 	bool is_match( record_pointer rec ) ;
 private:
 } ;

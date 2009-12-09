@@ -24,10 +24,10 @@ CFindDlg::CFindDlg()
 BOOL CFindDlg::PreTranslateMessage( MSG *pMsg )
 {
 	ENSURE_FOCUS
-		// translating accelerators here will just rob messages from our edit boxes.
-		// let those guys handle their own accelerators
+	// translating accelerators here will just rob messages from our edit boxes.
+	// let those guys handle their own accelerators
 
-		return IsDialogMessage( pMsg ) ;
+	return IsDialogMessage( pMsg ) ;
 
 }
 
@@ -115,7 +115,7 @@ LRESULT CFindDlg::OnInitDialog( )
 	m_context_edit.Attach( GetDlgItem( IDC_CONTEXT_BOX ) )  ;
 
 #ifdef UNIT_TEST
-	return TRUE ;
+	return 0L ;
 #endif
 	// ===========================
 	// set the text of the edit boxes
@@ -141,11 +141,6 @@ LRESULT CFindDlg::OnInitDialog( )
 	reliability_spin.SetRange( 0, 9 ) ;
 	ATLASSERT(m_params.m_min_reliability <= 9) ;
 	reliability_spin.SetPos( (int) m_params.m_min_reliability ) ;
-
-	// make it first in the z, and hence tab, order
-	//m_source_edit.SetWindowPos( HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) ;
-	//m_trans_edit.SetWindowPos( m_source_edit, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) ;
-	//m_context_edit.SetWindowPos( m_trans_edit, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) ;
 
 	m_source_edit.SetFocus() ;
 
@@ -179,7 +174,7 @@ LRESULT CFindDlg::OnActivate( WPARAM wParam )
 	CLEAR_WINERRORS ;
 
 	ATLTRACE( "This is a deactivation\n" ) ;
-	return 0 ;
+	return 0L ;
 }
 
 /** We hide ourselves when we get a close command.
@@ -189,7 +184,7 @@ LRESULT CFindDlg::OnClose( )
 	SENSE("OnClose") ;
 
 	ShowWindow( SW_HIDE ) ;
-	return 0 ;
+	return 0L ;
 }
 
 /** Handle user's search request.
@@ -235,7 +230,7 @@ LRESULT CFindDlg::OnSearch( )
 	// send message to parent to come and get the record for search
 	::SendMessage( GetParent(), UWM_USER_MESSAGE, ID_USER_SEARCH, 0 ) ;
 
-	return 0 ;
+	return 0L ;
 }
 
 /** Redo command from user.
@@ -244,7 +239,7 @@ LRESULT CFindDlg::OnRedo( )
 {
 	SENSE("OnRedo") ;
 	::SendMessage(::GetFocus(), EM_REDO, 0, 0L);
-	return 0 ;
+	return 0L ;
 }
 
 bool CFindDlg::check_focus( LRESULT &lResult, WPARAM wparam, LPARAM lparam )

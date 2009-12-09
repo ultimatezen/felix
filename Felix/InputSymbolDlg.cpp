@@ -22,10 +22,10 @@ LRESULT CInputSymbolDlg::OnCloseCommand( WORD /*wNotifyCode*/, WORD wID, HWND /*
 	SENSE( "OnCloseCommand" ) ;
 
 #ifndef UNIT_TEST
-	m_edit.GetWindowText( m_text, 512 ) ;
+	m_edit.GetWindowText( m_text, BUFSIZE ) ;
 #endif	
 	EndDialog(wID);
-	return 0;
+	return 0L;
 }
 
 wstring CInputSymbolDlg::get_text() const

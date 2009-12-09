@@ -23,20 +23,6 @@ namespace easyunit
 		match_name->set_record( rec ) ;\
 	}
 
-	TEST( test_is_asian, yes )
-	{
-		ASSERT_TRUE(memory_engine::is_asian(L'é©')) ;
-		ASSERT_TRUE(memory_engine::is_asian(L'ÇÁ')) ;
-		ASSERT_TRUE(memory_engine::is_asian(L'ÉJ')) ;
-		ASSERT_TRUE(memory_engine::is_asian(L'ÅB')) ;
-		ASSERT_TRUE(memory_engine::is_asian(L'Å[')) ;
-	}
-	TEST( test_is_asian, no )
-	{
-		ASSERT_TRUE(! memory_engine::is_asian(L'a')) ;
-		ASSERT_TRUE(! memory_engine::is_asian(L'1')) ;
-		ASSERT_TRUE(! memory_engine::is_asian(L'~')) ;
-	}
 	TEST( test_has_asian, yes )
 	{
 		ASSERT_TRUE(memory_engine::has_asian(L"é©ìÆé‘Ç…èÊÇÈ")) ;

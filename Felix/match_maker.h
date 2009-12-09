@@ -11,22 +11,18 @@
 
 #include "Matrix.h"					// for match space
 #include "query.h"					// search_match_pointer
-#include "MatchString.h"
 #include "MatchStringPairing.h"
 #include "distance.h"
 #include "segment.h"
+#include "stringex.h"
+
 namespace memory_engine
 {
-
-	inline bool is_asian(const wchar_t c)
-	{
-		return ( c > 0x3000 ) ;
-	}
 	inline bool has_asian(const wstring s)
 	{
 		foreach(wchar_t c, s)
 		{
-			if (is_asian(c))
+			if (str::is_asian(c))
 			{
 				return true ;
 			}
@@ -54,6 +50,8 @@ namespace memory_engine
 		{
 			return IDC_ALGO_WORD ;
 		}
+		// If it's a single word (no spaces), then use the
+		// char algo even if there are no Asian chars.
 		return IDC_ALGO_CHAR ;
 	}
 

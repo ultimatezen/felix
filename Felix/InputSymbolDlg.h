@@ -21,10 +21,15 @@ class CInputSymbolDlg :
 {
 	CEdit	m_edit ;
 public:
-	TCHAR	m_text[512] ;
+	static const int BUFSIZE = 512 ;
+	TCHAR	m_text[BUFSIZE] ;
 	static const int IDD = IDD_INPUT_SYMBOL_DLG ;
 	DECLARE_SENSING_VAR ;
 
+	CInputSymbolDlg()
+	{
+		ZeroMemory(m_text, BUFSIZE*sizeof(TCHAR)) ;
+	}
 	wstring get_text() const ;
 
 

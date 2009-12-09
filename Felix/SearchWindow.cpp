@@ -304,7 +304,7 @@ void CSearchWindow::perform_search(doc3_wrapper_ptr doc)
  Generate the list of search terms, and show the list in the "filterbox" div
  of the hosted web page.
  */
-void CSearchWindow::set_filterbox_text( doc3_wrapper_ptr doc, std::vector<wstring> &terms )
+void CSearchWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::vector<wstring> &terms )
 {
 	BANNER("CSearchWindow::set_filterbox_text") ;
 	element_wrapper_ptr filter_box = doc->get_element_by_id(L"filterbox") ;
@@ -790,7 +790,7 @@ const wstring retrieve_input_value( element_wrapper_ptr input_box )
 /*
  Generate the list of filter terms for HTML rendering.
  */
-wstring get_filter_text( std::vector<wstring> & terms )
+wstring get_filter_text( const std::vector<wstring> & terms ) 
 {
 	CTextTemplate text_template ;
 	CTextTemplate::ValListPtr filters = text_template.CreateValList();
@@ -801,7 +801,5 @@ wstring get_filter_text( std::vector<wstring> & terms )
 	}
 	text_template.Assign( L"filters", filters ) ;
 
-	const wstring text = get_template_text(_T("filter_list.txt")) ;
-
-	return text_template.Fetch(text) ;
+	return text_template.Fetch(get_template_text(_T("filter_list.txt"))) ;
 }

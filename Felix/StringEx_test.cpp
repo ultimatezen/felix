@@ -84,6 +84,21 @@ namespace easyunit
 		wchar_t c = L'a' ;
 		ASSERT_TRUE(! str::is_asian(c)) ;
 	}
+	TEST( test_is_asian, yes )
+	{
+		ASSERT_TRUE(str::is_asian(L'é©')) ;
+		ASSERT_TRUE(str::is_asian(L'ÇÁ')) ;
+		ASSERT_TRUE(str::is_asian(L'ÉJ')) ;
+		ASSERT_TRUE(str::is_asian(L'ÅB')) ;
+		ASSERT_TRUE(str::is_asian(L'Å[')) ;
+	}
+	TEST( test_is_asian, no )
+	{
+		ASSERT_TRUE(! str::is_asian(L'a')) ;
+		ASSERT_TRUE(! str::is_asian(L'1')) ;
+		ASSERT_TRUE(! str::is_asian(L'~')) ;
+	}
+
 	TEST(TestStringEx, is_asian_false_is_double_byte_true)
 	{
 		wchar_t c = L'Éø' ; // U+03B1

@@ -55,10 +55,10 @@ void CImportMultitermFile::import_multiterm55( const CString &file_name )
 	textstream_reader< char > reader ;
 	reader.set_buffer( file_text ) ;
 
-	int num_lines = 0 ;
 
 	CWaitCursor wait_cursor ;
 
+	int num_lines = 0 ;
 	std::set< tstring > languages ;
 	while ( reader.empty() == false )
 	{

@@ -19,7 +19,7 @@ namespace easyunit
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
 		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		ASSERT_EQUALS_V(0, (int)lResult) ;
 	}
 	TEST( TestCFindDlg, test_message_IDOK)
 	{

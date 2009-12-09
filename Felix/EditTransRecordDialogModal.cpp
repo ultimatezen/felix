@@ -31,7 +31,7 @@ LRESULT CEditTransRecordDialogModal::OnCancel( )
 {
 	SENSE("OnCancel"); 
 	EndDialog(IDCANCEL);
-	return 0;
+	return 0L;
 }
 
 LRESULT CEditTransRecordDialogModal::OnOK( )
@@ -60,11 +60,11 @@ LRESULT CEditTransRecordDialogModal::OnOK( )
 	{
 		e.add_to_message( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
 		e.notify_user(0) ;
-		return 0 ;
+		return 0L ;
 	}
 
 	EndDialog(IDOK);
-	return 0;
+	return 0L;
 }
 
 void CEditTransRecordDialogModal::fill_record()
@@ -87,8 +87,6 @@ CEditTransRecordDialogModal::record_type CEditTransRecordDialogModal::get_record
 {
 	return m_old_record ;
 }
-
-
 
 LRESULT CEditTransRecordDialogModal::OnEditStrings()
 {
