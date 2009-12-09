@@ -15,8 +15,6 @@ using namespace memory_engine ;
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
-#pragma warning( disable:4239 ) //  reference that is not to 'const' cannot be bound to a non-lvalue
-
 // tags
 
 const static string record_tag_narrow			= "<record>\n" ; 
@@ -757,8 +755,6 @@ bool CRecord2XmlConverter::convert_text_node( const string &tag, const string &e
 
 	return true ;
 }
-
-#pragma warning( default:4239 ) //  reference that is not to 'const' cannot be bound to a non-lvalue
 
 bool CRecord2XmlConverter::convert_validated(void)
 {

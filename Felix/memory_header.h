@@ -9,9 +9,6 @@
 
 #pragma once
 
-
-#pragma warning( disable:4005 ) // macro redefinition
-
 #include "StringEx.h"
 #include "File.h"
 #include "MiscWrappers.h"

@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma warning( disable:4996 ) // #pragma deprecated
-
 #include "StringEx.h"			// useful string stuff
 #include <map>					// map
 #include "MiscWrappers.h"		// CDate

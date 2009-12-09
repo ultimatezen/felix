@@ -1,7 +1,5 @@
 #pragma once
 
-//#pragma warning(disable:4146) // unary minus operator applied to unsigned type
-
 #import "C:\dev\cpp\Common DLLs\Word 2000 OLBs\MSO.DLL"	\
 	rename_namespace("MSOffice") rename("RGB", "OfficeRGB") rename( "SearchPath", "OfficeSearchPath" ) rename("DocumentProperties", "OfficeDocumentProperties") named_guids    
 

@@ -48,7 +48,6 @@
 #endif 
 
 
-#pragma warning(disable:4514) //  unreferenced inline function has been removed
 #include <Windows.h>
 #include <commdlg.h>
 
@@ -163,15 +162,7 @@ CComModule
 CExeModule
 #endif
 
-//#pragma warning(disable:4995) // deprecated 
-//#pragma warning(disable:4100) // unreferenced formal parameter 
-//#pragma warning(disable:4244) // conversion from 'int' to 'unsigned short', possible loss of data
-//#pragma warning(disable:4189) // ocal variable is initialized but not referenced 
 #include <atlcom.h>	// yous com bubbies is bad boys!
-//#pragma warning(default:4995) // deprecated 
-//#pragma warning(default:4100) // unreferenced formal parameter 
-//#pragma warning(default:4244) // conversion from 'int' to 'unsigned short', possible loss of data
-//#pragma warning(default:4189) // local variable is initialized but not referenced 
 
 #include <atlhost.h>
 

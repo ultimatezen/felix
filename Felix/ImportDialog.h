@@ -12,8 +12,6 @@
 
 #include "LanguageHolder.h"
 
-#pragma warning( disable:4100 ) // unreferenced formal parameter
-
 /**
 @class CImportDialog 
 @brief Select source/target languages when importing memories.
@@ -97,6 +95,4 @@ public:
 	END_MSG_MAP()
 
 };
-
-#pragma warning( default:4100 ) // unreferenced formal parameter
 
