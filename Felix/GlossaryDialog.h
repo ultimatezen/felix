@@ -52,7 +52,8 @@ class CGlossaryWindow :
 		, public CWindowExceptionHandler< CGlossaryWindow >
 		, public CZoomInterface
 {
-public:
+TEST_VISIBLE
+
 	record_pointer				m_new_record ;
 	appstate_glossary			m_appstate ;
 
@@ -80,7 +81,7 @@ public:
 
 	CSearchWindow		m_search_window ;
 
-
+public:
 	void set_zoom_level(int zoom_level);
 
 	void check_load_history() ;

@@ -2,7 +2,7 @@
 #include "rtf.h"
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
@@ -31,6 +31,12 @@ namespace easyunit
 	{
 		rtf::font_table table ;
 		ASSERT_EQUALS_V(0, (int)table.size()) ;
+	}
+
+	TEST(rich_text_formatter_test, init)
+	{
+		rtf::rich_text_formatter formatter ;
+		ASSERT_TRUE(formatter.m_package->mText.empty()) ;
 	}
 
 
