@@ -140,12 +140,12 @@ extern CLocalizedServerAppModule _Module;
 #define TWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(string(x))
-#define TEST_VISIBLE public:
+#define VISIBLE_TO_TESTS public:
 #else
 #define TWindow CWindow
 #define DECLARE_SENSING_VAR
 #define SENSE(x) (void)0
-#define TEST_VISIBLE
+#define VISIBLE_TO_TESTS
 #endif
 
 #include <atlctrls.h>

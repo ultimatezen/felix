@@ -52,7 +52,8 @@ class CGlossaryWindow :
 		, public CWindowExceptionHandler< CGlossaryWindow >
 		, public CZoomInterface
 {
-TEST_VISIBLE
+	VISIBLE_TO_TESTS
+
 
 	record_pointer				m_new_record ;
 	appstate_glossary			m_appstate ;

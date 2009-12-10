@@ -32,9 +32,8 @@
  */
 class CTMXWriter
 {
-#ifdef _DEBUG
-	public:
-#endif // #ifdef _DEBUG
+VISIBLE_TO_TESTS
+
 	
 	file::file						m_file ;
 	memory_engine::memory_pointer	m_memory ;

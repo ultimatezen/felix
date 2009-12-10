@@ -79,10 +79,11 @@ inline int get_unique_memory_id()
 */
 class CTranslationMemory
 {
+VISIBLE_TO_TESTS
 	typedef std::map< wstring, wstring >	extra_strings_type ;
 
 	int							m_id ;
-public:
+
 	bool					m_is_demo ;
 	extra_strings_type		m_extra_strings ;
 	CProgressListener		*m_listener ;
@@ -266,6 +267,7 @@ typedef std::list< memory_pointer >::iterator memory_iterator ;
 
 class memory_local : public CTranslationMemory
 {
+VISIBLE_TO_TESTS
 	size_t m_next_id ;
 	std::set<size_t> m_ids ;
 public:

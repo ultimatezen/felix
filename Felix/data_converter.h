@@ -25,9 +25,8 @@ wstring TradosDate2FelixDate(const wstring &trados_date) ;
  */
 class CXml2RecordConverter 
 {
-#ifdef UNIT_TEST
-public:
-#endif
+	VISIBLE_TO_TESTS
+
 	typedef textstream_reader< wchar_t >				reader_type ;
 	typedef textstream_reader< wchar_t >::bookmark_type bookmark_type ;
 

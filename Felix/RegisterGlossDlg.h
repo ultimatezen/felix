@@ -26,9 +26,8 @@ class CRegisterGlossDlg :
 	, public CWindowExceptionHandler< CRegisterGlossDlg >
 	//, public CDialogLayout< CRegisterGlossDlg >
 {
-#ifdef UNIT_TEST
-public:
-#endif	
+	VISIBLE_TO_TESTS
+
 	record_pointer m_mem_record ;
 	record_pointer m_gloss_record ;
 

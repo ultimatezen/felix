@@ -47,7 +47,7 @@ class CMainFrame :
 		, public CGlossaryWinListener
 		, public CZoomInterface
 {
-TEST_VISIBLE
+VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
 
 	// ====================
