@@ -5,7 +5,6 @@
  */
 #pragma once
 
-#include "refpointer.h"
 #include "stringex.h"
 #include <map>
 
@@ -38,4 +37,4 @@ private:
 	app_string_map m_appStrings ;
 };
 
-typedef ref_pointer< CAppStringEntry > app_str_entry_ptr ;
+typedef boost::shared_ptr< CAppStringEntry > app_str_entry_ptr ;

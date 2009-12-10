@@ -53,9 +53,8 @@ void CExcelExporter::export_excel(memory_pointer mem, const CString& mem_name)
 
 	int row_count = 1 ;
 
-	for ( pos = mem->begin() ; pos != mem->end() ; ++pos )
+	foreach(record_pointer rec, mem->get_records()) 
 	{
-		record_pointer rec = *pos ;
 		try
 		{
 			write_record( rec, row_count + 1 ) ;

@@ -9,11 +9,10 @@
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
-
 
 	SimpleString errMsg( wstring expected, wstring actual )
 	{

@@ -79,6 +79,7 @@ inline int get_unique_memory_id()
 */
 class CTranslationMemory
 {
+protected:
 VISIBLE_TO_TESTS
 	typedef std::map< wstring, wstring >	extra_strings_type ;
 
@@ -87,8 +88,6 @@ VISIBLE_TO_TESTS
 	bool					m_is_demo ;
 	extra_strings_type		m_extra_strings ;
 	CProgressListener		*m_listener ;
-	
-	CString					m_file_location ;
 
 	app_props::properties_memory		m_properties ;
 	app_props::properties_glossary		m_gloss_properties ;
@@ -102,7 +101,6 @@ VISIBLE_TO_TESTS
 	bool				m_is_active ;
 
 	CmpMaker			m_cmp_maker ;
-	trans_set				m_records ;
 
 public:
 #ifdef UNIT_TEST
@@ -111,8 +109,6 @@ public:
 	// construction / destruction
 	CTranslationMemory( double min_score = 0.5 )  ;
 	virtual ~CTranslationMemory();
-
-	trans_set& get_records() {return m_records ; }
 
 	void set_gloss_props(app_props::properties_glossary &props);
 	int	get_id() 
@@ -124,11 +120,9 @@ public:
 	void set_active_off() { m_is_active = false ; }
 	bool is_active() { return m_is_active ; }
 
-	virtual bool is_local() = 0 ;
 	void set_creator_to_current_user();
 	void do_demo_check( int *cookie );
 	long get_number_of_glossary_matches( const wstring &query );
-	void load_header( const CString &location );
 
 	void load_header_raw_text( char * raw_text, int file_len );
 	void set_properties_memory( const app_props::properties_memory &props ) ;
@@ -145,10 +139,6 @@ public:
 	void set_is_memory( const bool setting );
 	bool get_is_memory() const ;
 
-	void batch_set_reliability( size_t rel );
-	void batch_set_validation( bool val );
-	wstring get_validated_percent();
-	void get_reliability_stats( size_t &low, size_t &high, double &ave );
 
 	void set_locked_off();
 	void set_locked_on( );
@@ -169,25 +159,15 @@ public:
 
 	void set_minimum_score(const size_t score);
 
-	void tabulate_fonts( font_tabulator &tabulator );
-	record_pointer get_record_at( const size_t index );
-	iterator_type begin( ) { return m_records.begin() ; }
-	iterator_type end( ) { return m_records.end() ; }
 	bool set_saved_flag( bool flag );
 	bool is_saved() const;
 	
-	void search_no_regex(const search_query_params & params, search_match_multiset &matches);
 	bool find_trans_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
 
-	void set_cmp_params( const search_query_params &params ) ;
 	bool find_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
 
-	bool record_exists( record_pointer rec );
-	bool clear_memory();
 	// get/set functions
-	void set_location( const CString &location ) ;
 	// export/import
-	bool load( const CString &file_name ) ;
 
 	bool load_text( char * raw_text, const CString& file_name, unsigned int file_len );
 	void handleStdExceptionOnLoad(  bool was_saved, const CString& file_name, std::exception &e );
@@ -222,11 +202,6 @@ public:
 							const search_query_params& params, 
 							search_match_ptr& match_test);
 
-	void get_gloss_fuzzy(search_match_multiset& matches, 
-						 const search_query_params& params);
-	void get_gloss_100(search_match_multiset& matches, 
-					   const search_query_params& params);
-
 	void set_gloss_100_char(search_match_multiset& matches, 
 							gloss_match_tester& tester, 
 							record_pointer& rec);
@@ -234,11 +209,26 @@ public:
 	std::wstring prep_pattern_string_gloss_100(const search_query_params& params, record_pointer& rec);
 
 // pure virtual methods
+	// statistical info
+	virtual void batch_set_reliability( size_t rel ) = 0;
+	virtual void batch_set_validation( bool val ) = 0 ;
+	virtual wstring get_validated_percent() =  0 ;
+	virtual void get_reliability_stats( size_t &low, size_t &high, double &ave ) = 0 ;
+
+	virtual bool is_local() = 0 ;
+	virtual bool load( const CString &file_name ) = 0 ;
+	virtual trans_set& get_records() = 0 ;
+	virtual void load_header( const CString &location ) = 0 ;
+	virtual void tabulate_fonts( font_tabulator &tabulator ) = 0;
+	virtual record_pointer get_record_at( const size_t index ) = 0;
+	virtual void set_cmp_params( const search_query_params &params ) = 0 ;
+	virtual bool record_exists( record_pointer rec ) = 0 ;
+	virtual  bool clear_memory() = 0;
+
 	virtual bool add_record(record_pointer record) = 0;
 	virtual record_pointer add_by_id(size_t recid, const wstring source, const wstring trans) = 0 ;
 	virtual size_t size() = 0; // Can't make it const because the remote memory makes a COM call.
 	virtual bool empty() = 0;
-	virtual CString get_location( ) =0;
 	virtual CString get_fullpath() = 0 ;
 	virtual bool is_new() = 0;
 	virtual bool save_memory( ) = 0;
@@ -258,6 +248,8 @@ public:
 						const search_query_params &params ) = 0;
 
 	virtual void replace(record_pointer old_rec, record_pointer new_rec) = 0 ;
+	virtual CString get_location( ) = 0 ;
+	virtual void set_location( CString location ) = 0 ;
 
 } ;
 
@@ -270,6 +262,8 @@ class memory_local : public CTranslationMemory
 VISIBLE_TO_TESTS
 	size_t m_next_id ;
 	std::set<size_t> m_ids ;
+	trans_set				m_records ;
+	CString					m_file_location ;
 public:
 	memory_local(double min_score=0.5f) : 
 	  CTranslationMemory(min_score),
@@ -277,12 +271,16 @@ public:
 	  {}
 
 	bool add_record(record_pointer record) ;
+	trans_set& get_records() {return m_records ; }
+	iterator_type begin( ) { return m_records.begin() ; }
+	iterator_type end( ) { return m_records.end() ; }
 
 	size_t get_next_id();
 	size_t size() ;
 	bool empty();
 	bool erase( record_pointer record ) ;
 	CString get_location( );
+	void set_location( CString location ) ;
 	CString get_fullpath()
 	{
 		return this->get_location() ;
@@ -293,6 +291,7 @@ public:
 	{
 		return true ;
 	}
+	void set_cmp_params( const search_query_params &params ) ;
 
 	void get_match_candidates(trans_set &candidates, 
 								const wstring &query_cmp,
@@ -307,6 +306,21 @@ public:
 								const search_query_params &params ) ;
 	record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);
 	void replace(record_pointer old_rec, record_pointer new_rec);
+	void get_gloss_100(search_match_multiset& matches, 
+		const search_query_params& params);
+	void get_gloss_fuzzy(search_match_multiset& matches, 
+		const search_query_params& params);
+	bool load( const CString &file_name ) ;
+	bool clear_memory();
+	bool record_exists( record_pointer rec );
+	record_pointer get_record_at( const size_t index );
+	void tabulate_fonts( font_tabulator &tabulator );
+	void get_reliability_stats( size_t &low, size_t &high, double &ave );
+	wstring get_validated_percent();
+	void load_header( const CString &location );
+	void search_no_regex(const search_query_params & params, search_match_multiset &matches);
+	void batch_set_reliability( size_t rel );
+	void batch_set_validation( bool val );
 
 };
 

@@ -251,4 +251,72 @@ namespace memory_engine
 			throw com_e ;
 		}
 	}
+
+	void memory_remote::batch_set_reliability( size_t )
+	{
+		logging::log_warn("batch_set_reliability not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::batch_set_validation( bool )
+	{
+		logging::log_warn("batch_set_validation not implemented for remote memories/glossaries.") ;
+	}
+
+	wstring memory_remote::get_validated_percent()
+	{
+		logging::log_warn("get_validated_percent not implemented for remote memories/glossaries.") ;
+		return wstring() ;
+	}
+
+	void memory_remote::get_reliability_stats( size_t &low, size_t &high, double &ave )
+	{
+		logging::log_warn("get_reliability_stats not implemented for remote memories/glossaries.") ;
+		low = 0 ;
+		high = 0 ;
+		ave = 0.0 ;
+	}
+
+	bool memory_remote::load( const CString & )
+	{
+		logging::log_warn("load not implemented for remote memories/glossaries.") ;
+		return false ;
+	}
+
+	void memory_remote::load_header( const CString & )
+	{
+		logging::log_warn("load_header not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::tabulate_fonts( font_tabulator & )
+	{
+		logging::log_warn("tabulate_fonts not implemented for remote memories/glossaries.") ;
+	}
+
+	memory_engine::record_pointer memory_remote::get_record_at( const size_t )
+	{
+		logging::log_warn("get_record_at not implemented for remote memories/glossaries.") ;
+		return record_pointer(new record_remote) ;
+	}
+
+	void memory_remote::set_cmp_params( const search_query_params & )
+	{
+		logging::log_warn("set_cmp_params not implemented for remote memories/glossaries.") ;
+	}
+
+	bool memory_remote::record_exists( record_pointer rec )
+	{
+		logging::log_warn("record_exists not implemented for remote memories/glossaries.") ;
+		return false ;
+	}
+
+	bool memory_remote::clear_memory()
+	{
+		logging::log_warn("clear_memory not implemented for remote memories/glossaries.") ;
+		return false ;
+	}
+
+	void memory_remote::set_location( CString )
+	{
+		logging::log_warn("set_location not implemented for remote memories/glossaries.") ;
+	}
 }

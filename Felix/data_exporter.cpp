@@ -229,11 +229,11 @@ void TradosDataExporter::export_trados( memory_pointer mem )
 	int num_missed = 0 ;
 	size_t count = 0 ;
 
-	for( CTranslationMemory::iterator_type pos = mem->begin() ; pos != mem->end() ; ++pos )
+	foreach(record_pointer rec, mem->get_records())
 	{
 		try
 		{
-			write_record( *pos ) ;
+			write_record( rec ) ;
 
 			count++ ;
 

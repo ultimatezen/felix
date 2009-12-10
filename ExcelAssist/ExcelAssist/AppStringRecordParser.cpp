@@ -53,7 +53,7 @@ app_str_entry_ptr CAppStringRecordParser::get_next_record(void)
 
 	CAppStringTextNodeParser node_parser( node_text.c_str() ) ;
 
-	app_str_entry_ptr entry ;
+	app_str_entry_ptr entry(new CAppStringEntry) ;
 	std::vector<wstring> keys ;
 	keys += L"text", L"tooltip", L"id", L"trans", L"trans_tt" ;
 	foreach(wstring key, keys)

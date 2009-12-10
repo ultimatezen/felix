@@ -3,7 +3,7 @@
 #include "FelixApp.h"
 #include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
@@ -78,7 +78,7 @@ namespace easyunit
 			CComBSTR(L"different")) ;
 
 		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-		record_pointer firstrec = *mem->begin() ;
+		record_pointer firstrec = *mem->get_records().begin() ;
 
 		SimpleString expected = "changed" ;
 		SimpleString actual = CStringA(firstrec->get_source_plain().c_str()) ;
@@ -97,7 +97,7 @@ namespace easyunit
 			CComBSTR(L"different")) ;
 
 		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-		record_pointer firstrec = *mem->begin() ;
+		record_pointer firstrec = *mem->get_records().begin() ;
 
 		SimpleString expected = "changed" ;
 		SimpleString actual = CStringA(firstrec->get_source_plain().c_str()) ;

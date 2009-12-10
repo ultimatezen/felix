@@ -16,6 +16,7 @@ static char THIS_FILE[]=__FILE__;
 namespace html
 {
 
+#ifndef CHECK_POINTER
 #define CHECK_POINTER(p)\
 	ATLASSERT(p != NULL);\
 	if(p == NULL)\
@@ -23,7 +24,7 @@ namespace html
 	ShowError("NULL pointer");\
 	return false;\
 }
-
+#endif
 	const CString GetSystemErrorMessage(DWORD dwError)
 	{
 		CString strError;

@@ -23,6 +23,17 @@ namespace memory_engine
 	    ~memory_remote()
 		{
 		}
+
+		void batch_set_reliability( size_t rel );
+		void batch_set_validation( bool val );
+		wstring get_validated_percent();
+		void get_reliability_stats( size_t &low, size_t &high, double &ave );
+
+
+		trans_set& get_records()
+		{
+			throw CProgramException("get_records not implemented for remote memories") ;
+		}
 	    bool connect(CString conn_str);
 		bool add_record ( record_pointer record );
 		size_t size()
@@ -37,6 +48,8 @@ namespace memory_engine
 		{
 			return CString(m_engine.method(L"GetInfo", L"name").bstrVal) ;
 		}
+		void set_location( CString location );
+
 		CString get_fullpath()
 		{
 			return this->m_conn_str ;
@@ -53,6 +66,15 @@ namespace memory_engine
 		{
 			return false ;
 		}
+		bool load( const CString &);
+		void load_header( const CString &);
+		void tabulate_fonts( font_tabulator &);
+		record_pointer get_record_at( const size_t index );
+		void set_cmp_params( const search_query_params &);
+		bool record_exists( record_pointer rec );
+		bool clear_memory();
+
+
 
 		bool erase( record_pointer record );
 		void get_match_candidates(trans_set &candidates, 
