@@ -14,6 +14,7 @@
 #include <boost/algorithm/string.hpp>
 #include "ClipboardBackup.h"
 #include <boost/bind.hpp>
+#include "logging.h"
 
 #define CATCH_C_EXCEPTIONS(_msg) catch ( std::exception &e ) { handle_exception(e, _msg) ; }
 #define CATCH_COM_EXCEPTIONS(_msg) catch ( CComException &e ) { handle_exception(e, _msg) ; }
@@ -721,6 +722,24 @@ void __stdcall CConnect::OnAutoAddGloss( IDispatch *Ctrl, VARIANT_BOOL * CancelD
 	CATCH_ALL(_T("OnAutoAddGloss")) ;
 
 }	
+
+void __stdcall CConnect::OnWorkbookBeforeClose( IDispatch * workbook, VARIANT_BOOL * )
+{
+	if(m_properties.m_use_trans_hist)
+	{
+		try
+		{
+			ATLTRACE("OnWorkbookBeforeClose\n") ;
+			m_excelIF.close_workbook(workbook) ;
+		}
+		catch (_com_error& e)
+		{
+			logging::log_warn("Failed to handle workbook close event.") ;
+			logging::log_exception(e) ;
+		}
+	}
+}
+
 wstring CConnect::get_menu_caption()
 {
 	wstring caption = L"Feli&x" ;

@@ -164,31 +164,30 @@ void CSourceAndHtmlEdit::insert_symbol(void)
 	}
 
 }
-_bstr_t CSourceAndHtmlEdit::get_selected_text(const bool all_if_none)
-{
 
+_bstr_t CSourceAndHtmlEdit::GetSelectionText()
+{
 	TWindow active_window = get_active_view() ;
 
-	_bstr_t text ;
 	if ( active_window == m_html_edit )
 	{
 		html::CHtmlSelection selection = m_html_edit.get_selection() ;
 		html::CHtmlTextRange range = selection.create_text_range() ;
-		range.get_html_text(text) ;
+		return range.get_html_text() ;
 	}
 	else
 	{
-		m_text_edit.GetSelection( text ) ;
+		return string2BSTR(m_text_edit.GetSelection()) ;
 	}
-
+}
+_bstr_t CSourceAndHtmlEdit::get_selected_text(const bool all_if_none)
+{
+	const _bstr_t text = GetSelectionText() ;
 	if ( text.length() == 0 && all_if_none) 
 	{
 		return GetText() ;
 	}
-	else
-	{
-		return text ;
-	}
+	return text ;
 }
 
 _bstr_t CSourceAndHtmlEdit::GetText()
@@ -201,9 +200,7 @@ _bstr_t CSourceAndHtmlEdit::GetText()
 	}
 	else
 	{
-		_bstr_t text ;
-		m_text_edit.GetText( text ) ;
-		return text ;
+		return string2BSTR(m_text_edit.GetText()) ;
 	}
 }
 void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
@@ -214,7 +211,7 @@ void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 	range.expand(L"Textedit") ;
 	range.put_html_text(text) ;
 
-	m_text_edit.SetText( text ) ;
+	m_text_edit.SetText( BSTR2wstring(text) ) ;
 }
 
 
@@ -331,32 +328,26 @@ HWND CSourceAndHtmlEdit::tab_sel_changing(LPNMCTC2ITEMS items)
 
 void CSourceAndHtmlEdit::load_source_into_html( )
 {
-	_bstr_t text ;
-	m_text_edit.GetText( text ) ;
-
 	ensure_document_complete( ) ;
 
 	CHtmlDocument doc = m_html_edit.get_document() ;
 	CHtmlElement body = doc.get_body() ;
-	body.put_inner_html( text ) ;
+	body.put_inner_html(string2BSTR(m_text_edit.GetText())) ;
 }
 
 void CSourceAndHtmlEdit::load_html_into_source( )
 {
 	ensure_document_complete( ) ;
 
-	const _bstr_t text = this->get_html_text() ;
-
-	m_text_edit.SetText( text ) ;
+	m_text_edit.SetText( BSTR2wstring(this->get_html_text()) ) ;
 }
 
 
 void CSourceAndHtmlEdit::wrap_selection( LPCSTR tag )
 {
-	str::buffer buf ;
-	m_text_edit.GetSelection( buf ) ;
+	const string text = string2string(m_text_edit.GetSelection()) ;
 	string wrapped ;
-	wrapped << "<" << tag << ">" << buf.str() << "</" << tag << ">" ;
+	wrapped << "<" << tag << ">" << text << "</" << tag << ">" ;
 	m_text_edit.ReplaceSel( wrapped.c_str() ) ;
 }
 
@@ -493,3 +484,4 @@ HWND CSourceAndHtmlEdit::getHwnd() const
 {
 	return m_html_edit.m_hWnd ;
 }
+

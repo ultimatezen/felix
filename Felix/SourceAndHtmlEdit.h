@@ -45,6 +45,7 @@ public:
 
 
 	_bstr_t GetText() ;
+	_bstr_t GetSelectionText();
 
 	_bstr_t get_html_text();
 	void SetText( const _bstr_t &text ) ;

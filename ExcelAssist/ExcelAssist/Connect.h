@@ -250,22 +250,7 @@ public:
 		Excel::_WorksheetPtr sheet(sheet_dispatch) ;
 		TRACE(sheet->Name) ;
 	}
-	void __stdcall OnWorkbookBeforeClose(IDispatch * workbook, VARIANT_BOOL *)
-	{
-		if(m_properties.m_use_trans_hist)
-		{
-			try
-			{
-				ATLTRACE("OnWorkbookBeforeClose\n") ;
-				m_excelIF.close_workbook(workbook) ;
-			}
-			catch (_com_error& e)
-			{
-				CComException ce(e) ;
-				ce.notify_user(_T("Failed to handle workbook close event.")) ;
-			}
-		}
-	}
+	void __stdcall OnWorkbookBeforeClose(IDispatch * workbook, VARIANT_BOOL *);
 
 	BEGIN_SINK_MAP( CConnect )
 		SINK_ENTRY_INFO(EXCEL_ACTIVATE_SHEET,     __uuidof(Excel::AppEvents),/*dispid*/ 0x00000619, OnSheetActivate,&SheetActivationInfo)
