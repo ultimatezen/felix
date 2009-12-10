@@ -173,8 +173,6 @@ struct base_presentation : public html_formatter
 
 } ;
 
-typedef derived_ref_pointer< base_presentation > presentation_ptr ;
-
 /** struct search_query. */
 struct search_query 
 	: public base_presentation

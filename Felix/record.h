@@ -5,7 +5,6 @@
 #include "MiscWrappers.h"		// CDate
 #include "StringConversions.h"	// string2long et al
 #include "tag_stripper.h"
-#include "RefPointer.h"			// ref-counted pointer
 #include "segment.h"
 
 namespace memory_engine

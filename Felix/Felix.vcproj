@@ -2387,10 +2387,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\RefPointer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\RegEx.h"
 				>
 			</File>

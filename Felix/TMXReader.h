@@ -59,7 +59,7 @@ class CTMXReader
 	memory_engine::memory_pointer m_memory ;
 	memory_engine::record_pointer	m_record ;
 
-	ref_pointer< tmx_data_importer > m_rtf_importer ;
+	boost::shared_ptr< tmx_data_importer > m_rtf_importer ;
 
 	CProgressListener	*m_listener ;
 
@@ -122,7 +122,7 @@ class CTMXReader
 	public:
 		CTMXHeader() :
 			m_datatype(L"unknown")
-			{}
+		{}
 
 		void set_attributes( std::map< wstring, wstring > &attributes )
 		{

@@ -10,7 +10,7 @@ class CExtraStringsView
 {
 	CStaticT<TWindow>				m_extra_strings_box ;
 
-	ref_pointer< html::CHtmlView > m_extra_strings_view ;
+	boost::shared_ptr< html::CHtmlView > m_extra_strings_view ;
 
 	TWindow				m_parent_dlg ;
 

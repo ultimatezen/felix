@@ -235,7 +235,8 @@ wstring unknown_strip_tags( const wstring &raw_string )
 
 CTMXReader::CTMXReader( memory_engine::memory_pointer mem, CProgressListener *listener ) :
 	m_memory( mem ),
-	m_listener(listener) 
+	m_listener(listener) ,
+	m_rtf_importer(new tmx_data_importer)
 {
 	m_record = record_pointer(new record_local()) ;
 }

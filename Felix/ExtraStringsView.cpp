@@ -6,7 +6,8 @@
 
 using namespace html ;
 
-CExtraStringsView::CExtraStringsView(void)
+CExtraStringsView::CExtraStringsView(void) :
+	m_extra_strings_view(new html::CHtmlView)
 {
 }
 
@@ -61,7 +62,7 @@ void CExtraStringsView::create(HWND box_hwnd, HWND dlg_hwnd )
 	m_parent_dlg.ScreenToClient( &rc ) ;
 
 	// create the html view and move it into place
-	m_extra_strings_view = ref_pointer< CHtmlView >() ;
+	ATLASSERT(m_extra_strings_view) ;
 	m_extra_strings_view->AddRef() ;
 	m_extra_strings_view->create( m_parent_dlg ) ;
 

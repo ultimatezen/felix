@@ -504,7 +504,7 @@ public:
 };
 
 
-typedef ref_pointer< CGlossaryWindow > gloss_window_pointer ;
+typedef boost::shared_ptr< CGlossaryWindow > gloss_window_pointer ;
 typedef std::vector< gloss_window_pointer > gloss_window_list ;
 typedef std::vector< gloss_window_pointer >::iterator gloss_window_iterator ;
 

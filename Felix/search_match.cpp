@@ -17,9 +17,10 @@ namespace memory_engine
 
 search_match::search_match() : 
 	m_memory_id(0),
-	m_HasPlacement(false)
+	m_HasPlacement(false),
+	m_markup(new markup_strings),
+	m_record(new record_local)
 {
-	m_record = record_pointer(new record_local()) ;
 }
 
 	search_match::search_match( const search_match &cpy )

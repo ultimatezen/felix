@@ -453,8 +453,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		logging::log_debug("Setting up the glossary window") ;
 
 		// the glossary window
-		gloss_window_pointer gloss_window ;
-		add_glossary_window(gloss_window) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
 		ATLASSERT( m_glossary_windows.size() == 1 ) ; // one and only...
 
 		set_up_window_size() ;
@@ -767,8 +766,7 @@ LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	gloss_window_pointer gloss_window ;
-	add_glossary_window(gloss_window) ;
+	add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
 	return 0L ;
 }
 
@@ -2379,8 +2377,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 	if ( m_glossary_windows.empty() ) 
 	{
-		gloss_window_pointer gloss_window ;
-		add_glossary_window(gloss_window) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
 	}
 
 	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
@@ -2442,12 +2439,11 @@ bool CMainFrame::add_record( const record_pointer record )
 
 /** Retrieves the active glossary window
  */
-ref_pointer< CGlossaryWindow > CMainFrame::get_glossary_window()
+gloss_window_pointer CMainFrame::get_glossary_window()
 {
 	if ( m_glossary_windows.empty() )
 	{
-		gloss_window_pointer gloss_window ;
-		add_glossary_window(gloss_window) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
 	}
 	return m_glossary_windows[0] ;
 }
@@ -3532,16 +3528,12 @@ LRESULT CMainFrame::on_view_switch(WindowsMessage &)
 {
 	SENSE("on_view_switch") ;
 
-	gloss_window_iterator pos = m_glossary_windows.begin() ;
-
-	if ( pos == m_glossary_windows.end() )
+	if (m_glossary_windows.empty())
 	{
 		return 0L ;
 	}
 
-	gloss_window_pointer gloss = *pos ;
-
-	gloss->SetFocus() ;
+	m_glossary_windows[0]->SetFocus() ;
 
 	return 0L ;
 }
@@ -4939,7 +4931,7 @@ void CMainFrame::check_placement( TransMatchContainer &PlacedMatches,
 	record_pointer rec = match->get_record() ;
 	const wstring trans = rec->get_trans_plain() ;
 
-	memory_engine::markup_ptr mark ;
+	memory_engine::markup_ptr mark(new markup_strings) ;
 	mark->SetQuery(match->MatchPairing().MarkupQuery()) ;
 	mark->SetSource(match->MatchPairing().MarkupSource()) ;
 	mark->SetTrans(trans) ;

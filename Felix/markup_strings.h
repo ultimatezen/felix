@@ -1,7 +1,6 @@
 #pragma once
 
 #include "StringEx.h"
-#include "RefPointer.h"
 
 namespace memory_engine
 {
@@ -78,5 +77,5 @@ namespace memory_engine
 		}
 	};
 
-	typedef ref_pointer< markup_strings > markup_ptr ;
+	typedef boost::shared_ptr< markup_strings > markup_ptr ;
 }
