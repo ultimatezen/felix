@@ -4,6 +4,7 @@
 */
 
 #include "StdAfx.h"
+#include "memory_local.h"
 #include "data_exporter.h"
 #include "charset_info.h"	// charset_info
 #include "system_message.h"

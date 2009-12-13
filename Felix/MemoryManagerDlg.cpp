@@ -12,6 +12,7 @@
 
 #include "background_processor.h"
 #include "resource_string.h"
+#include "memory_local.h"
 
 #include "UserName.h"
 #include "query.h"

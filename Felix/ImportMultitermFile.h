@@ -3,9 +3,9 @@
 #include "ProgressListener.h"
 #include "TranslationMemory.h"
 #include <boost/tuple/tuple.hpp>
+#include "memory_local.h"
 
 using memory_engine::memory_pointer ;
-using memory_engine::memory_local ;
 
 typedef boost::tuple<string, string> strcols ;
 typedef boost::tuple<wstring, wstring, wstring> wstrcols ;

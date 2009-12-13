@@ -1,12 +1,13 @@
 #include "StdAfx.h"
 #include "ImportMultitermFile.h"
 #include "ImportDialog.h"
+#include "memory_local.h"
 #include "record.h"
 #include "record_local.h"
 
 CImportMultitermFile::CImportMultitermFile(CProgressListener *listener) :
 	m_listener(listener),
-	m_memory(new memory_local())
+	m_memory(new memory_engine::memory_local())
 {
 }
 

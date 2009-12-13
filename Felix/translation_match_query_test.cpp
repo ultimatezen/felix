@@ -5,6 +5,7 @@
 #include "easyunit/testharness.h"
 #include "File.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 /************************************************************************/
 /* Unit Tests                                                           */

@@ -4,6 +4,7 @@
 #include "document_wrapper_fake.h"
 #include "easyunit/testharness.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 #ifdef UNIT_TEST
 

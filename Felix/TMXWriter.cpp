@@ -6,6 +6,7 @@
 #include ".\tmxwriter.h"
 #include "Tag.h"	// CTag
 #include "File.h"
+#include "memory_local.h"
 
 #include "ResHtmlFile.h"
 

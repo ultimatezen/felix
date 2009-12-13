@@ -177,6 +177,7 @@ namespace memory_engine
 		{
 			BANNER("Error in memory_remote::add_record") ;
 			logging::log_error("Failed to add remote record") ;
+			logging::log_exception(e) ;
 
 			ATLASSERT("Failed to add remote record" && FALSE) ;
 
@@ -198,7 +199,8 @@ namespace memory_engine
 		catch (_com_error& e)
 		{
 			BANNER("Error in memory_remote::add_record") ;
-			logging::log_error("Failed to add remote record") ;
+			logging::log_error("Failed to update remote record") ;
+			logging::log_exception(e) ;
 
 			ATLASSERT("Failed to add remote record" && FALSE) ;
 

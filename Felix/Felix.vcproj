@@ -1010,6 +1010,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\memory_local.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\memory_model.cpp"
 				>
 				<FileConfiguration
@@ -1753,6 +1757,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\memory_local_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\memory_model_test.cpp"
 					>
 				</File>
@@ -2272,6 +2280,10 @@
 			</File>
 			<File
 				RelativePath=".\memory_header.h"
+				>
+			</File>
+			<File
+				RelativePath=".\memory_local.h"
 				>
 			</File>
 			<File

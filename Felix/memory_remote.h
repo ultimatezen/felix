@@ -23,26 +23,28 @@ namespace memory_engine
 	    ~memory_remote()
 		{
 		}
-
-		void batch_set_reliability( size_t rel );
-		void batch_set_validation( bool val );
-		wstring get_validated_percent();
-		void get_reliability_stats( size_t &low, size_t &high, double &ave );
-
-
-		trans_set& get_records();
-	    bool connect(CString conn_str);
-		bool add_record ( record_pointer record );
-		size_t size();
-		bool empty();
+		// memory name
 		CString get_location( );
 		void set_location( CString location );
 
 		CString get_fullpath();
 		bool is_new();
-		bool save_memory( );
+
+		bool connect(CString conn_str);
+		// batch/stats ops
+		void batch_set_reliability( size_t rel );
+		void batch_set_validation( bool val );
+		wstring get_validated_percent();
+		void get_reliability_stats( size_t &low, size_t &high, double &ave );
+
+		trans_set& get_records();
+		bool add_record ( record_pointer record );
+		void replace(const record_pointer old_rec, record_pointer new_rec);
+		size_t size();
+		bool empty();
+		bool save_memory();
 		bool is_local();
-		bool load( const CString &);
+		bool load(const CString &);
 		void load_header( const CString &);
 		void tabulate_fonts( font_tabulator &);
 		record_pointer get_record_at( const size_t index );
@@ -66,7 +68,6 @@ namespace memory_engine
 			const search_query_params &params );
 
 		record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);
-		void replace(const record_pointer old_rec, record_pointer new_rec);
 	};
 
 }

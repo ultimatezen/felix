@@ -7,6 +7,7 @@
 #include "MainFrm.h"
 #include "reg_msg_filter.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 #include "easyunit/testharness.h"
 #ifdef UNIT_TEST

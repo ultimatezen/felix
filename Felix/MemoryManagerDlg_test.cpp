@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MemoryManagerDlg.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 #include "easyunit/testharness.h"
 

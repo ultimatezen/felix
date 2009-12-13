@@ -155,6 +155,31 @@ namespace easyunit
 			FAIL_M(static_cast< LPCSTR >( msg )) ;
 		}
 	}
+	TEST( test_record_remote, set_trans_modified_changes ) 
+	{
+		try
+		{
+			record_remote rec(L"Felix.RemoteRecordFake") ;
+
+			wstring billy = L"billy" ;
+			rec.set_modified_by(billy) ;
+			ASSERT_EQUALS(rec.get_modified_by(), L"billy") ;
+
+			wstring me = L"Ryan Francis Ginstrom the First but Not Last" ;
+			memory_engine::set_record_username(me) ;
+
+			rec.set_source(L"crippy croppy") ;
+			ASSERT_EQUALS(rec.get_modified_by(), L"Ryan Francis Ginstrom the First but Not Last") ;
+		}
+		catch (_com_error& e)
+		{
+			TRACE(e.Description()) ;
+			TRACE(e.ErrorMessage()) ;
+			TRACE(e.Error()) ;
+			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
+			FAIL_M(static_cast< LPCSTR >( msg )) ;
+		}
+	}
 
 	TEST( test_record_remote, set_context ) 
 	{

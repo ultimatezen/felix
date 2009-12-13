@@ -6,6 +6,7 @@
 #include "StdAfx.h"
 #include ".\tmxreader.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 #include "easyunit/testharness.h"
 

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "data_importer.h"
+#include "memory_local.h"
 
 #include "easyunit/testharness.h"
 

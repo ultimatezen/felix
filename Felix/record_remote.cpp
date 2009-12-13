@@ -100,18 +100,21 @@ namespace memory_engine
 	{
 		m_engine.prop_put(L"Source", source.c_str()); 
 		m_source.set_value(source) ;
+		this->set_modified_by(get_record_username()) ;
 	}
 
 	void record_remote::set_trans( const wstring trans )
 	{
 		m_engine.prop_put(L"Trans", trans.c_str()); 
 		m_trans.set_value(trans) ;
+		this->set_modified_by(get_record_username()) ;
 	}
 
 	void record_remote::set_context( const wstring context )
 	{
 		m_engine.prop_put(L"Context", context.c_str()); 
 		m_context.set_value(context) ;
+		this->set_modified_by(get_record_username()) ;
 	}
 
 	bool record_remote::is_validated() const
@@ -177,12 +180,12 @@ namespace memory_engine
 
 	// modify
 	// set the last-modified value to the current date-time
-	bool record_remote::modify (  )
+	bool record_remote::modify()
 	{
+		this->set_modified_by(get_record_username()) ;
 		misc_wrappers::date modified_time ;
 		modified_time.set_to_local_time() ;
 		m_engine.prop_put(L"Modified", modified_time.get_date_time_string().c_str()) ;
-
 		return true ;
 	}
 

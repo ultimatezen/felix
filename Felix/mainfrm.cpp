@@ -56,6 +56,7 @@
 #include "QueryMergeDlg.h"
 #include "text_templates.h"
 #include "FelixMemDocUIHandler.h"
+#include "memory_local.h"
 
 #include <shellapi.h>
 
@@ -124,6 +125,9 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_properties->m_gen_props.read_from_registry() ;
 	const BOOL show_markup = m_properties->m_gen_props.m_data.m_show_markup ;
 	this->m_trans_matches.m_params.m_show_marking = !! show_markup ;
+	// make sure that the username is reflected!
+	const wstring user_name = CT2W(m_properties->m_gen_props.m_data.m_user_name) ;
+	set_record_username(user_name) ;
 
     addToMessageLoop();
 

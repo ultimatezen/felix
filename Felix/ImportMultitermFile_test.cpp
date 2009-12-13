@@ -1,13 +1,16 @@
 #include "StdAfx.h"
 #include "ImportMultitermFile.h"
 #include "MockListener.h"
+#include "memory_local.h"
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
+	using namespace memory_engine ;
+
 	TEST( TestCImportMultitermFile, instantiate )
 	{
 		CMockListener listener ;
@@ -72,8 +75,7 @@ namespace easyunit
 		ASSERT_EQUALS_V("eggs", SimpleString(string2string(cols.get<1>()).c_str())) ;
 		ASSERT_EQUALS_V("context", SimpleString(string2string(cols.get<2>()).c_str())) ;
 	}
-
 }
 
 
-#endif // #ifdef _DEBUG
+#endif // #ifdef UNIT_TEST

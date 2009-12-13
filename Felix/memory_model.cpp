@@ -4,6 +4,7 @@
 
 #include "StdAfx.h"
 #include "memory_model.h"
+#include "memory_local.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
