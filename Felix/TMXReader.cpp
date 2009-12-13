@@ -288,10 +288,9 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 		set_only_target_lang(target_languages);
 	}
 
-	memory_header mem_header = m_memory->get_header() ;
-	mem_header.set_source_language(m_header.m_srclang) ;
-	mem_header.set_target_language(m_target_lang) ;
-	m_memory->set_header(mem_header) ;
+	MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_info->set_source_language(m_header.m_srclang) ;
+	mem_info->set_target_language(m_target_lang) ;
 
 	if ( record_count == 0 ) 
 	{
@@ -329,13 +328,12 @@ void CTMXReader::load_head()
 
 	m_header.set_attributes(attributes) ;
 
-	memory_header mem_header = m_memory->get_header() ;
-	mem_header.set_creation_tool( m_header.m_creationtool ) ;
-	mem_header.set_creation_tool_version( m_header.m_creationtoolversion ) ;
-	m_memory->set_header(mem_header) ;
+	MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_info->set_creation_tool( m_header.m_creationtool ) ;
+	mem_info->set_creation_tool_version( m_header.m_creationtoolversion ) ;
 
-	ATLASSERT ( m_memory->get_header().get_creation_tool() == m_header.m_creationtool ) ; 
-	ATLASSERT ( m_memory->get_header().get_creation_tool_version() == m_header.m_creationtoolversion ) ; 
+	ATLASSERT ( m_memory->get_memory_info()->get_creation_tool() == m_header.m_creationtool ) ; 
+	ATLASSERT ( m_memory->get_memory_info()->get_creation_tool_version() == m_header.m_creationtoolversion ) ; 
 
 	// for now, we will forget about the prop and other features...
 

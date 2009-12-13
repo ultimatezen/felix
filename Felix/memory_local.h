@@ -1,21 +1,49 @@
 #pragma once
 #include "TranslationMemory.h"
+#include "memory_header.h"
 
 namespace memory_engine
 {
 	class memory_local : public CTranslationMemory
 	{
 		VISIBLE_TO_TESTS
-			size_t m_next_id ;
-		std::set<size_t> m_ids ;
-		trans_set				m_records ;
-		CString					m_file_location ;
+
+		memory_header		m_header ;
+		size_t				m_next_id ;
+		std::set<size_t>	m_ids ;
+		trans_set			m_records ;
+		CString				m_file_location ;
 	public:
 		memory_local(double min_score=0.5f) : 
 		  CTranslationMemory(min_score),
 			  m_next_id(1)
 		  {}
 
+		  // MemoryInfo
+		  MemoryInfo* get_memory_info()
+		  {
+			  return static_cast<MemoryInfo*>(&m_header) ;
+		  }
+		  const MemoryInfo* get_memory_info_const() const
+		  {
+			  return static_cast<const MemoryInfo*>(&m_header) ;
+		  }
+		  void set_locked_off();
+		  void set_locked_on( );
+		  bool is_locked();
+
+			// loading
+		  void load_header_raw_text( char * raw_text, int file_len );
+		  bool load_text( char * raw_text, const CString& file_name, unsigned int file_len );
+		  void loadWideBuffer(const char* raw_text, int file_len, CStringW& wide_buffer);
+		  void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
+		  void loadRecords(const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved);
+		  bool load( const CString &file_name ) ;
+		  void load_header( const CString &location );
+		  int setProgressInterval(int num_records) ;
+		  void handleCExceptionOnLoad( const CString& file_name, bool was_saved, CException& e ) ;
+
+		  // TranslationMemory
 		  bool add_record(record_pointer record) ;
 		  trans_set& get_records() {return m_records ; }
 		  iterator_type begin( ) { return m_records.begin() ; }
@@ -56,14 +84,12 @@ namespace memory_engine
 			  const search_query_params& params);
 		  void get_gloss_fuzzy(search_match_multiset& matches, 
 			  const search_query_params& params);
-		  bool load( const CString &file_name ) ;
 		  bool clear_memory();
 		  bool record_exists( record_pointer rec );
 		  record_pointer get_record_at( const size_t index );
 		  void tabulate_fonts( font_tabulator &tabulator );
 		  void get_reliability_stats( size_t &low, size_t &high, double &ave );
 		  wstring get_validated_percent();
-		  void load_header( const CString &location );
 		  void search_no_regex(const search_query_params & params, search_match_multiset &matches);
 		  void batch_set_reliability( size_t rel );
 		  void batch_set_validation( bool val );

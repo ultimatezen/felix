@@ -106,10 +106,9 @@ void CImportMultitermFile::import_multiterm_55_text( textstream_reader< char >& 
 											   memory_engine::memory_pointer& mem )
 {
 
-	memory_engine::memory_header header = m_memory->get_header() ;
-	header.set_source_language(string2wstring(source_lang)) ;
-	header.set_target_language(string2wstring(trans_lang)) ;
-	mem->set_header(header) ;
+	memory_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_info->set_source_language(string2wstring(source_lang)) ;
+	mem_info->set_target_language(string2wstring(trans_lang)) ;
 
 	memory_engine::record_pointer record(new memory_engine::record_local()) ;
 	while ( reader.empty() == false )
@@ -224,10 +223,9 @@ void CImportMultitermFile::import_multiterm_6_text(LPCWSTR file_text)
 		sourcelang = first_line.get<1>() ;
 		translang = first_line.get<0>() ;
 	}
-	memory_engine::memory_header header = m_memory->get_header() ;
-	header.set_source_language(sourcelang) ;
-	header.set_target_language(translang) ;
-	m_memory->set_header(header) ;
+	memory_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_info->set_source_language(sourcelang) ;
+	mem_info->set_target_language(translang) ;
 
 	while ( reader.empty() == false )
 	{

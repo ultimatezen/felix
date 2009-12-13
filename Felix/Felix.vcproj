@@ -1765,6 +1765,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\memory_remote_info_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\memory_remote_test.cpp"
 					>
 				</File>
@@ -2280,6 +2284,10 @@
 			</File>
 			<File
 				RelativePath=".\memory_header.h"
+				>
+			</File>
+			<File
+				RelativePath=".\memory_info.h"
 				>
 			</File>
 			<File

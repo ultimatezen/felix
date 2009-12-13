@@ -289,7 +289,7 @@ void CTMXWriter::prepareToWrite()
 {
 	m_tuid = 1 ;
 
-	m_user_name = string2wstring( m_memory->get_header().get_creator() ) ;
+	m_user_name = string2wstring( m_memory->get_memory_info()->get_creator() ) ;
 	const CString location = m_memory->get_location() ;
 	m_source_file_name = CT2W( file::name( location ).file_name() ) ;
 

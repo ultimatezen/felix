@@ -660,7 +660,7 @@ LRESULT CMemoryManagerDlg::OnCmdEditMemory()
 	// get the length of the collection
 	int len = collection.get_length() ;
 	
-	memory_header header = mem->get_header() ;
+	MemoryInfo *mem_info = mem->get_memory_info() ;
 
 	// loop through each of the elements
 	for ( int i=0 ; i<len ; ++i )
@@ -677,24 +677,23 @@ LRESULT CMemoryManagerDlg::OnCmdEditMemory()
 			element.get_text( setting ) ;
 			if ( id == L"field" ) 
 			{
-				header.set_field( setting ) ;
+				mem_info->set_field( setting ) ;
 			}
 			else if ( id == L"source_language" ) 
 			{
-				header.set_source_language( setting ) ;
+				mem_info->set_source_language( setting ) ;
 			}
 			else if ( id == L"target_language"  )
 			{
-				header.set_target_language( setting ) ;
+				mem_info->set_target_language( setting ) ;
 			}
 			else if ( id == L"client" ) 
 			{
-				header.set_client( setting ) ;
+				mem_info->set_client( setting ) ;
 			}
 		} 
 	} // increment i...
 
-	mem->set_header( header ) ;
 
 	display_info_for_item(index) ;
 
@@ -960,17 +959,17 @@ memory_engine::memory_iterator CMemoryManagerDlg::get_pos_at( const int sel )
 
 wstring CMemoryManagerDlg::get_info_for_item( memory_pointer mem )
 {
-	memory_header header = mem->get_header() ;
+	MemoryInfo *mem_info = mem->get_memory_info() ;
 
 	CTextTemplate engine ;
 
 	engine.Assign(L"file_name", get_memory_name(mem)) ;
-	engine.Assign(L"creator", get_creator_name(header)) ;
-	engine.Assign(L"field", get_field_name(header)) ;
-	engine.Assign(L"created_on", get_created_on(header)) ;
-	engine.Assign(L"source_language", get_source_lang(header)) ;
-	engine.Assign(L"target_language", get_target_lang(header)) ;
-	engine.Assign(L"client", get_client_name(header)) ;
+	engine.Assign(L"creator", get_creator_name(mem_info)) ;
+	engine.Assign(L"field", get_field_name(mem_info)) ;
+	engine.Assign(L"created_on", get_created_on(mem_info)) ;
+	engine.Assign(L"source_language", get_source_lang(mem_info)) ;
+	engine.Assign(L"target_language", get_target_lang(mem_info)) ;
+	engine.Assign(L"client", get_client_name(mem_info)) ;
 	engine.Assign(L"mem_size", get_mem_size(mem)) ;
 	engine.Assign(L"file_size", get_file_size(mem)) ;
 	engine.Assign(L"reliability", get_reliability_range(mem)) ;
@@ -989,34 +988,34 @@ wstring CMemoryManagerDlg::get_memory_name( memory_pointer mem )
 	return get_fname_from_loc(static_cast<LPCWSTR>(mem->get_location())) ;
 }
 
-wstring CMemoryManagerDlg::get_creator_name( memory_header &header )
+wstring CMemoryManagerDlg::get_creator_name( MemoryInfo *mem_info )
 {
-	return get_item(header.get_creator()) ;
+	return get_item(mem_info->get_creator()) ;
 }
 
-wstring CMemoryManagerDlg::get_field_name( memory_header &header )
+wstring CMemoryManagerDlg::get_field_name( MemoryInfo *mem_info )
 {
-	return get_item(header.get_field()) ;
+	return get_item(mem_info->get_field()) ;
 }
 
-wstring CMemoryManagerDlg::get_created_on( memory_header &header )
+wstring CMemoryManagerDlg::get_created_on( MemoryInfo *mem_info )
 {
-	return get_item(header.get_created_on()) ;
+	return get_item(mem_info->get_created_on()) ;
 }
 
-wstring CMemoryManagerDlg::get_source_lang( memory_header &header )
+wstring CMemoryManagerDlg::get_source_lang( MemoryInfo *mem_info )
 {
-	return get_item(header.get_source_language()) ;
+	return get_item(mem_info->get_source_language()) ;
 }
 
-wstring CMemoryManagerDlg::get_target_lang( memory_header &header )
+wstring CMemoryManagerDlg::get_target_lang( MemoryInfo *mem_info )
 {
-	return get_item(header.get_target_language()) ;
+	return get_item(mem_info->get_target_language()) ;
 }
 
-wstring CMemoryManagerDlg::get_client_name( memory_header &header )
+wstring CMemoryManagerDlg::get_client_name( MemoryInfo *mem_info )
 {
-	return get_item(header.get_client()) ;
+	return get_item(mem_info->get_client()) ;
 }
 
 wstring CMemoryManagerDlg::get_mem_size( memory_pointer mem )

@@ -2,6 +2,7 @@
 #include "memory_local.h"
 #include "logging.h"
 #include "record_local.h"
+#include "DemoException.h"
 
 namespace memory_engine
 {
@@ -15,7 +16,25 @@ namespace memory_engine
 		return m_records.empty() ;
 	}
 
+	/************************************************************************/
+	/* MemoryInfo                                                           */
+	/************************************************************************/
 
+	void memory_local::set_locked_off()
+	{
+		m_header.set_locked_off() ;
+	}
+
+	void memory_local::set_locked_on()
+	{
+		m_header.set_locked_on() ;
+	}
+
+	bool memory_local::is_locked()
+	{
+		return m_header.is_locked() ;
+	}
+	// TranslationMemory
 	bool memory_local::add_record(record_pointer record)
 	{
 		if ( m_header.is_locked() )
@@ -488,7 +507,7 @@ namespace memory_engine
 		std::advance( pos, index ) ;
 		return *pos ;
 	}
-	// Function name	: CTranslationMemory::tabulate_fonts
+	// tabulate_fonts
 	void memory_local::tabulate_fonts(font_tabulator &tabulator)
 	{
 		foreach(record_pointer record, m_records)
@@ -656,6 +675,246 @@ namespace memory_engine
 	void memory_local::set_location(const CString location)
 	{
 		m_file_location = location ;
+	}
+
+	// =============
+	// file io
+	// =============
+
+	bool memory_local::load_text( char * raw_text, const CString& file_name, unsigned int file_len )
+	{
+		// read the header, if any
+		this->load_header_raw_text(raw_text, file_len) ;
+
+		bool was_locked = this->is_locked() ;
+		this->set_locked_off() ;
+
+		int num_records = get_num_records( raw_text ) ;
+
+		if ( m_listener != NULL ) 
+		{
+			m_listener->OnProgressInit( file_name, size(), size() + num_records ) ;
+		}
+
+		int progress_interval = setProgressInterval(num_records);
+
+		bool was_saved = is_saved() ;
+
+		// now convert to utf-16
+		CStringW wide_buffer ;
+		loadWideBuffer(raw_text, file_len, wide_buffer) ;
+
+		textstream_reader< wchar_t > reader ;
+
+		reader.set_buffer( wide_buffer.GetBuffer() ) ;
+
+		loadRecords(file_name, reader, progress_interval, was_saved);
+		wide_buffer.ReleaseBuffer() ;
+		if (was_locked)
+		{
+			this->set_locked_on() ;
+		}
+		return was_saved ;
+	}
+
+	void memory_local::load_header_raw_text( char * raw_text, int file_len )
+	{
+		textstream_reader< char > reader ;
+		reader.set_buffer( raw_text ) ;
+
+		if ( ! reader.find( "<head>", false ) )
+		{
+			return ;
+		}
+		reader.rewind() ;
+		textstream_reader< char >::bookmark_type text_start = reader.get_current_pos() ;
+
+		if ( ! reader.find( "</head>", true ) )
+		{
+			return ;
+		}
+		textstream_reader< char >::bookmark_type text_end = reader.get_current_pos() ;
+
+		string text( text_start, text_end ) ;
+
+		str::wbuffer wide_buffer ;
+
+		const UINT code_page = get_correct_encoding( raw_text, file_len ) ;
+
+		// convert to Unicode (from code_page)
+		const int len_needed = ::MultiByteToWideChar( code_page, NULL, text.c_str(), static_cast< int >( text.size() ), NULL, 0 ) + 1 ;
+		::MultiByteToWideChar( code_page, 
+			NULL, 
+			text.c_str(), 
+			static_cast< int >( text.size() ), 
+			wide_buffer.buffer( static_cast< size_t >( len_needed ), false ), 
+			len_needed ) ;
+
+		wide_buffer.null_terminate( static_cast< size_t >( len_needed - 1 ) ) ;
+
+		this->get_memory_info()->set_count( -1 ) ;
+		wstring header_text = wide_buffer.str();
+		// read the header, if any
+		m_header.read_header( header_text.c_str() ) ;
+	}
+
+	void memory_local::loadRecords( const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved ) 
+	{
+		typedef textstream_reader< wchar_t >::bookmark_type bm_type ;
+
+		CXml2RecordConverter converter  ;
+
+		if ( ! reader.find( L"<records", true ) )
+		{
+			throw CException( IDS_CORRUPT_FILE ) ;
+		}
+
+		while ( reader.find( L"<record", true ) )
+		{
+			try
+			{
+				// we don't make this a bookmark type because we are
+				// going to assign to it (bookmark type is const)
+				LPWSTR bookmark_start = (LPWSTR)reader.get_current_pos() ;
+				if ( ! reader.find( L"</record>", true ) )
+				{
+					throw CException( IDS_CORRUPT_FILE ) ;
+				}
+
+				bm_type bookmark_end = reader.get_current_pos() ;
+
+				ATLASSERT( bookmark_start != bookmark_end ) ;
+				ATLASSERT( bookmark_start != NULL ) ;
+				ATLASSERT( bookmark_end != NULL ) ;		
+				if ( bookmark_start != bookmark_end )
+				{
+					const size_t len = str::generic_strdist( bookmark_start, bookmark_end ) ;
+					bookmark_start[len-1]=0 ;
+
+					record_pointer record = converter.convert_from_xml_node( bookmark_start ) ;
+					add_record( record ) ;
+				}
+
+				check_progress_update(progress_interval);
+			}
+			catch ( CException &exception )
+			{
+				handleCExceptionOnLoad( file_name, was_saved, exception);
+			}
+			catch( std::exception &std_exception )
+			{
+				handleStdExceptionOnLoad( was_saved, file_name, std_exception);
+			}
+		}
+
+	}
+
+	void memory_local::postLoadCleanup( const ATL::CString& file_name, bool was_saved, size_t original_num_records ) 
+	{
+		if ( m_listener != NULL )
+		{
+			m_listener->OnProgressDoneLoad(size() - original_num_records ) ;
+		}
+
+		set_saved_flag( was_saved ) ;
+
+		if ( is_new() ) 
+		{
+			set_location( file_name ) ;
+		}
+
+	}
+
+	void memory_local::loadWideBuffer(const char* raw_text, int file_len, CStringW& wide_buffer)
+	{
+		ATLASSERT( raw_text != NULL ) ;
+		if (!raw_text)
+		{
+			return ;
+		}
+		const UINT code_page = get_correct_encoding( raw_text, file_len ) ;
+
+		if ( code_page == CP_UNICODE ) // our work is done for us!
+		{
+			ATLASSERT( file_len % 2 == 0 && "File length must not be odd" ) ;
+			size_t destSize = static_cast< size_t >( file_len / 2 + 1 ) ;
+			size_t srcSize = static_cast< size_t >( file_len / 2 ) ;
+			LPCWSTR src = (LPCWSTR)( raw_text ) ;
+			LPWSTR dest = wide_buffer.GetBufferSetLength( destSize+1 ) ;
+			ATLVERIFY( SUCCEEDED( StringCbCopyNW(          
+				dest,
+				destSize,
+				src,
+				srcSize
+				) ) ) ;
+			wide_buffer.ReleaseBuffer(destSize) ;
+			return ;
+
+		}
+
+		// convert to Unicode (from code_page)
+		CLEAR_WINERRORS ;
+		const UINT len_needed = ::MultiByteToWideChar( code_page, NULL, raw_text, file_len, NULL, 0 ) ;
+		ATLASSERT( ERROR_SUCCESS == GetLastError() ) ;
+
+		// we need to create a new buffer here, because we may be loading
+		// more than one memory at the same time.
+		// If we do that, then we will wreck our current buffer, causing all kinds of havoc!!!
+		LPWSTR dest = wide_buffer.GetBufferSetLength( len_needed+1 ) ;
+		::MultiByteToWideChar( code_page, NULL, raw_text, file_len, dest, len_needed+1 ) ;
+		ATLASSERT( ERROR_SUCCESS == GetLastError() ) ;
+
+		// MultiByteToWideChar doesn't null-terminate the string
+		wide_buffer.GetBuffer()[len_needed] = 0 ;
+		wide_buffer.ReleaseBuffer(len_needed) ;
+	}
+
+	int memory_local::setProgressInterval(int num_records)
+	{
+		int progress_interval(10) ;
+		if ( 1000 < num_records ) 
+		{
+			progress_interval = num_records / 200 ;
+		}
+
+		return progress_interval;
+	}
+
+	void memory_local::handleCExceptionOnLoad( const ATL::CString& file_name, bool was_saved, CException& e ) 
+	{
+		if ( this->is_demo() )
+		{
+			// If the exception was due to an attempt to load too many
+			// entries, we'll pass it up, cancelling the load.
+			if ( size() >= MAX_MEMORY_SIZE_FOR_DEMO )
+			{
+				set_saved_flag( was_saved ) ;
+				throw CDemoException() ;
+			}
+		}
+
+		if ( UserSaysBail() )
+		{
+			m_listener->OnProgressDoneLoad(0) ;
+			set_saved_flag( was_saved ) ;
+			e.set_bottom_message( get_load_failure_msg(file_name) ) ;
+			throw CException( e ) ;
+		}
+
+		e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
+		if ( IDNO == e.notify_user( IDS_LOAD_RECORD_FAILED, MB_YESNO ) )
+		{
+			if ( m_listener != NULL )
+			{
+				m_listener->OnProgressDoneLoad(0) ;
+			}
+
+			set_saved_flag( was_saved ) ;
+			CString exception_message ;
+			exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
+			throw CException( exception_message ) ;
+		}
+
 	}
 
 

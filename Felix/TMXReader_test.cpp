@@ -7,7 +7,7 @@
 #include ".\tmxreader.h"
 #include "record_local.h"
 #include "memory_local.h"
-
+#include "memory_info.h"
 #include "easyunit/testharness.h"
 
 #ifdef _DEBUG
@@ -38,16 +38,16 @@ namespace easyunit
 		{
 			tmx_reader.load_tmx_memory( EXPORT_TEST_FILE_1A ) ;
 
-			memory_engine::memory_header mem_header = mem->get_header() ;
+			memory_engine::MemoryInfo *mem_info = mem->get_memory_info() ;
 
-			SimpleString actual = (LPCSTR)CStringA(mem_header.get_creation_tool().c_str()) ;
+			SimpleString actual = (LPCSTR)CStringA(mem_info->get_creation_tool().c_str()) ;
 			ASSERT_EQUALS_V( "XYZTool", actual) ; 
-			actual = (LPCSTR)CStringA(mem_header.get_creation_tool_version().c_str()) ;
+			actual = (LPCSTR)CStringA(mem_info->get_creation_tool_version().c_str()) ;
 			ASSERT_EQUALS_V( "1.0.0", actual ) ; 
 
-			actual = (LPCSTR)CStringA(mem_header.get_source_language().c_str()) ;
+			actual = (LPCSTR)CStringA(mem_info->get_source_language().c_str()) ;
 			ASSERT_EQUALS_V( "EN-US", actual ) ;
-			actual = (LPCSTR)CStringA(mem_header.get_target_language().c_str()) ;
+			actual = (LPCSTR)CStringA(mem_info->get_target_language().c_str()) ;
 			ASSERT_EQUALS_V( "FR-CA", actual ) ;
 
 			ASSERT_EQUALS ( 4u, mem->size() ) ;  

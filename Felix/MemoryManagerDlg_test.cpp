@@ -201,7 +201,7 @@ namespace easyunit
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
 		mem->set_location("spam") ;
-		mem->get_header().set_created_on(L"2008/11/04 14:49:56") ;
+		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
 		wstring text = dialog.get_info_for_item(mem) ;
 		CStringA actual = text.c_str() ;
 		string expected = string("<table width=\"100%\" class=\"info\">\r\n")
@@ -281,7 +281,7 @@ namespace easyunit
 
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring text = dialog.get_creator_name(mem->get_header()) ;
+		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = (LPCSTR)(CT2A(props.m_data.m_user_name)) ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -290,8 +290,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_creator(L"") ;
-		wstring text = dialog.get_creator_name(mem->get_header()) ;
+		mem->get_memory_info()->set_creator(L"") ;
+		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Default" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -300,8 +300,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_creator(L"Bill") ;
-		wstring text = dialog.get_creator_name(mem->get_header()) ;
+		mem->get_memory_info()->set_creator(L"Bill") ;
+		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Bill" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -311,7 +311,7 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring text = dialog.get_field_name(mem->get_header()) ;
+		wstring text = dialog.get_field_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Default" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -320,8 +320,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_field(L"Bill") ;
-		wstring text = dialog.get_field_name(mem->get_header()) ;
+		mem->get_memory_info()->set_field(L"Bill") ;
+		wstring text = dialog.get_field_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Bill" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -332,7 +332,7 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring actual = dialog.get_created_on(mem->get_header()) ;
+		wstring actual = dialog.get_created_on(mem->get_memory_info()) ;
 		misc_wrappers::date nowdate ;
 		nowdate.set_to_local_time() ;
 		wstring expected = string2wstring(nowdate.get_date_string()) ;
@@ -342,8 +342,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_created_on(L"2008/11/04 14:49:56") ;
-		wstring text = dialog.get_created_on(mem->get_header()) ;
+		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
+		wstring text = dialog.get_created_on(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "2008/11/04 14:49:56" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -354,7 +354,7 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring text = dialog.get_source_lang(mem->get_header()) ;
+		wstring text = dialog.get_source_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Default" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -363,8 +363,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_source_language(L"English") ;
-		wstring text = dialog.get_source_lang(mem->get_header()) ;
+		mem->get_memory_info()->set_source_language(L"English") ;
+		wstring text = dialog.get_source_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "English" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -375,7 +375,7 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring text = dialog.get_target_lang(mem->get_header()) ;
+		wstring text = dialog.get_target_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Default" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -384,8 +384,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_target_language(L"日本語") ;
-		wstring actual = dialog.get_target_lang(mem->get_header()) ;
+		mem->get_memory_info()->set_target_language(L"日本語") ;
+		wstring actual = dialog.get_target_lang(mem->get_memory_info()) ;
 		wstring expected = L"日本語" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}
@@ -395,7 +395,7 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		wstring text = dialog.get_client_name(mem->get_header()) ;
+		wstring text = dialog.get_client_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		SimpleString expected = "Default" ;
 		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
@@ -404,8 +404,8 @@ namespace easyunit
 	{
 		CMemoryManagerDlg dialog ;
 		memory_pointer mem(new memory_local) ;
-		mem->get_header().set_client(L"日本語") ;
-		wstring actual = dialog.get_client_name(mem->get_header()) ;
+		mem->get_memory_info()->set_client(L"日本語") ;
+		wstring actual = dialog.get_client_name(mem->get_memory_info()) ;
 		wstring expected = L"日本語" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}

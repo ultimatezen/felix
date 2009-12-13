@@ -19,8 +19,7 @@
 
 #include "Scintilla_encodings.h"
 #include "MultiLanguage.h"
-#include "memory_header.h"
-
+#include "memory_info.h"
 #include "ProgressListener.h"
 
 #include "match_maker.h"
@@ -36,6 +35,9 @@ const CString get_load_failure_msg( const CString & file_name ) ;
 
 namespace memory_engine
 {
+
+	const static int CP_UNICODE = 1200 ;
+	const static int CP_UNICODE_BE = 1201 ;
 
 /**
 	@struct translation_record_compare 	
@@ -96,8 +98,6 @@ VISIBLE_TO_TESTS
 	match_maker			m_match_maker ;
 	bool				m_is_saved;
 
-	memory_header		m_header ;
-
 	bool				m_is_active ;
 
 	CmpMaker			m_cmp_maker ;
@@ -124,7 +124,6 @@ public:
 	void do_demo_check( int *cookie );
 	long get_number_of_glossary_matches( const wstring &query );
 
-	void load_header_raw_text( char * raw_text, int file_len );
 	void set_properties_memory( const app_props::properties_memory &props ) ;
 	void set_properties_glossary( const app_props::properties_glossary &props ) ;
 	void set_properties_algo( const app_props::properties_algorithm &props ) ;
@@ -134,18 +133,10 @@ public:
 	void set_extra_string( const wstring key, const wstring value ) ;
 	const wstring get_extra_string( const wstring &key ) ;
 
-	memory_header &get_header() { return m_header ; }
-	void set_header( const memory_header &header );
 	void set_is_memory( const bool setting );
 	bool get_is_memory() const ;
 
 
-	void set_locked_off();
-	void set_locked_on( );
-	bool is_locked()
-	{
-		return m_header.is_locked() ;
-	}
 
 	void set_listener( CProgressListener *listener )
 	{
@@ -169,7 +160,6 @@ public:
 	// get/set functions
 	// export/import
 
-	bool load_text( char * raw_text, const CString& file_name, unsigned int file_len );
 	void handleStdExceptionOnLoad(  bool was_saved, const CString& file_name, std::exception &e );
 
 	bool UserSaysBail();
@@ -188,14 +178,6 @@ public:
 
 	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, CException& e);
 
-	int setProgressInterval(int num_records);
-
-	void loadWideBuffer(const char* raw_text, int file_len, CStringW& wide_buffer);
-
-	void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
-
-	void loadRecords(const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved);
-
 	void check_progress_update( int progress_interval );
 	// glossary stuff
 	void set_gloss_fuzzy_match(search_match_multiset& matches, 
@@ -208,17 +190,30 @@ public:
 
 	std::wstring prep_pattern_string_gloss_100(const search_query_params& params, record_pointer& rec);
 
-// pure virtual methods
+	/************************************************************************/
+	/* pure virtual methods                                                 */
+	/************************************************************************/
+
 	// statistical info
 	virtual void batch_set_reliability( size_t rel ) = 0;
 	virtual void batch_set_validation( bool val ) = 0 ;
 	virtual wstring get_validated_percent() =  0 ;
 	virtual void get_reliability_stats( size_t &low, size_t &high, double &ave ) = 0 ;
 
-	virtual bool is_local() = 0 ;
+	// memory info
+	virtual MemoryInfo* get_memory_info() = 0 ;
+	virtual const MemoryInfo* get_memory_info_const() const = 0 ;
+	virtual void set_locked_off() = 0 ;
+	virtual void set_locked_on() = 0 ;
+	virtual bool is_locked() = 0 ;
+
+	// load
 	virtual bool load( const CString &file_name ) = 0 ;
+
+	// memory methods
+	virtual bool is_local() = 0 ;
 	virtual trans_set& get_records() = 0 ;
-	virtual void load_header( const CString &location ) = 0 ;
+
 	virtual void tabulate_fonts( font_tabulator &tabulator ) = 0;
 	virtual record_pointer get_record_at( const size_t index ) = 0;
 	virtual void set_cmp_params( const search_query_params &params ) = 0 ;

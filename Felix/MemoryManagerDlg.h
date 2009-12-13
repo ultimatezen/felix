@@ -92,12 +92,12 @@ public:
 	wstring get_reliability_range(memory_pointer mem);
 	wstring get_file_size(memory_pointer mem);
 	wstring get_mem_size( memory_pointer mem );
-	wstring get_client_name( memory_header &header );
-	wstring get_target_lang( memory_header &header );
-	wstring get_source_lang( memory_header &header );
-	wstring get_created_on( memory_header &header );
-	wstring get_field_name( memory_header &header );
-	wstring get_creator_name( memory_header &header );
+	wstring get_client_name( MemoryInfo *mem_info );
+	wstring get_target_lang( MemoryInfo *mem_info );
+	wstring get_source_lang( MemoryInfo *mem_info );
+	wstring get_created_on( MemoryInfo *mem_info );
+	wstring get_field_name( MemoryInfo *mem_info );
+	wstring get_creator_name( MemoryInfo *mem_info );
 	wstring get_memory_name(memory_pointer mem);
 	void add_memory_file( const CString &mem_file );
 

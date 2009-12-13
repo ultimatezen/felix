@@ -10,12 +10,6 @@
 
 #include "GlossaryDialog.h"	// gloss_window_pointer
 
-#ifndef CHECK_PASS
-	#define CHECK_PASS( CLASS_NAME, FUNCTION ) if ( CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild( focus ) ) { return CLASS_NAME.FUNCTION( ) ; }
-#else
-#pragma message("RegisterGlossDlg.h: CHECK_PASS already defined!")
-#endif
-
 /**
 @class CRegisterGlossDlg 
 @brief Dialog for editing translation records.

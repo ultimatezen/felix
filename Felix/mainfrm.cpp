@@ -521,21 +521,24 @@ void CMainFrame::check_command_line(commandline_options &options)
 	}
 	foreach(tstring filename, options.m_tm_files)
 	{
-		memory_pointer mem(new memory_local()) ;
-		mem->load(filename.c_str()) ;
+		memory_local *rawmem = new memory_local() ;
+		memory_pointer mem(rawmem) ;
+		rawmem->load(filename.c_str()) ;
 		this->add_memory(mem) ;
 	}
 	foreach(tstring filename, options.m_glossary_files)
 	{
-		memory_pointer mem(new memory_local()) ;
-		mem->load(filename.c_str()) ;
+		memory_local *rawmem = new memory_local() ;
+		memory_pointer mem(rawmem) ;
+		rawmem->load(filename.c_str()) ;
 		this->m_glossary_windows[0]->add_glossary(mem) ;
 	}
 	foreach(tstring filename, options.m_xml_files)
 	{
-		memory_pointer mem(new memory_local()) ;
-		mem->load(filename.c_str()) ;
-		if (mem->get_header().is_memory())
+		memory_local *rawmem = new memory_local() ;
+		memory_pointer mem(rawmem) ;
+		rawmem->load(filename.c_str()) ;
+		if (mem->get_memory_info()->is_memory())
 		{
 			this->add_memory(mem) ;
 		}
@@ -3094,12 +3097,12 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 
 	memory_pointer mem = m_model->m_memories->add_memory() ;
 
-	memory_header mem_header = mem->get_header() ;
-	mem_header.set_creation_tool( L"TradosText" ) ;
-	mem_header.set_creation_tool_version( L"6.0" ) ;
-	mem->set_header( mem_header ) ;
-	ATLASSERT ( mem->get_header().get_creation_tool() == L"TradosText" ) ; 
-	ATLASSERT ( mem->get_header().get_creation_tool_version() == L"6.0" ) ; 
+	MemoryInfo *mem_info = mem->get_memory_info() ;
+	mem_info->set_creation_tool( L"TradosText" ) ;
+	mem_info->set_creation_tool_version( L"6.0" ) ;
+
+	ATLASSERT ( mem->get_memory_info()->get_creation_tool() == L"TradosText" ) ; 
+	ATLASSERT ( mem->get_memory_info()->get_creation_tool_version() == L"6.0" ) ; 
 
 	if ( ! importer.load( trados_file_name, mem ) )
 	{

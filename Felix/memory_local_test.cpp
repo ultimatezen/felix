@@ -60,16 +60,16 @@ namespace easyunit
 	{
 		memory_local mem ;
 
-		memory_header *header = &mem.get_header() ;
-		header->set_creator( L"FooBar" ) ;
-		ASSERT_EQUALS( L"FooBar", mem.get_header().get_creator() ) ;
+		MemoryInfo *mem_info = mem.get_memory_info() ;
+		mem_info->set_creator( L"FooBar" ) ;
+		ASSERT_EQUALS( L"FooBar", mem.get_memory_info()->get_creator() ) ;
 
 		app_props::properties_general props ;
 		props.read_from_registry() ;
 		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
 		props.write_to_registry() ;
 
-		SimpleString actual = string2string(header->get_current_user()).c_str() ;
+		SimpleString actual = string2string(mem_info->get_current_user()).c_str() ;
 		ASSERT_EQUALS_V( "Ryan",  actual) ;
 	}
 

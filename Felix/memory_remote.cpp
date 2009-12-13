@@ -299,17 +299,6 @@ namespace memory_engine
 		ave = 0.0 ;
 	}
 
-	bool memory_remote::load( const CString & )
-	{
-		logging::log_warn("load not implemented for remote memories/glossaries.") ;
-		return false ;
-	}
-
-	void memory_remote::load_header( const CString & )
-	{
-		logging::log_warn("load_header not implemented for remote memories/glossaries.") ;
-	}
-
 	void memory_remote::tabulate_fonts( font_tabulator & )
 	{
 		logging::log_warn("tabulate_fonts not implemented for remote memories/glossaries.") ;
@@ -381,5 +370,211 @@ namespace memory_engine
 	trans_set& memory_remote::get_records()
 	{
 		throw CProgramException("get_records not implemented for remote memories") ;
+	}
+
+	bool memory_remote::load( const CString &file_name )
+	{
+		file_name ;
+		throw CProgramException("load not implemented for remote memories") ;
+	}
+
+	/************************************************************************/
+	/* MemoryInfo                                                           */
+	/************************************************************************/
+	void memory_remote::set_locked_off()
+	{
+		logging::log_warn("set_locked_off not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_locked_on()
+	{
+		logging::log_warn("set_locked_on not implemented for remote memories/glossaries.") ;
+	}
+
+	bool memory_remote::is_locked()
+	{
+		logging::log_warn("is_locked not implemented for remote memories/glossaries.") ;
+		return false;
+	}
+	bool memory_remote::is_locked() const
+	{
+		logging::log_warn("is_locked not implemented for remote memories/glossaries.") ;
+		return false;
+	}
+
+	wstring memory_remote::get_current_user()
+	{
+		app_props::properties_general props ;
+		props.read_from_registry() ;
+		const wstring user_name = CT2W(props.m_data.m_user_name) ;
+		set_record_username(user_name) ;
+		return user_name ;
+	}
+
+	/*
+	info fields:
+		modified_by
+		name
+		creator
+		notes
+		source_language
+		normalize_case
+		normalize_hira
+		created_on
+		client
+		normalize_width
+		modified_on
+		memtype
+		size
+		id
+		target_language
+	*/
+
+	// getters
+
+	wstring memory_remote::get_creator() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"creator").bstrVal) ;
+	}
+
+	wstring memory_remote::get_field() const
+	{
+		return wstring() ;
+	}
+
+	wstring memory_remote::get_created_on() const
+	{
+		CComVariant created = const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"created_on");
+		created.ChangeType(VT_BSTR) ;
+		return BSTR2wstring(created.bstrVal) ;
+	}
+
+	wstring memory_remote::get_modified_by() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"modified_by").bstrVal) ;
+	}
+
+	wstring memory_remote::get_modified_on() const
+	{
+		CComVariant modified = const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"modified_on");
+		modified.ChangeType(VT_BSTR) ;
+		return BSTR2wstring(modified.bstrVal) ;
+	}
+
+	wstring memory_remote::get_source_language() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"source_language").bstrVal) ;
+	}
+
+	wstring memory_remote::get_target_language() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"target_language").bstrVal) ;
+	}
+
+	wstring memory_remote::get_client() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"client").bstrVal) ;
+	}
+
+	wstring memory_remote::get_creation_tool() const
+	{
+		return wstring(L"MemoryServes") ;
+	}
+
+	wstring memory_remote::get_creation_tool_version() const
+	{
+		return string2wstring(VERSION) ;
+	}
+
+	long memory_remote::get_count() const
+	{
+		return static_cast<long>(const_cast<memory_remote*>(this)->size()) ;
+	}
+
+	bool memory_remote::is_memory() const
+	{
+		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"memtype").bstrVal) == L"m";
+	}
+
+	// setters
+
+	void memory_remote::set_creator(const wstring &)
+	{
+		logging::log_warn("set_creator not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_field(const wstring &)
+	{
+		logging::log_warn("set_field not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_created_on(const wstring &)
+	{
+		logging::log_warn("set_created_on not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_source_language(const wstring &)
+	{
+		logging::log_warn("set_source_language not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_target_language(const wstring &)
+	{
+		logging::log_warn("set_target_language not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_client(const wstring &)
+	{
+		logging::log_warn("set_client not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_count(const long )
+	{
+		logging::log_warn("set_count not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_is_memory_on()
+	{
+		logging::log_warn("set_is_memory_on not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_is_memory_off()
+	{
+		logging::log_warn("set_is_memory_off not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_creation_tool(const wstring &)
+	{
+		logging::log_warn("set_creation_tool not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_creation_tool_version(const wstring &)
+	{
+		logging::log_warn("set_creation_tool_version not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_modified_by(const wstring)
+	{
+		logging::log_warn("set_modified_by not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_modified_on(const wstring)
+	{
+		logging::log_warn("set_modified_on not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_modified_now()
+	{
+		logging::log_warn("set_modified_now not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::modified_by_current_user()
+	{
+		logging::log_warn("modified_by_current_user not implemented for remote memories/glossaries.") ;
+	}
+
+	void memory_remote::set_creator_to_current_user()
+	{
+		logging::log_warn("set_creator_to_current_user not implemented for remote memories/glossaries.") ;
 	}
 }
