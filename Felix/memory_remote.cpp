@@ -145,7 +145,7 @@ namespace memory_engine
 		return ( ! matches.empty() ) ;
 	}
 
-	bool memory_remote::erase( record_pointer record )
+	bool memory_remote::erase( const record_pointer record )
 	{
 		try
 		{
@@ -185,6 +185,27 @@ namespace memory_engine
 			throw com_e ;
 		}
 		return true ;
+	}
+
+	void memory_remote::replace( const record_pointer old_rec, record_pointer new_rec )
+	{
+		try
+		{
+			record_remote rec(new_rec) ;
+			rec.set_id(old_rec->get_id()) ;
+			this->m_engine.method(L"UpdateRecord", rec.get_engine()) ;
+		}
+		catch (_com_error& e)
+		{
+			BANNER("Error in memory_remote::add_record") ;
+			logging::log_error("Failed to add remote record") ;
+
+			ATLASSERT("Failed to add remote record" && FALSE) ;
+
+			CComException com_e(e) ;
+			com_e.add_to_message(_T("Error adding record to remote memory")) ;
+			throw com_e ;
+		}
 	}
 
 	bool memory_remote::connect( CString conn_str )
@@ -318,5 +339,45 @@ namespace memory_engine
 	void memory_remote::set_location( CString )
 	{
 		logging::log_warn("set_location not implemented for remote memories/glossaries.") ;
+	}
+
+	size_t memory_remote::size()
+	{
+		return static_cast< size_t >( this->m_engine.method(L"GetInfo", L"size").lVal ) ;
+	}
+
+	bool memory_remote::empty()
+	{
+		return (this->size() == 0) ;
+	}
+
+	CString memory_remote::get_location()
+	{
+		return CString(m_engine.method(L"GetInfo", L"name").bstrVal) ;
+	}
+
+	CString memory_remote::get_fullpath()
+	{
+		return this->m_conn_str ;
+	}
+
+	bool memory_remote::is_new()
+	{
+		return false ;
+	}
+
+	bool memory_remote::save_memory()
+	{
+		return true ;
+	}
+
+	bool memory_remote::is_local()
+	{
+		return false ;
+	}
+
+	trans_set& memory_remote::get_records()
+	{
+		throw CProgramException("get_records not implemented for remote memories") ;
 	}
 }

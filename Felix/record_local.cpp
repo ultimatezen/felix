@@ -130,13 +130,13 @@ void record_local::set_validated_off( )
 
 
 // record_local::get_created
-const misc_wrappers::date &record_local::get_created() const  
+const misc_wrappers::date record_local::get_created() const  
 {
 	return m_created ;
 }
 
 // record_local::get_modified
-const misc_wrappers::date &record_local::get_modified() const  
+const misc_wrappers::date record_local::get_modified() const  
 {
 	return m_modified ;
 }
@@ -314,11 +314,11 @@ void record_local::internal_copy( const record_pointer rec )
 // Function name	: record_local::is_valid_record
 // Description	    : 
 // Return type		: bool 
-bool record_local::is_valid_record()
+bool record_local::is_valid_record() const
 {
-	if ( this->get_source_plain().empty() )
+	if ( this->get_source_rich().empty() )
 		return false ;
-	if ( this->get_trans_plain().empty() )
+	if ( this->get_trans_rich().empty() )
 		return false ;
 	return true ;
 }
@@ -443,5 +443,13 @@ wstring record_local::get_modified_by()
 	return m_modified_by ;
 }
 
+void record_local::set_id( const size_t id )
+{
+	m_id = id ;
+}
 
+size_t record_local::get_id() const
+{
+	return m_id;
+}
 }

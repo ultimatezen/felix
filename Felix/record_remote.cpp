@@ -5,6 +5,7 @@
 // implementation here
 namespace memory_engine
 {
+	// CTOR/DTOR
 	record_remote::record_remote(LPCWSTR server_name) : m_engine(server_name)
 	{
 		copy_engine_values() ;
@@ -22,35 +23,23 @@ namespace memory_engine
 		copy_engine_values() ;
 	}
 
-	void record_remote::copy_engine_values()
+	record_remote::~record_remote()
 	{
-		wstring source(m_engine.prop_get(L"Source").bstrVal) ;
-		m_source.set_value(source) ;
-
-		wstring trans(m_engine.prop_get(L"Trans").bstrVal) ;
-		m_trans.set_value(trans) ;
-
-		wstring context( m_engine.prop_get(L"Context").bstrVal) ;
-		m_context.set_value(context) ;
-
-		m_is_validated = m_engine.prop_get(L"Validated").boolVal != VARIANT_FALSE ;
-
-		m_reliability = static_cast< size_t >( m_engine.prop_get(L"Reliability").lVal ) ;
-
-		m_refcount = static_cast< size_t >( m_engine.prop_get(L"RefCount").lVal ) ;
-
-		m_created = BSTR2tstring(m_engine.prop_get(L"Created").bstrVal) ;
-		m_modified = BSTR2tstring(m_engine.prop_get(L"Modified").bstrVal) ;
-
-		m_id = static_cast< size_t >( m_engine.prop_get(L"Id").lVal ) ;
-
 	}
 
+	// Internal method (non-polymorphic)
+	ATL::CComVariant record_remote::get_engine()
+	{
+		return CComVariant(m_engine.get_dispatch());
+	}
+
+	// source
 	const wstring & record_remote::get_source_rich() const
 	{
+		const wstring source = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Source").bstrVal) ;
+		const_cast<record_remote*>(this)->m_source.set_value(source) ;
 		return m_source.rich() ;
 	}
-
 	const wstring record_remote::get_source_plain()
 	{
 		return m_source.plain() ;
@@ -61,8 +50,11 @@ namespace memory_engine
 		return m_source.cmp() ;
 	}
 
+	// trans
 	const wstring & record_remote::get_trans_rich() const
 	{
+		const wstring trans = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Trans").bstrVal) ;
+		const_cast<record_remote*>(this)->m_trans.set_value(trans) ;
 		return m_trans.rich() ;
 	}
 
@@ -76,8 +68,11 @@ namespace memory_engine
 		return m_trans.cmp() ;
 	}
 
+	// context
 	const wstring & record_remote::get_context_rich() const
 	{
+		const wstring context = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Context").bstrVal) ;
+		const_cast<record_remote*>(this)->m_context.set_value(context) ;
 		return m_context.rich() ;
 	}
 
@@ -93,20 +88,12 @@ namespace memory_engine
 
 	size_t record_remote::get_reliability() const
 	{
-		return m_reliability ;
+		return static_cast<size_t>(const_cast<record_remote*>(this)->m_engine.prop_get(L"Reliability").lVal) ;
 	}
 
 	void record_remote::set_reliability( const size_t reliability )
 	{
 		m_engine.prop_put(L"Reliability", reliability) ;
-		CComVariant result = m_engine.prop_get(L"Reliability") ;
-		m_reliability = static_cast<size_t>(result.lVal) ;
-	}
-
-	void record_remote::set_item( const wstring &key, const wstring &value )
-	{
-		key ;
-		value ;
 	}
 
 	void record_remote::set_source( const wstring source )
@@ -129,77 +116,72 @@ namespace memory_engine
 
 	bool record_remote::is_validated() const
 	{
-		return m_is_validated ;
+		return const_cast<record_remote*>(this)->m_engine.prop_get(L"Validated").boolVal != VARIANT_FALSE ;
 	}
 
 	void record_remote::set_validated_on()
 	{
 		m_engine.prop_put(L"Validated", VARIANT_TRUE) ;
-		m_is_validated = true ;
 	}
 
 	void record_remote::set_validated_off()
 	{
 		m_engine.prop_put(L"Validated", VARIANT_FALSE) ;
-		m_is_validated = false ;
 	}
 
-	const misc_wrappers::date & record_remote::get_created() const
+	const misc_wrappers::date record_remote::get_created() const
 	{
-		return m_created ;
+		return misc_wrappers::date(BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Created").bstrVal)) ;
 	}
 
-	const misc_wrappers::date & record_remote::get_modified() const
+	const misc_wrappers::date record_remote::get_modified() const
 	{
-		return m_modified ;
+		return misc_wrappers::date(BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Modified").bstrVal)) ;
 	}
 
 	void record_remote::set_created( const wstring &created )
 	{
-		m_created = created ;
-		m_engine.prop_put(L"Created", m_created.get_date_time_string().c_str()) ;
+		const misc_wrappers::date created_date(created) ;
+		this->set_created(created_date) ;
 	}
 
 	void record_remote::set_created( const misc_wrappers::date &created )
 	{
-		m_created = created ;
-		m_engine.prop_put(L"Created", m_created.get_date_time_string().c_str()) ;
+		misc_wrappers::date created_date = created ;
+		m_engine.prop_put(L"Created", created_date.get_date_time_string().c_str()) ;
 	}
 	void record_remote::set_modified( const wstring &modified )
 	{
-		m_modified = modified ;
-		m_engine.prop_put(L"Modified", m_modified.get_date_time_string().c_str()) ;
-		if ( m_modified < m_created )
-		{
-			set_created(m_modified) ;
-		}
+		const misc_wrappers::date mod_date(modified) ;
+		this->set_modified(mod_date) ;
 	}
 
-	void record_remote::set_modified( const misc_wrappers::date &modified )
+	void record_remote::set_modified(const misc_wrappers::date &modified)
 	{
-		m_modified = modified ;
-		m_engine.prop_put(L"Modified", m_modified.get_date_time_string().c_str()) ;
-		if ( m_modified < m_created )
+		m_engine.prop_put(L"Modified", modified.get_date_time_string().c_str()) ;
+		if ( modified < this->get_created() )
 		{
-			set_created(m_modified) ;
+			set_created(modified) ;
 		}
 	}
 
 	// create
-	bool record_remote::create(  )
+	bool record_remote::create( )
 	{
-		m_created.set_to_local_time() ;
-		m_engine.prop_put(L"Created", m_created.get_date_time_string().c_str()) ;
+		misc_wrappers::date created_time ;
+		created_time.set_to_local_time() ;
+		m_engine.prop_put(L"Created", created_time.get_date_time_string().c_str()) ;
+
 		return modify() ;
 	}
-
 
 	// modify
 	// set the last-modified value to the current date-time
 	bool record_remote::modify (  )
 	{
-		m_modified.set_to_local_time() ;
-		m_engine.prop_put(L"Modified", m_modified.get_date_time_string().c_str()) ;
+		misc_wrappers::date modified_time ;
+		modified_time.set_to_local_time() ;
+		m_engine.prop_put(L"Modified", modified_time.get_date_time_string().c_str()) ;
 
 		return true ;
 	}
@@ -208,56 +190,18 @@ namespace memory_engine
 	void record_remote::set_refcount( size_t count )
 	{
 		m_engine.prop_put(L"RefCount", count) ;
-		m_refcount = count ;
 	}
 
 	size_t record_remote::get_refcount() const
 	{
-		return m_refcount ;
+		return static_cast<size_t>(const_cast<record_remote*>(this)->m_engine.prop_get(L"RefCount").lVal) ;
 	}
 
-	bool record_remote::is_valid_record()
+	bool record_remote::is_valid_record() const
 	{
 		return true ;
 	}
 
-	translation_record::record_data_iterator record_remote::data_begin()
-	{
-		return m_record_data.begin() ;
-	}
-
-	translation_record::record_data_iterator record_remote::data_end()
-	{
-		return m_record_data.end() ;
-	}
-
-	translation_record::record_data_map& record_remote::get_data_map()
-	{
-		return this->m_record_data ;
-	}
-
-	bool record_remote::item_exists( const wstring &key ) const
-	{
-		key ;
-		return false ;
-	}
-
-	const wstring record_remote::get_item( const wstring &key ) const
-	{
-		key ;
-		return wstring() ;
-	}
-
-	bool record_remote::remove_item( const wstring &key )
-	{
-		key ;
-		return false ;
-	}
-
-	void record_remote::clear_user_strings()
-	{
-
-	}
 
 	void record_remote::set_cmp_maker( const CmpMaker maker )
 	{
@@ -272,6 +216,95 @@ namespace memory_engine
 		this->copy_from_self(cloned) ;
 		return cloned ;
 	}
+
+	size_t record_remote::get_id() const
+	{
+		return static_cast< size_t >( const_cast<record_remote*>(this)->m_engine.prop_get(L"Id").lVal ) ;
+	}
+
+	void record_remote::set_id( const size_t id )
+	{
+		m_engine.prop_put(L"Id", id) ;
+	}
+
+	void record_remote::set_creator( const wstring &creator )
+	{
+		m_engine.prop_put(L"CreatedBy", creator.c_str()) ;
+	}
+
+	void record_remote::set_modified_by( const wstring &modified )
+	{
+		m_engine.prop_put(L"ModifiedBy", modified.c_str()) ;
+	}
+
+	wstring record_remote::get_creator()
+	{
+		return BSTR2wstring(m_engine.prop_get(L"CreatedBy").bstrVal) ;
+	}
+
+	wstring record_remote::get_modified_by()
+	{
+		return BSTR2wstring(m_engine.prop_get(L"ModifiedBy").bstrVal) ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Unsupported methods
+	//////////////////////////////////////////////////////////////////////////
+
+	void record_remote::set_item( const wstring &key, const wstring &value )
+	{
+		key ;
+		value ;
+		logging::log_warn("set_item method is not supported by remote records") ;
+	}
+
+	translation_record::record_data_iterator record_remote::data_begin()
+	{
+		logging::log_warn("data_begin method is not supported by remote records") ;
+		return m_record_data.begin() ;
+	}
+
+	translation_record::record_data_iterator record_remote::data_end()
+	{
+		logging::log_warn("data_end method is not supported by remote records") ;
+		return m_record_data.end() ;
+	}
+
+	translation_record::record_data_map& record_remote::get_data_map()
+	{
+		logging::log_warn("get_data_map method is not supported by remote records") ;
+		return this->m_record_data ;
+	}
+
+	bool record_remote::item_exists( const wstring &key ) const
+	{
+		logging::log_warn("item_exists method is not supported by remote records") ;
+		key ;
+		return false ;
+	}
+
+	const wstring record_remote::get_item( const wstring &key ) const
+	{
+		logging::log_warn("get_item method is not supported by remote records") ;
+		key ;
+		return wstring() ;
+	}
+
+	bool record_remote::remove_item( const wstring &key )
+	{
+		logging::log_warn("remove_item method is not supported by remote records") ;
+		key ;
+		return false ;
+	}
+
+	void record_remote::clear_user_strings()
+	{
+		logging::log_warn("clear_user_strings method is not supported by remote records") ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Internal methods
+	//////////////////////////////////////////////////////////////////////////
 
 	record_pointer record_remote::copy_from_self( record_pointer rec )
 	{
@@ -306,54 +339,13 @@ namespace memory_engine
 		set_refcount(rec->get_refcount()) ;
 		set_id(rec->get_id()) ;
 	}
-
-	size_t record_remote::get_id()
+	// Copy from the COM server
+	void record_remote::copy_engine_values()
 	{
-		CComVariant result = m_engine.prop_get(L"Id") ;
-		m_id = static_cast< size_t >( result.lVal ) ;
-		return m_id;
+		this->set_source(BSTR2wstring(m_engine.prop_get(L"Source").bstrVal)) ;
+		this->set_trans(BSTR2wstring(m_engine.prop_get(L"Trans").bstrVal)) ;
+		this->set_context(BSTR2wstring(m_engine.prop_get(L"Context").bstrVal)) ;
 	}
 
-	void record_remote::set_id( size_t id )
-	{
-		m_engine.prop_put(L"Id", id) ;
-		m_id = id ;
-	}
 
-	ATL::CComVariant record_remote::get_engine()
-	{
-		return CComVariant(m_engine.get_dispatch());
-	}
-
-	record_remote::~record_remote()
-	{
-	}
-
-	void record_remote::set_creator( const wstring &creator )
-	{
-		m_creator = creator ;
-	}
-
-	void record_remote::set_modified_by( const wstring &modified )
-	{
-		m_modified_by = modified ;
-	}
-
-	wstring record_remote::get_creator()
-	{
-		if (m_creator.empty())
-		{
-			m_creator = get_record_username() ;
-		}
-		return m_creator ;
-	}
-
-	wstring record_remote::get_modified_by()
-	{
-		if (m_modified_by.empty())
-		{
-			m_modified_by = get_record_username() ;
-		}
-		return m_modified_by ;
-	}
 }

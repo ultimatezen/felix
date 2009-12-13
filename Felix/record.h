@@ -67,8 +67,8 @@ namespace memory_engine
 		virtual void set_validated_off()  = 0;
 
 		// modified/created
-		virtual const misc_wrappers::date &get_created() const  = 0;
-		virtual const misc_wrappers::date &get_modified() const  = 0;
+		virtual const misc_wrappers::date get_created() const  = 0;
+		virtual const misc_wrappers::date get_modified() const  = 0;
 		virtual void set_created( const wstring &created ) = 0;
 		virtual void set_modified( const wstring &modified ) = 0;
 		virtual void set_created( const misc_wrappers::date &created ) = 0;
@@ -88,7 +88,7 @@ namespace memory_engine
 		virtual void set_refcount( size_t count ) = 0;
 		virtual size_t get_refcount() const  = 0;
 
-		virtual bool is_valid_record() = 0;
+		virtual bool is_valid_record() const = 0;
 
 		virtual record_data_iterator data_begin() = 0;
 		virtual record_data_iterator data_end() = 0;
@@ -107,7 +107,7 @@ namespace memory_engine
 		virtual void internal_copy( boost::shared_ptr< translation_record > rec ) = 0;
 		virtual boost::shared_ptr< translation_record > copy_from_self( boost::shared_ptr< translation_record > rec ) = 0;
 
-		virtual size_t get_id() = 0;
+		virtual size_t get_id() const = 0;
 		virtual void set_id(size_t id) = 0; 
 	} ;
 

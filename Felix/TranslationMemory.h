@@ -233,7 +233,7 @@ public:
 	virtual bool is_new() = 0;
 	virtual bool save_memory( ) = 0;
 
-	virtual bool erase( record_pointer record ) = 0;
+	virtual bool erase( const record_pointer record ) = 0;
 
 	virtual void get_match_candidates(trans_set &candidates, 
 										const wstring &query_cmp,
@@ -247,7 +247,7 @@ public:
 	virtual bool perform_search( search_match_multiset &matches, 
 						const search_query_params &params ) = 0;
 
-	virtual void replace(record_pointer old_rec, record_pointer new_rec) = 0 ;
+	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;
 	virtual CString get_location( ) = 0 ;
 	virtual void set_location( CString location ) = 0 ;
 
@@ -278,7 +278,7 @@ public:
 	size_t get_next_id();
 	size_t size() ;
 	bool empty();
-	bool erase( record_pointer record ) ;
+	bool erase( const record_pointer record ) ;
 	CString get_location( );
 	void set_location( CString location ) ;
 	CString get_fullpath()
@@ -305,7 +305,7 @@ public:
 	bool perform_search( search_match_multiset &matches, 
 								const search_query_params &params ) ;
 	record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);
-	void replace(record_pointer old_rec, record_pointer new_rec);
+	void replace(const record_pointer old_rec, record_pointer new_rec);
 	void get_gloss_100(search_match_multiset& matches, 
 		const search_query_params& params);
 	void get_gloss_fuzzy(search_match_multiset& matches, 

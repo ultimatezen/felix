@@ -140,10 +140,11 @@ namespace easyunit
 			record_remote rec(L"Felix.RemoteRecordFake") ;
 
 			//	void set_trans( const wstring &rich_trans ) ;
-			wstring wstr_text = L"here is a wstring text" ;
-			rec.set_trans( wstr_text ) ;
-			ASSERT_TRUE ( rec.get_trans_rich() == wstr_text ) ; 
-			ASSERT_TRUE ( rec.get_trans_plain() == wstr_text ) ; 
+			rec.set_trans( L"here is a wstring text" ) ;
+			SimpleString actual = string2string(rec.get_trans_rich()).c_str() ;
+			SimpleString expected = "here is a wstring text" ;
+			ASSERT_EQUALS_V(expected, actual) ;
+			ASSERT_TRUE ( rec.get_trans_plain() == L"here is a wstring text" ) ; 
 		}
 		catch (_com_error& e)
 		{

@@ -2604,19 +2604,34 @@ CString CGlossaryWindow::get_memory_name( memory_pointer mem )
 
 void CGlossaryWindow::retrieve_record_new_state()
 {
-	// This is a record we have just added
-	// We can pretend that we edited the content just by adding it again
 	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	mem->replace(get_new_record(), m_editor.get_new_record()) ;
+	const record_pointer old_rec = get_new_record() ;
+	record_pointer new_rec = m_editor.get_new_record() ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, m_editor.get_new_record()) ;
+	}
+	else
+	{
+		mem->add_record(m_editor.get_new_record()) ;
+	}
 	set_new_record(m_editor.get_new_record()) ;
 }
 
 void CGlossaryWindow::retrieve_record_results_state()
 {
+	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
 	record_pointer old_rec = m_editor.get_old_record() ;
 	record_pointer new_rec = m_editor.get_new_record() ;
-	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	mem->replace(old_rec, new_rec) ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, new_rec) ;
+	}
+	else
+	{
+		mem->add_record(new_rec) ;
+	}
+	set_new_record(new_rec) ;
 }
 
 // Override the browser context menu.

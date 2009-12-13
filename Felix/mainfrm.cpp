@@ -5144,15 +5144,6 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	return content ;
 }
 
-// Edited record from translation history.
-// This is buggy!
-void CMainFrame::retrieve_record_review_state()
-{
-	memory_pointer mem = m_model->m_memories->get_memory_by_id(m_editor.get_memory_id()) ;
-	mem->replace(m_review_record, m_editor.get_new_record()) ;
-	m_review_record = m_editor.get_new_record() ;
-}
-
 // Get the UTIL settings from our COM server.
 // Got to consolidate all prefs (using boost?).
 void CMainFrame::load_util_settings()
@@ -5721,3 +5712,44 @@ CString CMainFrame::get_active_mem_name()
 	} 
 	return resource_string( IDS_NEW ) ;
 }
+
+void CMainFrame::retrieve_record_new_state()
+{
+	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
+	const record_pointer old_rec = get_new_record() ;
+	record_pointer new_rec = m_editor.get_new_record() ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, m_editor.get_new_record()) ;
+	}
+	else
+	{
+		mem->add_record(m_editor.get_new_record()) ;
+	}
+	set_new_record(m_editor.get_new_record()) ;
+}
+
+void CMainFrame::retrieve_record_results_state()
+{
+	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
+	record_pointer old_rec = m_editor.get_old_record() ;
+	record_pointer new_rec = m_editor.get_new_record() ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, new_rec) ;
+	}
+	else
+	{
+		mem->add_record(new_rec) ;
+	}
+	set_new_record(new_rec) ;
+}
+
+// Edited record from translation history.
+void CMainFrame::retrieve_record_review_state()
+{
+	memory_pointer mem = m_model->m_memories->get_memory_by_id(m_editor.get_memory_id()) ;
+	mem->replace(m_review_record, m_editor.get_new_record()) ;
+	m_review_record = m_editor.get_new_record() ;
+}
+

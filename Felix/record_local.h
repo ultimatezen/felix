@@ -74,8 +74,8 @@ namespace memory_engine
 		void set_created( const misc_wrappers::date &created );
 		void set_modified( const misc_wrappers::date &modified ) ;
 
-		const misc_wrappers::date &get_created() const  ;
-		const misc_wrappers::date &get_modified() const  ;
+		const misc_wrappers::date get_created() const  ;
+		const misc_wrappers::date get_modified() const  ;
 
 
 		// ref_count
@@ -88,14 +88,8 @@ namespace memory_engine
 		bool modify ( ) ;
 
 		// id
-		virtual size_t get_id()
-		{
-			return m_id;
-		}
-		virtual void set_id(size_t id)
-		{
-			m_id = id ;
-		}
+		virtual size_t get_id() const;
+		virtual void set_id(size_t id);
 
 		/** Clear the record. 
 		@return	bool success
@@ -103,7 +97,7 @@ namespace memory_engine
 		void clear_user_strings() ;
 		void set_item( const wstring &key, const wstring &value ) ;
 
-		bool is_valid_record();
+		bool is_valid_record() const;
 		bool remove_item( const wstring &key);
 
 		// copy functions

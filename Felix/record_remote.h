@@ -48,8 +48,8 @@ namespace memory_engine
 		void set_validated_off();
 
 		// modified/created
-		const misc_wrappers::date &get_created() const;
-		const misc_wrappers::date &get_modified() const;
+		const misc_wrappers::date get_created() const;
+		const misc_wrappers::date get_modified() const;
 		void set_created( const wstring &created );
 		void set_modified( const wstring &modified );
 		void set_created( const misc_wrappers::date &created );
@@ -64,7 +64,7 @@ namespace memory_engine
 		void set_refcount( size_t count );
 		size_t get_refcount() const;
 
-		bool is_valid_record();
+		bool is_valid_record() const;
 
 		record_data_iterator data_begin();
 		record_data_iterator data_end();
@@ -76,7 +76,7 @@ namespace memory_engine
 		void clear_user_strings();
 
 		// id
-		virtual size_t get_id();
+		virtual size_t get_id() const;
 		virtual void set_id(size_t id);
 
 		// CmpMaker
@@ -95,23 +95,9 @@ namespace memory_engine
 		void internal_copy( record_pointer rec );
 		record_data_map		m_record_data ;
 		// dates
-		misc_wrappers::date			m_created ;
-		misc_wrappers::date			m_modified ;
-
 		Segment m_source ;
 		Segment m_trans ;
 		Segment m_context ;
-
-		wstring m_creator ;
-		wstring m_modified_by ;
-
-		// Is the record validated?
-		bool m_is_validated;
-		// The reliability of the translation
-		size_t m_reliability;
-		// How many times the record has been referenced
-		size_t m_refcount;
-		size_t m_id ;
 
 		CDispatchWrapper m_engine ;
 
