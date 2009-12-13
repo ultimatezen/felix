@@ -4,6 +4,7 @@
 #include "TranslationMemory.h"
 #include "easyunit/testharness.h"
 #include "File.h"
+#include "record_local.h"
 
 /************************************************************************/
 /* Unit Tests                                                           */

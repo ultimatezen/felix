@@ -31,6 +31,7 @@
 #include "ConvertUTF.h"		// ConvertUTF8toUTF16
 
 #include "TMXReader.h"		// CTMXReader
+#include "record_local.h"
 
 #include "Drop.h"				// CDrop
 

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "EditTransRecordDialog.h"
+#include "record_local.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

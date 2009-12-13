@@ -1,9 +1,5 @@
 /********************************************************************
-Unit tests for \ref translation_record
-\created:	2006/07/09
-file base:	record_test
-file ext:	cpp
-\author:	Owner
+Unit tests for \ref record_remote
 *********************************************************************/
 
 #include "StdAfx.h"
@@ -13,7 +9,7 @@ file ext:	cpp
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

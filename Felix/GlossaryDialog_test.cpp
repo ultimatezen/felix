@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "GlossaryDialog.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

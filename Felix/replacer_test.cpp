@@ -3,6 +3,7 @@
 #include "replacer.h"
 #include "miscwrappers.h"
 #include "easyunit/testharness.h"
+#include "record_local.h"
 
 #ifdef UNIT_TEST
 

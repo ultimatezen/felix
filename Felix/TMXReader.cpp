@@ -9,6 +9,7 @@
 
 #include "TMXImportDlg.h"
 #include "logging.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

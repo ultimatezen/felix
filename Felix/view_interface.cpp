@@ -7,6 +7,7 @@
 #include "view_interface.h"
 
 #include "ViewCollectionWalker.h" // CViewCollectionWalker
+#include "record_local.h"
 
 using namespace memory_engine ;
 

@@ -2,6 +2,7 @@
 #include "ImportMultitermFile.h"
 #include "ImportDialog.h"
 #include "record.h"
+#include "record_local.h"
 
 CImportMultitermFile::CImportMultitermFile(CProgressListener *listener) :
 	m_listener(listener),

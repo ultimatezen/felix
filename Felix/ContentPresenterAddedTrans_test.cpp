@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include ".\contentpresenteraddedtrans.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

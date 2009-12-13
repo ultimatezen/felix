@@ -5,7 +5,7 @@
 #include "NumberFmt.h"
 #include "DemoException.h"
 #include "xpmenu/Tools.h"		// CWindowRect
-
+#include "record_local.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

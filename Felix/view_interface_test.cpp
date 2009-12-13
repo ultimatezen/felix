@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "view_interface.h"
+#include "record_local.h"
 #include "easyunit/testharness.h"
 
 #ifdef _DEBUG

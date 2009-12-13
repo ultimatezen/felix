@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "ViewCollectionWalker.h"
 #include "element_wrapper_fake.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

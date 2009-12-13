@@ -1,6 +1,7 @@
 
 #include "StdAfx.h"
 #include "query.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

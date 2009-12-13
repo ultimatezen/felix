@@ -21,8 +21,10 @@
 #include "data_converter.h"			// converting trados to internal format
 #include "resource.h"				// message ids
 #include "charset_info.h"			// get code page from charset/lang id
+#include "record_local.h"
 
 #include "TranslationMemory.h"		// trans_set
+#include "record_local.h"
 
 #include "tag_stripper.h"
 

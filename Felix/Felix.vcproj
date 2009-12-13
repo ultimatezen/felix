@@ -380,10 +380,6 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\aboutdlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="AdvancedMemMgrDlg.cpp"
 				>
 				<FileConfiguration
@@ -427,31 +423,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\AdvancedMemMgrDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\App.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\App2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\App2_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\App_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AppTemplateTests.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\array_test.cpp"
 				>
 			</File>
 			<File
@@ -495,15 +471,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\charset_info_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\ColorRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ColorRef_test.cpp"
 				>
 			</File>
 			<File
@@ -544,15 +512,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\CommonWindowFunctionality_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ComRecord.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ComRecord_test.cpp"
 				>
 			</File>
 			<File
@@ -560,15 +520,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConcordanceDialog_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ConnectionDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConnectionDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -576,15 +528,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ContentPresenter_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ContentPresenterAddedTrans.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ContentPresenterAddedTrans_test.cpp"
 				>
 			</File>
 			<File
@@ -632,10 +576,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\data_converter_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="data_exporter.cpp"
 				>
 				<FileConfiguration
@@ -671,10 +611,6 @@
 						BrowseInformation="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\data_exporter_test.cpp"
-				>
 			</File>
 			<File
 				RelativePath="data_importer.cpp"
@@ -714,15 +650,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\data_importer_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\DemoException.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\distance_test.cpp"
 				>
 			</File>
 			<File
@@ -739,10 +667,6 @@
 			</File>
 			<File
 				RelativePath=".\EditModeFindDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EditModeFindDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -783,10 +707,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\EditTransRecordDialog_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\EditTransRecordDialogModal.cpp"
 				>
 			</File>
@@ -803,15 +723,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Exceptions_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ExtraStringsView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\extrastringsview_test.cpp"
 				>
 			</File>
 			<File
@@ -891,23 +803,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\felix_cl_options_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Felix_properties.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Felix_properties_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\FelixMemDocUIHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\File_test.cpp"
 				>
 			</File>
 			<File
@@ -919,15 +819,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FindDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\font_tabulator.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\font_tabulator_test.cpp"
 				>
 			</File>
 			<File
@@ -968,19 +860,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GlossaryDialog_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\hooker.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\HrefTags.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\HrefTags_test.cpp"
 				>
 			</File>
 			<File
@@ -992,10 +876,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HtmlDocument_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\HtmlView.cpp"
 				>
 			</File>
@@ -1004,15 +884,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ImportDialog_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ImportMultitermFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ImportMultitermFile_test.cpp"
 				>
 			</File>
 			<File
@@ -1020,15 +892,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\InputKeyDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\InputSymbolDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\InputSymbolDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -1036,35 +900,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\languageholder_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\Library.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\library_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\logging.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\logging_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\logical_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\mainframe_messaging_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainFrameController_test.cpp"
 				>
 			</File>
 			<File
@@ -1105,19 +945,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\mainfrm_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\markup_strings.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\match_filters.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\match_filters_searcher_test.cpp"
 				>
 			</File>
 			<File
@@ -1162,15 +994,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\match_maker_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\match_score.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\match_score_test.cpp"
 				>
 			</File>
 			<File
@@ -1178,23 +1002,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\match_tester_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MatchStringPairing.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MatchStringPairing_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\memory_header.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_header_test.cpp"
 				>
 			</File>
 			<File
@@ -1235,15 +1047,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\memory_model_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\memory_remote.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_remote_test.cpp"
 				>
 			</File>
 			<File
@@ -1284,10 +1088,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MemoryManagerDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="MinViewDlg.cpp"
 				>
 				<FileConfiguration
@@ -1323,14 +1123,6 @@
 						BrowseInformation="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\MinViewDlg_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\miscwrappers_test.cpp"
-				>
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\MultiLanguage.cpp"
@@ -1374,10 +1166,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MultitermConversionDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="NagDialog.cpp"
 				>
 				<FileConfiguration
@@ -1415,27 +1203,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\NagDialog_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\NavUrl.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\NavUrl_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\numberfmt.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\numberfmt_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\oleautowrapper_test.cpp"
 				>
 			</File>
 			<File
@@ -1476,10 +1248,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PropertiesDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="query.cpp"
 				>
 				<FileConfiguration
@@ -1517,15 +1285,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\query_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\QueryMergeDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\QueryMergeDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -1569,23 +1329,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\record_local.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\record_remote.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\record_remote_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\record_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\RegisterGlossDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RegisterGlossDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -1597,15 +1349,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\replacer_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ResHtmlFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ResHtmlFile_test.cpp"
 				>
 			</File>
 			<File
@@ -1614,10 +1358,6 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\rtf.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\rtf_test.cpp"
 				>
 			</File>
 			<File
@@ -1633,31 +1373,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\search_match_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SearchResult.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SearchResult_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SearchWindow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SearchWindow_browser_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SearchWindow_templates_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SearchWindow_test.cpp"
 				>
 			</File>
 			<File
@@ -1666,10 +1386,6 @@
 			</File>
 			<File
 				RelativePath=".\SourceAndHtmlEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sourceandhtmledit_test.cpp"
 				>
 			</File>
 			<File
@@ -1713,27 +1429,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StringConversions_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\StringEx_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\system_message.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\system_message_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\tag_name_holder.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\tag_stripper_test.cpp"
 				>
 			</File>
 			<File
@@ -1745,19 +1445,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\text_templates_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\textstream_reader_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\TextTemplate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
 				>
 			</File>
 			<File
@@ -1765,15 +1453,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TMXReader_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\TmxSymbolMapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TmxSymbolMapper_test.cpp"
 				>
 			</File>
 			<File
@@ -1781,15 +1461,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TMXWriter_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\translation_match_query_test.cpp"
 				>
 			</File>
 			<File
@@ -1833,10 +1505,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\TranslationMemory_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="UserStringDlg.cpp"
 				>
 				<FileConfiguration
@@ -1874,15 +1542,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\UserStringDlg_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\view_interface.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_interface_test.cpp"
 				>
 			</File>
 			<File
@@ -1890,15 +1550,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ViewCollectionWalker_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\WebPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WebPage_test.cpp"
 				>
 			</File>
 			<File
@@ -1906,17 +1558,377 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WideRichEdit_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WindowsMessage_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\zoom_dialog.cpp"
 				>
 			</File>
+			<Filter
+				Name="tests"
+				>
+				<File
+					RelativePath=".\aboutdlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AdvancedMemMgrDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\App2_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\App_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AppTemplateTests.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\MyLibrary\array_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\charset_info_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ColorRef_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CommonWindowFunctionality_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ComRecord_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ConcordanceDialog_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ConnectionDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ContentPresenter_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ContentPresenterAddedTrans_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\data_converter_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\data_exporter_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\data_importer_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\distance_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\EditModeFindDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\EditTransRecordDialog_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Exceptions_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\extrastringsview_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\felix_cl_options_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Felix_properties_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\MyLibrary\File_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FindDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\font_tabulator_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GlossaryDialog_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HrefTags_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HtmlDocument_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ImportDialog_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ImportMultitermFile_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\InputKeyDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\InputSymbolDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\languageholder_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\library_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\logging_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\logical_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\mainframe_messaging_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MainFrameController_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\mainfrm_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_filters_searcher_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_maker_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_score_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_tester_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MatchStringPairing_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_header_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_model_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_remote_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MemoryManagerDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MinViewDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\miscwrappers_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MultitermConversionDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NagDialog_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NavUrl_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\numberfmt_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\oleautowrapper_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PropertiesDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\query_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\QueryMergeDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_local_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_remote_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RegisterGlossDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\replacer_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResHtmlFile_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\rtf_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\search_match_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SearchResult_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SearchWindow_browser_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SearchWindow_templates_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SearchWindow_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sourceandhtmledit_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\StringConversions_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\StringEx_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\system_message_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tag_stripper_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\text_templates_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\MyLibrary\textstream_reader_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXReader_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TmxSymbolMapper_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXWriter_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\translation_match_query_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TranslationMemory_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UserStringDlg_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_interface_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ViewCollectionWalker_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WebPage_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WideRichEdit_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WindowsMessage_test.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -2380,6 +2392,10 @@
 			</File>
 			<File
 				RelativePath="record.h"
+				>
+			</File>
+			<File
+				RelativePath=".\record_local.h"
 				>
 			</File>
 			<File

@@ -3,6 +3,7 @@
 
 #include "resource.h"
 #include "record.h"				// record_pointer
+#include "record_local.h"
 #include "MessageMapDefines.h"	// message handling enhancements
 
 #include "Accelerator.h"		// CAccelerator

@@ -5,6 +5,7 @@
 #include "text_templates.h"
 #include "EditTransRecordDialogModal.h"
 #include "replacer.h"
+#include "record_local.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"

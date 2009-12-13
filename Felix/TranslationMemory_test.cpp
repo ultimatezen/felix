@@ -7,6 +7,7 @@
 #include "TranslationMemory.h"
 
 #include "Path.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 #include "MockListener.h"

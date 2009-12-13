@@ -6,6 +6,7 @@
 #include "StdAfx.h"
 #include "memory_remote.h"
 #include "Path.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

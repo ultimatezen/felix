@@ -3,6 +3,7 @@
 #include "ResHtmlFile.h"
 #include "text_templates.h"
 #include "TextTemplate.h"
+#include "record_local.h"
 
 namespace content_presenter
 {

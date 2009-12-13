@@ -6,6 +6,7 @@
 #include "StdAfx.h"
 #include ".\tmxwriter.h"
 #include "ResHtmlFile.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

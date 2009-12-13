@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "data_converter.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 #include "output_device_fake.h"

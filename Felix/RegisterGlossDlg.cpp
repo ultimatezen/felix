@@ -9,6 +9,7 @@
 
 #include "background_processor.h"
 #include "resource_string.h"
+#include "record_local.h"
 
 #include "ColorRef.h"
 

@@ -6,6 +6,7 @@
 #include "miscwrappers.h"		// date
 #include "data_converter.h"
 #include "DebugUtilities.h"	// debug macros etc.
+#include "record_local.h"
 
 using namespace memory_engine ;
 

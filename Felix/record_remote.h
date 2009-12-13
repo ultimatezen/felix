@@ -8,38 +8,29 @@ namespace memory_engine
 	class record_remote : public translation_record
 	{
 	public:
-
 		// construction
 		record_remote(LPCWSTR server_name = L"Felix.RemoteRecord");
-		record_remote( record_pointer rec );
+		record_remote(record_pointer rec);
 		record_remote(CDispatchWrapper wrapper);
-
 		// We really need to plug this leak, but for right now I can't find it!
 		~record_remote();
 
-
 		void copy_engine_values();
 		// source
-
 		const wstring & get_source_rich() const;
-
 		const wstring get_source_plain();
-
 		const wstring & get_source_cmp() const;
 
 		// trans
-
 		const wstring & get_trans_rich() const;
-
 		const wstring get_trans_plain();
-
 		const wstring & get_trans_cmp() const;
 
 		// context 
-
 		const wstring &get_context_rich() const;
 		const wstring get_context_plain();
 		const wstring &get_context_cmp() const;
+
 		// reliability
 		size_t get_reliability() const;
 		void set_reliability( size_t reliability );

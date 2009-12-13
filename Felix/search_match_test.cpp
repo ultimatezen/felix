@@ -1,6 +1,7 @@
 
 #include "StdAfx.h"
 #include "search_match.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

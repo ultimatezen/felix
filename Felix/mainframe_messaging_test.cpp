@@ -5,6 +5,7 @@
 
 #include "StdAfx.h"
 #include "MainFrm.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 #ifdef UNIT_TEST

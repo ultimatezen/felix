@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "FindDlg.h"
 #include "reg_msg_filter.h"
+#include "record_local.h"
 
 using namespace memory_engine ;
 

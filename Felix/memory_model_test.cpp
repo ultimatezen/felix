@@ -5,6 +5,7 @@
 
 #include "StdAfx.h"
 #include "memory_model.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 

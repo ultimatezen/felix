@@ -31,6 +31,7 @@
 #include "output_device.h"
 #include "ImportMultitermFile.h"
 #include "FelixMemDocUIHandler.h"
+#include "record_local.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -6,6 +6,7 @@
 #include "Felix.h"
 #include "_IRecordEvents_CP.h"
 #include "record.h"
+#include "record_local.h"
 
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 

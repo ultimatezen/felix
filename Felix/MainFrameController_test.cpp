@@ -2,6 +2,7 @@
 #include "StdAfx.h"
 #include "mainfrm.h"
 #include "MainFrameModel.h"
+#include "record_local.h"
 #include "easyunit/testharness.h"
 
 #ifdef UNIT_TEST
