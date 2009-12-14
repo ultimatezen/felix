@@ -22,7 +22,7 @@
 
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 
-template <class TBase >
+template <class TBase, int RES_ID = IDD_EDIT_RECORD>
 class CEditTransRecordDialogCommon : 
 	public CMessageFilter, 
 	public CAxDialogImpl< CEditTransRecordDialogCommon<TBase>, TWindow >, 
@@ -57,7 +57,7 @@ public:
 
 	bool			m_is_glossary ;
 
-	const static int IDD = IDD_EDIT_RECORD ;
+	const static int IDD = RES_ID ;
 
 	CEditTransRecordDialogCommon() : 
 		m_is_glossary(false) 

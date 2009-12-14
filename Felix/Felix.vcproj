@@ -711,6 +711,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EditTransRecordDialogRegGloss.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\element_wrapper.cpp"
 				>
 			</File>
@@ -2112,6 +2116,10 @@
 			</File>
 			<File
 				RelativePath=".\EditTransRecordDialogModal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EditTransRecordDialogRegGloss.h"
 				>
 			</File>
 			<File

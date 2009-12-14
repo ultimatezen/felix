@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
 #include "RegisterGlossDlg.h"
-#include "EditTransRecordDialogModal.h"
+#include "EditTransRecordDialogRegGloss.h"
 
 #include "UserStringDlg.h"
 
@@ -786,7 +786,7 @@ _bstr_t CRegisterGlossDlg::trim_text(const _bstr_t before) const
 }
 LRESULT CRegisterGlossDlg::OnCmdAdvanced()
 {
-	CEditTransRecordDialogModal editdlg ;
+	CEditTransRecordDialogRegGloss editdlg ;
 
 	m_gloss_record->set_source(BSTR2wstring(m_gloss_source_edit.GetText())) ;
 	m_gloss_record->set_trans(BSTR2wstring(m_gloss_trans_edit.GetText())) ;
