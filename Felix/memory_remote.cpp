@@ -135,11 +135,13 @@ namespace memory_engine
 			this->convert_candidates(candidates, com_matches) ;
 		}
 
+		const wstring location = static_cast<LPCWSTR>( this->get_location() ) ;
 		foreach(record_pointer record, candidates)
 		{
 			search_match_ptr match(new search_match) ;
 			match->set_record(record) ;
 			match->set_values_to_record() ;
+			match->set_memory_location( location ) ;
 			match->set_memory_id( get_id() ) ;
 			matches.insert(match);
 		}
