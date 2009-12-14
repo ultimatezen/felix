@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixJPN.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -168,6 +168,7 @@
 #define IDS_TOGGLE_TITLE                139
 #define IDC_SEARCH                      140
 #define IDS_SELECT_SOURCE_TRANS         140
+#define IDC_VALIDATED_CHECK2            140
 #define IDC_REPLACE                     141
 #define IDS_SELECT_CONTEXT_AND_DESTINATION 141
 #define IDC_EDIT                        142
@@ -321,7 +322,7 @@
 #define IDC_VALIDITY                    272
 #define IDB_SEARCH                      272
 #define IDD_PROPPAGE_VIEW               273
-#define IDB_MEM_MGR						273
+#define IDB_MEM_MGR                     273
 #define IDC_ALGO_CHAR_GLOSS             274
 #define IDD_PROPPAGE_GENERAL            274
 #define IDS_PROMPT_RESCUE_ENTRIES       275
@@ -548,12 +549,15 @@
 #define IDC_SEPARATE                    474
 #define IDC_DONT_ASK                    475
 #define IDD_ZOOM_DLG                    475
+#define IDR_SEARCH_ACCEL                475
 #define IDC_ASK_MERGE                   476
 #define IDC_SLIDER1                     476
 #define IDC_COMBO1                      476
 #define IDC_ADD_TO_COMBO                476
+#define IDD_EDIT_RECORD_GLOSS           476
 #define IDC_USER_NAME                   477
 #define IDC_ADD_STATIC                  477
+#define IDC_DEFAULTS_CHECK              478
 #define IDR_APP                         562
 #define IDC_CLOSE                       562
 #define IDC_ADD_SOURCE                  563
@@ -621,9 +625,13 @@
 #define ID_EDIT_REGISTER                32822
 #define ID_MEMORY_CLOSE                 32824
 #define IDS_MEMORY_CLOSE                32825
+#define ID_NEW_SEARCH                   32825
 #define IDS_GLOSSARY_CLOSE              32826
+#define ID_REPLACE                      32826
 #define IDS_CLOSED_MEMORY               32827
+#define ID_SEARCH                       32827
 #define IDS_CLOSED_GLOSSARY             32828
+#define ID_TOGGLE_HELP                  32828
 #define IDC_SOURCE_LANG_STATIC          -1
 
 // Next default values for new objects
@@ -631,9 +639,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        475
-#define _APS_NEXT_COMMAND_VALUE         32825
-#define _APS_NEXT_CONTROL_VALUE         478
+#define _APS_NEXT_RESOURCE_VALUE        476
+#define _APS_NEXT_COMMAND_VALUE         32829
+#define _APS_NEXT_CONTROL_VALUE         480
 #define _APS_NEXT_SYMED_VALUE           572
 #endif
 #endif

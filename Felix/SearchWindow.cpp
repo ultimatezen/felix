@@ -6,6 +6,7 @@
 #include "EditTransRecordDialogModal.h"
 #include "replacer.h"
 #include "record_local.h"
+#include "WebPage.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -52,7 +53,7 @@ LRESULT CSearchWindow::OnCreate( UINT, WPARAM, LPARAM )
 
 	SetWindowText( m_title ) ;
 
-	m_accelerator.LoadAccelerators(IDR_MAINFRAME) ;
+	m_accelerator.LoadAccelerators(IDR_SEARCH_ACCEL) ;
 
 #ifndef UNIT_TEST
 	_Module.GetMessageLoop()->AddMessageFilter(this) ;
@@ -166,6 +167,11 @@ BOOL CSearchWindow::PreTranslateMessage( LPMSG pMsg )
 
 	ENSURE_FOCUS
 
+	if ( IsWindow() && m_accelerator.TranslateAccelerator( *this, pMsg ) )
+	{
+		return TRUE ;
+	}
+
 	// prevent the view from eating our menu shortcut keys...
 	if (::GetKeyState(VK_MENU) & 0x8000)
 	{
@@ -178,11 +184,6 @@ BOOL CSearchWindow::PreTranslateMessage( LPMSG pMsg )
 		{
 			return TRUE ;
 		}
-	}
-
-	if ( IsWindow() && m_accelerator.TranslateAccelerator( *this, pMsg ) )
-	{
-		return TRUE ;
 	}
 
 	return FALSE ;
@@ -459,6 +460,14 @@ void CSearchWindow::handle_deletefilter(doc3_wrapper_ptr doc, wstring url)
 	m_search_runner.remove_term(get_pos_arg(url)) ;
 
 	set_filterbox_text(doc, m_search_runner.get_terms());
+
+	if (m_search_runner.get_terms().empty())
+	{
+		m_paginator.set_num_records(0) ;
+		m_current_match = 0 ;
+		show_search_page() ;
+		return ;
+	}
 	retrieve_and_show_matches(doc);
 }
 
@@ -777,6 +786,36 @@ void CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &re
 	m_controller->get_memory_by_id(memid)->replace(record, modified) ;
 }
 
+LRESULT CSearchWindow::OnNewSearch()
+{
+	m_search_runner.clear_terms() ;
+	m_paginator.set_num_records(0) ;
+	m_current_match = 0 ;
+	show_search_page() ;
+
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnSearch()
+{
+	show_search_page() ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnReplace()
+{
+	handle_gotoreplace() ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnToggleHelp()
+{
+	html::CWebPage page ;
+	page.SetDocument(m_view.get_document()) ;
+	page.CallJScript("toggleHelp") ;
+
+	return 0L ;
+}
 /*
  Get the value of the specified input box, and clear that value
  afterward.

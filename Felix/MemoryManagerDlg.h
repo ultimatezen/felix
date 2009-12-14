@@ -63,7 +63,7 @@ class CMemoryManagerDlg:
 {
 
 	CDropperCheckListViewCtrl	m_list_box ;
-	CStatic						m_info_box ;
+	CStaticT<TWindow>			m_info_box ;
 	CHtmlView					m_info_view ;
 
 	memory_list					m_memories ;

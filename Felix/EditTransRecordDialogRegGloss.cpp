@@ -7,11 +7,11 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-// message handlers 
+CEditTransRecordDialogRegGloss::CEditTransRecordDialogRegGloss(const bool make_defaults) : m_make_defaults(make_defaults)
+{
+}
 
 // Function name	: CEditTransRecordDialogRegGloss::OnInitDialog
-// Description	    : 
-// Return type		: LRESULT 
 LRESULT CEditTransRecordDialogRegGloss::OnInitDialog( )
 {
 	SENSE("OnInitDialog") ;
@@ -40,21 +40,9 @@ LRESULT CEditTransRecordDialogRegGloss::OnOK( )
 
 	try
 	{
+		m_make_defaults = !! IsDlgButtonChecked(IDC_DEFAULTS_CHECK) ;
 		// source
-		const wstring source( strip_tags(BSTR2wstring(m_source_edit.GetText())) ) ;
-		// trans
-		const wstring trans( strip_tags(BSTR2wstring(m_trans_edit.GetText())) ) ;
-
-		if ( source.empty() ) 
-		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
-		}
-		if ( trans.empty() ) 
-		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
-		}
 		fill_record() ;
-
 	}
 	catch( CException &e )
 	{
@@ -79,9 +67,6 @@ void CEditTransRecordDialogRegGloss::set_record( record_type record )
 	m_old_record = record ; 
 }
 
-CEditTransRecordDialogRegGloss::CEditTransRecordDialogRegGloss()
-{
-}
 
 CEditTransRecordDialogRegGloss::record_type CEditTransRecordDialogRegGloss::get_record()
 {
@@ -97,5 +82,70 @@ LRESULT CEditTransRecordDialogRegGloss::OnEditStrings()
 LRESULT CEditTransRecordDialogRegGloss::OnAddString()
 {
 	add_string(m_old_record) ;
+	return 0L ;
+}
+
+LRESULT CEditTransRecordDialogRegGloss::OnSize( UINT type, CSize size )
+{
+	BANNER("CAboutDlg::OnSize") ;
+
+	SetMsgHandled(FALSE) ;
+
+	if(m_bGripper)
+	{
+		TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+		if(type == SIZE_MAXIMIZED)
+			wndGripper.ShowWindow(SW_HIDE);
+		else if(type == SIZE_RESTORED)
+			wndGripper.ShowWindow(SW_SHOW);
+	}
+
+	if(type != SIZE_MINIMIZED)
+	{
+		DlgResize_UpdateLayout(size.cx , size.cy);
+	}
+	else
+	{
+		return 0L ;
+	}
+
+	fix_screwy_box_sizes();
+	// =============
+	// source
+	// =============
+	m_source_edit.handle_size() ;
+
+	// =============
+	// trans
+	// =============
+	m_trans_edit.handle_size() ;
+
+	// =============
+	// context
+	// =============
+	m_context_edit.handle_size() ;
+
+	// =============
+	// extra strings
+	// =============
+
+	// size defaults checkbox
+	TWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
+	CWindowRect context_rect(context_box) ;
+	ScreenToClient(&context_rect) ;
+	TWindow defaults_check = GetDlgItem(IDC_DEFAULTS_CHECK) ;
+	CWindowRect defaults_rect(defaults_check) ;
+	ScreenToClient(&defaults_rect) ;
+	const int height = defaults_rect.Height() ;
+	const int width = defaults_rect.Width() ;
+	const int padding = 7 ;
+	defaults_rect.left = context_rect.left ;
+	defaults_rect.top = context_rect.bottom + padding ;
+	defaults_rect.bottom = defaults_rect.top + height ;
+	defaults_rect.right = defaults_rect.left + width ;
+	defaults_check.SetWindowPos(NULL, &defaults_rect, SWP_NOZORDER | SWP_NOACTIVATE);
+
+	m_extra_strings_view.handle_size() ;
+
 	return 0L ;
 }

@@ -63,6 +63,7 @@ class CRegisterGlossDlg :
 
 	gloss_window_pointer m_gloss_window ;
 
+	bool m_make_defaults ;
 	int AddButtonHeight ;
 	int m_current_add_pos ;
 public:

@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\res\close.bmp"
+				>
+			</File>
+			<File
 				RelativePath="..\res\Copy.bmp"
 				>
 			</File>
@@ -327,6 +331,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\res\mem_mgr.bmp"
+				>
+			</File>
+			<File
 				RelativePath="..\res\NewDocument.bmp"
 				>
 			</File>
@@ -356,6 +364,10 @@
 			</File>
 			<File
 				RelativePath="..\res\Search.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\res\view.bmp"
 				>
 			</File>
 		</Filter>
@@ -424,11 +436,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\res\nagpagej.html"
+			RelativePath="..\..\..\Felix 1.5\res\nagpagej.html"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\nagpagej.html"
+			RelativePath="..\res\nagpagej.html"
 			>
 		</File>
 		<File
@@ -446,12 +458,12 @@
 			>
 		</File>
 		<File
-			RelativePath="..\res\reg_glossj.htm"
+			RelativePath="..\..\..\Felix 1.5\res\reg_glossj.htm"
 			DeploymentContent="true"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\reg_glossj.htm"
+			RelativePath="..\res\reg_glossj.htm"
 			DeploymentContent="true"
 			>
 		</File>

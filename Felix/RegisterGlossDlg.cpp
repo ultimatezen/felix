@@ -31,7 +31,16 @@ static char THIS_FILE[] = __FILE__ ;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+CRegisterGlossDlg::CRegisterGlossDlg() :
+m_current_add_pos(0),
+m_make_defaults(false)
+{
+	m_mem_record = record_pointer(new record_local()) ;
+	m_gloss_record = record_pointer(new record_local()) ;
+	m_accel.LoadAccelerators(IDC_EDIT_ACCELERATORS) ;
+}
 
+// message handlers
 LRESULT CRegisterGlossDlg::OnSize(UINT type, CSize size)
 {
 	SENSE("OnSize") ;
@@ -63,18 +72,18 @@ LRESULT CRegisterGlossDlg::OnSize(UINT type, CSize size)
 	resize_client_rect_advanced(ClientRect, PaddingConst);
 
 	// add combo
-	CWindowRect AddComboRect(m_AddCombo) ;
+	const CWindowRect AddComboRect(m_AddCombo) ;
 	CRect NewAddComboRect(ClientRect) ;
 
 	NewAddComboRect.top = NewAddComboRect.bottom - AddComboRect.Height() ;
-	int add_combo_width = AddComboRect.Width() ;
+	const int add_combo_width = AddComboRect.Width() ;
 	NewAddComboRect.right = NewAddComboRect.right - PaddingConst ;
 	NewAddComboRect.left = NewAddComboRect.right - add_combo_width ;
 	m_AddCombo.MoveWindow(&NewAddComboRect, TRUE) ;
 	m_AddCombo.ShowWindow(SW_SHOW) ;
 
 	CWindowRect AddStaticRect(m_AddStatic) ;
-	int add_static_width = AddStaticRect.Width() ;
+	const int add_static_width = AddStaticRect.Width() ;
 	AddStaticRect.top = NewAddComboRect.top ;
 	AddStaticRect.right = NewAddComboRect.left - PaddingConst ;
 	AddStaticRect.left = AddStaticRect.right - add_static_width ;
@@ -786,7 +795,7 @@ _bstr_t CRegisterGlossDlg::trim_text(const _bstr_t before) const
 }
 LRESULT CRegisterGlossDlg::OnCmdAdvanced()
 {
-	CEditTransRecordDialogRegGloss editdlg ;
+	CEditTransRecordDialogRegGloss editdlg(m_make_defaults) ;
 
 	m_gloss_record->set_source(BSTR2wstring(m_gloss_source_edit.GetText())) ;
 	m_gloss_record->set_trans(BSTR2wstring(m_gloss_trans_edit.GetText())) ;
@@ -796,7 +805,7 @@ LRESULT CRegisterGlossDlg::OnCmdAdvanced()
 	{
 		return 0L;
 	}
-
+	m_make_defaults = editdlg.m_make_defaults ;
 	m_gloss_source_edit.SetText(string2BSTR(m_gloss_record->get_source_rich())) ;
 	m_gloss_trans_edit.SetText(string2BSTR(m_gloss_record->get_trans_rich())) ;
 
@@ -807,14 +816,6 @@ LRESULT CRegisterGlossDlg::OnCmdRegister()
 	add_gloss_entry();
 
 	return 0L ;
-}
-
-CRegisterGlossDlg::CRegisterGlossDlg() :
-	m_current_add_pos(0)
-{
-	m_mem_record = record_pointer(new record_local()) ;
-	m_gloss_record = record_pointer(new record_local()) ;
-	m_accel.LoadAccelerators(IDC_EDIT_ACCELERATORS) ;
 }
 
 void CRegisterGlossDlg::set_gloss_window(gloss_window_pointer gloss)
@@ -989,6 +990,10 @@ void CRegisterGlossDlg::add_gloss_entry()
 
 		refresh_current_add_pos();
 		m_gloss_window->add_record(m_gloss_record->clone(), m_current_add_pos) ;
+		if (! m_make_defaults)
+		{
+			m_gloss_record = record_pointer(new record_local()) ;
+		}
 
 		m_gloss_source_edit.SetText(L"") ;
 		m_gloss_trans_edit.SetText(L"") ;

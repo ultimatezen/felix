@@ -18,7 +18,7 @@
 #include "resource_string.h"
 #include "ColorRef.h"
 #include "reg_msg_filter.h"
-
+#include "xpmenu/Tools.h"
 
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 
@@ -552,14 +552,11 @@ public:
 		TWindow trans_box = GetDlgItem(IDC_TRANS_BOX) ;
 		TWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
 
-		CRect source_rect ;
-		source_box.GetWindowRect(&source_rect) ;
+		CWindowRect source_rect(source_box) ;
 		ScreenToClient(&source_rect) ;
-		CRect trans_rect ;
-		trans_box.GetWindowRect(&trans_rect) ;
+		CWindowRect trans_rect(trans_box) ;
 		ScreenToClient(&trans_rect) ;
-		CRect context_rect ;
-		context_box.GetWindowRect(&context_rect) ;
+		CWindowRect context_rect(context_box) ;
 		ScreenToClient(&context_rect) ;
 
 		source_rect.right = context_rect.right ;

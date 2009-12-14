@@ -69,9 +69,9 @@ BEGIN
         MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
         MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
         MENUITEM SEPARATOR
-        MENUITEM "閉じる(&L)\tCtrl+W",            ID_MEMORY_CLOSE
+        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったファイル",           ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Felixの終了(&X)",                ID_APP_EXIT
     END
@@ -91,8 +91,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
         MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
-        MENUITEM "エントリの追加(&A)\tF2",                ID_EDIT_ADD
-        MENUITEM "用語集への登録(&G)\tF3",         ID_EDIT_REGISTER
+        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
+        MENUITEM "用語集への登録(&G)\tF3",             ID_EDIT_REGISTER
     END
     POPUP "表示(&V)"
     BEGIN
@@ -121,7 +121,7 @@ BEGIN
         MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
         MENUITEM SEPARATOR
         MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
-        MENUITEM "メモリの管理(&M)...",              ID_TOOLS_MEMORY_MGR
+        MENUITEM "メモリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
     END
     POPUP "ヘルプ(&H)"
     BEGIN
@@ -145,27 +145,27 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "接続(&C)...",                   ID_FILE_CONNECT
         MENUITEM SEPARATOR
-        MENUITEM "上書き保存(&S)\tCtrl+S",       ID_FILE_SAVE
-        MENUITEM "名前を付けて保存...(&A)",      ID_FILE_SAVE_AS
-        MENUITEM "すべてを保存(&L)",             ID_FILE_SAVE_ALL
+        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
+        MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
         MENUITEM SEPARATOR
-        MENUITEM "閉じる(&L)\tCtrl+W",            ID_MEMORY_CLOSE
+        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
         MENUITEM SEPARATOR
-        MENUITEM "最近使ったファイル",           ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "閉じる(&C)",                    IDCLOSE
+        MENUITEM "閉じる(&C)",                     IDCLOSE
     END
     POPUP "編集(&E)"
     BEGIN
         MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
-        MENUITEM "切り取り(&U)\tCtrl+X",           ID_EDIT_CUT
-        MENUITEM "貼り付け(&P)\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
+        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
         MENUITEM SEPARATOR
         MENUITEM "検索(&F)\tCtrl+F",              ID_EDIT_FIND
-        MENUITEM "簡易検索(&Q)",                  ID_FIND_QUICKSEARCH
+        MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
         MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
         MENUITEM SEPARATOR
-        MENUITEM "用語の追加(&A)\tF2",             ID_EDIT_ADD
+        MENUITEM "用語の追加(&A)\tF2",               ID_EDIT_ADD
     END
     POPUP "表示(&V)"
     BEGIN
@@ -187,7 +187,7 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "グロサリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
+        MENUITEM "グロサリの管理(&M)...",              ID_TOOLS_MEMORY_MGR
     END
 END
 
@@ -297,12 +297,12 @@ END
 
 IDD_EDIT_RECORD DIALOGEX 0, 0, 399, 364
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "EDIT RECORD"
+CAPTION "用語登録の詳細設定"
 MENU IDR_REGISTERMENU
 FONT 8, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
-    PUSHBUTTON      "フィールドの追加(&A)",IDC_ADD_STRING,7,275,77,16
-    PUSHBUTTON      "フィールドの編集(&E)",IDC_EDIT_STRINGS,7,297,77,16
+    PUSHBUTTON      "フィールドの追加(&A)",IDC_ADD_STRING,7,302,77,16
+    PUSHBUTTON      "フィールドの編集(&E)",IDC_EDIT_STRINGS,7,324,77,16
     EDITTEXT        IDC_RELIABILITY_EDIT,283,256,28,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,319,256,11,12
     CONTROL         "確認済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
@@ -317,8 +317,9 @@ BEGIN
     LTEXT           "Static",IDC_SOURCE_BOX,55,7,337,76,NOT WS_VISIBLE | WS_BORDER
     LTEXT           "Static",IDC_TRANS_BOX,55,90,337,76,NOT WS_VISIBLE | WS_BORDER
     LTEXT           "Static",IDC_CONTEXT_BOX,55,172,337,76,NOT WS_VISIBLE | WS_BORDER
-    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,87,255,155,99,NOT WS_VISIBLE | NOT WS_GROUP
-    LTEXT           "任意フィールド",IDC_USER_STRINGS,5,252,54,16,SS_CENTERIMAGE
+    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,87,277,155,77,NOT WS_VISIBLE | NOT WS_GROUP
+    LTEXT           "任意フィールド",IDC_USER_STRINGS,9,275,54,16,SS_CENTERIMAGE
+    CONTROL         "既定の設定にする",IDC_DEFAULTS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,255,139,14
 END
 
 IDD_PROPPAGE_MEMORY DIALOGEX 0, 0, 239, 249
@@ -571,6 +572,32 @@ BEGIN
     CONTROL         "&1 で始まる",IDC_GLOSS_NUM_1,"Button",BS_AUTORADIOBUTTON,17,205,133,13
 END
 
+IDD_EDIT_RECORD_GLOSS DIALOGEX 0, 0, 399, 364
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "EDIT RECORD"
+MENU IDR_REGISTERMENU
+FONT 8, "ＭＳ ゴシック", 400, 0, 0x80
+BEGIN
+    PUSHBUTTON      "フィールドの追加(&A)",IDC_ADD_STRING,7,275,77,16
+    PUSHBUTTON      "フィールドの編集(&E)",IDC_EDIT_STRINGS,7,297,77,16
+    EDITTEXT        IDC_RELIABILITY_EDIT,283,256,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,319,256,11,12
+    CONTROL         "確認済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
+    DEFPUSHBUTTON   "&OK",IDOK,287,338,50,19
+    PUSHBUTTON      "キャンセル",IDCANCEL,342,338,50,19
+    LTEXT           "原語",IDC_SOURCE_STATIC,7,7,22,8
+    LTEXT           "訳語",IDC_TRANS_STATIC,7,91,20,8
+    LTEXT           "文脈",IDC_CONTEXT_STATIC,7,171,22,8
+    LTEXT           "信頼度:",IDC_RELIABILITY_STATIC,248,256,33,12,SS_CENTERIMAGE
+    LTEXT           "Static",IDC_CREATED_BOX,248,295,145,13
+    LTEXT           "Static",IDC_MODIFIED_BOX,248,316,145,13
+    LTEXT           "Static",IDC_SOURCE_BOX,55,7,337,76,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "Static",IDC_TRANS_BOX,55,90,337,76,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "Static",IDC_CONTEXT_BOX,55,172,337,76,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,87,255,155,99,NOT WS_VISIBLE | NOT WS_GROUP
+    LTEXT           "任意フィールド",IDC_USER_STRINGS,5,252,54,16,SS_CENTERIMAGE
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -714,6 +741,14 @@ BEGIN
         RIGHTMARGIN, 230
         BOTTOMMARGIN, 282
     END
+
+    IDD_EDIT_RECORD_GLOSS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 392
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 357
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -780,6 +815,14 @@ BEGIN
     VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
     "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
     "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+IDR_SEARCH_ACCEL ACCELERATORS 
+BEGIN
+    "N",            ID_NEW_SEARCH,          VIRTKEY, ALT, NOINVERT
+    "R",            ID_REPLACE,             VIRTKEY, ALT, NOINVERT
+    "S",            ID_SEARCH,              VIRTKEY, ALT, NOINVERT
+    "H",            ID_TOGGLE_HELP,         VIRTKEY, ALT, NOINVERT
 END
 
 
@@ -996,18 +1039,33 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW             "新しいメモリを作成します\n作成"
     ID_FILE_OPEN            "既存のドキュメントを開く\n開く"
-    IDS_MEMORY_CLOSE        "閉じる\n現在のメモリを閉じます"
-    IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
     ID_FILE_SAVE            "現在のメモリ・用語集を保存します\n保存"
     ID_FILE_SAVE_AS         "現在のメモリ・用語集に名前を付けて保存する\n名前を付けて保存"
     ID_FILE_PAGE_SETUP      "印刷オプションの変更\nページ設定"
     ID_FILE_PRINT_SETUP     "印刷オプションの変更\n印刷設定"
     ID_FILE_PRINT           "現在のメモリ・用語集を印刷する\n印刷"
     ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
-	IDS_SAVE_GLOSSARY        "現在の用語集を保存します\n現在の用語集を保存します"
-	IDS_SAVE_MEMORY          "現在のメモリを保存します\n現在のメモリを保存します"
-	IDS_SAVE_ALL_GLOSSARIES  "すべての用語集を保存します\nすべての用語集を保存します"
-	IDS_SAVE_ALL_MEMORIES    "すべてのメモリを保存します\nすべてのメモリを保存します"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MEMORY_CLOSE        "閉じる\n現在のメモリを閉じます"
+    IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
+    IDS_CLOSED_MEMORY       "メモリを閉じました：[%1]"
+    IDS_CLOSED_GLOSSARY     "用語集を閉じました：[%1]"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
+    IDS_SAVE_GLOSSARY       "現在の用語集を保存します\n現在の用語集を保存します"
+    IDS_SAVE_MEMORY         "現在のメモリを保存します\n現在のメモリを保存します"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_SAVE_ALL_GLOSSARIES "すべての用語集を保存します\nすべての用語集を保存します"
+    IDS_SAVE_ALL_MEMORIES   "すべてのメモリを保存します\nすべてのメモリを保存します"
 END
 
 STRINGTABLE 
@@ -1015,8 +1073,6 @@ BEGIN
     ID_APP_ABOUT            "プログラム情報、バージョン、および著作権を表示します。\nバージョン情報"
     ID_APP_EXIT             "プルグラムの終了。ドキュメントの保存ダイアログが表示されます。\n終了"
     ID_HELP                 "ヘルプファイルを表示します。\nヘルプ"
-    IDS_CLOSED_MEMORY       "メモリを閉じました：[%1]"
-    IDS_CLOSED_GLOSSARY     "用語集を閉じました：[%1]"
 END
 
 STRINGTABLE 
@@ -1115,6 +1171,7 @@ END
 
 STRINGTABLE 
 BEGIN
+    IDS_POPUP_ADD_TO_GLOSS  "用語集に追加(&A)"
     IDS_NO_SOURCE_SELECTED  "原語が指定されていません"
     IDS_GLOSS_SEARCH        "グロサリエントリの検索"
     IDS_MEMORY_SEARCH       "メモリエントリの検索"
@@ -1128,6 +1185,8 @@ BEGIN
     IDD_DELETE              "現在のエントリをメモリから削除します。\nエントリの削除"
     IDC_DELETE              "delete"
     IDS_IDS_REG_LINK_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">グロサリに登録</span>"
+    IDS_POPUP_REGISTER_GLOSS "用語の登録(&R)"
+    IDS_POPUP_DELETE        "削除(&D)"
     IDD_EDIT_ENTRY          "現在のエントリを編集します\nエントリの編集"
     IDC_REGISTER            "register"
 END
@@ -1143,7 +1202,6 @@ BEGIN
     IDS_SAVE_MANY_TOOLBAR   "すべてを保存"
     IDCLOSE                 "このウィンドウを閉じます\n閉じる"
     IDS_SEARCH_TOOLBAR      "メモリを検索します"
-	IDS_SEARCH_TOOLBAR_GLOSS "用語集を検索します"
     IDS_GLOSSARY_MANAGER_TITLE "用語集の管理"
     IDS_MERGE_MEM_TITLE     "メモリの整合"
     IDS_MERGE_GLOSS_TITLE   "用語集の整合"
@@ -1154,11 +1212,24 @@ END
 
 STRINGTABLE 
 BEGIN
+    IDC_LOCKED              "ロックされたメモリは、エントリの追加、編集、削除などが不可能となります。ロックをかけたユーザしかロックを解除できません。"
+    IDS_SEARCH_TOOLBAR_GLOSS "用語集を検索します"
+    IDS_MSG_FINISHED_MULTITERM_EXPORT "ファイル [%1] を MultiTerm 形式でエクスポート完了"
+    IDD_MIN_VIEW_DLG        "Felix小型表示"
+    IDS_MSG_LOADING         "ファイル[%1]を取り込み中..."
+END
+
+STRINGTABLE 
+BEGIN
     ID_PANE_1               "                    "
     ID_PANE_2               "          "
     ID_VIEW_GLOSSARY        "グロサリウィンドウを表示します\nグロサリウィンドウ表示"
     ID_VIEW_MEMORY          "現在の翻訳メモリを表示します\nメモリの表示"
-	ID_NEXT_PANE			"表示の切り替え\n表示の切り替え"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "表示の切り替え\n表示の切り替え"
 END
 
 STRINGTABLE 
@@ -1182,7 +1253,9 @@ BEGIN
     IDS_REPLACE_COMPLETE_MSG "置換しました"
     IDS_SEARCHWIN_TITLE_MEM "メモリの検索"
     IDS_SEARCHWIN_TITLE_GLOSS "用語の検索"
+    IDS_POPUP_COPY          "コピー(&C)"
     IDS_RETRIEVING_LANG_CODES "言語コードを取得中..."
+    IDS_POPUP_SWITCH_VIEWS  "表示の切り替え(&V)"
     IDS_IMPORT_COMPLETE     "インポート完了。%1個のエントリをインポートしました。"
     IDS_DEFAULT_ID2         "DEFAULT"
     IDS_PREV                "戻る "
@@ -1225,12 +1298,6 @@ BEGIN
     ID_FORMAT_BGCOLOR       "ブラウザの背景色を設定します。\n背景色"
     ID_FILE_SAVE_ALL        "すべてのメモリまたはグロサリを保存します。\nすべてを保存"
     ID_FILE_CONNECT         "接続\nアドレスを指定してサーバーにあるメモリに接続します。"
-    IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
-    IDS_POPUP_REGISTER_GLOSS "用語の登録(&R)"
-    IDS_POPUP_DELETE        "削除(&D)"
-    IDS_POPUP_COPY          "コピー(&C)"
-    IDS_POPUP_SWITCH_VIEWS  "表示の切り替え(&V)"
-    IDS_POPUP_ADD_TO_GLOSS  "用語集に追加(&A)"
 END
 
 STRINGTABLE 
@@ -1285,14 +1352,6 @@ BEGIN
     IDS_MODIFIED            "更新日時 :"
     IDS_CREATED             "作成日時 :"
     IDS_MSG_NO_FILE         "ファイル [%1] は存在しません。"
-END
-
-STRINGTABLE 
-BEGIN
-    IDC_LOCKED              "ロックされたメモリは、エントリの追加、編集、削除などが不可能となります。ロックをかけたユーザしかロックを解除できません。"
-    IDS_MSG_FINISHED_MULTITERM_EXPORT "ファイル [%1] を MultiTerm 形式でエクスポート完了"
-    IDD_MIN_VIEW_DLG        "Felix小型表示"
-    IDS_MSG_LOADING         "ファイル[%1]を取り込み中..."
 END
 
 STRINGTABLE 

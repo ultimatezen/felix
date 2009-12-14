@@ -357,6 +357,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\res\mem_mgr.bmp"
+				>
+			</File>
+			<File
 				RelativePath="..\res\NewDocument.bmp"
 				>
 			</File>
@@ -436,22 +440,22 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\html2.htm"
-			DeploymentContent="true"
-			>
-		</File>
-		<File
 			RelativePath="..\res\html2.htm"
 			DeploymentContent="true"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\mtr.htm"
+			RelativePath="..\..\..\Felix 1.5\res\html2.htm"
 			DeploymentContent="true"
 			>
 		</File>
 		<File
 			RelativePath="..\res\mtr.htm"
+			DeploymentContent="true"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Felix 1.5\res\mtr.htm"
 			DeploymentContent="true"
 			>
 		</File>
@@ -473,16 +477,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\OpeningPage.html"
-			>
-		</File>
-		<File
 			RelativePath="..\res\OpeningPage.html"
 			>
 		</File>
 		<File
-			RelativePath="..\res\reg_gloss.htm"
-			DeploymentContent="true"
+			RelativePath="..\..\..\Felix 1.5\res\OpeningPage.html"
 			>
 		</File>
 		<File
@@ -491,11 +490,16 @@
 			>
 		</File>
 		<File
-			RelativePath="..\res\tmx_head.html"
+			RelativePath="..\res\reg_gloss.htm"
+			DeploymentContent="true"
 			>
 		</File>
 		<File
 			RelativePath="..\..\..\Felix 1.5\res\tmx_head.html"
+			>
+		</File>
+		<File
+			RelativePath="..\res\tmx_head.html"
 			>
 		</File>
 	</Files>

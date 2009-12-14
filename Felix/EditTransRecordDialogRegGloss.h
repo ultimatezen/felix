@@ -4,14 +4,16 @@
 #pragma once
 
 #include "EditTransRecordDialogCommon.h"
+#include "resource.h"
 
-
-class CEditTransRecordDialogRegGloss : public CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss>
+class CEditTransRecordDialogRegGloss : public CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss, IDD_EDIT_RECORD_GLOSS>
 {
 public:
-	typedef CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss> BaseClass ;
 
-	CEditTransRecordDialogRegGloss();
+	bool m_make_defaults ;
+	typedef CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss, IDD_EDIT_RECORD_GLOSS> BaseClass ;
+
+	CEditTransRecordDialogRegGloss(bool make_defaults=false);
 
 	void fill_record();
 
@@ -24,8 +26,10 @@ public:
 	LRESULT OnOK() ;
 	LRESULT OnEditStrings() ;
 	LRESULT OnAddString() ;
+	LRESULT OnSize(UINT type, CSize size);
 
 	BEGIN_MSG_MAP_EX( CEditTransRecordDialogRegGloss )
+		MSG_WM_SIZE(OnSize)
 		CHAIN_MSG_MAP(BaseClass) ;
 	END_MSG_MAP()
 };

@@ -260,7 +260,7 @@ END
 
 IDD_EDIT_RECORD DIALOGEX 0, 0, 379, 356
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTERMOUSE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "EDIT RECORD"
+CAPTION "Glossary Entry Details"
 MENU IDR_REGISTERMENU
 FONT 9, "Tahoma", 400, 0, 0x0
 BEGIN
@@ -271,17 +271,18 @@ BEGIN
     LTEXT           "CONTEXT",IDC_CONTEXT_STATIC,5,171,35,9
     LTEXT           "IDC_CONTEXT_BOX",IDC_CONTEXT_BOX,56,168,322,81,NOT WS_VISIBLE | WS_BORDER
     LTEXT           "EXTRA STRINGS",IDC_USER_STRINGS,5,245,40,19
-    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,56,255,190,94,NOT WS_VISIBLE | NOT WS_GROUP
+    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,56,274,190,75,NOT WS_VISIBLE | NOT WS_GROUP
     PUSHBUTTON      "&Edit Strings",IDC_EDIT_STRINGS,3,284,47,16
     PUSHBUTTON      "&Add String",IDC_ADD_STRING,3,309,47,16
     LTEXT           "&RELIABILITY:",IDC_RELIABILITY_STATIC,252,252,50,12,SS_CENTERIMAGE
     EDITTEXT        IDC_RELIABILITY_EDIT,310,252,28,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,346,252,11,12
-    CONTROL         "&VALIDATED",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,252,271,52,13
     LTEXT           "IDC_CREATED_BOX",IDC_CREATED_BOX,252,290,122,13
     LTEXT           "IDC_MODIFIED_BOX",IDC_MODIFIED_BOX,252,306,122,13
     DEFPUSHBUTTON   "&OK",IDOK,282,326,42,15
     PUSHBUTTON      "&Cancel",IDCANCEL,332,326,42,15
+    CONTROL         "Make &defaults",IDC_DEFAULTS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,55,252,153,13
+    CONTROL         "&VALIDATED",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,252,271,52,13
 END
 
 IDD_PROPSHEET DIALOGEX 0, 0, 330, 316
@@ -538,6 +539,32 @@ BEGIN
     PUSHBUTTON      "&Close",IDCLOSE,464,275,56,15
 END
 
+IDD_EDIT_RECORD_GLOSS DIALOGEX 0, 0, 379, 356
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTERMOUSE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "EDIT RECORD"
+MENU IDR_REGISTERMENU
+FONT 9, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "SOURCE",IDC_SOURCE_STATIC,5,7,42,8
+    LTEXT           "IDC_SOURCE_BOX",IDC_SOURCE_BOX,56,4,322,78,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "TRANSLATION",IDC_TRANS_STATIC,5,91,48,8
+    LTEXT           "IDC_TRANS_BOX",IDC_TRANS_BOX,56,86,322,81,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "CONTEXT",IDC_CONTEXT_STATIC,5,171,35,9
+    LTEXT           "IDC_CONTEXT_BOX",IDC_CONTEXT_BOX,56,168,322,81,NOT WS_VISIBLE | WS_BORDER
+    LTEXT           "EXTRA STRINGS",IDC_USER_STRINGS,5,245,40,19
+    LTEXT           "IDC_EXTRA_STRING_BOX",IDC_EXTRA_STRING_BOX,56,255,190,94,NOT WS_VISIBLE | NOT WS_GROUP
+    PUSHBUTTON      "&Edit Strings",IDC_EDIT_STRINGS,3,284,47,16
+    PUSHBUTTON      "&Add String",IDC_ADD_STRING,3,309,47,16
+    LTEXT           "&RELIABILITY:",IDC_RELIABILITY_STATIC,252,252,50,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_RELIABILITY_EDIT,310,252,28,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,346,252,11,12
+    CONTROL         "&VALIDATED",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,252,271,52,13
+    LTEXT           "IDC_CREATED_BOX",IDC_CREATED_BOX,252,290,122,13
+    LTEXT           "IDC_MODIFIED_BOX",IDC_MODIFIED_BOX,252,306,122,13
+    DEFPUSHBUTTON   "&OK",IDOK,282,326,42,15
+    PUSHBUTTON      "&Cancel",IDCANCEL,332,326,42,15
+END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -638,6 +665,14 @@ BEGIN
     "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
 END
 
+
+IDR_SEARCH_ACCEL ACCELERATORS 
+BEGIN
+    "N",            ID_NEW_SEARCH,          VIRTKEY, ALT, NOINVERT
+    "R",            ID_REPLACE,             VIRTKEY, ALT, NOINVERT
+    "S",            ID_SEARCH,              VIRTKEY, ALT, NOINVERT
+    "H",            ID_TOGGLE_HELP,         VIRTKEY, ALT, NOINVERT
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -879,6 +914,12 @@ BEGIN
         RIGHTMARGIN, 520
         BOTTOMMARGIN, 290
     END
+
+    IDD_EDIT_RECORD_GLOSS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 378
+        BOTTOMMARGIN, 341
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -973,10 +1014,19 @@ BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
     ID_HELP                 "View the help file\nHelp"
-	IDS_SAVE_GLOSSARY        "Save active glossary\nSave active glossary"
-	IDS_SAVE_MEMORY          "Save active memory\nSave active memory"
-	IDS_SAVE_ALL_GLOSSARIES  "Save all glossaries\nSave all glossaries"
-	IDS_SAVE_ALL_MEMORIES    "Save all memories\nSave all memories"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_POPUP_ADD_TO_MEMORY "&Add to Memory"
+    IDS_SAVE_GLOSSARY       "Save active glossary\nSave active glossary"
+    IDS_SAVE_MEMORY         "Save active memory\nSave active memory"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_SAVE_ALL_GLOSSARIES "Save all glossaries\nSave all glossaries"
+    IDS_SAVE_ALL_MEMORIES   "Save all memories\nSave all memories"
 END
 
 STRINGTABLE 
@@ -1018,7 +1068,9 @@ BEGIN
     IDS_REPLACE_COMPLETE_MSG "Replacement complete"
     IDS_SEARCHWIN_TITLE_MEM "Search Translation Memories"
     IDS_SEARCHWIN_TITLE_GLOSS "Search Glossaries"
+    IDS_POPUP_COPY          "&Copy"
     IDS_RETRIEVING_LANG_CODES "Retrieving language codes..."
+    IDS_POPUP_SWITCH_VIEWS  "Switch &View"
     IDS_IMPORT_COMPLETE     "Done! Imported %1 records."
     IDS_DEFAULT_ID2         "DEFAULT"
     IDS_PREV                "Prev "
@@ -1128,6 +1180,7 @@ END
 
 STRINGTABLE 
 BEGIN
+    IDS_POPUP_ADD_TO_GLOSS  "&Add to Glossary"
     IDS_NO_SOURCE_SELECTED  "No source selected"
     IDS_GLOSS_SEARCH        "Find Glossary Entry"
     IDS_MEMORY_SEARCH       "Find Memory Entry"
@@ -1140,6 +1193,8 @@ BEGIN
     IDS_MSG_DROPPED_RECORDS "Failed to save %1 record(s)."
     IDD_DELETE              "Delete the current memory entry\nDelete entry"
     IDC_DELETE              "delete"
+    IDS_POPUP_REGISTER_GLOSS "&Register Glossary Entries"
+    IDS_POPUP_DELETE        "&Delete"
     IDD_EDIT_ENTRY          "Edit the current entry\nEdit entry"
     IDC_REGISTER            "register"
 END
@@ -1155,13 +1210,22 @@ BEGIN
     IDS_SAVE_MANY_TOOLBAR   "Save all open memories"
     IDCLOSE                 "Close the window\nClose"
     IDS_SEARCH_TOOLBAR      "Search TMs"
-    IDS_SEARCH_TOOLBAR_GLOSS      "Search glossaries"
     IDS_GLOSSARY_MANAGER_TITLE "Glossary Manager"
     IDS_MERGE_MEM_TITLE     "Merge Memories"
     IDS_MERGE_GLOSS_TITLE   "Merge Glossaries"
     IDS_MERGE_MEM_TEXT      "Memory already open: [%s]\rDo you want to merge?"
     IDS_MERGE_GLOSS_TEXT    "Glossary already open: [%s]\rDo you want to merge?"
     IDS_REFLECTED_TRANS     "Reflected edits to translation."
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_LOCKED              "It is not possible to add to, edit, or delete entries from a locked memory. Only the user who locked a memory can unlock it."
+    IDS_SEARCH_TOOLBAR_GLOSS "Search glossaries"
+    IDS_MSG_FINISHED_MULTITERM_EXPORT 
+                            "Finished exporting records to file [%1] in MultiTerm format "
+    IDD_MIN_VIEW_DLG        "Felix Compact View"
+    IDS_MSG_LOADING         "Loading file [%1]..."
 END
 
 STRINGTABLE 
@@ -1246,15 +1310,6 @@ BEGIN
     IDS_MODIFIED            "MODIFIED: "
     IDS_CREATED             "CREATED: "
     IDS_MSG_NO_FILE         "The file [%1] does not exist."
-END
-
-STRINGTABLE 
-BEGIN
-    IDC_LOCKED              "It is not possible to add to, edit, or delete entries from a locked memory. Only the user who locked a memory can unlock it."
-    IDS_MSG_FINISHED_MULTITERM_EXPORT 
-                            "Finished exporting records to file [%1] in MultiTerm format "
-    IDD_MIN_VIEW_DLG        "Felix Compact View"
-    IDS_MSG_LOADING         "Loading file [%1]..."
 END
 
 STRINGTABLE 
@@ -1421,12 +1476,6 @@ END
 STRINGTABLE 
 BEGIN
     ID_FORMAT_FONT          "Show the font dialog (Edit mode only)\nFont"
-    IDS_POPUP_ADD_TO_MEMORY "&Add to Memory"
-    IDS_POPUP_REGISTER_GLOSS "&Register Glossary Entries"
-    IDS_POPUP_DELETE        "&Delete"
-    IDS_POPUP_COPY          "&Copy"
-    IDS_POPUP_SWITCH_VIEWS  "Switch &View"
-    IDS_POPUP_ADD_TO_GLOSS  "&Add to Glossary"
 END
 
 STRINGTABLE 

@@ -129,12 +129,27 @@ public:
 	LRESULT OnDestroy(UINT, WPARAM, LPARAM);
 	LRESULT OnSize(UINT, WPARAM, LPARAM);
 
+	LRESULT OnNewSearch();
+	LRESULT OnSearch();
+	LRESULT OnReplace();
+	LRESULT OnToggleHelp();
 	BEGIN_MSG_MAP_EX(CSearchWindow)
 		// don't use MSG_HANDLER_0
 		// we need the arguments to pass to DefWindowProc
 		MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
 		MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
 		MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
+
+		BEGIN_CMD_HANDLER_EX
+
+			CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
+			CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
+			CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
+			CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
+
+		END_CMD_HANDLER_EX
+
+
 	END_MSG_MAP()
 
 };
