@@ -1300,6 +1300,7 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 	try
 	{
 		logging::log_debug("CConnect::OnMenuPreferences") ;
+		BANNER("OnMenuPreferences") ;
 		if ( ! m_properties.read_from_registry() )
 		{
 			m_properties.setDefaults() ;
@@ -1309,25 +1310,31 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 		if ( m_properties.get_preferred_gui_lang() == PREF_LANG_ENGLISH )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
-			if ( IDCANCEL == props_dlg.DoModal( ) ) 
+			const INT_PTR result = props_dlg.DoModal( ) ;
+			if ( result <= 0 || result == IDCANCEL ) 
 			{
+				ATLTRACE("User canceled.\n") ;
 				return ;
 			}
 
+			ATLTRACE("User clicked 'OK'.\n") ;
 			m_properties = props_dlg.get_properties() ;
 		}
 		else
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
-			if ( IDCANCEL == props_dlg.DoModal( ) ) 
+			const INT_PTR result = props_dlg.DoModal( ) ;
+			if ( result <= 0 || result == IDCANCEL ) 
 			{
+				ATLTRACE("User canceled.\n") ;
 				return ;
 			}
 
+			ATLTRACE("User clicked 'OK'.\n") ;
 			m_properties = props_dlg.get_properties() ;
 		}
-		int props[] = {SKIP_IF_J, SKIP_UNLESS_J, NO_SKIP} ;
-		int index = m_properties.m_data.m_skipJ ;
+		const int props[] = {SKIP_IF_J, SKIP_UNLESS_J, NO_SKIP} ;
+		const int index = m_properties.m_data.m_skipJ ;
 		m_properties.m_data.m_skipJ = props[index] ;
 
 		TRACE(m_properties.get_preferred_gui_lang()) ;

@@ -1996,6 +1996,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 	try 
 	{
 		logging::log_debug("OnMenuPreferences") ;
+		BANNER("OnMenuPreferences") ;
 
 		if ( ! m_controller->IsActive() ) 
 		{
@@ -2015,21 +2016,27 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		if ( m_properties.get_preferred_gui_lang() == PREF_LANG_ENGLISH )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
-			if ( props_dlg.DoModal() <= 0) 
+			INT_PTR result = props_dlg.DoModal( ) ;
+			if ( result <= 0 || result == IDCANCEL ) 
 			{
+				ATLTRACE("User canceled.\n") ;
 				return ;
 			}
 
+			ATLTRACE("User clicked 'OK'.\n") ;
 			m_properties = props_dlg.get_properties() ;
 		}
 		else
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
-			if ( props_dlg.DoModal() <= 0) 
+			INT_PTR result = props_dlg.DoModal( ) ;
+			if ( result <= 0 || result == IDCANCEL ) 
 			{
+				ATLTRACE("User canceled.\n") ;
 				return ;
 			}
 
+			ATLTRACE("User clicked 'OK'.\n") ;
 			m_properties = props_dlg.get_properties() ;
 		}
 

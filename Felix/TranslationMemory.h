@@ -231,10 +231,10 @@ public:
 	virtual bool erase( const record_pointer record ) = 0;
 
 	virtual void get_match_candidates(trans_set &candidates, 
-										const wstring &query_cmp,
+										const wstring &query,
 										double min_score) = 0 ;
 	virtual void get_rmatch_candidates(trans_set &candidates, 
-										const wstring &query_cmp,
+										const wstring &query,
 										double min_score) = 0 ;
 	virtual double get_best_match_score( const wstring &query ) = 0;
 	virtual bool get_glossary_matches( search_match_multiset &matches, 

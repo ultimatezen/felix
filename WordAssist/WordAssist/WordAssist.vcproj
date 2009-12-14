@@ -517,15 +517,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				>
+			</File>
+			<File
 				RelativePath="stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\stringex.h"
 				>
 			</File>
 			<File

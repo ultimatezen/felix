@@ -9,6 +9,33 @@
 
 namespace easyunit
 {
+	// starts_with
+	TEST(TestStringEx, starts_with_true)
+	{
+		wstring text = L"fool" ;
+		ASSERT_TRUE(str::starts_with(text, L"foo")) ;
+	}
+	TEST(TestStringEx, starts_with_false)
+	{
+		wstring text = L"fool" ;
+		ASSERT_TRUE(!str::starts_with(text, L"fob")) ;
+	}
+	// ends_with
+	TEST(TestStringEx, ends_with_true)
+	{
+		wstring text = L"fool" ;
+		ASSERT_TRUE(str::ends_with(text, L"ool")) ;
+	}
+	TEST(TestStringEx, ends_with_false)
+	{
+		wstring text = L"fool" ;
+		ASSERT_TRUE(!str::ends_with(text, L"fol")) ;
+	}
+	TEST(TestStringEx, ends_with_too_long)
+	{
+		wstring text = L"fool" ;
+		ASSERT_TRUE(!str::ends_with(text, L"ofool")) ;
+	}
 	// is_fullwidth_lower
 	TEST( TestStringEx, is_fullwidth_lower_false )
 	{

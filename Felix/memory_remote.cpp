@@ -5,15 +5,15 @@
 
 namespace memory_engine
 {
-	void memory_remote::get_match_candidates( trans_set &candidates, const wstring &query_cmp, double min_score )
+	void memory_remote::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
 	{
-		CComVariant matches = this->m_engine.method(L"Search", query_cmp.c_str(), min_score) ;
+		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), min_score) ;
 		this->convert_candidates(candidates, matches) ;
 	}
 
-	void memory_remote::get_rmatch_candidates( trans_set &candidates, const wstring &query_cmp, double min_score )
+	void memory_remote::get_rmatch_candidates( trans_set &candidates, const wstring &query, double min_score )
 	{
-		CComVariant matches = this->m_engine.method(L"ReverseSearch", query_cmp.c_str(), min_score) ;
+		CComVariant matches = this->m_engine.method(L"ReverseSearch", query.c_str(), min_score) ;
 		this->convert_candidates(candidates, matches) ;
 	}
 
@@ -34,13 +34,14 @@ namespace memory_engine
 	double memory_remote::get_best_match_score( const wstring &query )
 	{
 		trans_set candidates ;
-		const wstring query_cmp = m_cmp_maker.make_cmp(query) ;
 
-		this->get_match_candidates(candidates, query_cmp, 0.5f); 
+		this->get_match_candidates(candidates, query, 0.5f); 
 
 		Distance distance ;
 		double best_score = 0.0f ;
 		// check each of the records for a match
+		Segment segment(m_cmp_maker, query) ;
+		const wstring query_cmp = segment.cmp() ;
 		foreach ( record_pointer record, candidates )
 		{
 			const double score = distance.edist_score(query_cmp, record->get_source_rich()) ;

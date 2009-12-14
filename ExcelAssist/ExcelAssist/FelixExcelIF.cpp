@@ -87,9 +87,39 @@ void CFelixExcelIF::OnAutoAddGloss ( )
 
 		while ( numRowsWithoutEntry < MAX_ROWS_NO_ENTRY ) 
 		{
-			CExcelString sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
-			CExcelString transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
-			CExcelString contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
+			CExcelString sourceText, transText, contextText ;
+
+			try
+			{
+				sourceText = activeSheet->Cell(iRow, iCol )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
+			}
+			try
+			{
+				transText = activeSheet->Cell(iRow, iCol+1 )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
+			}
+			try
+			{
+				contextText = activeSheet->Cell(iRow, iCol+2 )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
+			}
+
 
 			if ( sourceText.as_bstr().length() > 0 && transText.as_bstr().length() > 0 ) 
 			{
@@ -142,9 +172,38 @@ void CFelixExcelIF::OnAutoAddMem ( )
 
 		while ( numRowsWithoutEntry < MAX_ROWS_NO_ENTRY ) 
 		{
-			CExcelString sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
-			CExcelString transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
-			CExcelString contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
+			CExcelString sourceText, transText, contextText ;
+
+			try
+			{
+				sourceText = activeSheet->Cell(iRow, iCol )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
+			}
+			try
+			{
+				transText = activeSheet->Cell(iRow, iCol+1 )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
+			}
+			try
+			{
+				contextText = activeSheet->Cell(iRow, iCol+2 )->GetText() ;
+			}
+			catch (_com_error& e)
+			{
+				logging::log_error("COM exception getting cell text") ;
+				logging::log_exception(e) ;
+				contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
+			}
 
 			if ( sourceText.as_bstr().length() > 0 && transText.as_bstr().length() > 0 ) 
 			{

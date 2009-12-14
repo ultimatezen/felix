@@ -97,10 +97,12 @@ namespace memory_engine
 		return res.second ;
 	}
 
-	void memory_local::get_match_candidates( trans_set &candidates, const wstring &query_cmp, double min_score )
+	void memory_local::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
+		Segment segment(m_cmp_maker, query) ;
+		const wstring query_cmp = segment.cmp() ;
 
 		foreach ( record_pointer record, m_records )
 		{
@@ -111,10 +113,12 @@ namespace memory_engine
 		}
 	}
 
-	void memory_local::get_rmatch_candidates( trans_set &candidates, const wstring &query_cmp, double min_score )
+	void memory_local::get_rmatch_candidates( trans_set &candidates, const wstring &query, double min_score )
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
+		Segment segment(m_cmp_maker, query) ;
+		const wstring query_cmp = segment.cmp() ;
 
 		foreach ( record_pointer record, m_records )
 		{

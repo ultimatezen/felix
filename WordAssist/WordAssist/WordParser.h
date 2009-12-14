@@ -42,6 +42,7 @@ class WordParser  : public CParserBase
 	WordRange		m_original_range ;
 	html_formatter	m_formatter ;
 	bool			m_eat_whitespace ;
+	std::vector<wstring>	m_ok_endings ;
 
 public:
 	_bstr_t			m_SegStopChars ;

@@ -2796,10 +2796,12 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
+	m_properties->write_to_registry() ;
 
 	CPropertiesDlg props ;
 	
-	if ( IDCANCEL == props.DoModal() )
+	INT_PTR result = props.DoModal() ;
+	if ( IDCANCEL == result || result <= 0 )
 	{
 		user_feedback( IDS_MSG_ACTION_CANCELLED ) ;
 		return 0L ;

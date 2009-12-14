@@ -116,10 +116,10 @@ namespace memory_engine
 
 		bool erase( const record_pointer record );
 		void get_match_candidates(trans_set &candidates, 
-			const wstring &query_cmp,
+			const wstring &query,
 			double min_score);
 		void get_rmatch_candidates(trans_set &candidates, 
-			const wstring &query_cmp,
+			const wstring &query,
 			double min_score);
 
 		void convert_candidates(trans_set &candidates, CComVariant disp);
