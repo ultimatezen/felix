@@ -159,22 +159,20 @@ void CMemoryManagerDlg::sizeInfoBox()
 {
 	const CClientRect clientrect(*this) ;
 
-	RECT listrect = {0} ;
-	m_list_box.GetWindowRect(&listrect) ;
-	ScreenToClient( &listrect ) ;
+	CWindowRect infobox_rect(m_info_box) ;
+	ScreenToClient( &infobox_rect ) ;
 	m_info_box.ShowWindow( SW_HIDE ) ;
 
-	listrect.left = clientrect.left + 10 ;
-	listrect.right = clientrect.right - 10 ;
+	const int padding = 5 ;
+	infobox_rect.left = clientrect.left + padding ;
+	infobox_rect.right = clientrect.right - padding ;
 
-
-	TWindow button(GetDlgItem(IDC_EDIT_MEMORY)) ;
-	CWindowRect editrect(button) ;
-	ScreenToClient(&editrect);
-	listrect.bottom = editrect.top - 15 ;
+	CWindowRect editbutton_rect(TWindow(GetDlgItem(IDC_EDIT_MEMORY))) ;
+	ScreenToClient(&editbutton_rect);
+	infobox_rect.bottom = editbutton_rect.top - padding ;
 
 	// move the html view into place
-	m_info_view.SetWindowPos(NULL, &listrect, SWP_NOZORDER | SWP_NOACTIVATE);
+	m_info_view.SetWindowPos(NULL, &infobox_rect, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 LRESULT CMemoryManagerDlg::OnDropFiles( HDROP dropped ) 
