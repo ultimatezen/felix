@@ -3902,6 +3902,7 @@ void CMainFrame::set_up_command_bars()
 	AddMenuBitmap(IDB_SEARCH, ID_EDIT_FIND) ;
 	AddMenuBitmap(IDB_INFORMATION, ID_APP_ABOUT) ;
 	AddMenuBitmap(IDB_HELP, ID_HELP) ;
+	AddMenuBitmap(IDB_MEM_MGR, ID_TOOLS_MEMORY_MGR) ;
 	AddMenuBitmap(IDB_PROPERTIES, ID_TOOLS_PREFERENCES) ;
 	AddMenuBitmap(IDB_FONT, ID_FORMAT_FONT) ;
 	AddMenuBitmap(IDB_FILL_COLOR, ID_FORMAT_BGCOLOR) ;

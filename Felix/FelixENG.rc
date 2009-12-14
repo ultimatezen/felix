@@ -90,11 +90,11 @@ BEGIN
     END
     POPUP "Too&ls"
     BEGIN
-        MENUITEM "&Preferences...",             ID_TOOLS_PREFERENCES
         MENUITEM "&Load Preferences",           ID_TOOLS_LOADPREFERENCES
         MENUITEM "&Save Preferences",           ID_TOOLS_SAVEPREFERENCES
-        MENUITEM SEPARATOR
         MENUITEM "UI to &Japanese\tCtrl+L",     ID_TOOLS_LANGUAGE
+        MENUITEM SEPARATOR
+        MENUITEM "&Preferences...",             ID_TOOLS_PREFERENCES
         MENUITEM "&Memory Manager...",          ID_TOOLS_MEMORY_MGR
     END
     POPUP "&Help"
@@ -774,6 +774,7 @@ IDB_FONT                BITMAP                  "res\\Font.bmp"
 IDB_DELETE              BITMAP                  "res\\Delete.bmp"
 IDB_MEMORY_CLOSE        BITMAP                  "res\\close.bmp"
 IDB_SWITCH_VIEWS        BITMAP                  "res\\view.bmp"
+IDB_MEM_MGR             BITMAP                  "res\\mem_mgr.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1153,7 +1154,8 @@ BEGIN
     IDS_SAVE_TOOLBAR        "Save the active memory"
     IDS_SAVE_MANY_TOOLBAR   "Save all open memories"
     IDCLOSE                 "Close the window\nClose"
-    IDS_SEARCH_TOOLBAR      "Search the memory"
+    IDS_SEARCH_TOOLBAR      "Search TMs"
+    IDS_SEARCH_TOOLBAR_GLOSS      "Search glossaries"
     IDS_GLOSSARY_MANAGER_TITLE "Glossary Manager"
     IDS_MERGE_MEM_TITLE     "Merge Memories"
     IDS_MERGE_GLOSS_TITLE   "Merge Glossaries"

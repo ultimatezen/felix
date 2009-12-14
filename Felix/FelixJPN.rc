@@ -116,12 +116,12 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
         MENUITEM "ユーザ設定の取り込み(&L)",              32816
         MENUITEM "ユーザ設定の保存(&S)",                32817
-        MENUITEM SEPARATOR
         MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
-        MENUITEM "メモリ管理(&M)...",                ID_TOOLS_MEMORY_MGR
+        MENUITEM SEPARATOR
+        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
+        MENUITEM "メモリの管理(&M)...",              ID_TOOLS_MEMORY_MGR
     END
     POPUP "ヘルプ(&H)"
     BEGIN
@@ -187,7 +187,7 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "グロサリ管理(&M)...",               ID_TOOLS_MEMORY_MGR
+        MENUITEM "グロサリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
     END
 END
 
@@ -918,6 +918,7 @@ IDB_CUT                 BITMAP                  "res\\Cut.bmp"
 IDB_COPY                BITMAP                  "res\\Copy.bmp"
 IDB_MEMORY_CLOSE        BITMAP                  "res\\close.bmp"
 IDB_SWITCH_VIEWS        BITMAP                  "res\\view.bmp"
+IDB_MEM_MGR             BITMAP                  "res\\mem_mgr.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1142,7 +1143,8 @@ BEGIN
     IDS_SAVE_MANY_TOOLBAR   "すべてを保存"
     IDCLOSE                 "このウィンドウを閉じます\n閉じる"
     IDS_SEARCH_TOOLBAR      "メモリを検索します"
-    IDS_GLOSSARY_MANAGER_TITLE "用語管理"
+	IDS_SEARCH_TOOLBAR_GLOSS "用語集を検索します"
+    IDS_GLOSSARY_MANAGER_TITLE "用語集の管理"
     IDS_MERGE_MEM_TITLE     "メモリの整合"
     IDS_MERGE_GLOSS_TITLE   "用語集の整合"
     IDS_MERGE_MEM_TEXT      "既存メモリがあります [%s]\r整合してよろしいですか。"

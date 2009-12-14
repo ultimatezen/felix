@@ -310,7 +310,7 @@
 #define IDI_ICON1                       265
 #define IDB_DELETE                      265
 #define IDI_ICON3                       266
-#define IDB_BITMAP1                     267
+#define IDS_SEARCH_TOOLBAR_GLOSS        267
 #define IDB_BITMAP2                     268
 #define IDS_MSG_FINISHED_MULTITERM_EXPORT 269
 #define IDB_FONT                        269
@@ -321,6 +321,7 @@
 #define IDC_VALIDITY                    272
 #define IDB_SEARCH                      272
 #define IDD_PROPPAGE_VIEW               273
+#define IDB_MEM_MGR						273
 #define IDC_ALGO_CHAR_GLOSS             274
 #define IDD_PROPPAGE_GENERAL            274
 #define IDS_PROMPT_RESCUE_ENTRIES       275

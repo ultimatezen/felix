@@ -2383,7 +2383,7 @@ LRESULT CGlossaryWindow::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandl
 		toolmap[ID_EDIT_CUT] = ID_EDIT_CUT ;
 		toolmap[ID_EDIT_COPY] = ID_EDIT_COPY ;
 		toolmap[ID_EDIT_PASTE] = ID_EDIT_PASTE ;
-		toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR ;
+		toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR_GLOSS ;
 		toolmap[ID_TOOLS_PREFERENCES] = ID_TOOLS_PREFERENCES ;
 		toolmap[ID_HELP] = ID_HELP  ;
 		toolmap[ID_APP_ABOUT] = ID_APP_ABOUT ;
