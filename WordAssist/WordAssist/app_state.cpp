@@ -43,15 +43,24 @@ app_state::app_state() :
 	m_segmentation_type(SEG_TYPE_WORD_DOC),
 	m_skipNumbers(TRUE),
 	m_skipJ(NO_SKIP),
+	m_select_spaces(TRUE),
+
 	m_freshInstall(TRUE),
 
-	m_select_spaces(TRUE),
 	m_use_trans_hist(FALSE),
 	m_shortcuts_active(TRUE)
 {
 	setDefaults() ;
 }
 
+void app_state::set_seg_defaults()
+{
+	// Segment-ending characters
+	ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
+	CString segChars = CW2T( maru_char_array ) ;
+	// automatically calculates size of destination
+	_tcscpy_s( m_segChars, segChars ) ;
+}
 
 /*!
 * Sets default values.
@@ -61,11 +70,7 @@ void app_state::setDefaults()
 	BANNER( "app_state::setDefaults" ) ;
 	m_toolbar_visible = TRUE ;
 
-	// Segment-ending characters
-	ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
-	CString segChars = CW2T( maru_char_array ) ;
-	// automatically calculates size of destination
-	_tcscpy_s( m_segChars, segChars ) ;
+	set_seg_defaults() ;
 
 	ZeroMemory(m_manual_url, MANUAL_URL_SIZE  * sizeof(TCHAR)) ;
 	_tcscpy_s( m_manual_url, _T("http://felix-cat.com/media/manuals/felix/5.html") ) ;

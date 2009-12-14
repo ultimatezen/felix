@@ -140,8 +140,13 @@ class CPageSegmentation :
 	app_state	*m_properties ;
 
 public:
-	enum { IDD = id_type } ;
+	TCHAR m_segChars[SEG_CHAR_SIZE] ;
+	const static int IDD = id_type ;
 
+	CPageSegmentation()
+	{
+		ZeroMemory(m_segChars, SEG_CHAR_SIZE*sizeof(TCHAR)) ;
+	}
 	void set_props( app_state *props )
 	{
 		m_properties = props ;
@@ -156,8 +161,16 @@ public:
 		// we need to manually set the radio buttons, because the DDX
 		// doesn't work for them.
 		// The check boxes are handled in the DDX.
+		switch(m_properties->m_skipJ)
+		{
+		case IDC_SKIP_HASJ:
+		case IDC_SKIP_NOJ:
+		case IDC_NOSKIP:
+			break ;
+		default:
+			m_properties->m_skipJ = IDC_NOSKIP ;
+		}
 		SendDlgItemMessage( m_properties->m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
-		SendDlgItemMessage( m_properties->m_segmentation_type, BM_SETCHECK, TRUE, 0 ) ;
 
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		edit.SetWindowText( m_properties->m_segChars ) ;
@@ -169,7 +182,7 @@ public:
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		CString text ;
 		edit.GetWindowText(text) ;
-		_tcscpy_s( m_properties->m_segChars, (LPCTSTR)text ) ;
+		_tcscpy_s(m_segChars, (LPCTSTR)text ) ;
 	}
 	int OnApply()
 	{
@@ -363,14 +376,14 @@ class CPropertiesDlgE  : public CPropertySheetImpl<CPropertiesDlgE>
 
 	CPageViewE		m_page1 ;
 	CPageFormatE	m_page2 ;
-	CPageSegmentE	m_page3 ;
+	CPageSegmentE	m_segmentation_page ;
 	CPageTransHistE	m_page4 ;
 
 	CString			m_title ;
 
 public:
 
-	app_state get_properties() { return m_properties ; }
+	app_state get_properties();
 
 	enum { IDD = IDD_PROPSHEET_E };
 
@@ -391,14 +404,14 @@ class CPropertiesDlgJ  : public CPropertySheetImpl<CPropertiesDlgJ>
 	
 	CPageViewJ		m_page1 ;
 	CPageFormatJ	m_page2 ;
-	CPageSegmentJ	m_page3 ;
+	CPageSegmentJ	m_segmentation_page ;
 	CPageTransHistJ	m_page4 ;
 
 	CString			m_title ;
 
 public:
 	
-	app_state get_properties() { return m_properties ; }
+	app_state get_properties();
 	
 	enum { IDD = IDD_PROPSHEET_J };
 	

@@ -2015,7 +2015,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		if ( m_properties.get_preferred_gui_lang() == PREF_LANG_ENGLISH )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
-			if ( IDCANCEL == props_dlg.DoModal( ) ) 
+			if ( props_dlg.DoModal() <= 0) 
 			{
 				return ;
 			}
@@ -2025,7 +2025,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		else
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
-			if ( IDCANCEL == props_dlg.DoModal( ) ) 
+			if ( props_dlg.DoModal() <= 0) 
 			{
 				return ;
 			}

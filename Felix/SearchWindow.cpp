@@ -786,6 +786,7 @@ void CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &re
 	m_controller->get_memory_by_id(memid)->replace(record, modified) ;
 }
 
+// Clear the filters and load a new search page
 LRESULT CSearchWindow::OnNewSearch()
 {
 	m_search_runner.clear_terms() ;
@@ -796,18 +797,21 @@ LRESULT CSearchWindow::OnNewSearch()
 	return 0L ;
 }
 
+// Navigate to the search page
 LRESULT CSearchWindow::OnSearch()
 {
 	show_search_page() ;
 	return 0L ;
 }
 
+// Navigate to the replace page
 LRESULT CSearchWindow::OnReplace()
 {
 	handle_gotoreplace() ;
 	return 0L ;
 }
 
+// Call the toggleHelp JavaScript function
 LRESULT CSearchWindow::OnToggleHelp()
 {
 	html::CWebPage page ;
