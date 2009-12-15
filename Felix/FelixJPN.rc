@@ -962,6 +962,9 @@ IDB_COPY                BITMAP                  "res\\Copy.bmp"
 IDB_MEMORY_CLOSE        BITMAP                  "res\\close.bmp"
 IDB_SWITCH_VIEWS        BITMAP                  "res\\view.bmp"
 IDB_MEM_MGR             BITMAP                  "res\\mem_mgr.bmp"
+IDB_NETWORK             BITMAP                  "res\\network.bmp"
+IDB_SAVE_PREFS          BITMAP                  "res\\saveprefs.bmp"
+IDB_OPEN_PREFS          BITMAP                  "res\\openprefs.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

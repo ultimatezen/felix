@@ -63,11 +63,13 @@
 #define IDS_REPLACE_COMPLETE_MSG        50
 #define IDD_USER_STRING_DLG             51
 #define IDS_SEARCHWIN_TITLE_MEM         51
-#define IDB_BITMAP5                     52
+#define IDB_NETWORK                     52
 #define IDS_SEARCHWIN_TITLE_GLOSS       52
 #define IDD_PROPPAGE_ALGORITHM          53
 #define IDS_POPUP_COPY                  53
+#define IDB_SAVE_PREFS					53
 #define IDS_RETRIEVING_LANG_CODES       54
+#define IDB_OPEN_PREFS					54
 #define IDD_SELECT_LANG_DLG             55
 #define IDS_POPUP_SWITCH_VIEWS          55
 #define IDS_IMPORT_COMPLETE             56

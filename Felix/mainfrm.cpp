@@ -3894,6 +3894,7 @@ void CMainFrame::set_up_command_bars()
 
 	// Add menu bitmaps
 	AddMenuBitmap(IDB_NEW_DOCUMENT, ID_FILE_NEW) ;
+	AddMenuBitmap(IDB_NETWORK, ID_FILE_CONNECT) ;
 	AddMenuBitmap(IDB_OPEN, ID_FILE_OPEN) ;
 	AddMenuBitmap(IDB_SAVE, ID_FILE_SAVE) ;
 	AddMenuBitmap(IDB_SAVEMANY, ID_FILE_SAVE_ALL) ;
@@ -3902,6 +3903,10 @@ void CMainFrame::set_up_command_bars()
 	AddMenuBitmap(IDB_COPY, ID_EDIT_COPY) ;
 	AddMenuBitmap(IDB_PASTE, ID_EDIT_PASTE) ;
 	AddMenuBitmap(IDB_SEARCH, ID_EDIT_FIND) ;
+
+	AddMenuBitmap(IDB_SAVE_PREFS, ID_TOOLS_SAVEPREFERENCES) ;
+	AddMenuBitmap(IDB_OPEN_PREFS, ID_TOOLS_LOADPREFERENCES) ;
+
 	AddMenuBitmap(IDB_INFORMATION, ID_APP_ABOUT) ;
 	AddMenuBitmap(IDB_HELP, ID_HELP) ;
 	AddMenuBitmap(IDB_MEM_MGR, ID_TOOLS_MEMORY_MGR) ;
