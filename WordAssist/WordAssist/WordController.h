@@ -135,11 +135,11 @@ public:
 	void set_parser(LPDISPATCH parser);
 private:
 	bool handle_exception(std::exception &e, CString msg );
-	bool handle_exception(CComException &com_exception, CString msg );
-	bool handle_exception(CWinException &e, CString msg );
-	bool handle_exception(CSWException &e, CString msg );
+	bool handle_exception(except::CComException &com_exception, CString msg );
+	bool handle_exception(except::CWinException &e, CString msg );
+	bool handle_exception(except::CSWException &e, CString msg );
 	bool handle_exception(_com_error &e, CString msg );
-	bool handle_exception(CException &e, CString msg);
+	bool handle_exception(except::CException &e, CString msg);
 
 
 	void configure_parser_font_settings(boost::shared_ptr<WordParser> parser);

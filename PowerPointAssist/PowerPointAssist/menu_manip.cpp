@@ -3,6 +3,8 @@
 #include "Picture.h"
 #include "DispatchWrapper.h"
 
+using namespace except ;
+
 bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 {
 	try

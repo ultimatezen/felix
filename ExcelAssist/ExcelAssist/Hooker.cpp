@@ -14,6 +14,8 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
+using namespace except ;
+
 HHOOK	hkb ;
 CFelixExcelIF *addin ;
 static BOOL shortcuts_enabled = TRUE ;

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include ".\wordcontrollerword.h"
 
+using namespace except ;
+
 CWordControllerWord::CWordControllerWord()
 {
 }

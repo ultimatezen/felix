@@ -35,6 +35,8 @@
 
 #include "easyunit/testharness.h"
 
+using namespace except ;
+
 #define CATCH_C_EXCEPTIONS(msg) catch ( std::exception &e ) { return handle_exception( e, msg ) ; }
 #define CATCH_COM_EXCEPTIONS(msg) catch ( CComException &e ) { return handle_exception( e, msg ) ; }
 #define CATCH_WIN_EXCEPTIONS(msg) catch ( CWinException &e ) { return handle_exception( e, msg ) ; }

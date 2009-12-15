@@ -2043,10 +2043,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\CStringContainer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\CStringInterface.h"
 				>
 			</File>

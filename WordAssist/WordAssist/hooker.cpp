@@ -15,6 +15,8 @@
 
 #define ENSURE_ACTIVE if ( ! kb_listener->IsActive() ) return false ; 
 
+using namespace except ;
+
 static HHOOK hkb = NULL ;
 static CKeyboardListener *kb_listener = NULL ;
 static bool classic_interface = false ;

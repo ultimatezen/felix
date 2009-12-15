@@ -2047,9 +2047,8 @@ bool CMainFrame::show_new_record( )
 
 	if ( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
-		CHtmlDocument doc = m_min_view.m_view.get_document() ;
-
-		m_min_view.m_view.set_body_text( m_new_record->get_trans_rich() ) ;
+		m_min_view.set_body_text( m_new_record->get_trans_rich() ) ;
+		CHtmlDocument doc = m_min_view.get_document() ;
 		doc.set_bg_color( white_background ) ;
 		check_mousewheel() ;
 
@@ -2519,9 +2518,8 @@ bool CMainFrame::show_view_content()
 
 			if ( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 			{
-				CHtmlDocument doc = m_min_view.m_view.get_document() ;
-				
-				m_min_view.m_view.set_body_text( wstring() ) ;
+				m_min_view.set_body_text( wstring() ) ;
+				CHtmlDocument doc = m_min_view.get_document() ;
 				doc.set_bg_color( white_background ) ;
 				set_bg_color_if_needed() ;
 				check_mousewheel() ;
@@ -3622,7 +3620,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 
 	if( ! m_min_view.IsWindow() )
 	{
-		m_min_view.m_parent = m_hWnd ;
+		m_min_view.set_parent(*this) ;
 		m_min_view.Create( NULL ) ;
 	}
 
@@ -4367,11 +4365,11 @@ CString CMainFrame::get_window_type_string()
  */
 void CMainFrame::show_min_view_match() 
 {
-	CHtmlDocument doc = m_min_view.m_view.get_document() ;
+	CHtmlDocument doc = m_min_view.get_document() ;
 
 	if ( m_trans_matches.empty() )
 	{
-		m_min_view.m_view.set_body_text( wstring() ) ;
+		m_min_view.set_body_text( wstring() ) ;
 		doc.set_bg_color( red_match ) ;
 		check_mousewheel() ;
 	}
@@ -4400,7 +4398,7 @@ void CMainFrame::show_min_view_match()
 		content << L"<hr />" ;
 		content << R2W( IDS_SCORE ) << L": " << double2percent_wstring( score ) ;
 
-		m_min_view.m_view.set_body_text( content ) ;	
+		m_min_view.set_body_text( content ) ;	
 		check_mousewheel() ;
 	}
 }

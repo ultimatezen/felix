@@ -47,6 +47,10 @@ public:
 
 	CMinViewDlg();
 
+	html::CHtmlDocument get_document();
+	void set_body_text(wstring text);
+	void set_parent(HWND parent);
+
 	LRESULT OnLButtonDown( UINT id, CPoint pt );
 	LRESULT OnMouse(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ ) ;
 

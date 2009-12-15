@@ -30,6 +30,7 @@
 	MessageBox(NULL, _T("An error occurred while performing an operation in the Felix interface\r\rIf the problem persists, please contact technical support."), _T("Felix Internal Error"), MB_OK ) ;  \
 }
 
+using namespace except ;
 
 extern CAddInModule _AtlModule;
 

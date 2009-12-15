@@ -17,6 +17,7 @@
 #include <boost/bind.hpp>
 
 extern CAddInModule _AtlModule;
+using namespace except ;
 
 _ATL_FUNC_INFO OnClickButtonInfo =
 {CC_STDCALL,VT_EMPTY,2,{VT_DISPATCH,VT_BYREF | VT_BOOL}};

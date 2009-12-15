@@ -15,6 +15,7 @@ static char THIS_FILE[] = __FILE__ ;
 
 using namespace except ;
 using namespace memory_engine ;
+using namespace html ;
 
 // CTOR
 CCommonWindowFunctionality::CCommonWindowFunctionality( )

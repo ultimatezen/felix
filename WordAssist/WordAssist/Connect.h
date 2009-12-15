@@ -536,67 +536,67 @@ private:
 	{
 		logging::log_error(string("std::exception: ") + string2string(_msg)) ;
 		logging::log_error(e.what()) ;
-		CString msg ; 
+		ATL::CString msg ; 
 		msg << _T("Error in Felix Interface\rRuntime Exception\r\r") 
-			<< CString(_msg.c_str()) << _T("\r") 
-			<< CString( e.what() ) ; 
+			<< ATL::CString(_msg.c_str()) << _T("\r") 
+			<< ATL::CString( e.what() ) ; 
 		MessageBox( NULL, msg, _T("Felix Runtime Error"), MB_OK ) ;
 	}
-	void handle_exception(CComException &e, tstring _msg)
+	void handle_exception(except::CComException &e, tstring _msg)
 	{
 		logging::log_error(string("COM Exception: ") + string2string(_msg)) ;
 		logging::log_exception(e) ;
-		CString msg ; 
+		ATL::CString msg ; 
 		msg << _T("Error in Felix Interface\rCOM Exception\r\r") 
-			<< CString(_msg.c_str()) ; 
+			<< ATL::CString(_msg.c_str()) ; 
 		e.notify_user( msg ) ;
 	}
-	void handle_exception(CWinException &e, tstring _msg)
+	void handle_exception(except::CWinException &e, tstring _msg)
 	{
 		logging::log_error(string("Windows Error: ") + string2string(_msg)) ;
 		logging::log_exception(e) ;
-		CString msg ; 
+		ATL::CString msg ; 
 		msg << _T("Error in Felix Interface\rWindows Error\r\r")
-			<< CString(_msg.c_str()) ; 
+			<< ATL::CString(_msg.c_str()) ; 
 		e.notify_user( msg ) ;
 	}
-	void handle_exception(CSWException &e, tstring _msg)
+	void handle_exception(except::CSWException &e, tstring _msg)
 	{
 		logging::log_error(string("Structured Windows Exception: ") + string2string(_msg)) ;
 		logging::log_exception(e) ;
-		CString language = L"English" ;
+		ATL::CString language = L"English" ;
 		if(m_properties.get_preferred_gui_lang() == PREF_LANG_JAPANESE)
 		{
 			language = L"Japanese" ;
 		}
 		logging::send_report(language, e.get_filename()) ;
 	}
-	void handle_base_exception(CException &e, tstring _msg)
+	void handle_base_exception(except::CException &e, tstring _msg)
 	{
 		logging::log_error(string("Error: ") + string2string(_msg)) ;
 		logging::log_exception(e) ;
-		CString msg ; 
+		ATL::CString msg ; 
 		msg << _T("Error in Felix Interface\rProgram Error\r\r") 
-			<< CString(_msg.c_str()) ; 
+			<< ATL::CString(_msg.c_str()) ; 
 		e.notify_user( msg )  ; 
 	}
 	void handle_exception(_com_error &ce, tstring _msg)
 	{
 		logging::log_error(string("COM error: ") + string2string(_msg)) ;
-		CString msg ; 
+		ATL::CString msg ; 
 		msg << _T("Error in Felix Interface\rAutomation Exception\r\r") 
-			<< CString(_msg.c_str()) ; 
-		CComException e(ce) ; 
+			<< ATL::CString(_msg.c_str()) ; 
+		except::CComException e(ce) ; 
 		logging::log_exception(e) ;
 		e.notify_user( msg )  ;
 	}
-	void handle_exception(CAtlException &ae, tstring _msg)
+	void handle_exception(ATL::CAtlException &ae, tstring _msg)
 	{
 		logging::log_error(string("ATL COM error: ") + string2string(_msg)) ;
-		CString msg ;
+		ATL::CString msg ;
 		msg << _T("Error in Felix Interface\rCOM Library Exception\r\r") 
-			<< CString(_msg.c_str()) ; 
-		CComException e( _T("Felix Internal Error"), ae ) ;
+			<< ATL::CString(_msg.c_str()) ; 
+		except::CComException e( _T("Felix Internal Error"), ae ) ;
 		logging::log_exception(e) ;
 		e.notify_user( msg ) ;
 	}

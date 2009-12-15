@@ -56,6 +56,9 @@
 
 #include <atlwin.h>
 
+
+using namespace ATL ;
+
 #ifdef UNIT_TEST
 #include "c:\dev\cpp\MyLibrary\fakewindow.h"
 #define TWindow CFakeWindow
@@ -165,17 +168,6 @@ extern CAddInModule _AtlModule;
 #define EPSILON 0.00001
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
-
-#ifdef UNIT_TEST
-#include "FakeWindow.h"
-#define TWindow CFakeWindow
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
-#else
-#define TWindow CWindow
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#endif
 
 #define VERSION "1.5.3"
 #define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"

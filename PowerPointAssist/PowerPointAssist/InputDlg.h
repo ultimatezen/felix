@@ -79,12 +79,12 @@ public:
 		logging::log_error(string2string(err_msg, CP_UTF8)) ;
 		logging::log_exception(e) ;
 
-		CComException com_exception(_T("COM Error"), e) ;		 
+		except::CComException com_exception(_T("COM Error"), e) ;		 
 		com_exception.notify_user( message, MB_OK, _T("COM Exception"), m_hWnd ) ;		 
 		return FALSE ;											 
 	}
 
-	virtual BOOL handle_sw_exception( CSWException &e, const CString &failure_message ) 
+	virtual BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message ) 
 	{
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
@@ -96,7 +96,7 @@ public:
 		return FALSE ;											 
 	}
 
-	virtual BOOL handle_exception( CComException &e, const CString &failure_message ) 
+	virtual BOOL handle_exception( except::CComException &e, const CString &failure_message ) 
 	{
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
@@ -108,7 +108,7 @@ public:
 		return FALSE ;											 
 	}	
 
-	virtual BOOL handle_exception( CWinException &e, const CString &failure_message ) 
+	virtual BOOL handle_exception( except::CWinException &e, const CString &failure_message ) 
 	{
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
@@ -120,7 +120,7 @@ public:
 		return FALSE ;											 
 	}
 
-	virtual BOOL handle_exception( CException &e, const CString &failure_message ) 
+	virtual BOOL handle_exception( except::CException &e, const CString &failure_message ) 
 	{
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 

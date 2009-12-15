@@ -8,6 +8,7 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
+using namespace except;
 
 HHOOK	hkb ;
 CPowerPointInterface *addin ;

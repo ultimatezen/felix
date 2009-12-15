@@ -4,7 +4,7 @@
 #include "Word2HtmlParser.h"
 #include "WordParser.h"
 #include "logging.h"
-// CWord2HtmlParser
+using namespace except ;
 
 STDMETHODIMP CWord2HtmlParser::RangeToHtml(IDispatch *word_range, 
 											  BSTR* html_text)

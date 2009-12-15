@@ -35,6 +35,8 @@ extern CAddInModule _AtlModule;
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 
+using namespace except ;
+
 #define _HR( x ) \
 { \
 	HRESULT _hr = (x) ; \

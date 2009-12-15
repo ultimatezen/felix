@@ -162,3 +162,18 @@ CMinViewDlg::CMinViewDlg() : m_parent( NULL )
 {
 
 }
+
+html::CHtmlDocument CMinViewDlg::get_document()
+{
+	return m_view.get_document() ;
+}
+
+void CMinViewDlg::set_body_text( const wstring text )
+{
+	m_view.set_body_text(text) ;
+}
+
+void CMinViewDlg::set_parent( const HWND parent )
+{
+	m_parent = parent ;
+}

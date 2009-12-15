@@ -14,7 +14,7 @@
 namespace app_props
 {
 
-	const static int NumMems = 15 ;
+	static const int NumMems = 15 ;
 /**
 	@struct properties_loaded_history 
 	@brief remembers what memories/glossaries we had loaded.

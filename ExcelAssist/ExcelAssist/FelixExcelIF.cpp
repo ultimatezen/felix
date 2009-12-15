@@ -18,11 +18,11 @@
 #include "easyunit/testharness.h"
 #include <cmath>    // for fabs( )
 
-
-
 const static int MAX_CELL_EXTEND = 30 ;
 const static int ROW_SELECTION_INTERVAL = 10 ;
 const static int MAX_ROWS_NO_ENTRY = 5 ;
+
+using namespace except ;
 
 bool double_equals(double left, double right, double epsilon=0.001)
 {

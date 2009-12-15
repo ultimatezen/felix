@@ -57,7 +57,7 @@ public:
 
 	bool			m_is_glossary ;
 
-	const static int IDD = RES_ID ;
+	static const int IDD = RES_ID ;
 
 	CEditTransRecordDialogCommon() : 
 		m_is_glossary(false) 

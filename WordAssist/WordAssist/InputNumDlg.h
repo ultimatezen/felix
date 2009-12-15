@@ -35,11 +35,11 @@ class CInputNumDlg:
 				CMD_HANDLER_EX_ID(IDOK, OnIdok)
 			END_CMD_HANDLER_EX
 		}
-		catch ( CSWException &sw_e ) { return handle_exception( sw_e, _T("Failure in Input number dialog") ) ; } 
+	catch ( except::CSWException &sw_e ) { return handle_exception( sw_e, _T("Failure in Input number dialog") ) ; } 
 		catch ( _com_error &e )      { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
-		catch ( CComException &e )   { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
-		catch ( CWinException &e )   { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
-		catch ( CException &e )      { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
+		catch ( except::CComException &e )   { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
+		catch ( except::CWinException &e )   { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
+		catch ( except::CException &e )      { return handle_exception( e, _T("Failure in Input number dialog") ) ; } 
 		catch ( std::exception &e )  { return handle_exception( e, _T("Failure in Input number dialog") ) ; }
 	END_MSG_MAP() 
 

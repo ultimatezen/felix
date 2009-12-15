@@ -3,7 +3,9 @@
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+using namespace except;
+
+#ifdef UNIT_TEST
 
 class fake_logger : public logger
 {
