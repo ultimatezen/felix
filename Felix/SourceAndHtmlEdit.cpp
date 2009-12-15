@@ -9,7 +9,6 @@
 #include "text_templates.h"
 #include "logging.h"
 
-using namespace html ;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -17,6 +16,8 @@ using namespace html ;
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
+using namespace except;
+using namespace html ;
 
 CSourceAndHtmlEdit::CSourceAndHtmlEdit(void)
 {
@@ -209,7 +210,14 @@ void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 	html::CHtmlSelection selection = m_html_edit.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
 	range.expand(L"Textedit") ;
-	range.put_html_text(text) ;
+	if (text.length() == 0)
+	{
+		range.put_plain_text(text) ;
+	}
+	else
+	{
+		range.put_html_text(text) ;
+	}
 
 	m_text_edit.SetText( BSTR2wstring(text) ) ;
 }

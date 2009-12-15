@@ -14,6 +14,7 @@
 #include "easyunit/testharness.h"
 
 using namespace memory_engine ;
+using namespace except;
 
 /**
 	@union cracker

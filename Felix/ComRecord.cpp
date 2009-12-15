@@ -13,7 +13,7 @@
 	catch( CException &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
 	catch ( std::exception &e ) { CString Func( func_str ) ; return handle_exception( e, Func ) ; }
 
-// CRecord
+using namespace except ;
 
 STDMETHODIMP CRecord::InterfaceSupportsErrorInfo(REFIID riid)
 {

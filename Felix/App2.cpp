@@ -15,6 +15,8 @@
 	catch( CException &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
 	catch ( std::exception &e ) { CString Func( func_str ) ; return handle_exception( e, Func ) ; }
 
+using namespace except ;
+
 // CApp2
 
 STDMETHODIMP CApp2::InterfaceSupportsErrorInfo(REFIID riid)

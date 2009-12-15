@@ -7,6 +7,8 @@
 
 namespace easyunit
 {
+	using namespace except ;
+
 	TEST( ExceptionTest, Instantiate)
 	{
 		try

@@ -20,7 +20,6 @@
 #include "system_message.h"
 #include "stringconversions.h"
 
-using namespace html ;
 
 /**
 	@struct emode_search_params
@@ -240,8 +239,8 @@ public:
 		}
 		else
 		{
-			CHtmlSelection selection	= m_doc.get_selection() ;
-			CHtmlTextRange range		= selection.create_text_range() ;
+			html::CHtmlSelection selection	= m_doc.get_selection() ;
+			html::CHtmlTextRange range		= selection.create_text_range() ;
 			range.scroll_into_view() ;
 		}
 	
@@ -266,7 +265,7 @@ public:
 
 	wstring get_range_text()
 	{
-		CHtmlTextRange range = get_range() ;
+		html::CHtmlTextRange range = get_range() ;
 		return BSTR2wstring( range.get_plain_text() ) ;
 	}
 
@@ -316,7 +315,7 @@ public:
 		// Otherwise, collapse start
 		else 
 		{
-			CHtmlTextRange range = get_range() ;
+			html::CHtmlTextRange range = get_range() ;
 			range.collapse( true ) ; // true = collapse to start
 			range.select() ;
 		}
@@ -324,7 +323,7 @@ public:
 		// we set up the flags according to our search params
 		const long flags = set_up_flags() ;
 		// then we actually look for the text
-		CHtmlTextRange range = get_range() ;
+		html::CHtmlTextRange range = get_range() ;
 		bool found = range.find_text( search_text, flags ) ;
 
 		// if we found it...
@@ -362,8 +361,8 @@ public:
 		load_id_to_find( id_to_find ) ;
 
 		// get all the elements
-		CHtmlElementCollection all_elements = m_doc.get_all() ;
-		CHtmlElement element ;
+		html::CHtmlElementCollection all_elements = m_doc.get_all() ;
+		html::CHtmlElement element ;
 
 		const int count = all_elements.get_length() ;
 
@@ -373,7 +372,7 @@ public:
 
 			if ( element.get_id( ) == id_to_find )
 			{
-				CHtmlTextRange element_range = get_range() ;
+				html::CHtmlTextRange element_range = get_range() ;
 #pragma warning (disable:4239)
 				element_range.move_to_element_text( element.get_element() ) ;
 #pragma warning (default:4239)
@@ -532,7 +531,7 @@ private:
 
 	void collapse_range()
 	{
-		CHtmlTextRange range = get_range() ;
+		html::CHtmlTextRange range = get_range() ;
 		range.collapse( false ) ; // false = collapse to end
 		range.select() ;
 
@@ -540,7 +539,7 @@ private:
 
 	void select_range()
 	{
-		CHtmlTextRange range = get_range() ;
+		html::CHtmlTextRange range = get_range() ;
 		range.select() ;	// select it
 	}
 

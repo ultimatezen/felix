@@ -93,7 +93,7 @@ public:
 	void handle_replace_replace(doc3_wrapper_ptr doc);
 	void handle_replace_all(doc3_wrapper_ptr doc);
 
-	void replace_in_memory( search_match_ptr match,
+	bool replace_in_memory( search_match_ptr match,
 				const wstring &replace_from, 
 				const wstring &replace_to );
 

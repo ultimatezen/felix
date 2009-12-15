@@ -13,7 +13,6 @@
 
 #include "TranslationMemory.h"
 
-using namespace memory_engine ;
 
 wstring process_cell_text(const wstring text) ;
 
@@ -28,9 +27,9 @@ public:
 	bool m_needs_quitting;
 	bool m_ignore_errors ;
 
-	CExcelExporter( CProgressListener* listener );
+	CExcelExporter(CProgressListener* listener);
 	~CExcelExporter(void);
-	void export_excel(memory_pointer mem, const CString& mem_name);
+	void export_excel(memory_engine::memory_pointer mem, const CString& mem_name);
 	void write_header(void);
-	void write_record(record_pointer rec, int count);
+	void write_record(memory_engine::record_pointer rec, int count);
 };

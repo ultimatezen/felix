@@ -3,12 +3,11 @@
 #include "query.h"
 #include "easyunit/testharness.h"
 
-#ifdef DEBUG
-
-using namespace memory_engine;
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
+	using namespace memory_engine;
 	typedef CComObject< CSearchResult > result_obj ;
 	typedef CComPtr< result_obj > result_ptr ;
 

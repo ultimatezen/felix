@@ -8,7 +8,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////
 class CDemoException :
-	public CException
+	public except::CException
 {
 public:
 	CDemoException(void);

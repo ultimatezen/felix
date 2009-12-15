@@ -68,7 +68,9 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
-#pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
+using namespace memory_engine ;
+using namespace except ;
+using namespace html ;
 
 // Serious DRY violation here...
 const static wstring red_match			= L"#f80000" ;
@@ -4543,7 +4545,9 @@ memory_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num
 	{
 		if ( num >= m_trans_matches.size() )
 		{
-			return record_pointer(new record_local) ;
+			record_pointer nomatches_rec = record_pointer(new record_local) ;
+			nomatches_rec->set_source( m_trans_matches.get_query_rich() ) ;
+			return nomatches_rec ;
 		}
 
 		search_match_ptr match = m_trans_matches.current() ;
@@ -5405,7 +5409,7 @@ void CMainFrame::save_settings_destroy()
 	save_util_settings();
 }
 
-wstring CMainFrame::get_record_translation( record_pointer &record )
+wstring CMainFrame::get_record_translation(record_pointer record)
 {
 	record->increment_refcount() ;
 

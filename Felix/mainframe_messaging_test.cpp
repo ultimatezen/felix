@@ -13,6 +13,8 @@
 
 namespace easyunit
 {
+	using namespace memory_engine;
+
 	LRESULT FakeFreeFunction( WindowsMessage &message )
 	{
 		message ;

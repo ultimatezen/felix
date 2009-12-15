@@ -5,6 +5,8 @@
 #include "resource.h"
 
 using namespace html ;
+using namespace except ;
+using namespace memory_engine ;
 
 CExtraStringsView::CExtraStringsView(void) :
 	m_extra_strings_view(new html::CHtmlView)

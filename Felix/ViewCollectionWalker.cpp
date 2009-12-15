@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ViewCollectionWalker.h"
 
+using namespace except ;
+
 bool is_source_tag( wstring id, tag_name_holder &tags )
 {
 	return id == tags.source_tag || id == tags.dummy_source_id;

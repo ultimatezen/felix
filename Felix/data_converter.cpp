@@ -1,5 +1,4 @@
 // trados_data_converter.cpp: implementation of the trados_data_converter class.
-//
 //////////////////////////////////////////////////////////////////////
 
 #include "StdAfx.h"
@@ -8,13 +7,14 @@
 #include "DebugUtilities.h"	// debug macros etc.
 #include "record_local.h"
 
-using namespace memory_engine ;
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
+
+using namespace memory_engine ;
+using namespace except ;
 
 // tags
 

@@ -10,6 +10,8 @@ static std::vector<string> m_warn_calls ;
 static std::vector<string> m_error_calls ;
 static std::vector<string> m_exception_calls ;
 
+using namespace except;
+
 class fake_logger : public logger
 {
 public:

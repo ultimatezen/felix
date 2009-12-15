@@ -8,6 +8,8 @@
 
 namespace easyunit
 {
+	using namespace memory_engine;
+
 	TEST( test_trados_data_importer, load )
 	{
 		CProgressListenerDummy dummy ;

@@ -7,6 +7,9 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
+using namespace except ;
+using namespace memory_engine ;
+
 CEditTransRecordDialogRegGloss::CEditTransRecordDialogRegGloss(const bool make_defaults) : m_make_defaults(make_defaults)
 {
 }

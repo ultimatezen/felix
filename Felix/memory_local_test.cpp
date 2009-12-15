@@ -12,6 +12,7 @@
 namespace easyunit
 {
 	using namespace memory_engine ;
+	using namespace except ;
 
 	record_pointer make_record(wstring source, wstring trans)
 	{

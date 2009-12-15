@@ -20,6 +20,8 @@
 	catch ( std::exception &e ) { CString Func( func_str ) ; return handle_exception( e, Func ) ; }
 
 // CApp
+using namespace except ;
+using namespace memory_engine ;
 
 STDMETHODIMP CApp::get_App2(IApp2 **pVal)
 {

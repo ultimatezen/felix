@@ -48,7 +48,7 @@ public:
 			memories->remove_record( match->get_record(), match->get_memory_id() ) ;
 			ATLTRACE(" ... Record erased\n\n") ;
 		}
-		catch (CProgramException &e)
+		catch (except::CProgramException &e)
 		{
 			logging::log_error("Failed to delete record: memory not found") ;
 			logging::log_exception(e) ;

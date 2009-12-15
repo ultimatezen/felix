@@ -29,7 +29,6 @@
 #include "NavInterface.h"
 #include "WindowsMessage.h"
 #include "QueryMergeDlg.h"
-using namespace memory_engine ;
 
 void add_popup_item(CMenu &menu, int command_id, int text_id) ;
 void add_popup_separator(CMenu &menu) ;
@@ -75,7 +74,7 @@ public:
 	DISPLAY_STATE		m_display_state ;
 
 	// Save the last deleted match, so we can undo...
-	search_match_ptr		m_deleted_match ;
+	memory_engine::search_match_ptr		m_deleted_match ;
 
 	// recent docs list
 	CMyRecentDocumentList		m_mru ;
@@ -122,7 +121,7 @@ public:
 	void set_bg_color(COLORREF c);
 	bool show_mem_mgr_dlg(int title_id = 0) ;
 	BOOL dropped_in_client( CDropHandle dropped ) ;
-	BOOL handle_sw_exception( CSWException &e, const CString &failure_message )  ;
+	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message )  ;
 	CString get_swe_error_message(CString const&failure_message);
 
 	INT_PTR wants_to_save_in_native_format() ;
@@ -142,7 +141,7 @@ public:
 	bool user_feedback( const CString &feedback, int pane = 0) ;
 	bool user_feedback( const UINT id, int pane = 0) ;
 	bool user_feedback( const tstring &feedback, int pane = 0) ;
-	memory_list & get_memories() ;
+	memory_engine::memory_list & get_memories() ;
 	INT_PTR user_wants_to_save( const CString &f_name ) ;
 	INT_PTR check_save() ;
 	bool check_location() ;
@@ -184,7 +183,7 @@ public:
 	int prev_display_state() ;
 	int next_display_state() ;
 
-	void save_memory(memory_pointer mem) ;
+	void save_memory(memory_engine::memory_pointer mem) ;
 	CString get_save_destination();
 
 	void save_all_memories();
@@ -201,11 +200,11 @@ public:
 	virtual LPCTSTR get_open_filter() = 0 ;
 	virtual bool show_view_content() = 0 ;
 	virtual bool set_window_title() = 0 ;
-	virtual void do_save( memory_pointer mem ) = 0 ;
+	virtual void do_save( memory_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;
-	virtual bool check_for_clashes( memory_pointer mem ) = 0 ;
-	virtual void set_new_record(record_pointer rec) = 0 ;
-	virtual record_pointer get_new_record() = 0 ;
+	virtual bool check_for_clashes( memory_engine::memory_pointer mem ) = 0 ;
+	virtual void set_new_record(memory_engine::record_pointer rec) = 0 ;
+	virtual memory_engine::record_pointer get_new_record() = 0 ;
 	virtual void retrieve_record_new_state() = 0 ;
 	virtual void retrieve_record_results_state() = 0 ;
 

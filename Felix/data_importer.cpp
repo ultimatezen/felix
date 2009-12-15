@@ -19,16 +19,10 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-
+using namespace except ;
+using namespace memory_engine ;
 
 // Function name	: trados_data_importer::open_data_source
-// Description	    : 
-// Return type		: bool  
-// Argument         : const tstring &source_name
 bool  trados_data_importer::open_data_source(const CString &source_name)
 {
 	ensure_file_exists(source_name);

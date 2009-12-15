@@ -5,7 +5,6 @@
 #include <boost/tuple/tuple.hpp>
 #include "memory_local.h"
 
-using memory_engine::memory_pointer ;
 
 typedef boost::tuple<string, string> strcols ;
 typedef boost::tuple<wstring, wstring, wstring> wstrcols ;
@@ -15,7 +14,7 @@ class CImportMultitermFile
 	CProgressListener *m_listener ;
 
 public:
-	memory_pointer	   m_memory ;
+	memory_engine::memory_pointer	   m_memory ;
 
 	CImportMultitermFile(CProgressListener *listener);
 	~CImportMultitermFile(void);

@@ -14,6 +14,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 namespace memory_engine
 {
+	using namespace except ;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

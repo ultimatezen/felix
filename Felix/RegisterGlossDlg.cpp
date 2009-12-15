@@ -27,6 +27,9 @@ static char THIS_FILE[] = __FILE__ ;
 
 #define REG_DLG_WINSETTINGS_KEY _T("RegGlossDialog")
 
+using namespace memory_engine ;
+using namespace except ;
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -354,6 +357,7 @@ LRESULT CRegisterGlossDlg::OnCancel()
 LRESULT CRegisterGlossDlg::OnClose()
 {
 	SENSE("OnClose") ;
+	refresh_current_add_pos();
 	ShowWindow(SW_HIDE) ;
 	return 0;
 }
@@ -949,7 +953,7 @@ LRESULT CRegisterGlossDlg::OnShowWindow(BOOL bShow, UINT)
 
 void CRegisterGlossDlg::refresh_current_add_pos()
 {
-	if (m_AddCombo.GetCount() > 0)
+	if (m_AddCombo.GetCount() > 1)
 	{
 		m_current_add_pos = m_AddCombo.GetCurSel() ;
 	}
@@ -988,6 +992,7 @@ void CRegisterGlossDlg::add_gloss_entry()
 			throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
 		}
 
+		// update the item selected in the "Register to" list box
 		refresh_current_add_pos();
 		m_gloss_window->add_record(m_gloss_record->clone(), m_current_add_pos) ;
 		if (! m_make_defaults)

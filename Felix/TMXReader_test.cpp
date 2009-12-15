@@ -10,12 +10,13 @@
 #include "memory_info.h"
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
 
 	using namespace memory_engine ;
+	using namespace except ;
 
 #define EXPORT_TEST_FILE_1A _T("C:\\dev\\Test Files\\TMXComplianceKit\\ExportTest1A.tmx")
 

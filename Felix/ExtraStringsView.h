@@ -4,7 +4,6 @@
 
 #include "record.h" // record_pointer ;
 
-using namespace memory_engine ;
 
 class CExtraStringsView
 {
@@ -22,13 +21,13 @@ public:
 	LRESULT send_command(WPARAM wParam, LPARAM lParam);
 	void handle_size(void);
 	void create(HWND box_hwnd, HWND dlg_hwnd );
-	void show_extra_strings(record_pointer rec);
+	void show_extra_strings(memory_engine::record_pointer rec);
 
-	void fill_user_strings( record_pointer &rec ) ;	
+	void fill_user_strings( memory_engine::record_pointer &rec ) ;	
 
 	void eliminate_whitespace_and_punctuation(const std::wstring& setting, std::wstring& key) const;
 
-	void write_table_entries(std::wstring& desc, record_pointer& rec) const ;
+	void write_table_entries(std::wstring& desc, memory_engine::record_pointer& rec) const ;
 
 	BOOL pre_translate( MSG *pMsg );
 

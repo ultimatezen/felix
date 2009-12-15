@@ -13,10 +13,10 @@
 
 #include "ProgressListener.h"
 
-using namespace memory_engine ;
 
 namespace tmx_reader
 {
+	using namespace memory_engine ;
 	struct CTU
 	{
 		// optional

@@ -5,7 +5,7 @@
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 namespace easyunit
 {
 	using namespace memory_engine ;

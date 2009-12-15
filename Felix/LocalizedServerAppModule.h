@@ -16,7 +16,6 @@
 
 #include "SafeString.h"
 
-using std::string ;
 typedef std::basic_string< TCHAR > tstring ;
 
 /**

@@ -8,10 +8,10 @@
 
 #ifdef _DEBUG
 
-using namespace memory_engine ;
 
 namespace easyunit
 {
+	using namespace memory_engine ;
 	// cp_from_lang_str
 	TEST( TestTradosDataExporter, internal_date_to_trados_date )
 	{

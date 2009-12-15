@@ -32,7 +32,7 @@ public:
 
 		return description_from_exception( message, E_FAIL ) ;
 	}
-	HRESULT handle_exception(CComException &com_exception, const CString &msg )
+	HRESULT handle_exception(except::CComException &com_exception, const CString &msg )
 	{
 		logging::log_error("COM exception on Automation object") ;
 		logging::log_exception(com_exception) ;
@@ -45,7 +45,7 @@ public:
 
 		return description_from_exception( message, com_exception.code() ) ;
 	}
-	HRESULT handle_exception(CWinException &e, const CString &msg )
+	HRESULT handle_exception(except::CWinException &e, const CString &msg )
 	{
 		logging::log_error("COM exception on Automation object") ;
 		CString message = call_to_error_line( msg ) ;						
@@ -57,7 +57,7 @@ public:
 
 		return description_from_exception( message, HRESULT_FROM_WIN32( e.code() ) ) ;
 	}
-	HRESULT handle_exception(CSWException &e, const CString &msg )
+	HRESULT handle_exception(except::CSWException &e, const CString &msg )
 	{
 		logging::log_error("COM exception on Automation object") ;
 		CString message = call_to_error_line( msg ) ;						
@@ -69,7 +69,7 @@ public:
 
 		return description_from_exception( message, E_FAIL ) ;
 	}
-	HRESULT handle_exception(CException &e, const CString &msg )
+	HRESULT handle_exception(except::CException &e, const CString &msg )
 	{
 		logging::log_error("COM exception on Automation object") ;
 		::MessageBeep( MB_ICONHAND ) ;							
@@ -84,7 +84,7 @@ public:
 	}
 	HRESULT handle_exception(_com_error &e, const CString &msg )
 	{
-		CComException com_exception(msg, e) ;					
+		except::CComException com_exception(msg, e) ;					
 		CString message = call_to_error_line( msg ) ;						
 		message += com_exception.what() ;						
 		message += _T("\r\n" ) ;								
@@ -112,7 +112,7 @@ public:
 		m_error_description = message ;		
 		
 	}
-	void handle_exception_void(CComException &com_exception, const CString &msg )
+	void handle_exception_void(except::CComException &com_exception, const CString &msg )
 	{
 		CString message = call_to_error_line( msg ) ;						
 		message += com_exception.what() ;						
@@ -125,7 +125,7 @@ public:
 
 		com_exception.notify_user( _T("COM Error" ) ) ;
 	}
-	void handle_exception_void(CWinException &e, const CString &msg )
+	void handle_exception_void(except::CWinException &e, const CString &msg )
 	{
 		CString message = call_to_error_line( msg ) ;						
 		message += e.what() ;						
@@ -137,7 +137,7 @@ public:
 
 		e.notify_user( _T("Automation Error" ) ) ;
 	}
-	void handle_exception_void(CSWException &e, const CString &msg )
+	void handle_exception_void(except::CSWException &e, const CString &msg )
 	{
 		CString message = call_to_error_line( msg ) ;						
 		message += e.what() ;						
@@ -149,7 +149,7 @@ public:
 
 		e.notify_user( _T("Automation Error" ) ) ;
 	}
-	void handle_exception_void(CException &e, const CString &msg )
+	void handle_exception_void(except::CException &e, const CString &msg )
 	{
 		::MessageBeep( MB_ICONHAND ) ;							
 		CString message = call_to_error_line( msg ) ;						
@@ -165,7 +165,7 @@ public:
 	}
 	void handle_exception_void(_com_error &e, const CString &msg )
 	{
-		CComException com_exception(msg, e) ;					
+		except::CComException com_exception(msg, e) ;					
 		CString message = call_to_error_line( msg ) ;						
 		message += com_exception.what() ;						
 		message += _T("\r\n" ) ;								
@@ -176,11 +176,8 @@ public:
 
 		com_exception.notify_user( _T("Automation Error" ) ) ;
 	}
-	// Function name	: CApplication::description_from_exception
-	// Description	    : 
-	// Return type		: HRESULT 
-	// Argument         : CException &e
-	// Argument         : HRESULT code
+
+	// description_from_exception
 	HRESULT description_from_exception( const CString &message, HRESULT code = E_FAIL )
 	{
 		BANNER( "CApplication::description_from_exception" ) ;

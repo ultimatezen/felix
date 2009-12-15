@@ -22,7 +22,6 @@
 
 #include "WindowExceptionHandler.h"
 
-using namespace html ;
 /**
 	@class CMinViewDlg 
 	@brief Minimal view to save screen real estate.
@@ -31,21 +30,22 @@ class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
                  , public CDialogResize<CMinViewDlg> 
 				 , public CWindowExceptionHandler< CMinViewDlg >
 {
+	VISIBLE_TO_TESTS
+
 	CToolTipCtrl	m_tooltips ;
 
 	CButtonT<TWindow>     m_idcButton1;
 	CStaticT<TWindow>     m_idcEditBox;
+	HWND m_parent ;
+	// view
+	html::CHtmlView m_view ;
 	
 public:
-	HWND m_parent ;
 		
 	static const int IDD = IDD_MIN_VIEW_DLG ;
 	DECLARE_SENSING_VAR ;
 
 	CMinViewDlg();
-	
-	// view
-	CHtmlView m_view ;
 
 	LRESULT OnLButtonDown( UINT id, CPoint pt );
 	LRESULT OnMouse(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ ) ;

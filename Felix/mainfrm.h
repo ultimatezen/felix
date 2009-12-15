@@ -50,11 +50,14 @@ class CMainFrame :
 VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
 
+	typedef memory_engine::record_pointer record_type ;
+	typedef memory_engine::memory_pointer memory_type ;
+
 	// ====================
 	// various records
 	// ====================
-	record_pointer			m_new_record ;	  // last added record
-	record_pointer			m_review_record ; // review mode
+	record_type			m_new_record ;	  // last added record
+	record_type			m_review_record ; // review mode
 
 	appstate_mainframe		m_appstate ;
 
@@ -66,8 +69,8 @@ VISIBLE_TO_TESTS
 	 // ====================
 	// translation matches
 	// ====================
-	translation_match_query_trans		m_trans_matches ;
-	search_query_mainframe				m_search_matches ;
+	memory_engine::translation_match_query_trans		m_trans_matches ;
+	memory_engine::search_query_mainframe				m_search_matches ;
 
 	// the match records for glossary registration
 	CRegisterGlossDlg		m_reg_gloss_dlg ;
@@ -84,7 +87,7 @@ VISIBLE_TO_TESTS
 	// various user preferences
 	app_props::props_ptr m_properties ;
 	// the memory controller
-	memory_model_mem	m_silent_memories ;
+	memory_engine::memory_model_mem	m_silent_memories ;
 
 	CSearchWindow		m_search_window ;
 public:
@@ -113,11 +116,11 @@ public:
 	{
 		this->m_command_message_map[id] = listenerFunction ;
 	}
-	void set_new_record(record_pointer rec)
+	void set_new_record(record_type rec)
 	{
 		m_new_record = rec ;
 	}
-	record_pointer get_new_record()
+	record_type get_new_record()
 	{
 		return m_new_record ;
 	}
@@ -131,14 +134,14 @@ public:
 	/************************************************************************/
 	/* CGlossaryDlgListener implementation                                  */
 	/************************************************************************/
-	INT_PTR gloss_check_save_location( memory_pointer mem ) ;
-	bool gloss_add_record( record_pointer rec );
+	INT_PTR gloss_check_save_location( memory_type mem ) ;
+	bool gloss_add_record( record_type rec );
 	void gloss_view_switch( HWND hwnd ) ;
 
 	void add_by_id(size_t recid, wstring source, wstring trans);
 	void view_by_id(size_t recid, wstring source, wstring trans);
 
-	wstring get_review_content( memory_pointer mem );
+	wstring get_review_content( memory_type mem );
 	/** Set whether difference markup will be shown.
 	 */
 	void put_show_marking( VARIANT_BOOL setting ) ;
@@ -150,7 +153,7 @@ public:
 	 */
 	bool exit_silently() ;
 
-	memory_list& get_silent_memories() { return m_silent_memories.get_memories() ; } 
+	memory_engine::memory_list& get_silent_memories() { return m_silent_memories.get_memories() ; } 
 
 	gloss_window_list& get_glossary_windows()
 	{
@@ -192,15 +195,15 @@ public:
 	void init_trans_matches_for_lookup(const wstring & query) ;
 
 	void init_lookup_properties(const app_props::props_ptr source, 
-							search_query_params &dest);
-	void get_matches(TransMatchContainer matches);
+							memory_engine::search_query_params &dest);
+	void get_matches(memory_engine::TransMatchContainer matches);
 
 	// set the translation for the current query
 	bool set_translation( const wstring &translation );
 	bool clear_memory() ;
 
 	// helper
-	bool add_record( record_pointer record ) ;
+	bool add_record( record_type record ) ;
 
 	// information about the memory
 	long get_num_matches() { return m_trans_matches.size() ; }
@@ -210,9 +213,9 @@ public:
 	// the current translation
 	wstring get_current_translation( );
 
-	wstring get_record_translation( record_pointer &record );
+	wstring get_record_translation(record_type record);
 	// the current match
-	search_match_ptr get_current_match();
+	memory_engine::search_match_ptr get_current_match();
 
 	// =================
 	// ui stuff
@@ -287,7 +290,7 @@ public:
 	LRESULT on_view_status_bar(WindowsMessage &message);
 	LRESULT on_view_match(WindowsMessage &message) ;
 
-	void recalculate_match( search_match_ptr match, search_query_params &params );
+	void recalculate_match( memory_engine::search_match_ptr match, memory_engine::search_query_params &params );
 	LRESULT on_view_search(WindowsMessage &message) ;
 	//LRESULT OnViewReg( ) ;
 	LRESULT on_view_min_begin(WindowsMessage &message);
@@ -334,19 +337,19 @@ public:
 	// handling of UWM_USER_MESSAGE messages
 	LRESULT on_user_register(LPARAM num );
 
-	record_pointer get_reg_gloss_record( const size_t num );
+	record_type get_reg_gloss_record( const size_t num );
 
 	LRESULT on_user_delete( LPARAM num );
 
-	void remove_record_from_glossaries(record_pointer rec);
-	void remove_match_record( search_match_ptr match );
-	void remove_record_from_mem_id( record_pointer rec, int mem_id );
+	void remove_record_from_glossaries(record_type rec);
+	void remove_match_record( memory_engine::search_match_ptr match );
+	void remove_record_from_mem_id( record_type rec, int mem_id );
 	void deleted_new_record_feedback();
 	LRESULT on_user_edit(WindowsMessage &message);
 
 	int get_first_mem_id()
 	{
-		memory_pointer mem = m_model->m_memories->get_first_memory() ;
+		memory_type mem = m_model->m_memories->get_first_memory() ;
 		return mem->get_id() ;
 	}
 	LRESULT on_user_search(WindowsMessage &message) ;
@@ -382,9 +385,9 @@ public:
 	wstring create_concordance_list( );
 
 	wstring get_concordance_content_title();
-	void handle_foreign_file_save(memory_pointer& mem, const file::CFileExtension& ext);
+	void handle_foreign_file_save(memory_type& mem, const file::CFileExtension& ext);
 
-	void feedback_loaded_mem( memory_pointer mem );
+	void feedback_loaded_mem( memory_type mem );
 
 	std::wstring get_match_content();
 private: 
@@ -395,13 +398,13 @@ private:
 
 	void check_save_history() ;
 
-	bool has_more_memory_history( memory_iterator pos, size_t mem_num );
+	bool has_more_memory_history( memory_engine::memory_iterator pos, size_t mem_num );
 	BOOL should_save_memory_history( );
 	bool export_trados( const CString &file_name ) ;
 	bool export_tmx( const CString &file_name );
 	void set_exporter_src_and_target_langs(CExportDialog &dialog, CTMXWriter &exporter);
 
-	void do_save( memory_pointer mem ) ;
+	void do_save( memory_type mem ) ;
 
 	// edit mode routines
 	void handle_new_record_edit ( bool edit_mode_enabled ) ;
@@ -418,8 +421,8 @@ private:
 	//void handle_leave_edit_mode_register() ;
 
 public:
-	void redo_lookup( search_match_ptr match, bool do_gloss = false ) ;
-	void add_record_to_memory( record_pointer record );
+	void redo_lookup( memory_engine::search_match_ptr match, bool do_gloss = false ) ;
+	void add_record_to_memory( record_type record );
 	void look_up_in_glossaries( const wstring &query );
 	void set_up_window_size();
 	void set_up_ui_state();
@@ -428,7 +431,7 @@ public:
 	void set_up_recent_docs_list();
 	void set_up_command_bars();
 	void set_up_default_initial_size();
-	void add_memory( memory_pointer mem );
+	void add_memory( memory_type mem );
 	void reflect_preferences();
 	WORD get_current_gui_language();
 	void SetUILanguage( WORD lang_id );
@@ -491,7 +494,7 @@ public:
 	UINT get_message_key( UINT message, WPARAM wParam );
 	BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0);
 
-	BOOL handle_sw_exception( CSWException &e, const CString &failure_message ) 
+	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message ) 
 	{
 		return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
 	}
@@ -518,7 +521,7 @@ public:
 
 
 	CString get_window_type_string();
-	bool check_for_clashes( memory_pointer mem )
+	bool check_for_clashes( memory_type mem )
 	{
 		return IDCANCEL != gloss_check_save_location( mem ) ;
 	}
@@ -530,9 +533,9 @@ public:
 	void set_bg_color_if_needed();
 
     virtual void addToMessageLoop();
-	void get_matches(TransMatchContainer &matches, search_query_params &params) ;
+	void get_matches(memory_engine::TransMatchContainer &matches, memory_engine::search_query_params &params) ;
 
-	void check_placement( TransMatchContainer &PlacedMatches, search_match_ptr match);
+	void check_placement( memory_engine::TransMatchContainer &PlacedMatches, memory_engine::search_match_ptr match);
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 

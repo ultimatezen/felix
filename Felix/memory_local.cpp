@@ -6,6 +6,7 @@
 
 namespace memory_engine
 {
+	using namespace except ;
 
 	size_t memory_local::size()
 	{

@@ -1065,7 +1065,7 @@ STRINGTABLE
 BEGIN
     IDS_DELETED_RECORD_MSG  "Deleted record (<a href=""/undodelete"">Undo</a>)"
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "Could not delete record (memory locked)"
-    IDS_REPLACE_COMPLETE_MSG "Replacement complete"
+    IDS_REPLACE_COMPLETE_MSG "Made %1 replacements."
     IDS_SEARCHWIN_TITLE_MEM "Search Translation Memories"
     IDS_SEARCHWIN_TITLE_GLOSS "Search Glossaries"
     IDS_POPUP_COPY          "&Copy"

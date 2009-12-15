@@ -30,7 +30,6 @@
 
 #include "ProgressListener.h"
 
-using namespace memory_engine ;
 
 /**
 	@class data_importer
@@ -364,7 +363,7 @@ public:
 
 	void clear_record()
 	{
-		m_current_record = memory_engine::record_pointer(new record_local()) ;
+		m_current_record = memory_engine::record_pointer(new memory_engine::record_local()) ;
 	}
 	memory_engine::record_pointer get_current_record()
 	{

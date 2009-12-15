@@ -5,7 +5,7 @@
 
 #include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

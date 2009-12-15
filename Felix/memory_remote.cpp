@@ -5,6 +5,8 @@
 
 namespace memory_engine
 {
+	using namespace except ;
+
 	void memory_remote::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
 	{
 		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), min_score) ;
@@ -161,7 +163,7 @@ namespace memory_engine
 
 			logging::log_error("Failed to remove record from remote memory") ;
 
-			CComException com_e(e) ;
+			except::CComException com_e(e) ;
 			com_e.add_to_message(_T("Error removing record from remote memory")) ;
 			throw com_e ;
 		}
@@ -207,7 +209,7 @@ namespace memory_engine
 
 			ATLASSERT("Failed to add remote record" && FALSE) ;
 
-			CComException com_e(e) ;
+			except::CComException com_e(e) ;
 			com_e.add_to_message(_T("Error adding record to remote memory")) ;
 			throw com_e ;
 		}
@@ -219,7 +221,7 @@ namespace memory_engine
 		bool success = (VARIANT_FALSE != m_engine.method(L"Connect", static_cast< LPCWSTR >( CT2W(conn_str) )).boolVal) ;
 		if (! success)
 		{
-			throw CException(CString(_T("Failed to connect to memory: ")) + conn_str) ;
+			throw except::CException(CString(_T("Failed to connect to memory: ")) + conn_str) ;
 		}
 		// check for demo status
 		refresh_status() ;

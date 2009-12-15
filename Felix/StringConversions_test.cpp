@@ -108,7 +108,7 @@ namespace easyunit
 			string2double(inval) ;
 			FAIL_M("Should have failed to convert 'foo'") ;
 		}
-		catch (CException&)
+		catch (except::CException&)
 		{
 			ASSERT_TRUE(true) ;
 		}

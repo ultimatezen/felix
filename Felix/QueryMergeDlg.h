@@ -44,7 +44,7 @@ public:
 			COMMAND_HANDLER(IDC_MERGE, BN_CLICKED, OnRadioMerge)
 			COMMAND_HANDLER(IDC_SEPARATE, BN_CLICKED, OnRadioSeparate)
 		}
-		catch( CException &e )
+		catch( except::CException &e )
 		{
 			logging::log_error("Error handling Query Merge Dialog message") ;
 			logging::log_exception(e) ;
@@ -55,14 +55,14 @@ public:
 			logging::log_error("Standard Library error handling Query Merge Dialog message") ;
 			logging::log_error(e.what()) ;
 			CString emsg = CA2CT( e.what() ) ;
-			CException myEx( emsg ) ;
+			except::CException myEx( emsg ) ;
 			myEx.notify_user( resource_string(IDS_MSG_ACTION_FAILED) ) ;
 		}
 		catch ( _com_error &e ) 
 		{
 			logging::log_error("COM Error handling Query Merge Dialog message") ;
 			logging::log_exception(e) ;
-			CComException comEx( e ) ;
+			except::CComException comEx( e ) ;
 			comEx.notify_user( resource_string(IDS_MSG_ACTION_FAILED) ) ;
 		}
 	END_MSG_MAP()

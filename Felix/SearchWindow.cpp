@@ -7,11 +7,15 @@
 #include "replacer.h"
 #include "record_local.h"
 #include "WebPage.h"
+#include "numberfmt.h"
+#include "system_message.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
 #endif
+
+using namespace memory_engine;
 
 bool ends_with(const wstring &haystack, const wstring needle)
 {
@@ -390,9 +394,11 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 	// page stuff
 	text_template.Assign(L"pagination", get_pagination_text(m_paginator)) ;
 	text_template.Assign(L"page", ulong2wstring(m_paginator.get_current_page()+1)) ;
-	text_template.Assign(L"num_pages", ulong2wstring(m_paginator.get_num_pages())) ;
 
-	text_template.Assign(L"num_matches", ulong2wstring(matches.size())) ;
+	CNumberFmt number_format ;
+	text_template.Assign(L"num_pages", wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
+
+	text_template.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
 
 	CTextTemplate::DictListPtr items = text_template.CreateDictList();
 
@@ -720,12 +726,16 @@ void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc)
 	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
 	wstring replace_to = replaceto_box->get_attribute(L"value") ;
 
+	size_t num_replaced = 0 ;
 	foreach(search_match_ptr match, m_replace_matches)
 	{
-		replace_in_memory(match, replace_from, replace_to);
+		if (replace_in_memory(match, replace_from, replace_to))
+		{
+			num_replaced++;
+		}
 	}
 
-	m_message = R2WSTR(IDS_REPLACE_COMPLETE_MSG) ;
+	m_message = (LPCWSTR)system_message(IDS_REPLACE_COMPLETE_MSG, int_arg(num_replaced)) ;
 
 	m_replace_matches.clear() ;
 	m_current_match = 0 ;
@@ -772,18 +782,23 @@ void CSearchWindow::perform_replace(doc3_wrapper_ptr doc, record_pointer rec)
 /*
  Do the replacement in the memory.
  */
-void CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &replace_from, const wstring &replace_to )
+bool CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &replace_from, const wstring &replace_to )
 {
 	if (replace_from.empty())
 	{
-		return ;
+		return false ;
 	}
 
 	record_pointer record = match->get_record() ;
-	record_pointer modified(new record_local(record)) ;
-	replacer::do_replace(modified, replace_from, replace_to) ;
+	record_pointer modified = record->clone() ;
+	record_pointer result = replacer::do_replace(modified, replace_from, replace_to) ;
 	const int memid = match->get_memory_id() ;
-	m_controller->get_memory_by_id(memid)->replace(record, modified) ;
+	if( result != record)  // was there a modification?
+	{
+		m_controller->get_memory_by_id(memid)->replace(record, modified) ;
+		return true ;
+	}
+	return false ;
 }
 
 // Clear the filters and load a new search page

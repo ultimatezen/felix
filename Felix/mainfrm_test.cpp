@@ -14,6 +14,8 @@
 
 namespace easyunit
 {
+	using namespace memory_engine ;
+
 	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
 	{
 		record_pointer rec(new record_local()) ;

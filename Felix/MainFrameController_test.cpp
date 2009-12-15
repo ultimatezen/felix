@@ -10,6 +10,9 @@
 
 namespace easyunit
 {
+	using namespace memory_engine ;
+	using namespace except ;
+
 	TEST( MainFrameControllerTests, TestInstantiate)
 	{
 		MainFrameModel model ;

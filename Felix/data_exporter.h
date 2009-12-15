@@ -20,7 +20,6 @@
 
 typedef std::map< wstring, string > color_tag_map ;
 
-using namespace memory_engine ;
 /**
  * The TradosDataExporter class. 
  * Exports Felix memories as Trados(R) text-format memories. 
@@ -29,7 +28,7 @@ class TradosDataExporter
 {
 	typedef std::set< wstring > font_set ;
 	
-	typedef record_pointer record_type ;
+	typedef memory_engine::record_pointer record_type ;
 	std::stack< unsigned int >	m_codepages ;
 	rtf::font_table		m_fonts ;
 	color_tag_map	m_colors ;
@@ -91,7 +90,7 @@ public:
 class multiterm_data_exporter_55
 {
 	typedef boost::shared_ptr<OutputDevice> device_ptr ;
-	typedef record_pointer record_type ;
+	typedef memory_engine::record_pointer record_type ;
 
 	string	m_source_lang ;
 	string	m_target_lang ;
@@ -138,7 +137,7 @@ public:
 		write_line( m_source_lang, m_target_lang, notes ) ;
 
 		int i = 0 ;
-		foreach(record_pointer record, mem->get_records())
+		foreach(memory_engine::record_pointer record, mem->get_records())
 		{
 			write_record(record) ;
 

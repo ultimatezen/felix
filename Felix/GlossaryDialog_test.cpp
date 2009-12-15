@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-
+	using namespace memory_engine;
 	TEST( TestGlossaryWindow, get_record_translation_standard)
 	{
 		CGlossaryWindow gloss ;

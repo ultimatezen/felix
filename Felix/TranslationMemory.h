@@ -165,7 +165,7 @@ public:
 	bool UserSaysBail();
 	bool ListenerSaysBail();
 
-	void continue_or_throw(CException &e);
+	void continue_or_throw(except::CException &e);
 
 	void refresh_user_name(void);
 	void get_date_created( const CString &location );
@@ -176,7 +176,7 @@ public:
 	UINT encoding_from_encoding_string(textstream_reader< char > & xml_reader);
 	UINT encoding_from_multi_lang(const char* text, UINT text_size);
 
-	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, CException& e);
+	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, except::CException& e);
 
 	void check_progress_update( int progress_interval );
 	// glossary stuff

@@ -750,7 +750,7 @@ public:
 		END_CMD_HANDLER_EX
 
 	}
-	catch ( CSWException &sw_e ) 
+	catch ( except::CSWException &sw_e ) 
 	{ 
 		logging::log_error("Edit Trans Record Dialog - Structured Windows Exception") ;
 		logging::log_exception(sw_e) ;
@@ -771,7 +771,7 @@ public:
 		fail_msg += _T(": COM ERROR") ;
 		return handle_exception( e, fail_msg ) ; 
 	} 
-	catch ( CComException &e ) 
+	catch ( except::CComException &e ) 
 	{ 
 		logging::log_error("Edit Trans Record Dialog - Application COM Exception") ;
 		logging::log_exception(e) ;
@@ -779,7 +779,7 @@ public:
 		fail_msg += _T(": COM EXCEPTION") ;
 		return handle_exception( e, fail_msg ) ;
 	} 
-	catch ( CWinException &e ) 
+	catch ( except::CWinException &e ) 
 	{ 
 		logging::log_error("Edit Trans Record Dialog - Windows Exception") ;
 		logging::log_exception(e) ;
@@ -787,7 +787,7 @@ public:
 		fail_msg += _T(": WINDOWS ERROR") ;
 		return handle_exception( e, fail_msg ) ;
 	} 
-	catch ( CException &e ) 
+	catch ( except::CException &e ) 
 	{ 
 		logging::log_error("Edit Trans Record Dialog - Application Exception") ;
 		logging::log_exception(e) ;

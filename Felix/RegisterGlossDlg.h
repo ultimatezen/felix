@@ -22,8 +22,8 @@ class CRegisterGlossDlg :
 {
 	VISIBLE_TO_TESTS
 
-	record_pointer m_mem_record ;
-	record_pointer m_gloss_record ;
+	memory_engine::record_pointer m_mem_record ;
+	memory_engine::record_pointer m_gloss_record ;
 
 	// record source
 	CSourceAndHtmlEdit m_rec_source_edit ;
@@ -76,7 +76,7 @@ public:
 
 	void set_gloss_window( gloss_window_pointer gloss );
 
-	void set_record( record_pointer rec );
+	void set_record( memory_engine::record_pointer rec );
 
 	// PreTranslateMessage
 	BOOL PreTranslateMessage(MSG* pMsg) ;
@@ -182,7 +182,7 @@ public:
 
 		END_CMD_HANDLER_EX
 	}
-	catch ( CSWException &sw_e ) 
+	catch ( except::CSWException &sw_e ) 
 	{ 
 		logging::log_error("Register Gloss Dlg - Structured Windows Exception") ;
 		logging::log_exception(sw_e) ;
@@ -203,7 +203,7 @@ public:
 		fail_msg += _T(": COM ERROR") ;
 		return handle_exception( e, fail_msg ) ; 
 	} 
-	catch ( CComException &e ) 
+	catch ( except::CComException &e ) 
 	{ 
 		logging::log_error("Register Gloss Dlg - Application COM Exception") ;
 		logging::log_exception(e) ;
@@ -211,7 +211,7 @@ public:
 		fail_msg += _T(": COM EXCEPTION") ;
 		return handle_exception( e, fail_msg ) ;
 	} 
-	catch ( CWinException &e ) 
+	catch ( except::CWinException &e ) 
 	{ 
 		logging::log_error("Register Gloss Dlg - Windows Exception") ;
 		logging::log_exception(e) ;
@@ -219,7 +219,7 @@ public:
 		fail_msg += _T(": WINDOWS ERROR") ;
 		return handle_exception( e, fail_msg ) ;
 	} 
-	catch ( CException &e ) 
+	catch ( except::CException &e ) 
 	{ 
 		logging::log_error("Register Gloss Dlg - Application Exception") ;
 		logging::log_exception(e) ;

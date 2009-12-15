@@ -15,6 +15,7 @@
 namespace easyunit
 {
 	using namespace memory_engine ;
+	using namespace except ;
 
 	record_pointer make_record(const string source, const string trans, const string context = "")
 	{

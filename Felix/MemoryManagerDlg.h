@@ -23,9 +23,6 @@
 #include "ProgressListener.h"
 
 
-using namespace html ;
-using namespace memory_engine ;
-
 /**
 	@class CDropperCheckListViewCtrl 
 	@brief Checklist control with support for file dropping.
@@ -64,9 +61,9 @@ class CMemoryManagerDlg:
 
 	CDropperCheckListViewCtrl	m_list_box ;
 	CStaticT<TWindow>			m_info_box ;
-	CHtmlView					m_info_view ;
+	html::CHtmlView					m_info_view ;
 
-	memory_list					m_memories ;
+	memory_engine::memory_list					m_memories ;
 	CProgressBarCtrl			m_progress_bar ;
 
 	int	m_title_id ;
@@ -87,28 +84,28 @@ public:
 
 	void display_info_for_item( int item );
 
-	wstring get_info_for_item( memory_pointer mem );
+	wstring get_info_for_item(memory_engine::memory_pointer mem);
 
-	wstring get_reliability_range(memory_pointer mem);
-	wstring get_file_size(memory_pointer mem);
-	wstring get_mem_size( memory_pointer mem );
-	wstring get_client_name( MemoryInfo *mem_info );
-	wstring get_target_lang( MemoryInfo *mem_info );
-	wstring get_source_lang( MemoryInfo *mem_info );
-	wstring get_created_on( MemoryInfo *mem_info );
-	wstring get_field_name( MemoryInfo *mem_info );
-	wstring get_creator_name( MemoryInfo *mem_info );
-	wstring get_memory_name(memory_pointer mem);
-	void add_memory_file( const CString &mem_file );
+	wstring get_reliability_range(memory_engine::memory_pointer mem);
+	wstring get_file_size(memory_engine::memory_pointer mem);
+	wstring get_mem_size(memory_engine::memory_pointer mem);
+	wstring get_client_name(memory_engine::MemoryInfo *mem_info);
+	wstring get_target_lang(memory_engine::MemoryInfo *mem_info);
+	wstring get_source_lang(memory_engine::MemoryInfo *mem_info);
+	wstring get_created_on(memory_engine::MemoryInfo *mem_info);
+	wstring get_field_name(memory_engine::MemoryInfo *mem_info);
+	wstring get_creator_name(memory_engine::MemoryInfo *mem_info);
+	wstring get_memory_name(memory_engine::memory_pointer mem);
+	void add_memory_file(const CString &mem_file );
 
 	wstring get_loading_message( const CString &mem_file );
 	void reflect_checkstate();
 	void fill_listview();
 	void set_memories( boost::shared_ptr<memory_engine::memory_model> controller );
 	void get_memories( boost::shared_ptr<memory_engine::memory_model> memories );
-	memory_pointer get_memory_at( int sel );
+	memory_engine::memory_pointer get_memory_at( int sel );
 
-	memory_iterator get_pos_at( int sel );
+	memory_engine::memory_iterator get_pos_at( int sel );
 
 	LRESULT OnDropFiles( HDROP drop ) ;
 	LRESULT OnSelChange( );
@@ -198,9 +195,9 @@ public:
 
 	void dropFile(const CString dropfile) ;
 
-	void setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& dlg);
+	void setAdvDlgInfo(memory_engine::memory_pointer& mem, CAdvancedMemMgrDlg& dlg);
 
-	void getAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& dlg);
+	void getAdvDlgInfo(memory_engine::memory_pointer& mem, CAdvancedMemMgrDlg& dlg);
 
 	void waitForNavComplete();
 
@@ -208,16 +205,16 @@ public:
 
 	void disableListButtons();
 
-	bool getMemName(memory_pointer& mem);
+	bool getMemName(memory_engine::memory_pointer& mem);
 
-	void showSavingMessage(memory_pointer& mem);
+	void showSavingMessage(memory_engine::memory_pointer& mem);
 
-	wstring get_saving_feedback( memory_pointer& mem );
-	void perform_save(memory_pointer& mem);
+	wstring get_saving_feedback( memory_engine::memory_pointer& mem );
+	void perform_save(memory_engine::memory_pointer& mem);
 
 	bool is_dropped_in_listbox(POINT p);
-	CString  get_save_prompt( memory_pointer mem ) ;
-	void save_memory(memory_pointer mem) ;
+	CString  get_save_prompt( memory_engine::memory_pointer mem ) ;
+	void save_memory(memory_engine::memory_pointer mem) ;
 	void set_button_focus() ;
 
 	void add_memory_files( file::OpenDlgList &import_files ) ;

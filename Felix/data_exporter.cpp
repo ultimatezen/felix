@@ -16,15 +16,10 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+using namespace except ;
+using namespace memory_engine ;
 
-
-// Function name	: TradosDataExporter::TradosDataExporter
-// Description	    : 
-// Return type		: 
-// Argument         : std::set< wstring > &fonts
+// TradosDataExporter::TradosDataExporter
 TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressListener *listener  )
 	: m_p_depth( 0 ), 
 	m_fonts( false ), // no default entry

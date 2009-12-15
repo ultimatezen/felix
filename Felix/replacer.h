@@ -7,7 +7,6 @@ namespace replacer
 {
 	using memory_engine::record_pointer ;
 
-
 	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
 
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to) ;

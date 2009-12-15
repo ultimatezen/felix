@@ -3,6 +3,8 @@
 #include "DemoException.h"
 #include "InputKeyDlg.h"
 
+using namespace except ;
+
 LRESULT CConnectionDlg::OnInitDialog()
 {
 	SENSE("OnInitDialog") ;

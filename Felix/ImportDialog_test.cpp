@@ -5,6 +5,8 @@
 
 namespace easyunit
 {
+	using namespace except ;
+
 	// CImportDialog
 	TEST( TestCImportDialog, instantiate)
 	{

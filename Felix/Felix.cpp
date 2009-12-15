@@ -54,6 +54,8 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
+using namespace except ;
+
 /** memory debugging */
 #ifdef _DEBUG // start memory leak checker
 

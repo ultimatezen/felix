@@ -13,6 +13,9 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
+using namespace except ;
+using namespace memory_engine ;
+
 // CTOR
 CCommonWindowFunctionality::CCommonWindowFunctionality( )
 :	m_is_short_format( true ),

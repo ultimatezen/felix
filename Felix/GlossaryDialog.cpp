@@ -41,7 +41,8 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
-
+using namespace memory_engine ;
+using namespace except ;
 using namespace html ;
 
 // CTOR

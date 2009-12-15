@@ -7,6 +7,8 @@
 #include "EditModeFindDlg.h"
 #include "reg_msg_filter.h"
 
+using namespace html ;
+
 /** CTOR.
  */
 emode_search_params::emode_search_params() : 

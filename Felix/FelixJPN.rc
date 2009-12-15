@@ -1250,7 +1250,7 @@ STRINGTABLE
 BEGIN
     IDS_DELETED_RECORD_MSG  "翻訳エントリを削除しました。(<a href=""/undodelete"">やり直し</a>)"
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "削除できません(メモリがロック状態)"
-    IDS_REPLACE_COMPLETE_MSG "置換しました"
+    IDS_REPLACE_COMPLETE_MSG "%1個のエントリを置換しました"
     IDS_SEARCHWIN_TITLE_MEM "メモリの検索"
     IDS_SEARCHWIN_TITLE_GLOSS "用語の検索"
     IDS_POPUP_COPY          "コピー(&C)"
