@@ -757,7 +757,7 @@ void CGlossaryWindow::show_gloss_lookup_results()
 
 void CGlossaryWindow::perform_gloss_lookup()
 {
-	search_match_multiset matches ;
+	search_match_container matches ;
 	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
 	m_search_matches.set_matches( matches ) ;
 }
@@ -1098,7 +1098,7 @@ void CGlossaryWindow::prep_user_search()
 
 void CGlossaryWindow::perform_user_search()
 {
-	search_match_multiset matches ;
+	search_match_container matches ;
 
 	m_memories->perform_search( matches, m_search_matches.m_params ) ;
 
@@ -1953,7 +1953,7 @@ void CGlossaryWindow::show_concordance_results()
 
 void CGlossaryWindow::perform_concordance_search()
 {
-	search_match_multiset matches ;
+	search_match_container matches ;
 	m_memories->perform_search( matches, m_search_matches.m_params ) ;
 
 	m_search_matches.set_matches( matches ) ;

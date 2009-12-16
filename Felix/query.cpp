@@ -142,13 +142,13 @@ void base_presentation::clear()
 	m_params = search_query_params() ;
 	m_params.m_show_marking = show_markup ;
 }
-void base_presentation::set_matches( const search_match_multiset &matches ) 
+void base_presentation::set_matches( const search_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
-void base_presentation::set_matches( const TransMatchContainer &matches ) 
+void base_presentation::set_matches( const trans_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;

@@ -25,7 +25,7 @@ class view_interface
 	typedef boost::shared_ptr<memory_engine::memory_model> MemoryControllerType ;
 	typedef memory_engine::record_pointer record_pointer ;
 	typedef memory_engine::search_match_ptr SearchMatchType ;
-	typedef memory_engine::translation_match_query_trans TransMatchQueryTrans ;
+	typedef memory_engine::translation_match_query TransMatchQueryTrans ;
 
 public:
 	// view

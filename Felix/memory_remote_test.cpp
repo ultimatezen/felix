@@ -243,7 +243,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			ASSERT_TRUE_M( static_cast<int>(rec->get_id()) > 0, err_msg) ;
 			ASSERT_EQUALS_V( 0, static_cast<int>(rec->get_reliability())) ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"a luva luva" ;
@@ -292,7 +292,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, "I luv spam", "Yes I do") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 			params.m_rich_source = L"I luv spam" ;
 			params.m_source = L"I luv spam" ;
@@ -321,14 +321,14 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, "I luv spam", "Yes I do") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 			params.m_rich_source = L"I luv spam" ;
 			params.m_source = L"I luv spam" ;
 
 			mem.find_matches(matches, params) ;
 
-			TransMatchContainer::iterator pos = matches.begin() ;
+			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			record_pointer record = match->get_record() ;
@@ -360,7 +360,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			add_hit(mem, "I luv spam", "Yes I do") ;
 			add_hit(mem, "I love spam", "Yes I do") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 			params.m_rich_source = L"I luv spam" ;
 			params.m_source = L"I luv spam" ;
@@ -389,7 +389,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"baab", L"baab") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"aa" ;
@@ -398,7 +398,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.find_matches(matches, params) ;
 			ASSERT_EQUALS(1, matches.size()) ;
 
-			TransMatchContainer::iterator pos = matches.begin() ;
+			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			SimpleString expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
@@ -426,7 +426,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"I love spam and eggs." ;
@@ -436,7 +436,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.find_matches(matches, params) ;
 			ASSERT_EQUALS(1, matches.size()) ;
 
-			TransMatchContainer::iterator pos = matches.begin() ;
+			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
@@ -464,7 +464,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"I love Ham and Eggs.", L"Nailed to the perch.") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"I love Ham and Eggs." ;
@@ -475,7 +475,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.find_matches(matches, params) ;
 			ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-			TransMatchContainer::iterator pos = matches.begin() ;
+			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			SimpleString expected = "I love Ham and Eggs." ;
@@ -501,7 +501,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"NAILED TO THE PERCH." ;
@@ -512,7 +512,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.find_trans_matches(matches, params) ;
 			ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-			TransMatchContainer::iterator pos = matches.begin() ;
+			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			SimpleString expected = "NAILED TO THE PERCH." ;
@@ -592,7 +592,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"egg", L"trans") ;
 
-			search_match_multiset matches ;
+			search_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -605,7 +605,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.get_glossary_matches(matches, params) ;
 			ASSERT_EQUALS_V(1, (int)matches.size()) ;
-			search_match_multiset::iterator pos = matches.begin() ;
+			search_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			ASSERT_EQUALS(match->get_markup()->GetSource(), L"egg") ;
@@ -631,7 +631,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_hit(mem, L"eggs", L"trans") ;
 
-			search_match_multiset matches ;
+			search_match_container matches ;
 			search_query_params params ;
 
 			params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -644,7 +644,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.get_glossary_matches(matches, params) ;
 			ASSERT_EQUALS_V(1, (int)matches.size()) ;
-			search_match_multiset::iterator pos = matches.begin() ;
+			search_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
 			SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
@@ -671,7 +671,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
-			search_match_multiset matches ;
+			search_match_container matches ;
 			search_query_params params ;
 
 			params.m_source = L"ham" ;
@@ -745,7 +745,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
-			search_match_multiset matches ;
+			search_match_container matches ;
 			search_query_params params ;
 
 			params.m_trans = L"perch" ;

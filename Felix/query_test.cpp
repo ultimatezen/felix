@@ -209,14 +209,14 @@ namespace easyunit
 	TEST(test_search_query_mainframe, set_matches_smm_empty)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		query.set_matches(matches) ;
 		ASSERT_TRUE(query.empty()) ;
 	}
 	TEST(test_search_query_mainframe, set_matches_smm_one)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_match_ptr m1(new search_match) ;
 		matches.insert(m1) ;
 		query.set_matches(matches) ;
@@ -232,7 +232,7 @@ namespace easyunit
 	TEST(test_search_query_mainframe, forward_two_matches)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_match_ptr m1(new search_match), m2(new search_match) ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
@@ -252,7 +252,7 @@ namespace easyunit
 	TEST(test_search_query_mainframe, back_three_matches)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_match_ptr m1(new search_match), 
 			m2(new search_match), 
 			m3(new search_match) ;
@@ -272,7 +272,7 @@ namespace easyunit
 	TEST(test_search_query_mainframe, erase_current)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_match_ptr m1(new search_match), m2(new search_match) ;
 		m1->set_base_score(1.0) ;
 		m2->set_base_score(0.0) ;
@@ -287,7 +287,7 @@ namespace easyunit
 	TEST(test_search_query_mainframe, set_current)
 	{
 		search_query_mainframe query ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_match_ptr m1(new search_match), m2(new search_match) ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
@@ -326,7 +326,7 @@ namespace easyunit
 		m1->set_record(rec) ;
 		m1->set_values_to_record() ;
 		m1->set_memory_location(L"c:\\foo.xml") ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
 		query.set_matches(matches) ;
 
@@ -440,7 +440,7 @@ namespace easyunit
 	{
 		translation_match_query query ;
 		search_match_ptr m1(new search_match) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
  		query.set_matches(matches) ;
 		wstring text = query.get_html_long() ;
@@ -458,7 +458,7 @@ namespace easyunit
 	{
 		translation_match_query query ;
 		search_match_ptr m1(new search_match) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
  		query.set_matches(matches) ;
 		wstring text = query.get_html_all() ;
@@ -476,7 +476,7 @@ namespace easyunit
 		m1->set_base_score(0.5) ;
 		m2->set_base_score(0.75) ;
 		m3->set_base_score(1.0) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		matches.insert(m3) ;
@@ -496,7 +496,7 @@ namespace easyunit
 		m1->set_base_score(0.5) ;
 		m2->set_base_score(0.75) ;
 		m3->set_base_score(1.0) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		matches.insert(m3) ;
@@ -517,7 +517,7 @@ namespace easyunit
 		m1->set_formatting_penalty(0.1) ;
 		m2->set_base_score(0.75) ;
 		m3->set_base_score(1.0) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		matches.insert(m3) ;
@@ -539,7 +539,7 @@ namespace easyunit
 		m2->set_base_score(0.75) ;
 		m3->set_base_score(1.0) ;
 		m3->set_formatting_penalty(0.1) ;
-		search_match_multiset matches ;
+		search_match_container matches ;
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		matches.insert(m3) ;

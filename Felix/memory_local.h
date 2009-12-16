@@ -74,15 +74,15 @@ namespace memory_engine
 			  const wstring &query,
 			  double min_score);
 		  double get_best_match_score(const wstring &query);
-		  bool get_glossary_matches( search_match_multiset &matches, 
+		  bool get_glossary_matches( search_match_container &matches, 
 			  const search_query_params &params ) ;
-		  bool perform_search( search_match_multiset &matches, 
+		  bool perform_search( search_match_container &matches, 
 			  const search_query_params &params ) ;
 		  record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);
 		  void replace(const record_pointer old_rec, record_pointer new_rec);
-		  void get_gloss_100(search_match_multiset& matches, 
+		  void get_gloss_100(search_match_container& matches, 
 			  const search_query_params& params);
-		  void get_gloss_fuzzy(search_match_multiset& matches, 
+		  void get_gloss_fuzzy(search_match_container& matches, 
 			  const search_query_params& params);
 		  bool clear_memory();
 		  bool record_exists( record_pointer rec );
@@ -90,7 +90,7 @@ namespace memory_engine
 		  void tabulate_fonts( font_tabulator &tabulator );
 		  void get_reliability_stats( size_t &low, size_t &high, double &ave );
 		  wstring get_validated_percent();
-		  void search_no_regex(const search_query_params & params, search_match_multiset &matches);
+		  void search_no_regex(const search_query_params & params, search_match_container &matches);
 		  void batch_set_reliability( size_t rel );
 		  void batch_set_validation( bool val );
 

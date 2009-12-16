@@ -153,9 +153,9 @@ public:
 	bool set_saved_flag( bool flag );
 	bool is_saved() const;
 	
-	bool find_trans_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
+	bool find_trans_matches ( trans_match_container &matches, const search_query_params &params ) ;
 
-	bool find_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
+	bool find_matches ( trans_match_container &matches, const search_query_params &params ) ;
 
 	// get/set functions
 	// export/import
@@ -180,11 +180,11 @@ public:
 
 	void check_progress_update( int progress_interval );
 	// glossary stuff
-	void set_gloss_fuzzy_match(search_match_multiset& matches, 
+	void set_gloss_fuzzy_match(search_match_container& matches, 
 							const search_query_params& params, 
 							search_match_ptr& match_test);
 
-	void set_gloss_100_char(search_match_multiset& matches, 
+	void set_gloss_100_char(search_match_container& matches, 
 							gloss_match_tester& tester, 
 							record_pointer& rec);
 
@@ -237,9 +237,9 @@ public:
 										const wstring &query,
 										double min_score) = 0 ;
 	virtual double get_best_match_score( const wstring &query ) = 0;
-	virtual bool get_glossary_matches( search_match_multiset &matches, 
+	virtual bool get_glossary_matches( search_match_container &matches, 
 		const search_query_params &params ) = 0;
-	virtual bool perform_search( search_match_multiset &matches, 
+	virtual bool perform_search( search_match_container &matches, 
 						const search_query_params &params ) = 0;
 
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;

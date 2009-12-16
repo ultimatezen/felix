@@ -56,7 +56,7 @@ namespace memory_engine
 		return best_score ;
 	}
 
-	bool memory_remote::get_glossary_matches( search_match_multiset &matches, 
+	bool memory_remote::get_glossary_matches( search_match_container &matches, 
 												const search_query_params &params )
 	{
 		if ( ! m_is_active )
@@ -110,7 +110,7 @@ namespace memory_engine
 		return ( false == matches.empty() ) ;
 	}
 
-	bool memory_remote::perform_search( search_match_multiset &matches, 
+	bool memory_remote::perform_search( search_match_container &matches, 
 										const search_query_params &params )
 	{
 		if( ! m_is_active )

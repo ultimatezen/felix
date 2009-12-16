@@ -62,7 +62,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.get_matches(mem, matches) ;
 		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
@@ -72,7 +72,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 
 		add_record_searcher(mem, "source", "trans", "context") ;
@@ -84,7 +84,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source") ;
 
@@ -97,7 +97,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"eggs") ;
 
@@ -110,7 +110,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"eggs") ;
 		searcher.remove_term(0) ;
@@ -124,7 +124,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source:source") ;
 		searcher.add_term(L"egg") ;
@@ -140,7 +140,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source:source") ;
 
@@ -152,7 +152,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source:source") ;
 
@@ -166,7 +166,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source:egg") ;
 
@@ -178,7 +178,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"source:") ;
 
@@ -191,7 +191,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"trans:egg") ;
 
@@ -203,7 +203,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"trans:") ;
 
@@ -215,7 +215,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"trans:source") ;
 
@@ -228,7 +228,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"context:context") ;
 
@@ -240,7 +240,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"context:context") ;
 
@@ -252,7 +252,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"context:source") ;
 
@@ -266,7 +266,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-by:Ryan") ;
 
@@ -279,7 +279,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-by:") ;
 
@@ -292,7 +292,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-by:Ryan") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -304,7 +304,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-by:Ryan") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -317,7 +317,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created:2000-10-10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -331,7 +331,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created:") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -345,7 +345,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created:2000-10-11") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -360,7 +360,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-before:2000-10-10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -374,7 +374,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-before:1999-10-11") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -389,7 +389,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-after:1999/10/10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -403,7 +403,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"created-after:2009-10-1") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -419,7 +419,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-by:Ryan") ;
 
@@ -433,7 +433,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-by:") ;
 
@@ -447,7 +447,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-by:Bob") ;
 
@@ -462,7 +462,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified:2000-10-10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -476,7 +476,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified:") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -490,7 +490,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified:2000-10-11") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -505,7 +505,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-before:2000-10-10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -519,7 +519,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-before:1995-10-11") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -534,7 +534,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-after:1999/10/10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -548,7 +548,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"modified-after:2009-10-1") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -564,7 +564,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability:5") ;
 
@@ -578,7 +578,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability:") ;
 
@@ -592,7 +592,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability:4") ;
 
@@ -608,7 +608,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-gt:4") ;
 
@@ -622,7 +622,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-gt:5") ;
 
@@ -637,7 +637,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-gte:5") ;
 
@@ -651,7 +651,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-gte:9") ;
 
@@ -666,7 +666,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-lt:1") ;
 
@@ -680,7 +680,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-lt:5") ;
 
@@ -695,7 +695,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-lte:7") ;
 
@@ -709,7 +709,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"reliability-lte:6") ;
 
@@ -725,7 +725,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"validated:false") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -736,7 +736,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"validated:") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -747,7 +747,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"validated:true") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
@@ -760,7 +760,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount:5") ;
 
@@ -774,7 +774,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount:") ;
 
@@ -788,7 +788,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount:4") ;
 
@@ -804,7 +804,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-gt:4") ;
 
@@ -818,7 +818,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-gt:5") ;
 
@@ -833,7 +833,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-gte:5") ;
 
@@ -847,7 +847,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-gte:6") ;
 
@@ -862,7 +862,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-lt:1") ;
 
@@ -876,7 +876,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-lt:5") ;
 
@@ -891,7 +891,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-lte:3") ;
 
@@ -905,7 +905,7 @@ namespace easyunit
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"refcount-lte:6") ;
 

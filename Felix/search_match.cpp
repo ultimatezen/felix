@@ -141,7 +141,7 @@ const int search_match::get_memory_id() const
 {
 	return m_memory_id ;
 }
-bool search_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs )
+bool search_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs ) const
 {
 	record_pointer lrec = lhs->get_record() ;
 	record_pointer rrec = rhs->get_record() ;
@@ -202,7 +202,7 @@ bool search_match_compare::operator()( const search_match_ptr &lhs, const search
 	return(lrec->get_created() < rrec->get_created()) ;
 }
 
-bool translation_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs )
+bool translation_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs ) const
 {
 	// score
 	if ( lhs->get_score() > rhs->get_score() )

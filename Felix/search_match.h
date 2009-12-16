@@ -71,7 +71,7 @@ typedef boost::shared_ptr< search_match > search_match_ptr ;
 // ================
 struct search_match_compare : std::binary_function< search_match_ptr, search_match_ptr, bool >
 {
-	bool operator()( const search_match_ptr &lhs, const search_match_ptr &rhs );
+	bool operator()( const search_match_ptr &lhs, const search_match_ptr &rhs ) const;
 } ;
 
 /** 
@@ -80,16 +80,16 @@ struct search_match_compare : std::binary_function< search_match_ptr, search_mat
 */
 struct translation_match_compare : std::binary_function< search_match_ptr, search_match_ptr, bool >
 {
-	bool operator() ( const search_match_ptr &lhs, const search_match_ptr &rhs  );
+	bool operator() ( const search_match_ptr &lhs, const search_match_ptr &rhs  ) const ;
 } ;
 
 // ================
 // multisets for search_match structs
 // ================
 
-// typedef std::multiset < search_match_ptr, search_match_compare > search_match_multiset ;
-typedef std::multiset < search_match_ptr, search_match_compare > search_match_multiset ;
+// typedef std::multiset < search_match_ptr, search_match_compare > search_match_container ;
+typedef std::multiset < search_match_ptr, search_match_compare > search_match_container ;
 // typedef std::multiset < search_match_ptr, translation_match_compare > translation_match_multiset ;
-typedef std::multiset < search_match_ptr, translation_match_compare > TransMatchContainer ;
+typedef std::multiset < search_match_ptr, translation_match_compare > trans_match_container ;
 
 }

@@ -482,7 +482,7 @@ namespace easyunit
 		memory_local mem ;
 		add_record(mem, "I luv spam", "Yes I do") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 		params.m_rich_source = L"I luv spam" ;
 		params.m_source = L"I luv spam" ;
@@ -497,7 +497,7 @@ namespace easyunit
 		add_record(mem, "I luv spam", "Yes I do") ;
 		add_record(mem, "I love spam", "Yes I do") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 		params.m_rich_source = L"I luv spam" ;
 		params.m_source = L"I luv spam" ;
@@ -511,7 +511,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "baab", "baab") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"aa" ;
@@ -520,7 +520,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS(1, matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
@@ -533,7 +533,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "baab", "baab") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"CAAC" ;
@@ -543,7 +543,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "<span class=\"nomatch\">C</span>AA<span class=\"nomatch\">C</span>" ;
@@ -556,7 +556,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "BAAB", "BAAB") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"CAAC" ;
@@ -566,7 +566,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS(1, matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "<span class=\"nomatch\">B</span>AA<span class=\"nomatch\">B</span>" ;
@@ -579,7 +579,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I love spam and eggs." ;
@@ -589,7 +589,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS(1, matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
@@ -602,7 +602,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I LOVE SPAM AND EGGS." ;
@@ -613,7 +613,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
@@ -626,7 +626,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I LOVE SPAM AND EGGS." ;
@@ -637,7 +637,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "I LOVE <span class=\"nomatch\">SPAM</span> AND EGGS." ;
@@ -650,7 +650,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I LOVE SPAM AND EGGS." ;
@@ -661,7 +661,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
@@ -674,7 +674,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love Ham and Eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I love Ham and Eggs." ;
@@ -685,7 +685,7 @@ namespace easyunit
 		mem.find_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "I love Ham and Eggs." ;
@@ -699,7 +699,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"NAILED TO THE PERCH." ;
@@ -710,7 +710,7 @@ namespace easyunit
 		mem.find_trans_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "NAILED TO THE PERCH." ;
@@ -723,7 +723,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"NAILED TO THE PERCH." ;
@@ -734,7 +734,7 @@ namespace easyunit
 		mem.find_trans_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "Nailed to the perch." ;
@@ -747,7 +747,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the porch.") ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"NAILED TO THE PERCH." ;
@@ -758,7 +758,7 @@ namespace easyunit
 		mem.find_trans_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "Nailed to the p<span class=\"nomatch\">o</span>rch." ;
@@ -796,7 +796,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "egg", "trans") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -809,7 +809,7 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
-		search_match_multiset::iterator pos = matches.begin() ;
+		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		ASSERT_EQUALS(match->get_markup()->GetSource(), L"egg") ;
@@ -821,7 +821,7 @@ namespace easyunit
 		add_record(mem, "egg", "trans") ;
 		add_record(mem, "spam", "tasty pork") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -834,7 +834,7 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 		ASSERT_EQUALS_V(2, (int)matches.size()) ;
-		search_match_multiset::iterator pos = matches.begin() ;
+		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		ASSERT_EQUALS(match->get_markup()->GetSource(), L"spam") ;
@@ -845,7 +845,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "eggs", "trans") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -858,7 +858,7 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
-		search_match_multiset::iterator pos = matches.begin() ;
+		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
@@ -871,7 +871,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "eggs", "trans") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"spam, egg, sausage and spam" ;
@@ -884,7 +884,7 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 		ASSERT_EQUALS_V(1, (int)matches.size()) ;
-		search_match_multiset::iterator pos = matches.begin() ;
+		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
 		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
@@ -899,7 +899,7 @@ namespace easyunit
 		add_record(mem, "egg", "egg") ;
 		add_record(mem, "sausage", "sausage") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"I'll HAVE SPAM, EGG, SAUSAGE AND SPAM." ;
@@ -918,7 +918,7 @@ namespace easyunit
 		add_record(mem, "EGG", "EGG") ;
 		add_record(mem, "SAUSAGE", "SAUSAGE") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"i'll have spam, egg, sausage and spam." ;
@@ -940,7 +940,7 @@ namespace easyunit
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"私は<b>スパム</b>が大好きだ。" ;
@@ -959,7 +959,7 @@ namespace easyunit
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"私は<b>豚肉</b>が大好きだ。" ;
@@ -978,7 +978,7 @@ namespace easyunit
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"私は<b>りんごム</b>が大好きだ。" ;
@@ -995,7 +995,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, L"ビニロン", L"ビニロン") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"ビニロン" ;
@@ -1017,7 +1017,7 @@ namespace easyunit
 		add_record(mem, L"ベーコン", L"ベーコン") ;
 		add_record(mem, L"りんご", L"りんご") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_rich_source = L"私は<b>ベー</b>が大好きだ。" ;
@@ -1061,7 +1061,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		// this will hold our matches
@@ -1079,7 +1079,7 @@ namespace easyunit
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		// this will hold our matches
@@ -1103,7 +1103,7 @@ namespace easyunit
 	{
 		memory_local mem(0.0f) ;
 
-		search_match_multiset matches ;
+		search_match_container matches ;
 		search_query_params params ;
 
 		params.m_trans = L"perch" ;

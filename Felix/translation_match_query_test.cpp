@@ -25,7 +25,7 @@ namespace easyunit
 	}
 
 #define GET_MATCHES(mem, query, match_query)\
-	TransMatchContainer matches ;\
+	trans_match_container matches ;\
 	\
 	params.m_rich_source = query ;\
 	params.m_source = query ;\

@@ -631,7 +631,7 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 
 			retrieve_record_results_state();
 
-			search_match_multiset matches ;
+			search_match_container matches ;
 			m_model->m_memories->perform_search( matches, m_search_matches.m_params ) ;
 			m_search_matches.set_matches( matches ) ;
 
@@ -1705,7 +1705,7 @@ LRESULT CMainFrame::on_register_gloss(WindowsMessage &)
 /** Get the translation matches.
  * Use params as the parameters and put the matches in matches.
  */
-void CMainFrame::get_matches(TransMatchContainer &matches, search_query_params &params)
+void CMainFrame::get_matches(trans_match_container &matches, search_query_params &params)
 {
 	const double MATCH_THRESHOLD = 0.9999 ;
 
@@ -1716,7 +1716,7 @@ void CMainFrame::get_matches(TransMatchContainer &matches, search_query_params &
 		return ;
 	}
 
-	TransMatchContainer PlacedMatches ;
+	trans_match_container PlacedMatches ;
 
 	foreach(search_match_ptr match, matches)
 	{
@@ -1759,7 +1759,7 @@ bool CMainFrame::lookup(const wstring &query)
 
 	init_trans_matches_for_lookup(query);
 
-	TransMatchContainer matches ;
+	trans_match_container matches ;
 	get_matches(matches, m_trans_matches.m_params);
 	m_trans_matches.set_matches(matches) ;
 	
@@ -1994,7 +1994,7 @@ bool CMainFrame::get_concordances( const wstring query_string )
 	m_search_matches.m_params.m_ignore_width =		!! m_properties->m_gloss_props.m_data.m_ignore_width ;
 	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties->m_gloss_props.m_data.m_ignore_hir_kat ;
 
-	search_match_multiset matches ;
+	search_match_container matches ;
 	m_model->m_memories->perform_search( matches, m_search_matches.m_params ) ;
 
 	m_search_matches.set_matches( matches ) ;
@@ -3186,7 +3186,7 @@ bool CMainFrame::lookup_trans(const wstring &query)
 
 	init_trans_matches_for_lookup(query) ;
 
-	TransMatchContainer matches ;
+	trans_match_container matches ;
 	m_model->m_memories->find_trans_matches( matches, m_trans_matches.m_params ) ;
 
 	m_trans_matches.set_matches( matches ) ;
@@ -3318,7 +3318,7 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 
 	m_search_matches.m_params.m_ignore_case = true ;
 
-	search_match_multiset matches ;
+	search_match_container matches ;
 	m_model->m_memories->perform_search( matches, m_search_matches.m_params ) ;
 
 	m_search_matches.set_matches( matches ) ;
@@ -3515,7 +3515,7 @@ LRESULT CMainFrame::on_toggle_views(WindowsMessage &)
 		}
 		else // we have 0 matches, just a query
 		{
-			TransMatchContainer matches ;
+			trans_match_container matches ;
 			if (m_model->m_is_reverse_lookup)
 			{
 				m_model->m_memories->find_trans_matches( matches, m_trans_matches.m_params ) ;
@@ -4186,7 +4186,7 @@ void CMainFrame::perform_user_search()
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
 
-	search_match_multiset matches ;
+	search_match_container matches ;
 	m_model->m_memories->perform_search( matches, m_search_matches.m_params ) ;
 
 	m_search_matches.set_matches( matches ) ;
@@ -4941,7 +4941,7 @@ void CMainFrame::deleted_new_record_feedback()
 }
 
 //! See if we can create a placement for this match.
-void CMainFrame::check_placement( TransMatchContainer &PlacedMatches, 
+void CMainFrame::check_placement( trans_match_container &PlacedMatches, 
 								 search_match_ptr match )
 {
 	const double PLACEMENT_PENALTY = 0.00001 ;

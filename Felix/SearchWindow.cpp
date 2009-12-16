@@ -335,7 +335,7 @@ void CSearchWindow::get_replace_matches( std::vector<memory_engine::search_match
 										const wstring &replace_from)
 {
 	matches.clear() ;
-	memory_engine::search_match_multiset matchset ;
+	memory_engine::search_match_container matchset ;
 	foreach(memory_engine::memory_pointer mem, m_controller->get_memories())
 	{
 		if (mem->is_local())
@@ -364,7 +364,7 @@ void CSearchWindow::get_replace_matches( std::vector<memory_engine::search_match
 void CSearchWindow::get_search_matches( std::vector<memory_engine::search_match_ptr> &matches )
 {
 	matches.clear() ;
-	memory_engine::search_match_multiset matchset ;
+	memory_engine::search_match_container matchset ;
 	foreach(memory_engine::memory_pointer mem, m_controller->get_memories())
 	{
 		if (mem->is_local())

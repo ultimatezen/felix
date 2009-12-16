@@ -31,7 +31,7 @@ namespace easyunit
 	TEST(test_view_interface, get_match_record_one)
 	{
 		view_interface vi ;
-		translation_match_query_trans matches ;
+		translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 
 		search_match_ptr match = search_match_ptr(new search_match) ;
@@ -54,7 +54,7 @@ namespace easyunit
 	TEST(test_view_interface, get_match_record_empty)
 	{
 		view_interface vi ;
-		memory_engine::translation_match_query_trans matches ;
+		memory_engine::translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 
 		memory_engine::record_pointer rec = vi.get_match_record(matches) ;

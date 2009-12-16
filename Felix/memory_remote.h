@@ -124,9 +124,9 @@ namespace memory_engine
 
 		void convert_candidates(trans_set &candidates, CComVariant disp);
 		double get_best_match_score( const wstring &query );
-		bool get_glossary_matches( search_match_multiset &matches, 
+		bool get_glossary_matches( search_match_container &matches, 
 									const search_query_params &params );
-		bool perform_search( search_match_multiset &matches, 
+		bool perform_search( search_match_container &matches, 
 			const search_query_params &params );
 
 		record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);

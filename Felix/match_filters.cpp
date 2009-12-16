@@ -17,7 +17,7 @@ namespace memory_searcher
 		m_terms.erase(pos) ;
 	}
 
-	void search_runner::get_matches( memory_pointer mem, search_match_multiset& matches )
+	void search_runner::get_matches( memory_pointer mem, search_match_container& matches )
 	{
 		foreach(record_pointer rec, mem->get_records())
 		{

@@ -149,7 +149,7 @@ void memory_model::insert_memory( memory_pointer mem )
 	m_memories.push_front( mem ) ;
 }
 
-bool memory_model::get_glossary_matches( search_match_multiset &matches, const search_query_params &params )
+bool memory_model::get_glossary_matches( search_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
 	memory_iterator pos ;
@@ -165,7 +165,7 @@ bool memory_model::get_glossary_matches( search_match_multiset &matches, const s
 	return search_success ;
 }
 
-bool memory_model::perform_search( search_match_multiset &matches, const search_query_params &params )
+bool memory_model::perform_search( search_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
 	memory_iterator pos ;
@@ -181,7 +181,7 @@ bool memory_model::perform_search( search_match_multiset &matches, const search_
 
 // finding matches
 
-bool memory_model::find_trans_matches( TransMatchContainer &matches, const search_query_params &params )
+bool memory_model::find_trans_matches( trans_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
 	foreach(memory_pointer mem, m_memories)
@@ -194,7 +194,7 @@ bool memory_model::find_trans_matches( TransMatchContainer &matches, const searc
 	return search_success ;
 }
 
-bool memory_model::find_matches( TransMatchContainer &matches, const search_query_params &params )
+bool memory_model::find_matches( trans_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
 	foreach(memory_pointer mem, m_memories)

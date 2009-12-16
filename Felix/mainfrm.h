@@ -69,7 +69,7 @@ VISIBLE_TO_TESTS
 	 // ====================
 	// translation matches
 	// ====================
-	memory_engine::translation_match_query_trans		m_trans_matches ;
+	memory_engine::translation_match_query		m_trans_matches ;
 	memory_engine::search_query_mainframe				m_search_matches ;
 
 	// the match records for glossary registration
@@ -196,7 +196,7 @@ public:
 
 	void init_lookup_properties(const app_props::props_ptr source, 
 							memory_engine::search_query_params &dest);
-	void get_matches(memory_engine::TransMatchContainer matches);
+	void get_matches(memory_engine::trans_match_container matches);
 
 	// set the translation for the current query
 	bool set_translation( const wstring &translation );
@@ -533,9 +533,9 @@ public:
 	void set_bg_color_if_needed();
 
     virtual void addToMessageLoop();
-	void get_matches(memory_engine::TransMatchContainer &matches, memory_engine::search_query_params &params) ;
+	void get_matches(memory_engine::trans_match_container &matches, memory_engine::search_query_params &params) ;
 
-	void check_placement( memory_engine::TransMatchContainer &PlacedMatches, memory_engine::search_match_ptr match);
+	void check_placement( memory_engine::trans_match_container &PlacedMatches, memory_engine::search_match_ptr match);
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 

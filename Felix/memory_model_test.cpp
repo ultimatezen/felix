@@ -245,7 +245,7 @@ namespace easyunit
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		TransMatchContainer matches;
+		trans_match_container matches;
 		search_query_params params ;
 		params.m_rich_source = L"egg 3" ;
 		mm.find_trans_matches(matches, params) ;
@@ -262,7 +262,7 @@ namespace easyunit
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		TransMatchContainer matches;
+		trans_match_container matches;
 		search_query_params params ;
 		params.m_rich_source = L"spam 3" ;
 		mm.find_matches(matches, params) ;
@@ -283,7 +283,7 @@ namespace easyunit
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		search_match_multiset matches;
+		search_match_container matches;
 		search_query_params params ;
 		params.m_ignore_case = true ;
 		params.m_source = L"Spam and eggy weggies" ;
@@ -302,7 +302,7 @@ namespace easyunit
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		search_match_multiset matches;
+		search_match_container matches;
 		search_query_params params ;
 		params.m_source = L"spam" ;
 		mm.perform_search(matches, params) ;

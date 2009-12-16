@@ -40,10 +40,10 @@ public:
 	memory_iterator begin() { return m_memories.begin() ; }
 	memory_iterator end() { return m_memories.end() ; }
 
-	bool get_glossary_matches( search_match_multiset &matches, const search_query_params &params );
-	bool perform_search( search_match_multiset &matches, const search_query_params &params ) ;
-	bool find_trans_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
-	bool find_matches ( TransMatchContainer &matches, const search_query_params &params ) ;
+	bool get_glossary_matches( search_match_container &matches, const search_query_params &params );
+	bool perform_search( search_match_container &matches, const search_query_params &params ) ;
+	bool find_trans_matches ( trans_match_container &matches, const search_query_params &params ) ;
+	bool find_matches ( trans_match_container &matches, const search_query_params &params ) ;
 	
 	memory_list& get_memories()
 	{

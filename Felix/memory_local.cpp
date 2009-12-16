@@ -147,7 +147,7 @@ namespace memory_engine
 
 		return best_score ;
 	}
-	bool memory_local::get_glossary_matches( search_match_multiset &matches, const search_query_params &params )
+	bool memory_local::get_glossary_matches( search_match_container &matches, const search_query_params &params )
 	{
 
 		if ( ! m_is_active )
@@ -172,7 +172,7 @@ namespace memory_engine
 		return ( false == matches.empty() ) ;
 	}
 
-	bool memory_local::perform_search( search_match_multiset &matches, 
+	bool memory_local::perform_search( search_match_container &matches, 
 		const search_query_params &params )
 	{
 		if( ! m_is_active )
@@ -409,7 +409,7 @@ namespace memory_engine
 			}
 		}
 	}
-	void memory_local::get_gloss_100(search_match_multiset& matches, const search_query_params& params)
+	void memory_local::get_gloss_100(search_match_container& matches, const search_query_params& params)
 	{
 		Segment query(m_cmp_maker, params.m_source) ;
 		gloss_match_tester tester(query.cmp()) ;
@@ -423,7 +423,7 @@ namespace memory_engine
 		}
 	}
 
-	void memory_local::get_gloss_fuzzy(search_match_multiset& matches, 
+	void memory_local::get_gloss_fuzzy(search_match_container& matches, 
 		const search_query_params& params)
 	{
 		set_minimum_score( m_gloss_properties.get_min_score() ) ;
@@ -622,7 +622,7 @@ namespace memory_engine
 		load_header_raw_text(raw_text, file_len);
 		return;
 	}
-	void memory_local::search_no_regex( const search_query_params & params, search_match_multiset &matches ) 
+	void memory_local::search_no_regex( const search_query_params & params, search_match_container &matches ) 
 	{
 		search_match_tester tester( params ) ;
 		foreach( record_pointer record, m_records )

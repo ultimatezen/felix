@@ -16,7 +16,7 @@ namespace memory_searcher
 		void add_term(const wstring term);
 		void remove_term(const size_t i);
 		void clear_terms();
-		void get_matches(memory_pointer mem, search_match_multiset& matches);
+		void get_matches(memory_pointer mem, search_match_container& matches);
 		bool is_match(const record_pointer rec) const;
 		bool term_matches(const record_pointer rec, const wstring &term) const;
 		void mod_date(misc_wrappers::date &thedate, wstring datestring) const;

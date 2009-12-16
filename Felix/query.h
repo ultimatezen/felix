@@ -153,8 +153,8 @@ struct base_presentation : public html_formatter
 	match_ptr &current();
 	bool empty() ;
 	void clear();
-	void set_matches( const memory_engine::search_match_multiset &matches ) ;
-	void set_matches( const memory_engine::TransMatchContainer &matches ) ;
+	void set_matches( const memory_engine::search_match_container &matches ) ;
+	void set_matches( const memory_engine::trans_match_container &matches ) ;
 	void set_matches( const match_list &matches ) ;
 	void  forward( );
 	void  back( );
@@ -238,23 +238,5 @@ struct translation_match_query : public base_presentation
 	void fill_match_template_params( CTextTemplate &engine, match_ptr match );
 } ;
 
-
-/** This is for memory-entry searches on the translation. 
-	@struct translation_match_query_trans
-	(e.g. for translation review)
-*/
-struct translation_match_query_trans : public translation_match_query
-{
-	translation_match_query_trans(){}
-} ;
-
-/** This is for memory-entry searches on the source.
-   @struct translation_match_query_source
-	(e.g. for recycling translations)
-*/
-struct translation_match_query_source : public translation_match_query
-{
-	translation_match_query_source(){}
-} ;
 
 }

@@ -26,10 +26,10 @@ namespace easyunit
 
 	search_match_ptr get_first_match(CMainFrame &mainframe, search_query_params &params)
 	{
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 
-		TransMatchContainer::iterator pos = matches.begin() ;
+		trans_match_container::iterator pos = matches.begin() ;
 		return *pos ;
 	}
 
@@ -161,7 +161,7 @@ namespace easyunit
 		params.m_rich_source = L"beans beans spam and eggs" ;
 		params.m_source = L"beans beans spam and eggs" ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have zero matches: ") + 
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -178,7 +178,7 @@ namespace easyunit
 		params.m_rich_source = L"beans beans spam and eggs" ;
 		params.m_source = L"beans beans spam and eggs" ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have exactly one match: ") + 
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -228,7 +228,7 @@ namespace easyunit
 		params.m_rich_source = L"beans beans spam and eggs" ;
 		params.m_source = L"beans beans spam and eggs" ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have two matches: ") + 
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -250,7 +250,7 @@ namespace easyunit
 		params.m_source = L"beans beans spam and eggs" ;
 		params.m_place_numbers = true ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have exactly one match: ") + 
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -268,7 +268,7 @@ namespace easyunit
 		params.m_source = L"beans and 3 eggs" ;
 		params.m_place_numbers = true ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -287,7 +287,7 @@ namespace easyunit
 		params.m_source = L"3.foo bar" ;
 		params.m_place_numbers = true ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
 			StringFrom(static_cast< int >(matches.size())) ;
@@ -312,7 +312,7 @@ namespace easyunit
 		params.m_source = L"ÇRÅDä¥Ç∂" ;
 		params.m_place_numbers = true ;
 
-		TransMatchContainer matches ;
+		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
 		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
 			StringFrom(static_cast< int >(matches.size())) ;
