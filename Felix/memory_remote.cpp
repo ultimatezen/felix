@@ -296,12 +296,10 @@ namespace mem_engine
 		return wstring() ;
 	}
 
-	void memory_remote::get_reliability_stats( size_t &low, size_t &high, double &ave )
+	rel_tuple memory_remote::get_reliability_stats()
 	{
 		logging::log_warn("get_reliability_stats not implemented for remote memories/glossaries.") ;
-		low = 0 ;
-		high = 0 ;
-		ave = 0.0 ;
+		return boost::make_tuple(0, 0, 0.0) ;
 	}
 
 	void memory_remote::tabulate_fonts( font_tabulator & )

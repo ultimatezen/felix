@@ -88,7 +88,7 @@ namespace mem_engine
 		  bool record_exists( record_pointer rec );
 		  record_pointer get_record_at( const size_t index );
 		  void tabulate_fonts( font_tabulator &tabulator );
-		  void get_reliability_stats( size_t &low, size_t &high, double &ave );
+		  rel_tuple get_reliability_stats();
 		  wstring get_validated_percent();
 		  void search_no_regex(const search_query_params & params, search_match_container &matches);
 		  void batch_set_reliability( size_t rel );

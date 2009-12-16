@@ -271,7 +271,7 @@ void CMemoryManagerDlg::setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 
 	size_t low, high ; 
 	double ave ;
-	mem->get_reliability_stats( low, high, ave ) ;
+	boost::tuples::tie(low, high, ave) = mem->get_reliability_stats() ;
 	if ( low == high )
 	{
 		dlg.set_reliability( low );
@@ -1038,7 +1038,7 @@ wstring CMemoryManagerDlg::get_reliability_range(memory_pointer mem)
 {
 	size_t low, high ;
 	double ave ;
-	mem->get_reliability_stats( low, high, ave ) ;
+	boost::tuples::tie(low, high, ave) = mem->get_reliability_stats() ;
 
 	const size_t BUFLEN = 256 ;
 	wchar_t buf[BUFLEN] ;

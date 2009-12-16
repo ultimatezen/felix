@@ -99,7 +99,7 @@ namespace mem_engine
 		void batch_set_reliability( size_t rel );
 		void batch_set_validation( bool val );
 		wstring get_validated_percent();
-		void get_reliability_stats( size_t &low, size_t &high, double &ave );
+		rel_tuple get_reliability_stats();
 
 		trans_set& get_records();
 		bool add_record ( record_pointer record );

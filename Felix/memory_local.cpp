@@ -527,34 +527,29 @@ namespace mem_engine
 		}
 	}
 	// get_reliability_stats
-	void memory_local::get_reliability_stats(size_t &low, size_t &high, double &ave)
+	rel_tuple memory_local::get_reliability_stats()
 	{
 		// initialize the three variables
-		low = 100 ; 
-		high = 0 ;
-		ave = 0 ;
+		size_t low = 100 ; 
+		size_t high = 0 ;
+		double ave = 0 ;
 
 		foreach ( record_pointer record, m_records )
 		{
 			const size_t rel = record->get_reliability() ;
-			if ( rel < low )
-				low = rel ;
-
-			if ( rel > high )
-				high = rel ;
+			low = min(low, rel) ;
+			high = max(high, rel) ;
 
 			ave += rel ;
 		}
 
-		if ( low == 100 )
-		{
-			low = 0 ;
-		}
+		low = min(low, high) ;
 
 		if ( m_records.empty() == false )
 		{
 			ave /= (double)m_records.size() ;
 		}
+		return boost::make_tuple(low, high, ave) ;
 
 	}
 

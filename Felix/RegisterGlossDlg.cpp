@@ -835,6 +835,11 @@ void CRegisterGlossDlg::set_record(record_pointer rec)
 #endif
 	if	(IsWindow())
 	{
+		// first clear the source and trans text (to clear any formatting)...
+		m_rec_source_edit.SetText(L"") ;
+		m_rec_trans_edit.SetText(L"") ;
+
+		// and then set the text.
 		m_rec_source_edit.SetText(string2BSTR(m_mem_record->get_source_rich())) ;
 		m_rec_trans_edit.SetText(string2BSTR(m_mem_record->get_trans_rich())) ;
 	}

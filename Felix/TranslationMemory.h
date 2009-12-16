@@ -25,7 +25,6 @@
 #include "match_maker.h"
 
 #include "UserName.h"
-
 #include "match_tester.h"
 #include "segment.h"
 
@@ -39,6 +38,7 @@ namespace mem_engine
 	const static int CP_UNICODE = 1200 ;
 	const static int CP_UNICODE_BE = 1201 ;
 
+	typedef boost::tuple<size_t, size_t, double> rel_tuple ;
 /**
 	@struct translation_record_compare 	
 	@brief Compares translation matches.
@@ -198,7 +198,7 @@ public:
 	virtual void batch_set_reliability( size_t rel ) = 0;
 	virtual void batch_set_validation( bool val ) = 0 ;
 	virtual wstring get_validated_percent() =  0 ;
-	virtual void get_reliability_stats( size_t &low, size_t &high, double &ave ) = 0 ;
+	virtual rel_tuple get_reliability_stats() = 0 ;
 
 	// memory info
 	virtual MemoryInfo* get_memory_info() = 0 ;

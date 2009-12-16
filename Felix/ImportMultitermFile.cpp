@@ -62,12 +62,13 @@ void CImportMultitermFile::import_multiterm55( const CString &file_name )
 
 	int num_lines = 0 ;
 	std::set< tstring > languages ;
+	string col1, col2 ;
 	while ( reader.empty() == false )
 	{
-		const strcols cols = get_multiterm55_line(reader) ;
-		if ( cols.get<0>() != "Notes" && cols.get<1>().find("***") == string::npos) 
+		boost::tie(col1, col2) = get_multiterm55_line(reader) ;
+		if ( col1 != "Notes" && col2.find("***") == string::npos) 
 		{
-			languages.insert( string2tstring( cols.get<0>() ) ) ;
+			languages.insert( string2tstring( col1 ) ) ;
 		}
 		++num_lines ;
 	}
@@ -111,20 +112,21 @@ void CImportMultitermFile::import_multiterm_55_text( textstream_reader< char >& 
 	mem_info->set_target_language(string2wstring(trans_lang)) ;
 
 	mem_engine::record_pointer record(new mem_engine::record_local()) ;
+	string col1, col2 ;
 	while ( reader.empty() == false )
 	{
-		const strcols cols = get_multiterm55_line(reader) ;
-		if ( cols.get<0>() == source_lang )
+		boost::tie(col1, col2) = get_multiterm55_line(reader) ;
+		if ( col1 == source_lang )
 		{
-			record->set_source( massage_line(cols.get<1>()) ) ;
+			record->set_source( massage_line(col2) ) ;
 		}
-		else if ( cols.get<0>() == trans_lang )
+		else if ( col1 == trans_lang )
 		{
-			record->set_trans( massage_line(cols.get<1>()) ) ;
+			record->set_trans( massage_line(col2) ) ;
 		}
-		else if ( cols.get<0>() == "Notes" )
+		else if ( col1 == "Notes" )
 		{
-			record->set_context( massage_line(cols.get<1>()) ) ;
+			record->set_context( massage_line(col2) ) ;
 		}
 
 		if ( record->is_valid_record() )
@@ -189,11 +191,12 @@ void CImportMultitermFile::import_multiterm_6_text(LPCWSTR file_text)
 	reader.rewind() ;
 
 	// eat the first line (just declares column headings)
-	const wstrcols first_line = get_multiterm6_line(reader) ;
+	wstring first_line_col1, first_line_col2 ;
+	boost::tie(first_line_col1, first_line_col2, boost::tuples::ignore) = get_multiterm6_line(reader) ;
 
 	std::set<tstring> languages ;
-	languages.insert( string2tstring( first_line.get<0>() ) ) ;
-	languages.insert( string2tstring( first_line.get<1>() ) ) ;
+	languages.insert( string2tstring(first_line_col1) ) ;
+	languages.insert( string2tstring(first_line_col2) ) ;
 
 #ifdef UNIT_TEST
 	tstring source_lang = *(languages.begin()) ;
@@ -209,39 +212,40 @@ void CImportMultitermFile::import_multiterm_6_text(LPCWSTR file_text)
 
 	wstring sourcelang, translang ;
 	bool source_is_first_column( true ) ;
-	if ( first_line.get<0>() == string2wstring( source_lang ) )
+	if ( first_line_col1 == string2wstring( source_lang ) )
 	{
 		source_is_first_column = true ;
 
-		sourcelang = first_line.get<0>() ;
-		translang = first_line.get<1>() ;
+		sourcelang = first_line_col1 ;
+		translang = first_line_col2 ;
 	}
 	else
 	{
 		source_is_first_column = false ;
 
-		sourcelang = first_line.get<1>() ;
-		translang = first_line.get<0>() ;
+		sourcelang = first_line_col2 ;
+		translang = first_line_col1 ;
 	}
 	mem_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
 	mem_info->set_source_language(sourcelang) ;
 	mem_info->set_target_language(translang) ;
 
+	wstring col1, col2, col3 ;
 	while ( reader.empty() == false )
 	{
-		const wstrcols cols = get_multiterm6_line(reader) ;
+		boost::tie(col1, col2, col3) = get_multiterm6_line(reader) ;
 		mem_engine::record_pointer record(new mem_engine::record_local()) ;
 		if ( source_is_first_column )
 		{
-			record->set_source( massage_line(cols.get<0>()) ) ;
-			record->set_trans( massage_line(cols.get<1>()) ) ;
+			record->set_source( massage_line(col1) ) ;
+			record->set_trans( massage_line(col2) ) ;
 		}
 		else
 		{
-			record->set_source( massage_line(cols.get<1>()) ) ;
-			record->set_trans( massage_line(cols.get<0>()) ) ;
+			record->set_source( massage_line(col2) ) ;
+			record->set_trans( massage_line(col1) ) ;
 		}
-		record->set_context( massage_line(cols.get<2>()) ) ;
+		record->set_context( massage_line(col3) ) ;
 		record->create() ;
 
 		if ( record->is_valid_record() ) 
