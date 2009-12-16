@@ -10,7 +10,7 @@
 namespace easyunit
 {
 	using namespace memory_searcher ;
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	record_pointer make_record_searcher(wstring source, 
 										wstring trans,

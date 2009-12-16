@@ -23,7 +23,7 @@ public:
 	static const int IDD = IDD_CONNECTION_DLG ;
 	DECLARE_SENSING_VAR ;
 
-	memory_engine::memory_pointer m_memory ;
+	mem_engine::memory_pointer m_memory ;
 	CConnectionDlg();
 
 	LRESULT OnInitDialog( );

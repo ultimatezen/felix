@@ -4,7 +4,7 @@
 #include "record_local.h"
 #include "DemoException.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	using namespace except ;
 
@@ -339,7 +339,7 @@ namespace memory_engine
 		return is_saved() ;
 	}
 
-	memory_engine::record_pointer memory_local::add_by_id( size_t recid, const wstring source, const wstring trans )
+	mem_engine::record_pointer memory_local::add_by_id( size_t recid, const wstring source, const wstring trans )
 	{
 		foreach(record_pointer rec, m_records)
 		{

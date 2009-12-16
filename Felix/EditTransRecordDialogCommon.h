@@ -30,7 +30,7 @@ class CEditTransRecordDialogCommon :
 	public CWindowExceptionHandler< CEditTransRecordDialogCommon<TBase> >
 {
 public:
-	typedef memory_engine::record_pointer record_type ;
+	typedef mem_engine::record_pointer record_type ;
 	typedef CEditTransRecordDialogCommon<TBase> TheClass ;
 
 	record_type m_old_record ;

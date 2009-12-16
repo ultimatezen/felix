@@ -3,7 +3,7 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 
-using namespace text_template ;
+using namespace text_tmpl ;
 
 Paginator::Paginator() :
 m_current_page(0),
@@ -65,26 +65,26 @@ void Paginator::set_num_records( size_t num_records )
 
 wstring get_pagination_text(Paginator &paginator)
 {
-	CTextTemplate text_template ;
+	CTextTemplate text_tmpl ;
 
 	if (paginator.has_prev())
 	{
-		text_template.Assign(L"has_prev", L"true") ;
+		text_tmpl.Assign(L"has_prev", L"true") ;
 	}
 	else
 	{
-		text_template.Assign(L"has_prev", L"") ;
+		text_tmpl.Assign(L"has_prev", L"") ;
 	}
 
 	if (paginator.has_next())
 	{
-		text_template.Assign(L"has_next", L"true") ;
+		text_tmpl.Assign(L"has_next", L"true") ;
 	}
 	else
 	{
-		text_template.Assign(L"has_next", L"") ;
+		text_tmpl.Assign(L"has_next", L"") ;
 	}
 
 	wstring text = get_template_text(_T("pagination.txt")) ;
-	return text_template.Fetch(text) ;
+	return text_tmpl.Fetch(text) ;
 }

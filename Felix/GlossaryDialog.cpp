@@ -41,7 +41,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
 
@@ -862,7 +862,7 @@ std::wstring CGlossaryWindow::get_record_translation(record_pointer& entry)
 bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name )
 {
 	// Add record
-	memory_pointer mem(new memory_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local()) ;
 	if ( gloss_name.IsEmpty() ) 
 	{
 		mem = m_memories->get_first_memory() ;

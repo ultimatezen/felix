@@ -10,7 +10,7 @@
 namespace easyunit
 {
 
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	SimpleString get_dummy_text()
 	{

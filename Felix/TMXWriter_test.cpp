@@ -26,7 +26,7 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local()) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		wstring text = tmx_writer.make_tu(rec, L"{$srcseg} {$transseg}") ;
@@ -38,7 +38,7 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local()) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		CResHtmlFile resFile( _T("TMX_TU") ) ;
@@ -52,7 +52,7 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local()) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		CResHtmlFile resFile( _T("TMX_TU") ) ;
@@ -66,7 +66,7 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local()) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		rec->set_creator(L"Elephant") ;
@@ -81,7 +81,7 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local()) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		rec->set_modified_by(L"Snuffles") ;

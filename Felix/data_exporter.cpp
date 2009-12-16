@@ -17,7 +17,7 @@ static char THIS_FILE[] = __FILE__ ;
 #endif
 
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 // TradosDataExporter::TradosDataExporter
 TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressListener *listener  )
@@ -47,7 +47,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 		"</RTF Preamble>"
 	),
 	m_old_codepage( CP_ACP ),
-	m_memory(new memory_engine::memory_local())
+	m_memory(new mem_engine::memory_local())
 {
 
 	// our default...
@@ -1084,7 +1084,7 @@ string multiterm_data_exporter_55::prep_string( const string &raw_string )
 	return str ;
 }
 
-void multiterm_data_exporter_55::export_gloss( memory_engine::memory_pointer &mem )
+void multiterm_data_exporter_55::export_gloss( mem_engine::memory_pointer &mem )
 {
 	m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
 
@@ -1108,7 +1108,7 @@ void multiterm_data_exporter_6::open_destination( const CString destination )
 	m_file = device_ptr(file_device) ;
 }
 
-void multiterm_data_exporter_6::write_record( const memory_engine::record_pointer &rec )
+void multiterm_data_exporter_6::write_record( const mem_engine::record_pointer &rec )
 {
 	wstring source = rec->get_source_plain() ;
 	wstring trans = rec->get_trans_plain() ;

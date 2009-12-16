@@ -2,7 +2,7 @@
 
 #include "record.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 		/** class record_local
 	* local version of translation record.

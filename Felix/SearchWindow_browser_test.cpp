@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	// retrieve_input_value
 	TEST(test_retrieve_input_value, foo)

@@ -9,10 +9,10 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-namespace memory_engine
+namespace mem_engine
 {
 
-	using namespace text_template ;
+	using namespace text_tmpl ;
 
 	wstring get_fname_from_loc(const wstring loc)
 	{
@@ -448,7 +448,7 @@ wstring translation_match_query::get_html_all()
 	engine.Assign(L"source_color", m_source_color.as_wstring()) ;
 	engine.Assign(L"trans_color", m_trans_color.as_wstring()) ;
 
-	text_template::DictListPtr items = engine.CreateDictList();
+	text_tmpl::DictListPtr items = engine.CreateDictList();
 
 	size_t pos = this->current_pos() ;
 
@@ -456,7 +456,7 @@ wstring translation_match_query::get_html_all()
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_template::DictPtr item = engine.CreateDict() ;
+		text_tmpl::DictPtr item = engine.CreateDict() ;
 
 
 		if (pos == i)
@@ -558,13 +558,13 @@ wstring search_query_glossary::get_html_short()
 {
 	CTextTemplate engine ;
 
-	text_template::DictListPtr items = engine.CreateDictList();
+	text_tmpl::DictListPtr items = engine.CreateDictList();
 
 	for( size_t i = 0 ; i < size() ; ++i )
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_template::DictPtr item = engine.CreateDict() ;
+		text_tmpl::DictPtr item = engine.CreateDict() ;
 
 		// match text
 		markup_ptr markup = match->get_markup() ;
@@ -628,7 +628,7 @@ wstring search_query::get_html_long()
 {
 	CTextTemplate engine ;
 
-	text_template::DictListPtr items = engine.CreateDictList();
+	text_tmpl::DictListPtr items = engine.CreateDictList();
 
 	size_t pos = this->current_pos() ;
 
@@ -636,7 +636,7 @@ wstring search_query::get_html_long()
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_template::DictPtr item = engine.CreateDict() ;
+		text_tmpl::DictPtr item = engine.CreateDict() ;
 
 		if (pos == i)
 		{

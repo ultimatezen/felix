@@ -15,7 +15,7 @@
 #include "output_device.h"
 #include "memory_info.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 // TODO:

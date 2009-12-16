@@ -21,8 +21,8 @@ LRESULT CAdvancedMemMgrDlg::OnInitDialog( )
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_ICON ) ), TRUE ) ;
 
 	m_idcReliabilitySpin = GetDlgItem(IDC_RELIABILITY_SPIN);
-	m_idcReliabilitySpin.SetRange(memory_engine::MIN_RELIABILITY, 
-								  memory_engine::MAX_RELIABILITY) ;
+	m_idcReliabilitySpin.SetRange(mem_engine::MIN_RELIABILITY, 
+								  mem_engine::MAX_RELIABILITY) ;
 
 	CString text ;
 	if ( m_reliability <= 10 )

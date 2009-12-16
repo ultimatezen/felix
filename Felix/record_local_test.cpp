@@ -11,7 +11,7 @@ Unit tests for \ref record_local
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	// A helper function:
 	// Are the two records equal?
 	bool records_are_equal(record_pointer lhs, record_pointer rhs)

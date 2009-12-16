@@ -27,7 +27,7 @@ static char THIS_FILE[] = __FILE__ ;
 
 #define REG_DLG_WINSETTINGS_KEY _T("RegGlossDialog")
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace except ;
 
 //////////////////////////////////////////////////////////////////////
@@ -905,7 +905,7 @@ void CRegisterGlossDlg::resize_client_rect_advanced(CRect &ClientRect, const int
 	ClientRect.bottom -= (adv_button_rect.Height() + PaddingConst) ;
 }
 
-CString CRegisterGlossDlg::get_mem_name(memory_engine::memory_pointer mem)
+CString CRegisterGlossDlg::get_mem_name(mem_engine::memory_pointer mem)
 {
 	if (! mem->is_local())
 	{
@@ -924,7 +924,7 @@ If there are no glossaries, add one.
 ************************************/
 void CRegisterGlossDlg::fill_add_combo()
 {
-	boost::shared_ptr<memory_engine::memory_model> model = m_gloss_window->get_memory_model() ;
+	boost::shared_ptr<mem_engine::memory_model> model = m_gloss_window->get_memory_model() ;
 	if (model->get_memories().empty())
 	{
 		model->add_memory() ;
@@ -933,7 +933,7 @@ void CRegisterGlossDlg::fill_add_combo()
 	// Re-fill the combo contents.
 	// This is in case the number/names of glossaries changed.
 	m_AddCombo.ResetContent() ;
-	foreach(memory_engine::memory_pointer mem, model->get_memories())
+	foreach(mem_engine::memory_pointer mem, model->get_memories())
 	{
 		m_AddCombo.AddString(get_mem_name(mem)) ;
 	}

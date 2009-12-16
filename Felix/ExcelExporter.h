@@ -29,7 +29,7 @@ public:
 
 	CExcelExporter(CProgressListener* listener);
 	~CExcelExporter(void);
-	void export_excel(memory_engine::memory_pointer mem, const CString& mem_name);
+	void export_excel(mem_engine::memory_pointer mem, const CString& mem_name);
 	void write_header(void);
-	void write_record(memory_engine::record_pointer rec, int count);
+	void write_record(mem_engine::record_pointer rec, int count);
 };

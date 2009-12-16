@@ -6,7 +6,7 @@
 
 namespace memory_searcher
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	class search_runner
 	{

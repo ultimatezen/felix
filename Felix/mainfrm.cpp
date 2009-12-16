@@ -68,7 +68,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
 
@@ -845,7 +845,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 #ifdef UNIT_TEST
 	return 0L ;
 #endif
-	memory_pointer mem(new memory_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local()) ;
 
 	mem->set_is_memory( true ) ;
 
@@ -4534,7 +4534,7 @@ LRESULT CMainFrame::on_user_edit_search(WindowsMessage &message)
  * If the index is out of range, then just return an empty record. 
  * The user should be able to register glossary entries without a template record.
  */
-memory_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
+mem_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
 {
 	if (get_display_state() == TRANS_REVIEW_STATE)
 	{
@@ -4949,7 +4949,7 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 	record_pointer rec = match->get_record() ;
 	const wstring trans = rec->get_trans_plain() ;
 
-	memory_engine::markup_ptr mark(new markup_strings) ;
+	mem_engine::markup_ptr mark(new markup_strings) ;
 	mark->SetQuery(match->MatchPairing().MarkupQuery()) ;
 	mark->SetSource(match->MatchPairing().MarkupSource()) ;
 	mark->SetTrans(trans) ;
@@ -4975,7 +4975,7 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 		NewMatch->set_formatting_penalty( match->get_formatting_penalty() ) ;
 
 		// new query/source
-		memory_engine::markup_ptr Markup = NewMatch->get_markup() ;
+		mem_engine::markup_ptr Markup = NewMatch->get_markup() ;
 		Markup->SetQuery( newPairing.MarkupQuery() ) ;
 		Markup->SetSource( newPairing.MarkupSource() ) ;
 		Markup->SetTrans( Transpair.second ) ;
@@ -5107,7 +5107,7 @@ void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
 	m_view_interface.set_scroll_pos(0) ;
 }
 
-memory_engine::search_match_ptr CMainFrame::get_current_match()
+mem_engine::search_match_ptr CMainFrame::get_current_match()
 {
 	if ( (get_display_state() == MATCH_DISPLAY_STATE && m_trans_matches.empty()) || get_display_state() == INIT_DISPLAY_STATE  )
 	{
@@ -5145,7 +5145,7 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	match->set_memory_location(wstring(CT2W(mem->get_location()))) ;
 	match->set_values_to_record() ;
 
-	text_template::CTextTemplate engine ;
+	text_tmpl::CTextTemplate engine ;
 	m_trans_matches.fill_match_template_params(engine, match);
 
 	// fill in the template

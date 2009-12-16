@@ -13,7 +13,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	using namespace except ;
 
 	record_pointer make_rec(string source, string trans)

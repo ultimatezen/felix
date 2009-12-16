@@ -5,7 +5,7 @@
 #include "logging.h"
 
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 // So our text doesn't show up as (broken) formulas.
 wstring process_cell_text(const wstring text)

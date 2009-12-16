@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
 	const static wstring nomatch_tag_open2(L"<span class=\"partial_match1\">") ;
 	const static wstring nomatch_tag_open3(L"<span class=\"partial_match2\">") ;
@@ -26,33 +26,33 @@ namespace easyunit
 
 	TEST( test_has_asian, yes )
 	{
-		ASSERT_TRUE(memory_engine::has_asian(L"é©ìÆé‘Ç…èÊÇÈ")) ;
-		ASSERT_TRUE(memory_engine::has_asian(L"This has àÍÇ¬ j-word")) ;
+		ASSERT_TRUE(mem_engine::has_asian(L"é©ìÆé‘Ç…èÊÇÈ")) ;
+		ASSERT_TRUE(mem_engine::has_asian(L"This has àÍÇ¬ j-word")) ;
 	}
 	TEST( test_has_asian, no )
 	{
-		ASSERT_TRUE(! memory_engine::has_asian(L"This has no j-words?")) ;
-		ASSERT_TRUE(! memory_engine::has_asian(L"")) ;
+		ASSERT_TRUE(! mem_engine::has_asian(L"This has no j-words?")) ;
+		ASSERT_TRUE(! mem_engine::has_asian(L"")) ;
 	}
 	TEST( test_has_spaces, yes )
 	{
-		ASSERT_TRUE(memory_engine::has_spaces(L"Gits in the car!")) ;
-		ASSERT_TRUE(memory_engine::has_spaces(L"This has no j-words")) ;
+		ASSERT_TRUE(mem_engine::has_spaces(L"Gits in the car!")) ;
+		ASSERT_TRUE(mem_engine::has_spaces(L"This has no j-words")) ;
 	}
 	TEST( test_has_spaces, no )
 	{
-		ASSERT_TRUE(! memory_engine::has_spaces(L"snurfle")) ;
-		ASSERT_TRUE(! memory_engine::has_spaces(L"")) ;
+		ASSERT_TRUE(! mem_engine::has_spaces(L"snurfle")) ;
+		ASSERT_TRUE(! mem_engine::has_spaces(L"")) ;
 	}
 	TEST( detect_match_algo, char_algo )
 	{
-		ASSERT_TRUE(IDC_ALGO_CHAR == memory_engine::detect_match_algo(L"snurfle")) ;
-		ASSERT_TRUE(IDC_ALGO_CHAR == memory_engine::detect_match_algo(L"é©ìÆé‘Ç…èÊÇÈ")) ;
+		ASSERT_TRUE(IDC_ALGO_CHAR == mem_engine::detect_match_algo(L"snurfle")) ;
+		ASSERT_TRUE(IDC_ALGO_CHAR == mem_engine::detect_match_algo(L"é©ìÆé‘Ç…èÊÇÈ")) ;
 	}
 	TEST( detect_match_algo, word_algo )
 	{
-		ASSERT_TRUE(IDC_ALGO_WORD == memory_engine::detect_match_algo(L"Gits in the car!")) ;
-		ASSERT_TRUE(IDC_ALGO_WORD == memory_engine::detect_match_algo(L"foo (bar)")) ;
+		ASSERT_TRUE(IDC_ALGO_WORD == mem_engine::detect_match_algo(L"Gits in the car!")) ;
+		ASSERT_TRUE(IDC_ALGO_WORD == mem_engine::detect_match_algo(L"foo (bar)")) ;
 	}
 
 	TEST( match_makerTestCase, Trivial )

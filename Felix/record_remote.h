@@ -3,7 +3,7 @@
 #include "DispatchWrapper.h"
 #include "logging.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	class record_remote : public translation_record
 	{

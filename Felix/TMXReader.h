@@ -16,7 +16,7 @@
 
 namespace tmx_reader
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	struct CTU
 	{
 		// optional
@@ -56,8 +56,8 @@ class CTMXReader
 	wstring			m_text ;
 	wc_reader		m_reader ;
 	file::view		m_view ;
-	memory_engine::memory_pointer m_memory ;
-	memory_engine::record_pointer	m_record ;
+	mem_engine::memory_pointer m_memory ;
+	mem_engine::record_pointer	m_record ;
 
 	boost::shared_ptr< tmx_data_importer > m_rtf_importer ;
 
@@ -164,10 +164,10 @@ class CTMXReader
 
 
 public:
-	CTMXReader( memory_engine::memory_pointer mem, CProgressListener *listener ) ;
+	CTMXReader( mem_engine::memory_pointer mem, CProgressListener *listener ) ;
 	~CTMXReader(void);
 	// Load a TMX file into a memory
-	memory_engine::memory_pointer load_tmx_memory(const CString & file_name);
+	mem_engine::memory_pointer load_tmx_memory(const CString & file_name);
 
 	void load_head() ;
 	void load_body() ;

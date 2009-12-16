@@ -50,8 +50,8 @@ class CMainFrame :
 VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
 
-	typedef memory_engine::record_pointer record_type ;
-	typedef memory_engine::memory_pointer memory_type ;
+	typedef mem_engine::record_pointer record_type ;
+	typedef mem_engine::memory_pointer memory_type ;
 
 	// ====================
 	// various records
@@ -69,8 +69,8 @@ VISIBLE_TO_TESTS
 	 // ====================
 	// translation matches
 	// ====================
-	memory_engine::translation_match_query		m_trans_matches ;
-	memory_engine::search_query_mainframe				m_search_matches ;
+	mem_engine::translation_match_query		m_trans_matches ;
+	mem_engine::search_query_mainframe				m_search_matches ;
 
 	// the match records for glossary registration
 	CRegisterGlossDlg		m_reg_gloss_dlg ;
@@ -87,7 +87,7 @@ VISIBLE_TO_TESTS
 	// various user preferences
 	app_props::props_ptr m_properties ;
 	// the memory controller
-	memory_engine::memory_model_mem	m_silent_memories ;
+	mem_engine::memory_model_mem	m_silent_memories ;
 
 	CSearchWindow		m_search_window ;
 public:
@@ -153,7 +153,7 @@ public:
 	 */
 	bool exit_silently() ;
 
-	memory_engine::memory_list& get_silent_memories() { return m_silent_memories.get_memories() ; } 
+	mem_engine::memory_list& get_silent_memories() { return m_silent_memories.get_memories() ; } 
 
 	gloss_window_list& get_glossary_windows()
 	{
@@ -195,8 +195,8 @@ public:
 	void init_trans_matches_for_lookup(const wstring & query) ;
 
 	void init_lookup_properties(const app_props::props_ptr source, 
-							memory_engine::search_query_params &dest);
-	void get_matches(memory_engine::trans_match_container matches);
+							mem_engine::search_query_params &dest);
+	void get_matches(mem_engine::trans_match_container matches);
 
 	// set the translation for the current query
 	bool set_translation( const wstring &translation );
@@ -215,7 +215,7 @@ public:
 
 	wstring get_record_translation(record_type record);
 	// the current match
-	memory_engine::search_match_ptr get_current_match();
+	mem_engine::search_match_ptr get_current_match();
 
 	// =================
 	// ui stuff
@@ -290,7 +290,7 @@ public:
 	LRESULT on_view_status_bar(WindowsMessage &message);
 	LRESULT on_view_match(WindowsMessage &message) ;
 
-	void recalculate_match( memory_engine::search_match_ptr match, memory_engine::search_query_params &params );
+	void recalculate_match( mem_engine::search_match_ptr match, mem_engine::search_query_params &params );
 	LRESULT on_view_search(WindowsMessage &message) ;
 	//LRESULT OnViewReg( ) ;
 	LRESULT on_view_min_begin(WindowsMessage &message);
@@ -342,7 +342,7 @@ public:
 	LRESULT on_user_delete( LPARAM num );
 
 	void remove_record_from_glossaries(record_type rec);
-	void remove_match_record( memory_engine::search_match_ptr match );
+	void remove_match_record( mem_engine::search_match_ptr match );
 	void remove_record_from_mem_id( record_type rec, int mem_id );
 	void deleted_new_record_feedback();
 	LRESULT on_user_edit(WindowsMessage &message);
@@ -398,7 +398,7 @@ private:
 
 	void check_save_history() ;
 
-	bool has_more_memory_history( memory_engine::memory_iterator pos, size_t mem_num );
+	bool has_more_memory_history( mem_engine::memory_iterator pos, size_t mem_num );
 	BOOL should_save_memory_history( );
 	bool export_trados( const CString &file_name ) ;
 	bool export_tmx( const CString &file_name );
@@ -421,7 +421,7 @@ private:
 	//void handle_leave_edit_mode_register() ;
 
 public:
-	void redo_lookup( memory_engine::search_match_ptr match, bool do_gloss = false ) ;
+	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
 	void add_record_to_memory( record_type record );
 	void look_up_in_glossaries( const wstring &query );
 	void set_up_window_size();
@@ -525,7 +525,7 @@ public:
 	{
 		return IDCANCEL != gloss_check_save_location( mem ) ;
 	}
-	boost::shared_ptr<memory_engine::memory_model> get_memory_model()
+	boost::shared_ptr<mem_engine::memory_model> get_memory_model()
 	{
 		return m_model->m_memories ;
 	}
@@ -533,9 +533,9 @@ public:
 	void set_bg_color_if_needed();
 
     virtual void addToMessageLoop();
-	void get_matches(memory_engine::trans_match_container &matches, memory_engine::search_query_params &params) ;
+	void get_matches(mem_engine::trans_match_container &matches, mem_engine::search_query_params &params) ;
 
-	void check_placement( memory_engine::trans_match_container &PlacedMatches, memory_engine::search_match_ptr match);
+	void check_placement( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 

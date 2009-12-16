@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "record_local.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 // CTOR
 record_local::record_local( ) : 

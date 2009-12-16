@@ -21,7 +21,7 @@
 #include "system_message.h"
 
 using namespace html ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 const wstring get_item(const wstring item)
 {
@@ -824,7 +824,7 @@ void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
 {
 	m_list_box.InsertItem( m_list_box.GetItemCount(), mem_file ) ;
 	
-	memory_pointer mem(new memory_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local()) ;
 
 	m_info_view.set_body_text(get_loading_message(mem_file)) ;
 
@@ -906,7 +906,7 @@ void CMemoryManagerDlg::set_button_focus()
 	}
 }
 
-void CMemoryManagerDlg::set_memories( boost::shared_ptr<memory_engine::memory_model> controller )
+void CMemoryManagerDlg::set_memories( boost::shared_ptr<mem_engine::memory_model> controller )
 {
 	memory_list &memories = controller->get_memories() ;
 
@@ -914,7 +914,7 @@ void CMemoryManagerDlg::set_memories( boost::shared_ptr<memory_engine::memory_mo
 	std::copy( memories.begin(), memories.end(), std::back_inserter( m_memories ) ) ;
 }
 
-void CMemoryManagerDlg::get_memories( boost::shared_ptr<memory_engine::memory_model> memories )
+void CMemoryManagerDlg::get_memories( boost::shared_ptr<mem_engine::memory_model> memories )
 {
 	memories->swap_memories( m_memories ) ;
 }
@@ -944,7 +944,7 @@ void CMemoryManagerDlg::swap_memories( const int index )
 	*pos2 = mem ;
 }
 
-memory_engine::memory_iterator CMemoryManagerDlg::get_pos_at( const int sel )
+mem_engine::memory_iterator CMemoryManagerDlg::get_pos_at( const int sel )
 {
 	if (static_cast<size_t>(sel) >= m_memories.size())
 	{
@@ -959,7 +959,7 @@ wstring CMemoryManagerDlg::get_info_for_item( memory_pointer mem )
 {
 	MemoryInfo *mem_info = mem->get_memory_info() ;
 
-	text_template::CTextTemplate engine ;
+	text_tmpl::CTextTemplate engine ;
 
 	engine.Assign(L"file_name", get_memory_name(mem)) ;
 	engine.Assign(L"creator", get_creator_name(mem_info)) ;

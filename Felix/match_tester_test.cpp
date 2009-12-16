@@ -9,7 +9,7 @@
 namespace easyunit
 {
 
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	// search_match_tester_regex
 

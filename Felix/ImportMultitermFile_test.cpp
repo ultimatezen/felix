@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	TEST( TestCImportMultitermFile, instantiate )
 	{
@@ -45,7 +45,7 @@ namespace easyunit
 		reader.set_buffer(text.c_str()) ;
 		string source_lang = "English" ;
 		string trans_lang = "Japanese" ;
-		memory_engine::memory_pointer mem(new memory_local()) ;
+		mem_engine::memory_pointer mem(new memory_local()) ;
 
 		importer.import_multiterm_55_text(reader, source_lang, trans_lang, mem) ;
 		ASSERT_EQUALS_V(2, (int)mem->size()) ;

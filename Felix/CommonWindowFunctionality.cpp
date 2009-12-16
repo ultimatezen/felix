@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__ ;
 #endif
 
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace html ;
 
 // CTOR
@@ -53,7 +53,7 @@ void add_popup_item( CMenu &menu, int command_id, int text_id )
 
 CString CCommonWindowFunctionality::get_location()
 {
-	boost::shared_ptr<memory_engine::memory_model> model = this->get_memory_model() ;
+	boost::shared_ptr<mem_engine::memory_model> model = this->get_memory_model() ;
 	memory_pointer mem = model->get_first_memory() ;
 	return mem->get_location() ;
 }
@@ -96,7 +96,7 @@ bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pan
 // get a list of memories
 memory_list & CCommonWindowFunctionality::get_memories()
 {
-	boost::shared_ptr<memory_engine::memory_model> model = this->get_memory_model() ;
+	boost::shared_ptr<mem_engine::memory_model> model = this->get_memory_model() ;
 	return model->get_memories() ;
 }
 
@@ -163,7 +163,7 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	return IDYES ;
 }
 
-INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(memory_engine::memory_pointer& mem)
+INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer& mem)
 {
 	if ( mem->is_new() )
 	{

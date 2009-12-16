@@ -7,7 +7,7 @@
 
 CImportMultitermFile::CImportMultitermFile(CProgressListener *listener) :
 	m_listener(listener),
-	m_memory(new memory_engine::memory_local())
+	m_memory(new mem_engine::memory_local())
 {
 }
 
@@ -103,14 +103,14 @@ void CImportMultitermFile::import_multiterm55( const CString &file_name )
 void CImportMultitermFile::import_multiterm_55_text( textstream_reader< char >& reader, 
 											   const std::string& source_lang, 
 											   const std::string& trans_lang, 
-											   memory_engine::memory_pointer& mem )
+											   mem_engine::memory_pointer& mem )
 {
 
-	memory_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
 	mem_info->set_source_language(string2wstring(source_lang)) ;
 	mem_info->set_target_language(string2wstring(trans_lang)) ;
 
-	memory_engine::record_pointer record(new memory_engine::record_local()) ;
+	mem_engine::record_pointer record(new mem_engine::record_local()) ;
 	while ( reader.empty() == false )
 	{
 		const strcols cols = get_multiterm55_line(reader) ;
@@ -130,7 +130,7 @@ void CImportMultitermFile::import_multiterm_55_text( textstream_reader< char >& 
 		if ( record->is_valid_record() )
 		{
 			mem->add_record( record ) ;
-			record = memory_engine::record_pointer(new memory_engine::record_local()) ;
+			record = mem_engine::record_pointer(new mem_engine::record_local()) ;
 		}
 
 		m_listener->OnProgressLoadUpdate( mem->size() ) ;
@@ -223,14 +223,14 @@ void CImportMultitermFile::import_multiterm_6_text(LPCWSTR file_text)
 		sourcelang = first_line.get<1>() ;
 		translang = first_line.get<0>() ;
 	}
-	memory_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
+	mem_engine::MemoryInfo *mem_info = m_memory->get_memory_info() ;
 	mem_info->set_source_language(sourcelang) ;
 	mem_info->set_target_language(translang) ;
 
 	while ( reader.empty() == false )
 	{
 		const wstrcols cols = get_multiterm6_line(reader) ;
-		memory_engine::record_pointer record(new memory_engine::record_local()) ;
+		mem_engine::record_pointer record(new mem_engine::record_local()) ;
 		if ( source_is_first_column )
 		{
 			record->set_source( massage_line(cols.get<0>()) ) ;

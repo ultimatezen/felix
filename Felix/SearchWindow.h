@@ -26,9 +26,9 @@ class CSearchWindow :
 	, public CMessageFilter
 
 {
-	typedef boost::shared_ptr<memory_engine::memory_model> memory_controller ;
-	typedef std::vector<memory_engine::search_match_ptr> match_vec ;
-	typedef memory_engine::search_match_ptr search_match_ptr ;
+	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
+	typedef std::vector<mem_engine::search_match_ptr> match_vec ;
+	typedef mem_engine::search_match_ptr search_match_ptr ;
 public:
 	// the mainframe/glossary window passes in a list of memories
 	memory_controller m_controller ;
@@ -47,7 +47,7 @@ public:
 	Paginator m_paginator ;
 
 	// holds pointer to deleted match (to enable undo)
-	memory_engine::search_match_ptr m_deleted_match ;
+	mem_engine::search_match_ptr m_deleted_match ;
 
 	match_vec m_matches ;
 	match_vec m_replace_matches ;
@@ -107,14 +107,14 @@ public:
 	void perform_search(doc3_wrapper_ptr doc);
 
 	size_t get_pos_arg(const wstring &url);
-	memory_engine::search_match_ptr get_match_at( const size_t i );
+	mem_engine::search_match_ptr get_match_at( const size_t i );
 
 	void retrieve_and_show_matches( doc3_wrapper_ptr doc );
 	void show_search_results(doc3_wrapper_ptr doc, match_vec &matches);
 	void get_search_matches(match_vec &matches);
 	void show_replace_results(doc3_wrapper_ptr doc, match_vec &matches);
 
-	void perform_replace(doc3_wrapper_ptr doc, memory_engine::record_pointer rec);
+	void perform_replace(doc3_wrapper_ptr doc, mem_engine::record_pointer rec);
 	void get_replace_matches(match_vec &matches,
 		const wstring &replace_from);
 	void set_filterbox_text( doc3_wrapper_ptr doc, const std::vector<wstring> &terms );

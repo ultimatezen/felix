@@ -7,13 +7,13 @@ class FelixModelInterface
 public:
 	bool m_is_reverse_lookup ;
 
-	typedef boost::shared_ptr<memory_engine::memory_model> model_ptr ;
+	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
 
 	model_ptr m_memories ;
 
 	model_ptr create_memory_model()
 	{
-		return model_ptr(new memory_engine::memory_model_mem()) ;
+		return model_ptr(new mem_engine::memory_model_mem()) ;
 	}
 
 	FelixModelInterface(void) :

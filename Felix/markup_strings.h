@@ -2,7 +2,7 @@
 
 #include "StringEx.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 	class markup_strings

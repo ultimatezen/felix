@@ -33,7 +33,7 @@ void ensure_file_exists( const CString & file_name );
 bool is_vista_or_later() ;
 const CString get_load_failure_msg( const CString & file_name ) ;
 
-namespace memory_engine
+namespace mem_engine
 {
 
 	const static int CP_UNICODE = 1200 ;

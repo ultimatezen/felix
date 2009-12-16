@@ -28,7 +28,7 @@ class TradosDataExporter
 {
 	typedef std::set< wstring > font_set ;
 	
-	typedef memory_engine::record_pointer record_type ;
+	typedef mem_engine::record_pointer record_type ;
 	std::stack< unsigned int >	m_codepages ;
 	rtf::font_table		m_fonts ;
 	color_tag_map	m_colors ;
@@ -48,12 +48,12 @@ class TradosDataExporter
 
 	textstream_reader< wchar_t >	m_reader ;
 
-	memory_engine::memory_pointer		m_memory ;
+	mem_engine::memory_pointer		m_memory ;
 
 public:
 	int m_p_depth;
 
-	void export_trados( memory_engine::memory_pointer mem ) ;
+	void export_trados( mem_engine::memory_pointer mem ) ;
 	bool does_char_roundtrip(const wchar_t *c);
 	string create_unicode_escape(wchar_t c, char best_fit);
 	void set_source( tstring source ) ;
@@ -90,7 +90,7 @@ public:
 class multiterm_data_exporter_55
 {
 	typedef boost::shared_ptr<OutputDevice> device_ptr ;
-	typedef memory_engine::record_pointer record_type ;
+	typedef mem_engine::record_pointer record_type ;
 
 	string	m_source_lang ;
 	string	m_target_lang ;
@@ -101,7 +101,7 @@ public:
 	device_ptr m_file ;
 	multiterm_data_exporter_55(CProgressListener *listener) ;
 	~multiterm_data_exporter_55() ;
-	void export_gloss(memory_engine::memory_pointer &mem);
+	void export_gloss(mem_engine::memory_pointer &mem);
 	void set_source( const string source ) ;
 	void set_target( const string target ) ;
 	void open_destination( const CString destination ) ;
@@ -130,14 +130,14 @@ public:
 	{}
 	~multiterm_data_exporter_6()
 	{ m_file->close() ; }
-	void export_gloss(memory_engine::memory_pointer mem)
+	void export_gloss(mem_engine::memory_pointer mem)
 	{
 		m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
 		wstring notes = L"Notes" ;
 		write_line( m_source_lang, m_target_lang, notes ) ;
 
 		int i = 0 ;
-		foreach(memory_engine::record_pointer record, mem->get_records())
+		foreach(mem_engine::record_pointer record, mem->get_records())
 		{
 			write_record(record) ;
 
@@ -149,7 +149,7 @@ public:
 	void set_source( wstring source ) { m_source_lang = source ; }
 	void set_target( wstring target ) { m_target_lang = target ; }
 	void open_destination( const CString destination );
-	void write_record( const memory_engine::record_pointer &rec );
+	void write_record( const mem_engine::record_pointer &rec );
 private:
 	void write_line( wstring &col1, wstring &col2, wstring &col3 );
 	wstring prep_string( wstring &line );

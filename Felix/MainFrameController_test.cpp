@@ -10,7 +10,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	using namespace except ;
 
 	TEST( MainFrameControllerTests, TestInstantiate)
@@ -438,8 +438,8 @@ namespace easyunit
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 
-		std::vector< memory_engine::search_match_ptr > matches ;
-		memory_engine::search_match_ptr match(new search_match) ;
+		std::vector< mem_engine::search_match_ptr > matches ;
+		mem_engine::search_match_ptr match(new search_match) ;
 		match->set_record( record_pointer(new record_local()) ) ;
 		matches += match ;
 		main_frame.m_search_matches.set_matches( matches ) ;

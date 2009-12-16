@@ -19,7 +19,7 @@ namespace easyunit
 			L"</record>" ;
 
 		CXml2RecordConverter converter ;
-		memory_engine::record_pointer record = converter.convert_from_xml_node(text) ;
+		mem_engine::record_pointer record = converter.convert_from_xml_node(text) ;
 		ASSERT_EQUALS(record->get_source_rich(), L"spam") ;
 		ASSERT_EQUALS(record->get_trans_rich(), L"egg") ;
 		ASSERT_EQUALS_V(10, (int)record->get_id()) ;
@@ -35,7 +35,7 @@ namespace easyunit
 			L"</record>" ;
 
 		CXml2RecordConverter converter ;
-		memory_engine::record_pointer record = converter.convert_from_xml_node(text) ;
+		mem_engine::record_pointer record = converter.convert_from_xml_node(text) ;
 		ASSERT_EQUALS(record->get_creator(), L"creator abc") ;
 	}
 	TEST( TestCXml2RecordConverter, test_convert_from_node_modified_by )
@@ -49,7 +49,7 @@ namespace easyunit
 			L"</record>" ;
 
 		CXml2RecordConverter converter ;
-		memory_engine::record_pointer record = converter.convert_from_xml_node(text) ;
+		mem_engine::record_pointer record = converter.convert_from_xml_node(text) ;
 		ASSERT_EQUALS(record->get_modified_by(), L"modified by xyz") ;
 	}
 	TEST(TestCXml2RecordConverter, PlainTextNode_plain)
@@ -127,7 +127,7 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		CRecord2XmlConverter converter(&output_device) ;
 
-		memory_engine::record_pointer rec(new memory_engine::record_local) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
 		rec->set_id(10) ;

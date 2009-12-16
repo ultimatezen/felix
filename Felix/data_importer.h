@@ -322,7 +322,7 @@ public:
 
 	string					m_source_language ;
 	string					m_target_language ;
-	memory_engine::record_pointer	m_current_record ;
+	mem_engine::record_pointer	m_current_record ;
 
 	UINT					m_old_codepage ;
 	UINT					m_default_codepage ;
@@ -357,15 +357,15 @@ public:
 		_setmbcp( get_old_codepage() ) ;
 	}
 
-	bool load( const CString &location, memory_engine::memory_pointer mem );
+	bool load( const CString &location, mem_engine::memory_pointer mem );
 
 	string get_tru() ;
 
 	void clear_record()
 	{
-		m_current_record = memory_engine::record_pointer(new memory_engine::record_local()) ;
+		m_current_record = mem_engine::record_pointer(new mem_engine::record_local()) ;
 	}
-	memory_engine::record_pointer get_current_record()
+	mem_engine::record_pointer get_current_record()
 	{
 		return m_current_record ;
 	}
@@ -403,7 +403,7 @@ public:
 	bool get_next_record( )  ;
 	size_t size();
 	bool open_data_source( const CString &source_name );
-	bool get_all_records( memory_engine::trans_set &records )   ;
+	bool get_all_records( mem_engine::trans_set &records )   ;
 	// implemenations of pure virtual functions in parent
 	wstring handle_f_tag( tag_stack &tags ) ;
 

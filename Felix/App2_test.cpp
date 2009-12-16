@@ -7,7 +7,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine;
+	using namespace mem_engine;
 
 	typedef CComPtr< ISearchResult > result_ptr ;
 

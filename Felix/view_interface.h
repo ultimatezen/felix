@@ -21,11 +21,11 @@
  */
 class view_interface
 {
-	typedef std::vector< memory_engine::search_match_ptr > MatchListType ;
-	typedef boost::shared_ptr<memory_engine::memory_model> MemoryControllerType ;
-	typedef memory_engine::record_pointer record_pointer ;
-	typedef memory_engine::search_match_ptr SearchMatchType ;
-	typedef memory_engine::translation_match_query TransMatchQueryTrans ;
+	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
+	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
+	typedef mem_engine::record_pointer record_pointer ;
+	typedef mem_engine::search_match_ptr SearchMatchType ;
+	typedef mem_engine::translation_match_query TransMatchQueryTrans ;
 
 public:
 	// view
@@ -71,14 +71,14 @@ public:
 	// =========================
 
 	void handle_enter_edit_mode_new_record_glossary( ) ;
-	void handle_enter_edit_mode_concordance_glossary( memory_engine::search_query_glossary &matches ) ;
+	void handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches ) ;
 
 	void handle_enter_edit_mode_new_record() ;
 
 	void handle_enter_edit_mode_match( TransMatchQueryTrans &matches ) ;
 
 	record_pointer get_match_record( TransMatchQueryTrans &matches );
-	void handle_enter_edit_mode_concordance( memory_engine::search_query_mainframe &matches ) ;
+	void handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches ) ;
 
 	// =========================
 	// for leaving edit mode
@@ -86,12 +86,12 @@ public:
 	virtual void handle_leave_edit_mode_new( record_pointer &record ) ;
 
 	void handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches ) ;
-	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, memory_engine::search_query_glossary &matches ) ;
+	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches ) ;
 	bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) ;
 
-	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, memory_engine::search_query_mainframe &matches ) ;
+	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches ) ;
 
-	//bool handle_leave_edit_mode_register( memory_engine::search_match &glossary_registration_top, memory_engine::search_match glossary_registration_bottom ) ;
+	//bool handle_leave_edit_mode_register( mem_engine::search_match &glossary_registration_top, mem_engine::search_match glossary_registration_bottom ) ;
 
 	void scroll_element_into_view( const wstring &current_id ) ;
 

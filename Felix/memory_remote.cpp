@@ -3,7 +3,7 @@
 #include "DemoException.h"
 #include "logging.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	using namespace except ;
 
@@ -235,7 +235,7 @@ namespace memory_engine
 		return success ;
 	}
 
-	memory_engine::record_pointer memory_remote::add_by_id( size_t recid, const wstring source, const wstring trans )
+	mem_engine::record_pointer memory_remote::add_by_id( size_t recid, const wstring source, const wstring trans )
 	{
 		try
 		{
@@ -309,7 +309,7 @@ namespace memory_engine
 		logging::log_warn("tabulate_fonts not implemented for remote memories/glossaries.") ;
 	}
 
-	memory_engine::record_pointer memory_remote::get_record_at( const size_t )
+	mem_engine::record_pointer memory_remote::get_record_at( const size_t )
 	{
 		logging::log_warn("get_record_at not implemented for remote memories/glossaries.") ;
 		return record_pointer(new record_remote) ;

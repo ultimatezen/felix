@@ -3,7 +3,7 @@
 #include "Felix_properties.h"
 
 // implementation here
-namespace memory_engine
+namespace mem_engine
 {
 	// CTOR/DTOR
 	record_remote::record_remote(LPCWSTR server_name) : m_engine(server_name)

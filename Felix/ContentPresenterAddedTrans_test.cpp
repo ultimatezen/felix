@@ -9,7 +9,7 @@
 namespace easyunit
 {
 	using namespace content_presenter ;
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	TEST( TestCContentPresenterAddedTrans, Instantiate )
 	{

@@ -15,14 +15,14 @@
 namespace easyunit
 {
 
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	using namespace except ;
 
 #define EXPORT_TEST_FILE_1A _T("C:\\dev\\Test Files\\TMXComplianceKit\\ExportTest1A.tmx")
 
 	TEST(CTMXReaderTestCase, get_bom )
 	{
-		memory_engine::memory_pointer mem(new memory_engine::memory_local()) ;
+		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
@@ -31,7 +31,7 @@ namespace easyunit
 
 	TEST(CTMXReaderTestCase,load_tmx_memory)
 	{
-		memory_engine::memory_pointer mem(new memory_engine::memory_local()) ;
+		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
@@ -39,7 +39,7 @@ namespace easyunit
 		{
 			tmx_reader.load_tmx_memory( EXPORT_TEST_FILE_1A ) ;
 
-			memory_engine::MemoryInfo *mem_info = mem->get_memory_info() ;
+			mem_engine::MemoryInfo *mem_info = mem->get_memory_info() ;
 
 			SimpleString actual = (LPCSTR)CStringA(mem_info->get_creation_tool().c_str()) ;
 			ASSERT_EQUALS_V( "XYZTool", actual) ; 
@@ -62,7 +62,7 @@ namespace easyunit
 	}
 	TEST( CTMXReaderTestCase, TestGetSegText )
 	{
-		memory_pointer mem(new memory_engine::memory_local()) ;
+		memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 

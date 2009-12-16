@@ -13,7 +13,7 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__ ;
 #endif
-namespace memory_engine
+namespace mem_engine
 {
 
 search_match::search_match() : 

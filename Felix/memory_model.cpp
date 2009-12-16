@@ -12,7 +12,7 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
-namespace memory_engine
+namespace mem_engine
 {
 	using namespace except ;
 
@@ -272,7 +272,7 @@ void memory_model::add_record( const record_pointer &record, const int memory_id
 	mem->add_record( record ) ;
 }
 
-memory_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
+mem_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
 {
 	foreach(memory_pointer mem, m_memories)
 	{
@@ -288,14 +288,14 @@ memory_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
 }
 memory_pointer memory_model_mem::create_memory()
 {
-	memory_pointer mem(new memory_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local()) ;
 	mem->set_is_memory( true ) ;
 	return mem ;
 }
 
 memory_pointer memory_model_gloss::create_memory()
 {
-	memory_pointer mem(new memory_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local()) ;
 	mem->set_is_memory( false ) ;
 	return mem ;
 }

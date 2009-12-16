@@ -6,7 +6,7 @@
 
 using namespace html ;
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 CExtraStringsView::CExtraStringsView(void) :
 	m_extra_strings_view(new html::CHtmlView)

@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine;
+	using namespace mem_engine;
 
 	TEST(TestViewCollectionWalker, is_other_tag_false)
 	{

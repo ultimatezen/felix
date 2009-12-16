@@ -16,7 +16,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	TEST(TestMemoryFunctions, get_load_failure_msg)
 	{

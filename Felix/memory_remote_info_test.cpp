@@ -30,7 +30,7 @@ Fields:
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	TEST( test_memory_remote_info, target_language)
 	{
 		try

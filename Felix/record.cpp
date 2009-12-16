@@ -11,7 +11,7 @@
 static char THIS_FILE[] = __FILE__ ;
 #endif
 
-namespace memory_engine
+namespace mem_engine
 {
 
 static const wstring date_created_tag	= L"date_created" ;	

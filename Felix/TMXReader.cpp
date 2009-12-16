@@ -13,7 +13,7 @@
 
 #include "easyunit/testharness.h"
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace except;
 
 /**
@@ -235,7 +235,7 @@ wstring unknown_strip_tags( const wstring &raw_string )
 
 
 
-CTMXReader::CTMXReader( memory_engine::memory_pointer mem, CProgressListener *listener ) :
+CTMXReader::CTMXReader( mem_engine::memory_pointer mem, CProgressListener *listener ) :
 	m_memory( mem ),
 	m_listener(listener) ,
 	m_rtf_importer(new tmx_data_importer)
@@ -384,7 +384,7 @@ void CTMXReader::load_body()
 // Load a translation unit
 void CTMXReader::load_tu(const wstring & tu_text)
 {
-	m_record = memory_engine::record_pointer(new record_local()) ;
+	m_record = mem_engine::record_pointer(new record_local()) ;
 
 	wc_reader tu_reader ;
 	tu_reader.set_buffer(tu_text.c_str()) ;

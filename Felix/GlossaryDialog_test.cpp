@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine;
+	using namespace mem_engine;
 	TEST( TestGlossaryWindow, get_record_translation_standard)
 	{
 		CGlossaryWindow gloss ;
@@ -71,7 +71,7 @@ namespace easyunit
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample.txt") ;
 		gloss.import_multiterm(filename) ;
 		ASSERT_EQUALS_V(1, (int)gloss.m_memories->size()) ;
-		memory_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
+		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
 		ASSERT_EQUALS_V(50, (int)mem->size()) ;
 	}
 	TEST(TestGlossaryWindow, export_gloss_mt55)

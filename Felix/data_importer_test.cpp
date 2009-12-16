@@ -8,7 +8,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine;
+	using namespace mem_engine;
 
 	TEST( test_trados_data_importer, load )
 	{
@@ -20,7 +20,7 @@ namespace easyunit
 		importer.set_source_language( _T("JA") ) ;
 		importer.set_target_language( _T("EN-US") ) ;
 
-		memory_engine::memory_pointer mem(new memory_engine::memory_local());
+		mem_engine::memory_pointer mem(new mem_engine::memory_local());
 		bool LoadSuccess = importer.load(_T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt"), mem ) ;
 
 		ASSERT_TRUE( LoadSuccess ) ;

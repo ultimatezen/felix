@@ -4,9 +4,9 @@
  */
 #pragma once
 
-#include "search_match.h"	// memory_engine::search_match_ptr
-#include "record.h"			// memory_engine::record_pointer
-#include "memory_model.h"	// memory_engine::memory_model
+#include "search_match.h"	// mem_engine::search_match_ptr
+#include "record.h"			// mem_engine::record_pointer
+#include "memory_model.h"	// mem_engine::memory_model
 #include "TranslationMemory.h"	// memory_pointer
 #include "HtmlDocument.h"		// html::collection_ptr
 #include "element_wrapper.h"
@@ -18,13 +18,13 @@ bool is_other_tag( wstring id, tag_name_holder &tags ) ;
 
 class CViewCollectionWalker
 {
-	typedef memory_engine::search_match_ptr SearchMatchType ;
+	typedef mem_engine::search_match_ptr SearchMatchType ;
 	typedef std::vector< SearchMatchType > MatchListType ;
 
-	typedef memory_engine::record_pointer record_pointer ;
-	typedef boost::shared_ptr<memory_engine::memory_model> MemoryControllerType ;
+	typedef mem_engine::record_pointer record_pointer ;
+	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
 
-	typedef memory_engine::memory_pointer MemPtr ;
+	typedef mem_engine::memory_pointer MemPtr ;
 
 public:
 

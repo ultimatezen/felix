@@ -6,7 +6,7 @@
 #include <set>
 #include "MatchStringPairing.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 /**

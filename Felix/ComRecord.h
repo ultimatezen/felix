@@ -27,14 +27,14 @@ class ATL_NO_VTABLE CRecord :
 	public CProxy_IRecordEvents<CRecord>,
 	public IDispatchImpl<IRecord, &IID_IRecord, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
-	memory_engine::record_pointer m_record ;
+	mem_engine::record_pointer m_record ;
 public:
 
-	void set_record(memory_engine::record_pointer record)
+	void set_record(mem_engine::record_pointer record)
 	{
 		m_record = record ;
 	}
-	CRecord() : m_record(new memory_engine::record_local)
+	CRecord() : m_record(new mem_engine::record_local)
 	{
 	}
 

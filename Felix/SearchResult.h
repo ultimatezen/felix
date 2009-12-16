@@ -26,15 +26,15 @@ class ATL_NO_VTABLE CSearchResult :
 	typedef CComObject< CRecord > RecordObject ;
 
 	RecordObject *m_record ;
-	memory_engine::search_match_ptr m_match ;
+	mem_engine::search_match_ptr m_match ;
 public:
 
-	void set_match(memory_engine::search_match_ptr match)
+	void set_match(mem_engine::search_match_ptr match)
 	{
 		m_match = match ;
 		this->set_record(m_match->get_record()) ;
 	}
-	void set_record(memory_engine::record_pointer record)
+	void set_record(mem_engine::record_pointer record)
 	{
 		if (m_record)
 		{
@@ -42,7 +42,7 @@ public:
 		}
 	}
 
-	CSearchResult() : m_record(NULL), m_match(new memory_engine::search_match)
+	CSearchResult() : m_record(NULL), m_match(new mem_engine::search_match)
 	{
 	}
 

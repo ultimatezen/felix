@@ -18,7 +18,7 @@ CTMXWriter::CTMXWriter(CProgressListener *listener) :
 	, m_iLevel(0)
 	, m_tuid(1)
 	, m_user_name( CUserName().as_wstring() )
-	, m_memory(new memory_engine::memory_local())
+	, m_memory(new mem_engine::memory_local())
 {
 	app_props::properties_general props ;
 	props.read_from_registry() ;
@@ -33,7 +33,7 @@ CTMXWriter::~CTMXWriter(void)
  * \brief
  * Write the memory to a TMX file.
   */
-void CTMXWriter::write_memory(memory_engine::memory_pointer mem)
+void CTMXWriter::write_memory(mem_engine::memory_pointer mem)
 {
 	m_memory = mem ;
 	prepareToWrite();
@@ -104,12 +104,12 @@ void CTMXWriter::write_footer(void)
  * \brief
  * Writes a tu segment for a memory record.
  * 
- * \param memory_engine::record_pointer rec
+ * \param mem_engine::record_pointer rec
  * The record to write
  * 
  * Uses a text template, and fills in necessary info from record.
  */
-void CTMXWriter::write_tu(memory_engine::record_pointer rec)
+void CTMXWriter::write_tu(mem_engine::record_pointer rec)
 {
 	ATLASSERT ( m_file.is_open() ) ; 
 
@@ -141,7 +141,7 @@ void CTMXWriter::write_tus(void)
 
 	ATLASSERT( m_tuid == 1 ) ;
 	m_tuid = 1 ;
-	foreach( memory_engine::record_pointer rec, m_memory->get_records())
+	foreach( mem_engine::record_pointer rec, m_memory->get_records())
 	{
 		write_tu( rec ) ;
 		m_listener->OnProgressWriteUpdate( m_tuid ) ;
@@ -307,7 +307,7 @@ void CTMXWriter::cleanup()
 	m_listener->OnProgressDoneWrite( m_memory->size() ) ;
 }
 
-wstring CTMXWriter::make_tu( memory_engine::record_pointer rec, const wstring tmpl_text )
+wstring CTMXWriter::make_tu( mem_engine::record_pointer rec, const wstring tmpl_text )
 {
 	// Assign variable values
 	textTemplate.Assign( L"id", ulong2wstring( rec->get_id() ) ) ;

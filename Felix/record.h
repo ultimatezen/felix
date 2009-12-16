@@ -7,7 +7,7 @@
 #include "tag_stripper.h"
 #include "segment.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	static const size_t MIN_RELIABILITY = 0 ;
 	static const size_t MAX_RELIABILITY = 9 ;

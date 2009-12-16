@@ -12,7 +12,7 @@
 #include "query.h"					// query structs
 #include "RegEx.h"					// CRegEx
 
-namespace memory_engine
+namespace mem_engine
 {
 
 /** Base class for matching engines */

@@ -5,7 +5,7 @@
 
 namespace replacer
 {
-	using memory_engine::record_pointer ;
+	using mem_engine::record_pointer ;
 
 	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
 

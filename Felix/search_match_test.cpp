@@ -8,7 +8,7 @@
 #ifdef UNIT_TEST
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	/************************************************************************
 	 *																		*	

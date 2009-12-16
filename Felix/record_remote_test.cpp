@@ -13,7 +13,7 @@ Unit tests for \ref record_remote
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	// A helper function:
 	// Are the two records equal?
 	bool are_records_equal(record_pointer lhs, record_pointer rhs)
@@ -166,7 +166,7 @@ namespace easyunit
 			ASSERT_EQUALS(rec.get_modified_by(), L"billy") ;
 
 			wstring me = L"Ryan Francis Ginstrom the First but Not Last" ;
-			memory_engine::set_record_username(me) ;
+			mem_engine::set_record_username(me) ;
 
 			rec.set_source(L"crippy croppy") ;
 			ASSERT_EQUALS(rec.get_modified_by(), L"Ryan Francis Ginstrom the First but Not Last") ;

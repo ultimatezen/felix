@@ -11,7 +11,7 @@
 
 #include "TranslationMemory.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 enum memory_type { MEMORY_TYPE_MEMORY, MEMORY_TYPE_GLOSSARY } ;

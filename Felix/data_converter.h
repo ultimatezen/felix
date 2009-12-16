@@ -32,7 +32,7 @@ class CXml2RecordConverter
 
 	reader_type m_parser ;
 
-	memory_engine::record_pointer	m_record ;
+	mem_engine::record_pointer	m_record ;
 
 public:
 	const wstring strip_cdata( const wstring &data ) const;
@@ -43,7 +43,7 @@ public:
 	CXml2RecordConverter &operator =( const CXml2RecordConverter &cpy ) ;
 
 	// Load the xml values into a translation record
-	memory_engine::record_pointer convert_from_xml_node( LPCWSTR node ) ;
+	mem_engine::record_pointer convert_from_xml_node( LPCWSTR node ) ;
 
 	// The spillover not hard wired into the record structure
 	void load_extra(const wstring &tag ) ;
@@ -77,7 +77,7 @@ class CRecord2XmlConverter
 {
 	wstring				m_doc ;
 	wstring				m_node ;
-	memory_engine::record_pointer		m_record ;
+	mem_engine::record_pointer		m_record ;
 	OutputDevice		*m_file ;
 
 public:
@@ -95,7 +95,7 @@ public:
 	~CRecord2XmlConverter() {}
 
 	// convert_from_xml_node
-	bool convert_from_record( const memory_engine::record_pointer rec ) ;
+	bool convert_from_record( const mem_engine::record_pointer rec ) ;
 
 	bool convert_source()  ;
 	bool convert_trans()  ;

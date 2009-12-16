@@ -36,7 +36,7 @@ VISIBLE_TO_TESTS
 
 	
 	file::file						m_file ;
-	memory_engine::memory_pointer	m_memory ;
+	mem_engine::memory_pointer	m_memory ;
 
 
 	wstring			m_src_lang ;
@@ -45,7 +45,7 @@ VISIBLE_TO_TESTS
 	int					m_iLevel ;
 	CProgressListener	*m_listener ;
 
-	text_template::CTextTemplate textTemplate ;
+	text_tmpl::CTextTemplate textTemplate ;
 	wstring tmplText ;
 
 	// junk included by SDLX
@@ -57,7 +57,7 @@ public:
 	CTMXWriter(CProgressListener *listener);
 	~CTMXWriter(void);
 
-	void write_memory(memory_engine::memory_pointer mem);
+	void write_memory(mem_engine::memory_pointer mem);
 
 	void cleanup();
 	void prepareToWrite();
@@ -70,9 +70,9 @@ public:
 	void write_footer( void );
 
 	void write_tus( void );
-	void write_tu( memory_engine::record_pointer rec );
+	void write_tu( mem_engine::record_pointer rec );
 
-	wstring make_tu( memory_engine::record_pointer rec, const wstring tmpl_text );
+	wstring make_tu( mem_engine::record_pointer rec, const wstring tmpl_text );
 	wstring get_segment( const wstring & text);
 
 	wstring get_tag( wc_reader & reader) ;

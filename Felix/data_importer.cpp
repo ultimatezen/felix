@@ -20,7 +20,7 @@ static char THIS_FILE[] = __FILE__ ;
 #endif
 
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 // Function name	: trados_data_importer::open_data_source
 bool  trados_data_importer::open_data_source(const CString &source_name)
@@ -1226,7 +1226,7 @@ wstring trados_data_importer::handle_foreground_color_tag( tag_stack &tags )
 	return html_tag ;
 }
 
-bool trados_data_importer::load( const CString &location, memory_engine::memory_pointer mem )
+bool trados_data_importer::load( const CString &location, mem_engine::memory_pointer mem )
 {
 	ATLASSERT ( m_listener != NULL ) ; 
 	ATLASSERT ( file::file::exists(location) ) ; 

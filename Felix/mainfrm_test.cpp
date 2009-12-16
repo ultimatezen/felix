@@ -14,7 +14,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
 	{

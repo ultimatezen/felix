@@ -74,7 +74,7 @@ public:
 	DISPLAY_STATE		m_display_state ;
 
 	// Save the last deleted match, so we can undo...
-	memory_engine::search_match_ptr		m_deleted_match ;
+	mem_engine::search_match_ptr		m_deleted_match ;
 
 	// recent docs list
 	CMyRecentDocumentList		m_mru ;
@@ -112,7 +112,7 @@ private:
 	void refresh_find_window() ;
 
 protected:
-	INT_PTR LetUserSaveMemory(memory_engine::memory_pointer& mem);
+	INT_PTR LetUserSaveMemory(mem_engine::memory_pointer& mem);
 	void instantiate_dlg(int res_id, DLGPROC lpDialogProc);
 	void refresh_windows() ;
 	void refresh_view_content();
@@ -141,7 +141,7 @@ public:
 	bool user_feedback( const CString &feedback, int pane = 0) ;
 	bool user_feedback( const UINT id, int pane = 0) ;
 	bool user_feedback( const tstring &feedback, int pane = 0) ;
-	memory_engine::memory_list & get_memories() ;
+	mem_engine::memory_list & get_memories() ;
 	INT_PTR user_wants_to_save( const CString &f_name ) ;
 	INT_PTR check_save() ;
 	bool check_location() ;
@@ -176,14 +176,14 @@ public:
 	bool init_edit_window(int show_command = SW_HIDE) ;
 	bool init_find_window(int show_command = SW_HIDE, int title = 0 ) ;
 	size_t get_size() ;
-	void show_edit_dialog( memory_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
+	void show_edit_dialog( mem_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
 
 	void set_display_state( DISPLAY_STATE new_state ) ;
 	int get_display_state() ;
 	int prev_display_state() ;
 	int next_display_state() ;
 
-	void save_memory(memory_engine::memory_pointer mem) ;
+	void save_memory(mem_engine::memory_pointer mem) ;
 	CString get_save_destination();
 
 	void save_all_memories();
@@ -200,14 +200,14 @@ public:
 	virtual LPCTSTR get_open_filter() = 0 ;
 	virtual bool show_view_content() = 0 ;
 	virtual bool set_window_title() = 0 ;
-	virtual void do_save( memory_engine::memory_pointer mem ) = 0 ;
+	virtual void do_save( mem_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;
-	virtual bool check_for_clashes( memory_engine::memory_pointer mem ) = 0 ;
-	virtual void set_new_record(memory_engine::record_pointer rec) = 0 ;
-	virtual memory_engine::record_pointer get_new_record() = 0 ;
+	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
+	virtual void set_new_record(mem_engine::record_pointer rec) = 0 ;
+	virtual mem_engine::record_pointer get_new_record() = 0 ;
 	virtual void retrieve_record_new_state() = 0 ;
 	virtual void retrieve_record_results_state() = 0 ;
 
-	virtual boost::shared_ptr<memory_engine::memory_model> get_memory_model() = 0 ;
+	virtual boost::shared_ptr<mem_engine::memory_model> get_memory_model() = 0 ;
 } ;
 

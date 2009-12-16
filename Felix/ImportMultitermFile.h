@@ -14,7 +14,7 @@ class CImportMultitermFile
 	CProgressListener *m_listener ;
 
 public:
-	memory_engine::memory_pointer	   m_memory ;
+	mem_engine::memory_pointer	   m_memory ;
 
 	CImportMultitermFile(CProgressListener *listener);
 	~CImportMultitermFile(void);
@@ -24,7 +24,7 @@ public:
 	const file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name ) const;
 
 	void import_multiterm55( const CString &file_name );
-	void import_multiterm_55_text(textstream_reader< char >& reader, const std::string& source_lang, const std::string& trans_lang, memory_engine::memory_pointer& mem);
+	void import_multiterm_55_text(textstream_reader< char >& reader, const std::string& source_lang, const std::string& trans_lang, mem_engine::memory_pointer& mem);
 	const strcols get_multiterm55_line(textstream_reader< char > &reader) const;
 	const wstring massage_line(const string &line) const;
 

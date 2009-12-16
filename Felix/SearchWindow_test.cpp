@@ -10,7 +10,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
@@ -297,7 +297,7 @@ namespace easyunit
 	// handlers
 	TEST(TestCSearchWindow, get_search_matches)
 	{
-		typedef std::vector<memory_engine::search_match_ptr> match_vec ;
+		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -316,7 +316,7 @@ namespace easyunit
 	}
 	TEST(TestCSearchWindow, handle_deleterecord)
 	{
-		typedef std::vector<memory_engine::search_match_ptr> match_vec ;
+		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -343,7 +343,7 @@ namespace easyunit
 	}
 	TEST(TestCSearchWindow, delete_record)
 	{
-		typedef std::vector<memory_engine::search_match_ptr> match_vec ;
+		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;

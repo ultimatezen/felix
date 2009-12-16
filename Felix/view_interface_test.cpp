@@ -7,7 +7,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine;
+	using namespace mem_engine;
 
 	TEST(test_view_interface, get_doc_path)
 	{
@@ -54,10 +54,10 @@ namespace easyunit
 	TEST(test_view_interface, get_match_record_empty)
 	{
 		view_interface vi ;
-		memory_engine::translation_match_query matches ;
+		mem_engine::translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 
-		memory_engine::record_pointer rec = vi.get_match_record(matches) ;
+		mem_engine::record_pointer rec = vi.get_match_record(matches) ;
 
 		SimpleString actual = string2string(rec->get_source_plain()).c_str() ;
 		SimpleString expected = "spam" ;

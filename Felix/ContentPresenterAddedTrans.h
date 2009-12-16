@@ -4,7 +4,7 @@
 
 namespace content_presenter
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	using namespace html ;
 
 class CContentPresenterAddedTrans :

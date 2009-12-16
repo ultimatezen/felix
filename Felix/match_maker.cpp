@@ -9,7 +9,7 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
-namespace memory_engine
+namespace mem_engine
 {
 	const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
 	const static wstring nomatch_tag_open2(L"<span class=\"partial_match1\">") ;

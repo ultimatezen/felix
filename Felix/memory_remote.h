@@ -5,7 +5,7 @@
 #include "record_remote.h"
 #include "memory_info.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 	class memory_remote : 

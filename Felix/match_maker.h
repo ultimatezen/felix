@@ -16,7 +16,7 @@
 #include "segment.h"
 #include "stringex.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	inline bool has_asian(const wstring s)
 	{

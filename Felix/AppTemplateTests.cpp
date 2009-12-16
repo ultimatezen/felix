@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace text_template ;
+	using namespace text_tmpl ;
 	TEST( AppTemplateTest, ReplaceTestTu )
 	{
 		CTextTemplate textTemplate ;

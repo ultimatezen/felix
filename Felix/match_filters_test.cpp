@@ -9,7 +9,7 @@
 namespace easyunit
 {
 	using namespace memory_searcher ;
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	// match_filter_generic
 	TEST(runner_term_matches_test, generic_source_true)

@@ -15,17 +15,17 @@ namespace easyunit
 		app_props::properties_general props; 
 		props.read_from_registry() ;
 
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		ASSERT_EQUALS(header.get_modified_by(), props.m_data.m_user_name) ;
 	}
 	TEST( memory_header_test_case, get_header_default_modified_by_equals_creator)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		ASSERT_EQUALS(header.get_creator(), header.get_modified_by()) ;
 	}
 	TEST( memory_header_test_case, get_header_default_modified_on_equals_created_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		ASSERT_EQUALS(header.get_created_on(), header.get_modified_on()) ;
 	}
 
@@ -33,13 +33,13 @@ namespace easyunit
 
 	TEST( memory_header_test_case, get_header_getset_modified_by)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_modified_by(L"spam") ;
 		ASSERT_EQUALS(header.get_modified_by(), L"spam") ;
 	}
 	TEST( memory_header_test_case, get_header_getset_modified_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_modified_on(L"spam") ;
 		ASSERT_EQUALS(header.get_modified_on(), L"spam") ;
 	}
@@ -48,7 +48,7 @@ namespace easyunit
 
 	TEST( memory_header_test_case, get_header_field_empty)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 
 		wc_reader reader ;
 		LPCWSTR text = L"" ;
@@ -58,7 +58,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, get_header_field_broken)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 
 		wc_reader reader ;
 		LPCWSTR text = L"<spam>egg</sp<one>two</one>" ;
@@ -68,7 +68,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, get_header_field_spam_egg)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 
 		wc_reader reader ;
 		LPCWSTR text = L"<spam>egg</spam>" ;
@@ -78,7 +78,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, read_header)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 
 		wc_reader reader ;
 		LPCWSTR header_text = L"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE memory >\n<!-- Created by Felix v 1.0 -->\n<memory>\n<head>\n<creator>RyanVista</creator>\n<modified_by>RyanVista</modified_by>\n<created_on>2007/08/23 13:52:38</created_on>\n<modified_on>2007/08/23 13:52:38</modified_on>\n<creation_tool>Felix</creation_tool>\n<creation_tool_version>1.0</creation_tool_version>\n<num_records>6</num_records>\n<locked>false</locked>\n<is_memory>false</is_memory>\n</head>\n<records><record>" ;
@@ -116,7 +116,7 @@ namespace easyunit
 
 	TEST( memory_header_test_case, write_header_creator)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_creator(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -126,7 +126,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_creator_empty)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_creator(L"") ;
 
 		OutputDeviceFake output_device ;
@@ -136,7 +136,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_modified_by_default)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
@@ -145,7 +145,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_modified_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_modified_on(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -155,7 +155,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_field)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_field(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -165,7 +165,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_created_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_created_on(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -175,7 +175,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_source_language)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_source_language(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -185,7 +185,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_target_language)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_target_language(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -195,7 +195,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_client)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_client(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -206,7 +206,7 @@ namespace easyunit
 
 	TEST( memory_header_test_case, write_header_creation_tool)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_creation_tool(L"spam egg") ;
 
 		OutputDeviceFake output_device ;
@@ -216,7 +216,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_creation_tool_version)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_creation_tool_version(L"spam") ;
 
 		OutputDeviceFake output_device ;
@@ -226,7 +226,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_num_records)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_count(10) ;
 
 		OutputDeviceFake output_device ;
@@ -237,7 +237,7 @@ namespace easyunit
 
 	TEST( memory_header_test_case, write_header_locked_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_locked_on() ;
 
 		OutputDeviceFake output_device ;
@@ -247,7 +247,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_locked_off)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_locked_off() ;
 
 		OutputDeviceFake output_device ;
@@ -257,7 +257,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_is_memory_on)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_is_memory_on() ;
 
 		OutputDeviceFake output_device ;
@@ -267,7 +267,7 @@ namespace easyunit
 	}
 	TEST( memory_header_test_case, write_header_is_memory_off)
 	{
-		memory_engine::memory_header header ;
+		mem_engine::memory_header header ;
 		header.set_is_memory_off() ;
 
 		OutputDeviceFake output_device ;

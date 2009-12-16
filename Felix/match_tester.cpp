@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include ".\match_tester.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 
 	match_tester::match_tester(void) : m_search_match(new search_match)

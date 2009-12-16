@@ -13,7 +13,7 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 using namespace except ;
 
 // tags
@@ -135,7 +135,7 @@ wstring TradosDate2FelixDate(const wstring &trados_date)
 // constructors
 CXml2RecordConverter::CXml2RecordConverter( ) 
 {
-	m_record = memory_engine::record_pointer(new record_local()) ;
+	m_record = mem_engine::record_pointer(new record_local()) ;
 }
 CXml2RecordConverter::CXml2RecordConverter( const CXml2RecordConverter &cpy ) : 
 	m_record( cpy.m_record )
@@ -531,7 +531,7 @@ bool CXml2RecordConverter::get_validated_value()
 CRecord2XmlConverter::CRecord2XmlConverter( OutputDevice *xml_file )
 : m_file( xml_file )
 {
-	m_record = memory_engine::record_pointer(new record_local()) ;
+	m_record = mem_engine::record_pointer(new record_local()) ;
 
 	init_char_conversion();
 }

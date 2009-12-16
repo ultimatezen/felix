@@ -14,7 +14,7 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
-namespace memory_engine
+namespace mem_engine
 {
 
 //////////////////////////////////////////////////////////////////////

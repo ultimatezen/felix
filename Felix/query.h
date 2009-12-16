@@ -15,7 +15,7 @@
 
 #define RES_INST _Module.GetResourceInstance()
 
-namespace memory_engine
+namespace mem_engine
 {
 	wstring get_fname_from_loc(const wstring loc);
 
@@ -89,7 +89,7 @@ public:
 struct base_presentation : public html_formatter
 {
 	// typedefs
-	typedef memory_engine::search_match_ptr match_ptr ;
+	typedef mem_engine::search_match_ptr match_ptr ;
 	typedef match_ptr&					reference ;
 	typedef const match_ptr&			const_reference ;
 	typedef std::vector< match_ptr >	match_list ;
@@ -153,8 +153,8 @@ struct base_presentation : public html_formatter
 	match_ptr &current();
 	bool empty() ;
 	void clear();
-	void set_matches( const memory_engine::search_match_container &matches ) ;
-	void set_matches( const memory_engine::trans_match_container &matches ) ;
+	void set_matches( const mem_engine::search_match_container &matches ) ;
+	void set_matches( const mem_engine::trans_match_container &matches ) ;
 	void set_matches( const match_list &matches ) ;
 	void  forward( );
 	void  back( );
@@ -235,7 +235,7 @@ struct translation_match_query : public base_presentation
 	wstring get_html_long()  ;
 
 	bool is_perfect_match(match_ptr match);
-	void fill_match_template_params( text_template::CTextTemplate &engine, match_ptr match );
+	void fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match );
 } ;
 
 

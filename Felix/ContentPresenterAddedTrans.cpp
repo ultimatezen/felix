@@ -29,7 +29,7 @@ wstring CContentPresenterAddedTrans::generate_text()
 {
 	const wstring tpl_text = get_template_text("match_new.txt") ;
 
-	text_template::CTextTemplate engine ;
+	text_tmpl::CTextTemplate engine ;
 	engine.Assign(L"source", m_rec->get_source_rich()) ;
 	engine.Assign(L"trans", m_rec->get_trans_rich()) ;
 

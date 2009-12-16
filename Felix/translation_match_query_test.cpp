@@ -15,7 +15,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 #define ADD_RECORD(mem, source, trans) \
 	{\
 	record_pointer rec(new record_local()) ;\

@@ -9,7 +9,7 @@ static char THIS_FILE[] = __FILE__ ;
 #endif
 
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 // Function name	: CEditTransRecordDialog::OnInitDialog
 // Description	    : 

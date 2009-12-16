@@ -8,7 +8,7 @@
 #include "reg_msg_filter.h"
 #include "record_local.h"
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 /** CFindDlg
 @brief CTOR
@@ -36,14 +36,14 @@ BOOL CFindDlg::PreTranslateMessage( MSG *pMsg )
 @brief Get the record created from user input for use as search template.
 @retval record_pointer
 */
-memory_engine::record_pointer CFindDlg::get_record()
+mem_engine::record_pointer CFindDlg::get_record()
 { return m_record ; }
 
 /** get_search_params
 @brief Get the search parameters.
 @retval search_query_params
 */
-memory_engine::search_query_params &CFindDlg::get_search_params() 
+mem_engine::search_query_params &CFindDlg::get_search_params() 
 { return m_params ; }
 
 /** OnDestroy

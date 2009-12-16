@@ -32,8 +32,8 @@ class CFindDlg  :
 		public CDialogImpl<CFindDlg, TWindow>,
 		public CWindowExceptionHandler< CFindDlg >
 {
-	memory_engine::search_query_params	m_params ;
-	memory_engine::record_pointer		m_record ;
+	mem_engine::search_query_params	m_params ;
+	mem_engine::record_pointer		m_record ;
 
 	CWideRichEdit		m_source_edit ;
 	CWideRichEdit		m_trans_edit ;
@@ -48,8 +48,8 @@ public:
 	CFindDlg()  ;
 	BOOL PreTranslateMessage( MSG *pMsg ) ;
 
-	memory_engine::record_pointer get_record() ;
-	memory_engine::search_query_params &get_search_params() ;
+	mem_engine::record_pointer get_record() ;
+	mem_engine::search_query_params &get_search_params() ;
 
 	LRESULT OnDestroy( ) ;
 	LRESULT OnInitDialog( ) ;

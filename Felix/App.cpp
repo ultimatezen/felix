@@ -21,7 +21,7 @@
 
 // CApp
 using namespace except ;
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 STDMETHODIMP CApp::get_App2(IApp2 **pVal)
 {

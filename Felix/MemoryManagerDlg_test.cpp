@@ -9,7 +9,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	void add_mems(CMemoryManagerDlg &dialog, CString name1, CString name2)
 	{
@@ -58,7 +58,7 @@ namespace easyunit
 	}
 	TEST( TestCMemoryManagerDlg, get_memories)
 	{
-		boost::shared_ptr<memory_engine::memory_model> model(new memory_engine::memory_model_mem); 
+		boost::shared_ptr<mem_engine::memory_model> model(new mem_engine::memory_model_mem); 
 		CMemoryManagerDlg dialog ;
 		dialog.get_memories(model) ;
 		ASSERT_EQUALS_V(0, (int)model->get_memories().size()) ;

@@ -11,7 +11,7 @@
 
 namespace easyunit
 {
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 	using namespace except ;
 
 	record_pointer make_record(wstring source, wstring trans)
@@ -129,10 +129,10 @@ namespace easyunit
 		ASSERT_EQUALS_V( 0, (int)rec1->get_reliability() ) ;
 		ASSERT_EQUALS_V( 0, (int)rec2->get_reliability() ) ;
 
-		mem.batch_set_reliability(memory_engine::MAX_RELIABILITY+15u) ;
+		mem.batch_set_reliability(mem_engine::MAX_RELIABILITY+15u) ;
 
-		ASSERT_EQUALS_V( (int)memory_engine::MAX_RELIABILITY, (int)rec1->get_reliability() ) ;
-		ASSERT_EQUALS_V( (int)memory_engine::MAX_RELIABILITY, (int)rec2->get_reliability() ) ;
+		ASSERT_EQUALS_V( (int)mem_engine::MAX_RELIABILITY, (int)rec1->get_reliability() ) ;
+		ASSERT_EQUALS_V( (int)mem_engine::MAX_RELIABILITY, (int)rec2->get_reliability() ) ;
 	}
 
 

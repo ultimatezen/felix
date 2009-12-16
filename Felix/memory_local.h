@@ -2,7 +2,7 @@
 #include "TranslationMemory.h"
 #include "memory_header.h"
 
-namespace memory_engine
+namespace mem_engine
 {
 	class memory_local : public CTranslationMemory
 	{

@@ -22,8 +22,8 @@ class CRegisterGlossDlg :
 {
 	VISIBLE_TO_TESTS
 
-	memory_engine::record_pointer m_mem_record ;
-	memory_engine::record_pointer m_gloss_record ;
+	mem_engine::record_pointer m_mem_record ;
+	mem_engine::record_pointer m_gloss_record ;
 
 	// record source
 	CSourceAndHtmlEdit m_rec_source_edit ;
@@ -76,7 +76,7 @@ public:
 
 	void set_gloss_window( gloss_window_pointer gloss );
 
-	void set_record( memory_engine::record_pointer rec );
+	void set_record( mem_engine::record_pointer rec );
 
 	// PreTranslateMessage
 	BOOL PreTranslateMessage(MSG* pMsg) ;
@@ -91,7 +91,7 @@ public:
 	LRESULT OnInitDialog( );
 
 	void fill_add_combo();
-	CString get_mem_name(memory_engine::memory_pointer mem);
+	CString get_mem_name(mem_engine::memory_pointer mem);
 	LRESULT OnCancel( ) ;
 	LRESULT OnOK( ) ;
 

@@ -9,7 +9,7 @@
 #include "ViewCollectionWalker.h" // CViewCollectionWalker
 #include "record_local.h"
 
-using namespace memory_engine ;
+using namespace mem_engine ;
 
 /** Set the HTML listener in the view.
  */
@@ -181,7 +181,7 @@ void view_interface::handle_enter_edit_mode_new_record_glossary( )
 	text_range.select() ;
 }
 
-void view_interface::handle_enter_edit_mode_concordance_glossary( memory_engine::search_query_glossary &matches )
+void view_interface::handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches )
 {
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
@@ -208,7 +208,7 @@ bool view_interface::handle_leave_edit_mode_new_record_glossary( MemoryControlle
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
-	memory_engine::memory_pointer mem = memories->get_first_memory() ;
+	mem_engine::memory_pointer mem = memories->get_first_memory() ;
 	mem->erase( record ) ;
 
 	// the *@!# DHTML will convert our nice relative URLs to absolute ones!
@@ -237,7 +237,7 @@ bool view_interface::handle_leave_edit_mode_new_record_glossary( MemoryControlle
 	return true ;
 }
 
-bool view_interface::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, memory_engine::search_query_glossary &matches )
+bool view_interface::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches )
 {
 
 	// set the actual edit mode
@@ -354,7 +354,7 @@ void view_interface::handle_enter_edit_mode_match( TransMatchQueryTrans &matches
 	text_range.select() ;
 }
 
-void view_interface::handle_enter_edit_mode_concordance( memory_engine::search_query_mainframe &matches )
+void view_interface::handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches )
 {
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
@@ -464,7 +464,7 @@ void view_interface::handle_leave_edit_mode_match( MemoryControllerType memories
 	}
 }
 
-bool view_interface::handle_leave_edit_mode_concordance( MemoryControllerType memories, memory_engine::search_query_mainframe &matches )
+bool view_interface::handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches )
 {
 	m_view.put_edit_mode( false ) ;
 	if ( memories->empty() ) 
@@ -616,7 +616,7 @@ view_interface::record_pointer view_interface::get_match_record( TransMatchQuery
 	}
 	else
 	{
-		record_pointer record = record_pointer(new memory_engine::record_local) ;
+		record_pointer record = record_pointer(new mem_engine::record_local) ;
 		record->set_source(matches.get_query_rich()) ;
 		return record ;
 	}

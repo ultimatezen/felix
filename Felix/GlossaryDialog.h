@@ -54,7 +54,7 @@ class CGlossaryWindow :
 	VISIBLE_TO_TESTS
 
 
-	memory_engine::record_pointer				m_new_record ;
+	mem_engine::record_pointer				m_new_record ;
 	appstate_glossary			m_appstate ;
 
 	// the status bar
@@ -63,7 +63,7 @@ class CGlossaryWindow :
 	CAccelerator				m_accelerator ;
 
 	// pointer to newly added record, to allow editing
-	memory_engine::search_query_glossary		m_search_matches ;
+	mem_engine::search_query_glossary		m_search_matches ;
 
 	// various user preferences
 	app_props::properties_glossary		m_properties_gloss ;
@@ -77,7 +77,7 @@ class CGlossaryWindow :
 
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
-	boost::shared_ptr<memory_engine::memory_model>		m_memories ;
+	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
 
 	CSearchWindow		m_search_window ;
 
@@ -94,20 +94,20 @@ public:
 	void import_multiterm( const file::OpenDlgList &import_files ) ;
 	void import_multiterm( const CString &multiterm_filename ) ;
 
-	void export_multiterm_55( memory_engine::memory_pointer mem, 
+	void export_multiterm_55( mem_engine::memory_pointer mem, 
 							  const CString &file_name ) ;
 
 	void export_multiterm_55_sub( const string source_lang, 
 								  string trans_lang, 
 								  const CString & file_name, 
-								  memory_engine::memory_pointer mem );
-	void export_multiterm_6( memory_engine::memory_pointer mem, 
+								  mem_engine::memory_pointer mem );
+	void export_multiterm_6( mem_engine::memory_pointer mem, 
 							 const CString &file_name ) ;
 
 	void export_multiterm_6_sub( const wstring source_lang, 
 								 const wstring trans_lang, 
 								 const CString & file_name, 
-								 memory_engine::memory_pointer mem );
+								 mem_engine::memory_pointer mem );
 	void set_up_recently_used_doclist() ;
 	void wait_until_view_not_busy() ;
 	bool init_status_bar() ;
@@ -115,7 +115,7 @@ public:
 
 	bool show_view_content() ;
 
-	void do_save( memory_engine::memory_pointer mem ) ;
+	void do_save( mem_engine::memory_pointer mem ) ;
 
 	int delete_from_new_state() ;
 
@@ -133,9 +133,9 @@ public:
 
 	void prep_for_gloss_lookup(const std::wstring& query_text) ;
 
-	std::wstring get_record_translation(memory_engine::record_pointer& entry) ;
+	std::wstring get_record_translation(mem_engine::record_pointer& entry) ;
 
-	void give_added_record_feedback(memory_engine::memory_pointer& mem) ;
+	void give_added_record_feedback(mem_engine::memory_pointer& mem) ;
 
 	void load_felix_files(file::OpenDlgList& import_files) ;
 
@@ -190,16 +190,16 @@ public:
 	bool load( const CString file_name, const bool check_empty = true  ) ;
 
 	const MERGE_CHOICE get_merge_type( const bool check_empty );
-	wstring create_concordance_list(memory_engine::search_query_glossary &search_matches) ;
-	wstring build_glossary_list(memory_engine::search_query_glossary &search_matches) ;
+	wstring create_concordance_list(mem_engine::search_query_glossary &search_matches) ;
+	wstring build_glossary_list(mem_engine::search_query_glossary &search_matches) ;
 	void handle_glossary_lookup(const std::wstring& query_text) ;
 	void report_deleted_entry() ;
 	wstring get_glossary_entry(const int index) ;
-	bool add_record(memory_engine::record_pointer record, const CString gloss_name = CString() ) ;
-	bool add_record(memory_engine::record_pointer record, const size_t i );
+	bool add_record(mem_engine::record_pointer record, const CString gloss_name = CString() ) ;
+	bool add_record(mem_engine::record_pointer record, const size_t i );
 	bool show_new_record() ;
 	bool handle_open() ;
-	memory_engine::record_pointer get_record( size_t pos ) ; 
+	mem_engine::record_pointer get_record( size_t pos ) ; 
 	void handle_new_record_edit( bool edit_mode_enabled ) ;
 	void handle_concordance_edit( bool edit_mode_enabled ) ; 
 	void handle_enter_edit_mode_new_record() ;
@@ -209,7 +209,7 @@ public:
 	bool set_main ( bool setting ) ; 
 	bool set_window_title() ;
 
-	CString get_memory_name( memory_engine::memory_pointer mem);
+	CString get_memory_name( mem_engine::memory_pointer mem);
 	bool pre_shutdown_save_check() ;
 	
 	bool get_translation_concordances(const wstring query_string) ;
@@ -227,11 +227,11 @@ public:
 	bool exit_silently() ;
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
 
-	void set_new_record(memory_engine::record_pointer rec)
+	void set_new_record(mem_engine::record_pointer rec)
 	{
 		m_new_record = rec ;
 	}
-	memory_engine::record_pointer get_new_record()
+	mem_engine::record_pointer get_new_record()
 	{
 		return m_new_record ;
 	}
@@ -465,7 +465,7 @@ public:
 	}
 
 
-	void edit_record( memory_engine::record_pointer rec ) ;
+	void edit_record( mem_engine::record_pointer rec ) ;
 
 
 	void refresh_menu();
@@ -474,17 +474,17 @@ public:
 	LPCTSTR get_save_filter() ;
 	LPCTSTR get_open_filter() ;
 
-	boost::shared_ptr<memory_engine::memory_model> create_memory_model()
+	boost::shared_ptr<mem_engine::memory_model> create_memory_model()
 	{
-		return boost::shared_ptr<memory_engine::memory_model>(new memory_engine::memory_model_gloss()) ;
+		return boost::shared_ptr<mem_engine::memory_model>(new mem_engine::memory_model_gloss()) ;
 	}
-	boost::shared_ptr<memory_engine::memory_model> get_memory_model() 
+	boost::shared_ptr<mem_engine::memory_model> get_memory_model() 
 	{
 		return m_memories ;
 	}
 	CString get_window_type_string() ;
 
-	void add_glossary(memory_engine::memory_pointer mem)
+	void add_glossary(mem_engine::memory_pointer mem)
 	{
 		m_memories->insert_memory( mem ) ;
 		check_mousewheel() ;
@@ -492,13 +492,13 @@ public:
 	}
 
 	void seed_random_numbers();
-	bool check_for_clashes( memory_engine::memory_pointer mem ) ;
+	bool check_for_clashes( mem_engine::memory_pointer mem ) ;
 	void init_toolbar() ;
 	void reflect_tb_vis() ;
 	void reflect_sb_vis() ;
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
-	void delete_record(memory_engine::record_pointer rec) ;
+	void delete_record(mem_engine::record_pointer rec) ;
 
 	void load_util_settings() ;
 	void save_util_settings() ;

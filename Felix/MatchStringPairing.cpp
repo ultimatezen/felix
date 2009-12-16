@@ -195,7 +195,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 			// is the num in the translation? (but only once...)
 			size_t TransPos = trans.first.find( SourceNum ) ;
-			if (TransPos == wstring::npos && memory_engine::has_asian(SourceNum))
+			if (TransPos == wstring::npos && mem_engine::has_asian(SourceNum))
 			{
 				wstring newsource ;
 				foreach(wchar_t c, SourceNum)
@@ -209,7 +209,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 			if( IsSubstitution(trans, SourceNum, TransPos, QueryNum) ) 
 			{
 				PairedNums = true ;
-				if (! memory_engine::has_asian(SourceNum) && memory_engine::has_asian(QueryNum))
+				if (! mem_engine::has_asian(SourceNum) && mem_engine::has_asian(QueryNum))
 				{
 					wstring newsource ;
 					foreach(wchar_t c, QueryNum)

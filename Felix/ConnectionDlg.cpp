@@ -33,7 +33,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	return 0L ;
 #endif
 
-	using namespace memory_engine ;
+	using namespace mem_engine ;
 
 	// get the text in the window
 	CString conn_str ;
@@ -99,7 +99,7 @@ LRESULT CConnectionDlg::OnCloseCommand( WORD wID )
 	return 0L;
 }
 
-CConnectionDlg::CConnectionDlg() : m_memory( new memory_engine::memory_remote())
+CConnectionDlg::CConnectionDlg() : m_memory( new mem_engine::memory_remote())
 {
 
 }
