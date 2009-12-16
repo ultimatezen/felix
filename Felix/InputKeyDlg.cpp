@@ -18,17 +18,16 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
 
-	str::tbuffer tbuff ;
+	CString text ;
 #ifndef UNIT_TEST
 	// get the text in the window
-	const int len = m_edit.GetWindowTextLength() + 1 ;
-	m_edit.GetWindowText( tbuff.buffer( len ), len ) ;
+	m_edit.GetWindowText(text) ;
 #else
-	_tcscpy(tbuff.buffer(20), _T("debug")) ;
+	text = _T("debug") ;
 #endif
 	// load the name and key strings
 	const string name = "REGISTERED" ;
-	string key = CT2A( tbuff.buffer() ) ;
+	string key = CT2A(text) ;
 
 	// strip whitespace from key
 	str::replace_all( key, "\t", "" ) ;

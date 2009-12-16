@@ -91,31 +91,7 @@ namespace easyunit
 
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
-	TEST( TestCWideRichEdit, SetText_char_len_m1)
-	{
-		CWideRichEdit edit ;
-		BufferHolder holder ;
-		edit.m_set_text = boost::bind(&BufferHolder::SetTextBuffer, &holder, _1) ;
 
-		edit.SetText("foo", -1, CP_ACP) ;
-
-		SimpleString expected("foo") ;
-		SimpleString actual = string2string(holder.m_buffer, CP_ACP).c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
-	TEST( TestCWideRichEdit, SetText_char)
-	{
-		CWideRichEdit edit ;
-		BufferHolder holder ;
-		edit.m_set_text = boost::bind(&BufferHolder::SetTextBuffer, &holder, _1) ;
-
-		string text = "spam" ;
-		edit.SetText(text.c_str(), (int)text.size(), CP_ACP) ;
-
-		SimpleString expected("spam") ;
-		SimpleString actual = string2string(holder.m_buffer, CP_ACP).c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
 
 }
 

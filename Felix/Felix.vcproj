@@ -1995,10 +1995,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\basic_buffer.h"
-				>
-			</File>
-			<File
 				RelativePath="charset_info.h"
 				>
 			</File>

@@ -507,7 +507,9 @@ void CTMXReader::load_utf16be(const CString & file_name)
 	const size_t file_size = get_file_size(file_name) ;
 
 	LPCWSTR raw_text = (LPCWSTR)m_view.create_view(file_name) ;
-	LPWSTR flipped_text = m_buffer.buffer( (file_size / 2 ) + 1 ) ;
+
+	boost::scoped_array<wchar_t> buffer(new wchar_t[(file_size / 2 ) + 1]);
+	LPWSTR flipped_text = buffer.get() ;
 
 	cracker crack1, crack2 ;
 	for ( size_t i = 1 ; raw_text[i] && i < ( file_size / 2 ) + 1 ; ++i )
@@ -517,7 +519,8 @@ void CTMXReader::load_utf16be(const CString & file_name)
 		crack2.c[1] = crack1.c[0] ;
 		flipped_text[i] = crack2.w ;
 	}
-	m_reader.set_buffer(flipped_text+1) ;
+	m_text = flipped_text ;
+	m_reader.set_buffer(m_text.c_str()+1) ;
 }
 
 void CTMXReader::load_utf8(const CString & file_name)
@@ -526,13 +529,10 @@ void CTMXReader::load_utf8(const CString & file_name)
 	raw_text+= file::file::bom_size( get_bom(file_name) ) ;
 	const int file_size = get_file_size( file_name ) - file::file::bom_size( get_bom(file_name) ) ;
 
-	const int len_needed = ::MultiByteToWideChar( CP_UTF8, 0, raw_text, file_size, NULL, 0 ) ;
-	LPWSTR dest_buf = m_buffer.buffer( len_needed+1 ) ;
+	const string text(raw_text, file_size) ;
+	m_text = string2wstring(text, CP_UTF8) ;
 
-	::MultiByteToWideChar( CP_UTF8, 0, raw_text, file_size, dest_buf, len_needed ) ;
-	dest_buf[len_needed] = 0 ;
-	m_reader.set_buffer( dest_buf ) ;
-
+	m_reader.set_buffer( m_text.c_str() ) ;
 }
 void CTMXReader::load_utf7(const CString & file_name)
 {
@@ -540,12 +540,10 @@ void CTMXReader::load_utf7(const CString & file_name)
 	raw_text+= file::file::bom_size( file::file::UTF7_BOM ) ;
 	const int file_size = get_file_size( file_name ) - file::file::bom_size( file::file::UTF7_BOM ) ;
 
-	const int len_needed = ::MultiByteToWideChar( CP_UTF7, 0, raw_text, file_size, NULL, 0 ) ;
-	LPWSTR dest_buf = m_buffer.buffer( len_needed+1 ) ;
+	const string text(raw_text, file_size) ;
+	m_text = string2wstring(text, CP_UTF7) ;
 
-	::MultiByteToWideChar( CP_UTF7, 0, raw_text, file_size, dest_buf, len_needed ) ;
-	dest_buf[len_needed] = 0 ;
-	m_reader.set_buffer( dest_buf ) ;
+	m_reader.set_buffer( m_text.c_str() ) ;
 }
 
 

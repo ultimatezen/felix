@@ -783,8 +783,6 @@ wstring tmx_data_importer::seg2html( const wstring &seg_text )
 	// keep a record of tags
 	tag_tracker tags ;
 
-	str::wbuffer buf ;
-
 	while ( m_line_buffer.empty() == false ) // read in the whole line
 	{
 		const wstring chunk = m_line_buffer.getline_delims(L"{}&<\\", false ) ;
@@ -1290,8 +1288,6 @@ void trados_data_importer::process_formatted_line_old()
 
 	unsigned int codepage( m_current_codepage ) ;
 
-	str::wbuffer buf ;
-
 	const UINT old_mbcp = _getmbcp() ;
 
 	while ( m_line_buffer.empty() == false ) // read in the whole rest of the line
@@ -1320,16 +1316,15 @@ void trados_data_importer::process_formatted_line_old()
 
 		if ( chunk.empty() == false )
 		{
-			wchar_t *dest_buf = buf.buffer( chunk.size() + 1 ) ;
-			int chars_copied = 0 ;
-			chars_copied = ::MultiByteToWideChar( codepage, 0, chunk.c_str(), chunk.size(), dest_buf, chunk.size() + 1 ) ;
+			const size_t len_needed = chunk.size() + 1 ;
+			boost::scoped_array<wchar_t> dest_buff(new wchar_t[len_needed]) ;
+			size_t chars_copied = ::MultiByteToWideChar(codepage, 0, chunk.c_str(), chunk.size(), dest_buff.get(), len_needed) ;
 			if ( chars_copied == 0 )
 			{
-				chars_copied = ::MultiByteToWideChar( m_old_codepage, 0, chunk.c_str(), chunk.size(), dest_buf, chunk.size() + 1 ) ;
+				chars_copied = ::MultiByteToWideChar(m_old_codepage, 0, chunk.c_str(), chunk.size(), dest_buff.get(), len_needed) ;
 			}
-			dest_buf[chars_copied] = 0 ;
-
-			m_html += dest_buf ;
+			ATLASSERT(chars_copied+1 <= len_needed) ;
+			m_html.append(dest_buff.get(), chars_copied) ;
 		}
 		switch ( m_line_buffer.peek() )
 		{

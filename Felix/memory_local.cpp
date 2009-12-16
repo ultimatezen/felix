@@ -722,43 +722,28 @@ namespace memory_engine
 		return was_saved ;
 	}
 
-	void memory_local::load_header_raw_text( char * raw_text, int file_len )
+	void memory_local::load_header_raw_text(const char *raw_text, const size_t file_len)
 	{
-		textstream_reader< char > reader ;
-		reader.set_buffer( raw_text ) ;
-
-		if ( ! reader.find( "<head>", false ) )
-		{
-			return ;
-		}
-		reader.rewind() ;
-		textstream_reader< char >::bookmark_type text_start = reader.get_current_pos() ;
-
-		if ( ! reader.find( "</head>", true ) )
-		{
-			return ;
-		}
-		textstream_reader< char >::bookmark_type text_end = reader.get_current_pos() ;
-
-		string text( text_start, text_end ) ;
-
-		str::wbuffer wide_buffer ;
-
-		const UINT code_page = get_correct_encoding( raw_text, file_len ) ;
-
-		// convert to Unicode (from code_page)
-		const int len_needed = ::MultiByteToWideChar( code_page, NULL, text.c_str(), static_cast< int >( text.size() ), NULL, 0 ) + 1 ;
-		::MultiByteToWideChar( code_page, 
-			NULL, 
-			text.c_str(), 
-			static_cast< int >( text.size() ), 
-			wide_buffer.buffer( static_cast< size_t >( len_needed ), false ), 
-			len_needed ) ;
-
-		wide_buffer.null_terminate( static_cast< size_t >( len_needed - 1 ) ) ;
-
 		this->get_memory_info()->set_count( -1 ) ;
-		wstring header_text = wide_buffer.str();
+
+		textstream_reader< char > reader ;
+		reader.set_buffer(raw_text) ;
+
+		if (! reader.find( "<head>", true ))
+		{
+			return ;
+		}
+		const textstream_reader< char >::bookmark_type text_start = reader.get_current_pos() ;
+
+		if (! reader.find( "</head>", false ))
+		{
+			return ;
+		}
+		const textstream_reader< char >::bookmark_type text_end = reader.get_current_pos() ;
+
+		const string text(text_start, text_end) ;
+		const UINT code_page = get_correct_encoding(raw_text, file_len) ;
+		const wstring header_text = string2wstring(text, code_page) ;
 		// read the header, if any
 		m_header.read_header( header_text.c_str() ) ;
 	}

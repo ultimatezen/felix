@@ -53,7 +53,7 @@ namespace tmx_reader
  */
 class CTMXReader
 {
-	str::wbuffer	m_buffer ;
+	wstring			m_text ;
 	wc_reader		m_reader ;
 	file::view		m_view ;
 	memory_engine::memory_pointer m_memory ;

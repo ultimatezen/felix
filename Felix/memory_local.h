@@ -33,7 +33,7 @@ namespace memory_engine
 		  bool is_locked();
 
 			// loading
-		  void load_header_raw_text( char * raw_text, int file_len );
+		  void load_header_raw_text(const char *raw_text, size_t file_len);
 		  bool load_text( char * raw_text, const CString& file_name, unsigned int file_len );
 		  void loadWideBuffer(const char* raw_text, int file_len, CStringW& wide_buffer);
 		  void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
