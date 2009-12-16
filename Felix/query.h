@@ -235,7 +235,7 @@ struct translation_match_query : public base_presentation
 	wstring get_html_long()  ;
 
 	bool is_perfect_match(match_ptr match);
-	void fill_match_template_params( CTextTemplate &engine, match_ptr match );
+	void fill_match_template_params( text_template::CTextTemplate &engine, match_ptr match );
 } ;
 
 

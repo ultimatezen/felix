@@ -45,7 +45,7 @@ VISIBLE_TO_TESTS
 	int					m_iLevel ;
 	CProgressListener	*m_listener ;
 
-	CTextTemplate textTemplate ;
+	text_template::CTextTemplate textTemplate ;
 	wstring tmplText ;
 
 	// junk included by SDLX

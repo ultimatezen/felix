@@ -3,6 +3,8 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 
+using namespace text_template ;
+
 Paginator::Paginator() :
 m_current_page(0),
 m_num_records(0),

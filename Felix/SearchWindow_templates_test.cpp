@@ -7,7 +7,7 @@
 
 namespace easyunit
 {
-
+	using namespace text_template ;
 	// replace_match
 	TEST(test_replace_match, simple)
 	{
@@ -20,8 +20,8 @@ namespace easyunit
 		text_template.Assign(L"match_num", L"1") ;
 		text_template.Assign(L"num_matches", L"100") ;
 
-		CTextTemplate::DictPtr found = text_template.CreateDict() ;
-		CTextTemplate::DictPtr result = text_template.CreateDict() ;
+		text_template::DictPtr found = text_template.CreateDict() ;
+		text_template::DictPtr result = text_template.CreateDict() ;
 
 		// found
 		text_template.Assign(found, L"source", L"source") ;

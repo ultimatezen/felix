@@ -5145,7 +5145,7 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	match->set_memory_location(wstring(CT2W(mem->get_location()))) ;
 	match->set_values_to_record() ;
 
-	CTextTemplate engine ;
+	text_template::CTextTemplate engine ;
 	m_trans_matches.fill_match_template_params(engine, match);
 
 	// fill in the template

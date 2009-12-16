@@ -9,6 +9,15 @@
 
 namespace easyunit
 {
+	// join
+	TEST(TestStringEx, join)
+	{
+		std::vector<string> items ;
+		items += "spam", "eggs", "bacon" ;
+		const string joined = str::join(" ", items) ;
+		SimpleString expected = "spam eggs bacon" ;
+		ASSERT_EQUALS_V(expected, SimpleString(joined.c_str())) ;
+	}
 	// starts_with
 	TEST(TestStringEx, starts_with_true)
 	{

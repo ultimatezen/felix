@@ -15,7 +15,8 @@
 #include "document_wrapper_fake.h"
 #endif
 
-using namespace memory_engine;
+using namespace memory_engine ;
+using namespace text_template ;
 
 bool ends_with(const wstring &haystack, const wstring needle)
 {
@@ -400,11 +401,11 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 
 	text_template.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
 
-	CTextTemplate::DictListPtr items = text_template.CreateDictList();
+	text_template::DictListPtr items = text_template.CreateDictList();
 
 	for (size_t i = m_paginator.get_start() ; i < m_paginator.get_end() ; ++i)
 	{
-		CTextTemplate::DictPtr item = text_template.CreateDict() ;
+		text_template::DictPtr item = text_template.CreateDict() ;
 
 		memory_engine::search_match_ptr match = matches[i] ;
 		memory_engine::record_pointer record = match->get_record() ;
@@ -632,8 +633,8 @@ void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &match
 		text_template.Assign(L"match_num", ulong2wstring(m_current_match+1)) ;
 		text_template.Assign(L"num_matches", ulong2wstring(matches.size())) ;
 
-		CTextTemplate::DictPtr found = text_template.CreateDict() ;
-		CTextTemplate::DictPtr result = text_template.CreateDict() ;
+		text_template::DictPtr found = text_template.CreateDict() ;
+		text_template::DictPtr result = text_template.CreateDict() ;
 
 		memory_engine::record_pointer record = matches[m_current_match]->get_record() ;
 		// found
@@ -852,7 +853,7 @@ const wstring retrieve_input_value( element_wrapper_ptr input_box )
 wstring get_filter_text( const std::vector<wstring> & terms ) 
 {
 	CTextTemplate text_template ;
-	CTextTemplate::ValListPtr filters = text_template.CreateValList();
+	text_template::ValListPtr filters = text_template.CreateValList();
 
 	foreach(wstring term, terms)
 	{

@@ -959,7 +959,7 @@ wstring CMemoryManagerDlg::get_info_for_item( memory_pointer mem )
 {
 	MemoryInfo *mem_info = mem->get_memory_info() ;
 
-	CTextTemplate engine ;
+	text_template::CTextTemplate engine ;
 
 	engine.Assign(L"file_name", get_memory_name(mem)) ;
 	engine.Assign(L"creator", get_creator_name(mem_info)) ;
