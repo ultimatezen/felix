@@ -213,32 +213,35 @@ namespace mem_engine
 	}
 
 
-	void match_maker::match_cells(unsigned int &row_num, unsigned int &col_num)
+	boost::tuple<size_t, size_t> match_maker::match_cells(const size_t row_num, const size_t col_num) const
 	{
-		int above = m_matrix( row_num-1, col_num );
-		int left = m_matrix( row_num, col_num-1 );
-		int diag = m_matrix( row_num-1, col_num-1 );
+		const int above = m_matrix( row_num-1, col_num );
+		const int left = m_matrix( row_num, col_num-1 );
+		const int diag = m_matrix( row_num-1, col_num-1 );
 		if (diag<=above && diag<=left) // m_match symbols
 		{
 			int matrix_cell = m_matrix( row_num, col_num ) ;					
 			if ( matrix_cell == diag )
 			{
-				m_match->MatchPairing().Match( m_col_show_string[--col_num], m_row_show_string[--row_num] ) ;
+				m_match->MatchPairing().Match( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
 			}
 			else
 			{
-				m_match->MatchPairing().NoMatch( m_col_show_string[--col_num], m_row_show_string[--row_num] ) ;
+				m_match->MatchPairing().NoMatch( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
 			}
+			return boost::make_tuple(row_num-1, col_num-1) ;
 		}	
 		else if (above<left)
 		{	
 			// m_match row with epsilon
-			m_match->MatchPairing().QueryToEpsilon( m_row_show_string[--row_num] ) ;
+			m_match->MatchPairing().QueryToEpsilon( m_row_show_string[row_num-1] ) ;
+			return boost::make_tuple(row_num-1, col_num) ;
 		}
 		else
 		{
 			// m_match column with epsilon
-			m_match->MatchPairing().SourceToEpsilon( m_col_show_string[--col_num] ) ;
+			m_match->MatchPairing().SourceToEpsilon( m_col_show_string[col_num-1] ) ;
+			return boost::make_tuple(row_num, col_num-1) ;
 		}
 	}
 
@@ -291,16 +294,14 @@ namespace mem_engine
 	{
 		textstream_reader< wchar_t > reader ;
 		
-		wstring tag ;
 		reader.set_buffer( raw_string.c_str() ) ;
 		reader.find( L"<", true ) ;
 		while ( reader.empty() == false ) 
 		{
-			tag = reader.getline(L'>', true ) ;
-			str::make_lower( tag ) ;
+			const wstring tag = reader.getline(L'>', true ) ;
 			if ( tag.empty() == false && tag[0] != L'/' ) 
 			{
-				tags.insert( tag ) ;
+				tags.insert( str::make_lower_out(tag) ) ;
 			}
 			reader.find( L"<", true ) ;
 		}
@@ -1058,7 +1059,7 @@ namespace mem_engine
 			}
 			else
 			{
-				match_cells( row_num, col_num ) ;
+				boost::tie(row_num, col_num) = match_cells( row_num, col_num ) ;
 			}
 		}
 	}

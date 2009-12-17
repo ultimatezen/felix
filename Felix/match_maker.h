@@ -129,7 +129,7 @@ private:
 	double m_score;
 
 	double calculate_score( );
-	void match_cells( size_t &row_num, size_t &col_num );
+	boost::tuple<size_t, size_t> match_cells(size_t row_num, size_t col_num) const ;
 	bool get_path ( ) ;
 	bool populate_matrix_edges( ) ;
 	bool populate_matrix_costs( ) ;
