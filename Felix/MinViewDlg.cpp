@@ -17,6 +17,12 @@
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
 
+// Serious DRY violation here...
+static const wstring red_match			= L"#f80000" ;
+static const wstring orange_match		= L"#ff8000" ;
+static const wstring yellow_match		= L"#ffff80" ;
+static const wstring green_match		= L"#80ff80" ;
+static const wstring white_background	= L"#ffffff" ;
 
 LRESULT CMinViewDlg::OnInitDialog( )
 {
@@ -176,4 +182,42 @@ void CMinViewDlg::set_body_text( const wstring text )
 void CMinViewDlg::set_parent( const HWND parent )
 {
 	m_parent = parent ;
+}
+
+void CMinViewDlg::set_match( mem_engine::translation_match_query &trans_matches )
+{
+	html::CHtmlDocument doc = get_document() ;
+
+	if ( trans_matches.empty() )
+	{
+		set_body_text( wstring() ) ;
+		doc.set_bg_color( red_match ) ;
+	}
+	else
+	{
+		mem_engine::search_match_ptr match = trans_matches.current() ;
+
+		mem_engine::record_pointer rec = match->get_record() ;
+
+		const double score = match->get_score() ;
+
+		if ( FLOAT_EQ( score, 1.0 ) )
+		{
+			doc.set_bg_color( green_match ) ;	
+		}
+		else if ( score >= 0.9 )
+		{
+			doc.set_bg_color( yellow_match ) ;	
+		}
+		else 
+		{
+			doc.set_bg_color( orange_match ) ;	
+		}
+
+		wstring content = rec->get_trans_rich() ;
+		content << L"<hr />" ;
+		content << R2W( IDS_SCORE ) << L": " << double2percent_wstring( score ) ;
+
+		set_body_text( content ) ;	
+	}
 }

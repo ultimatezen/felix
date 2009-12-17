@@ -8,6 +8,7 @@
 namespace content_presenter
 {
 
+	using namespace text_tmpl;
 
 CContentPresenterAddedTrans::CContentPresenterAddedTrans(CHtmlView &html_view, record_pointer &rec ) :
 	CContentPresenter(html_view),

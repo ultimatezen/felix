@@ -18,6 +18,7 @@ static char THIS_FILE[] = __FILE__ ;
 
 using namespace except;
 using namespace html ;
+using namespace text_tmpl;
 
 CSourceAndHtmlEdit::CSourceAndHtmlEdit(void)
 {

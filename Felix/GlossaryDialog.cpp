@@ -44,6 +44,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
+using namespace text_tmpl;
 
 // CTOR
 CGlossaryWindow::CGlossaryWindow( ) : 

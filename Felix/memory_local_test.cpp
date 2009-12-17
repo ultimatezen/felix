@@ -38,13 +38,45 @@ namespace easyunit
 		return rec ;
 	}
 
+	// should_check_for_demo
+	TEST( TestMemory, should_check_for_demo_false_empty )
+	{
+		const memory_local mem ;
+		ASSERT_TRUE_M(! mem.should_check_for_demo(), "Should not check for demo with empty memory") ;
+	}
+	TEST( TestMemory, should_check_for_demo_false )
+	{
+		BOOST_STATIC_ASSERT(MAX_MEMORY_SIZE_FOR_DEMO == 10) ;
+		memory_local mem ;
+		const wstring dummy(L"a") ;
+		for (size_t i=0 ; i<MAX_MEMORY_SIZE_FOR_DEMO+1 ; ++i)
+		{
+			add_record(mem, dummy, boost::lexical_cast<wstring>(i)) ;
+		}
+		ASSERT_EQUALS_V((int)mem.size(), (int)MAX_MEMORY_SIZE_FOR_DEMO+1) ;
+		ASSERT_TRUE_M(! mem.should_check_for_demo(), "Should not check for demo with memory size not multiple of 100") ;
+	}
+	TEST( TestMemory, should_check_for_demo_true )
+	{
+		memory_local mem ;
+		const wstring dummy(L"a") ;
+		for (size_t i=0 ; i< 100 ; ++i)
+		{
+			add_record(mem, dummy, boost::lexical_cast<wstring>(i)) ;
+		}
+		ASSERT_EQUALS_V((int)mem.size(), 100) ;
+		ASSERT_TRUE_M(mem.should_check_for_demo(), "Should check for demo with memory size multiple of 100") ;
+	}
 
+	// get_id
 	TEST( TestMemory, MemoryId )
 	{
 		memory_local mem ;
 
 		ASSERT_TRUE_M(mem.get_id() > 0, ulong2string(mem.get_id()).c_str()) ;
 	}
+
+	// is_new
 	TEST( TestMemory, is_new )
 	{
 		memory_local mem ;

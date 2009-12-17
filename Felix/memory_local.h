@@ -45,6 +45,8 @@ namespace mem_engine
 
 		  // TranslationMemory
 		  bool add_record(record_pointer record) ;
+
+		  bool should_check_for_demo() const ;
 		  trans_set& get_records() {return m_records ; }
 		  iterator_type begin( ) { return m_records.begin() ; }
 		  iterator_type end( ) { return m_records.end() ; }

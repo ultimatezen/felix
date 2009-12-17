@@ -21,6 +21,7 @@
 #include "Exceptions.h"			// CException
 
 #include "WindowExceptionHandler.h"
+#include "query.h"
 
 /**
 	@class CMinViewDlg 
@@ -50,6 +51,8 @@ public:
 	html::CHtmlDocument get_document();
 	void set_body_text(wstring text);
 	void set_parent(HWND parent);
+
+	void set_match(mem_engine::translation_match_query &trans_matches);
 
 	LRESULT OnLButtonDown( UINT id, CPoint pt );
 	LRESULT OnMouse(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ ) ;

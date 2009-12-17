@@ -34,7 +34,11 @@
 #define _WTL_NEW_PAGE_NOTIFY_HANDLERS
 
 // demo def
-#define	MAX_MEMORY_SIZE_FOR_DEMO 500
+#ifndef UNIT_TEST
+static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 500 ;
+#else
+static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
+#endif
 
 // trace defs
 #ifdef ATL_TRACE_LEVEL
@@ -177,17 +181,17 @@ CExeModule
 
 #include "resource_string.h"
 
-#define SEND_BUTTON_ID				17
-#define DONT_SEND_BUTTON_ID			18
-#define CRASH_PAGE_ID				19
-#define ERROR_TITLE_ID				57672
+static const int SEND_BUTTON_ID = 17 ;
+static const int DONT_SEND_BUTTON_ID = 18 ;
+static const int CRASH_PAGE_ID = 19 ;
+static const int ERROR_TITLE_ID = 57672 ;
 
 // use Unicode version of RTF
 #undef RICHEDIT_CLASS
 #define RICHEDIT_CLASS RICHEDIT_CLASSW
 
 #ifndef FLOAT_EQ
-#define EPSILON 0.00001
+static const double EPSILON = 0.00001 ;
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
 

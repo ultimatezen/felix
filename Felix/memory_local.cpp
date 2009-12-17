@@ -7,6 +7,7 @@
 namespace mem_engine
 {
 	using namespace except ;
+	using ATL::CString ;
 
 	size_t memory_local::size()
 	{
@@ -58,33 +59,38 @@ namespace mem_engine
 
 		// check for demo status
 #ifndef _DEBUG
-		int cookie = 0xDECAFBAD ;
-		try
+		// Only check when conditions are right
+		if (should_check_for_demo())
 		{
-			do_demo_check( &cookie ) ;
-		}
-		catch( ... )
-		{
-			TRACE( cookie ) ;
-			cookie = 0 ;
-			throw ;
+			int cookie = 0xDECAFBAD ;
+			try
+			{
+				do_demo_check( &cookie ) ;
+			}
+			catch( ... )
+			{
+				TRACE( cookie ) ;
+				cookie = 0 ;
+				throw ;
+			}
 		}
 #endif
 		ATLASSERT( record->get_source_plain().empty() == false ) ;
 		ATLASSERT( record->get_trans_plain().empty() == false ) ;
 
-		// ensure creator and modified-by are set...
-		record->get_creator() ;
-		record->get_modified_by() ;
-
 		record->set_cmp_maker(m_cmp_maker) ;
 
 		// returns iterator for next pos, and whether record was inserted.
-		std::pair< iterator_type, bool > res = m_records.insert( record ) ;
+		const std::pair< iterator_type, bool > res = m_records.insert( record ) ;
 
-		if ( res.second ) 
+		const bool was_added = res.second ;
+		if ( was_added ) 
 		{
-			size_t recid = record->get_id() ;
+			// ensure creator and modified-by are set...
+			record->get_creator() ;
+			record->get_modified_by() ;
+
+			const size_t recid = record->get_id() ;
 			if (! recid || m_ids.find(recid) != m_ids.end())
 			{
 				record->set_id(get_next_id()) ;
@@ -95,7 +101,7 @@ namespace mem_engine
 			this->set_saved_flag(false) ;
 		}
 
-		return res.second ;
+		return was_added ;
 	}
 
 	void memory_local::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
@@ -865,7 +871,7 @@ namespace mem_engine
 		return progress_interval;
 	}
 
-	void memory_local::handleCExceptionOnLoad( const ATL::CString& file_name, bool was_saved, CException& e ) 
+	void memory_local::handleCExceptionOnLoad( const CString& file_name, bool was_saved, CException& e ) 
 	{
 		if ( this->is_demo() )
 		{
@@ -902,6 +908,24 @@ namespace mem_engine
 
 	}
 
+	/*
+	Find out if we should check whether this is a demo
+	version while adding a record.
+	*/
+	bool memory_local::should_check_for_demo() const
+	{
+		const size_t DEMO_CHECK_INTERVAL = 100 ;
+
+		if (m_records.size() < MAX_MEMORY_SIZE_FOR_DEMO)
+		{
+			return false ;
+		}
+		if (m_records.size() % DEMO_CHECK_INTERVAL)
+		{
+			return false ;
+		}
+		return true ;
+	}
 
 
 }

@@ -22,6 +22,7 @@
 
 using namespace html ;
 using namespace mem_engine ;
+using namespace text_tmpl;
 
 const wstring get_item(const wstring item)
 {

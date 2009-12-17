@@ -7,27 +7,34 @@
 // shell API support
 #include "FileOpHandler.h"
 
-CString get_template_filename(const CString filename)
+namespace text_tmpl
 {
-	const fs::wpath pathname = fs::wpath(static_cast<LPCTSTR>(fileops::get_local_appdata_folder())) 
-		/ _T("Felix") 
-		/ _T("html")
-		/ R2T(IDS_LANG_CODE)
-		/ filename ;
-	const CString tpl_filename = CString(pathname.string().c_str()) ;
-	const file::CPath fullpath(tpl_filename) ;
-	if (! fullpath.FileExists())
-	{
-		ATLTRACE("** Html file doesn't exist\n") ;
-		TRACE(tpl_filename) ;
 
+	CString calculate_template_filename(const CString filename)
+	{
+		const fs::wpath pathname = fs::wpath(static_cast<LPCTSTR>(fileops::get_local_appdata_folder())) 
+			/ _T("Felix") 
+			/ _T("html")
+			/ R2T(IDS_LANG_CODE)
+			/ filename ;
+		return CString(pathname.string().c_str()) ;
+	}
+	CString calculate_module_template_filename(const CString filename)
+	{
 		file::CPath modpath ;
 		modpath.GetModulePath(_Module.GetModuleInstance()) ;
 		const fs::wpath fullpathname = fs::wpath((LPCTSTR)modpath.Path()) 
 			/ _T("html")
 			/ R2T(IDS_LANG_CODE)
 			/ filename ;
-		const CString module_filename = CString(fullpathname.string().c_str()) ;
+		return CString(fullpathname.string().c_str()) ;
+	}
+	CString get_module_template_filename(const CString filename, const CString tpl_filename)
+	{
+		ATLTRACE("** Html file doesn't exist\n") ;
+		TRACE(tpl_filename) ;
+
+		const CString module_filename = calculate_module_template_filename(filename) ;
 		try
 		{
 			CDispatchWrapper utils(L"Felix.Utilities") ;
@@ -45,13 +52,24 @@ CString get_template_filename(const CString filename)
 		}
 		return module_filename ;
 	}
-	return tpl_filename ;
-}
+	CString get_template_filename(const CString filename)
+	{
+		const CString tpl_filename = calculate_template_filename(filename) ;
+		const file::CPath fullpath(tpl_filename) ;
+		if (! fullpath.FileExists())
+		{
+			logging::log_warn("Template file not found: " + string(static_cast<LPCSTR>(CW2A(tpl_filename, CP_UTF8)))) ;
+			return get_module_template_filename(filename, tpl_filename) ;
+		}
+		return tpl_filename ;
+	}
 
-wstring get_template_text(const CString filename)
-{
-	const CString full_path = get_template_filename(filename) ;
-	file::view file_view ;
-	string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
-	return string2wstring(raw_text, CP_UTF8) ;
+	wstring get_template_text(const CString filename)
+	{
+		const CString full_path = get_template_filename(filename) ;
+		file::view file_view ;
+		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
+		return string2wstring(raw_text, CP_UTF8) ;
+	}
+
 }

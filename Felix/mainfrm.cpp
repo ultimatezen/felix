@@ -71,13 +71,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
-
-// Serious DRY violation here...
-const static wstring red_match			= L"#f80000" ;
-const static wstring orange_match		= L"#ff8000" ;
-const static wstring yellow_match		= L"#ffff80" ;
-const static wstring green_match		= L"#80ff80" ;
-const static wstring white_background	= L"#ffffff" ;
+using namespace text_tmpl;
 
 CString get_help_file_path( CString path )
 {
@@ -2049,7 +2043,7 @@ bool CMainFrame::show_new_record( )
 	{
 		m_min_view.set_body_text( m_new_record->get_trans_rich() ) ;
 		CHtmlDocument doc = m_min_view.get_document() ;
-		doc.set_bg_color( white_background ) ;
+		doc.set_bg_color( CColorRef(COLOR_WHITE).as_wstring() ) ;
 		check_mousewheel() ;
 
 		return true ;
@@ -2520,7 +2514,7 @@ bool CMainFrame::show_view_content()
 			{
 				m_min_view.set_body_text( wstring() ) ;
 				CHtmlDocument doc = m_min_view.get_document() ;
-				doc.set_bg_color( white_background ) ;
+				doc.set_bg_color(CColorRef(COLOR_WHITE).as_wstring()) ;
 				set_bg_color_if_needed() ;
 				check_mousewheel() ;
 				return true ;
@@ -4370,42 +4364,8 @@ CString CMainFrame::get_window_type_string()
  */
 void CMainFrame::show_min_view_match() 
 {
-	CHtmlDocument doc = m_min_view.get_document() ;
-
-	if ( m_trans_matches.empty() )
-	{
-		m_min_view.set_body_text( wstring() ) ;
-		doc.set_bg_color( red_match ) ;
-		check_mousewheel() ;
-	}
-	else
-	{
-		search_match_ptr match = m_trans_matches.current() ;
-
-		record_pointer rec = match->get_record() ;
-
-		const double score = match->get_score() ;
-
-		if ( FLOAT_EQ( score, 1.0 ) )
-		{
-			doc.set_bg_color( green_match ) ;	
-		}
-		else if ( score >= 0.9 )
-		{
-			doc.set_bg_color( yellow_match ) ;	
-		}
-		else 
-		{
-			doc.set_bg_color( orange_match ) ;	
-		}
-
-		wstring content = rec->get_trans_rich() ;
-		content << L"<hr />" ;
-		content << R2W( IDS_SCORE ) << L": " << double2percent_wstring( score ) ;
-
-		m_min_view.set_body_text( content ) ;	
-		check_mousewheel() ;
-	}
+	m_min_view.set_match(m_trans_matches) ;
+	check_mousewheel() ;
 }
 
 /** Show match in full-window (normal) mode.

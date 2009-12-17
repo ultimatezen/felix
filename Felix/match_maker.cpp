@@ -86,7 +86,7 @@ namespace mem_engine
 		switch( match_algo )
 		{
 		case IDC_ALGO_CHAR:
-			return get_trans_score_character( match ) ;
+			return get_score_character_trans( match ) ;
 		case IDC_ALGO_WORD:
 			return get_trans_score_word( match ) ;
 		default:
@@ -310,35 +310,11 @@ namespace mem_engine
 
 	bool match_maker::get_score_character(search_match_ptr &match)
 	{
-		m_match = match ;
-
-		if ( m_num_cols == 0 )
+		if (! get_score_character_common(match))
 		{
 			return false ;
 		}
 
-		if ( ! pass_minimum_tests() )
-		{
-			return false ;
-		}
-
-		// resize matrix
-		m_matrix.resize( m_num_rows+1, m_num_cols+1 ) ;
-		
-		// Populate matrix edges
-		populate_matrix_edges( ) ;
-		
-		// Populate matrix cells
-		if ( ! populate_matrix_costs( ) )
-		{
-			return false ;
-		}
-		// calculate score here
-		// make sure we have at least the minimum score
-		m_score = calculate_score() ;
-		if ( m_score < m_minimum_score ) return false ;
-		
-		set_match_score() ;
 
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
 		{
@@ -352,41 +328,11 @@ namespace mem_engine
 		
 		return true ;
 	}
-	bool match_maker::get_trans_score_character(search_match_ptr &match)
+	bool match_maker::get_score_character_trans(search_match_ptr &match)
 	{
-		m_match = match ;
-		// get matrix dimensions
-		if ( m_num_cols == 0 )
-			return false ;
-		
-		// the minimum possible score is difference in length, divided by max of the two lengths
-		if ( ! pass_minimum_tests() )
-			return false ;
-		
-		// resize matrix
-		m_matrix.resize( m_num_rows+1, m_num_cols+1 ) ;
-		
-		// Populate matrix edges
-		populate_matrix_edges( ) ;
-		
-		// Populate matrix cells
-		if ( ! populate_matrix_costs( ) )
+		if (! get_score_character_common(match))
 		{
 			return false ;
-		}
-		
-		// calculate score here
-		m_score = calculate_score() ;
-		
-		// make sure we have at least the minimum score
-		if ( m_score < m_minimum_score ) return false ;
-		
-		m_match->set_base_score( m_score ) ;
-
-		if ( get_assess_format_penalty() ) 
-		{
-			double format_penalty = get_format_penalty() ;
-			m_match->set_formatting_penalty( format_penalty ) ;
 		}
 		
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
@@ -398,14 +344,53 @@ namespace mem_engine
 			// Get the path
 			get_path( ) ;
 			// we need a little switcheroo here (because our matcher stupidly thinks the source is the query)
-			wstring sw1, sw2 ;
-			sw1 = m_match->get_markup()->GetSource() ;
-			sw2 = m_match->get_record()->get_source_rich() ;
-			m_match->get_markup()->SetSource( sw2 ) ;
-			m_match->get_markup()->SetTrans( sw1 ) ;
+			source_trans_switcheroo();
 		}
 		
 		return true ;
+	}
+	bool match_maker::get_score_character_common( search_match_ptr & match )
+	{
+		m_match = match ;
+
+		if ( m_num_cols == 0 )
+		{
+			return false ;
+		}
+
+		if ( ! pass_minimum_tests() )
+		{
+			return false ;
+		}
+
+		// resize matrix
+		m_matrix.resize( m_num_rows+1, m_num_cols+1 ) ;
+
+		// Populate matrix edges
+		populate_matrix_edges( ) ;
+
+		// Populate matrix cells
+		if ( ! populate_matrix_costs( ) )
+		{
+			return false ;
+		}
+		// calculate score here
+		// make sure we have at least the minimum score
+		m_score = calculate_score() ;
+		if ( m_score < m_minimum_score ) 
+		{
+			return false ;
+		}
+
+		set_match_score() ;
+		return true ;
+	}
+
+	void match_maker::source_trans_switcheroo()
+	{
+		markup_ptr markup = m_match->get_markup() ;
+		markup->SetTrans( markup->GetSource() ) ;
+		markup->SetSource( m_match->get_record()->get_source_rich() ) ;
 	}
 
 	/*!
@@ -678,7 +663,7 @@ namespace mem_engine
 	// Argument         : search_match_ptr &match
 	bool match_maker::get_trans_score_word(search_match_ptr &match)
 	{
-		this->get_trans_score_character(match) ;
+		this->get_score_character_trans(match) ;
 		match->set_base_score( 0.0 ) ;
 
 		m_match = match ;
@@ -1219,4 +1204,5 @@ namespace mem_engine
 		m_num_rows = m_row_string.size() ;
 		m_score = 0.0 ;
 	}
+
 }
