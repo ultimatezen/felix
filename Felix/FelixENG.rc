@@ -820,9 +820,9 @@ IDB_OPEN_PREFS          BITMAP                  "res\\openprefs.bmp"
 //
 
 NAGPAGE.HTML            HTML                    "res\\nagpage.html"
-NAGPAGE_SIZE.HTML       HTML                    "res\\html1.htm"
+NAGPAGE_SIZE.HTML       HTML                    "res\\nagsize.html"
 TMX_HEAD                HTML                    "res\\tmx_head.html"
-TMX_TU                  HTML                    "res\\html2.htm"
+TMX_TU                  HTML                    "res\\tmx_tu.html"
 LOGO.PNG                HTML                    "res\\felix_logo.png"
 
 /////////////////////////////////////////////////////////////////////////////
