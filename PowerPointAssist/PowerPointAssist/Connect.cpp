@@ -15,6 +15,7 @@
 #include "menu_manip.h"
 #include "Properties.h"
 #include <boost/bind.hpp>
+#include "logging.h"
 
 extern CAddInModule _AtlModule;
 using namespace except ;
@@ -59,7 +60,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 		m_properties.read_from_registry() ;
 
 		// Back up clipboard info -- will restore on destruction
-		CClipboardBackup backup ;
+		const CClipboardBackup backup ;
 
 		killOldMenu() ;
 		m_interface.setApp( m_pApplication ) ;
@@ -103,7 +104,7 @@ void CConnect::init_toolbar( Office::_CommandBarsPtr spCmdBars )
 {
 	logging::log_debug("initializing toolbar") ;
 
-	_variant_t vName("Felix Interface");
+	const _variant_t vName("Felix Interface");
 	HRESULT hr = spCmdBars->get_Item(vName, &m_toolbar);
 
 	if ( FAILED(hr) || ! m_toolbar)
@@ -117,7 +118,7 @@ void CConnect::init_toolbar( Office::_CommandBarsPtr spCmdBars )
 	}
 	catch (_com_error &)
 	{
-		logging::log_warn("Failed to retrieve first toolbar item; adding") ;
+		logging::log_debug("Failed to retrieve first toolbar item; adding") ;
 		add_toolbar_items(m_toolbar->Controls);
 		m_button_lookup = m_toolbar->Controls->Item[i] ;
 	}
@@ -258,13 +259,13 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 		TRACE(e.ErrorMessage()) ;
 		TRACE(e.Description()) ;
 		CComException ce(e) ;
-		logging::log_error("Failed to complete shutdown") ;
+		logging::log_error("Failed to complete shutdown (_com_error)") ;
 		logging::log_exception(ce) ;
 	}
 	catch( CException &myException )
 	{
 		TRACE(myException.format_message_for_message_box()) ;
-		logging::log_error("Failed to complete shutdown") ;
+		logging::log_error("Failed to complete shutdown (CException)") ;
 		logging::log_exception(myException) ;
 	}
 	catch ( std::exception &stdE )
@@ -278,7 +279,7 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 	{
 		CComException msg(atlE.m_hr) ;
 		TRACE(msg.format_message_for_message_box()) ;
-		logging::log_error("Failed to complete shutdown") ;
+		logging::log_error("Failed to complete shutdown (CAtlException)") ;
 		logging::log_exception(msg) ;
 	}
 	catch( ... )
@@ -289,11 +290,11 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 }
 wstring CConnect::get_menu_caption()
 {
-	wstring caption = L"Feli&x" ;
+	const wstring caption = L"Feli&x" ;
 
 	if (! m_properties.get_shortcuts_active())
 	{
-		caption += L" [-]" ;
+		return caption + L" [-]" ;
 	}
 	return caption ;
 }
@@ -386,7 +387,7 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 			vtMissing,															// before
 			_variant_t(VARIANT_TRUE)) ;						// temporary
 
-		m_felix_menu->Caption = get_menu_caption().c_str() ;
+		m_felix_menu->Caption = string2BSTR(get_menu_caption()) ;
 
 		Office::CommandBarPopupPtr popup = m_felix_menu->Control ;
 		popup->Visible = VARIANT_TRUE ;
@@ -674,14 +675,19 @@ Office::_CommandBarButtonPtr CConnect::add_menu_item( Office::CommandBarControls
 				menu_item->put_Style( Office::msoButtonIconAndCaption );
 			}
 		}
+		catch (std::exception& e)
+		{
+			logging::log_error("Failed to set image for menu item (std error): " + int2string(button_id)) ;
+			logging::log_error(e.what()) ;
+		}
 		catch (CException& e)
 		{
-			logging::log_error("Failed to set image for menu item") ;
+			logging::log_error("Failed to set image for menu item: " + int2string(button_id)) ;
 			logging::log_exception(e) ;
 		}
 		catch (_com_error& e)
 		{
-			logging::log_error("Failed to set image for menu item (_com_error)") ;
+			logging::log_error("Failed to set image for menu item (_com_error): " + int2string(button_id)) ;
 			CComException ce(e) ;
 			logging::log_exception(ce) ;
 		}

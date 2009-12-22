@@ -1,9 +1,9 @@
 #include "StdAfx.h"
-#include ".\ColorRef.h"
+#include "ColorRef.h"
 
 #include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {
@@ -42,6 +42,12 @@ namespace easyunit
 		CColorRef color(0x10, 0x10, 0x10) ;
 		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
 		ASSERT_EQUALS_V( "#101010", actual ) ;
+	}
+	TEST( CColorRefTestCases, constructor_colorref_turquoise)
+	{
+		CColorRef color(COLOR_TURQUOISE) ;
+		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
+		ASSERT_EQUALS_V( "#008080", actual ) ;
 	}
 	TEST( CColorRefTestCases, is_black )
 	{

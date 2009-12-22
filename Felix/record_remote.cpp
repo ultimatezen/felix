@@ -8,7 +8,6 @@ namespace mem_engine
 	// CTOR/DTOR
 	record_remote::record_remote(LPCWSTR server_name) : m_engine(server_name)
 	{
-		copy_engine_values() ;
 	}
 
 	record_remote::record_remote( record_pointer rec ) : 
@@ -20,7 +19,6 @@ namespace mem_engine
 	record_remote::record_remote( CDispatchWrapper wrapper ) : 
 	m_engine(wrapper)
 	{
-		copy_engine_values() ;
 	}
 
 	record_remote::~record_remote()
@@ -36,53 +34,56 @@ namespace mem_engine
 	// source
 	const wstring & record_remote::get_source_rich() const
 	{
-		const wstring source = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Source").bstrVal) ;
-		const_cast<record_remote*>(this)->m_source.set_value(source) ;
+		const_cast<record_remote*>(this)->ensure_source() ;
 		return m_source.rich() ;
 	}
 	const wstring record_remote::get_source_plain()
 	{
+		const_cast<record_remote*>(this)->ensure_source() ;
 		return m_source.plain() ;
 	}
 
 	const wstring & record_remote::get_source_cmp() const
 	{
+		const_cast<record_remote*>(this)->ensure_source() ;
 		return m_source.cmp() ;
 	}
 
 	// trans
 	const wstring & record_remote::get_trans_rich() const
 	{
-		const wstring trans = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Trans").bstrVal) ;
-		const_cast<record_remote*>(this)->m_trans.set_value(trans) ;
+		const_cast<record_remote*>(this)->ensure_trans() ;
 		return m_trans.rich() ;
 	}
 
 	const wstring record_remote::get_trans_plain()
 	{
+		const_cast<record_remote*>(this)->ensure_trans() ;
 		return m_trans.plain() ;
 	}
 
 	const wstring & record_remote::get_trans_cmp() const
 	{
+		const_cast<record_remote*>(this)->ensure_trans() ;
 		return m_trans.cmp() ;
 	}
 
 	// context
 	const wstring & record_remote::get_context_rich() const
 	{
-		const wstring context = BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Context").bstrVal) ;
-		const_cast<record_remote*>(this)->m_context.set_value(context) ;
+		const_cast<record_remote*>(this)->ensure_context() ;
 		return m_context.rich() ;
 	}
 
 	const wstring record_remote::get_context_plain()
 	{
+		const_cast<record_remote*>(this)->ensure_context() ;
 		return m_context.plain() ;
 	}
 
 	const wstring & record_remote::get_context_cmp() const
 	{
+		const_cast<record_remote*>(this)->ensure_context() ;
 		return m_context.cmp() ;
 	}
 
@@ -343,12 +344,27 @@ namespace mem_engine
 		set_id(rec->get_id()) ;
 	}
 	// Copy from the COM server
-	void record_remote::copy_engine_values()
+	void record_remote::ensure_source()
 	{
-		this->set_source(BSTR2wstring(m_engine.prop_get(L"Source").bstrVal)) ;
-		this->set_trans(BSTR2wstring(m_engine.prop_get(L"Trans").bstrVal)) ;
-		this->set_context(BSTR2wstring(m_engine.prop_get(L"Context").bstrVal)) ;
+		if (m_source.rich().empty())
+		{
+			this->m_source.set_value(BSTR2wstring(m_engine.prop_get(L"Source").bstrVal)) ;
+		}
 	}
 
+	void record_remote::ensure_trans()
+	{
+		if (m_trans.rich().empty())
+		{
+			this->m_trans.set_value(BSTR2wstring(m_engine.prop_get(L"Trans").bstrVal)) ;
+		}
+	}
 
+	void record_remote::ensure_context()
+	{
+		if (m_context.rich().empty())
+		{
+			this->m_context.set_value(BSTR2wstring(m_engine.prop_get(L"Context").bstrVal)) ;
+		}
+	}
 }

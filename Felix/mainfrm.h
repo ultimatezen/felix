@@ -34,6 +34,12 @@
 CString get_help_file_path( CString path ) ;
 CString get_docs_path() ;
 
+enum
+{
+	USER_LOOKUP_SOURCE = 1,
+	USER_LOOKUP_TRANS,
+	USER_SAVE_MEMORIES
+};
 /**
 	@class CMainFrame 							   
 	@brief The main app window.
@@ -92,6 +98,8 @@ VISIBLE_TO_TESTS
 	CSearchWindow		m_search_window ;
 public:
 	static const int IDD = IDR_MAINFRAME ;
+
+	wstring m_deferred_query ;
 
 	typedef std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > messageMapType ;
 	messageMapType m_message_map ;
@@ -371,6 +379,9 @@ public:
 	LRESULT on_user_save(WindowsMessage &message);
 	LRESULT on_user_view_min_end(WindowsMessage &message);
 	LRESULT on_user_toggle_markup(WindowsMessage &message)  ;
+
+	LRESULT on_user_lookup_source(WindowsMessage&);
+	LRESULT on_user_lookup_trans(WindowsMessage&);
 
 	LRESULT on_toggle_views(WindowsMessage &message);
 

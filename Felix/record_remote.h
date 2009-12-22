@@ -15,7 +15,9 @@ namespace mem_engine
 		// We really need to plug this leak, but for right now I can't find it!
 		~record_remote();
 
-		void copy_engine_values();
+		void ensure_source();
+		void ensure_trans();
+		void ensure_context();
 		// source
 		const wstring & get_source_rich() const;
 		const wstring get_source_plain();

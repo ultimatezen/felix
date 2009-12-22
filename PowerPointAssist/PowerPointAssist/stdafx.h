@@ -95,13 +95,10 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/scoped_array.hpp>
 #include <boost/shared_array.hpp>
 
-#include <boost/signal.hpp>
-#include <boost/signals.hpp>
-#include <boost/signals/connection.hpp>
-#include <boost/any.hpp>
 #include <boost/function.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <boost/bind.hpp>
+#include <boost/cast.hpp>
 
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>

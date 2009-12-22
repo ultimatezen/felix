@@ -133,7 +133,10 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	this->register_event_listener( WM_DROPFILES, boost::bind(&CMainFrame::on_drop, this, _1 ) ) ; 
 
 	// user messages
-	this->register_user_event_listener( ID_FILE_SAVE, boost::bind(&CMainFrame::on_user_save, this, _1 )) ;
+	this->register_user_event_listener( USER_LOOKUP_SOURCE, boost::bind(&CMainFrame::on_user_lookup_source, this, _1 )) ;
+	this->register_user_event_listener( USER_LOOKUP_TRANS, boost::bind(&CMainFrame::on_user_lookup_trans, this, _1 )) ;
+	this->register_user_event_listener( USER_SAVE_MEMORIES, boost::bind(&CMainFrame::on_user_save, this, _1 )) ;
+
 	this->register_user_event_listener( IDC_RETRIEVE_EDIT_RECORD, boost::bind(&CMainFrame::on_user_retrieve_edit_record, this, _1 )) ;
 	this->register_user_event_listener( ID_EDIT_FIND, boost::bind(&CMainFrame::on_user_edit_search, this, _1 )) ;
 	this->register_user_event_listener( ID_USER_SEARCH, boost::bind(&CMainFrame::on_user_search, this, _1 )) ;
@@ -5730,3 +5733,16 @@ void CMainFrame::retrieve_record_review_state()
 	m_review_record = m_editor.get_new_record() ;
 }
 
+LRESULT CMainFrame::on_user_lookup_source( WindowsMessage& )
+{
+	SENSE("CMainFrame::on_user_lookup_source") ;
+	this->lookup(m_deferred_query) ;
+	return 0L ; 
+}
+
+LRESULT CMainFrame::on_user_lookup_trans( WindowsMessage& )
+{
+	SENSE("CMainFrame::on_user_lookup_trans") ;
+	this->lookup_trans(m_deferred_query) ;
+	return 0L ; 
+}

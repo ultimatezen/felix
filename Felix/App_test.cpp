@@ -61,51 +61,6 @@ namespace easyunit
 
 		ASSERT_TRUE( trans.Length() == 0 )
 	}
-	TEST( AppTest, Query )
-	{
-		appPtr ta ;
-		HRESULT hr = CComObject< CApp >::CreateInstance( &ta ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-
-		CComBSTR query = L"foo" ;
-
-		ta->put_Query( query ) ;
-
-		CComBSTR outQuery ;
-		ta->get_Query( &outQuery ) ;
-
-		ASSERT_TRUE( query == outQuery ) ;
-	}
-	TEST( AppTest, Trans )
-	{
-		appPtr ta ;
-		HRESULT hr = CComObject< CApp >::CreateInstance( &ta ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-
-		CComBSTR query = L"foo" ;
-		CComBSTR trans = L"bar" ;
-
-		ta->put_Query( query ) ;
-
-		CComBSTR outTrans ;
-		ta->get_Trans( &outTrans ) ;
-		ASSERT_TRUE( outTrans.Length() == 0 ) ;
-
-		double score = 0.0 ;
-		ta->get_Score( &score ) ;
-		ASSERT_EQUALS_DELTA( score, 0.0, 0.00001 ) ;
-
-		ta->put_Trans( trans ) ;
-
-		ta->put_Query( query ) ;
-
-		ta->get_Trans( &outTrans ) ;
-		ASSERT_TRUE( trans == outTrans ) ;
-
-		ta->get_Score( &score ) ;
-		ASSERT_EQUALS_DELTA( score, 1.0, 0.00001 ) ;
-
-	}
 
 	TEST( AppTest, ShowMarkup )
 	{

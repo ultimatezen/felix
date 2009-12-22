@@ -313,7 +313,7 @@ void CSearchWindow::perform_search(doc3_wrapper_ptr doc)
  */
 void CSearchWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::vector<wstring> &terms )
 {
-	BANNER("CSearchWindow::set_filterbox_text") ;
+	SENSE("CSearchWindow::set_filterbox_text") ;
 	element_wrapper_ptr filter_box = doc->get_element_by_id(L"filterbox") ;
 	filter_box->set_inner_text(get_filter_text(terms));
 }

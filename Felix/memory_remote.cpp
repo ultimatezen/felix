@@ -315,7 +315,7 @@ namespace mem_engine
 
 	void memory_remote::set_cmp_params( const search_query_params & )
 	{
-		logging::log_warn("set_cmp_params not implemented for remote memories/glossaries.") ;
+		ATLTRACE("set_cmp_params not implemented for remote memories/glossaries.\n") ;
 	}
 
 	bool memory_remote::record_exists( record_pointer rec )

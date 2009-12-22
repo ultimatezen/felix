@@ -26,7 +26,7 @@ public:
 
 	typedef CAddGlossDlgT<ID_TYPE> TheClass ;
 
-	const static int IDD = ID_TYPE ;
+	static const int IDD = ID_TYPE ;
 
 	BEGIN_MSG_MAP_EX(TheClass)
 	try

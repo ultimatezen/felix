@@ -2,24 +2,27 @@
 #include "menu_manip.h"
 #include "Picture.h"
 #include "DispatchWrapper.h"
+#include "logging.h"
 
 using namespace except ;
 
 bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 {
+	ATLTRACE("load_picture\n") ;
 	try
 	{
 		CPicture pic ;
 		BOOL success = pic.Load( button_id ) ;
 		if ( ! success ) 
 		{
+			logging::log_error("Failed to load picture") ;
 			return false ;
 		}
 		_variant_t vPicture ( static_cast< IUnknown* >( pic ) ) ;
 		CDispatchWrapper wrapper( CComPtr< IDispatch >(static_cast< IDispatch* >( button ) ) );
 		wrapper.prop_put( L"Picture", vPicture ) ;
 	}
-	catch( CComException &e )
+	catch( CException &e )
 	{
 		logging::log_error("Failed to load picture") ;
 		logging::log_exception(e) ;

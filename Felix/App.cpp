@@ -112,7 +112,8 @@ STDMETHODIMP CApp::Lookup(BSTR Query)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		MainFrame.lookup( BSTR2wstring( Query ) ) ;
+		MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
+		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
 	TA_CATCH( "Lookup" ) ;
 
@@ -124,7 +125,8 @@ STDMETHODIMP CApp::LookupTrans(BSTR Trans)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		MainFrame.lookup_trans( BSTR2wstring( Trans ) ) ;
+		MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
+		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS ) ;
 	}
 	TA_CATCH( "LookupTrans" ) ;
 
@@ -186,7 +188,8 @@ STDMETHODIMP CApp::put_Query(BSTR pVal)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		MainFrame.lookup( BSTR2wstring( pVal ) ) ;
+		MainFrame.m_deferred_query = BSTR2wstring( pVal ) ;
+		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
 	TA_CATCH( "put_Query" ) ;
 
@@ -224,7 +227,7 @@ STDMETHODIMP CApp::Save(void)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		MainFrame.PostMessage( UWM_USER_MESSAGE, ID_FILE_SAVE, ID_FILE_SAVE ) ;
+		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_SAVE_MEMORIES, USER_SAVE_MEMORIES ) ;
 	}
 	TA_CATCH( "Save" ) ;
 

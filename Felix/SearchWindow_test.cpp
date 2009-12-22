@@ -230,9 +230,10 @@ namespace easyunit
 
 		_bstr_t url = L"/gotoreplace" ;
 		window.OnBeforeNavigate2(url) ;
-		ASSERT_EQUALS_V(2, (int)window.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(3, (int)window.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(window.m_sensing_variable[0].c_str()), "CSearchWindow::OnBeforeNavigate2"); 
 		ASSERT_EQUALS_V(SimpleString(window.m_sensing_variable[1].c_str()), "handle_gotoreplace"); 
+		ASSERT_EQUALS_V(SimpleString(window.m_sensing_variable[2].c_str()), "CSearchWindow::set_filterbox_text"); 
 	}
 
 	TEST(TestCSearchWindow, test_OnBeforeNavigate2_sense_replace_find)

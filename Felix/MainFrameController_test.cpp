@@ -78,12 +78,38 @@ namespace easyunit
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
-		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_FILE_SAVE, 0, lResult, 0)  ;
+		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_SAVE_MEMORIES, 0, lResult, 0)  ;
 		ASSERT_EQUALS_V(4, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_save" ) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_file_save" ) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[3].c_str()), "empty" ) ;
+		ASSERT_EQUALS_V(0, (int)lResult) ;
+	}
+	TEST( MainFrameControllerTests, Teston_user_lookup_source)
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.m_deferred_query = L"foo" ;
+		LRESULT lResult = 1 ;
+		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE, lResult, 0)  ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_source" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
+		ASSERT_EQUALS_V(0, (int)lResult) ;
+	}
+	TEST( MainFrameControllerTests, Teston_user_lookup_trans )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+		main_frame.m_deferred_query = L"foo" ;
+		LRESULT lResult = 1 ;
+		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS, lResult, 0)  ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_trans") ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
 		ASSERT_EQUALS_V(0, (int)lResult) ;
 	}
 	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record )
