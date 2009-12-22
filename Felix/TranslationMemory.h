@@ -185,8 +185,7 @@ public:
 							search_match_ptr& match_test);
 
 	void set_gloss_100_char(search_match_container& matches, 
-							gloss_match_tester& tester, 
-							record_pointer& rec);
+							search_match_ptr match);
 
 	std::wstring prep_pattern_string_gloss_100(const search_query_params& params, record_pointer& rec);
 

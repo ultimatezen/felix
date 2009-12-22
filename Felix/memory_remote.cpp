@@ -103,8 +103,10 @@ namespace mem_engine
 
 			foreach( record_pointer record, candidates)
 			{
-				tester.test_source( record ) ;
-				set_gloss_100_char(matches, tester, record);
+				search_match_ptr match(new search_match) ;
+				match->set_record(record) ;
+				match->set_values_to_record() ;
+				set_gloss_100_char(matches, match);
 			}
 		}
 		return ( false == matches.empty() ) ;

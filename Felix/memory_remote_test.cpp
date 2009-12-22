@@ -608,8 +608,10 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			search_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
-			ASSERT_EQUALS(match->get_markup()->GetSource(), L"egg") ;
-			ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
+			const SimpleString actual_source = string2string(match->get_markup()->GetSource()).c_str() ;
+			ASSERT_EQUALS_V("egg", actual_source) ;
+			const SimpleString actual_trans = string2string(match->get_markup()->GetTrans()).c_str() ;
+			ASSERT_EQUALS_V("trans", actual_trans) ;
 
 			mem.m_engine.method(L"Delete") ;
 		}

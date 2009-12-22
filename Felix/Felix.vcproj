@@ -2632,10 +2632,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\bmp00002.bmp"
-				>
-			</File>
-			<File
 				RelativePath=".\bmp00003.bmp"
 				>
 			</File>
@@ -2773,46 +2769,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\default.doxygen"
-			>
-		</File>
-		<File
 			RelativePath=".\document_wrapper.html"
-			>
-		</File>
-		<File
-			RelativePath="Feature TODO List.txt"
-			>
-		</File>
-		<File
-			RelativePath="res\glossj.html"
-			>
-		</File>
-		<File
-			RelativePath="res\glosspag.htm"
-			DeploymentContent="true"
-			>
-		</File>
-		<File
-			RelativePath=".\InputSymbolDlg_test.cp"
-			>
-		</File>
-		<File
-			RelativePath=".\res\match_ta.htm"
-			DeploymentContent="true"
-			>
-		</File>
-		<File
-			RelativePath="res\OpeningGlossaryPage.html"
-			>
-		</File>
-		<File
-			RelativePath="res\openingp.htm"
-			DeploymentContent="true"
-			>
-		</File>
-		<File
-			RelativePath="res\OpeningPage.html"
 			>
 		</File>
 	</Files>

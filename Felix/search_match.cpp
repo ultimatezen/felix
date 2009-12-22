@@ -143,8 +143,10 @@ const int search_match::get_memory_id() const
 }
 bool search_match_compare::operator()( const search_match_ptr &lhs, const search_match_ptr &rhs ) const
 {
-	record_pointer lrec = lhs->get_record() ;
-	record_pointer rrec = rhs->get_record() ;
+	const record_pointer lrec = lhs->get_record() ;
+	const record_pointer rrec = rhs->get_record() ;
+
+	// refcount
 	if (lrec->get_refcount() > rrec->get_refcount()) 
 	{
 		return true ;
@@ -154,6 +156,7 @@ bool search_match_compare::operator()( const search_match_ptr &lhs, const search
 		return false ;
 	}
 
+	// reliability
 	if (lrec->get_reliability() > rrec->get_reliability()) 
 	{
 		return true ;
@@ -163,6 +166,7 @@ bool search_match_compare::operator()( const search_match_ptr &lhs, const search
 		return false ;
 	}
 
+	// validated
 	if (lrec->is_validated() && ! rrec->is_validated()) 
 	{
 		return true ;
@@ -172,24 +176,27 @@ bool search_match_compare::operator()( const search_match_ptr &lhs, const search
 		return false ;
 	}
 
-	if (lrec->get_source_plain().size() > rrec->get_source_plain().size()) 
+	// source
+	if (lrec->get_source_cmp().size() > rrec->get_source_cmp().size()) 
 	{
 		return true ;
 	}
-	if (lrec->get_source_plain().size() < rrec->get_source_plain().size()) 
+	if (lrec->get_source_cmp().size() < rrec->get_source_cmp().size()) 
 	{
 		return false ;
 	}
 
-	if (lrec->get_trans_plain().size() > rrec->get_trans_plain().size()) 
+	// trans
+	if (lrec->get_trans_cmp().size() > rrec->get_trans_cmp().size()) 
 	{
 		return true ;
 	}
-	if (lrec->get_trans_plain().size() < rrec->get_trans_plain().size()) 
+	if (lrec->get_trans_cmp().size() < rrec->get_trans_cmp().size()) 
 	{
 		return false ;
 	}
 
+	// id
 	if (lrec->get_id() > rrec->get_id()) 
 	{
 		return true ;
@@ -199,6 +206,7 @@ bool search_match_compare::operator()( const search_match_ptr &lhs, const search
 		return false ;
 	}
 
+	// created
 	return(lrec->get_created() < rrec->get_created()) ;
 }
 

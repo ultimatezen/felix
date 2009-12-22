@@ -424,7 +424,7 @@ namespace mem_engine
 		{
 			if ( tester.test_source( record ) )
 			{
-				set_gloss_100_char(matches, tester, record);
+				set_gloss_100_char(matches, tester.get_search_match());
 			}
 		}
 	}
