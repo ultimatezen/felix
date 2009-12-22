@@ -893,6 +893,38 @@ namespace easyunit
 			FAIL_M(static_cast< LPCSTR >( msg )) ;
 		}
 	}
+	// copy_from_self
+	TEST( test_record_remote, copy_from_self_source)
+	{
+		record_pointer rec(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->set_source(L"spam") ;
+		record_pointer other(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->copy_from_self(other) ;
+		SimpleString actual = (LPCSTR)CStringA(other->get_source_rich().c_str()) ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST( test_record_remote, copy_from_self_creator)
+	{
+		record_pointer rec(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->set_creator(L"spam") ;
+		record_pointer other(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->copy_from_self(other) ;
+		SimpleString actual = (LPCSTR)CStringA(other->get_creator().c_str()) ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST( test_record_remote, copy_from_self_modified_by)
+	{
+		record_pointer rec(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->set_modified_by(L"spam") ;
+		record_pointer other(new record_remote(L"Felix.RemoteRecordFake")) ;
+		rec->copy_from_self(other) ;
+		SimpleString actual = (LPCSTR)CStringA(other->get_modified_by().c_str()) ;
+		SimpleString expected = "spam" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_TRUE(other->get_source_rich().empty()) ;
+	}
 
 }
 

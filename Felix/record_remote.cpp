@@ -10,7 +10,7 @@ namespace mem_engine
 	{
 	}
 
-	record_remote::record_remote( record_pointer rec ) : 
+	record_remote::record_remote( const record_pointer rec ) : 
 	m_engine(L"Felix.RemoteRecord")
 	{
 		internal_copy( rec ) ;
@@ -217,8 +217,7 @@ namespace mem_engine
 	record_pointer record_remote::clone()
 	{
 		record_pointer cloned(new record_remote()) ;
-		this->copy_from_self(cloned) ;
-		return cloned ;
+		return this->copy_from_self(cloned) ;
 	}
 
 	size_t record_remote::get_id() const
@@ -282,22 +281,22 @@ namespace mem_engine
 
 	bool record_remote::item_exists( const wstring &key ) const
 	{
-		logging::log_warn("item_exists method is not supported by remote records") ;
 		key ;
+		logging::log_warn("item_exists method is not supported by remote records") ;
 		return false ;
 	}
 
 	const wstring record_remote::get_item( const wstring &key ) const
 	{
-		logging::log_warn("get_item method is not supported by remote records") ;
 		key ;
+		logging::log_warn("get_item method is not supported by remote records") ;
 		return wstring() ;
 	}
 
 	bool record_remote::remove_item( const wstring &key )
 	{
-		logging::log_warn("remove_item method is not supported by remote records") ;
 		key ;
+		logging::log_warn("remove_item method is not supported by remote records") ;
 		return false ;
 	}
 
@@ -310,7 +309,7 @@ namespace mem_engine
 	// Internal methods
 	//////////////////////////////////////////////////////////////////////////
 
-	record_pointer record_remote::copy_from_self( record_pointer rec )
+	record_pointer record_remote::copy_from_self( record_pointer &rec )
 	{
 		rec->set_source( this->get_source_rich() ) ;
 		rec->set_trans( this->get_trans_rich() ) ;
@@ -324,10 +323,13 @@ namespace mem_engine
 		rec->set_validated(this->is_validated()) ;
 		rec->set_reliability(this->get_reliability()) ;
 		rec->set_refcount(this->get_refcount()) ;
+
+		rec->set_creator(this->get_creator()) ;
+		rec->set_modified_by(this->get_modified_by()) ;
 		return rec ;
 	}
 
-	void record_remote::internal_copy( record_pointer rec )
+	void record_remote::internal_copy( const record_pointer rec )
 	{
 		set_source( rec->get_source_rich() ) ;
 		set_trans( rec->get_trans_rich() ) ;
@@ -341,6 +343,10 @@ namespace mem_engine
 		set_validated(rec->is_validated()) ;
 		set_reliability(rec->get_reliability()) ;
 		set_refcount(rec->get_refcount()) ;
+
+		set_creator(rec->get_creator()) ;
+		set_modified_by(rec->get_modified_by()) ;
+
 		set_id(rec->get_id()) ;
 	}
 	// Copy from the COM server

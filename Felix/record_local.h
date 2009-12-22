@@ -11,7 +11,7 @@ namespace mem_engine
 	{
 	public:
 		record_local() ;
-		record_local( record_pointer rec )
+		record_local( const record_pointer rec )
 		{ 
 			internal_copy( rec ) ; 
 		}
@@ -26,8 +26,7 @@ namespace mem_engine
 		record_pointer clone()
 		{
 			record_pointer cloned(new record_local()) ;
-			copy_from_self(cloned) ;
-			return cloned ;
+			return copy_from_self(cloned) ;
 		}
 
 		record_data_iterator data_begin() ;
@@ -101,8 +100,8 @@ namespace mem_engine
 		bool remove_item( const wstring &key);
 
 		// copy functions
-		void internal_copy( record_pointer rec ) ;
-		record_pointer copy_from_self( record_pointer rec ) ;
+		void internal_copy( const record_pointer rec ) ;
+		record_pointer copy_from_self( record_pointer &rec ) ;
 
 		virtual void set_creator(const wstring &creator);
 		virtual void set_modified_by(const wstring &modified);

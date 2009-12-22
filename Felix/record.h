@@ -104,8 +104,8 @@ namespace mem_engine
 		virtual boost::shared_ptr< translation_record > clone() = 0;
 		virtual record_data_map& get_data_map() = 0 ;
 
-		virtual void internal_copy( boost::shared_ptr< translation_record > rec ) = 0;
-		virtual boost::shared_ptr< translation_record > copy_from_self( boost::shared_ptr< translation_record > rec ) = 0;
+		virtual void internal_copy( const boost::shared_ptr< translation_record > rec ) = 0;
+		virtual boost::shared_ptr< translation_record > copy_from_self( boost::shared_ptr< translation_record > &rec ) = 0;
 
 		virtual size_t get_id() const = 0;
 		virtual void set_id(size_t id) = 0; 

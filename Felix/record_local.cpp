@@ -269,7 +269,7 @@ void record_local::set_modified( const misc_wrappers::date &modified )
 
 // void record_local::copy_from_self( const record_local &rec )
 // commonizes copy code used for constructor and assignment
-record_pointer record_local::copy_from_self( record_pointer rec )
+record_pointer record_local::copy_from_self( record_pointer &rec )
 {
 	rec->set_source( this->get_source_rich() ) ;
 	rec->set_trans( this->get_trans_rich() ) ;
@@ -284,6 +284,8 @@ record_pointer record_local::copy_from_self( record_pointer rec )
 	rec->set_reliability(this->get_reliability()) ;
 	rec->set_refcount(this->get_refcount()) ;
 
+	rec->set_creator(this->get_creator()) ;
+	rec->set_modified_by(this->get_modified_by()) ;
 	// extra strings
 	record_data_map tmp( this->m_record_data ) ;
 	rec->get_data_map().swap( tmp ) ;

@@ -93,8 +93,8 @@ namespace mem_engine
 
 		// void record_local::copy_from_self( const record_local &rec )
 		// commonizes copy code used for constructor and assignment
-		record_pointer copy_from_self( record_pointer rec );
-		void internal_copy( record_pointer rec );
+		record_pointer copy_from_self( record_pointer &rec );
+		void internal_copy( const record_pointer rec );
 		record_data_map		m_record_data ;
 		// dates
 		Segment m_source ;
