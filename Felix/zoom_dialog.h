@@ -22,7 +22,7 @@ class CZoomDlg :
 	public CDialogImpl< CZoomDlg, TWindow >, 
 	public CWindowExceptionHandler< CZoomDlg >
 {
-    CTrackBarCtrl m_ZoomCtrl; // ZOOM
+    CTrackBarCtrlT<TWindow> m_ZoomCtrl; // ZOOM
 	
 public:
 	static const int IDD = IDD_ZOOM_DLG ;

@@ -9,6 +9,8 @@
 #include "FelixApp.h"
 #include <comdef.h> // _com_error
 #include "atlscintilla.h"
+#include "background_processor.h"
+#include <boost/timer.hpp>
 
 // To use this macro, derive from CAutomationExceptionHandler
 #define TA_CATCH( func_str ) \
@@ -163,6 +165,7 @@ STDMETHODIMP CApp::get_Score(DOUBLE* pVal)
 
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_score() ;
 	}
@@ -175,6 +178,7 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 {
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring current_query = MainFrame.get_current_query( ) ;
 		*pVal = ::SysAllocStringLen( current_query.c_str(), current_query.size() ) ;
@@ -202,6 +206,7 @@ STDMETHODIMP CApp::get_Trans(BSTR* pVal)
 
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring trans = MainFrame.get_current_translation( ) ;
 		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
@@ -214,6 +219,7 @@ STDMETHODIMP CApp::put_Trans(BSTR pVal)
 {
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.set_translation(  BSTR2wstring( pVal ) ) ;
 	}
@@ -264,6 +270,7 @@ STDMETHODIMP CApp::get_GlossMatch(SHORT Index, BSTR* pVal)
 
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring entry = MainFrame.get_glossary_entry( Index ) ;
 		*pVal = ::SysAllocStringLen( entry.c_str(), entry.size() ) ;
@@ -279,6 +286,7 @@ STDMETHODIMP CApp::get_NumGlossMatches(SHORT* pVal)
 
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		*pVal = static_cast< SHORT >( gloss->num_matches() ) ;
@@ -304,7 +312,6 @@ STDMETHODIMP CApp::LoadGlossary(BSTR GlossaryName)
 {
 	try
 	{
-
 		CMainFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		gloss->load( GlossaryName ) ;
@@ -346,6 +353,7 @@ STDMETHODIMP CApp::get_ShowMarkup(VARIANT_BOOL* pVal)
 
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_show_marking() ;
 	}
@@ -358,6 +366,7 @@ STDMETHODIMP CApp::put_ShowMarkup(VARIANT_BOOL newVal)
 {
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.put_show_marking( newVal ) ;
 	}
@@ -419,6 +428,7 @@ STDMETHODIMP CApp::CorrectTrans(BSTR Trans)
 {
 	try
 	{
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.correct_trans(BSTR2wstring(Trans)) ;
 	}
@@ -433,7 +443,7 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 
 	try
 	{
-
+		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*index = static_cast< SHORT >( MainFrame.get_num_matches() ) ;
 	}
@@ -450,4 +460,28 @@ CApp::CApp()
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
 	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;
+}
+
+void CApp::wait_for_query()
+{
+	CMainFrame &MainFrame = app::get_app() ;
+	if(MainFrame.m_deferred_query.empty())
+	{
+		return ;
+	}
+
+	// I know that this is a cheesy hack...
+	background_processor processor ;
+	boost::timer t ;
+	const double MAX_TIME = 0.25;
+	while(!MainFrame.m_deferred_query.empty())
+	{
+		processor.perform_background_processing() ;
+		if (t.elapsed() > MAX_TIME)
+		{
+			MainFrame.lookup(MainFrame.m_deferred_query) ;
+			MainFrame.m_deferred_query.clear() ;
+			return ;
+		}
+	}
 }

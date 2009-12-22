@@ -313,15 +313,38 @@ namespace mem_engine
 		return record_pointer(new record_remote) ;
 	}
 
-	void memory_remote::set_cmp_params( const search_query_params & )
+	void memory_remote::set_cmp_params( const search_query_params &params )
 	{
-		ATLTRACE("set_cmp_params not implemented for remote memories/glossaries.\n") ;
+		if (m_cmp_maker.m_ignore_case != params.m_ignore_case)
+		{
+			m_cmp_maker.m_ignore_case = params.m_ignore_case ;
+		}
+		if (m_cmp_maker.m_ignore_hira_kata != params.m_ignore_hira_kata)
+		{
+			m_cmp_maker.m_ignore_hira_kata = params.m_ignore_hira_kata ;
+		}
+		if (m_cmp_maker.m_ignore_width != params.m_ignore_width)
+		{
+			m_cmp_maker.m_ignore_width = params.m_ignore_width ;
+		}
 	}
 
 	bool memory_remote::record_exists( record_pointer rec )
 	{
-		logging::log_warn("record_exists not implemented for remote memories/glossaries.") ;
-		return false ;
+		try
+		{
+			CComVariant id((long)rec->get_id()) ;
+			CComVariant recvar = this->m_engine.method(L"RecordById", id) ;
+			return recvar.vt != VT_NULL;
+		}
+		catch (_com_error& e)
+		{
+			BANNER("Error in memory_remote::record_exists") ;
+			logging::log_error("record_exists: Failed to retrieve remote record by id") ;
+			logging::log_exception(e) ;
+
+			return false ;
+		}
 	}
 
 	bool memory_remote::clear_memory()

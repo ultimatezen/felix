@@ -58,6 +58,7 @@ END_COM_MAP()
 	}
 
 public:
+	void wait_for_query();
 	STDMETHOD(get_App2)(IApp2 **pVal);
 
 

@@ -7,7 +7,7 @@ static const int TIC_FREQ = 1 ;
 
 LRESULT CZoomDlg::OnInitDialog()
 {
-	SENSE("OnInitDialog") ;
+	SENSE("CZoomDlg::OnInitDialog") ;
 
 	m_ZoomCtrl.Attach(GetDlgItem(IDC_SLIDER1)) ;
 	m_ZoomCtrl.SetRange(ZOOM_MIN, ZOOM_MAX);

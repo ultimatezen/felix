@@ -1605,6 +1605,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\com_utilities_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\CommonWindowFunctionality_test.cpp"
 					>
 				</File>
@@ -1641,6 +1645,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\demo_exception_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\distance_test.cpp"
 					>
 				</File>
@@ -1666,6 +1674,10 @@
 				</File>
 				<File
 					RelativePath=".\Felix_properties_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FelixMemDocUIHandler_test.cpp"
 					>
 				</File>
 				<File
@@ -1942,6 +1954,14 @@
 				</File>
 				<File
 					RelativePath=".\WindowsMessage_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\xpmenu_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\zoom_dialog_test.cpp"
 					>
 				</File>
 			</Filter>

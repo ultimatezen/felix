@@ -95,7 +95,6 @@ namespace mem_engine
 		  void search_no_regex(const search_query_params & params, search_match_container &matches);
 		  void batch_set_reliability( size_t rel );
 		  void batch_set_validation( bool val );
-
 	};
 
 }

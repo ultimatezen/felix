@@ -15,6 +15,11 @@ namespace easyunit
 			return 0 ;
 		}
 	};
+	TEST( TestCWideRichEdit, PreTranslateMessage)
+	{
+		CWideRichEdit edit ;
+		ASSERT_TRUE_M(! edit.PreTranslateMessage(NULL), "Should not pre-translate messages") ;
+	}
 
 	TEST( TestCWideRichEdit, load_document_utf16)
 	{

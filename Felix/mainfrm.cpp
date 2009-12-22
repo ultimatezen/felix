@@ -5736,13 +5736,25 @@ void CMainFrame::retrieve_record_review_state()
 LRESULT CMainFrame::on_user_lookup_source( WindowsMessage& )
 {
 	SENSE("CMainFrame::on_user_lookup_source") ;
+	if (m_deferred_query.empty())
+	{
+		return 0L ; 
+	}
 	this->lookup(m_deferred_query) ;
+	m_deferred_query.clear() ;
+	ATLASSERT(m_deferred_query.empty()) ;
 	return 0L ; 
 }
 
 LRESULT CMainFrame::on_user_lookup_trans( WindowsMessage& )
 {
 	SENSE("CMainFrame::on_user_lookup_trans") ;
+	if (m_deferred_query.empty())
+	{
+		return 0L ; 
+	}
 	this->lookup_trans(m_deferred_query) ;
+	m_deferred_query.clear() ;
+	ATLASSERT(m_deferred_query.empty()) ;
 	return 0L ; 
 }
