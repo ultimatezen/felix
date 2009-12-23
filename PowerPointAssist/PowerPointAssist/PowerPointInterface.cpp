@@ -51,7 +51,8 @@ using namespace except ;
 //////////////////////////////////////////////////////////////////////
 
 CPowerPointInterface::CPowerPointInterface() : 
-	m_queryStart( 0 )
+	m_queryStart( 0 ),
+	m_is_auto(false)
 {
 
 }
@@ -319,7 +320,7 @@ HRESULT  CPowerPointInterface::OnAutoTransAction ( )
 
 	try 
 	{
-
+		m_is_auto = true ;
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -340,7 +341,8 @@ HRESULT  CPowerPointInterface::OnAutoTransFuzzyAction ( )
 {
 	BANNER( " CPowerPointInterface::OnAutoTransFuzzyAction " ) ;
 
-	bool plaintext = shift_key_is_pressed() ;
+	m_is_auto = true ;
+	const bool plaintext = shift_key_is_pressed() ;
 	try 
 	{
 
@@ -356,7 +358,7 @@ HRESULT  CPowerPointInterface::OnAutoTransFuzzyAction ( )
 				return S_OK ;
 			}
 
-			_bstr_t formatted_text = m_textRangeParser.getSelectedText( plaintext ) ;
+			const _bstr_t formatted_text = m_textRangeParser.getSelectedText( plaintext ) ;
 			// don't send empty queries!
 			if ( formatted_text.length() == 0 ) 
 			{

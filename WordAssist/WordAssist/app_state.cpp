@@ -60,6 +60,7 @@ void app_state::set_seg_defaults()
 	CString segChars = CW2T( maru_char_array ) ;
 	// automatically calculates size of destination
 	_tcscpy_s( m_segChars, segChars ) ;
+	ATLASSERT( _tcslen( m_segChars) == static_cast<size_t>(segChars.GetLength())) ;
 }
 
 /*!

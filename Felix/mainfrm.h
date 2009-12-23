@@ -198,7 +198,9 @@ public:
 	// delete this translation
 	void delete_current_translation( );
 	// look up this wstring (rich text)
-	bool lookup( const wstring &query );
+	bool lookup( const wstring query );
+	bool correct_trans( const wstring trans );
+	bool lookup_trans( const wstring query );
 
 	void init_trans_matches_for_lookup(const wstring & query) ;
 
@@ -450,8 +452,6 @@ public:
 	void set_module_library( WORD lang_id );
 	void put_visible( int visibility );
 	
-	bool correct_trans( const wstring &trans );
-	bool lookup_trans( const wstring &query );
 	bool load( const CString file_name, const bool check_empty = true ) ;
 
 	bool load_felix_memory( bool check_empty, const CString & file_name );

@@ -150,6 +150,13 @@ interface IApp : IDispatch{
 		
 	[propget, id(25), helpstring("property App2")] 
 		HRESULT App2([out, retval] IApp2** pVal);
+
+	[id(26), helpstring("method Lookup")] 
+		HRESULT LookupDeferred([in] BSTR Query) ;
+
+	[id(27), helpstring("method LookupTrans")] 
+		HRESULT LookupTransDeferred([in] BSTR Trans) ;
+
 };
 
 [

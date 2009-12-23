@@ -21,6 +21,7 @@ class WordController
 {
 
 public:
+	bool		m_is_auto ;
 	typedef CComObject< CWord2HtmlParser > Word2HtmlObject ;
 	Word2HtmlObject *m_word2html ;
 

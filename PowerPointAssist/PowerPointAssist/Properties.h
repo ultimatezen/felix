@@ -179,7 +179,14 @@ public:
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		CString text ;
 		edit.GetWindowText(text) ;
-		_tcscpy_s( m_properties->m_data.m_segChars, (LPCTSTR)text ) ;
+		if (text == _T("refresh"))
+		{
+			m_properties->m_data.set_segchars_to_defaults() ;
+		}
+		else
+		{
+			_tcscpy_s( m_properties->m_data.m_segChars, (LPCTSTR)text ) ;
+		}
 	}
 	int OnApply()
 	{

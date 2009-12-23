@@ -321,6 +321,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
+				kb_listener->set_auto_off() ;
 			return kb_listener->OnLookupNextAction( shift_key_pressed ) ;
 		}
 		//	"&Register Current Translation (ALT + UP ARR)"
@@ -349,6 +350,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 
+				kb_listener->set_auto_off() ;
 			return kb_listener->OnToMaruAction( shift_key_pressed ) ;
 		}
 		//	"&Previous Translation (ALT + P)"
@@ -373,6 +375,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
+				kb_listener->set_auto_off() ;
 			return kb_listener->OnGetAndNextAction( shift_key_pressed ) ;
 		}
 		//	"&Set And Next (ALT + S)"
@@ -381,6 +384,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
+				kb_listener->set_auto_off() ;
 			return kb_listener->OnSetAndNextAction( shift_key_pressed ) ;
 		}
 		//	"Look up &Current Selection (ALT + L)"
@@ -389,6 +393,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
+				kb_listener->set_auto_off() ;
 			return kb_listener->OnLookupAction( shift_key_pressed ) ;
 		}
 		//	"Translate to Fu&zzy (ALT + Z)"

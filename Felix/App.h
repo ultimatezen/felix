@@ -102,6 +102,10 @@ public:
 
 	STDMETHOD(CorrectTrans)(BSTR Trans);
 	STDMETHOD(get_NumMatches)( SHORT *index );
+
+	STDMETHOD(LookupDeferred)(BSTR Query);
+	STDMETHOD(LookupTransDeferred)(BSTR Trans);
+
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(App), CApp)

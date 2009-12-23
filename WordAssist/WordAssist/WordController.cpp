@@ -56,7 +56,8 @@ WordController::WordController(LPCWSTR history_server) :
 	m_isAndSetAction(false),
 	m_history_name(history_server),
 	m_trans_history(NULL),
-	m_app(NULL)
+	m_app(NULL),
+	m_is_auto(false)
 {
 	logging::log_debug("Initializing Word controller") ;
 	m_properties.read_from_registry() ;
@@ -141,6 +142,7 @@ bool WordController::OnAutoTransAction ( bool as_plaintext )
 {
 	try
 	{
+		m_is_auto = true ;
 		if ( ! ( m_properties.get_classic_if() || m_is_trans_mode ) ) 
 		{
 			return OnMem2TransAction( as_plaintext ) ;
@@ -229,6 +231,7 @@ bool WordController::OnAutoTransAction ( bool as_plaintext )
 			_variant_t direction( (int)MSWord::wdCollapseEnd ) ;
 			selection->Collapse( &direction ) ;
 		}
+		m_is_auto = false ;
 
 	}
 	CATCH_ALL("Action: Auto translating current selection")
@@ -378,6 +381,7 @@ bool WordController::OnAutoTransFuzzyAction(  bool as_plaintext  )
 {
 	try
 	{
+		m_is_auto = true ;
 		
 		if ( ! ( m_properties.get_classic_if() || m_is_trans_mode ) ) 
 		{
@@ -694,7 +698,14 @@ bool WordController::OnLookupAction( bool as_plaintext )
 
 		try
 		{
-			app->Query = get_selection_text( as_plaintext ) ;
+			if (m_is_auto)
+			{
+				app->Query = get_selection_text(as_plaintext) ;
+			}
+			else
+			{
+				app->LookupDeferred(get_selection_text(as_plaintext)) ;
+			}
 		}
 		catch (CSWException& e)
 		{
@@ -1318,7 +1329,14 @@ bool WordController::OnLookupTransAction ( bool as_plaintext )
 		else
 		{
 			Felix::IAppPtr app = getAssistant() ;
-			app->LookupTrans(get_selection_text(as_plaintext)) ;
+			if (m_is_auto)
+			{
+				app->LookupTrans(get_selection_text(as_plaintext)) ;
+			}
+			else
+			{
+				app->LookupTransDeferred(get_selection_text(as_plaintext)) ;
+			}
 		}
 	}
 	CATCH_ALL("Action: Looking up the current translation")
@@ -1824,6 +1842,7 @@ bool WordController::OnToMaruAction(bool as_plaintext)
 
 bool WordController::OnMem2TransAction(bool as_plaintext)
 {
+	m_is_auto = true ;
 	WordSelection selection = m_word_object.get_selection() ;
 
 	boost::shared_ptr<WordParser> parser = boost::shared_ptr<WordParser>(new WordParser( selection )) ;
@@ -1965,6 +1984,7 @@ void WordController::configure_writer_font_settings(word_writer& writer)
 
 bool WordController::OnTrans2MemAction(bool as_plaintext)
 {
+	m_is_auto = true ;
 	if (m_properties.m_use_trans_hist)
 	{
 		m_word2html->set_plaintext(as_plaintext) ;

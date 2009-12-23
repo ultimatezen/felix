@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by FelixJPN.rc
+// Used by Felix.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -67,9 +67,9 @@
 #define IDS_SEARCHWIN_TITLE_GLOSS       52
 #define IDD_PROPPAGE_ALGORITHM          53
 #define IDS_POPUP_COPY                  53
-#define IDB_SAVE_PREFS					53
+#define IDB_SAVE_PREFS                  53
 #define IDS_RETRIEVING_LANG_CODES       54
-#define IDB_OPEN_PREFS					54
+#define IDB_OPEN_PREFS                  54
 #define IDD_SELECT_LANG_DLG             55
 #define IDS_POPUP_SWITCH_VIEWS          55
 #define IDS_IMPORT_COMPLETE             56

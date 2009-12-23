@@ -10,7 +10,6 @@
 #include <comdef.h> // _com_error
 #include "atlscintilla.h"
 #include "background_processor.h"
-#include <boost/timer.hpp>
 
 // To use this macro, derive from CAutomationExceptionHandler
 #define TA_CATCH( func_str ) \
@@ -114,6 +113,36 @@ STDMETHODIMP CApp::Lookup(BSTR Query)
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
+		MainFrame.lookup(BSTR2wstring( Query )) ;
+
+		//MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
+		//MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
+	}
+	TA_CATCH( "Lookup" ) ;
+
+	return S_OK;
+}
+
+STDMETHODIMP CApp::LookupTrans(BSTR Trans)
+{
+	try
+	{
+		CMainFrame &MainFrame = app::get_app() ;
+		MainFrame.lookup_trans(BSTR2wstring( Trans )) ;
+
+		//MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
+		//MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS ) ;
+	}
+	TA_CATCH( "LookupTrans" ) ;
+
+	return S_OK;
+}
+
+STDMETHODIMP CApp::LookupDeferred(BSTR Query)
+{
+	try
+	{
+		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
@@ -122,7 +151,7 @@ STDMETHODIMP CApp::Lookup(BSTR Query)
 	return S_OK;
 }
 
-STDMETHODIMP CApp::LookupTrans(BSTR Trans)
+STDMETHODIMP CApp::LookupTransDeferred(BSTR Trans)
 {
 	try
 	{
@@ -165,7 +194,6 @@ STDMETHODIMP CApp::get_Score(DOUBLE* pVal)
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_score() ;
 	}
@@ -178,7 +206,6 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 {
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring current_query = MainFrame.get_current_query( ) ;
 		*pVal = ::SysAllocStringLen( current_query.c_str(), current_query.size() ) ;
@@ -187,13 +214,12 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 
 	return S_OK ;
 }
-STDMETHODIMP CApp::put_Query(BSTR pVal)
+STDMETHODIMP CApp::put_Query(BSTR Query)
 {
 	try
 	{
 		CMainFrame &MainFrame = app::get_app() ;
-		MainFrame.m_deferred_query = BSTR2wstring( pVal ) ;
-		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
+		MainFrame.lookup(BSTR2wstring( Query )) ;
 	}
 	TA_CATCH( "put_Query" ) ;
 
@@ -206,7 +232,6 @@ STDMETHODIMP CApp::get_Trans(BSTR* pVal)
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring trans = MainFrame.get_current_translation( ) ;
 		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
@@ -219,7 +244,6 @@ STDMETHODIMP CApp::put_Trans(BSTR pVal)
 {
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.set_translation(  BSTR2wstring( pVal ) ) ;
 	}
@@ -270,7 +294,6 @@ STDMETHODIMP CApp::get_GlossMatch(SHORT Index, BSTR* pVal)
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		const wstring entry = MainFrame.get_glossary_entry( Index ) ;
 		*pVal = ::SysAllocStringLen( entry.c_str(), entry.size() ) ;
@@ -286,7 +309,6 @@ STDMETHODIMP CApp::get_NumGlossMatches(SHORT* pVal)
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		*pVal = static_cast< SHORT >( gloss->num_matches() ) ;
@@ -353,7 +375,6 @@ STDMETHODIMP CApp::get_ShowMarkup(VARIANT_BOOL* pVal)
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_show_marking() ;
 	}
@@ -366,7 +387,6 @@ STDMETHODIMP CApp::put_ShowMarkup(VARIANT_BOOL newVal)
 {
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.put_show_marking( newVal ) ;
 	}
@@ -428,7 +448,6 @@ STDMETHODIMP CApp::CorrectTrans(BSTR Trans)
 {
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.correct_trans(BSTR2wstring(Trans)) ;
 	}
@@ -443,7 +462,6 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 
 	try
 	{
-		this->wait_for_query() ;
 		CMainFrame &MainFrame = app::get_app() ;
 		*index = static_cast< SHORT >( MainFrame.get_num_matches() ) ;
 	}
@@ -472,12 +490,13 @@ void CApp::wait_for_query()
 
 	// I know that this is a cheesy hack...
 	background_processor processor ;
-	boost::timer t ;
-	const double MAX_TIME = 0.25;
+	size_t iterations = 0 ;
+	const size_t MAX_ITERATIONS = 50 ;
 	while(!MainFrame.m_deferred_query.empty())
 	{
 		processor.perform_background_processing() ;
-		if (t.elapsed() > MAX_TIME)
+		++iterations;
+		if (iterations > MAX_ITERATIONS)
 		{
 			MainFrame.lookup(MainFrame.m_deferred_query) ;
 			MainFrame.m_deferred_query.clear() ;

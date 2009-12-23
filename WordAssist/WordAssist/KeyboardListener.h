@@ -13,6 +13,7 @@
 class CKeyboardListener  
 {
 public:
+	virtual void set_auto_off() = 0 ;
 	//////////////////////////////////////////////////////////////////////////
 	// these are only needed by the Word interface, not the keyboard listener
 	//////////////////////////////////////////////////////////////////////////
@@ -30,7 +31,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// these are actually needed by the keyboard listener
 	//////////////////////////////////////////////////////////////////////////
-	
+
 	virtual bool IsActive() = 0 ;
 
 	virtual bool OnAutoTransAction ( bool as_plaintext ) = 0 ;
@@ -41,14 +42,14 @@ public:
 	virtual bool OnSetAction( bool as_plaintext ) = 0 ;
 	virtual bool OnGetAndNextAction( bool as_plaintext ) = 0 ;
 	virtual bool OnSetAndNextAction( bool as_plaintext ) = 0 ;
-	
+
 	// look up source segment
 	virtual bool OnLookupAction( bool as_plaintext ) = 0 ;
 	virtual bool OnLookupNextAction( bool as_plaintext ) = 0 ;
 	virtual bool OnConcordanceAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnExtendLookupAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnToMaruAction ( bool as_plaintext ) = 0 ;
-	
+
 	// register a glossary entry
 	virtual bool OnRegisterGlossAction ( bool as_plaintext ) = 0 ;
 	// delete entry
@@ -74,13 +75,13 @@ public:
 	virtual bool OnLookupNextTransAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnTransConcordanceAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnExtendTransLookupAction ( bool as_plaintext ) = 0 ;
-	
+
 	virtual bool OnCorrectAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnCorrectAndNextAction ( bool as_plaintext ) = 0 ;
 
 	virtual bool OnRestoreAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnRestoreAndNextAction ( bool as_plaintext ) = 0 ;
-	
+
 	virtual bool OnSaveMemoryAction( ) = 0 ;
 	virtual bool OnShiftStateAction( ) = 0 ;
 

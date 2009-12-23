@@ -1740,7 +1740,7 @@ void CMainFrame::init_trans_matches_for_lookup( const wstring & query )
 
 /** Look up a query string.
  */
-bool CMainFrame::lookup(const wstring &query)
+bool CMainFrame::lookup(const wstring query)
 {
 	if ( query.empty() )
 	{
@@ -3169,7 +3169,7 @@ bool CMainFrame::load(const CString file_name, const bool check_empty )
 
 /** Looks up a translation in the memory.
  */
-bool CMainFrame::lookup_trans(const wstring &query)
+bool CMainFrame::lookup_trans(const wstring query)
 {
 	if ( query.empty() )
 	{
@@ -3213,7 +3213,7 @@ bool CMainFrame::lookup_trans(const wstring &query)
  * Correct any glossary entries with matching source/translation
  * - Prompt user?
  */
-bool CMainFrame::correct_trans(const wstring &trans)
+bool CMainFrame::correct_trans(const wstring trans)
 {
 	if ( m_model->m_memories->empty() )
 	{

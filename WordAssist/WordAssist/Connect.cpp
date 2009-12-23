@@ -2107,7 +2107,7 @@ void __stdcall CConnect::OnAutoTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
-		bool shift_key_pressed = !!( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
+		const bool shift_key_pressed = !!( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
 
 		m_controller->OnAutoTransAction(shift_key_pressed) ;
 	}
@@ -2118,7 +2118,7 @@ void __stdcall CConnect::OnAutoTransFuzzy( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
-		bool shift_key_pressed = !!( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
+		const bool shift_key_pressed = !!( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
 
 		m_controller->OnAutoTransFuzzyAction(shift_key_pressed) ;
 	}
@@ -2138,6 +2138,7 @@ void __stdcall CConnect::OnExtendLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnExtendLookupAction( false ) ;
 	}
 	CATCH_ALL(_T("OnExtendLookup")) ;
@@ -2274,6 +2275,7 @@ void __stdcall CConnect::OnLookupTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnLookupTransAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnLookupTrans")) ;
@@ -2283,7 +2285,8 @@ void __stdcall CConnect::OnLookupNextTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
-		m_controller->OnLookupNextTransAction( shift_key_is_pressed() ) ;
+		m_controller->set_auto_off() ;
+		m_controller->OnLookupNextTransAction(shift_key_is_pressed()) ;
 	}
 	CATCH_ALL(_T("OnLookupNextTrans")) ;
 }
@@ -2292,6 +2295,7 @@ void __stdcall CConnect::OnTransConcordance( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnTransConcordanceAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnTransConcordance")) ;
@@ -2301,6 +2305,7 @@ void __stdcall CConnect::OnExtendTransLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnExtendTransLookupAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnExtendTransLookup")) ;
@@ -2310,6 +2315,7 @@ void __stdcall CConnect::OnCorrect( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnCorrectAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnCorrect")) ;
@@ -2319,6 +2325,7 @@ void __stdcall CConnect::OnCorrectAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnCorrectAndNextAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnCorrectAndNext")) ;
@@ -2328,6 +2335,7 @@ void __stdcall CConnect::OnRestore( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnRestoreAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnRestore")) ;
@@ -2337,6 +2345,7 @@ void __stdcall CConnect::OnRestoreAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnRestoreAndNextAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnRestoreAndNext")) ;
@@ -2346,6 +2355,7 @@ void __stdcall CConnect::OnGet( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnGetAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnGet")) ;
@@ -2355,6 +2365,7 @@ void __stdcall CConnect::OnSet( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnSetAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnSet")) ;
@@ -2364,6 +2375,7 @@ void __stdcall CConnect::OnGetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnGetAndNextAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnGetAndNext")) ;
@@ -2373,6 +2385,7 @@ void __stdcall CConnect::OnSetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnSetAndNextAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnSetAndNext")) ;
@@ -2382,6 +2395,7 @@ void __stdcall CConnect::OnLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnLookupAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnLookup")) ;
@@ -2391,6 +2405,7 @@ void __stdcall CConnect::OnLookupNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_controller->set_auto_off() ;
 		m_controller->OnLookupNextAction( shift_key_is_pressed() ) ;
 	}
 	CATCH_ALL(_T("OnLookupNext")) ;

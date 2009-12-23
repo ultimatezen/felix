@@ -1341,7 +1341,8 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 			m_properties = props_dlg.get_properties() ;
 		}
 		const int props[] = {SKIP_IF_J, SKIP_UNLESS_J, NO_SKIP} ;
-		const int index = m_properties.m_data.m_skipJ ;
+		const size_t index = static_cast<size_t>(m_properties.m_data.m_skipJ) ;
+		ATLASSERT(index < sizeof(props)) ;
 		m_properties.m_data.m_skipJ = props[index] ;
 
 		TRACE(m_properties.get_preferred_gui_lang()) ;
@@ -1394,6 +1395,7 @@ void __stdcall CConnect::OnLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnLookup") ;
 		m_interface.OnLookupAction() ;
 	}
@@ -1404,6 +1406,7 @@ void __stdcall CConnect::OnSetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnSetAndNext") ;
 		m_interface.OnSetAndNextAction() ;
 	}
@@ -1414,6 +1417,7 @@ void __stdcall CConnect::OnGetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnGetAndNext") ;
 		m_interface.OnGetAndNextAction() ;
 	}
@@ -1424,6 +1428,7 @@ void __stdcall CConnect::OnSet( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnSet") ;
 		m_interface.OnSetAction() ;
 	}
@@ -1452,6 +1457,7 @@ void __stdcall CConnect::OnGet( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnGet") ;
 		m_interface.OnGetAction() ;
 	}
@@ -1462,6 +1468,7 @@ void __stdcall CConnect::OnRestoreAndNextTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnRestoreAndNextTrans") ;
 		m_interface.OnRestoreAndNextTransAction() ;
 	}
@@ -1472,6 +1479,7 @@ void __stdcall CConnect::OnRestoreTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnRestoreTrans") ;
 		m_interface.OnRestoreTransAction() ;
 	}
@@ -1482,6 +1490,7 @@ void __stdcall CConnect::OnCorrectAndNextTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnCorrectAndNextTrans") ;
 		m_interface.OnCorrectAndNextTransAction() ;
 	}
@@ -1492,6 +1501,7 @@ void __stdcall CConnect::OnCorrectTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnCorrectTrans") ;
 		m_interface.OnCorrectTransAction() ;
 	}
@@ -1502,6 +1512,7 @@ void __stdcall CConnect::OnExtendTransLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnExtendTransLookup") ;
 		m_interface.OnExtendTransLookupAction() ;
 	}
@@ -1512,6 +1523,7 @@ void __stdcall CConnect::OnTransConcordance( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnTransConcordance") ;
 		m_interface.OnTransConcordanceAction() ;
 	}
@@ -1522,6 +1534,7 @@ void __stdcall CConnect::OnLookupNextTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnLookupNextTrans") ;
 		m_interface.OnLookupNextTransAction() ;
 	}
@@ -1532,6 +1545,7 @@ void __stdcall CConnect::OnLookupTrans( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnLookupTrans") ;
 		m_interface.OnLookupTransAction() ;
 	}
@@ -1682,6 +1696,7 @@ void __stdcall CConnect::OnExtendLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
+		m_interface.m_is_auto = false ;
 		logging::log_debug("CConnect::OnExtendLookup") ;
 		m_interface.OnExtendLookupAction() ;
 	}

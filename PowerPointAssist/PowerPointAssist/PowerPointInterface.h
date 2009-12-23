@@ -19,6 +19,11 @@ class CPowerPointInterface
 	CTextRangeParser			m_textRangeParser ;
 	app_state					*m_properties ;
 public:
+	bool m_is_auto ;
+
+	CPowerPointInterface();
+	virtual ~CPowerPointInterface();
+
 	void setProperties(app_state *properties)
 	{
 		m_properties = properties ;
@@ -37,9 +42,6 @@ public:
 	HRESULT set_gloss_entry( int index, bool plaintext = false );
 	PowerPoint::SelectionPtr getSelection();
 	PowerPoint::TextRangePtr getSelectionTextRange();
-
-	CPowerPointInterface();
-	virtual ~CPowerPointInterface();
 
 	HRESULT  OnAutoTransAction ( ) ;
 	HRESULT  OnAutoTransFuzzyAction ( ) ;

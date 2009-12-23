@@ -130,30 +130,35 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 		{
 			CASE( VK_RIGHT ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnLookupNextTransAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( VK_UP ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnCorrectTransAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('E') ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnExtendTransLookupAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('L') ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnLookupTransAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('C') )
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnTransConcordanceAction( shift_key_is_pressed() ) )	)
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
@@ -167,18 +172,21 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 		{
 			CASE( VK_RIGHT ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnLookupNextAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( VK_UP ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnSetAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( VK_DOWN ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnGetAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
@@ -197,18 +205,21 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 			}
 			CASE( _T('G') ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnGetAndNextAction( shift_key_is_pressed() ) )	)
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('S') ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnSetAndNextAction( shift_key_is_pressed() ) )	)
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('L') ) 
 			{
+				addin->m_is_auto = false ;
 				if ( FAILED( addin->OnLookupAction( shift_key_is_pressed() ) )	)
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;

@@ -9,10 +9,14 @@ class CWordControllerHtml :
 	public WordController
 {
 public:
-
 	//CDispatchWrapper m_trans_history ;
 	CWordControllerHtml(LPCWSTR history_server = L"FelixTransHistory.Word");
 	~CWordControllerHtml(void);
+
+	void set_auto_off()
+	{
+		m_is_auto = false ;
+	}
 
 	bool is_translation_mode() { return WordController::is_translation_mode() ; }
 

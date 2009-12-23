@@ -10,6 +10,10 @@ class CWordControllerWord :
 public:
 	CWordControllerWord();
 	~CWordControllerWord(void);
+	void set_auto_off()
+	{
+		m_is_auto = false ;
+	}
 
 	bool is_translation_mode() { return WordController::is_translation_mode() ; }
 

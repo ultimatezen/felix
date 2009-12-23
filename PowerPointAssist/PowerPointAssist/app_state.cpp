@@ -33,7 +33,32 @@ app_state::app_state()
 	setDefaults() ;
 }
 
+app_state::app_data::app_data() : 
+	m_toolbar_visible(TRUE),
+	m_preferred_gui_lang(PREF_LANG_ENGLISH),
+	m_font_color(TRUE),
+	m_font_bold(TRUE),
+	m_font_italic(TRUE),
+	m_font_underline(TRUE),
+	m_skipNumbers(TRUE),
+	m_skipJ(NO_SKIP),
+	m_freshInstall(TRUE),
+	m_select_spaces(TRUE),
+	m_navigation_type(NAV_TYPE_ASK),
+	m_shortcuts_active(TRUE)
+{
+	set_segchars_to_defaults() ;
+}
 
+void app_state::app_data::set_segchars_to_defaults()
+{
+	// Segment-ending characters
+	ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
+	CString segChars = CW2T( maru_char_array ) ;
+	// automatically calculates size of destination
+	_tcscpy_s( m_segChars, segChars ) ;
+	ATLASSERT( _tcslen( m_segChars) == static_cast<size_t>(segChars.GetLength())) ;
+}
 	/*!
 	* Sets default values.
 	*/
@@ -42,13 +67,7 @@ void app_state::setDefaults()
 	BANNER( "app_state::setDefaults" ) ;
 	m_data.m_toolbar_visible = TRUE ;
 
-	// Segment-ending characters
-	ZeroMemory(m_data.m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
-	CString segChars = CW2T( maru_char_array ) ;
-	// automatically calculates size of destination
-	_tcscpy_s( m_data.m_segChars, segChars ) ;
-	TRACE( segChars ) ;
-	TRACE( _tcslen( m_data.m_segChars) ) ;
+	m_data.set_segchars_to_defaults() ;
 
 	// preferred GUI language
 	LANGID lid = ::GetUserDefaultLangID() ;
@@ -95,4 +114,5 @@ app_state &app_state::operator=( const app_state &rhs )
 
 	return *this ;
 }
+
 
