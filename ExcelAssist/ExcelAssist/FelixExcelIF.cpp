@@ -5,7 +5,6 @@
  */
 #include "StdAfx.h"
 #include "FelixExcelIF.h"
-#include "KeyboardDriver.h"
 
 // classes for converting between various string types
 #include "ExcelString.h"

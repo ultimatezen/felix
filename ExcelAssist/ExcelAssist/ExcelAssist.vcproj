@@ -327,10 +327,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\KeyboardDriver.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\KeyPresser.cpp"
 				>
 			</File>
@@ -457,10 +453,6 @@
 			</File>
 			<File
 				RelativePath=".\Hooker.h"
-				>
-			</File>
-			<File
-				RelativePath=".\KeyboardDriver.h"
 				>
 			</File>
 			<File

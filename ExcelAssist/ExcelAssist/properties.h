@@ -30,27 +30,12 @@ class CPageView :
 	app_state	*m_properties ;
 
 public:
-	enum { IDD = id_type } ;
-	CPageView()
-	{
+	static const int IDD = id_type ;
+	CPageView();
+	void set_props( app_state *props );
 
-	}
-	void set_props( app_state *props )
-	{
-		m_properties = props ;
-	}
-
-	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&)
-	{
-		DoDataExchange(FALSE); // FALSE means copy TO the dialog
-
-		return TRUE;
-	}
-	int OnApply()
-	{
-		DoDataExchange(TRUE) ;
-		return PSNRET_NOERROR  ; 
-	}
+	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
+	int OnApply();
 
 
 	BEGIN_MSG_MAP(CPageView)
@@ -80,46 +65,14 @@ class CPageSegmentation :
 	app_state	*m_properties ;
 
 public:
-	enum { IDD = id_type } ;
+	static const int IDD = id_type ;
 
-	void set_props( app_state *props )
-	{
-		m_properties = props ;
-	}
+	void set_props( app_state *props );
 
-	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&)
-	{
-		BANNER("CPageSegmentation::OnInitDialog") ;
+	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
 
-		DoDataExchange(FALSE); // FALSE means copy TO the dialog
-
-		// we need to manually set the radio buttons, because the DDX
-		// doesn't work for them.
-		// The check boxes are handled in the DDX.
-		SendDlgItemMessage( m_properties->m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
-
-		return TRUE;
-	}
-
-	int OnApply()
-	{
-		BANNER("CPageSegmentation::OnApply") ;
-		DoDataExchange(TRUE) ;
-
-		// PSNRET_NOERROR = apply OK
-		// PSNRET_INVALID = apply not OK, return to this page
-		// PSNRET_INVALID_NOCHANGEPAGE = apply not OK, don't change focus
-		return PSNRET_NOERROR  ; 
-	}
-	BOOL OnKillActive()
-	{
-		BANNER("CPageSegmentation::OnKillActive") ;
-		DoDataExchange(TRUE);
-
-		// FALSE = allow deactivate
-		// TRUE = prevent deactivation
-		return FALSE;
-	}
+	int OnApply();
+	BOOL OnKillActive();
 
 
 	BEGIN_MSG_MAP(CPageSegmentation)
@@ -135,11 +88,7 @@ public:
 	END_MSG_MAP()
 
 
-	LRESULT OnSkip(WORD, WORD skip_code, HWND, BOOL& )
-	{
-		m_properties->m_skipJ = skip_code ;
-		return 0;
-	}
+	LRESULT OnSkip(WORD, WORD skip_code, HWND, BOOL& );
 
 	BEGIN_DDX_MAP(CSegmentation)
 		DDX_CHECK(IDC_SKIP_NUMS_CHECK, m_properties->m_skipNumbers)
@@ -161,41 +110,14 @@ class CPageTransHist :
 	app_state	*m_properties ;
 
 public:
-	enum { IDD = id_type } ;
+	static const int IDD = id_type ;
 
-	void set_props( app_state *props )
-	{
-		m_properties = props ;
-	}
+	void set_props( app_state *props );
 
-	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&)
-	{
-		BANNER("CPageTransHist::OnInitDialog") ;
+	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
 
-		DoDataExchange(FALSE); // FALSE means copy TO the dialog
-
-		return TRUE;
-	}
-
-	int OnApply()
-	{
-		BANNER("CPageTransHist::OnApply") ;
-		DoDataExchange(TRUE) ;
-
-		// PSNRET_NOERROR = apply OK
-		// PSNRET_INVALID = apply not OK, return to this page
-		// PSNRET_INVALID_NOCHANGEPAGE = apply not OK, don't change focus
-		return PSNRET_NOERROR  ; 
-	}
-	BOOL OnKillActive()
-	{
-		BANNER("CPageTransHist::OnKillActive") ;
-		DoDataExchange(TRUE);
-
-		// FALSE = allow deactivate
-		// TRUE = prevent deactivation
-		return FALSE;
-	}
+	int OnApply();
+	BOOL OnKillActive();
 
 
 	BEGIN_MSG_MAP(CPageTransHist)
@@ -261,8 +183,7 @@ class CPropertiesDlgE  : public CPropertySheetImpl<CPropertiesDlgE>
 public:
 
 	app_state get_properties() { return m_properties ; }
-
-	enum { IDD = IDD_PROPSHEET_E };
+	static const int IDD = IDD_PROPSHEET_E ;
 
 	CPropertiesDlgE( const app_state &props );
 
@@ -289,7 +210,7 @@ public:
 
 	app_state get_properties() { return m_properties ; }
 
-	enum { IDD = IDD_PROPSHEET_J };
+	static const int IDD = IDD_PROPSHEET_J ;
 
 	CPropertiesDlgJ( const app_state &props );
 

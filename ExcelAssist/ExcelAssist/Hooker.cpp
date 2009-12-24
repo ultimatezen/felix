@@ -37,11 +37,12 @@ CFelixExcelIF* getInterface()
 
 bool alt_key_is_pressed( WORD key_message )
 {
-	bool alt_key_state = false ;
-	alt_key_state = !! ( key_message & KF_ALTDOWN ) ;
-	return alt_key_state ;
+	return !! ( key_message & KF_ALTDOWN ) ;
 }
-
+bool control_key_is_pressed()
+{
+	return !!( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
+}
 /*!
  * Key press spy for shortcuts.
  */
@@ -55,14 +56,15 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	}
 
 	// get the first word
-	WORD wKeystrokeMsg = (WORD)(lParam >> 16);
+	const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
 	if ( wKeystrokeMsg & KF_UP ) // key is up
+	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
+	}
 
-
-	bool control_key_pressed = !!( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-	bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
+	const bool control_key_pressed = control_key_is_pressed() ;
+	const bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
 
 	if (alt_key_pressed &&
 		control_key_pressed && 

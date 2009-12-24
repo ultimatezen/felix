@@ -56,3 +56,120 @@ m_properties( props )
 
 	SetActivePage(0);
 }
+
+template< int id_type >
+CPageView<id_type>::CPageView()
+{
+
+}
+
+template< int id_type >
+void CPageView<id_type>::set_props( app_state *props )
+{
+	m_properties = props ;
+}
+
+template< int id_type >
+LRESULT CPageView<id_type>::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
+{
+	DoDataExchange(FALSE); // FALSE means copy TO the dialog
+
+	return TRUE;
+}
+
+template< int id_type >
+int CPageView<id_type>::OnApply()
+{
+	DoDataExchange(TRUE) ;
+	return PSNRET_NOERROR  ;
+}
+
+template< int id_type >
+void CPageSegmentation<id_type>::set_props( app_state *props )
+{
+	m_properties = props ;
+}
+
+template< int id_type >
+LRESULT CPageSegmentation<id_type>::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
+{
+	BANNER("CPageSegmentation::OnInitDialog") ;
+
+	DoDataExchange(FALSE); // FALSE means copy TO the dialog
+
+	// we need to manually set the radio buttons, because the DDX
+	// doesn't work for them.
+	// The check boxes are handled in the DDX.
+	SendDlgItemMessage( m_properties->m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
+
+	return TRUE;
+}
+
+template< int id_type >
+int CPageSegmentation<id_type>::OnApply()
+{
+	BANNER("CPageSegmentation::OnApply") ;
+	DoDataExchange(TRUE) ;
+
+	// PSNRET_NOERROR = apply OK
+	// PSNRET_INVALID = apply not OK, return to this page
+	// PSNRET_INVALID_NOCHANGEPAGE = apply not OK, don't change focus
+	return PSNRET_NOERROR  ;
+}
+
+template< int id_type >
+BOOL CPageSegmentation<id_type>::OnKillActive()
+{
+	BANNER("CPageSegmentation::OnKillActive") ;
+	DoDataExchange(TRUE);
+
+	// FALSE = allow deactivate
+	// TRUE = prevent deactivation
+	return FALSE;
+}
+
+template< int id_type >
+LRESULT CPageSegmentation<id_type>::OnSkip( WORD, WORD skip_code, HWND, BOOL& )
+{
+	m_properties->m_skipJ = skip_code ;
+	return 0;
+}
+
+template< int id_type >
+void CPageTransHist<id_type>::set_props( app_state *props )
+{
+	m_properties = props ;
+}
+
+template< int id_type >
+LRESULT CPageTransHist<id_type>::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
+{
+	BANNER("CPageTransHist::OnInitDialog") ;
+
+	DoDataExchange(FALSE); // FALSE means copy TO the dialog
+
+	return TRUE;
+}
+
+template< int id_type >
+int CPageTransHist<id_type>::OnApply()
+{
+	BANNER("CPageTransHist::OnApply") ;
+	DoDataExchange(TRUE) ;
+
+	// PSNRET_NOERROR = apply OK
+	// PSNRET_INVALID = apply not OK, return to this page
+	// PSNRET_INVALID_NOCHANGEPAGE = apply not OK, don't change focus
+	return PSNRET_NOERROR  ;
+}
+
+template< int id_type >
+BOOL CPageTransHist<id_type>::OnKillActive()
+{
+	BANNER("CPageTransHist::OnKillActive") ;
+	DoDataExchange(TRUE);
+
+	// FALSE = allow deactivate
+	// TRUE = prevent deactivation
+	return FALSE;
+}
