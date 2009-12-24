@@ -59,16 +59,16 @@ public:
 		m_app->PrevTrans() ;
 	}
 
-	virtual void AddGlossaryEntry(_bstr_t source,
-													_bstr_t trans,
-													_bstr_t context)
+	virtual void AddGlossaryEntry(const _bstr_t source,
+								  const _bstr_t trans,
+								  const _bstr_t context)
 	{
 		m_app->AddGlossaryEntry(source, trans, context) ;
 	}
 
-	virtual void AddMemoryEntry(_bstr_t source,
-		_bstr_t trans,
-		_bstr_t context)
+	virtual void AddMemoryEntry(const _bstr_t source,
+		const _bstr_t trans,
+		const _bstr_t context)
 	{
 		m_app->AddMemoryEntry(source, trans, context) ;
 	}

@@ -86,11 +86,9 @@ typedef boost::basic_format< TCHAR > tformat;
 
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_array.hpp>
+#include <boost/scoped_ptr.hpp>
 #include <boost/shared_array.hpp>
 
-#include <boost/signal.hpp>
-#include <boost/signals.hpp>
-#include <boost/signals/connection.hpp>
 #include <boost/any.hpp>
 #include <boost/function.hpp>
 #include <boost/tuple/tuple.hpp>

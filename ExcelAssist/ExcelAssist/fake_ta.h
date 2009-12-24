@@ -69,9 +69,9 @@ public:
 		m_calls.push_back("PrevTrans") ;
 	}
 
-	void AddGlossaryEntry(_bstr_t source,
-		_bstr_t trans,
-		_bstr_t context)
+	void AddGlossaryEntry(const _bstr_t source,
+		const _bstr_t trans,
+		const _bstr_t context)
 	{
 		m_calls.push_back("AddGlossaryEntry") ;
 		m_calls.push_back(BSTR2string(source)) ;
@@ -79,9 +79,9 @@ public:
 		m_calls.push_back(BSTR2string(context)) ;
 	}
 
-	void AddMemoryEntry(_bstr_t source,
-		_bstr_t trans,
-		_bstr_t context)
+	void AddMemoryEntry(const _bstr_t source,
+		const _bstr_t trans,
+		const _bstr_t context)
 	{
 		m_calls.push_back("AddMemoryEntry") ;
 		m_calls.push_back(BSTR2string(source)) ;

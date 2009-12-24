@@ -17,17 +17,48 @@
 #include "easyunit/testharness.h"
 #include <cmath>    // for fabs( )
 
-const static int MAX_CELL_EXTEND = 30 ;
-const static int ROW_SELECTION_INTERVAL = 10 ;
-const static int MAX_ROWS_NO_ENTRY = 5 ;
+static const int MAX_CELL_EXTEND = 30 ;
+static const int ROW_SELECTION_INTERVAL = 10 ;
+static const int MAX_ROWS_NO_ENTRY = 5 ;
 
 using namespace except ;
+_bstr_t get_cell_text(excel::range_ptr cell); // prototype
+void set_cell_text(excel::range_ptr cell, _bstr_t text); // prototype
 
 bool double_equals(double left, double right, double epsilon=0.001)
 {
 	return (fabs(left - right) < epsilon);
 }
 
+_bstr_t get_cell_text(excel::range_ptr cell)
+{
+	try
+	{
+		return CExcelString(cell->GetText()).as_bstr() ;
+	}
+	catch (_com_error& e)
+	{
+		logging::log_error("COM exception getting cell text") ;
+		logging::log_exception(e) ;
+		return CExcelString(cell->GetFormula()).as_bstr() ;
+	}
+	return _bstr_t() ;
+
+}
+void set_cell_text(excel::range_ptr cell, _bstr_t text)
+{
+	const _variant_t vtext(text) ;
+	try
+	{
+		cell->SetText(vtext)  ;
+	}
+	catch (_com_error& e)
+	{
+		logging::log_error("COM exception setting cell text") ;
+		logging::log_exception(e) ;
+		cell->SetFormula(vtext) ;
+	}
+}
 
 #ifdef _DEBUG
 	/*!
@@ -79,73 +110,46 @@ void CFelixExcelIF::OnAutoAddGloss ( )
 
 		excel::sheet_ptr activeSheet = GetActiveSheet() ;
 
-		long iRow = activeCell->Row() ;
-		long iCol = activeCell->Column() ;
+		long current_row = activeCell->Row() ;
+		const long start_col = activeCell->Column() ;
 
-		long numRowsWithoutEntry = 0 ;
+		long num_rows_without_entry = 0 ;
 
-		while ( numRowsWithoutEntry < MAX_ROWS_NO_ENTRY ) 
+		while ( num_rows_without_entry < MAX_ROWS_NO_ENTRY ) 
 		{
-			CExcelString sourceText, transText, contextText ;
+			const long source_col = start_col ;
+			const long trans_col = start_col+1 ;
+			const long context_col = start_col+2 ;
 
-			try
-			{
-				sourceText = activeSheet->Cell(iRow, iCol )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
-			}
-			try
-			{
-				transText = activeSheet->Cell(iRow, iCol+1 )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
-			}
-			try
-			{
-				contextText = activeSheet->Cell(iRow, iCol+2 )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
-			}
+			const _bstr_t source_text = get_cell_text(activeSheet->Cell(current_row, source_col)) ;
+			const _bstr_t trans_text = get_cell_text(activeSheet->Cell(current_row, trans_col)) ;
+			const _bstr_t context_text = get_cell_text(activeSheet->Cell(current_row, context_col)) ;
 
-
-			if ( sourceText.as_bstr().length() > 0 && transText.as_bstr().length() > 0 ) 
+			if (source_text.length() > 0 && trans_text.length() > 0 ) 
 			{
-				assistant->AddGlossaryEntry( sourceText.as_bstr(), 
-												transText.as_bstr(), 
-												contextText.as_bstr() ) ;
+				assistant->AddGlossaryEntry(source_text, 
+											trans_text, 
+											context_text) ;
 
-				numRowsWithoutEntry = 0 ;
+				num_rows_without_entry = 0 ;
 			}
 			else
 			{
-				numRowsWithoutEntry++ ;
+				num_rows_without_entry++ ;
 			}
 
-			iRow++ ;
+			current_row++ ;
 		}
 
-		excel::range_ptr final_cell = activeSheet->Cell(iRow, iCol) ;
-		final_cell->Select() ;
+		select_final_cell(activeSheet, current_row, start_col);
 	}
 	catch( _com_error &e ) 
 	{
 		MessageBox( NULL, e.ErrorMessage(), _T("Glossary Registration Failure"), MB_OK | MB_ICONSTOP ) ;
 	}
-	catch( CException &myException )
+	catch( CException &e )
 	{
-		myException.notify_user( _T("Initialization Error") ) ;
+		e.notify_user( _T("Error on batch add memory") ) ;
 	}
 }
 
@@ -164,71 +168,45 @@ void CFelixExcelIF::OnAutoAddMem ( )
 
 		excel::sheet_ptr activeSheet = GetActiveSheet() ;
 
-		long iRow = activeCell->Row() ;
-		long iCol = activeCell->Column() ;
+		long current_row = activeCell->Row() ;
+		const long start_col = activeCell->Column() ;
 
-		long numRowsWithoutEntry = 0 ;
+		long num_rows_without_entry = 0 ;
 
-		while ( numRowsWithoutEntry < MAX_ROWS_NO_ENTRY ) 
+		while ( num_rows_without_entry < MAX_ROWS_NO_ENTRY ) 
 		{
-			CExcelString sourceText, transText, contextText ;
+			const long source_col = start_col ;
+			const long trans_col = start_col+1 ;
+			const long context_col = start_col+2 ;
 
-			try
-			{
-				sourceText = activeSheet->Cell(iRow, iCol )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				sourceText = activeSheet->GetCellFormula(iRow, iCol ) ;
-			}
-			try
-			{
-				transText = activeSheet->Cell(iRow, iCol+1 )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				transText = activeSheet->GetCellFormula(iRow, iCol+1 ) ;
-			}
-			try
-			{
-				contextText = activeSheet->Cell(iRow, iCol+2 )->GetText() ;
-			}
-			catch (_com_error& e)
-			{
-				logging::log_error("COM exception getting cell text") ;
-				logging::log_exception(e) ;
-				contextText = activeSheet->GetCellFormula(iRow, iCol+2 ) ;
-			}
+			const _bstr_t source_text = get_cell_text(activeSheet->Cell(current_row, source_col)) ;
+			const _bstr_t trans_text = get_cell_text(activeSheet->Cell(current_row, trans_col)) ;
+			const _bstr_t context_text = get_cell_text(activeSheet->Cell(current_row, context_col)) ;
 
-			if ( sourceText.as_bstr().length() > 0 && transText.as_bstr().length() > 0 ) 
+			if ( source_text.length() > 0 && trans_text.length() > 0 ) 
 			{
-				assistant->AddMemoryEntry( sourceText.as_bstr(), 
-																			 transText.as_bstr(), 
-																			 contextText.as_bstr() ) ;
-				numRowsWithoutEntry = 0 ;
+				assistant->AddMemoryEntry(source_text,
+										  trans_text,
+										  context_text) ;
+				num_rows_without_entry = 0 ;
 			}
 			else
 			{
-				numRowsWithoutEntry++ ;
+				num_rows_without_entry++ ;
 			}
 
-			iRow++ ;
+			current_row++ ;
 		}
 
-		excel::range_ptr final_cell = activeSheet->Cell( iRow, iCol ) ;
-		final_cell->Select() ;
+		select_final_cell(activeSheet, current_row, start_col);
 	}
 	catch( _com_error &e ) 
 	{
 		MessageBox( NULL, e.ErrorMessage(), _T("Memory Registration Failure"), MB_OK | MB_ICONSTOP ) ;
 	}
-	catch( CException &myException )
+	catch( CException &e )
 	{
-		myException.notify_user( _T("Initialization Error") ) ;
+		e.notify_user( _T("Error on batch add memory") ) ;
 	}
 }
 /*!
@@ -327,10 +305,9 @@ void CFelixExcelIF::OnLookupNext( )
 		{
 			for ( int iCol = startCol ; iCol <= UsedColumns ; ++iCol )
 			{
-				excel::range_ptr activeCell = activeSheet->Cell( iRow, iCol ) ;
-				CExcelString lookupText = activeCell->GetFormula() ;
+				const _bstr_t cell_text = get_cell_text(activeSheet->Cell( iRow, iCol )) ;
 
-				if ( ! lookupText.empty() && ! IsIgnoreCell(BSTR2wstring(lookupText.as_bstr()) ) )
+				if ( cell_text.length() > 0 && ! IsIgnoreCell(BSTR2wstring(cell_text) ) )
 				{
 					activeCell->Select() ;
 					OnLookup() ;
@@ -391,9 +368,9 @@ void CFelixExcelIF::OnSet( )
 	{
 		MessageBox( NULL, e.ErrorMessage(), _T("COM Error"), MB_OK | MB_ICONSTOP ) ;
 	}
-	catch( CException &myException )
+	catch( CException &e )
 	{
-		myException.notify_user( _T("Initialization Error") ) ;
+		e.notify_user( _T("Error adding translation text") ) ;
 	}
 }
 
@@ -417,7 +394,7 @@ void CFelixExcelIF::OnGet( )
 
 		CFelixString trans = assistant->GetTrans() ;
 
-		set_cell_text(assistant->GetTrans()) ;
+		set_active_cell_text(assistant->GetTrans()) ;
 
 		restore_cell_color();
 
@@ -500,7 +477,7 @@ ta_ptr CFelixExcelIF::realGetAssistant(void)
 			m_Assistant->Visible = VARIANT_TRUE ;
 		}
 		// So here, we try to access it, and if we get any kind of exception,
-		// we created the COM server again, and return that.
+		// we create the COM server again, and return that.
 		catch (...)
 		{
 			Felix::IAppPtr assistant ;
@@ -652,10 +629,10 @@ void CFelixExcelIF::OnEntry( int num )
 	{
 		ta_ptr assistant = getAssistant() ;
 
-		_bstr_t entry = assistant->GlossMatch( num ) ;
+		const _bstr_t entry = assistant->GlossMatch( num ) ;
 		TRACE( entry ) ;
 
-		set_cell_text(entry) ;
+		set_active_cell_text(entry) ;
 	}
 	catch( _com_error &e ) 
 	{
@@ -734,19 +711,19 @@ void CFelixExcelIF::AutoTransCell( excel::range_ptr activeCell, ta_ptr assistant
 		{
 			return ;
 		}
-		CExcelString lookupText = activeCell->GetFormula() ;
+		_bstr_t cell_text = get_cell_text(activeCell) ;
 
-		if ( lookupText.empty() ) 
+		if ( cell_text.length() == 0 ) 
 		{
 			return ;
 		}
 
-		if ( IsIgnoreCell(BSTR2wstring(lookupText.as_bstr()) ) )
+		if ( IsIgnoreCell(BSTR2wstring(cell_text) ) )
 		{
 			return ;
 		}
 
-		assistant->SetQuery( lookupText.as_bstr() ) ;
+		assistant->SetQuery(cell_text) ;
 
 		if ( ! double_equals(assistant->GetScore(), 1.0) ) // || ! isAcceptableCell )
 		{
@@ -762,21 +739,22 @@ void CFelixExcelIF::AutoTransCell( excel::range_ptr activeCell, ta_ptr assistant
                 // If the cell is already colored "33" (turquoise-ish),
                 // then we color it 32 (dark blue) so there will still be a 
                 // contrast
-				if ( color == 33 )
+				const int TURQUOISE = 33 ;
+				const int DARK_BLUE = 32 ;
+				if ( color == TURQUOISE )
 				{
-					activeCell->SetFillColor( 32 );
+					activeCell->SetFillColor(DARK_BLUE);
 				}
 				else
 				{
-					activeCell->SetFillColor( 33 );
+					activeCell->SetFillColor(TURQUOISE);
 				}
 
 			}
 			return ;
 		}
 
-		CFelixString trans = assistant->GetTrans() ; // string2BSTR( text.c_str() ) ;
-		activeCell->SetFormula( trans.as_variant() );
+		set_cell_text(activeCell, assistant->GetTrans());
 
 		restoreColor(activeCell);
 		numTransSheet++ ;
@@ -805,7 +783,7 @@ void CFelixExcelIF::restoreColor( excel::range_ptr activeCell )
 {
 	BANNER( "CFelixExcelIF::restoreColor" ) ;
 
-	cell_loc id =  get_cell_loc(m_CurrentSheetName, activeCell) ;
+	const cell_loc id =  get_cell_loc(m_CurrentSheetName, activeCell) ;
 
 	if ( m_ColoredCells.find( id ) != m_ColoredCells.end() ) // we have colored this cell before...
 	{
@@ -971,7 +949,7 @@ _bstr_t CFelixExcelIF::get_selection_text( excel::app_ptr application )
 /*!
  * Sets the text in the active shape/cell.
  */
-void CFelixExcelIF::set_cell_text( _bstr_t text )
+void CFelixExcelIF::set_active_cell_text( _bstr_t text )
 {
 	CFelixString trans = text ;
 
@@ -1062,6 +1040,11 @@ void CFelixExcelIF::close_workbook( IDispatch* workbook )
 	m_trans_history->method(L"ShutDown", var) ;
 }
 
+void CFelixExcelIF::select_final_cell( excel::sheet_ptr activeSheet, long current_row, const long start_col )
+{
+	excel::range_ptr final_cell = activeSheet->Cell(current_row, start_col) ;
+	final_cell->Select() ;
+}
 
 /************************************************************************/
 /* Unit tests

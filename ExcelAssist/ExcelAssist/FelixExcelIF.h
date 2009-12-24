@@ -83,6 +83,8 @@ public:
 	bool is_trans_mode();
 
 	void OnAutoAddGloss( ) ;
+
+	void select_final_cell( excel::sheet_ptr activeSheet, long current_row, const long start_col );
 	void OnAutoAddMem( )  ;
 
 	excel::sheet_ptr GetActiveSheet();
@@ -90,7 +92,7 @@ public:
 
 	void remember_active_sheet(excel::sheet_ptr activeSheet);
 	_bstr_t get_selection_text( excel::app_ptr application );
-	void set_cell_text(_bstr_t text );
+	void set_active_cell_text(_bstr_t text );
 	void OnLookupNext( ) ;
 	void OnSet( )  ;
 

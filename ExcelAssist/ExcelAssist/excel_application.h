@@ -70,7 +70,6 @@ public:
 	{
 		CDispatchWrapper selDisp = m_pApplication->Selection ;
 		Excel::CharactersPtr chars = selDisp.prop_get( L"Characters" ).pdispVal ;
-CComPtr<IDispatch> foo ;
 		chars_ptr excel_chars(new characters) ;
 		excel_chars->set_chars(chars) ;
 
