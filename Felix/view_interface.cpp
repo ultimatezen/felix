@@ -28,6 +28,10 @@ void view_interface::ensure_document_complete(HACCEL accel, HWND hwnd)
 #ifdef UNIT_TEST
 	return ;
 #endif
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	const size_t num_iterations = 100 ;
 	background_processor backer( num_iterations, accel, hwnd ) ;
 
@@ -39,6 +43,10 @@ void view_interface::ensure_document_complete(HACCEL accel, HWND hwnd)
 
 void view_interface::ensure_navigation_complete(HACCEL accel, HWND hwnd)
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	const size_t num_iterations = 100 ;
 	background_processor backer( num_iterations, accel, hwnd ) ;
 
@@ -54,6 +62,10 @@ const wstring view_interface::get_selection_text()
 #ifdef UNIT_TEST
 	return L"spam" ;
 #endif
+	if (! m_view.IsWindow())
+	{
+		return wstring();
+	}
 	html::CHtmlSelection selection = m_view.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
 	const wstring selection_text = BSTR2wstring(range.get_html_text()) ;
@@ -69,35 +81,67 @@ void view_interface::create( HWND parent, HWND &client )
 }
 void view_interface::set_text( const wstring &text )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.set_body_text( text ) ;
 }
 void view_interface::load_resource( LPCTSTR resource_name )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.load_from_resource( resource_name ) ;
 }
 void view_interface::navigate(LPCTSTR url)
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.navigate(_bstr_t(url)) ;
 }
 
 void view_interface::do_bold() 
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.do_bold() ;
 }
 void view_interface::do_underline()
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.do_underline() ;
 }
 void view_interface::do_italic()
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.do_italic() ;
 }
 void view_interface::do_delete()
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.OnEditDelete() ;
 }
 void view_interface::set_bg_color( const wstring &color ) 
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	html::CHtmlDocument doc = m_view.get_document() ;
 	doc.set_bg_color( color ) ;
 
@@ -127,6 +171,10 @@ wstring view_interface::get_bg_color()
 #ifdef UNIT_TEST
 	return wstring(L"#FFFFFF") ;
 #endif
+	if (! m_view.IsWindow())
+	{
+		return wstring();
+	}
 
 	html::CHtmlDocument doc = m_view.get_document() ;
 	return BSTR2wstring( doc.get_bg_color() ) ;
@@ -138,10 +186,18 @@ html::document_ptr view_interface::get_document()
 
 bool view_interface::is_edit_mode()
 {
+	if (! m_view.IsWindow())
+	{
+		return false ;
+	}
 	return m_view.get_edit_mode() ;
 }
 void view_interface::put_edit_mode( bool setting )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.put_edit_mode( setting ) ;
 }
 
@@ -149,6 +205,10 @@ void view_interface::put_edit_mode( bool setting )
 
 void view_interface::handle_enter_edit_mode_new_record_glossary( )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
@@ -183,6 +243,10 @@ void view_interface::handle_enter_edit_mode_new_record_glossary( )
 
 void view_interface::handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
@@ -202,6 +266,10 @@ void view_interface::handle_enter_edit_mode_concordance_glossary( mem_engine::se
 
 bool view_interface::handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record )
 {
+	if (! m_view.IsWindow())
+	{
+		return false;
+	}
 	// set the actual edit mode
 	m_view.put_edit_mode( false ) ;
 
@@ -239,6 +307,10 @@ bool view_interface::handle_leave_edit_mode_new_record_glossary( MemoryControlle
 
 bool view_interface::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return false;
+	}
 
 	// set the actual edit mode
 	m_view.put_edit_mode( false ) ;
@@ -307,6 +379,10 @@ bool view_interface::handle_leave_edit_mode_concordance_glossary( MemoryControll
 
 void view_interface::handle_enter_edit_mode_new_record()
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.put_edit_mode( true ) ;
 
 	html::CHtmlSelection selection = m_view.get_selection() ;
@@ -316,6 +392,10 @@ void view_interface::handle_enter_edit_mode_new_record()
 
 void view_interface::handle_enter_edit_mode_match( TransMatchQueryTrans &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// Get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
@@ -356,6 +436,10 @@ void view_interface::handle_enter_edit_mode_match( TransMatchQueryTrans &matches
 
 void view_interface::handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
@@ -373,6 +457,10 @@ void view_interface::handle_enter_edit_mode_concordance( mem_engine::search_quer
 // =========================
 void view_interface::handle_leave_edit_mode_new( record_pointer &record )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// set the actual edit mode
 	m_view.put_edit_mode( false ) ;
 
@@ -397,6 +485,10 @@ void view_interface::handle_leave_edit_mode_new( record_pointer &record )
 
 void view_interface::handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// set the actual edit mode
 	m_view.put_edit_mode( false ) ;
 
@@ -466,6 +558,10 @@ void view_interface::handle_leave_edit_mode_match( MemoryControllerType memories
 
 bool view_interface::handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches )
 {
+	if (! m_view.IsWindow())
+	{
+		return false;
+	}
 	m_view.put_edit_mode( false ) ;
 	if ( memories->empty() ) 
 	{
@@ -540,6 +636,10 @@ bool view_interface::handle_leave_edit_mode_concordance( MemoryControllerType me
 
 void view_interface::scroll_element_into_view( const wstring &current_id )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	// get the collection of HTML elements in the doc body
 	html::collection_ptr collection = get_element_collection() ;
 
@@ -561,15 +661,27 @@ void view_interface::scroll_element_into_view( const wstring &current_id )
 
 BOOL view_interface::PreTranslateMessage( LPMSG pMsg )
 {
+	if (! m_view.IsWindow())
+	{
+		return FALSE;
+	}
 	return m_view.PreTranslateMessage( pMsg ) ;
 }
 
 BOOL view_interface::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT &lResult)
 {
+	if (! m_view.IsWindow())
+	{
+		return FALSE;
+	}
 	return m_view.ProcessWindowMessage( hWnd, uMsg, wParam, lParam, lResult ) ;
 }
 void view_interface::Move( LPRECT rect )
 {
+	if (! m_view.IsWindow())
+	{
+		return ;
+	}
 	m_view.MoveWindow( rect, TRUE ) ;
 }
 
@@ -598,6 +710,10 @@ void view_interface::clean_up_urls( html::collection_ptr &collection )
 
 wstring view_interface::get_doc_path( const wstring doc_url )
 {
+	if (! m_view.IsWindow())
+	{
+		return wstring();
+	}
 	wstring local_docurl(doc_url) ;
 	str::replace_all(local_docurl, L"\\", L"/") ;
 

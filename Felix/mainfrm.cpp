@@ -2484,9 +2484,14 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
  */
 bool CMainFrame::show_view_content()
 {
+
 #ifdef UNIT_TEST
 	return true ;
 #endif
+	if (! IsWindow())
+	{
+		return true ;
+	}
 
 	switch ( get_display_state() )
 	{

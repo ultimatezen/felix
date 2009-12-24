@@ -21,30 +21,32 @@ void set_shortcuts_callback(boost::function<void(BOOL)> callback, BOOL current_s
 	shortcuts_enabled = current_setting ;
 }
 
-bool shift_key_is_pressed()
-{
-	bool shift_key_state = false ;
-	shift_key_state = !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
-	return shift_key_state ;
-}
-bool control_key_is_pressed()
-{
-	bool control_key_state = false ;
-	control_key_state = !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-	return control_key_state ;
-}
-
-bool alt_key_is_pressed( WORD key_message )
-{
-	bool alt_key_state = false ;
-	alt_key_state = !! ( key_message & KF_ALTDOWN ) ;
-	return alt_key_state ;
-}
-
 CPowerPointInterface* getInterface() 
 {
 	return addin ;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// Check for various key-press states
+//////////////////////////////////////////////////////////////////////////
+
+bool shift_key_is_pressed()
+{
+	return !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
+}
+bool control_key_is_pressed()
+{
+	return !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
+}
+
+bool alt_key_is_pressed( WORD key_message )
+{
+	return !! ( key_message & KF_ALTDOWN ) ;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Keyboard listener proc
+//////////////////////////////////////////////////////////////////////////
 
 LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 															  WPARAM wParam, 
@@ -56,17 +58,16 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	}
 
 	// get the first word
-	WORD wKeystrokeMsg = (WORD)(lParam >> 16);
+	const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
 	if ( wKeystrokeMsg & KF_UP ) // key is up
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
 	}
 
+	const bool control_key_pressed = control_key_is_pressed() ;
 
-	bool control_key_pressed = control_key_is_pressed() ;
-
-	bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
+	const bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
 
 	if (alt_key_pressed &&
 		control_key_pressed && 
@@ -159,7 +160,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 			CASE( _T('C') )
 			{
 				addin->m_is_auto = false ;
-				if ( FAILED( addin->OnTransConcordanceAction( shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnTransConcordanceAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
@@ -168,7 +169,6 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	else
 	{
 		switch ( wParam )
-
 		{
 			CASE( VK_RIGHT ) 
 			{
@@ -193,34 +193,34 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 			}
 			CASE( _T('P') ) 
 			{
-				if ( FAILED( addin->OnPrevAction( ) )	)
+				if ( FAILED( addin->OnPrevAction( ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('N') ) 
 			{
-				if ( FAILED( addin->OnNextAction( ) )	)
+				if ( FAILED( addin->OnNextAction( ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('G') ) 
 			{
 				addin->m_is_auto = false ;
-				if ( FAILED( addin->OnGetAndNextAction( shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnGetAndNextAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('S') ) 
 			{
 				addin->m_is_auto = false ;
-				if ( FAILED( addin->OnSetAndNextAction( shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnSetAndNextAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('L') ) 
 			{
 				addin->m_is_auto = false ;
-				if ( FAILED( addin->OnLookupAction( shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnLookupAction( shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
@@ -244,61 +244,61 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 			}
 			CASE( _T('0') )
 			{
-				if ( FAILED( addin->OnEntryAction( 0, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 0, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('1') )
 			{
-				if ( FAILED( addin->OnEntryAction( 1, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 1, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('2') )
 			{
-				if ( FAILED( addin->OnEntryAction( 2, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 2, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('3') )
 			{
-				if ( FAILED( addin->OnEntryAction( 3, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 3, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('4') )
 			{
-				if ( FAILED( addin->OnEntryAction( 4, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 4, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('5') )
 			{
-				if ( FAILED( addin->OnEntryAction( 5, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 5, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('6') )
 			{
-				if ( FAILED( addin->OnEntryAction( 6, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 6, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('7') )
 			{
-				if ( FAILED( addin->OnEntryAction( 7, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 7, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('8') )
 			{
-				if ( FAILED( addin->OnEntryAction( 8, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 8, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
 			CASE( _T('9') )
 			{
-				if ( FAILED( addin->OnEntryAction( 9, shift_key_is_pressed() ) )	)
+				if ( FAILED( addin->OnEntryAction( 9, shift_key_is_pressed() ) ) )
 					return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 				return 1 ;
 			}
@@ -308,6 +308,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	return CallNextHookEx( hkb, nCode, wParam, lParam );
 }
 
+// installhook
 BOOL installhook( CPowerPointInterface *addy )
 {
 	addin = addy ;
@@ -316,6 +317,7 @@ BOOL installhook( CPowerPointInterface *addy )
 	return TRUE;
 }
 
+// uninstallhook
 BOOL uninstallhook( CPowerPointInterface *addy )
 {
 	addy ;

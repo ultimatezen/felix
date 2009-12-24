@@ -1843,6 +1843,10 @@ void CGlossaryWindow::set_ui_language()
 
 bool CGlossaryWindow::show_view_content()
 {
+	if (! IsWindow())
+	{
+		return true ;
+	}
 	switch ( get_display_state()  )
 	{
 	case NEW_RECORD_DISPLAY_STATE:
