@@ -47,23 +47,17 @@ void set_classic_if_off()
 
 bool shift_key_is_pressed()
 {
-	bool shift_key_state = false ;
-	shift_key_state = !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
-	return shift_key_state ;
+	return !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
 }
 
 bool control_key_is_pressed()
 {
-	bool control_key_state = false ;
-	control_key_state = !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-	return control_key_state ;
+	return !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
 }
 
 bool alt_key_is_pressed( WORD key_message )
 {
-	bool alt_key_state = false ;
-	alt_key_state = !! ( key_message & KF_ALTDOWN ) ;
-	return alt_key_state ;
+	return !! ( key_message & KF_ALTDOWN ) ;
 }
 
 LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
@@ -80,7 +74,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	try
 	{
 		// get the first word
-		WORD wKeystrokeMsg = (WORD)(lParam >> 16);
+		const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
 		// if a dialog is being displayed, quit processing
 		// if the key is up, quit processing 
@@ -169,7 +163,7 @@ BOOL uninstallhook( CKeyboardListener *listener )
 /************************************************************************/
 bool process_ctl_right()
 {
-	if ( in_shift_state) 
+	if (in_shift_state) 
 	{
 		in_shift_state = false ;
 		return false ;
@@ -194,8 +188,8 @@ bool process_ctl_right()
 
 bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 {
-	bool control_key_pressed	= control_key_is_pressed() ;
-	bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
+	const bool control_key_pressed	= control_key_is_pressed() ;
+	const bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
 
 #ifdef _DEBUG
 	if ( control_key_pressed && wParam == VK_F2 )
@@ -238,6 +232,8 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	{
 		return process_ctl_right() ;
 	}
+	// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
+	const bool shift_key_pressed = shift_key_is_pressed() ;
 
 	/************************************************************************/
 	/* We are in a shift state                                              */
@@ -246,9 +242,6 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	if ( in_shift_state ) 
 	{
 		in_shift_state = false ;
-		
-		// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
-		bool shift_key_pressed = shift_key_is_pressed() ;
 		
 		switch( wParam )
 		{
@@ -310,8 +303,6 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	/* Alt key pressed                                                      */
 	/************************************************************************/
 
-	// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
-	bool shift_key_pressed = shift_key_is_pressed() ;
 	
 	switch ( wParam )
 	{
@@ -321,7 +312,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
-				kb_listener->set_auto_off() ;
+			kb_listener->set_auto_off() ;
 			return kb_listener->OnLookupNextAction( shift_key_pressed ) ;
 		}
 		//	"&Register Current Translation (ALT + UP ARR)"
@@ -350,7 +341,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 
-				kb_listener->set_auto_off() ;
+			kb_listener->set_auto_off() ;
 			return kb_listener->OnToMaruAction( shift_key_pressed ) ;
 		}
 		//	"&Previous Translation (ALT + P)"
@@ -375,7 +366,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
-				kb_listener->set_auto_off() ;
+			kb_listener->set_auto_off() ;
 			return kb_listener->OnGetAndNextAction( shift_key_pressed ) ;
 		}
 		//	"&Set And Next (ALT + S)"
@@ -384,7 +375,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
-				kb_listener->set_auto_off() ;
+			kb_listener->set_auto_off() ;
 			return kb_listener->OnSetAndNextAction( shift_key_pressed ) ;
 		}
 		//	"Look up &Current Selection (ALT + L)"
@@ -393,7 +384,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 			// skip if doc not active
 			ENSURE_ACTIVE
 			
-				kb_listener->set_auto_off() ;
+			kb_listener->set_auto_off() ;
 			return kb_listener->OnLookupAction( shift_key_pressed ) ;
 		}
 		//	"Translate to Fu&zzy (ALT + Z)"
@@ -506,8 +497,8 @@ bool classic_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 {
 	static bool shift_state_with_control = false ;
 
-	bool control_key_pressed	= control_key_is_pressed() ;
-	bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
+	const bool control_key_pressed	= control_key_is_pressed() ;
+	const bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
 
 
 #ifdef _DEBUG
@@ -545,16 +536,16 @@ bool classic_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 		return process_ctl_right() ;
 	}
 
+	// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
+	const bool shift_key_pressed = shift_key_is_pressed() ;
+
 	/************************************************************************/
 	/* If we are in a shift state                                           */
 	/************************************************************************/
-
 	if ( in_shift_state ) 
 	{
 		in_shift_state = false ;
 		
-		// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
-		bool shift_key_pressed = shift_key_is_pressed() ;
 
 		ATLASSERT( ! ( ::GetKeyState( VK_MENU ) & 0x8000 ) ) ;
 		ATLASSERT( ! ( ::GetKeyState( VK_CONTROL ) & 0x8000 ) );
@@ -622,9 +613,6 @@ bool classic_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	// the alt key is actually depressed.
 	ATLASSERT( ::GetKeyState(VK_MENU) & 0x8000 ) ;
 	ATLASSERT( alt_key_pressed ) ;
-
-	// Use the shift key to set/get text as plaintext. Otherwise the default (html) is retrieved
-	bool shift_key_pressed = shift_key_is_pressed() ;
 
 	if ( control_key_pressed ) 
 	{
