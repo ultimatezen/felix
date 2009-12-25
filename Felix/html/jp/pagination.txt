@@ -1,0 +1,15 @@
+<p>
+{% if has_prev %}
+<a href="/prev_page">前に戻る</a>
+{% endif %}
+{% if not has_prev %}
+前に戻る
+{% endif %}
+|
+{% if has_next %}
+<a href="/next_page">次へ進む</a>
+{% endif %}
+{% if not has_next %}
+次へ進む
+{% endif %}
+</p>

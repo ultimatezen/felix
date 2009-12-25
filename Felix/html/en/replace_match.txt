@@ -1,0 +1,74 @@
+﻿<br clear="all" />
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;"> 
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+{% if found %}
+<h3>Match {$match_num} of {$num_matches}</h3>
+
+    <table class="props">
+        <tr>
+            <th>&nbsp;</th>
+            <th>Now</th>
+            <th>Will Become</th>
+        </tr>
+        <tr>
+            <th>Source</th>
+            <td>{$found.source}</td>
+            <td>{$result.source}</td>
+        </tr>
+        <tr>
+            <th>Translation</th>
+            <td>{$found.trans}</td>
+            <td>{$result.trans}</td>
+        </tr>
+        <tr>
+            <th>Context</th>
+            <td>{$found.context}</td>
+            <td>{$result.context}</td>
+        </tr>
+        <tr>
+            <th>Reliability</th>
+            <td>{$found.reliability}</td>
+            <td>{$result.reliability}</td>
+        </tr>
+        <tr>
+            <th>Validated</th>
+            <td>{$found.validated}</td>
+            <td>{$result.validated}</td>
+        </tr>
+        <tr>
+            <th>Ref count</th>
+            <td>{$found.ref_count}</td>
+            <td>{$result.ref_count}</td>
+        </tr>
+        <tr>
+            <th>Date created</th>
+            <td>{$found.date_created}</td>
+            <td>{$result.date_created}</td>
+        </tr>
+        <tr>
+            <th>Created by</th>
+            <td>{$found.created_by}</td>
+            <td>{$result.created_by}</td>
+        </tr>
+        <tr>
+            <th>Last modified</th>
+            <td>{$found.last_modified}</td>
+            <td>{$result.last_modified}</td>
+        </tr>
+        <tr>
+            <th>Modified by</th>
+            <td>{$found.modified_by}</td>
+            <td>{$result.modified_by}</td>
+        </tr>
+    </table>
+{% endif %}
+{% if not result %}
+<p>No records match your criteria.</p>
+{% endif %}

@@ -1,0 +1,5 @@
+<a href="replace_find" id="replace-find" class="ui-state-default ui-corner-all">&nbsp;Find&nbsp;</a>
+{% if found %}
+&nbsp;&nbsp;<a href="replace_replace" id="replace-replace" class="ui-state-default ui-corner-all">&nbsp;Replace&nbsp;</a>
+{% endif %}
+&nbsp;&nbsp;<a href="replace_all" id="replace-all" class="ui-state-default ui-corner-all">&nbsp;Replace All&nbsp;</a>

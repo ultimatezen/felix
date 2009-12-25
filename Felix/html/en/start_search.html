@@ -1,0 +1,178 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Search Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui-1.7.2.custom.min.js"></script>
+
+<script type="text/javascript">
+// Set focus to search box
+$(function()
+  {$("#searchbox").focus();}
+  );
+
+// Toggle help on and off
+function toggleHelp()
+{
+	var item = "#help_details" ;
+	var link = "#showhelp" ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == 'Search Help >>')
+	{$(link).html('&lt;&lt; Hide <b>H</b>elp')}
+	else
+	{$(link).html('Search <b>H</b>elp &gt;&gt;') }
+    return false;
+}
+// Toggle details for record on and off
+function toggleDetails(id)
+{
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == 'Details >>')
+	{$(link).html('&lt;&lt; Hide')}
+	else
+	{$(link).html('Details &gt;&gt;') }
+    return false;
+}
+
+</script>
+</head>
+<body>
+
+	<!-- FILTERS -->
+	<div id="filterbox" style="float:right">
+	</div>
+
+	<!-- SEARCH FORM -->
+	<form action="dosearch" method="post">
+	<input type="text" name="searchbox" id="searchbox" style="width:400px" value="" />
+	<input type="submit" value="Search" />
+	</form>
+	<div>
+	<a href="/newsearch" title="Clear search filters" id="newsearchlink"><b>N</b>ew Search</a> | 
+	<a href="/gotoreplace" title="Replace in results" id="replacelink"><b>R</b>eplace</a> |
+	<!-- HELP -->
+	<a href="#" id="showhelp" onclick="toggleHelp();">Search <b>H</b>elp &gt;&gt;</a>
+	</div>
+	<div id="help_details" style="display:none;">
+	<p>Enter a term to search for that term anywhere in a source or translation. Use the tags below in the format <em>tag:term</em> to make fine-grained searches.</p>
+
+	<table style="border:none;">
+	<tr><th colspan="2">Text Fields</th></tr>
+	<tr>
+	    <td>source:</td>
+	    <td>Search in source field</td>
+	</tr>
+	<tr>
+	    <td>trans:</td>
+	    <td>Search in translation field</td>
+	</tr>
+	<tr>
+	    <td>context:</td>
+	    <td>Search in context field</td>
+	</tr>
+	<tr><th colspan="2">Created</th></tr>
+	<tr>
+	    <td>created-by:</td>
+	    <td>Search in creator field</td>
+	</tr>
+	<tr>
+	    <td>created-before:</td>
+	    <td>Search for records created before date (YYYY-MM-DD format)</td>
+	</tr>
+	<tr>
+	    <td>created-after:</td>
+	    <td>Search for records created after date (YYYY-MM-DD format)</td>
+	</tr>
+	<tr><th colspan="2">Modified</th></tr>
+	<tr>
+	    <td>modified-by:</td>
+	    <td>Search in modifier field</td>
+	</tr>
+	<tr>
+	    <td>modified-before:</td>
+	    <td>Search for records modified before date (YYYY-MM-DD format)</td>
+	</tr>
+	<tr>
+	    <td>modified-after:</td>
+	    <td>Search for records modified after date (YYYY-MM-DD format)</td>
+	</tr>
+	<tr><th colspan="2">Reliability</th></tr>
+	<tr>
+	    <td>reliability:</td>
+	    <td>Search for records with the specified reliability</td>
+	</tr>
+	<tr>
+	    <td>reliability-gt:</td>
+	    <td>Search for records with greater than the specified reliability</td>
+	</tr>
+	<tr>
+	    <td>reliability-gte:</td>
+	    <td>Search for records with at least the specified reliability</td>
+	</tr>
+	<tr>
+	    <td>reliability-lt:</td>
+	    <td>Search for records with less than the specified reliability</td>
+	</tr>
+	<tr>
+	    <td>reliability-lte:</td>
+	    <td>Search for records with no more than than the specified reliability</td>
+	</tr>
+	<tr><th colspan="2">Validated</th></tr>
+	<tr>
+	    <td>validated:</td>
+	    <td>Search for records that are validated ("true") or not validated ("false")</td>
+	</tr>
+
+	<tr><th colspan="2">Reference Count</th></tr>
+	<tr>
+	    <td>refcount:</td>
+	    <td>Search for records with the specified reference count</td>
+	</tr>
+	<tr>
+	    <td>refcount-gt:</td>
+	    <td>Search for records with greater than the specified reference count</td>
+	</tr>
+	<tr>
+	    <td>refcount-gte:</td>
+	    <td>Search for records with at least the specified reference count</td>
+	</tr>
+	<tr>
+	    <td>refcount-lt:</td>
+	    <td>Search for records with less than the specified reference count</td>
+	</tr>
+	<tr>
+	    <td>refcount-lte:</td>
+	    <td>Search for records with no more than than the specified reference count</td>
+	</tr>
+	</table>
+
+	<h3>Examples</h3>
+
+	<p>Search for records created before 2009-10-01</p>
+	<pre>created-before:2009-10-01</pre>
+
+	<p>Search for records with a reliability of at least 5</p>
+	<pre>reliability-gte:5</pre>
+
+	<p>Search for records that have been validated</p>
+	<pre>validated:true</pre>
+	</div>
+
+	<!-- SEARCH RESULTS -->
+
+	<div id="searchresults">
+	</div>
+
+</body>
+</html>

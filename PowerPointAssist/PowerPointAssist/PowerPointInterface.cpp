@@ -265,7 +265,14 @@ HRESULT CPowerPointInterface::OnLookupAction( bool plaintext )
 		if ( formatted_text.length() > 0 ) 
 		{
 			Felix::IAppPtr app = getAssistant() ;
-			app->Query = formatted_text ;
+			if (m_is_auto)
+			{
+				app->Query = formatted_text ;
+			}
+			else
+			{
+				app->LookupDeferred(formatted_text) ;
+			}
 		}
 
 	}

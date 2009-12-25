@@ -815,7 +815,7 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 
 			// Now do the sheet cells
 			int UsedRows = max( activeSheet->UsedRows(),  m_excel_app->GetActiveCell()->Row() + MAX_CELL_EXTEND ) ;
-			int UsedColumns = max( activeSheet->UsedColumns(), MAX_CELL_EXTEND ) ;
+			const int UsedColumns = max( activeSheet->UsedColumns(), MAX_CELL_EXTEND ) ;
 
 			for ( int iRow = 1 ; iRow <= UsedRows ; ++iRow )
 			{
@@ -851,7 +851,7 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 	}
 	catch( CException &myException )
 	{
-		myException.notify_user( _T("Auto Translation Error") ) ;
+		myException.notify_user( _T("Auto Translation Error (Sheet)") ) ;
 	}
 }
 
@@ -867,8 +867,8 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 CFelixExcelIF::cell_loc CFelixExcelIF::get_cell_loc( const wstring &name, excel::range_ptr activeCell )
 {
 	BANNER( "CFelixExcelIF::getCellLoc" ) ;
-	int row = activeCell->Row() ;
-	int col = activeCell->Column() ;
+	const int row = activeCell->Row() ;
+	const int col = activeCell->Column() ;
 
 	return cell_loc( name, cellCoords( row, col ) ) ;
 }

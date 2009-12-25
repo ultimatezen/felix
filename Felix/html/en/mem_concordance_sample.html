@@ -1,0 +1,43 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div><strong>Search Results:</strong></div>
+<table class="base">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="5"><strong>{$loop.index}.</strong><br />
+     <a title="Edit entry" href="142:{$loop.index0}">[E]</a>-<a 
+      title="Delete entry" href="122:{$loop.index0}">[D]</a>-<a 
+      title="Register glossary entries" href="127:{$loop.index0}">[R]</a>-<a 
+      title="Add entry to glossary" href="129:{$loop.index0}">[G]</a> <br />
+	  [{$record.mem}]
+    </td>
+    <td><strong>Source</strong></td>
+    <td class="match_content" id="source">{$record.source}</td>
+  </tr>
+  <tr>
+    <td><strong>Trans</strong></td>
+    <td class="match_content" id="trans">{$record.trans}</td>
+  </tr>
+  <tr>
+    <td><strong>Context</strong></td>
+    <td class="match_content" id="context">{$record.context}</td>
+  </tr>
+  <tr>
+    <td><strong>Validated</strong></td>
+    <td class="match_content" id="validated">{$record.validated}</td>
+  </tr>
+  <tr>
+    <td><strong>Reliability</strong></td>
+    <td class="match_content" id="reliability">{$record.reliability}</td>
+  </tr>
+{% endfor %}
+</table>
+</body>
+</html>

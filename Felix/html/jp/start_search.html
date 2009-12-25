@@ -1,0 +1,187 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	検索のページ
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui-1.7.2.custom.min.js"></script>
+
+<script type="text/javascript">
+// Set focus to search box
+$(function()
+  {$("#searchbox").focus();}
+  );
+
+// Toggle help on and off
+function toggleHelp()
+{
+	var item = "#help_details" ;
+	var link = "#showhelp" ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == 'ヘルプの表示(H) >>')
+	{$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)')}
+	else
+	{$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') }
+    return false;
+}
+// Toggle details for record on and off
+function toggleDetails(id)
+{
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == '詳細 >>')
+	{$(link).html('&lt;&lt; 非表示')}
+	else
+	{$(link).html('詳細 &gt;&gt;') }
+    return false;
+}
+
+/* submit (does find) */
+$(function() {
+    $("#searchform").submit(function() {
+        document.forms[0].action = "replace_find" ;
+        return true;
+		});
+});
+
+</script>
+</head>
+<body>
+
+	<!-- FILTERS -->
+	<div id="filterbox" style="float:right">
+	</div>
+
+	<!-- SEARCH FORM -->
+	<form action="dosearch" method="post">
+	<input type="text" name="searchbox" id="searchbox" style="width:400px" value="" />
+	<input type="submit" value="Search" />
+	</form>
+
+	<div>
+	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> | 
+	<a href="/gotoreplace" title="Replace in results">置換(<b>R</b>)</a> |
+	<!-- HELP -->
+	<a href="#" id="showhelp" onclick="toggleHelp();">ヘルプの表示(<b>H</b>) &gt;&gt;</a>
+	</div>
+	<div id="help_details" style="display:none;">
+	<p>文字列を入力して、訳文、または原文にマッチ（一致）のある翻訳エントリを検索します。下記のタグを<em>タグ名:検索対象</em>という方式を使用すると、より細かい検索ができます。</p>
+
+	<table style="border:none;">
+	<tr><th colspan="2">文字列フィールド</th></tr>
+	<tr>
+	    <td>source:</td>
+	    <td>原文の文字列を検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>trans:</td>
+	    <td>訳文の文字列を検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>context:</td>
+	    <td>コンテキスト（文脈）の文字列を検索対象とする</td>
+	</tr>
+	<tr><th colspan="2">作成者・作成日時</th></tr>
+	<tr>
+	    <td>created-by:</td>
+	    <td>作成者を検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>created-before:</td>
+	    <td>指定した日付の前に作成した翻訳エントリを検索対象とする (YYYY-MM-DD 方式)</td>
+	</tr>
+	<tr>
+	    <td>created-after:</td>
+	    <td>指定した日付の後に作成した翻訳エントリを検索対象とする (YYYY-MM-DD 方式)</td>
+	</tr>
+	<tr><th colspan="2">変更者・更新日時</th></tr>
+	<tr>
+	    <td>modified-by:</td>
+	    <td>変更者を検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>modified-before:</td>
+	    <td>指定した日付の前に変更した翻訳エントリを検索対象とする (YYYY-MM-DD 方式)</td>
+	</tr>
+	<tr>
+	    <td>modified-after:</td>
+	    <td>指定した日付の後に変更した翻訳エントリを検索対象とする (YYYY-MM-DD 方式)</td>
+	</tr>
+	<tr><th colspan="2">信頼度</th></tr>
+	<tr>
+	    <td>reliability:</td>
+	    <td>翻訳エントリを信頼度で検索する</td>
+	</tr>
+	<tr>
+	    <td>reliability-gt:</td>
+	    <td>信頼度が指定した値より大きい翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>reliability-gte:</td>
+	    <td>信頼度が指定した値以上の翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>reliability-lt:</td>
+	    <td>信頼度が指定した値より小さい翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>reliability-lte:</td>
+	    <td>信頼度が指定した値以下の翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr><th colspan="2">確定済み・未確定</th></tr>
+	<tr>
+	    <td>validated:</td>
+	    <td>確定済み("true")、または未確定("false")の翻訳エントリを検索対象とする</td>
+	</tr>
+
+	<tr><th colspan="2">参照カウント</th></tr>
+	<tr>
+	    <td>refcount:</td>
+	    <td>翻訳エントリを参照カウントで検索する</td>
+	</tr>
+	<tr>
+	    <td>refcount-gt:</td>
+	    <td>参照カウントが指定した値より大きい翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>refcount-gte:</td>
+	    <td>参照カウントが指定した値以上の翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>refcount-lt:</td>
+	    <td>参照カウントが指定した値より小さい翻訳エントリを検索対象とする</td>
+	</tr>
+	<tr>
+	    <td>refcount-lte:</td>
+	    <td>参照カウントが指定した値以下の翻訳エントリを検索対象とする</td>
+	</tr>
+	</table>
+
+	<h3>使用例</h3>
+
+	<p>2009年10月1日以前に作成した翻訳エントリを検索対象とする</p>
+	<pre>created-before:2009-10-01</pre>
+
+	<p>信頼度が５以上の翻訳エントリを検索対象とする</p>
+	<pre>reliability-gte:5</pre>
+
+	<p>確認済みの翻訳エントリを検索対象とする</p>
+	<pre>validated:true</pre>
+	</div>
+
+	<!-- SEARCH RESULTS -->
+
+	<div id="searchresults">
+	</div>
+
+</body>
+</html>

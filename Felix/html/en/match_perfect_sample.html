@@ -1,0 +1,55 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table class="base">
+  <tr id="0">
+    <th class="perfect">Source</th>
+	<td class="match_content" id="source" style="color: {$source_color}">{$source}</td>
+  </tr>
+  <tr>
+    <th class="perfect">Trans</td>
+	<td class="match_content" id="trans" style="color: {$trans_color}">{$trans}</td>
+  </tr>
+</table>
+<div class="perfect_score_box">
+  Score: 100%
+</div>
+<div style="float:right;">
+	{$num} / {$total} 
+</div>
+<br clear="all" />
+<div style="font-size:3px;">&nbsp;</div>
+<div style="float:left;">
+  <a href="142:0" title="Edit entry">Edit</a> | 
+  <a href="122:0" title="Delete entry">Delete</a>
+</div>
+{$next_nav}
+<br clear="all" />
+
+  <hr style="margin-top:3px;" />
+
+<div style="float:left;"> 
+  <a href="127:0" title="Register glossary entries">Register Glossary</a> | 
+  <a href="129:0" title="Add entry to glossary">Add to Glossary</a>
+</div>
+<div style="float:right;"> 
+	<A title="View detailed information about this entry" href="152:159">More &gt;&gt;</A>
+</div>
+
+<br clear="all" />
+
+<table class="actions">
+  <tr>
+    <td><b>Memory</b>: {$mem}</td>
+	<td><b>Reference Count</b>: {$refcount}</td>
+   </tr>
+</table>
+
+</body>
+</html>

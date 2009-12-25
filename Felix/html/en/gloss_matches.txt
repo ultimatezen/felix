@@ -1,0 +1,15 @@
+<table class="base">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="2"><strong>{$loop.index}.</strong><br />
+	<a title="Edit entry" href="142:{$loop.index0}">[E]</a>-<a 
+      title="Delete entry" href="122:{$loop.index0}">[D]</a>-<a 
+	  title="Add entry to memory" href="158:{$loop.index0}">[M]</a><br />
+	  [{$record.mem}]</td>
+    <td><strong>Source</strong></td>
+    <td id="source">{$record.source}</td></tr>
+  <tr>
+    <td><strong>Trans</strong></td>
+    <td id="trans">{$record.trans}</td></tr>
+{% endfor %}
+</table>

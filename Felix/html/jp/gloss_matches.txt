@@ -1,0 +1,15 @@
+﻿<table class="base">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="2"><strong>{$loop.index}.</strong><br />
+	<a title="エントリの編集" href="142:{$loop.index0}">[E]</a>-<a 
+      title="エントリの削除" href="122:{$loop.index0}">[D]</a>-<a 
+	  title="メモリに登録" href="158:{$loop.index0}">[M]</a><br />
+	  [{$record.mem}]</td>
+    <td><strong>原語</strong></td>
+    <td id="source">{$record.source}</td></tr>
+  <tr>
+    <td><strong>訳語</strong></td>
+    <td id="trans">{$record.trans}</td></tr>
+{% endfor %}
+</table>

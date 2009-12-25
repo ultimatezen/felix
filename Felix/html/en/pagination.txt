@@ -1,0 +1,15 @@
+<p>
+{% if has_prev %}
+<a href="/prev_page">Previous</a>
+{% endif %}
+{% if not has_prev %}
+Previous
+{% endif %}
+|
+{% if has_next %}
+<a href="/next_page">Next</a>
+{% endif %}
+{% if not has_next %}
+Next
+{% endif %}
+</p>

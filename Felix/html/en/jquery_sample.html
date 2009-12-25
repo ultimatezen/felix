@@ -1,0 +1,66 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" language="javascript" src="../js/jquery.js">
+	</script>
+<script type="text/javascript" language="javascript">
+  // Increase Font Size
+  function increaseFont()
+  {
+  	var currentFontSize = $('html').css('font-size');
+ 	var currentFontSizeNum = parseFloat(currentFontSize, 10);
+    var newFontSize = currentFontSizeNum*1.2;
+	$('html').css('font-size', newFontSize);
+	return false;
+  };
+  // Decrease Font Size
+  function decreaseFont()
+  {
+  	var currentFontSize = $('html').css('font-size');
+ 	var currentFontSizeNum = parseFloat(currentFontSize, 10);
+    var newFontSize = currentFontSizeNum*0.8;
+	$('html').css('font-size', newFontSize);
+	return false;
+  };
+</script>
+</head>
+<body>
+<div id="changeFont">
+<a href="#" onclick="increaseFont();">Increase</a>
+<a href="#" onclick="decreaseFont();">Decrease</a>
+</div>
+<table class="added" ID="table1">
+	<tr>
+		<th class="header" colSpan="2">
+			Added New Entry
+		</td>
+	</tr>
+	<tr id="0">
+		<th class="perfect" title="The source segment">Source</td>
+		<td class="match_content" id="source">{$source}</td>
+	<tr id="0">
+		<th class="perfect" title="The translation segment">Trans</td>
+		<td class="match_content" id="trans">{$trans}</td>
+	</tr>
+</table>
+<table class="actions" ID="table2">
+	<tr>
+		<td>
+			<a title="Edit the entry" href="100:edit:0">Edit</a>
+			 | 
+			<a title="Delete the entry" href="100:delete:0">Delete</a>
+		</td>
+	</tr>
+</table>
+<hr />
+<div>
+	<a title="Register glossary entries" href="100:add_gloss:0">Register Glossary Entries</a>
+	 | 
+	<a title="Add entry to glossary" href="100:add_to_gloss:0">Add to Glossary</a>
+</div>
+</body>
+</html>
