@@ -654,6 +654,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\distance.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\document_wrapper.cpp"
 				>
 			</File>
@@ -1649,7 +1653,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\distance_test.cpp"
+					RelativePath="..\..\MyLibrary\distance_test.cpp"
 					>
 				</File>
 				<File
@@ -2091,11 +2095,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\distance.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\distance.h"
+				RelativePath="..\..\MyLibrary\distance.h"
 				>
 			</File>
 			<File
