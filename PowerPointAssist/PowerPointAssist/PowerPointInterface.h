@@ -122,7 +122,7 @@ private:
 	bool setCorrectionText(PowerPoint::TextRangePtr range) ;
 
 
-	void writePlainText(PowerPoint::TextRangePtr& selectionTextRange, std::wstring& trans);
+	void writePlainText(PowerPoint::TextRangePtr& selectionTextRange, std::wstring trans);
 
 	PowerPoint::TextRangePtr getSetSelShapeRange();
 

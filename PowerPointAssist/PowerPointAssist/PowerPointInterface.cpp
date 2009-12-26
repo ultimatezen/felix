@@ -14,6 +14,7 @@
 #include "KeyboardDriver.h"
 #include "tag_stripper.h"
 #include "Hooker.h"
+#include "logging.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -23,14 +24,6 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 using namespace except ;
 
-#define _HR_FALSE( x ) \
-{ ATLTRACE( "Test: [" #x "]\n" ) ;\
-	HRESULT _hr = (x) ; \
-	if ( _hr == S_FALSE ) return _hr ;\
-	if ( FAILED( _hr ) ) \
-{ \
-	throw CAtlException( _hr ) ;\
-} }
 #define _HR( x ) \
 { ATLTRACE( "Test: [" #x "]\n" ) ;\
 	HRESULT _hr = (x) ; \
@@ -39,12 +32,10 @@ using namespace except ;
 	throw CAtlException( _hr ) ;\
 } }
 #define _HRB( x ) \
-{ ATLTRACE( "Test: [" #x "]\n" ) ;\
-	HRESULT _hr = (x) ; \
-	if ( FAILED( _hr ) ) \
+if ( FAILED( x ) ) \
 { \
 	return false ;\
-} }
+}
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -62,11 +53,13 @@ CPowerPointInterface::~CPowerPointInterface()
 
 }
 
+// getSelectionTextRange
 PowerPoint::TextRangePtr CPowerPointInterface::getSelectionTextRange()
 {
 	return getSelection()->GetTextRange() ;
 }
 
+// getSelection
 PowerPoint::SelectionPtr CPowerPointInterface::getSelection()
 {
 	return m_app->GetActiveWindow()->GetSelection() ;
@@ -74,16 +67,9 @@ PowerPoint::SelectionPtr CPowerPointInterface::getSelection()
 
 
 
-// Function name	: CAddin::OnGet
-// Description	    : 
-// Return type		: HRESULT 
-// Argument         :  IDispatch *Ctrl
-// Argument         : VARIANT_BOOL * CancelDefault
-
+// OnGetAction
 HRESULT CPowerPointInterface::OnGetAction(bool plaintext) 
 {
-	BANNER( "CAddin::OnGet" ) ;
-
 	try
 	{
 		if (m_app->Active != Office::msoTrue )
@@ -99,7 +85,7 @@ HRESULT CPowerPointInterface::OnGetAction(bool plaintext)
 			return E_FAIL ;
 		}
 
-		wstring trans = (LPCWSTR)( getAssistant()->Trans ) ;
+		const wstring trans = BSTR2wstring( getAssistant()->Trans ) ;
 
 		if ( plaintext )
 		{
@@ -110,37 +96,27 @@ HRESULT CPowerPointInterface::OnGetAction(bool plaintext)
 			CPPTWriter writer( selectionTextRange ) ;
 			writer.write_html( trans ) ;
 		}
-
-		//		PowerPoint::TextRangePtr collapsed = collapse_selection( selectionTextRange ) ;
-		//		collapsed->Select() ;
 	}
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnGetAction command in PowerPoint Interface") )
 		
 	return S_OK ;
 
 }
 
-void CPowerPointInterface::writePlainText(PowerPoint::TextRangePtr& selectionTextRange, std::wstring& trans)
+// writePlainText
+void CPowerPointInterface::writePlainText(PowerPoint::TextRangePtr& selectionTextRange, const std::wstring trans)
 {
-	selectionTextRange->Text = strip_tags( trans ).c_str() ;
-	int len = selectionTextRange->Length + 1 ;
+	selectionTextRange->Text = string2BSTR(strip_tags(trans)) ;
+	const int len = selectionTextRange->Length + 1 ;
 	PowerPoint::TextRangePtr rng = selectionTextRange->Characters( len, 0 ) ;
 	rng->Select() ;
-
 }
 
-// Function name	: CAddin::OnSet
-// Description	    : 
-// Return type		: HRESULT 
-// Argument         :  IDispatch *Ctrl
-// Argument         : VARIANT_BOOL * CancelDefault
+// OnSetAction
 HRESULT CPowerPointInterface::OnSetAction( bool ) 
 {
-	BANNER( "CAddin::OnSet" ) ;
-
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -165,15 +141,13 @@ HRESULT CPowerPointInterface::OnSetAction( bool )
 		return E_FAIL ;
 
 	}
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnSetAction command in PowerPoint Interface") )
 
 	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnGetAndNextAction
-// Description	    : 
-// Return type		: HRESULT 
+// OnGetAndNextAction
 HRESULT CPowerPointInterface::OnGetAndNextAction( bool plaintext )
 {
 	BANNER( "CPowerPointInterface::OnGetAndNextAction" ) ;
@@ -185,34 +159,27 @@ HRESULT CPowerPointInterface::OnGetAndNextAction( bool plaintext )
 		OnSetAndNextAction( plaintext ) ;
 	}
 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnGetAndNextAction command in PowerPoint Interface") )
 
 	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnSetAndNextAction
-// Description	    : 
-// Return type		: HRESULT 
+// OnSetAndNextAction 
 HRESULT CPowerPointInterface::OnSetAndNextAction( bool plaintext )
 {
-	BANNER( "CPowerPointInterface::OnSetAndNextAction" ) ;
-
-
 	try 
 	{
 		OnSetAction( plaintext ) ;
 		OnLookupNextAction( plaintext ) ;
 	}
 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnSetAndNextAction command in PowerPoint Interface") )
 
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnLookupNextAction
-// Description	    : 
-// Return type		: HRESULT 
+// OnLookupNextAction
 HRESULT CPowerPointInterface::OnLookupNextAction( bool plaintext )
 {
 	BANNER( "CPowerPointInterface::OnLookupNextAction" ) ;
@@ -228,7 +195,7 @@ HRESULT CPowerPointInterface::OnLookupNextAction( bool plaintext )
 
 	}
 #ifdef _DEBUG
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing lookup next commmand in PowerPoint Interface") )
 #else
 	catch ( ... ) 
 	{
@@ -242,13 +209,9 @@ HRESULT CPowerPointInterface::OnLookupNextAction( bool plaintext )
 
 
 
-// Function name	: CPowerPointInterface::OnLookupAction
-// Description	    : 
-// Return type		: HRESULT 
+// OnLookupAction 
 HRESULT CPowerPointInterface::OnLookupAction( bool plaintext )
 {
-	BANNER( "CPowerPointInterface::OnLookupAction" ) ;
-
 	try 
 	{
 		if (m_app->Active != Office::msoTrue )
@@ -277,22 +240,17 @@ HRESULT CPowerPointInterface::OnLookupAction( bool plaintext )
 
 	}
 
-	ADDIN_CATCH( _T("Looking up query from PowerPoint") )
+	ADDIN_CATCH( _T("Error looking up query from PowerPoint") )
 
-		return S_OK ;
+	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnGlossNAction
-// Description	    : 
-// Return type		: HRESULT 
+// OnGlossNAction 
 HRESULT CPowerPointInterface::OnGlossNAction(  )
 {
-	BANNER( "CPowerPointInterface::OnGlossNAction" ) ;
-
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -300,63 +258,48 @@ HRESULT CPowerPointInterface::OnGlossNAction(  )
 
 		CInputDlg dlg ;
 
-		INT_PTR ret_val = dlg.DoModal( ) ;
-
-		ATLASSERT ( ! dlg.IsWindow() )  ;
-
-		if ( ret_val == IDCANCEL )
+		if ( dlg.DoModal( ) == IDCANCEL )
+		{
 			return S_FALSE ;
+		}
 
-		int num = dlg.get_num() ;
-
-		set_gloss_entry( num ) ;
+		set_gloss_entry( dlg.get_num() ) ;
 	}
-
 	ADDIN_CATCH( _T("PowerPoint Interface :: Retrieving a Glossary Entry") )
 
 	return S_OK ;
 }
 
 
-// Function name	:  CPowerPointInterface::OnAutoTransAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnAutoTransAction
 HRESULT  CPowerPointInterface::OnAutoTransAction ( )
 {
-	BANNER( " CPowerPointInterface::OnAutoTransAction " ) ;
-
 	try 
 	{
-		m_is_auto = true ;
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
 		}
+		m_is_auto = true ;
 
 		MessageBox( NULL, _T("OnAutoTrans"), _T("To be implemented!"), MB_OK ) ;
-
 	}
 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	ADDIN_CATCH( _T("Error processing OnAutoTransFuzzyAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
-// Function name	:  CPowerPointInterface::OnAutoTransFuzzyAction 
-// Description	    : 
-// Return type		: HRESULT 
-HRESULT  CPowerPointInterface::OnAutoTransFuzzyAction ( )
+// OnAutoTransFuzzyAction 
+HRESULT CPowerPointInterface::OnAutoTransFuzzyAction( )
 {
-	BANNER( " CPowerPointInterface::OnAutoTransFuzzyAction " ) ;
-
-	m_is_auto = true ;
-	const bool plaintext = shift_key_is_pressed() ;
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
 		}
+		m_is_auto = true ;
+		const bool plaintext = shift_key_is_pressed() ;
 
 		while ( true ) 
 		{
@@ -373,9 +316,10 @@ HRESULT  CPowerPointInterface::OnAutoTransFuzzyAction ( )
 			}
 
 			Felix::IAppPtr app = getAssistant( ) ;
-			double score = app->Score ;
 
-			if ( FLOAT_EQ( score, 1.0 ) )
+			// If it's a perfect match, retrieve the translation and continue.
+			// Otherwise, quit with the fuzzy match selected.
+			if ( FLOAT_EQ( app->Score, 1.0 ) )
 			{
 				OnGetAction(plaintext) ;
 			}
@@ -385,23 +329,17 @@ HRESULT  CPowerPointInterface::OnAutoTransFuzzyAction ( )
 			}
 
 		} 
-
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") ) ;
+	ADDIN_CATCH( _T("Error processing OnAutoTransFuzzyAction command in PowerPoint Interface") ) ;
 		
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnConcordanceAction 
-// Description	    : 
-// Return type		: HRESULT 
-HRESULT CPowerPointInterface::OnConcordanceAction ( bool )
+// OnConcordanceAction
+HRESULT CPowerPointInterface::OnConcordanceAction( bool )
 {
-	BANNER( "CPowerPointInterface::OnConcordanceAction " ) ;
-
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -416,28 +354,23 @@ HRESULT CPowerPointInterface::OnConcordanceAction ( bool )
 		}
 
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	ADDIN_CATCH( _T("Error processing OnConcordanceAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnExtendLookupAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnExtendLookupAction
 HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 {
-	BANNER( "CPowerPointInterface::OnExtendLookupAction " ) ;
-
 	try 
 	{
-	
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
 		}
 
 		// If there is no text selected, we should not call extend selection.
-		_bstr_t text = m_textRangeParser.getSelectedText(plaintext) ;
-		if ( text.length() == 0 )
+		const _bstr_t selected_text = m_textRangeParser.getSelectedText(plaintext) ;
+		if ( selected_text.length() == 0 )
 		{
 			return E_FAIL ;
 		}
@@ -448,29 +381,34 @@ HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 			return E_FAIL ;
 		}
 
-		text = m_textRangeParser.getSelectedText(plaintext) ;
+		const _bstr_t text = m_textRangeParser.getSelectedText(plaintext) ;
 
 		if ( text.length() == 0 )
 		{
 			return E_FAIL ;
 		}
+		if (m_is_auto)
+		{
+			getAssistant()->Query = text ;
+		}
+		else
+		{
+			getAssistant()->LookupDeferred(text) ;
+		}
 
-		getAssistant()->Query = text ;
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnExtendLookupAction command in PowerPoint Interface") )
 	
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnRegisterGlossAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnRegisterGlossAction
+// Show a dialog, with the selection as the source text, and prompting
+// for a translation. This is entered into Felix as a glossary entry.
 HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 {
-	BANNER( "CPowerPointInterface::OnRegisterGlossAction " ) ;
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -515,15 +453,11 @@ HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnDeleteAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnDeleteAction
 HRESULT CPowerPointInterface::OnDeleteAction ( )
 {
-	BANNER( "CPowerPointInterface::OnDeleteAction " ) ;
-
-	try {
-
+	try 
+	{
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -532,20 +466,17 @@ HRESULT CPowerPointInterface::OnDeleteAction ( )
 		Felix::IAppPtr app = getAssistant() ;
 		app->DeleteMemEntry() ;
 
-	} ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	} 
+	ADDIN_CATCH( _T("Error processing OnDeleteAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnNextAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnNextAction 
+// Show the next translation in Felix
 HRESULT CPowerPointInterface::OnNextAction ( )
 {
-	BANNER( "CPowerPointInterface::OnNextAction " ) ;
-
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
@@ -555,14 +486,13 @@ HRESULT CPowerPointInterface::OnNextAction ( )
 		app->NextTrans() ;
 
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnNextAction command in PowerPoint Interface") )
 	
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnPrevAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnPrevAction
+// Show the previous translation in Felix
 HRESULT CPowerPointInterface::OnPrevAction ( )
 {
 	BANNER( "CPowerPointInterface::OnPrevAction " ) ;
@@ -578,38 +508,32 @@ HRESULT CPowerPointInterface::OnPrevAction ( )
 		app->PrevTrans() ;
 
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnPrevAction command in PowerPoint Interface") )
 		return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::OnEntry0Action 
-// Description	    : 
-// Return type		: HRESULT 
+// OnEntryAction 
 HRESULT CPowerPointInterface::OnEntryAction ( int n, bool plaintext )
 {
 	BANNER( "CPowerPointInterface::OnEntry0Action " ) ;
 
 	try 
 	{
-
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
 		}
 
 		set_gloss_entry( n, plaintext ) ;
-
-	} ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	} 
+	ADDIN_CATCH( _T("Error processing OnEntryAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnLookupTransAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnLookupTransAction
 HRESULT CPowerPointInterface::OnLookupTransAction (bool plaintext)
 {
-	BANNER( "CPowerPointInterface::OnLookupTransAction " ) ;
 	try 
 	{
 		if (m_app->Active != Office::msoTrue )
@@ -629,23 +553,26 @@ HRESULT CPowerPointInterface::OnLookupTransAction (bool plaintext)
 		if ( formatted_text.length() > 0 ) 
 		{
 			Felix::IAppPtr app = getAssistant() ;
-			app->LookupTrans( formatted_text ) ;
+			if (m_is_auto)
+			{
+				app->LookupTrans( formatted_text ) ;
+			}
+			else
+			{
+				app->LookupTransDeferred( formatted_text ) ;
+			}
 		}
 
 	}
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnLookupTransAction command in PowerPoint Interface") )
 	
 	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnLookupNextTransAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnLookupNextTransAction
 HRESULT CPowerPointInterface::OnLookupNextTransAction ( bool plaintext )
 {
-	BANNER( "CPowerPointInterface::OnLookupNextTransAction " ) ;
-
 	try 
 	{
 		if ( FAILED( lookupNext() ) )
@@ -655,7 +582,7 @@ HRESULT CPowerPointInterface::OnLookupNextTransAction ( bool plaintext )
 		OnLookupTransAction( plaintext ) ;
 	} 
 #ifdef _DEBUG
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnLookupNextTransAction command in PowerPoint Interface") )
 #else
 	catch ( ... ) 
 	{
@@ -667,6 +594,7 @@ HRESULT CPowerPointInterface::OnLookupNextTransAction ( bool plaintext )
 	return S_OK ;
 }
 
+// lookupNext
 HRESULT CPowerPointInterface::lookupNext()
 {
 	if (m_app->Active != Office::msoTrue )
@@ -676,7 +604,7 @@ HRESULT CPowerPointInterface::lookupNext()
 
 	if ( m_textRangeParser.selectNext() )
 	{
-		wstring text = BSTR2wstring(m_textRangeParser.getSelectedText(true)) ;
+		const wstring text = BSTR2wstring(m_textRangeParser.getSelectedText(true)) ;
 		if (this->is_ignorable(text, !! m_properties->m_data.m_skipNumbers, m_properties->m_data.m_skipJ))
 		{
 			return lookupNext() ;
@@ -696,7 +624,7 @@ HRESULT CPowerPointInterface::lookupNext()
 		return E_FAIL ;
 	}
 
-	wstring text = BSTR2wstring(m_textRangeParser.getSelectedText(true)) ;
+	const wstring text = BSTR2wstring(m_textRangeParser.getSelectedText(true)) ;
 	if (this->is_ignorable(text, !! m_properties->m_data.m_skipNumbers, m_properties->m_data.m_skipJ))
 	{
 		return lookupNext() ;
@@ -705,13 +633,9 @@ HRESULT CPowerPointInterface::lookupNext()
 }
 
 
-// Function name	: CPowerPointInterface::OnTransConcordanceAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnTransConcordanceAction 
 HRESULT CPowerPointInterface::OnTransConcordanceAction ( bool)
 {
-	BANNER( "CPowerPointInterface::OnTransConcordanceAction " ) ;
-
 	try 
 	{
 		if (m_app->Active != Office::msoTrue )
@@ -721,27 +645,22 @@ HRESULT CPowerPointInterface::OnTransConcordanceAction ( bool)
 
 		PowerPoint::TextRangePtr textRange = getSelectionTextRange() ;
 
-		CComBSTR text ;
-		_HR( textRange->get_Text( &text ) ) ;
+		const _bstr_t text = textRange->Text ;
 
-		if ( text.Length() > 0 )
+		if ( text.length() > 0 )
 		{
 			Felix::IAppPtr app = getAssistant() ;
-			app->TransConcordance( textRange->Text ) ;
+			app->TransConcordance( text ) ;
 		}
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	ADDIN_CATCH( _T("Error processing OnTransConcordanceAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnExtendTransLookupAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnExtendTransLookupAction 
 HRESULT CPowerPointInterface::OnExtendTransLookupAction ( bool plaintext )
 {
-	BANNER( "CPowerPointInterface::OnExtendTransLookupAction " ) ;
-
 	try 
 	{
 		if ( ! m_textRangeParser.extendSelection() )
@@ -750,7 +669,7 @@ HRESULT CPowerPointInterface::OnExtendTransLookupAction ( bool plaintext )
 			return S_OK ;
 		}
 
-		_bstr_t text = m_textRangeParser.getSelectedText(plaintext) ;
+		const _bstr_t text = m_textRangeParser.getSelectedText(plaintext) ;
 
 		// don't send empty queries!
 		if ( text.length() == 0 )
@@ -762,14 +681,12 @@ HRESULT CPowerPointInterface::OnExtendTransLookupAction ( bool plaintext )
 		app->LookupTrans( text ) ;
 
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
-		return S_OK ;
+	ADDIN_CATCH( _T("Error processing OnExtendTransLookupAction command in PowerPoint Interface") )
+	return S_OK ;
 }
 
 
-// Function name	: CPowerPointInterface::OnCorrectTransAction 
-// Description	    : 
-// Return type		: HRESULT 
+// OnCorrectTransAction
 HRESULT CPowerPointInterface::OnCorrectTransAction ( bool)
 {
 	BANNER( "CPowerPointInterface::OnCorrectTransAction " ) ;
@@ -780,6 +697,7 @@ HRESULT CPowerPointInterface::OnCorrectTransAction ( bool)
 		{
 			return E_FAIL ;
 		}
+		// See if there's already some selected text
 		PowerPoint::TextRangePtr selectionTextRange = m_textRangeParser.getSetRange() ;
 		if ( selectionTextRange && selectionTextRange->Length)
 		{
@@ -791,30 +709,34 @@ HRESULT CPowerPointInterface::OnCorrectTransAction ( bool)
 		}
 
 
-		// We see if we already have a selection...
+		// Or see if there's a selected shape
 		if ( ! setCorrectionText(getSetSelShapeRange()) )
 		{
 			return E_FAIL ;
 		} 
 
 	} 
-	ADDIN_CATCH( _T("PowerPoint Interface") )
+	ADDIN_CATCH( _T("Error processing OnCorrectTransAction command in PowerPoint Interface") )
 		
 	return S_OK ;
 }
 
+// OnCorrectAndNextTransAction
 HRESULT CPowerPointInterface::OnCorrectAndNextTransAction ( bool) 
 {
-
+	logging::log_warn("OnCorrectAndNextTransAction not supported") ;
 	return S_OK ;
 }
+// OnRestoreTransAction
 HRESULT CPowerPointInterface::OnRestoreTransAction ( bool) 
 {
-
+	logging::log_warn("OnRestoreTransAction not supported") ;
 	return S_OK ;
 }
+// OnRestoreAndNextTransAction
 HRESULT CPowerPointInterface::OnRestoreAndNextTransAction ( bool) 
 {
+	logging::log_warn("OnRestoreAndNextTransAction not supported") ;
 	return S_OK ;
 }
 
@@ -828,12 +750,12 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 
 	PowerPoint::TextRangePtr selectionTextRange = getSelectionTextRange() ;
 	if( ! selectionTextRange ) 
+	{
 		return E_FAIL ;
-
-	if ( ! selectionTextRange ) return E_FAIL ;
+	}
 
 	Felix::IAppPtr app = getAssistant() ;
-	_bstr_t entry = app->GlossMatch[ static_cast<short>(index) ] ;
+	const _bstr_t entry = app->GlossMatch[ static_cast<short>(index) ] ;
 
 	if ( plaintext )
 	{
@@ -844,7 +766,7 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 	{
 		CPPTWriter writer( selectionTextRange ) ;
 
-		writer.write_html( (LPCWSTR)entry ) ;
+		writer.write_html( BSTR2wstring(entry) ) ;
 	}
 
 	// ok, move on to the shaperange...
