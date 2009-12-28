@@ -740,10 +740,7 @@ HRESULT CPowerPointInterface::OnRestoreAndNextTransAction ( bool)
 	return S_OK ;
 }
 
-// Function name	: CPowerPointInterface::set_gloss_entry
-// Description	    : 
-// Return type		: HRESULT 
-// Argument         : int index
+// set_gloss_entry
 HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 {
 	BANNER( "CPowerPointInterface::set_gloss_entry" ) ;
@@ -776,7 +773,6 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 
 	if( ! shapeRange ) 
 	{
-
 		PowerPoint::DocumentWindowPtr activeWindow ;
 		m_app->get_ActiveWindow( &activeWindow ) ;
 		ATLASSERT( activeWindow )  ;
@@ -788,21 +784,18 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 		PowerPoint::PpViewType viewType ;
 		activePane->get_ViewType( &viewType )	;
 
-		CKeyboardDriver driver ;
 		if ( viewType == PowerPoint::ppViewNotesPage )
 		{
-			long len ;
-			selectionTextRange->get_Length( &len ) ;
-
-			if ( len > 0 )
+			if ( selectionTextRange->Length > 0 )
 			{
+				CKeyboardDriver driver ;
 				driver.clearAltKey() ;
 				driver.clearControlKey() ;
 
 				m_app->Activate() ;
 
 				driver.doRight() ;
-				selectionTextRange =   getSelectionTextRange() ;
+				selectionTextRange = getSelectionTextRange() ;
 			}
 		}	
 		return E_FAIL ;
@@ -814,17 +807,11 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 	return S_OK ;
 }
 
-
-// Function name	: CAddin::eat_whitespace
-// Description	    : 
-// Return type		: PowerPoint::TextRangePtr 
-// Argument         : PowerPoint::TextRangePtr &range
+// eat_whitespace
+// Keep advancing the start pos while the current char is whitespace
 PowerPoint::TextRangePtr CPowerPointInterface::eat_whitespace(PowerPoint::TextRangePtr &range)
 {
-	BANNER( "CAddin::eat_whitespace" ) ;
-
-	long len ;
-	range->get_Length( &len ) ;
+	const long len = range->Length ;
 
 	PowerPoint::TextRangePtr character ;
 
@@ -832,15 +819,14 @@ PowerPoint::TextRangePtr CPowerPointInterface::eat_whitespace(PowerPoint::TextRa
 	for ( i=1 ; i<=len ; ++i )
 	{
 		character = range->Characters( i, 1 ) ;
-		CComBSTR c_text ;
-		character->get_Text( &c_text ) ;
-		TRACE( c_text ) ;
+		_bstr_t c_text = character->Text ;
 
-		ATLASSERT( (LPCWSTR)c_text != NULL ) ;
+		ATLASSERT( c_text.length() > 0 && c_text.GetBSTR()[0] != 0 ) ;
 
-		if ( ! iswspace( ((LPCWSTR)c_text)[0] ) ) 
+		if( ! iswspace( c_text.GetBSTR()[0] ) )
+		{
 			break ;
-
+		}
 		character.Release() ;
 	}
 
@@ -850,25 +836,19 @@ PowerPoint::TextRangePtr CPowerPointInterface::eat_whitespace(PowerPoint::TextRa
 }
 
 
-// Function name	: CAddin::collapse_selection
-// Description	    : 
-// Return type		: void 
-// Argument         : PowerPoint::TextRangePtr &selection
+// collapse_selection
 PowerPoint::TextRangePtr CPowerPointInterface::collapse_selection(PowerPoint::TextRangePtr &selection)
 {
 	BANNER( "CAddin::collapse_selection" ) ;
 
-	long start  = selection->Start ;
-	long len = selection->Length ;
+	const long start  = selection->Start ;
+	const long len = selection->Length ;
 
 	return selection->Characters( start+len, 0 ) ;
 }
 
 
-// Function name	: CAddin::select_next_text_frame
-// Description	    : 
-// Return type		: void 
-// Argument         : PowerPoint::ShapeRangePtr &shapeRange
+// select_next_text_frame
 PowerPoint::TextRangePtr CPowerPointInterface::select_next_text_frame(PowerPoint::ShapeRangePtr &shapeRange)
 {
 	BANNER( "CAddin::select_next_text_frame" ) ;
@@ -883,7 +863,9 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_text_frame(PowerPoint
 	ATLASSERT( range ) ;
 
 	if ( ! range ) 
+	{
 		return PowerPoint::TextRangePtr() ;
+	}
 
 	select_next_sentence_from_textrange( range ) ;
 	range->Select() ;
@@ -893,37 +875,29 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_text_frame(PowerPoint
 	return text_frame_range ;
 }
 
+// get_notes_textrange
 PowerPoint::TextRangePtr CPowerPointInterface::get_notes_textrange( ) 
 {
 	PowerPoint::SelectionPtr selection = getSelection() ;
 
-	PowerPoint::SlideRangePtr slides ;
-	selection->get_SlideRange( &slides ) ;
-
+	PowerPoint::SlideRangePtr slides = selection->SlideRange ;
 	ATLASSERT( slides ) ;
-
-	long cnt ;
-	slides->get_Count( &cnt ) ;
-
-	ATLASSERT( cnt == 1 ) ;
+	ATLASSERT( slides->Count == 1 ) ;
 
 	PowerPoint::_SlidePtr slide = slides->Item(1) ;
-
 	ATLASSERT( slide ) ;
 
-	PowerPoint::SlideRangePtr notes_page ;
-	slide->get_NotesPage( &notes_page ) ;
+	PowerPoint::SlideRangePtr notes_page = slide->NotesPage ;
+	ATLASSERT(notes_page) ;
 
 	PowerPoint::ShapesPtr shapes ;
 	notes_page->get_Shapes( &shapes ) ;
 	ATLASSERT( shapes ) ;
 
-	int shapeCount ;
-	shapes->get_Count( &shapeCount ) ;
+	const int shape_count = shapes->Count ;
+	ATLASSERT(shape_count >= 0) ;
 
-	PowerPoint::TextRangePtr range ;
-
-	for ( int i = 1 ; i <= shapeCount ; ++i )
+	for ( int i = 1 ; i <= shape_count ; ++i )
 	{
 		PowerPoint::ShapePtr shape = shapes->Item(i) ;
 
@@ -938,36 +912,43 @@ PowerPoint::TextRangePtr CPowerPointInterface::get_notes_textrange( )
 		{
 			PowerPoint::TextFramePtr frame = shape->TextFrame;
 			ATLASSERT( frame ) ;
-
-			return frame->TextRange ;
+			if (frame)
+			{
+				return frame->TextRange ;
+			}
+			else
+			{
+				return PowerPoint::TextRangePtr() ;
+			}
 		}
 
 	}
 
-	return range ;
+	return PowerPoint::TextRangePtr() ;
 }
 
-
+// setNotesPage
 HRESULT CPowerPointInterface::setNotesPage(PowerPoint::TextRangePtr selectionTextRange)
 {
 	PowerPoint::TextRangePtr range = get_notes_textrange() ;
 
-	long current_start ;
-	selectionTextRange->get_Start( &current_start ) ;
+	const long current_start = selectionTextRange->Start ;
 
+	// Why is this needed?
 	selectionTextRange.Release() ;
-	int len = current_start - m_queryStart ;
+
+	const int len = current_start - m_queryStart ;
 	selectionTextRange = range->Characters( m_queryStart, len ) ;
 
 	CPPTFormatter formatter( selectionTextRange ) ;
-	wstring rangeText( formatter.formatRangeText() ) ;
+	const wstring rangeText( formatter.formatRangeText() ) ;
 	if ( rangeText.empty() )
 	{
 		MessageBeep( MB_ICONERROR ) ;
 		return S_FALSE ;
 	}
 	Felix::IAppPtr app = getAssistant() ;
-	app->Trans = rangeText.c_str() ;
+	app->Trans = string2BSTR(rangeText) ;
 
 	m_app->Activate() ;
 
@@ -992,14 +973,11 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_notes_page(PowerPoint
 {
 	BANNER( "CAddin::select_next_notes_page" ) ;
 
-	long len ;
-	selectionTextRange->get_Length( &len ) ;
+	const long len = selectionTextRange->Length ;
 
-	selectionTextRange->get_Start( &m_queryStart ) ;
+	m_queryStart = selectionTextRange->Start + len ;
 
-	m_queryStart += len ;
-
-	long old_start = m_queryStart ;
+	const long old_start = m_queryStart ;
 
 	PowerPoint::TextRangePtr range = get_notes_textrange() ;
 	select_next_sentence_from_textrange( range ) ;
@@ -1024,9 +1002,9 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_notes_page(PowerPoint
 	}
 
 
-	range->get_Length( &len ) ;
+	const int rangelen = range->Length ;
 
-	for ( long i = 0 ; i < len ; ++i )
+	for ( long i = 0 ; i < rangelen ; ++i )
 	{
 		driver.doShiftRight() ;
 	}
@@ -1035,14 +1013,9 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_notes_page(PowerPoint
 }
 
 
-// Function name	: CAddin::select_next_table_cell
-// Description	    : 
-// Return type		: void 
-// Argument         : PowerPoint::TextRangePtr &selectionTextRange
+// select_next_table_cell
 PowerPoint::TextRangePtr CPowerPointInterface::select_next_table_cell(PowerPoint::TextRangePtr &selectionTextRange)
 {
-	BANNER( "CAddin::select_next_table_cell" ) ;
-
 	CDispatchWrapper parent = selectionTextRange->GetParent() ;
 
 	PowerPoint::ShapePtr grandParentShape = parent.prop_get( L"Parent" ).pdispVal ;
@@ -1050,7 +1023,9 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_table_cell(PowerPoint
 	PowerPoint::TextRangePtr textRange = getTextRange( grandParentShape ) ;
 
 	if ( !textRange ) 
+	{
 		return textRange ;
+	}
 
 	select_next_sentence_from_textrange( textRange ) ;
 
@@ -1060,15 +1035,12 @@ PowerPoint::TextRangePtr CPowerPointInterface::select_next_table_cell(PowerPoint
 }
 
 
-// Function name	: CAddin::select_next_sentence_from_textrange
-// Description	    : 
-// Return type		: void 
-// Argument         : PowerPoint::TextRangePtr &range
+// select_next_sentence_from_textrange
 HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::TextRangePtr &range)
 {
 	BANNER( "CAddin::select_next_sentence_from_textrange" ) ;
 
-	long endPoint = (range->Length - m_queryStart ) + 1 ;
+	const long endPoint = (range->Length - m_queryStart ) + 1 ;
 
 	// make up for the 1-based index by adding 1 to the length
 	// subtracting 1 from start will select first character twice if start=1
@@ -1086,24 +1058,23 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 	ATLTRACE( delimiters.c_str() ) ;
 	ATLTRACE( "\n" ) ;
 
-	long len = characters->Length ;
+	const long len = characters->Length ;
 	bool last_char_was_period = false ;
-
-	wchar_t this_char ;
 
 	long i ;
 	for ( i=1 ; i<=len ; ++i )
 	{
 		character = characters->Characters( i, 1 ) ;
-		CComBSTR c_text ;
-		character->get_Text( &c_text ) ;
+		_bstr_t c_text = character->Text ;
 		TRACE( c_text ) ;
 		character.Release() ;
 
-		this_char = ((LPCWSTR)c_text)[0] ;
+		const wchar_t this_char = ((LPCWSTR)c_text)[0] ;
 
 		if ( delimiters.find( this_char ) != wstring::npos ) 
+		{
 			break ;
+		}
 
 		if ( this_char == L' ')
 		{
@@ -1118,18 +1089,13 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 			// effectively we are testing for whitespace other than spaces.
 			if ( this_char >= 0x09 && this_char <= 0x0D )
 			{
+				ATLASSERT(iswspace(this_char)) ;
 				--i ; // don't select the whitespace char itself
 				break ;
 			}
 		}
 
-		if ( this_char == L'.' ) 
-		{
-			last_char_was_period = true ;
-		}
-		else
-			last_char_was_period = false ;
-
+		last_char_was_period = ( this_char == L'.' ) ;
 	}
 
 	range = characters->Characters( 1, i ) ;
@@ -1148,30 +1114,24 @@ PowerPoint::TextRangePtr CPowerPointInterface::setTableCell(PowerPoint::TextRang
 {
 	BANNER( "CAddin::setTableCell" ) ;
 
-	long selStart, selLen ;
-	selectionTextRange->get_Start( &selStart ) ;
-	selectionTextRange->get_Length( &selLen ) ;
-
-	selLen += selStart ;
-	--selLen ; // make up for 1-based index
+	const long selStart = selectionTextRange->Start ;
+	const long selLen = selectionTextRange->Length + selStart - 1;
 
 	CTextRangeParser parser ;
 	parser.setRangeFromSelection() ;
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 
 	if ( !textRange ) 
+	{
 		return NULL ;
+	}
 
 	// get the translation
-	long textExtent = (selLen-m_queryStart)+1 ;
-	return textRange->Characters( m_queryStart, textExtent ) ;
+	const long text_extent = (selLen-m_queryStart)+1 ;
+	return textRange->Characters( m_queryStart, text_extent ) ;
 }
 
-//DEL PowerPoint::TextRangePtr CPowerPointInterface::select_sentence_for_type(Office::MsoShapeType type)
-//DEL {
-//DEL 
-//DEL }
-
+//correct_notes_page
 HRESULT CPowerPointInterface::correct_notes_page(PowerPoint::TextRangePtr &selectionTextRange)
 {
 	PowerPoint::TextRangePtr range = get_notes_textrange() ;
@@ -1181,18 +1141,15 @@ HRESULT CPowerPointInterface::correct_notes_page(PowerPoint::TextRangePtr &selec
 
 	selectionTextRange = range->Characters( m_queryStart, ( current_start - m_queryStart ) ) ;
 
-	CComBSTR text ;
-
-	selectionTextRange->get_Text( &text ) ;
-
-	if ( text.Length() == 0 )
+	const _bstr_t text = selectionTextRange->Text ;
+	if ( text.length() == 0 )
 	{
 		MessageBeep( MB_ICONERROR ) ;
 		return S_FALSE ;
 	}
 
 	Felix::IAppPtr app = getAssistant() ;
-	app->CorrectTrans( selectionTextRange->Text ) ;
+	app->CorrectTrans( text ) ;
 
 	return S_OK ;
 }
@@ -1207,8 +1164,7 @@ HRESULT CPowerPointInterface::select_next_slide()
 	m_app->get_Windows( &windows )	;
 	ATLASSERT( windows )  ;
 
-	long cnt ;
-	windows->get_Count( &cnt ) ;
+	long cnt = windows->Count ;
 
 	for ( long i=1 ; i<cnt ; ++i )
 	{
@@ -1231,7 +1187,7 @@ HRESULT CPowerPointInterface::select_next_slide()
 			selection->get_ShapeRange( &shapeRange ) ;
 			ATLASSERT( shapeRange )  ;
 
-			shapeRange->get_Count( &cnt ) ;
+			cnt = shapeRange->Count ;
 
 			if ( ! cnt )
 			{
@@ -1271,18 +1227,22 @@ HRESULT CPowerPointInterface::select_next_slide()
 	return S_FALSE ;
 }
 
+// select_next_shape
 HRESULT CPowerPointInterface::select_next_shape()
 {
 	PowerPoint::SelectionPtr selection = getSelection() ;
 
-	if ( ! selection ) return E_FAIL ;
+	// Nothing selected
+	if ( ! selection ) 
+	{
+		return E_FAIL ;
+	}
 
-	// ok, move on to the shaperange...
+	// ok, move on to the shape range...
 	PowerPoint::ShapeRangePtr shapeRange = selection->ShapeRange ;
 
-	long cnt = shapeRange->Count ;
-
-	if ( cnt == 0 )
+	// No shapes in selection
+	if ( shapeRange->Count == 0 )
 	{
 		return S_FALSE ;
 	}
@@ -1294,18 +1254,21 @@ HRESULT CPowerPointInterface::select_next_shape()
 
 	PowerPoint::PanePtr activePane = activeWindow->ActivePane ;
 
+	// No slide selected
 	if ( activePane->ViewType != PowerPoint::ppViewSlide )
+	{
 		return S_FALSE ;
+	}
 
 	PowerPoint::ViewPtr activeView = activeWindow->View ;
 	PowerPoint::_SlidePtr active_slide = activeView->Slide  ;
 
 	PowerPoint::ShapesPtr shapes = active_slide->Shapes ;
 
-	int shapeCount = shapes->Count ;
+	const int shape_count = shapes->Count ;
 
 	long nextShapeIndex = 1 ;
-	for ( nextShapeIndex = 1 ; nextShapeIndex < shapeCount ; ++nextShapeIndex ) 
+	for ( nextShapeIndex = 1 ; nextShapeIndex < shape_count ; ++nextShapeIndex ) 
 	{
 		PowerPoint::ShapePtr shape = shapes->Item( nextShapeIndex ) ;
 		if ( shape == activeShape ) 
@@ -1314,7 +1277,7 @@ HRESULT CPowerPointInterface::select_next_shape()
 		}
 	}
 
-	for ( nextShapeIndex++ ; nextShapeIndex<= shapeCount ; ++nextShapeIndex )
+	for ( nextShapeIndex++ ; nextShapeIndex<= shape_count ; ++nextShapeIndex )
 	{
 		PowerPoint::ShapePtr shape = shapes->Item( nextShapeIndex ) ;
 
@@ -1343,6 +1306,9 @@ HRESULT CPowerPointInterface::select_next_shape()
 				return E_FAIL ;
 		default:
 			{
+				// If whatever else we've selected has a text frame, then
+				// we'll still grab the text even though we don't know what
+				// it is!
 				if(shape->HasTextFrame)
 				{
 					selectTextBox( shape ) ;
@@ -1356,6 +1322,7 @@ HRESULT CPowerPointInterface::select_next_shape()
 	return S_FALSE ;
 }
 
+// select_next_cell
 HRESULT CPowerPointInterface::select_next_cell()
 {
 	PowerPoint::TextRangePtr selectionTextRange = getSelectionTextRange() ;
@@ -1372,48 +1339,47 @@ HRESULT CPowerPointInterface::select_next_cell()
 
 	PowerPoint::ShapePtr shape = shapeRange->Item( 1 ) ;
 
-	PowerPoint::TablePtr table ;
-	shape->get_Table( &table ) ;
+	PowerPoint::TablePtr table = shape->Table ;
 
-	PowerPoint::ColumnsPtr columns ;
-	PowerPoint::RowsPtr rows ;
+	PowerPoint::ColumnsPtr columns = table->Columns ;
+	PowerPoint::RowsPtr rows = table->Rows ;
 
-	long num_cols, num_rows ;
-	table->get_Columns( &columns ) ;
-	table->get_Rows( &rows ) ;
-	columns->get_Count( &num_cols ) ;
-	rows->get_Count( &num_rows ) ;
+	const long num_cols = columns->Count ;
+	const long num_rows = rows->Count ;
 
-	for ( long iRow=1 ; iRow <= num_rows ; ++iRow )
+	for ( long row=1 ; row <= num_rows ; ++row )
 	{
-		for ( long iCol=1 ; iCol <= num_cols ; ++iCol)
+		for ( long col=1 ; col <= num_cols ; ++col)
 		{
-			PowerPoint::CellPtr cell = table->Cell( iRow, iCol ) ;
+			PowerPoint::CellPtr cell = table->Cell( row, col ) ;
 			shape = cell->GetShape( ) ;
+			// If this cell shape is the selected shape
 			if ( shape == activeShape )
 			{
+				// Wind past the selected shape (might be multiple "cells" (cell coords) in shape)
 				while ( shape == activeShape )
 				{
-					if ( iCol < num_cols )
+					// Not last col: advance
+					if ( col < num_cols )
 					{
-						++iCol ;
+						++col ;
 					}
-					else if ( iRow == num_rows ) 
+					// So next row, unless we're out
+					else if ( row == num_rows ) 
 					{
 						return S_FALSE ;
 					}
+					// Back to first col, advance rows
 					else
 					{
-						iCol = 1 ;
-						++iRow ;
+						col = 1 ;
+						++row ;
 					}
-					cell = table->Cell( iRow, iCol ) ;
+					cell = table->Cell( row, col ) ;
 					shape = cell->Shape ;
 				}
-				PowerPoint::TextFramePtr text_frame ;
-				shape->get_TextFrame( &text_frame ) ;
-				PowerPoint::TextRangePtr textRange ;
-				text_frame->get_TextRange( &textRange ) ;
+				PowerPoint::TextFramePtr text_frame = shape->TextFrame;
+				PowerPoint::TextRangePtr textRange = text_frame->TextRange ;
 				PowerPoint::TextRangePtr start_char_sel = textRange->Characters( 1, 0 ) ;
 				start_char_sel->Select() ;
 				return S_OK ;
@@ -1423,6 +1389,7 @@ HRESULT CPowerPointInterface::select_next_cell()
 	return S_FALSE ;
 }
 
+// getAssistant
 Felix::IAppPtr CPowerPointInterface::getAssistant(void)
 {
 	Felix::IAppPtr assistant ;
@@ -1433,10 +1400,7 @@ Felix::IAppPtr CPowerPointInterface::getAssistant(void)
 	return assistant ;
 }
 
-// Function name	: has_grouped_shapes
-// Description	    : 
-// Return type		: bool 
-// Argument         : PowerPoint::_Slide > slide
+// has_grouped_shapes
 bool CPowerPointInterface::has_grouped_shapes( PowerPoint::_SlidePtr slide )
 {
 	ATLTRACE( "\n\n*** FUNCTION: has_grouped_shapes\n\n" ) ;
@@ -1462,22 +1426,25 @@ bool CPowerPointInterface::has_grouped_shapes( PowerPoint::_SlidePtr slide )
 	return result ;
 }
 
-
+// selectAutoShape
 void CPowerPointInterface::selectAutoShape(PowerPoint::ShapePtr shape)
 {
 	selectShape( shape ) ;
 }
 
+// selectPlaceHolder
 void CPowerPointInterface::selectPlaceHolder(PowerPoint::ShapePtr shape)
 {
 	selectShape( shape ) ;
 }
 
+// selectTextBox
 void CPowerPointInterface::selectTextBox(PowerPoint::ShapePtr shape)
 {
 	selectShape( shape ) ;
 }
 
+// selectShape
 void CPowerPointInterface::selectShape(PowerPoint::ShapePtr shape)
 {
 	PowerPoint::TextFramePtr text_frame = shape->TextFrame ;
@@ -1491,17 +1458,19 @@ void CPowerPointInterface::selectShape(PowerPoint::ShapePtr shape)
 	char_range->Select() ;
 }
 
+// getTextRange
 PowerPoint::TextRangePtr CPowerPointInterface::getTextRange(PowerPoint::ShapePtr shape)
 {
 	PowerPoint::TextFramePtr textFrame = shape->GetTextFrame() ;
 	return textFrame->GetTextRange() ;
 }
+// getTextRange
 PowerPoint::TextRangePtr CPowerPointInterface::getTextRange(PowerPoint::ShapeRangePtr shape)
 {
 	PowerPoint::TextFramePtr textFrame = shape->GetTextFrame() ;
 	return textFrame->GetTextRange() ;
 }
-
+// getTextRangeExtent
 PowerPoint::TextRangePtr CPowerPointInterface::getTextRangeExtent(PowerPoint::TextRangePtr range, long selLen )
 {
 	long textExtent = (selLen-m_queryStart)+1 ;
@@ -1533,6 +1502,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::getTextRangeExtent(PowerPoint::Te
 	return text_range ;
 }
 
+// selectNextObject
 void CPowerPointInterface::selectNextObject(void)
 {
 	PowerPoint::PpViewType viewType = m_app->ActiveWindow->ActivePane->ViewType ;

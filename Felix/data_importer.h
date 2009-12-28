@@ -41,7 +41,7 @@ class data_importer
 public:
 	typedef textstream_reader< CHAR_T >			reader_type ;
 	typedef std::basic_string< CHAR_T >			string_type ;
-	typedef std::stack< wstring >					tag_stack ;
+	typedef std::stack< wstring >				tag_stack ;
 	typedef std::stack< tag_stack >				tag_tracker ;
 	typedef std::map< string, wstring >			color_map ;
 	typedef std::set< tstring >					language_code_set ;
@@ -191,10 +191,6 @@ public:
 		}
 		return html_tag ;
 	}
-
-
-
-
 
 	wstring handle_background_color_tag(tag_stack &tags)
 	{

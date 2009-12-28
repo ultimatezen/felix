@@ -362,6 +362,7 @@ namespace mem_engine
 
 	size_t memory_remote::size()
 	{
+		logging::log_debug("memory_remote: retrieving memory size") ;
 		return static_cast< size_t >( this->m_engine.method(L"GetInfo", L"size").lVal ) ;
 	}
 
@@ -372,7 +373,17 @@ namespace mem_engine
 
 	CString memory_remote::get_location()
 	{
-		return CString(m_engine.method(L"GetInfo", L"name").bstrVal) ;
+		try
+		{
+			return CString(m_engine.method(L"GetInfo", L"name").bstrVal) ;
+		}
+		catch(_com_error &e)
+		{
+			logging::log_error("memory_remote: failed to retrieve memory name") ;
+			logging::log_exception(e) ;
+			throw except::CComException(e) ;
+		}
+
 	}
 
 	CString memory_remote::get_fullpath()
@@ -462,6 +473,7 @@ namespace mem_engine
 
 	wstring memory_remote::get_creator() const
 	{
+		logging::log_debug("memory_remote: retrieving memory creator") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"creator").bstrVal) ;
 	}
 
@@ -472,6 +484,7 @@ namespace mem_engine
 
 	wstring memory_remote::get_created_on() const
 	{
+		logging::log_debug("memory_remote: retrieving memory creation date") ;
 		CComVariant created = const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"created_on");
 		created.ChangeType(VT_BSTR) ;
 		return BSTR2wstring(created.bstrVal) ;
@@ -479,11 +492,13 @@ namespace mem_engine
 
 	wstring memory_remote::get_modified_by() const
 	{
+		logging::log_debug("memory_remote: retrieving memory modifier name") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"modified_by").bstrVal) ;
 	}
 
 	wstring memory_remote::get_modified_on() const
 	{
+		logging::log_debug("memory_remote: retrieving memory modified date") ;
 		CComVariant modified = const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"modified_on");
 		modified.ChangeType(VT_BSTR) ;
 		return BSTR2wstring(modified.bstrVal) ;
@@ -491,16 +506,19 @@ namespace mem_engine
 
 	wstring memory_remote::get_source_language() const
 	{
+		logging::log_debug("memory_remote: retrieving memory source language") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"source_language").bstrVal) ;
 	}
 
 	wstring memory_remote::get_target_language() const
 	{
+		logging::log_debug("memory_remote: retrieving memory target language") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"target_language").bstrVal) ;
 	}
 
 	wstring memory_remote::get_client() const
 	{
+		logging::log_debug("memory_remote: retrieving memory client") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"client").bstrVal) ;
 	}
 
@@ -521,6 +539,7 @@ namespace mem_engine
 
 	bool memory_remote::is_memory() const
 	{
+		logging::log_debug("memory_remote: retrieving memory type") ;
 		return BSTR2wstring(const_cast<memory_remote*>(this)->m_engine.method(L"GetInfo", L"memtype").bstrVal) == L"m";
 	}
 

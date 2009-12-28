@@ -22,6 +22,7 @@ static char THIS_FILE[] = __FILE__ ;
 using namespace except ;
 using namespace mem_engine ;
 
+
 // Function name	: trados_data_importer::open_data_source
 bool  trados_data_importer::open_data_source(const CString &source_name)
 {
@@ -1386,7 +1387,7 @@ char trados_data_importer::get_escaped_char( const string num ) const
 	if ( escaped_char >= 256 && str::is_uint_rep( num ) ) 
 	{
 		const int decimal = 10 ;
-		return static_cast<char>(string2long( num, decimal )) ;
+		return static_cast<char>(string2long(num, decimal)) ;
 	}
 	ATLASSERT( escaped_char < 256 ) ; // it must be in range...
 	return static_cast<char>(escaped_char) ;
