@@ -11,4 +11,6 @@ Debug/*
 *.tli
 *.ncb
 *.tlb
+*.aps
+*.suo
 
