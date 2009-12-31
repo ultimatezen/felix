@@ -213,7 +213,7 @@ void CXml2RecordConverter::load_source( )
 
 	bookmark_type bookmark_start, bookmark_end ;
 
-	RichTextNode( tags.source_tag_end, bookmark_start, bookmark_end ) ;
+	load_richtext_node( tags.source_tag_end, bookmark_start, bookmark_end ) ;
 
 	if ( bookmark_start == bookmark_end )
 	{
@@ -239,7 +239,7 @@ void CXml2RecordConverter::load_trans( )
 
 	bookmark_type bookmark_start, bookmark_end ;
 
-	RichTextNode( tags.trans_tag_end, bookmark_start, bookmark_end ) ;
+	load_richtext_node( tags.trans_tag_end, bookmark_start, bookmark_end ) ;
 
 	if ( bookmark_start == bookmark_end )
 	{
@@ -262,7 +262,7 @@ void CXml2RecordConverter::load_context( )
 
 	bookmark_type bookmark_start, bookmark_end ;
 
-	RichTextNode( tags.context_tag_end, bookmark_start, bookmark_end ) ;
+	load_richtext_node( tags.context_tag_end, bookmark_start, bookmark_end ) ;
 
 	if ( bookmark_start == bookmark_end )
 	{
@@ -276,16 +276,9 @@ void CXml2RecordConverter::load_context( )
 }
 
 /**
- * @method:    RichTextNode
- * FullName:  CXml2RecordConverter::RichTextNode
- * Access:    public 
- * @retval   void
- * Qualifier:
- * @param const _bstr_t &EndTag
- * @param bookmark_type &bookmark_start
- * @param bookmark_type &bookmark_end
+ * load_richtext_node
  */
-void CXml2RecordConverter::RichTextNode( const _bstr_t &EndTag,
+void CXml2RecordConverter::load_richtext_node( const _bstr_t &EndTag,
 										bookmark_type &bookmark_start,
 										bookmark_type &bookmark_end )
 {
@@ -318,7 +311,6 @@ void CXml2RecordConverter::RichTextNode( const _bstr_t &EndTag,
 
 	// parse to end of tag
 	ATLVERIFY( m_parser.find( EndTag, true ) ) ;
-
 	ATLASSERT( bookmark_start != bookmark_end ) ;
 }
 
@@ -380,7 +372,7 @@ void CXml2RecordConverter::load_extra(const wstring & tag)
 	}
 	else
 	{
-		m_record->set_item( tag, PlainTextNode(end_tag) ) ;
+		m_record->set_item(tag, PlainTextNode(end_tag)) ;
 	}
 
 }

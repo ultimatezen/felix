@@ -749,7 +749,10 @@ namespace mem_engine
 		m_header.read_header( header_text.c_str() ) ;
 	}
 
-	void memory_local::loadRecords( const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved ) 
+	void memory_local::loadRecords( const ATL::CString& file_name, 
+									textstream_reader< wchar_t >& reader, 
+									int progress_interval, 
+									bool was_saved ) 
 	{
 		typedef textstream_reader< wchar_t >::bookmark_type bm_type ;
 

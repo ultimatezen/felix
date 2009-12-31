@@ -9,7 +9,103 @@
 
 namespace easyunit
 {
-	// cp_from_lang_str
+	//////////////////////////////////////////////////////////////////////////
+	// TestCXml2RecordConverter
+	//////////////////////////////////////////////////////////////////////////
+	TEST( TestCXml2RecordConverter, load_source )
+	{
+		LPCWSTR text = L"<![CDATA[spam]]></source><trans><![CDATA[context]]></trans>" ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_source() ;
+		mem_engine::record_pointer record = converter.m_record ;
+		ASSERT_EQUALS(record->get_source_rich(), L"spam") ;
+		ASSERT_EQUALS(record->get_trans_rich(), L"") ;
+	}
+	TEST( TestCXml2RecordConverter, load_trans )
+	{
+		LPCWSTR text = L"<![CDATA[spam]]></trans><context><![CDATA[context]]></context>" ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_trans() ;
+		mem_engine::record_pointer record = converter.m_record ;
+		ASSERT_EQUALS(record->get_source_rich(), L"") ;
+		ASSERT_EQUALS(record->get_trans_rich(), L"spam") ;
+		ASSERT_EQUALS(record->get_context_rich(), L"") ;
+	}
+	TEST( TestCXml2RecordConverter, load_context)
+	{
+		LPCWSTR text = L"<![CDATA[spam]]></context><trans><![CDATA[context]]></trans>" ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_context() ;
+		mem_engine::record_pointer record = converter.m_record ;
+		ASSERT_EQUALS(record->get_context_rich(), L"spam") ;
+		ASSERT_EQUALS(record->get_source_rich(), L"") ;
+		ASSERT_EQUALS(record->get_trans_rich(), L"") ;
+	}
+	TEST( TestCXml2RecordConverter, load_richtext_node)
+	{
+		LPCWSTR text = L"<![CDATA[spam]]></context><trans><![CDATA[context]]></trans>" ;
+		_bstr_t end_tag = L"</context>" ;
+		LPCWSTR start, end ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_richtext_node(end_tag, start, end) ;
+		wstring context(start, end) ;
+		ASSERT_EQUALS(context, L"spam") ;
+	}
+	TEST( TestCXml2RecordConverter, load_date_created)
+	{
+		LPCWSTR text = L"2009/12/05 21:06:10</date_created>" ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_date_created() ;
+		mem_engine::record_pointer record = converter.m_record ;
+		misc_wrappers::date created = record->get_created() ;
+		ASSERT_EQUALS_V(2009, (int)created.wYear) ;
+		ASSERT_EQUALS_V(12, (int)created.wMonth) ;
+		ASSERT_EQUALS_V(5, (int)created.wDay) ;
+		ASSERT_EQUALS_V(21, (int)created.wHour) ;
+		ASSERT_EQUALS_V(6, (int)created.wMinute) ;
+		ASSERT_EQUALS_V(10, (int)created.wSecond) ;
+	}
+	TEST( TestCXml2RecordConverter, load_extra_record_throws)
+	{
+		wstring tag = L"record" ;
+		try
+		{
+			CXml2RecordConverter converter ;
+			converter.load_extra(tag) ;
+			FAIL_M("Should fail if it hits a 'record' tag") ;
+
+		}
+		catch (except::CException&)
+		{
+			ASSERT_TRUE(TRUE) ;
+		}
+	}
+	TEST( TestCXml2RecordConverter, load_last_modified)
+	{
+		LPCWSTR text = L"2009/12/05 21:06:10</last_modified>" ;
+
+		CXml2RecordConverter converter ;
+		converter.m_parser.set_buffer(text) ;
+		converter.load_last_modified() ;
+		mem_engine::record_pointer record = converter.m_record ;
+		misc_wrappers::date modified = record->get_modified() ;
+		ASSERT_EQUALS_V(2009, (int)modified.wYear) ;
+		ASSERT_EQUALS_V(12, (int)modified.wMonth) ;
+		ASSERT_EQUALS_V(5, (int)modified.wDay) ;
+		ASSERT_EQUALS_V(21, (int)modified.wHour) ;
+		ASSERT_EQUALS_V(6, (int)modified.wMinute) ;
+		ASSERT_EQUALS_V(10, (int)modified.wSecond) ;
+	}
 	TEST( TestCXml2RecordConverter, test_convert_from_node )
 	{
 		LPCWSTR text = L">"
@@ -114,7 +210,9 @@ namespace easyunit
 		converter.m_parser.set_buffer(text.c_str()) ;
 		ASSERT_TRUE(!converter.get_validated_value()) ;
 	}
+	//////////////////////////////////////////////////////////////////////////
 	// CRecord2XmlConverter
+	//////////////////////////////////////////////////////////////////////////
 	TEST(TestCRecord2XmlConverter, init_char_conversion)
 	{
 		OutputDeviceFake output_device ;

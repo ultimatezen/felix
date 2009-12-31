@@ -62,7 +62,7 @@ public:
 
 	const wstring strip_if_needed( const wstring &record_text) const;
 	wstring PlainTextNode( const _bstr_t &EndTag ) ;
-	void RichTextNode( const _bstr_t &EndTag,
+	void load_richtext_node( const _bstr_t &EndTag,
 				bookmark_type &bookmark_start,
 				bookmark_type &bookmark_end ) ;
 	// get the text from the children of this node
