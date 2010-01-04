@@ -753,28 +753,29 @@ CSourceAndHtmlEdit* CRegisterGlossDlg::get_active_edit()
 
 LRESULT CRegisterGlossDlg::OnCmdAddSource()
 {
-	m_gloss_source_edit.SetText(trim_text(m_rec_source_edit.get_selected_text())) ;
+	const _bstr_t text = string2BSTR(trim_text(m_rec_source_edit.get_selected_text())) ;
+	m_gloss_source_edit.SetText(text) ;
 	return 0L ;
 }
 LRESULT CRegisterGlossDlg::OnCmdAddTrans()
 {
-	m_gloss_trans_edit.SetText(trim_text(m_rec_trans_edit.get_selected_text())) ;
+	const _bstr_t text = string2BSTR(trim_text(m_rec_trans_edit.get_selected_text())) ;
+	m_gloss_trans_edit.SetText(text) ;
 	return 0L ;
 }
 
 
-_bstr_t CRegisterGlossDlg::trim_text(const _bstr_t before) const
+wstring CRegisterGlossDlg::trim_text( const _bstr_t before ) const
 {
-	const wstring pretext(BSTR2wstring(before)) ;
-	if (pretext.empty())
+	if (before.length() == 0)
 	{
-		return before ;
+		return wstring() ;
 	}
 
 	// normalize whitespace
 	std::vector<wstring> tokens ;
-	textstream_reader<wchar_t> reader(pretext.c_str()) ;
-	reader.split(tokens, L"\r\n "); 
+	textstream_reader<wchar_t> reader((LPCWSTR)before) ;
+	reader.split(tokens, L"\r\n\t ");
 	wstring text = str::join(L" ", tokens) ;
 
 	for (int i = (int)text.size()-1 ; i>=0 ; --i)
@@ -788,14 +789,14 @@ _bstr_t CRegisterGlossDlg::trim_text(const _bstr_t before) const
 		}
 		else if (! iswspace(text[i]))
 		{
-			return string2BSTR(str::ltrim(text)) ;
+			return str::ltrim(text) ;
 		}
 		else
 		{
 			text.erase(i, 1) ;
 		}
 	}
-	return _bstr_t() ;
+	return wstring() ;
 }
 LRESULT CRegisterGlossDlg::OnCmdAdvanced()
 {

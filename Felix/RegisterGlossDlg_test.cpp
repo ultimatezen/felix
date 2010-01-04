@@ -17,7 +17,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -26,7 +26,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"a" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "a" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -35,7 +35,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"  " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -44,7 +44,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -53,7 +53,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -62,7 +62,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam egg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam egg" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -71,7 +71,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam</B>" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -80,7 +80,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B></I>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam</B></I>" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -89,7 +89,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B> </I>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam</B></I>" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -98,7 +98,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam</B>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam</B>" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -107,7 +107,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -116,7 +116,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -125,7 +125,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\negg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam egg" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
@@ -134,7 +134,7 @@ namespace easyunit
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\r\negg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before)) ;
+		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
 		SimpleString expected = "spam egg" ;
 		SimpleString actual(after) ;
 		ASSERT_EQUALS_V(expected, actual) ;
