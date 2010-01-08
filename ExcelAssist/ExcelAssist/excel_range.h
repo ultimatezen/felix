@@ -37,12 +37,13 @@ public:
 	}
 	void SetText(const _variant_t text)
 	{
-		CDispatchWrapper selDisp = m_range ;
-		Excel::CharactersPtr chars = selDisp.prop_get( L"Characters" ).pdispVal ;
-		chars_ptr excel_chars(new characters) ;
-		excel_chars->set_chars(chars) ;
+		m_range->GetCharacters()->Text = text.bstrVal ;
+		//CDispatchWrapper selDisp = m_range ;
+		//Excel::CharactersPtr chars = selDisp.prop_get( L"Characters" ).pdispVal ;
+		//chars_ptr excel_chars(new characters) ;
+		//excel_chars->set_chars(chars) ;
 
-		excel_chars->SetText(text.bstrVal) ;
+		//excel_chars->SetText(text.bstrVal) ;
 	}
 	virtual int Row()
 	{

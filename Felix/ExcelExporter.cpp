@@ -120,62 +120,42 @@ void CExcelExporter::export_excel(memory_pointer mem, const CString& mem_name)
 
 void CExcelExporter::write_header(void)
 {
-	Excel::RangePtr pRange = m_sheet->Cells->Item[1][1] ;
-
-	pRange->FormulaR1C1 = L"Source" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][2] ;
-
-	pRange->FormulaR1C1 = L"Trans" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][3] ;
-	
-	pRange->FormulaR1C1 = L"Context" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][4] ;
-	
-	pRange->FormulaR1C1 = L"Reliability" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][5] ;
-	
-	pRange->FormulaR1C1 = L"Created" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][6] ;
-	
-	pRange->FormulaR1C1 = L"Modified" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
-
-	pRange = m_sheet->Cells->Item[1][7] ;
-	
-	pRange->FormulaR1C1 = L"Verified" ;
-	pRange->Font->Bold = VARIANT_TRUE ;
+	set_header_cell(m_sheet->Cells->Item[1][SOURCE_COL], L"Source");
+	set_header_cell(m_sheet->Cells->Item[1][TRANS_COL], L"Trans");
+	set_header_cell(m_sheet->Cells->Item[1][CONTEXT_COL], L"Context") ;
+	set_header_cell(m_sheet->Cells->Item[1][RELIABILITY_COL], L"Reliability");
+	set_header_cell(m_sheet->Cells->Item[1][CREATED_COL], L"Created");
+	set_header_cell(m_sheet->Cells->Item[1][MODIFIED_COL], L"Modified");
+	set_header_cell(m_sheet->Cells->Item[1][VERIFIED_COL], L"Verified");
 }
 
-void CExcelExporter::write_record(record_pointer rec, int count)
+void CExcelExporter::write_record(record_pointer rec, const int count)
 {
-	Excel::RangePtr pRange = m_sheet->Cells->Item[count][1] ;
-	pRange->FormulaR1C1 = process_cell_text(rec->get_source_plain()).c_str() ; 
+	set_cell_text(m_sheet->Cells->Item[count][SOURCE_COL], rec->get_source_plain());
+	set_cell_text(m_sheet->Cells->Item[count][TRANS_COL], rec->get_trans_plain());
+	set_cell_text(m_sheet->Cells->Item[count][CONTEXT_COL], rec->get_context_plain()) ;
+	set_cell_text(m_sheet->Cells->Item[count][RELIABILITY_COL], int2wstring( rec->get_reliability() ));
+	set_cell_text(m_sheet->Cells->Item[count][CREATED_COL], string2wstring( rec->get_created().get_default_date_time_string() ));
+	set_cell_text(m_sheet->Cells->Item[count][MODIFIED_COL], string2wstring( rec->get_modified().get_default_date_time_string() ));
+	set_cell_text(m_sheet->Cells->Item[count][VERIFIED_COL],  bool2wstring( rec->is_validated() ));
+}
 
-	pRange = m_sheet->Cells->Item[count][2] ;
-	pRange->FormulaR1C1 = process_cell_text(rec->get_trans_plain()).c_str() ;
+void CExcelExporter::set_cell_text( Excel::RangePtr cell, const wstring text )
+{
+	try
+	{
+		cell->GetCharacters()->Text = string2BSTR(process_cell_text(text)) ;
+	}
+	catch (_com_error& e)
+	{
+		logging::log_error("_com_error setting text in cell - using formula property") ;
+		logging::log_exception(e) ;
+		cell->FormulaR1C1 = _variant_t(string2BSTR(process_cell_text(text))) ;
+	}
+}
 
-	pRange = m_sheet->Cells->Item[count][3] ;
-	pRange->FormulaR1C1 = process_cell_text(rec->get_context_plain()).c_str() ;
-
-	pRange = m_sheet->Cells->Item[count][4] ;
-	pRange->FormulaR1C1 = int2wstring( rec->get_reliability() ).c_str() ;
-
-	pRange = m_sheet->Cells->Item[count][5] ;
-	pRange->FormulaR1C1 = string2wstring( rec->get_created().get_default_date_time_string() ).c_str() ;
-
-	pRange = m_sheet->Cells->Item[count][6] ;
-	pRange->FormulaR1C1 = string2wstring( rec->get_modified().get_default_date_time_string() ).c_str() ;
-
-	pRange = m_sheet->Cells->Item[count][7] ;
-	pRange->FormulaR1C1 = bool2wstring( rec->is_validated() ).c_str() ;
+void CExcelExporter::set_header_cell( Excel::RangePtr pRange, const wstring text )
+{
+	set_cell_text(pRange, text);
+	pRange->Font->Bold = VARIANT_TRUE ;
 }

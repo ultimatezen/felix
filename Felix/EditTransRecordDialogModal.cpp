@@ -19,11 +19,12 @@ LRESULT CEditTransRecordDialogModal::OnInitDialog( )
 
 	initialize_dialog() ;
 
+#ifndef UNIT_TEST
 	fill_from_record( m_old_record ) ;
 
 	// set focus to source edit
 	m_source_edit.set_html_focus() ;
-
+#endif
 	return TRUE ;
 }
 

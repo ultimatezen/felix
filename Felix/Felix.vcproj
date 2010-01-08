@@ -1665,6 +1665,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\EditTransRecordDialogModal_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\excelexporter_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Exceptions_test.cpp"
 					>
 				</File>

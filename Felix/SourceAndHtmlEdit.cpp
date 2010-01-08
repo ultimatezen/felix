@@ -450,6 +450,9 @@ void CSourceAndHtmlEdit::ensure_document_complete()
 
 _bstr_t CSourceAndHtmlEdit::get_html_text()
 {
+#ifdef UNIT_TEST
+	return _bstr_t("UnitTesting") ;
+#endif // UNIT_TEST
 	html::CHtmlSelection selection = m_html_edit.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
 	range.expand(L"Textedit") ;
