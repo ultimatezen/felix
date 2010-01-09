@@ -78,7 +78,8 @@ void CTMXWriter::write_memory(mem_engine::memory_pointer mem)
 void CTMXWriter::write_header(void)
 {
 	textTemplate.Assign( L"srclang", m_src_lang ) ;
-	textTemplate.Assign( L"version", L"1.1" ) ;
+	string v = string(VERSION) ;
+	textTemplate.Assign( L"version", string2wstring(v) ) ;
 
 	CResHtmlFile resFile( _T("TMX_HEAD") ) ;
 	const wstring tmplText = (LPCWSTR)resFile.text() ;

@@ -6,18 +6,23 @@
 #include "easyunit/testharness.h"
 #include "output_device_fake.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 
 namespace easyunit
 {
 	using namespace mem_engine ;
-	// cp_from_lang_str
+
+	//////////////////////////////////////////////////////////////////////////
+	// TradosDataExporter
+	//////////////////////////////////////////////////////////////////////////
 	TEST( TestTradosDataExporter, internal_date_to_trados_date )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		exporter.m_file = device_ptr(device) ;
 
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
@@ -32,6 +37,49 @@ namespace easyunit
 		SimpleString expected = "17012000, 12:00:00" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST( TestTradosDataExporter, open_destination )
+	{
+		std::set< wstring > fonts ;
+		CProgressListenerDummy listener ;
+		TradosDataExporter exporter(fonts, &listener) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		exporter.m_file = device_ptr(device) ;
+
+		exporter.open_destination(_T("foo.txt")) ;
+		ASSERT_EQUALS_V(2, (int)device->m_calls.size()) ;
+		ASSERT_EQUALS_V(SimpleString("open"), device->m_calls[0].c_str()) ;
+		ASSERT_EQUALS_V(SimpleString("foo.txt"), device->m_calls[1].c_str()) ;
+	}
+	TEST( TestTradosDataExporter, write_preamble )
+	{
+		std::set< wstring > fonts ;
+		CProgressListenerDummy listener ;
+		TradosDataExporter exporter(fonts, &listener) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		exporter.m_file = device_ptr(device) ;
+
+		exporter.write_preamble() ;
+		ASSERT_EQUALS_V(3, (int)device->m_calls.size()) ;
+		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[0].c_str()) ;
+		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[1].c_str()) ;
+		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[2].c_str()) ;
+	}
+	TEST( TestTradosDataExporter, create_unicode_escape )
+	{
+		std::set< wstring > fonts ;
+		CProgressListenerDummy listener ;
+		TradosDataExporter exporter(fonts, &listener) ;
+
+		string escape = exporter.create_unicode_escape(L't', 't') ;
+		SimpleString actual = escape.c_str() ;
+		SimpleString expected = "\\uc1\\u116 t" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// multiterm_data_exporter_55
+	//////////////////////////////////////////////////////////////////////////
+
 	TEST(test_multiterm_data_exporter_55, export_gloss)
 	{
 		CProgressListenerDummy dummy ;
@@ -75,6 +123,11 @@ namespace easyunit
 
 		ASSERT_EQUALS_V(expected, SimpleString(string2string(device->m_value).c_str())) ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// test_multiterm_data_exporter_6
+	//////////////////////////////////////////////////////////////////////////
+
 	TEST(test_multiterm_data_exporter_6, export_gloss)
 	{
 		CProgressListenerDummy dummy ;

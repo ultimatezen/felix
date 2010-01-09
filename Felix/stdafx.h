@@ -193,7 +193,7 @@ static const double EPSILON = 0.00001 ;
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
 
-#define VERSION "1.5.3"
+#define VERSION "1.5.3.2"
 #define LOGGING_SERVER L"FelixHelpers.FelixLogger"
 #define LOGFILE_NAME _T("felix.log")
 

@@ -2615,10 +2615,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\writer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\zoom_dialog.h"
 				>
 			</File>

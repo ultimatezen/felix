@@ -36,6 +36,46 @@ namespace easyunit
 		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
 		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
 	}
+	TEST(CTMXWriterTestCase, write_tu)
+	{
+		CProgressListenerDummy dummy ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
+
+		tmx_writer.tmplText = L"{$srcseg} {$transseg}" ;
+
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg");
+		tmx_writer.write_tu(rec) ;
+		SimpleString actual = string2string(device->m_value).c_str() ;
+		SimpleString expected = "spam egg" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
+		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+	}
+	TEST(CTMXWriterTestCase, write_header)
+	{
+		CProgressListenerDummy dummy ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
+
+		tmx_writer.m_src_lang = L"Pekinese" ;
+		
+		tmx_writer.write_header() ;
+		const wstring text = device->m_value ;
+
+		ASSERT_TRUE_M(text.find(L"<!DOCTYPE tmx SYSTEM \"tmx14.dtd\">") != wstring::npos, errMsg(L"<!DOCTYPE tmx SYSTEM \"tmx14.dtd\">", text)) ;
+		ASSERT_TRUE_M(text.find(L"<tmx version=\"1.4\">") != wstring::npos, errMsg(L"<tmx version=\"1.4\">", text)) ;
+		ASSERT_TRUE_M(text.find(L"<header") != wstring::npos, errMsg(L"<header", text)) ;
+		ASSERT_TRUE_M(text.find(L"creationtool=\"Felix\"") != wstring::npos, errMsg(L"creationtool=\"Felix\"", text)) ;
+		ASSERT_TRUE_M(text.find(L"srclang=\"Pekinese\"") != wstring::npos, errMsg(L"srclang=\"Pekinese\"", text)) ;
+		ASSERT_TRUE_M(text.find(L"o-tmf=\"Felix\"") != wstring::npos, errMsg(L"o-tmf=\"Felix\"", text)) ;
+		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
+		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+	}
 
 	// make_tu
 	TEST(CTMXWriterTestCase, make_tu_simple )
@@ -127,6 +167,8 @@ namespace easyunit
 		wstring expected = L"foo hi!" ;
 		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
 	}
+
+	// get_segment
 	TEST( CTmxWriterTestCase, getSegmentSimple )
 	{
 		CProgressListenerDummy dummy ;

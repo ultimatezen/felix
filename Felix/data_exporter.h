@@ -26,6 +26,8 @@ typedef std::map< wstring, string > color_tag_map ;
  */
 class TradosDataExporter
 {
+	VISIBLE_TO_TESTS
+
 	typedef std::set< wstring > font_set ;
 	
 	typedef mem_engine::record_pointer record_type ;
@@ -42,7 +44,7 @@ class TradosDataExporter
 	string		m_target_tag ;
 	string		m_source_lang ;
 	string		m_target_lang ;
-	file::file	m_file ;
+	device_ptr	m_file ;
 
 	CProgressListener		*m_listener ;
 
@@ -89,7 +91,6 @@ public:
  */
 class multiterm_data_exporter_55
 {
-	typedef boost::shared_ptr<OutputDevice> device_ptr ;
 	typedef mem_engine::record_pointer record_type ;
 
 	string	m_source_lang ;

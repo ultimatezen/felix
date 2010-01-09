@@ -11,6 +11,7 @@ public:
 	virtual void close() = 0 ;
 	virtual void open(const CString &filename) = 0 ;
 };
+typedef boost::shared_ptr<OutputDevice> device_ptr ;
 
 class OutputDeviceFile : public OutputDevice
 {
@@ -37,8 +38,11 @@ public:
 	}
 	void close()
 	{
-		m_file.write_eof() ;
-		m_file.close() ;
+		if (m_file.is_open())
+		{
+			m_file.write_eof() ;
+			m_file.close() ;
+		}
 		ATLASSERT ( ! m_file.is_open() ) ; 
 	}
 };

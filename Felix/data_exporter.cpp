@@ -47,7 +47,8 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 		"</RTF Preamble>"
 	),
 	m_old_codepage( CP_ACP ),
-	m_memory(new mem_engine::memory_local())
+	m_memory(new mem_engine::memory_local()),
+	m_file(new OutputDeviceFile)
 {
 
 	// our default...
@@ -258,12 +259,7 @@ void TradosDataExporter::export_trados( memory_pointer mem )
 // Return type		: 
 TradosDataExporter::~TradosDataExporter()
 {
-	if (m_file.is_open())
-	{
-		m_file.write_eof() ;
-		m_file.close() ;
-	}
-
+	m_file->close() ;
 }
 
 void TradosDataExporter::set_source( tstring source ) 
@@ -281,18 +277,12 @@ void TradosDataExporter::set_target( tstring target )
 
 bool TradosDataExporter::open_destination( const CString &destination )
 {
-	m_file.close() ;
-	return m_file.open( destination ) ;
+	m_file->open( destination ) ;
+	return true ;
 }
 
 bool TradosDataExporter::write_preamble()
 {
-
-	if ( m_file.is_open() == false ) 
-	{
-		THROW_WIN_EXCEPTION( system_message( IDS_FILE_NOT_OPEN_FOR_WRITING, m_file.file_name() ) )  ;
-	}
-
 	write_string( TRADOS_PREAMBLE ) ;
 	write_string( m_fonts.get_table( ) ) ;
 	write_string( TRADOS_STYLE_SHEET ) ;
@@ -309,11 +299,6 @@ bool TradosDataExporter::write_preamble()
 
 bool TradosDataExporter::write_record( record_pointer record )
 {
-	if ( m_file.is_open() == false ) 
-	{
-		THROW_WIN_EXCEPTION( system_message( IDS_FILE_NOT_OPEN_FOR_WRITING, m_file.file_name() ) )  ;
-	}
-
 	write_string( "\r\n<TrU>\r\n" ) ;
 	write_created( record->get_created() ) ;
 	write_modified( record->get_modified() ) ;
@@ -954,7 +939,7 @@ void TradosDataExporter::write_string( const string &str )
 
 	try
 	{
-		m_file.write( str ) ;
+		m_file->write( str ) ;
 	}
 	catch ( CException &e ) 
 	{
