@@ -19,6 +19,7 @@ CTMXWriter::CTMXWriter(CProgressListener *listener) :
 	, m_tuid(1)
 	, m_user_name( CUserName().as_wstring() )
 	, m_memory(new mem_engine::memory_local())
+	, m_file(new OutputDeviceFile)
 {
 	app_props::properties_general props ;
 	props.read_from_registry() ;
@@ -76,8 +77,6 @@ void CTMXWriter::write_memory(mem_engine::memory_pointer mem)
  */
 void CTMXWriter::write_header(void)
 {
-	ATLASSERT ( m_file.is_open() ) ; 
-	
 	textTemplate.Assign( L"srclang", m_src_lang ) ;
 	textTemplate.Assign( L"version", L"1.1" ) ;
 
@@ -85,7 +84,7 @@ void CTMXWriter::write_header(void)
 	const wstring tmplText = (LPCWSTR)resFile.text() ;
 	ATLASSERT( ! tmplText.empty() ) ;
 
-	m_file.write( textTemplate.Fetch( tmplText ) ) ;
+	m_file->write( textTemplate.Fetch( tmplText ) ) ;
 }
 
 /*!
@@ -96,8 +95,7 @@ void CTMXWriter::write_header(void)
  */
 void CTMXWriter::write_footer(void)
 {
-	ATLASSERT ( m_file.is_open() ) ; 
-	m_file.write( L"  </body>\n</tmx>") ;
+	m_file->write( L"  </body>\n</tmx>") ;
 }
 
 /*!
@@ -111,9 +109,7 @@ void CTMXWriter::write_footer(void)
  */
 void CTMXWriter::write_tu(mem_engine::record_pointer rec)
 {
-	ATLASSERT ( m_file.is_open() ) ; 
-
-	m_file.write( this->make_tu(rec, tmplText) ) ;
+	m_file->write( this->make_tu(rec, tmplText) ) ;
 }
 
 /*!
@@ -295,14 +291,12 @@ void CTMXWriter::prepareToWrite()
 
 	m_listener->OnProgressInit( location, 0, m_memory->size() ) ;
 
-	m_file.open_always( location ) ;
+	m_file->open( location ) ;
 }
 
 void CTMXWriter::cleanup()
 {
-	m_file.write_eof() ;
-	m_file.close() ;
-	ATLASSERT ( ! m_file.is_open() ) ; 
+	m_file->close() ;
 
 	m_listener->OnProgressDoneWrite( m_memory->size() ) ;
 }

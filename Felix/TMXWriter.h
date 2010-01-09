@@ -25,6 +25,7 @@
 #include "ProgressListener.h"
 
 #include "TextTemplate.h"
+#include "output_device.h"
 
 /**
 	@class CTMXWriter
@@ -34,8 +35,8 @@ class CTMXWriter
 {
 VISIBLE_TO_TESTS
 
-	
-	file::file						m_file ;
+	boost::shared_ptr<OutputDevice> m_file ;
+
 	mem_engine::memory_pointer	m_memory ;
 
 

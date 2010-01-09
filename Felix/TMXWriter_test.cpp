@@ -7,6 +7,7 @@
 #include ".\tmxwriter.h"
 #include "ResHtmlFile.h"
 #include "record_local.h"
+#include "output_device_fake.h"
 
 #include "easyunit/testharness.h"
 
@@ -20,7 +21,23 @@ namespace easyunit
 		wstring msg = L"Expected [" + expected + L"] but actual [" + actual + L"]";
 		return SimpleString( CW2A( msg.c_str() ) ) ;
 	}
+	// write
+	TEST(CTMXWriterTestCase, write_footer )
+	{
+		CProgressListenerDummy dummy ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
+		OutputDeviceFake *device = new OutputDeviceFake ;
+		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
+		tmx_writer.write_footer() ;
+		SimpleString actual = string2string(device->m_value).c_str() ;
+		SimpleString expected = "  </body>\n</tmx>" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
+		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+	}
+
+	// make_tu
 	TEST(CTMXWriterTestCase, make_tu_simple )
 	{
 		CProgressListenerDummy dummy ;
