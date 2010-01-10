@@ -1597,6 +1597,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\AutomationExceptionHandler_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\charset_info_test.cpp"
 					>
 				</File>

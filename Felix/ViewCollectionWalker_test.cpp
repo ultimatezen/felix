@@ -2,7 +2,7 @@
 #include "ViewCollectionWalker.h"
 #include "element_wrapper_fake.h"
 #include "record_local.h"
-
+#include "memory_local.h"
 #include "easyunit/testharness.h"
 
 #ifdef UNIT_TEST
@@ -19,6 +19,39 @@ namespace easyunit
 		ASSERT_TRUE(! is_other_tag(L"memory", tag_name_holder::instance())) ;
 		ASSERT_TRUE(! is_other_tag(L"rich_query", tag_name_holder::instance())) ;
 		ASSERT_TRUE(! is_other_tag(L"rich_source", tag_name_holder::instance())) ;
+	}
+	TEST(TestViewCollectionWalker, EraseCurrentMatch)
+	{
+		// memories
+		boost::shared_ptr<mem_engine::memory_model> memories(new mem_engine::memory_model_mem) ;
+
+		// memory
+		mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
+		memories->insert_memory(mem) ;
+		mem_engine::record_pointer rec(new mem_engine::record_local) ;
+		rec->set_source(L"source") ;
+		rec->set_trans(L"trans") ;
+		mem->add_record(rec) ;
+		ASSERT_EQUALS_V(1, (int)mem->size()) ;
+
+		// match
+		search_match_ptr match(new search_match) ;
+		match->set_record(rec) ;
+		match->set_memory_id(mem->get_id()) ;
+
+		// matches
+		mem_engine::search_query_mainframe matches ;
+		search_match_container match_con ;
+		match_con.insert(match) ;
+		matches.set_matches(match_con) ;
+		wstring id = L"0" ;
+
+		CViewCollectionWalker walker ;
+		walker.EraseCurrentRecord(match, matches, id, memories) ;
+
+		// record is deleted
+		ASSERT_EQUALS_V(0, (int)mem->size()) ;
+
 	}
 	// reliability
 	TEST(TestViewCollectionWalker, set_reliability_0)
