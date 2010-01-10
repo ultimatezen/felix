@@ -207,6 +207,9 @@ _bstr_t CSourceAndHtmlEdit::GetText()
 }
 void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 {
+#ifdef UNIT_TEST
+	return ;
+#endif
 	this->ensure_document_complete() ;
 	html::CHtmlSelection selection = m_html_edit.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;

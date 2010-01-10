@@ -15,7 +15,6 @@
 
 #include "ProgressListener.h"		// CProgressListener
 
-#include "writer.h"
 #include "output_device.h"
 
 typedef std::map< wstring, string > color_tag_map ;

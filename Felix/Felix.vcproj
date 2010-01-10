@@ -868,10 +868,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\hooker.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\HrefTags.cpp"
 				>
 			</File>
@@ -1669,6 +1665,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\EditTransRecordDialogRegGloss_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\element_wrapper_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\excelexporter_test.cpp"
 					>
 				</File>
@@ -1710,6 +1714,10 @@
 				</File>
 				<File
 					RelativePath=".\HrefTags_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HtmlDocColorSetter_test.cpp"
 					>
 				</File>
 				<File
@@ -1873,6 +1881,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ScintillaEdit_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\search_match_test.cpp"
 					>
 				</File>
@@ -1942,6 +1954,10 @@
 				</File>
 				<File
 					RelativePath=".\TranslationMemory_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ui_test.cpp"
 					>
 				</File>
 				<File
@@ -2219,10 +2235,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\hooker.h"
-				>
-			</File>
-			<File
 				RelativePath=".\HrefTags.h"
 				>
 			</File>
@@ -2484,6 +2496,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\rtf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\ScintillaEdit.h"
 				>
 			</File>
 			<File

@@ -41,8 +41,8 @@ public:
 	CSourceAndHtmlEdit m_context_edit ;
 
 	// other stuff
-	CStatic			m_created_box ;
-	CStatic			m_modified_box ;
+	CStaticT<TWindow>			m_created_box ;
+	CStaticT<TWindow>			m_modified_box ;
 	CCommandEdit	m_reliability_edit ;
 
 	CExtraStringsView m_extra_strings_view ;
@@ -256,12 +256,13 @@ public:
 		SENSE("fill_from_record") ;
 
 		// reliability
-		CUpDownCtrl reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
+		CUpDownCtrlT<TWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
 		reliability_spin.SetPos((int) record->get_reliability()) ;
 
+#ifndef UNIT_TEST
 		// validated
 		CheckDlgButton(IDC_VALIDATED_CHECK, (record->is_validated() ? BST_CHECKED : BST_UNCHECKED)) ;
-
+#endif
 		// modified
 		m_modified_box.SetWindowText((R2T(IDS_MODIFIED) + string2tstring(record->get_modified().get_date_time_string())).c_str()) ;
 		// created

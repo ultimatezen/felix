@@ -20,6 +20,8 @@ class element_wrapper_html : public element_wrapper
 	MSHTML::IHTMLElementPtr m_element ;
 
 public:
+	DECLARE_SENSING_VAR ;
+
 	void set_element(MSHTML::IHTMLElementPtr element);
 	wstring get_inner_text();
 	void set_inner_text (const wstring text);

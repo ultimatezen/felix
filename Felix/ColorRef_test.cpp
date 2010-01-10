@@ -83,4 +83,4 @@ namespace easyunit
 }
 
 
-#endif // #ifdef _DEBUG
+#endif // #ifdef UNIT_TEST
