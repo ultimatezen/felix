@@ -1457,6 +1457,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TmxImportLangsDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TMXReader.cpp"
 				>
 			</File>
@@ -2568,6 +2572,10 @@
 			</File>
 			<File
 				RelativePath=".\TMXImportDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TmxImportLangsDlg.h"
 				>
 			</File>
 			<File

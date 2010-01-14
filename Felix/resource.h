@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixENG.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -373,8 +373,11 @@
 #define IDC_LANG_COMBO_SOURCE           313
 #define IDC_LANG_COMBO_TRANS            314
 #define IDC_LANG_STATIC_SOURCE          315
+#define IDC_LANG_COMBO_TRANS2           315
+#define IDC_LANG_TRANS_COMBO            315
 #define IDC_LANG_STATIC_TRANS           316
 #define IDC_ITALIC                      317
+#define IDC_LANG_STATIC_TRANS2          317
 #define IDC_UNDERLINE                   318
 #define IDB_FILL_COLOR                  318
 #define IDC_RETRIEVE_EDIT_RECORD        319
@@ -559,7 +562,9 @@
 #define IDD_EDIT_RECORD_GLOSS           476
 #define IDC_USER_NAME                   477
 #define IDC_ADD_STATIC                  477
+#define IDD_SELECT_LANGS_DLG            477
 #define IDC_DEFAULTS_CHECK              478
+#define IDC_LANG_SOURCE_COMBO           480
 #define IDR_APP                         562
 #define IDC_CLOSE                       562
 #define IDC_ADD_SOURCE                  563
@@ -643,7 +648,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        476
 #define _APS_NEXT_COMMAND_VALUE         32829
-#define _APS_NEXT_CONTROL_VALUE         480
+#define _APS_NEXT_CONTROL_VALUE         481
 #define _APS_NEXT_SYMED_VALUE           572
 #endif
 #endif

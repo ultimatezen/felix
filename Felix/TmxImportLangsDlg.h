@@ -1,5 +1,5 @@
 /*!
-	@brief Interface file for CTMXImportDlg class.
+	@brief Interface file for CTMXImportLangsDlg class.
 	@author Ryan Ginstrom
  */
 
@@ -17,21 +17,22 @@
 typedef std::vector< tstring >		string_list ;
 typedef std::map< tstring, tstring >	string_map ;
 
-// CTMXImportDlg
-class CTMXImportDlg : 
-	public CDialogImpl< CTMXImportDlg, TWindow >
-	, public CWindowExceptionHandler< CTMXImportDlg >
+// CTMXImportLangsDlg
+class CTMXImportLangsDlg : 
+	public CDialogImpl< CTMXImportLangsDlg, TWindow >
+	, public CWindowExceptionHandler< CTMXImportLangsDlg >
 	, public CLanguageHolder
 {
 
-	CComboBox		m_trans_combo ;
+	CComboBoxT<TWindow>		m_source_combo ;
+	CComboBoxT<TWindow>		m_trans_combo ;
 
 public:
-	static const int IDD = IDD_SELECT_LANG_DLG ;
+	static const int IDD = IDD_SELECT_LANGS_DLG ;
 	DECLARE_SENSING_VAR ;
 
-	CTMXImportDlg() {}
-	~CTMXImportDlg() {}
+	CTMXImportLangsDlg() {}
+	~CTMXImportLangsDlg() {}
 
 	// message handlers 
 	void init_combo();
@@ -41,7 +42,7 @@ public:
 	LRESULT OnCancel(WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */);
 	LRESULT OnOK(WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */);
 
-	BEGIN_MSG_MAP(CTMXImportDlg)
+	BEGIN_MSG_MAP(CTMXImportLangsDlg)
 		MSG_TRY
 			MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 			COMMAND_ID_HANDLER(IDOK, OnOK)

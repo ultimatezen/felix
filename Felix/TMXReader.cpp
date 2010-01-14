@@ -8,6 +8,7 @@
 #include "tag_stripper.h"
 
 #include "TMXImportDlg.h"
+#include "TMXImportLangsDlg.h"
 #include "logging.h"
 #include "record_local.h"
 
@@ -271,23 +272,45 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 
 	load_head() ;
 
+	std::set< tstring > languages ;
+	const int record_count = get_record_count(languages) ;
 	std::set< tstring > target_languages ;
-	int record_count = get_record_count(target_languages) ;
-
-	ATLASSERT ( target_languages.empty() == false ) ; 
-	if ( target_languages.size() > 1 ) 
+	foreach(tstring language, languages)
 	{
-#ifdef UNIT_TEST
-		std::set< tstring > target ;
-		set_only_target_lang(target); // will select EN-US
-#else
-		user_select_target_lang(target_languages);
-#endif
+		if (! str::equal_nocase(language, m_header.m_srclang))
+		{
+			target_languages.insert(language) ;
+		}
+	}
+	ATLASSERT ( target_languages.empty() == false ) ; 
+
+	if (languages.find(m_header.m_srclang) == languages.end())
+	{
+		CTMXImportLangsDlg dlg ;
+		dlg.set_languages( target_languages ) ;
+		if ( IDCANCEL != dlg.DoModal() ) 
+		{
+			m_target_lang = string2wstring( dlg.get_trans_plain() ) ;
+			m_header.m_srclang = string2wstring( dlg.get_source_plain() ) ;
+		}
 	}
 	else
 	{
-		set_only_target_lang(target_languages);
+		if ( target_languages.size() > 1 ) 
+		{
+#ifdef UNIT_TEST
+			std::set< tstring > target ;
+			set_only_target_lang(target); // will select EN-US
+#else
+			user_select_target_lang(target_languages);
+#endif
+		}
+		else
+		{
+			set_only_target_lang(target_languages);
+		}
 	}
+
 
 	MemoryInfo *mem_info = m_memory->get_memory_info() ;
 	mem_info->set_source_language(m_header.m_srclang) ;
@@ -610,10 +633,7 @@ void CTMXReader::parse_tuv_for_language(std::set< tstring >& target_languages)
 	}
 
 	const wstring lang_name = tuv_reader.getline(L'\"') ;
-	if ( ! str::equal_nocase( lang_name, m_header.m_srclang ) )
-	{
-		target_languages.insert(boost::to_upper_copy(string2tstring( lang_name ))) ;
-	}
+	target_languages.insert(boost::to_upper_copy(string2tstring( lang_name ))) ;
 
 }
 
