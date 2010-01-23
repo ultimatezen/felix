@@ -28,6 +28,30 @@ namespace easyunit
 
 		ASSERT_EQUALS ( file::file::UTF8_BOM, tmx_reader.get_bom( EXPORT_TEST_FILE_1A ) ) ; 
 	}
+	TEST(CTMXReaderTestCase, srclang_in_languages_true )
+	{
+		std::set<tstring> languages ;
+		languages.insert(L"EN") ;
+		languages.insert(L"JA") ;
+
+		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
+		CProgressListenerDummy dummy ;
+		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
+		tmx_reader.m_header.m_srclang = L"EN" ;
+		ASSERT_TRUE_M(tmx_reader.srclang_in_languages(languages), "The source lang should be in the languages") ; 
+	}
+	TEST(CTMXReaderTestCase, srclang_in_languages_false)
+	{
+		std::set<tstring> languages ;
+		languages.insert(L"EN") ;
+		languages.insert(L"JA") ;
+
+		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
+		CProgressListenerDummy dummy ;
+		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
+		tmx_reader.m_header.m_srclang = L"*all*" ;
+		ASSERT_TRUE_M(! tmx_reader.srclang_in_languages(languages), "The source lang should not be in the languages") ; 
+	}
 
 	TEST(CTMXReaderTestCase,load_tmx_memory)
 	{

@@ -284,7 +284,9 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 	}
 	ATLASSERT ( target_languages.empty() == false ) ; 
 
-	if (languages.find(m_header.m_srclang) == languages.end())
+	// If the srclang isn't actually in the records, then have
+	// the user select the source language as well.
+	if (! srclang_in_languages(languages))
 	{
 		CTMXImportLangsDlg dlg ;
 		dlg.set_languages( target_languages ) ;
@@ -637,6 +639,10 @@ void CTMXReader::parse_tuv_for_language(std::set< tstring >& target_languages)
 
 }
 
+bool CTMXReader::srclang_in_languages( const std::set< tstring > &languages )
+{
+	return languages.find(boost::to_upper_copy(m_header.m_srclang)) != languages.end();
+}
 namespace tmx_reader
 {
 	void CTU::set_attributes( std::map< wstring, wstring > &attributes )

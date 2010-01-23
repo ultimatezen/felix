@@ -53,6 +53,8 @@ namespace tmx_reader
  */
 class CTMXReader
 {
+	VISIBLE_TO_TESTS
+
 	wstring			m_text ;
 	wc_reader		m_reader ;
 	file::view		m_view ;
@@ -169,6 +171,7 @@ public:
 	// Load a TMX file into a memory
 	mem_engine::memory_pointer load_tmx_memory(const CString & file_name);
 
+	bool srclang_in_languages( const std::set< tstring > &languages );
 	void load_head() ;
 	void load_body() ;
 
