@@ -543,8 +543,6 @@
 #define IDD_PROPPAGE_GLOSSARY           469
 #define IDC_PLACE_GLOSS_CHECK           469
 #define IDC_PLACE_NUMBERS_CHECK         470
-#define IDR_HTML2                       471
-#define IDI_ICON4                       471
 #define IDC_CONN_EDIT                   472
 #define IDD_CONNECTION_DLG              472
 #define IDC_DUP_MSG                     472
