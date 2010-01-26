@@ -32,6 +32,7 @@
 #include "ImportMultitermFile.h"
 #include "FelixMemDocUIHandler.h"
 #include "record_local.h"
+#include "ConcordanceDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -2740,4 +2741,30 @@ const CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::get_merge_type( const bool 
 		return check_empty_on_load() ;
 	}
 	return MERGE_CHOICE_SEPARATE ;
+}
+
+LRESULT CGlossaryWindow::on_edit_concordance()
+{
+	CConcordanceDialog dialog ;
+	if ( IDCANCEL == dialog.DoModal() )
+	{
+		return 0L ;
+	}
+
+	const wstring query = string2wstring( dialog.get_text() ) ;
+	if ( query.length() > 0 )
+	{
+		get_concordances( query ) ;
+	}
+	return 0L ;
+}
+
+LRESULT CGlossaryWindow::on_edit_edit()
+{
+	return on_user_editEntry(0) ;
+}
+
+LRESULT CGlossaryWindow::on_edit_delete()
+{
+	return on_delete() ;
 }

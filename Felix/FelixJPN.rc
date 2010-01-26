@@ -157,15 +157,21 @@ BEGIN
     END
     POPUP "編集(&E)"
     BEGIN
+        POPUP "検索(&F)"
+        BEGIN
+            MENUITEM "メモリの検索(&M)\tCtrl+F",          ID_EDIT_FIND
+            MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
+            MENUITEM "コンコーダンス(一致)検索(&C)",           IDD_CONCORDANCE
+        END
+        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
         MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
         MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
         MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
         MENUITEM SEPARATOR
-        MENUITEM "検索(&F)\tCtrl+F",              ID_EDIT_FIND
-        MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
-        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
-        MENUITEM SEPARATOR
-        MENUITEM "用語の追加(&A)\tF2",               ID_EDIT_ADD
+        MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
+        MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
+        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
     END
     POPUP "表示(&V)"
     BEGIN

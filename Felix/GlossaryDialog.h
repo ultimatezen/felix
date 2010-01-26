@@ -275,6 +275,11 @@ public:
 	LRESULT on_add( ) ;
 	LRESULT OnDestroy( ) ;
 
+	LRESULT on_edit_concordance();
+	LRESULT on_edit_edit();
+	LRESULT on_edit_delete();
+
+
 	void save_prefs();
 	// view 
 	LRESULT on_view_edit_mode( WindowsMessage &message ) ;
@@ -364,6 +369,9 @@ public:
 
 			CMD_HANDLER_EX_0(ID_FIND_QUICKSEARCH, on_find )
 
+			CMD_HANDLER_EX_0(IDD_CONCORDANCE, on_edit_concordance)
+			CMD_HANDLER_EX_0(IDD_EDIT_ENTRY, on_edit_edit)
+			CMD_HANDLER_EX_0(ID_EDIT_DELETE, on_edit_delete)
 
 			CMD_HANDLER_EX_0(ID_EDIT_DELETE, on_delete )
 			CMD_HANDLER_EX_0(ID_EDIT_REPLACE, on_edit_replace )

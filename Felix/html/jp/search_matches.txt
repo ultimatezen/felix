@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <a href="/{$record.num0}/editrecord">編集</a>
+                {$record.memory} | <a href="/{$record.num0}/editrecord">編集</a>
                 | <a href="/{$record.num0}/deleterecord">削除</a>
                 | <a href="#" id="view_{$record.num}" onclick="toggleDetails({$record.num});">詳細 &gt;&gt;</a>
                 <div id="item_{$record.num}" style="display:none;">

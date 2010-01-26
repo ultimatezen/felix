@@ -273,7 +273,7 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 	load_head() ;
 
 	std::set< tstring > languages ;
-	const int record_count = get_record_count(languages) ;
+	const size_t record_count = get_record_count(languages) ;
 	std::set< tstring > target_languages ;
 	foreach(tstring language, languages)
 	{

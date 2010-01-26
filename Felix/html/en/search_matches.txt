@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <a href="/{$record.num0}/editrecord">Edit</a>
+                {$record.memory} | <a href="/{$record.num0}/editrecord">Edit</a>
                 | <a href="/{$record.num0}/deleterecord">Delete</a>
                 | <a href="#" id="view_{$record.num}" onclick="toggleDetails({$record.num});">Details &gt;&gt;</a>
                 <div id="item_{$record.num}" style="display:none;">

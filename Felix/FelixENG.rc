@@ -131,14 +131,20 @@ BEGIN
     END
     POPUP "&Edit"
     BEGIN
+        POPUP "&Find"
+        BEGIN
+            MENUITEM "Search &Memory\tCtrl+F",      ID_EDIT_FIND
+            MENUITEM "&Quick Search",               ID_FIND_QUICKSEARCH
+            MENUITEM "&Concordance",                IDD_CONCORDANCE
+        END
+        MENUITEM "&Replace\tCtrl+H",            ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
         MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
         MENUITEM "C&ut\tCtrl+X",                ID_EDIT_CUT
         MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
         MENUITEM SEPARATOR
-        MENUITEM "&Find\tCtrl+F",               ID_EDIT_FIND
-        MENUITEM "&Quick Search",               ID_FIND_QUICKSEARCH
-        MENUITEM "&Replace\tCtrl+H",            ID_EDIT_REPLACE
-        MENUITEM SEPARATOR
+        MENUITEM "&Edit Entry",                 IDD_EDIT_ENTRY
+        MENUITEM "&Delete Entry\tCtrl+D",       ID_EDIT_DELETE
         MENUITEM "&Add Entry\tF2",              ID_EDIT_ADD
     END
     POPUP "&View"
