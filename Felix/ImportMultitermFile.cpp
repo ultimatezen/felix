@@ -40,7 +40,7 @@ void CImportMultitermFile::import( const CString &file_name )
 const file::file::BYTE_ORDER_MARK CImportMultitermFile::get_file_bom( const CString & file_name ) const
 {
 	file::file import_file ;
-	import_file.open_existing( file_name ) ;
+	import_file.open_read(file_name) ;
 	const file::file::BYTE_ORDER_MARK bom = import_file.get_bom() ;
 	import_file.close() ;
 	return bom ;

@@ -512,7 +512,7 @@ size_t CTMXReader::get_file_size(const CString & file_name)
 file::file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name)
 {
 	file::file tmx_file ;
-	tmx_file.open_existing( file_name ) ;
+	tmx_file.open_read( file_name ) ;
 	ATLASSERT ( tmx_file.is_open() ) ; 
 
 	file::file::BYTE_ORDER_MARK bom = tmx_file.get_bom() ;
