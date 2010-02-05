@@ -174,6 +174,9 @@ public:
 
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		edit.SetWindowText( m_properties->m_segChars ) ;
+		// Initialize the seg chars to the defaults, in case
+		// our DDX isn't instantiated.
+		_tcscpy_s(m_segChars, (LPCTSTR)m_properties->m_segChars ) ;
 
 		return TRUE;
 	}
