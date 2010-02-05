@@ -335,11 +335,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\res\network.bmp"
+				>
+			</File>
+			<File
 				RelativePath="..\res\NewDocument.bmp"
 				>
 			</File>
 			<File
 				RelativePath="..\res\Open.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\res\openprefs.bmp"
 				>
 			</File>
 			<File
@@ -360,6 +368,10 @@
 			</File>
 			<File
 				RelativePath="..\res\SaveAll.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\res\saveprefs.bmp"
 				>
 			</File>
 			<File
@@ -436,11 +448,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\nagpagej.html"
+			RelativePath="..\res\nagpagej.html"
 			>
 		</File>
 		<File
-			RelativePath="..\res\nagpagej.html"
+			RelativePath="..\..\..\Felix 1.5\res\nagpagej.html"
 			>
 		</File>
 		<File
@@ -458,17 +470,21 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Felix 1.5\res\reg_glossj.htm"
-			DeploymentContent="true"
-			>
-		</File>
-		<File
 			RelativePath="..\res\reg_glossj.htm"
 			DeploymentContent="true"
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\Felix 1.5\res\reg_glossj.htm"
+			DeploymentContent="true"
+			>
+		</File>
+		<File
 			RelativePath="..\res\tmx_head.html"
+			>
+		</File>
+		<File
+			RelativePath="..\res\tmx_tu.html"
 			>
 		</File>
 	</Files>
