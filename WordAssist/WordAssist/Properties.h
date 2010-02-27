@@ -5,9 +5,7 @@
 #pragma once
 
 #include "atlapp.h"
-
 #include "CStringInterface.h"
-
 #include "atlwin.h"
 #include "atldlgs.h"
 #include "atlddx.h"
@@ -110,13 +108,9 @@ public:
 		return PSNRET_NOERROR  ; 
 	}
 	
-	
-	
 	BEGIN_MSG_MAP(CPageView)
-
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageView> )
-
 	END_MSG_MAP()
 		
 	BEGIN_DDX_MAP(CPageView)
@@ -125,7 +119,6 @@ public:
 	END_DDX_MAP()
 
 };
-
 
 // ======================
 // class CPageSegmentation 
@@ -210,7 +203,6 @@ public:
 		// TRUE = prevent deactivation
 		return FALSE;
 	}
-
 
 	BEGIN_MSG_MAP(CPageSegmentation)
 
@@ -310,7 +302,6 @@ public:
 		return FALSE;
 	}
 
-
 	BEGIN_MSG_MAP(CPageTransHist)
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageTransHist> )
@@ -385,7 +376,6 @@ class CPropertiesDlgE  : public CPropertySheetImpl<CPropertiesDlgE>
 	CString			m_title ;
 
 public:
-
 	app_state get_properties();
 
 	enum { IDD = IDD_PROPSHEET_E };
@@ -395,7 +385,6 @@ public:
 	BEGIN_MSG_MAP(CPropertiesDlgE)
 		CHAIN_MSG_MAP	  ( CPropertySheetImpl<CPropertiesDlgE> )
 	END_MSG_MAP()
-
 };
 
 // ======================
@@ -425,4 +414,3 @@ public:
 	END_MSG_MAP()
 		
 };
-

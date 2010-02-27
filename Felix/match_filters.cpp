@@ -5,6 +5,65 @@
 namespace memory_searcher
 {
 
+	void mod_date( misc_wrappers::date &query_date, const wstring datestring )
+	{
+		textstream_reader<wchar_t> reader ;
+		reader.set_buffer(datestring.c_str()) ;
+		std::vector<wstring> bits ;
+		reader.split(bits, L"-/") ;
+		if (bits.size() >= 1)
+		{
+			query_date.set_year(bits[0]) ;
+		}
+		if (bits.size() >= 2)
+		{
+			query_date.set_month(bits[1]) ;
+		}
+		if (bits.size() >= 3)
+		{
+			query_date.set_day(bits[2]) ;
+		}
+	}
+
+	bool dates_match(const misc_wrappers::date &query,
+					 const misc_wrappers::date &entry)
+	{
+		// year
+		if (query.wYear != entry.wYear)
+		{
+			return false ;
+		}
+		// month
+		if (! query.wMonth)
+		{
+			return true ;
+		}
+		if (query.wMonth != entry.wMonth)
+		{
+			return false ;
+		}
+		// day
+		if (! query.wDay)
+		{
+			return true ;
+		}
+		if (query.wDay != entry.wDay)
+		{
+			return false ;
+		}
+		return true ;
+	}
+	bool date_after(const misc_wrappers::date &query,
+		const misc_wrappers::date &entry)
+	{
+		if (dates_match(query, entry))
+		{
+			return false ;
+		}
+		return query < entry ;
+
+	}
+
 	void search_runner::add_term( const wstring term )
 	{
 		m_terms.push_back(term) ;
@@ -96,101 +155,99 @@ namespace memory_searcher
 		tag = L"created-by:" ; // Search in creator field
 		if (str::starts_with(term, tag))
 		{
-			wstring query = term.substr(tag.size()) ;
+			wstring query = term.substr(term.find(L':')+1) ;
 			if (str::trim(query).empty())
 			{
 				return true ;
 			}
 			return rec->get_creator().find(query) != wstring::npos ;
 		}
-		tag = L"created:" ; // Search in modifier field
-		if (str::starts_with(term, tag))
+		
+		// Search in modifier field
+		if (str::starts_with(term, L"created:") || str::starts_with(term, L"created-on:"))
 		{
-			wstring query = term.substr(tag.size()) ;
+			wstring query = term.substr(term.find(L':')+1) ;
 			if (str::trim(query).empty())
 			{
 				return true ;
 			}
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
 			misc_wrappers::date created_date = rec->get_created() ;
-			return thedate.wYear == created_date.wYear
-				&& thedate.wMonth == created_date.wMonth
-				&& thedate.wDay == created_date.wDay ;
+			return dates_match(query_date, created_date) ;
 		}
 		tag = L"created-before:" ; // Search for records created before date (YYYY-MM-DD format)
 		if (str::starts_with(term, tag))
 		{
-			wstring query = term.substr(tag.size()) ;
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
-			return rec->get_created() < thedate ;
+			wstring query = term.substr(term.find(L':')+1) ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
+			return rec->get_created() < query_date ;
 		}
 		tag = L"created-after:" ; // Search for records created after date (YYYY-MM-DD format)
 		if (str::starts_with(term, tag))
 		{
-			wstring query = term.substr(tag.size()) ;
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
-			return rec->get_created() > thedate ;
+			wstring query = term.substr(term.find(L':')+1) ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
+			misc_wrappers::date date_created = rec->get_created() ;
+			return date_after(query_date, date_created) ;
 		}
 		// Modified
-		tag = L"modified-by:" ; // Search in modifier field
-		if (str::starts_with(term, tag))
+		if (str::starts_with(term, L"modified-by:"))
 		{
-			wstring query = term.substr(tag.size()) ;
+			wstring query = term.substr(term.find(L':')+1) ;
 			if (str::trim(query).empty())
 			{
 				return true ;
 			}
 			return rec->get_modified_by().find(query) != wstring::npos ;
 		}
-		tag = L"modified:" ; // Search in modifier field
-		if (str::starts_with(term, tag))
+
+		if (str::starts_with(term, L"modified:") || str::starts_with(term, L"modified-on:"))
 		{
-			wstring query = term.substr(tag.size()) ;
+			wstring query = term.substr(term.find(L':')+1) ;
 			if (str::trim(query).empty())
 			{
 				return true ;
 			}
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
-			misc_wrappers::date mod_date = rec->get_modified() ;
-			return thedate.wYear == mod_date.wYear
-				&& thedate.wMonth == mod_date.wMonth
-				&& thedate.wDay == mod_date.wDay ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
+			misc_wrappers::date modified_date = rec->get_modified() ;
+			return dates_match(query_date, modified_date) ;
 		}
 		tag = L"modified-before:" ; // Search for records modified before date (YYYY-MM-DD format)
 		if (str::starts_with(term, tag))
 		{
-			wstring query = term.substr(tag.size()) ;
+			wstring query = term.substr(term.find(L':')+1) ;
 			if (str::trim(query).empty())
 			{
 				return true ;
 			}
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
-			return rec->get_modified() < thedate ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
+			return rec->get_modified() < query_date ;
 		}
 		tag = L"modified-after:" ; // Search for records modified after date (YYYY-MM-DD format)
 		if (str::starts_with(term, tag))
 		{
-			wstring query = term.substr(tag.size()) ;
-			misc_wrappers::date thedate ;
-			mod_date(thedate, query) ;
-			return rec->get_modified() > thedate ;
+			wstring query = term.substr(term.find(L':')+1) ;
+			misc_wrappers::date query_date ;
+			mod_date(query_date, query) ;
+			misc_wrappers::date date_modified = rec->get_modified() ;
+			return date_after(query_date, date_modified) ;
 		}
 		// Reliability
-		tag = L"reliability:" ; // Search for records with the specified reliability
-		if (str::starts_with(term, tag))
+		
+		// Search for records with the specified reliability
+		if (str::starts_with(term, L"reliability:"))
 		{
-			wstring rhs = term.substr(tag.size()) ;
-			if (str::trim(rhs).empty())
+			wstring query = term.substr(term.find(L':')+1) ;
+			if (str::trim(query).empty())
 			{
 				return true ;
 			}
-			size_t query = boost::lexical_cast<size_t>(rhs) ;
-			return rec->get_reliability() == query ;
+			return rec->get_reliability() == boost::lexical_cast<size_t>(query) ;
 		}
 		tag = L"reliability-gt:" ; // Search for records with greater than the specified reliability
 		if (str::starts_with(term, tag))
@@ -282,23 +339,4 @@ namespace memory_searcher
 		return false ;
 	}
 
-	void search_runner::mod_date( misc_wrappers::date &thedate, const wstring datestring ) const
-	{
-		textstream_reader<wchar_t> reader ;
-		reader.set_buffer(datestring.c_str()) ;
-		std::vector<wstring> bits ;
-		reader.split(bits, L"-/") ;
-		if (bits.size() >= 1)
-		{
-			thedate.set_year(bits[0]) ;
-		}
-		if (bits.size() >= 2)
-		{
-			thedate.set_month(bits[1]) ;
-		}
-		if (bits.size() >= 3)
-		{
-			thedate.set_day(bits[2]) ;
-		}
-	}
 }

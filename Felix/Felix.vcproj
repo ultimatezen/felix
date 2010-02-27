@@ -957,10 +957,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\match_filters_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="match_maker.cpp"
 				>
 				<FileConfiguration
@@ -1778,6 +1774,10 @@
 				</File>
 				<File
 					RelativePath=".\match_filters_searcher_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_filters_test.cpp"
 					>
 				</File>
 				<File

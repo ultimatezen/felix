@@ -11,6 +11,120 @@ namespace easyunit
 	using namespace memory_searcher ;
 	using namespace mem_engine ;
 
+	// dates_match
+	TEST(match_filters_dates_match, year_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999") ;
+		query.set_year(datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(dates_match(query, entry)) ;
+	}
+	TEST(match_filters_dates_match, year_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"2000") ;
+		query.set_year(datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(! dates_match(query, entry)) ;
+	}
+	TEST(match_filters_dates_match, month_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(dates_match(query, entry)) ;
+	}
+	TEST(match_filters_dates_match, month_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-06") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(! dates_match(query, entry)) ;
+	}
+
+	TEST(match_filters_dates_match, day_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05-10") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(dates_match(query, entry)) ;
+	}
+	TEST(match_filters_dates_match, day_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05-11") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(! dates_match(query, entry)) ;
+	}
+
+	// date_after
+	TEST(match_filters_date_after, year_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1998") ;
+		query.set_year(datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(date_after(query, entry)) ;
+	}
+	TEST(match_filters_date_after, year_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"2000") ;
+		query.set_year(datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(! date_after(query, entry)) ;
+	}
+	TEST(match_filters_date_after, month_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 6, 10) ;
+
+		ASSERT_TRUE(date_after(query, entry)) ;
+	}
+	TEST(match_filters_date_after, month_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-06") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 6, 10) ;
+
+		ASSERT_TRUE(! date_after(query, entry)) ;
+	}
+	TEST(match_filters_date_after, day_true)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05-10") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 11) ;
+
+		ASSERT_TRUE(date_after(query, entry)) ;
+	}
+	TEST(match_filters_date_after, day_false)
+	{
+		misc_wrappers::date query ;
+		wstring datestr(L"1999-05-11") ;
+		mod_date(query, datestr) ;
+		misc_wrappers::date entry(1999, 5, 10) ;
+
+		ASSERT_TRUE(! date_after(query, entry)) ;
+	}
+
+
 	// match_filter_generic
 	TEST(runner_term_matches_test, generic_source_true)
 	{
@@ -334,7 +448,348 @@ namespace easyunit
 		ASSERT_TRUE(runner.term_matches(rec, term)) ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// created
+	//////////////////////////////////////////////////////////////////////////
+
+	// true
+	TEST(match_filters_created_test, yyyy_mm_dd_true)
+	{
+		wstring term(L"created:2010-01-01") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_test, yyyy_mm_true)
+	{
+		wstring term(L"created:2010-01") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_test, yyyy_true)
+	{
+		wstring term(L"created:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_test, created_on_yyyy_true)
+	{
+		wstring term(L"created-on:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	// false
+	TEST(match_filters_created_test, yyyy_mm_dd_false)
+	{
+		wstring term(L"created:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_test, yyyy_mm_false)
+	{
+		wstring term(L"created:2010-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_test, yyyy_false)
+	{
+		wstring term(L"created:2009") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// modified
+	//////////////////////////////////////////////////////////////////////////
+
+	// true
+	TEST(match_filters_modified_test, yyyy_mm_dd_true)
+	{
+		wstring term(L"modified:2010-01-01") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_modified_test, yyyy_mm_true)
+	{
+		wstring term(L"modified:2010-01") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_modified_test, yyyy_true)
+	{
+		wstring term(L"modified:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_modified_test, modified_on_yyyy_true)
+	{
+		wstring term(L"modified-on:2010/01") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	// false
+	TEST(match_filters_modified_test, yyyy_mm_dd_false)
+	{
+		wstring term(L"modified:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_modified_test, yyyy_mm_false)
+	{
+		wstring term(L"modified:2010-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_modified_test, yyyy_false)
+	{
+		wstring term(L"modified:2009") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_modified(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// created-before
+	//////////////////////////////////////////////////////////////////////////
+
+	// true
+	TEST(match_filters_created_before_test, yyyy_mm_dd_true)
+	{
+		wstring term(L"created-before:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2009/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_before_test, yyyy_mm_true)
+	{
+		wstring term(L"created-before:2010-05") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/04/29") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_before_test, yyyy_true)
+	{
+		wstring term(L"created-before:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2009/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	// false
+	TEST(match_filters_created_before_test, yyyy_mm_dd_false)
+	{
+		wstring term(L"created-before:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2011/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_before_test, yyyy_mm_false)
+	{
+		wstring term(L"created-before:2010-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/02/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_before_test, yyyy_false)
+	{
+		wstring term(L"created-before:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	//////////////////////////////////////////////////////////////////////////
+	// created-after
+	//////////////////////////////////////////////////////////////////////////
+
+	// true
+	TEST(match_filters_created_after_test, yyyy_mm_dd_true)
+	{
+		wstring term(L"created-after:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/03") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_after_test, yyyy_mm_true)
+	{
+		wstring term(L"created-after:2010-05") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/06/29") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_after_test, yyyy_true)
+	{
+		wstring term(L"created-after:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2011/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+	}
+	// false
+	TEST(match_filters_created_after_test, yyyy_mm_dd_false)
+	{
+		wstring term(L"created-after:2010-01-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2009/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_after_test, yyyy_mm_false)
+	{
+		wstring term(L"created-after:2010-02") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/02/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+	TEST(match_filters_created_after_test, yyyy_false)
+	{
+		wstring term(L"created-after:2010") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2009/01/01") ;
+
+		search_runner runner ;
+		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// match_filters
+	//////////////////////////////////////////////////////////////////////////
 	TEST(match_filters_test, source_true_trans_true)
 	{
 		search_runner runner ;
