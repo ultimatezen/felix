@@ -8,6 +8,7 @@
 #include "element_wrapper.h"
 #include "document_wrapper.h"
 #include "pagination.h"
+#include "Exceptions.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
@@ -134,20 +135,43 @@ public:
 	LRESULT OnReplace();
 	LRESULT OnToggleHelp();
 	BEGIN_MSG_MAP_EX(CSearchWindow)
-		// don't use MSG_HANDLER_0
-		// we need the arguments to pass to DefWindowProc
-		MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
-		MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
-		MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
+		try
+		{
+			// don't use MSG_HANDLER_0 for OnCreate
+			// we need the arguments to pass to DefWindowProc
+			MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
+			MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
+			MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
 
-		BEGIN_CMD_HANDLER_EX
+			BEGIN_CMD_HANDLER_EX
 
-			CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
-			CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
-			CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
-			CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
+				CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
+				CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
+				CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
+				CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
 
-		END_CMD_HANDLER_EX
+			END_CMD_HANDLER_EX
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception") ;
+			logging::log_exception(e) ;
+			e.notify_user( _T("Error in Search Window"), MB_OK, _T("Search Error"), m_hWnd ) ;		 
+		}
+		catch (_com_error& e)
+		{
+			logging::log_error("COM exception") ;
+			logging::log_exception(e) ;
+			except::CComException com_exception(_T("COM Error"), e) ;		 
+			com_exception.notify_user( _T("COM Error in Search Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("std::exception") ;
+			logging::log_error(e.what()) ;
+			const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND | MB_SYSTEMMODAL ;
+			::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error"), msg_flags ) ;  
+		}
 
 
 	END_MSG_MAP()
