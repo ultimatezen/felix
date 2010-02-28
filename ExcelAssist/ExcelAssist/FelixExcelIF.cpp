@@ -309,6 +309,7 @@ void CFelixExcelIF::OnLookupNext( )
 
 				if ( cell_text.length() > 0 && ! IsIgnoreCell(BSTR2wstring(cell_text) ) )
 				{
+					activeCell = activeSheet->Cell( iRow, iCol ) ;
 					activeCell->Select() ;
 					OnLookup() ;
 					return ;
