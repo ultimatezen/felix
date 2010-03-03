@@ -4,6 +4,27 @@
 
 namespace mem_engine
 {
+
+	misc_wrappers::date parse_date(const wstring &datestr)
+	{
+		misc_wrappers::date parsed ;
+		try
+		{
+			parsed = datestr ;
+			if (parsed.wYear < 1000)
+			{
+				parsed.set_to_local_time() ;
+			}
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Exception parsing record date: " + string2string(datestr)) ;
+			logging::log_exception(e) ;
+			parsed.set_to_local_time() ;		
+		}
+		return parsed ;
+
+	}
 // CTOR
 record_local::record_local( ) : 
 	m_is_validated(false), 
@@ -198,68 +219,15 @@ void record_local::set_context( const wstring context )
 // void record_local::set_created( const wstring &created ) 
 void record_local::set_created( const wstring &created ) 
 {
-	try
-	{
-		m_created = created ;
-	}
-	catch (except::CException& e)
-	{
-		logging::log_error("Exception parsing created date") ;
-		logging::log_exception(e) ;
-		m_created.set_to_local_time() ;		
-	}
-
-	if (m_created.wYear < 1000)
-	{
-		m_created.set_to_local_time() ;
-	}
-
-	if ( m_modified < m_created )
-	{
-		m_modified = created ;
-	}
-	ATLASSERT ( m_created.wYear < 2500 ) ; 
-	ATLASSERT ( m_created.wYear > 1980 ) ; 
-	ATLASSERT ( m_created.wMonth < 13 ) ; 
-	ATLASSERT ( m_created.wDay < 366 ) ; 
-	ATLASSERT ( m_created.wDayOfWeek < 8 ) ; 
-	ATLASSERT ( m_created.wHour < 25 ) ; 
-	ATLASSERT ( m_created.wMinute < 61 ) ; 
-	ATLASSERT ( m_created.wSecond < 61 ) ; 
-	ATLASSERT ( m_created.wMilliseconds < 1001 ) ; 
+	misc_wrappers::date parsed = parse_date(created) ;
+	this->set_created(parsed) ;
 }
 
 // void record_local::set_modified( const wstring &modified )  
 void record_local::set_modified( const wstring &modified )  
 {
-	try
-	{
-		m_modified = modified ;
-	}
-	catch (except::CException& e)
-	{
-		logging::log_error("Exception parsing modified date") ;
-		logging::log_exception(e) ;
-		m_modified.set_to_local_time() ;		
-	}
-	if (m_modified.wYear < 1000)
-	{
-		m_modified.set_to_local_time() ;
-	}
-
-	if ( m_modified < m_created )
-	{
-		m_created = m_modified  ;
-	}
-	ATLASSERT ( m_modified.wYear < 2500 ) ; 
-	ATLASSERT ( m_modified.wYear > 1980 ) ; 
-	ATLASSERT ( m_modified.wMonth < 13 ) ; 
-	ATLASSERT ( m_modified.wDay < 366 ) ; 
-	ATLASSERT ( m_modified.wDayOfWeek < 8 ) ; 
-	ATLASSERT ( m_modified.wHour < 25 ) ; 
-	ATLASSERT ( m_modified.wMinute < 61 ) ; 
-	ATLASSERT ( m_modified.wSecond < 61 ) ; 
-	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
+	misc_wrappers::date parsed = parse_date(modified) ;
+	this->set_modified(parsed) ;
 }
 
 // void record_local::set_created( const misc_wrappers::date &created ) 
@@ -271,15 +239,15 @@ void record_local::set_created( const misc_wrappers::date &created )
 		m_modified = created ;
 	}
 
-	ATLASSERT ( m_created.wYear < 2050 ) ; 
-	ATLASSERT ( m_created.wMonth < 13 ) ; 
-	ATLASSERT ( m_created.wDay < 366 ) ; 
-	ATLASSERT ( m_created.wDayOfWeek < 8 ) ; 
-	ATLASSERT ( m_created.wHour < 25 ) ; 
-	ATLASSERT ( m_created.wMinute < 61 ) ; 
-	ATLASSERT ( m_created.wSecond < 61 ) ; 
-	ATLASSERT ( m_created.wMilliseconds < 1001 ) ; 
-
+	ATLASSERT ( m_modified.wYear < 2500 ) ; 
+	ATLASSERT ( m_modified.wYear > 1980 ) ; 
+	ATLASSERT ( m_modified.wMonth < 13 ) ; 
+	ATLASSERT ( m_modified.wDay < 366 ) ; 
+	ATLASSERT ( m_modified.wDayOfWeek < 8 ) ; 
+	ATLASSERT ( m_modified.wHour < 25 ) ; 
+	ATLASSERT ( m_modified.wMinute < 61 ) ; 
+	ATLASSERT ( m_modified.wSecond < 61 ) ; 
+	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
 }
 
 // void record_local::set_modified( const misc_wrappers::date &modified )  
@@ -298,8 +266,6 @@ void record_local::set_modified( const misc_wrappers::date &modified )
 	ATLASSERT ( m_modified.wMinute < 61 ) ; 
 	ATLASSERT ( m_modified.wSecond < 61 ) ; 
 	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
-
-
 }
 
 // void record_local::copy_from_self( const record_local &rec )
