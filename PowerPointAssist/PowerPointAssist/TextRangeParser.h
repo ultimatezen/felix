@@ -12,6 +12,7 @@ public:
 
 	long m_start;
 	app_state		*m_properties ;
+	std::vector<wstring>	m_ok_endings ;
 
 	CTextRangeParser(void);
 	~CTextRangeParser(void);

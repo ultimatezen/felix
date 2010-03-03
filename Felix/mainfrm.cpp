@@ -1521,7 +1521,6 @@ void CMainFrame::handle_leave_edit_mode_concordance()
 		user_feedback( IDS_DELETED_ENTRY ) ;
 		m_view_interface.set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
 		check_mousewheel() ;
-		m_view_interface.set_scroll_pos(0) ;
 		::MessageBeep( MB_ICONINFORMATION ) ;
 		return ;
 	}
@@ -1571,6 +1570,7 @@ LRESULT CMainFrame::on_view_match(  WindowsMessage &message )
 	}
 	set_display_state ( MATCH_DISPLAY_STATE ) ;
 	show_view_content( ) ;
+	m_view_interface.set_scroll_pos(0) ;
 	
 	return 0L ;
 }
@@ -1588,6 +1588,7 @@ LRESULT CMainFrame::on_view_search(  WindowsMessage &message )
 #endif
 	set_display_state( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
+	m_view_interface.set_scroll_pos(0) ;
 
 	return 0L ;
 }
@@ -1997,6 +1998,7 @@ bool CMainFrame::get_concordances( const wstring query_string )
 	m_search_matches.set_matches( matches ) ;
 
 	show_view_content() ;
+	m_view_interface.set_scroll_pos(0) ;
 
 	// give the user feedback
 	source_concordance_feedback();
@@ -2530,7 +2532,6 @@ bool CMainFrame::show_view_content()
 			
 			m_view_interface.set_text( create_concordance_list( ) ) ;
 			check_mousewheel() ;
-			m_view_interface.set_scroll_pos(0) ;
 			return true ;
 		}
 
@@ -3329,6 +3330,7 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 	// in the future, make an array of states to allow Explorer-style page navigation
 	set_display_state ( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
+	m_view_interface.set_scroll_pos(0) ;
 
 	// give the user feedback
 	translation_concordance_feedback();
@@ -4200,6 +4202,7 @@ void CMainFrame::show_user_search_results()
 {
 	set_display_state ( CONCORDANCE_DISPLAY_STATE );
 	show_view_content() ;
+	m_view_interface.set_scroll_pos(0) ;
 }
 
 /** Refresh the glossary window text after switching GUI languages.

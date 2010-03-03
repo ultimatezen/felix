@@ -17,6 +17,10 @@ namespace easyunit
 		ASSERT_EQUALS_V(thedate.wSecond, 0) ;
 		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
 	}
+	//////////////////////////////////////////////////////////////////////////
+	// set values
+	//////////////////////////////////////////////////////////////////////////
+
 	// year
 	TEST( misc_wrappers_date_set, year_2009)
 	{
@@ -109,7 +113,37 @@ namespace easyunit
 		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Parse date/time
+	//////////////////////////////////////////////////////////////////////////
 
+	TEST(misc_wrappers_date_parse, init_2009_10_01_5_13_1)
+	{
+		const wstring datestr = L"2009/10/01 5:13:01" ;
+		misc_wrappers::date thedate(datestr) ;
+
+		ASSERT_EQUALS_V(thedate.wYear, 2009) ;
+		ASSERT_EQUALS_V(thedate.wMonth, 10) ;
+		ASSERT_EQUALS_V(thedate.wDay, 1) ;
+		ASSERT_EQUALS_V(thedate.wHour, 5) ;
+		ASSERT_EQUALS_V(thedate.wMinute, 13) ;
+		ASSERT_EQUALS_V(thedate.wSecond, 1) ;
+		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
+	}
+	TEST(misc_wrappers_date_parse, bad_date_throws)
+	{
+		try
+		{
+			const wstring first_datestr = L"foo/bar/baz" ;
+			misc_wrappers::date first(first_datestr) ;
+			FAIL_M("Should have thrown on bad date format") ;
+		}
+		catch (except::CException& e)
+		{
+			e ;
+			ASSERT_TRUE(TRUE) ;			
+		}
+	}
 }
 
 #endif

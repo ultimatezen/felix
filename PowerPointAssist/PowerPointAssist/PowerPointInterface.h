@@ -18,6 +18,7 @@ class CPowerPointInterface
 	CShapeParser				m_shapeParser ;
 	CTextRangeParser			m_textRangeParser ;
 	app_state					*m_properties ;
+	std::vector<wstring>	m_ok_endings ;
 public:
 	bool m_is_auto ;
 

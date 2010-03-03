@@ -58,7 +58,7 @@ BEGIN
     BEGIN
         POPUP "新規(&N)"
         BEGIN
-            MENUITEM "グロサリの作成(&G)",                 ID_GLOSSARY_NEW
+            MENUITEM "用語集の作成(&G)",                 ID_GLOSSARY_NEW
             MENUITEM "メモリの作成(&M)\tCtrl+N",          ID_FILE_NEW
         END
         MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
@@ -193,7 +193,7 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "グロサリの管理(&M)...",              ID_TOOLS_MEMORY_MGR
+        MENUITEM "用語集の管理(&M)...",              ID_TOOLS_MEMORY_MGR
     END
 END
 
@@ -381,7 +381,7 @@ END
 
 IDD_MULTITERM_CONVERSION_DLG DIALOGEX 0, 0, 167, 126
 STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "グロサリをMultiTerm形式としてエクスポート"
+CAPTION "用語集をMultiTerm形式としてエクスポート"
 FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
     GROUPBOX        "MULTITERM のバージョン",IDC_VERSION_STATIC,7,7,108,58
@@ -536,8 +536,8 @@ FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
     GROUPBOX        "前回のファイルの取り込み",IDC_STATIC,4,7,233,61
     CONTROL         "起動時、前回使っていたメモリを取り込みます。(&M)",IDC_LOAD_MEMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,21,205,18
-    CONTROL         "起動時、前回使っていたグロサリを取り込みます。(&G)",IDC_LOAD_GLOSS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,44,212,18
-    CONTROL         "メモリ・グロサリの整合について問い合わせる(&A)",IDC_ASK_MERGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,165,210,17
+    CONTROL         "起動時、前回使っていた用語集を取り込みます。(&G)",IDC_LOAD_GLOSS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,44,212,18
+    CONTROL         "メモリ・用語集の整合について問い合わせる(&A)",IDC_ASK_MERGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,165,210,17
     LTEXT           "ユーザ名",IDC_STATIC,9,97,66,12
     EDITTEXT        IDC_USER_NAME,9,112,187,14,ES_AUTOHSCROLL
     GROUPBOX        "",IDC_STATIC,4,80,234,59
@@ -568,10 +568,10 @@ END
 
 IDD_PROPPAGE_GLOSSARY DIALOGEX 0, 0, 240, 287
 STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "グロサリ（用語）"
+CAPTION "用語集"
 FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
-    LTEXT           "自動グロサリ登録の最大文字長(&L)",IDC_MIN_MATCH_STATIC,53,12,164,13,SS_CENTERIMAGE
+    LTEXT           "自動用語集登録の最大文字長(&L)",IDC_MIN_MATCH_STATIC,53,12,164,13,SS_CENTERIMAGE
     EDITTEXT        IDC_MAX_ADD_EDIT,17,11,32,13,ES_NUMBER
     CONTROL         "Spin1",IDC_MAX_ADD_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,38,11,11,13
     GROUPBOX        "一致条件",IDC_STATIC,10,55,193,62
@@ -1016,12 +1016,12 @@ BEGIN
     IDR_MAINFRAME           "Felix"
     IDC_ADD_TO_GLOSSARY     "add"
     IDS_QUERY_NATIVE        "この%1はFelix形式ではありません。\r現在の形式で保存しますか。「はい」を選択しますと、現在の形式で保存されます。「いいえ」を選択しますと、Felix形式で保存されます。「キャンセル」を選択しますと、保存操作を取り消します。"
-    IDC_RELIABILITY_EDIT    "このメモリ・グロサリのすべてのエントリの信頼度を設定します"
+    IDC_RELIABILITY_EDIT    "このメモリ・用語集のすべてのエントリの信頼度を設定します"
     IDS_DEFAULT_ID3         "DEFAULT"
     IDS_MSG_DROPPED_RECORDS_TITLE "すべてのエントリが保存されていません"
     IDS_MSG_REGISTERED_SERVER "FelixのOLE オートメーション登録が成功しました"
     IDC_TOGGLE_MARK         "Toggle Markup"
-    IDS_REG_GLOSS_ENTRY     "グロサリエントリの登録"
+    IDS_REG_GLOSS_ENTRY     "用語の登録"
     IDC_TOGGLE_MARK_ON      "マーキングをONにする"
     IDC_TOGGLE_MARK_OFF     "マーキングをOFFにする"
     IDS_TOGGLE_TITLE        "違いのマーキングを切り替えます。"
@@ -1052,10 +1052,10 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ADD_TO_GLOSS_ACTIVE "<a href=""100:reg_gloss_add"" title=""用語を指定した原語と訳語として登録します"">グロサリに登録</a>"
+    IDS_ADD_TO_GLOSS_ACTIVE "<a href=""100:reg_gloss_add"" title=""用語を指定した原語と訳語として登録します"">用語集に登録</a>"
     IDC_DELETE_SOURCE       "deletesource"
     IDC_DELETE_TARGET       "deletetarget"
-    IDS_ADD_TO_GLOSS_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">グロサリに登録</span>"
+    IDS_ADD_TO_GLOSS_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">用語集に登録</span>"
     IDS_CORRUPT_FILE        "ファイルのデータが壊れています。"
     IDC_NAV                 "nav"
     IDC_PREV                "prev"
@@ -1110,9 +1110,9 @@ END
 STRINGTABLE 
 BEGIN
     IDS_SET_TRANS           "訳語の設定"
-    IDS_SET_GLOSS           "グロサリに登録"
+    IDS_SET_GLOSS           "用語集に登録"
     IDS_BACK                "前に戻る"
-    IDS_REGISTER            "グロサリエントリの登録"
+    IDS_REGISTER            "用語の登録"
     IDS_SHOW_HELP_FAILED    "読み込みエラー:\r%1\rにあるヘルプファイルを表示できませんでした。"
     IDS_ERROR_TITLE         "エラー"
     IDS_FOUND_1_MATCH       "一つのマッチが見つかりました。"
@@ -1186,7 +1186,7 @@ BEGIN
     IDS_SHOW_TRANS          "訳文の確認"
     IDS_DELETE_TITLE        "エントリの削除"
     IDS_LOAD_PREFS_TITLE    "ユーザ設定の取り込み"
-    IDS_ADD2GLOSS_TITLE     "エントリをグロサリに追加"
+    IDS_ADD2GLOSS_TITLE     "エントリを用語集に追加"
     IDS_PROJNAME            "Felix"
     IDS_PREFERENCES_TITLE   "ユーザ設定"
     IDS_PDF_HELPFILE_NAME   "Felix Help.pdf"
@@ -1205,7 +1205,7 @@ STRINGTABLE
 BEGIN
     IDS_POPUP_ADD_TO_GLOSS  "用語集に追加(&A)"
     IDS_NO_SOURCE_SELECTED  "原語が指定されていません"
-    IDS_GLOSS_SEARCH        "グロサリエントリの検索"
+    IDS_GLOSS_SEARCH        "用語の検索"
     IDS_MEMORY_SEARCH       "メモリエントリの検索"
     IDS_NO_SOURCE_SELECTED_RICH 
                             "<font color=""red""><b>原語を指定してください。</b></font>"
@@ -1216,7 +1216,7 @@ BEGIN
     IDS_MSG_DROPPED_RECORDS "%1 個のエントリを保存できませんでした。"
     IDD_DELETE              "現在のエントリをメモリから削除します。\nエントリの削除"
     IDC_DELETE              "delete"
-    IDS_IDS_REG_LINK_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">グロサリに登録</span>"
+    IDS_IDS_REG_LINK_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">用語集に登録</span>"
     IDS_POPUP_REGISTER_GLOSS "用語の登録(&R)"
     IDS_POPUP_DELETE        "削除(&D)"
     IDD_EDIT_ENTRY          "現在のエントリを編集します\nエントリの編集"
@@ -1238,7 +1238,7 @@ BEGIN
     IDS_MERGE_MEM_TITLE     "メモリの整合"
     IDS_MERGE_GLOSS_TITLE   "用語集の整合"
     IDS_MERGE_MEM_TEXT      "既存メモリがあります [%s]\r整合してよろしいですか。"
-    IDS_MERGE_GLOSS_TEXT    "既存グロサリ（用語集）があります [%s]\r整合してよろしいですか。"
+    IDS_MERGE_GLOSS_TEXT    "既存用語集（用語集）があります [%s]\r整合してよろしいですか。"
     IDS_REFLECTED_TRANS     "訳文の変更が反映されました。"
 END
 
@@ -1255,7 +1255,7 @@ STRINGTABLE
 BEGIN
     ID_PANE_1               "                    "
     ID_PANE_2               "          "
-    ID_VIEW_GLOSSARY        "グロサリウィンドウを表示します\nグロサリウィンドウ表示"
+    ID_VIEW_GLOSSARY        "用語集ウィンドウを表示します\n用語集ウィンドウ表示"
     ID_VIEW_MEMORY          "現在の翻訳メモリを表示します\nメモリの表示"
 END
 
@@ -1268,10 +1268,10 @@ STRINGTABLE
 BEGIN
     IDS_NEW_TOOLBAR         "新しいメモリを作成します"
     ID_EDIT_DELETE          "現在のエントリをメモリから削除します\nエントリの削除"
-    ID_GLOSSARY_NEW         "新しいグロサリウィンドウを開きます\nグロサリの作成"
+    ID_GLOSSARY_NEW         "新しい用語集ウィンドウを開きます\n用語集の作成"
     ID_FILE_IMPORT          "TRADOSテキスト形式のメモリをインポートします\nインポート"
     ID_FILE_EXPORT          "メモリをトラドス形式でエクスポートします\nエクスポート"
-    ID_FILE_EXPORT_MULTITERM "グロサリをMultiTerm形式でエクスポートします\nエクスポート"
+    ID_FILE_EXPORT_MULTITERM "用語集をMultiTerm形式でエクスポートします\nエクスポート"
     ID_EDIT_ADD             "新しいエントリを作成して追加します\n追加"
     ID_VIEW_EDIT_MODE       "編集モードを切替えます。\n編集モードの切替"
     ID_TOOLS_PREFERENCES    "プロパティを表示して、設定します\nプロパティ"
@@ -1293,7 +1293,7 @@ BEGIN
     IDS_PREV                "戻る "
     IDS_NEXT                "次へ "
     IDS_ADD_TO_MEMORY       "メモリに登録"
-    IDS_ADD_TO_GLOSS        "グロサリに登録"
+    IDS_ADD_TO_GLOSS        "用語集に登録"
     IDS_MORE                "詳細表示 &gt;&gt;"
     IDS_SET_SOURCE          "原語の設定"
 END
@@ -1307,19 +1307,19 @@ BEGIN
     IDC_IGNORE_CASE_CHECK   "大文字と小文字を区別せずに検索します。"
     IDS_MSG_REGISTERED_SERVER_TITLE "Type Library 登録の完了"
     IDS_MSG_RECORD_CREATION_FAILED "翻訳エントリを作成できません"
-    IDS_OPEN_GLOSS_FILE     "グロサリファイルを開きます"
+    IDS_OPEN_GLOSS_FILE     "用語集ファイルを開きます"
 END
 
 STRINGTABLE 
 BEGIN
     IDC_WHOLE_WORDS_CHECK   "単語単位で検索します。例えば、「car」という文字列は、「car」と一致しますが「card」と一致しません。"
     IDS_DELETE_RECORD       "エントリの削除"
-    IDS_ADD_GLOSS_ENTRY     "グロサリエントリの追加"
+    IDS_ADD_GLOSS_ENTRY     "用語の追加"
     IDS_SAVING_RECORDS      "%1をファイル[%2]に保存中..."
     IDS_SAVED_RECORDS       "ファイル[%2]に%1個のエントリを保存しました。"
     IDS_CLEARED_MEMORY      "%1をクリアしました。"
     IDS_MEMORY_CLEARED      "<b>メモリをクリアしました。</b>"
-    IDS_GLOSSARY_CLEARED    "<b>グロサリをクリアしました。</b>"
+    IDS_GLOSSARY_CLEARED    "<b>用語集をクリアしました。</b>"
     IDS_SELECT_IMPORT_FILE  "インポートするファイルの選択"
     IDS_IMPORT_TRADOS_MEMORY "トラドスメモリのインポート"
     IDS_IMPORTING_FILE      "ファイル[%1]をインポート中"
@@ -1328,7 +1328,7 @@ END
 STRINGTABLE 
 BEGIN
     ID_FORMAT_BGCOLOR       "ブラウザの背景色を設定します。\n背景色"
-    ID_FILE_SAVE_ALL        "すべてのメモリまたはグロサリを保存します。\nすべてを保存"
+    ID_FILE_SAVE_ALL        "すべてのメモリまたは用語集を保存します。\nすべてを保存"
     ID_FILE_CONNECT         "接続\nアドレスを指定してサーバーにあるメモリに接続します。"
 END
 
@@ -1341,8 +1341,8 @@ BEGIN
     IDS_RICH_QUERY_ID       "rich_query"
     IDS_RICH_SOURCE_ID      "rich_source"
     IDS_MSG_INVALID_COMMAND "無効なコマンド"
-    IDS_MULTITERM_EXPORT_TITLE "グロサリをMultiTerm形式のテキストファイルにエクスポートします"
-    IDS_MULTITERM_IMPORT_TITLE "MultiTerm形式のテキストファイルをグロサリにインポートします"
+    IDS_MULTITERM_EXPORT_TITLE "用語集をMultiTerm形式のテキストファイルにエクスポートします"
+    IDS_MULTITERM_IMPORT_TITLE "MultiTerm形式のテキストファイルを用語集にインポートします"
     IDS_SELECT_LANGUAGE     "言語の選択"
     IDS_EXPORT_DESTINATION  "エクスポート先を指定してください"
     IDS_OPEN                "開く"
@@ -1354,13 +1354,13 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_MSG_IMPORTING_GLOSSARY "[%1]のグロサリをインポート中"
+    IDS_MSG_IMPORTING_GLOSSARY "[%1]の用語集をインポート中"
     IDS_MSG_ACTION_CANCELLED "取り消されたアクション"
     IDS_MSG_ACTION_FAILED   "指定されたアクションが出来ませんでした"
     IDS_SEARCH_RESULTS      "検索結果"
     IDS_CURRENT_SIZE        "%1 のサイズは %2 になりました。"
     IDS_DELETED_ENTRY       "エントリを削除しました。"
-    IDS_GLOSSARY            "グロサリ"
+    IDS_GLOSSARY            "用語集"
     IDS_MEMORY              "メモリ"
     IDS_PROMPT_OVERWRITE_MEMORY "メモリファイル [%1]を上書きしようとしています。\r実行してもよろしいですか。"
     IDS_PROMPT_OVERWRITE_MEMORY_TITLE "メモリの上書き"
@@ -1388,7 +1388,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDC_VALIDITY            "このメモリ・グロサリのすべてのエントリを確認済みにします"
+    IDC_VALIDITY            "このメモリ・用語集のすべてのエントリを確認済みにします"
     IDS_PROMPT_RESCUE_ENTRIES "出来る限り多くのエントリを取り出しますか。"
     IDS_LOAD_FAILED         "ファイル[%1]を取り込めませんでした。"
     IDC_MIN_BUTTON          "Felixウインドウの復元"
@@ -1397,8 +1397,8 @@ END
 STRINGTABLE 
 BEGIN
     IDS_MSG_ADDED_RECORDS   "ファイル[%2]から%1個のエントリを追加しました。"
-    IDS_MSG_ADDED_GLOSS_ENTRY_TITLE "グロサリエントリを追加しました。"
-    IDC_BATCH_STATIC        "このメモリ・グロサリのすべてのエントリの信頼度を設定します"
+    IDS_MSG_ADDED_GLOSS_ENTRY_TITLE "用語を追加しました。"
+    IDC_BATCH_STATIC        "このメモリ・用語集のすべてのエントリの信頼度を設定します"
     IDS_SOURCE_TITLE        "原文"
     IDS_TRANS_TITLE         "訳文"
     IDC_CONCORDANCE_EDIT    "この文字列のコンコーダンス（一致の例）を検索します。"
@@ -1414,7 +1414,7 @@ BEGIN
     IDS_MAIN                "メイン"
     IDS_OUT_OF_RANGE        "指数が範囲外"
     IDC_TARGET_LANG_STATIC  "目的言語を指定してください"
-    IDS_EDIT_GLOSS          "グロサリエントリの編集"
+    IDS_EDIT_GLOSS          "用語の編集"
     IDS_PROMPT_DELETE       "このエントリを削除しますか?"
     IDC_LANG_COMBO_SOURCE   "原言語を指定してください"
     IDC_LANG_COMBO_TRANS    "目的言語を指定してください"
@@ -1447,13 +1447,13 @@ BEGIN
     IDS_GLOSS_SOURCE_TMP_ID "gloss_source_tmp"
     IDS_GLOSS_TRANS_TMP_ID  "gloss_trans_tmp"
     IDS_TRANSLATION         "訳文"
-    IDS_BUILD_GLOSS_ENTRY   "グロサリエントリの組み合わせ"
-    IDS_GLOSS_SOURCE_TITLE  "グロサリの原語"
-    IDS_GLOSS_TRANS_TITLE   "グロサリの訳語"
+    IDS_BUILD_GLOSS_ENTRY   "用語の組み合わせ"
+    IDS_GLOSS_SOURCE_TITLE  "用語集の原語"
+    IDS_GLOSS_TRANS_TITLE   "用語集の訳語"
     IDS_GLOSS_SOURCE_ID     "gloss_source"
     IDS_GLOSS_TRANS_ID      "gloss_trans"
     IDS_CANNOT_REGISTER_IN_THIS_STATE "この状態では、エントリ登録が出来ません"
-    IDS_GLOSS_TRANSLATION   "グロサリの訳語"
+    IDS_GLOSS_TRANSLATION   "用語集の訳語"
     IDS_SAVE                "%1を上書き保存"
     IDS_TRANS_OR_SOURCE_EMPTY "エントリを登録できません。訳文または原文に文字が指定されていません。"
     IDS_DEMO_LIMIT          "エントリを追加できませんでした。\rこれはFelixのデモ版です。\r現在のメモリサイズは既にデモ版の最大メモリサイズである %1 になっています。\r市販のバージョンには、この制限はありません。"
@@ -1547,9 +1547,9 @@ END
 STRINGTABLE 
 BEGIN
     IDS_REFCOUNT_ID         "ref_count"
-    IDS_GLOSSARY_OPEN       "既に開いているグロサリがあります。"
+    IDS_GLOSSARY_OPEN       "既に開いている用語集があります。"
     IDS_PROMPT_REPLACE_OR_MERGE_GLOSSARY 
-                            "(1) 既存のグロサリとマージします- [はい]\r(2)別のグロサリとして取り込みます - [いいえ]\r(3)グロサリの取り込みを中止します - [キャンセル]"
+                            "(1) 既存の用語集とマージします- [はい]\r(2)別の用語集として取り込みます - [いいえ]\r(3)用語集の取り込みを中止します - [キャンセル]"
     IDS_MSG_NO_EMPTY_S_OR_T_GLOSS "訳語または言語に文字が指定されていません。\r\rもう一度試行してください"
     IDS_MEMORY_ID           "memory"
     IDS_CANCELLED_ACTION    "アクションが取り消されました。"
@@ -1570,7 +1570,7 @@ BEGIN
     IDS_EDITOR_TAB          "エディタ"
     IDS_SOURCE_TAB          "ソース"
     IDS_MEMORY_LOCKED       "メモリはロック中です。"
-    IDS_GLOSSARY_LOCKED     "グロサリはロック中です。"
+    IDS_GLOSSARY_LOCKED     "用語集はロック中です。"
     IDS_SETTING_PREFS       "ユーザ設定..."
     IDS_MSG_NO_EMPTY_S      "原文に文字が指定されていません。\r\rもう一度試行してください"
     IDS_MSG_NO_EMPTY_T      "訳文に文字が指定されていません。\r\rもう一度試行してください"

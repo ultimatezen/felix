@@ -37,7 +37,7 @@
 			Name="Release|Win32"
 			>
 			<DebugSettings
-				Command=""
+				Command="C:\Program Files (x86)\Microsoft Office\Office12\POWERPNT.EXE"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"

@@ -1112,7 +1112,6 @@ void CGlossaryWindow::show_user_search_results()
 	wstring content = create_concordance_list(m_search_matches) ;
 	m_view_interface.set_text( content  ) ;
 	check_mousewheel() ;
-	m_view_interface.set_scroll_pos(0) ;
 
 	give_user_search_feedback();
 }
@@ -1315,7 +1314,6 @@ void CGlossaryWindow::handle_leave_edit_mode_concordance()
 	{
 		m_view_interface.set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
 		check_mousewheel() ;
-		m_view_interface.set_scroll_pos(0) ;
 		user_feedback( IDS_DELETED_ENTRY ) ;
 		::MessageBeep( MB_ICONINFORMATION ) ;
 		return ;
@@ -1333,7 +1331,6 @@ void CGlossaryWindow::handle_leave_edit_mode_concordance()
 	}
 	m_view_interface.set_text( content ) ;
 	check_mousewheel() ;
-	m_view_interface.set_scroll_pos(0) ;
 	user_feedback( IDS_LEFT_EDIT_MODE ) ;
 
 }
@@ -1575,7 +1572,6 @@ int CGlossaryWindow::delete_from_lookup_state(LPARAM number)
 
 	m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
 	check_mousewheel() ;
-	m_view_interface.set_scroll_pos(0) ;
 
 	return 0 ;
 }
@@ -1938,6 +1934,7 @@ bool CGlossaryWindow::get_concordances( const wstring query_string )
 	perform_concordance_search();
 	
 	show_concordance_results();
+	m_view_interface.set_scroll_pos(0) ;
 
 	return true ; 
 }

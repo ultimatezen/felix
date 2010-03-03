@@ -169,7 +169,7 @@ public:
 		{
 			logging::log_error("std::exception") ;
 			logging::log_error(e.what()) ;
-			const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND | MB_SYSTEMMODAL ;
+			const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
 			::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error"), msg_flags ) ;  
 		}
 

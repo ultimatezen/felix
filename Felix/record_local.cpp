@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "record_local.h"
+#include "logging.h"
 
 namespace mem_engine
 {
@@ -193,13 +194,28 @@ void record_local::set_context( const wstring context )
 // void record_local::set_created( const wstring &created ) 
 void record_local::set_created( const wstring &created ) 
 {
-	m_created = created ;
+	try
+	{
+		m_created = created ;
+	}
+	catch (except::CException& e)
+	{
+		logging::log_error("Exception parsing created date") ;
+		logging::log_exception(e) ;
+		m_created.set_to_local_time() ;		
+	}
+
+	if (m_created.wYear < 1000)
+	{
+		m_created.set_to_local_time() ;
+	}
+
 	if ( m_modified < m_created )
 	{
 		m_modified = created ;
 	}
-	ATLASSERT ( m_created.wYear < 2050 ) ; 
-	ATLASSERT ( m_created.wYear > 2000 ) ; 
+	ATLASSERT ( m_created.wYear < 2500 ) ; 
+	ATLASSERT ( m_created.wYear > 1980 ) ; 
 	ATLASSERT ( m_created.wMonth < 13 ) ; 
 	ATLASSERT ( m_created.wDay < 366 ) ; 
 	ATLASSERT ( m_created.wDayOfWeek < 8 ) ; 
@@ -212,13 +228,27 @@ void record_local::set_created( const wstring &created )
 // void record_local::set_modified( const wstring &modified )  
 void record_local::set_modified( const wstring &modified )  
 {
-	m_modified = modified ;
+	try
+	{
+		m_modified = modified ;
+	}
+	catch (except::CException& e)
+	{
+		logging::log_error("Exception parsing modified date") ;
+		logging::log_exception(e) ;
+		m_modified.set_to_local_time() ;		
+	}
+	if (m_modified.wYear < 1000)
+	{
+		m_modified.set_to_local_time() ;
+	}
+
 	if ( m_modified < m_created )
 	{
 		m_created = m_modified  ;
 	}
-	ATLASSERT ( m_modified.wYear < 2050 ) ; 
-	ATLASSERT ( m_modified.wYear > 2000 ) ; 
+	ATLASSERT ( m_modified.wYear < 2500 ) ; 
+	ATLASSERT ( m_modified.wYear > 1980 ) ; 
 	ATLASSERT ( m_modified.wMonth < 13 ) ; 
 	ATLASSERT ( m_modified.wDay < 366 ) ; 
 	ATLASSERT ( m_modified.wDayOfWeek < 8 ) ; 

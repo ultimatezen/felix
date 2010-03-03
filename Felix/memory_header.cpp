@@ -240,35 +240,6 @@ void memory_header::read_header(LPCWSTR text)
 	wc_reader reader ;
 	reader.set_buffer( text	) ;
 
-	reader.find( L"<head>", true ) ;
-
-	if ( reader.empty() )
-	{
-		return ;
-	}
-
-	wc_reader::bookmark_type start = reader.get_current_pos() ;
-
-	reader.find( L"</head>", false ) ;
-
-	if ( reader.empty() )
-	{
-		return ;
-	}
-
-	wc_reader::bookmark_type end = reader.get_current_pos() ;
-
-	// sanity checking -- is there a head element?
-	if ( start == end || ! start || ! end )
-	{
-		return ;
-	}
-
-	wstring header_text ;
-	header_text.append( start, end ) ;
-
-	reader.set_buffer( header_text.c_str() ) ;
-
 	fill_value(reader, L"creator", m_creator) ;
 	fill_value(reader, L"created_on", m_created_on) ;
 

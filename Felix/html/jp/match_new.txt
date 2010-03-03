@@ -23,7 +23,7 @@
 </table>
 <hr />
 <div>
-	<a title="用語集への登録" href="100:add_gloss:0">用語集への登録</a>
+	<a title="用語候補を選択登録" href="100:add_gloss:0">用語候補を選択登録</a>
 	 | 
-	<a title="用語集に追加" href="100:add_to_gloss:0">用語集に追加</a>
+	<a title="用語集へコピー" href="100:add_to_gloss:0">用語集へコピー</a>
 </div>

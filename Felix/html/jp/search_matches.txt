@@ -80,7 +80,7 @@
                             <td>{$record.modified_by}</td>
                         </tr>
                         <tr>
-                            <th>メモリ名・グロサリ（用語集）名</th>
+                            <th>メモリ名・用語集名</th>
                             <td>{$record.memory}</td>
                         </tr>
                     </table>

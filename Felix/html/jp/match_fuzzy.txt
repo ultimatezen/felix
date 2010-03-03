@@ -30,8 +30,8 @@
   <hr style="margin-top:10px;" />
 
 <div style="float:left;"> 
-  <a href="127:{$index}" title="用語集への登録">用語集へ登録</a> | 
-  <a href="129:{$index}" title="用語集に追加">用語集に追加</a>
+  <a href="127:{$index}" title="用語候補を選択登録">用語候補を選択登録</a> | 
+  <a href="129:{$index}" title="用語集へコピー">用語集へコピー</a>
 </div>
 <div style="float:right;"> 
   <a title="差分の表示・非表示" 

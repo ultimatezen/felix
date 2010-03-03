@@ -6,6 +6,7 @@
 CTextRangeParser::CTextRangeParser(void)
 : m_start(0)
 {
+	m_ok_endings += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
 }
 
 CTextRangeParser::~CTextRangeParser(void)
@@ -119,6 +120,16 @@ bool CTextRangeParser::selectNext(void)
 			if ( this_char == L'.' ) 
 			{
 				last_char_was_period = true ;
+				PowerPoint::TextRangePtr chars_so_far = characters->Characters( 1, i ) ;
+				const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
+				foreach(wstring word, m_ok_endings)
+				{
+					if (str::ends_with(text_so_far, word))
+					{
+						last_char_was_period = false ;
+						break ;
+					}
+				}
 			}
 			else
 			{

@@ -373,6 +373,35 @@ namespace easyunit
 		ASSERT_EQUALS( 1200u, mem.get_correct_encoding( text, file_size ) ) ;
 	}
 
+	// load_header_raw_text
+	TEST(test_memory_local, load_header_raw_text)
+	{
+		CMockListener listener ;
+		memory_local mem ;
+		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
+		LPSTR text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+			"<!DOCTYPE memory >\n"
+			"<!-- Created by Felix v 1.5 -->\n"
+			"<memory>\n"
+
+			"<head>\n"
+			"<creator>Owner</creator>\n"
+			"<created_on>2006/07/17 12:33:24</created_on>\n"
+			"<creation_tool>Felix</creation_tool>\n"
+			"<creation_tool_version>1.5</creation_tool_version>\n"
+			"<num_records>10</num_records>\n"
+			"<locked>false</locked>\n"
+			"<is_memory>true</is_memory>\n"
+			"</head>\n"
+
+			"<records>\n"
+			"</records>\n"
+			"</memory>\n" ;
+		mem.load_header_raw_text(text, strlen(text)) ;
+		MemoryInfo *info = mem.get_memory_info() ;
+		ASSERT_EQUALS_V(10, (int)info->get_count()) ;
+		ASSERT_EQUALS_V(SimpleString("Felix"), SimpleString((LPCSTR)CW2A(info->get_creation_tool().c_str()))) ;
+	}
 	// load_text
 	TEST( test_memory_local, TestZeroEntries )
 	{

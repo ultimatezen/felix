@@ -130,6 +130,10 @@ namespace easyunit
 		return true ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// get/set text
+	//////////////////////////////////////////////////////////////////////////
+
 	TEST( test_record_local, set_trans ) 
 	{
 		record_local rec ;
@@ -162,7 +166,10 @@ namespace easyunit
 		ASSERT_TRUE ( rec.get_source_plain() == L"Variations on the theme..." ) ; 
 	}
 
+	//////////////////////////////////////////////////////////////////////////
 	// construction
+	//////////////////////////////////////////////////////////////////////////
+
 	//	translation_record( ) ;
 	TEST( test_record_local, constructor_default )
 	{
@@ -450,6 +457,10 @@ namespace easyunit
 		ASSERT_TRUE ( rec.get_refcount() == 5u ) ; 
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	/// dates
+	//////////////////////////////////////////////////////////////////////////
+
 	// set date created
 	//	bool create( ) ;
 	TEST( test_record_local, create ) 
@@ -459,12 +470,10 @@ namespace easyunit
 		misc_wrappers::date first_created_date = rec.get_created() ;
 		ASSERT_EQUALS( first_created_date, rec.get_created() ) ;
 
-		Sleep( 5 ) ;
-
 		rec.create() ;
 		misc_wrappers::date second_created_date = rec.get_created() ;
 
-		ASSERT_TRUE ( first_created_date < second_created_date ) ;
+		ASSERT_TRUE ( first_created_date <= second_created_date ) ;
 		ASSERT_EQUALS ( rec.get_created(), rec.get_modified() ) ; 
 	}
 
@@ -485,6 +494,115 @@ namespace easyunit
 
 		ASSERT_TRUE ( first_mod_date < second_mod_date ) ;
 		ASSERT_TRUE ( rec.get_created() < rec.get_modified() ) ; 
+	}
+
+	TEST(test_record_local, set_modified_good)
+	{
+		const wstring datestr = L"2009/10/01 5:13:01" ;
+		record_local rec ;
+		rec.set_modified(datestr) ;
+		
+		ASSERT_EQUALS_V(rec.get_modified().wYear, 2009) ;
+		ASSERT_EQUALS_V(rec.get_modified().wMonth, 10) ;
+		ASSERT_EQUALS_V(rec.get_modified().wDay, 1) ;
+		ASSERT_EQUALS_V(rec.get_modified().wHour, 5) ;
+		ASSERT_EQUALS_V(rec.get_modified().wMinute, 13) ;
+		ASSERT_EQUALS_V(rec.get_modified().wSecond, 1) ;
+		ASSERT_EQUALS_V(rec.get_modified().wMilliseconds, 0) ;
+
+	}
+	TEST(test_record_local, set_modified_bad)
+	{
+		const wstring datestr = L"01/10/2000 5/13/01" ;
+		misc_wrappers::date now ;
+		record_local rec ;
+		rec.set_modified(datestr) ;
+
+		now.set_to_local_time() ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_modified(), now), 0) ;
+	}
+
+
+	TEST(test_record_local, set_created_good)
+	{
+		const wstring datestr = L"2009/10/01 5:13:01" ;
+		record_local rec ;
+		rec.set_created(datestr) ;
+
+		ASSERT_EQUALS_V(rec.get_created().wYear, 2009) ;
+		ASSERT_EQUALS_V(rec.get_created().wMonth, 10) ;
+		ASSERT_EQUALS_V(rec.get_created().wDay, 1) ;
+		ASSERT_EQUALS_V(rec.get_created().wHour, 5) ;
+		ASSERT_EQUALS_V(rec.get_created().wMinute, 13) ;
+		ASSERT_EQUALS_V(rec.get_created().wSecond, 1) ;
+		ASSERT_EQUALS_V(rec.get_created().wMilliseconds, 0) ;
+
+	}
+	TEST(test_record_local, set_created_bad)
+	{
+		const wstring datestr = L"01/10/2000 5/13/01" ;
+		misc_wrappers::date now ;
+		record_local rec ;
+		rec.set_created(datestr) ;
+
+		now.set_to_local_time() ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_created(), now), 0) ;
+	}
+
+	// reset created
+	TEST(test_record_local, set_modified_before_created)
+	{
+		const wstring datestr = L"2005/10/1 12:13:01" ;
+		record_local rec ;
+		misc_wrappers::date created_date ;
+		created_date.set_to_local_time() ;
+		rec.set_created(created_date) ;
+		misc_wrappers::date modified_date(datestr) ;
+		rec.set_modified(modified_date) ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_created(), modified_date), 0) ;
+		ASSERT_EQUALS_V(rec.get_created().wYear, 2005) ;
+	}
+	TEST(test_record_local, set_created_after_modified)
+	{
+		const wstring datestr = L"2005/10/1 12:13:01" ;
+		record_local rec ;
+		rec.set_modified(datestr) ;
+		ASSERT_EQUALS_V(rec.get_modified().wYear, 2005) ;
+
+		misc_wrappers::date created_date ;
+		created_date.set_to_local_time() ;
+		rec.set_created(created_date) ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_modified(), created_date), 0) ;
+		ASSERT_TRUE(rec.get_modified().wYear > 2005) ;
+	}
+
+	TEST(test_record_local, set_modified_after_created)
+	{
+		const wstring created_datestr = L"1999/10/1 12:13:01" ;
+		const wstring modified_datestr = L"2005/10/1 12:13:01" ;
+
+		record_local rec ;
+		rec.set_created(created_datestr) ;
+		rec.set_modified(modified_datestr) ;
+
+		ASSERT_EQUALS_V(rec.get_created().wYear, 1999) ;
+		ASSERT_EQUALS_V(rec.get_modified().wYear, 2005) ;
+	}
+	TEST(test_record_local, set_created_before_modified)
+	{
+		const wstring created_datestr = L"1999/10/1 12:13:01" ;
+		const wstring modified_datestr = L"2005/10/1 12:13:01" ;
+
+		record_local rec ;
+		rec.set_modified(modified_datestr) ;
+		rec.set_created(created_datestr) ;
+
+		ASSERT_EQUALS_V(rec.get_created().wYear, 1999) ;
+		ASSERT_EQUALS_V(rec.get_modified().wYear, 2005) ;
 	}
 
 	// validate the record

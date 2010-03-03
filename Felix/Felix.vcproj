@@ -1385,10 +1385,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\segment_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SourceAndHtmlEdit.cpp"
 				>
 			</File>
@@ -1910,6 +1906,10 @@
 				</File>
 				<File
 					RelativePath=".\SearchWindow_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\segment_test.cpp"
 					>
 				</File>
 				<File
