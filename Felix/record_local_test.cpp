@@ -130,6 +130,47 @@ namespace easyunit
 		return true ;
 	}
 
+	SimpleString ws2ss(const wstring text)
+	{
+		return SimpleString(string2string(text).c_str()) ;
+	}
+	//////////////////////////////////////////////////////////////////////////
+	// initialize
+	//////////////////////////////////////////////////////////////////////////
+	TEST( test_record_local, init_created) 
+	{
+		misc_wrappers::date local_time ;
+		local_time.set_to_local_time() ;
+		record_local rec ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_created(), local_time), 0) ;
+	}
+	TEST( test_record_local, init_modified) 
+	{
+		misc_wrappers::date local_time ;
+		local_time.set_to_local_time() ;
+		record_local rec ;
+
+		ASSERT_EQUALS_V((int)misc_wrappers::Delta(rec.get_modified(), local_time), 0) ;
+	}
+	TEST( test_record_local, init_creator) 
+	{
+		const wstring username = L"Sam" ;
+		mem_engine::set_record_username(username) ;
+		record_local rec ;
+
+		ASSERT_EQUALS_V(ws2ss(username), ws2ss(rec.get_creator())) ;
+	}
+	TEST( test_record_local, init_modified_by) 
+	{
+		const wstring username = L"Sam" ;
+		mem_engine::set_record_username(username) ;
+		record_local rec ;
+
+		ASSERT_EQUALS_V(ws2ss(username), ws2ss(rec.get_modified_by())) ;
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// get/set text
 	//////////////////////////////////////////////////////////////////////////
@@ -844,9 +885,8 @@ namespace easyunit
 		set_record_username(L"modify") ;
 		rec->modify() ;
 
-		actual = (LPCSTR)CStringA(rec->get_modified_by().c_str()) ;
 		expected = "modify" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(expected, ws2ss(rec->get_modified_by())) ;
 	}
 
 	// copy_from_self

@@ -37,6 +37,9 @@ bool record_local::create(  )
 	misc_wrappers::date local_time ;
 	local_time.set_to_local_time() ;
 	this->set_created(local_time) ;
+	this->set_modified(local_time) ;
+	this->set_creator(get_record_username()) ;
+	this->set_modified_by(get_record_username()) ;
 
 	return true ;
 }
@@ -49,6 +52,7 @@ bool record_local::modify (  )
 	misc_wrappers::date local_time ;
 	local_time.set_to_local_time() ;
 	this->set_modified(local_time) ;
+	this->set_modified_by(get_record_username()) ;
 
 	return true ;
 }
@@ -262,7 +266,10 @@ void record_local::set_modified( const wstring &modified )
 void record_local::set_created( const misc_wrappers::date &created ) 
 {
 	m_created = created ;
-	this->set_modified(created) ;
+	if ( m_modified < m_created )
+	{
+		m_modified = created ;
+	}
 
 	ATLASSERT ( m_created.wYear < 2050 ) ; 
 	ATLASSERT ( m_created.wMonth < 13 ) ; 
@@ -273,7 +280,6 @@ void record_local::set_created( const misc_wrappers::date &created )
 	ATLASSERT ( m_created.wSecond < 61 ) ; 
 	ATLASSERT ( m_created.wMilliseconds < 1001 ) ; 
 
-	this->set_creator(get_record_username()) ;
 }
 
 // void record_local::set_modified( const misc_wrappers::date &modified )  
@@ -293,7 +299,6 @@ void record_local::set_modified( const misc_wrappers::date &modified )
 	ATLASSERT ( m_modified.wSecond < 61 ) ; 
 	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
 
-	this->set_modified_by(get_record_username()) ;
 
 }
 
