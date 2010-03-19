@@ -76,7 +76,7 @@ VISIBLE_TO_TESTS
 	// translation matches
 	// ====================
 	mem_engine::translation_match_query		m_trans_matches ;
-	mem_engine::search_query_mainframe				m_search_matches ;
+	mem_engine::search_query_mainframe		m_search_matches ;
 
 	// the match records for glossary registration
 	CRegisterGlossDlg		m_reg_gloss_dlg ;

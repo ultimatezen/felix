@@ -100,6 +100,7 @@ CEditTransRecordDialog::CEditTransRecordDialog():
 void CEditTransRecordDialog::fill_from_old_record()
 {
 	m_new_record->set_created(m_old_record->get_created()) ;
+	m_new_record->set_creator(m_old_record->get_creator()) ;
 	m_new_record->set_refcount(m_old_record->get_refcount()) ;
 	m_new_record->set_id(m_old_record->get_id()) ;
 }

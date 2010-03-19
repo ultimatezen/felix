@@ -13,7 +13,6 @@ class CExtraStringsView
 
 	TWindow				m_parent_dlg ;
 
-
 public:
 	CExtraStringsView(void);
 	~CExtraStringsView(void);

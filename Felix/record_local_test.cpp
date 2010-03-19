@@ -742,19 +742,24 @@ namespace easyunit
 
 
 	//	bool is_valid_record();
-	TEST( test_record_local, is_valid_record ) 
+	TEST(test_record_local, is_valid_record_true) 
 	{
 		record_local rec ;
 
-		ASSERT_TRUE ( false == rec.is_valid_record() ) ; 
-
-		rec.set_trans( wstring(L"trans") ) ;
-
-		ASSERT_TRUE ( false == rec.is_valid_record() ) ;
-
-		rec.set_source( wstring(L"source") ) ;
+		rec.set_trans(L"trans") ;
+		rec.set_source(L"source") ;
 
 		ASSERT_TRUE ( true == rec.is_valid_record() ) ; 
+	}
+	TEST(test_record_local, is_valid_record_false) 
+	{
+		record_local rec ;
+
+		ASSERT_TRUE (! rec.is_valid_record()) ; 
+
+		rec.set_trans(L"trans") ;
+
+		ASSERT_TRUE (! rec.is_valid_record()) ;
 	}
 
 	//	bool remove_item( const wstring &key);

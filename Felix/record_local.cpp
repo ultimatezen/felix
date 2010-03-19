@@ -239,15 +239,14 @@ void record_local::set_created( const misc_wrappers::date &created )
 		m_modified = created ;
 	}
 
-	ATLASSERT ( m_modified.wYear < 2500 ) ; 
-	ATLASSERT ( m_modified.wYear > 1980 ) ; 
-	ATLASSERT ( m_modified.wMonth < 13 ) ; 
-	ATLASSERT ( m_modified.wDay < 366 ) ; 
-	ATLASSERT ( m_modified.wDayOfWeek < 8 ) ; 
-	ATLASSERT ( m_modified.wHour < 25 ) ; 
-	ATLASSERT ( m_modified.wMinute < 61 ) ; 
-	ATLASSERT ( m_modified.wSecond < 61 ) ; 
-	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
+	ATLASSERT ( m_created.wYear > 1600 && m_created.wYear < 2050 ) ; 
+	ATLASSERT ( m_created.wMonth > 0 && m_created.wMonth < 13 ) ; 
+	ATLASSERT ( m_created.wDay > 0 && m_created.wDay < 32 ) ; 
+	ATLASSERT ( m_created.wDayOfWeek < 7 ) ; 
+	ATLASSERT ( m_created.wHour < 24 ) ; 
+	ATLASSERT ( m_created.wMinute < 60 ) ; 
+	ATLASSERT ( m_created.wSecond < 60 ) ; 
+	ATLASSERT ( m_created.wMilliseconds < 1000 ) ; 
 }
 
 // void record_local::set_modified( const misc_wrappers::date &modified )  
@@ -258,14 +257,14 @@ void record_local::set_modified( const misc_wrappers::date &modified )
 	{
 		m_created = m_modified  ;
 	}
-	ATLASSERT ( m_modified.wYear < 2050 ) ; 
-	ATLASSERT ( m_modified.wMonth < 13 ) ; 
-	ATLASSERT ( m_modified.wDay < 366 ) ; 
-	ATLASSERT ( m_modified.wDayOfWeek < 8 ) ; 
-	ATLASSERT ( m_modified.wHour < 25 ) ; 
-	ATLASSERT ( m_modified.wMinute < 61 ) ; 
-	ATLASSERT ( m_modified.wSecond < 61 ) ; 
-	ATLASSERT ( m_modified.wMilliseconds < 1001 ) ; 
+	ATLASSERT ( m_modified.wYear > 1600 && m_modified.wYear < 2050 ) ; 
+	ATLASSERT ( m_modified.wMonth > 0 && m_modified.wMonth < 13 ) ; 
+	ATLASSERT ( m_modified.wDay > 0 && m_modified.wDay < 32 ) ; 
+	ATLASSERT ( m_modified.wDayOfWeek < 7 ) ; 
+	ATLASSERT ( m_modified.wHour < 24 ) ; 
+	ATLASSERT ( m_modified.wMinute < 60 ) ; 
+	ATLASSERT ( m_modified.wSecond < 60 ) ; 
+	ATLASSERT ( m_modified.wMilliseconds < 1000 ) ; 
 }
 
 // void record_local::copy_from_self( const record_local &rec )
