@@ -49,11 +49,11 @@ LRESULT CEditTransRecordDialogModal::OnOK( )
 
 		if ( source.empty() ) 
 		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
+			throw except::CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
 		}
 		if ( trans.empty() ) 
 		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
+			throw except::CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
 		}
 		fill_record() ;
 

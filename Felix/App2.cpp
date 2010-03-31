@@ -55,8 +55,6 @@ STDMETHODIMP CApp2::put_CurrentMatch(ISearchResult *pVal)
 		return S_OK ;
 	}
 	TA_CATCH("put_CurrentMatch")
-	
-	return E_FAIL ;
 }
 STDMETHODIMP CApp2::ReflectChanges(ULONG RecId, BSTR Source, BSTR Trans)
 {

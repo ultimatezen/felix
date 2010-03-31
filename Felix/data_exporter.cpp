@@ -242,7 +242,7 @@ void TradosDataExporter::export_trados( memory_pointer mem )
 			if ( IDNO == e.notify_user( IDS_PROMPT_WRITE_FAILED, MB_YESNO ) )
 			{
 				m_listener->OnProgressDoneWrite(0) ;
-				throw CException(e) ;
+				throw except::CException(e) ;
 			}
 			num_missed++ ;
 		}
@@ -945,7 +945,7 @@ void TradosDataExporter::write_string( const string &str )
 	{
 		e.add_to_message( (LPCTSTR)system_message( IDS_MSG_WRITE_FAILED, str.c_str() ) ) ;
 
-		throw CException( e ) ;
+		throw except::CException( e ) ;
 	} 
 }
 

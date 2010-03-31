@@ -324,7 +324,7 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 
 		if ( ! m_editor.IsWindow() )
 		{
-			throw CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
+			throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
 		}
 	}
 	m_editor.ShowWindow( show_command ) ;

@@ -48,13 +48,13 @@ LRESULT CEditTransRecordDialog::OnOK( )
 		const wstring source = m_new_record->get_source_plain() ;
 		if ( source.empty() ) 
 		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
+			throw except::CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_S_GLOSS : IDS_MSG_NO_EMPTY_S ) ) ;
 		}
 
 		const wstring trans = m_new_record->get_trans_plain() ;
 		if ( trans.empty() ) 
 		{
-			throw CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
+			throw except::CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
 		}
 
 		::SendMessage( GetParent(), UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, m_display_state ) ;
@@ -62,7 +62,7 @@ LRESULT CEditTransRecordDialog::OnOK( )
 	catch( CException &e )
 	{
 		e.add_to_message( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
-		throw CException ( e ) ;
+		throw except::CException ( e ) ;
 	}
 
 	ShowWindow( SW_HIDE ) ;

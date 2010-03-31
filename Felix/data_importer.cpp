@@ -140,7 +140,7 @@ bool trados_data_importer::get_next_record( )
 		if ( IDNO == local.notify_user( R2TS( IDS_MSG_PARSE_FAILED ), MB_YESNO ) )
 		{
 			m_listener->OnProgressDoneLoad(0) ;
-			throw CException( IDS_MSG_PARSE_FAILED ) ;
+			throw except::CException( IDS_MSG_PARSE_FAILED ) ;
 		}
 	}
 
@@ -205,7 +205,7 @@ bool  trados_data_importer::get_all_records( trans_set &records )
 			
 			local.set_bottom_message( R2TS( IDS_PROMPT_DISCARD_ENTRY ) ) ;
 			if ( IDNO == local.notify_user( R2TS( IDS_MSG_PARSE_FAILED ), MB_YESNO ) )
-				throw CException( R2TS( IDS_MSG_PARSE_FAILED ) ) ;
+				throw except::CException( R2TS( IDS_MSG_PARSE_FAILED ) ) ;
 		}
 	}
 	return true ;
@@ -464,7 +464,7 @@ wstring trados_data_importer::handle_f_tag(tag_stack &tags)
 						MB_YESNO ) )
 				{
 					e.add_to_message( _T("Import aborted by user.") ) ;
-					throw CException( e ) ;
+					throw except::CException( e ) ;
 				}
 			}
 		}
@@ -550,7 +550,7 @@ wstring tmx_data_importer::handle_f_tag(tag_stack &tags)
 					MB_YESNO ) )
 				{
 					e.add_to_message( _T("Import aborted by user.") ) ;
-					throw CException( e ) ;
+					throw except::CException( e ) ;
 				}
 			}
 		}

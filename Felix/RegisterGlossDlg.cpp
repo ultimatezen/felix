@@ -995,7 +995,7 @@ void CRegisterGlossDlg::add_gloss_entry()
 
 		if (! m_gloss_record->is_valid_record())
 		{
-			throw CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
+			throw except::CException(R2T(IDS_MSG_NO_EMPTY_S_GLOSS)) ;
 		}
 
 		// update the item selected in the "Register to" list box
@@ -1015,7 +1015,7 @@ void CRegisterGlossDlg::add_gloss_entry()
 	{
 		e.add_to_message(R2T(IDS_MSG_EDIT_REC_FAILED)) ;
 		logging::log_exception(e) ;
-		throw CException (e) ;
+		throw except::CException (e) ;
 	}
 }
 

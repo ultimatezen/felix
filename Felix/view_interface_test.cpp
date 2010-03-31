@@ -11,7 +11,7 @@ namespace easyunit
 
 	TEST(test_view_interface, get_doc_path)
 	{
-		view_interface vi ;
+		frame_view vi ;
 		SimpleString expected = "http://localhost/" ;
 		wstring url = L"http://localhost/foo.html" ;
 		wstring docpath = vi.get_doc_path(url) ;
@@ -20,7 +20,7 @@ namespace easyunit
 	}
 	TEST(test_view_interface, get_doc_path_filesystem)
 	{
-		view_interface vi ;
+		frame_view vi ;
 		SimpleString expected = "file://C:/Users/RyanVista/AppData/Local/Felix/html/en/" ;
 		wstring url = L"file://C:\\Users\\RyanVista\\AppData\\Local\\Felix\\html\\en\\start.html" ;
 		wstring docpath = vi.get_doc_path(url) ;
@@ -30,7 +30,7 @@ namespace easyunit
 
 	TEST(test_view_interface, get_match_record_one)
 	{
-		view_interface vi ;
+		frame_view vi ;
 		translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 
@@ -53,7 +53,7 @@ namespace easyunit
 	}
 	TEST(test_view_interface, get_match_record_empty)
 	{
-		view_interface vi ;
+		frame_view vi ;
 		mem_engine::translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 

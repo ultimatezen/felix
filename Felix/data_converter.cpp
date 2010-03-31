@@ -352,7 +352,7 @@ void CXml2RecordConverter::load_extra(const wstring & tag)
 
 	if ( tag == L"record" )
 	{
-		throw CException( IDS_CORRUPT_FILE ) ;
+		throw except::CException( IDS_CORRUPT_FILE ) ;
 	}
 
 	const _bstr_t end_tag = L"</" + string2BSTR(tag) + L">" ;
@@ -592,7 +592,7 @@ bool CRecord2XmlConverter::convert_from_record( const record_pointer rec )
 	catch ( CException &e ) 
 	{
 		e.add_to_message( _T("Failed to write record to file!") ) ;
-		throw CException( e ) ;
+		throw except::CException( e ) ;
 	}
 
 	return true ;
@@ -725,7 +725,7 @@ bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &
 	catch ( CException &e ) 
 	{
 		e.add_to_message( "Failed to write CDATA node!" ) ;
-		throw CException( e ) ;
+		throw except::CException( e ) ;
 	}
 
 	return true ;
@@ -743,7 +743,7 @@ bool CRecord2XmlConverter::convert_text_node( const string &tag, const string &e
 	catch ( CException &e ) 
 	{
 		e.add_to_message( "Failed to write text node!" ) ;
-		throw CException( e ) ;
+		throw except::CException( e ) ;
 	}
 
 	return true ;

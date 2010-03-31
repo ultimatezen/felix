@@ -548,7 +548,6 @@ wstring translation_match_query::get_score_text( match_ptr match )
 wstring search_query_mainframe::get_html_short()
 {
 	throw std::logic_error("Not implemented") ;
-	return wstring() ;
 }
 /************************************************************************/
 /* search_query_glossary                                                */

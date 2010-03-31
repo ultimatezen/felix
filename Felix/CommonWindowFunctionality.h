@@ -80,7 +80,7 @@ public:
 	CMyRecentDocumentList		m_mru ;
 	// view
 
-	view_interface			m_view_interface ;
+	frame_view			m_view_interface ;
 
 	// find dialog
 	CFindDlg				m_find ;

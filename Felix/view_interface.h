@@ -1,5 +1,5 @@
 /*!
-	@brief Interface for the view_interface class.
+	@brief Interface for the frame_view class.
 	@author Ryan Ginstrom
  */
 
@@ -15,11 +15,23 @@
 #include <vector>
 #include "data_converter.h"
 #include "WebPage.h"
+
+// This is an interface to the underlying view.
+// (Wraps an HTML view)
+class view_interface
+{
+
+public:
+
+	virtual bool is_edit_mode() = 0 ;
+	virtual void put_edit_mode( bool setting ) = 0 ;
+};
+
 /**
-	@class view_interface 
+	@class frame_view 
 	@brief Interface to the view -- adds various functions specific to Felix.
  */
-class view_interface
+class frame_view : public view_interface
 {
 	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
 	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
@@ -95,6 +107,7 @@ public:
 
 	void scroll_element_into_view( const wstring &current_id ) ;
 
+	// Windows messaging stuff
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
 
 	BOOL ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT &lResult) ;

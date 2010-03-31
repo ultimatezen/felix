@@ -53,7 +53,7 @@ namespace mem_engine
 			TRACE( record->get_created().get_date_time_string() ) ;
 			TRACE( record->get_modified().get_date_string() ) ;
 
-			throw CException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
+			throw except::CException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
 		}
 
 
@@ -332,7 +332,7 @@ namespace mem_engine
 			CString exception_message ;
 			exception_message.FormatMessage( IDS_SAVE_FAILED, get_location() ) ;
 			e.add_to_message( exception_message ) ;
-			throw CException( e ) ;
+			throw except::CException( e ) ;
 		}
 
 		ATLTRACE( "...Save complete!\n" ) ;
@@ -479,7 +479,7 @@ namespace mem_engine
 
 		if ( file_len == 0 )
 		{
-			throw CException( IDS_CORRUPT_FILE ) ;
+			throw except::CException( IDS_CORRUPT_FILE ) ;
 		}
 
 		const size_t original_num_records = size() ;
@@ -598,7 +598,7 @@ namespace mem_engine
 			CString err_msg ;
 			err_msg.FormatMessage( IDS_FILE_NOT_OPEN_FOR_WRITING, location ) ;
 			e.add_to_message(err_msg) ;
-			throw CException(e) ;
+			throw except::CException(e) ;
 		}
 		ATLASSERT(memory_file.is_open()) ;
 		if ( ! memory_file.is_open() )
@@ -760,7 +760,7 @@ namespace mem_engine
 
 		if ( ! reader.find( L"<records", true ) )
 		{
-			throw CException( IDS_CORRUPT_FILE ) ;
+			throw except::CException( IDS_CORRUPT_FILE ) ;
 		}
 
 		while ( reader.find( L"<record", true ) )
@@ -772,7 +772,7 @@ namespace mem_engine
 				LPWSTR bookmark_start = (LPWSTR)reader.get_current_pos() ;
 				if ( ! reader.find( L"</record>", true ) )
 				{
-					throw CException( IDS_CORRUPT_FILE ) ;
+					throw except::CException( IDS_CORRUPT_FILE ) ;
 				}
 
 				bm_type bookmark_end = reader.get_current_pos() ;
@@ -892,7 +892,7 @@ namespace mem_engine
 			m_listener->OnProgressDoneLoad(0) ;
 			set_saved_flag( was_saved ) ;
 			e.set_bottom_message( get_load_failure_msg(file_name) ) ;
-			throw CException( e ) ;
+			throw except::CException( e ) ;
 		}
 
 		e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
@@ -906,7 +906,7 @@ namespace mem_engine
 			set_saved_flag( was_saved ) ;
 			CString exception_message ;
 			exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
-			throw CException( exception_message ) ;
+			throw except::CException( exception_message ) ;
 		}
 
 	}

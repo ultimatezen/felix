@@ -59,6 +59,7 @@
 #include "memory_local.h"
 
 #include <shellapi.h>
+#include "view_state_initial.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1143,7 +1144,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 		}
 
 	default:
-		logging::log_warn("Unknown case is switch statement") ;
+		logging::log_warn("Unknown case in switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving memory as tmx file") ;
 		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
@@ -1353,16 +1354,21 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 	switch( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE: 
-		m_view_interface.put_edit_mode( ! edit_mode_enabled ) ;
+		{
+			ViewStateInitial initial_state ;
+			ViewState *view_state = &initial_state ;
+			view_state->set_view_interface(&m_view_interface) ;
+			view_state->handle_toggle_edit_mode() ;
+		}
 		return 0L ;
 	case NEW_RECORD_DISPLAY_STATE:
-		handle_new_record_edit( edit_mode_enabled ) ;
+		handle_new_record_edit( m_view_interface.is_edit_mode() ) ;
 		return 0L ;
 	case MATCH_DISPLAY_STATE: 
-		handle_match_edit( edit_mode_enabled ) ;
+		handle_match_edit( m_view_interface.is_edit_mode() ) ;
 		return 0L ;
 	case CONCORDANCE_DISPLAY_STATE:
-		handle_concordance_edit( edit_mode_enabled ) ;
+		handle_concordance_edit( m_view_interface.is_edit_mode() ) ;
 		return 0L ;
 	}
 	ATLASSERT( "We are in an unknown state" && FALSE ) ;
@@ -1878,11 +1884,11 @@ bool CMainFrame::set_translation( const wstring &translation)
 
 		if (record->get_source_rich().empty())
 		{
-			throw CException(IDS_EMPTY_QUERY) ;
+			throw except::CException(IDS_EMPTY_QUERY) ;
 		}
 		if (record->get_trans_rich().empty())
 		{
-			throw CException(IDS_EMPTY_TRANSLATION) ;
+			throw except::CException(IDS_EMPTY_TRANSLATION) ;
 		}
 
 		// it was created now
@@ -2029,7 +2035,7 @@ bool CMainFrame::show_current_match()
 	{
 		logging::log_exception(e) ;
 		e.add_to_message( R2TS( IDS_SHOW_FAILED ) ) ;
-		throw CException( e ) ;
+		throw except::CException( e ) ;
 	}
 	return true ; 
 }
@@ -2269,7 +2275,7 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 
 	if ( m_model->m_memories->empty() )
 	{
-		throw CException( IDS_INVALID_STATE ) ;
+		throw except::CException( IDS_INVALID_STATE ) ;
 	}
 
 	switch ( get_display_state() )
@@ -2407,7 +2413,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 		if ( ! m_reg_gloss_dlg.IsWindow() )
 		{
-			throw CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
+			throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
 		}
 	}
 
@@ -5447,7 +5453,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 			CString msg ;
 			msg.FormatMessage( IDS_SET_LIB_FAILED, 
 				_T("lang\\JpnResource.dll") ) ;
-			throw CException( msg ) ;
+			throw except::CException( msg ) ;
 		}
 		break ;
 	case LANG_ENGLISH:
@@ -5463,7 +5469,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 			CString msg ;
 			msg.FormatMessage( IDS_SET_LIB_FAILED, 
 				_T("lang\\EngResource.dll") ) ;
-			throw CException( msg ) ;
+			throw except::CException( msg ) ;
 		}
 		break ;
 	default:
@@ -5476,7 +5482,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 			CString msg ;
 			msg.FormatMessage( IDS_SET_LIB_FAILED, 
 				_T("lang\\EngResource.dll") ) ;
-			throw CException( msg ) ;
+			throw except::CException( msg ) ;
 		}
 	}
 }

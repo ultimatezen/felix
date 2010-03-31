@@ -1,5 +1,5 @@
 /*!
-	@brief Precompiled header file
+	@brief Precompiled header file for Felix
 	@author Ryan Ginstrom
  */
 
@@ -124,7 +124,6 @@ namespace fs = boost::filesystem;
 #include "stringconversions.h"
 #include "textstream_reader.h"
 
-
 #include "LocalizedServerAppModule.h"
 
 extern CLocalizedServerAppModule _Module;
@@ -167,7 +166,6 @@ CExeModule
 #endif
 
 #include <atlcom.h>	// yous com bubbies is bad boys!
-
 #include <atlhost.h>
 
 #include <commctrl.h> // LPNMREBARCHEVRON

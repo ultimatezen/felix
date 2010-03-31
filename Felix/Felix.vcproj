@@ -1550,6 +1550,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_initial.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ViewCollectionWalker.cpp"
 				>
 			</File>
@@ -1977,11 +1981,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ViewCollectionWalker_test.cpp"
+					RelativePath=".\view_state_initial_test.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\WebPage_test.cpp"
+					RelativePath=".\ViewCollectionWalker_test.cpp"
 					>
 				</File>
 				<File
@@ -2619,6 +2623,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_interface_fake.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_initial.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ViewCollectionWalker.h"
 				>
 			</File>
@@ -2800,6 +2816,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 		<File
 			RelativePath=".\document_wrapper.html"
 			>
