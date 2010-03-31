@@ -825,7 +825,7 @@ namespace easyunit
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"aabbcc", L"112233") ;
 
-		mainframe.m_model->m_memories->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
+		mainframe.m_model->get_memories()->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
 
 		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
 		SimpleString expected = "spam" ;

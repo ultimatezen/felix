@@ -398,9 +398,9 @@ namespace easyunit
 		dummy.wParam = MAKEWPARAM(ID_FILE_MRU_FIRST, 0) ;
 		try
 		{
-			ASSERT_EQUALS_V(0, (int)main_frame.m_model->m_memories->size() ) ;
+			ASSERT_EQUALS_V(0, (int)main_frame.m_model->get_memories()->size() ) ;
 			main_frame.on_mru_file_open(dummy)  ;
-			ASSERT_EQUALS_V(1, (int)main_frame.m_model->m_memories->size() ) ;
+			ASSERT_EQUALS_V(1, (int)main_frame.m_model->get_memories()->size() ) ;
 		}
 		catch (CException&)
 		{

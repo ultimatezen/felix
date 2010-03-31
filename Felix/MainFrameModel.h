@@ -2,7 +2,7 @@
 
 #include "FelixModelInterface.h"
 
-class MainFrameModel  : public FelixModelInterface
+class MainFrameModel  : public FelixModel
 {
 public:
 

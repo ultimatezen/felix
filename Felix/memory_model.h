@@ -1,10 +1,6 @@
 /*!
 	@file memory_model.h
 	@brief interface for the memory_model class.
-	@date 2005/06/25
-	Time: 14:48:19
-	@author Ryan Ginstrom
-	@dir c:\programming\programming projects\Felix 1.5
  */
 
 #pragma once

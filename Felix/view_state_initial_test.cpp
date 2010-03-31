@@ -19,7 +19,6 @@ namespace easyunit
 		state.handle_toggle_edit_mode() ;
 
 		ASSERT_TRUE(view.is_edit_mode()) ;
-
 	}
 
 	TEST( view_state_initial_test, handle_toggle_edit_mode_true )

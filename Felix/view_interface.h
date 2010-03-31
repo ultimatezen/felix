@@ -25,6 +25,9 @@ public:
 
 	virtual bool is_edit_mode() = 0 ;
 	virtual void put_edit_mode( bool setting ) = 0 ;
+	virtual void ensure_document_complete() = 0 ;
+	virtual void ensure_navigation_complete() = 0 ;
+	virtual void navigate(LPCTSTR url) = 0 ;
 };
 
 /**
@@ -42,12 +45,21 @@ class frame_view : public view_interface
 public:
 	// view
 	html::CHtmlView	m_view ;
+	HACCEL m_accel ;
+	HWND   m_parent ;
 
+	frame_view() : m_accel(NULL), m_parent(NULL)
+	{
+	}
 	operator html::CHtmlView&() { return m_view ; }
+	void set_accel(HACCEL accel)
+	{
+		m_accel = accel ;
+	}
 
 	void set_listener( html::CHtmlViewListener *listener ) ;
-	void ensure_document_complete(HACCEL accel, HWND hwnd) ;
-	void ensure_navigation_complete(HACCEL accel, HWND hwnd) ;
+	void ensure_document_complete() ;
+	void ensure_navigation_complete() ;
 	const wstring get_selection_text() ;
 
 	void create( HWND parent, HWND &client ) ;

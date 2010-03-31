@@ -21,6 +21,7 @@
 #include "FelixStatusBar.h"
 
 #include "view_interface.h"
+#include "view_state.h"
 
 #include "ProgressListener.h"
 
@@ -81,6 +82,8 @@ public:
 	// view
 
 	frame_view			m_view_interface ;
+	ViewState			*m_view_state ;
+
 
 	// find dialog
 	CFindDlg				m_find ;

@@ -53,6 +53,7 @@ m_is_main( false ),
 m_listener( NULL),
 m_new_record(new record_local())
 { 
+	set_display_state( INIT_DISPLAY_STATE ) ;
 	//m_new_record = record_pointer(new record_local()) ;
 	seed_random_numbers();
 
@@ -1866,12 +1867,12 @@ bool CGlossaryWindow::show_view_content()
 		}
 	case INIT_DISPLAY_STATE:
 		{
-			m_view_interface.ensure_document_complete( NULL, m_hWnd ) ;
+			m_view_interface.ensure_document_complete( ) ;
 
 			CString filename = get_template_filename(_T("start_gloss.html")) ;
 			m_view_interface.navigate(filename) ;
 
-			m_view_interface.ensure_document_complete( NULL, m_hWnd ) ;
+			m_view_interface.ensure_document_complete( ) ;
 
 			set_bg_color( static_cast< COLORREF >( m_properties_gloss.m_data.m_back_color ) ) ;
 		}
@@ -2228,7 +2229,8 @@ bool CGlossaryWindow::init_status_bar()
 
 void CGlossaryWindow::wait_until_view_not_busy()
 {
-	m_view_interface.ensure_navigation_complete( m_accelerator, m_hWnd ) ;
+	m_view_interface.set_accel(m_accelerator) ;
+	m_view_interface.ensure_navigation_complete() ;
 }
 
 void CGlossaryWindow::set_up_recently_used_doclist()

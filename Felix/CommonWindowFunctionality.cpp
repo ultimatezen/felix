@@ -24,8 +24,6 @@ m_silent_mode( false ),
 m_mousewheel_count(0),
 m_editor()
 {
-	// display state
-	set_display_state( INIT_DISPLAY_STATE ) ;
 }
 
 void add_popup_separator(CMenu &menu) 

@@ -23,7 +23,7 @@ void frame_view::set_listener( html::CHtmlViewListener *listener )
 	@class frame_view 
 	@brief Interface to the view -- adds various functions specific to Felix.
  */
-void frame_view::ensure_document_complete(HACCEL accel, HWND hwnd)
+void frame_view::ensure_document_complete()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -33,7 +33,7 @@ void frame_view::ensure_document_complete(HACCEL accel, HWND hwnd)
 		return ;
 	}
 	const size_t num_iterations = 100 ;
-	background_processor backer( num_iterations, accel, hwnd ) ;
+	background_processor backer( num_iterations, m_accel, m_parent) ;
 
 	while ( m_view.is_document_complete() == false ) 
 	{
@@ -41,14 +41,14 @@ void frame_view::ensure_document_complete(HACCEL accel, HWND hwnd)
 	}
 }
 
-void frame_view::ensure_navigation_complete(HACCEL accel, HWND hwnd)
+void frame_view::ensure_navigation_complete()
 {
 	if (! m_view.IsWindow())
 	{
 		return ;
 	}
 	const size_t num_iterations = 100 ;
-	background_processor backer( num_iterations, accel, hwnd ) ;
+	background_processor backer( num_iterations, m_accel, m_parent) ;
 
 	while ( m_view.is_navigation_complete() == false ) 
 	{
@@ -76,6 +76,7 @@ const wstring frame_view::get_selection_text()
 
 void frame_view::create( HWND parent, HWND &client )
 {
+	m_parent = parent ;
 	client = m_view.create( parent ) ;
 	ATLASSERT( TWindow( client ).IsWindow() ) ;
 }

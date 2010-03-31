@@ -5,8 +5,6 @@
 class ViewStateInitial : public ViewState
 {
 public:
-	void handle_toggle_edit_mode()
-	{
-		m_view->put_edit_mode( ! m_view->is_edit_mode() ) ;
-	}
+	void handle_toggle_edit_mode();
+	void show_content();
 };

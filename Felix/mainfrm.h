@@ -30,6 +30,7 @@
 #include "TMXWriter.h"		// CTMXWriter
 #include "zoom_dialog.h"
 #include "felix_cl_options.h"
+#include "view_state_initial.h"
 
 CString get_help_file_path( CString path ) ;
 CString get_docs_path() ;
@@ -85,6 +86,8 @@ VISIBLE_TO_TESTS
 	// glossary interface
 	// ====================
 	gloss_window_list		m_glossary_windows ;
+
+	ViewStateInitial		m_initial_state ;
 
 	// ====================
 	// misc internal stuff
@@ -357,11 +360,6 @@ public:
 	void deleted_new_record_feedback();
 	LRESULT on_user_edit(WindowsMessage &message);
 
-	int get_first_mem_id()
-	{
-		memory_type mem = m_model->m_memories->get_first_memory() ;
-		return mem->get_id() ;
-	}
 	LRESULT on_user_search(WindowsMessage &message) ;
 	LRESULT on_user_edit_replace(WindowsMessage &message) ;
 	LRESULT on_user_edit_search(WindowsMessage &message);
@@ -440,7 +438,6 @@ public:
 	void set_up_window_size();
 	void set_up_ui_state();
 	void set_up_status_bar();
-	void show_initial_content();
 	void set_up_recent_docs_list();
 	void set_up_command_bars();
 	void set_up_default_initial_size();
@@ -538,7 +535,7 @@ public:
 	}
 	boost::shared_ptr<mem_engine::memory_model> get_memory_model()
 	{
-		return m_model->m_memories ;
+		return m_model->get_memories() ;
 	}
 
 	void set_bg_color_if_needed();

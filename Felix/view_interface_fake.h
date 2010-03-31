@@ -24,4 +24,17 @@ public:
 		SENSE("put_edit_mode") ;
 		m_is_edit_mode = setting ;
 	}
+	void ensure_document_complete()
+	{
+		SENSE("ensure_document_complete") ;
+	}
+	void ensure_navigation_complete()
+	{
+		SENSE("ensure_navigation_complete") ;
+	}
+	void navigate(LPCTSTR url)
+	{
+		SENSE("navigate") ;
+		SENSE(string2string(wstring(url))) ;
+	}
 };
