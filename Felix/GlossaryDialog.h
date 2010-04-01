@@ -80,7 +80,7 @@ class CGlossaryWindow :
 
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
-	FelixModel m_model ;
+	FelixModel					m_model ;
 	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
 
 	CSearchWindow		m_search_window ;

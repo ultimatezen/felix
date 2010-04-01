@@ -134,9 +134,11 @@ namespace easyunit
 	{
 		view_interface_fake view ;
 		ASSERT_TRUE(! view.is_edit_mode()) ;
+		WindowListenerFake listener; 
 
 		ViewStateInitialGloss state ;
 		state.set_view(&view) ;
+		state.set_window_listener(&listener) ;
 		state.show_content() ;
 
 		ASSERT_EQUALS_V(5, (int)view.m_sensing_variable.size()) ;
