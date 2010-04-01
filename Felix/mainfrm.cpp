@@ -115,10 +115,12 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
 	m_properties(new app_props::properties())
 {
-	m_initial_state.set_view_interface(&m_view_interface) ;
+	m_view_state_initial.set_view(&m_view_interface) ;
+	m_view_state_initial.set_model(m_model) ;
+	m_view_state_initial.set_window_listener(this) ;
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
-	m_view_state = &m_initial_state ;
+	m_view_state = &m_view_state_initial ;
 
 	m_properties->m_gen_props.read_from_registry() ;
 	const BOOL show_markup = m_properties->m_gen_props.m_data.m_show_markup ;
@@ -442,7 +444,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		m_view_interface.set_accel(m_hAccel) ;
 
-		ATLASSERT(m_view_state == &m_initial_state) ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
 		m_view_state->show_content() ;
 
 		set_up_recent_docs_list() ;
@@ -584,6 +586,12 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 	switch ( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE:
+		{
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
 	case NEW_RECORD_DISPLAY_STATE:
 		retrieve_record_new_state();
 		user_feedback( IDS_ADDED_TRANSLATION ) ;
@@ -1359,7 +1367,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 	switch( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE: 
-		ATLASSERT(m_view_state == &m_initial_state) ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
 		m_view_state->handle_toggle_edit_mode() ;
 		return 0L ;
 	case NEW_RECORD_DISPLAY_STATE:
@@ -1961,7 +1969,7 @@ void CMainFrame::delete_current_translation()
 {
 	if ( get_display_state() == INIT_DISPLAY_STATE )
 	{
-		ATLASSERT(m_view_state == &m_initial_state) ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
 		user_feedback( IDS_MSG_INVALID_COMMAND ) ;
 		::MessageBeep( MB_ICONSTOP ) ;
 		return ;
@@ -2207,6 +2215,9 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	{
 		memory_id = m_model->get_first_mem_id();
 		record = m_new_record ;
+
+		ATLASSERT( memory_id != 0 ) ;
+		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 	}
 	// Showing translation matches
 	else if ( get_display_state() == MATCH_DISPLAY_STATE )
@@ -2227,12 +2238,17 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
 			return 0L ;
 		}
+		ATLASSERT( memory_id != 0 ) ;
+		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 	}
 	// Reviewing a translation record
 	else if (get_display_state() == TRANS_REVIEW_STATE)
 	{
 		memory_id = m_model->get_first_mem_id();
 		record = m_review_record ;
+
+		ATLASSERT( memory_id != 0 ) ;
+		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 	}
 	// Showing concordance matches
 	else 
@@ -2253,11 +2269,10 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
 			return 0L ;
 		}
-	}
 
-	ATLASSERT( memory_id != 0 ) ;
-	
-	show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
+		ATLASSERT( memory_id != 0 ) ;
+		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
+	}
 
 	return 0L ;
 }
@@ -2554,7 +2569,7 @@ bool CMainFrame::show_view_content()
 		}
 		else
 		{
-			ATLASSERT(m_view_state == &m_initial_state) ;
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
 			m_view_state->show_content() ;
 		}
 		return true ;
@@ -5707,13 +5722,13 @@ void CMainFrame::retrieve_record_new_state()
 	record_pointer new_rec = m_editor.get_new_record() ;
 	if (old_rec->is_valid_record())
 	{
-		mem->replace(old_rec, m_editor.get_new_record()) ;
+		mem->replace(old_rec, new_rec) ;
 	}
 	else
 	{
-		mem->add_record(m_editor.get_new_record()) ;
+		mem->add_record(new_rec) ;
 	}
-	set_new_record(m_editor.get_new_record()) ;
+	set_new_record(new_rec) ;
 }
 
 void CMainFrame::retrieve_record_results_state()

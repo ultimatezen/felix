@@ -2203,6 +2203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\felix_model_fake.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Felix_properties.h"
 				>
 			</File>
@@ -2648,6 +2652,14 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\WideRichEdit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\window_listener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\window_listener_fake.h"
 				>
 			</File>
 			<File

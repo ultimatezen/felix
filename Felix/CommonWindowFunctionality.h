@@ -30,9 +30,11 @@
 #include "NavInterface.h"
 #include "WindowsMessage.h"
 #include "QueryMergeDlg.h"
+#include "window_listener.h"
 
 void add_popup_item(CMenu &menu, int command_id, int text_id) ;
 void add_popup_separator(CMenu &menu) ;
+
 
 
 /**
@@ -44,6 +46,7 @@ class CCommonWindowFunctionality :
 	, public CProgressListener
 	, public html::CHtmlViewListener
 	, public CNavInterface
+	, public WindowListener
 {
 public:
 	DECLARE_SENSING_VAR ;
@@ -206,8 +209,6 @@ public:
 	virtual void do_save( mem_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;
 	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
-	virtual void set_new_record(mem_engine::record_pointer rec) = 0 ;
-	virtual mem_engine::record_pointer get_new_record() = 0 ;
 	virtual void retrieve_record_new_state() = 0 ;
 	virtual void retrieve_record_results_state() = 0 ;
 

@@ -75,8 +75,6 @@ namespace mem_engine
 			}
 		}
 #endif
-		ATLASSERT( record->get_source_plain().empty() == false ) ;
-		ATLASSERT( record->get_trans_plain().empty() == false ) ;
 
 		record->set_cmp_maker(m_cmp_maker) ;
 

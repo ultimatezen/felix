@@ -57,8 +57,15 @@ m_new_record(new record_local())
 	//m_new_record = record_pointer(new record_local()) ;
 	seed_random_numbers();
 
-	m_memories = create_memory_model() ; 
+	m_memories = m_model.get_memories() ; 
 	m_editor.m_is_glossary = true ;
+
+	m_view_state_initial.set_view(&m_view_interface) ;
+	m_view_state_initial.set_model(&m_model) ;
+	// display state
+	set_display_state( INIT_DISPLAY_STATE ) ;
+	m_view_state = &m_view_state_initial ;
+
 }
 
 // DTOR
@@ -125,7 +132,8 @@ LRESULT CGlossaryWindow::OnInitDialog( )
 	m_hWndClient = init_view() ;
 
 	// set content
-	show_view_content() ;
+	ATLASSERT(m_view_state == &m_view_state_initial) ;
+	m_view_state->show_content() ;
 
 	// check it in the menu
 	EnableMenuItem( GetMenu(), ID_EDIT_REPLACE, TRUE ) ;
@@ -1867,12 +1875,8 @@ bool CGlossaryWindow::show_view_content()
 		}
 	case INIT_DISPLAY_STATE:
 		{
-			m_view_interface.ensure_document_complete( ) ;
-
-			CString filename = get_template_filename(_T("start_gloss.html")) ;
-			m_view_interface.navigate(filename) ;
-
-			m_view_interface.ensure_document_complete( ) ;
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
+			m_view_state->show_content() ;
 
 			set_bg_color( static_cast< COLORREF >( m_properties_gloss.m_data.m_back_color ) ) ;
 		}

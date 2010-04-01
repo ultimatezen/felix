@@ -87,7 +87,7 @@ VISIBLE_TO_TESTS
 	// ====================
 	gloss_window_list		m_glossary_windows ;
 
-	ViewStateInitial		m_initial_state ;
+	ViewStateInitialMain		m_view_state_initial ;
 
 	// ====================
 	// misc internal stuff

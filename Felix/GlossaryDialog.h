@@ -40,7 +40,9 @@
 #include "WindowsMessage.h"
 #include "logging.h"
 #include "zoom_dialog.h"
+#include "FelixModelInterface.h"
 
+#include "view_state_initial.h"
 
 /**
 	@class CGlossaryDialog 
@@ -54,7 +56,7 @@ class CGlossaryWindow :
 	VISIBLE_TO_TESTS
 
 
-	mem_engine::record_pointer				m_new_record ;
+	mem_engine::record_pointer	m_new_record ;
 	appstate_glossary			m_appstate ;
 
 	// the status bar
@@ -77,9 +79,12 @@ class CGlossaryWindow :
 
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
+	FelixModel m_model ;
 	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
 
 	CSearchWindow		m_search_window ;
+
+	ViewStateInitialGloss m_view_state_initial ;
 
 public:
 	void set_zoom_level(int zoom_level);

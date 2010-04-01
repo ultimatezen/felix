@@ -12,6 +12,7 @@ public:
 	virtual void set_reverse_lookup(bool setting) = 0 ;
 	virtual bool is_reverse_lookup() = 0 ;
 	virtual int get_first_mem_id() = 0 ;
+	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
 };
 
 
@@ -43,7 +44,6 @@ public:
 		return mem->get_id() ;
 	}
 
-
 	model_ptr get_memories()
 	{
 		return m_memories ;
@@ -55,6 +55,11 @@ public:
 	bool is_reverse_lookup()
 	{
 		return m_is_reverse_lookup ;
+	}
+
+	mem_engine::memory_pointer get_memory_by_id(int id)
+	{
+		return m_memories->get_memory_by_id(id) ;
 	}
 
 };

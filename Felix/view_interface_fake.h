@@ -34,7 +34,9 @@ public:
 	}
 	void navigate(LPCTSTR url)
 	{
+		url ;
 		SENSE("navigate") ;
 		SENSE(string2string(wstring(url))) ;
 	}
 };
+
