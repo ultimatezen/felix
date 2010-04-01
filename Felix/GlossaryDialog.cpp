@@ -2784,3 +2784,17 @@ void CGlossaryWindow::set_bg_color_if_needed()
 		m_view_interface.set_bg_color(color.as_wstring()) ;
 	}
 }
+
+void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
+{
+	switch(new_state)
+	{
+	case NEW_RECORD_DISPLAY_STATE:
+		m_view_state = &m_view_state_new ;
+		break ;
+	case INIT_DISPLAY_STATE:
+		m_view_state = &m_view_state_initial ;
+		break ;
+	}
+	m_display_state = new_state ;
+}

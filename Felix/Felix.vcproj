@@ -1989,6 +1989,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\view_state_new_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ViewCollectionWalker_test.cpp"
 					>
 				</File>
@@ -2845,7 +2849,15 @@
 			>
 		</File>
 		<File
+			RelativePath=".\ClassDiagram2.cd"
+			>
+		</File>
+		<File
 			RelativePath=".\document_wrapper.html"
+			>
+		</File>
+		<File
+			RelativePath=".\view_state_new_test.cp"
 			>
 		</File>
 	</Files>

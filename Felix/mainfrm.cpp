@@ -600,10 +600,12 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 			break ;
 		}
 	case NEW_RECORD_DISPLAY_STATE:
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		retrieve_record_new_state();
-		user_feedback( IDS_ADDED_TRANSLATION ) ;
-		break ;
+		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+				m_editor.get_new_record()) ;
+			break ;
+		}
 	case TRANS_REVIEW_STATE:
 		{
 			retrieve_record_review_state();
@@ -5786,4 +5788,18 @@ LRESULT CMainFrame::on_user_lookup_trans( WindowsMessage& )
 	m_deferred_query.clear() ;
 	ATLASSERT(m_deferred_query.empty()) ;
 	return 0L ; 
+}
+
+void CMainFrame::set_display_state( DISPLAY_STATE new_state )
+{
+	switch(new_state)
+	{
+	case NEW_RECORD_DISPLAY_STATE:
+		m_view_state = &m_view_state_new ;
+		break ;
+	case INIT_DISPLAY_STATE:
+		m_view_state = &m_view_state_initial ;
+		break ;
+	}
+	m_display_state = new_state ;
 }

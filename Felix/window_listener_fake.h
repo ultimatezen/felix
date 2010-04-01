@@ -9,6 +9,7 @@ class WindowListenerFake : public WindowListener
 public:
 	DECLARE_SENSING_VAR ;
 	rec_ptr new_rec ;
+	std::vector<int> m_feedback_int ;
 
 	WindowListenerFake() : 
 		new_rec(rec_ptr(new rec_type))
@@ -55,6 +56,7 @@ public:
 	}
 	virtual bool user_feedback( const UINT id, int pane = 0)
 	{
+		m_feedback_int.push_back(id) ;
 		SENSE("user_feedback") ;
 		SENSE(ulong2string(id)) ;
 		SENSE(ulong2string(pane)) ;

@@ -311,19 +311,7 @@ public:
 	LRESULT on_view_min_begin(WindowsMessage &message);
 	LRESULT on_view_switch(WindowsMessage &message);
 	// Function name	: change_display_state
-	void set_display_state( DISPLAY_STATE new_state )
-	{
-		switch(new_state)
-		{
-		case NEW_RECORD_DISPLAY_STATE:
-			m_view_state = &m_view_state_new ;
-			break ;
-		case INIT_DISPLAY_STATE:
-			m_view_state = &m_view_state_initial ;
-			break ;
-		}
-		m_display_state = new_state ;
-	}
+	void set_display_state( DISPLAY_STATE new_state );
 
 	// help
 	LRESULT show_about_dialog(WindowsMessage &message);

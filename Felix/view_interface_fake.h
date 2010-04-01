@@ -13,6 +13,7 @@ public:
 
 	bool m_is_edit_mode ;
 	rec_ptr m_rec ;
+	wstring m_text ;
 
 	view_interface_fake() : 
 		m_is_edit_mode(false)
@@ -46,7 +47,7 @@ public:
 	}
 	void set_text( const wstring &text ) 
 	{
-		text ;
+		m_text = text ;
 		SENSE("set_text") ;
 		SENSE(string2string(text)) ;
 	}

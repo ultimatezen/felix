@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CMainFrame">
+    <Position X="1.25" Y="0.5" Width="6.75" />
+    <NestedTypes>
+      <Typedef Name="CMainFrame::frame_class" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>mainfrm.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="CMainFrame::record_type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>mainfrm.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="CMainFrame::memory_type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>mainfrm.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="CMainFrame::messageMapType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>mainfrm.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ugZ3zGGPneL97P9+7s4vH6v3/3Vi9i3hjeF0DVdpv8c=</HashCode>
+      <FileName>mainfrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Array&lt;TYPE&gt;">
+    <Position X="9.75" Y="1.25" Width="2.75" />
+    <NestedTypes>
+      <Typedef Name="Array&lt;TYPE&gt;::self" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::value_type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::iterator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::const_iterator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::reference" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::const_reference" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="Array&lt;TYPE&gt;::size_type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>c:\dev\cpp\MyLibrary\array.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAADAAAACAAgAJAAAQESAAAAAEpAAQAQEAAAAAI=</HashCode>
+      <FileName>c:\dev\cpp\MyLibrary\array.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Meiryo" Size="9" />
+</ClassDiagram>

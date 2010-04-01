@@ -72,6 +72,7 @@ void ViewStateNew::retrieve_edit_record( int mem_id, mem_engine::record_pointer 
 		mem->add_record(new_rec) ;
 	}
 	m_window_listener->set_new_record(new_rec) ;
+	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
 }
 
 //////////////////////////////////////////////////////////////////////////
