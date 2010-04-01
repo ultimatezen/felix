@@ -22,12 +22,45 @@ class view_interface
 {
 
 public:
+	typedef mem_engine::translation_match_query TransMatchQueryTrans ;
+	typedef mem_engine::record_pointer record_pointer ;
+	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
+	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
+	typedef mem_engine::search_match_ptr SearchMatchType ;
 
 	virtual bool is_edit_mode() = 0 ;
 	virtual void put_edit_mode( bool setting ) = 0 ;
 	virtual void ensure_document_complete() = 0 ;
 	virtual void ensure_navigation_complete() = 0 ;
 	virtual void navigate(LPCTSTR url) = 0 ;
+	virtual void set_text( const wstring &text ) = 0 ;
+	virtual void set_scroll_pos( long pos ) = 0 ;
+
+	// =========================
+	// for entering edit mode
+	// =========================
+
+	virtual void handle_enter_edit_mode_new_record_glossary( ) = 0 ;
+	virtual void handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches ) = 0  ;
+
+	virtual void handle_enter_edit_mode_new_record() = 0  ;
+
+	virtual void handle_enter_edit_mode_match( TransMatchQueryTrans &matches ) = 0  ;
+
+	virtual record_pointer get_match_record( TransMatchQueryTrans &matches ) = 0 ;
+	virtual void handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches ) = 0  ;
+
+	// =========================
+	// for leaving edit mode
+	// =========================
+	virtual void handle_leave_edit_mode_new( record_pointer &record ) = 0 ;
+
+	virtual void handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches ) = 0 ;
+	virtual bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches ) = 0 ;
+	virtual bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) = 0 ;
+
+	virtual bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches ) = 0 ;
+
 };
 
 /**
@@ -36,11 +69,6 @@ public:
  */
 class frame_view : public view_interface
 {
-	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
-	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
-	typedef mem_engine::record_pointer record_pointer ;
-	typedef mem_engine::search_match_ptr SearchMatchType ;
-	typedef mem_engine::translation_match_query TransMatchQueryTrans ;
 
 public:
 	// view
@@ -107,7 +135,7 @@ public:
 	// =========================
 	// for leaving edit mode
 	// =========================
-	virtual void handle_leave_edit_mode_new( record_pointer &record ) ;
+	void handle_leave_edit_mode_new( record_pointer &record ) ;
 
 	void handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches ) ;
 	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches ) ;

@@ -115,9 +115,16 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
 	m_properties(new app_props::properties())
 {
+	// initial state
 	m_view_state_initial.set_view(&m_view_interface) ;
 	m_view_state_initial.set_model(m_model) ;
 	m_view_state_initial.set_window_listener(this) ;
+
+	// new state
+	m_view_state_new.set_view(&m_view_interface) ;
+	m_view_state_new.set_model(m_model) ;
+	m_view_state_new.set_window_listener(this) ;
+
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;
@@ -593,6 +600,7 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 			break ;
 		}
 	case NEW_RECORD_DISPLAY_STATE:
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		retrieve_record_new_state();
 		user_feedback( IDS_ADDED_TRANSLATION ) ;
 		break ;
@@ -1371,7 +1379,8 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 		m_view_state->handle_toggle_edit_mode() ;
 		return 0L ;
 	case NEW_RECORD_DISPLAY_STATE:
-		handle_new_record_edit( m_view_interface.is_edit_mode() ) ;
+		ATLASSERT(m_view_state == &m_view_state_new) ;
+		m_view_state->handle_toggle_edit_mode() ;
 		return 0L ;
 	case MATCH_DISPLAY_STATE: 
 		handle_match_edit( m_view_interface.is_edit_mode() ) ;
@@ -1382,18 +1391,6 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 	}
 	ATLASSERT( "We are in an unknown state" && FALSE ) ;
 	return 0L ;
-}
-
-
-/** Toggle edit mode in new-record state.
- */
-void CMainFrame::handle_new_record_edit( bool edit_mode_enabled )
-{
-	if ( ! edit_mode_enabled ) // we are entering edit mode
-		handle_enter_edit_mode_new_record() ;
-	else
-		handle_leave_edit_mode_match() ;
-
 }
 
 
@@ -1421,18 +1418,6 @@ void CMainFrame::handle_concordance_edit( bool edit_mode_enabled )
 // =========================
 // for entering edit mode
 // =========================
-
-/** Enter edit mode from new record state.
- */
-void CMainFrame::handle_enter_edit_mode_new_record()
-{
-	// user feedback
-	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-
-	m_view_interface.handle_enter_edit_mode_new_record() ;
-	
-	user_feedback( IDS_IN_EDIT_MODE ) ;
-}
 
 /** Enter edit mode from match state.
  */
@@ -1470,6 +1455,7 @@ void CMainFrame::handle_leave_edit_mode_match()
 
 	if ( get_display_state() == NEW_RECORD_DISPLAY_STATE )
 	{
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		m_view_interface.handle_leave_edit_mode_new( m_new_record ) ;
 		user_feedback( IDS_LEFT_EDIT_MODE ) ;
 
@@ -1698,6 +1684,7 @@ LRESULT CMainFrame::on_register_gloss(WindowsMessage &)
 	{
 	case NEW_RECORD_DISPLAY_STATE:
 		SENSE("[NEW_RECORD_DISPLAY_STATE]") ;
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		on_user_register( 0 ) ;
 		return 0L ;
 	case MATCH_DISPLAY_STATE:
@@ -1878,6 +1865,7 @@ bool CMainFrame::set_translation( const wstring &translation)
 
 		if (get_display_state() == NEW_RECORD_DISPLAY_STATE)
 		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
 			return this->correct_trans(translation) ;
 		}
 		record_pointer record(new record_local()) ; // a new record
@@ -1920,6 +1908,8 @@ bool CMainFrame::set_translation( const wstring &translation)
 		m_new_record = record ;
 
 		set_display_state ( NEW_RECORD_DISPLAY_STATE ) ;
+		m_view_state = &m_view_state_new ;
+
 		show_view_content( ) ;
 
 		return true ;
@@ -2211,15 +2201,25 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	int memory_id = 0 ;
 
 	// Showing a new record, or we've just started Felix
-	if ( get_display_state() == NEW_RECORD_DISPLAY_STATE || get_display_state() == INIT_DISPLAY_STATE ) 
+	if ( get_display_state() == NEW_RECORD_DISPLAY_STATE) 
 	{
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		memory_id = m_model->get_first_mem_id();
 		record = m_new_record ;
 
 		ATLASSERT( memory_id != 0 ) ;
 		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 	}
-	// Showing translation matches
+	// Showing a new record, or we've just started Felix
+	else if ( get_display_state() == INIT_DISPLAY_STATE ) 
+	{
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
+		memory_id = m_model->get_first_mem_id();
+		record = m_new_record ;
+
+		ATLASSERT( memory_id != 0 ) ;
+		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
+	}	// Showing translation matches
 	else if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
 		if (num < m_trans_matches.size())
@@ -2306,6 +2306,7 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 		}
 	case NEW_RECORD_DISPLAY_STATE: 
 		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
 			ATLASSERT( index == 0 ) ;
 
 			if ( ! check_delete() )
@@ -2462,6 +2463,7 @@ bool CMainFrame::add_record( const record_pointer record )
 	m_new_record = record ;
 
 	set_display_state ( NEW_RECORD_DISPLAY_STATE ) ;
+	m_view_state = &m_view_state_new ;
 
 	return show_new_record( ) ;
 }
@@ -2530,6 +2532,7 @@ bool CMainFrame::show_view_content()
 		return show_current_match() ;
 
 	case NEW_RECORD_DISPLAY_STATE:
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
 		UISetCheck( ID_VIEW_REG,	FALSE );
@@ -2713,6 +2716,7 @@ LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
 	{
 	case NEW_RECORD_DISPLAY_STATE: 
 	{
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		rec = m_new_record ;
 		break ;
 	}
@@ -3280,6 +3284,7 @@ bool CMainFrame::correct_trans(const wstring trans)
 
 		if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
 			memory_pointer mem = m_model->get_memories()->get_first_memory() ;
 			mem->erase( m_new_record ) ;
 			m_new_record->set_trans( trans ) ;
@@ -4527,6 +4532,7 @@ mem_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
 	}
 	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 	{
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		return m_new_record ;
 	}
 	else if ( get_display_state() == MATCH_DISPLAY_STATE )
@@ -5105,6 +5111,7 @@ mem_engine::search_match_ptr CMainFrame::get_current_match()
 	}
 	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE) 
 	{
+		ATLASSERT(m_view_state == &m_view_state_new) ;
 		search_match_ptr match(new search_match) ;
 		match->set_record(m_new_record) ;
 		match->set_values_to_record() ;

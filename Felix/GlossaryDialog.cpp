@@ -1857,8 +1857,8 @@ bool CGlossaryWindow::show_view_content()
 	{
 	case NEW_RECORD_DISPLAY_STATE:
 	{
-		show_new_record() ;
-		check_mousewheel() ;
+		ATLASSERT(m_view_state == &m_view_state_new) ;
+		m_view_state->show_content() ;
 		return true ;
 	}
 	case LOOKUP_DISPLAY_STATE: // = glossary lookup
@@ -1878,7 +1878,6 @@ bool CGlossaryWindow::show_view_content()
 			ATLASSERT(m_view_state == &m_view_state_initial) ;
 			m_view_state->show_content() ;
 
-			set_bg_color( static_cast< COLORREF >( m_properties_gloss.m_data.m_back_color ) ) ;
 		}
 		return true ;
 	default:
@@ -2770,4 +2769,13 @@ LRESULT CGlossaryWindow::on_edit_edit()
 LRESULT CGlossaryWindow::on_edit_delete()
 {
 	return on_delete() ;
+}
+
+void CGlossaryWindow::set_bg_color_if_needed()
+{
+	const CColorRef color((COLORREF)m_properties_gloss.m_data.m_back_color) ;
+	if (! color.is_white())
+	{
+		m_view_interface.set_bg_color(color.as_wstring()) ;
+	}
 }

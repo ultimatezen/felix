@@ -43,6 +43,7 @@
 #include "FelixModelInterface.h"
 
 #include "view_state_initial.h"
+#include "view_state_new.h"
 
 /**
 	@class CGlossaryDialog 
@@ -85,9 +86,25 @@ class CGlossaryWindow :
 	CSearchWindow		m_search_window ;
 
 	ViewStateInitialGloss m_view_state_initial ;
+	ViewStateNewGloss m_view_state_new;
 
 public:
 	void set_zoom_level(int zoom_level);
+	void set_bg_color_if_needed();
+
+	void set_display_state( DISPLAY_STATE new_state )
+	{
+		switch(new_state)
+		{
+		case NEW_RECORD_DISPLAY_STATE:
+			m_view_state = &m_view_state_new ;
+			break ;
+		case INIT_DISPLAY_STATE:
+			m_view_state = &m_view_state_initial ;
+			break ;
+		}
+		m_display_state = new_state ;
+	}
 
 	void check_load_history() ;
 

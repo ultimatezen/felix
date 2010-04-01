@@ -1554,6 +1554,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_new.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ViewCollectionWalker.cpp"
 				>
 			</File>
@@ -2139,10 +2143,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\document_wrapper_fake.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\xpmenu\Draw.h"
 				>
 			</File>
@@ -2172,10 +2172,6 @@
 			</File>
 			<File
 				RelativePath=".\element_wrapper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\element_wrapper_fake.h"
 				>
 			</File>
 			<File
@@ -2427,10 +2423,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\output_device_fake.h"
-				>
-			</File>
-			<File
 				RelativePath=".\pagination.cpp"
 				>
 			</File>
@@ -2627,15 +2619,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view_interface_fake.h"
-				>
-			</File>
-			<File
 				RelativePath=".\view_state.h"
 				>
 			</File>
 			<File
 				RelativePath=".\view_state_initial.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_new.h"
 				>
 			</File>
 			<File
@@ -2659,10 +2651,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\window_listener_fake.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\WindowExceptionHandler.h"
 				>
 			</File>
@@ -2674,6 +2662,30 @@
 				RelativePath=".\zoom_dialog.h"
 				>
 			</File>
+			<Filter
+				Name="fake"
+				>
+				<File
+					RelativePath=".\document_wrapper_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\element_wrapper_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\output_device_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_interface_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\window_listener_fake.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

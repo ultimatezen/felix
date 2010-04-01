@@ -36,4 +36,36 @@ public:
 		return new_rec ;
 	}
 
+	void set_bg_color_if_needed() 
+	{
+		SENSE("set_bg_color_if_needed") ;
+	}
+	void check_mousewheel() 
+	{
+		SENSE("check_mousewheel") ;
+	}
+
+	// user feedback
+	virtual bool user_feedback( const CString &feedback, int pane = 0)
+	{
+		SENSE("user_feedback") ;
+		SENSE(string2string(tstring(feedback))) ;
+		SENSE(ulong2string(pane)) ;
+		return true ;
+	}
+	virtual bool user_feedback( const UINT id, int pane = 0)
+	{
+		SENSE("user_feedback") ;
+		SENSE(ulong2string(id)) ;
+		SENSE(ulong2string(pane)) ;
+		return true ;
+	}
+	virtual bool user_feedback( const tstring &feedback, int pane = 0) 
+	{
+		SENSE("user_feedback") ;
+		SENSE(string2string(tstring(feedback))) ;
+		SENSE(ulong2string(pane)) ;
+		return true ;
+	}
+
 };

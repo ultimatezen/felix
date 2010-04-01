@@ -468,11 +468,6 @@ LRESULT CCommonWindowFunctionality::on_italic( )
 	return 0L ;
 }
 
-// Function name	: change_display_state
-void CCommonWindowFunctionality::set_display_state( DISPLAY_STATE new_state )
-{
-	m_display_state = new_state ;
-}
 
 // Function name	: get_display_sate
 int CCommonWindowFunctionality::get_display_state()

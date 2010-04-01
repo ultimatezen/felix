@@ -184,7 +184,6 @@ public:
 	size_t get_size() ;
 	void show_edit_dialog( mem_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
 
-	void set_display_state( DISPLAY_STATE new_state ) ;
 	int get_display_state() ;
 	int prev_display_state() ;
 	int next_display_state() ;
@@ -200,6 +199,7 @@ public:
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
 /************************************************************************/
 
+	virtual	void set_display_state( DISPLAY_STATE new_state ) = 0 ;
 	virtual LRESULT on_view_edit_mode(WindowsMessage &message) = 0 ;
 	virtual LPCTSTR get_save_ext() = 0 ;
 	virtual LPCTSTR get_save_filter() = 0 ;

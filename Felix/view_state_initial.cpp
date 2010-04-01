@@ -51,4 +51,5 @@ void ViewStateInitialGloss::show_content()
 	m_view->navigate(filename) ;
 
 	m_view->ensure_document_complete() ;
+	m_window_listener->set_bg_color_if_needed() ;
 }

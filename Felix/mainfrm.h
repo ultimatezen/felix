@@ -31,6 +31,7 @@
 #include "zoom_dialog.h"
 #include "felix_cl_options.h"
 #include "view_state_initial.h"
+#include "view_state_new.h"
 
 CString get_help_file_path( CString path ) ;
 CString get_docs_path() ;
@@ -87,7 +88,8 @@ VISIBLE_TO_TESTS
 	// ====================
 	gloss_window_list		m_glossary_windows ;
 
-	ViewStateInitialMain		m_view_state_initial ;
+	ViewStateInitialMain	m_view_state_initial ;
+	ViewStateNewMain		m_view_state_new ;
 
 	// ====================
 	// misc internal stuff
@@ -308,6 +310,20 @@ public:
 	//LRESULT OnViewReg( ) ;
 	LRESULT on_view_min_begin(WindowsMessage &message);
 	LRESULT on_view_switch(WindowsMessage &message);
+	// Function name	: change_display_state
+	void set_display_state( DISPLAY_STATE new_state )
+	{
+		switch(new_state)
+		{
+		case NEW_RECORD_DISPLAY_STATE:
+			m_view_state = &m_view_state_new ;
+			break ;
+		case INIT_DISPLAY_STATE:
+			m_view_state = &m_view_state_initial ;
+			break ;
+		}
+		m_display_state = new_state ;
+	}
 
 	// help
 	LRESULT show_about_dialog(WindowsMessage &message);
@@ -418,12 +434,10 @@ private:
 	void do_save( memory_type mem ) ;
 
 	// edit mode routines
-	void handle_new_record_edit ( bool edit_mode_enabled ) ;
 	void handle_match_edit      ( bool edit_mode_enabled ) ;
 	void handle_concordance_edit( bool edit_mode_enabled ) ; 
 	//void handle_reg_gloss_edit  ( bool edit_mode_enabled ) ;
 
-	void handle_enter_edit_mode_new_record() ;
 	void handle_enter_edit_mode_match() ;
 	void handle_enter_edit_mode_concordance() ;
 	//void handle_enter_edit_mode_register() ;
