@@ -112,6 +112,14 @@ public:
 	messageMapType m_command_message_map ;
 	FelixModelInterface *m_model ;
 
+	~CMainFrame() ;
+	CMainFrame( FelixModelInterface *model ) ;
+
+	FelixModelInterface* get_model()
+	{
+		return m_model ;
+	}
+
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;
 
 	void set_zoom_level(int zoom_level);
@@ -247,9 +255,6 @@ public:
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	virtual BOOL OnIdle();
-
-	~CMainFrame() ;
-	CMainFrame( FelixModelInterface *model ) ;
 
 	// Handler prototypes (uncomment arguments if needed):
 //	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )

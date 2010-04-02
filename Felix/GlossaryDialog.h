@@ -100,6 +100,12 @@ public:
 	void check_save_history() ;
 	MERGE_CHOICE check_empty_on_load() ;
 
+	FelixModelInterface* get_model()
+	{
+		return &m_model ;
+	}
+
+
 	// importing/exporting multiterm files
 	void import_multiterm( const file::OpenDlgList &import_files ) ;
 	void import_multiterm( const CString &multiterm_filename ) ;

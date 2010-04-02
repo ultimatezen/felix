@@ -15,6 +15,13 @@ public:
 	FelixModelInterface *m_model ;
 	WindowListener *m_window_listener ;
 
+	ViewState():
+		m_view(NULL),
+		m_model(NULL),
+		m_window_listener(NULL)
+	{
+	}
+
 	void set_view(view_interface *view)
 	{
 		m_view = view ;

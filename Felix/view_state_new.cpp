@@ -106,31 +106,31 @@ void ViewStateNewGloss::show_content()
 	m_view->ensure_document_complete() ;
 
 	record_pointer new_rec = m_window_listener->get_new_record() ;
-	wstring html_content ;
-	html_content << L"<b>" << R2W( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) << L"</b>" ;
-	// source & trans
-	html_content << L"<table class=\"added\" id=\"0\">\n" 
-		<< L"<tr><td><b>" << R2W( IDS_SOURCE_TITLE ) << L"</b></td><td class=\"match_content\" id=\"" << R2W( IDS_SOURCE_ID ) << L"\">" << new_rec->get_source_rich() << L"</td></tr>"
-		<< L"<tr><td><b>" << R2W( IDS_TRANS_TITLE )  << L"</b></td><td class=\"match_content\" id=\"" << R2W( IDS_TRANS_ID ) << L"\">" << new_rec->get_trans_rich() << L"</td></tr>"
-		<< L"<tr><td><b>" << R2W( IDS_CONTEXT_TITLE ) << L"</b></td>" ;
+
+	const wstring tpl_text = text_tmpl::get_template_text("gloss_match_new.txt") ;
+
+	text_tmpl::CTextTemplate engine ;
+	engine.Assign(L"source", new_rec->get_source_rich()) ;
+	engine.Assign(L"trans", new_rec->get_trans_rich()) ;
+
 	// context
 	if ( new_rec->get_context_plain().empty() )
-		html_content << L"<td class=\"match_content\" id=\"context_tmp\"><b><font color=\"red\">" << R2W( IDS_NO_CONTEXT ) << L"</font></b>" ;
+	{
+		engine.Assign(L"context", wstring(L"<b><font color=\"red\">") + R2W( IDS_NO_CONTEXT ) + L"</font></b>") ;
+		engine.Assign(L"context_id", L"context_tmp") ;
+	}
 	else
-		html_content << L"<td class=\"match_content\" id=\"" << R2W( IDS_CONTEXT_ID ) << L"\">" << new_rec->get_context_rich() ;
-	html_content << L"</td></tr>\n" ;
-	html_content << L"</table>" ;
-	// links
-	html_content	<< L"<p><hr>"
-		<< L"<a href=\"" << int2wstring( IDC_EDIT ) << L":0\" title=\"" << R2W( IDS_EDIT_TITLE ) << L"\">" << R2W( IDS_EDIT ) << L"</a>" 
-		<< L" | <a href=\"" << int2wstring( IDC_DELETE ) << L":0\" title=\"" << R2W( IDS_DELETE_TITLE) << L"\">" << R2W( IDS_DELETE ) << L"</a>"
-		<< L" | <a href=\"" << int2wstring( IDC_ADD ) << L":0\" title=\"" << R2W( IDS_ADD2MEM_TITLE ) << L"\">" << R2W( IDS_ADD_TO_MEMORY ) << L"</a>" ;
+	{
+		engine.Assign(L"context", new_rec->get_context_rich()) ;
+		engine.Assign(L"context_id", R2W( IDS_CONTEXT_ID )) ;
+	}
 
-	html_content << L"<p> <a href=\"" << int2wstring( IDC_PREV ) << L":0\">" << R2W( IDS_BACK ) << L"</a>" ;
 
-	m_view->set_text( html_content ) ;
-	TRACE(html_content) ;
+	m_view->set_text( engine.Fetch(tpl_text) ) ;
+
+	m_view->ensure_document_complete() ;
+
+	m_window_listener->set_bg_color_if_needed() ;
 	m_view->set_scroll_pos(0) ;
 	m_window_listener->check_mousewheel() ;
-	m_view->ensure_document_complete() ;
 }

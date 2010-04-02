@@ -53,15 +53,9 @@ m_is_main( false ),
 m_listener( NULL),
 m_new_record(new record_local())
 { 
-	// initial state
-	m_view_state_initial.set_view(&m_view_interface) ;
-	m_view_state_initial.set_model(&m_model) ;
-	m_view_state_initial.set_window_listener(this) ;
-
-	// new state
-	m_view_state_new.set_view(&m_view_interface) ;
-	m_view_state_new.set_model(&m_model) ;
-	m_view_state_new.set_window_listener(this) ;
+	// initialize states
+	this->init_state(&m_view_state_initial) ;
+	this->init_state(&m_view_state_new) ;
 
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;

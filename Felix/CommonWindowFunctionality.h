@@ -124,6 +124,12 @@ protected:
 	void refresh_view_content();
 
 public:
+	void init_state(ViewState *state)
+	{
+		state->set_model(this->get_model()) ;
+		state->set_window_listener(this) ;
+		state->set_view(&m_view_interface) ;
+	}
 	void set_bg_color(COLORREF c);
 	bool show_mem_mgr_dlg(int title_id = 0) ;
 	BOOL dropped_in_client( CDropHandle dropped ) ;
@@ -199,6 +205,7 @@ public:
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
 /************************************************************************/
 
+	virtual FelixModelInterface* get_model() = 0 ;
 	virtual	void set_display_state( DISPLAY_STATE new_state ) = 0 ;
 	virtual LRESULT on_view_edit_mode(WindowsMessage &message) = 0 ;
 	virtual LPCTSTR get_save_ext() = 0 ;

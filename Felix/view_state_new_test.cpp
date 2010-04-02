@@ -211,10 +211,11 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "ensure_document_complete") ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_TRUE(str::starts_with(string2wstring(view.m_sensing_variable[3]), L"<b>Added Glossary Entry</b><table class=")) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[5].c_str()), "0") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[6].c_str()), "ensure_document_complete") ;
+		ASSERT_TRUE(str::starts_with(string2wstring(view.m_sensing_variable[3]), L"<b>Added Glossary Entry</b>")) ;
+		ASSERT_TRUE(view.m_sensing_variable[3].find("No context") != string::npos) ;
+		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[5].c_str()), "set_scroll_pos") ;
+		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[6].c_str()), "0") ;
 	}
 
 }

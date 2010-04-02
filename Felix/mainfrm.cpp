@@ -115,15 +115,9 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
 	m_properties(new app_props::properties())
 {
-	// initial state
-	m_view_state_initial.set_view(&m_view_interface) ;
-	m_view_state_initial.set_model(m_model) ;
-	m_view_state_initial.set_window_listener(this) ;
-
-	// new state
-	m_view_state_new.set_view(&m_view_interface) ;
-	m_view_state_new.set_model(m_model) ;
-	m_view_state_new.set_window_listener(this) ;
+	// initialize states
+	this->init_state(&m_view_state_initial) ;
+	this->init_state(&m_view_state_new) ;
 
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
@@ -2524,7 +2518,6 @@ bool CMainFrame::show_view_content()
 
 	switch ( get_display_state() )
 	{
-
 	case MATCH_DISPLAY_STATE:
 	case TRANS_REVIEW_STATE:
 		UISetCheck( ID_VIEW_MATCH,	TRUE  );
