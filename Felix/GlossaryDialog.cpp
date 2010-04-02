@@ -58,7 +58,7 @@ m_listener( NULL)
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
 	this->init_state(&m_view_state_match) ;
-	this->init_state(&m_view_state_review) ;
+	this->init_state(&m_view_state_lookup) ;
 
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;
@@ -1481,10 +1481,18 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 	// get the record
 	switch( get_display_state() )
 	{
+	case INIT_DISPLAY_STATE:
 	case NEW_RECORD_DISPLAY_STATE:
 		{
 			memory_pointer mem = m_memories->get_first_memory() ;
+
+			search_match_ptr match(new mem_engine::search_match) ;
+			match->set_record(m_new_record) ;
+			match->set_memory_id(mem->get_id()) ;
+			this->set_item_under_edit(match) ;
+
 			show_edit_dialog( m_new_record, mem->get_id() ) ;
+
 			return 0L ;
 		}
 	case LOOKUP_DISPLAY_STATE:
@@ -1499,6 +1507,7 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 	}
 
 	search_match_ptr match = m_search_matches.current() ;
+	this->set_item_under_edit(match) ;
 	record_pointer record = match->get_record() ;
 	show_edit_dialog( record, match->get_memory_id(), IDS_EDIT_GLOSS ) ;
 	return 0L ;
@@ -1655,52 +1664,49 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 
 	// set the new display_state (we set this when we called up the editor)
 	set_display_state ( static_cast< DISPLAY_STATE >( lParam ) );
-	switch( get_display_state() )
+	switch ( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE:
+		{
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
 	case NEW_RECORD_DISPLAY_STATE:
-		return on_user_retrieve_edit_recordNew() ;
+		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
 	case LOOKUP_DISPLAY_STATE:
-		return on_user_retrieve_edit_recordLookup() ;
+		{
+			ATLASSERT(m_view_state == &m_view_state_lookup) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
+
+	case MATCH_DISPLAY_STATE:
+		{
+			ATLASSERT(m_view_state == &m_view_state_match) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
 	case CONCORDANCE_DISPLAY_STATE:
-		return on_user_retrieve_edit_recordConcordance() ;
+		{
+			ATLASSERT(m_view_state == &m_view_state_concordance) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
+		}
+
 	default:
-		ATLASSERT( "Unknown or unsupported display state" && false ) ;
+		ATLASSERT( "Unknown state" && FALSE ) ;
 	}
-	return 0L ;
-}
-
-LRESULT CGlossaryWindow::on_user_retrieve_edit_recordNew()
-{
-	// This will just force us to get a new display state display
-	retrieve_record_new_state();
-	user_feedback( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) ;
 	show_view_content() ;
-	return 0L ;
-}
-
-LRESULT CGlossaryWindow::on_user_retrieve_edit_recordLookup()
-{
-	retrieve_record_results_state();
-
-	search_match_ptr match = m_search_matches.current() ;
-
-	match->set_record(m_editor.get_new_record()) ;
-	match->set_values_to_record() ;
-
-	show_post_edit_content() ;
-
-	return 0L ;
-}
-LRESULT CGlossaryWindow::on_user_retrieve_edit_recordConcordance()
-{
-	retrieve_record_results_state();
-
-	perform_user_search();
-
-	// give the user feedback
-	show_user_search_results();
-
 	return 0L ;
 }
 
@@ -2613,37 +2619,6 @@ CString CGlossaryWindow::get_memory_name( memory_pointer mem )
 	}
 }
 
-void CGlossaryWindow::retrieve_record_new_state()
-{
-	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	const record_pointer old_rec = get_new_record() ;
-	record_pointer new_rec = m_editor.get_new_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, m_editor.get_new_record()) ;
-	}
-	else
-	{
-		mem->add_record(m_editor.get_new_record()) ;
-	}
-	set_new_record(m_editor.get_new_record()) ;
-}
-
-void CGlossaryWindow::retrieve_record_results_state()
-{
-	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	record_pointer old_rec = m_editor.get_old_record() ;
-	record_pointer new_rec = m_editor.get_new_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
-	{
-		mem->add_record(new_rec) ;
-	}
-	set_new_record(new_rec) ;
-}
 
 // Override the browser context menu.
 void CGlossaryWindow::set_doc_ui_handler()
@@ -2791,6 +2766,15 @@ void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
 		break ;
 	case INIT_DISPLAY_STATE:
 		m_view_state = &m_view_state_initial ;
+		break ;
+	case LOOKUP_DISPLAY_STATE:
+		m_view_state = &m_view_state_lookup;
+		break ;
+	case MATCH_DISPLAY_STATE:
+		m_view_state = &m_view_state_match;
+		break ;
+	case CONCORDANCE_DISPLAY_STATE:
+		m_view_state = &m_view_state_concordance;
 		break ;
 	}
 	m_display_state = new_state ;

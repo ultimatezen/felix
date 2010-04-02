@@ -12,17 +12,6 @@ public:
 
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
-};
-
-class ViewStateReviewMain : public ViewStateReview
-{
-public:
-	void show_content();
-
-};
-
-class ViewStateReviewGloss : public ViewStateReview
-{
-public:
 	void show_content();
 };
+

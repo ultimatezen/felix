@@ -95,7 +95,7 @@ VISIBLE_TO_TESTS
 	ViewStateNewMain		m_view_state_new ;
 	ViewStateConcordanceMain m_view_state_concordance ;
 	ViewStateMatchMain		m_view_state_match ;
-	ViewStateReviewMain		m_view_state_review ;
+	ViewStateReview		m_view_state_review ;
 
 	// ====================
 	// misc internal stuff
@@ -379,7 +379,6 @@ public:
 
 	LRESULT on_user_retrieve_edit_record( WindowsMessage &message ) ;
 
-	void retrieve_record_review_state();
 	LRESULT on_user_add_to_glossary( LPARAM lParam );
 	LRESULT on_user_nav( LPARAM lParam );
 	LRESULT on_user_save(WindowsMessage &message);
@@ -549,10 +548,6 @@ public:
 	void check_placement( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
-
-	void retrieve_record_new_state();
-
-	void retrieve_record_results_state();
 
 	// the current match
 	mem_engine::search_match_ptr get_current_match();

@@ -62,7 +62,7 @@ void ViewStateMatch::handle_toggle_edit_mode()
 void ViewStateMatch::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
-	mem_engine::search_match_ptr current_match = m_window_listener->get_current_match() ;
+	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
 	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
 	const mem_engine::record_pointer old_rec = current_match->get_record() ;
 	if (old_rec->is_valid_record())
@@ -76,7 +76,7 @@ void ViewStateMatch::retrieve_edit_record( int mem_id, mem_engine::record_pointe
 	current_match->set_record(new_rec) ;
 	m_window_listener->set_new_record(new_rec) ;
 	m_window_listener->redo_lookup(current_match, true) ;
-	m_window_listener->user_feedback( IDS_CORRECTED_TRANS ) ;
+	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;
 }
 
 //////////////////////////////////////////////////////////////////////////

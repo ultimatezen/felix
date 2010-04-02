@@ -92,22 +92,63 @@ namespace easyunit
 		view_interface_fake view ;
 		WindowListenerFake listener; 
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.m_model->insert_memory(mem) ;
-		listener.current_match->set_memory_id(mem->get_id()) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"before") ;
+		rec->set_trans(L"before") ;
+		mem->add_record(rec) ;
+
+		// current match
+		listener.item_under_edit->set_record(rec) ;
+		listener.item_under_edit->set_memory_id(mem->get_id()) ;
 
 		ViewStateMatchMain state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
 
-		record_pointer rec = record_pointer(new record_local) ;
-		rec->set_source(L"source") ;
-		rec->set_trans(L"trans") ;
+		record_pointer new_rec(new record_local) ;
+		new_rec->set_source(L"source") ;
+		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+		state.retrieve_edit_record(mem->get_id(), new_rec) ;
 
 		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
+	}
+	TEST( view_state_match_test, retrieve_edit_record_replace)
+	{
+		view_interface_fake view ;
+		WindowListenerFake listener; 
+		FelixModelInterfaceFake model ;
+		memory_pointer mem(new memory_local) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"before") ;
+		rec->set_trans(L"before") ;
+		mem->add_record(rec) ;
+
+		// current match
+		listener.item_under_edit->set_record(rec) ;
+		listener.item_under_edit->set_memory_id(mem->get_id()) ;
+		mem->add_record(rec) ;
+		model.m_model->insert_memory(mem) ;
+
+		ViewStateMatchMain state ;
+		state.set_view(&view) ;
+		state.set_window_listener(&listener) ;
+		state.set_model(&model) ;
+
+		record_pointer new_rec(new record_local) ;
+		new_rec->set_source(L"source") ;
+		new_rec->set_trans(L"trans") ;
+
+		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+
+		ASSERT_EQUALS_V(1, (int)mem->size()) ;
+		record_pointer first = *mem->get_records().begin() ;
+		string actual = string2string(first->get_source_rich()) ;
+		ASSERT_EQUALS_V(SimpleString("source"), SimpleString(actual.c_str())) ;
 	}
 	TEST( view_state_match_test, retrieve_edit_record_listener )
 	{
@@ -115,21 +156,30 @@ namespace easyunit
 		WindowListenerFake listener; 
 		ASSERT_TRUE(! listener.new_rec->is_valid_record()) ;
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
-		listener.current_match->set_memory_id(mem->get_id()) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"before") ;
+		rec->set_trans(L"before") ;
+		mem->add_record(rec) ;
+
+		// current match
+		listener.item_under_edit->set_record(rec) ;
+		listener.item_under_edit->set_memory_id(mem->get_id()) ;
+		mem->add_record(rec) ;
 
 		ViewStateMatchMain state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
-		record_pointer rec = record_pointer(new record_local) ;
-		rec->set_source(L"source") ;
-		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+		record_pointer new_rec(new record_local) ;
+		new_rec->set_source(L"source") ;
+		new_rec->set_trans(L"trans") ;
+		state.retrieve_edit_record(mem->get_id(), new_rec) ;
 
 		ASSERT_EQUALS_V(6, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_current_match") ;
+		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[2].c_str()), "redo_lookup") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), "user_feedback") ;
@@ -146,7 +196,7 @@ namespace easyunit
 		view_interface_fake view ;
 		WindowListenerFake listener; 
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 		listener.current_match->set_memory_id(mem->get_id()) ;
 
@@ -166,7 +216,7 @@ namespace easyunit
 		view.m_is_edit_mode = true ;
 		WindowListenerFake listener; 
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 		listener.current_match->set_memory_id(mem->get_id()) ;
 

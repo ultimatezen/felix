@@ -25,7 +25,7 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
-		ViewStateReviewMain state ;
+		ViewStateReview state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
@@ -50,7 +50,7 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
-		ViewStateReviewMain state ;
+		ViewStateReview state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
@@ -78,7 +78,7 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
-		ViewStateReviewMain state ;
+		ViewStateReview state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
@@ -96,7 +96,7 @@ namespace easyunit
 		model.m_model->insert_memory(mem) ;
 		listener.current_match->set_memory_id(mem->get_id()) ;
 
-		ViewStateReviewMain state ;
+		ViewStateReview state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
@@ -119,7 +119,7 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
-		ViewStateReviewMain state ;
+		ViewStateReview state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
@@ -135,58 +135,6 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), "425") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[4].c_str()), "0") ;
 		ASSERT_TRUE(listener.review_rec->is_valid_record()) ;
-	}
-	//////////////////////////////////////////////////////////////////////////
-	// glossary
-	//////////////////////////////////////////////////////////////////////////
-
-	TEST( view_state_review_gloss_test, handle_toggle_edit_mode_false )
-	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
-		ViewStateReviewGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
-
-		state.handle_toggle_edit_mode() ;
-
-		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
-	}
-
-	TEST( view_state_review_gloss_test, handle_toggle_edit_mode_true )
-	{
-		view_interface_fake view ;
-		view.m_is_edit_mode = true ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
-		ViewStateReviewGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
-
-		state.handle_toggle_edit_mode() ;
-
-		ASSERT_EQUALS_V(6, (int)view.m_sensing_variable.size()) ;
-	}
-	TEST( view_state_review_gloss_test, show_content )
-	{
-		view_interface_fake view ;
-		ASSERT_TRUE(! view.is_edit_mode()) ;
-		WindowListenerFake listener; 
-
-		ViewStateReviewGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.show_content() ;
-
 	}
 
 }

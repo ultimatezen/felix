@@ -29,6 +29,9 @@ class search_match
 	bool				m_HasPlacement ;
 public:
 	search_match( );
+	search_match(record_pointer record) : m_record(record)
+	{
+	}
 
 	search_match( const search_match &cpy );
 	search_match& operator= ( const search_match &cpy );

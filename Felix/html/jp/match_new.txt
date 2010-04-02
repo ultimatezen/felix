@@ -1,23 +1,23 @@
 <table class="added" ID="table1">
 	<tr>
 		<th class="header" colspan="2">
-			エントリを追加しました
+			翻訳対を追加しました
 		</th>
 	</tr>
 	<tr id="0">
-		<th class="perfect" title="エントリの原文">原文</th>
+		<th class="perfect" title="翻訳対の原文">原文</th>
 		<td class="match_content" id="source">{$source}</td>
 	<tr id="0">
-		<th class="perfect" title="エントリの訳文">訳文</th>
+		<th class="perfect" title="翻訳対の訳文">訳文</th>
 		<td class="match_content" id="trans">{$trans}</td>
 	</tr>
 </table>
 <table class="actions" ID="table2">
 	<tr>
 		<td>
-			<a title="エントリの編集" href="100:edit:0">編集</a>
+			<a title="翻訳対の編集" href="100:edit:0">編集</a>
 			 | 
-			<a title="エントリの削除" href="100:delete:0">削除</a>
+			<a title="翻訳対の削除" href="100:delete:0">削除</a>
 		</td>
 	</tr>
 </table>

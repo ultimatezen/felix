@@ -52,6 +52,8 @@ public:
 	DECLARE_SENSING_VAR ;
 
 	typedef mem_engine::record_pointer record_type ;
+	typedef mem_engine::search_match_ptr match_ptr ;
+	typedef mem_engine::search_match match_type ;
 
 	static const int BM_SIZE = 16 ;
 	static const int SEP_ID = 0 ;
@@ -64,7 +66,6 @@ public:
 		NEW_RECORD_DISPLAY_STATE , 	  // a new record has been added
 		MATCH_DISPLAY_STATE , 		  // a translation match is being displayed
 		CONCORDANCE_DISPLAY_STATE ,	  // concordances are being displayed
-		REG_GLOSS_DISPLAY_STATE ,	  // the register glossary entries screen
 		LOOKUP_DISPLAY_STATE,		  // glossary lookup screen
 		TRANS_REVIEW_STATE,			  // view translations entry
 	} ;
@@ -79,9 +80,9 @@ public:
 	
 	DISPLAY_STATE		m_display_state ;
 
-	record_type			m_new_record ;	  // last added record
-	record_type			m_review_record ; // review mode
-
+	record_type		m_new_record ;	  // last added record
+	record_type		m_review_record ; // review mode
+	match_ptr		m_item_under_edit ;
 
 	// Save the last deleted match, so we can undo...
 	mem_engine::search_match_ptr		m_deleted_match ;
@@ -151,6 +152,14 @@ public:
 	void set_review_record(record_type rec)
 	{
 		m_review_record = rec ;
+	}
+	match_ptr get_item_under_edit()
+	{
+		return m_item_under_edit ;
+	}
+	void set_item_under_edit(match_ptr match)
+	{
+		m_item_under_edit = match ;
 	}
 
 	void set_bg_color(COLORREF c);
@@ -239,8 +248,6 @@ public:
 	virtual void do_save( mem_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;
 	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
-	virtual void retrieve_record_new_state() = 0 ;
-	virtual void retrieve_record_results_state() = 0 ;
 
 	virtual boost::shared_ptr<mem_engine::memory_model> get_memory_model() = 0 ;
 	

@@ -15,8 +15,8 @@
 </table>
 
 <p>
-  <a href="142:{$index}" title="エントリの編集">編集</a> | 
-  <a href="122:{$index}" title="エントリの削除">削除</a>
+  <a href="142:{$index}" title="翻訳対の編集">編集</a> | 
+  <a href="122:{$index}" title="翻訳対の削除">削除</a>
 </p>
 
   <hr style="margin-top:3px;" />
@@ -26,7 +26,7 @@
   <a href="129:{$index}" title="用語集に追加">用語集に追加</a>
 </div>
 <div style="float:right;"> 
-	<A title="このエントリについて詳細を見る" href="152:159">詳細 &gt;&gt;</A>
+	<A title="この翻訳対について詳細を見る" href="152:159">詳細 &gt;&gt;</A>
 </div>
 
 <br clear="all" />

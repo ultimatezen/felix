@@ -24,7 +24,8 @@ m_silent_mode( false ),
 m_mousewheel_count(0),
 m_editor(),
 m_new_record(new mem_engine::record_local()),
-m_review_record(new mem_engine::record_local())
+m_review_record(new mem_engine::record_local()),
+m_item_under_edit(new match_type(record_pointer(new mem_engine::record_local())))
 {
 }
 
@@ -286,12 +287,17 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 	// set the record into the edit dialog
 	this->set_new_record(record_pointer(new record_local())) ;
 	m_editor.set_old_record( get_new_record() ) ;
-	
+
 	m_editor.set_new_record(record_pointer(new record_local())) ;
 	
 	// This is the memory that the entry will be added to
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 	m_editor.set_memory_id( mem->get_id() ) ;
+
+	search_match_ptr match(new mem_engine::search_match) ;
+	match->set_record(get_new_record()) ;
+	match->set_memory_id(mem->get_id()) ;
+	this->set_item_under_edit(match) ;
 	
 	m_editor.set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
 

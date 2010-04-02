@@ -3,8 +3,8 @@
 {% for record in records %}
   <tr id="{$loop.index0}">
    <td rowspan="5"><strong>{$loop.index0}.</strong><br />
-     <a title="エントリの編集" href="142:{$loop.index0}">[E]</a>-<a 
-      title="エントリの削除" href="122:{$loop.index0}">[D]</a>-<a 
+     <a title="翻訳対の編集" href="142:{$loop.index0}">[E]</a>-<a 
+      title="翻訳対の削除" href="122:{$loop.index0}">[D]</a>-<a 
       title="用語候補の選択登録" href="127:{$loop.index0}">[R]</a>-<a 
       title="用語集へコピー" href="129:{$loop.index0}">[G]</a> <br />
 	  [{$record.mem}]

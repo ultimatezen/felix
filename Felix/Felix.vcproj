@@ -1554,7 +1554,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view_state_concordance_test.cpp"
+				RelativePath=".\view_state_gloss_lookup.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_gloss_lookup_test.cpp"
 				>
 			</File>
 			<File
@@ -1563,10 +1567,6 @@
 			</File>
 			<File
 				RelativePath=".\view_state_match.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_match_test.cpp"
 				>
 			</File>
 			<File
@@ -2005,7 +2005,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\view_state_concordance_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\view_state_initial_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_match_test.cpp"
 					>
 				</File>
 				<File
@@ -2652,6 +2660,10 @@
 			</File>
 			<File
 				RelativePath=".\view_state_concordance.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_gloss_lookup.h"
 				>
 			</File>
 			<File

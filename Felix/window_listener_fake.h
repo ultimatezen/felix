@@ -2,6 +2,7 @@
 #include "window_listener.h"
 #include "record_local.h"
 
+#ifdef UNIT_TEST
 class WindowListenerFake : public WindowListener
 {
 	typedef mem_engine::record_pointer rec_ptr ;
@@ -14,14 +15,15 @@ public:
 	rec_ptr new_rec ;
 	rec_ptr review_rec ;
 	match_ptr current_match ;
+	match_ptr item_under_edit ;
 	std::vector<int> m_feedback_int ;
 
 	WindowListenerFake() : 
 		new_rec(new rec_type)
 		, review_rec(new rec_type)
-		, current_match(new match_type)
+		, current_match(new match_type(rec_ptr(new rec_type)))
+		, item_under_edit(new match_type(rec_ptr(new rec_type)))
 	{
-		current_match->set_record(rec_ptr(new rec_type)) ;
 	}
 
 	void show_edit_dialog( rec_ptr &record, 
@@ -52,6 +54,16 @@ public:
 	{
 		SENSE("get_review_record") ;
 		return review_rec ;
+	}
+	match_ptr get_item_under_edit()
+	{
+		SENSE("get_item_under_edit") ;
+		return item_under_edit ;
+	}
+	void set_item_under_edit(match_ptr match)
+	{
+		SENSE("set_item_under_edit") ;
+		item_under_edit = match ;
 	}
 
 	void set_bg_color_if_needed() 
@@ -99,3 +111,4 @@ public:
 	}
 
 };
+#endif

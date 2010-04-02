@@ -46,7 +46,7 @@
 #include "view_state_new.h"
 #include "view_state_concordance.h"
 #include "view_state_match.h"
-#include "view_state_review.h"
+#include "view_state_gloss_lookup.h"
 
 /**
 	@class CGlossaryDialog 
@@ -91,7 +91,7 @@ class CGlossaryWindow :
 	ViewStateNewGloss			m_view_state_new;
 	ViewStateConcordanceGloss	m_view_state_concordance ;
 	ViewStateMatchGloss			m_view_state_match ;
-	ViewStateReviewGloss		m_view_state_review ;
+	ViewStateGlossLookup		m_view_state_lookup ;
 
 public:
 	void set_zoom_level(int zoom_level);
@@ -249,7 +249,6 @@ public:
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
 
 
-	void retrieve_record_new_state();
 	void retrieve_record_results_state();
 
 	void set_doc_ui_handler();

@@ -61,7 +61,16 @@ void ViewStateConcordance::handle_toggle_edit_mode()
 
 void ViewStateConcordance::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
-	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
+	memory_pointer mem ;
+	try
+	{
+		mem = m_model->get_memory_by_id(mem_id) ;
+	}
+	catch (except::CProgramException &e )
+	{
+		logging::log_exception(e) ;
+		mem = m_model->get_memories()->get_first_memory() ;
+	}
 	const mem_engine::record_pointer old_rec = m_window_listener->get_new_record() ;
 	if (old_rec->is_valid_record())
 	{

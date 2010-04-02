@@ -625,39 +625,15 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
 											   m_editor.get_new_record()) ;
 			break ;
-			
-			search_match_ptr current_match = m_trans_matches.current() ;
-			ATLASSERT( m_editor.get_memory_id() == current_match->get_memory_id() ) ;
-			
-			retrieve_record_results_state();
-
-			current_match->set_record(m_editor.get_new_record()) ;
-
-			redo_lookup( current_match, true ) ;
-
-			break ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
-			memory_pointer mem ;
-			try
-			{
-				mem = m_model->get_memories()->get_memory_by_id(m_editor.get_memory_id()) ;
-			}
-			catch (CProgramException &e )
-			{
-				logging::log_exception(e) ;
-				mem = m_model->get_memories()->get_first_memory() ;
-			}
-
-			retrieve_record_results_state();
-
-			search_match_container matches ;
-			m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
-			m_search_matches.set_matches( matches ) ;
-
+			ATLASSERT(m_view_state == &m_view_state_concordance) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
 			break ;
 		}
+
 	default:
 		ATLASSERT( "Unknown state" && FALSE ) ;
 	}
@@ -2209,6 +2185,11 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 		memory_id = m_model->get_first_mem_id();
 		record = m_new_record ;
 
+		search_match_ptr match(new mem_engine::search_match) ;
+		match->set_record(m_new_record) ;
+		match->set_memory_id(memory_id) ;
+		this->set_item_under_edit(match) ;
+
 		ATLASSERT( memory_id != 0 ) ;
 		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
 	}
@@ -2218,6 +2199,12 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 		ATLASSERT(m_view_state == &m_view_state_initial) ;
 		memory_id = m_model->get_first_mem_id();
 		record = m_new_record ;
+
+		search_match_ptr match(new mem_engine::search_match) ;
+		match->set_record(m_new_record) ;
+		match->set_memory_id(memory_id) ;
+		this->set_item_under_edit(match) ;
+
 
 		ATLASSERT( memory_id != 0 ) ;
 		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
@@ -2234,6 +2221,9 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 			search_match_ptr current = m_trans_matches.current( ) ;
 			memory_id = current->get_memory_id() ;
 			record = current->get_record() ;
+
+			this->set_item_under_edit(current) ;
+
 		}
 		else
 		{
@@ -2248,6 +2238,12 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	{
 		memory_id = m_model->get_first_mem_id();
 		record = m_review_record ;
+
+		search_match_ptr match(new mem_engine::search_match) ;
+		match->set_record(m_review_record) ;
+		match->set_memory_id(memory_id) ;
+		this->set_item_under_edit(match) ;
+
 
 		ATLASSERT( memory_id != 0 ) ;
 		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
@@ -2265,6 +2261,8 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 			search_match_ptr current = m_search_matches.current() ;
 			memory_id = current->get_memory_id() ;
 			record = current->get_record() ;
+
+			this->set_item_under_edit(current) ;
 		}
 		else
 		{
@@ -2300,7 +2298,6 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 	switch ( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE:
-	case REG_GLOSS_DISPLAY_STATE: 
 		{
 			MessageBeep(MB_ICONEXCLAMATION) ;
 			user_feedback(IDS_NO_MATCHES);
@@ -5721,46 +5718,6 @@ CString CMainFrame::get_active_mem_name()
 		}
 	} 
 	return resource_string( IDS_NEW ) ;
-}
-
-void CMainFrame::retrieve_record_new_state()
-{
-	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	const record_pointer old_rec = get_new_record() ;
-	record_pointer new_rec = m_editor.get_new_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
-	{
-		mem->add_record(new_rec) ;
-	}
-	set_new_record(new_rec) ;
-}
-
-void CMainFrame::retrieve_record_results_state()
-{
-	memory_pointer mem = get_memory_model()->get_memory_by_id(m_editor.get_memory_id()) ;
-	record_pointer old_rec = m_editor.get_old_record() ;
-	record_pointer new_rec = m_editor.get_new_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
-	{
-		mem->add_record(new_rec) ;
-	}
-	set_new_record(new_rec) ;
-}
-
-// Edited record from translation history.
-void CMainFrame::retrieve_record_review_state()
-{
-	memory_pointer mem = m_model->get_memories()->get_memory_by_id(m_editor.get_memory_id()) ;
-	mem->replace(m_review_record, m_editor.get_new_record()) ;
-	m_review_record = m_editor.get_new_record() ;
 }
 
 LRESULT CMainFrame::on_user_lookup_source( WindowsMessage& )
