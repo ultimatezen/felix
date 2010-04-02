@@ -111,17 +111,21 @@ CString get_docs_path()
  */
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
 	m_model( model ),
-	m_new_record(new record_local()),
 	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
 	m_properties(new app_props::properties())
 {
+
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
+	this->init_state(&m_view_state_concordance) ;
+	this->init_state(&m_view_state_match) ;
+	this->init_state(&m_view_state_review) ;
+
 
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
-	m_view_state = &m_view_state_initial ;
+	ATLASSERT(m_view_state == &m_view_state_initial) ;
 
 	m_properties->m_gen_props.read_from_registry() ;
 	const BOOL show_markup = m_properties->m_gen_props.m_data.m_show_markup ;
@@ -597,12 +601,14 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
 			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-				m_editor.get_new_record()) ;
+											   m_editor.get_new_record()) ;
 			break ;
 		}
 	case TRANS_REVIEW_STATE:
 		{
-			retrieve_record_review_state();
+			ATLASSERT(m_view_state == &m_view_state_new) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
 			break ;
 		}
 
@@ -615,10 +621,10 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 		// add the record back into the memory
 		// re-calculate score...
 		{
-			if ( m_trans_matches.empty() )
-			{
-				return 0L ;
-			}
+			ATLASSERT(m_view_state == &m_view_state_match) ;
+			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
+											   m_editor.get_new_record()) ;
+			break ;
 			
 			search_match_ptr current_match = m_trans_matches.current() ;
 			ATLASSERT( m_editor.get_memory_id() == current_match->get_memory_id() ) ;
@@ -5792,6 +5798,15 @@ void CMainFrame::set_display_state( DISPLAY_STATE new_state )
 		break ;
 	case INIT_DISPLAY_STATE:
 		m_view_state = &m_view_state_initial ;
+		break ;
+	case TRANS_REVIEW_STATE:
+		m_view_state = &m_view_state_review;
+		break ;
+	case MATCH_DISPLAY_STATE:
+		m_view_state = &m_view_state_match;
+		break ;
+	case CONCORDANCE_DISPLAY_STATE:
+		m_view_state = &m_view_state_concordance;
 		break ;
 	}
 	m_display_state = new_state ;

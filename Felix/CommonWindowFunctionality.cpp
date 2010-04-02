@@ -22,7 +22,9 @@ CCommonWindowFunctionality::CCommonWindowFunctionality( )
 :	m_is_short_format( true ),
 m_silent_mode( false ),
 m_mousewheel_count(0),
-m_editor()
+m_editor(),
+m_new_record(new mem_engine::record_local()),
+m_review_record(new mem_engine::record_local())
 {
 }
 

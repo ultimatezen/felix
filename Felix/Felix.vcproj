@@ -1550,11 +1550,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_concordance.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_concordance_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\view_state_initial.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_match.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_match_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\view_state_new.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_review.cpp"
 				>
 			</File>
 			<File
@@ -1990,6 +2010,10 @@
 				</File>
 				<File
 					RelativePath=".\view_state_new_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_review_test.cpp"
 					>
 				</File>
 				<File
@@ -2627,11 +2651,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_concordance.h"
+				>
+			</File>
+			<File
 				RelativePath=".\view_state_initial.h"
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_match.h"
+				>
+			</File>
+			<File
 				RelativePath=".\view_state_new.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view_state_review.h"
 				>
 			</File>
 			<File

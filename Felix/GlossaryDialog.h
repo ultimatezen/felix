@@ -44,6 +44,9 @@
 
 #include "view_state_initial.h"
 #include "view_state_new.h"
+#include "view_state_concordance.h"
+#include "view_state_match.h"
+#include "view_state_review.h"
 
 /**
 	@class CGlossaryDialog 
@@ -57,7 +60,6 @@ class CGlossaryWindow :
 	VISIBLE_TO_TESTS
 
 
-	mem_engine::record_pointer	m_new_record ;
 	appstate_glossary			m_appstate ;
 
 	// the status bar
@@ -85,8 +87,11 @@ class CGlossaryWindow :
 
 	CSearchWindow		m_search_window ;
 
-	ViewStateInitialGloss m_view_state_initial ;
-	ViewStateNewGloss m_view_state_new;
+	ViewStateInitialGloss		m_view_state_initial ;
+	ViewStateNewGloss			m_view_state_new;
+	ViewStateConcordanceGloss	m_view_state_concordance ;
+	ViewStateMatchGloss			m_view_state_match ;
+	ViewStateReviewGloss		m_view_state_review ;
 
 public:
 	void set_zoom_level(int zoom_level);
@@ -243,14 +248,7 @@ public:
 	bool exit_silently() ;
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
 
-	void set_new_record(mem_engine::record_pointer rec)
-	{
-		m_new_record = rec ;
-	}
-	mem_engine::record_pointer get_new_record()
-	{
-		return m_new_record ;
-	}
+
 	void retrieve_record_new_state();
 	void retrieve_record_results_state();
 
@@ -526,6 +524,17 @@ public:
 
 	void load_util_settings() ;
 	void save_util_settings() ;
+
+	mem_engine::search_match_ptr get_current_match()
+	{
+		return m_search_matches.current() ;
+	}
+	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false )
+	{
+		match ;
+		do_gloss ;
+	}
+
 };
 
 

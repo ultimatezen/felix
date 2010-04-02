@@ -50,12 +50,15 @@ using namespace text_tmpl;
 // CTOR
 CGlossaryWindow::CGlossaryWindow( ) : 
 m_is_main( false ),
-m_listener( NULL),
-m_new_record(new record_local())
+m_listener( NULL)
 { 
+
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
+	this->init_state(&m_view_state_concordance) ;
+	this->init_state(&m_view_state_match) ;
+	this->init_state(&m_view_state_review) ;
 
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;

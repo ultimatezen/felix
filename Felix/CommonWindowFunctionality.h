@@ -51,6 +51,8 @@ class CCommonWindowFunctionality :
 public:
 	DECLARE_SENSING_VAR ;
 
+	typedef mem_engine::record_pointer record_type ;
+
 	static const int BM_SIZE = 16 ;
 	static const int SEP_ID = 0 ;
 	static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
@@ -76,6 +78,10 @@ public:
 	CFelixStatusBar m_statusbar ;
 	
 	DISPLAY_STATE		m_display_state ;
+
+	record_type			m_new_record ;	  // last added record
+	record_type			m_review_record ; // review mode
+
 
 	// Save the last deleted match, so we can undo...
 	mem_engine::search_match_ptr		m_deleted_match ;
@@ -130,6 +136,23 @@ public:
 		state->set_window_listener(this) ;
 		state->set_view(&m_view_interface) ;
 	}
+	record_type get_new_record()
+	{
+		return m_new_record ;
+	}
+	record_type get_review_record()
+	{
+		return m_review_record ;
+	}
+	void set_new_record(record_type rec)
+	{
+		m_new_record = rec ;
+	}
+	void set_review_record(record_type rec)
+	{
+		m_review_record = rec ;
+	}
+
 	void set_bg_color(COLORREF c);
 	bool show_mem_mgr_dlg(int title_id = 0) ;
 	BOOL dropped_in_client( CDropHandle dropped ) ;
@@ -220,5 +243,6 @@ public:
 	virtual void retrieve_record_results_state() = 0 ;
 
 	virtual boost::shared_ptr<mem_engine::memory_model> get_memory_model() = 0 ;
+	
 } ;
 

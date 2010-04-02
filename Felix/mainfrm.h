@@ -30,8 +30,13 @@
 #include "TMXWriter.h"		// CTMXWriter
 #include "zoom_dialog.h"
 #include "felix_cl_options.h"
+
+// view states
 #include "view_state_initial.h"
 #include "view_state_new.h"
+#include "view_state_concordance.h"
+#include "view_state_match.h"
+#include "view_state_review.h"
 
 CString get_help_file_path( CString path ) ;
 CString get_docs_path() ;
@@ -64,8 +69,6 @@ VISIBLE_TO_TESTS
 	// ====================
 	// various records
 	// ====================
-	record_type			m_new_record ;	  // last added record
-	record_type			m_review_record ; // review mode
 
 	appstate_mainframe		m_appstate ;
 
@@ -90,6 +93,9 @@ VISIBLE_TO_TESTS
 
 	ViewStateInitialMain	m_view_state_initial ;
 	ViewStateNewMain		m_view_state_new ;
+	ViewStateConcordanceMain m_view_state_concordance ;
+	ViewStateMatchMain		m_view_state_match ;
+	ViewStateReviewMain		m_view_state_review ;
 
 	// ====================
 	// misc internal stuff
@@ -137,14 +143,7 @@ public:
 	{
 		this->m_command_message_map[id] = listenerFunction ;
 	}
-	void set_new_record(record_type rec)
-	{
-		m_new_record = rec ;
-	}
-	record_type get_new_record()
-	{
-		return m_new_record ;
-	}
+
 
 	bool OnBeforeNavigate2( _bstr_t url ) ;
 	void OnNavEdit( long index );
@@ -237,8 +236,6 @@ public:
 	wstring get_current_translation( );
 
 	wstring get_record_translation(record_type record);
-	// the current match
-	mem_engine::search_match_ptr get_current_match();
 
 	// =================
 	// ui stuff
@@ -439,7 +436,6 @@ private:
 	//void handle_leave_edit_mode_register() ;
 
 public:
-	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
 	void add_record_to_memory( record_type record );
 	void look_up_in_glossaries( const wstring &query );
 	void set_up_window_size();
@@ -557,6 +553,12 @@ public:
 	void retrieve_record_new_state();
 
 	void retrieve_record_results_state();
+
+	// the current match
+	mem_engine::search_match_ptr get_current_match();
+
+	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
+
 };
 
 

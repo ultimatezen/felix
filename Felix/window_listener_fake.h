@@ -6,15 +6,22 @@ class WindowListenerFake : public WindowListener
 {
 	typedef mem_engine::record_pointer rec_ptr ;
 	typedef mem_engine::record_local rec_type ;
+	typedef mem_engine::search_match_ptr match_ptr ;
+	typedef mem_engine::search_match match_type ;
+	
 public:
 	DECLARE_SENSING_VAR ;
 	rec_ptr new_rec ;
+	rec_ptr review_rec ;
+	match_ptr current_match ;
 	std::vector<int> m_feedback_int ;
 
 	WindowListenerFake() : 
-		new_rec(rec_ptr(new rec_type))
+		new_rec(new rec_type)
+		, review_rec(new rec_type)
+		, current_match(new match_type)
 	{
-
+		current_match->set_record(rec_ptr(new rec_type)) ;
 	}
 
 	void show_edit_dialog( rec_ptr &record, 
@@ -36,6 +43,16 @@ public:
 		SENSE("get_new_record") ;
 		return new_rec ;
 	}
+	void set_review_record(rec_ptr rec)
+	{
+		review_rec = rec ;
+		SENSE("set_review_record") ;
+	}
+	rec_ptr get_review_record()
+	{
+		SENSE("get_review_record") ;
+		return review_rec ;
+	}
 
 	void set_bg_color_if_needed() 
 	{
@@ -44,6 +61,17 @@ public:
 	void check_mousewheel() 
 	{
 		SENSE("check_mousewheel") ;
+	}
+	mem_engine::search_match_ptr get_current_match()
+	{
+		SENSE("get_current_match") ;
+		return current_match ;
+	}
+	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss)
+	{
+		match ;
+		do_gloss ;
+		SENSE("redo_lookup") ;
 	}
 
 	// user feedback
