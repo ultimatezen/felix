@@ -29,7 +29,11 @@ class search_match
 	bool				m_HasPlacement ;
 public:
 	search_match( );
-	search_match(record_pointer record) : m_record(record)
+	search_match(record_pointer record) : 
+		m_memory_id(0)
+		, m_HasPlacement(false)
+		, m_record(record)
+		, m_markup(new markup_strings)
 	{
 	}
 

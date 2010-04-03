@@ -95,18 +95,34 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.m_model->insert_memory(mem) ;
 
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"before") ;
+		rec->set_trans(L"before") ;
+		mem->add_record(rec) ;
+
+		// current match
+		listener.item_under_edit->set_record(rec) ;
+		listener.item_under_edit->set_memory_id(mem->get_id()) ;
+		mem->add_record(rec) ;
+
 		ViewStateGlossLookup state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
 
-		record_pointer rec = record_pointer(new record_local) ;
-		rec->set_source(L"source") ;
-		rec->set_trans(L"trans") ;
+		record_pointer new_rec(new record_local) ;
+		new_rec->set_source(L"source") ;
+		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+		state.retrieve_edit_record(mem->get_id(), new_rec) ;
 
 		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
+
+		SimpleString expected("source") ;
+		SimpleString actual(string2string(listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+
 	}
 	TEST( view_state_gloss_lookup_test, retrieve_edit_record_listener )
 	{
@@ -117,17 +133,29 @@ namespace easyunit
 		memory_pointer mem = memory_pointer(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"before") ;
+		rec->set_trans(L"before") ;
+		mem->add_record(rec) ;
+
+		// current match
+		listener.item_under_edit->set_record(rec) ;
+		listener.item_under_edit->set_memory_id(mem->get_id()) ;
+		mem->add_record(rec) ;
+
 		ViewStateGlossLookup state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
-		record_pointer rec = record_pointer(new record_local) ;
-		rec->set_source(L"source") ;
-		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+
+		record_pointer new_rec(new record_local) ;
+		new_rec->set_source(L"source") ;
+		new_rec->set_trans(L"trans") ;
+
+		state.retrieve_edit_record(mem->get_id(), new_rec) ;
 
 		ASSERT_EQUALS_V(5, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[2].c_str()), "user_feedback") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), "345") ;

@@ -149,6 +149,9 @@ namespace easyunit
 		record_pointer first = *mem->get_records().begin() ;
 		string actual = string2string(first->get_source_rich()) ;
 		ASSERT_EQUALS_V(SimpleString("source"), SimpleString(actual.c_str())) ;
+
+		actual = string2string(listener.item_under_edit->get_record()->get_source_rich()) ;
+		ASSERT_EQUALS_V(SimpleString("source"), SimpleString(actual.c_str())) ;
 	}
 	TEST( view_state_match_test, retrieve_edit_record_listener )
 	{

@@ -71,7 +71,9 @@ void ViewStateConcordance::retrieve_edit_record( int mem_id, mem_engine::record_
 		logging::log_exception(e) ;
 		mem = m_model->get_memories()->get_first_memory() ;
 	}
-	const mem_engine::record_pointer old_rec = m_window_listener->get_new_record() ;
+	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
+	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
+	const mem_engine::record_pointer old_rec = current_match->get_record() ;
 	if (old_rec->is_valid_record())
 	{
 		mem->replace(old_rec, new_rec) ;
@@ -80,6 +82,8 @@ void ViewStateConcordance::retrieve_edit_record( int mem_id, mem_engine::record_
 	{
 		mem->add_record(new_rec) ;
 	}
+	current_match->set_record(new_rec) ;
+	current_match->set_values_to_record() ;
 	m_window_listener->set_new_record(new_rec) ;
 	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
 }

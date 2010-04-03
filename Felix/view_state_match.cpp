@@ -74,6 +74,7 @@ void ViewStateMatch::retrieve_edit_record( int mem_id, mem_engine::record_pointe
 		mem->add_record(new_rec) ;
 	}
 	current_match->set_record(new_rec) ;
+	current_match->set_values_to_record() ;
 	m_window_listener->set_new_record(new_rec) ;
 	m_window_listener->redo_lookup(current_match, true) ;
 	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;

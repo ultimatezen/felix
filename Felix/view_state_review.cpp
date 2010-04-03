@@ -61,8 +61,19 @@ void ViewStateReview::handle_toggle_edit_mode()
 
 void ViewStateReview::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
-	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
-	const mem_engine::record_pointer old_rec = m_window_listener->get_review_record() ;
+	memory_pointer mem ;
+	try
+	{
+		mem = m_model->get_memory_by_id(mem_id) ;
+	}
+	catch (except::CProgramException &e )
+	{
+		logging::log_exception(e) ;
+		mem = m_model->get_memories()->get_first_memory() ;
+	}
+	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
+	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
+	const mem_engine::record_pointer old_rec = current_match->get_record() ;
 	if (old_rec->is_valid_record())
 	{
 		mem->replace(old_rec, new_rec) ;
@@ -71,7 +82,10 @@ void ViewStateReview::retrieve_edit_record( int mem_id, mem_engine::record_point
 	{
 		mem->add_record(new_rec) ;
 	}
+	current_match->set_record(new_rec) ;
+	current_match->set_values_to_record() ;
 	m_window_listener->set_review_record(new_rec) ;
+	m_window_listener->redo_lookup(current_match, true) ;
 	m_window_listener->user_feedback( IDS_CORRECTED_TRANS ) ;
 }
 

@@ -2235,10 +2235,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\felix_model_fake.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Felix_properties.h"
 				>
 			</File>
@@ -2723,6 +2719,10 @@
 				</File>
 				<File
 					RelativePath=".\element_wrapper_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\felix_model_fake.h"
 					>
 				</File>
 				<File
