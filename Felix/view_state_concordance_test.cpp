@@ -109,6 +109,8 @@ namespace easyunit
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
+		search_query_mainframe search_matches ;
+		state.set_search_matches(&search_matches) ;
 
 		record_pointer new_rec = record_pointer(new record_local) ;
 		new_rec->set_source(L"source") ;
@@ -116,8 +118,9 @@ namespace easyunit
 
 		state.retrieve_edit_record(mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)model.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
+		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[1].c_str()), "get_memories") ;
 
 		SimpleString expected("source") ;
 		SimpleString actual(string2string(listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
@@ -146,6 +149,8 @@ namespace easyunit
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
+		search_query_mainframe search_matches ;
+		state.set_search_matches(&search_matches) ;
 
 		record_pointer new_rec(new record_local) ;
 		new_rec->set_source(L"source") ;
@@ -177,6 +182,8 @@ namespace easyunit
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
+		search_query_mainframe search_matches ;
+		state.set_search_matches(&search_matches) ;
 
 		state.handle_toggle_edit_mode() ;
 

@@ -95,7 +95,7 @@ VISIBLE_TO_TESTS
 	ViewStateNewMain		m_view_state_new ;
 	ViewStateConcordanceMain m_view_state_concordance ;
 	ViewStateMatchMain		m_view_state_match ;
-	ViewStateReview		m_view_state_review ;
+	ViewStateReview			m_view_state_review ;
 
 	// ====================
 	// misc internal stuff
@@ -553,6 +553,7 @@ public:
 	mem_engine::search_match_ptr get_current_match();
 
 	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
+
 
 };
 

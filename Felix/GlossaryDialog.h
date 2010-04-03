@@ -165,8 +165,6 @@ public:
 	void prep_user_search() ;
 	void show_user_search_results() ;
 
-	void perform_user_search() ;
-
 	void prep_concordance_search(const std::wstring& query_string) ;
 
 	void perform_concordance_search() ;

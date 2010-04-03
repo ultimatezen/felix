@@ -119,6 +119,7 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
+	m_view_state_concordance.set_search_matches(&m_search_matches) ;
 	this->init_state(&m_view_state_match) ;
 	this->init_state(&m_view_state_review) ;
 
@@ -631,6 +632,8 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 			ATLASSERT(m_view_state == &m_view_state_concordance) ;
 			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
 											   m_editor.get_new_record()) ;
+
+
 			break ;
 		}
 

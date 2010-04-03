@@ -85,9 +85,16 @@ void ViewStateConcordance::retrieve_edit_record( int mem_id, mem_engine::record_
 	current_match->set_record(new_rec) ;
 	current_match->set_values_to_record() ;
 	m_window_listener->set_new_record(new_rec) ;
+	this->redo_concordance() ;
 	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
 }
 
+void ViewStateConcordance::redo_concordance()
+{
+	mem_engine::search_match_container matches ;
+	m_model->perform_search( matches, m_search_matches->m_params ) ;
+	m_search_matches->set_matches( matches ) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceMain
 //////////////////////////////////////////////////////////////////////////

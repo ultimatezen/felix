@@ -57,6 +57,7 @@ m_listener( NULL)
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
+	m_view_state_concordance.set_search_matches(&m_search_matches) ;
 	this->init_state(&m_view_state_match) ;
 	this->init_state(&m_view_state_lookup) ;
 
@@ -1089,7 +1090,9 @@ LRESULT CGlossaryWindow::handle_user_search()
 {
 	prep_user_search();
 
-	perform_user_search();
+	mem_engine::search_match_container matches ;
+	this->get_memory_model()->perform_search( matches, m_search_matches.m_params ) ;
+	m_search_matches.set_matches( matches ) ;	
 
 	// give the user feedback
 	show_user_search_results();
@@ -1107,15 +1110,6 @@ void CGlossaryWindow::prep_user_search()
 
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
-}
-
-void CGlossaryWindow::perform_user_search()
-{
-	search_match_container matches ;
-
-	m_memories->perform_search( matches, m_search_matches.m_params ) ;
-
-	m_search_matches.set_matches( matches ) ;
 }
 
 void CGlossaryWindow::show_user_search_results()
