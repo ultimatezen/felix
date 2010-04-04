@@ -2893,26 +2893,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ClassDiagram1.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\ClassDiagram2.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\ClassDiagram3.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\document_wrapper.html"
-			>
-		</File>
-		<File
-			RelativePath=".\view_state_new_test.cp"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
