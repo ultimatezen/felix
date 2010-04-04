@@ -35,31 +35,32 @@ public:
 	virtual void navigate(LPCTSTR url) = 0 ;
 	virtual void set_text( const wstring &text ) = 0 ;
 	virtual void set_scroll_pos( long pos ) = 0 ;
+	virtual void scroll_element_into_view( const wstring &current_id ) = 0 ;
 
 	// =========================
 	// for entering edit mode
 	// =========================
 
 	virtual void handle_enter_edit_mode_new_record_glossary( ) = 0 ;
-	virtual void handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches ) = 0  ;
+	virtual void handle_enter_edit_mode_concordance_glossary( mem_engine::felix_query *matches ) = 0  ;
 
 	virtual void handle_enter_edit_mode_new_record() = 0  ;
 
-	virtual void handle_enter_edit_mode_match( TransMatchQueryTrans &matches ) = 0  ;
+	virtual void handle_enter_edit_mode_match( mem_engine::felix_query *matches ) = 0  ;
 
-	virtual record_pointer get_match_record( TransMatchQueryTrans &matches ) = 0 ;
-	virtual void handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches ) = 0  ;
+	virtual record_pointer get_match_record( mem_engine::felix_query *matches ) = 0 ;
+	virtual void handle_enter_edit_mode_concordance( mem_engine::felix_query *matches ) = 0  ;
 
 	// =========================
 	// for leaving edit mode
 	// =========================
 	virtual void handle_leave_edit_mode_new( record_pointer &record ) = 0 ;
 
-	virtual void handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches ) = 0 ;
-	virtual bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches ) = 0 ;
+	virtual void handle_leave_edit_mode_match( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
+	virtual bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
 	virtual bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) = 0 ;
 
-	virtual bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches ) = 0 ;
+	virtual bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
 
 };
 
@@ -123,25 +124,25 @@ public:
 	// =========================
 
 	void handle_enter_edit_mode_new_record_glossary( ) ;
-	void handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches ) ;
+	void handle_enter_edit_mode_concordance_glossary( mem_engine::felix_query *matches ) ;
 
 	void handle_enter_edit_mode_new_record() ;
 
-	void handle_enter_edit_mode_match( TransMatchQueryTrans &matches ) ;
+	void handle_enter_edit_mode_match( mem_engine::felix_query *matches ) ;
 
-	record_pointer get_match_record( TransMatchQueryTrans &matches );
-	void handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches ) ;
+	record_pointer get_match_record( mem_engine::felix_query *matches );
+	void handle_enter_edit_mode_concordance( mem_engine::felix_query *matches ) ;
 
 	// =========================
 	// for leaving edit mode
 	// =========================
 	void handle_leave_edit_mode_new( record_pointer &record ) ;
 
-	void handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches ) ;
-	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches ) ;
+	void handle_leave_edit_mode_match( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
+	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
 	bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) ;
 
-	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches ) ;
+	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
 
 	//bool handle_leave_edit_mode_register( mem_engine::search_match &glossary_registration_top, mem_engine::search_match glossary_registration_bottom ) ;
 

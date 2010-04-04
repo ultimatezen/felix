@@ -44,7 +44,7 @@ namespace easyunit
 		ml.push_back(match) ;
 		matches.set_matches(ml) ;
 
-		record_pointer rec = vi.get_match_record(matches) ;
+		record_pointer rec = vi.get_match_record(&matches) ;
 
 		SimpleString actual = string2string(rec->get_source_plain()).c_str() ;
 		SimpleString expected = "egg" ;
@@ -57,7 +57,7 @@ namespace easyunit
 		mem_engine::translation_match_query matches ;
 		matches.set_query_rich(L"spam") ;
 
-		mem_engine::record_pointer rec = vi.get_match_record(matches) ;
+		mem_engine::record_pointer rec = vi.get_match_record(&matches) ;
 
 		SimpleString actual = string2string(rec->get_source_plain()).c_str() ;
 		SimpleString expected = "spam" ;

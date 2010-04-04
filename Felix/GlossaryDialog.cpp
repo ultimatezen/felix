@@ -50,7 +50,8 @@ using namespace text_tmpl;
 // CTOR
 CGlossaryWindow::CGlossaryWindow( ) : 
 m_is_main( false ),
-m_listener( NULL)
+m_listener( NULL),
+m_editor(new CEditTransRecordDialog)
 { 
 	m_is_short_format = true ;
 	m_silent_mode = false ;
@@ -58,7 +59,6 @@ m_listener( NULL)
 	m_new_record = record_pointer(new record_local);
 	m_review_record = record_pointer(new record_local);
 	m_item_under_edit = search_match_ptr(new match_type(record_pointer(new record_local)));
-	m_editor = edit_record_dlg_ptr(new CEditTransRecordDialog);
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -1289,7 +1289,7 @@ void CGlossaryWindow::handle_enter_edit_mode_new_record()
 void CGlossaryWindow::handle_enter_edit_mode_concordance()
 {
 	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-	m_view_interface.handle_enter_edit_mode_concordance_glossary( m_search_matches ) ;
+	m_view_interface.handle_enter_edit_mode_concordance_glossary( &m_search_matches ) ;
 	user_feedback( IDS_IN_EDIT_MODE ) ;
 }
 
@@ -1322,7 +1322,8 @@ void CGlossaryWindow::handle_leave_edit_mode_concordance()
 {
 	user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 	
-	if( false == m_view_interface.handle_leave_edit_mode_concordance_glossary( m_memories, m_search_matches ) )
+	if( false == m_view_interface.handle_leave_edit_mode_concordance_glossary( m_memories, 
+																			   &m_search_matches ) )
 	{
 		m_view_interface.set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
 		check_mousewheel() ;

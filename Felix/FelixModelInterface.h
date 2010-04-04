@@ -19,6 +19,10 @@ public:
 	{
 		return this->get_memories()->perform_search(matches, params) ;
 	}
+	virtual mem_engine::memory_pointer get_first_memory()
+	{
+		return this->get_memories()->get_first_memory() ;
+	}
 };
 
 

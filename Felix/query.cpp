@@ -1,6 +1,7 @@
 
 #include "StdAfx.h"
 #include "query.h"
+#include "logging.h"
 
 
 #ifdef _DEBUG
@@ -19,11 +20,11 @@ namespace mem_engine
 		return fs::wpath(loc).leaf() ;
 	}
 
-base_presentation::base_presentation( const size_t pos /* =0 */ ) : m_pos( pos ) 
+felix_query::felix_query( const size_t pos /* =0 */ ) : m_pos( pos ) 
 {}
 
 // destruction
-base_presentation::~base_presentation() {}
+felix_query::~felix_query() {}
 
 // ====================
 // get and set params
@@ -32,83 +33,83 @@ base_presentation::~base_presentation() {}
 // query
 // these are just for convenience, they all are just aliases for the source routines
 
-const wstring &base_presentation::get_query_plain() const 
+const wstring &felix_query::get_query_plain() const 
 { 
 	return get_source_plain() ; 
 }
 
-void base_presentation::set_query_plain ( const wstring &source  ) 
+void felix_query::set_query_plain ( const wstring &source  ) 
 { 
 	set_source_plain( source ) ; 
 }
 
-const wstring &base_presentation::get_query_rich() const 
+const wstring &felix_query::get_query_rich() const 
 {
 	return get_source_rich()  ; 
 }
 
-void base_presentation::set_query_rich( const wstring &rich_source  ) 
+void felix_query::set_query_rich( const wstring &rich_source  ) 
 { 
 	set_source( rich_source ) ; 
 }
 
 // source
 
-const wstring &base_presentation::get_source_plain() const 
+const wstring &felix_query::get_source_plain() const 
 { 
 	return m_params.m_source ; 
 }
 
-void base_presentation::set_source_plain ( const wstring &source  ) 
+void felix_query::set_source_plain ( const wstring &source  ) 
 {
 	m_params.m_source = source ; 
 }
 
-const wstring &base_presentation::get_source_rich() const 
+const wstring &felix_query::get_source_rich() const 
 { 
 	return m_params.m_rich_source  ; 
 }
-void base_presentation::set_source ( const wstring &rich_source  ) 
+void felix_query::set_source ( const wstring &rich_source  ) 
 {
 	m_params.m_rich_source = rich_source ; 
 	set_source_plain( strip_tags( rich_source ) ) ;
 }
 
 // trans
-const wstring &base_presentation::get_trans_plain() const 
+const wstring &felix_query::get_trans_plain() const 
 { 
 	return m_params.m_trans ; 
 }
-void base_presentation::set_plain_trans ( const wstring &trans  ) 
+void felix_query::set_plain_trans ( const wstring &trans  ) 
 { 
 	m_params.m_trans = trans ; 
 }
 
-const wstring &base_presentation::get_trans_rich() const 
+const wstring &felix_query::get_trans_rich() const 
 { 
 	return m_params.m_rich_trans  ; 
 }
-void base_presentation::set_trans ( const wstring &rich_trans  ) 
+void felix_query::set_trans ( const wstring &rich_trans  ) 
 { 
 	m_params.m_rich_trans = rich_trans ; 
 	set_plain_trans( strip_tags( rich_trans ) ) ;
 }
 
 // context
-const wstring &base_presentation::get_context_plain() const 
+const wstring &felix_query::get_context_plain() const 
 { 
 	return m_params.m_context ; 
 }
-void base_presentation::set_plain_context ( const wstring &context  ) 
+void felix_query::set_plain_context ( const wstring &context  ) 
 { 
 	m_params.m_context = context ; 
 }
 
-const wstring &base_presentation::get_context_rich() const 
+const wstring &felix_query::get_context_rich() const 
 { 
 	return m_params.m_rich_context  ; 
 }
-void base_presentation::set_context ( const wstring &rich_context  ) 
+void felix_query::set_context ( const wstring &rich_context  ) 
 {
 	m_params.m_rich_context = rich_context ; 
 	set_plain_context( strip_tags( rich_context ) ) ;
@@ -117,27 +118,27 @@ void base_presentation::set_context ( const wstring &rich_context  )
 // ====================
 // m_match_list interface 
 // ====================
-size_t base_presentation::current_pos() 
+size_t felix_query::current_pos() 
 { 
 	return m_pos ; 
 }
-size_t base_presentation::size() 
+size_t felix_query::size() 
 { 
 	return m_match_list.size() ; 
 }
-search_match_ptr &base_presentation::at( size_t pos )
+search_match_ptr &felix_query::at( size_t pos )
 {
 	return m_match_list[pos] ;
 }
-search_match_ptr &base_presentation::current()
+search_match_ptr &felix_query::current()
 {
 	return at( m_pos ) ;
 }
-bool base_presentation::empty() 
+bool felix_query::empty() 
 {
 	return m_match_list.empty() ;
 }
-void base_presentation::clear()
+void felix_query::clear()
 {
 	m_match_list.clear() ;
 	m_pos = 0 ;
@@ -145,25 +146,25 @@ void base_presentation::clear()
 	m_params = search_query_params() ;
 	m_params.m_show_marking = show_markup ;
 }
-void base_presentation::set_matches( const search_match_container &matches ) 
+void felix_query::set_matches( const search_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
-void base_presentation::set_matches( const trans_match_container &matches ) 
+void felix_query::set_matches( const trans_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
-void base_presentation::set_matches( const match_list &matches ) 
+void felix_query::set_matches( const match_list &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
-void  base_presentation::forward( )
+void  felix_query::forward( )
 {
 	ATLASSERT( empty() || m_pos < size()  ) ;
 	if ( empty() )
@@ -175,7 +176,7 @@ void  base_presentation::forward( )
 	if ( m_pos == size() )
 		m_pos = 0 ;
 }
-void  base_presentation::back( )
+void  felix_query::back( )
 {
 	ATLASSERT( empty() || m_pos < size()  ) ;
 	if ( empty() )
@@ -188,11 +189,11 @@ void  base_presentation::back( )
 	else
 		--m_pos ;
 }
-void base_presentation::erase_current()
+void felix_query::erase_current()
 {
 	erase_at( m_pos ) ;
 }
-void base_presentation::erase_at( size_t pos )
+void felix_query::erase_at( size_t pos )
 {
 	ATLASSERT( pos < size() ) ;
 	if ( empty() )
@@ -205,38 +206,38 @@ void base_presentation::erase_at( size_t pos )
 	if ( m_pos == size() )
 		m_pos = 0 ;
 }
-void base_presentation::set_current( size_t pos )
+void felix_query::set_current( size_t pos )
 {
 	ATLASSERT( pos < size() ) ;
 	m_pos = pos ;
 }
 
-wstring base_presentation::make_id_cell( int id, const wstring &val )
+wstring felix_query::make_id_cell( int id, const wstring &val )
 {
 	return make_id_cell( R2WSTR(id), val ) ;
 }
-wstring base_presentation::make_id_cell( const wstring &id, const wstring &val )
+wstring felix_query::make_id_cell( const wstring &id, const wstring &val )
 {
 	return (wformat(L"<td class=\"match_content\" id=\"%1%\">%2%</td>\n") 
 		% id 
 		% val).str() ;
 }
-wstring base_presentation::make_table_header()
+wstring felix_query::make_table_header()
 {
 	return wstring(L"<table class=\"base\">\n") ;
 }
 
-bool base_presentation::show_marking()
+bool felix_query::show_marking()
 {
 	return m_params.m_show_marking ;
 }
 
-void base_presentation::set_marking_on()
+void felix_query::set_marking_on()
 {
 	m_params.m_show_marking = true ;
 }
 
-void base_presentation::set_marking_off()
+void felix_query::set_marking_off()
 {
 	m_params.m_show_marking = false ;
 }
@@ -685,38 +686,13 @@ wstring search_query::get_html_long()
 	return engine.Fetch(tpl_text) ;
 }
 
-
-//////////////////////////////////////////////////////////////////////////
-// html_formatter
-//////////////////////////////////////////////////////////////////////////
-
-wstring html_formatter::make_href_tag( const int key, const int val, UINT title_id )
+void search_query::fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match )
 {
-	wstring href_tag ;
-	href_tag << L"<a href=\"" 
-		<< int2wstring( key ) 
-		<< L":" 
-		<< int2wstring( val ) 
-		<< L"\"" ;
-
-	if ( title_id != 0 ) 
-	{
-		wstring title_string = resource2wstring( title_id, RES_INST ) ;
-		href_tag << L" title=\"" << title_string << L"\"" ;
-	}
-
-	href_tag << L">" ;
-	return href_tag ;
+	engine ;
+	match ;
+	logging::log_warn("fill_match_template_params not implemented for gloss/concordance queries") ;
+	throw except::CProgramException(_T("method `fill_match_template_params` not implemented for gloss/concordance")) ;
 }
-
-wstring html_formatter::make_href( int key_id, int val_id, const wstring &link, UINT title_id /*= 0 */ )
-{
-	wstring href = make_href_tag( key_id, val_id, title_id ) ;
-	href << link
-		<< L"</a>" ;
-	return href ;
-}
-
 //////////////////////////////////////////////////////////////////////////
 // search_query_params
 //////////////////////////////////////////////////////////////////////////

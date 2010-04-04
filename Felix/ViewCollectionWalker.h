@@ -11,6 +11,8 @@
 #include "HtmlDocument.h"		// html::collection_ptr
 #include "element_wrapper.h"
 #include "logging.h"
+#include "query.h"
+#include "record_local.h"
 
 bool is_source_tag( wstring id, tag_name_holder &tags ) ;
 bool is_trans_tag( wstring id, tag_name_holder &tags ) ;
@@ -33,15 +35,14 @@ public:
 
 	~CViewCollectionWalker(void);
 
-	template< typename MatchContainerType >
-	void EraseCurrentRecord( SearchMatchType &match, MatchContainerType &matches, const wstring &id, MemoryControllerType memories )
+	void EraseCurrentRecord( SearchMatchType &match, mem_engine::felix_query *matches, const wstring &id, MemoryControllerType memories )
 	{
 		BANNER("CViewCollectionWalker::EraseCurrentRecord") ;
-		if ( matches.empty())
+		if ( matches->empty())
 		{
 			return ;
 		}
-		match = matches.at( boost::lexical_cast< long >( id ) ) ;
+		match = matches->at( boost::lexical_cast< long >( id ) ) ;
 
 		try
 		{
@@ -56,10 +57,9 @@ public:
 		}
 	}
 
-	template< typename MatchContainerType >
-	void RecordsToElements( MatchContainerType &matches, html::collection_ptr collection )
+	void RecordsToElements( mem_engine::felix_query *matches, html::collection_ptr collection )
 	{
-		record_pointer rec(new record_local()) ;
+		record_pointer rec(new mem_engine::record_local) ;
 
 		// loop through each of the elements
 		for ( int i=0 ; i < collection->length ; ++i )
@@ -72,7 +72,7 @@ public:
 			{
 				if ( str::is_int_rep( id ) )
 				{
-					SearchMatchType match = matches.at( boost::lexical_cast< long >( id ) ) ;
+					SearchMatchType match = matches->at( boost::lexical_cast< long >( id ) ) ;
 					rec = match->get_record() ;
 				}
 				else

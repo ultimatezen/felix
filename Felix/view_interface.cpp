@@ -242,7 +242,7 @@ void frame_view::handle_enter_edit_mode_new_record_glossary( )
 	text_range.select() ;
 }
 
-void frame_view::handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches )
+void frame_view::handle_enter_edit_mode_concordance_glossary( mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -306,7 +306,7 @@ bool frame_view::handle_leave_edit_mode_new_record_glossary( MemoryControllerTyp
 	return true ;
 }
 
-bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::search_query_glossary &matches )
+bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -315,7 +315,7 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 
 	// set the actual edit mode
 	m_view.put_edit_mode( false ) ;
-	if (matches.empty())
+	if (matches->empty())
 	{
 		return false ;
 	}
@@ -325,7 +325,7 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 
 	// both modes will need these...
 	record_pointer	record(new record_local()) ;
-	SearchMatchType	match = matches.at(0) ;
+	SearchMatchType	match = matches->at(0) ;
 	MatchListType	match_list ;
 
 	// the *@!# DHTML will convert our nice relative URLs to absolute ones!
@@ -366,9 +366,9 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 		walker.AddRecordToList(record, memories, match, match_list);
 	}
 
-	matches.set_matches( match_list ) ;
+	matches->set_matches( match_list ) ;
 
-	if ( matches.empty() ) 
+	if ( matches->empty() ) 
 	{
 		return false ;
 	}
@@ -391,7 +391,7 @@ void frame_view::handle_enter_edit_mode_new_record()
 	text_range.select() ;
 }
 
-void frame_view::handle_enter_edit_mode_match( TransMatchQueryTrans &matches )
+void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -417,7 +417,7 @@ void frame_view::handle_enter_edit_mode_match( TransMatchQueryTrans &matches )
 		{
 			if ( id == tags.query_tag )	
 			{
-				element->innerHTML = ( matches.get_query_rich() ).c_str() ;
+				element->innerHTML = ( matches->get_query_rich() ).c_str() ;
 				// we need to re-calculate the length, because we've been mucking with the html
 			}
 			else
@@ -435,7 +435,7 @@ void frame_view::handle_enter_edit_mode_match( TransMatchQueryTrans &matches )
 	text_range.select() ;
 }
 
-void frame_view::handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches )
+void frame_view::handle_enter_edit_mode_concordance( mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -484,7 +484,8 @@ void frame_view::handle_leave_edit_mode_new( record_pointer &record )
 
 }
 
-void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, TransMatchQueryTrans &matches )
+void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, 
+											   mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -526,11 +527,11 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, Tr
 				}
 
 				// set to current record
-				rec = matches.at(pos)->get_record() ;
+				rec = matches->at(pos)->get_record() ;
 			}
 			else if ( id == tags.query_tag )	
 			{
-				matches.set_query_rich( BSTR2wstring(element->innerHTML) ) ;
+				matches->set_query_rich( BSTR2wstring(element->innerHTML) ) ;
 			}
 			else
 			{
@@ -544,8 +545,8 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, Tr
 	// ====================
 
 	// make sure we have something to show
-	// if we are just showing a query with no matches...
-	if ( matches.empty())
+	// if we are just showing a query with no matches->..
+	if ( matches->empty())
 	{
 		return ;
 	}
@@ -553,11 +554,11 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, Tr
 	std::list< int >::iterator pos ;
 	for ( pos = marked_for_death.begin() ; pos != marked_for_death.end() ; ++pos )
 	{
-		matches.erase_at( *pos ) ;
+		matches->erase_at( *pos ) ;
 	}
 }
 
-bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches )
+bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
@@ -568,7 +569,7 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 	{
 		return false ;
 	}
-	if (matches.empty())
+	if (matches->empty())
 	{
 		return false ;
 	}
@@ -580,7 +581,7 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 	clean_up_urls(collection) ;
 	std::list< int > marked_for_death ;
 
-	SearchMatchType	match = matches.at(0);
+	SearchMatchType	match = matches->at(0);
 	MatchListType	match_list ;
 
 	record_pointer rec = record_pointer(new record_local()) ;
@@ -623,10 +624,10 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 		walker.AddRecordToList(rec, memories, match, match_list);
 	}
 
-	matches.set_matches( match_list ) ;
+	matches->set_matches( match_list ) ;
 
 	// make sure we have something to show
-	if ( matches.empty() )
+	if ( matches->empty() )
 	{
 		return false ;
 	}
@@ -723,18 +724,18 @@ wstring frame_view::get_doc_path( const wstring doc_url )
 	return str::left( local_docurl, pos + 1 ) ;
 }
 
-frame_view::record_pointer frame_view::get_match_record( TransMatchQueryTrans &matches )
+frame_view::record_pointer frame_view::get_match_record( mem_engine::felix_query *matches )
 {
 	// The current match...
-	if ( false == matches.empty() ) // If we have some matches...
+	if ( false == matches->empty() ) // If we have some matches->..
 	{
 		// we set it to the current match
-		return matches.current()->get_record() ;
+		return matches->current()->get_record() ;
 	}
 	else
 	{
 		record_pointer record = record_pointer(new mem_engine::record_local) ;
-		record->set_source(matches.get_query_rich()) ;
+		record->set_source(matches->get_query_rich()) ;
 		return record ;
 	}
 }

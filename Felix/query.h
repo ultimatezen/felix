@@ -71,22 +71,9 @@ struct search_query_params
 	void internal_copy( const search_query_params &rhs );
 } ;
 
-/**
-* Simple class for creating html.
-* We should replace most of this with the new ATL class .
-*/
-class html_formatter
-{
-public:
-	virtual ~html_formatter(){}
-	wstring make_href_tag( const int key, const int val, UINT title_id );
-	wstring make_href( int key_id, int val_id, const wstring &link, UINT title_id = 0 );
 
-} ;
-
-
-/** struct base_presentation. */
-struct base_presentation : public html_formatter
+/** struct felix_query. */
+struct felix_query
 {
 	// typedefs
 	typedef mem_engine::search_match_ptr match_ptr ;
@@ -104,9 +91,9 @@ struct base_presentation : public html_formatter
 	// member functions
 
 	// construction
-	base_presentation( const size_t pos=0 ) ;
+	felix_query( const size_t pos=0 ) ;
 	// destruction
-	virtual ~base_presentation() ;
+	virtual ~felix_query() ;
 
 	// ====================
 	// get and set params
@@ -170,12 +157,15 @@ struct base_presentation : public html_formatter
 	// =======================
 	virtual wstring get_html_short() = 0 ;
 	virtual wstring get_html_long() = 0 ;
+	virtual wstring get_html_all() = 0 ;
+	virtual void fill_match_template_params( text_tmpl::CTextTemplate &engine, 
+											 match_ptr match ) = 0 ;
 
 } ;
 
 /** struct search_query. */
 struct search_query 
-	: public base_presentation
+	: public felix_query
 {
 
 	size_t m_start_numbering ;
@@ -185,6 +175,11 @@ struct search_query
 
 	wstring get_mem_name(match_ptr match) ;
 	wstring get_html_long() ;
+	wstring get_html_all()
+	{
+		return this->get_html_long() ;
+	}
+	void fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match );
 } ;
 
 
@@ -208,7 +203,7 @@ struct search_query_glossary : public search_query
 } ;
 
 /** struct translation_match_query. */
-struct translation_match_query : public base_presentation
+struct translation_match_query : public felix_query
 {
 	CColorRef m_query_color ;
 	CColorRef m_source_color ;

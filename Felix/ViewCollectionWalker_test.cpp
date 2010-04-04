@@ -47,7 +47,7 @@ namespace easyunit
 		wstring id = L"0" ;
 
 		CViewCollectionWalker walker ;
-		walker.EraseCurrentRecord(match, matches, id, memories) ;
+		walker.EraseCurrentRecord(match, &matches, id, memories) ;
 
 		// record is deleted
 		ASSERT_EQUALS_V(0, (int)mem->size()) ;

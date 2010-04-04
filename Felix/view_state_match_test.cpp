@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "view_state_match.h"
-#include "view_interface_fake.h"
-#include "window_listener_fake.h"
-#include "felix_model_fake.h"
-#include "memory_local.h"
+#include "view_state_test_utils.h"
 #include "record_local.h"
 
 #include "easyunit/testharness.h"
@@ -19,176 +16,164 @@ namespace easyunit
 
 	TEST( view_state_match_test, handle_toggle_edit_mode_false )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_new_record") ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_match") ;
 
-		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, listener.m_feedback_int[1]) ;
+		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
+		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
 	TEST( view_state_match_test, handle_toggle_edit_mode_true )
 	{
-		view_interface_fake view ;
-		view.m_is_edit_mode = true ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+		vso.view.m_is_edit_mode = true ;
+
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[3].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[5].c_str()), "0") ;
+		ASSERT_EQUALS_V(7, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_match") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[3].find("<table class=") != string::npos) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[5].c_str()), "set_scroll_pos") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[6].c_str()), "0") ;
 
-		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, listener.m_feedback_int[1]) ;
+		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
+		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_match_test, show_content )
+	TEST( view_state_match_test, show_content_view )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+
+		mem_engine::translation_match_query matches ;
+		state.set_search_matches(&matches) ;
 
 		state.show_content() ;
 
+		ASSERT_EQUALS_V(5, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("<div class=\"nomatch_query\">") != string::npos) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "set_scroll_pos") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "0") ;
+
+		ASSERT_TRUE(vso.view.m_text.find(L"No Matches") != wstring::npos) ;
+	}
+	TEST( view_state_match_test, show_content_window )
+	{
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
+		mem_engine::translation_match_query matches ;
+		state.set_search_matches(&matches) ;
+
+		state.show_content() ;
+
+		ASSERT_EQUALS_V(5, (int)vso.listener.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "is_single_page") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "is_short_format") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "check_mousewheel") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), "is_single_page") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "set_bg_color_if_needed") ;
 	}
 
 	TEST( view_state_match_test, retrieve_edit_record_model )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.m_model->insert_memory(mem) ;
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"before") ;
 		rec->set_trans(L"before") ;
-		mem->add_record(rec) ;
+		vso.mem->add_record(rec) ;
 
 		// current match
-		listener.item_under_edit->set_record(rec) ;
-		listener.item_under_edit->set_memory_id(mem->get_id()) ;
+		vso.listener.item_under_edit->set_record(rec) ;
+		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
 
-		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
 
 		record_pointer new_rec(new record_local) ;
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)vso.model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
 	}
 	TEST( view_state_match_test, retrieve_edit_record_replace)
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"before") ;
 		rec->set_trans(L"before") ;
-		mem->add_record(rec) ;
+		vso.mem->add_record(rec) ;
 
 		// current match
-		listener.item_under_edit->set_record(rec) ;
-		listener.item_under_edit->set_memory_id(mem->get_id()) ;
-		mem->add_record(rec) ;
-		model.m_model->insert_memory(mem) ;
-
-		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		vso.listener.item_under_edit->set_record(rec) ;
+		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
 
 		record_pointer new_rec(new record_local) ;
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(1, (int)mem->size()) ;
-		record_pointer first = *mem->get_records().begin() ;
+		ASSERT_EQUALS_V(1, (int)vso.mem->size()) ;
+		record_pointer first = *vso.mem->get_records().begin() ;
 		string actual = string2string(first->get_source_rich()) ;
 		ASSERT_EQUALS_V(SimpleString("source"), SimpleString(actual.c_str())) ;
 
-		actual = string2string(listener.item_under_edit->get_record()->get_source_rich()) ;
+		actual = string2string(vso.listener.item_under_edit->get_record()->get_source_rich()) ;
 		ASSERT_EQUALS_V(SimpleString("source"), SimpleString(actual.c_str())) ;
 	}
 	TEST( view_state_match_test, retrieve_edit_record_listener )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		ASSERT_TRUE(! listener.new_rec->is_valid_record()) ;
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
+		ASSERT_TRUE(! vso.listener.new_rec->is_valid_record()) ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"before") ;
 		rec->set_trans(L"before") ;
-		mem->add_record(rec) ;
+		vso.mem->add_record(rec) ;
 
 		// current match
-		listener.item_under_edit->set_record(rec) ;
-		listener.item_under_edit->set_memory_id(mem->get_id()) ;
-		mem->add_record(rec) ;
+		vso.listener.item_under_edit->set_record(rec) ;
+		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
 
-		ViewStateMatchMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
 		record_pointer new_rec(new record_local) ;
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(6, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[2].c_str()), "redo_lookup") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), "user_feedback") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[4].c_str()), "425") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[5].c_str()), "0") ;
-		ASSERT_TRUE(listener.new_rec->is_valid_record()) ;
+		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "redo_lookup") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), "user_feedback") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "425") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[5].c_str()), "0") ;
+		ASSERT_TRUE(vso.listener.new_rec->is_valid_record()) ;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
@@ -196,53 +181,37 @@ namespace easyunit
 
 	TEST( view_state_match_gloss_test, handle_toggle_edit_mode_false )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-		listener.current_match->set_memory_id(mem->get_id()) ;
-
 		ViewStateMatchGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
 	}
 
 	TEST( view_state_match_gloss_test, handle_toggle_edit_mode_true )
 	{
-		view_interface_fake view ;
-		view.m_is_edit_mode = true ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-		listener.current_match->set_memory_id(mem->get_id()) ;
-
 		ViewStateMatchGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+		vso.view.m_is_edit_mode = true ;
+
+		mem_engine::translation_match_query matches ;
+		state.set_search_matches(&matches) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_match") ;
 	}
 	TEST( view_state_match_gloss_test, show_content )
 	{
-		view_interface_fake view ;
-		ASSERT_TRUE(! view.is_edit_mode()) ;
-		WindowListenerFake listener; 
-
 		ViewStateMatchGloss state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
+		view_state_obj vso(&state) ;
+
 		state.show_content() ;
 
+		ASSERT_EQUALS_V(0, (int)vso.view.m_sensing_variable.size()) ;
 	}
 
 }

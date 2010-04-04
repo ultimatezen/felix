@@ -10,6 +10,7 @@
 #include "MinViewDlg.h"
 #include "resource_string.h"
 #include "xpmenu/Tools.h"
+#include "logging.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -184,18 +185,18 @@ void CMinViewDlg::set_parent( const HWND parent )
 	m_parent = parent ;
 }
 
-void CMinViewDlg::set_match( mem_engine::translation_match_query &trans_matches )
+void CMinViewDlg::set_match(mem_engine::felix_query *matches)
 {
 	html::CHtmlDocument doc = get_document() ;
 
-	if ( trans_matches.empty() )
+	if ( matches->empty() )
 	{
 		set_body_text( wstring() ) ;
 		doc.set_bg_color( red_match ) ;
 	}
 	else
 	{
-		mem_engine::search_match_ptr match = trans_matches.current() ;
+		mem_engine::search_match_ptr match = matches->current() ;
 
 		mem_engine::record_pointer rec = match->get_record() ;
 
@@ -219,5 +220,24 @@ void CMinViewDlg::set_match( mem_engine::translation_match_query &trans_matches 
 		content << R2W( IDS_SCORE ) << L": " << double2percent_wstring( score ) ;
 
 		set_body_text( content ) ;	
+	}
+}
+
+void CMinViewDlg::show_content()
+{
+	switch(m_listener->get_display_state())
+	{
+	case WindowListener::MATCH_DISPLAY_STATE:
+		set_match(m_trans_matches) ;
+		break; 
+	case WindowListener::TRANS_REVIEW_STATE:
+		set_match(m_trans_matches) ;
+		break; 
+	case WindowListener::NEW_RECORD_DISPLAY_STATE:
+		mem_engine::record_pointer rec = m_listener->get_new_record() ;
+		set_body_text( rec->get_trans_rich() ) ;
+		html::CHtmlDocument doc = get_document() ;
+		doc.set_bg_color( CColorRef(COLOR_WHITE).as_wstring() ) ;
+		break; 
 	}
 }

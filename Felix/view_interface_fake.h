@@ -57,6 +57,13 @@ public:
 		SENSE("set_scroll_pos") ;
 		SENSE(int2string(pos)) ;
 	}
+	void scroll_element_into_view( const wstring &current_id )
+	{
+		current_id ;
+		SENSE("set_scroll_pos") ;
+		SENSE(string2string(current_id)) ;
+	}
+
 	// =========================
 	// for entering edit mode
 	// =========================
@@ -64,7 +71,7 @@ public:
 	{
 		SENSE("handle_enter_edit_mode_new_record_glossary") ;
 	}
-	void handle_enter_edit_mode_concordance_glossary( mem_engine::search_query_glossary &matches ) 
+	void handle_enter_edit_mode_concordance_glossary( mem_engine::felix_query *matches ) 
 	{
 		matches ;
 		SENSE("handle_enter_edit_mode_concordance_glossary") ;
@@ -73,18 +80,18 @@ public:
 	{
 		SENSE("handle_enter_edit_mode_new_record") ;
 	}
-	void handle_enter_edit_mode_match( TransMatchQueryTrans &matches )
+	void handle_enter_edit_mode_match( mem_engine::felix_query *matches )
 	{
 		matches ;
 		SENSE("handle_enter_edit_mode_match") ;
 	}
-	record_pointer get_match_record( TransMatchQueryTrans &matches )
+	record_pointer get_match_record( mem_engine::felix_query *matches )
 	{
 		matches ;
 		SENSE("get_match_record") ;
 		return m_rec ;
 	}
-	void handle_enter_edit_mode_concordance( mem_engine::search_query_mainframe &matches )
+	void handle_enter_edit_mode_concordance( mem_engine::felix_query *matches )
 	{
 		matches ;
 		SENSE("handle_enter_edit_mode_concordance") ;
@@ -99,14 +106,14 @@ public:
 		SENSE("handle_leave_edit_mode_new") ;
 	}
 	void handle_leave_edit_mode_match( MemoryControllerType memories, 
-									   TransMatchQueryTrans &matches ) 
+									   mem_engine::felix_query *matches ) 
 	{
 		memories ;
 		matches ;
 		SENSE("handle_leave_edit_mode_match") ;
 	}
 	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, 
-													  mem_engine::search_query_glossary &matches ) 
+													  mem_engine::felix_query *matches ) 
 	{
 		memories ;
 		matches ;
@@ -121,7 +128,8 @@ public:
 		SENSE("handle_leave_edit_mode_new_record_glossary") ;
 		return true ;
 	}
-	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::search_query_mainframe &matches ) 
+	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, 
+											 mem_engine::felix_query *matches ) 
 	{
 		memories ;
 		matches ;

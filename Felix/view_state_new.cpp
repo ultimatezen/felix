@@ -30,7 +30,7 @@ void ViewStateNew::handle_toggle_edit_mode()
 		m_view->handle_leave_edit_mode_new(edit_rec) ;
 		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
 
-		record_pointer new_rec = m_window_listener->get_new_record() ;
+		record_pointer new_rec = m_window_listener->get_item_under_edit()->get_record() ;
 		if ( new_rec->is_valid_record() ) 
 		{
 			this->show_content() ;
@@ -62,7 +62,7 @@ void ViewStateNew::handle_toggle_edit_mode()
 void ViewStateNew::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
-	const mem_engine::record_pointer old_rec = m_window_listener->get_new_record() ;
+	const mem_engine::record_pointer old_rec = m_window_listener->get_item_under_edit()->get_record() ;
 	if (old_rec->is_valid_record())
 	{
 		mem->replace(old_rec, new_rec) ;

@@ -390,14 +390,7 @@ namespace easyunit
 	//////////////////////////////////////////////////////////////////////////
 	// translation_match_query
 	//////////////////////////////////////////////////////////////////////////
-	TEST( test_translation_match_query, make_href_tag )
-	{
-		translation_match_query query ;
-		wstring mem_name = query.make_href_tag(10, 10, 0) ;
-		SimpleString actual = string2string(mem_name).c_str() ;
-		SimpleString expected = "<a href=\"10:10\">" ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
+
 	TEST( test_translation_match_query, get_mem_name_spam )
 	{
 		translation_match_query query ;

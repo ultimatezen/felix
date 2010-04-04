@@ -17,12 +17,16 @@ public:
 	match_ptr current_match ;
 	match_ptr item_under_edit ;
 	std::vector<int> m_feedback_int ;
+	bool m_is_short_format ;
+	bool m_is_single_page ;
 
 	WindowListenerFake() : 
 		new_rec(new rec_type)
 		, review_rec(new rec_type)
 		, current_match(new match_type(rec_ptr(new rec_type)))
 		, item_under_edit(new match_type(rec_ptr(new rec_type)))
+		, m_is_short_format(false)
+		, m_is_single_page(false) 
 	{
 	}
 
@@ -86,6 +90,17 @@ public:
 		SENSE("redo_lookup") ;
 	}
 
+	bool is_short_format()
+	{
+		SENSE("is_short_format") ;
+		return m_is_short_format ;
+	}
+	bool is_single_page()
+	{
+		SENSE("is_single_page") ;
+		return m_is_single_page ;
+	}
+	
 	// user feedback
 	virtual bool user_feedback( const CString &feedback, int pane = 0)
 	{

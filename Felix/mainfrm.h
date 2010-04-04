@@ -242,10 +242,8 @@ public:
 	// ui stuff
 	// =================
 
-	bool show_new_record( );
 	bool show_current_match();
 	void show_full_view_match();
-	void show_min_view_match();
 	bool prev_match( );
 	bool next_match( );
 
@@ -423,18 +421,6 @@ private:
 
 	void do_save( memory_type mem ) ;
 
-	// edit mode routines
-	void handle_match_edit      ( bool edit_mode_enabled ) ;
-	void handle_concordance_edit( bool edit_mode_enabled ) ; 
-	//void handle_reg_gloss_edit  ( bool edit_mode_enabled ) ;
-
-	void handle_enter_edit_mode_match() ;
-	void handle_enter_edit_mode_concordance() ;
-	//void handle_enter_edit_mode_register() ;
-	void handle_leave_edit_mode_match() ;
-	void handle_leave_edit_mode_concordance() ;
-	//void handle_leave_edit_mode_register() ;
-
 public:
 	void add_record_to_memory( record_type record );
 	void look_up_in_glossaries( const wstring &query );
@@ -557,6 +543,14 @@ public:
 	edit_record_dlg_ptr get_editor() 
 	{
 		return m_editor ;
+	}
+	bool is_short_format()
+	{
+		return m_is_short_format ;
+	}
+	bool is_single_page()
+	{
+		return !! m_properties->m_view_props.m_data.m_single_screen_matches ;
 	}
 
 

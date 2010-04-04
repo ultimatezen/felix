@@ -536,6 +536,14 @@ public:
 	{
 		return m_editor ;
 	}
+	bool is_short_format()
+	{
+		return m_is_short_format ;
+	}
+	bool is_single_page()
+	{
+		return true ;
+	}
 
 };
 

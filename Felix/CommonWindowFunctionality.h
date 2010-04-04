@@ -59,16 +59,6 @@ public:
 	static const int SEP_ID = 0 ;
 	static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
 
-	// various display states
-	enum DISPLAY_STATE
-	{ 
-		INIT_DISPLAY_STATE , 		  // the startup screen
-		NEW_RECORD_DISPLAY_STATE , 	  // a new record has been added
-		MATCH_DISPLAY_STATE , 		  // a translation match is being displayed
-		CONCORDANCE_DISPLAY_STATE ,	  // concordances are being displayed
-		LOOKUP_DISPLAY_STATE,		  // glossary lookup screen
-		TRANS_REVIEW_STATE,			  // view translations entry
-	} ;
 
 	enum MERGE_CHOICE
 	{
@@ -78,7 +68,6 @@ public:
 	};
 	CFelixStatusBar m_statusbar ;
 	
-	DISPLAY_STATE		m_display_state ;
 
 	record_type		m_new_record ;	  // last added record
 	record_type		m_review_record ; // review mode
@@ -222,7 +211,6 @@ public:
 	size_t get_size() ;
 	void show_edit_dialog( mem_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
 
-	int get_display_state() ;
 	int prev_display_state() ;
 	int next_display_state() ;
 

@@ -18,7 +18,7 @@ void ViewStateConcordance::handle_toggle_edit_mode()
 		// user feedback
 		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
-		m_view->handle_enter_edit_mode_new_record() ;
+		m_view->handle_enter_edit_mode_concordance(m_search_matches) ;
 
 		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
 	}
@@ -26,36 +26,21 @@ void ViewStateConcordance::handle_toggle_edit_mode()
 	{
 		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
-		record_pointer edit_rec = m_window_listener->get_new_record() ;
-		m_view->handle_leave_edit_mode_new(edit_rec) ;
-		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
-
-		record_pointer new_rec = m_window_listener->get_new_record() ;
-		if ( new_rec->is_valid_record() ) 
+		if( false == m_view->handle_leave_edit_mode_concordance( m_model->get_memories(), m_search_matches ) )
 		{
-			this->show_content() ;
+			ATLTRACE(" ... All records deleted\n") ;
+			m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
+			m_view->set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
+			m_window_listener->check_mousewheel() ;
+			::MessageBeep( MB_ICONINFORMATION ) ;
 			return ;
 		}
 
-		ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
-		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
-		try
-		{
-			m_model->get_memories()->remove_record( new_rec, mem->get_id() ) ;
-			wstring content ; 
-			content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
+		ATLTRACE(" ... Showing view content\n") ;
+		this->show_content() ;
 
-			m_view->set_text( content ) ;
-			m_window_listener->check_mousewheel() ;
-			m_view->set_scroll_pos(0) ;
-		}
-		catch (except::CProgramException& e)
-		{
-			logging::log_exception(e) ;
-			e.notify_user("Failed to delete record: memory not found") ;
-		}
-
-		return ;
+		ATLTRACE(" ... Giving user feedback content\n") ;
+		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
 	}
 }
 

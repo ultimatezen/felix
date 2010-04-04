@@ -9,13 +9,13 @@ class ViewStateConcordance : public ViewState
 public:
 	typedef mem_engine::record_pointer record_pointer ;
 	typedef mem_engine::memory_pointer memory_pointer ;
-	mem_engine::search_query		*m_search_matches ;
+	mem_engine::felix_query		*m_search_matches ;
 
 	ViewStateConcordance() : m_search_matches(NULL)
 	{
 
 	}
-	void set_search_matches(mem_engine::search_query *search_matches)
+	void set_search_matches(mem_engine::felix_query *search_matches)
 	{
 		m_search_matches = search_matches ;
 	}

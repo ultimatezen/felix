@@ -133,7 +133,7 @@ namespace easyunit
 		state.retrieve_edit_record(mem->get_id(), rec) ;
 
 		ASSERT_EQUALS_V(5, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[2].c_str()), "user_feedback") ;
 		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), "345") ;

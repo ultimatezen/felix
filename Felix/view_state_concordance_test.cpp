@@ -34,7 +34,7 @@ namespace easyunit
 
 		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_concordance") ;
 
 		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
 		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, listener.m_feedback_int[0]) ;
@@ -57,13 +57,9 @@ namespace easyunit
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[3].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[5].c_str()), "0") ;
+		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_concordance") ;
 
 		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
 		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, listener.m_feedback_int[0]) ;
@@ -206,7 +202,7 @@ namespace easyunit
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
 	}
 	TEST( view_state_concordance_gloss_test, show_content )
 	{

@@ -465,11 +465,6 @@ LRESULT CCommonWindowFunctionality::on_italic( )
 }
 
 
-// Function name	: get_display_sate
-int CCommonWindowFunctionality::get_display_state()
-{
-	return m_display_state ;
-}
 
 
 // Function name	: prev_display_state

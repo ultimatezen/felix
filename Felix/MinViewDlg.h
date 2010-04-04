@@ -22,6 +22,7 @@
 
 #include "WindowExceptionHandler.h"
 #include "query.h"
+#include "window_listener.h"
 
 /**
 	@class CMinViewDlg 
@@ -40,7 +41,8 @@ class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
 	HWND m_parent ;
 	// view
 	html::CHtmlView m_view ;
-	
+	WindowListener *m_listener ;
+	mem_engine::felix_query *m_trans_matches ;
 public:
 		
 	static const int IDD = IDD_MIN_VIEW_DLG ;
@@ -51,8 +53,17 @@ public:
 	html::CHtmlDocument get_document();
 	void set_body_text(wstring text);
 	void set_parent(HWND parent);
+	void set_listener(WindowListener *listener)
+	{
+		m_listener = listener ;
+	}
+	void set_matches(mem_engine::felix_query *matches)
+	{
+		m_trans_matches = matches ;
+	}
 
-	void set_match(mem_engine::translation_match_query &trans_matches);
+	void show_content();
+	void set_match(mem_engine::felix_query *matches);
 
 	LRESULT OnLButtonDown( UINT id, CPoint pt );
 	LRESULT OnMouse(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ ) ;
