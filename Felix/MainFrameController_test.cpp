@@ -4,6 +4,11 @@
 #include "MainFrameModel.h"
 #include "record_local.h"
 #include "easyunit/testharness.h"
+#include "view_interface_fake.h"
+#include "window_listener_fake.h"
+#include "felix_model_fake.h"
+#include "memory_local.h"
+#include "record_local.h"
 
 #ifdef UNIT_TEST
 
@@ -112,17 +117,52 @@ namespace easyunit
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
 		ASSERT_EQUALS_V(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record )
+	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record_message )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
-		LRESULT lResult = 1 ;
+
+		view_interface_fake view ;
+		WindowListenerFake listener; 
+		memory_pointer mem(new memory_local) ;
+		model.m_model->insert_memory(mem) ;
+
+		main_frame.m_view_state_initial.set_view(&view) ;
+		main_frame.m_view_state_initial.set_window_listener(&listener) ;
+
+		main_frame.m_editor->set_memory_id(1) ;
+		LRESULT lResult = CMainFrame::INIT_DISPLAY_STATE ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, 0, lResult, 0)  ;
 		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_retrieve_edit_record" ) ;
 		ASSERT_EQUALS_V( 0, (int)lResult) ;
 	}
+	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record_state )
+	{
+		FelixModelInterfaceFake model ;
+		CMainFrame main_frame(&model) ;
+
+		view_interface_fake view ;
+		WindowListenerFake listener; 
+		memory_pointer mem(new memory_local) ;
+		model.m_model->insert_memory(mem) ;
+
+		main_frame.m_view_state_initial.set_view(&view) ;
+		main_frame.m_view_state_initial.set_window_listener(&listener) ;
+
+		main_frame.m_editor->set_memory_id(mem->get_id()) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"source") ;
+		rec->set_trans(L"trans") ;
+		main_frame.m_editor->set_new_record(rec) ;
+		LRESULT lResult = CMainFrame::INIT_DISPLAY_STATE ;
+		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, 0, lResult, 0)  ;
+
+		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
+	}
+
 	TEST( MainFrameControllerTests, Teston_user_edit_search )
 	{
 		MainFrameModel model ;

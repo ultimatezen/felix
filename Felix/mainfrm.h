@@ -85,6 +85,7 @@ VISIBLE_TO_TESTS
 
 	// the match records for glossary registration
 	CRegisterGlossDlg		m_reg_gloss_dlg ;
+	edit_record_dlg_ptr m_editor ;
 
 	// ====================
 	// glossary interface
@@ -553,6 +554,10 @@ public:
 	mem_engine::search_match_ptr get_current_match();
 
 	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
+	edit_record_dlg_ptr get_editor() 
+	{
+		return m_editor ;
+	}
 
 
 };

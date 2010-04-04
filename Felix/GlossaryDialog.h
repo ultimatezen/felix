@@ -77,6 +77,7 @@ class CGlossaryWindow :
 	// flag to tell us whether this is the main glossary dialog (for creating title)
 	bool							m_is_main ;
 	HWND							m_hWndClient ;
+	edit_record_dlg_ptr m_editor ;
 
 	CGlossaryWinListener		*m_listener ;
 
@@ -530,6 +531,10 @@ public:
 	{
 		match ;
 		do_gloss ;
+	}
+	edit_record_dlg_ptr get_editor() 
+	{
+		return m_editor ;
 	}
 
 };

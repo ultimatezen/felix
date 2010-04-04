@@ -52,6 +52,13 @@ CGlossaryWindow::CGlossaryWindow( ) :
 m_is_main( false ),
 m_listener( NULL)
 { 
+	m_is_short_format = true ;
+	m_silent_mode = false ;
+	m_mousewheel_count = 0;
+	m_new_record = record_pointer(new record_local);
+	m_review_record = record_pointer(new record_local);
+	m_item_under_edit = search_match_ptr(new match_type(record_pointer(new record_local)));
+	m_editor = edit_record_dlg_ptr(new CEditTransRecordDialog);
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -67,7 +74,7 @@ m_listener( NULL)
 	seed_random_numbers();
 
 	m_memories = m_model.get_memories() ; 
-	m_editor.m_is_glossary = true ;
+	m_editor->m_is_glossary = true ;
 
 }
 
@@ -1654,7 +1661,7 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 	// we need to do is refresh the display -- the information is already
 	// updated
 
-	ATLASSERT( m_editor.get_memory_id() > 0 ) ;
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
 
 	// set the new display_state (we set this when we called up the editor)
 	set_display_state ( static_cast< DISPLAY_STATE >( lParam ) );
@@ -1663,37 +1670,37 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 	case INIT_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case NEW_RECORD_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case LOOKUP_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_lookup) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 
 	case MATCH_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_match) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_concordance) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 

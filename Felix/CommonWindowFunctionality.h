@@ -100,7 +100,7 @@ public:
 	CEditModeFindDlg		m_edit_find ;
 	CEditModeReplaceDlg		m_edit_replace ;
 	// edit record dialog
-	CEditTransRecordDialog  m_editor ;
+	typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
 	// background processing
 	// (Checks for messages on the queue)
@@ -251,6 +251,7 @@ public:
 	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
 
 	virtual boost::shared_ptr<mem_engine::memory_model> get_memory_model() = 0 ;
+	virtual edit_record_dlg_ptr get_editor() = 0 ;
 	
 } ;
 

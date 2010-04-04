@@ -2660,6 +2660,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view_state_fake.h"
+				>
+			</File>
+			<File
 				RelativePath=".\view_state_gloss_lookup.h"
 				>
 			</File>

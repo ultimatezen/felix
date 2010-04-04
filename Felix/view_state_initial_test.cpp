@@ -64,14 +64,14 @@ namespace easyunit
 		view_interface_fake view ;
 		WindowListenerFake listener; 
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.m_model->insert_memory(mem) ;
 
 		ViewStateInitialMain state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
-		record_pointer rec = record_pointer(new record_local) ;
+		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
 		state.retrieve_edit_record(mem->get_id(), rec) ;
@@ -85,14 +85,14 @@ namespace easyunit
 		WindowListenerFake listener; 
 		ASSERT_TRUE(! listener.new_rec->is_valid_record()) ;
 		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
+		memory_pointer mem(new memory_local) ;
 		model.get_memories()->insert_memory(mem) ;
 
 		ViewStateInitialMain state ;
 		state.set_view(&view) ;
 		state.set_window_listener(&listener) ;
 		state.set_model(&model) ;
-		record_pointer rec = record_pointer(new record_local) ;
+		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
 		state.retrieve_edit_record(mem->get_id(), rec) ;

@@ -19,13 +19,6 @@ using namespace html ;
 
 // CTOR
 CCommonWindowFunctionality::CCommonWindowFunctionality( )
-:	m_is_short_format( true ),
-m_silent_mode( false ),
-m_mousewheel_count(0),
-m_editor(),
-m_new_record(new mem_engine::record_local()),
-m_review_record(new mem_engine::record_local()),
-m_item_under_edit(new match_type(record_pointer(new mem_engine::record_local())))
 {
 }
 
@@ -286,24 +279,24 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 	
 	// set the record into the edit dialog
 	this->set_new_record(record_pointer(new record_local())) ;
-	m_editor.set_old_record( get_new_record() ) ;
+	get_editor()->set_old_record( get_new_record() ) ;
 
-	m_editor.set_new_record(record_pointer(new record_local())) ;
+	get_editor()->set_new_record(record_pointer(new record_local())) ;
 	
 	// This is the memory that the entry will be added to
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
-	m_editor.set_memory_id( mem->get_id() ) ;
+	get_editor()->set_memory_id( mem->get_id() ) ;
 
 	search_match_ptr match(new mem_engine::search_match) ;
 	match->set_record(get_new_record()) ;
 	match->set_memory_id(mem->get_id()) ;
 	this->set_item_under_edit(match) ;
 	
-	m_editor.set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
+	get_editor()->set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
 
-	m_editor.SetWindowText( R2T( title_id ) ) ;
+	get_editor()->SetWindowText( R2T( title_id ) ) ;
 #ifndef UNIT_TEST
-	m_editor.ShowWindow( SW_SHOW ) ;
+	get_editor()->ShowWindow( SW_SHOW ) ;
 #endif
 
 	return true ;
@@ -317,26 +310,21 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 	return true ;
 #endif
 
-	if ( ! m_editor.IsWindow() )
+	if ( ! get_editor()->IsWindow() )
 	{
-		_Module.AddCreateWndData( &m_editor.m_thunk.cd, (CDialogImplBaseT< TWindow >*)&m_editor);
+		get_editor()->Create(*this) ;
 
-		DLGPROC lpDialogProc = (DLGPROC)m_editor.StartDialogProc ;
-		int res_id = IDD_EDIT_RECORD ;
+		ATLASSERT( get_editor()->IsWindow() ) ;
 
-		instantiate_dlg( res_id, lpDialogProc ) ;
-
-		ATLASSERT( m_editor.IsWindow() ) ;
-
-		if ( ! m_editor.IsWindow() )
+		if ( ! get_editor()->IsWindow() )
 		{
 			throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
 		}
 	}
-	m_editor.ShowWindow( show_command ) ;
-	m_editor.SetFocus() ;
+	get_editor()->ShowWindow( show_command ) ;
+	get_editor()->SetFocus() ;
 
-	return ( !! m_editor.IsWindow() ) ;
+	return ( !! get_editor()->IsWindow() ) ;
 
 }
 
@@ -434,13 +422,13 @@ void CCommonWindowFunctionality::show_edit_dialog( record_pointer &record, const
 	// make sure the window is created, 
 	// and hide it while we do our magic
 	init_edit_window( SW_HIDE ) ;
-	m_editor.set_old_record( record ) ;
-	m_editor.set_new_record( record_pointer((new record_local())) ) ;
+	get_editor()->set_old_record( record ) ;
+	get_editor()->set_new_record( record_pointer((new record_local())) ) ;
 
-	m_editor.set_memory_id( memory_id ) ;
+	get_editor()->set_memory_id( memory_id ) ;
 	// remember our display state
-	m_editor.set_display_state( get_display_state() ) ;
-	m_editor.SetWindowText( R2T( title_id ) ) ;
+	get_editor()->set_display_state( get_display_state() ) ;
+	get_editor()->SetWindowText( R2T( title_id ) ) ;
 #ifndef UNIT_TEST
 	// show the dialog
 	init_edit_window( SW_SHOW ) ;
@@ -595,32 +583,32 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 */
 void CCommonWindowFunctionality::refresh_editor_window()
 {
-	if ( ! m_editor.IsWindow() )
+	if ( ! get_editor()->IsWindow() )
 	{
 		return ;
 	}
 
 	// fill in the new record from the dialog fields
-	m_editor.fill_new_record() ;
+	get_editor()->fill_new_record() ;
 
 	// remember it now...
-	record_pointer record = m_editor.get_new_record() ;
+	record_pointer record = get_editor()->get_new_record() ;
 
 	// remember if it was visible
-	BOOL was_visible = m_editor.IsWindowVisible() ;
+	BOOL was_visible = get_editor()->IsWindowVisible() ;
 	RECT rc ;
-	m_editor.GetWindowRect( &rc ) ;
+	get_editor()->GetWindowRect( &rc ) ;
 
 	// destroy it
-	m_editor.DestroyWindow() ;
+	get_editor()->DestroyWindow() ;
 
 	// ..and resurrect it
 	// If it was visible, make it visible now
 	init_edit_window( ( was_visible ? SW_SHOW : SW_HIDE ) ) ;
-	m_editor.MoveWindow( &rc, !! was_visible ) ;
+	get_editor()->MoveWindow( &rc, !! was_visible ) ;
 
 	// fill in the information
-	m_editor.fill_from_record( record ) ;
+	get_editor()->fill_from_record( record ) ;
 
 }
 
@@ -880,6 +868,9 @@ void CCommonWindowFunctionality::check_mousewheel()
 	{
 		return ;
 	}
+#ifdef UNIT_TEST
+	return ;
+#endif
 	m_view_interface.run_script("normalizeFontSizes") ;
 }
 

@@ -110,10 +110,16 @@ CString get_docs_path()
 /** Constructor. Takes model interface.
  */
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
-	m_model( model ),
-	CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >(),
-	m_properties(new app_props::properties())
+m_model( model ),
+m_properties(new app_props::properties())
 {
+	m_is_short_format = true ;
+	m_silent_mode = false ;
+	m_mousewheel_count = 0;
+	m_new_record = record_pointer(new record_local);
+	m_review_record = record_pointer(new record_local);
+	m_item_under_edit = search_match_ptr(new match_type(record_pointer(new record_local)));
+	m_editor = edit_record_dlg_ptr(new CEditTransRecordDialog);
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -584,32 +590,29 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 
 	SENSE("on_user_retrieve_edit_record") ;
 
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
-	ATLASSERT( m_editor.get_memory_id() > 0 ) ;
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
 
 	switch ( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case NEW_RECORD_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case TRANS_REVIEW_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 
@@ -623,15 +626,15 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 		// re-calculate score...
 		{
 			ATLASSERT(m_view_state == &m_view_state_match) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 			break ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_concordance) ;
-			m_view_state->retrieve_edit_record(m_editor.get_memory_id(),
-											   m_editor.get_new_record()) ;
+			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+											   m_editor->get_new_record()) ;
 
 
 			break ;
@@ -640,6 +643,10 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 	default:
 		ATLASSERT( "Unknown state" && FALSE ) ;
 	}
+#ifdef UNIT_TEST
+	return 0 ;
+#endif
+
 	show_view_content() ;
 	return 0L ;
 }
