@@ -6,6 +6,7 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
+#include "system_message.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordance
@@ -86,7 +87,20 @@ void ViewStateConcordance::redo_concordance()
 
 void ViewStateConcordanceMain::show_content()
 {
+	if ( m_search_matches->size() == 0 )
+	{
+		wstring content = wstring(L"<b>")
+			+ R2WSTR( IDS_SEARCH_RESULTS ) 
+			+ L":</b><br />";
+		content += (LPCWSTR)system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
+		m_view->set_text(content) ;
+	}
+	else
+	{
+		m_view->set_text(m_search_matches->get_html_long()) ;
+	}
 
+	m_window_listener->check_mousewheel() ;
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceGloss

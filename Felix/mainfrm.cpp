@@ -1799,39 +1799,6 @@ bool CMainFrame::get_concordances( const wstring query_string )
 }
 
 
-/** Show the current match.
- */
-bool CMainFrame::show_current_match()
-{
-	ATLASSERT( get_display_state() == MATCH_DISPLAY_STATE ||
-		get_display_state() == TRANS_REVIEW_STATE);
-
-	// show it!
-	try
-	{
-		show_full_view_match();
-	}
-	catch ( CException &e )
-	{
-		logging::log_exception(e) ;
-		e.add_to_message( R2TS( IDS_SHOW_FAILED ) ) ;
-		throw except::CException( e ) ;
-	}
-	return true ; 
-}
-
-/** Response to concordance/search.
- */
-wstring CMainFrame::create_concordance_list( )
-{
-	if ( m_search_matches.size() == 0 )
-	{
-		return get_concordance_content_title() + (LPCWSTR)system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
-	}
-
-	return m_search_matches.get_html_long() ;
-}
-
 /** Get the glossary entry at index from the main glossary window.
  */
 wstring CMainFrame::get_glossary_entry(short index)
@@ -2296,69 +2263,64 @@ bool CMainFrame::show_view_content()
 		m_min_view.show_content() ;
 		return true ;
 	}
-#ifdef UNIT_TEST
-	return true ;
-#endif
 
 	switch ( get_display_state() )
 	{
 	case MATCH_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_match) ;
+
 		UISetCheck( ID_VIEW_MATCH,	TRUE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
-		return show_current_match() ;
+
 		m_view_state->show_content() ;
 		return true ;
 
 	case TRANS_REVIEW_STATE:
 		ATLASSERT(m_view_state == &m_view_state_review) ;
+
 		UISetCheck( ID_VIEW_MATCH,	TRUE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
-		return show_current_match() ;
+
 		m_view_state->show_content() ;
 		return true ;
 
 	case NEW_RECORD_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_new) ;
+
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
+
 		m_view_state->show_content() ;
 		return true ;
 
 	case CONCORDANCE_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_concordance) ;
+
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
 		UISetCheck( ID_VIEW_SEARCH,	TRUE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
-
 		
-		m_view_interface.set_text( create_concordance_list( ) ) ;
-		check_mousewheel() ;
-		return true ;
 		m_view_state->show_content() ;
+		return true ;
 
 	case INIT_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_initial) ;
+
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
+
 		m_view_state->show_content() ;
 		return true ;
 
 	default:
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
 		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UISetCheck( ID_VIEW_REG,	FALSE );
 		UpdateLayout( FALSE ) ;
+
 		ATLASSERT( "Unkown display state in CMainFrame" && FALSE ) ;
 	}
 	return false ;
@@ -2386,7 +2348,6 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
 		fs::wpath( mem->get_location() ).leaf()) ;
 
 	return get_merge_choice(dlg);
-
 }
 
 
@@ -4166,53 +4127,8 @@ CString CMainFrame::get_window_type_string()
 	return resource_string(IDS_MEMORY) ;
 }
 
-/** Show match in full-window (normal) mode.
- */
-void CMainFrame::show_full_view_match() 
-{
-	std::wstring content ;
 
-	if (get_display_state() == TRANS_REVIEW_STATE)
-	{
-		memory_pointer mem = get_memory_model()->get_first_memory() ;
-		content = get_review_content(mem) ;
-	}
-	else
-	{
-		content = get_match_content();
-	}
 
-	// m_view.write( content ) ;
-	m_view_interface.set_text( content ) ;
-	check_mousewheel() ;
-
-	if ( m_properties->m_view_props.m_data.m_single_screen_matches ) 
-	{
-		m_view_interface.set_accel(m_hAccel) ;
-		m_view_interface.ensure_document_complete() ;
-
-	}
-	else
-	{
-		m_view_interface.set_scroll_pos(0) ;
-	}
-	set_bg_color_if_needed() ;
-}
-
-/** Get the match HTML content as a wstring.
- */
-std::wstring CMainFrame::get_match_content()
-{
-	if ( m_properties->m_view_props.m_data.m_single_screen_matches ) 
-	{
-		return m_trans_matches.get_html_all() ;			
-	}
-	if ( m_is_short_format )
-	{
-		return m_trans_matches.get_html_short() ; 
-	}
-	return m_trans_matches.get_html_long() ;
-}
 
 //! This is our poor-man's multithreading.
 void CMainFrame::init_background_processor()
@@ -4747,12 +4663,6 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 	}
 }
 
-wstring CMainFrame::get_concordance_content_title()
-{
-	return wstring(L"<b>")
-		+ R2WSTR( IDS_SEARCH_RESULTS ) 
-		+ L":</b><br />";
-}
 
 //! Make sure that ShellExecute didn't return an error code.
 void CMainFrame::check_shell_execute_result( int result, 

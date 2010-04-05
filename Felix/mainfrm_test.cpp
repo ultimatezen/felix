@@ -800,16 +800,6 @@ namespace easyunit
 		ASSERT_EQUALS_V(0, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
 	}
 
-	// concordance
-	TEST(TestCMainFrame, create_concordance_list_0)
-	{
-		MainFrameModel model ;
-		CMainFrame mainframe(&model) ;
-		SimpleString actual = string2string(mainframe.create_concordance_list()).c_str() ;
-		SimpleString expected = "<b>Search Results:</b><br />Found 0 matches." ;
-		ASSERT_EQUALS_V(expected, actual) ;
-	}
-
 	// get_active_mem_name
 	TEST(TestCMainFrame, get_active_mem_name_new)
 	{

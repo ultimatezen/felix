@@ -611,7 +611,6 @@
 #define ID_FORMAT_BGCOLOR               32800
 #define ID_VIEW_MATCH                   32801
 #define ID_VIEW_SEARCH                  32802
-#define ID_VIEW_REG                     32803
 #define ID_HELP_REGISTER                32804
 #define ID_HELP_TUTORIAL                32805
 #define ID_HELP_FAQ                     32806

@@ -242,8 +242,6 @@ public:
 	// ui stuff
 	// =================
 
-	bool show_current_match();
-	void show_full_view_match();
 	bool prev_match( );
 	bool next_match( );
 
@@ -397,14 +395,11 @@ public:
 	//
 	// other helpers
 	LRESULT handle_find() ;
-	wstring create_concordance_list( );
 
-	wstring get_concordance_content_title();
 	void handle_foreign_file_save(memory_type& mem, const file::CFileExtension& ext);
 
 	void feedback_loaded_mem( memory_type mem );
 
-	std::wstring get_match_content();
 private: 
 	void check_load_history() ;
 
@@ -481,7 +476,6 @@ public:
 		UPDATE_ELEMENT( ID_VIEW_EDIT_MODE,	UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT( ID_VIEW_MATCH,		UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT( ID_VIEW_SEARCH,		UPDUI_MENUPOPUP)
-		UPDATE_ELEMENT( ID_VIEW_REG,		UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT( ID_EDIT_REPLACE,	UPDUI_MENUPOPUP)
 	END_UPDATE_UI_MAP()
 

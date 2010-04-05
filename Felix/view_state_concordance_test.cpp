@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "view_state_concordance.h"
-#include "view_interface_fake.h"
-#include "window_listener_fake.h"
-#include "felix_model_fake.h"
-#include "memory_local.h"
+#include "view_state_test_utils.h"
 #include "record_local.h"
+#include "query.h"
 
 #include "easyunit/testharness.h"
 
@@ -19,68 +17,66 @@ namespace easyunit
 
 	TEST( view_state_concordance_test, handle_toggle_edit_mode_false )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateConcordanceMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_concordance") ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_concordance") ;
 
-		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, listener.m_feedback_int[1]) ;
+		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
+		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_test, handle_toggle_edit_mode_true )
+	TEST( view_state_concordance_test, handle_toggle_edit_mode_true_view )
 	{
-		view_interface_fake view ;
-		view.m_is_edit_mode = true ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateConcordanceMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+		vso.view.m_is_edit_mode = true ;
+
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_concordance") ;
+		ASSERT_EQUALS_V(4, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_concordance") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "<b>Search Results:</b><br />Found 0 matches.") ;
+	}
+	TEST( view_state_concordance_test, handle_toggle_edit_mode_true_listener )
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+		vso.view.m_is_edit_mode = true ;
 
-		ASSERT_EQUALS_V(2, (int)listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, listener.m_feedback_int[1]) ;
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
+
+		state.handle_toggle_edit_mode() ;
+
+		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
+		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_test, show_content )
+	TEST( view_state_concordance_test, show_content_0_matches_view )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateConcordanceMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
 
 		state.show_content() ;
 
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("Found 0 matches.") != string::npos) ;
 	}
 
 	TEST( view_state_concordance_test, retrieve_edit_record_model )
