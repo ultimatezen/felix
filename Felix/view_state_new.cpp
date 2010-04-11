@@ -76,6 +76,11 @@ void ViewStateNew::retrieve_edit_record( int mem_id, mem_engine::record_pointer 
 	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
 }
 
+void ViewStateNew::delete_match( size_t index )
+{
+	index ;
+
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewMain
 //////////////////////////////////////////////////////////////////////////

@@ -31,6 +31,15 @@ int ViewStateInitial::get_edit_record_title()
 {
 	return IDS_ADD_ENTRY;
 }
+
+void ViewStateInitial::delete_match( size_t index )
+{
+	index ;
+#ifndef UNIT_TEST
+	MessageBeep(MB_ICONEXCLAMATION) ;
+#endif
+	m_window_listener->user_feedback(IDS_NO_MATCHES);
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateInitialMain
 //////////////////////////////////////////////////////////////////////////

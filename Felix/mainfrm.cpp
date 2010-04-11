@@ -1927,23 +1927,14 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 {
 	SENSE("on_user_delete") ;
 
-#ifdef UNIT_TEST
-	return 0 ;
-#endif
-
 	const size_t index = static_cast<size_t>(num) ;
-
-	if ( m_model->get_memories()->empty() )
-	{
-		throw except::CException( IDS_INVALID_STATE ) ;
-	}
 
 	switch ( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE:
 		{
-			MessageBeep(MB_ICONEXCLAMATION) ;
-			user_feedback(IDS_NO_MATCHES);
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
+			m_view_state->delete_match(index) ;
 			return 0L ;
 		}
 	case NEW_RECORD_DISPLAY_STATE: 
@@ -1963,10 +1954,14 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 			//remove_record_from_glossaries(m_new_record);
 
 			deleted_new_record_feedback();
-			break ;
+			m_view_state->delete_match(index) ;
+			m_view_state->delete_match(index) ;
+			user_feedback( IDS_DELETED_ENTRY ) ;
+			return 0L ;
 		}
 	case MATCH_DISPLAY_STATE:
 		{
+			ATLASSERT(m_view_state == &m_view_state_match) ;
 			if ( m_trans_matches.empty() )
 			{
 				user_feedback(IDS_NO_MATCHES);
@@ -2009,10 +2004,19 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 			}
 
 			show_view_content() ;
-			break ;
+			m_view_state->delete_match(index) ;
+			user_feedback( IDS_DELETED_ENTRY ) ;
+			return 0L ;
+		}
+	case TRANS_REVIEW_STATE:
+		{
+			ATLASSERT(m_view_state == &m_view_state_review) ;
+			m_view_state->delete_match(index) ;
+			return 0L ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
+			ATLASSERT(m_view_state == &m_view_state_concordance) ;
 			if ( index >= m_search_matches.size() )
 			{
 				MessageBeep(MB_ICONEXCLAMATION) ;
@@ -2030,12 +2034,15 @@ LRESULT CMainFrame::on_user_delete(LPARAM num )
 
 			m_search_matches.erase_at( index ) ;
 			show_view_content() ;
-			break ;
+			m_view_state->delete_match(index) ;
+			user_feedback( IDS_DELETED_ENTRY ) ;
+			return 0L ;
 		}
+	default:
+		ATLASSERT("Unknown state in delete record" && FALSE) ;
+		return 0L ;
 	}
 
-	// give the user feedback
-	user_feedback( IDS_DELETED_ENTRY ) ;
 	return 0L ;
 }
 

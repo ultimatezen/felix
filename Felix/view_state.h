@@ -63,6 +63,6 @@ public:
 	virtual void show_content() = 0 ;
 	virtual void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec) = 0 ;
 	virtual mem_engine::search_match_ptr get_current_match() = 0 ;
-
+	virtual void delete_match(size_t index) = 0 ;
 };
 

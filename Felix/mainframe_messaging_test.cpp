@@ -267,9 +267,10 @@ namespace easyunit
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavDelete(0) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnNavDelete"); 
 		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_delete" ) ;
+		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "No Matches" ) ;
+		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
 	}
 
 	TEST( CMainFrameMessages, TestOnNavAddToGloss )

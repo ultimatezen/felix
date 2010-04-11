@@ -24,5 +24,6 @@ public:
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
+	void delete_match(size_t index);
 };
 

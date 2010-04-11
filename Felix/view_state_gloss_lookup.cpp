@@ -99,3 +99,9 @@ mem_engine::search_match_ptr ViewStateGlossLookup::get_current_match()
 	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
 	return match ;
 }
+
+void ViewStateGlossLookup::delete_match( size_t index )
+{
+	index ;
+
+}

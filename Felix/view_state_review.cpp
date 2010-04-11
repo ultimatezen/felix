@@ -136,3 +136,8 @@ void ViewStateReview::set_current( size_t num )
 {
 	m_search_matches->set_current(num) ;
 }
+
+void ViewStateReview::delete_match( size_t index )
+{
+	index ;
+}

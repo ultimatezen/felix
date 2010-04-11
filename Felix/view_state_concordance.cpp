@@ -99,6 +99,12 @@ void ViewStateConcordance::set_current( size_t num )
 {
 	m_search_matches->set_current(num) ;
 }
+
+void ViewStateConcordance::delete_match( size_t index )
+{
+	index ;
+
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceMain
 //////////////////////////////////////////////////////////////////////////
