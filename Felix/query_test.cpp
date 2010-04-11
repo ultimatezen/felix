@@ -295,6 +295,42 @@ namespace easyunit
 		query.set_current(1) ;
 		ASSERT_EQUALS_V(1, (int)query.current_pos()) ;
 	}
+	TEST(test_search_query_mainframe, set_current_for_emtpy)
+	{
+		search_query_mainframe query ;
+		query.set_current(1) ;
+		ASSERT_EQUALS_V(0, (int)query.current_pos()) ;
+	}
+
+	TEST(test_search_query_mainframe, erase_at)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		query.set_matches(matches) ;
+		ASSERT_EQUALS_V(2, (int)query.size()) ;
+		query.erase_at(1) ;
+		ASSERT_EQUALS_V(1, (int)query.size()) ;
+	}
+	TEST(test_search_query_mainframe, erase_at_for_empty)
+	{
+		search_query_mainframe query ;
+		query.erase_at(1) ;
+		ASSERT_EQUALS_V(0, (int)query.size()) ;
+	}
+	TEST(test_search_query_mainframe, erase_at_beyond_bounds)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		query.set_matches(matches) ;
+		query.erase_at(5) ;
+		ASSERT_EQUALS_V(2, (int)query.size()) ;
+	}
 
 	TEST(test_search_query_mainframe, make_id_cell)
 	{
@@ -312,7 +348,59 @@ namespace easyunit
 		SimpleString expected = "<table class=\"base\">\n" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	// prev_match_pos
+	TEST(test_search_query_mainframe, get_prev_match_pos_0)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		query.set_matches(matches) ;
+		query.set_current(0) ;
 
+		ASSERT_EQUALS_V(1, (int)query.prev_match_pos()) ;
+	}
+
+	TEST(test_search_query_mainframe, get_prev_match_pos_mid)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match), m3(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		matches.insert(m3) ;
+		query.set_matches(matches) ;
+		query.set_current(1) ;
+
+		ASSERT_EQUALS_V(0, (int)query.prev_match_pos()) ;
+	}
+	TEST(test_search_query_mainframe, get_next_match_pos_0)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		query.set_matches(matches) ;
+		query.set_current(0) ;
+
+		ASSERT_EQUALS_V(1, (int)query.next_match_pos()) ;
+	}
+
+	TEST(test_search_query_mainframe, get_next_match_pos_end)
+	{
+		search_query_mainframe query ;
+		search_match_container matches ;
+		search_match_ptr m1(new search_match), m2(new search_match), m3(new search_match) ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		matches.insert(m3) ;
+		query.set_matches(matches) ;
+		query.set_current(2) ;
+
+		ASSERT_EQUALS_V(0, (int)query.next_match_pos()) ;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// search_query_glossary
 	//////////////////////////////////////////////////////////////////////////
@@ -479,6 +567,13 @@ namespace easyunit
 		SimpleString expected = "(100%)" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST(test_translation_match_query, prev_empty)
+	{
+		translation_match_query query ;
+		SimpleString actual = string2string(query.prev_score()).c_str() ;
+		SimpleString expected = "(0%)" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}	
 	TEST(test_translation_match_query, next_no_formatting_penalty)
 	{
 		translation_match_query query ;
@@ -518,7 +613,7 @@ namespace easyunit
 		query.set_current(1) ;
 
 		SimpleString actual = string2string(query.prev_score()).c_str() ;
-		SimpleString expected = "(40% <font color=\"#888888\">[F]</font>)" ;
+		SimpleString expected = "(40% <span class=\"format_penalty\">[F]</span>)" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
 	TEST(test_translation_match_query, next_formatting_penalty)
@@ -540,9 +635,51 @@ namespace easyunit
 		query.set_current(1) ;
 
 		SimpleString actual = string2string(query.next_score()).c_str() ;
-		SimpleString expected = "(90% <font color=\"#888888\">[F]</font>)" ;
+		SimpleString expected = "(90% <span class=\"format_penalty\">[F]</span>)" ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST(test_translation_match_query, next_empty)
+	{
+		translation_match_query query ;
+		SimpleString actual = string2string(query.next_score()).c_str() ;
+		SimpleString expected = "(0%)" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}	
+
+	TEST(test_translation_match_query, score_text_plain)
+	{
+		translation_match_query query ;
+		search_match_ptr match(new search_match) ;
+		match->set_base_score(.75) ;
+
+		SimpleString actual = string2string(query.get_score_text(match)).c_str() ;
+		SimpleString expected = "75%" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}	
+	TEST(test_translation_match_query, score_text_formatting)
+	{
+		translation_match_query query ;
+		query.m_params.m_assess_format_penalty = true; 
+		search_match_ptr match(new search_match) ;
+		match->set_base_score(1.0) ;
+		match->set_formatting_penalty(.1) ;
+
+		SimpleString actual = string2string(query.get_score_text(match)).c_str() ;
+		SimpleString expected = "90% <span class=\"format_penalty\">[F]</span>" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}	
+	TEST(test_translation_match_query, score_text_placement)
+	{
+		translation_match_query query ;
+		query.m_params.m_assess_format_penalty = false; 
+		search_match_ptr match(new search_match) ;
+		match->set_base_score(.75) ;
+		match->Placement() ;
+
+		SimpleString actual = string2string(query.get_score_text(match)).c_str() ;
+		SimpleString expected = "75% <span class=\"format_penalty\">[P]</span>" ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}	
 
 }
 

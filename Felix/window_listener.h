@@ -25,6 +25,7 @@ public:
 	}
 
 
+	virtual bool check_delete() = 0 ;
 	virtual void show_edit_dialog( mem_engine::record_pointer record, 
 								   const int memory_id, 
 								   UINT title_id ) = 0 ;

@@ -135,6 +135,8 @@ struct felix_query
 	// m_match_list interface 
 	// ====================
 	size_t current_pos() ;
+	size_t prev_match_pos();
+	size_t next_match_pos();
 	size_t size() ;
 	match_ptr &at( size_t pos );
 	match_ptr &current();
@@ -219,11 +221,12 @@ struct translation_match_query : public felix_query
 	wstring create_dummy_match( ) ;
 
 	wstring prev_score() ;
+
+	wstring get_score_text( search_match_ptr prev_match );
 	wstring next_score() ;
 	
 	wstring get_html_all();
 
-	wstring get_score_text( match_ptr match );
 	wstring get_html_short()  ;
 
 	wstring get_mem_name( wstring loc );

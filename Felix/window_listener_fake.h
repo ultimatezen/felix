@@ -19,6 +19,7 @@ public:
 	std::vector<int> m_feedback_int ;
 	bool m_is_short_format ;
 	bool m_is_single_page ;
+	bool m_should_delete ;
 
 	WindowListenerFake() : 
 		new_rec(new rec_type)
@@ -27,6 +28,7 @@ public:
 		, item_under_edit(new match_type(rec_ptr(new rec_type)))
 		, m_is_short_format(false)
 		, m_is_single_page(false) 
+		, m_should_delete(true)
 	{
 	}
 
@@ -38,6 +40,10 @@ public:
 		memory_id ;
 		title_id ;
 		SENSE("show_edit_dialog") ;
+	}
+	bool check_delete()
+	{
+		return m_should_delete ;
 	}
 	void set_new_record(rec_ptr rec)
 	{

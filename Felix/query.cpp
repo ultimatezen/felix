@@ -122,6 +122,27 @@ size_t felix_query::current_pos()
 { 
 	return m_pos ; 
 }
+size_t felix_query::prev_match_pos()
+{
+	size_t prev_pos = m_pos ;
+	// get the current match
+	if ( prev_pos == 0 )
+	{
+		prev_pos = size() ;
+	}
+	--prev_pos ;
+	return prev_pos ;
+}
+size_t felix_query::next_match_pos()
+{
+	size_t next_pos = m_pos + 1;
+	// get the current match
+	if ( next_pos >= size() )
+	{
+		next_pos = 0 ;
+	}
+	return next_pos ;
+}
 size_t felix_query::size() 
 { 
 	return m_match_list.size() ; 
@@ -195,21 +216,33 @@ void felix_query::erase_current()
 }
 void felix_query::erase_at( size_t pos )
 {
-	ATLASSERT( pos < size() ) ;
-	if ( empty() )
+	if (pos >= size())
+	{
+		logging::log_warn("Tried to erase from out of bounds. Size: " + 
+								ulong2string(size()) + 
+								"; Pos: " + 
+								ulong2string(pos)) ;
 		return ;
-	ATLASSERT( pos < size() ) ;
+	}
 
 	match_list::iterator iter = m_match_list.begin() ;
 	std::advance( iter, pos ) ;
 	m_match_list.erase( iter ) ;
-	if ( m_pos == size() )
+	if ( m_pos >= size() )
+	{
 		m_pos = 0 ;
+	}
 }
 void felix_query::set_current( size_t pos )
 {
-	ATLASSERT( pos < size() ) ;
-	m_pos = pos ;
+	if (pos < size())
+	{
+		m_pos = pos ;
+	}
+	else
+	{
+		m_pos = 0 ;
+	}
 }
 
 wstring felix_query::make_id_cell( int id, const wstring &val )
@@ -268,56 +301,29 @@ wstring translation_match_query::create_dummy_match( )
 // wstring prev_score()
 wstring translation_match_query::prev_score()
 {
-	static wchar_t score_buf[128] ;
-
-	size_t prev_match_pos = m_pos ;
-	// get the current match
-	if ( prev_match_pos == 0 )
+	if (m_match_list.empty())
 	{
-		prev_match_pos = size() ;
-	}
-	--prev_match_pos ;
-
-	search_match_ptr prev_match = m_match_list[prev_match_pos] ;
-
-	if ( m_params.m_assess_format_penalty && prev_match->get_formatting_penalty() > 0.0 ) 
-	{
-		StringCbPrintfW( score_buf, 128, L"(%s <font color=\"#888888\">[F]</font>)", double2percent_wstring( prev_match->get_score() ).c_str() ) ;
+		return wstring(L"(0%)") ;
 	}
 	else
 	{
-		StringCbPrintfW( score_buf, 128, L"(%s)", double2percent_wstring( prev_match->get_score() ).c_str() ) ;
-	}
-	return wstring( score_buf ) ;
+		search_match_ptr prev_match = m_match_list[prev_match_pos()] ;
+		return L"(" + get_score_text(prev_match) + L")" ;
 
+	}
 }
 // wstring next_score()
 wstring translation_match_query::next_score()
 {
-	static wchar_t score_buf[128] ;
-	
-	// get the current match
-	size_t next_match_pos = m_pos ;
-
-	ATLASSERT( next_match_pos != size() ) ;
-	++next_match_pos ;
-	if ( next_match_pos == size() )
+	if (m_match_list.empty())
 	{
-		next_match_pos = 0 ;
-	}
-
-	search_match_ptr next_match = m_match_list[next_match_pos] ;
-
-	if ( m_params.m_assess_format_penalty && next_match->get_formatting_penalty() > 0.0 ) 
-	{
-		StringCbPrintfW( score_buf, 128, L"(%s <font color=\"#888888\">[F]</font>)", double2percent_wstring( next_match->get_score() ).c_str() ) ;
+		return wstring(L"(0%)") ;
 	}
 	else
 	{
-		StringCbPrintfW( score_buf, 128, L"(%s)", double2percent_wstring( next_match->get_score() ).c_str() ) ;
-		
+		search_match_ptr next_match = m_match_list[next_match_pos()] ;
+		return L"(" + get_score_text(next_match) + L")" ;
 	}
-	return wstring( score_buf ) ;
 }
 
 // wstring get_html_short() 
@@ -532,14 +538,15 @@ wstring translation_match_query::get_score_text( match_ptr match )
 	wstring score_text = double2percent_wstring( match->get_score() ) ;
 	if ( m_params.m_assess_format_penalty && match->get_formatting_penalty() > 0.0 ) 
 	{
-		score_text << L" <font color=\"#888888\">[F]</font>" ;
+		score_text << L" <span class=\"format_penalty\">[F]</span>" ;
 	}
 	if ( match->HasPlacement() ) 
 	{
-		score_text << L" <font color=\"#888888\">[P]</font>" ;
+		score_text << L" <span class=\"format_penalty\">[P]</span>" ;
 	}
 	return score_text ;
 }
+
 
 /************************************************************************/
 /* search_query_mainframe                                               */

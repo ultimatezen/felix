@@ -129,40 +129,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			FAIL_M(static_cast< LPCSTR >( msg )) ;
 		}
 	}
-	TEST( test_memory_remote, add_by_id_doesnt_exist )
-	{
-		try
-		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
-			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
-
-			record_pointer record = mem.add_by_id(1, L"source", L"trans") ;
-			ASSERT_EQUALS( 1u, mem.size() ) ;
-
-			ASSERT_EQUALS_V((int)record->get_id(), 1) ;
-			ASSERT_EQUALS(L"source", record->get_source_rich()) ;
-			ASSERT_EQUALS(L"trans", record->get_trans_rich()) ;
-		}
-		catch (_com_error& e)
-		{
-			TRACE(e.Description()) ;
-			TRACE(e.ErrorMessage()) ;
-			TRACE(e.Error()) ;
-			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
-		}
-	}
-
-
-	TEST( test_memory_remote, ExtraStrings )
-	{
-		memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
-		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
-
-		mem.set_extra_string( L"foo", L"bar" ) ;
-		ASSERT_EQUALS( L"bar", mem.get_extra_string(L"foo") ) ;
-	}
 
 	TEST(test_memory_remote, GetMatchesSize1)
 	{
@@ -258,42 +225,6 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			ASSERT_EQUALS(actual, expected) ;
 
 			mem.m_engine.method(L"Delete") ;
-		}
-		catch (_com_error& e)
-		{
-			TRACE(e.Description()) ;
-			TRACE(e.ErrorMessage()) ;
-			TRACE(e.Error()) ;
-			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
-		}
-	}
-
-	TEST(test_memory_remote, GetMatchesMarkupWordAlgo)
-	{
-		try
-		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
-
-			add_hit(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
-
-			trans_match_container matches ;
-			search_query_params params ;
-
-			params.m_rich_source = L"I love spam and eggs." ;
-			params.m_source = L"I love spam and eggs." ;
-			params.m_match_algo = IDC_ALGO_WORD ;
-
-			mem.find_matches(matches, params) ;
-			ASSERT_EQUALS(1, matches.size()) ;
-
-			trans_match_container::iterator pos = matches.begin() ;
-			search_match_ptr match = *pos ;
-
-			SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
-			SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
-
-			ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
 		}
 		catch (_com_error& e)
 		{
@@ -421,30 +352,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 		ASSERT_TRUE(! mem.is_local()) ;
 	}
 
-	TEST(test_memory_remote, connect)
-	{
-		try
-		{
 
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake"); 
-
-			ASSERT_TRUE(! mem.connect("spam")) ;
-			FAIL_M("Should throw on bad connection string") ;
-		}
-		catch(CException &e)
-		{
-			e ;
-			ASSERT_TRUE(true) ;
-		}
-		catch (_com_error& e)
-		{
-			TRACE(e.Description()) ;
-			TRACE(e.ErrorMessage()) ;
-			TRACE(e.Error()) ;
-			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
-		}
-	}
 
 
 
