@@ -25,7 +25,7 @@ public:
 	}
 
 
-	virtual void show_edit_dialog( mem_engine::record_pointer &record, 
+	virtual void show_edit_dialog( mem_engine::record_pointer record, 
 								   const int memory_id, 
 								   UINT title_id ) = 0 ;
 	virtual void set_new_record(mem_engine::record_pointer rec) = 0 ;
@@ -45,6 +45,8 @@ public:
 	virtual bool is_short_format() = 0 ;
 	virtual bool is_single_page() = 0 ;
 
+	// UI control
+	virtual void set_menu_checkmark(int item_id, bool is_checked) = 0 ;
 	// user feedback
 	virtual bool user_feedback( const CString &feedback, int pane = 0) = 0 ;
 	virtual bool user_feedback( const UINT id, int pane = 0) = 0 ;

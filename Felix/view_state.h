@@ -40,7 +40,25 @@ public:
 		m_window_listener = listener ;
 	}
 
-	// virtual
+	void on_user_edit()
+	{
+		search_match_ptr match = this->get_current_match() ;
+		m_window_listener->set_item_under_edit(match) ;
+		ATLASSERT( match->get_memory_id() != 0 ) ;
+		m_window_listener->show_edit_dialog( match->get_record(), match->get_memory_id(), get_edit_record_title() ) ;
+	}
+
+	virtual void set_current(size_t num)
+	{
+		num ;
+	}
+
+	virtual int get_edit_record_title() 
+	{
+		return IDS_EDIT_RECORD_TITLE;
+	}
+	// pure virtual
+	virtual void activate() = 0 ;
 	virtual void handle_toggle_edit_mode() = 0 ;
 	virtual void show_content() = 0 ;
 	virtual void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec) = 0 ;

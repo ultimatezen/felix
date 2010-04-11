@@ -36,6 +36,7 @@ void add_popup_item(CMenu &menu, int command_id, int text_id) ;
 void add_popup_separator(CMenu &menu) ;
 
 
+typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
 /**
 	@class CCommonWindowFunctionality  
@@ -89,7 +90,6 @@ public:
 	CEditModeFindDlg		m_edit_find ;
 	CEditModeReplaceDlg		m_edit_replace ;
 	// edit record dialog
-	typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
 	// background processing
 	// (Checks for messages on the queue)
@@ -209,7 +209,7 @@ public:
 	bool init_edit_window(int show_command = SW_HIDE) ;
 	bool init_find_window(int show_command = SW_HIDE, int title = 0 ) ;
 	size_t get_size() ;
-	void show_edit_dialog( mem_engine::record_pointer &record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
+	void show_edit_dialog( mem_engine::record_pointer record, const int memory_id, UINT title_id = IDS_EDIT_GLOSS ) ;
 
 	int prev_display_state() ;
 	int next_display_state() ;

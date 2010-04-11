@@ -493,6 +493,7 @@ public:
 
 
 
+
 	void set_lang_of_gloss_windows();
 
 	void refresh_command_bar();
@@ -534,19 +535,10 @@ public:
 	mem_engine::search_match_ptr get_current_match();
 
 	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
-	edit_record_dlg_ptr get_editor() 
-	{
-		return m_editor ;
-	}
-	bool is_short_format()
-	{
-		return m_is_short_format ;
-	}
-	bool is_single_page()
-	{
-		return !! m_properties->m_view_props.m_data.m_single_screen_matches ;
-	}
-
+	edit_record_dlg_ptr get_editor();
+	bool is_short_format();
+	bool is_single_page();
+	void set_menu_checkmark(int item_id, bool is_checked);
 
 };
 

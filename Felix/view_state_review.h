@@ -17,13 +17,12 @@ public:
 	{
 
 	}	
-	void set_search_matches(mem_engine::felix_query *search_matches)
-	{
-		m_search_matches = search_matches ;
-	}
+	void set_search_matches(mem_engine::felix_query *search_matches);
+	void set_current(size_t num);
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
+	void activate();
 };
 

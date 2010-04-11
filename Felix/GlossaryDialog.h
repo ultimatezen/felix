@@ -523,28 +523,12 @@ public:
 	void load_util_settings() ;
 	void save_util_settings() ;
 
-	mem_engine::search_match_ptr get_current_match()
-	{
-		return m_search_matches.current() ;
-	}
-	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false )
-	{
-		match ;
-		do_gloss ;
-	}
-	edit_record_dlg_ptr get_editor() 
-	{
-		return m_editor ;
-	}
-	bool is_short_format()
-	{
-		return m_is_short_format ;
-	}
-	bool is_single_page()
-	{
-		return true ;
-	}
-
+	mem_engine::search_match_ptr get_current_match();
+	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false );
+	edit_record_dlg_ptr get_editor();
+	bool is_short_format();
+	bool is_single_page();
+	void set_menu_checkmark(int item_id, bool is_checked);
 };
 
 

@@ -27,6 +27,10 @@ void ViewStateInitial::retrieve_edit_record( int mem_id, mem_engine::record_poin
 	m_window_listener->set_new_record(new_rec) ;
 }
 
+int ViewStateInitial::get_edit_record_title()
+{
+	return IDS_ADD_ENTRY;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateInitialMain
 //////////////////////////////////////////////////////////////////////////
@@ -49,6 +53,12 @@ mem_engine::search_match_ptr ViewStateInitialMain::get_current_match()
 	match->set_memory_id(m_model->get_first_mem_id()) ;
 
 	return match ;
+}
+
+void ViewStateInitialMain::activate()
+{
+	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, false);
+	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateInitialGloss

@@ -1914,111 +1914,8 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 	SENSE("on_user_edit") ;
 
 	const size_t num = static_cast<size_t>(message.lParam) ;
-
-	// get the current match & record
-	record_pointer record(new record_local()) ;
-	
-	int memory_id = 0 ;
-
-	// We've just started Felix
-	if ( get_display_state() == INIT_DISPLAY_STATE ) 
-	{
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
-		memory_id = m_model->get_first_mem_id();
-		record = m_new_record ;
-
-		search_match_ptr match(new mem_engine::search_match) ;
-		match->set_record(m_new_record) ;
-		match->set_memory_id(memory_id) ;
-		this->set_item_under_edit(match) ;
-
-
-		ATLASSERT( memory_id != 0 ) ;
-		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
-	}	
-	// Showing a new record
-	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE) 
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		memory_id = m_model->get_first_mem_id();
-		record = m_new_record ;
-
-		search_match_ptr match(new mem_engine::search_match) ;
-		match->set_record(m_new_record) ;
-		match->set_memory_id(memory_id) ;
-		this->set_item_under_edit(match) ;
-
-		ATLASSERT( memory_id != 0 ) ;
-		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
-	}
-	// Showing translation matches
-	else if ( get_display_state() == MATCH_DISPLAY_STATE )
-	{
-		ATLASSERT(m_view_state == &m_view_state_match) ;
-		if (num < m_trans_matches.size())
-		{
-			ATLASSERT( m_properties->m_view_props.m_data.m_single_screen_matches || static_cast<size_t>( num ) == m_trans_matches.current_pos() ) ;
-
-			m_trans_matches.set_current( static_cast<size_t>( num ) ) ;
-			ATLASSERT( m_trans_matches.current_pos() == static_cast<size_t>( num ) ) ;
-
-			search_match_ptr current = m_trans_matches.current( ) ;
-			memory_id = current->get_memory_id() ;
-			record = current->get_record() ;
-
-			this->set_item_under_edit(current) ;
-
-		}
-		else
-		{
-			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
-			return 0L ;
-		}
-		ATLASSERT( memory_id != 0 ) ;
-		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
-	}
-	// Reviewing a translation record
-	else if (get_display_state() == TRANS_REVIEW_STATE)
-	{
-		ATLASSERT(m_view_state == &m_view_state_review) ;
-		memory_id = m_model->get_first_mem_id();
-		record = m_review_record ;
-
-		search_match_ptr match(new mem_engine::search_match) ;
-		match->set_record(m_review_record) ;
-		match->set_memory_id(memory_id) ;
-		this->set_item_under_edit(match) ;
-
-
-		ATLASSERT( memory_id != 0 ) ;
-		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
-	}
-	// Showing concordance matches
-	else 
-	{
-		ATLASSERT(m_view_state == &m_view_state_concordance) ;
-		ATLASSERT ( get_display_state() == CONCORDANCE_DISPLAY_STATE ) ;
-		if (num < m_search_matches.size())
-		{
-			// Make this the current match (number will be bolded in window)
-			m_search_matches.set_current( num ) ;
-			ATLASSERT( m_search_matches.current_pos() == num ) ;
-
-			search_match_ptr current = m_search_matches.current() ;
-			memory_id = current->get_memory_id() ;
-			record = current->get_record() ;
-
-			this->set_item_under_edit(current) ;
-		}
-		else
-		{
-			show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
-			return 0L ;
-		}
-
-		ATLASSERT( memory_id != 0 ) ;
-		show_edit_dialog( record, memory_id, IDS_EDIT_RECORD_TITLE ) ;
-	}
+	m_view_state->set_current(num) ;
+	m_view_state->on_user_edit() ;
 
 	return 0L ;
 }
@@ -2273,50 +2170,35 @@ void CMainFrame::show_view_content()
 	case MATCH_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_match) ;
 
-		UISetCheck( ID_VIEW_MATCH,	TRUE  );
-		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UpdateLayout( FALSE ) ;
-
+		m_view_state->activate() ;
 		m_view_state->show_content() ;
 		return ;
 
 	case TRANS_REVIEW_STATE:
 		ATLASSERT(m_view_state == &m_view_state_review) ;
 
-		UISetCheck( ID_VIEW_MATCH,	TRUE  );
-		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UpdateLayout( FALSE ) ;
-
+		m_view_state->activate() ;
 		m_view_state->show_content() ;
 		return ;
 
 	case NEW_RECORD_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_new) ;
 
-		UISetCheck( ID_VIEW_MATCH,	FALSE  );
-		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UpdateLayout( FALSE ) ;
-
+		m_view_state->activate() ;
 		m_view_state->show_content() ;
 		return ;
 
 	case CONCORDANCE_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_concordance) ;
 
-		UISetCheck( ID_VIEW_MATCH,	FALSE  );
-		UISetCheck( ID_VIEW_SEARCH,	TRUE );
-		UpdateLayout( FALSE ) ;
-		
+		m_view_state->activate() ;
 		m_view_state->show_content() ;
 		return ;
 
 	case INIT_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_initial) ;
 
-		UISetCheck( ID_VIEW_MATCH,	FALSE  );
-		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UpdateLayout( FALSE ) ;
-
+		m_view_state->activate() ;
 		m_view_state->show_content() ;
 		return ;
 
@@ -5453,4 +5335,26 @@ void CMainFrame::set_display_state( DISPLAY_STATE new_state )
 		break ;
 	}
 	m_display_state = new_state ;
+	m_view_state->activate() ;
+}
+
+edit_record_dlg_ptr CMainFrame::get_editor()
+{
+	return m_editor ;
+}
+
+bool CMainFrame::is_short_format()
+{
+	return m_is_short_format ;
+}
+
+bool CMainFrame::is_single_page()
+{
+	return !! m_properties->m_view_props.m_data.m_single_screen_matches ;
+}
+
+void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
+{
+	UISetCheck(item_id, !! is_checked);
+	UpdateLayout( FALSE ) ;
 }

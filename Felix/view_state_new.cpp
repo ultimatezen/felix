@@ -106,6 +106,12 @@ mem_engine::search_match_ptr ViewStateNewMain::get_current_match()
 	match->set_base_score(1.0) ;
 	return match ;
 }
+
+void ViewStateNewMain::activate()
+{
+	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, false);
+	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewGloss
 //////////////////////////////////////////////////////////////////////////

@@ -114,6 +114,23 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
 	}
+	TEST( view_state_new_test, activate)
+	{
+		ViewStateNewMain state ;
+		view_state_obj vso(&state) ;
+
+		state.activate() ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "set_menu_checkmark") ;
+		SimpleString id_view_match(int2string(ID_VIEW_MATCH).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), id_view_match) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "false") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), "set_menu_checkmark") ;
+		SimpleString id_view_search(int2string(ID_VIEW_SEARCH).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), id_view_search) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[5].c_str()), "false") ;
+		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
 	//////////////////////////////////////////////////////////////////////////

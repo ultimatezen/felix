@@ -30,7 +30,7 @@ public:
 	{
 	}
 
-	void show_edit_dialog( rec_ptr &record, 
+	void show_edit_dialog( rec_ptr record, 
 		const int memory_id, 
 		UINT title_id )
 	{
@@ -100,7 +100,14 @@ public:
 		SENSE("is_single_page") ;
 		return m_is_single_page ;
 	}
-	
+	// UI control
+	void set_menu_checkmark(int item_id, bool is_checked)
+	{
+		SENSE("set_menu_checkmark") ;
+		SENSE(int2string(item_id)) ;
+		SENSE(bool2string(is_checked)) ;
+	}
+
 	// user feedback
 	virtual bool user_feedback( const CString &feedback, int pane = 0)
 	{

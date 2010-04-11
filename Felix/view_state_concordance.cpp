@@ -38,10 +38,8 @@ void ViewStateConcordance::handle_toggle_edit_mode()
 			return ;
 		}
 
-		ATLTRACE(" ... Showing view content\n") ;
 		this->show_content() ;
 
-		ATLTRACE(" ... Giving user feedback content\n") ;
 		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
 	}
 }
@@ -82,6 +80,25 @@ void ViewStateConcordance::redo_concordance()
 	m_model->perform_search( matches, m_search_matches->m_params ) ;
 	m_search_matches->set_matches( matches ) ;
 }
+
+void ViewStateConcordance::set_search_matches( mem_engine::felix_query *search_matches )
+{
+	m_search_matches = search_matches ;
+}
+
+int ViewStateConcordance::get_edit_record_title()
+{
+	if (m_search_matches->empty())
+	{
+		return IDS_ADD_ENTRY;
+	}
+	return IDS_EDIT_RECORD_TITLE ;
+}
+
+void ViewStateConcordance::set_current( size_t num )
+{
+	m_search_matches->set_current(num) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceMain
 //////////////////////////////////////////////////////////////////////////
@@ -115,6 +132,12 @@ mem_engine::search_match_ptr ViewStateConcordanceMain::get_current_match()
 		return match ;
 	}
 	return m_search_matches->current( ) ;
+}
+
+void ViewStateConcordanceMain::activate()
+{
+	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, false);
+	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, true);
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceGloss

@@ -2779,4 +2779,40 @@ void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
 		break ;
 	}
 	m_display_state = new_state ;
+	m_view_state->activate() ;
+}
+
+mem_engine::search_match_ptr CGlossaryWindow::get_current_match()
+{
+	return m_search_matches.current() ;
+}
+
+void CGlossaryWindow::redo_lookup( mem_engine::search_match_ptr match, bool do_gloss /*= false */ )
+{
+	logging::log_warn("`CGlossaryWindow::redo_lookup` is not implemented") ;
+	match ;
+	do_gloss ;
+}
+
+edit_record_dlg_ptr CGlossaryWindow::get_editor()
+{
+	return m_editor ;
+}
+
+bool CGlossaryWindow::is_short_format()
+{
+	return m_is_short_format ;
+}
+
+bool CGlossaryWindow::is_single_page()
+{
+	return true ;
+}
+
+void CGlossaryWindow::set_menu_checkmark( int item_id, bool is_checked )
+{
+	logging::log_warn("`CGlossaryWindow::set_menu_checkmark` is not implemented") ;
+	item_id ;
+	is_checked ;
+	return ;
 }

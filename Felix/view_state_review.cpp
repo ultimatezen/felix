@@ -120,3 +120,19 @@ mem_engine::search_match_ptr ViewStateReview::get_current_match()
 	}
 	return m_search_matches->current( ) ;
 }
+
+void ViewStateReview::activate()
+{
+	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, true);
+	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
+}
+
+void ViewStateReview::set_search_matches( mem_engine::felix_query *search_matches )
+{
+	m_search_matches = search_matches ;
+}
+
+void ViewStateReview::set_current( size_t num )
+{
+	m_search_matches->set_current(num) ;
+}

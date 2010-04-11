@@ -415,7 +415,7 @@ size_t CCommonWindowFunctionality::get_size()
 // Return type		: void 
 // Argument         : record_pointer &record
 // Argument         : UINT title_id = IDS_EDIT_GLOSS
-void CCommonWindowFunctionality::show_edit_dialog( record_pointer &record, const int memory_id, UINT title_id /* = IDS_EDIT_GLOSS */ )
+void CCommonWindowFunctionality::show_edit_dialog( record_pointer record, const int memory_id, UINT title_id /* = IDS_EDIT_GLOSS */ )
 {
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 

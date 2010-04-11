@@ -62,7 +62,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm500"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT"
+				AdditionalIncludeDirectories="C:\dev\cpp\poco\Foundation\include"
+				PreprocessorDefinitions="POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -95,10 +96,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="easyunitVC.lib dbghelp.lib"
+				AdditionalDependencies="easyunitVC.lib dbghelp.lib PocoFoundationd.lib"
 				OutputFile=".\Unicode_Debug/Felix.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="C:\dev\cpp\poco\lib"
 				IgnoreDefaultLibraryNames="LIBCMT; LIBC; LIBCP"
 				MergedIDLBaseFileName=""
 				GenerateDebugInformation="true"
@@ -179,7 +181,8 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;UNICODE;STRICT"
+				AdditionalIncludeDirectories="C:\dev\cpp\poco\Foundation\include"
+				PreprocessorDefinitions="POCO_DLL;WIN32;NDEBUG;_WINDOWS;UNICODE;STRICT"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
@@ -210,10 +213,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dbghelp.lib"
+				AdditionalDependencies="dbghelp.lib PocoFoundation.lib"
 				OutputFile=".\Unicode_Release/Felix.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="C:\dev\cpp\poco\lib"
 				IgnoreDefaultLibraryNames="LIBC, LIBCP"
 				MergedIDLBaseFileName=""
 				GenerateDebugInformation="true"
@@ -298,7 +302,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm500"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;UNIT_TEST;DEBUG"
+				AdditionalIncludeDirectories="C:\dev\cpp\poco\Foundation\include"
+				PreprocessorDefinitions="POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;UNIT_TEST;DEBUG"
 				MinimalRebuild="false"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
@@ -332,10 +337,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="easyunitVC.lib dbghelp.lib"
+				AdditionalDependencies="easyunitVC.lib dbghelp.lib PocoFoundationd.lib"
 				OutputFile=".\Testing/Felix.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="C:\dev\cpp\poco\lib"
 				GenerateManifest="false"
 				IgnoreDefaultLibraryNames="LIBCMT; LIBC; LIBCP"
 				MergedIDLBaseFileName=""
@@ -1827,10 +1833,6 @@
 				</File>
 				<File
 					RelativePath=".\memory_model_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\memory_remote_info_test.cpp"
 					>
 				</File>
 				<File

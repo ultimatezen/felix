@@ -69,6 +69,24 @@ void ViewStateMatch::retrieve_edit_record( int mem_id, mem_engine::record_pointe
 	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;
 }
 
+void ViewStateMatch::set_search_matches( mem_engine::felix_query *search_matches )
+{
+	m_search_matches = search_matches ;
+}
+
+int ViewStateMatch::get_edit_record_title()
+{
+	if (m_search_matches->empty())
+	{
+		return IDS_ADD_ENTRY;
+	}
+	return IDS_EDIT_RECORD_TITLE ;
+}
+
+void ViewStateMatch::set_current( size_t num )
+{
+	m_search_matches->set_current(num) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchMain
 //////////////////////////////////////////////////////////////////////////
@@ -116,6 +134,12 @@ mem_engine::search_match_ptr ViewStateMatchMain::get_current_match()
 		return match ;
 	}
 	return m_search_matches->current( ) ;
+}
+
+void ViewStateMatchMain::activate()
+{
+	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, true);
+	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchGloss
