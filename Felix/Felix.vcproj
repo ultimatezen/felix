@@ -1559,10 +1559,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view_state_gloss_lookup_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\view_state_initial.cpp"
 				>
 			</File>
@@ -1588,10 +1584,6 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\WideRichEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\window_state_tests.cpp"
 				>
 			</File>
 			<File
@@ -2014,6 +2006,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\view_state_gloss_lookup_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\view_state_initial_test.cpp"
 					>
 				</File>
@@ -2035,6 +2031,10 @@
 				</File>
 				<File
 					RelativePath=".\WideRichEdit_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\window_state_tests.cpp"
 					>
 				</File>
 				<File

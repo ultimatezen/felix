@@ -290,15 +290,15 @@ END
 
 IDD_IMPORT_DIALOG DIALOGEX 0, 0, 191, 93
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ソース言語とターゲット言語を選択してください"
+CAPTION "原言語と目的言語を選択してください"
 FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
     COMBOBOX        IDC_SOURCE_COMBO,8,27,66,88,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_TRANS_COMBO,114,29,66,87,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "&OK",IDOK,77,72,50,14
     PUSHBUTTON      "キャンセル(&C)",IDCANCEL,130,72,54,14
-    LTEXT           "ソース言語",IDC_SOURCE_LANG_STATIC,8,9,88,16
-    LTEXT           "ターゲット言語",IDC_TARGET_LANG_STATIC,113,9,70,16
+    LTEXT           "原言語",IDC_SOURCE_LANG_STATIC,8,9,88,16
+    LTEXT           "目的言語",IDC_TARGET_LANG_STATIC,113,9,70,16
 END
 
 IDD_EDIT_RECORD DIALOGEX 0, 0, 399, 364
@@ -507,13 +507,13 @@ END
 
 IDD_SELECT_LANG_DLG DIALOGEX 0, 0, 143, 91
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ターゲット言語の指定"
+CAPTION "目的言語の指定"
 FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
 BEGIN
     COMBOBOX        IDC_LANG_COMBO_TRANS,7,25,66,80,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "OK",IDOK,35,72,50,14
     PUSHBUTTON      "キャンセル",IDCANCEL,89,72,50,14
-    LTEXT           "ターゲット言語",IDC_LANG_STATIC_TRANS,7,7,88,16
+    LTEXT           "目的言語",IDC_LANG_STATIC_TRANS,7,7,88,16
 END
 
 IDD_SELECT_LANGS_DLG DIALOGEX 0, 0, 207, 89
@@ -1347,7 +1347,7 @@ BEGIN
     IDS_EXPORT_DESTINATION  "エクスポート先を指定してください"
     IDS_OPEN                "開く"
     IDS_NOT_UNICODE_FILE    "Unicodeファイルとして認識できませんでした"
-    IDS_MSG_S_T_MUST_DIFFER "ソース言語とターゲット言語は同じではいけません"
+    IDS_MSG_S_T_MUST_DIFFER "原言語と目的言語は同じではいけません"
     IDS_MSG_EXPORT_FAILED   "エクスポート出来ませんでした"
     IDS_MSG_EXPORTING_RECORDS "エントリのエクスポート中(%1 / %2)..."
 END
@@ -1506,7 +1506,7 @@ STRINGTABLE
 BEGIN
     IDS_ADD_ENTRY           "エントリの追加"
     IDS_GLOSSARY_PAGE       "GLOSSPAGEJ.HTML"
-    IDS_CHANGED_LANGUAGES   "UI言語を日本語に切り替えました。"
+    IDS_CHANGED_LANGUAGES   "表示言語を日本語に切り替えました。"
     IDS_PROMPT_DISCARD_LOAD "このエントリを破棄して、他のエントリの取り込みを続行しますか?"
     IDS_LOAD_RECORD_FAILED  "エントリを取り込めませんでした。"
     IDS_DEMO_VER            "デモ版"
@@ -1550,7 +1550,7 @@ BEGIN
     IDS_GLOSSARY_OPEN       "既に開いている用語集があります。"
     IDS_PROMPT_REPLACE_OR_MERGE_GLOSSARY 
                             "(1) 既存の用語集とマージします- [はい]\r(2)別の用語集として取り込みます - [いいえ]\r(3)用語集の取り込みを中止します - [キャンセル]"
-    IDS_MSG_NO_EMPTY_S_OR_T_GLOSS "訳語または言語に文字が指定されていません。\r\rもう一度試行してください"
+    IDS_MSG_NO_EMPTY_S_OR_T_GLOSS "訳語または原語に文字が指定されていません。\r\rもう一度試行してください"
     IDS_MEMORY_ID           "memory"
     IDS_CANCELLED_ACTION    "アクションが取り消されました。"
     IDS_FILE_NAME           "ファイル名"

@@ -6,6 +6,7 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
+#include "record_local.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateReview
@@ -105,4 +106,17 @@ void ViewStateReview::show_content()
 	m_view->set_text(content) ;
 	m_view->set_scroll_pos(0) ;
 	m_window_listener->set_bg_color_if_needed() ;
+}
+
+mem_engine::search_match_ptr ViewStateReview::get_current_match()
+{
+	if (m_search_matches->empty())
+	{
+		record_pointer rec(new mem_engine::record_local) ;
+		rec->set_source( m_search_matches->get_query_rich() ) ;
+		search_match_ptr match(new search_match(rec)) ;
+		match->set_values_to_record() ;
+		return match ;
+	}
+	return m_search_matches->current( ) ;
 }

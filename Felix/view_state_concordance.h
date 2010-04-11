@@ -29,10 +29,12 @@ class ViewStateConcordanceMain : public ViewStateConcordance
 public:
 	void show_content();
 
+	mem_engine::search_match_ptr get_current_match();
 };
 
 class ViewStateConcordanceGloss : public ViewStateConcordance
 {
 public:
 	void show_content();
+	mem_engine::search_match_ptr get_current_match();
 };

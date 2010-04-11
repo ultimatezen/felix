@@ -453,7 +453,7 @@ public:
 	MERGE_CHOICE check_empty_on_load();
 
 
-	bool show_view_content();
+	void show_view_content();
 	int get_focus_glossary(HWND focus_hwnd = ::GetFocus());
 	gloss_window_pointer get_glossary_window();
 

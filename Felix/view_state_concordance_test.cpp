@@ -81,26 +81,19 @@ namespace easyunit
 
 	TEST( view_state_concordance_test, retrieve_edit_record_model )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.m_model->insert_memory(mem) ;
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"before") ;
 		rec->set_trans(L"before") ;
-		mem->add_record(rec) ;
+		vso.mem->add_record(rec) ;
 
 		// current match
-		listener.item_under_edit->set_record(rec) ;
-		listener.item_under_edit->set_memory_id(mem->get_id()) ;
-		mem->add_record(rec) ;
+		vso.listener.item_under_edit->set_record(rec) ;
+		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
+		vso.mem->add_record(rec) ;
 
-		ViewStateConcordanceMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
 		search_query_mainframe search_matches ;
 		state.set_search_matches(&search_matches) ;
 
@@ -108,39 +101,32 @@ namespace easyunit
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(2, (int)model.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
-		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[1].c_str()), "get_memories") ;
+		ASSERT_EQUALS_V(3, (int)vso.model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[2].c_str()), "get_memories") ;
 
 		SimpleString expected("source") ;
-		SimpleString actual(string2string(listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
+		SimpleString actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
 	TEST( view_state_concordance_test, retrieve_edit_record_listener )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		ASSERT_TRUE(! listener.new_rec->is_valid_record()) ;
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = memory_pointer(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"before") ;
 		rec->set_trans(L"before") ;
-		mem->add_record(rec) ;
+		vso.mem->add_record(rec) ;
 
 		// current match
-		listener.item_under_edit->set_record(rec) ;
-		listener.item_under_edit->set_memory_id(mem->get_id()) ;
-		mem->add_record(rec) ;
+		vso.listener.item_under_edit->set_record(rec) ;
+		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
+		vso.mem->add_record(rec) ;
 
-		ViewStateConcordanceMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
 		search_query_mainframe search_matches ;
 		state.set_search_matches(&search_matches) ;
 
@@ -148,15 +134,60 @@ namespace easyunit
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(5, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[2].c_str()), "user_feedback") ;
+		ASSERT_EQUALS_V(5, (int)vso.listener.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
 		SimpleString expected_msgid(int2string(IDS_ADDED_TRANSLATION).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[3].c_str()), expected_msgid) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[4].c_str()), "0") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), expected_msgid) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "0") ;
+	}
+
+	TEST( view_state_concordance_test, get_current_match_match_non_empty)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"record source") ;
+		rec->set_trans(L"record trans") ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		search_query_mainframe trans_matches; 
+		trans_matches.set_matches(matches) ;
+		state.set_search_matches(&trans_matches) ;
+
+		search_match_ptr current_match = state.get_current_match() ;
+
+		SimpleString expected("record source") ;
+		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	TEST( view_state_concordance_test, get_current_match_concordance_match_empty)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+
+		translation_match_query trans_matches; 
+		wstring query(L"query") ;
+		trans_matches.set_query_rich(query) ;
+		state.set_search_matches(&trans_matches) ;
+
+		search_match_ptr match = state.get_current_match() ;
+
+		SimpleString expected("query") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// glossary

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "view_state_initial.h"
-#include "view_interface_fake.h"
-#include "window_listener_fake.h"
-#include "felix_model_fake.h"
+#include "view_state_test_utils.h"
 #include "memory_local.h"
 #include "record_local.h"
 
@@ -19,88 +17,80 @@ namespace easyunit
 
 	TEST( view_state_initial_test, handle_toggle_edit_mode_false )
 	{
-		view_interface_fake view ;
-		ASSERT_TRUE(! view.is_edit_mode()) ;
-
 		ViewStateInitialMain state ;
-		state.set_view(&view) ;
+		view_state_obj vso(&state) ;
+
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_TRUE(view.is_edit_mode()) ;
+		ASSERT_TRUE(vso.view.is_edit_mode()) ;
 	}
 
 	TEST( view_state_initial_test, handle_toggle_edit_mode_true )
 	{
-		view_interface_fake view ;
-		view.put_edit_mode(true) ;
-		ASSERT_TRUE(view.is_edit_mode()) ;
-
 		ViewStateInitialMain state ;
-		state.set_view(&view) ;
+		view_state_obj vso(&state) ;
+
+		vso.view.put_edit_mode(true) ;
+		ASSERT_TRUE(vso.view.is_edit_mode()) ;
+
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_TRUE(! view.is_edit_mode()) ;
+		ASSERT_TRUE(! vso.view.is_edit_mode()) ;
 	}
 
 	TEST( view_state_initial_test, show_content )
 	{
-		view_interface_fake view ;
-		ASSERT_TRUE(! view.is_edit_mode()) ;
-
 		ViewStateInitialMain state ;
-		state.set_view(&view) ;
+		view_state_obj vso(&state) ;
+
 		state.show_content() ;
 
-		ASSERT_EQUALS_V(5, (int)view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[1].c_str()), "ensure_document_complete") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[2].c_str()), "navigate") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[3].c_str()), "C:/Users/Ryan/AppData/Local/Felix/html/en/start.html") ;
-		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(4, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "navigate") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "C:/Users/Ryan/AppData/Local/Felix/html/en/start.html") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 	}
 
 	TEST( view_state_initial_test, retrieve_edit_record_model )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.m_model->insert_memory(mem) ;
-
 		ViewStateInitialMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
 
-		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
+		ASSERT_EQUALS_V(2, (int)vso.model.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
+		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
 	}
 	TEST( view_state_initial_test, retrieve_edit_record_listener )
 	{
-		view_interface_fake view ;
-		WindowListenerFake listener; 
-		ASSERT_TRUE(! listener.new_rec->is_valid_record()) ;
-		FelixModelInterfaceFake model ;
-		memory_pointer mem(new memory_local) ;
-		model.get_memories()->insert_memory(mem) ;
-
 		ViewStateInitialMain state ;
-		state.set_view(&view) ;
-		state.set_window_listener(&listener) ;
-		state.set_model(&model) ;
+		view_state_obj vso(&state) ;
+
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(mem->get_id(), rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
 
-		ASSERT_EQUALS_V(2, (int)listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[0].c_str()), "get_new_record") ;
-		ASSERT_EQUALS_V(SimpleString(listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		ASSERT_TRUE(listener.new_rec->is_valid_record()) ;
+		ASSERT_EQUALS_V(2, (int)vso.listener.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "get_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		ASSERT_TRUE(vso.listener.new_rec->is_valid_record()) ;
+	}
+	TEST( view_state_initial_test, get_current_match )
+	{
+		ViewStateInitialMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = state.get_current_match() ;
+		SimpleString expected("") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
@@ -148,7 +138,14 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[3].c_str()), "C:/Users/Ryan/AppData/Local/Felix/html/en/start_gloss.html") ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
 	}
-
+	TEST( view_state_initial_gloss_test, get_current_match )
+	{
+		ViewStateInitialGloss state ;
+		search_match_ptr match = state.get_current_match() ;
+		SimpleString expected("") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
 }
 
 

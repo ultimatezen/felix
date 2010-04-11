@@ -6,6 +6,7 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
+#include "record_local.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNew
@@ -97,6 +98,14 @@ void ViewStateNewMain::show_content()
 
 	m_view->ensure_document_complete() ;
 }
+
+mem_engine::search_match_ptr ViewStateNewMain::get_current_match()
+{
+	search_match_ptr match(new search_match(m_window_listener->get_new_record())) ;
+	match->set_values_to_record() ;
+	match->set_base_score(1.0) ;
+	return match ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewGloss
 //////////////////////////////////////////////////////////////////////////
@@ -133,4 +142,10 @@ void ViewStateNewGloss::show_content()
 	m_window_listener->set_bg_color_if_needed() ;
 	m_view->set_scroll_pos(0) ;
 	m_window_listener->check_mousewheel() ;
+}
+
+mem_engine::search_match_ptr ViewStateNewGloss::get_current_match()
+{
+	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
+	return match ;
 }

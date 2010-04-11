@@ -24,5 +24,6 @@ public:
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 	void show_content();
+	mem_engine::search_match_ptr get_current_match();
 };
 

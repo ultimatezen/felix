@@ -29,6 +29,7 @@ class ViewStateMatchMain : public ViewStateMatch
 {
 public:
 	void show_content();
+	mem_engine::search_match_ptr get_current_match();
 
 };
 
@@ -36,4 +37,5 @@ class ViewStateMatchGloss : public ViewStateMatch
 {
 public:
 	void show_content();
+	mem_engine::search_match_ptr get_current_match();
 };

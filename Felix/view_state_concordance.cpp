@@ -7,6 +7,7 @@
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "system_message.h"
+#include "record_local.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordance
@@ -102,6 +103,19 @@ void ViewStateConcordanceMain::show_content()
 
 	m_window_listener->check_mousewheel() ;
 }
+
+mem_engine::search_match_ptr ViewStateConcordanceMain::get_current_match()
+{
+	if (m_search_matches->empty())
+	{
+		record_pointer rec(new mem_engine::record_local) ;
+		rec->set_source( m_search_matches->get_query_rich() ) ;
+		search_match_ptr match(new search_match(rec)) ;
+		match->set_values_to_record() ;
+		return match ;
+	}
+	return m_search_matches->current( ) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceGloss
 //////////////////////////////////////////////////////////////////////////
@@ -109,4 +123,10 @@ void ViewStateConcordanceMain::show_content()
 void ViewStateConcordanceGloss::show_content()
 {
 
+}
+
+mem_engine::search_match_ptr ViewStateConcordanceGloss::get_current_match()
+{
+	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
+	return match ;
 }

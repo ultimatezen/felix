@@ -6,6 +6,7 @@
 #include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
+#include "record_local.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateGlossLookup
@@ -91,4 +92,10 @@ void ViewStateGlossLookup::retrieve_edit_record( int mem_id, mem_engine::record_
 void ViewStateGlossLookup::show_content()
 {
 
+}
+
+mem_engine::search_match_ptr ViewStateGlossLookup::get_current_match()
+{
+	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
+	return match ;
 }

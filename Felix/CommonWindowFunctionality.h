@@ -232,7 +232,7 @@ public:
 	virtual LPCTSTR get_save_ext() = 0 ;
 	virtual LPCTSTR get_save_filter() = 0 ;
 	virtual LPCTSTR get_open_filter() = 0 ;
-	virtual bool show_view_content() = 0 ;
+	virtual void show_view_content() = 0 ;
 	virtual bool set_window_title() = 0 ;
 	virtual void do_save( mem_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;

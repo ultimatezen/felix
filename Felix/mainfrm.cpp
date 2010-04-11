@@ -126,11 +126,15 @@ m_editor(new CEditTransRecordDialog)
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
+
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_search_matches) ;
+
 	this->init_state(&m_view_state_match) ;
 	m_view_state_match.set_search_matches(&m_trans_matches) ;
+
 	this->init_state(&m_view_state_review) ;
+	m_view_state_review.set_search_matches(&m_trans_matches) ;
 
 
 	// display state
@@ -2251,17 +2255,17 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
 
 /** Show the view content.
  */
-bool CMainFrame::show_view_content()
+void CMainFrame::show_view_content()
 {
 
 	if (! IsWindow())
 	{
-		return true ;
+		return ;
 	}
 	if ( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
 		m_min_view.show_content() ;
-		return true ;
+		return ;
 	}
 
 	switch ( get_display_state() )
@@ -2274,7 +2278,7 @@ bool CMainFrame::show_view_content()
 		UpdateLayout( FALSE ) ;
 
 		m_view_state->show_content() ;
-		return true ;
+		return ;
 
 	case TRANS_REVIEW_STATE:
 		ATLASSERT(m_view_state == &m_view_state_review) ;
@@ -2284,7 +2288,7 @@ bool CMainFrame::show_view_content()
 		UpdateLayout( FALSE ) ;
 
 		m_view_state->show_content() ;
-		return true ;
+		return ;
 
 	case NEW_RECORD_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_new) ;
@@ -2294,7 +2298,7 @@ bool CMainFrame::show_view_content()
 		UpdateLayout( FALSE ) ;
 
 		m_view_state->show_content() ;
-		return true ;
+		return ;
 
 	case CONCORDANCE_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_concordance) ;
@@ -2304,7 +2308,7 @@ bool CMainFrame::show_view_content()
 		UpdateLayout( FALSE ) ;
 		
 		m_view_state->show_content() ;
-		return true ;
+		return ;
 
 	case INIT_DISPLAY_STATE:
 		ATLASSERT(m_view_state == &m_view_state_initial) ;
@@ -2314,7 +2318,7 @@ bool CMainFrame::show_view_content()
 		UpdateLayout( FALSE ) ;
 
 		m_view_state->show_content() ;
-		return true ;
+		return ;
 
 	default:
 		UISetCheck( ID_VIEW_MATCH,	FALSE  );
@@ -2323,7 +2327,6 @@ bool CMainFrame::show_view_content()
 
 		ATLASSERT( "Unkown display state in CMainFrame" && FALSE ) ;
 	}
-	return false ;
 }
 
 
@@ -3055,7 +3058,8 @@ bool CMainFrame::correct_trans(const wstring trans)
 		// show it!
 		set_display_state( MATCH_DISPLAY_STATE ) ;
 		user_feedback( IDS_CORRECTED_TRANS ) ;
-		return show_view_content() ;
+		show_view_content() ;
+		return true ;
 	}
 	catch( CException &e )
 	{
@@ -4780,31 +4784,31 @@ void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
 
 mem_engine::search_match_ptr CMainFrame::get_current_match()
 {
-	if ( (get_display_state() == MATCH_DISPLAY_STATE && m_trans_matches.empty()) || get_display_state() == INIT_DISPLAY_STATE  )
+	if ( get_display_state() == INIT_DISPLAY_STATE  )
 	{
-		record_pointer rec(new record_local) ;
-		rec->set_source( m_trans_matches.get_query_rich() ) ;
-		search_match_ptr match(new search_match) ;
-		match->set_record(rec) ;
-		match->set_values_to_record() ;
-		return match ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
+		return m_view_state->get_current_match() ;
 	}
 	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE) 
 	{
 		ATLASSERT(m_view_state == &m_view_state_new) ;
-		search_match_ptr match(new search_match) ;
-		match->set_record(m_new_record) ;
-		match->set_values_to_record() ;
-		match->set_base_score(1.0) ;
-		return match ;
+		return m_view_state->get_current_match() ;
 	}
-	else if ( get_display_state() == MATCH_DISPLAY_STATE )
+	if (get_display_state() == MATCH_DISPLAY_STATE)
 	{
-		return m_trans_matches.current( ) ;
+		ATLASSERT(m_view_state == &m_view_state_match) ;
+		return m_view_state->get_current_match() ;
+	}
+	if (get_display_state() == TRANS_REVIEW_STATE)
+	{
+		ATLASSERT(m_view_state == &m_view_state_review) ;
+		return m_view_state->get_current_match() ;
 	}
 	else 
 	{
-		return m_search_matches.current() ;
+		ATLASSERT(get_display_state() == CONCORDANCE_DISPLAY_STATE) ;
+		ATLASSERT(m_view_state == &m_view_state_concordance) ;
+		return m_view_state->get_current_match() ;
 	}
 
 }

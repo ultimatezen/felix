@@ -135,7 +135,7 @@ public:
 	bool init_status_bar() ;
 	void size_client_and_status_bar() ;
 
-	bool show_view_content() ;
+	void show_view_content() ;
 
 	void do_save( mem_engine::memory_pointer mem ) ;
 

@@ -37,7 +37,7 @@ public:
 	int get_first_mem_id()
 	{
 		SENSE("get_first_mem_id") ;
-		return 1 ; 
+		return m_model->get_first_memory()->get_id() ; 
 	}
 	mem_engine::memory_pointer get_memory_by_id(int id)
 	{

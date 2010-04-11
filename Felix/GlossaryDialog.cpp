@@ -1857,43 +1857,42 @@ void CGlossaryWindow::set_ui_language()
 }
 
 
-bool CGlossaryWindow::show_view_content()
+void CGlossaryWindow::show_view_content()
 {
 	if (! IsWindow())
 	{
-		return true ;
+		return ;
 	}
 	switch ( get_display_state()  )
 	{
 	case NEW_RECORD_DISPLAY_STATE:
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		m_view_state->show_content() ;
-		return true ;
-	}
+		{
+			ATLASSERT(m_view_state == &m_view_state_new) ;
+			m_view_state->show_content() ;
+			return ;
+		}
 	case LOOKUP_DISPLAY_STATE: // = glossary lookup
-	{
-		m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
-		m_view_interface.set_scroll_pos(0) ;
-		check_mousewheel() ;
-		return true ;
-	}
+		{
+			m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
+			m_view_interface.set_scroll_pos(0) ;
+			check_mousewheel() ;
+			return ;
+		}
 	case CONCORDANCE_DISPLAY_STATE: // = search from find dialog
 		{
 			show_user_search_results();
-			return true ;
+			return ;
 		}
 	case INIT_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_initial) ;
 			m_view_state->show_content() ;
 
+			return ;
 		}
-		return true ;
 	default:
 		ATLASSERT( "Unkown display state in CGlossaryDialog" && FALSE ) ;
 	}
-	return false ;
 }
 
 LRESULT CGlossaryWindow::on_view_match( ) 
