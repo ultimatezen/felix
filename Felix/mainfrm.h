@@ -355,7 +355,7 @@ public:
 
 	record_type get_reg_gloss_record( const size_t num );
 
-	LRESULT on_user_delete( LPARAM num );
+	LRESULT on_user_delete( size_t num );
 
 	void remove_record_from_glossaries(record_type rec);
 	void remove_match_record( mem_engine::search_match_ptr match );

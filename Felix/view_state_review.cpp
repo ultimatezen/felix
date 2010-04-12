@@ -140,4 +140,23 @@ void ViewStateReview::set_current( size_t num )
 void ViewStateReview::delete_match( size_t index )
 {
 	index ;
+	ATLASSERT( index == 0 ) ;
+	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+
+	if ( ! m_window_listener->check_delete() )
+	{
+		return ;
+	}
+	mem->erase(m_window_listener->get_review_record()) ;
+
+	const wstring feedback = L"<center><h1>" + resource_string_w( IDS_DELETED_ENTRY ) + L"</h1></center>" ;
+	m_view->set_text(feedback) ;
+	m_window_listener->user_feedback(IDS_DELETED_ENTRY) ;
+	m_window_listener->check_mousewheel() ;
+	m_view->set_scroll_pos(0) ;
+}
+
+size_t ViewStateReview::get_current()
+{
+	return m_search_matches->current_pos() ;
 }

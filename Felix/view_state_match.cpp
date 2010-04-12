@@ -90,8 +90,47 @@ void ViewStateMatch::set_current( size_t num )
 
 void ViewStateMatch::delete_match( size_t index )
 {
-	index ;
+	if ( m_search_matches->empty() )
+	{
+		m_window_listener->user_feedback(IDS_NO_MATCHES);
+		return ;
+	}
 
+	if ( index >= m_search_matches->size() )
+	{
+#ifndef UNIT_TEST
+		MessageBeep(MB_ICONEXCLAMATION) ;
+#endif
+		m_window_listener->user_feedback(IDS_OUT_OF_RANGE) ;
+		return ;
+	}
+
+	if ( ! m_window_listener->check_delete() )
+	{
+		return ;
+	}
+
+	search_match_ptr match = m_search_matches->at(index) ;
+	mem_engine::memory_pointer mem = m_model->get_memory_by_id(match->get_memory_id()) ;
+	mem->erase(match->get_record()) ;
+
+	m_search_matches->erase_at(index) ;
+	m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
+
+	if ( m_search_matches->empty() )
+	{
+		const wstring feedback = L"<center><h1>" + resource_string_w( IDS_NO_MATCHES ) + L"</h1></center>" ;
+		m_view->set_text(feedback) ;
+		return ;
+	}
+
+	this->show_content() ;
+
+}
+
+size_t ViewStateMatch::get_current()
+{
+	return m_search_matches->current_pos() ;
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchMain

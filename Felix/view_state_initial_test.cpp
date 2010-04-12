@@ -109,7 +109,19 @@ namespace easyunit
 		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
+	TEST( view_state_initial_test, delete_match_empty)
+	{
+		ViewStateInitialMain state ;
+		view_state_obj vso(&state) ;
 
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		SimpleString ids_no_matches(int2string(IDS_NO_MATCHES).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_no_matches) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
 	//////////////////////////////////////////////////////////////////////////
@@ -164,6 +176,20 @@ namespace easyunit
 		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 		ASSERT_EQUALS_V(expected, actual) ;
 	}
+	TEST( view_state_initial_gloss_test, delete_match_empty)
+	{
+		ViewStateInitialGloss state ;
+		view_state_obj vso(&state) ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		SimpleString ids_no_matches(int2string(IDS_NO_MATCHES).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_no_matches) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
 }
 
 

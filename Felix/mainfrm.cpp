@@ -921,7 +921,7 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 				on_user_edit( message ) ;
 				return true ;
 			case IDC_DELETE:
-				on_user_delete( pMsg->lParam ) ;
+				on_user_delete( static_cast<size_t>(pMsg->lParam) ) ;
 				return true ;
 			case IDC_ADD_TO_GLOSSARY:
 				on_user_add_to_glossary( pMsg->lParam ) ;
@@ -1748,16 +1748,7 @@ bool CMainFrame::register_trans_to_glossary(const wstring &trans)
  */
 void CMainFrame::delete_current_translation()
 {
-	if ( get_display_state() == INIT_DISPLAY_STATE )
-	{
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
-		user_feedback( IDS_MSG_INVALID_COMMAND ) ;
-		::MessageBeep( MB_ICONSTOP ) ;
-		return ;
-	}
-
-	const size_t pos = m_trans_matches.current_pos( ) ;
-	on_user_delete( static_cast< LPARAM >(pos) ) ;
+	on_user_delete( m_view_state->get_current() ) ;
 }
 
 
@@ -1923,126 +1914,11 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 
 /** Responds to user command to delete memory entry.
  */
-LRESULT CMainFrame::on_user_delete(LPARAM num )
+LRESULT CMainFrame::on_user_delete(size_t num )
 {
 	SENSE("on_user_delete") ;
 
-	const size_t index = static_cast<size_t>(num) ;
-
-	switch ( get_display_state() )
-	{
-	case INIT_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->delete_match(index) ;
-			return 0L ;
-		}
-	case NEW_RECORD_DISPLAY_STATE: 
-		{
-			ATLASSERT(m_view_state == &m_view_state_new) ;
-			ATLASSERT( index == 0 ) ;
-
-			if ( ! check_delete() )
-			{
-				return 0L ;
-			}
-
-			memory_pointer mem = m_model->get_memories()->get_first_memory() ;
-			
-			remove_record_from_mem_id(m_new_record, mem->get_id());
-
-			//remove_record_from_glossaries(m_new_record);
-
-			deleted_new_record_feedback();
-			m_view_state->delete_match(index) ;
-			m_view_state->delete_match(index) ;
-			user_feedback( IDS_DELETED_ENTRY ) ;
-			return 0L ;
-		}
-	case MATCH_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_match) ;
-			if ( m_trans_matches.empty() )
-			{
-				user_feedback(IDS_NO_MATCHES);
-				return 0L ;
-			}
-
-			if ( index >= m_trans_matches.size() )
-			{
-				MessageBeep(MB_ICONEXCLAMATION) ;
-				user_feedback(IDS_OUT_OF_RANGE) ;
-				return 0L ;
-			}
-			
-			if ( ! check_delete() )
-			{
-				return 0L ;
-			}
-
-			search_match_ptr match = m_trans_matches.at(index) ;
-			remove_match_record(match);
-
-			m_trans_matches.erase_at(index) ;
-
-			if ( m_trans_matches.empty() )
-			{
-				wstring query = m_trans_matches.get_query_rich() ;
-				if ( query.empty() == false ) 
-				{
-					if ( m_model->is_reverse_lookup() )
-					{
-						lookup_trans( query ) ;
-					}
-					else
-					{
-						lookup( query ) ;
-					}
-
-					break ;
-				}
-			}
-
-			show_view_content() ;
-			m_view_state->delete_match(index) ;
-			user_feedback( IDS_DELETED_ENTRY ) ;
-			return 0L ;
-		}
-	case TRANS_REVIEW_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_review) ;
-			m_view_state->delete_match(index) ;
-			return 0L ;
-		}
-	case CONCORDANCE_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_concordance) ;
-			if ( index >= m_search_matches.size() )
-			{
-				MessageBeep(MB_ICONEXCLAMATION) ;
-				user_feedback(IDS_OUT_OF_RANGE) ;
-				return 0L ;
-			}
-
-			if ( ! check_delete() )
-			{
-				return 0L ;
-			}
-			search_match_ptr match = m_search_matches.at( index ) ;
-
-			remove_match_record(match);
-
-			m_search_matches.erase_at( index ) ;
-			show_view_content() ;
-			m_view_state->delete_match(index) ;
-			user_feedback( IDS_DELETED_ENTRY ) ;
-			return 0L ;
-		}
-	default:
-		ATLASSERT("Unknown state in delete record" && FALSE) ;
-		return 0L ;
-	}
-
+	m_view_state->delete_match(static_cast<size_t>(num)) ;
 	return 0L ;
 }
 
@@ -4579,7 +4455,7 @@ void CMainFrame::OnNavEdit( long index )
 void CMainFrame::OnNavDelete( long index )
 {
 	SENSE("OnNavDelete") ;
-	on_user_delete( index ) ;
+	on_user_delete( static_cast<size_t>(index) ) ;
 }
 
 //! Register glossary entries based on entry at index.

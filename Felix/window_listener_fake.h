@@ -43,6 +43,7 @@ public:
 	}
 	bool check_delete()
 	{
+		SENSE("check_delete") ;
 		return m_should_delete ;
 	}
 	void set_new_record(rec_ptr rec)

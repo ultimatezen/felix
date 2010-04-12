@@ -79,6 +79,20 @@ void ViewStateNew::retrieve_edit_record( int mem_id, mem_engine::record_pointer 
 void ViewStateNew::delete_match( size_t index )
 {
 	index ;
+	ATLASSERT( index == 0 ) ;
+	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+
+	if ( ! m_window_listener->check_delete() )
+	{
+		return ;
+	}
+	mem->erase(m_window_listener->get_new_record()) ;
+
+	const wstring feedback = L"<center><h1>" + resource_string_w( IDS_DELETED_ENTRY ) + L"</h1></center>" ;
+	m_view->set_text(feedback) ;
+	m_window_listener->user_feedback(IDS_DELETED_ENTRY) ;
+	m_window_listener->check_mousewheel() ;
+	m_view->set_scroll_pos(0) ;
 
 }
 //////////////////////////////////////////////////////////////////////////

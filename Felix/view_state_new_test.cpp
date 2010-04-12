@@ -131,6 +131,54 @@ namespace easyunit
 		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
+	// delete
+	TEST( view_state_new_test, delete_match_check_delete)
+	{
+		ViewStateNewMain state ;
+		view_state_obj vso(&state) ;
+		vso.listener.m_should_delete = false ;
+
+		record_pointer rec = record_pointer(new record_local) ;
+		rec->set_source(L"source") ;
+		rec->set_trans(L"trans") ;
+
+		vso.mem->add_record(rec) ;
+		vso.listener.new_rec = rec ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "check_delete") ;
+		ASSERT_EQUALS_V(1, (int)vso.listener.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(0, (int)vso.view.m_sensing_variable.size()) ;
+		ASSERT_EQUALS_V(1, (int)vso.mem->size()) ;
+	}
+
+	TEST( view_state_new_test, delete_match_to_empty)
+	{
+		ViewStateNewMain state ;
+		view_state_obj vso(&state) ;
+		vso.listener.m_should_delete = true ;
+
+		record_pointer rec = record_pointer(new record_local) ;
+		rec->set_source(L"source") ;
+		rec->set_trans(L"trans") ;
+
+		vso.mem->add_record(rec) ;
+		vso.listener.new_rec = rec ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_scroll_pos") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "0") ;
+		ASSERT_EQUALS_V(4, (int)vso.view.m_sensing_variable.size()) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "get_new_record") ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
+
+		ASSERT_EQUALS_V(0, (int)vso.mem->size()) ;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
 	//////////////////////////////////////////////////////////////////////////

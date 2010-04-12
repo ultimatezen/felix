@@ -52,6 +52,10 @@ public:
 	{
 		num ;
 	}
+	virtual size_t get_current()
+	{
+		return 0 ;
+	}
 
 	virtual int get_edit_record_title() 
 	{

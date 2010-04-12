@@ -11,6 +11,18 @@
 namespace easyunit
 {
 	using namespace mem_engine ;
+	search_match_ptr make_match_con(string source, string trans, int id=0)
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
+
+		return match ;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// frame
 	//////////////////////////////////////////////////////////////////////////
@@ -145,17 +157,13 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "0") ;
 	}
 
+
 	TEST( view_state_concordance_test, get_current_match_match_non_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match(new search_match) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"record source") ;
-		rec->set_trans(L"record trans") ;
-		match->set_record(rec) ;
-		match->set_values_to_record() ;
+		search_match_ptr match = make_match_con("record source", "record trans") ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -205,6 +213,115 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), id_view_search) ;
 		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[5].c_str()), "true") ;
 		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
+	// delete_match
+	TEST( view_state_concordance_test, delete_match_empty)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+
+		translation_match_query trans_matches; 
+		state.set_search_matches(&trans_matches) ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		SimpleString ids_no_matches(int2string(IDS_NO_MATCHES).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_no_matches) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
+	TEST( view_state_concordance_test, delete_match_out_of_range)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = make_match_con("record source", "record trans") ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		search_query_mainframe search_matches; 
+		search_matches.set_matches(matches) ;
+		state.set_search_matches(&search_matches) ;
+
+		state.delete_match(1) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		SimpleString ids_out_of_range(int2string(IDS_OUT_OF_RANGE).c_str()) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_out_of_range) ;
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
+	TEST( view_state_concordance_test, delete_match_check_delete)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+		vso.listener.m_should_delete = false ;
+
+		search_match_ptr match = make_match_con("source", "trans") ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		search_query_mainframe search_matches; 
+		search_matches.set_matches(matches) ;
+		state.set_search_matches(&search_matches) ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "check_delete") ;
+		ASSERT_EQUALS_V(1, (int)vso.listener.m_sensing_variable.size()) ;
+	}
+
+	TEST( view_state_concordance_test, delete_match_to_empty)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+		vso.listener.m_should_delete = true ;
+
+		search_match_ptr match = make_match_con("source", "trans", vso.mem->get_id()) ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		search_query_mainframe search_matches; 
+		search_matches.set_matches(matches) ;
+		state.set_search_matches(&search_matches) ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "<center><h1>No Matches</h1></center>") ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
+	}
+
+	TEST( view_state_concordance_test, delete_match_to_1)
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+		vso.listener.m_should_delete = true ;
+
+		search_match_ptr m1 = make_match_con("source", "trans", vso.mem->get_id()) ;
+		search_match_ptr m2 = make_match_con("source", "trans", vso.mem->get_id()) ;
+
+		search_match_container matches ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		search_query_mainframe search_matches; 
+		search_matches.set_matches(matches) ;
+		state.set_search_matches(&search_matches) ;
+
+		state.delete_match(0) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"source\">source</td>") != string::npos) ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"trans\">trans</td>") != string::npos) ;
+		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+
+		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

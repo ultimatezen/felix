@@ -18,6 +18,7 @@ public:
 
 	}	
 	void set_current(size_t num);
+	virtual size_t get_current();
 	void set_search_matches(mem_engine::felix_query *search_matches);
 	int get_edit_record_title();
 	void handle_toggle_edit_mode();
