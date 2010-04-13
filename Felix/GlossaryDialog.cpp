@@ -999,31 +999,7 @@ bool CGlossaryWindow::show_new_record()
 {
 	BANNER( "CGlossaryDialog::show_new_record()" ) ;
 
-	wstring html_content ;
-	html_content << L"<b>" << R2W( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) << L"</b>" ;
-	// source & trans
-	html_content << L"<table class=\"added\" id=\"0\">\n" 
-				   << L"<tr><td><b>" << R2W( IDS_SOURCE_TITLE ) << L"</b></td><td class=\"match_content\" id=\"" << R2W( IDS_SOURCE_ID ) << L"\">" << m_new_record->get_source_rich() << L"</td></tr>"
-				   << L"<tr><td><b>" << R2W( IDS_TRANS_TITLE )  << L"</b></td><td class=\"match_content\" id=\"" << R2W( IDS_TRANS_ID ) << L"\">" << m_new_record->get_trans_rich() << L"</td></tr>"
-				   << L"<tr><td><b>" << R2W( IDS_CONTEXT_TITLE ) << L"</b></td>" ;
-	// context
-	if ( m_new_record->get_context_plain().empty() )
-		html_content << L"<td class=\"match_content\" id=\"context_tmp\"><b><font color=\"red\">" << R2W( IDS_NO_CONTEXT ) << L"</font></b>" ;
-	else
-		html_content << L"<td class=\"match_content\" id=\"" << R2W( IDS_CONTEXT_ID ) << L"\">" << m_new_record->get_context_rich() ;
-	html_content << L"</td></tr>\n" ;
-	html_content << L"</table>" ;
-	// links
-	html_content	<< L"<p><hr>"
-			<< L"<a href=\"" << int2wstring( IDC_EDIT ) << L":0\" title=\"" << R2W( IDS_EDIT_TITLE ) << L"\">" << R2W( IDS_EDIT ) << L"</a>" 
-			<< L" | <a href=\"" << int2wstring( IDC_DELETE ) << L":0\" title=\"" << R2W( IDS_DELETE_TITLE) << L"\">" << R2W( IDS_DELETE ) << L"</a>"
-			<< L" | <a href=\"" << int2wstring( IDC_ADD ) << L":0\" title=\"" << R2W( IDS_ADD2MEM_TITLE ) << L"\">" << R2W( IDS_ADD_TO_MEMORY ) << L"</a>" ;
-
-	html_content << L"<p> <a href=\"" << int2wstring( IDC_PREV ) << L":0\">" << R2W( IDS_BACK ) << L"</a>" ;
-
-	m_view_interface.set_text( html_content ) ;
-	m_view_interface.set_scroll_pos(0) ;
-	check_mousewheel() ;
+	m_view_state_new.show_content() ;
 
 	return true ;
 }
@@ -1201,7 +1177,8 @@ void CGlossaryWindow::ToggleEditMode(const bool edit_mode_enabled)
 	switch( get_display_state() )
 	{
 	case INIT_DISPLAY_STATE: 
-		m_view_interface.put_edit_mode( ! edit_mode_enabled ) ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
+		m_view_state->handle_toggle_edit_mode() ;
 		break ;
 	case NEW_RECORD_DISPLAY_STATE:
 		handle_new_record_edit( edit_mode_enabled ) ;

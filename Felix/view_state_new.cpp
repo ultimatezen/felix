@@ -7,58 +7,13 @@
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "record_local.h"
+#include "system_message.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNew
 //////////////////////////////////////////////////////////////////////////
 
-void ViewStateNew::handle_toggle_edit_mode()
-{
-	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
-	{
-		// user feedback
-		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
-		m_view->handle_enter_edit_mode_new_record() ;
-
-		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
-	}
-	else
-	{
-		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
-
-		record_pointer edit_rec = m_window_listener->get_new_record() ;
-		m_view->handle_leave_edit_mode_new(edit_rec) ;
-		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
-
-		record_pointer new_rec = m_window_listener->get_item_under_edit()->get_record() ;
-		if ( new_rec->is_valid_record() ) 
-		{
-			this->show_content() ;
-			return ;
-		}
-
-		ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
-		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
-		try
-		{
-			m_model->get_memories()->remove_record( new_rec, mem->get_id() ) ;
-			wstring content ; 
-			content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
-
-			m_view->set_text( content ) ;
-			m_window_listener->check_mousewheel() ;
-			m_view->set_scroll_pos(0) ;
-		}
-		catch (except::CProgramException& e)
-		{
-			logging::log_exception(e) ;
-			e.notify_user("Failed to delete record: memory not found") ;
-		}
-
-		return ;
-	}
-}
 
 void ViewStateNew::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
@@ -98,7 +53,52 @@ void ViewStateNew::delete_match( size_t index )
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewMain
 //////////////////////////////////////////////////////////////////////////
+void ViewStateNewMain::handle_toggle_edit_mode()
+{
+	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
+	{
+		// user feedback
+		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
+		m_view->handle_enter_edit_mode_new_record() ;
+
+		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
+	}
+	else
+	{
+		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
+
+		record_pointer new_rec = m_window_listener->get_new_record() ;
+		m_view->handle_leave_edit_mode_new(new_rec) ;
+		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
+
+		if ( new_rec->is_valid_record() ) 
+		{
+			this->show_content() ;
+			return ;
+		}
+
+		ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
+		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+		try
+		{
+			m_model->get_memories()->remove_record( new_rec, mem->get_id() ) ;
+			wstring content ; 
+			content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
+
+			m_view->set_text( content ) ;
+			m_window_listener->check_mousewheel() ;
+			m_view->set_scroll_pos(0) ;
+		}
+		catch (except::CProgramException& e)
+		{
+			logging::log_exception(e) ;
+			e.notify_user("Failed to delete record: memory not found") ;
+		}
+
+		return ;
+	}
+}
 void ViewStateNewMain::show_content()
 {
 	m_view->ensure_document_complete() ;
@@ -134,7 +134,64 @@ void ViewStateNewMain::activate()
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewGloss
 //////////////////////////////////////////////////////////////////////////
+void ViewStateNewGloss::handle_toggle_edit_mode()
+{
+	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
+	{
+		// user feedback
+		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
+		m_view->handle_enter_edit_mode_new_record() ;
+
+		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
+	}
+	else
+	{
+		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
+
+		record_pointer record = m_window_listener->get_new_record() ;
+		if( false == m_view->handle_leave_edit_mode_new_record_glossary( m_model->get_memories(), 
+																		record) )
+		{
+			m_view->set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
+			m_window_listener->check_mousewheel() ;
+			m_view->set_scroll_pos(0) ;
+			m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
+			m_window_listener->set_new_record(record_pointer(new mem_engine::record_local)) ;
+#ifndef UNIT_TEST
+			::MessageBeep( MB_ICONINFORMATION ) ;
+#endif
+		}
+		else
+		{
+			memory_pointer mem = m_model->get_first_memory() ;
+			
+			if ( !  mem->add_record( m_window_listener->get_new_record() ) )
+			{
+				if ( mem->is_locked() )
+				{
+					m_window_listener->user_feedback( IDS_GLOSSARY_LOCKED ) ;
+					return ;
+				}
+				else
+				{
+					ATLASSERT( mem->record_exists( m_window_listener->get_new_record() ) ) ;
+					m_window_listener->user_feedback( IDS_ENTRY_EXISTED ) ; // Entry already existed. Updated with any new information. 
+				}
+			}
+			else
+			{
+				CString content = system_message( IDS_CURRENT_SIZE, R2W(IDS_GLOSSARY), int_arg( mem->size() ) ) ;
+				m_window_listener->user_feedback( content ) ;
+			}
+
+			m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
+		}
+
+		this->show_content() ;
+		return ;
+	}
+}
 void ViewStateNewGloss::show_content()
 {
 	m_view->ensure_document_complete() ;
@@ -173,4 +230,9 @@ mem_engine::search_match_ptr ViewStateNewGloss::get_current_match()
 {
 	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
 	return match ;
+}
+
+void ViewStateNewGloss::activate()
+{
+
 }

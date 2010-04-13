@@ -203,17 +203,21 @@ namespace easyunit
 	{
 		ViewStateNewGloss state ;
 		view_state_obj vso(&state) ;
+		vso.listener.new_rec->set_source(L"source") ;
+		vso.listener.new_rec->set_trans(L"trans") ;
 		vso.view.m_is_edit_mode = true ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)vso.view.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[5].c_str()), "0") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new_record_glossary") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "set_text") ;
+		ASSERT_TRUE(vso.view.m_sensing_variable[4].find("<td class=\"match_content\" id=\"source\">source</td>") != string::npos) ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[5].c_str()), "ensure_document_complete") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[6].c_str()), "set_scroll_pos") ;
+		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[7].c_str()), "0") ;
+		ASSERT_EQUALS_V(8, (int)vso.view.m_sensing_variable.size()) ;
 
 		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
 		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;

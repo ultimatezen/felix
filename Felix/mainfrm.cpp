@@ -136,7 +136,6 @@ m_editor(new CEditTransRecordDialog)
 	this->init_state(&m_view_state_review) ;
 	m_view_state_review.set_search_matches(&m_trans_matches) ;
 
-
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	ATLASSERT(m_view_state == &m_view_state_initial) ;
@@ -464,6 +463,10 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		m_view_interface.set_accel(m_hAccel) ;
 
 		ATLASSERT(m_view_state == &m_view_state_initial) ;
+
+		set_display_state( INIT_DISPLAY_STATE ) ;
+		ATLASSERT(m_view_state == &m_view_state_initial) ;
+
 		m_view_state->show_content() ;
 
 		set_up_recent_docs_list() ;
@@ -1918,7 +1921,7 @@ LRESULT CMainFrame::on_user_delete(size_t num )
 {
 	SENSE("on_user_delete") ;
 
-	m_view_state->delete_match(static_cast<size_t>(num)) ;
+	m_view_state->delete_match(num) ;
 	return 0L ;
 }
 
@@ -2048,50 +2051,7 @@ void CMainFrame::show_view_content()
 		return ;
 	}
 
-	switch ( get_display_state() )
-	{
-	case MATCH_DISPLAY_STATE:
-		ATLASSERT(m_view_state == &m_view_state_match) ;
-
-		m_view_state->activate() ;
-		m_view_state->show_content() ;
-		return ;
-
-	case TRANS_REVIEW_STATE:
-		ATLASSERT(m_view_state == &m_view_state_review) ;
-
-		m_view_state->activate() ;
-		m_view_state->show_content() ;
-		return ;
-
-	case NEW_RECORD_DISPLAY_STATE:
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-
-		m_view_state->activate() ;
-		m_view_state->show_content() ;
-		return ;
-
-	case CONCORDANCE_DISPLAY_STATE:
-		ATLASSERT(m_view_state == &m_view_state_concordance) ;
-
-		m_view_state->activate() ;
-		m_view_state->show_content() ;
-		return ;
-
-	case INIT_DISPLAY_STATE:
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
-
-		m_view_state->activate() ;
-		m_view_state->show_content() ;
-		return ;
-
-	default:
-		UISetCheck( ID_VIEW_MATCH,	FALSE  );
-		UISetCheck( ID_VIEW_SEARCH,	FALSE );
-		UpdateLayout( FALSE ) ;
-
-		ATLASSERT( "Unkown display state in CMainFrame" && FALSE ) ;
-	}
+	m_view_state->show_content() ;
 }
 
 
@@ -4549,33 +4509,7 @@ void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
 
 mem_engine::search_match_ptr CMainFrame::get_current_match()
 {
-	if ( get_display_state() == INIT_DISPLAY_STATE  )
-	{
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
-		return m_view_state->get_current_match() ;
-	}
-	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE) 
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		return m_view_state->get_current_match() ;
-	}
-	if (get_display_state() == MATCH_DISPLAY_STATE)
-	{
-		ATLASSERT(m_view_state == &m_view_state_match) ;
-		return m_view_state->get_current_match() ;
-	}
-	if (get_display_state() == TRANS_REVIEW_STATE)
-	{
-		ATLASSERT(m_view_state == &m_view_state_review) ;
-		return m_view_state->get_current_match() ;
-	}
-	else 
-	{
-		ATLASSERT(get_display_state() == CONCORDANCE_DISPLAY_STATE) ;
-		ATLASSERT(m_view_state == &m_view_state_concordance) ;
-		return m_view_state->get_current_match() ;
-	}
-
+	return m_view_state->get_current_match() ;
 }
 
 // Content when using translation history
@@ -5238,6 +5172,10 @@ bool CMainFrame::is_single_page()
 
 void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
 {
+	if (! this->IsWindow())
+	{
+		return ;
+	}
 	UISetCheck(item_id, !! is_checked);
 	UpdateLayout( FALSE ) ;
 }
