@@ -201,6 +201,10 @@ struct properties_memory : public props::CRegMap
 
 		m_data.m_min_score = setting ;
 	}
+	bool is_plaintext()
+	{
+		return !! m_data.m_plaintext ;
+	}
 	properties_memory() 
 	{
 	}
@@ -291,6 +295,14 @@ struct properties_glossary : public props::CRegMap
 	void set_max_add( size_t setting )
 	{
 		m_data.m_max_add = setting ;
+	}
+	bool is_plaintext()
+	{
+		return !! m_data.m_plaintext ;
+	}
+	bool is_to_lower()
+	{
+		return !! m_data.m_to_lower ;
 	}
 	properties_glossary()
 	{

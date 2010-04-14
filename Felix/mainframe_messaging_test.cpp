@@ -202,26 +202,7 @@ namespace easyunit
 
 
 	}
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_LOOKUP_DISPLAY_STATE )
-	{
-		MainFrameModel model ;
-		CMainFrame main_frame( &model ) ;
-		WindowsMessage message ;
 
-		std::vector< mem_engine::search_match_ptr > matches ;
-		mem_engine::search_match_ptr match(new search_match) ;
-		match->set_record( record_pointer(new record_local()) ) ;
-		matches += match ;
-		main_frame.m_search_matches.set_matches( matches ) ;
-		main_frame.m_trans_matches.set_matches( matches ) ;
-
-		main_frame.set_display_state( CMainFrame::LOOKUP_DISPLAY_STATE ) ;
-		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
-
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// messages

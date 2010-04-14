@@ -70,13 +70,6 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <list>
 #include <vector>
 
-#include "Poco/DateTime.h"
-#include "Poco/DateTimeFormat.h"
-
-
-// Loki
-#include "loki/AssocVector.h"
-
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 #include <boost/assign/std/set.hpp>

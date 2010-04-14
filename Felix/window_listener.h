@@ -11,9 +11,8 @@ public:
 	{ 
 		INIT_DISPLAY_STATE , 		  // the startup screen
 		NEW_RECORD_DISPLAY_STATE , 	  // a new record has been added
-		MATCH_DISPLAY_STATE , 		  // a translation match is being displayed
+		MATCH_DISPLAY_STATE , 		  // matches are being displayed
 		CONCORDANCE_DISPLAY_STATE ,	  // concordances are being displayed
-		LOOKUP_DISPLAY_STATE,		  // glossary lookup screen
 		TRANS_REVIEW_STATE,			  // view translations entry
 	} ;
 	DISPLAY_STATE		m_display_state ;

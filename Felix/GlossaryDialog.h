@@ -46,7 +46,6 @@
 #include "view_state_new.h"
 #include "view_state_concordance.h"
 #include "view_state_match.h"
-#include "view_state_gloss_lookup.h"
 
 /**
 	@class CGlossaryDialog 
@@ -92,7 +91,6 @@ class CGlossaryWindow :
 	ViewStateNewGloss			m_view_state_new;
 	ViewStateConcordanceGloss	m_view_state_concordance ;
 	ViewStateMatchGloss			m_view_state_match ;
-	ViewStateGlossLookup		m_view_state_lookup ;
 
 public:
 	void set_zoom_level(int zoom_level);

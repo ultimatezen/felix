@@ -70,12 +70,6 @@ namespace easyunit
 		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 		ASSERT_EQUALS(gloss.m_view_state, &gloss.m_view_state_new) ;
 	}
-	TEST( window_state_tests_gloss, set_display_state_lookup)
-	{
-		CGlossaryWindow gloss ;
-		gloss.set_display_state(CCommonWindowFunctionality::LOOKUP_DISPLAY_STATE) ;
-		ASSERT_EQUALS(gloss.m_view_state, &gloss.m_view_state_lookup) ;
-	}
 	TEST( window_state_tests_gloss, set_display_state_match)
 	{
 		CGlossaryWindow gloss ;

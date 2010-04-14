@@ -66,7 +66,7 @@ m_editor(new CEditTransRecordDialog)
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_search_matches) ;
 	this->init_state(&m_view_state_match) ;
-	this->init_state(&m_view_state_lookup) ;
+	m_view_state_match.set_search_matches(&m_search_matches) ;
 
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;
@@ -761,7 +761,7 @@ void CGlossaryWindow::prep_for_gloss_lookup(const std::wstring& query_text)
 
 	// remember where we were, we may want to navigate back
 	// remember where we are, makes a difference how we respond to user input
-	set_display_state( LOOKUP_DISPLAY_STATE ) ;
+	set_display_state( MATCH_DISPLAY_STATE ) ;
 
 	config_matches_for_gloss_lookup(query_text);
 }
@@ -838,11 +838,14 @@ wstring CGlossaryWindow::get_glossary_entry(const int index)
 		return wstring( ) ;
 	}
 
+	m_view_state->set_current(static_cast<size_t>( localIndex )) ;
 	record_pointer entry_record(new record_local()) ;
 
 	if ( index == 0 && get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 	{
-		entry_record = m_new_record ;
+		ATLASSERT(m_view_state == &m_view_state_new) ;
+
+		entry_record = m_view_state->get_current_match()->get_record() ;
 	}
 	else
 	{
@@ -854,28 +857,9 @@ wstring CGlossaryWindow::get_glossary_entry(const int index)
 
 std::wstring CGlossaryWindow::get_record_translation(record_pointer& entry)
 {
-	entry->increment_refcount() ;
-
-	wstring trans ;
-	if ( m_properties_gloss.m_data.m_plaintext )
-	{
-		trans = entry->get_trans_plain() ;
-		str::replace_all(trans, L"&", L"&amp;") ;
-		str::replace_all(trans, L">", L"&gt;") ;
-		str::replace_all(trans, L"<", L"&lt;") ;
-	}
-	else
-	{
-		trans = entry->get_trans_rich() ;
-	}
-
-	if ( m_properties_gloss.m_data.m_to_lower )
-	{
-		str::make_lower( trans ) ;
-	}
-
-	return trans ;		
-
+	return m_view_state->retrieve_record_trans(entry,
+						record_string_prefs(m_properties_gloss.is_plaintext(),
+										     m_properties_gloss.is_to_lower())) ;
 }
 
 
@@ -914,7 +898,7 @@ bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name
 	
 	wstring query = m_search_matches.get_query_rich( ) ;
 
-	if ( get_display_state() == LOOKUP_DISPLAY_STATE )
+	if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
 		handle_glossary_lookup( query ) ;
 	}
@@ -966,7 +950,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 
 	const wstring query = m_search_matches.get_query_rich( ) ;
 
-	if ( get_display_state() == LOOKUP_DISPLAY_STATE )
+	if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
 		handle_glossary_lookup( query ) ;
 	}
@@ -1183,7 +1167,7 @@ void CGlossaryWindow::ToggleEditMode(const bool edit_mode_enabled)
 	case NEW_RECORD_DISPLAY_STATE:
 		handle_new_record_edit( edit_mode_enabled ) ;
 		break ;
-	case LOOKUP_DISPLAY_STATE: 
+	case MATCH_DISPLAY_STATE: 
 	case CONCORDANCE_DISPLAY_STATE:
 		handle_concordance_edit( edit_mode_enabled ) ;
 		break ;
@@ -1311,7 +1295,7 @@ void CGlossaryWindow::handle_leave_edit_mode_concordance()
 
 	wstring content ;
 
-	if ( get_display_state() == LOOKUP_DISPLAY_STATE )
+	if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
 		content = build_glossary_list(m_search_matches) ;
 	}
@@ -1474,7 +1458,7 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 
 			return 0L ;
 		}
-	case LOOKUP_DISPLAY_STATE:
+	case MATCH_DISPLAY_STATE:
 	case CONCORDANCE_DISPLAY_STATE:
 		{
 			// check for out of bounds condition
@@ -1501,7 +1485,7 @@ LRESULT CGlossaryWindow::on_user_delete( LPARAM number )
 		{
 			return delete_from_new_state();		
 		}
-	case LOOKUP_DISPLAY_STATE:
+	case MATCH_DISPLAY_STATE:
 		{
 			return delete_from_lookup_state( number );
 		}
@@ -1627,7 +1611,7 @@ LRESULT CGlossaryWindow::OnUserAdd( LPARAM lParam )
 
 LRESULT CGlossaryWindow::OnUserPrev( LPARAM /* lParam */ )
 {
-	set_display_state( LOOKUP_DISPLAY_STATE ) ;
+	set_display_state( MATCH_DISPLAY_STATE ) ;
 	show_user_search_results();
 	return 0L ;
 }
@@ -1655,13 +1639,6 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 	case NEW_RECORD_DISPLAY_STATE:
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-											   m_editor->get_new_record()) ;
-			break ;
-		}
-	case LOOKUP_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_lookup) ;
 			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
 											   m_editor->get_new_record()) ;
 			break ;
@@ -1848,7 +1825,7 @@ void CGlossaryWindow::show_view_content()
 			m_view_state->show_content() ;
 			return ;
 		}
-	case LOOKUP_DISPLAY_STATE: // = glossary lookup
+	case MATCH_DISPLAY_STATE: // = glossary lookup
 		{
 			m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
 			m_view_interface.set_scroll_pos(0) ;
@@ -1874,7 +1851,7 @@ void CGlossaryWindow::show_view_content()
 
 LRESULT CGlossaryWindow::on_view_match( ) 
 {
-	set_display_state( LOOKUP_DISPLAY_STATE ) ;
+	set_display_state( MATCH_DISPLAY_STATE ) ;
 	show_view_content() ;
 
 	CheckMenuItem( GetMenu(), ID_VIEW_MATCH,  MF_CHECKED   ) ;
@@ -2572,13 +2549,13 @@ LRESULT CGlossaryWindow::on_new_search()
 
 LRESULT CGlossaryWindow::on_toggle_views()
 {
-	if (this->get_display_state() == LOOKUP_DISPLAY_STATE)
+	if (this->get_display_state() == MATCH_DISPLAY_STATE)
 	{
 		this->set_display_state(CONCORDANCE_DISPLAY_STATE) ;
 	}
 	else
 	{
-		this->set_display_state(LOOKUP_DISPLAY_STATE) ;
+		this->set_display_state(MATCH_DISPLAY_STATE) ;
 	}
 	this->show_view_content() ;
 	return 0L ;
@@ -2744,9 +2721,6 @@ void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
 		break ;
 	case INIT_DISPLAY_STATE:
 		m_view_state = &m_view_state_initial ;
-		break ;
-	case LOOKUP_DISPLAY_STATE:
-		m_view_state = &m_view_state_lookup;
 		break ;
 	case MATCH_DISPLAY_STATE:
 		m_view_state = &m_view_state_match;

@@ -4789,17 +4789,8 @@ void CMainFrame::save_settings_destroy()
 
 wstring CMainFrame::get_record_translation(record_pointer record)
 {
-	record->increment_refcount() ;
-
-	if ( m_properties->m_mem_props.m_data.m_plaintext )
-	{
-		wstring plain = record->get_trans_plain() ;
-		str::replace_all(plain, L"&", L"&amp;") ;
-		str::replace_all(plain, L">", L"&gt;") ;
-		str::replace_all(plain, L"<", L"&lt;") ;
-		return plain ;
-	}
-	return record->get_trans_rich() ;
+	return m_view_state->retrieve_record_trans(record,
+		record_string_prefs( m_properties->m_mem_props.is_plaintext())) ;
 }
 
 /* Show the updates dialog.

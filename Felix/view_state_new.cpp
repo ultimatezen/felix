@@ -228,7 +228,8 @@ void ViewStateNewGloss::show_content()
 
 mem_engine::search_match_ptr ViewStateNewGloss::get_current_match()
 {
-	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
+	search_match_ptr match(new search_match(m_window_listener->get_new_record())) ;
+	match->set_base_score(1.0) ;
 	return match ;
 }
 

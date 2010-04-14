@@ -5,6 +5,17 @@
 #include "window_listener.h"
 #include "search_match.h"
 
+struct record_string_prefs 
+{
+	bool m_plain_text ;
+	bool m_to_lower ;
+	record_string_prefs(bool plain_text=false,
+					    bool to_lower=false):
+		m_plain_text(plain_text),
+		m_to_lower(to_lower)
+	{
+	}
+};
 // This represents the viewing state in one of the
 // windows.
 class ViewState
@@ -27,40 +38,18 @@ public:
 	{
 	}
 
-	void set_view(view_interface *view)
-	{
-		m_view = view ;
-	}
-	void set_model(FelixModelInterface *model)
-	{
-		m_model = model ;
-	}
-	void set_window_listener(WindowListener *listener)
-	{
-		m_window_listener = listener ;
-	}
+	void set_view(view_interface *view);
+	void set_model(FelixModelInterface *model);
+	void set_window_listener(WindowListener *listener);
 
-	void on_user_edit()
-	{
-		search_match_ptr match = this->get_current_match() ;
-		m_window_listener->set_item_under_edit(match) ;
-		ATLASSERT( match->get_memory_id() != 0 ) ;
-		m_window_listener->show_edit_dialog( match->get_record(), match->get_memory_id(), get_edit_record_title() ) ;
-	}
+	void on_user_edit();
 
-	virtual void set_current(size_t num)
-	{
-		num ;
-	}
-	virtual size_t get_current()
-	{
-		return 0 ;
-	}
+	wstring retrieve_record_trans(record_pointer rec, record_string_prefs prefs);
+	virtual void set_current(size_t num);
+	virtual size_t get_current();
 
-	virtual int get_edit_record_title() 
-	{
-		return IDS_EDIT_RECORD_TITLE;
-	}
+	virtual int get_edit_record_title();
+
 	// pure virtual
 	virtual void activate() = 0 ;
 	virtual void handle_toggle_edit_mode() = 0 ;

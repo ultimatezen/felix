@@ -12,62 +12,9 @@
 // ViewStateMatch
 //////////////////////////////////////////////////////////////////////////
 
-void ViewStateMatch::handle_toggle_edit_mode()
-{
-	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
-	{
-		// user feedback
-		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
-		m_view->handle_enter_edit_mode_match(m_search_matches) ;
 
-		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
-	}
-	else
-	{
-		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
-		m_view->handle_leave_edit_mode_match( m_model->get_memories(), m_search_matches ) ;
-
-		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
-
-		for ( size_t i = 0u ; i < m_search_matches->size() ; ++i )
-		{
-			mem_engine::search_match_ptr match = m_search_matches->at( i ) ;
-			if ( i == m_search_matches->current_pos() ) 
-			{
-				m_window_listener->redo_lookup( match, true ) ;
-			}
-			else
-			{
-				m_window_listener->redo_lookup( match, false ) ;
-			}
-		}
-
-		this->show_content() ;
-	}
-}
-
-void ViewStateMatch::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
-{
-	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
-	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
-	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
-	const mem_engine::record_pointer old_rec = current_match->get_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
-	{
-		mem->add_record(new_rec) ;
-	}
-	current_match->set_record(new_rec) ;
-	current_match->set_values_to_record() ;
-	m_window_listener->set_new_record(new_rec) ;
-	m_window_listener->redo_lookup(current_match, true) ;
-	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;
-}
 
 void ViewStateMatch::set_search_matches( mem_engine::felix_query *search_matches )
 {
@@ -135,7 +82,61 @@ size_t ViewStateMatch::get_current()
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchMain
 //////////////////////////////////////////////////////////////////////////
+void ViewStateMatchMain::handle_toggle_edit_mode()
+{
+	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
+	{
+		// user feedback
+		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
+		m_view->handle_enter_edit_mode_match(m_search_matches) ;
+
+		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
+	}
+	else
+	{
+		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
+
+		m_view->handle_leave_edit_mode_match( m_model->get_memories(), m_search_matches ) ;
+
+		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
+
+		for ( size_t i = 0u ; i < m_search_matches->size() ; ++i )
+		{
+			mem_engine::search_match_ptr match = m_search_matches->at( i ) ;
+			if ( i == m_search_matches->current_pos() ) 
+			{
+				m_window_listener->redo_lookup( match, true ) ;
+			}
+			else
+			{
+				m_window_listener->redo_lookup( match, false ) ;
+			}
+		}
+
+		this->show_content() ;
+	}
+}
+void ViewStateMatchMain::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
+{
+	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
+	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
+	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
+	const mem_engine::record_pointer old_rec = current_match->get_record() ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, new_rec) ;
+	}
+	else
+	{
+		mem->add_record(new_rec) ;
+	}
+	current_match->set_record(new_rec) ;
+	current_match->set_values_to_record() ;
+	m_window_listener->set_new_record(new_rec) ;
+	m_window_listener->redo_lookup(current_match, true) ;
+	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;
+}
 void ViewStateMatchMain::show_content()
 {
 	wstring content ;
@@ -189,7 +190,82 @@ void ViewStateMatchMain::activate()
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchGloss
 //////////////////////////////////////////////////////////////////////////
+void ViewStateMatchGloss::handle_toggle_edit_mode()
+{
+	if ( ! m_view->is_edit_mode() ) // we are entering edit mode
+	{
+		// user feedback
+		m_window_listener->user_feedback( IDS_ENTERING_EDIT_MODE ) ;
 
+		m_view->handle_enter_edit_mode_new_record() ;
+
+		m_window_listener->user_feedback( IDS_IN_EDIT_MODE ) ;
+	}
+	else
+	{
+		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
+
+		record_pointer edit_rec = m_window_listener->get_new_record() ;
+		m_view->handle_leave_edit_mode_new(edit_rec) ;
+		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
+
+		record_pointer new_rec = m_window_listener->get_new_record() ;
+		if ( new_rec->is_valid_record() ) 
+		{
+			this->show_content() ;
+			return ;
+		}
+
+		ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
+		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+		try
+		{
+			m_model->get_memories()->remove_record( new_rec, mem->get_id() ) ;
+			wstring content ; 
+			content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
+
+			m_view->set_text( content ) ;
+			m_window_listener->check_mousewheel() ;
+			m_view->set_scroll_pos(0) ;
+		}
+		catch (except::CProgramException& e)
+		{
+			logging::log_exception(e) ;
+			e.notify_user("Failed to delete record: memory not found") ;
+		}
+
+		return ;
+	}
+}
+
+void ViewStateMatchGloss::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
+{
+	memory_pointer mem ;
+	try
+	{
+		mem = m_model->get_memory_by_id(mem_id) ;
+	}
+	catch (except::CProgramException &e )
+	{
+		logging::log_exception(e) ;
+		mem = m_model->get_memories()->get_first_memory() ;
+	}
+	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
+	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
+	const mem_engine::record_pointer old_rec = current_match->get_record() ;
+	if (old_rec->is_valid_record())
+	{
+		mem->replace(old_rec, new_rec) ;
+	}
+	else
+	{
+		mem->add_record(new_rec) ;
+	}
+	current_match->set_record(new_rec) ;
+	current_match->set_values_to_record() ;
+	m_window_listener->set_new_record(new_rec) ;
+	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
+}
 void ViewStateMatchGloss::show_content()
 {
 

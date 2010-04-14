@@ -21,8 +21,6 @@ public:
 	virtual size_t get_current();
 	void set_search_matches(mem_engine::felix_query *search_matches);
 	int get_edit_record_title();
-	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 	void delete_match(size_t index);
 };
 
@@ -32,6 +30,8 @@ public:
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
+	void handle_toggle_edit_mode();
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 
 };
 
@@ -43,4 +43,6 @@ public:
 	void activate()
 	{
 	}
+	void handle_toggle_edit_mode();
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 };

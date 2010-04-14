@@ -239,6 +239,21 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[5].c_str()), "0") ;
 	}
+	TEST( view_state_new_gloss_test, get_current_match )
+	{
+		ViewStateNewGloss state ;
+		view_state_obj vso(&state) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"source") ;
+		vso.listener.set_new_record(rec) ;
+
+		search_match_ptr match = state.get_current_match() ;
+		SimpleString expected("source") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+	}
 
 }
 
