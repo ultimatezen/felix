@@ -1,0 +1,92 @@
+#include "stdafx.h"
+#include "WordParser.h"
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_SUITE( TestWordParser )
+
+BOOST_AUTO_TEST_CASE( is_whitespace_char)
+{
+	WordSelection selection ;
+	WordParser parser(selection) ;
+
+	BOOST_CHECK( parser.is_whitespace_char(L" ")) ;
+	BOOST_CHECK( parser.is_whitespace_char(L"\naha")) ;
+	BOOST_CHECK( parser.is_whitespace_char(L"\r")) ;
+	BOOST_CHECK( parser.is_whitespace_char(L"\t")) ;
+
+	BOOST_CHECK( ! parser.is_whitespace_char(NULL)) ;
+	BOOST_CHECK( ! parser.is_whitespace_char(L"a")) ;
+	BOOST_CHECK( ! parser.is_whitespace_char(L"/")) ;
+}
+BOOST_AUTO_TEST_CASE( formatting_enabled )
+{
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	parser.m_parse_font_face = FALSE;
+	parser.m_parse_font_color = FALSE ;
+	parser.m_parse_font_bold = FALSE ;
+	parser.m_parse_font_italic = FALSE ;
+	parser.m_parse_font_underline = TRUE ;
+	parser.m_parse_font_super_sub = FALSE ;
+	BOOST_CHECK( parser.formatting_enabled() ) ;
+}
+// table_selected
+BOOST_AUTO_TEST_CASE( table_selected_false )
+{
+	_bstr_t text = L"spam" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( ! parser.table_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( table_selected_false_emtpy )
+{
+	_bstr_t text = L"" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( ! parser.table_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( table_selected_true )
+{
+	_bstr_t text = L"foo\7" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( parser.table_selected(text) ) ;
+}
+// is_right_quote_selected
+BOOST_AUTO_TEST_CASE( is_right_quote_selected_false )
+{
+	_bstr_t text = L"spam" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( ! parser.is_right_quote_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( is_right_quote_selected_false_emtpy )
+{
+	_bstr_t text = L"" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( ! parser.is_right_quote_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_straight )
+{
+	_bstr_t text = L"\"" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_single )
+{
+	_bstr_t text = L"\x2019" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
+}
+BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_double )
+{
+	_bstr_t text = L"\x201D" ;
+	WordSelection selection ;
+	WordParser parser(selection) ;
+	BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
+}
+
+BOOST_AUTO_TEST_SUITE_END()
