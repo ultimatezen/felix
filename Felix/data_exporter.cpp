@@ -609,7 +609,7 @@ bool TradosDataExporter::write_formatting_tag( const wstring wide_tag )
 
 	wstring tag( wide_tag ) ;
 
-	str::make_lower( tag ) ;
+	boost::to_lower( tag ) ;
 
 	if ( tag == L"p" || str::left( tag, 2 ) == L"p " ) // ignore these
 	{
@@ -790,7 +790,7 @@ bool TradosDataExporter::write_rich_text( const wstring rich_text )
 
 	wstring local_bit( rich_text ) ;
 
-	str::trim( local_bit ) ;
+	boost::trim( local_bit ) ;
 
 	wstring left_bit = str::left( local_bit, 3 ) ;
 
@@ -816,7 +816,7 @@ bool TradosDataExporter::write_rich_text( const wstring rich_text )
 			{
 				wstring tag_part = tag.substr(1) ;
 
-				str::make_lower( tag_part ) ;
+				boost::to_lower( tag_part ) ;
 
 				if ( tag_part == L"font" )
 				{
@@ -1059,11 +1059,11 @@ string multiterm_data_exporter_55::prep_string( const string &raw_string )
 	string str = raw_string ;
 #pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 	boost::replace_all(str, "\r\n", " " ) ;
-//	str::replace_all( str, string("\r\n"), string(" ") ) ;
-	str::replace_all( str, string("\r"), string(" ") ) ;
-	str::replace_all( str, string("\n"), string(" ") ) ;
-	str::replace_all( str, string("\t"), string(" ") ) ;
-	str::replace_all( str, string("&lt;"), string("<") ) ;
+//	boost::replace_all( str, string("\r\n"), string(" ") ) ;
+	boost::replace_all( str, string("\r"), string(" ") ) ;
+	boost::replace_all( str, string("\n"), string(" ") ) ;
+	boost::replace_all( str, string("\t"), string(" ") ) ;
+	boost::replace_all( str, string("&lt;"), string("<") ) ;
 #pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 	
 	return str ;
@@ -1118,10 +1118,10 @@ void multiterm_data_exporter_6::write_line( wstring col1, wstring col2, wstring 
 wstring multiterm_data_exporter_6::prep_string( wstring line )
 {
 #pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
-	str::replace_all( line, wstring(L"\r\n"), wstring(L" ") ) ;
-	str::replace_all( line, wstring(L"\r"), wstring(L" ") ) ;
-	str::replace_all( line, wstring(L"\n"), wstring(L" ") ) ;
-	str::replace_all( line, wstring(L"\t"), wstring(L" ") ) ;
+	boost::replace_all( line, wstring(L"\r\n"), wstring(L" ") ) ;
+	boost::replace_all( line, wstring(L"\r"), wstring(L" ") ) ;
+	boost::replace_all( line, wstring(L"\n"), wstring(L" ") ) ;
+	boost::replace_all( line, wstring(L"\t"), wstring(L" ") ) ;
 #pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 
 	return line ;

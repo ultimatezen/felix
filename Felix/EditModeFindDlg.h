@@ -251,8 +251,8 @@ public:
 	{
 		if ( m_params.m_ignore_case )
 		{
-			str::make_lower( range_text ) ;
-			str::make_lower( search_text ) ;
+			boost::to_lower( range_text ) ;
+			boost::to_lower( search_text ) ;
 		}
 
 	}

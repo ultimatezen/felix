@@ -37,7 +37,7 @@
 			Name="Unicode_Release|Win32"
 			>
 			<DebugSettings
-				Command=""
+				Command="C:\dev\cpp\Assistant Suite\Test_WordAssist\Test_WordAssist\Debug\Test_WordAssist.exe"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"

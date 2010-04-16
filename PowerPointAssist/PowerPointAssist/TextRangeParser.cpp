@@ -124,7 +124,7 @@ bool CTextRangeParser::selectNext(void)
 				const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
 				foreach(wstring word, m_ok_endings)
 				{
-					if (str::ends_with(text_so_far, word))
+					if (boost::ends_with(text_so_far, word))
 					{
 						last_char_was_period = false ;
 						break ;

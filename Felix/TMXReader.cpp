@@ -67,8 +67,8 @@ wstring tmx_strip_tags( const wstring raw_string )
 				{
 					reader.find( L">", true ) ;
 					wstring tagChunk = reader.getline(L'<', false ) ;
-					str::make_lower( tagChunk ) ;
-					str::trim( tagChunk ) ;
+					boost::to_lower( tagChunk ) ;
+					boost::trim( tagChunk ) ;
 					if ( tagChunk == L"&lt;br&gt;" )
 					{
 						stripped_text += L"<br>" ;
@@ -277,7 +277,7 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 	std::set< tstring > target_languages ;
 	foreach(tstring language, languages)
 	{
-		if (! str::equal_nocase(language, m_header.m_srclang))
+		if (! boost::iequals(language, m_header.m_srclang))
 		{
 			target_languages.insert(language) ;
 		}
@@ -377,7 +377,7 @@ void CTMXReader::load_head()
 		CTag<wchar_t> prop_tag ;
 		prop_tag.parse_tag( prop_tag_text ) ;
 		const wstring type = prop_tag.get_attribute( L"type" ) ;
-		if ( str::equal_nocase( type, L"RTFFontTable" ) )
+		if ( boost::iequals( type, L"RTFFontTable" ) )
 		{
 			const wstring font_table_text = header_reader.getline(L'>', true ) ;
 			m_rtf_importer->parse_fonttbl( font_table_text ) ;
@@ -458,11 +458,11 @@ void CTMXReader::load_tu(const wstring  tu_text)
 
 		const wstring seg_text = get_seg_text( tuv_text ) ;
 
-		if ( str::equal_nocase( xml_lang, m_header.m_srclang ) ) 
+		if ( boost::iequals( xml_lang, m_header.m_srclang ) ) 
 		{
 			m_record->set_source(seg_text) ;
 		}
-		else if ( str::equal_nocase( xml_lang, m_target_lang ) )
+		else if ( boost::iequals( xml_lang, m_target_lang ) )
 		{
 			m_record->set_trans(seg_text) ;
 		}
@@ -490,11 +490,11 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 
 	wstring seg_tag_text(seg_tag_start, seg_tag_end) ;
 
-	if ( str::equal_nocase( m_header.m_datatype, L"rtf" ) ) 
+	if ( boost::iequals( m_header.m_datatype, L"rtf" ) ) 
 	{
 		return m_rtf_importer->seg2html( seg_tag_text ) ;
 	}
-	else if ( str::equal_nocase( m_header.m_datatype, L"html" ) )
+	else if ( boost::iequals( m_header.m_datatype, L"html" ) )
 	{
 		return tmx_strip_tags( seg_tag_text ) ;
 	}

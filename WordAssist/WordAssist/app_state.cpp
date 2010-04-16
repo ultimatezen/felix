@@ -68,7 +68,6 @@ void app_state::set_seg_defaults()
 */
 void app_state::setDefaults()
 {
-	BANNER( "app_state::setDefaults" ) ;
 	m_toolbar_visible = TRUE ;
 
 	set_seg_defaults() ;

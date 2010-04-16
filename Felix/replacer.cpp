@@ -98,21 +98,21 @@ namespace replacer
 	record_pointer source(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_source = rec->get_source_rich() ;
-		str::replace_all(old_source, from, to) ;
+		boost::replace_all(old_source, from, to) ;
 		rec->set_source(old_source) ;
 		return rec ;
 	}
 	record_pointer trans(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_trans = rec->get_trans_rich() ;
-		str::replace_all(old_trans, from, to) ;
+		boost::replace_all(old_trans, from, to) ;
 		rec->set_trans(old_trans) ;
 		return rec ;
 	}
 	record_pointer context(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_context = rec->get_context_rich() ;
-		str::replace_all(old_context, from, to) ;
+		boost::replace_all(old_context, from, to) ;
 		rec->set_context(old_context) ;
 		return rec ;
 	}
@@ -133,7 +133,7 @@ namespace replacer
 		}
 		else
 		{
-			str::replace_all(old, from, to) ;
+			boost::replace_all(old, from, to) ;
 		}
 		rec->set_creator(old) ;
 		return rec ;
@@ -154,7 +154,7 @@ namespace replacer
 		}
 		else
 		{
-			str::replace_all(old, from, to) ;
+			boost::replace_all(old, from, to) ;
 		}
 		rec->set_modified_by(old) ;
 		return rec ;

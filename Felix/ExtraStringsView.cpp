@@ -177,9 +177,9 @@ void CExtraStringsView::write_table_entries(std::wstring& desc, record_pointer& 
 	{
 		wstring id = pos->first ;
 
-		if ( ! str::equal_nocase( id, R2WSTR( IDS_RELIABILITY_ID ) ) 
-			&& ! str::equal_nocase( id, R2WSTR( IDS_VALIDATED_ID ) ) 
-			&& ! str::equal_nocase( id, R2WSTR( IDS_REFCOUNT_ID ) ) 
+		if ( ! boost::iequals( id, R2WSTR( IDS_RELIABILITY_ID ) ) 
+			&& ! boost::iequals( id, R2WSTR( IDS_VALIDATED_ID ) ) 
+			&& ! boost::iequals( id, R2WSTR( IDS_REFCOUNT_ID ) ) 
 			&& ! pos->second.empty() )
 		{
 			desc << L"<tr id=\"" << int2wstring( index ) << L"\">"

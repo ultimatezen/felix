@@ -4,7 +4,7 @@
 #define __WORDINTERFACE_H_
 
 #include "resource.h"       // main symbols
-#import "C:\Program Files\Common Files\DESIGNER\MSADDNDR.TLB" no_namespace 
+#import "C:\Program Files (x86)\Common Files\DESIGNER\MSADDNDR.DLL" no_namespace 
 
 #include "WordController.h"
 #include "app_state.h"

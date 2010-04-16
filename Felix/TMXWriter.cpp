@@ -162,8 +162,8 @@ wstring CTMXWriter::get_segment(const wstring  text)
 	wc_reader reader ;
 
 	wstring localtmp(text) ;
-	str::replace_all(localtmp, L" & ", L" &amp; ") ;
-	str::replace_all(localtmp, L"< ", L"&lt; ") ;
+	boost::replace_all(localtmp, L" & ", L" &amp; ") ;
+	boost::replace_all(localtmp, L"< ", L"&lt; ") ;
 	reader.set_buffer( localtmp.c_str() ) ;
 
 	while ( ! reader.empty() ) 
@@ -173,7 +173,7 @@ wstring CTMXWriter::get_segment(const wstring  text)
 		{
 			ATLASSERT ( text_chunk.find( L'<' ) == wstring::npos ) ; 
 			
-			str::replace_all(text_chunk, L">", L"&gt;") ;
+			boost::replace_all(text_chunk, L">", L"&gt;") ;
 			seg += ( cleanUpForTMX( text_chunk ) ) ;
 		}
 		if ( reader.current_is( L'<' ) ) 
@@ -227,8 +227,8 @@ wstring CTMXWriter::get_tag(wc_reader & reader)
 	CTag< wchar_t > tag ;
 	tag.parse_tag( tag_text ) ;
 
-	str::replace_all( tag_text, L"<", L"&lt;" ) ;
-	str::replace_all( tag_text, L">", L"&gt;" ) ;
+	boost::replace_all( tag_text, L"<", L"&lt;" ) ;
+	boost::replace_all( tag_text, L">", L"&gt;" ) ;
 
 	textTemplate.Assign( L"tagtext", tag_text ) ;
 	if ( tag.is_end_tag() ) 
@@ -268,8 +268,7 @@ wstring CTMXWriter::tmx_date( const misc_wrappers::date &ta_date )
  */
 void CTMXWriter::set_src_lang( const wstring lang ) 
 {
-	m_src_lang = lang ;
-	str::make_upper(m_src_lang) ;
+	m_src_lang = boost::to_upper_copy(lang) ;
 }
 
 /*!
@@ -278,8 +277,7 @@ void CTMXWriter::set_src_lang( const wstring lang )
  */
 void CTMXWriter::set_target_lang( const wstring lang ) 
 {
-	m_target_lang =lang ;
-	str::make_upper(m_target_lang) ;
+	m_target_lang = boost::to_upper_copy(lang) ;
 }
 
 void CTMXWriter::prepareToWrite()

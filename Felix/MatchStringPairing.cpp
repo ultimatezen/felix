@@ -243,17 +243,17 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 	if( PairedNums )
 	{
 		ReAlignPairs(PairVec);
-		str::replace_all(trans.first, L"&", L"&amp;") ;
-		str::replace_all(trans.first, L"<", L"&lt;") ;
-		str::replace_all(trans.first, L">", L"&gt;") ;
+		boost::replace_all(trans.first, L"&", L"&amp;") ;
+		boost::replace_all(trans.first, L"<", L"&lt;") ;
+		boost::replace_all(trans.first, L">", L"&gt;") ;
 
-		str::replace_all(trans.second, L"&", L"&amp;") ;
-		str::replace_all(trans.second, L"<", L"&lt;") ;
-		str::replace_all(trans.second, L">", L"&gt;") ;
+		boost::replace_all(trans.second, L"&", L"&amp;") ;
+		boost::replace_all(trans.second, L"<", L"&lt;") ;
+		boost::replace_all(trans.second, L">", L"&gt;") ;
 
-		str::replace_all(trans.second, L"&lt;span class=\"nomatch\"&gt;", L"<span class=\"nomatch\">") ;
-		str::replace_all(trans.second, L"&lt;span class=\"placement\"&gt;", L"<span class=\"placement\">") ;
-		str::replace_all(trans.second, L"&lt;/span&gt;", L"</span>") ;
+		boost::replace_all(trans.second, L"&lt;span class=\"nomatch\"&gt;", L"<span class=\"nomatch\">") ;
+		boost::replace_all(trans.second, L"&lt;span class=\"placement\"&gt;", L"<span class=\"placement\">") ;
+		boost::replace_all(trans.second, L"&lt;/span&gt;", L"</span>") ;
 	}
 
 	return PairedNums ;

@@ -4,7 +4,6 @@
 
 #include "DebugUtilities.h"
 #include "KeyboardListener.h"
-#include "easyunittester.h"
 #include "logging.h"
 
 #ifdef _DEBUG
@@ -192,13 +191,7 @@ bool new_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	const bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
 
 #ifdef _DEBUG
-	if ( control_key_pressed && wParam == VK_F2 )
-	{
-		ATLTRACE( "Unit testing app...\n" ) ;
-		run_unit_tests() ;
-		return true ;
-	}
-	else if ( control_key_pressed && wParam == VK_F3 )
+if ( control_key_pressed && wParam == VK_F3 )
 	{
 		ATLTRACE( "Creating exception...\n" ) ;
 		try
@@ -501,14 +494,6 @@ bool classic_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 	const bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
 
 
-#ifdef _DEBUG
-	if ( control_key_pressed && wParam == VK_F2 )
-	{
-		ATLTRACE( "Unit testing app...\n" ) ;
-		run_unit_tests() ;
-		return true ;
-	}
-#endif
 	
 	TRACE( control_key_pressed ) ;
 	TRACE( alt_key_pressed ) ;

@@ -62,7 +62,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(4, (int)vso.view.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "ensure_document_complete") ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "set_text") ;
-		ASSERT_TRUE(str::starts_with(string2wstring(vso.view.m_sensing_variable[2]), L"<table class=\"added\" ID=\"table1\">")) ;
+		ASSERT_TRUE(boost::starts_with(string2wstring(vso.view.m_sensing_variable[2]), L"<table class=\"added\" ID=\"table1\">")) ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 	}
 
@@ -254,7 +254,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(6, (int)vso.view.m_sensing_variable.size()) ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "ensure_document_complete") ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "set_text") ;
-		ASSERT_TRUE(str::starts_with(string2wstring(vso.view.m_sensing_variable[2]), L"<b>Added Glossary Entry</b>")) ;
+		ASSERT_TRUE(boost::starts_with(string2wstring(vso.view.m_sensing_variable[2]), L"<b>Added Glossary Entry</b>")) ;
 		ASSERT_TRUE(vso.view.m_sensing_variable[2].find("No context") != string::npos) ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;

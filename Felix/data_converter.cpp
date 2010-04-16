@@ -221,7 +221,7 @@ void CXml2RecordConverter::load_source( )
 	}
 
 	wstring source(bookmark_start, bookmark_end) ;
-	str::replace_all(source, L"&#32;", L" ") ;
+	boost::replace_all(source, L"&#32;", L" ") ;
 	m_record->set_source( source ) ;
 
 }
@@ -248,7 +248,7 @@ void CXml2RecordConverter::load_trans( )
 
 	// set the tag and text
 	wstring trans(bookmark_start, bookmark_end) ;
-	str::replace_all(trans, L"&#32;", L" ") ;
+	boost::replace_all(trans, L"&#32;", L" ") ;
 	m_record->set_trans( trans ) ;
 }
 
@@ -271,7 +271,7 @@ void CXml2RecordConverter::load_context( )
 
 	// set the tag and text
 	wstring context(bookmark_start, bookmark_end) ;
-	str::replace_all(context, L"&#32;", L" ") ;
+	boost::replace_all(context, L"&#32;", L" ") ;
 	m_record->set_context( context ) ;
 }
 
@@ -710,7 +710,7 @@ bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &
 
 		for (size_t i = 0 ; i < m_from_strings.size() ; ++i )
 		{
-			str::replace_all(atext, 
+			boost::replace_all(atext, 
 				m_from_strings[i], 
 				m_to_strings[i]) ;
 		}

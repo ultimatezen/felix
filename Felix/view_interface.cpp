@@ -717,7 +717,7 @@ wstring frame_view::get_doc_path( const wstring doc_url )
 		return wstring();
 	}
 	wstring local_docurl(doc_url) ;
-	str::replace_all(local_docurl, L"\\", L"/") ;
+	boost::replace_all(local_docurl, L"\\", L"/") ;
 
 	size_t pos = local_docurl.find_last_of( L'/' )	;
 	// we add one to the length to get the slash

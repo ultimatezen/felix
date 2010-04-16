@@ -18,33 +18,7 @@ namespace easyunit
 		SimpleString expected = "spam eggs bacon" ;
 		ASSERT_EQUALS_V(expected, SimpleString(joined.c_str())) ;
 	}
-	// starts_with
-	TEST(TestStringEx, starts_with_true)
-	{
-		wstring text = L"fool" ;
-		ASSERT_TRUE(str::starts_with(text, L"foo")) ;
-	}
-	TEST(TestStringEx, starts_with_false)
-	{
-		wstring text = L"fool" ;
-		ASSERT_TRUE(!str::starts_with(text, L"fob")) ;
-	}
-	// ends_with
-	TEST(TestStringEx, ends_with_true)
-	{
-		wstring text = L"fool" ;
-		ASSERT_TRUE(str::ends_with(text, L"ool")) ;
-	}
-	TEST(TestStringEx, ends_with_false)
-	{
-		wstring text = L"fool" ;
-		ASSERT_TRUE(!str::ends_with(text, L"fol")) ;
-	}
-	TEST(TestStringEx, ends_with_too_long)
-	{
-		wstring text = L"fool" ;
-		ASSERT_TRUE(!str::ends_with(text, L"ofool")) ;
-	}
+
 	// is_fullwidth_lower
 	TEST( TestStringEx, is_fullwidth_lower_false )
 	{
@@ -154,28 +128,28 @@ namespace easyunit
 	TEST(TestStringEx, make_lower_wstring)
 	{
 		wstring actual = L"HELLO" ;
-		str::make_lower(actual) ;
+		boost::to_lower(actual) ;
 		wstring expected = L"hello" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}
 	TEST(TestStringEx, make_lower_string)
 	{
 		string actual = "HELLO, world" ;
-		str::make_lower(actual) ;
+		boost::to_lower(actual) ;
 		string expected = "hello, world" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}
 	TEST(TestStringEx, make_upper_wstring)
 	{
 		wstring actual = L"hello" ;
-		str::make_upper(actual) ;
+		boost::to_upper(actual) ;
 		wstring expected = L"HELLO" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}
 	TEST(TestStringEx, make_upper_string)
 	{
 		string actual = "hello, WORLD" ;
-		str::make_upper(actual) ;
+		boost::to_upper(actual) ;
 		string expected = "HELLO, WORLD" ;
 		ASSERT_EQUALS(expected, actual) ;
 	}
@@ -215,19 +189,19 @@ namespace easyunit
 	TEST(TestStringEx, ltrim)
 	{
 		wstring original = L"   hello" ;
-		CStringA actual = CW2A(str::ltrim(original).c_str()) ;
+		CStringA actual = CW2A(boost::trim_left_copy(original).c_str()) ;
 		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
 	}
 	TEST(TestStringEx, rtrim)
 	{
 		wstring original = L"hello  " ;
-		CStringA actual = CW2A(str::rtrim(original).c_str()) ;
+		CStringA actual = CW2A(boost::trim_right_copy(original).c_str()) ;
 		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
 	}
 	TEST(TestStringEx, trim)
 	{
 		wstring original = L" \t  hello\n  " ;
-		CStringA actual = CW2A(str::trim(original).c_str()) ;
+		CStringA actual = CW2A(boost::trim_copy(original).c_str()) ;
 		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
 	}
 

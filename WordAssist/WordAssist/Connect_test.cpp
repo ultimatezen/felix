@@ -2,9 +2,9 @@
 #include "AddIn.h"
 #include "Connect.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#ifdef UNIT_TEST
+#include "easyunit/testharness.h"
 
 namespace easyunit
 {

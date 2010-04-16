@@ -230,7 +230,7 @@ wstring trados_data_importer::read_the_tag( )
 	ATLASSERT( m_line_buffer.empty() == false ) ;
 
 	const string SEG = "SEG " ;
-	if ( str::equal_nocase( str::left( tag, SEG.size() ), SEG ) ) // SEG tag!
+	if ( boost::iequals( str::left( tag, SEG.size() ), SEG ) ) // SEG tag!
 	{
 		textstream_reader< char > tag_buffer( tag.c_str() ) ;
 		tag_buffer.find( " ", true ) ;
@@ -851,7 +851,7 @@ bool trados_data_importer::handle_backslash( )
 		{
 			m_line_buffer.get( num ) ;
 		}
-		if ( ! str::is_hexint_rep( num ) ) 
+		if (! boost::all(num, boost::is_xdigit())) 
 		{
 			return true ;
 		}

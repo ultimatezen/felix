@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "word_writer.h"
-#include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#ifdef UNIT_TEST
+#include "easyunit/testharness.h"
 
 namespace easyunit
 {

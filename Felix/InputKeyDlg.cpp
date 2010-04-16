@@ -30,10 +30,10 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 	string key = CT2A(text) ;
 
 	// strip whitespace from key
-	str::replace_all( key, "\t", "" ) ;
-	str::replace_all( key, "\n", "" ) ;
-	str::replace_all( key, "\r", "" ) ;
-	str::replace_all( key, " ", "" ) ;
+	boost::replace_all( key, "\t", "" ) ;
+	boost::replace_all( key, "\n", "" ) ;
+	boost::replace_all( key, "\r", "" ) ;
+	boost::replace_all( key, " ", "" ) ;
 
 #ifdef _DEBUG
 	if ( key != "debug" )

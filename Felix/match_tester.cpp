@@ -46,9 +46,9 @@ namespace mem_engine
 
 		if ( m_params.m_ignore_case )
 		{
-			str::make_lower( m_source_pattern ) ;
-			str::make_lower( m_trans_pattern ) ;
-			str::make_lower( m_context_pattern ) ;
+			boost::to_lower( m_source_pattern ) ;
+			boost::to_lower( m_trans_pattern ) ;
+			boost::to_lower( m_context_pattern ) ;
 		}
 		if ( m_params.m_ignore_hira_kata )
 		{
@@ -165,7 +165,7 @@ namespace mem_engine
 	{
 		if ( m_params.m_ignore_case )
 		{
-			str::make_lower( to_search ) ;
+			boost::to_lower( to_search ) ;
 		}
 		if ( m_params.m_ignore_hira_kata )
 		{

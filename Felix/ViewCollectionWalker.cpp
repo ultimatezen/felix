@@ -25,7 +25,7 @@ void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wst
 {
 	const wstring tag_name = element->get_tag() ;
 
-	if ( str::equal_nocase( tag_name, L"A" ))
+	if ( boost::iequals( tag_name, L"A" ))
 	{
 		RepairLinkUrl(element, doc_path);
 	}
@@ -78,7 +78,7 @@ void CViewCollectionWalker::SetValidatedFromElement( element_wrapper_ptr element
 {
 	wstring val = element->get_inner_text();
 
-	str::make_lower( val ) ;
+	boost::to_lower( val ) ;
 
 	if ( val == L"true" || val == L"yes" )	
 	{
@@ -94,7 +94,7 @@ void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, rec
 {
 	const wstring tag_str = element->get_tag() ;
 
-	if ( str::equal_nocase( tag_str, L"td" ) )
+	if (boost::iequals(tag_str, L"td"))
 	{
 		rec->set_item( id, element->get_inner_text() ) ;
 	}

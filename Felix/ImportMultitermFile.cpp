@@ -295,16 +295,16 @@ const size_t CImportMultitermFile::get_num_lines( LPCWSTR file_text ) const
 const wstring CImportMultitermFile::massage_line( const wstring line ) const
 {
 	wstring tmp(line) ;
-	str::replace_all( tmp, L"&", L"&amp;" ) ;
-	str::replace_all( tmp, L"<", L"&lt;" ) ;
-	str::replace_all( tmp, L">", L"&gt;" ) ;
+	boost::replace_all( tmp, L"&", L"&amp;" ) ;
+	boost::replace_all( tmp, L"<", L"&lt;" ) ;
+	boost::replace_all( tmp, L">", L"&gt;" ) ;
 	return tmp ;
 }
 const wstring CImportMultitermFile::massage_line( const string &line ) const
 {
 	string tmp(line) ;
-	str::replace_all( tmp, "&", "&amp;" ) ;
-	str::replace_all( tmp, "<", "&lt;" ) ;
-	str::replace_all( tmp, ">", "&gt;" ) ;
+	boost::replace_all( tmp, "&", "&amp;" ) ;
+	boost::replace_all( tmp, "<", "&lt;" ) ;
+	boost::replace_all( tmp, ">", "&gt;" ) ;
 	return string2wstring(tmp) ;
 }
