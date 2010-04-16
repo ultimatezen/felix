@@ -122,7 +122,7 @@ public:
 
 	void set_creator_to_current_user();
 	void do_demo_check( int *cookie );
-	long get_number_of_glossary_matches( const wstring &query );
+	long get_number_of_glossary_matches( const wstring query );
 
 	void set_properties_memory( const app_props::properties_memory &props ) ;
 	void set_properties_glossary( const app_props::properties_glossary &props ) ;
@@ -131,7 +131,7 @@ public:
 
 	bool remove_extra_string(const wstring key) ;
 	void set_extra_string( const wstring key, const wstring value ) ;
-	const wstring get_extra_string( const wstring &key ) ;
+	const wstring get_extra_string( const wstring key ) ;
 
 	void set_is_memory( const bool setting );
 	bool get_is_memory() const ;
@@ -230,12 +230,12 @@ public:
 	virtual bool erase( const record_pointer record ) = 0;
 
 	virtual void get_match_candidates(trans_set &candidates, 
-										const wstring &query,
+										const wstring query,
 										double min_score) = 0 ;
 	virtual void get_rmatch_candidates(trans_set &candidates, 
-										const wstring &query,
+										const wstring query,
 										double min_score) = 0 ;
-	virtual double get_best_match_score( const wstring &query ) = 0;
+	virtual double get_best_match_score( const wstring query ) = 0;
 	virtual bool get_glossary_matches( search_match_container &matches, 
 		const search_query_params &params ) = 0;
 	virtual bool perform_search( search_match_container &matches, 

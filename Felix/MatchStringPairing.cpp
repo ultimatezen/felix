@@ -25,7 +25,7 @@ wchar_t narrow_num( wchar_t c )
 
 /** Replaces the first occurrence of from (if any) with to.
 */
-bool replace_first( wstring &source, const wstring &from, const wstring &to )
+bool replace_first( wstring &source, const wstring from, const wstring to )
 {
 	size_t pos = source.find( from ) ;
 	if( pos == wstring::npos )

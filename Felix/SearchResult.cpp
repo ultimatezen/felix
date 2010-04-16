@@ -49,6 +49,17 @@ STDMETHODIMP CSearchResult::get_Score(DOUBLE* pVal)
 
 	return S_OK;
 }
+STDMETHODIMP CSearchResult::get_MemoryName(BSTR* pVal)
+{
+	try
+	{
+		const wstring memory_location = m_match->get_memory_location() ;
+		*pVal = ::SysAllocStringLen( memory_location.c_str(), memory_location.size() ) ;
+	}
+	TA_CATCH( "get_MemoryName" ) ;
+	return S_OK;
+}
+
 
 // CSearchResult
 

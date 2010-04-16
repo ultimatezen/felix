@@ -5,7 +5,7 @@
 namespace mem_engine
 {
 
-	misc_wrappers::date parse_date(const wstring &datestr)
+	misc_wrappers::date parse_date(const wstring datestr)
 	{
 		misc_wrappers::date parsed ;
 		try
@@ -36,7 +36,7 @@ record_local::record_local( ) :
 } 
 
 // remove_item
-bool record_local::remove_item(const wstring &key)
+bool record_local::remove_item(const wstring key)
 {
 
 	for ( record_data_iterator pos = data_begin() ; pos != data_end() ; ++pos )
@@ -80,13 +80,13 @@ bool record_local::modify (  )
 
 
 // record_local::item_exists
-bool record_local::item_exists( const wstring &key ) const
+bool record_local::item_exists( const wstring key ) const
 {
 	return ( get_item( key ).empty() == false ) ;
 }
 
 // record_local::get_item
-const wstring record_local::get_item( const wstring &key ) const
+const wstring record_local::get_item( const wstring key ) const
 {
 	TRUE_ENFORCE( key.empty() == false, "Key must not be empty" ) ;
 	TRUE_ENFORCE( key != L"source", "Key must not be 'source'" ) ;
@@ -168,8 +168,8 @@ const misc_wrappers::date record_local::get_modified() const
 }
 
 
-// void record_local::set_item( const wstring &key, const wstring &value )  
-void record_local::set_item( const wstring &key, const wstring &value )  
+// void record_local::set_item( const wstring key, const wstring value )  
+void record_local::set_item( const wstring key, const wstring value )  
 {
 	TRUE_ENFORCE( key.empty() == false, "Key must not be empty" ) ;
 	TRUE_ENFORCE( key != L"source", "Key must not be 'source'" ) ;
@@ -194,21 +194,21 @@ void record_local::set_item( const wstring &key, const wstring &value )
 	}
 }
 
-// void record_local::set_source( const wstring &rich_source )  
+// void record_local::set_source( const wstring rich_source )  
 void record_local::set_source( const wstring source )  
 {
 	m_source.set_value(source) ;
 	modify() ;
 }
 
-// void record_local::set_trans( const wstring &rich_trans )  
+// void record_local::set_trans( const wstring rich_trans )  
 void record_local::set_trans( const wstring trans  )  
 {
 	m_trans.set_value(trans) ;
 	modify() ;
 }
 
-// void record_local::set_context( const wstring &context ) 
+// void record_local::set_context( const wstring context ) 
 void record_local::set_context( const wstring context ) 
 {
 	m_context.set_value(context) ;
@@ -216,15 +216,15 @@ void record_local::set_context( const wstring context )
 }
 
 
-// void record_local::set_created( const wstring &created ) 
-void record_local::set_created( const wstring &created ) 
+// void record_local::set_created( const wstring created ) 
+void record_local::set_created( const wstring created ) 
 {
 	misc_wrappers::date parsed = parse_date(created) ;
 	this->set_created(parsed) ;
 }
 
-// void record_local::set_modified( const wstring &modified )  
-void record_local::set_modified( const wstring &modified )  
+// void record_local::set_modified( const wstring modified )  
+void record_local::set_modified( const wstring modified )  
 {
 	misc_wrappers::date parsed = parse_date(modified) ;
 	this->set_modified(parsed) ;
@@ -361,7 +361,7 @@ void record_local::clear_user_strings()
 
 // source
 
-const wstring & record_local::get_source_rich() const
+const wstring  record_local::get_source_rich() const
 {
 	return m_source.rich() ;
 }
@@ -371,14 +371,14 @@ const wstring record_local::get_source_plain()
 	return m_source.plain() ;
 }
 
-const wstring & record_local::get_source_cmp() const
+const wstring  record_local::get_source_cmp() const
 {
 	return m_source.cmp() ;
 }
 
 // trans
 
-const wstring & record_local::get_trans_rich() const
+const wstring  record_local::get_trans_rich() const
 {
 	return m_trans.rich() ;
 }
@@ -388,14 +388,14 @@ const wstring record_local::get_trans_plain()
 	return m_trans.plain() ;
 }
 
-const wstring & record_local::get_trans_cmp() const
+const wstring  record_local::get_trans_cmp() const
 {
 	return m_trans.cmp() ;
 }
 
 // context 
 
-const wstring & record_local::get_context_rich() const
+const wstring  record_local::get_context_rich() const
 {
 	return m_context.rich() ;
 }
@@ -405,7 +405,7 @@ const wstring record_local::get_context_plain()
 	return m_context.plain() ;
 }
 
-const wstring & record_local::get_context_cmp() const
+const wstring  record_local::get_context_cmp() const
 {
 	return m_context.cmp() ;
 }
@@ -417,12 +417,12 @@ void record_local::set_cmp_maker( const CmpMaker maker )
 	m_context.set_cmp_maker(maker) ;
 }
 
-void record_local::set_creator( const wstring &creator )
+void record_local::set_creator( const wstring creator )
 {
 	m_creator = creator ;
 }
 
-void record_local::set_modified_by( const wstring &modified )
+void record_local::set_modified_by( const wstring modified )
 {
 	m_modified_by = modified ;
 }

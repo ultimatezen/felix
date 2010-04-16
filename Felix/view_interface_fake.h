@@ -45,7 +45,7 @@ public:
 		SENSE("navigate") ;
 		SENSE(string2string(wstring(url))) ;
 	}
-	void set_text( const wstring &text ) 
+	void set_text( const wstring text ) 
 	{
 		m_text = text ;
 		SENSE("set_text") ;
@@ -57,7 +57,7 @@ public:
 		SENSE("set_scroll_pos") ;
 		SENSE(int2string(pos)) ;
 	}
-	void scroll_element_into_view( const wstring &current_id )
+	void scroll_element_into_view( const wstring current_id )
 	{
 		current_id ;
 		SENSE("set_scroll_pos") ;

@@ -102,7 +102,7 @@ namespace mem_engine
 		return was_added ;
 	}
 
-	void memory_local::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
+	void memory_local::get_match_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
@@ -118,7 +118,7 @@ namespace mem_engine
 		}
 	}
 
-	void memory_local::get_rmatch_candidates( trans_set &candidates, const wstring &query, double min_score )
+	void memory_local::get_rmatch_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
@@ -133,7 +133,7 @@ namespace mem_engine
 			}
 		}
 	}
-	double memory_local::get_best_match_score(const wstring &query)
+	double memory_local::get_best_match_score(const wstring query)
 	{
 		Distance distance ;
 		const wstring query_cmp = m_cmp_maker.make_cmp(query) ;

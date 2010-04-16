@@ -1528,7 +1528,7 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 
 /** Initializes the transaction matches for a new lookup.
 */
-void CMainFrame::init_trans_matches_for_lookup( const wstring & query )
+void CMainFrame::init_trans_matches_for_lookup( const wstring  query )
 {
 	m_trans_matches.clear() ;
 	m_trans_matches.set_query_rich( query ) ;
@@ -1650,7 +1650,7 @@ wstring CMainFrame::get_current_query()
 
 /** Sets the translation for the current query.
  */
-bool CMainFrame::set_translation( const wstring &translation)
+bool CMainFrame::set_translation( const wstring translation)
 {
 	try
 	{
@@ -1720,7 +1720,7 @@ bool CMainFrame::set_translation( const wstring &translation)
 /*!
  * Registers a new glossary entry with the query as source, and trans as the translation.
  */
-bool CMainFrame::register_trans_to_glossary(const wstring &trans)
+bool CMainFrame::register_trans_to_glossary(const wstring trans)
 {
 	if ( m_trans_matches.m_params.m_rich_source.empty() )
 	{
@@ -2454,7 +2454,7 @@ void CMainFrame::set_ui_to_current_language()
 
 /** Sets the translation for the current query.
  */
-void CMainFrame::set_translation_at(short index, const wstring &translation )
+void CMainFrame::set_translation_at(short index, const wstring translation )
 {
 	const int CURRENT_INDEX = -1 ;
 
@@ -3550,7 +3550,7 @@ void CMainFrame::set_up_window_size()
 
 /** Look up the query in all of our glossary windows.
  */
-void CMainFrame::look_up_in_glossaries(const wstring &query)
+void CMainFrame::look_up_in_glossaries(const wstring query)
 {
 	foreach(gloss_window_pointer gloss, m_glossary_windows)
 	{

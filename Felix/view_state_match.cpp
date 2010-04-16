@@ -7,6 +7,7 @@
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "record_local.h"
+#include "system_message.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatch
@@ -177,6 +178,7 @@ mem_engine::search_match_ptr ViewStateMatchMain::get_current_match()
 		rec->set_source( m_search_matches->get_query_rich() ) ;
 		search_match_ptr match(new search_match(rec)) ;
 		match->set_values_to_record() ;
+		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
 		return match ;
 	}
 	return m_search_matches->current( ) ;
@@ -268,11 +270,41 @@ void ViewStateMatchGloss::retrieve_edit_record( int mem_id, mem_engine::record_p
 }
 void ViewStateMatchGloss::show_content()
 {
+	wstring html_content ;
 
+	if ( m_search_matches->empty() )
+	{
+		html_content << L"<p>" << system_message_w( IDS_FOUND_X_MATCHES, int_arg_w(0) ) << L"</p>" ;
+	}
+	else
+	{
+		html_content << m_search_matches->get_html_short() ;
+	}
+
+	m_view->set_text(html_content) ;
+	m_view->set_scroll_pos(0) ;
+	m_window_listener->check_mousewheel() ;
+	// give the user feedback
+	if ( m_search_matches->size() == 1 )
+	{
+		m_window_listener->user_feedback( IDS_FOUND_1_MATCH ) ;
+	}
+	else
+	{
+		m_window_listener->user_feedback(system_message(IDS_FOUND_X_MATCHES, int_arg(m_search_matches->size()))) ;
+	}
 }
 
 mem_engine::search_match_ptr ViewStateMatchGloss::get_current_match()
 {
-	search_match_ptr match(new search_match(record_pointer(new mem_engine::record_local))) ;
-	return match ;
+	if (m_search_matches->empty())
+	{
+		record_pointer rec(new mem_engine::record_local) ;
+		rec->set_source( m_search_matches->get_query_rich() ) ;
+		search_match_ptr match(new search_match(rec)) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
+		return match ;
+	}
+	return m_search_matches->current( ) ;
 }

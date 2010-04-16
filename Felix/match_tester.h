@@ -64,8 +64,8 @@ public:
 	bool test_reliability( const record_pointer rec ) const ;
 	bool is_match( record_pointer rec ) ;
 private:
-	void check_lower( wstring &to_search ) ;
-	wstring mark_up_string( const wstring &to_search, size_t start_pos, size_t len ) ;
+	void check_lower( wstring to_search ) ;
+	wstring mark_up_string( const wstring to_search, size_t start_pos, size_t len ) ;
 } ;
 
 /** Glossary matching engine with regular expressions */

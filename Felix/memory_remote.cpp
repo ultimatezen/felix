@@ -7,13 +7,13 @@ namespace mem_engine
 {
 	using namespace except ;
 
-	void memory_remote::get_match_candidates( trans_set &candidates, const wstring &query, double min_score )
+	void memory_remote::get_match_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), min_score) ;
 		this->convert_candidates(candidates, matches) ;
 	}
 
-	void memory_remote::get_rmatch_candidates( trans_set &candidates, const wstring &query, double min_score )
+	void memory_remote::get_rmatch_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		CComVariant matches = this->m_engine.method(L"ReverseSearch", query.c_str(), min_score) ;
 		this->convert_candidates(candidates, matches) ;
@@ -33,7 +33,7 @@ namespace mem_engine
 		}
 	}
 
-	double memory_remote::get_best_match_score( const wstring &query )
+	double memory_remote::get_best_match_score( const wstring query )
 	{
 		trans_set candidates ;
 
@@ -545,32 +545,32 @@ namespace mem_engine
 
 	// setters
 
-	void memory_remote::set_creator(const wstring &)
+	void memory_remote::set_creator(const wstring )
 	{
 		logging::log_warn("set_creator not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_field(const wstring &)
+	void memory_remote::set_field(const wstring )
 	{
 		logging::log_warn("set_field not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_created_on(const wstring &)
+	void memory_remote::set_created_on(const wstring )
 	{
 		logging::log_warn("set_created_on not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_source_language(const wstring &)
+	void memory_remote::set_source_language(const wstring )
 	{
 		logging::log_warn("set_source_language not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_target_language(const wstring &)
+	void memory_remote::set_target_language(const wstring )
 	{
 		logging::log_warn("set_target_language not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_client(const wstring &)
+	void memory_remote::set_client(const wstring )
 	{
 		logging::log_warn("set_client not implemented for remote memories/glossaries.") ;
 	}
@@ -590,12 +590,12 @@ namespace mem_engine
 		logging::log_warn("set_is_memory_off not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_creation_tool(const wstring &)
+	void memory_remote::set_creation_tool(const wstring )
 	{
 		logging::log_warn("set_creation_tool not implemented for remote memories/glossaries.") ;
 	}
 
-	void memory_remote::set_creation_tool_version(const wstring &)
+	void memory_remote::set_creation_tool_version(const wstring )
 	{
 		logging::log_warn("set_creation_tool_version not implemented for remote memories/glossaries.") ;
 	}

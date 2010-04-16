@@ -42,7 +42,7 @@ namespace tmx_reader
 		void set_attributes( std::map< wstring, wstring > &attributes );
 		void reflect_attributes(record_pointer record);
 
-		void fill_date( misc_wrappers::date &thedate, const wstring &datestring );
+		void fill_date( misc_wrappers::date &thedate, const wstring datestring );
 	};
 }
 
@@ -182,7 +182,7 @@ public:
 	void load_utf8(const CString & file_name);
 	void load_utf7(const CString & file_name);
 	// Load a translation unit
-	void load_tu(const wstring & tu_text);
+	void load_tu(const wstring  tu_text);
 	// load a seg tag
 	const wstring get_seg_text(const wstring& tuv_tag_text);
 	int get_record_count(std::set< tstring > &target_languages);

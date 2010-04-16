@@ -21,5 +21,5 @@ public:
 
 	CHrefTags(void);
 	~CHrefTags(void);
-	TAG_NAME_CODE get_tag_code( const wstring &tag_name ) ;
+	TAG_NAME_CODE get_tag_code( const wstring tag_name ) ;
 };

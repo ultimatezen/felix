@@ -20,8 +20,6 @@ public:
 	void set_search_matches(mem_engine::felix_query *search_matches);
 	int get_edit_record_title();
 	void redo_concordance();
-	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 	void delete_match(size_t index);
 };
 
@@ -30,6 +28,8 @@ class ViewStateConcordanceMain : public ViewStateConcordance
 public:
 	void show_content();
 	void activate();
+	void handle_toggle_edit_mode();
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 
 	mem_engine::search_match_ptr get_current_match();
 };
@@ -38,6 +38,8 @@ class ViewStateConcordanceGloss : public ViewStateConcordance
 {
 public:
 	void show_content();
+	void handle_toggle_edit_mode();
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 	void activate()
 	{
 

@@ -47,8 +47,8 @@ public:
 
 	void set_memory_id( const int id );
 	const int get_memory_id() const;
-	void set_memory_location( const wstring &loc ) ;
-	const wstring &get_memory_location() const ;
+	void set_memory_location( const wstring loc ) ;
+	const wstring get_memory_location() const ;
 
 	record_pointer get_record() ;
 	void set_record( record_pointer rec ) ;

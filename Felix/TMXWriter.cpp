@@ -152,7 +152,7 @@ void CTMXWriter::write_tus(void)
  * 
  * Replaces tags and HTML character entities (&rquo; etc.)
  */
-wstring CTMXWriter::get_segment(const wstring & text)
+wstring CTMXWriter::get_segment(const wstring  text)
 {
 
 	ATLASSERT ( ! text.empty() ) ; 
@@ -266,7 +266,7 @@ wstring CTMXWriter::tmx_date( const misc_wrappers::date &ta_date )
  * \brief
  * Set the source language.
  */
-void CTMXWriter::set_src_lang( const wstring &lang ) 
+void CTMXWriter::set_src_lang( const wstring lang ) 
 {
 	m_src_lang = lang ;
 	str::make_upper(m_src_lang) ;
@@ -276,7 +276,7 @@ void CTMXWriter::set_src_lang( const wstring &lang )
  * \brief
  * Set the target language.
  */
-void CTMXWriter::set_target_lang( const wstring &lang ) 
+void CTMXWriter::set_target_lang( const wstring lang ) 
 {
 	m_target_lang =lang ;
 	str::make_upper(m_target_lang) ;

@@ -33,83 +33,83 @@ felix_query::~felix_query() {}
 // query
 // these are just for convenience, they all are just aliases for the source routines
 
-const wstring &felix_query::get_query_plain() const 
+const wstring felix_query::get_query_plain() const 
 { 
 	return get_source_plain() ; 
 }
 
-void felix_query::set_query_plain ( const wstring &source  ) 
+void felix_query::set_query_plain ( const wstring source  ) 
 { 
 	set_source_plain( source ) ; 
 }
 
-const wstring &felix_query::get_query_rich() const 
+const wstring felix_query::get_query_rich() const 
 {
 	return get_source_rich()  ; 
 }
 
-void felix_query::set_query_rich( const wstring &rich_source  ) 
+void felix_query::set_query_rich( const wstring rich_source  ) 
 { 
 	set_source( rich_source ) ; 
 }
 
 // source
 
-const wstring &felix_query::get_source_plain() const 
+const wstring felix_query::get_source_plain() const 
 { 
 	return m_params.m_source ; 
 }
 
-void felix_query::set_source_plain ( const wstring &source  ) 
+void felix_query::set_source_plain ( const wstring source  ) 
 {
 	m_params.m_source = source ; 
 }
 
-const wstring &felix_query::get_source_rich() const 
+const wstring felix_query::get_source_rich() const 
 { 
 	return m_params.m_rich_source  ; 
 }
-void felix_query::set_source ( const wstring &rich_source  ) 
+void felix_query::set_source ( const wstring rich_source  ) 
 {
 	m_params.m_rich_source = rich_source ; 
 	set_source_plain( strip_tags( rich_source ) ) ;
 }
 
 // trans
-const wstring &felix_query::get_trans_plain() const 
+const wstring felix_query::get_trans_plain() const 
 { 
 	return m_params.m_trans ; 
 }
-void felix_query::set_plain_trans ( const wstring &trans  ) 
+void felix_query::set_plain_trans ( const wstring trans  ) 
 { 
 	m_params.m_trans = trans ; 
 }
 
-const wstring &felix_query::get_trans_rich() const 
+const wstring felix_query::get_trans_rich() const 
 { 
 	return m_params.m_rich_trans  ; 
 }
-void felix_query::set_trans ( const wstring &rich_trans  ) 
+void felix_query::set_trans ( const wstring rich_trans  ) 
 { 
 	m_params.m_rich_trans = rich_trans ; 
 	set_plain_trans( strip_tags( rich_trans ) ) ;
 }
 
 // context
-const wstring &felix_query::get_context_plain() const 
+const wstring felix_query::get_context_plain() const 
 { 
 	return m_params.m_context ; 
 }
-void felix_query::set_plain_context ( const wstring &context  ) 
+void felix_query::set_plain_context ( const wstring context  ) 
 { 
 	m_params.m_context = context ; 
 }
 
-const wstring &felix_query::get_context_rich() const 
+const wstring felix_query::get_context_rich() const 
 { 
 	return m_params.m_rich_context  ; 
 }
-void felix_query::set_context ( const wstring &rich_context  ) 
+void felix_query::set_context ( const wstring rich_context  ) 
 {
 	m_params.m_rich_context = rich_context ; 
 	set_plain_context( strip_tags( rich_context ) ) ;
@@ -245,11 +245,11 @@ void felix_query::set_current( size_t pos )
 	}
 }
 
-wstring felix_query::make_id_cell( int id, const wstring &val )
+wstring felix_query::make_id_cell( int id, const wstring val )
 {
 	return make_id_cell( R2WSTR(id), val ) ;
 }
-wstring felix_query::make_id_cell( const wstring &id, const wstring &val )
+wstring felix_query::make_id_cell( const wstring id, const wstring val )
 {
 	return (wformat(L"<td class=\"match_content\" id=\"%1%\">%2%</td>\n") 
 		% id 

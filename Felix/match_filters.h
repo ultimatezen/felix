@@ -45,7 +45,7 @@ namespace memory_searcher
 		// Does the record match our terms?
 		bool is_match(const record_pointer rec) const;
 		// Does the record match a given search term?
-		bool term_matches(const record_pointer rec, const wstring &term) const;
+		bool term_matches(const record_pointer rec, const wstring term) const;
 	};
 
 }

@@ -4,11 +4,11 @@
 namespace replacer
 {
 
-	bool startswith(wstring &from, wstring tag)
+	bool startswith(wstring from, wstring tag)
 	{
 		return boost::trim_copy(from).substr(0, tag.size()) == tag ;
 	}
-	wstring getrest(wstring &from, wstring &tag)
+	wstring getrest(wstring from, wstring tag)
 	{
 		return from.substr(tag.size()) ;
 	}

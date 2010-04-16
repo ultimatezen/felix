@@ -33,9 +33,9 @@ public:
 	virtual void ensure_document_complete() = 0 ;
 	virtual void ensure_navigation_complete() = 0 ;
 	virtual void navigate(LPCTSTR url) = 0 ;
-	virtual void set_text( const wstring &text ) = 0 ;
+	virtual void set_text( const wstring text ) = 0 ;
 	virtual void set_scroll_pos( long pos ) = 0 ;
-	virtual void scroll_element_into_view( const wstring &current_id ) = 0 ;
+	virtual void scroll_element_into_view( const wstring current_id ) = 0 ;
 
 	// =========================
 	// for entering edit mode
@@ -93,14 +93,14 @@ public:
 
 	void create( HWND parent, HWND &client ) ;
 
-	void set_text( const wstring &text ) ;
+	void set_text( const wstring text ) ;
 	void load_resource( LPCTSTR resource_name ) ;
 	void navigate(LPCTSTR url) ;
 	void do_bold() ;
 	void do_underline();
 	void do_italic() ;
 	void do_delete() ;
-	void set_bg_color( const wstring &color )  ;
+	void set_bg_color( const wstring color )  ;
 	wstring get_bg_color() ;
 	html::document_ptr get_document() ;
 
@@ -146,7 +146,7 @@ public:
 
 	//bool handle_leave_edit_mode_register( mem_engine::search_match &glossary_registration_top, mem_engine::search_match glossary_registration_bottom ) ;
 
-	void scroll_element_into_view( const wstring &current_id ) ;
+	void scroll_element_into_view( const wstring current_id ) ;
 
 	// Windows messaging stuff
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;

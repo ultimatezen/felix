@@ -66,18 +66,18 @@ public:
 	bool write_created( const misc_wrappers::date &date ) ;
 	bool write_modified( const misc_wrappers::date &date ) ;
 	string internal_date_to_trados_date( const misc_wrappers::date &date ) ;
-	bool write_source( const wstring &source ) ;
-	bool write_rich_part( const wstring &rich_part ) ;
-	bool write_trans( const wstring &trans ) ;
-	const wstring replace_tags( const wstring &text ) ;
-	bool write_plain_text( const wstring &text ) ;
-	bool write_formatting_tag( const wstring &wide_tag ) ;
-	bool write_font( const wstring &font_info ) ;
-	bool write_font_face( const wstring &value ) ;
-	bool write_rich_text( const wstring &rich_text ) ;
-	bool write_span( const wstring &span_info ) ;
-	bool write_key_value_pair( wstring &key, wstring &value ) ;
-	string get_color( const wstring &value ) ;
+	bool write_source( const wstring source ) ;
+	bool write_rich_part( const wstring rich_part ) ;
+	bool write_trans( const wstring trans ) ;
+	const wstring replace_tags( const wstring text ) ;
+	bool write_plain_text( const wstring text ) ;
+	bool write_formatting_tag( const wstring wide_tag ) ;
+	bool write_font( const wstring font_info ) ;
+	bool write_font_face( const wstring value ) ;
+	bool write_rich_text( const wstring rich_text ) ;
+	bool write_span( const wstring span_info ) ;
+	bool write_key_value_pair( wstring key, wstring value ) ;
+	string get_color( const wstring value ) ;
 	void write_string( const string &str ) ;
 	TradosDataExporter( font_set &fonts, CProgressListener *listener );
 	virtual ~TradosDataExporter();
@@ -151,8 +151,8 @@ public:
 	void open_destination( const CString destination );
 	void write_record( const mem_engine::record_pointer &rec );
 private:
-	void write_line( wstring &col1, wstring &col2, wstring &col3 );
-	wstring prep_string( wstring &line );
+	void write_line( wstring col1, wstring col2, wstring col3 );
+	wstring prep_string( wstring line );
 } ;
 
 

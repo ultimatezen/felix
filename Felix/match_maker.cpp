@@ -290,7 +290,7 @@ namespace mem_engine
 		return (double)( m_row_tags.size() + m_col_tags.size() ) / 100.0 ;
 	}
 
-	void match_maker::get_tags(const wstring &raw_string, std::multiset<wstring> &tags)
+	void match_maker::get_tags(const wstring raw_string, std::multiset<wstring> &tags)
 	{
 		textstream_reader< wchar_t > reader ;
 		
@@ -903,9 +903,9 @@ namespace mem_engine
 	// Function name	: match_maker::tokenize_words
 	// Description	    : 
 	// Return type		: bool 
-	// Argument         : const wstring &words
+	// Argument         : const wstring words
 	// Argument         : std::vector< wstring > &tokens
-	bool match_maker::tokenize_words(const wstring &words, std::vector< wstring > &tokens)
+	bool match_maker::tokenize_words(const wstring words, std::vector< wstring > &tokens)
 	{
 		textstream_reader< wchar_t > reader ;
 		reader.set_buffer( words.c_str() ) ;
@@ -946,7 +946,7 @@ namespace mem_engine
 		return true ;
 	}
 
-	size_t match_maker::calc_word_distance(const wstring &row_word, const wstring &col_word, Matrix< size_t > &token_matrix)
+	size_t match_maker::calc_word_distance(const wstring row_word, const wstring col_word, Matrix< size_t > &token_matrix)
 	{
 		size_t num_token_rows = row_word.size() ;
 		size_t num_token_cols = col_word.size() ;

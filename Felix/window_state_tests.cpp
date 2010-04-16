@@ -83,8 +83,11 @@ namespace easyunit
 		ASSERT_EQUALS(gloss.m_view_state, &gloss.m_view_state_concordance) ;
 	}
 
-
+	//////////////////////////////////////////////////////////////////////////
 	// get_current_match
+	//////////////////////////////////////////////////////////////////////////
+
+	// mainframe
 	TEST( window_state_tests_mainframe, get_current_match_init)
 	{
 		MainFrameModel model ;
@@ -174,6 +177,93 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
 	}
+
+	// glossary
+	TEST( window_state_tests_gloss, get_current_match_init)
+	{
+		CGlossaryWindow gloss ;
+
+		ASSERT_EQUALS_V((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)gloss.m_display_state) ;
+		search_match_ptr match = gloss.get_current_match() ;
+
+		SimpleString expected("") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST( window_state_tests_gloss, get_current_match_new)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"source") ;
+		gloss.set_new_record(rec) ;
+
+		search_match_ptr match = gloss.get_current_match() ;
+
+		SimpleString expected("source") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+	}
+	TEST( window_state_tests_gloss, get_current_match_match_empty)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+
+		wstring query(L"query") ;
+		gloss.m_search_matches.set_query_rich(query) ;
+
+		search_match_ptr match = gloss.get_current_match() ;
+
+		SimpleString expected("query") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+	TEST( window_state_tests_gloss, get_current_match_match_non_empty)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"record source") ;
+		rec->set_trans(L"record trans") ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		gloss.m_search_matches.set_matches(matches) ;
+
+		search_match_ptr current_match = gloss.get_current_match() ;
+
+		SimpleString expected("record source") ;
+		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	TEST( window_state_tests_gloss, get_current_match_concordance_match_empty)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
+
+		wstring query(L"query") ;
+		gloss.m_search_matches.set_query_rich(query) ;
+
+		search_match_ptr match = gloss.get_current_match() ;
+
+		SimpleString expected("query") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
+	}
+
 
 	// review mode
 	TEST( window_state_tests_mainframe, get_current_match_review_empty)

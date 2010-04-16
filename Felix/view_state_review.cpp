@@ -116,6 +116,7 @@ mem_engine::search_match_ptr ViewStateReview::get_current_match()
 		rec->set_source( m_search_matches->get_query_rich() ) ;
 		search_match_ptr match(new search_match(rec)) ;
 		match->set_values_to_record() ;
+		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
 		return match ;
 	}
 	return m_search_matches->current( ) ;

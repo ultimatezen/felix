@@ -80,7 +80,7 @@ void frame_view::create( HWND parent, HWND &client )
 	client = m_view.create( parent ) ;
 	ATLASSERT( TWindow( client ).IsWindow() ) ;
 }
-void frame_view::set_text( const wstring &text )
+void frame_view::set_text( const wstring text )
 {
 	if (! m_view.IsWindow())
 	{
@@ -137,7 +137,7 @@ void frame_view::do_delete()
 	}
 	m_view.OnEditDelete() ;
 }
-void frame_view::set_bg_color( const wstring &color ) 
+void frame_view::set_bg_color( const wstring color ) 
 {
 	if (! m_view.IsWindow())
 	{
@@ -636,7 +636,7 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 }
 
 
-void frame_view::scroll_element_into_view( const wstring &current_id )
+void frame_view::scroll_element_into_view( const wstring current_id )
 {
 	if (! m_view.IsWindow())
 	{

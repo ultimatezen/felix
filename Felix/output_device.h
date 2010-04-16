@@ -7,7 +7,7 @@ class OutputDevice
 public:
 	virtual void write(const char* text, size_t len) = 0 ;
 	virtual void write(const string &text) = 0 ;
-	virtual void write(const wstring &text) = 0 ;
+	virtual void write(const wstring text) = 0 ;
 	virtual void close() = 0 ;
 	virtual void open(const CString &filename) = 0 ;
 };
@@ -31,7 +31,7 @@ public:
 		ATLASSERT(m_file.is_open()) ;
 		m_file.write(text) ;
 	}
-	void write(const wstring &text)
+	void write(const wstring text)
 	{
 		ATLASSERT(m_file.is_open()) ;
 		m_file.write(text) ;

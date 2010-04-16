@@ -70,12 +70,12 @@ namespace mem_engine
 		  void set_cmp_params( const search_query_params &params ) ;
 
 		  void get_match_candidates(trans_set &candidates, 
-			  const wstring &query,
+			  const wstring query,
 			  double min_score);
 		  void get_rmatch_candidates(trans_set &candidates, 
-			  const wstring &query,
+			  const wstring query,
 			  double min_score);
-		  double get_best_match_score(const wstring &query);
+		  double get_best_match_score(const wstring query);
 		  bool get_glossary_matches( search_match_container &matches, 
 			  const search_query_params &params ) ;
 		  bool perform_search( search_match_container &matches, 

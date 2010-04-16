@@ -22,7 +22,7 @@ public:
 			m_ignore_hira_kata(maker.m_ignore_hira_kata), 
 			m_ignore_case(maker.m_ignore_case)
 	{}
-	wstring make_cmp(const wstring &rich)
+	wstring make_cmp(const wstring rich)
 	{
 		wstring cmp = strip_tags(rich) ;
 		if (m_ignore_width)
@@ -49,7 +49,7 @@ class Segment
 	CmpMaker m_cmp_maker ;
 
 public:
-	Segment(const CmpMaker maker, const wstring &rhs) : m_rich(rhs), m_cmp_maker(maker) 
+	Segment(const CmpMaker maker, const wstring rhs) : m_rich(rhs), m_cmp_maker(maker) 
 	{
 		create_cmp(rhs) ;
 	}
@@ -70,7 +70,7 @@ public:
 
 		return *this ;
 	}
-	void set_value(const wstring &rhs)
+	void set_value(const wstring rhs)
 	{
 		m_rich = rhs ;
 		create_cmp(rhs) ;
@@ -80,7 +80,7 @@ public:
 		m_cmp_maker = maker ;
 		create_cmp(m_rich) ;
 	}
-	const wstring &rich() const
+	const wstring rich() const
 	{
 		return m_rich ;
 	}
@@ -88,11 +88,11 @@ public:
 	{
 		return strip_tags(m_rich) ;
 	}
-	const wstring &cmp() const
+	const wstring cmp() const
 	{
 		return m_cmp ;
 	}
-	void create_cmp(const wstring &rich)
+	void create_cmp(const wstring rich)
 	{
 		m_cmp = m_cmp_maker.make_cmp(rich) ;
 	}

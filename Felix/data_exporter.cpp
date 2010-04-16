@@ -438,8 +438,8 @@ string TradosDataExporter:: internal_date_to_trados_date( const misc_wrappers::d
 // Function name	: TradosDataExporter::write_trans
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &trans
-bool TradosDataExporter::write_trans( const wstring &trans )
+// Argument         : const wstring trans
+bool TradosDataExporter::write_trans( const wstring trans )
 {
 
 	write_string( m_target_tag ) ;
@@ -463,8 +463,8 @@ bool TradosDataExporter::write_trans( const wstring &trans )
 // Function name	: TradosDataExporter::write_source
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &source
-bool TradosDataExporter::write_source( const wstring &source )
+// Argument         : const wstring source
+bool TradosDataExporter::write_source( const wstring source )
 {
 
 	write_string( m_source_tag ) ;
@@ -487,8 +487,8 @@ bool TradosDataExporter::write_source( const wstring &source )
 // Function name	: TradosDataExporter::write_rich_part
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &rich_part
-bool TradosDataExporter::write_rich_part( const wstring &rich_part )
+// Argument         : const wstring rich_part
+bool TradosDataExporter::write_rich_part( const wstring rich_part )
 {
 
 	write_rich_text( rich_part ) ;
@@ -503,8 +503,8 @@ bool TradosDataExporter::write_rich_part( const wstring &rich_part )
 // Function name	: TradosDataExporter::replace_tags
 // Description	    : 
 // Return type		: bool 
-// Argument         : wstring &text
-const wstring TradosDataExporter::replace_tags( const wstring &text )
+// Argument         : wstring text
+const wstring TradosDataExporter::replace_tags( const wstring text )
 {
 	return strip_tags( text ) ;
 }
@@ -512,8 +512,8 @@ const wstring TradosDataExporter::replace_tags( const wstring &text )
 // Function name	: TradosDataExporter::write_plain_text
 // Description	    : 
 // Return type		: bool 
-// Argument         : wstring &text
-bool TradosDataExporter::write_plain_text( const wstring &raw_text )
+// Argument         : wstring text
+bool TradosDataExporter::write_plain_text( const wstring raw_text )
 {
 	BANNER( "TradosDataExporter::write_plain_text" ) ;
 
@@ -603,8 +603,8 @@ bool TradosDataExporter::write_plain_text( const wstring &raw_text )
 // Function name	: TradosDataExporter::write_formatting_tag
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &wide_tag
-bool TradosDataExporter::write_formatting_tag( const wstring &wide_tag )
+// Argument         : const wstring wide_tag
+bool TradosDataExporter::write_formatting_tag( const wstring wide_tag )
 {
 
 	wstring tag( wide_tag ) ;
@@ -690,8 +690,8 @@ bool TradosDataExporter::write_formatting_tag( const wstring &wide_tag )
 // Function name	: TradosDataExporter::write_font
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &font_info
-bool TradosDataExporter::write_font( const wstring &font_info )
+// Argument         : const wstring font_info
+bool TradosDataExporter::write_font( const wstring font_info )
 {
 
 	// because we will be popping a codepage when we leave the
@@ -741,8 +741,8 @@ bool TradosDataExporter::write_font( const wstring &font_info )
 // Function name	: TradosDataExporter::write_font_face
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &value
-bool TradosDataExporter::write_font_face( const wstring &value )
+// Argument         : const wstring value
+bool TradosDataExporter::write_font_face( const wstring value )
 {
 
 	wstring mincho = resource2wstring( IDS_MINCHO, _Module.GetResourceInstance() ) ;
@@ -777,8 +777,8 @@ bool TradosDataExporter::write_font_face( const wstring &value )
 // Function name	: TradosDataExporter::write_rich_text
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &rich_text
-bool TradosDataExporter::write_rich_text( const wstring &rich_text )
+// Argument         : const wstring rich_text
+bool TradosDataExporter::write_rich_text( const wstring rich_text )
 {
 	BANNER( "TradosDataExporter::write_rich_text" ) ;
 
@@ -847,8 +847,8 @@ bool TradosDataExporter::write_rich_text( const wstring &rich_text )
 // Function name	: TradosDataExporter::write_span
 // Description	    : 
 // Return type		: bool 
-// Argument         : const wstring &span_info
-bool TradosDataExporter::write_span( const wstring &span_info )
+// Argument         : const wstring span_info
+bool TradosDataExporter::write_span( const wstring span_info )
 {
 
 	textstream_reader< wchar_t > reader ;
@@ -884,9 +884,9 @@ bool TradosDataExporter::write_span( const wstring &span_info )
 // Function name	: TradosDataExporter::write_key_value_pair
 // Description	    : 
 // Return type		: bool 
-// Argument         :  wstring &key
-// Argument         : wstring &value
-bool TradosDataExporter::write_key_value_pair( wstring &key, wstring &value )
+// Argument         :  wstring key
+// Argument         : wstring value
+bool TradosDataExporter::write_key_value_pair( wstring key, wstring value )
 {
 	BANNER( "TradosDataExporter::write_key_value_pair" ) ;
 
@@ -920,8 +920,8 @@ bool TradosDataExporter::write_key_value_pair( wstring &key, wstring &value )
 // Function name	: get_color
 // Description	    : 
 // Return type		: string TradosDataExporter:: 
-// Argument         : const wstring &value
-string TradosDataExporter:: get_color( const wstring &value )
+// Argument         : const wstring value
+string TradosDataExporter:: get_color( const wstring value )
 {
 	BANNER( "get_color" ) ;
 
@@ -1106,7 +1106,7 @@ void multiterm_data_exporter_6::write_record( const mem_engine::record_pointer &
 	write_line( source, trans, context ) ;
 }
 
-void multiterm_data_exporter_6::write_line( wstring &col1, wstring &col2, wstring &col3 )
+void multiterm_data_exporter_6::write_line( wstring col1, wstring col2, wstring col3 )
 {
 	wstring line = (wformat(L"%1%\t%2%\t%3%\n")
 						% prep_string(col1)
@@ -1115,7 +1115,7 @@ void multiterm_data_exporter_6::write_line( wstring &col1, wstring &col2, wstrin
 	m_file->write( line ) ;
 }
 
-wstring multiterm_data_exporter_6::prep_string( wstring &line )
+wstring multiterm_data_exporter_6::prep_string( wstring line )
 {
 #pragma warning( disable:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 	str::replace_all( line, wstring(L"\r\n"), wstring(L" ") ) ;

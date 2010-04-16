@@ -46,6 +46,21 @@ namespace easyunit
 		result->get_Score(&score) ;
 		ASSERT_EQUALS_DELTA_V(0.5, score, 0.00001);
 	}
+	TEST( TestSearchResult, get_name )
+	{
+		result_ptr result ;
+		result_obj::CreateInstance( &result ) ;
+		search_match_ptr match(new search_match) ;
+		CComBSTR name ;
+		match->set_base_score(0.5) ;
+		const wstring loc = L"foo.ftm" ;
+		match->set_memory_location(loc) ;
+		result->set_match(match) ;
+		result->get_MemoryName(&name) ;
+		SimpleString expected = "foo.ftm" ;
+		SimpleString actual = CW2A(name) ;
+		ASSERT_EQUALS_V(expected, actual);
+	}
 }
 
 #endif

@@ -79,12 +79,12 @@ markup_ptr search_match::get_markup()
 }
 
 // memory
-void search_match::set_memory_location(const wstring& memory_location)
+void search_match::set_memory_location(const wstring memory_location)
 {
 	m_memory_location = memory_location;
 }
 
-const wstring& search_match::get_memory_location() const
+const wstring search_match::get_memory_location() const
 {
 	return m_memory_location;
 }

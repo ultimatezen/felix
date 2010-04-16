@@ -372,7 +372,7 @@ wstring trados_data_importer::get_font_tag(const string_type &code)
 	}
 }
 
-wstring tmx_data_importer::get_font_tag(const wstring &code)
+wstring tmx_data_importer::get_font_tag(const wstring code)
 {
 		const rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
 
@@ -766,7 +766,7 @@ string trados_data_importer::read_backslashed_sequence()
 
 // tmx_data_importer
 
-wstring tmx_data_importer::seg2html( const wstring &seg_text )
+wstring tmx_data_importer::seg2html( const wstring seg_text )
 {
 	const wstring stripped_text = strip_tags(seg_text) ;
 
@@ -1147,7 +1147,7 @@ wstring tmx_data_importer::handle_foreground_color_tag( tag_stack &tags )
 	return html_tag ;
 }
 
-void tmx_data_importer::parse_fonttbl( const wstring &fonttbl )
+void tmx_data_importer::parse_fonttbl( const wstring fonttbl )
 {
 	wstring stripped = strip_tags(fonttbl) ;
 	string narrow_fonttbl = string2string(stripped) ;

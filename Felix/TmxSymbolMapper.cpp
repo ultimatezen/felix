@@ -23,7 +23,7 @@ CTmxSymbolMapper::~CTmxSymbolMapper(void)
 {
 }
 
-wstring CTmxSymbolMapper::strip_html_symbols( const wstring &raw_wstring )
+wstring CTmxSymbolMapper::strip_html_symbols( const wstring raw_wstring )
 {
 	typedef textstream_reader< wchar_t > reader_type ;
 	typedef textstream_reader< wchar_t >::bookmark_type bm_type ;
@@ -92,12 +92,12 @@ void CTmxSymbolMapper::handleAmp( wc_reader &reader, wstring &stripped_text )
 	}
 }
 
-bool CTmxSymbolMapper::exists( const wstring &key ) const
+bool CTmxSymbolMapper::exists( const wstring key ) const
 {
 	return m_symbols.exists(key) ;
 }
 
-const wchar_t CTmxSymbolMapper::get_val( const wstring &key ) const
+const wchar_t CTmxSymbolMapper::get_val( const wstring key ) const
 {
 	return m_symbols.get_val(key) ;
 }

@@ -18,7 +18,7 @@
 using namespace mem_engine ;
 using namespace text_tmpl ;
 
-bool ends_with(const wstring &haystack, const wstring needle)
+bool ends_with(const wstring haystack, const wstring needle)
 {
 	if (haystack.size() < needle.size())
 	{
@@ -333,7 +333,7 @@ void CSearchWindow::set_mem_controller( memory_controller controller )
  because we also have to make sure that the "replace_from" is matched.
  */
 void CSearchWindow::get_replace_matches( std::vector<mem_engine::search_match_ptr> &matches,
-										const wstring &replace_from)
+										const wstring replace_from)
 {
 	matches.clear() ;
 	mem_engine::search_match_container matchset ;
@@ -538,7 +538,7 @@ void CSearchWindow::handle_undodelete( doc3_wrapper_ptr doc )
 /*
  Extract the pos argument from the URL.
  */
-size_t CSearchWindow::get_pos_arg( const wstring &url )
+size_t CSearchWindow::get_pos_arg( const wstring url )
 {
 	textstream_reader<wchar_t> reader ;
 	reader.set_buffer(url.c_str()) ;
@@ -783,7 +783,7 @@ void CSearchWindow::perform_replace(doc3_wrapper_ptr doc, record_pointer rec)
 /*
  Do the replacement in the memory.
  */
-bool CSearchWindow::replace_in_memory( search_match_ptr match, const wstring &replace_from, const wstring &replace_to )
+bool CSearchWindow::replace_in_memory( search_match_ptr match, const wstring replace_from, const wstring replace_to )
 {
 	if (replace_from.empty())
 	{

@@ -16,8 +16,8 @@
 #include "tag_name_holder.h"
 #include "output_device.h"
 
-wstring TradosTag2AssistTag( const wstring &node ) ;
-wstring TradosDate2FelixDate(const wstring &trados_date) ;
+wstring TradosTag2AssistTag( const wstring node ) ;
+wstring TradosDate2FelixDate(const wstring trados_date) ;
 
 /**
 	@class CXml2RecordConverter 
@@ -35,7 +35,7 @@ class CXml2RecordConverter
 	mem_engine::record_pointer	m_record ;
 
 public:
-	const wstring strip_cdata( const wstring &data ) const;
+	const wstring strip_cdata( const wstring data ) const;
 	// constructors
 	CXml2RecordConverter( ) ;
 	CXml2RecordConverter( const CXml2RecordConverter &cpy ) ;
@@ -46,7 +46,7 @@ public:
 	mem_engine::record_pointer convert_from_xml_node( LPCWSTR node ) ;
 
 	// The spillover not hard wired into the record structure
-	void load_extra(const wstring &tag ) ;
+	void load_extra(const wstring tag ) ;
 	void load_source( ) ;
 	void load_trans( ) ;
 	void load_context( ) ; 
@@ -60,7 +60,7 @@ public:
 
 	size_t SizeNode( const _bstr_t &EndTag ) ;
 
-	const wstring strip_if_needed( const wstring &record_text) const;
+	const wstring strip_if_needed( const wstring record_text) const;
 	wstring PlainTextNode( const _bstr_t &EndTag ) ;
 	void load_richtext_node( const _bstr_t &EndTag,
 				bookmark_type &bookmark_start,
@@ -103,7 +103,7 @@ public:
 	bool convert_created()  ;
 	bool convert_modified()  ;
 	bool convert_rest()  ;
-	bool convert_cdata_node( const string &tag, const string &end_tag, const wstring &text ) ;
+	bool convert_cdata_node( const string &tag, const string &end_tag, const wstring text ) ;
 	bool convert_text_node( const string &tag, const string &end_tag, const string &text ) ;
 
 	bool convert_reliability(void) ;

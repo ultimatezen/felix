@@ -28,7 +28,7 @@ union cracker
 } ;
 
 // tmx_strip_tags
-wstring tmx_strip_tags( const wstring &raw_string )
+wstring tmx_strip_tags( const wstring raw_string )
 {
 	typedef textstream_reader< wchar_t > reader_type ;
 	typedef textstream_reader< wchar_t >::bookmark_type bm_type ;
@@ -147,7 +147,7 @@ wstring tmx_strip_tags( const wstring &raw_string )
 }
 
 // unknown_strip_tags
-wstring unknown_strip_tags( const wstring &raw_string )
+wstring unknown_strip_tags( const wstring raw_string )
 {
 	typedef textstream_reader< wchar_t > reader_type ;
 	typedef textstream_reader< wchar_t >::bookmark_type bm_type ;
@@ -407,7 +407,7 @@ void CTMXReader::load_body()
 }
 
 // Load a translation unit
-void CTMXReader::load_tu(const wstring & tu_text)
+void CTMXReader::load_tu(const wstring  tu_text)
 {
 	m_record = mem_engine::record_pointer(new record_local()) ;
 
@@ -754,7 +754,7 @@ namespace tmx_reader
 		}
 	}
 
-	void CTU::fill_date( misc_wrappers::date &thedate, const wstring &datestring )
+	void CTU::fill_date( misc_wrappers::date &thedate, const wstring datestring )
 	{
 		wstring date_part ;
 

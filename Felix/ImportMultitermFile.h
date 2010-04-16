@@ -30,7 +30,7 @@ public:
 
 	void import_multiterm6(const CString &file_name);
 	void import_multiterm_6_text(LPCWSTR file_text);
-	const wstring massage_line(const wstring &line) const;
+	const wstring massage_line(const wstring line) const;
 	const size_t get_num_lines(LPCWSTR file_text) const;
 	const wstrcols get_multiterm6_line(textstream_reader< wchar_t > &reader) const;
 

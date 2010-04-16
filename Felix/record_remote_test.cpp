@@ -9,6 +9,8 @@ Unit tests for \ref record_remote
 
 #include "easyunit/testharness.h"
 
+#ifdef TEST_REMOTE_MEMS
+
 #ifdef UNIT_TEST
 
 namespace easyunit
@@ -21,7 +23,7 @@ namespace easyunit
 		{
 			record_remote rec(L"Felix.RemoteRecordFake") ;
 
-			//	void set_trans( const wstring &rich_trans ) ;
+			//	void set_trans( const wstring rich_trans ) ;
 			rec.set_trans( L"here is a wstring text" ) ;
 			SimpleString actual = string2string(rec.get_trans_rich()).c_str() ;
 			SimpleString expected = "here is a wstring text" ;
@@ -115,7 +117,7 @@ namespace easyunit
 
 
 	//	set_reliability( const _bstr_t &text ) ;
-	//	set_reliability( const wstring &reliability ) ;
+	//	set_reliability( const wstring reliability ) ;
 	//	set_reliability( const size_t reliability ) ;
 	TEST( test_record_remote, set_reliability ) 
 	{
@@ -145,7 +147,7 @@ namespace easyunit
 	}
 
 	//	void translation_record_tester::set_validated( const bool validated );
-	//	void translation_record_tester::set_validated( const wstring &validated );
+	//	void translation_record_tester::set_validated( const wstring validated );
 	TEST( test_record_remote, set_validated ) 
 	{
 		try
@@ -313,4 +315,6 @@ namespace easyunit
 }
 
 
-#endif // #ifdef _DEBUG
+#endif // #ifdef UNIT_TEST
+
+#endif // #ifdef TEST_REMOTE_MEMS

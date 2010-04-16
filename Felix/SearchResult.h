@@ -78,6 +78,7 @@ public:
 	STDMETHOD(get_Record)(IRecord **pVal);
 	STDMETHOD(put_Record)(IRecord *pVal);
 	STDMETHOD(get_Score)(DOUBLE* pVal);
+	STDMETHOD(get_MemoryName)(BSTR* pVal);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SearchResult), CSearchResult)

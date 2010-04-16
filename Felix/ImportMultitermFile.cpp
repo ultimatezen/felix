@@ -292,7 +292,7 @@ const size_t CImportMultitermFile::get_num_lines( LPCWSTR file_text ) const
 	return num_lines ;
 }
 
-const wstring CImportMultitermFile::massage_line( const wstring &line ) const
+const wstring CImportMultitermFile::massage_line( const wstring line ) const
 {
 	wstring tmp(line) ;
 	str::replace_all( tmp, L"&", L"&amp;" ) ;

@@ -19,25 +19,25 @@ namespace mem_engine
 		void ensure_trans();
 		void ensure_context();
 		// source
-		const wstring & get_source_rich() const;
+		const wstring  get_source_rich() const;
 		const wstring get_source_plain();
-		const wstring & get_source_cmp() const;
+		const wstring  get_source_cmp() const;
 
 		// trans
-		const wstring & get_trans_rich() const;
+		const wstring  get_trans_rich() const;
 		const wstring get_trans_plain();
-		const wstring & get_trans_cmp() const;
+		const wstring  get_trans_cmp() const;
 
 		// context 
-		const wstring &get_context_rich() const;
+		const wstring get_context_rich() const;
 		const wstring get_context_plain();
-		const wstring &get_context_cmp() const;
+		const wstring get_context_cmp() const;
 
 		// reliability
 		size_t get_reliability() const;
 		void set_reliability( size_t reliability );
 
-		void set_item( const wstring &key, const wstring &value );
+		void set_item( const wstring key, const wstring value );
 
 		// source, trans, and context
 		void set_source( const wstring source );
@@ -52,8 +52,8 @@ namespace mem_engine
 		// modified/created
 		const misc_wrappers::date get_created() const;
 		const misc_wrappers::date get_modified() const;
-		void set_created( const wstring &created );
-		void set_modified( const wstring &modified );
+		void set_created( const wstring created );
+		void set_modified( const wstring modified );
 		void set_created( const misc_wrappers::date &created );
 		void set_modified( const misc_wrappers::date &modified );
 
@@ -72,9 +72,9 @@ namespace mem_engine
 		record_data_iterator data_end();
 		record_data_map& get_data_map();
 
-		bool item_exists( const wstring &key ) const;
-		const wstring get_item( const wstring &key ) const;
-		bool remove_item( const wstring &key);
+		bool item_exists( const wstring key ) const;
+		const wstring get_item( const wstring key ) const;
+		bool remove_item( const wstring key);
 		void clear_user_strings();
 
 		// id
@@ -86,8 +86,8 @@ namespace mem_engine
 
 		record_pointer clone();
 
-		virtual void set_creator(const wstring &creator);
-		virtual void set_modified_by(const wstring &modified);
+		virtual void set_creator(const wstring creator);
+		virtual void set_modified_by(const wstring modified);
 		virtual wstring get_creator();
 		virtual wstring get_modified_by();
 

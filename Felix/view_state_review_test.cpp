@@ -10,6 +10,20 @@
 namespace easyunit
 {
 	using namespace mem_engine ;
+
+	search_match_ptr make_match_review(string source, string trans, int id=0)
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
+
+		return match ;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// frame
 	//////////////////////////////////////////////////////////////////////////
@@ -148,6 +162,7 @@ namespace easyunit
 		ASSERT_TRUE(vso.listener.review_rec->is_valid_record()) ;
 	}
 
+	// get_current_match
 	TEST( view_state_review_test, get_current_match_match_non_empty)
 	{
 		ViewStateReview state ;
@@ -192,7 +207,52 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
 	}
+	// on_user_edit
+	TEST( view_state_review_test, on_user_edit)
+	{
+		ViewStateReview state ;
+		view_state_obj vso(&state) ;
 
+		search_match_ptr match = make_match_review("record source", "record trans", vso.mem->get_id()) ;
+
+		trans_match_container matches ;
+		matches.insert(match) ;
+		translation_match_query trans_matches; 
+		trans_matches.set_matches(matches) ;
+		state.set_search_matches(&trans_matches) ;
+
+		state.on_user_edit() ;
+		search_match_ptr current_match = vso.listener.item_under_edit ;
+
+		SimpleString expected("record source") ;
+		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), current_match->get_memory_id()) ;
+	}
+
+	TEST( view_state_review_test, on_user_edit_empty)
+	{
+		ViewStateReview state ;
+		view_state_obj vso(&state) ;
+
+		translation_match_query trans_matches; 
+		wstring query(L"query") ;
+		trans_matches.set_query_rich(query) ;
+		state.set_search_matches(&trans_matches) ;
+
+		state.on_user_edit() ;
+		search_match_ptr match = vso.listener.item_under_edit ;
+
+		SimpleString expected("query") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
+	}
+
+	// activate
 	TEST( view_state_review_test, activate)
 	{
 		ViewStateReview state ;

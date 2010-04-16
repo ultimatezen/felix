@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ComRecord.h"
+#include "record_local.h"
 
 #include "easyunit/testharness.h"
 
@@ -7,6 +8,8 @@
 
 namespace easyunit
 {
+	using namespace mem_engine ;
+
 	typedef CComPtr< CComObject< CRecord > > com_rec_ptr ;
 
 	TEST( TestComRecord, Instantiate )
@@ -51,6 +54,46 @@ namespace easyunit
 		CComBSTR result ;
 		rec->get_Source(&result) ;
 		ASSERT_EQUALS_V("", SimpleString(CW2A(result))) ;
+	}
+	TEST( TestComRecord, context )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR context = L"context" ;
+		rec->put_Context(context) ;
+		CComBSTR result ;
+		rec->get_Context(&result) ;
+		ASSERT_EQUALS_V("context", SimpleString(CW2A(result))) ;
+	}
+	TEST( TestComRecord, created_by )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR creator = L"creator" ;
+		rec->put_CreatedBy(creator) ;
+		CComBSTR result ;
+		rec->get_CreatedBy(&result) ;
+		ASSERT_EQUALS_V("creator", SimpleString(CW2A(result))) ;
+	}
+	TEST( TestComRecord, modified_by )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR modified_by = L"modified_by" ;
+		rec->put_ModifiedBy(modified_by) ;
+		CComBSTR result ;
+		rec->get_ModifiedBy(&result) ;
+		ASSERT_EQUALS_V("modified_by", SimpleString(CW2A(result))) ;
+	}
+	TEST( TestComRecord, modified_by_changes_record )
+	{
+		record_pointer record(new record_local) ;
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		rec->set_record(record) ;
+		CComBSTR modified_by = L"modified_by" ;
+		rec->put_ModifiedBy(modified_by) ;
+		ASSERT_EQUALS_V("modified_by", SimpleString(string2string(record->get_modified_by()).c_str())) ;
 	}
 	TEST( TestComRecord, get_id_0 )
 	{

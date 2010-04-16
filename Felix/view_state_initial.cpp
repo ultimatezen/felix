@@ -89,5 +89,7 @@ mem_engine::search_match_ptr ViewStateInitialGloss::get_current_match()
 	record_pointer rec(new mem_engine::record_local) ;
 	search_match_ptr match(new search_match(rec)) ;
 	match->set_values_to_record() ;
+	match->set_memory_id(m_model->get_first_mem_id()) ;
+
 	return match ;
 }

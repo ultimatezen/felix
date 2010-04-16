@@ -137,15 +137,7 @@ public:
 
 	void do_save( mem_engine::memory_pointer mem ) ;
 
-	int delete_from_new_state() ;
-
-	int delete_from_lookup_state(LPARAM number) ;
-
-	int delete_from_concordance_state(LPARAM number) ;
-
 	void config_matches_for_gloss_lookup(const std::wstring& query_text) ;
-
-	void give_gloss_lookup_feedback() ;
 
 	void perform_gloss_lookup() ;
 
@@ -153,7 +145,7 @@ public:
 
 	void prep_for_gloss_lookup(const std::wstring& query_text) ;
 
-	std::wstring get_record_translation(mem_engine::record_pointer& entry) ;
+	std::wstring get_record_translation(mem_engine::record_pointer entry) ;
 
 	void give_added_record_feedback(mem_engine::memory_pointer& mem) ;
 
@@ -175,7 +167,7 @@ public:
 
 	void SwapFindDialogs(const bool edit_mode_enabled);
 	void SetEditModeMenuItems(const bool edit_mode_enabled);
-	void ToggleEditMode(const bool edit_mode_enabled) ;
+	void ToggleEditMode() ;
 
 	void HandleEditModeFind() ;
 
@@ -304,7 +296,7 @@ public:
 
 	// user messages
 	LRESULT on_user_editEntry( LPARAM lParam ) ;
-	LRESULT on_user_delete( LPARAM lParam ) ;
+	LRESULT on_user_delete( size_t lParam ) ;
 	LRESULT on_user_search( LPARAM lParam ) ;
 	LRESULT on_user_edit_replace( LPARAM lParam ) ;
 	LRESULT OnUserAdd( LPARAM lParam ) ;

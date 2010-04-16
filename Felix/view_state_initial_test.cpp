@@ -11,6 +11,69 @@
 namespace easyunit
 {
 	using namespace mem_engine ;
+
+	//////////////////////////////////////////////////////////////////////////
+	// ViewState functions
+	//////////////////////////////////////////////////////////////////////////
+	TEST(view_state_base_test, retrieve_record_trans_plain)
+	{
+		ViewStateInitialMain state ;
+
+		record_pointer record(new record_local) ;
+		record->set_trans(L"<b>foo</b>") ;
+
+		record_string_prefs prefs(true, false) ;
+
+		SimpleString expected = "foo" ;
+		SimpleString actual = string2string(state.retrieve_record_trans(record, prefs)).c_str() ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	TEST(view_state_base_test, retrieve_record_trans_plain_lower)
+	{
+		ViewStateInitialMain state ;
+
+		record_pointer record(new record_local) ;
+		record->set_trans(L"<b>DOLLY</b>") ;
+
+		record_string_prefs prefs(true, true) ;
+
+		SimpleString expected = "dolly" ;
+		SimpleString actual = string2string(state.retrieve_record_trans(record, prefs)).c_str() ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	TEST(view_state_base_test, retrieve_record_trans_rich_lower)
+	{
+		ViewStateInitialMain state ;
+
+		record_pointer record(new record_local) ;
+		record->set_trans(L"<b>DOLLY</b>") ;
+
+		record_string_prefs prefs(false, true) ;
+
+		SimpleString expected = "<b>dolly</b>" ;
+		SimpleString actual = string2string(state.retrieve_record_trans(record, prefs)).c_str() ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
+
+	TEST(view_state_base_test, retrieve_record_trans_rich)
+	{
+		ViewStateInitialMain state ;
+
+		record_pointer record(new record_local) ;
+		record->set_trans(L"<b>DOLLY</b>") ;
+
+		record_string_prefs prefs(false, false) ;
+
+		SimpleString expected = "<b>DOLLY</b>" ;
+		SimpleString actual = string2string(state.retrieve_record_trans(record, prefs)).c_str() ;
+
+		ASSERT_EQUALS_V(expected, actual) ;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// frame
 	//////////////////////////////////////////////////////////////////////////
@@ -81,6 +144,7 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
 		ASSERT_TRUE(vso.listener.new_rec->is_valid_record()) ;
 	}
+	// get_current_match
 	TEST( view_state_initial_test, get_current_match )
 	{
 		ViewStateInitialMain state ;
@@ -92,6 +156,20 @@ namespace easyunit
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+	// on_user_edit
+	TEST( view_state_initial_test, on_user_edit )
+	{
+		ViewStateInitialMain state ;
+		view_state_obj vso(&state) ;
+
+		state.on_user_edit() ;
+		search_match_ptr current_match = vso.listener.item_under_edit ;
+		SimpleString expected("") ;
+		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), current_match->get_memory_id()) ;
+	}
+	// activate
 	TEST( view_state_initial_test, activate)
 	{
 		ViewStateInitialMain state ;
@@ -168,14 +246,33 @@ namespace easyunit
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[3].c_str()), "C:/Users/Ryan/AppData/Local/Felix/html/en/start_gloss.html") ;
 		ASSERT_EQUALS_V(SimpleString(view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
 	}
+	// get_current_match
 	TEST( view_state_initial_gloss_test, get_current_match )
 	{
 		ViewStateInitialGloss state ;
+		view_state_obj vso(&state) ;
+
 		search_match_ptr match = state.get_current_match() ;
 		SimpleString expected("") ;
 		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+	// on_user_edit
+	TEST( view_state_initial_gloss_test, on_user_edit )
+	{
+		ViewStateInitialGloss state ;
+		view_state_obj vso(&state) ;
+
+		state.on_user_edit() ;
+		search_match_ptr current_match = vso.listener.item_under_edit ;
+		SimpleString expected("") ;
+		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), current_match->get_memory_id()) ;
+	}
+
+	// delete
 	TEST( view_state_initial_gloss_test, delete_match_empty)
 	{
 		ViewStateInitialGloss state ;

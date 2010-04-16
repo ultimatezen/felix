@@ -9,7 +9,7 @@ CHrefTags::~CHrefTags(void)
 {
 }
 
-CHrefTags::TAG_NAME_CODE CHrefTags::get_tag_code( const wstring &tag_name )
+CHrefTags::TAG_NAME_CODE CHrefTags::get_tag_code( const wstring tag_name )
 {
 	// register glossary entries page
 	if( str::equal_nocase( tag_name,  L"reg_gloss_set_source") )

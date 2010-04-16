@@ -28,7 +28,7 @@ public:
 		m_calls.push_back("write_string") ;
 		m_value += string2wstring(text) ;
 	}
-	void write(const wstring &text)
+	void write(const wstring text)
 	{
 		m_calls.push_back("write_wstring") ;
 		m_value += text ;

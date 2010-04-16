@@ -430,8 +430,8 @@ public:
 		c_reader dummy_reader ;
 		m_fonts.parse_fonttbl(dummy_reader) ;
 	}
-	void parse_fonttbl( const wstring &fonttbl );
-	wstring seg2html( const wstring &seg_text ) ;
+	void parse_fonttbl( const wstring fonttbl );
+	wstring seg2html( const wstring seg_text ) ;
 
 
 	bool close_off_tags(tag_tracker &tags);
@@ -445,5 +445,5 @@ public:
 protected:
 private:
 	bool handle_close_bracket( tag_tracker &tags );
-	wstring get_font_tag(const wstring &code) ;
+	wstring get_font_tag(const wstring code) ;
 };

@@ -29,6 +29,7 @@ STDMETHODIMP CRecord::InterfaceSupportsErrorInfo(REFIID riid)
 	}
 	return S_FALSE;
 }
+// trans
 STDMETHODIMP CRecord::get_Trans(BSTR* pVal)
 {
 	CHECK_OUT_PTR( pVal ) ;
@@ -42,11 +43,11 @@ STDMETHODIMP CRecord::get_Trans(BSTR* pVal)
 
 	return S_OK ;
 }
-STDMETHODIMP CRecord::put_Trans(BSTR pVal)
+STDMETHODIMP CRecord::put_Trans(BSTR trans)
 {
 	try
 	{
-		m_record->set_trans(BSTR2wstring( pVal )) ;
+		m_record->set_trans(BSTR2wstring( trans )) ;
 	}
 	TA_CATCH( "put_Trans" ) ;
 
@@ -66,16 +67,90 @@ STDMETHODIMP CRecord::get_Source(BSTR* pVal)
 
 	return S_OK ;
 }
-STDMETHODIMP CRecord::put_Source(BSTR pVal)
+STDMETHODIMP CRecord::put_Source(BSTR source)
 {
 	try
 	{
-		m_record->set_source(BSTR2wstring( pVal )) ;
+		m_record->set_source(BSTR2wstring( source )) ;
 	}
 	TA_CATCH( "put_Source" ) ;
 
 	return S_OK ;
 }
+// created
+STDMETHODIMP CRecord::get_CreatedBy(BSTR* pVal)
+{
+	CHECK_OUT_PTR( pVal ) ;
+
+	try
+	{
+		wstring source = m_record->get_creator() ;
+		*pVal = ::SysAllocStringLen( source.c_str(), source.size() ) ;
+	}
+	TA_CATCH( "get_CreatedBy" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CRecord::put_CreatedBy(BSTR created_by)
+{
+	try
+	{
+		m_record->set_creator(BSTR2wstring( created_by )) ;
+	}
+	TA_CATCH( "put_CreatedBy" ) ;
+
+	return S_OK ;
+}
+// modified
+STDMETHODIMP CRecord::get_ModifiedBy(BSTR* pVal)
+{
+	CHECK_OUT_PTR( pVal ) ;
+
+	try
+	{
+		wstring source = m_record->get_modified_by() ;
+		*pVal = ::SysAllocStringLen( source.c_str(), source.size() ) ;
+	}
+	TA_CATCH( "get_ModifiedBy" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CRecord::put_ModifiedBy(BSTR modified_by)
+{
+	try
+	{
+		m_record->set_modified_by(BSTR2wstring( modified_by )) ;
+	}
+	TA_CATCH( "put_ModifiedBy" ) ;
+
+	return S_OK ;
+}
+// context
+STDMETHODIMP CRecord::get_Context(BSTR* pVal)
+{
+	CHECK_OUT_PTR( pVal ) ;
+
+	try
+	{
+		wstring context = m_record->get_context_rich() ;
+		*pVal = ::SysAllocStringLen( context.c_str(), context.size() ) ;
+	}
+	TA_CATCH( "get_Trans" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CRecord::put_Context(BSTR context)
+{
+	try
+	{
+		m_record->set_context(BSTR2wstring( context )) ;
+	}
+	TA_CATCH( "put_Trans" ) ;
+
+	return S_OK ;
+}
+
+
 // id
 STDMETHODIMP CRecord::get_Id(ULONG* pVal)
 {

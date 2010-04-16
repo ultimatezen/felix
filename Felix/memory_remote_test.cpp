@@ -10,6 +10,8 @@
 
 #include "easyunit/testharness.h"
 
+#ifdef TEST_REMOTE_MEMS
+
 #ifdef UNIT_TEST
 
 namespace easyunit
@@ -360,3 +362,5 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 
 #endif // #ifdef UNIT_TEST
+
+#endif // #ifdef TEST_REMOTE_MEMS

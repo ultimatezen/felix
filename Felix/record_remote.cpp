@@ -32,7 +32,7 @@ namespace mem_engine
 	}
 
 	// source
-	const wstring & record_remote::get_source_rich() const
+	const wstring  record_remote::get_source_rich() const
 	{
 		const_cast<record_remote*>(this)->ensure_source() ;
 		return m_source.rich() ;
@@ -43,14 +43,14 @@ namespace mem_engine
 		return m_source.plain() ;
 	}
 
-	const wstring & record_remote::get_source_cmp() const
+	const wstring  record_remote::get_source_cmp() const
 	{
 		const_cast<record_remote*>(this)->ensure_source() ;
 		return m_source.cmp() ;
 	}
 
 	// trans
-	const wstring & record_remote::get_trans_rich() const
+	const wstring  record_remote::get_trans_rich() const
 	{
 		const_cast<record_remote*>(this)->ensure_trans() ;
 		return m_trans.rich() ;
@@ -62,14 +62,14 @@ namespace mem_engine
 		return m_trans.plain() ;
 	}
 
-	const wstring & record_remote::get_trans_cmp() const
+	const wstring  record_remote::get_trans_cmp() const
 	{
 		const_cast<record_remote*>(this)->ensure_trans() ;
 		return m_trans.cmp() ;
 	}
 
 	// context
-	const wstring & record_remote::get_context_rich() const
+	const wstring  record_remote::get_context_rich() const
 	{
 		const_cast<record_remote*>(this)->ensure_context() ;
 		return m_context.rich() ;
@@ -81,7 +81,7 @@ namespace mem_engine
 		return m_context.plain() ;
 	}
 
-	const wstring & record_remote::get_context_cmp() const
+	const wstring  record_remote::get_context_cmp() const
 	{
 		const_cast<record_remote*>(this)->ensure_context() ;
 		return m_context.cmp() ;
@@ -143,7 +143,7 @@ namespace mem_engine
 		return misc_wrappers::date(BSTR2wstring(const_cast<record_remote*>(this)->m_engine.prop_get(L"Modified").bstrVal)) ;
 	}
 
-	void record_remote::set_created( const wstring &created )
+	void record_remote::set_created( const wstring created )
 	{
 		const misc_wrappers::date created_date(created) ;
 		this->set_created(created_date) ;
@@ -154,7 +154,7 @@ namespace mem_engine
 		misc_wrappers::date created_date = created ;
 		m_engine.prop_put(L"Created", created_date.get_date_time_string().c_str()) ;
 	}
-	void record_remote::set_modified( const wstring &modified )
+	void record_remote::set_modified( const wstring modified )
 	{
 		const misc_wrappers::date mod_date(modified) ;
 		this->set_modified(mod_date) ;
@@ -230,12 +230,12 @@ namespace mem_engine
 		m_engine.prop_put(L"Id", id) ;
 	}
 
-	void record_remote::set_creator( const wstring &creator )
+	void record_remote::set_creator( const wstring creator )
 	{
 		m_engine.prop_put(L"CreatedBy", creator.c_str()) ;
 	}
 
-	void record_remote::set_modified_by( const wstring &modified )
+	void record_remote::set_modified_by( const wstring modified )
 	{
 		m_engine.prop_put(L"ModifiedBy", modified.c_str()) ;
 	}
@@ -254,7 +254,7 @@ namespace mem_engine
 	// Unsupported methods
 	//////////////////////////////////////////////////////////////////////////
 
-	void record_remote::set_item( const wstring &key, const wstring &value )
+	void record_remote::set_item( const wstring key, const wstring value )
 	{
 		key ;
 		value ;
@@ -279,21 +279,21 @@ namespace mem_engine
 		return this->m_record_data ;
 	}
 
-	bool record_remote::item_exists( const wstring &key ) const
+	bool record_remote::item_exists( const wstring key ) const
 	{
 		key ;
 		logging::log_warn("item_exists method is not supported by remote records") ;
 		return false ;
 	}
 
-	const wstring record_remote::get_item( const wstring &key ) const
+	const wstring record_remote::get_item( const wstring key ) const
 	{
 		key ;
 		logging::log_warn("get_item method is not supported by remote records") ;
 		return wstring() ;
 	}
 
-	bool record_remote::remove_item( const wstring &key )
+	bool record_remote::remove_item( const wstring key )
 	{
 		key ;
 		logging::log_warn("remove_item method is not supported by remote records") ;

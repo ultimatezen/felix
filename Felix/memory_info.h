@@ -29,19 +29,19 @@ public:
 	virtual bool is_locked() const = 0 ;
 	virtual bool is_memory() const = 0 ;
 
-	virtual void set_creator( const wstring &setting ) = 0 ;
-	virtual void set_field( const wstring &setting ) = 0 ;
-	virtual void set_created_on( const wstring &setting ) = 0 ;
-	virtual void set_source_language( const wstring &setting ) = 0 ;
-	virtual void set_target_language( const wstring &setting ) = 0 ;
-	virtual void set_client( const wstring &setting ) = 0 ;
+	virtual void set_creator( const wstring setting ) = 0 ;
+	virtual void set_field( const wstring setting ) = 0 ;
+	virtual void set_created_on( const wstring setting ) = 0 ;
+	virtual void set_source_language( const wstring setting ) = 0 ;
+	virtual void set_target_language( const wstring setting ) = 0 ;
+	virtual void set_client( const wstring setting ) = 0 ;
 	virtual void set_count( const long setting ) = 0 ;
 	virtual void set_locked_on( ) = 0 ;
 	virtual void set_locked_off( ) = 0 ;
 	virtual void set_is_memory_on() = 0 ;
 	virtual void set_is_memory_off() = 0 ;
-	virtual void set_creation_tool( const wstring &setting )= 0 ;
-	virtual void set_creation_tool_version( const wstring &setting )= 0 ;
+	virtual void set_creation_tool( const wstring setting )= 0 ;
+	virtual void set_creation_tool_version( const wstring setting )= 0 ;
 
 	virtual void set_modified_by(const wstring modified_by) = 0 ; 
 	virtual void set_modified_on(const wstring modified_on) = 0 ; 

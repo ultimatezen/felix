@@ -62,17 +62,17 @@ namespace mem_engine
 		bool is_memory() const;
 
 		// setters
-		void set_creator( const wstring &setting );
-		void set_field( const wstring &setting );
-		void set_created_on( const wstring &setting );
-		void set_source_language( const wstring &setting );
-		void set_target_language( const wstring &setting );
-		void set_client( const wstring &setting );
+		void set_creator( const wstring setting );
+		void set_field( const wstring setting );
+		void set_created_on( const wstring setting );
+		void set_source_language( const wstring setting );
+		void set_target_language( const wstring setting );
+		void set_client( const wstring setting );
 		void set_count( const long setting );
 		void set_is_memory_on();
 		void set_is_memory_off();
-		void set_creation_tool( const wstring &setting );
-		void set_creation_tool_version( const wstring &setting );
+		void set_creation_tool( const wstring setting );
+		void set_creation_tool_version( const wstring setting );
 
 		void set_modified_by(const wstring modified_by);
 		void set_modified_on(const wstring modified_on);
@@ -116,14 +116,14 @@ namespace mem_engine
 
 		bool erase( const record_pointer record );
 		void get_match_candidates(trans_set &candidates, 
-			const wstring &query,
+			const wstring query,
 			double min_score);
 		void get_rmatch_candidates(trans_set &candidates, 
-			const wstring &query,
+			const wstring query,
 			double min_score);
 
 		void convert_candidates(trans_set &candidates, CComVariant disp);
-		double get_best_match_score( const wstring &query );
+		double get_best_match_score( const wstring query );
 		bool get_glossary_matches( search_match_container &matches, 
 									const search_query_params &params );
 		bool perform_search( search_match_container &matches, 

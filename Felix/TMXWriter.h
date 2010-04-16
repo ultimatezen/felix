@@ -62,8 +62,8 @@ public:
 
 	void cleanup();
 	void prepareToWrite();
-	void set_src_lang( const wstring &lang ) ;
-	void set_target_lang( const wstring &lang ) ;
+	void set_src_lang( const wstring lang ) ;
+	void set_target_lang( const wstring lang ) ;
 
 	// So we can unit test...
 
@@ -74,7 +74,7 @@ public:
 	void write_tu( mem_engine::record_pointer rec );
 
 	wstring make_tu( mem_engine::record_pointer rec, const wstring tmpl_text );
-	wstring get_segment( const wstring & text);
+	wstring get_segment( const wstring  text);
 
 	wstring get_tag( wc_reader & reader) ;
 

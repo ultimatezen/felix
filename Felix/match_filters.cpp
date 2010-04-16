@@ -117,7 +117,7 @@ namespace memory_searcher
 	/*
 	Allows tags.
 	*/
-	bool search_runner::term_matches( const record_pointer rec, const wstring &term ) const
+	bool search_runner::term_matches( const record_pointer rec, const wstring term ) const
 	{
 		wstring tag ;
 

@@ -161,7 +161,7 @@ namespace mem_engine
 	// private:
 
 	// Function name	: search_match_tester::check_lower
-	void search_match_tester::check_lower( wstring &to_search )
+	void search_match_tester::check_lower( wstring to_search )
 	{
 		if ( m_params.m_ignore_case )
 		{
@@ -178,7 +178,7 @@ namespace mem_engine
 	}
 
 	// Function name	: search_match_tester::mark_up_string
-	wstring search_match_tester::mark_up_string( const wstring &to_search, size_t start_pos, size_t len )
+	wstring search_match_tester::mark_up_string( const wstring to_search, size_t start_pos, size_t len )
 	{
 		size_t len_needed = to_search.size() + 50 ;
 

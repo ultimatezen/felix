@@ -31,7 +31,7 @@ void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wst
 	}
 }
 
-void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const wstring &doc_path )
+void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const wstring doc_path )
 {
 	wstring href = element->get_attribute(L"HREF") ;
 

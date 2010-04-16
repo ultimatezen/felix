@@ -90,8 +90,8 @@ public:
 		const Segment haystack,
 		search_match_ptr &match);
 
-	size_t calc_word_distance( const wstring &row_word, const wstring &col_word, Matrix< size_t > &matrix );
-	bool tokenize_words( const wstring &words, std::vector< wstring > &tokens );
+	size_t calc_word_distance( const wstring row_word, const wstring col_word, Matrix< size_t > &matrix );
+	bool tokenize_words( const wstring words, std::vector< wstring > &tokens );
 	bool get_trans_score_word( search_match_ptr &match);
 	bool get_score_character_trans( search_match_ptr &match );
 
@@ -100,7 +100,7 @@ public:
 	bool get_score_character( search_match_ptr &match );
 
 	bool get_score_character_common( search_match_ptr & match );
-	void get_tags( const wstring &raw_string, std::multiset<wstring> &tags );
+	void get_tags( const wstring raw_string, std::multiset<wstring> &tags );
 	double get_format_penalty();
 	void set_minimum_score( const double &score );
 	double get_minimum_score() { return m_minimum_score ; }

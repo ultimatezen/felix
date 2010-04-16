@@ -215,14 +215,14 @@ public:
 	bool correct_trans( const wstring trans );
 	bool lookup_trans( const wstring query );
 
-	void init_trans_matches_for_lookup(const wstring & query) ;
+	void init_trans_matches_for_lookup(const wstring  query) ;
 
 	void init_lookup_properties(const app_props::props_ptr source, 
 							mem_engine::search_query_params &dest);
 	void get_matches(mem_engine::trans_match_container matches);
 
 	// set the translation for the current query
-	bool set_translation( const wstring &translation );
+	bool set_translation( const wstring translation );
 	bool clear_memory() ;
 
 	// helper
@@ -418,7 +418,7 @@ private:
 
 public:
 	void add_record_to_memory( record_type record );
-	void look_up_in_glossaries( const wstring &query );
+	void look_up_in_glossaries( const wstring query );
 	void set_up_window_size();
 	void set_up_ui_state();
 	void set_up_status_bar();
@@ -444,7 +444,7 @@ public:
 	bool import_tmx( const file::OpenDlgList &files ) ;
 	bool import_tmx( const CString &file_name ) ;
 
-	void set_translation_at( short index, const wstring &translation );
+	void set_translation_at( short index, const wstring translation );
 
 	void set_ui_to_current_language();
 	void destroy_all_gloss_windows();
@@ -458,7 +458,7 @@ public:
 	gloss_window_pointer get_glossary_window();
 
 	double get_score(const short index = -1);
-	bool register_trans_to_glossary(const wstring &trans) ;
+	bool register_trans_to_glossary(const wstring trans) ;
 
 	void provide_user_trans_feedback() ;
 	void provide_user_search_feedback() ;

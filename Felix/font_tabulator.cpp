@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "font_tabulator.h"
 
-bool font_tabulator::tabulate_fonts( const wstring &text )
+bool font_tabulator::tabulate_fonts( const wstring text )
 {
 	textstream_reader< wchar_t > reader ;
 	reader.set_buffer( text.c_str() ) ;

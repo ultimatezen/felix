@@ -349,7 +349,7 @@ public:
 	// Description	    : 
 	// Return type		: bool 
 	// Argument         :  CHtmlTextRange &range
-	// Argument         : const wstring &id_to_find
+	// Argument         : const wstring id_to_find
 	bool is_in_desired_range( html::CHtmlTextRange &range )
 	{
 		if ( m_params.m_search_type == IDS_SEARCH_ALL ) 

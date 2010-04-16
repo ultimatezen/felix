@@ -72,19 +72,19 @@ namespace mem_engine
 		bool is_locked() const ;
 		bool is_memory() const ;
 
-		void set_creator( const wstring &setting ) ;
-		void set_field( const wstring &setting ) ;
-		void set_created_on( const wstring &setting ) ;
-		void set_source_language( const wstring &setting ) ;
-		void set_target_language( const wstring &setting ) ;
-		void set_client( const wstring &setting ) ;
+		void set_creator( const wstring setting ) ;
+		void set_field( const wstring setting ) ;
+		void set_created_on( const wstring setting ) ;
+		void set_source_language( const wstring setting ) ;
+		void set_target_language( const wstring setting ) ;
+		void set_client( const wstring setting ) ;
 		void set_count( const long setting ) ;
 		void set_locked_on( ) ;
 		void set_locked_off( ) ;
 		void set_is_memory_on() ;
 		void set_is_memory_off() ;
-		void set_creation_tool( const wstring &setting );
-		void set_creation_tool_version( const wstring &setting );
+		void set_creation_tool( const wstring setting );
+		void set_creation_tool_version( const wstring setting );
 
 		void set_modified_by(const wstring modified_by) { m_modified_by = modified_by ; }
 		void set_modified_on(const wstring modified_on) { m_modified_on = modified_on ; }

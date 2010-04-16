@@ -132,7 +132,7 @@ wstring memory_header::get_creation_tool_version() const
 
 // setters
 
-void memory_header::set_creator( const wstring &setting ) 
+void memory_header::set_creator( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -140,7 +140,7 @@ void memory_header::set_creator( const wstring &setting )
 	}
 	m_creator = setting ;
 }
-void memory_header::set_field( const wstring &setting ) 
+void memory_header::set_field( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -148,7 +148,7 @@ void memory_header::set_field( const wstring &setting )
 	}
 	m_field = setting ;
 }
-void memory_header::set_created_on( const wstring &setting ) 
+void memory_header::set_created_on( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -156,7 +156,7 @@ void memory_header::set_created_on( const wstring &setting )
 	}
 	m_created_on = setting ;
 }
-void memory_header::set_source_language( const wstring &setting ) 
+void memory_header::set_source_language( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -164,7 +164,7 @@ void memory_header::set_source_language( const wstring &setting )
 	}
 	m_source_language = setting ;
 }
-void memory_header::set_target_language( const wstring &setting ) 
+void memory_header::set_target_language( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -172,7 +172,7 @@ void memory_header::set_target_language( const wstring &setting )
 	}
 	m_target_language = setting ;
 }
-void memory_header::set_client( const wstring &setting ) 
+void memory_header::set_client( const wstring setting ) 
 {
 	if ( is_locked() )
 	{
@@ -213,12 +213,12 @@ void memory_header::set_is_memory_off()
 	m_is_memory = false ;
 }
 
-void memory_header::set_creation_tool( const wstring &setting )
+void memory_header::set_creation_tool( const wstring setting )
 {
 	m_creation_tool = setting ;
 }
 
-void memory_header::set_creation_tool_version( const wstring &setting )
+void memory_header::set_creation_tool_version( const wstring setting )
 {
 	m_creation_tool_version = setting ;
 }

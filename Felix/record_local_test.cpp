@@ -179,7 +179,7 @@ namespace easyunit
 	{
 		record_local rec ;
 
-		//	void set_trans( const wstring &rich_trans ) ;
+		//	void set_trans( const wstring rich_trans ) ;
 		wstring wstr_text = L"here is a wstring text" ;
 		rec.set_trans( wstr_text ) ;
 		ASSERT_TRUE ( rec.get_trans_rich() == wstr_text ) ; 
@@ -190,7 +190,7 @@ namespace easyunit
 	{
 		record_local rec ;
 
-		//	void set_context( const wstring &rich_context );
+		//	void set_context( const wstring rich_context );
 		wstring wstr_text = L"<b>here is a wstring text</b>" ;
 		rec.set_context( wstr_text ) ;
 		ASSERT_TRUE ( rec.get_context_rich() == L"<b>here is a wstring text</b>" ) ; 
@@ -200,7 +200,7 @@ namespace easyunit
 	{
 		record_local rec ;
 
-		//	void set_source( const wstring &rich_source ) ;	
+		//	void set_source( const wstring rich_source ) ;	
 		wstring wstr_text = L"<LI><STRONG><U><EM><FONT color=#0080ff>Variations on the theme...</FONT></EM></U></STRONG>" ;
 		rec.set_source( wstr_text ) ;
 		ASSERT_TRUE ( rec.get_source_rich() == wstr_text ) ; 
@@ -327,7 +327,7 @@ namespace easyunit
 		ASSERT_TRUE ( rec.data_begin() != rec.data_end() ) ; 
 	}
 
-	//	bool item_exists( const wstring &key ) const ;
+	//	bool item_exists( const wstring key ) const ;
 	TEST( test_record_local, item_exists ) 
 	{
 		record_local rec ;
@@ -340,7 +340,7 @@ namespace easyunit
 
 	}
 
-	//	const wstring get_item( const wstring &key ) const ;
+	//	const wstring get_item( const wstring key ) const ;
 	TEST( test_record_local, get_item ) 
 	{
 		record_local rec ;
@@ -420,7 +420,7 @@ namespace easyunit
 
 	}
 
-	//	void translation_record_tester::set_item( const wstring &key, const wstring &value ) ;
+	//	void translation_record_tester::set_item( const wstring key, const wstring value ) ;
 	TEST( test_record_local, set_item ) 
 	{
 		record_local rec ;
@@ -443,7 +443,7 @@ namespace easyunit
 
 
 	//	set_reliability( const _bstr_t &text ) ;
-	//	set_reliability( const wstring &reliability ) ;
+	//	set_reliability( const wstring reliability ) ;
 	//	set_reliability( const size_t reliability ) ;
 	TEST( test_record_local, set_reliability	) 
 	{
@@ -462,7 +462,7 @@ namespace easyunit
 	}
 
 	//	void translation_record_tester::set_validated( const bool validated );
-	//	void translation_record_tester::set_validated( const wstring &validated );
+	//	void translation_record_tester::set_validated( const wstring validated );
 	TEST( test_record_local, set_validated ) 
 	{
 		record_local rec ;
@@ -762,7 +762,7 @@ namespace easyunit
 		ASSERT_TRUE (! rec.is_valid_record()) ;
 	}
 
-	//	bool remove_item( const wstring &key);
+	//	bool remove_item( const wstring key);
 	TEST( test_record_local, remove_item ) 
 	{
 		record_local rec ;

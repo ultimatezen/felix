@@ -768,12 +768,10 @@ void CGlossaryWindow::prep_for_gloss_lookup(const std::wstring& query_text)
 
 void CGlossaryWindow::show_gloss_lookup_results()
 {
-	wstring content = build_glossary_list(m_search_matches) ;
-	m_view_interface.set_text( content  ) ;
-	m_view_interface.set_scroll_pos(0) ;
-	check_mousewheel() ;
+	m_search_matches.m_start_numbering = m_properties_gloss.m_data.m_numbering ;
+
+	m_view_state_match.show_content() ;
 	// give the user feedback
-	give_gloss_lookup_feedback();
 }
 
 void CGlossaryWindow::perform_gloss_lookup()
@@ -783,17 +781,6 @@ void CGlossaryWindow::perform_gloss_lookup()
 	m_search_matches.set_matches( matches ) ;
 }
 
-void CGlossaryWindow::give_gloss_lookup_feedback()
-{
-	if ( m_search_matches.size() == 1 )
-	{
-		user_feedback( IDS_FOUND_1_MATCH ) ;
-	}
-	else
-	{
-		user_feedback(system_message(IDS_FOUND_X_MATCHES, int_arg( m_search_matches.size()))) ;
-	}
-}
 
 void CGlossaryWindow::config_matches_for_gloss_lookup(const std::wstring& query_text)
 {
@@ -832,30 +819,11 @@ wstring CGlossaryWindow::get_glossary_entry(const int index)
 
 	ATLASSERT( localIndex >= 0 && static_cast<size_t>( localIndex )  < m_search_matches.size() ) ;
 
-	if ( localIndex < 0 || static_cast<size_t>( localIndex )  >= m_search_matches.size() ) // idiot deflector code
-	{
-		user_feedback(IDS_OUT_OF_RANGE) ;
-		return wstring( ) ;
-	}
-
 	m_view_state->set_current(static_cast<size_t>( localIndex )) ;
-	record_pointer entry_record(new record_local()) ;
-
-	if ( index == 0 && get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-
-		entry_record = m_view_state->get_current_match()->get_record() ;
-	}
-	else
-	{
-		entry_record = m_search_matches.at( localIndex )->get_record() ;
-	}
-
-	return get_record_translation(entry_record);
+	return get_record_translation(m_view_state->get_current_match()->get_record());
 }
 
-std::wstring CGlossaryWindow::get_record_translation(record_pointer& entry)
+std::wstring CGlossaryWindow::get_record_translation(record_pointer entry)
 {
 	return m_view_state->retrieve_record_trans(entry,
 						record_string_prefs(m_properties_gloss.is_plaintext(),
@@ -1151,30 +1119,14 @@ LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
 	// do the switcheroo on the find windows...
 	// swap out the various find dialogs...
 	SwapFindDialogs(edit_mode_enabled);
-	ToggleEditMode(edit_mode_enabled) ;
+	ToggleEditMode() ;
 
 	return 0L ;
 }
 
-void CGlossaryWindow::ToggleEditMode(const bool edit_mode_enabled)
+void CGlossaryWindow::ToggleEditMode()
 {
-	switch( get_display_state() )
-	{
-	case INIT_DISPLAY_STATE: 
-		ATLASSERT(m_view_state == &m_view_state_initial) ;
-		m_view_state->handle_toggle_edit_mode() ;
-		break ;
-	case NEW_RECORD_DISPLAY_STATE:
-		handle_new_record_edit( edit_mode_enabled ) ;
-		break ;
-	case MATCH_DISPLAY_STATE: 
-	case CONCORDANCE_DISPLAY_STATE:
-		handle_concordance_edit( edit_mode_enabled ) ;
-		break ;
-	default:
-		ATLASSERT( "We are in an unknown state" && FALSE ) ;
-		break ;
-	}
+	m_view_state->handle_toggle_edit_mode() ;
 }
 
 void CGlossaryWindow::SetEditModeMenuItems(const bool edit_mode_enabled)
@@ -1440,144 +1392,47 @@ void CGlossaryWindow::set_properties_algo( const app_props::properties_algorithm
 
 // User wants to edit an entry.
 LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
-{
-	// get the record
-	switch( get_display_state() )
-	{
-	case INIT_DISPLAY_STATE:
-	case NEW_RECORD_DISPLAY_STATE:
-		{
-			memory_pointer mem = m_memories->get_first_memory() ;
+{	
+	const size_t num = static_cast<size_t>(lParam) ;
 
-			search_match_ptr match(new mem_engine::search_match) ;
-			match->set_record(m_new_record) ;
-			match->set_memory_id(mem->get_id()) ;
-			this->set_item_under_edit(match) ;
+	m_view_state->set_current(num) ;
+	m_view_state->on_user_edit() ;
 
-			show_edit_dialog( m_new_record, mem->get_id() ) ;
-
-			return 0L ;
-		}
-	case MATCH_DISPLAY_STATE:
-	case CONCORDANCE_DISPLAY_STATE:
-		{
-			// check for out of bounds condition
-			TRUE_ENFORCE( static_cast<size_t>(lParam) < m_search_matches.size(), R2T( IDS_OUT_OF_RANGE ) ) ;
-
-			m_search_matches.set_current( lParam ) ;
-			break ;
-		}
-	}
-
-	search_match_ptr match = m_search_matches.current() ;
-	this->set_item_under_edit(match) ;
-	record_pointer record = match->get_record() ;
-	show_edit_dialog( record, match->get_memory_id(), IDS_EDIT_GLOSS ) ;
 	return 0L ;
 }
 
 // User wants to delete an entry.
-LRESULT CGlossaryWindow::on_user_delete( LPARAM number )
+LRESULT CGlossaryWindow::on_user_delete( size_t number )
 {
 	switch( get_display_state() )
 	{
+	case INIT_DISPLAY_STATE:
+		{
+			ATLASSERT(m_view_state == &m_view_state_initial) ;
+			m_view_state->delete_match(number) ;
+			return 0L ;
+		}
 	case NEW_RECORD_DISPLAY_STATE:
 		{
-			return delete_from_new_state();		
+			ATLASSERT(m_view_state == &m_view_state_new) ;
+			m_view_state->delete_match(number) ;
+			return 0L ;
 		}
 	case MATCH_DISPLAY_STATE:
 		{
-			return delete_from_lookup_state( number );
+			ATLASSERT(m_view_state == &m_view_state_match) ;
+			m_view_state->delete_match(number) ;
+			return 0L ;
 		}
 	case CONCORDANCE_DISPLAY_STATE:
 		{
-			return delete_from_concordance_state( number );
+			ATLASSERT(m_view_state == &m_view_state_concordance) ;
+			m_view_state->delete_match(number) ;
+			return 0L ;
 		}
 	}
 
 	return 0L ;
-}
-
-int CGlossaryWindow::delete_from_concordance_state(LPARAM number)
-{
-	if ( ! check_delete() )  
-		return 0 ;
-
-	TRUE_ENFORCE( static_cast<size_t>(number) < m_search_matches.size(), R2T( IDS_OUT_OF_RANGE ) ) ;
-
-	search_match_ptr match = m_search_matches.at( number ) ;
-
-	try
-	{
-		m_memories->remove_record( match->get_record(), match->get_memory_id() ) ;
-
-		m_search_matches.erase_at( number ) ;
-
-		// feedback
-		report_deleted_entry() ;
-	}
-	catch (CProgramException& e)
-	{
-		e.notify_user("Failed to remove record: memory not found") ;
-	}
-	show_user_search_results();
-
-	return 0 ;
-}
-
-int CGlossaryWindow::delete_from_lookup_state(LPARAM number)
-{
-	if ( ! check_delete() )  
-	{
-		return 0 ;
-	}
-
-	if (static_cast<size_t>(number) >= m_search_matches.size())
-	{
-		MessageBeep(MB_ICONEXCLAMATION) ;
-		user_feedback(IDS_OUT_OF_RANGE) ;
-		return 0 ;
-	}
-
-	search_match_ptr match = m_search_matches.at( number ) ;
-
-	try
-	{
-		m_memories->remove_record( match->get_record(), match->get_memory_id() ) ;
-		m_search_matches.erase_at( number ) ;
-		// feedback
-		report_deleted_entry() ;
-	}
-	catch (CProgramException& e)
-	{
-		e.notify_user("Failed to remove record: glossary not found") ;
-	}
-
-	m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
-	check_mousewheel() ;
-
-	return 0 ;
-}
-
-int CGlossaryWindow::delete_from_new_state()
-{
-	if ( ! check_delete() ) 
-	{
-		return 0 ;
-	}
-
-	memory_pointer mem = m_memories->get_first_memory() ;
-
-	mem->erase( m_new_record ) ;
-	m_new_record = record_pointer(new record_local()) ;
-	m_view_interface.set_text( wstring( L"<b>" ) + R2WSTR( IDS_DELETED_ENTRY ) + wstring( L"</b>" ) ) ;
-	user_feedback(IDS_DELETED_ENTRY) ;
-	check_mousewheel() ;
-	m_view_interface.set_scroll_pos(0) ;
-
-	report_deleted_entry() ;
-	return 0 ;
-
 }
 
 LRESULT CGlossaryWindow::on_user_search( LPARAM /* lParam */ )
@@ -1680,7 +1535,7 @@ void CGlossaryWindow::route_nav_command(LPMSG pMsg)
 		on_user_editEntry( pMsg->lParam ) ;
 		break ;
 	case IDC_DELETE:
-		on_user_delete( pMsg->lParam ) ;
+		on_user_delete( static_cast<size_t>(pMsg->lParam) ) ;
 		break ;
 	case IDC_ADD:
 		OnUserAdd( pMsg->lParam ) ;
@@ -2735,7 +2590,7 @@ void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
 
 mem_engine::search_match_ptr CGlossaryWindow::get_current_match()
 {
-	return m_search_matches.current() ;
+	return m_view_state->get_current_match() ;
 }
 
 void CGlossaryWindow::redo_lookup( mem_engine::search_match_ptr match, bool do_gloss /*= false */ )
@@ -2762,8 +2617,6 @@ bool CGlossaryWindow::is_single_page()
 
 void CGlossaryWindow::set_menu_checkmark( int item_id, bool is_checked )
 {
-	logging::log_warn("`CGlossaryWindow::set_menu_checkmark` is not implemented") ;
-	item_id ;
-	is_checked ;
+	CheckMenuItem( GetMenu(), item_id, ( is_checked ? MF_CHECKED : MF_UNCHECKED ) ) ;
 	return ;
 }

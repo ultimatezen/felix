@@ -99,11 +99,11 @@ namespace easyunit
 		props.read_from_registry() ;
 
 		header.read_header(header_text) ;
-		ASSERT_EQUALS(header.get_creator(), L"RyanVista") ;
-		ASSERT_EQUALS(header.get_created_on(), L"2007/08/23 13:52:38") ;
-		ASSERT_EQUALS(header.get_creation_tool(), L"Felix") ;
-		ASSERT_EQUALS(header.get_creation_tool_version(), L"1.0") ;
-		ASSERT_EQUALS(header.get_count(), 6) ;
+		ASSERT_EQUALS(SimpleString(string2string(header.get_creator()).c_str()), "RyanVista") ;
+		ASSERT_EQUALS(SimpleString(string2string(header.get_created_on()).c_str()), "2007/08/23 13:52:38") ;
+		ASSERT_EQUALS(SimpleString(string2string(header.get_creation_tool()).c_str()), "Felix") ;
+		ASSERT_EQUALS(SimpleString(string2string(header.get_creation_tool_version()).c_str()), "1.0") ;
+		ASSERT_EQUALS_V(header.get_count(), 6) ;
 		ASSERT_EQUALS(header.is_locked(), false) ;
 		ASSERT_EQUALS(header.is_memory(), false) ;
 		// this one is the default value

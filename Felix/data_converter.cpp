@@ -60,7 +60,7 @@ const static string id_tag_end_narrow = "</id>\n" ;
 /* helper functions                                                     */
 /************************************************************************/
 
-wstring TradosTag2AssistTag( const wstring &node )
+wstring TradosTag2AssistTag( const wstring node )
 {
 	if ( node == L"Crd" )
 	{
@@ -83,7 +83,7 @@ wstring TradosTag2AssistTag( const wstring &node )
 
 }
 
-wstring TradosDate2FelixDate(const wstring &trados_date)
+wstring TradosDate2FelixDate(const wstring trados_date)
 {
 	misc_wrappers::date felix_date ;
 
@@ -157,7 +157,7 @@ CXml2RecordConverter &CXml2RecordConverter::operator =( const CXml2RecordConvert
 // Function name	: &CXml2RecordConverter::convert_from_xml_node
 // Description	    : 
 // Return type		: translation_record 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 record_pointer CXml2RecordConverter::convert_from_xml_node( LPCWSTR node )
 {
 	m_parser.set_buffer( node ) ;
@@ -255,7 +255,7 @@ void CXml2RecordConverter::load_trans( )
 // Function name	: CXml2RecordConverter::load_context
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_context( ) 
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
@@ -318,7 +318,7 @@ void CXml2RecordConverter::load_richtext_node( const _bstr_t &EndTag,
 // Function name	: CXml2RecordConverter::load_date_created
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_date_created( ) 
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
@@ -330,7 +330,7 @@ void CXml2RecordConverter::load_date_created( )
 // Function name	: CXml2RecordConverter::load_last_modified
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_last_modified( ) 
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
@@ -344,9 +344,9 @@ void CXml2RecordConverter::load_last_modified( )
 * Access:    public 
 * @retval   void
 * Qualifier:
-* @param const wstring & tag
+* @param const wstring  tag
 */
-void CXml2RecordConverter::load_extra(const wstring & tag)
+void CXml2RecordConverter::load_extra(const wstring  tag)
 {
 	ATLASSERT( tag.empty() == false ) ;
 
@@ -403,7 +403,7 @@ wstring CXml2RecordConverter::PlainTextNode( const _bstr_t &EndTag )
 // Function name	: CXml2RecordConverter::load_reliability
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_reliability( ) 
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
@@ -435,7 +435,7 @@ size_t CXml2RecordConverter::SizeNode( const _bstr_t &EndTag )
 // Function name	: CXml2RecordConverter::load_refcount
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_refcount( ) 
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
@@ -446,7 +446,7 @@ void CXml2RecordConverter::load_refcount( )
 // Function name	: CXml2RecordConverter::load_validated
 // Description	    : 
 // Return type		: void 
-// Argument         : const wstring &node
+// Argument         : const wstring node
 void CXml2RecordConverter::load_validated( ) 
 {
 	if ( get_validated_value() )	
@@ -461,7 +461,7 @@ void CXml2RecordConverter::load_validated( )
 }
 
 
-const wstring CXml2RecordConverter::strip_cdata(const wstring &data) const
+const wstring CXml2RecordConverter::strip_cdata(const wstring data) const
 {
 	// get rid of the CDATA tags
 	reader_type local_reader ;
@@ -480,7 +480,7 @@ const wstring CXml2RecordConverter::strip_cdata(const wstring &data) const
 	return text ;
 }
 
-const wstring CXml2RecordConverter::strip_if_needed( const wstring &record_text ) const
+const wstring CXml2RecordConverter::strip_if_needed( const wstring record_text ) const
 {
 	if ( record_text.find( L"<![CDATA[" ) != wstring::npos )
 	{
@@ -688,7 +688,7 @@ bool CRecord2XmlConverter::convert_rest()
 
 
 // Function name	: CRecord2XmlConverter::convert_key_val_pair
-bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &end_tag, const wstring &text )
+bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &end_tag, const wstring text )
 {
 
 #define BEGIN_CDATA_SECTION "<![CDATA[" 

@@ -113,7 +113,28 @@ namespace easyunit
 		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+
+	TEST( view_state_new_test, on_user_edit )
+	{
+		ViewStateNewMain state ;
+		view_state_obj vso(&state) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"source") ;
+		vso.listener.set_new_record(rec) ;
+
+		state.on_user_edit() ;
+		search_match_ptr match = vso.listener.item_under_edit ;
+
+		SimpleString expected("source") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
+	}
+
 	TEST( view_state_new_test, activate)
 	{
 		ViewStateNewMain state ;
@@ -253,6 +274,25 @@ namespace easyunit
 		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 		ASSERT_EQUALS_V(expected, actual) ;
 		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
+	}
+	TEST( view_state_new_gloss_test, on_user_edit )
+	{
+		ViewStateNewGloss state ;
+		view_state_obj vso(&state) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"source") ;
+		vso.listener.set_new_record(rec) ;
+
+		state.on_user_edit() ;
+		search_match_ptr match = vso.listener.item_under_edit ;
+
+		SimpleString expected("source") ;
+		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		ASSERT_EQUALS_V(expected, actual) ;
+		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.001) ;
+		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
 	}
 
 }

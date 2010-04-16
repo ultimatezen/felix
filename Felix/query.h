@@ -104,32 +104,32 @@ struct felix_query
 
 	// query
 	// these are just for convenience, they all are just aliases for the source routines
-	const wstring &get_query_plain() const ;
-	const wstring &get_query_rich() const ;
+	const wstring get_query_plain() const ;
+	const wstring get_query_rich() const ;
 
-	void set_query_plain ( const wstring &source  ) ;
-	void set_query_rich ( const wstring &rich_source  ) ;
+	void set_query_plain ( const wstring source  ) ;
+	void set_query_rich ( const wstring rich_source  ) ;
 
 	// source
-	const wstring &get_source_plain() const ;
-	const wstring &get_source_rich() const ;
+	const wstring get_source_plain() const ;
+	const wstring get_source_rich() const ;
 
-	void set_source_plain ( const wstring &source  ) ;
-	void set_source ( const wstring &rich_source  ) ;
+	void set_source_plain ( const wstring source  ) ;
+	void set_source ( const wstring rich_source  ) ;
 
 	// trans
-	const wstring &get_trans_plain() const ;
-	const wstring &get_trans_rich() const ;
+	const wstring get_trans_plain() const ;
+	const wstring get_trans_rich() const ;
 
-	void set_plain_trans ( const wstring &trans  ) ;
-	void set_trans ( const wstring &rich_trans  ) ;
+	void set_plain_trans ( const wstring trans  ) ;
+	void set_trans ( const wstring rich_trans  ) ;
 
 	// context
-	const wstring &get_context_plain() const ;
-	const wstring &get_context_rich() const ;
+	const wstring get_context_plain() const ;
+	const wstring get_context_rich() const ;
 
-	void set_plain_context ( const wstring &context  ) ;
-	void set_context ( const wstring &rich_context  ) ;
+	void set_plain_context ( const wstring context  ) ;
+	void set_context ( const wstring rich_context  ) ;
 
 	// ====================
 	// m_match_list interface 
@@ -151,8 +151,8 @@ struct felix_query
 	void erase_at( size_t pos );
 	void set_current( size_t pos );
 
-	wstring make_id_cell( int id, const wstring &val );
-	wstring make_id_cell( const wstring &id, const wstring &val );
+	wstring make_id_cell( int id, const wstring val );
+	wstring make_id_cell( const wstring id, const wstring val );
 	wstring make_table_header();
 	// =======================
 	// pure virtual functions

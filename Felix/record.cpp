@@ -22,7 +22,7 @@ static const wstring refcount_tag		= L"ref_count" ;
 
 static wstring m_user_name ;
 
-void set_record_username(const wstring &username)
+void set_record_username(const wstring username)
 {
 	m_user_name = username ;
 }

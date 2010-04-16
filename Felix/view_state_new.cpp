@@ -48,7 +48,6 @@ void ViewStateNew::delete_match( size_t index )
 	m_window_listener->user_feedback(IDS_DELETED_ENTRY) ;
 	m_window_listener->check_mousewheel() ;
 	m_view->set_scroll_pos(0) ;
-
 }
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNewMain
@@ -123,6 +122,7 @@ mem_engine::search_match_ptr ViewStateNewMain::get_current_match()
 	search_match_ptr match(new search_match(m_window_listener->get_new_record())) ;
 	match->set_values_to_record() ;
 	match->set_base_score(1.0) ;
+	match->set_memory_id(m_model->get_first_mem_id()) ;
 	return match ;
 }
 
@@ -229,7 +229,9 @@ void ViewStateNewGloss::show_content()
 mem_engine::search_match_ptr ViewStateNewGloss::get_current_match()
 {
 	search_match_ptr match(new search_match(m_window_listener->get_new_record())) ;
+	match->set_values_to_record() ;
 	match->set_base_score(1.0) ;
+	match->set_memory_id(m_model->get_first_mem_id()) ;
 	return match ;
 }
 

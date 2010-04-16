@@ -27,7 +27,7 @@ public:
 	// Function name	: tabulate_fonts
 	// Description	    : 
 	// Return type		: bool 
-	bool tabulate_fonts( const wstring &text );
+	bool tabulate_fonts( const wstring text );
 
 private:
 	font_set m_font_set ;
