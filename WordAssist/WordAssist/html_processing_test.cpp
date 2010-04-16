@@ -1,22 +1,19 @@
 #include "stdafx.h"
 #include "html_processing.h"
 
-#ifdef UNIT_TEST
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
-namespace easyunit
+BOOST_AUTO_TEST_SUITE( test_html_processing )
+
+BOOST_AUTO_TEST_CASE( html_processing_test, init )
 {
-	TEST( html_processing_test, Instantiate )
-	{
-		try
-		{
-			html_processing processing ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate html_processing class in test harness" ) ;
-		}
-	}
+	html_processing processing ;
+	BOOST_CHECK ( ! processing.is_underline_specified() ) ; 
+	BOOST_CHECK ( ! processing.is_italic_specified() ) ; 
+	BOOST_CHECK ( ! processing.is_bold_specified() ) ; 
+	BOOST_CHECK ( ! processing.is_font_size_specified() ) ; 
+	BOOST_CHECK ( ! processing.is_fore_color_specified() ) ; 
 }
-#endif
+
+
+BOOST_AUTO_TEST_SUITE_END()

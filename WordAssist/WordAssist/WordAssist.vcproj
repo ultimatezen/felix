@@ -269,10 +269,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\app_state_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ClipboardBackup.cpp"
 				>
 			</File>
@@ -306,10 +302,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\MyLibrary\html_formatter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\html_formatter_test.cpp"
 				>
 			</File>
 			<File
