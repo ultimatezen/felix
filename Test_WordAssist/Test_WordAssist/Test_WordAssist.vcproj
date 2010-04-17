@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Test_WordAssist.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\word_writer_test.cpp"
 				>
 			</File>
@@ -303,10 +307,6 @@
 							UsePrecompiledHeader="1"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\Test_WordAssist.cpp"
-					>
 				</File>
 				<File
 					RelativePath="..\..\..\MyLibrary\WordAutomationObject.cpp"

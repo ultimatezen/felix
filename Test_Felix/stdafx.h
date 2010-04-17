@@ -7,7 +7,6 @@
 
 #include "targetver.h"
 
-
 // This is to keep the compiler from complaining about insecure code in the STL (as if I can do anything about it!)
 #define _SCL_SECURE_NO_WARNINGS
 
@@ -60,7 +59,7 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <commdlg.h>
 
 #include <comdef.h>
-#include "resource.h"
+#include "c:\dev\cpp\assistant suite\felix\resource.h"
 
 #include <atlstr.h>
 #include <atltypes.h>
@@ -103,8 +102,6 @@ using namespace boost::foreach ;
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
-
-#include <boost/spirit/include/phoenix1.hpp>
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations

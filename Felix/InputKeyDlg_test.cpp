@@ -5,13 +5,13 @@
 
 namespace easyunit
 {
-	//TEST( TestCInputKeyDlg, instantiate)
-	//{
-	//	CInputKeyDlg dialog ;
-	//	ASSERT_EQUALS_V(IDD_INPUT_KEY_DLG, CInputKeyDlg::IDD) ;
-	//	ASSERT_EQUALS_V(3, 3) ;
-	//}
-	// CExportDialog message processing
+	TEST( TestCInputKeyDlg, instantiate)
+	{
+		CInputKeyDlg dialog ;
+		ASSERT_EQUALS_V(IDD_INPUT_KEY_DLG, CInputKeyDlg::IDD) ;
+		ASSERT_EQUALS_V(3, 3) ;
+	}
+	 CExportDialog message processing
 	TEST( TestCInputKeyDlg, test_message_WM_INITDIALOG)
 	{
 		CInputKeyDlg dialog ;
