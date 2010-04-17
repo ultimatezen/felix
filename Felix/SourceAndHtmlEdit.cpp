@@ -52,8 +52,11 @@ HWND CSourceAndHtmlEdit::get_active_view(void) const
 HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top_pos )
 {
 #ifdef UNIT_TEST
+	box_window ;
+	dlg_window ;
+	top_pos ;
 	return NULL ;
-#endif
+#else
 	try
 	{
 		m_parent_dlg = dlg_window ;
@@ -105,6 +108,7 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 		logging::log_exception(e) ;
 		throw ;
 	}
+#endif
 }
 
 BOOL CSourceAndHtmlEdit::pre_translate(MSG* pMsg)
@@ -208,8 +212,9 @@ _bstr_t CSourceAndHtmlEdit::GetText()
 void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 {
 #ifdef UNIT_TEST
+	text ;
 	return ;
-#endif
+#else
 	this->ensure_document_complete() ;
 	html::CHtmlSelection selection = m_html_edit.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
@@ -224,6 +229,7 @@ void CSourceAndHtmlEdit::SetText( const _bstr_t &text )
 	}
 
 	m_text_edit.SetText( BSTR2wstring(text) ) ;
+#endif
 }
 
 
@@ -269,10 +275,11 @@ void CSourceAndHtmlEdit::set_html_focus(void)
 	BANNER("CSourceAndHtmlEdit::set_html_focus") ;
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 
 	// m_html_edit.SetFocus() ;
 	sendMouseClick(getDocumentHWND(), getHwnd()) ;
+#endif
 }
 
 void CSourceAndHtmlEdit::lose_focus(void)
@@ -438,7 +445,7 @@ void CSourceAndHtmlEdit::ensure_document_complete()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 
 	MSG msg = {0};
 	while ( m_html_edit.is_document_complete() == false || m_html_edit.is_navigation_complete() == false) 
@@ -449,17 +456,19 @@ void CSourceAndHtmlEdit::ensure_document_complete()
 			::DispatchMessage(&msg);
 		} 
 	}
+#endif
 }
 
 _bstr_t CSourceAndHtmlEdit::get_html_text()
 {
 #ifdef UNIT_TEST
 	return _bstr_t("UnitTesting") ;
-#endif // UNIT_TEST
+#else
 	html::CHtmlSelection selection = m_html_edit.get_selection() ;
 	html::CHtmlTextRange range = selection.create_text_range() ;
 	range.expand(L"Textedit") ;
 	return range.get_html_text() ;
+#endif // UNIT_TEST
 }
 
 void CSourceAndHtmlEdit::sendMouseClick(TWindow bottomwin, TWindow topwin)

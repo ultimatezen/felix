@@ -5,7 +5,7 @@
 
 BOOST_AUTO_TEST_SUITE( test_html_processing )
 
-BOOST_AUTO_TEST_CASE( html_processing_test, init )
+BOOST_AUTO_TEST_CASE( init )
 {
 	html_processing processing ;
 	BOOST_CHECK ( ! processing.is_underline_specified() ) ; 

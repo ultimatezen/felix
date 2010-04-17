@@ -52,7 +52,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30128.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">true</LinkIncremental>
@@ -114,7 +114,8 @@ echo Server registration done!
     <ClCompile>
       <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -142,6 +143,7 @@ echo Server registration done!
       <AdditionalDependencies>easyunitVC.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Unicode_Debug/Felix.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT; LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <MergedIDLBaseFileName>
       </MergedIDLBaseFileName>
@@ -190,7 +192,8 @@ echo Protection complete!
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>POCO_DLL;WIN32;NDEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -216,6 +219,7 @@ echo Protection complete!
       <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Unicode_Release/Felix.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <MergedIDLBaseFileName>
       </MergedIDLBaseFileName>
@@ -263,7 +267,8 @@ echo Protection complete!
     <ClCompile>
       <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;UNIT_TEST;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;UNIT_TEST;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -282,6 +287,7 @@ echo Protection complete!
       <TreatWarningAsError>true</TreatWarningAsError>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -291,6 +297,7 @@ echo Protection complete!
       <AdditionalDependencies>easyunitVC.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Testing/Felix.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT; LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <MergedIDLBaseFileName>
       </MergedIDLBaseFileName>
@@ -716,6 +723,12 @@ echo Protection complete!
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">true</BrowseInformation>
     </ClCompile>
     <ClCompile Include="view_interface.cpp" />
+    <ClCompile Include="view_state.cpp" />
+    <ClCompile Include="view_state_concordance.cpp" />
+    <ClCompile Include="view_state_initial.cpp" />
+    <ClCompile Include="view_state_match.cpp" />
+    <ClCompile Include="view_state_new.cpp" />
+    <ClCompile Include="view_state_review.cpp" />
     <ClCompile Include="ViewCollectionWalker.cpp" />
     <ClCompile Include="WebPage.cpp" />
     <ClCompile Include="..\..\MyLibrary\WideRichEdit.cpp" />
@@ -779,7 +792,6 @@ echo Protection complete!
     <ClCompile Include="memory_header_test.cpp" />
     <ClCompile Include="memory_local_test.cpp" />
     <ClCompile Include="memory_model_test.cpp" />
-    <ClCompile Include="memory_remote_info_test.cpp" />
     <ClCompile Include="memory_remote_test.cpp" />
     <ClCompile Include="MemoryManagerDlg_test.cpp" />
     <ClCompile Include="MinViewDlg_test.cpp" />
@@ -822,9 +834,14 @@ echo Protection complete!
     <ClCompile Include="ui_test.cpp" />
     <ClCompile Include="UserStringDlg_test.cpp" />
     <ClCompile Include="view_interface_test.cpp" />
+    <ClCompile Include="view_state_concordance_test.cpp" />
+    <ClCompile Include="view_state_initial_test.cpp" />
+    <ClCompile Include="view_state_match_test.cpp" />
+    <ClCompile Include="view_state_new_test.cpp" />
+    <ClCompile Include="view_state_review_test.cpp" />
     <ClCompile Include="ViewCollectionWalker_test.cpp" />
-    <ClCompile Include="WebPage_test.cpp" />
     <ClCompile Include="WideRichEdit_test.cpp" />
+    <ClCompile Include="window_state_tests.cpp" />
     <ClCompile Include="WindowsMessage_test.cpp" />
     <ClCompile Include="xpmenu_test.cpp" />
     <ClCompile Include="zoom_dialog_test.cpp" />
@@ -863,8 +880,6 @@ echo Protection complete!
     <None Include="SearchResult.rgs" />
     <None Include="set.bmp" />
     <None Include="set_and_.bmp" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="document_wrapper.html" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Felix.idl" />
@@ -880,6 +895,7 @@ echo Protection complete!
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\MyLibrary\easyunit\defaulttestprinter.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />
     <ClInclude Include="..\..\MyLibrary\aboutdlg.h" />
@@ -912,7 +928,6 @@ echo Protection complete!
     <ClInclude Include="..\..\MyLibrary\dispatchwrapper.h" />
     <ClInclude Include="..\..\MyLibrary\distance.h" />
     <ClInclude Include="document_wrapper.h" />
-    <ClInclude Include="document_wrapper_fake.h" />
     <ClInclude Include="..\..\MyLibrary\xpmenu\Draw.h" />
     <ClInclude Include="Drop.h" />
     <ClInclude Include="EditModeFindDlg.h" />
@@ -921,7 +936,6 @@ echo Protection complete!
     <ClInclude Include="EditTransRecordDialogModal.h" />
     <ClInclude Include="EditTransRecordDialogRegGloss.h" />
     <ClInclude Include="element_wrapper.h" />
-    <ClInclude Include="element_wrapper_fake.h" />
     <ClInclude Include="..\..\MyLibrary\errortranslator.h" />
     <ClInclude Include="ExcelExporter.h" />
     <ClInclude Include="..\..\MyLibrary\Exceptions.h" />
@@ -939,6 +953,7 @@ echo Protection complete!
     <ClInclude Include="font_tabulator.h" />
     <ClInclude Include="GlossaryDialog.h" />
     <ClInclude Include="GlossaryDlgListener.h" />
+    <ClInclude Include="GlossaryDlgListenerFake.h" />
     <ClInclude Include="HrefTags.h" />
     <ClInclude Include="HtmlDocColorSetter.h" />
     <ClInclude Include="..\..\MyLibrary\HtmlDocument.h" />
@@ -983,7 +998,6 @@ echo Protection complete!
     <ClInclude Include="..\..\MyLibrary\numberfmt.h" />
     <ClInclude Include="..\..\MyLibrary\oleautowrapper.h" />
     <ClInclude Include="output_device.h" />
-    <ClInclude Include="output_device_fake.h" />
     <ClInclude Include="pagination.h" />
     <ClInclude Include="..\..\MyLibrary\Path.h" />
     <ClInclude Include="..\..\MyLibrary\ProgressBarTestRunner.h" />
@@ -1031,13 +1045,28 @@ echo Protection complete!
     <ClInclude Include="..\..\MyLibrary\UserName.h" />
     <ClInclude Include="UserStringDlg.h" />
     <ClInclude Include="view_interface.h" />
+    <ClInclude Include="view_state.h" />
+    <ClInclude Include="view_state_concordance.h" />
+    <ClInclude Include="view_state_fake.h" />
+    <ClInclude Include="view_state_initial.h" />
+    <ClInclude Include="view_state_match.h" />
+    <ClInclude Include="view_state_new.h" />
+    <ClInclude Include="view_state_review.h" />
+    <ClInclude Include="view_state_test_utils.h" />
     <ClInclude Include="ViewCollectionWalker.h" />
     <ClInclude Include="..\..\MyLibrary\WebBrowser.h" />
     <ClInclude Include="WebPage.h" />
     <ClInclude Include="..\..\MyLibrary\WideRichEdit.h" />
+    <ClInclude Include="window_listener.h" />
     <ClInclude Include="..\..\MyLibrary\WindowExceptionHandler.h" />
     <ClInclude Include="WindowsMessage.h" />
     <ClInclude Include="zoom_dialog.h" />
+    <ClInclude Include="document_wrapper_fake.h" />
+    <ClInclude Include="element_wrapper_fake.h" />
+    <ClInclude Include="felix_model_fake.h" />
+    <ClInclude Include="output_device_fake.h" />
+    <ClInclude Include="view_interface_fake.h" />
+    <ClInclude Include="window_listener_fake.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\Felix.exe.manifest">

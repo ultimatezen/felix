@@ -7,6 +7,7 @@
 #include "record_local.h"
 #include "mainfrm.h"
 #include "GlossaryDialog.h"
+#include "GlossaryDlgListenerFake.h"
 
 #include "easyunit/testharness.h"
 
@@ -15,6 +16,19 @@
 namespace easyunit
 {
 	using namespace mem_engine ;
+	search_match_ptr make_match_ws(string source, string trans, int id=0, string name="new")
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
+		match->set_memory_location(string2wstring(name)) ;
+
+		return match ;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// set_display_state
@@ -265,7 +279,10 @@ namespace easyunit
 	}
 
 
+	//////////////////////////////////////////////////////////////////////////
 	// review mode
+	//////////////////////////////////////////////////////////////////////////
+
 	TEST( window_state_tests_mainframe, get_current_match_review_empty)
 	{
 		MainFrameModel model ;
@@ -338,6 +355,120 @@ namespace easyunit
 
 		ASSERT_EQUALS_V(expected, actual) ;
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// CGlossaryWindow::OnUserAdd
+	//////////////////////////////////////////////////////////////////////////
+
+	TEST( window_state_tests_gloss, on_user_add_init)
+	{
+		CGlossaryWindow gloss ;
+		CGlossaryWinListenerFake listener ;
+		gloss.set_listener(&listener) ;
+
+		gloss.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
+
+		gloss.OnUserAdd(0) ;
+
+		SimpleString actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V("", actual) ;
+
+		SimpleStrings out ;
+		extract_vars(listener.m_sensing_variable, out) ;
+		ASSERT_EQUALS_V("gloss_add_record", out[0]) ;
+		ASSERT_EQUALS_V(1, (int)out.size()) ;
+	}
+
+	TEST( window_state_tests_gloss, on_user_add_new)
+	{
+		CGlossaryWindow gloss ;
+		CGlossaryWinListenerFake listener ;
+		gloss.set_listener(&listener) ;
+
+		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"new state") ;
+		rec->set_trans(L"new trans") ;
+		rec->set_id(10) ;
+		gloss.set_new_record(rec) ;
+
+		gloss.OnUserAdd(0) ;
+
+		SimpleString actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V("new state", actual) ;
+
+		SimpleStrings out ;
+		extract_vars(listener.m_sensing_variable, out) ;
+		ASSERT_EQUALS_V("gloss_add_record", out[0]) ;
+		ASSERT_EQUALS_V(1, (int)out.size()) ;
+
+		ASSERT_EQUALS_V((int)rec->get_id(), (int)gloss.get_new_record()->get_id()) ;
+	}
+
+
+	TEST( window_state_tests_gloss, on_user_add_match)
+	{
+		CGlossaryWindow gloss ;
+		CGlossaryWinListenerFake listener ;
+		gloss.set_listener(&listener) ;
+
+		search_match_ptr m0 = make_match_ws("match 0", "match 0") ;
+		search_match_ptr m1 = make_match_ws("match 1", "match 1") ;
+		search_match_ptr m2 = make_match_ws("match 2", "match 2") ;
+
+		felix_query::match_list matches ;
+		matches.push_back(m0) ;
+		matches.push_back(m1) ;
+		matches.push_back(m2) ;
+
+		gloss.m_search_matches.set_matches(matches) ;
+
+		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+
+		gloss.OnUserAdd(1) ;
+
+		SimpleString actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V("match 1", actual) ;
+
+		SimpleStrings out ;
+		extract_vars(listener.m_sensing_variable, out) ;
+		ASSERT_EQUALS_V("gloss_add_record", out[0]) ;
+		ASSERT_EQUALS_V(1, (int)out.size()) ;
+	}
+
+	TEST( window_state_tests_gloss, on_user_add_concordance)
+	{
+		CGlossaryWindow gloss ;
+		CGlossaryWinListenerFake listener ;
+		gloss.set_listener(&listener) ;
+
+		search_match_ptr m0 = make_match_ws("match 0", "match 0") ;
+		search_match_ptr m1 = make_match_ws("match 1", "match 1") ;
+		search_match_ptr m2 = make_match_ws("match 2", "match 2") ;
+
+		felix_query::match_list matches ;
+		matches.push_back(m0) ;
+		matches.push_back(m1) ;
+		matches.push_back(m2) ;
+
+		gloss.m_search_matches.set_matches(matches) ;
+
+		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
+
+		gloss.OnUserAdd(2) ;
+
+		SimpleString actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+
+		ASSERT_EQUALS_V("match 2", actual) ;
+
+		SimpleStrings out ;
+		extract_vars(listener.m_sensing_variable, out) ;
+		ASSERT_EQUALS_V("gloss_add_record", out[0]) ;
+		ASSERT_EQUALS_V(1, (int)out.size()) ;
 	}
 }
 

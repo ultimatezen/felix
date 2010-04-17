@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by FelixJPN.rc
 //
+#pragma once
+
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
 #define IDS_OPEN_TOOLBAR                5

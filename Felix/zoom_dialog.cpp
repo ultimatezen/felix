@@ -23,16 +23,22 @@ LRESULT CZoomDlg::OnInitDialog()
 LRESULT CZoomDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
+	wID ;
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 
 LRESULT CZoomDlg::OnCancel( WORD wID )
 {
 	SENSE("OnCloseCommand") ;
+	wID ;
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 

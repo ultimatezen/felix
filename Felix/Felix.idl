@@ -1,8 +1,9 @@
 // Felix.idl : IDL source for Felix.exe
 //
-
+//
 // This file will be processed by the MIDL tool to
 // produce the type library (Felix.tlb) and marshalling code.
+//////////////////////////////////////////////////////////////////////////
 
 import "oaidl.idl";
 import "ocidl.idl";

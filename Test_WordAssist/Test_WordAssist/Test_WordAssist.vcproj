@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\font_properties_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\html_formatter_test.cpp"
 				>
 			</File>
@@ -198,19 +202,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\logging.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\WordAssist\WordAssist\logging_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\WordAssist\WordAssist\Properties.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.cpp"
 				>
 			</File>
 			<File
@@ -222,19 +214,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\WordAutomationObject.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\WordAssist\WordAssist\WordAutomationObject_test.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\WordAssist\WordAssist\WordParser_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp"
 				>
 			</File>
 			<Filter
@@ -261,6 +245,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\MyLibrary\font_properties.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\WordAssist\WordAssist\hooker.cpp"
 					>
 				</File>
@@ -277,7 +265,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\MyLibrary\logging.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\MyLibrary\MiniVersion.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\MyLibrary\Parser.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\WordAssist\WordAssist\Properties.cpp"
 					>
 				</File>
 				<File
@@ -306,6 +306,18 @@
 				</File>
 				<File
 					RelativePath=".\Test_WordAssist.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\MyLibrary\WordAutomationObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\MyLibrary\WordParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp"
 					>
 				</File>
 			</Filter>
@@ -337,6 +349,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\MyLibrary\Exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\font_properties.h"
 				>
 			</File>
 			<File
@@ -372,6 +388,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\Parser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\Properties.h"
 				>
 			</File>
@@ -388,11 +408,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -401,6 +421,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\MyLibrary\WordAutomationObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\WordParser.h"
 				>
 			</File>
 			<File

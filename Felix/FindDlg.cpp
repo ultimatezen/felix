@@ -117,7 +117,7 @@ LRESULT CFindDlg::OnInitDialog( )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	// ===========================
 	// set the text of the edit boxes
 	// ===========================
@@ -146,6 +146,7 @@ LRESULT CFindDlg::OnInitDialog( )
 	m_source_edit.SetFocus() ;
 
 	return 0 ;
+#endif
 }
 
 /** OnActivate

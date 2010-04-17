@@ -71,7 +71,6 @@ struct search_query_params
 	void internal_copy( const search_query_params &rhs );
 } ;
 
-
 /** struct felix_query. */
 struct felix_query
 {

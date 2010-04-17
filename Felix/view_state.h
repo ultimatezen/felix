@@ -58,4 +58,3 @@ public:
 	virtual mem_engine::search_match_ptr get_current_match() = 0 ;
 	virtual void delete_match(size_t index) = 0 ;
 };
-

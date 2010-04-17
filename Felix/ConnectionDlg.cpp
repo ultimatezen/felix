@@ -17,12 +17,13 @@ LRESULT CConnectionDlg::OnInitDialog()
 
 #ifdef UNIT_TEST
 	return TRUE ;
-#endif
+#else
 
 	// set the focus to the edit box
 	m_edit.SetSel(0, 0) ;
 	m_edit.SetFocus() ;
 	return TRUE;
+#endif
 }
 
 LRESULT CConnectionDlg::OnOK( WORD wID )
@@ -30,8 +31,9 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	SENSE("OnOK") ;
 
 #ifdef UNIT_TEST
+	wID ;
 	return 0L ;
-#endif
+#else
 
 	using namespace mem_engine ;
 
@@ -69,7 +71,9 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		}
 		else
 		{
-			EndDialog(IDCANCEL) ;
+#ifndef UNIT_TEST
+	EndDialog(IDCANCEL);
+#endif
 			return 0L ;
 		}
 
@@ -90,12 +94,16 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	MessageBeep(MB_ICONINFORMATION) ;
 	EndDialog(wID);
 	return 0L ;
+#endif
 }
 
 LRESULT CConnectionDlg::OnCloseCommand( WORD wID )
 {
 	SENSE("OnClose") ;
+	wID ;
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0L;
 }
 

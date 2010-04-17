@@ -1110,7 +1110,7 @@ LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
 	SENSE( "on_view_edit_mode" ) ;
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	const bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
 
@@ -1122,6 +1122,7 @@ LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
 	ToggleEditMode() ;
 
 	return 0L ;
+#endif
 }
 
 void CGlossaryWindow::ToggleEditMode()
@@ -1404,34 +1405,7 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 // User wants to delete an entry.
 LRESULT CGlossaryWindow::on_user_delete( size_t number )
 {
-	switch( get_display_state() )
-	{
-	case INIT_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->delete_match(number) ;
-			return 0L ;
-		}
-	case NEW_RECORD_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->delete_match(number) ;
-			return 0L ;
-		}
-	case MATCH_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_match) ;
-			m_view_state->delete_match(number) ;
-			return 0L ;
-		}
-	case CONCORDANCE_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_concordance) ;
-			m_view_state->delete_match(number) ;
-			return 0L ;
-		}
-	}
-
+	m_view_state->delete_match(number) ;
 	return 0L ;
 }
 
@@ -1448,18 +1422,8 @@ LRESULT CGlossaryWindow::on_user_edit_replace( LPARAM /* lParam */  )
 
 LRESULT CGlossaryWindow::OnUserAdd( LPARAM lParam )
 {
-	// If we are in the new record display state, there is only one
-	// record being displayed, and we have already set m_record to
-	// this value. Therefore, all we need to do is pass a reference
-	// to this member variable (this will force the CMainFrame to create a
-	// new record, rather than a reference-counted copy of this one), and
-	// we're done.
-	if ( get_display_state() != NEW_RECORD_DISPLAY_STATE )
-	{
-		m_new_record = m_search_matches.at( lParam )->get_record() ;
-	}
-
-	m_listener->gloss_add_record( m_new_record->clone() ) ;
+	m_view_state->set_current(static_cast<size_t>(lParam)) ;
+	m_listener->gloss_add_record( m_view_state->get_current_match()->get_record()->clone() ) ;
 
 	return 0L ;
 }
@@ -1911,7 +1875,7 @@ void CGlossaryWindow::size_client_and_status_bar()
 	
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	// if the status bar is visible, subtract its height from the height of the browser view
 	if ( m_appstate.m_is_statusbar_visible )
 	{
@@ -1938,6 +1902,7 @@ void CGlossaryWindow::size_client_and_status_bar()
 	}
 	// resize edit window
 	m_view_interface.Move( &client_rect ) ;
+#endif
 }
 
 void CGlossaryWindow::reflect_tb_vis()
@@ -1981,7 +1946,7 @@ void CGlossaryWindow::init_toolbar()
 
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	m_toolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
 	// set the system icon list into the tree view
 	CImageList images ;
@@ -1996,6 +1961,7 @@ void CGlossaryWindow::init_toolbar()
 	m_toolbar.SetImageList( images ) ;
 
 	reflect_tb_vis();
+#endif
 }
 
 void CGlossaryWindow::reflect_sb_vis()
@@ -2027,8 +1993,9 @@ bool CGlossaryWindow::init_status_bar()
 	ATLASSERT( TWindow( m_hWndStatusBar ).IsWindow() ) ;
 	
 #ifdef UNIT_TEST
+	PANE_WIDTH ;
 	return true ;
-#endif
+#else
 
 	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
 	ATLASSERT( m_statusbar.m_mp_sbar.IsWindow() ) ;
@@ -2046,6 +2013,7 @@ bool CGlossaryWindow::init_status_bar()
 	m_statusbar.m_mp_sbar.UpdatePanesLayout() ;
 	reflect_sb_vis();
 	return !! m_statusbar.m_mp_sbar.IsWindow() ;
+#endif
 }
 
 void CGlossaryWindow::wait_until_view_not_busy()
@@ -2372,7 +2340,7 @@ void CGlossaryWindow::apply_mousewheel_setting()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	if (m_mousewheel_count)
 	{
 		CString command = _T("decreaseFont") ;
@@ -2385,6 +2353,7 @@ void CGlossaryWindow::apply_mousewheel_setting()
 			m_view_interface.run_script(command) ;
 		}
 	}
+#endif
 }
 
 LRESULT CGlossaryWindow::on_new_search()
@@ -2435,7 +2404,7 @@ void CGlossaryWindow::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
@@ -2446,6 +2415,7 @@ void CGlossaryWindow::set_doc_ui_handler()
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
 	}
 	ATLASSERT(SUCCEEDED(hr)) ;
+#endif
 }
 
 // Show context menu in response to right click in browser.

@@ -167,24 +167,28 @@ void felix_query::clear()
 	m_params = search_query_params() ;
 	m_params.m_show_marking = show_markup ;
 }
+
 void felix_query::set_matches( const search_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
+
 void felix_query::set_matches( const trans_match_container &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
+
 void felix_query::set_matches( const match_list &matches ) 
 {
 	m_match_list.clear() ;
 	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
 	m_pos = 0 ;
 }
+
 void  felix_query::forward( )
 {
 	ATLASSERT( empty() || m_pos < size()  ) ;

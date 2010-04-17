@@ -67,22 +67,27 @@ END_CONNECTION_POINT_MAP()
 	}
 
 public:
+	// source
 	STDMETHOD(get_Source)(BSTR* pVal);
 	STDMETHOD(put_Source)(BSTR source);
 
+	// trans
 	STDMETHOD(get_Trans)(BSTR* pVal);
 	STDMETHOD(put_Trans)(BSTR trans);
 
+	// context
 	STDMETHOD(get_Context)(BSTR* pVal);
 	STDMETHOD(put_Context)(BSTR context);
 
+	// created-by
 	STDMETHOD(get_CreatedBy)(BSTR* pVal);
 	STDMETHOD(put_CreatedBy)(BSTR created_by);
 
+	// modified-by
 	STDMETHOD(get_ModifiedBy)(BSTR* pVal);
 	STDMETHOD(put_ModifiedBy)(BSTR modified_by);
 
-
+	// id
 	STDMETHOD(get_Id)(ULONG* pVal);
 	STDMETHOD(put_Id)(ULONG pVal);
 

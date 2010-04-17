@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30128.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">.\..\Unicode_Debug\lang\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">.\..\Unicode_Debug\lang\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">false</LinkIncremental>
@@ -206,16 +206,16 @@
     <None Include="..\res\html1.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="..\..\..\Felix 1.5\res\html2.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
     <None Include="..\res\html2.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="..\..\..\Felix 1.5\res\mtr.htm">
+    <None Include="..\..\..\Felix 1.5\res\html2.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="..\res\mtr.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\..\..\Felix 1.5\res\mtr.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="..\res\nagpage.html" />
@@ -225,16 +225,16 @@
     <None Include="..\res\openingp.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="..\..\..\Felix 1.5\res\OpeningPage.html" />
     <None Include="..\res\OpeningPage.html" />
+    <None Include="..\..\..\Felix 1.5\res\OpeningPage.html" />
     <None Include="..\res\reg_gloss.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="..\..\..\Felix 1.5\res\reg_gloss.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="..\..\..\Felix 1.5\res\tmx_head.html" />
     <None Include="..\res\tmx_head.html" />
+    <None Include="..\..\..\Felix 1.5\res\tmx_head.html" />
     <None Include="..\res\tmx_tu.html" />
   </ItemGroup>
   <ItemGroup>

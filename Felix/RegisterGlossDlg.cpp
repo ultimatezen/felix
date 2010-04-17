@@ -260,7 +260,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 
 #ifdef UNIT_TEST
 	return TRUE ;
-#endif
+#else
 
 	register_message_filter(this) ;
 
@@ -338,6 +338,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 
 
 	return TRUE ;
+#endif
 }
 
 
@@ -776,7 +777,7 @@ wstring CRegisterGlossDlg::trim_text( const _bstr_t before ) const
 	std::vector<wstring> tokens ;
 	textstream_reader<wchar_t> reader((LPCWSTR)before) ;
 	reader.split(tokens, L"\r\n\t ");
-	wstring text = str::join(L" ", tokens) ;
+	wstring text = boost::join(tokens, L" ") ;
 
 	for (int i = (int)text.size()-1 ; i>=0 ; --i)
 	{
@@ -789,7 +790,7 @@ wstring CRegisterGlossDlg::trim_text( const _bstr_t before ) const
 		}
 		else if (! iswspace(text[i]))
 		{
-			return str::ltrim(text) ;
+			return boost::trim_left_copy(text) ;
 		}
 		else
 		{
@@ -833,7 +834,7 @@ void CRegisterGlossDlg::set_record(record_pointer rec)
 	m_mem_record = rec ;
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	if	(IsWindow())
 	{
 		// first clear the source and trans text (to clear any formatting)...
@@ -844,6 +845,7 @@ void CRegisterGlossDlg::set_record(record_pointer rec)
 		m_rec_source_edit.SetText(string2BSTR(m_mem_record->get_source_rich())) ;
 		m_rec_trans_edit.SetText(string2BSTR(m_mem_record->get_trans_rich())) ;
 	}
+#endif
 }
 
 void CRegisterGlossDlg::pad_rectangle(CRect &rect, const int PaddingConst)

@@ -2,18 +2,21 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{1b08f018-dd89-4fb0-b39f-0faa0fa3530d}</UniqueIdentifier>
+      <UniqueIdentifier>{cc294249-5967-4573-af71-9d571d7b0b3c}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Source Files\tests">
-      <UniqueIdentifier>{019d508b-f867-4d36-9f34-afe5dc1ba540}</UniqueIdentifier>
+      <UniqueIdentifier>{6d3a042d-93e3-4e49-8caf-9a81803d3a04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{0ab809a0-f230-4951-90ab-f717d894450b}</UniqueIdentifier>
+      <UniqueIdentifier>{05860899-d949-4df1-a676-45e3988d04ad}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
+    <Filter Include="Header Files\fake">
+      <UniqueIdentifier>{75997ef0-2259-4dab-a73e-aa996f0b849c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{6edcdb8f-0e20-42b3-aa17-c3d03614412d}</UniqueIdentifier>
+      <UniqueIdentifier>{d0419d31-8578-476a-8bbe-1d04d53505df}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -306,6 +309,24 @@
     <ClCompile Include="view_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="view_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_concordance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ViewCollectionWalker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -495,9 +516,6 @@
     <ClCompile Include="memory_model_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="memory_remote_info_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="memory_remote_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -624,13 +642,28 @@
     <ClCompile Include="view_interface_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="view_state_concordance_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="ViewCollectionWalker_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="WebPage_test.cpp">
+    <ClCompile Include="WideRichEdit_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="WideRichEdit_test.cpp">
+    <ClCompile Include="window_state_tests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="WindowsMessage_test.cpp">
@@ -743,8 +776,6 @@
     <None Include="set_and_.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="document_wrapper.html" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Felix.idl">
@@ -853,9 +884,6 @@
     <ClInclude Include="document_wrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="document_wrapper_fake.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MyLibrary\xpmenu\Draw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -878,9 +906,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="element_wrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="element_wrapper_fake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MyLibrary\errortranslator.h">
@@ -932,6 +957,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GlossaryDlgListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryDlgListenerFake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HrefTags.h">
@@ -1064,9 +1092,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="output_device.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="output_device_fake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pagination.h">
@@ -1210,6 +1235,30 @@
     <ClInclude Include="view_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="view_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_concordance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_initial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_match.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_new.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_review.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_test_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ViewCollectionWalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1222,6 +1271,9 @@
     <ClInclude Include="..\..\MyLibrary\WideRichEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="window_listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\MyLibrary\WindowExceptionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1229,6 +1281,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zoom_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="document_wrapper_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="element_wrapper_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="felix_model_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="output_device_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="view_interface_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="window_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MyLibrary\easyunit\defaulttestprinter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

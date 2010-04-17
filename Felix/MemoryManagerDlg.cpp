@@ -38,53 +38,66 @@ void CMemoryManagerDlg::OnProgressInit( const CString &, size_t min_val, size_t 
 {
 	SENSE("OnProgressInit") ;
 #ifdef UNIT_TEST
+	min_val ;
+	max_val ;
+
 	return ;
-#endif
+#else
 	ATLASSERT ( m_progress_bar.IsWindow() ) ; 
 
 	m_progress_bar.ShowWindow( SW_SHOW ) ;
 
 	m_progress_bar.SetRange( min_val, max_val ) ;
 	m_progress_bar.SetPos( min_val ) ;
+#endif
 }
 void CMemoryManagerDlg::OnProgressDoneLoad( size_t final_val )
 {
 	SENSE("OnProgressDoneLoad") ;
 #ifdef UNIT_TEST
+	final_val ;
+
 	return ;
-#endif
+#else
 	m_progress_bar.SetPos( final_val ) ;
 	m_progress_bar.ShowWindow(SW_HIDE) ;
+#endif
 }
 void CMemoryManagerDlg::OnProgressDoneWrite( size_t final_val )
 {
 	SENSE("OnProgressDoneWrite") ;
 #ifdef UNIT_TEST
+	final_val ;
 	return ;
-#endif
+#else
 	m_progress_bar.SetPos( final_val ) ;
 	m_progress_bar.ShowWindow(SW_HIDE) ;
+#endif
 }
 
 bool CMemoryManagerDlg::OnProgressLoadUpdate( size_t current_val ) // true to continue
 {
 	SENSE("OnProgressLoadUpdate") ;
 #ifdef UNIT_TEST
+	current_val ;
 	return true;
-#endif
+#else
 	m_progress_bar.SetPos( current_val ) ;
 
 	return true ;
+#endif
 }
 bool CMemoryManagerDlg::OnProgressWriteUpdate( size_t current_val ) // true to continue
 {
 	SENSE("OnProgressWriteUpdate") ;
 #ifdef UNIT_TEST
+	current_val ;
 	return true;
-#endif
+#else
 	m_progress_bar.SetPos( current_val ) ;
 
 	return true ;
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -366,7 +379,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 
 #ifdef UNIT_TEST
 	 return TRUE ;
-#endif
+#else
 
 	// set up static where html view will go
 	m_info_box.Attach( GetDlgItem( IDC_INFO_BOX ) ) ;
@@ -405,6 +418,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 	}
 
 	return TRUE ;
+#endif
 }
 
 void CMemoryManagerDlg::disableListButtons()
@@ -456,14 +470,18 @@ LRESULT CMemoryManagerDlg::OnCmdOK()
 {
 	SENSE("OnOK") ;
 	reflect_checkstate() ;
-	EndDialog( IDOK ) ;
+#ifndef UNIT_TEST
+	EndDialog(IDOK);
+#endif
 	return 0L ;
 }
 
 LRESULT CMemoryManagerDlg::OnCmdCancel()
 {
 	SENSE("OnCancel") ;
-	EndDialog( IDCANCEL ) ;
+#ifndef UNIT_TEST
+	EndDialog(IDCANCEL);
+#endif
 	return 0L ;
 }
 

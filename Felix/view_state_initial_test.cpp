@@ -289,5 +289,4 @@ namespace easyunit
 
 }
 
-
 #endif // #ifdef UNIT_TEST

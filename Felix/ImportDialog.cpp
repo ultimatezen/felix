@@ -29,19 +29,25 @@ LRESULT CImportDialog::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 LRESULT CImportDialog::OnCancel( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
 {
 	SENSE("OnCancel"); 
+	wID ;
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 
 LRESULT CImportDialog::OnOK( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
 {
 	SENSE("OnOK"); 
+	wID ;
 	set_source( m_source_combo ) ;
 	set_trans( m_trans_combo ) ;
 
 	TRUE_ENFORCE( get_source_plain() != get_trans_plain(), IDS_MSG_S_T_MUST_DIFFER ) ;
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 
@@ -138,20 +144,27 @@ LRESULT CExportDialog::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 LRESULT CExportDialog::OnCancel( WORD, WORD wID, HWND, BOOL& )
 {
 	SENSE("OnCancel"); 
+	wID ;
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 
 LRESULT CExportDialog::OnOK(WORD, WORD wID, HWND, BOOL&)
 {
 	SENSE("OnOK"); 
+	wID ;
+
 	m_source_full = get_combo_sel(m_source_combo) ;
 	m_source = m_languages[ m_source_full ]  ;
 
 	m_trans_full = get_combo_sel(m_trans_combo) ;
 	m_trans = m_languages[ m_trans_full ]  ;
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 

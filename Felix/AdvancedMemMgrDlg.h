@@ -12,6 +12,7 @@
 
 #include "MessageMapDefines.h"
 #include "WindowExceptionHandler.h"
+#include "resource.h"
 
 #ifdef UNIT_TEST
 #define CUpDownCtrl CUpDownCtrlT<CFakeWindow>

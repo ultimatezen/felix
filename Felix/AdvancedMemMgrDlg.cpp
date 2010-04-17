@@ -32,7 +32,7 @@ LRESULT CAdvancedMemMgrDlg::OnInitDialog( )
 
 #ifdef UNIT_TEST
 	return TRUE ;
-#endif
+#else
 
 	m_idcReliabilityEdit = GetDlgItem(IDC_RELIABILITY_EDIT);
 	m_idcReliabilityEdit.SetWindowText( text ) ;
@@ -44,33 +44,40 @@ LRESULT CAdvancedMemMgrDlg::OnInitDialog( )
 	m_idcLocked.SetCheck( m_lock ) ;
 
 	return 0;
+#endif
 
-} // OnInitDialog
+} 
 
 LRESULT CAdvancedMemMgrDlg::OnCancel(WORD wID )
 {
 	SENSE("OnCancel") ;
-	EndDialog(wID) ;
+	wID ;
+#ifndef UNIT_TEST
+	EndDialog(wID);
+#endif
 	return 0L ;
 } 
 
 LRESULT CAdvancedMemMgrDlg::OnIdok(WORD wID )
 {
 	SENSE("OnOK") ;
+	wID ;
 	m_lock = m_idcLocked.GetCheck() ;
 	m_validation = m_idcValidity.GetCheck() ;
 
 #ifdef UNIT_TEST
+	wID ;
 	return 0L ;
-#endif
+#else
 
 	CString reliability_text ;
 	m_idcReliabilityEdit.GetWindowText(reliability_text) ;
 
 	m_reliability = parse_reliability(reliability_text);
 
-	EndDialog(wID) ;
+	EndDialog(wID);
 	return 0L ;
+#endif
 } 
 
 int CAdvancedMemMgrDlg::parse_reliability( CString reliability_text )

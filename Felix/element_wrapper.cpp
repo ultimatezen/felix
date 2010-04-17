@@ -11,9 +11,10 @@ wstring element_wrapper_html::get_inner_text()
 	SENSE("get_inner_text") ;
 #ifdef UNIT_TEST
 	return wstring(L"text") ;
-#endif
+#else
 
 	return BSTR2wstring(m_element->innerHTML) ;
+#endif
 }
 
 wstring element_wrapper_html::get_tag()
@@ -21,9 +22,10 @@ wstring element_wrapper_html::get_tag()
 	SENSE("get_tag") ;
 #ifdef UNIT_TEST
 	return wstring(L"tag") ;
-#endif
+#else
 
 	return BSTR2wstring(m_element->tagName) ;
+#endif
 }
 
 wstring element_wrapper_html::get_id()
@@ -31,9 +33,10 @@ wstring element_wrapper_html::get_id()
 	SENSE("get_id") ;
 #ifdef UNIT_TEST
 	return wstring(L"id") ;
-#endif
+#else
 
 	return BSTR2wstring( m_element->id ) ;
+#endif
 }
 
 wstring element_wrapper_html::get_attribute( const wstring key )
@@ -42,12 +45,13 @@ wstring element_wrapper_html::get_attribute( const wstring key )
 	SENSE(string2string(key)) ;
 #ifdef UNIT_TEST
 	return wstring(L"attribute") ;
-#endif
+#else
 
 	const _bstr_t bkey = key.c_str() ;
 	const CComVariant var_href = m_element->getAttribute( bkey, 0 ) ;
 	ATLASSERT( var_href.vt == VT_BSTR ) ;
 	return BSTR2wstring(var_href.bstrVal) ;
+#endif
 }
 
 void element_wrapper_html::set_attribute( const wstring key, const wstring val )
@@ -57,10 +61,11 @@ void element_wrapper_html::set_attribute( const wstring key, const wstring val )
 	SENSE(string2string(val)) ;
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	const _bstr_t bkey = key.c_str() ;
 	const CComVariant var_val(val.c_str()) ;
 	m_element->setAttribute( bkey, var_val, 0 ) ;
+#endif
 }
 
 void element_wrapper_html::set_inner_text( const wstring text )
@@ -69,6 +74,7 @@ void element_wrapper_html::set_inner_text( const wstring text )
 	SENSE(string2string(text)) ;
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	m_element->innerHTML = string2BSTR(text) ;
+#endif
 }

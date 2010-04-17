@@ -876,7 +876,6 @@ bool WordController::OnRegisterGlossAction ( bool /*as_plaintext*/ )
 	}
 	CATCH_ALL("Action: Registering a glossary entry")
 		
-	return true ;
 }
 
 

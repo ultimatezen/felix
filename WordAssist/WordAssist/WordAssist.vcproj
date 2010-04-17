@@ -309,10 +309,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\html_processing_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\MyLibrary\html_writer.cpp"
 				>
 			</File>
@@ -506,11 +502,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File

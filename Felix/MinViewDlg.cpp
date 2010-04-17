@@ -48,8 +48,9 @@ LRESULT CMinViewDlg::OnInitDialog( )
 	
 	const int padding = 4 ;
 #ifdef UNIT_TEST
+	padding ;
 	return TRUE ;
-#endif
+#else
 
 	CWindowRect rc(m_idcEditBox) ;
 	ScreenToClient( &rc ) ;
@@ -79,7 +80,9 @@ LRESULT CMinViewDlg::OnInitDialog( )
 	m_tooltips.AddTool( &button_info ) ;
 
 	return 0;
-} // OnInitDialog
+#endif
+
+}
 
 LRESULT CMinViewDlg::OnRestoreFullView( )
 {

@@ -27,7 +27,7 @@ void frame_view::ensure_document_complete()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	if (! m_view.IsWindow())
 	{
 		return ;
@@ -39,6 +39,7 @@ void frame_view::ensure_document_complete()
 	{
 		backer.check_iterations() ;
 	}
+#endif
 }
 
 void frame_view::ensure_navigation_complete()
@@ -61,7 +62,7 @@ const wstring frame_view::get_selection_text()
 {
 #ifdef UNIT_TEST
 	return L"spam" ;
-#endif
+#else
 	if (! m_view.IsWindow())
 	{
 		return wstring();
@@ -72,6 +73,7 @@ const wstring frame_view::get_selection_text()
 	range.collapse() ;
 	range.select() ;
 	return selection_text ;
+#endif
 }
 
 void frame_view::create( HWND parent, HWND &client )
@@ -171,7 +173,7 @@ wstring frame_view::get_bg_color()
 {
 #ifdef UNIT_TEST
 	return wstring(L"#FFFFFF") ;
-#endif
+#else
 	if (! m_view.IsWindow())
 	{
 		return wstring();
@@ -179,6 +181,7 @@ wstring frame_view::get_bg_color()
 
 	html::CHtmlDocument doc = m_view.get_document() ;
 	return BSTR2wstring( doc.get_bg_color() ) ;
+#endif
 }
 html::document_ptr frame_view::get_document()
 {

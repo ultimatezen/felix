@@ -307,8 +307,9 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 {
 
 #ifdef UNIT_TEST
+	show_command ;
 	return true ;
-#endif
+#else
 
 	if ( ! get_editor()->IsWindow() )
 	{
@@ -326,6 +327,7 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 
 	return ( !! get_editor()->IsWindow() ) ;
 
+#endif
 }
 
 // Create a dialog the hard way, because it was failing before.
@@ -547,7 +549,7 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 {
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	// this is a trick to keep our code from being optimized or moved around
 	// -- which could affect our defenses.
 	if ( this != NULL )
@@ -570,6 +572,7 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 	}
 	
 	return 0L ;
+#endif
 }
 
 
@@ -702,8 +705,9 @@ void CCommonWindowFunctionality::refresh_view_content()
 LRESULT CCommonWindowFunctionality::on_user_edit_search( LPARAM lParam  )
 {
 #ifdef UNIT_TEST
+	lParam ;
 	return 0 ;
-#endif
+#else
 
 	if ( lParam == IDD_EDIT_FIND_DIALOG )
 	{
@@ -714,6 +718,7 @@ LRESULT CCommonWindowFunctionality::on_user_edit_search( LPARAM lParam  )
 		m_edit_replace.set_search_params( m_edit_find.get_search_params() ) ;
 	}
 	return 0L ;
+#endif
 }
 
 // Was the file dropped in the client rect?
@@ -722,12 +727,13 @@ BOOL CCommonWindowFunctionality::dropped_in_client( CDropHandle dropped )
 #ifdef UNIT_TEST
 	dropped ;
 	return TRUE ;
-#endif
+#else
 	CPoint p ;
 	dropped.DragQueryPoint( &p ) ;
 
 	CClientRect rect(*this) ;
 	return rect.PtInRect( p ) ; 
+#endif
 }
 
 /*
@@ -789,7 +795,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 	dlg.set_memories( this->get_memory_model() ) ;
 #ifdef UNIT_TEST
 	return true ;
-#endif
+#else
 	if( IDOK != dlg.DoModal( ) )
 	{
 		return false ;
@@ -800,6 +806,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 	this->PostMessage( WM_COMMAND, MAKEWPARAM( IDC_DEMO_CHECK_EXCESS, 100 ), 0 ) ;
 
 	return true ;
+#endif
 }
 
 // Save all the memories for this window
@@ -865,8 +872,9 @@ void CCommonWindowFunctionality::check_mousewheel()
 	}
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	m_view_interface.run_script("normalizeFontSizes") ;
+#endif
 }
 
 /************************************************************************/

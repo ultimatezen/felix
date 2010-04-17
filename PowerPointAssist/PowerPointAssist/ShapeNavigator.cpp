@@ -148,7 +148,7 @@ parsingStrategy CShapeNavigator::firstShape(void)
 
 	if ( m_holders.empty() == false )
 	{
-		return getStrategy( m_holders.begin()->GetShape() ) ;
+		return getStrategy( const_cast<CShapeHolder*>(&(*m_holders.begin()))->GetShape() ) ;
 	}
 
 	return NULL ;
@@ -298,5 +298,5 @@ parsingStrategy CShapeNavigator::nextShape(ShapePtr shape)
 		return getStrategyFromNextPane();
 	}
 
-	return getStrategy( pos->GetShape() ) ;
+	return getStrategy( const_cast<CShapeHolder*>(&(*pos))->GetShape() ) ;
 }

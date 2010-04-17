@@ -448,7 +448,9 @@ public:
 		}
 		else
 		{
+#ifndef UNIT_TEST
 			ATLASSERT( "Unknown search type!" && FALSE ) ;
+#endif
 			m_params.m_search_type = IDS_SEARCH_ALL ;
 		}
 	}

@@ -84,10 +84,6 @@ void CEditTransRecordDialog::set_old_record( record_type record )
 {
 	m_old_record = record ; 
 
-#ifdef UNIT_TEST
-	return ;
-#endif
-
 	fill_from_record( record ) ;
 }
 

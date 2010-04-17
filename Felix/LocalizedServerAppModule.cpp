@@ -2,9 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-// #include "stdafx.h"
+#include "stdafx.h"
 #include "LocalizedServerAppModule.h"
 #include "DebugUtilities.h"
-
 
 //#include "stdafx.h"

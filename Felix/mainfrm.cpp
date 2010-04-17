@@ -313,10 +313,11 @@ BOOL CMainFrame::OnIdle()
 	SENSE("OnIdle") ;
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	UIUpdateToolBar();
 	user_feedback(CString(), 2) ;
 	return FALSE;
+#endif
 }
 
 //! Gets the background color.
@@ -337,7 +338,7 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	CColorDialog dialog( color.as_colorref() ) ; // current color is default
 	
@@ -355,6 +356,7 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 	m_view_interface.set_bg_color( newcolor.as_wstring() ) ;
 	
 	return 0L ;
+#endif
 }
 
 //! Get the source and target languages for saving current memory as TMX.
@@ -607,10 +609,11 @@ LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
 
 #ifdef UNIT_TEST
 	return 0 ;
-#endif
+#else
 
 	show_view_content() ;
 	return 0L ;
+#endif
 }
 
 
@@ -622,9 +625,10 @@ LRESULT CMainFrame::on_file_exit(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	PostMessage(WM_CLOSE);
 	return 0L;
+#endif
 }
 
 /** Deletes the current entry.
@@ -636,7 +640,7 @@ LRESULT CMainFrame::on_delete_entry(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	if ( m_view_interface.is_edit_mode() )
 	{
 		m_view_interface.do_delete() ;
@@ -646,6 +650,7 @@ LRESULT CMainFrame::on_delete_entry(  WindowsMessage &message )
 		delete_current_translation() ;
 	}
 	return 0L;
+#endif
 }
 
 
@@ -659,7 +664,7 @@ LRESULT CMainFrame::on_find( WindowsMessage &message  )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	if ( m_view_interface.is_edit_mode() )
 	{
 		if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
@@ -676,6 +681,7 @@ LRESULT CMainFrame::on_find( WindowsMessage &message  )
 		handle_find() ;
 	}
 	return 0L ;
+#endif
 }
 
 /** The Replace dialog has told us that it's time to do a replace.
@@ -688,7 +694,7 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	if ( m_view_interface.is_edit_mode() == false )
 	{
 		// replace not supported in non-edit mode
@@ -705,6 +711,7 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 		init_edit_replace_window( SW_RESTORE ) ;
 	}
 	return 0L ;
+#endif
 }
 
 
@@ -718,7 +725,7 @@ LRESULT CMainFrame::on_concordance(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	CConcordanceDialog dialog ;
 	if ( IDCANCEL == dialog.DoModal() )
@@ -732,6 +739,7 @@ LRESULT CMainFrame::on_concordance(  WindowsMessage &message )
 		get_concordances( query ) ;
 	}
 	return 0L ;
+#endif
 }
 
 /** Adds a new glossary window.
@@ -744,15 +752,17 @@ LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
 	return 0L ;
+#endif
 }
 
 /** Adds a new glossary window.
  */
 bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show_cmd)
 {
+	show_cmd ;
 	if ( m_glossary_windows.empty() )
 	{
 		gloss_window->set_main_on() ;
@@ -774,7 +784,7 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 
 #ifdef UNIT_TEST
 	return true ;
-#endif
+#else
 
 	if ( m_glossary_windows.size() == 1 ) // we have just added the only one...
 	{
@@ -801,6 +811,7 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 	}
 
 	return true ;
+#endif
 }
 
 /** Handles the new file command. Creates a new memory.
@@ -813,7 +824,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	memory_pointer mem(new mem_engine::memory_local()) ;
 
 	mem->set_is_memory( true ) ;
@@ -823,6 +834,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 	user_feedback( IDS_NEW ) ;
 
 	return 0L ;
+#endif
 }
 
 /** Handles file open command.
@@ -834,7 +846,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	// get the file name
 	open_file_dlg dialog ;
 
@@ -882,6 +894,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 	set_window_title() ;
 
 	return 0L ;
+#endif
 }
 
 /** Handle the BeforeNavigate2 event from the MSHTML view.
@@ -1044,7 +1057,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	if ( m_model->get_memories()->empty() )
 	{
 		user_feedback(IDS_NO_MATCHES) ;
@@ -1138,6 +1151,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	set_window_title() ;
 
 	return 0L ;
+#endif
 }
 
 
@@ -1188,7 +1202,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	ATLASSERT( IsWindow() ) ; // we still need to be a window because...
 
@@ -1223,6 +1237,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	}
 	_Module.Unlock();
 	return 0L ;
+#endif
 }
 
 /** See if we should save our memory/glossary history.
@@ -1273,7 +1288,7 @@ LRESULT CMainFrame::on_view_toolbar(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	m_appstate.m_is_toolbar_visible = !m_appstate.m_is_toolbar_visible;
 	CReBarCtrl rebar = m_hWndToolBar;
 	const int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1);	// toolbar is 2nd added band
@@ -1281,6 +1296,7 @@ LRESULT CMainFrame::on_view_toolbar(WindowsMessage &)
 	UISetCheck(ID_VIEW_TOOLBAR, m_appstate.m_is_toolbar_visible);
 	UpdateLayout();
 	return 0;
+#endif
 }
 
 
@@ -1292,7 +1308,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	const bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
 
 	TRACE( edit_mode_enabled ) ;
@@ -1324,6 +1340,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 
 	m_view_state->handle_toggle_edit_mode() ;
 	return 0L ;
+#endif
 }
 
 
@@ -1338,13 +1355,14 @@ LRESULT CMainFrame::on_view_status_bar(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	m_appstate.m_is_statusbar_visible = !::IsWindowVisible(m_hWndStatusBar);
 	::ShowWindow(m_hWndStatusBar, m_appstate.m_is_statusbar_visible ? SW_SHOWNOACTIVATE : SW_HIDE);
 
 	UISetCheck(ID_VIEW_STATUS_BAR, m_appstate.m_is_statusbar_visible );
 	UpdateLayout();
 	return 0;
+#endif
 }
 
 /** Switch to match view.
@@ -1357,7 +1375,7 @@ LRESULT CMainFrame::on_view_match(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	// the current match...
 	if ( ! m_trans_matches.empty() ) // we have 0 matches, just a query
 	{
@@ -1368,6 +1386,7 @@ LRESULT CMainFrame::on_view_match(  WindowsMessage &message )
 	m_view_interface.set_scroll_pos(0) ;
 	
 	return 0L ;
+#endif
 }
 
 /** Switch to search view.
@@ -1380,12 +1399,13 @@ LRESULT CMainFrame::on_view_search(  WindowsMessage &message )
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	set_display_state( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
 	m_view_interface.set_scroll_pos(0) ;
 
 	return 0L ;
+#endif
 }
 
 // ==================================
@@ -1401,10 +1421,11 @@ LRESULT CMainFrame::show_about_dialog(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	CAboutDialog dlg(get_template_filename(_T("about.html"))) ;
 	dlg.DoModal();
 	return 0L ;
+#endif
 }
 
 /** Help -> Help.
@@ -1417,7 +1438,7 @@ LRESULT CMainFrame::on_help(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	HINSTANCE result = ::ShellExecute(
 		m_hWnd,				// HWND hwnd, 
@@ -1430,6 +1451,7 @@ LRESULT CMainFrame::on_help(WindowsMessage &)
 
 	check_shell_execute_result((int)result, filePath);
 	return 0L ;
+#endif
 }
 
 /** Help -> FAQ.
@@ -1441,7 +1463,7 @@ LRESULT CMainFrame::on_help_faq( WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	file::CPath faq_path ;
 	faq_path.GetModulePath(_Module.GetModuleInstance()) ;
 	faq_path.Append( _T("Docs\\Felix Help.chm") ) ;
@@ -1466,6 +1488,7 @@ LRESULT CMainFrame::on_help_faq( WindowsMessage &)
 	CString file_path = resource_string( IDS_FAQ_PATH ) ;
 	check_shell_execute_result((int)result, file_path) ;
 	return 0L ;
+#endif
 }
 
 /** Register glossary entries.
@@ -1945,7 +1968,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 #ifdef UNIT_TEST
 	return 0 ;
-#endif
+#else
 
 	if ( ! m_reg_gloss_dlg.IsWindow() )
 	{
@@ -1976,6 +1999,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 	}
 
 	return 0L ;
+#endif
 }
 
 
@@ -2216,10 +2240,11 @@ LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
 	}
 #ifdef UNIT_TEST
 	return 0 ;
-#endif
+#else
 
 	m_glossary_windows[0]->add_record(rec->clone());
 	return 0L ;
+#endif
 }
 
 
@@ -2292,7 +2317,7 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	m_properties->write_to_registry() ;
 
 	CPropertiesDlg props ;
@@ -2316,6 +2341,7 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 	user_feedback( IDS_PREFS_REGISTERED ) ;
 
 	return 0L ;
+#endif
 }
 
 
@@ -2339,7 +2365,7 @@ LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 	ATLASSERT( ! m_min_view.IsWindow() || ! m_min_view.IsWindowVisible() ) ;
 
 	switch( m_appstate.m_preferred_gui_lang )
@@ -2356,6 +2382,7 @@ LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 	}
 
 	return 0L ;
+#endif
 }
 
 
@@ -2866,7 +2893,7 @@ LRESULT CMainFrame::on_help_register(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	// prompt him!
 	CInputKeyDlg input_key_dlg ;
@@ -2897,6 +2924,7 @@ LRESULT CMainFrame::on_help_register(WindowsMessage &)
 	
 	set_window_title() ;
 	return 0L ;
+#endif
 }
 
 
@@ -3219,7 +3247,7 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 
 #ifdef UNIT_TEST
 	return 0L ;
-#endif
+#else
 
 	if (m_mousewheel_count)
 	{
@@ -3299,6 +3327,7 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 	SetFocus() ;
 
 	return 0L ;
+#endif
 }
 
 /** Adds a memory.
@@ -3356,7 +3385,7 @@ void CMainFrame::set_up_command_bars()
 
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	TWindow toolbarWnd = m_stdToolbar.Create24BitToolBarCtrl(*this, commands, FALSE );
 
 	m_stdToolbar.SubclassWindow( toolbarWnd, MAKEINTRESOURCE(IDR_MAINFRAME));
@@ -3422,6 +3451,7 @@ void CMainFrame::set_up_command_bars()
 	AddSimpleReBarBand(m_stdToolbar, NULL, m_appstate.m_rebar_has_linebreak);
 	SizeSimpleReBarBands() ;
 	ATLVERIFY(UIAddToolBar(m_stdToolbar)) ;
+#endif
 }
 
 //! Add a bitmap menu item.
@@ -3452,7 +3482,7 @@ void CMainFrame::set_up_status_bar()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	// create the status bar
 	ATLVERIFY(CreateSimpleStatusBar());
 	ATLASSERT( ::IsWindow(m_hWndStatusBar) ) ;
@@ -3471,6 +3501,7 @@ void CMainFrame::set_up_status_bar()
 	CString version_info ;
 	version_info.Format(_T("Felix v. %s"), _T(VERSION)) ;
 	user_feedback(version_info, 1) ;
+#endif
 }
 
 /** Set up the various menu checkmarks and such.
@@ -3518,7 +3549,7 @@ void CMainFrame::set_up_window_size()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 
 	try
 	{
@@ -3546,6 +3577,7 @@ void CMainFrame::set_up_window_size()
 		logging::log_exception(e) ;
 	}
 
+#endif
 }
 
 /** Look up the query in all of our glossary windows.
@@ -4970,7 +5002,7 @@ void CMainFrame::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
@@ -4981,6 +5013,7 @@ void CMainFrame::set_doc_ui_handler()
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
 	}
 	ATLASSERT(SUCCEEDED(hr)) ;
+#endif
 }
 
 /* Display the context menu in response to a right click in the browser window.

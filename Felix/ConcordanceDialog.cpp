@@ -22,13 +22,17 @@ LRESULT CConcordanceDialog::OnCloseCommand( WORD /*wNotifyCode*/, WORD wID, HWND
 
 	if ( wID == IDCANCEL ) 
 	{
-		EndDialog( wID ) ;
+#ifndef UNIT_TEST
+	EndDialog(wID);
+#endif
 		return 0L ;
 	}
 
 	CString text ;
 	m_edit.GetWindowText( text ) ;
 	m_text = static_cast< LPCTSTR >( text ) ;
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0L ;
 }

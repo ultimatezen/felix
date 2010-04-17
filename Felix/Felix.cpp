@@ -295,6 +295,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	ATLASSERT(scintilla_module.IsLoaded()) ;
 
 #ifdef UNIT_TEST
+	lpstrCmdLine ;
+	nCmdShow ;
 
     ATLTRACE( "Unit testing app...\n" ) ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
@@ -303,8 +305,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	_Module.Term() ;
 	::OleUninitialize() ;
     return EXIT_SUCCESS ;
-
-#endif
+#else
 
 	// going to a subroutine makes it cleaner to separate app code from error handling
 	try
@@ -338,5 +339,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 	::OleUninitialize();
 	return EXIT_FAILURE ;
+
+#endif
 }
 

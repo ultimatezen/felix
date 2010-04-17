@@ -38,7 +38,7 @@ LRESULT CNagDialog::OnInitDialog( )
 
 #ifdef UNIT_TEST
 	return TRUE ;
-#endif
+#else
 
 	// get its position
 	RECT rc ;
@@ -56,6 +56,7 @@ LRESULT CNagDialog::OnInitDialog( )
 	m_view.load_from_resource( m_nagPage ) ;
 
 	return TRUE ;
+#endif
 
 }
 
@@ -67,8 +68,11 @@ LRESULT CNagDialog::OnInitDialog( )
 LRESULT CNagDialog::OnClose( WORD wID )
 {
 	SENSE( "OnClose" ) ;
+	wID ;
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0L ;
 }
 

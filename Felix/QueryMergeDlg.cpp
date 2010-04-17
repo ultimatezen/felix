@@ -40,7 +40,9 @@ LRESULT CQueryMergeDlg::OnCloseCmd( WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 		DoDataExchange(TRUE) ;
 #endif	
 	}
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0;
 }
 

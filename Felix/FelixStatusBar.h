@@ -55,9 +55,12 @@ public:
 		}
 
 #ifdef UNIT_TEST
+		min_val ;
+		max_val ;
 		return ;
-#endif
+#else
 		init_progress_bar(min_val, max_val);
+#endif
 	}
 
 	void init_progress_bar( size_t min_val, size_t max_val )
@@ -76,18 +79,21 @@ public:
 		final_feedback( IDS_DONE_LOADING, final_val ) ;
 #ifdef UNIT_TEST
 		return ;
-#endif		
+#else
 		m_mp_sbar.ProgDestroyWindow() ;
+#endif		
 	}
 	void OnProgressDoneWrite( size_t final_val )
 	{
 #ifdef UNIT_TEST
-		return ;
-#endif		
+	final_val ;
+	return ;
+#else
 
 		set_pos( final_val ) ;
 		final_feedback( IDS_EXPORTED_RECORDS, final_val ) ;
 		m_mp_sbar.ProgDestroyWindow() ;
+#endif		
 	}
 	void final_feedback( UINT msg_id, size_t final_val )
 	{
@@ -110,9 +116,11 @@ public:
 	void set_pos(size_t current_val)
 	{
 #ifdef UNIT_TEST
+		current_val ;
 		return ;
-#endif
+#else
 		m_mp_sbar.ProgSetPos( current_val ) ;
+#endif
 	}
 
 	bool OnProgressLoadUpdate( size_t current_val ) // true to continue

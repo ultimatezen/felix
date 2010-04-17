@@ -20,11 +20,12 @@ LRESULT CInputSymbolDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 LRESULT CInputSymbolDlg::OnCloseCommand( WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/ )
 {
 	SENSE( "OnCloseCommand" ) ;
+	wID ;
 
 #ifndef UNIT_TEST
 	m_edit.GetWindowText( m_text, BUFSIZE ) ;
-#endif	
 	EndDialog(wID);
+#endif	
 	return 0L;
 }
 

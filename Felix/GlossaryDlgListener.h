@@ -24,3 +24,4 @@ public:
 	virtual bool gloss_add_record( mem_engine::record_pointer rec ) = 0 ;
 	virtual void gloss_view_switch( HWND hwnd ) = 0 ;
 };
+

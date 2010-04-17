@@ -11,7 +11,7 @@
 namespace easyunit
 {
 	using namespace mem_engine ;
-	search_match_ptr make_match_con(string source, string trans, int id=0)
+	search_match_ptr make_match_con(string source, string trans, int id=0, string name="new")
 	{
 		search_match_ptr match(new search_match) ;
 		record_pointer rec(new record_local) ;
@@ -20,6 +20,7 @@ namespace easyunit
 		match->set_record(rec) ;
 		match->set_values_to_record() ;
 		match->set_memory_id(id) ;
+		match->set_memory_location(string2wstring(name)) ;
 
 		return match ;
 	}
@@ -572,6 +573,5 @@ namespace easyunit
 	}
 
 }
-
 
 #endif // #ifdef UNIT_TEST

@@ -27,4 +27,3 @@ public:
 	void activate();
 	void delete_match(size_t index);
 };
-

@@ -74,7 +74,7 @@ LRESULT CMemoryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 #ifdef UNIT_TEST
 	return TRUE;
-#endif	
+#else
 
 	CUpDownCtrl min_spinner = GetDlgItem( IDC_MIN_MATCH_SPIN ) ;
 
@@ -86,6 +86,7 @@ LRESULT CMemoryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 	DoDataExchange(FALSE); // FALSE means copy TO the dialog
 
 	return TRUE;
+#endif	
 }
 
 int CMemoryPage::OnApply()
@@ -146,11 +147,12 @@ LRESULT CAlgorithmPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 #ifdef UNIT_TEST
 	return TRUE ;
-#endif
+#else
 
 	SendDlgItemMessage( m_properties->m_data.m_match_algo, BM_SETCHECK, TRUE, 0 ) ;
 
 	return TRUE;
+#endif
 }
 
 int CAlgorithmPage::OnApply()
@@ -222,7 +224,7 @@ LRESULT CGlossaryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 #ifdef UNIT_TEST
 	return TRUE;
-#endif
+#else
 
 	if ( m_properties->m_data.m_numbering == 1)
 	{
@@ -235,6 +237,7 @@ LRESULT CGlossaryPage::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
 
 
 	return TRUE;
+#endif
 }
 
 size_t CGlossaryPage::get_spin_pos( UINT ctl_id )

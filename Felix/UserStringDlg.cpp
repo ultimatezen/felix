@@ -38,17 +38,22 @@ LRESULT CUserStringDlg::OnInitDialog( )
 LRESULT CUserStringDlg::OnClose( )
 {
 	SENSE("OnCancel") ;
-	EndDialog(IDCANCEL) ;
+#ifndef UNIT_TEST
+	EndDialog(IDCANCEL);
+#endif
 	return 0L ;
 } 
 
 LRESULT CUserStringDlg::OnOK(const WORD wID )
 {
 	SENSE("OnOK") ;
+	wID ;
 	m_key = m_key_edit.GetText() ;
 	m_value = m_value_edit.GetText() ;
 
-	EndDialog(wID) ;
+#ifndef UNIT_TEST
+	EndDialog(wID);
+#endif
 	return 0L ;
 } 
 

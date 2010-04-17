@@ -42,8 +42,6 @@ _bstr_t get_cell_text(excel::range_ptr cell)
 		logging::log_exception(e) ;
 		return CExcelString(cell->GetFormula()).as_bstr() ;
 	}
-	return _bstr_t() ;
-
 }
 void set_cell_text(excel::range_ptr cell, _bstr_t text)
 {

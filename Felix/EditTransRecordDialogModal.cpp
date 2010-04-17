@@ -32,7 +32,9 @@ LRESULT CEditTransRecordDialogModal::OnInitDialog( )
 LRESULT CEditTransRecordDialogModal::OnCancel( )
 {
 	SENSE("OnCancel"); 
+#ifndef UNIT_TEST
 	EndDialog(IDCANCEL);
+#endif
 	return 0L;
 }
 
@@ -65,7 +67,9 @@ LRESULT CEditTransRecordDialogModal::OnOK( )
 		return 0L ;
 	}
 
+#ifndef UNIT_TEST
 	EndDialog(IDOK);
+#endif
 	return 0L;
 }
 

@@ -2282,6 +2282,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GlossaryDlgListenerFake.h"
+				>
+			</File>
+			<File
 				RelativePath=".\HrefTags.h"
 				>
 			</File>

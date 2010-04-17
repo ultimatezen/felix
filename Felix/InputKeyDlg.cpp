@@ -17,6 +17,7 @@ LRESULT CInputKeyDlg::OnInitDialog()
 LRESULT CInputKeyDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
+	wID ;
 
 	CString text ;
 #ifndef UNIT_TEST
@@ -66,7 +67,9 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 		return 0L ;
 	}
 
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 
 	return 0L;
 }
@@ -74,6 +77,9 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 LRESULT CInputKeyDlg::OnCloseCommand( WORD wID )
 {
 	SENSE("OnCloseCommand") ;
+	wID ;
+#ifndef UNIT_TEST
 	EndDialog(wID);
+#endif
 	return 0L;
 }

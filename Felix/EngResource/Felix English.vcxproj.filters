@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{59115d15-cb90-4d27-9f5c-4e434f78abde}</UniqueIdentifier>
+      <UniqueIdentifier>{47c8a45a-4663-4236-8861-d08f41bbd1ea}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{8b26931f-66c1-487e-a189-01bc1332d2db}</UniqueIdentifier>
+      <UniqueIdentifier>{ac185ea4-a103-4ea8-8983-ab0b18c3e107}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{7b75c41d-8333-4555-bead-11848afc8b2e}</UniqueIdentifier>
+      <UniqueIdentifier>{7a70aa26-01b8-469c-b991-52791bf92ac1}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
   </ItemGroup>
@@ -158,21 +158,21 @@
     <None Include="..\res\felix_logo.png" />
     <None Include="..\..\..\Felix 1.5\res\html1.htm" />
     <None Include="..\res\html1.htm" />
-    <None Include="..\..\..\Felix 1.5\res\html2.htm" />
     <None Include="..\res\html2.htm" />
-    <None Include="..\..\..\Felix 1.5\res\mtr.htm" />
+    <None Include="..\..\..\Felix 1.5\res\html2.htm" />
     <None Include="..\res\mtr.htm" />
+    <None Include="..\..\..\Felix 1.5\res\mtr.htm" />
     <None Include="..\res\nagpage.html" />
     <None Include="..\..\..\Felix 1.5\res\nagpage.html" />
     <None Include="..\res\nagsize.html" />
     <None Include="..\res\OpeningGlossaryPage.html" />
     <None Include="..\res\openingp.htm" />
-    <None Include="..\..\..\Felix 1.5\res\OpeningPage.html" />
     <None Include="..\res\OpeningPage.html" />
+    <None Include="..\..\..\Felix 1.5\res\OpeningPage.html" />
     <None Include="..\res\reg_gloss.htm" />
     <None Include="..\..\..\Felix 1.5\res\reg_gloss.htm" />
-    <None Include="..\..\..\Felix 1.5\res\tmx_head.html" />
     <None Include="..\res\tmx_head.html" />
+    <None Include="..\..\..\Felix 1.5\res\tmx_head.html" />
     <None Include="..\res\tmx_tu.html" />
   </ItemGroup>
   <ItemGroup>

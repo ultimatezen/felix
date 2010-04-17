@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{34C89414-9B02-4AAF-A9F6-E70E948A3456}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Test_Felix</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\dev\cpp\Assistant Suite\Felix;C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="small.ico" />
+    <None Include="Test_Felix.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MyLibrary\ColorRef.h" />
+    <ClInclude Include="..\..\MyLibrary\distance.h" />
+    <ClInclude Include="..\..\MyLibrary\Exceptions.h" />
+    <ClInclude Include="..\..\MyLibrary\HtmlDocument.h" />
+    <ClInclude Include="..\..\MyLibrary\HtmlView.h" />
+    <ClInclude Include="..\..\MyLibrary\logging.h" />
+    <ClInclude Include="..\..\MyLibrary\MiniVersion.h" />
+    <ClInclude Include="..\..\MyLibrary\MultiLanguage.h" />
+    <ClInclude Include="..\..\MyLibrary\numberfmt.h" />
+    <ClInclude Include="..\..\MyLibrary\RegSettings.h" />
+    <ClInclude Include="..\..\MyLibrary\resource_string.h" />
+    <ClInclude Include="..\..\MyLibrary\rtf.h" />
+    <ClInclude Include="..\..\MyLibrary\rtf_preamble.h" />
+    <ClInclude Include="..\..\MyLibrary\ScintillaEdit.h" />
+    <ClInclude Include="..\..\MyLibrary\Scintilla_encodings.h" />
+    <ClInclude Include="..\..\MyLibrary\system_message.h" />
+    <ClInclude Include="..\..\MyLibrary\TextTemplate.h" />
+    <ClInclude Include="..\..\MyLibrary\WideRichEdit.h" />
+    <ClInclude Include="..\..\MyLibrary\xpmenu\Draw.h" />
+    <ClInclude Include="..\..\MyLibrary\xpmenu\MenuXP.h" />
+    <ClInclude Include="..\..\MyLibrary\xpmenu\ToolBarXP.h" />
+    <ClInclude Include="..\..\MyLibrary\xpmenu\Tools.h" />
+    <ClInclude Include="..\Felix\Accelerator.h" />
+    <ClInclude Include="..\Felix\AdvancedMemMgrDlg.h" />
+    <ClInclude Include="..\Felix\ArmadilloStuff.h" />
+    <ClInclude Include="..\Felix\AutomationExceptionHandler.h" />
+    <ClInclude Include="..\Felix\charset_info.h" />
+    <ClInclude Include="..\Felix\CommonWindowFunctionality.h" />
+    <ClInclude Include="..\Felix\ConcordanceDialog.h" />
+    <ClInclude Include="..\Felix\ConnectionDlg.h" />
+    <ClInclude Include="..\Felix\ContentPresenter.h" />
+    <ClInclude Include="..\Felix\ContentPresenterAddedTrans.h" />
+    <ClInclude Include="..\Felix\ContentPresenterSimple.h" />
+    <ClInclude Include="..\Felix\CRecordLabelPickerDlg.h" />
+    <ClInclude Include="..\Felix\data_converter.h" />
+    <ClInclude Include="..\Felix\data_exporter.h" />
+    <ClInclude Include="..\Felix\data_importer.h" />
+    <ClInclude Include="..\Felix\DemoException.h" />
+    <ClInclude Include="..\Felix\document_wrapper.h" />
+    <ClInclude Include="..\Felix\document_wrapper_fake.h" />
+    <ClInclude Include="..\Felix\Drop.h" />
+    <ClInclude Include="..\Felix\EditModeFindDlg.h" />
+    <ClInclude Include="..\Felix\EditTransRecordDialog.h" />
+    <ClInclude Include="..\Felix\EditTransRecordDialogCommon.h" />
+    <ClInclude Include="..\Felix\EditTransRecordDialogModal.h" />
+    <ClInclude Include="..\Felix\EditTransRecordDialogRegGloss.h" />
+    <ClInclude Include="..\Felix\element_wrapper.h" />
+    <ClInclude Include="..\Felix\element_wrapper_fake.h" />
+    <ClInclude Include="..\Felix\ExcelExporter.h" />
+    <ClInclude Include="..\Felix\ExtraStringsView.h" />
+    <ClInclude Include="..\Felix\felix.h" />
+    <ClInclude Include="..\Felix\FelixApp.h" />
+    <ClInclude Include="..\Felix\FelixModelInterface.h" />
+    <ClInclude Include="..\Felix\FelixStatusBar.h" />
+    <ClInclude Include="..\Felix\felix_cl_options.h" />
+    <ClInclude Include="..\Felix\felix_model_fake.h" />
+    <ClInclude Include="..\Felix\Felix_properties.h" />
+    <ClInclude Include="..\Felix\FileOpHandler.h" />
+    <ClInclude Include="..\Felix\FindDlg.h" />
+    <ClInclude Include="..\Felix\font_tabulator.h" />
+    <ClInclude Include="..\Felix\GlossaryDialog.h" />
+    <ClInclude Include="..\Felix\GlossaryDlgListener.h" />
+    <ClInclude Include="..\Felix\GlossaryDlgListenerFake.h" />
+    <ClInclude Include="..\Felix\HrefTags.h" />
+    <ClInclude Include="..\Felix\HtmlDocColorSetter.h" />
+    <ClInclude Include="..\Felix\ImportDialog.h" />
+    <ClInclude Include="..\Felix\ImportMultitermFile.h" />
+    <ClInclude Include="..\Felix\InputKeyDlg.h" />
+    <ClInclude Include="..\Felix\InputSymbolDlg.h" />
+    <ClInclude Include="..\Felix\LanguageHolder.h" />
+    <ClInclude Include="..\Felix\LocalizedServerAppModule.h" />
+    <ClInclude Include="..\Felix\MainFrameModel.h" />
+    <ClInclude Include="..\Felix\mainframe_tester.h" />
+    <ClInclude Include="..\Felix\mainfrm.h" />
+    <ClInclude Include="..\Felix\markup_strings.h" />
+    <ClInclude Include="..\Felix\MatchStringPairing.h" />
+    <ClInclude Include="..\Felix\match_filters.h" />
+    <ClInclude Include="..\Felix\match_maker.h" />
+    <ClInclude Include="..\Felix\match_score.h" />
+    <ClInclude Include="..\Felix\match_tester.h" />
+    <ClInclude Include="..\Felix\MemoryManagerDlg.h" />
+    <ClInclude Include="..\Felix\memory_header.h" />
+    <ClInclude Include="..\Felix\memory_info.h" />
+    <ClInclude Include="..\Felix\memory_local.h" />
+    <ClInclude Include="..\Felix\memory_model.h" />
+    <ClInclude Include="..\Felix\memory_remote.h" />
+    <ClInclude Include="..\Felix\MinViewDlg.h" />
+    <ClInclude Include="..\Felix\MockListener.h" />
+    <ClInclude Include="..\Felix\MultitermConversionDlg.h" />
+    <ClInclude Include="..\Felix\MyPaneContainer.h" />
+    <ClInclude Include="..\Felix\MySplitterWindow.h" />
+    <ClInclude Include="..\Felix\NagDialog.h" />
+    <ClInclude Include="..\Felix\NavInterface.h" />
+    <ClInclude Include="..\Felix\NavUrl.h" />
+    <ClInclude Include="..\Felix\output_device.h" />
+    <ClInclude Include="..\Felix\output_device_fake.h" />
+    <ClInclude Include="..\Felix\pagination.h" />
+    <ClInclude Include="..\Felix\ProgressListener.h" />
+    <ClInclude Include="..\Felix\PropertiesDlg.h" />
+    <ClInclude Include="..\Felix\query.h" />
+    <ClInclude Include="..\Felix\QueryMergeDlg.h" />
+    <ClInclude Include="..\Felix\record.h" />
+    <ClInclude Include="..\Felix\record_local.h" />
+    <ClInclude Include="..\Felix\record_remote.h" />
+    <ClInclude Include="..\Felix\RegisterGlossDlg.h" />
+    <ClInclude Include="..\Felix\reg_msg_filter.h" />
+    <ClInclude Include="..\Felix\reg_msg_map.h" />
+    <ClInclude Include="..\Felix\replacer.h" />
+    <ClInclude Include="..\Felix\ResHtmlFile.h" />
+    <ClInclude Include="..\Felix\resource.h" />
+    <ClInclude Include="..\Felix\SearchWindow.h" />
+    <ClInclude Include="..\Felix\search_match.h" />
+    <ClInclude Include="..\Felix\segment.h" />
+    <ClInclude Include="..\Felix\SourceAndHtmlEdit.h" />
+    <ClInclude Include="..\Felix\stdafx.h" />
+    <ClInclude Include="..\Felix\tag_name_holder.h" />
+    <ClInclude Include="..\Felix\test_rig_window.h" />
+    <ClInclude Include="..\Felix\test_string_stuff.h" />
+    <ClInclude Include="..\Felix\text_templates.h" />
+    <ClInclude Include="..\Felix\TMXImportDlg.h" />
+    <ClInclude Include="..\Felix\TmxImportLangsDlg.h" />
+    <ClInclude Include="..\Felix\TMXReader.h" />
+    <ClInclude Include="..\Felix\TmxSymbolMapper.h" />
+    <ClInclude Include="..\Felix\TMXWriter.h" />
+    <ClInclude Include="..\Felix\TranslationMemory.h" />
+    <ClInclude Include="..\Felix\translation_record_tester.h" />
+    <ClInclude Include="..\Felix\trans_assist_unit_tests.h" />
+    <ClInclude Include="..\Felix\UserName.h" />
+    <ClInclude Include="..\Felix\UserStringDlg.h" />
+    <ClInclude Include="..\Felix\ViewCollectionWalker.h" />
+    <ClInclude Include="..\Felix\view_interface.h" />
+    <ClInclude Include="..\Felix\view_interface_fake.h" />
+    <ClInclude Include="..\Felix\view_state.h" />
+    <ClInclude Include="..\Felix\view_state_concordance.h" />
+    <ClInclude Include="..\Felix\view_state_fake.h" />
+    <ClInclude Include="..\Felix\view_state_initial.h" />
+    <ClInclude Include="..\Felix\view_state_match.h" />
+    <ClInclude Include="..\Felix\view_state_new.h" />
+    <ClInclude Include="..\Felix\view_state_review.h" />
+    <ClInclude Include="..\Felix\view_state_test_utils.h" />
+    <ClInclude Include="..\Felix\WebPage.h" />
+    <ClInclude Include="..\Felix\WindowsMessage.h" />
+    <ClInclude Include="..\Felix\window_listener.h" />
+    <ClInclude Include="..\Felix\window_listener_fake.h" />
+    <ClInclude Include="..\Felix\XmlTextEditDlg.h" />
+    <ClInclude Include="..\Felix\zoom_dialog.h" />
+    <ClInclude Include="..\Felix\_IApp2Events_CP.h" />
+    <ClInclude Include="..\Felix\_IRecordEvents_CP.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Test_Felix.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\MyLibrary\ColorRef.cpp" />
+    <ClCompile Include="..\..\MyLibrary\distance.cpp" />
+    <ClCompile Include="..\..\MyLibrary\distance_test.cpp" />
+    <ClCompile Include="..\..\MyLibrary\Exceptions.cpp" />
+    <ClCompile Include="..\..\MyLibrary\HtmlDocument.cpp" />
+    <ClCompile Include="..\..\MyLibrary\HtmlView.cpp" />
+    <ClCompile Include="..\..\MyLibrary\logging.cpp" />
+    <ClCompile Include="..\..\MyLibrary\MiniVersion.cpp" />
+    <ClCompile Include="..\..\MyLibrary\MultiLanguage.cpp" />
+    <ClCompile Include="..\..\MyLibrary\numberfmt.cpp" />
+    <ClCompile Include="..\..\MyLibrary\RegSettings.cpp" />
+    <ClCompile Include="..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="..\..\MyLibrary\rtf.cpp" />
+    <ClCompile Include="..\..\MyLibrary\rtf_preamble.cpp" />
+    <ClCompile Include="..\..\MyLibrary\ScintillaEdit.cpp" />
+    <ClCompile Include="..\..\MyLibrary\Scintilla_encodings.cpp" />
+    <ClCompile Include="..\..\MyLibrary\system_message.cpp" />
+    <ClCompile Include="..\..\MyLibrary\TextTemplate.cpp" />
+    <ClCompile Include="..\..\MyLibrary\TextTemplate_test.cpp" />
+    <ClCompile Include="..\..\MyLibrary\WideRichEdit.cpp" />
+    <ClCompile Include="..\..\MyLibrary\xpmenu\Draw.cpp" />
+    <ClCompile Include="..\..\MyLibrary\xpmenu\ToolBarXP.cpp" />
+    <ClCompile Include="..\Felix\aboutdlg_test.cpp" />
+    <ClCompile Include="..\Felix\AdvancedMemMgrDlg.cpp" />
+    <ClCompile Include="..\Felix\AdvancedMemMgrDlg_test.cpp" />
+    <ClCompile Include="..\Felix\AppTemplateTests.cpp" />
+    <ClCompile Include="..\Felix\AutomationExceptionHandler.cpp" />
+    <ClCompile Include="..\Felix\charset_info.cpp" />
+    <ClCompile Include="..\Felix\charset_info_test.cpp" />
+    <ClCompile Include="..\Felix\ColorRef_test.cpp" />
+    <ClCompile Include="..\Felix\CommonWindowFunctionality.cpp" />
+    <ClCompile Include="..\Felix\CommonWindowFunctionality_test.cpp" />
+    <ClCompile Include="..\Felix\com_utilities_test.cpp" />
+    <ClCompile Include="..\Felix\ConcordanceDialog.cpp" />
+    <ClCompile Include="..\Felix\ConcordanceDialog_test.cpp" />
+    <ClCompile Include="..\Felix\ConnectionDlg.cpp" />
+    <ClCompile Include="..\Felix\ConnectionDlg_test.cpp" />
+    <ClCompile Include="..\Felix\ContentPresenter.cpp" />
+    <ClCompile Include="..\Felix\ContentPresenterAddedTrans.cpp" />
+    <ClCompile Include="..\Felix\ContentPresenterAddedTrans_test.cpp" />
+    <ClCompile Include="..\Felix\ContentPresenterSimple.cpp" />
+    <ClCompile Include="..\Felix\contentpresentersimple_test.cpp" />
+    <ClCompile Include="..\Felix\ContentPresenter_test.cpp" />
+    <ClCompile Include="..\Felix\data_converter.cpp" />
+    <ClCompile Include="..\Felix\data_converter_test.cpp" />
+    <ClCompile Include="..\Felix\data_exporter.cpp" />
+    <ClCompile Include="..\Felix\data_exporter_test.cpp" />
+    <ClCompile Include="..\Felix\data_importer.cpp" />
+    <ClCompile Include="..\Felix\data_importer_test.cpp" />
+    <ClCompile Include="..\Felix\DemoException.cpp" />
+    <ClCompile Include="..\Felix\demo_exception_test.cpp" />
+    <ClCompile Include="..\Felix\document_wrapper.cpp" />
+    <ClCompile Include="..\Felix\Drop.cpp" />
+    <ClCompile Include="..\Felix\EditModeFindDlg.cpp" />
+    <ClCompile Include="..\Felix\EditModeFindDlg_test.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialog.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialogModal.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialogModal_test.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialogRegGloss.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialogRegGloss_test.cpp" />
+    <ClCompile Include="..\Felix\EditTransRecordDialog_test.cpp" />
+    <ClCompile Include="..\Felix\element_wrapper.cpp" />
+    <ClCompile Include="..\Felix\element_wrapper_test.cpp" />
+    <ClCompile Include="..\Felix\ExcelExporter.cpp" />
+    <ClCompile Include="..\Felix\excelexporter_test.cpp" />
+    <ClCompile Include="..\Felix\Exceptions_test.cpp" />
+    <ClCompile Include="..\Felix\ExtraStringsView.cpp" />
+    <ClCompile Include="..\Felix\extrastringsview_test.cpp" />
+    <ClCompile Include="..\Felix\felix_cl_options.cpp" />
+    <ClCompile Include="..\Felix\felix_cl_options_test.cpp" />
+    <ClCompile Include="..\Felix\Felix_properties.cpp" />
+    <ClCompile Include="..\Felix\Felix_properties_test.cpp" />
+    <ClCompile Include="..\Felix\FileOpHandler.cpp" />
+    <ClCompile Include="..\Felix\FindDlg.cpp" />
+    <ClCompile Include="..\Felix\FindDlg_test.cpp" />
+    <ClCompile Include="..\Felix\font_tabulator.cpp" />
+    <ClCompile Include="..\Felix\font_tabulator_test.cpp" />
+    <ClCompile Include="..\Felix\GlossaryDialog.cpp" />
+    <ClCompile Include="..\Felix\GlossaryDialog_test.cpp" />
+    <ClCompile Include="..\Felix\HrefTags.cpp" />
+    <ClCompile Include="..\Felix\HrefTags_test.cpp" />
+    <ClCompile Include="..\Felix\HtmlDocColorSetter.cpp" />
+    <ClCompile Include="..\Felix\HtmlDocColorSetter_test.cpp" />
+    <ClCompile Include="..\Felix\HtmlDocument_test.cpp" />
+    <ClCompile Include="..\Felix\ImportDialog.cpp" />
+    <ClCompile Include="..\Felix\ImportDialog_test.cpp" />
+    <ClCompile Include="..\Felix\ImportMultitermFile.cpp" />
+    <ClCompile Include="..\Felix\ImportMultitermFile_test.cpp" />
+    <ClCompile Include="..\Felix\InputKeyDlg.cpp" />
+    <ClCompile Include="..\Felix\InputKeyDlg_test.cpp" />
+    <ClCompile Include="..\Felix\InputSymbolDlg.cpp" />
+    <ClCompile Include="..\Felix\InputSymbolDlg_test.cpp" />
+    <ClCompile Include="..\Felix\LanguageHolder.cpp" />
+    <ClCompile Include="..\Felix\languageholder_test.cpp" />
+    <ClCompile Include="..\Felix\library_test.cpp" />
+    <ClCompile Include="..\Felix\LocalizedServerAppModule.cpp" />
+    <ClCompile Include="..\Felix\logging_test.cpp" />
+    <ClCompile Include="..\Felix\logical_test.cpp" />
+    <ClCompile Include="..\Felix\MainFrameController_test.cpp" />
+    <ClCompile Include="..\Felix\mainframe_messaging_test.cpp" />
+    <ClCompile Include="..\Felix\mainframe_tester.cpp" />
+    <ClCompile Include="..\Felix\mainfrm.cpp" />
+    <ClCompile Include="..\Felix\mainfrm_test.cpp" />
+    <ClCompile Include="..\Felix\markup_strings.cpp" />
+    <ClCompile Include="..\Felix\MatchStringPairing.cpp" />
+    <ClCompile Include="..\Felix\MatchStringPairing_test.cpp" />
+    <ClCompile Include="..\Felix\match_filters.cpp" />
+    <ClCompile Include="..\Felix\match_filters_searcher_test.cpp" />
+    <ClCompile Include="..\Felix\match_filters_test.cpp" />
+    <ClCompile Include="..\Felix\match_maker.cpp" />
+    <ClCompile Include="..\Felix\match_maker_test.cpp" />
+    <ClCompile Include="..\Felix\match_score.cpp" />
+    <ClCompile Include="..\Felix\match_score_test.cpp" />
+    <ClCompile Include="..\Felix\match_tester.cpp" />
+    <ClCompile Include="..\Felix\match_tester_test.cpp" />
+    <ClCompile Include="..\Felix\MemoryManagerDlg.cpp" />
+    <ClCompile Include="..\Felix\MemoryManagerDlg_test.cpp" />
+    <ClCompile Include="..\Felix\memory_header.cpp" />
+    <ClCompile Include="..\Felix\memory_header_test.cpp" />
+    <ClCompile Include="..\Felix\memory_local.cpp" />
+    <ClCompile Include="..\Felix\memory_local_test.cpp" />
+    <ClCompile Include="..\Felix\memory_model.cpp" />
+    <ClCompile Include="..\Felix\memory_model_test.cpp" />
+    <ClCompile Include="..\Felix\memory_remote.cpp" />
+    <ClCompile Include="..\Felix\memory_remote_test.cpp" />
+    <ClCompile Include="..\Felix\MiniVersion_test.cpp" />
+    <ClCompile Include="..\Felix\MinViewDlg.cpp" />
+    <ClCompile Include="..\Felix\MinViewDlg_test.cpp" />
+    <ClCompile Include="..\Felix\miscwrappers_test.cpp" />
+    <ClCompile Include="..\Felix\MultitermConversionDlg.cpp" />
+    <ClCompile Include="..\Felix\MultitermConversionDlg_test.cpp" />
+    <ClCompile Include="..\Felix\NagDialog.cpp" />
+    <ClCompile Include="..\Felix\NagDialog_test.cpp" />
+    <ClCompile Include="..\Felix\NavUrl.cpp" />
+    <ClCompile Include="..\Felix\NavUrl_test.cpp" />
+    <ClCompile Include="..\Felix\numberfmt_test.cpp" />
+    <ClCompile Include="..\Felix\oleautowrapper_test.cpp" />
+    <ClCompile Include="..\Felix\pagination.cpp" />
+    <ClCompile Include="..\Felix\pagination_test.cpp" />
+    <ClCompile Include="..\Felix\PropertiesDlg.cpp" />
+    <ClCompile Include="..\Felix\PropertiesDlg_test.cpp" />
+    <ClCompile Include="..\Felix\query.cpp" />
+    <ClCompile Include="..\Felix\QueryMergeDlg.cpp" />
+    <ClCompile Include="..\Felix\QueryMergeDlg_test.cpp" />
+    <ClCompile Include="..\Felix\query_test.cpp" />
+    <ClCompile Include="..\Felix\record.cpp" />
+    <ClCompile Include="..\Felix\record_local.cpp" />
+    <ClCompile Include="..\Felix\record_local_test.cpp" />
+    <ClCompile Include="..\Felix\record_remote.cpp" />
+    <ClCompile Include="..\Felix\record_remote_test.cpp" />
+    <ClCompile Include="..\Felix\record_test.cpp" />
+    <ClCompile Include="..\Felix\RegisterGlossDlg.cpp" />
+    <ClCompile Include="..\Felix\RegisterGlossDlg_test.cpp" />
+    <ClCompile Include="..\Felix\replacer.cpp" />
+    <ClCompile Include="..\Felix\replacer_test.cpp" />
+    <ClCompile Include="..\Felix\ResHtmlFile.cpp" />
+    <ClCompile Include="..\Felix\ResHtmlFile_test.cpp" />
+    <ClCompile Include="..\Felix\rtf_test.cpp" />
+    <ClCompile Include="..\Felix\ScintillaEdit_test.cpp" />
+    <ClCompile Include="..\Felix\SearchWindow.cpp" />
+    <ClCompile Include="..\Felix\SearchWindow_browser_test.cpp" />
+    <ClCompile Include="..\Felix\SearchWindow_templates_test.cpp" />
+    <ClCompile Include="..\Felix\SearchWindow_test.cpp" />
+    <ClCompile Include="..\Felix\search_match.cpp" />
+    <ClCompile Include="..\Felix\search_match_test.cpp" />
+    <ClCompile Include="..\Felix\segment_test.cpp" />
+    <ClCompile Include="..\Felix\SourceAndHtmlEdit.cpp" />
+    <ClCompile Include="..\Felix\sourceandhtmledit_test.cpp" />
+    <ClCompile Include="..\Felix\stdafx.cpp" />
+    <ClCompile Include="..\Felix\StringConversions_test.cpp" />
+    <ClCompile Include="..\Felix\StringEx_test.cpp" />
+    <ClCompile Include="..\Felix\system_message_test.cpp" />
+    <ClCompile Include="..\Felix\tag_name_holder.cpp" />
+    <ClCompile Include="..\Felix\tag_stripper_test.cpp" />
+    <ClCompile Include="..\Felix\tag_test.cpp" />
+    <ClCompile Include="..\Felix\text_templates.cpp" />
+    <ClCompile Include="..\Felix\text_templates_test.cpp" />
+    <ClCompile Include="..\Felix\TMXImportDlg.cpp" />
+    <ClCompile Include="..\Felix\TMXImportDlg_test.cpp" />
+    <ClCompile Include="..\Felix\TmxImportLangsDlg.cpp" />
+    <ClCompile Include="..\Felix\TMXReader.cpp" />
+    <ClCompile Include="..\Felix\TMXReader_test.cpp" />
+    <ClCompile Include="..\Felix\TmxSymbolMapper.cpp" />
+    <ClCompile Include="..\Felix\TmxSymbolMapper_test.cpp" />
+    <ClCompile Include="..\Felix\TMXWriter.cpp" />
+    <ClCompile Include="..\Felix\TMXWriter_test.cpp" />
+    <ClCompile Include="..\Felix\TranslationMemory.cpp" />
+    <ClCompile Include="..\Felix\TranslationMemory_test.cpp" />
+    <ClCompile Include="..\Felix\translation_match_query_test.cpp" />
+    <ClCompile Include="..\Felix\translation_record_tester.cpp" />
+    <ClCompile Include="..\Felix\ui_test.cpp" />
+    <ClCompile Include="..\Felix\UserStringDlg.cpp" />
+    <ClCompile Include="..\Felix\UserStringDlg_test.cpp" />
+    <ClCompile Include="..\Felix\ViewCollectionWalker.cpp" />
+    <ClCompile Include="..\Felix\ViewCollectionWalker_test.cpp" />
+    <ClCompile Include="..\Felix\view_interface.cpp" />
+    <ClCompile Include="..\Felix\view_interface_test.cpp" />
+    <ClCompile Include="..\Felix\view_state.cpp" />
+    <ClCompile Include="..\Felix\view_state_concordance.cpp" />
+    <ClCompile Include="..\Felix\view_state_concordance_test.cpp" />
+    <ClCompile Include="..\Felix\view_state_initial.cpp" />
+    <ClCompile Include="..\Felix\view_state_initial_test.cpp" />
+    <ClCompile Include="..\Felix\view_state_match.cpp" />
+    <ClCompile Include="..\Felix\view_state_match_test.cpp" />
+    <ClCompile Include="..\Felix\view_state_new.cpp" />
+    <ClCompile Include="..\Felix\view_state_new_test.cpp" />
+    <ClCompile Include="..\Felix\view_state_review.cpp" />
+    <ClCompile Include="..\Felix\view_state_review_test.cpp" />
+    <ClCompile Include="..\Felix\WebPage.cpp" />
+    <ClCompile Include="..\Felix\WideRichEdit_test.cpp" />
+    <ClCompile Include="..\Felix\WindowsMessage_test.cpp" />
+    <ClCompile Include="..\Felix\window_state_tests.cpp" />
+    <ClCompile Include="..\Felix\xpmenu_test.cpp" />
+    <ClCompile Include="..\Felix\zoom_dialog.cpp" />
+    <ClCompile Include="..\Felix\zoom_dialog_test.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Test_Felix.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Test_Felix.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

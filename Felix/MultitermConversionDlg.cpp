@@ -79,7 +79,9 @@ LRESULT CMultitermConversionDlg::OnOK( )
 {
 	SENSE( "OnOK" ) ;
 
+#ifndef UNIT_TEST
 	EndDialog(IDOK);
+#endif
 	return 0;
 }
 
@@ -90,7 +92,9 @@ LRESULT CMultitermConversionDlg::OnCancel( )
 {
 	SENSE( "OnCancel" ) ;
 
+#ifndef UNIT_TEST
 	EndDialog(IDCANCEL);
+#endif
 	return 0;
 }
 

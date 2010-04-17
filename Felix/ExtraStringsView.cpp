@@ -95,8 +95,9 @@ void CExtraStringsView::show_extra_strings(record_pointer rec)
 void CExtraStringsView::fill_user_strings( record_pointer &rec )
 {
 #ifdef UNIT_TEST
+	rec ;
 	return ;
-#endif
+#else
 	// get the collection of HTML elements in the doc body
 	CHtmlDocument doc = m_extra_strings_view->get_document() ;
 	CHtmlElementCollection collection = doc.get_all() ;
@@ -141,6 +142,7 @@ void CExtraStringsView::fill_user_strings( record_pointer &rec )
 			}
 		} 
 	} // increment i...
+#endif
 }
 
 
