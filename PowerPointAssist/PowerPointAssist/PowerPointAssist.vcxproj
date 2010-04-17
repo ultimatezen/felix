@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{57907A8C-C01C-4327-AFED-38A859425977}</ProjectGuid>
+    <RootNamespace>PowerPointAssist</RootNamespace>
+    <Keyword>AtlProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>easyunitVC.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>dbghelp.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AddIn.cpp" />
+    <ClCompile Include="app_state.cpp" />
+    <ClCompile Include="ClipboardBackup.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp" />
+    <ClCompile Include="Connect.cpp" />
+    <ClCompile Include="Connect_test.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp" />
+    <ClCompile Include="globalApp.cpp" />
+    <ClCompile Include="Hooker.cpp" />
+    <ClCompile Include="hooker_test.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp" />
+    <ClCompile Include="KeyboardDriver.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\logging.cpp" />
+    <ClCompile Include="menu_manip.cpp" />
+    <ClCompile Include="menu_manip_test.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\Picture.cpp" />
+    <ClCompile Include="PowerPointInterface.cpp" />
+    <ClCompile Include="PowerPointInterface_test.cpp" />
+    <ClCompile Include="PPTFormatter.cpp" />
+    <ClCompile Include="PPTWriter.cpp" />
+    <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="ShapeHolder.cpp" />
+    <ClCompile Include="ShapeNavigator.cpp" />
+    <ClCompile Include="ShapeParser.cpp" />
+    <ClCompile Include="shapeParser_test.cpp" />
+    <ClCompile Include="ShapeParsingStrategyAuto.cpp" />
+    <ClCompile Include="ShapeParsingStrategyPlaceholder.cpp" />
+    <ClCompile Include="ShapeParsingStrategyTable.cpp" />
+    <ClCompile Include="ShapeParsingStrategyTextbox.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StrategyFactory.cpp" />
+    <ClCompile Include="TextRangeParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddIn.def" />
+    <None Include="AddIn.rgs" />
+    <None Include="bitmap1.bmp" />
+    <None Include="bmp00001.bmp" />
+    <None Include="bmp00002.bmp" />
+    <None Include="bmp00003.bmp" />
+    <None Include="bmp00004.bmp" />
+    <None Include="bmp00005.bmp" />
+    <None Include="bmp00006.bmp" />
+    <None Include="bmp00007.bmp" />
+    <None Include="correct.bmp" />
+    <None Include="correct_.bmp" />
+    <None Include="correct_and_next.bmp" />
+    <None Include="DELETE.BMP" />
+    <None Include="get.bmp" />
+    <None Include="get_and_.bmp" />
+    <None Include="gloss_n.bmp" />
+    <None Include="HELP.BMP" />
+    <None Include="help1.bmp" />
+    <None Include="lookup.bmp" />
+    <None Include="lookup_n.bmp" />
+    <None Include="lookup_next_trans.bmp" />
+    <None Include="lookup_t.bmp" />
+    <None Include="lookup_trans.bmp" />
+    <None Include="next1.bmp" />
+    <None Include="next2.bmp" />
+    <None Include="next3.bmp" />
+    <None Include="next4.bmp" />
+    <None Include="next5.bmp" />
+    <None Include="next6.bmp" />
+    <None Include="PROP.BMP" />
+    <None Include="restore.bmp" />
+    <None Include="restore_.bmp" />
+    <None Include="restore_and_next.bmp" />
+    <None Include="save.bmp" />
+    <None Include="set.bmp" />
+    <None Include="set_and_.bmp" />
+    <None Include="switch_t.bmp" />
+    <None Include="app_strings.xml" />
+    <None Include="default.doxygen" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="AddIn.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddGlossDialog.h" />
+    <ClInclude Include="app_state.h" />
+    <ClInclude Include="ClipboardBackup.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\ColorRef.h" />
+    <ClInclude Include="Connect.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h" />
+    <ClInclude Include="globalApp.h" />
+    <ClInclude Include="Hooker.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_formatter.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_processing.h" />
+    <ClInclude Include="InputDlg.h" />
+    <ClInclude Include="KeyboardDriver.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\label_name.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\logging.h" />
+    <ClInclude Include="menu_manip.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\MiniVersion.h" />
+    <ClInclude Include="nav_query_dlg.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h" />
+    <ClInclude Include="OfficeImports.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\Picture.h" />
+    <ClInclude Include="PowerPointEventDefs.h" />
+    <ClInclude Include="PowerPointImports.h" />
+    <ClInclude Include="PowerPointInterface.h" />
+    <ClInclude Include="PPTFormatter.h" />
+    <ClInclude Include="PPTWriter.h" />
+    <ClInclude Include="Properties.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="..\..\..\MyLibrary\resource_string.h" />
+    <ClInclude Include="ShapeHolder.h" />
+    <ClInclude Include="ShapeNavigator.h" />
+    <ClInclude Include="ShapeParser.h" />
+    <ClInclude Include="ShapeParsingStrategy.h" />
+    <ClInclude Include="ShapeParsingStrategyAuto.h" />
+    <ClInclude Include="ShapeParsingStrategyPlaceholder.h" />
+    <ClInclude Include="ShapeParsingStrategyTable.h" />
+    <ClInclude Include="ShapeParsingStrategyTextbox.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StrategyFactory.h" />
+    <ClInclude Include="TextRangeParser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AddIn.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
