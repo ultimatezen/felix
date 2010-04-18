@@ -1,12 +1,9 @@
 #include "StdAfx.h"
 #include ".\contentpresenter.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( content_presenter_test )
 
-#ifdef DEBUG
-
-namespace easyunit
-{
 	class FakeContentPresenter : public content_presenter::CContentPresenter
 	{
 	public:
@@ -21,19 +18,17 @@ namespace easyunit
 		}
 	};
 
-	TEST( content_presenter_test, Instantiate)
+	BOOST_AUTO_TEST_CASE( Instantiate)
 	{
 		try
 		{
 			html::CHtmlView view ;
 			FakeContentPresenter presenter(view) ;
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 		catch (...)
 		{
-			FAIL_M( "Failed to instantiate CContentPresenter class in test harness" ) ;
+			BOOST_FAIL( "Failed to instantiate CContentPresenter class in test harness" ) ;
 		}
 	}
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

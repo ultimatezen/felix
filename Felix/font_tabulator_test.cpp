@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "font_tabulator.h"
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( test_font_tabulator )
 
-#ifdef UNIT_TEST
-
-namespace easyunit
-{
-
-	// Todo: real tests
-	TEST( font_tabulator, init)
+	BOOST_AUTO_TEST_CASE( init)
 	{
-		font_tabulator tabulator ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK_NO_THROW(font_tabulator());
 	}
 
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

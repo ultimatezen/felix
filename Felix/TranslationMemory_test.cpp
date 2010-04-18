@@ -8,28 +8,24 @@
 
 #include "Path.h"
 #include "record_local.h"
-
-#include "easyunit/testharness.h"
 #include "MockListener.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
-namespace easyunit
-{
 	using namespace mem_engine ;
 
-	TEST(TestMemoryFunctions, get_load_failure_msg)
+	BOOST_AUTO_TEST_CASE( test_get_load_failure_msg)
 	{
 		CString filename = "spam" ;
-		CStringA actual = get_load_failure_msg(filename) ;
-		SimpleString expected = "Failed to load file [spam]" ;
-		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
+		CString actual = get_load_failure_msg(filename) ;
+		CString expected = "Failed to load file [spam]" ;
+		BOOST_CHECK(expected == actual) ;
 	}
 
-	TEST(is_vista_or_later, ensure_true)
+	BOOST_AUTO_TEST_CASE( ensure_true)
 	{
-		ASSERT_TRUE(is_vista_or_later()) ;
+		BOOST_CHECK(is_vista_or_later()) ;
 	}
 
-}
-#endif // UNIT_TEST
+BOOST_AUTO_TEST_SUITE_END()

@@ -3,240 +3,195 @@
 
 #include "File.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
-#ifdef _DEBUG
-
-namespace easyunit
-{
+BOOST_AUTO_TEST_SUITE( TestStringEx )
 
 	// is_fullwidth_lower
-	TEST( TestStringEx, is_fullwidth_lower_false )
+	BOOST_AUTO_TEST_CASE( is_fullwidth_lower_false )
 	{
 		wchar_t c = L'Ａ' ;
-		ASSERT_TRUE(! str::is_fullwidth_lower(c)) ;
+		BOOST_CHECK(! str::is_fullwidth_lower(c)) ;
 	}
-	TEST( TestStringEx, is_fullwidth_lower_true )
+	BOOST_AUTO_TEST_CASE( is_fullwidth_lower_true )
 	{
 		wchar_t c = L'ａ' ;
-		ASSERT_TRUE(str::is_fullwidth_lower(c)) ;
+		BOOST_CHECK(str::is_fullwidth_lower(c)) ;
 	}
 
 	// is_fullwidth_number
-	TEST( TestStringEx, is_fullwidth_number_true)
+	BOOST_AUTO_TEST_CASE( is_fullwidth_number_true)
 	{
 		wchar_t c = L'４' ;
-		ASSERT_TRUE(str::is_fullwidth_number(c)) ;
+		BOOST_CHECK(str::is_fullwidth_number(c)) ;
 	}
-	TEST( TestStringEx, is_fullwidth_number_false)
+	BOOST_AUTO_TEST_CASE( is_fullwidth_number_false)
 	{
 		wchar_t c = L'Ａ' ;
-		ASSERT_TRUE(! str::is_fullwidth_number(c)) ;
+		BOOST_CHECK(! str::is_fullwidth_number(c)) ;
 	}
 
 	// is_fullwidth_upper
-	TEST( TestStringEx, is_fullwidth_upper_true )
+	BOOST_AUTO_TEST_CASE( is_fullwidth_upper_true )
 	{
 		wchar_t c = L'Ａ' ;
-		ASSERT_TRUE(str::is_fullwidth_upper(c)) ;
+		BOOST_CHECK(str::is_fullwidth_upper(c)) ;
 	}
-	TEST( TestStringEx, is_fullwidth_upper_false )
+	BOOST_AUTO_TEST_CASE( is_fullwidth_upper_false )
 	{
 		wchar_t c = L'A' ;
-		ASSERT_TRUE(!str::is_fullwidth_upper(c)) ;
+		BOOST_CHECK(!str::is_fullwidth_upper(c)) ;
 	}
 
+	BOOST_AUTO_TEST_CASE( is_number_true)
+	{
+		wstring num_a = L"10" ;
+		BOOST_CHECK(str::is_number(num_a)) ;
 
-	// normalize_fullwidth_upper
-	TEST( TestStringEx, normalize_fullwidth_upper )
-	{
-		wchar_t c = L'Ａ' ;
-		ASSERT_TRUE(L'A' == str::normalize_fullwidth_upper(c)) ;
+		wstring num_b = L"10%" ;
+		BOOST_CHECK(str::is_number(num_b)) ;
+
+		wstring num_c = L" 10.4 " ;
+		BOOST_CHECK(str::is_number(num_c)) ;
+
+		wstring num_d = L" 10% " ;
+		BOOST_CHECK(str::is_number(num_d)) ;
+
+		wstring num_e = L" 10.4% " ;
+		BOOST_CHECK(str::is_number(num_e)) ;
 	}
-	// normalize_fullwidth_lower
-	TEST( TestStringEx, normalize_fullwidth_lower )
+	BOOST_AUTO_TEST_CASE( is_number_comma_true)
 	{
-		wchar_t c = L'ａ' ;
-		ASSERT_TRUE(L'a' == str::normalize_fullwidth_lower(c)) ;
+		wstring num_a = L"10,000" ;
+		BOOST_CHECK(str::is_number(num_a)) ;
 	}
-	// normalize_fullwidth_number
-	TEST( TestStringEx, normalize_fullwidth_number)
+
+	BOOST_AUTO_TEST_CASE( is_number_false)
 	{
-		wchar_t c = L'４' ;
-		ASSERT_TRUE(L'4' == str::normalize_fullwidth_number(c)) ;
+		wstring num_a = L"10 foo" ;
+		BOOST_CHECK(! str::is_number(num_a)) ;
+
+		wstring num_b = L"10% bar" ;
+		BOOST_CHECK(! str::is_number(num_b)) ;
+
+		wstring num_c = L" 10.4 spam" ;
+		BOOST_CHECK(! str::is_number(num_c)) ;
+
+		wstring num_d = L"egg 10% " ;
+		BOOST_CHECK(! str::is_number(num_d)) ;
+
+		wstring num_e = L"" ;
+		BOOST_CHECK(! str::is_number(num_e)) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( NormalizeWidthTest )
 
 	// normalize_width
-	TEST( NormalizeWidthTest, FullWidthPercent )
+	BOOST_AUTO_TEST_CASE( FullWidthPercent )
 	{
 		file::view fview ;
 		wstring ftext = (LPCWSTR)fview.create_view(_T("c:\\dev\\test files\\FullWidthPercent.txt")) ;
 		str::normalize_width( ftext ) ;
 		// we skip character 0 because that is just the BOM
-		ASSERT_EQUALS_M( L"%60%", ftext.substr(1), "The percent signs must be narrowed properly" ) ;
-	}
-	TEST(TestStringEx, is_asian_true)
+		BOOST_CHECK_EQUAL( L"%60%", ftext.substr(1)) ;
+}
+// normalize_fullwidth_upper
+BOOST_AUTO_TEST_CASE( normalize_fullwidth_upper )
+{
+	wchar_t c = L'Ａ' ;
+	BOOST_CHECK(L'A' == str::normalize_fullwidth_upper(c)) ;
+}
+// normalize_fullwidth_lower
+BOOST_AUTO_TEST_CASE( normalize_fullwidth_lower )
+{
+	wchar_t c = L'ａ' ;
+	BOOST_CHECK(L'a' == str::normalize_fullwidth_lower(c)) ;
+}
+// normalize_fullwidth_number
+BOOST_AUTO_TEST_CASE( normalize_fullwidth_number)
+{
+	wchar_t c = L'４' ;
+	BOOST_CHECK(L'4' == str::normalize_fullwidth_number(c)) ;
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( double_byte_tests )
+
+BOOST_AUTO_TEST_CASE( is_asian_true)
+{
+	wchar_t c = L'日' ;
+	BOOST_CHECK(str::is_asian(c)) ;
+}
+BOOST_AUTO_TEST_CASE( is_asian_false)
+{
+	wchar_t c = L'a' ;
+	BOOST_CHECK(! str::is_asian(c)) ;
+}
+
+BOOST_AUTO_TEST_CASE( asian_yes )
 	{
-		wchar_t c = L'日' ;
-		ASSERT_TRUE(str::is_asian(c)) ;
+		BOOST_CHECK(str::is_asian(L'自')) ;
+		BOOST_CHECK(str::is_asian(L'ら')) ;
+		BOOST_CHECK(str::is_asian(L'カ')) ;
+		BOOST_CHECK(str::is_asian(L'。')) ;
+		BOOST_CHECK(str::is_asian(L'ー')) ;
 	}
-	TEST(TestStringEx, is_asian_false)
+BOOST_AUTO_TEST_CASE( asian_no )
 	{
-		wchar_t c = L'a' ;
-		ASSERT_TRUE(! str::is_asian(c)) ;
-	}
-	TEST( test_is_asian, yes )
-	{
-		ASSERT_TRUE(str::is_asian(L'自')) ;
-		ASSERT_TRUE(str::is_asian(L'ら')) ;
-		ASSERT_TRUE(str::is_asian(L'カ')) ;
-		ASSERT_TRUE(str::is_asian(L'。')) ;
-		ASSERT_TRUE(str::is_asian(L'ー')) ;
-	}
-	TEST( test_is_asian, no )
-	{
-		ASSERT_TRUE(! str::is_asian(L'a')) ;
-		ASSERT_TRUE(! str::is_asian(L'1')) ;
-		ASSERT_TRUE(! str::is_asian(L'~')) ;
+		BOOST_CHECK(! str::is_asian(L'a')) ;
+		BOOST_CHECK(! str::is_asian(L'1')) ;
+		BOOST_CHECK(! str::is_asian(L'~')) ;
 	}
 
-	TEST(TestStringEx, is_asian_false_is_double_byte_true)
+BOOST_AUTO_TEST_CASE( is_asian_false_is_double_byte_true)
 	{
 		wchar_t c = L'α' ; // U+03B1
-		ASSERT_TRUE(! str::is_asian(c)) ;
-		ASSERT_TRUE(str::is_double_byte(c)) ;
+		BOOST_CHECK(! str::is_asian(c)) ;
+		BOOST_CHECK(str::is_double_byte(c)) ;
 	}
-	TEST(TestStringEx, is_double_byte_true)
+BOOST_AUTO_TEST_CASE( is_double_byte_true)
 	{
 		wchar_t c = L'日' ;
-		ASSERT_TRUE(str::is_double_byte(c)) ;
+		BOOST_CHECK(str::is_double_byte(c)) ;
 	}
-	TEST(TestStringEx, is_double_byte_false)
+BOOST_AUTO_TEST_CASE( is_double_byte_false)
 	{
 		wchar_t c = L'a' ;
-		ASSERT_TRUE(! str::is_double_byte(c)) ;
-	}
-	TEST(TestStringEx, make_lower_wstring)
-	{
-		wstring actual = L"HELLO" ;
-		boost::to_lower(actual) ;
-		wstring expected = L"hello" ;
-		ASSERT_EQUALS(expected, actual) ;
-	}
-	TEST(TestStringEx, make_lower_string)
-	{
-		string actual = "HELLO, world" ;
-		boost::to_lower(actual) ;
-		string expected = "hello, world" ;
-		ASSERT_EQUALS(expected, actual) ;
-	}
-	TEST(TestStringEx, make_upper_wstring)
-	{
-		wstring actual = L"hello" ;
-		boost::to_upper(actual) ;
-		wstring expected = L"HELLO" ;
-		ASSERT_EQUALS(expected, actual) ;
-	}
-	TEST(TestStringEx, make_upper_string)
-	{
-		string actual = "hello, WORLD" ;
-		boost::to_upper(actual) ;
-		string expected = "HELLO, WORLD" ;
-		ASSERT_EQUALS(expected, actual) ;
+		BOOST_CHECK(! str::is_double_byte(c)) ;
 	}
 
-	TEST(TestStringEx, is_hiragana)
+BOOST_AUTO_TEST_CASE( is_hiragana)
 	{
 		wstring actual   = L"あいうえおかきくけこがぎぐげこさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまもむめもらりるれろわをやゆよゃゅょ" ;
 		foreach(wchar_t c, actual)
 		{
-			ASSERT_TRUE(str::is_hiragana(c)) ;
+			BOOST_CHECK(str::is_hiragana(c)) ;
 		}
 	}
-	TEST(TestStringEx, is_katakana)
+BOOST_AUTO_TEST_CASE( is_katakana)
 	{
 		wstring actual   = L"アイウエオカキクケコガギグゲコサシスセソザジズゼゾタチツテトダヂヅデドナニヌネノハヒフヘホバビブベボパピプペポマモムメモラリルレロワヲヤユヨャュョ" ;
 		foreach(wchar_t c, actual)
 		{
-			ASSERT_TRUE(str::is_katakana(c)) ;
+			BOOST_CHECK(str::is_katakana(c)) ;
 		}
 	}
 
-	TEST(TestStringEx, normalize_hiragana_to_katakana_nihongo)
+BOOST_AUTO_TEST_CASE( normalize_hiragana_to_katakana_nihongo)
 	{
 		wstring actual   = L"にほんご" ;
 		str::normalize_hiragana_to_katakana(actual) ;
 		wstring expected =  L"ニホンゴ";
-		ASSERT_EQUALS(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestStringEx, normalize_hiragana_to_katakana_mixed)
+BOOST_AUTO_TEST_CASE( normalize_hiragana_to_katakana_mixed)
 	{
 		wstring actual   = L"Felixとはメモリ型翻訳支援ツールである。" ;
 		str::normalize_hiragana_to_katakana(actual) ;
 		wstring expected = L"Felixトハメモリ型翻訳支援ツールデアル。" ;
-		ASSERT_EQUALS(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	TEST(TestStringEx, ltrim)
-	{
-		wstring original = L"   hello" ;
-		CStringA actual = CW2A(boost::trim_left_copy(original).c_str()) ;
-		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
-	}
-	TEST(TestStringEx, rtrim)
-	{
-		wstring original = L"hello  " ;
-		CStringA actual = CW2A(boost::trim_right_copy(original).c_str()) ;
-		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
-	}
-	TEST(TestStringEx, trim)
-	{
-		wstring original = L" \t  hello\n  " ;
-		CStringA actual = CW2A(boost::trim_copy(original).c_str()) ;
-		ASSERT_EQUALS_V(CStringA("hello"), actual) ;
-	}
-
-	TEST(TestStringEx, is_number_true)
-	{
-		wstring num_a = L"10" ;
-		ASSERT_TRUE(str::is_number(num_a)) ;
-
-		wstring num_b = L"10%" ;
-		ASSERT_TRUE(str::is_number(num_b)) ;
-
-		wstring num_c = L" 10.4 " ;
-		ASSERT_TRUE(str::is_number(num_c)) ;
-
-		wstring num_d = L" 10% " ;
-		ASSERT_TRUE(str::is_number(num_d)) ;
-
-		wstring num_e = L" 10.4% " ;
-		ASSERT_TRUE(str::is_number(num_e)) ;
-	}
-	TEST(TestStringEx, is_number_comma_true)
-	{
-		wstring num_a = L"10,000" ;
-		ASSERT_TRUE(str::is_number(num_a)) ;
-	}
-
-	TEST(TestStringEx, is_number_false)
-	{
-		wstring num_a = L"10 foo" ;
-		ASSERT_TRUE(! str::is_number(num_a)) ;
-
-		wstring num_b = L"10% bar" ;
-		ASSERT_TRUE(! str::is_number(num_b)) ;
-
-		wstring num_c = L" 10.4 spam" ;
-		ASSERT_TRUE(! str::is_number(num_c)) ;
-
-		wstring num_d = L"egg 10% " ;
-		ASSERT_TRUE(! str::is_number(num_d)) ;
-
-		wstring num_e = L"" ;
-		ASSERT_TRUE(! str::is_number(num_e)) ;
-	}
-
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

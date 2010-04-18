@@ -2,131 +2,140 @@
 #include "match_filters.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 
-namespace easyunit
-{
 	using namespace memory_searcher ;
 	using namespace mem_engine ;
 
 	// dates_match
-	TEST(match_filters_dates_match, year_true)
+	BOOST_AUTO_TEST_CASE( year_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999") ;
 		query.set_year(datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(dates_match(query, entry)) ;
+		BOOST_CHECK(dates_match(query, entry)) ;
 	}
-	TEST(match_filters_dates_match, year_false)
+	BOOST_AUTO_TEST_CASE( year_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"2000") ;
 		query.set_year(datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(! dates_match(query, entry)) ;
+		BOOST_CHECK(! dates_match(query, entry)) ;
 	}
-	TEST(match_filters_dates_match, month_true)
+	BOOST_AUTO_TEST_CASE( month_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(dates_match(query, entry)) ;
+		BOOST_CHECK(dates_match(query, entry)) ;
 	}
-	TEST(match_filters_dates_match, month_false)
+	BOOST_AUTO_TEST_CASE( month_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-06") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(! dates_match(query, entry)) ;
+		BOOST_CHECK(! dates_match(query, entry)) ;
 	}
 
-	TEST(match_filters_dates_match, day_true)
+	BOOST_AUTO_TEST_CASE( day_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-10") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(dates_match(query, entry)) ;
+		BOOST_CHECK(dates_match(query, entry)) ;
 	}
-	TEST(match_filters_dates_match, day_false)
+	BOOST_AUTO_TEST_CASE( day_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-11") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(! dates_match(query, entry)) ;
+		BOOST_CHECK(! dates_match(query, entry)) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( match_filters_date_after )
+
+using namespace memory_searcher ;
+using namespace mem_engine ;
 
 	// date_after
-	TEST(match_filters_date_after, year_true)
+	BOOST_AUTO_TEST_CASE( year_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1998") ;
 		query.set_year(datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(date_after(query, entry)) ;
+		BOOST_CHECK(date_after(query, entry)) ;
 	}
-	TEST(match_filters_date_after, year_false)
+	BOOST_AUTO_TEST_CASE( year_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"2000") ;
 		query.set_year(datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(! date_after(query, entry)) ;
+		BOOST_CHECK(! date_after(query, entry)) ;
 	}
-	TEST(match_filters_date_after, month_true)
+	BOOST_AUTO_TEST_CASE( month_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 6, 10) ;
 
-		ASSERT_TRUE(date_after(query, entry)) ;
+		BOOST_CHECK(date_after(query, entry)) ;
 	}
-	TEST(match_filters_date_after, month_false)
+	BOOST_AUTO_TEST_CASE( month_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-06") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 6, 10) ;
 
-		ASSERT_TRUE(! date_after(query, entry)) ;
+		BOOST_CHECK(! date_after(query, entry)) ;
 	}
-	TEST(match_filters_date_after, day_true)
+	BOOST_AUTO_TEST_CASE( day_true)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-10") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 11) ;
 
-		ASSERT_TRUE(date_after(query, entry)) ;
+		BOOST_CHECK(date_after(query, entry)) ;
 	}
-	TEST(match_filters_date_after, day_false)
+	BOOST_AUTO_TEST_CASE( day_false)
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-11") ;
 		mod_date(query, datestr) ;
 		misc_wrappers::date entry(1999, 5, 10) ;
 
-		ASSERT_TRUE(! date_after(query, entry)) ;
+		BOOST_CHECK(! date_after(query, entry)) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE( runner_term_matches_test )
+
+using namespace memory_searcher ;
+using namespace mem_engine ;
 
 	// match_filter_generic
-	TEST(runner_term_matches_test, generic_source_true)
+	BOOST_AUTO_TEST_CASE( generic_source_true)
 	{
 		wstring term(L"spam") ;
 
@@ -136,9 +145,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_term_case_true)
+	BOOST_AUTO_TEST_CASE( generic_term_case_true)
 	{
 		wstring term(L"SPAM") ;
 
@@ -148,9 +157,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_trans_true)
+	BOOST_AUTO_TEST_CASE( generic_trans_true)
 	{
 		wstring term(L"spam") ;
 		record_pointer rec(new record_local) ;
@@ -159,9 +168,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_context_true)
+	BOOST_AUTO_TEST_CASE( generic_context_true)
 	{
 		wstring term(L"spam") ;
 		record_pointer rec(new record_local) ;
@@ -170,9 +179,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_false)
+	BOOST_AUTO_TEST_CASE( generic_false)
 	{
 		wstring term(L"spam") ;
 		record_pointer rec(new record_local) ;
@@ -181,9 +190,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_substring_true)
+	BOOST_AUTO_TEST_CASE( generic_substring_true)
 	{
 		wstring term(L"pa") ;
 		record_pointer rec(new record_local) ;
@@ -192,9 +201,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, generic_case_true)
+	BOOST_AUTO_TEST_CASE( generic_case_true)
 	{
 		wstring term(L"spam") ;
 		record_pointer rec(new record_local) ;
@@ -203,10 +212,10 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 	// source_filter
-	TEST(runner_term_matches_test, source_true)
+	BOOST_AUTO_TEST_CASE( source_true)
 	{
 		wstring term(L"source:spam") ;
 
@@ -216,9 +225,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_term_case_true)
+	BOOST_AUTO_TEST_CASE( source_term_case_true)
 	{
 		wstring term(L"source:SPAM") ;
 
@@ -228,9 +237,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_trans_false)
+	BOOST_AUTO_TEST_CASE( source_trans_false)
 	{
 		wstring term(L"source:spam") ;
 		record_pointer rec(new record_local) ;
@@ -239,9 +248,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_context_false)
+	BOOST_AUTO_TEST_CASE( source_context_false)
 	{
 		wstring term(L"source:spam") ;
 		record_pointer rec(new record_local) ;
@@ -250,9 +259,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_false)
+	BOOST_AUTO_TEST_CASE( source_false)
 	{
 		wstring term(L"source:spam") ;
 		record_pointer rec(new record_local) ;
@@ -261,9 +270,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_substring_true)
+	BOOST_AUTO_TEST_CASE( source_substring_true)
 	{
 		wstring term(L"source:pa") ;
 		record_pointer rec(new record_local) ;
@@ -272,9 +281,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, source_case_true)
+	BOOST_AUTO_TEST_CASE( source_case_true)
 	{
 		wstring term(L"source:spam") ;
 		record_pointer rec(new record_local) ;
@@ -283,11 +292,11 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 
 	// trans_filter
-	TEST(runner_term_matches_test, trans_true)
+	BOOST_AUTO_TEST_CASE( trans_true)
 	{
 		wstring term(L"trans:spam") ;
 
@@ -297,9 +306,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_term_case_true)
+	BOOST_AUTO_TEST_CASE( trans_term_case_true)
 	{
 		wstring term(L"trans:SPAM") ;
 
@@ -309,9 +318,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_source_false)
+	BOOST_AUTO_TEST_CASE( trans_source_false)
 	{
 		wstring term(L"trans:spam") ;
 		record_pointer rec(new record_local) ;
@@ -320,9 +329,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_context_false)
+	BOOST_AUTO_TEST_CASE( trans_context_false)
 	{
 		wstring term(L"trans:spam") ;
 		record_pointer rec(new record_local) ;
@@ -331,9 +340,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_false)
+	BOOST_AUTO_TEST_CASE( trans_false)
 	{
 		wstring term(L"trans:spam") ;
 		record_pointer rec(new record_local) ;
@@ -342,9 +351,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_substring_true)
+	BOOST_AUTO_TEST_CASE( trans_substring_true)
 	{
 		wstring term(L"trans:pa") ;
 		record_pointer rec(new record_local) ;
@@ -353,9 +362,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, trans_case_true)
+	BOOST_AUTO_TEST_CASE( trans_case_true)
 	{
 		wstring term(L"trans:spam") ;
 		record_pointer rec(new record_local) ;
@@ -364,11 +373,11 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 
 	// context_filter
-	TEST(runner_term_matches_test, context_true)
+	BOOST_AUTO_TEST_CASE( context_true)
 	{
 		wstring term(L"context:spam") ;
 
@@ -378,9 +387,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_term_case_true)
+	BOOST_AUTO_TEST_CASE( context_term_case_true)
 	{
 		wstring term(L"context:SPAM") ;
 
@@ -390,9 +399,9 @@ namespace easyunit
 		rec->set_context(L"spam") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_trans_false)
+	BOOST_AUTO_TEST_CASE( context_trans_false)
 	{
 		wstring term(L"context:spam") ;
 		record_pointer rec(new record_local) ;
@@ -401,9 +410,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_source_false)
+	BOOST_AUTO_TEST_CASE( context_source_false)
 	{
 		wstring term(L"context:spam") ;
 		record_pointer rec(new record_local) ;
@@ -412,9 +421,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_false)
+	BOOST_AUTO_TEST_CASE( context_false)
 	{
 		wstring term(L"context:spam") ;
 		record_pointer rec(new record_local) ;
@@ -423,9 +432,9 @@ namespace easyunit
 		rec->set_context(L"egg") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(!runner.term_matches(rec, term)) ;
+		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_substring_true)
+	BOOST_AUTO_TEST_CASE( context_substring_true)
 	{
 		wstring term(L"context:pa") ;
 		record_pointer rec(new record_local) ;
@@ -434,9 +443,9 @@ namespace easyunit
 		rec->set_context(L"SPAM") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(runner_term_matches_test, context_case_true)
+	BOOST_AUTO_TEST_CASE( context_case_true)
 	{
 		wstring term(L"context:spam") ;
 		record_pointer rec(new record_local) ;
@@ -445,15 +454,19 @@ namespace easyunit
 		rec->set_context(L"SPAM") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// created
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( match_filters_created_test )
+
+using namespace memory_searcher ;
+using namespace mem_engine ;
 
 	// true
-	TEST(match_filters_created_test, yyyy_mm_dd_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_true)
 	{
 		wstring term(L"created:2010-01-01") ;
 
@@ -463,9 +476,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_test, yyyy_mm_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_true)
 	{
 		wstring term(L"created:2010-01") ;
 
@@ -475,9 +488,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_test, yyyy_true)
+	BOOST_AUTO_TEST_CASE( yyyy_true)
 	{
 		wstring term(L"created:2010") ;
 
@@ -487,9 +500,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_test, created_on_yyyy_true)
+	BOOST_AUTO_TEST_CASE( created_on_yyyy_true)
 	{
 		wstring term(L"created-on:2010") ;
 
@@ -499,10 +512,10 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 	// false
-	TEST(match_filters_created_test, yyyy_mm_dd_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_false)
 	{
 		wstring term(L"created:2010-01-02") ;
 
@@ -512,9 +525,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_test, yyyy_mm_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_false)
 	{
 		wstring term(L"created:2010-02") ;
 
@@ -524,9 +537,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_test, yyyy_false)
+	BOOST_AUTO_TEST_CASE( yyyy_false)
 	{
 		wstring term(L"created:2009") ;
 
@@ -536,15 +549,20 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
+	BOOST_AUTO_TEST_SUITE_END()
 
 	//////////////////////////////////////////////////////////////////////////
 	// modified
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( match_filters_modified_test )
+
+using namespace memory_searcher ;
+	using namespace mem_engine ;
 
 	// true
-	TEST(match_filters_modified_test, yyyy_mm_dd_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_true)
 	{
 		wstring term(L"modified:2010-01-01") ;
 
@@ -554,9 +572,9 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_modified_test, yyyy_mm_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_true)
 	{
 		wstring term(L"modified:2010-01") ;
 
@@ -566,9 +584,9 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_modified_test, yyyy_true)
+	BOOST_AUTO_TEST_CASE( yyyy_true)
 	{
 		wstring term(L"modified:2010") ;
 
@@ -578,9 +596,9 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_modified_test, modified_on_yyyy_true)
+	BOOST_AUTO_TEST_CASE( modified_on_yyyy_true)
 	{
 		wstring term(L"modified-on:2010/01") ;
 
@@ -590,10 +608,10 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 	// false
-	TEST(match_filters_modified_test, yyyy_mm_dd_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_false)
 	{
 		wstring term(L"modified:2010-01-02") ;
 
@@ -603,9 +621,9 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_modified_test, yyyy_mm_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_false)
 	{
 		wstring term(L"modified:2010-02") ;
 
@@ -615,9 +633,9 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_modified_test, yyyy_false)
+	BOOST_AUTO_TEST_CASE( yyyy_false)
 	{
 		wstring term(L"modified:2009") ;
 
@@ -627,15 +645,19 @@ namespace easyunit
 		rec->set_modified(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// created-before
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( match_filters_created_before_test )
+
+using namespace memory_searcher ;
+using namespace mem_engine ;
 
 	// true
-	TEST(match_filters_created_before_test, yyyy_mm_dd_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_true)
 	{
 		wstring term(L"created-before:2010-01-02") ;
 
@@ -645,9 +667,9 @@ namespace easyunit
 		rec->set_created(L"2009/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_before_test, yyyy_mm_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_true)
 	{
 		wstring term(L"created-before:2010-05") ;
 
@@ -657,9 +679,9 @@ namespace easyunit
 		rec->set_created(L"2010/04/29") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_before_test, yyyy_true)
+	BOOST_AUTO_TEST_CASE( yyyy_true)
 	{
 		wstring term(L"created-before:2010") ;
 
@@ -669,10 +691,10 @@ namespace easyunit
 		rec->set_created(L"2009/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 	// false
-	TEST(match_filters_created_before_test, yyyy_mm_dd_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_false)
 	{
 		wstring term(L"created-before:2010-01-02") ;
 
@@ -682,9 +704,9 @@ namespace easyunit
 		rec->set_created(L"2011/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_before_test, yyyy_mm_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_false)
 	{
 		wstring term(L"created-before:2010-02") ;
 
@@ -694,9 +716,9 @@ namespace easyunit
 		rec->set_created(L"2010/02/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_before_test, yyyy_false)
+	BOOST_AUTO_TEST_CASE( yyyy_false)
 	{
 		wstring term(L"created-before:2010") ;
 
@@ -706,14 +728,20 @@ namespace easyunit
 		rec->set_created(L"2010/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
+
+	BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// created-after
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( match_filters_created_after_test )
+
+using namespace memory_searcher ;
+	using namespace mem_engine ;
 
 	// true
-	TEST(match_filters_created_after_test, yyyy_mm_dd_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_true)
 	{
 		wstring term(L"created-after:2010-01-02") ;
 
@@ -723,9 +751,9 @@ namespace easyunit
 		rec->set_created(L"2010/01/03") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_after_test, yyyy_mm_true)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_true)
 	{
 		wstring term(L"created-after:2010-05") ;
 
@@ -735,9 +763,9 @@ namespace easyunit
 		rec->set_created(L"2010/06/29") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_after_test, yyyy_true)
+	BOOST_AUTO_TEST_CASE( yyyy_true)
 	{
 		wstring term(L"created-after:2010") ;
 
@@ -747,10 +775,10 @@ namespace easyunit
 		rec->set_created(L"2011/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(runner.term_matches(rec, term)) ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
 	}
 	// false
-	TEST(match_filters_created_after_test, yyyy_mm_dd_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_dd_false)
 	{
 		wstring term(L"created-after:2010-01-02") ;
 
@@ -760,9 +788,9 @@ namespace easyunit
 		rec->set_created(L"2009/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_after_test, yyyy_mm_false)
+	BOOST_AUTO_TEST_CASE( yyyy_mm_false)
 	{
 		wstring term(L"created-after:2010-02") ;
 
@@ -772,9 +800,9 @@ namespace easyunit
 		rec->set_created(L"2010/02/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
-	TEST(match_filters_created_after_test, yyyy_false)
+	BOOST_AUTO_TEST_CASE( yyyy_false)
 	{
 		wstring term(L"created-after:2010") ;
 
@@ -784,13 +812,19 @@ namespace easyunit
 		rec->set_created(L"2009/01/01") ;
 
 		search_runner runner ;
-		ASSERT_TRUE(! runner.term_matches(rec, term)) ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( match_filters_test )
+
+using namespace memory_searcher ;
+using namespace mem_engine ;
 
 	//////////////////////////////////////////////////////////////////////////
 	// match_filters
 	//////////////////////////////////////////////////////////////////////////
-	TEST(match_filters_test, source_true_trans_true)
+	BOOST_AUTO_TEST_CASE( source_true_trans_true)
 	{
 		search_runner runner ;
 		runner.add_term(L"source:spam") ;
@@ -801,10 +835,10 @@ namespace easyunit
 		rec->set_trans(L"egg") ;
 		rec->set_context(L"bacon") ;
 
-		ASSERT_TRUE(runner.is_match(rec)) ;
+		BOOST_CHECK(runner.is_match(rec)) ;
 	}
 
-	TEST(match_filters_test, source_true_trans_false)
+	BOOST_AUTO_TEST_CASE( source_true_trans_false)
 	{
 		search_runner runner ;
 		runner.add_term(L"source:spam") ;
@@ -815,9 +849,9 @@ namespace easyunit
 		rec->set_trans(L"egg") ;
 		rec->set_context(L"bacon") ;
 
-		ASSERT_TRUE(!runner.is_match(rec)) ;
+		BOOST_CHECK(!runner.is_match(rec)) ;
 	}
-	TEST(match_filters_test, source_false_trans_true)
+	BOOST_AUTO_TEST_CASE( source_false_trans_true)
 	{
 		search_runner runner ;
 		runner.add_term(L"source:egg") ;
@@ -828,8 +862,7 @@ namespace easyunit
 		rec->set_trans(L"egg") ;
 		rec->set_context(L"bacon") ;
 
-		ASSERT_TRUE(!runner.is_match(rec)) ;
+		BOOST_CHECK(!runner.is_match(rec)) ;
 	}
-}
 
-#endif
+BOOST_AUTO_TEST_SUITE_END()

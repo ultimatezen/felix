@@ -3,20 +3,19 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
 #include "output_device_fake.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
 
 
-namespace easyunit
-{
 	using namespace mem_engine ;
 
 	//////////////////////////////////////////////////////////////////////////
 	// TradosDataExporter
 	//////////////////////////////////////////////////////////////////////////
-	TEST( TestTradosDataExporter, internal_date_to_trados_date )
+BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
+
+	BOOST_AUTO_TEST_CASE( internal_date_to_trados_date )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
@@ -33,11 +32,11 @@ namespace easyunit
 		thedate.wSecond = 0 ;
 		thedate.wMilliseconds = 0 ;
 
-		SimpleString actual = exporter.internal_date_to_trados_date(thedate).c_str() ;
-		SimpleString expected = "17012000, 12:00:00" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = exporter.internal_date_to_trados_date(thedate).c_str() ;
+		string expected = "17012000, 12:00:00" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestTradosDataExporter, open_destination )
+	BOOST_AUTO_TEST_CASE( open_destination )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
@@ -46,11 +45,11 @@ namespace easyunit
 		exporter.m_file = device_ptr(device) ;
 
 		exporter.open_destination(_T("foo.txt")) ;
-		ASSERT_EQUALS_V(2, (int)device->m_calls.size()) ;
-		ASSERT_EQUALS_V(SimpleString("open"), device->m_calls[0].c_str()) ;
-		ASSERT_EQUALS_V(SimpleString("foo.txt"), device->m_calls[1].c_str()) ;
+		BOOST_CHECK_EQUAL(2, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(string("open"), device->m_calls[0].c_str()) ;
+		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_calls[1].c_str()) ;
 	}
-	TEST( TestTradosDataExporter, write_preamble )
+	BOOST_AUTO_TEST_CASE( write_preamble )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
@@ -59,28 +58,29 @@ namespace easyunit
 		exporter.m_file = device_ptr(device) ;
 
 		exporter.write_preamble() ;
-		ASSERT_EQUALS_V(3, (int)device->m_calls.size()) ;
-		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[0].c_str()) ;
-		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[1].c_str()) ;
-		ASSERT_EQUALS_V(SimpleString("write_string"), device->m_calls[2].c_str()) ;
+		BOOST_CHECK_EQUAL(3, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[0].c_str()) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[1].c_str()) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[2].c_str()) ;
 	}
-	TEST( TestTradosDataExporter, create_unicode_escape )
+	BOOST_AUTO_TEST_CASE( create_unicode_escape )
 	{
 		std::set< wstring > fonts ;
 		CProgressListenerDummy listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 
 		string escape = exporter.create_unicode_escape(L't', 't') ;
-		SimpleString actual = escape.c_str() ;
-		SimpleString expected = "\\uc1\\u116 t" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = escape.c_str() ;
+		string expected = "\\uc1\\u116 t" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// multiterm_data_exporter_55
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 
-	TEST(test_multiterm_data_exporter_55, export_gloss)
+	BOOST_AUTO_TEST_CASE( export_gloss)
 	{
 		CProgressListenerDummy dummy ;
 		multiterm_data_exporter_55 exporter(&dummy) ;
@@ -113,7 +113,7 @@ namespace easyunit
 			  fmt += "<%2%>%6%\r\n" ;
 			  fmt += "<Notes>-\r\n" ;
 			  fmt += "***\r\n" ;
-		SimpleString expected = (format(fmt.c_str())
+		string expected = (format(fmt.c_str())
 					% "Japanese" % "English"
 					% string2string(rec1->get_source_plain())
 					% string2string(rec1->get_trans_plain())
@@ -121,14 +121,15 @@ namespace easyunit
 					% string2string(rec2->get_trans_plain())
 					).str().c_str() ;
 
-		ASSERT_EQUALS_V(expected, SimpleString(string2string(device->m_value).c_str())) ;
+		BOOST_CHECK_EQUAL(expected, string(string2string(device->m_value).c_str())) ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// test_multiterm_data_exporter_6
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 
-	TEST(test_multiterm_data_exporter_6, export_gloss)
+	BOOST_AUTO_TEST_CASE( export_gloss)
 	{
 		CProgressListenerDummy dummy ;
 		multiterm_data_exporter_6 exporter(&dummy) ;
@@ -156,13 +157,10 @@ namespace easyunit
 		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
 		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
 		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		SimpleString expected = string2string(fmt, CP_UTF8).c_str() ;
+		string expected = string2string(fmt, CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, 
-			SimpleString(string2string(device->m_value, CP_UTF8).c_str())) ;
+		BOOST_CHECK_EQUAL(expected, 
+			string(string2string(device->m_value, CP_UTF8).c_str())) ;
 	}
 
-}
-
-
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()

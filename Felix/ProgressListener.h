@@ -29,10 +29,8 @@ public:
 	}
 };
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
-namespace easyunit
-{
 
 	/**
 		@class CProgressListenerDummy 
@@ -79,5 +77,4 @@ namespace easyunit
 
 	};
 
-}
-#endif // #ifdef _DEBUG
+#endif // #ifdef UNIT_TEST

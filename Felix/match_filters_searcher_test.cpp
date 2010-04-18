@@ -3,12 +3,10 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( searcher_test )
 
-#ifdef UNIT_TEST
 
-namespace easyunit
-{
 	using namespace memory_searcher ;
 	using namespace mem_engine ;
 
@@ -40,35 +38,35 @@ namespace easyunit
 		return rec ;
 	}
 
-	TEST(searcher_test, add_term)
+	BOOST_AUTO_TEST_CASE( add_term)
 	{
 		search_runner searcher ;
 		searcher.add_term(L"source") ;
 
-		ASSERT_EQUALS_V(1, static_cast<int>(searcher.get_terms().size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(searcher.get_terms().size())) ;
 	}
 
-	TEST(searcher_test, remove_term)
+	BOOST_AUTO_TEST_CASE( remove_term)
 	{
 		search_runner searcher ;
 		searcher.add_term(L"source") ;
 		searcher.remove_term(0) ;
 
-		ASSERT_EQUALS_V(0, static_cast<int>(searcher.get_terms().size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(searcher.get_terms().size())) ;
 	}
 
 
-	TEST(searcher_test, empty_memory_no_terms)
+	BOOST_AUTO_TEST_CASE( empty_memory_no_terms)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
-	TEST(searcher_test, one_record_no_terms)
+	BOOST_AUTO_TEST_CASE( one_record_no_terms)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -77,10 +75,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "trans", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	TEST(searcher_test, one_record_one_term_match)
+	BOOST_AUTO_TEST_CASE( one_record_one_term_match)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -90,10 +88,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "trans", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	TEST(searcher_test, one_record_one_term_nomatch)
+	BOOST_AUTO_TEST_CASE( one_record_one_term_nomatch)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -103,10 +101,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "trans", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
-	TEST(searcher_test, one_record_one_term_nomatch_erased)
+	BOOST_AUTO_TEST_CASE( one_record_one_term_nomatch_erased)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -117,10 +115,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "trans", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	TEST(searcher_test, one_record_two_terms_match)
+	BOOST_AUTO_TEST_CASE( one_record_two_terms_match)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -131,12 +129,12 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
 	// Text Fields
 	// source: 	Search in source field
-	TEST(searcher_test, source_true)
+	BOOST_AUTO_TEST_CASE( source_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -146,9 +144,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, source_two_of_three)
+	BOOST_AUTO_TEST_CASE( source_two_of_three)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -160,9 +158,9 @@ namespace easyunit
 		add_record_searcher(mem, "a source", "egg", "context") ;
 		add_record_searcher(mem, "egg", "source", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(2, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(2, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, source_false)
+	BOOST_AUTO_TEST_CASE( source_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -172,9 +170,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, source_empty)
+	BOOST_AUTO_TEST_CASE( source_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -184,10 +182,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 	// trans: 	Search in translation field
-	TEST(searcher_test, trans_true)
+	BOOST_AUTO_TEST_CASE( trans_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -197,9 +195,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, trans_empty)
+	BOOST_AUTO_TEST_CASE( trans_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -209,9 +207,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, trans_false)
+	BOOST_AUTO_TEST_CASE( trans_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -221,10 +219,10 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// context: 	Search in context field
-	TEST(searcher_test, context_true)
+	BOOST_AUTO_TEST_CASE( context_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -234,9 +232,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, context_empty)
+	BOOST_AUTO_TEST_CASE( context_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -246,9 +244,9 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, context_false)
+	BOOST_AUTO_TEST_CASE( context_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -258,11 +256,11 @@ namespace easyunit
 
 		add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// Created
 	// created-by: 	Search in creator field
-	TEST(searcher_test, created_by_false)
+	BOOST_AUTO_TEST_CASE( created_by_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -273,9 +271,9 @@ namespace easyunit
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		rec->set_creator(L"Bob") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_by_empty)
+	BOOST_AUTO_TEST_CASE( created_by_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -286,9 +284,9 @@ namespace easyunit
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		rec->set_creator(L"Bob") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_by_true)
+	BOOST_AUTO_TEST_CASE( created_by_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -298,9 +296,9 @@ namespace easyunit
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		rec->set_creator(L"Ryan") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_by_partial)
+	BOOST_AUTO_TEST_CASE( created_by_partial)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -310,10 +308,10 @@ namespace easyunit
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		rec->set_creator(L"Ryan Ginstrom") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 	// created: 	Search for records created on date (YYYY-MM-DD format)
-	TEST(searcher_test, created_true)
+	BOOST_AUTO_TEST_CASE( created_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -325,9 +323,9 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_empty)
+	BOOST_AUTO_TEST_CASE( created_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -339,9 +337,9 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_false)
+	BOOST_AUTO_TEST_CASE( created_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -353,10 +351,10 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// created-before: 	Search for records created before date (YYYY-MM-DD format)
-	TEST(searcher_test, created_before_true)
+	BOOST_AUTO_TEST_CASE( created_before_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -368,9 +366,9 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_before_false)
+	BOOST_AUTO_TEST_CASE( created_before_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -382,10 +380,10 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// created-after: 	Search for records created after date (YYYY-MM-DD format)
-	TEST(searcher_test, created_after_true)
+	BOOST_AUTO_TEST_CASE( created_after_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -397,9 +395,9 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, created_after_false)
+	BOOST_AUTO_TEST_CASE( created_after_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -411,11 +409,11 @@ namespace easyunit
 		rec->set_created(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// Modified
 	// modified-by: 	Search in modifier field
-	TEST(searcher_test, modified_by_true)
+	BOOST_AUTO_TEST_CASE( modified_by_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -427,9 +425,9 @@ namespace easyunit
 		rec->set_modified_by(L"Ryan") ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_by_empty)
+	BOOST_AUTO_TEST_CASE( modified_by_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -441,9 +439,9 @@ namespace easyunit
 		rec->set_modified_by(L"Ryan") ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_by_false)
+	BOOST_AUTO_TEST_CASE( modified_by_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -455,10 +453,10 @@ namespace easyunit
 		rec->set_modified_by(L"Ryan") ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified: 	Search for records modified on date (YYYY-MM-DD format)
-	TEST(searcher_test, modified_true)
+	BOOST_AUTO_TEST_CASE( modified_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -470,9 +468,9 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_empty)
+	BOOST_AUTO_TEST_CASE( modified_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -484,9 +482,9 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_false)
+	BOOST_AUTO_TEST_CASE( modified_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -498,10 +496,10 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified-before: 	Search for records modified before date (YYYY-MM-DD format)
-	TEST(searcher_test, modified_before_true)
+	BOOST_AUTO_TEST_CASE( modified_before_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -513,9 +511,9 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_before_false)
+	BOOST_AUTO_TEST_CASE( modified_before_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -527,10 +525,10 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified-after: 	Search for records modified after date (YYYY-MM-DD format)
-	TEST(searcher_test, modified_after_true)
+	BOOST_AUTO_TEST_CASE( modified_after_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -542,9 +540,9 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, modified_after_false)
+	BOOST_AUTO_TEST_CASE( modified_after_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -556,11 +554,11 @@ namespace easyunit
 		rec->set_modified(thedate) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// Reliability
 	// reliability: 	Search for records with the specified reliability
-	TEST(searcher_test, reliability_true)
+	BOOST_AUTO_TEST_CASE( reliability_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -572,9 +570,9 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_empty)
+	BOOST_AUTO_TEST_CASE( reliability_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -586,9 +584,9 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_false)
+	BOOST_AUTO_TEST_CASE( reliability_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -600,11 +598,11 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
 	// reliability-gt: 	Search for records with greater than the specified reliability
-	TEST(searcher_test, reliability_gt_true)
+	BOOST_AUTO_TEST_CASE( reliability_gt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -616,9 +614,9 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_gt_false)
+	BOOST_AUTO_TEST_CASE( reliability_gt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -630,10 +628,10 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-gte: 	Search for records with at least the specified reliability
-	TEST(searcher_test, reliability_gte_true)
+	BOOST_AUTO_TEST_CASE( reliability_gte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -645,9 +643,9 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_gte_false)
+	BOOST_AUTO_TEST_CASE( reliability_gte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -659,10 +657,10 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-lt: 	Search for records with less than the specified reliability
-	TEST(searcher_test, reliability_lt_true)
+	BOOST_AUTO_TEST_CASE( reliability_lt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -674,9 +672,9 @@ namespace easyunit
 		rec->set_reliability(0) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_lt_false)
+	BOOST_AUTO_TEST_CASE( reliability_lt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -688,10 +686,10 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-lte: 	Search for records with no more than than the specified reliability
-	TEST(searcher_test, reliability_lte_true)
+	BOOST_AUTO_TEST_CASE( reliability_lte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -703,9 +701,9 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, reliability_lte_false)
+	BOOST_AUTO_TEST_CASE( reliability_lte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -717,11 +715,11 @@ namespace easyunit
 		rec->set_reliability(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 	// Validated
 	// validated: 	Search for records that are validated ("true") or not validated ("false")
-	TEST(searcher_test, validated_true)
+	BOOST_AUTO_TEST_CASE( validated_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -730,9 +728,9 @@ namespace easyunit
 		searcher.add_term(L"validated:false") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, validated_empty)
+	BOOST_AUTO_TEST_CASE( validated_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -741,9 +739,9 @@ namespace easyunit
 		searcher.add_term(L"validated:") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, validated_false)
+	BOOST_AUTO_TEST_CASE( validated_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -752,11 +750,11 @@ namespace easyunit
 		searcher.add_term(L"validated:true") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// Reference Count
 	// refcount: 	Search for records with the specified refcount
-	TEST(searcher_test, refcount_true)
+	BOOST_AUTO_TEST_CASE( refcount_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -768,9 +766,9 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_emtpy)
+	BOOST_AUTO_TEST_CASE( refcount_emtpy)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -782,9 +780,9 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_false)
+	BOOST_AUTO_TEST_CASE( refcount_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -796,11 +794,11 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
 	// refcount-gt: 	Search for records with greater than the specified refcount
-	TEST(searcher_test, refcount_gt_true)
+	BOOST_AUTO_TEST_CASE( refcount_gt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -812,9 +810,9 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_gt_false)
+	BOOST_AUTO_TEST_CASE( refcount_gt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -826,10 +824,10 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-gte: 	Search for records with at least the specified refcount
-	TEST(searcher_test, refcount_gte_true)
+	BOOST_AUTO_TEST_CASE( refcount_gte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -841,9 +839,9 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_gte_false)
+	BOOST_AUTO_TEST_CASE( refcount_gte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -855,10 +853,10 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-lt: 	Search for records with less than the specified refcount
-	TEST(searcher_test, refcount_lt_true)
+	BOOST_AUTO_TEST_CASE( refcount_lt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -870,9 +868,9 @@ namespace easyunit
 		rec->set_refcount(0) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_lt_false)
+	BOOST_AUTO_TEST_CASE( refcount_lt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -884,10 +882,10 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-lte: 	Search for records with no more than than the specified refcount
-	TEST(searcher_test, refcount_lte_true)
+	BOOST_AUTO_TEST_CASE( refcount_lte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -899,9 +897,9 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(1, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	TEST(searcher_test, refcount_lte_false)
+	BOOST_AUTO_TEST_CASE( refcount_lte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -913,8 +911,7 @@ namespace easyunit
 		rec->set_refcount(5) ;
 
 		searcher.get_matches(mem, matches) ;
-		ASSERT_EQUALS_V(0, static_cast<int>(matches.size())) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
-}
 
-#endif
+BOOST_AUTO_TEST_SUITE_END()

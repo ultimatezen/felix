@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "WordParser.h"
 
-#ifdef UNIT_TEST
-#include "easyunit/testharness.h"
 
-namespace easyunit
-{
-	TEST( WordParserTest, is_whitespace_char)
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
+
+TEST( WordParserTest, is_whitespace_char)
 	{
 		WordSelection selection ;
 		WordParser parser(selection) ;
@@ -194,5 +193,4 @@ namespace easyunit
 		ASSERT_TRUE(!props.is_superscript_established()) ;
 	}
 
-}
-#endif
+BOOST_AUTO_TEST_SUITE_END()

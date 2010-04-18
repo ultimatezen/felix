@@ -8,14 +8,12 @@
 #include "Path.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef TEST_REMOTE_MEMS
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( test_memory_remote )
 
-#ifdef UNIT_TEST
 
-namespace easyunit
-{
+
 	using namespace mem_engine ;
 	using namespace except ;
 
@@ -52,7 +50,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	add_hit(mem, string2wstring(source), string2wstring(trans)) ;
 }
 
-	TEST( test_memory_remote, update )
+	BOOST_AUTO_TEST_CASE( update )
 	{
 		try
 		{
@@ -66,10 +64,10 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.replace(record, modified) ;
 
-			ASSERT_EQUALS( 1u, mem.size() ) ;
+			BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
 
 			mem.m_engine.method(L"Delete") ;
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 		catch (_com_error& e)
 		{
@@ -77,11 +75,11 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
-	TEST( test_memory_remote, AddRecord )
+	BOOST_AUTO_TEST_CASE( AddRecord )
 	{
 		try
 		{
@@ -90,11 +88,11 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			add_record(mem, "dummy", "dummy") ;
 
-			ASSERT_EQUALS( 1u, mem.size() ) ;
-			ASSERT_EQUALS( false, mem.empty() ) ;
+			BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
+			BOOST_CHECK_EQUAL( false, mem.empty() ) ;
 
 			mem.m_engine.method(L"Delete") ;
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 		catch (_com_error& e)
 		{
@@ -102,10 +100,10 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
-	TEST( test_memory_remote, add_by_id_exists )
+	BOOST_AUTO_TEST_CASE( add_by_id_exists )
 	{
 		try
 		{
@@ -113,14 +111,14 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 			add_record(mem, "dummy", "dummy") ;
 
-			ASSERT_EQUALS_V( 1, (int)mem.size() ) ;
+			BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
 
 			record_pointer record = mem.add_by_id(1, L"source", L"trans") ;
-			ASSERT_EQUALS_V( 1, (int)mem.size() ) ;
+			BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
 
-			ASSERT_EQUALS_V((int)record->get_id(), 1) ;
-			ASSERT_EQUALS(L"source", record->get_source_rich()) ;
-			ASSERT_EQUALS(L"trans", record->get_trans_rich()) ;
+			BOOST_CHECK_EQUAL((int)record->get_id(), 1) ;
+			BOOST_CHECK(L"source" == record->get_source_rich()) ;
+			BOOST_CHECK(L"trans" == record->get_trans_rich()) ;
 		}
 		catch (_com_error& e)
 		{
@@ -128,12 +126,12 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
 
-	TEST(test_memory_remote, GetMatchesSize1)
+	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
 	{
 		try
 		{
@@ -148,7 +146,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.find_matches(matches, params) ;
 
-			ASSERT_EQUALS(1, matches.size()) ;
+			BOOST_CHECK_EQUAL(1, matches.size()) ;
 		}
 		catch (_com_error& e)
 		{
@@ -156,12 +154,12 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
 	// from bug found with increment_refcount
-	TEST(test_memory_remote, increment_refcount)
+	BOOST_AUTO_TEST_CASE( increment_refcount)
 	{
 		try
 		{
@@ -182,9 +180,9 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			record_pointer record = match->get_record() ;
 
-			ASSERT_EQUALS_V(0, (int)record->get_refcount()) ;
+			BOOST_CHECK_EQUAL(0, (int)record->get_refcount()) ;
 			record->increment_refcount() ;
-			ASSERT_EQUALS_V(1, (int)record->get_refcount()) ;
+			BOOST_CHECK_EQUAL(1, (int)record->get_refcount()) ;
 
 			mem.m_engine.method(L"Delete") ;
 		}
@@ -194,13 +192,13 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
 
 
-	TEST(test_memory_remote, GetMatchesMarkup)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
 	{
 		try
 		{
@@ -216,15 +214,15 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_source = L"aa" ;
 
 			mem.find_matches(matches, params) ;
-			ASSERT_EQUALS(1, matches.size()) ;
+			BOOST_CHECK_EQUAL(1, matches.size()) ;
 
 			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
-			SimpleString expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
-			SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+			string expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
+			string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-			ASSERT_EQUALS(actual, expected) ;
+			BOOST_CHECK_EQUAL(actual, expected) ;
 
 			mem.m_engine.method(L"Delete") ;
 		}
@@ -234,13 +232,13 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
 
 	// trans lookup
-	TEST(test_memory_remote, GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
+	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
 		try
 		{
@@ -257,15 +255,15 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_ignore_case = true ;
 
 			mem.find_trans_matches(matches, params) ;
-			ASSERT_EQUALS_V(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
-			SimpleString expected = "NAILED TO THE PERCH." ;
-			SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+			string expected = "NAILED TO THE PERCH." ;
+			string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-			ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+			BOOST_CHECK_EQUAL(actual, expected) ;
 		}
 		catch (_com_error& e)
 		{
@@ -273,14 +271,14 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 
 
 	// get_best_match_score
 
-	TEST(test_memory_remote, test_get_best_match_score_0_5)
+	BOOST_AUTO_TEST_CASE( test_get_best_match_score_0_5)
 	{
 		try
 		{
@@ -292,7 +290,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			add_hit(mem, L"cccc", L"cccc") ;
 
 			wstring query = L"aadd" ;
-			ASSERT_EQUALS_DELTA_V(0.5f, mem.get_best_match_score(query), 0.001) ;
+			BOOST_CHECK_CLOSE((double)0.5f, mem.get_best_match_score(query), 0.001) ;
 
 			mem.m_engine.method(L"Delete") ;
 		}
@@ -302,13 +300,13 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 	}
 	// get_glossary_matches
 
 
-	TEST(test_memory_remote, test_get_glossary_matches_50)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50)
 	{
 		try
 		{
@@ -328,14 +326,14 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.set_gloss_props(props) ;
 
 			mem.get_glossary_matches(matches, params) ;
-			ASSERT_EQUALS_V(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 			search_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 
-			SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
-			SimpleString actual = string2string(match->get_markup()->GetSource()).c_str() ;
-			ASSERT_EQUALS_V(expected, actual) ;
-			ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
+			string expected = "<span class=\"partial_match1\">eggs</span>" ;
+			string actual = string2string(match->get_markup()->GetSource()).c_str() ;
+			BOOST_CHECK_EQUAL(expected, actual) ;
+			BOOST_CHECK(match->get_markup()->GetTrans() == L"trans") ;
 		}
 		catch (_com_error& e)
 		{
@@ -343,24 +341,16 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			TRACE(e.ErrorMessage()) ;
 			TRACE(e.Error()) ;
 			CStringA msg(static_cast< LPCWSTR >( e.ErrorMessage() )) ;
-			FAIL_M(static_cast< LPCSTR >( msg )) ;
+			BOOST_FAIL(static_cast< LPCSTR >( msg )) ;
 		}
 
 	}
 
-	TEST(test_memory_remote, is_local)
+	BOOST_AUTO_TEST_CASE( is_local)
 	{
 		memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
-		ASSERT_TRUE(! mem.is_local()) ;
+		BOOST_CHECK(! mem.is_local()) ;
 	}
 
 
-
-
-
-}
-
-
-#endif // #ifdef UNIT_TEST
-
-#endif // #ifdef TEST_REMOTE_MEMS
+BOOST_AUTO_TEST_SUITE_END()

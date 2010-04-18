@@ -46,6 +46,7 @@
 				AdditionalIncludeDirectories="&quot;C:\dev\cpp\Assistant Suite\Felix&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -67,6 +68,7 @@
 				OutputFile="$(IntDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\dev\cpp\Assistant Suite\Felix&quot;"
+				IgnoreDefaultLibraryNames="LIBCMT; LIBC; LIBCP"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -182,7 +184,95 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\Felix\aboutdlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\AdvancedMemMgrDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\AdvancedMemMgrDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\AppTemplateTests.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\array.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\array_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\charset_info.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\charset_info_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\ColorRef.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ColorRef_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConcordanceDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConcordanceDialog_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConnectionDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConnectionDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ContentPresenter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ContentPresenter_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_converter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_converter_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_exporter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_exporter_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_importer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_importer_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\DemoException.cpp"
 				>
 			</File>
 			<File
@@ -190,7 +280,31 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\Drop.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\Exceptions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\Felix_properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\Felix_properties_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FileOpHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\font_tabulator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\font_tabulator_test.cpp"
 				>
 			</File>
 			<File
@@ -202,7 +316,107 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\InputKeyDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\InputKeyDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\LocalizedServerAppModule.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\logging.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\markup_strings.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_filters.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_filters_searcher_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_filters_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_maker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_maker_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_score.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_score_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_tester.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_tester_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MatchStringPairing.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MatchStringPairing_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_header.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_header_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_local.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_local_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_model.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_model_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_remote.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_remote_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MemoryManagerDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MemoryManagerDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -210,7 +424,91 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\MiniVersion_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MinViewDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MinViewDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\MultiLanguage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\NagDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\NagDialog_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\query.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\query_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_local.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_local_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_remote.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_remote_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ResHtmlFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\resource_string.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\rtf.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\rtf_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\Scintilla_encodings.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\ScintillaEdit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\search_match.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\search_match_test.cpp"
 				>
 			</File>
 			<File
@@ -234,7 +532,59 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\Felix\StringConversions_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\StringEx_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\system_message.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\system_message_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\tag_name_holder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\tag_stripper_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\tag_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Test_Felix.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\text_templates.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\text_templates_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\TextTemplate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TranslationMemory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TranslationMemory_test.cpp"
 				>
 			</File>
 		</Filter>
@@ -244,7 +594,47 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\Felix\AdvancedMemMgrDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\array.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\charset_info.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\ColorRef.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConcordanceDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ConnectionDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ContentPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_converter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_exporter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\data_importer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\DemoException.h"
 				>
 			</File>
 			<File
@@ -252,7 +642,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\Drop.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\Exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\Felix_properties.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FileOpHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\font_tabulator.h"
 				>
 			</File>
 			<File
@@ -264,6 +670,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\InputKeyDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\LocalizedServerAppModule.h"
 				>
 			</File>
@@ -272,7 +682,87 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\markup_strings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_filters.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_maker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_score.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\match_tester.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MatchStringPairing.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_header.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_info.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_local.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_model.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\memory_remote.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MemoryManagerDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\MiniVersion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MinViewDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\MultiLanguage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\NagDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\query.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_local.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\record_remote.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ResHtmlFile.h"
 				>
 			</File>
 			<File
@@ -284,11 +774,55 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\rtf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\Scintilla_encodings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\ScintillaEdit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\search_match.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\stringex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\system_message.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\tag_name_holder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\text_templates.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\TextTemplate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TranslationMemory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\UserName.h"
 				>
 			</File>
 		</Filter>

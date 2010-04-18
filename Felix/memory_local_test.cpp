@@ -4,13 +4,11 @@
 #include "Path.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
 #include "MockListener.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMemory )
 
-namespace easyunit
-{
 	using namespace mem_engine ;
 	using namespace except ;
 
@@ -39,12 +37,12 @@ namespace easyunit
 	}
 
 	// should_check_for_demo
-	TEST( TestMemory, should_check_for_demo_false_empty )
+	BOOST_AUTO_TEST_CASE( should_check_for_demo_false_empty )
 	{
 		const memory_local mem ;
-		ASSERT_TRUE_M(! mem.should_check_for_demo(), "Should not check for demo with empty memory") ;
+		BOOST_CHECK(! mem.should_check_for_demo()) ;
 	}
-	TEST( TestMemory, should_check_for_demo_false )
+	BOOST_AUTO_TEST_CASE( should_check_for_demo_false )
 	{
 		BOOST_STATIC_ASSERT(MAX_MEMORY_SIZE_FOR_DEMO == 10) ;
 		memory_local mem ;
@@ -53,10 +51,10 @@ namespace easyunit
 		{
 			add_record(mem, dummy, boost::lexical_cast<wstring>(i)) ;
 		}
-		ASSERT_EQUALS_V((int)mem.size(), (int)MAX_MEMORY_SIZE_FOR_DEMO+1) ;
-		ASSERT_TRUE_M(! mem.should_check_for_demo(), "Should not check for demo with memory size not multiple of 100") ;
+		BOOST_CHECK_EQUAL((int)mem.size(), (int)MAX_MEMORY_SIZE_FOR_DEMO+1) ;
+		BOOST_CHECK(! mem.should_check_for_demo()) ;
 	}
-	TEST( TestMemory, should_check_for_demo_true )
+	BOOST_AUTO_TEST_CASE( should_check_for_demo_true )
 	{
 		memory_local mem ;
 		const wstring dummy(L"a") ;
@@ -64,62 +62,62 @@ namespace easyunit
 		{
 			add_record(mem, dummy, boost::lexical_cast<wstring>(i)) ;
 		}
-		ASSERT_EQUALS_V((int)mem.size(), 100) ;
-		ASSERT_TRUE_M(mem.should_check_for_demo(), "Should check for demo with memory size multiple of 100") ;
+		BOOST_CHECK_EQUAL((int)mem.size(), 100) ;
+		BOOST_CHECK(mem.should_check_for_demo()) ;
 	}
 
 	// get_id
-	TEST( TestMemory, MemoryId )
+	BOOST_AUTO_TEST_CASE( MemoryId )
 	{
 		memory_local mem ;
 
-		ASSERT_TRUE_M(mem.get_id() > 0, ulong2string(mem.get_id()).c_str()) ;
+		BOOST_CHECK(mem.get_id() > 0) ;
 	}
 
 	// is_new
-	TEST( TestMemory, is_new )
+	BOOST_AUTO_TEST_CASE( is_new )
 	{
 		memory_local mem ;
 
-		ASSERT_TRUE_M(mem.is_new(), "New memories must be new") ;
+		BOOST_CHECK(mem.is_new()) ;
 	}
-	TEST(TestMemory, is_local)
+	BOOST_AUTO_TEST_CASE( is_local)
 	{
 		memory_local mem ;
-		ASSERT_TRUE( mem.is_local()) ;
+		BOOST_CHECK( mem.is_local()) ;
 	}
 
-	TEST( TestMemory, RefreshUserName )
+	BOOST_AUTO_TEST_CASE( RefreshUserName )
 	{
 		memory_local mem ;
 
 		MemoryInfo *mem_info = mem.get_memory_info() ;
 		mem_info->set_creator( L"FooBar" ) ;
-		ASSERT_EQUALS( L"FooBar", mem.get_memory_info()->get_creator() ) ;
+		BOOST_CHECK( L"FooBar" == mem.get_memory_info()->get_creator() ) ;
 
 		app_props::properties_general props ;
 		props.read_from_registry() ;
 		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
 		props.write_to_registry() ;
 
-		SimpleString actual = string2string(mem_info->get_current_user()).c_str() ;
-		ASSERT_EQUALS_V( "Ryan",  actual) ;
+		string actual = string2string(mem_info->get_current_user()).c_str() ;
+		BOOST_CHECK_EQUAL( "Ryan",  actual) ;
 	}
 
 	// add_record
-	TEST( TestMemory, AddRecord )
+	BOOST_AUTO_TEST_CASE( AddRecord )
 	{
 		memory_local mem ;
-		ASSERT_EQUALS( 0u, mem.size() ) ;
-		ASSERT_EQUALS( true, mem.empty() ) ;
+		BOOST_CHECK_EQUAL( 0u, mem.size() ) ;
+		BOOST_CHECK_EQUAL( true, mem.empty() ) ;
 
 		add_record(mem, "dummy", "dummy") ;
 
-		ASSERT_EQUALS_V( 1, (int)mem.size() ) ;
-		ASSERT_EQUALS( false, mem.empty() ) ;
+		BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
+		BOOST_CHECK_EQUAL( false, mem.empty() ) ;
 
 	}
-	TEST( TestMemory, add_record_same_ids )
+	BOOST_AUTO_TEST_CASE( add_record_same_ids )
 	{
 		memory_local mem ;
 
@@ -132,113 +130,113 @@ namespace easyunit
 		mem.add_record(r1) ;
 		mem.add_record(r2) ;
 
-		ASSERT_EQUALS_V( 3, (int)r1->get_id() ) ;
-		ASSERT_TRUE( r2->get_id() != 3 ) ;
+		BOOST_CHECK_EQUAL( 3, (int)r1->get_id() ) ;
+		BOOST_CHECK( r2->get_id() != 3 ) ;
 
 	}
 
 	// batch_set_reliability
-	TEST(TestMemory, batch_set_reliability_5)
+	BOOST_AUTO_TEST_CASE( batch_set_reliability_5)
 	{
 		memory_local mem ;
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
-		ASSERT_EQUALS_V( 0, (int)rec1->get_reliability() ) ;
-		ASSERT_EQUALS_V( 0, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0, (int)rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0, (int)rec2->get_reliability() ) ;
 
 		mem.batch_set_reliability(5u) ;
 
-		ASSERT_EQUALS_V( 5, (int)rec1->get_reliability() ) ;
-		ASSERT_EQUALS_V( 5, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 5, (int)rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 5, (int)rec2->get_reliability() ) ;
 	}
-	TEST(TestMemory, batch_set_reliability_15_plus)
+	BOOST_AUTO_TEST_CASE( batch_set_reliability_15_plus)
 	{
 		memory_local mem ;
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
-		ASSERT_EQUALS_V( 0, (int)rec1->get_reliability() ) ;
-		ASSERT_EQUALS_V( 0, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0, (int)rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0, (int)rec2->get_reliability() ) ;
 
 		mem.batch_set_reliability(mem_engine::MAX_RELIABILITY+15u) ;
 
-		ASSERT_EQUALS_V( (int)mem_engine::MAX_RELIABILITY, (int)rec1->get_reliability() ) ;
-		ASSERT_EQUALS_V( (int)mem_engine::MAX_RELIABILITY, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( (int)mem_engine::MAX_RELIABILITY, (int)rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( (int)mem_engine::MAX_RELIABILITY, (int)rec2->get_reliability() ) ;
 	}
 
 
 	// id
-	TEST( TestMemory, add_record_id_set )
+	BOOST_AUTO_TEST_CASE( add_record_id_set )
 	{
 		memory_local mem ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 
-		ASSERT_EQUALS_V(0, (int)rec->get_id()) ;
+		BOOST_CHECK_EQUAL(0, (int)rec->get_id()) ;
 		mem.add_record(rec) ;
-		ASSERT_TRUE_M(rec->get_id() != 0, "The id of the record should have been set") ;
+		BOOST_CHECK(rec->get_id() != 0) ;
 	}
-	TEST( TestMemory, add_record_diff_ids_set )
+	BOOST_AUTO_TEST_CASE( add_record_diff_ids_set )
 	{
 		memory_local mem ;
 		record_pointer rec1 = make_record("spam1", "spam2") ;
 		record_pointer rec2 = make_record("egg1", "egg2") ;
-		ASSERT_EQUALS_V((int)rec1->get_id(), (int)rec2->get_id()) ;
+		BOOST_CHECK_EQUAL((int)rec1->get_id(), (int)rec2->get_id()) ;
 		mem.add_record(rec1) ;
 		mem.add_record(rec2) ;
-		ASSERT_TRUE_M(rec1->get_id() != rec2->get_id(), "The ids of the records should not be equal") ;
+		BOOST_CHECK(rec1->get_id() != rec2->get_id()) ;
 	}
 
-	TEST( TestMemory, id_of_record_not_changed_if_nonzero )
+	BOOST_AUTO_TEST_CASE( id_of_record_not_changed_if_nonzero )
 	{
 		memory_local mem ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 		rec->set_id(57) ;
 		mem.add_record(rec) ;
-		ASSERT_EQUALS_V(57, (int)rec->get_id()) ;
+		BOOST_CHECK_EQUAL(57, (int)rec->get_id()) ;
 	}
 	// add by id
-	TEST( TestMemory, add_by_id_new )
+	BOOST_AUTO_TEST_CASE( add_by_id_new )
 	{
 		memory_local mem ;
 		record_pointer rec = mem.add_by_id(10, L"spam", L"egg") ;
-		ASSERT_EQUALS_V(10, (int)rec->get_id()) ;
+		BOOST_CHECK_EQUAL(10, (int)rec->get_id()) ;
 		CStringA actual = rec->get_source_plain().c_str() ;
-		SimpleString expected = "spam" ;
-		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
+		string expected = "spam" ;
+		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
-	TEST( TestMemory, add_by_id_dup )
+	BOOST_AUTO_TEST_CASE( add_by_id_dup )
 	{
 		memory_local mem ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 		mem.add_record(rec) ;
 		mem.add_by_id(rec->get_id(), L"added source", L"added trans") ;
 		CStringA actual = rec->get_source_plain().c_str() ;
-		SimpleString expected = "added source" ;
-		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
+		string expected = "added source" ;
+		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
-	TEST( TestMemory, add_by_id_non_empty )
+	BOOST_AUTO_TEST_CASE( add_by_id_non_empty )
 	{
 		memory_local mem ;
 		add_record(mem, "dummy", "dummy") ;
 		record_pointer rec = mem.add_by_id(10, L"spam", L"egg") ;
-		ASSERT_EQUALS_V(10, (int)rec->get_id()) ;
+		BOOST_CHECK_EQUAL(10, (int)rec->get_id()) ;
 		CStringA actual = rec->get_source_plain().c_str() ;
-		SimpleString expected = "spam" ;
-		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
-		ASSERT_EQUALS_V(2, (int)mem.size()) ;
+		string expected = "spam" ;
+		BOOST_CHECK_EQUAL(expected, string(actual)) ;
+		BOOST_CHECK_EQUAL(2, (int)mem.size()) ;
 	}
 	// clear_memory
-	TEST( TestMemory, clear_memory_empty )
+	BOOST_AUTO_TEST_CASE( clear_memory_empty )
 	{
 		memory_local mem ;
 
 		mem.clear_memory() ;
-		ASSERT_EQUALS(0u, mem.size()) ;
-		ASSERT_EQUALS(true, mem.is_saved()) ;
-		ASSERT_TRUE(mem.m_file_location.IsEmpty()) ;
+		BOOST_CHECK_EQUAL(0u, mem.size()) ;
+		BOOST_CHECK_EQUAL(true, mem.is_saved()) ;
+		BOOST_CHECK(mem.m_file_location.IsEmpty()) ;
 	}
-	TEST( TestMemory, clear_memory_nonempty )
+	BOOST_AUTO_TEST_CASE( clear_memory_nonempty )
 	{
 		memory_local mem ;
 		mem.set_location(_T("C:\\test\\memory_serves\\aga.xml")) ;
@@ -249,25 +247,25 @@ namespace easyunit
 		mem.add_record(rec) ;
 
 		mem.clear_memory() ;
-		ASSERT_EQUALS(0u, mem.size()) ;
-		ASSERT_EQUALS(false, mem.is_saved()) ;
-		ASSERT_TRUE(mem.m_file_location.IsEmpty()) ;
+		BOOST_CHECK_EQUAL(0u, mem.size()) ;
+		BOOST_CHECK_EQUAL(false, mem.is_saved()) ;
+		BOOST_CHECK(mem.m_file_location.IsEmpty()) ;
 	}
 	// remove_extra_string
-	TEST( TestMemory, remove_extra_string )
+	BOOST_AUTO_TEST_CASE( remove_extra_string )
 	{
 		memory_local mem ;
 
 		mem.m_extra_strings[L"foo"] = L"bar" ;
-		ASSERT_TRUE(! mem.m_extra_strings.empty()) ;
+		BOOST_CHECK(! mem.m_extra_strings.empty()) ;
 
 		mem.remove_extra_string(L"foo") ;
 
-		ASSERT_TRUE(mem.m_extra_strings.empty()) ;
+		BOOST_CHECK(mem.m_extra_strings.empty()) ;
 	}
 
 	// erase
-	TEST( TestMemory, erase )
+	BOOST_AUTO_TEST_CASE( erase )
 	{
 		memory_local mem ;
 
@@ -276,41 +274,41 @@ namespace easyunit
 		rec->set_trans(L"egg") ;
 		mem.add_record(rec) ;
 
-		ASSERT_EQUALS( 1u, mem.size() ) ;
-		ASSERT_EQUALS( false, mem.empty() ) ;
+		BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
+		BOOST_CHECK_EQUAL( false, mem.empty() ) ;
 
 		mem.erase(rec) ;
-		ASSERT_EQUALS( 0u, mem.size() ) ;
-		ASSERT_EQUALS( true, mem.empty() ) ;
+		BOOST_CHECK_EQUAL( 0u, mem.size() ) ;
+		BOOST_CHECK_EQUAL( true, mem.empty() ) ;
 	}
 
 	// set_extra_string
-	TEST( TestMemory, set_extra_string_add )
+	BOOST_AUTO_TEST_CASE( set_extra_string_add )
 	{
 		memory_local mem ;
-		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
+		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
-		ASSERT_EQUALS_V(1, (int)mem.m_extra_strings.size()) ;
-		ASSERT_EQUALS( L"bar", mem.get_extra_string(L"foo") ) ;
+		BOOST_CHECK_EQUAL(1, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK( L"bar" == mem.get_extra_string(L"foo") ) ;
 	}
-	TEST( TestMemory, set_extra_string_erase )
+	BOOST_AUTO_TEST_CASE( set_extra_string_erase )
 	{
 		memory_local mem ;
-		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
+		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
-		ASSERT_EQUALS_V(1, (int)mem.m_extra_strings.size()) ;
-		ASSERT_EQUALS( L"bar", mem.get_extra_string(L"foo") ) ;
+		BOOST_CHECK_EQUAL(1, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK( L"bar" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"" ) ;
-		ASSERT_EQUALS_V(0, (int)mem.m_extra_strings.size()) ;
-		ASSERT_EQUALS( L"", mem.get_extra_string(L"foo") ) ;
+		BOOST_CHECK_EQUAL(0, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 	}
 
 
 	// get_correct_encoding
-	TEST( memory_localTestCase, GetFileEncodingXmlUtf8 )
+	BOOST_AUTO_TEST_CASE( GetFileEncodingXmlUtf8 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		memory_local mem ;
@@ -323,9 +321,9 @@ namespace easyunit
 		file::view xml_view ;
 		char *text = (char *)xml_view.create_view( path.Path() ) ;
 
-		ASSERT_EQUALS( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
 	}
-	TEST( memory_localTestCase, GetFileEncodingTextUtf8 )
+	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf8 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		memory_local mem ;
@@ -338,10 +336,10 @@ namespace easyunit
 		file::view utf8_view ;
 		char *text = (char *)utf8_view.create_view( path.Path() ) ;
 
-		ASSERT_EQUALS( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
 
 	}
-	TEST( memory_localTestCase, GetFileEncodingTextSjis )
+	BOOST_AUTO_TEST_CASE( GetFileEncodingTextSjis )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		memory_local mem ;
@@ -354,10 +352,10 @@ namespace easyunit
 		file::view sjis_view ;
 		char *text = (char *)sjis_view.create_view( path.Path() ) ;
 
-		ASSERT_EQUALS( 932u, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( 932u, mem.get_correct_encoding( text, file_size ) ) ;
 
 	}
-	TEST( memory_localTestCase, GetFileEncodingTextUtf16 )
+	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf16 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		memory_local mem ;
@@ -370,11 +368,11 @@ namespace easyunit
 		file::view utf16_view ;
 		char *text = (char *)utf16_view.create_view( path.Path() ) ;
 
-		ASSERT_EQUALS( 1200u, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( 1200u, mem.get_correct_encoding( text, file_size ) ) ;
 	}
 
 	// load_header_raw_text
-	TEST(test_memory_local, load_header_raw_text)
+	BOOST_AUTO_TEST_CASE( load_header_raw_text)
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -399,11 +397,11 @@ namespace easyunit
 			"</memory>\n" ;
 		mem.load_header_raw_text(text, strlen(text)) ;
 		MemoryInfo *info = mem.get_memory_info() ;
-		ASSERT_EQUALS_V(10, (int)info->get_count()) ;
-		ASSERT_EQUALS_V(SimpleString("Felix"), SimpleString((LPCSTR)CW2A(info->get_creation_tool().c_str()))) ;
+		BOOST_CHECK_EQUAL(10, (int)info->get_count()) ;
+		BOOST_CHECK_EQUAL(string("Felix"), string((LPCSTR)CW2A(info->get_creation_tool().c_str()))) ;
 	}
 	// load_text
-	TEST( test_memory_local, TestZeroEntries )
+	BOOST_AUTO_TEST_CASE( TestZeroEntries )
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -428,9 +426,9 @@ namespace easyunit
 			"</memory>\n" ;
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyMemory.xml") ;
 		mem.load_text(text, filename, strlen(text)) ;
-		ASSERT_EQUALS( 0, mem.size() ) ;
+		BOOST_CHECK_EQUAL( 0, mem.size() ) ;
 	}
-	TEST( test_memory_local, test_one_entry )
+	BOOST_AUTO_TEST_CASE( test_one_entry )
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -460,17 +458,17 @@ namespace easyunit
 			"</record>"
 			"</records></memory>" ;
 		mem.load_text(text, filename, strlen(text)) ;
-		ASSERT_EQUALS_V((int)mem.size(), 1) ;
+		BOOST_CHECK_EQUAL((int)mem.size(), 1) ;
 
 		record_pointer rec = *(mem.begin()) ;
 
-		ASSERT_EQUALS(L"foo", rec->get_source_rich()) ;
-		ASSERT_EQUALS(L"bar", rec->get_trans_rich()) ;
-		ASSERT_EQUALS(0, rec->get_reliability()) ;
-		ASSERT_EQUALS(false, rec->is_validated()) ;
-		ASSERT_EQUALS(0, rec->get_refcount()) ;
+		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
+		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(0, rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
+		BOOST_CHECK_EQUAL(0, rec->get_refcount()) ;
 	}
-	TEST( test_memory_local, test_big_memory )
+	BOOST_AUTO_TEST_CASE( test_big_memory )
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -484,9 +482,9 @@ namespace easyunit
 		}
 		catch (CException&)
 		{
-			FAIL_M("Failed to load big memory") ;
+			BOOST_FAIL("Failed to load big memory") ;
 		}
-		ASSERT_EQUALS_V((int)mem.size(), 1) ;
+		BOOST_CHECK_EQUAL((int)mem.size(), 1) ;
 
 		/*
 		<source><![CDATA[foo]]></source>
@@ -500,13 +498,13 @@ namespace easyunit
 
 		record_pointer rec = *(mem.begin()) ;
 
-		ASSERT_EQUALS(L"foo", rec->get_source_rich()) ;
-		ASSERT_EQUALS(L"bar", rec->get_trans_rich()) ;
-		ASSERT_EQUALS(0, rec->get_reliability()) ;
-		ASSERT_EQUALS(false, rec->is_validated()) ;
-		ASSERT_EQUALS(0, rec->get_refcount()) ;
+		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
+		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(0, rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
+		BOOST_CHECK_EQUAL(0, rec->get_refcount()) ;
 	}
-	TEST( test_memory_local, TestDegenerateEmpty )
+	BOOST_AUTO_TEST_CASE( TestDegenerateEmpty )
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -514,15 +512,15 @@ namespace easyunit
 		try
 		{
 			mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyFile.xml") ) ;
-			FAIL_M( "Must throw on malformed memory (empty file)" ) ;
+			BOOST_FAIL( "Must throw on malformed memory (empty file)" ) ;
 		}
 		catch (CException &)
 		{
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 	}
 
-	TEST( test_memory_local, TestDegenerateBogus )
+	BOOST_AUTO_TEST_CASE( TestDegenerateBogus )
 	{
 		CMockListener listener ;
 		memory_local mem ;
@@ -530,15 +528,15 @@ namespace easyunit
 		try
 		{
 			mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ) ;
-			FAIL_M( "Must throw on malformed memory (really tmx)" ) ;
+			BOOST_FAIL( "Must throw on malformed memory (really tmx)" ) ;
 		}
 		catch (CException &)
 		{
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 	}
 
-	TEST(test_memory_local, GetMatchesSize1)
+	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
 	{
 		memory_local mem ;
 		add_record(mem, "I luv spam", "Yes I do") ;
@@ -550,9 +548,9 @@ namespace easyunit
 
 		mem.find_matches(matches, params) ;
 
-		ASSERT_EQUALS(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, matches.size()) ;
 	}
-	TEST(test_memory_local, GetMatchesSize2)
+	BOOST_AUTO_TEST_CASE( GetMatchesSize2)
 	{
 		memory_local mem ;
 		add_record(mem, "I luv spam", "Yes I do") ;
@@ -565,9 +563,9 @@ namespace easyunit
 
 		mem.find_matches(matches, params) ;
 
-		ASSERT_EQUALS(2, matches.size()) ;
+		BOOST_CHECK_EQUAL(2, matches.size()) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkup)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "baab", "baab") ;
@@ -579,17 +577,17 @@ namespace easyunit
 		params.m_source = L"aa" ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "<span class=\"nomatch\">b</span>aa<span class=\"nomatch\">b</span>" ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS(actual, expected) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupIgnoreCaseQuery)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupIgnoreCaseQuery)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "baab", "baab") ;
@@ -602,17 +600,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "<span class=\"nomatch\">C</span>AA<span class=\"nomatch\">C</span>" ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "<span class=\"nomatch\">C</span>AA<span class=\"nomatch\">C</span>" ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS(actual, expected) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupIgnoreCaseSource)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupIgnoreCaseSource)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "BAAB", "BAAB") ;
@@ -625,17 +623,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "<span class=\"nomatch\">B</span>AA<span class=\"nomatch\">B</span>" ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "<span class=\"nomatch\">B</span>AA<span class=\"nomatch\">B</span>" ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupWordAlgo)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupWordAlgo)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -648,17 +646,17 @@ namespace easyunit
 		params.m_match_algo = IDC_ALGO_WORD ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupWordAlgoIgnoreCase)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupWordAlgoIgnoreCase)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -672,17 +670,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupAutoAlgoIgnoreCaseQuery)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCaseQuery)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -696,17 +694,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I LOVE <span class=\"nomatch\">SPAM</span> AND EGGS." ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "I LOVE <span class=\"nomatch\">SPAM</span> AND EGGS." ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupAutoAlgoIgnoreCaseSource)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCaseSource)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -720,17 +718,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetMatchesMarkupAutoAlgoIgnoreCasePerfect)
+	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCasePerfect)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love Ham and Eggs.", "Nailed to the perch.") ;
@@ -744,18 +742,18 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "I love Ham and Eggs." ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "I love Ham and Eggs." ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 	// trans lookup
-	TEST(test_memory_local, GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
+	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -769,17 +767,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "NAILED TO THE PERCH." ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "NAILED TO THE PERCH." ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetTransMatchesMarkupWordAlgoIgnoreCaseTrans)
+	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseTrans)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -793,17 +791,17 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "Nailed to the perch." ;
-		SimpleString actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
+		string expected = "Nailed to the perch." ;
+		string actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	TEST(test_memory_local, GetTransMatchesMarkupCharAlgoIgnoreCaseTrans)
+	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupCharAlgoIgnoreCaseTrans)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the porch.") ;
@@ -817,18 +815,18 @@ namespace easyunit
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "Nailed to the p<span class=\"nomatch\">o</span>rch." ;
-		SimpleString actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
+		string expected = "Nailed to the p<span class=\"nomatch\">o</span>rch." ;
+		string actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
 
-		ASSERT_EQUALS_M(actual, expected, SimpleString("\nexpected: ") + expected + SimpleString("\nactual: ") + actual) ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 	// get_best_match_score
-	TEST(test_memory_local, test_get_best_match_score_1_0)
+	BOOST_AUTO_TEST_CASE( test_get_best_match_score_1_0)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "spam", "spam") ;
@@ -836,9 +834,9 @@ namespace easyunit
 		add_record(mem, "sausage", "sausage") ;
 
 		wstring query = L"spam" ;
-		ASSERT_EQUALS_DELTA_V(1.0f, mem.get_best_match_score(query), 0.001) ;
+		BOOST_CHECK_CLOSE((double)1.0f, mem.get_best_match_score(query), 0.001) ;
 	}
-	TEST(test_memory_local, test_get_best_match_score_0_5)
+	BOOST_AUTO_TEST_CASE( test_get_best_match_score_0_5)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "aaaa", "aaaa") ;
@@ -846,13 +844,13 @@ namespace easyunit
 		add_record(mem, "cccc", "cccc") ;
 
 		wstring query = L"aadd" ;
-		ASSERT_EQUALS_DELTA_V(0.5f, mem.get_best_match_score(query), 0.001) ;
+		BOOST_CHECK_CLOSE((double)0.5f, mem.get_best_match_score(query), 0.001) ;
 	}
 
 	/************************************************************************/
 	/* get_glossary_matches                                                 */
 	/************************************************************************/
-	TEST(test_memory_local, test_get_glossary_matches_100_char)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_100_char)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "egg", "trans") ;
@@ -869,14 +867,14 @@ namespace easyunit
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		ASSERT_EQUALS(match->get_markup()->GetSource(), L"egg") ;
-		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
+		BOOST_CHECK(match->get_markup()->GetSource() == L"egg") ;
+		BOOST_CHECK(match->get_markup()->GetTrans() == L"trans") ;
 	}
-	TEST(test_memory_local, test_get_glossary_matches_100_word)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_100_word)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "egg", "trans") ;
@@ -894,14 +892,14 @@ namespace easyunit
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		ASSERT_EQUALS_V(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		ASSERT_EQUALS(match->get_markup()->GetSource(), L"spam") ;
-		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"tasty pork") ;
+		BOOST_CHECK(match->get_markup()->GetSource() == L"spam") ;
+		BOOST_CHECK(match->get_markup()->GetTrans() == L"tasty pork") ;
 	}
-	TEST(test_memory_local, test_get_glossary_matches_50_char)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50_char)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "eggs", "trans") ;
@@ -918,16 +916,16 @@ namespace easyunit
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
-		SimpleString actual = string2string(match->get_markup()->GetSource()).c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
+		string expected = "<span class=\"partial_match1\">eggs</span>" ;
+		string actual = string2string(match->get_markup()->GetSource()).c_str() ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_markup()->GetTrans() == L"trans") ;
 	}
-	TEST(test_memory_local, test_get_glossary_matches_50_word)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50_word)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "eggs", "trans") ;
@@ -944,16 +942,16 @@ namespace easyunit
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
-		SimpleString expected = "<span class=\"partial_match1\">eggs</span>" ;
-		SimpleString actual = string2string(match->get_markup()->GetSource()).c_str() ;
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS(match->get_markup()->GetTrans(), L"trans") ;
+		string expected = "<span class=\"partial_match1\">eggs</span>" ;
+		string actual = string2string(match->get_markup()->GetSource()).c_str() ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_markup()->GetTrans() == L"trans") ;
 	}
-	TEST(test_memory_local, test_get_glossary_matches_ignore_case_query_char)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_ignore_case_query_char)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "spam", "spam") ;
@@ -969,10 +967,10 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 
-		ASSERT_EQUALS_V(3, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(3, (int)matches.size()) ;
 	}
 
-	TEST(test_memory_local, test_get_glossary_matches_ignore_case_source)
+	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_ignore_case_source)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "SPAM", "SPAM") ;
@@ -988,13 +986,13 @@ namespace easyunit
 
 		mem.get_glossary_matches(matches, params) ;
 
-		ASSERT_EQUALS_V(3, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(3, (int)matches.size()) ;
 	}
 
 	/************************************************************************/
 	/* get_gloss_fuzzy                                                      */
 	/************************************************************************/
-	TEST(test_memory_local, get_gloss_fuzzy_kata_100)
+	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_100)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
@@ -1010,10 +1008,10 @@ namespace easyunit
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 	}
 
-	TEST(test_memory_local, get_gloss_fuzzy_kanji_100)
+	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kanji_100)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
@@ -1029,10 +1027,10 @@ namespace easyunit
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 	}
 
-	TEST(test_memory_local, get_gloss_fuzzy_hira_100)
+	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_hira_100)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
@@ -1048,10 +1046,10 @@ namespace easyunit
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 	}
 
-	TEST(test_memory_local, get_gloss_fuzzy_kata_exact)
+	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_exact)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, L"ビニロン", L"ビニロン") ;
@@ -1065,13 +1063,13 @@ namespace easyunit
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		search_match_ptr match = *matches.begin() ;
-		ASSERT_EQUALS_DELTA_V(1.0, match->get_score(), 0.00001) ;
+		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.00001) ;
 	}
 
 
-	TEST(test_memory_local, get_gloss_fuzzy_kata_50)
+	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_50)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
@@ -1088,16 +1086,16 @@ namespace easyunit
 		mem.m_gloss_properties.set_min_score(10) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		search_match_ptr match = *matches.begin() ;
-		ASSERT_EQUALS_DELTA_V(0.5, match->get_score(), 0.00001) ;
+		BOOST_CHECK_CLOSE(0.5, match->get_score(), 0.00001) ;
 	}
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// tabulate_fonts
 	//////////////////////////////////////////////////////////////////////////
-	TEST(test_memory_local, test_tabulate_fonts_size_2)
+	BOOST_AUTO_TEST_CASE( test_tabulate_fonts_size_2)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "<font face=\"Helvetica\">spam</font>", "spam") ;
@@ -1108,16 +1106,16 @@ namespace easyunit
 		mem.tabulate_fonts(tabulator) ;
 
 		font_tabulator::font_set fonts = tabulator.get_font_set() ;
-		ASSERT_EQUALS_V(2, (int)fonts.size()) ;
-		ASSERT_TRUE(fonts.find(L"helvetica") != fonts.end()) ;
-		ASSERT_TRUE(fonts.find(L"times") != fonts.end()) ;
-		ASSERT_TRUE(fonts.find(L"symbol") == fonts.end()) ;
+		BOOST_CHECK_EQUAL(2, (int)fonts.size()) ;
+		BOOST_CHECK(fonts.find(L"helvetica") != fonts.end()) ;
+		BOOST_CHECK(fonts.find(L"times") != fonts.end()) ;
+		BOOST_CHECK(fonts.find(L"symbol") == fonts.end()) ;
 	}
 	
 	/************************************************************************/
 	/* concordance                                                          */
 	/************************************************************************/
-	TEST(test_memory_local, concordance_0)
+	BOOST_AUTO_TEST_CASE( concordance_0)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -1133,9 +1131,9 @@ namespace easyunit
 		params.m_use_regex = false ;
 
 		mem.perform_search( matches, params ) ;
-		ASSERT_EQUALS_V(0, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)matches.size()) ;
 	}
-	TEST(test_memory_local, concordance_1)
+	BOOST_AUTO_TEST_CASE( concordance_1)
 	{
 		memory_local mem(0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
@@ -1151,16 +1149,16 @@ namespace easyunit
 		params.m_use_regex = false ;
 
 		mem.perform_search( matches, params ) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		search_match_ptr match = *(matches.begin()) ;
-		ASSERT_EQUALS(match->get_record()->get_source_rich(), L"I love ham and eggs.") ;
-		ASSERT_EQUALS_V((int)match->get_memory_id(), (int)mem.get_id()) ;
+		BOOST_CHECK(match->get_record()->get_source_rich() == L"I love ham and eggs.") ;
+		BOOST_CHECK_EQUAL((int)match->get_memory_id(), (int)mem.get_id()) ;
 	}
 
 	// reverse concordance
 
-	TEST(test_memory_local, rconcordance)
+	BOOST_AUTO_TEST_CASE( rconcordance)
 	{
 		memory_local mem(0.0f) ;
 
@@ -1175,7 +1173,7 @@ namespace easyunit
 
 		// on empty memory
 		mem.perform_search( matches, params ) ;
-		ASSERT_TRUE(matches.empty()) ;
+		BOOST_CHECK(matches.empty()) ;
 
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
@@ -1187,7 +1185,7 @@ namespace easyunit
 
 		// one record but no match
 		mem.perform_search( matches, params ) ;
-		ASSERT_TRUE(matches.empty()) ;
+		BOOST_CHECK(matches.empty()) ;
 
 		// this will hold our matches
 		params.m_trans = L"perch" ;
@@ -1198,22 +1196,20 @@ namespace easyunit
 
 		// one match
 		mem.perform_search( matches, params ) ;
-		ASSERT_EQUALS_V(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		search_match_ptr match = *(matches.begin()) ;
-		ASSERT_EQUALS(match->get_record()->get_trans_rich(), L"Nailed to the perch.") ;
+		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 
 		add_record(mem, "I love ham and eggs with toast.", "Nailed to the perch.") ;
 
 		// two matches
 		matches.clear() ;
 		mem.perform_search( matches, params ) ;
-		ASSERT_EQUALS_V(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
 
 		match = *(matches.begin()) ;
-		ASSERT_EQUALS(match->get_record()->get_trans_rich(), L"Nailed to the perch.") ;
+		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 	}
 
-
-}
-#endif // UNIT_TEST
+BOOST_AUTO_TEST_SUITE_END()

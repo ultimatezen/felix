@@ -362,7 +362,6 @@ namespace mem_engine
 
 	size_t memory_remote::size()
 	{
-		logging::log_debug("memory_remote: retrieving memory size") ;
 		return static_cast< size_t >( this->m_engine.method(L"GetInfo", L"size").lVal ) ;
 	}
 

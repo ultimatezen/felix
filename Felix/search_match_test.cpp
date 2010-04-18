@@ -3,11 +3,10 @@
 #include "search_match.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
-#ifdef UNIT_TEST
-namespace easyunit
-{
+BOOST_AUTO_TEST_SUITE( translation_match_compareTest )
+
 	using namespace mem_engine ;
 
 	/************************************************************************
@@ -20,7 +19,7 @@ namespace easyunit
 	// translation_match_compare
 	//////////////////////////////////////////////////////////////////////////
 
-	TEST( translation_match_compareTest, Reliability )
+	BOOST_AUTO_TEST_CASE( Reliability )
 	{	
 		search_match_ptr a(new search_match) ;
 		record_pointer ra(new record_local()) ;
@@ -32,10 +31,10 @@ namespace easyunit
 		rb->set_reliability( 4 ) ;
 		b->set_record( rb ) ;
 
-		ASSERT_TRUE( translation_match_compare()( b, a ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
 	}
-	TEST( translation_match_compareTest, ReliabilityTie )
+	BOOST_AUTO_TEST_CASE( ReliabilityTie )
 	{	
 		search_match_ptr a(new search_match) ;
 		record_pointer ra(new record_local()) ;
@@ -54,11 +53,11 @@ namespace easyunit
 		ra->set_modified(modified) ;
 		rb->set_modified(modified) ;
 
-		ASSERT_TRUE( ! translation_match_compare()( b, a ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
 	}
 
-	TEST( translation_match_compareTest, Validated )
+	BOOST_AUTO_TEST_CASE( Validated )
 	{	
 		search_match_ptr a(new search_match) ;
 		record_pointer ra(new record_local()) ;
@@ -70,10 +69,10 @@ namespace easyunit
 		rb->set_validated_off() ;
 		b->set_record( rb ) ;
 
-		ASSERT_TRUE( translation_match_compare()( a, b ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( b, a ) ) ;
 	}
-	TEST( translation_match_compareTest, ValidatedBothTrue )
+	BOOST_AUTO_TEST_CASE( ValidatedBothTrue )
 	{	
 		search_match_ptr a(new search_match) ;
 		record_pointer ra(new record_local()) ;
@@ -92,10 +91,10 @@ namespace easyunit
 		ra->set_modified(modified) ;
 		rb->set_modified(modified) ;
 
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( b, a ) ) ;
 	}
-	TEST( translation_match_compareTest, ValidatedBothFalse )
+	BOOST_AUTO_TEST_CASE( ValidatedBothFalse )
 	{	
 		search_match_ptr a(new search_match) ;
 		record_pointer ra(new record_local()) ;
@@ -114,11 +113,11 @@ namespace easyunit
 		ra->set_modified(modified) ;
 		rb->set_modified(modified) ;
 
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( b, a ) ) ;
 	}
 
-	TEST( translation_match_compareTest, Score )
+	BOOST_AUTO_TEST_CASE( Score )
 	{	
 		search_match_ptr a(new search_match) ;
 		a->set_base_score( 0.0 ) ;
@@ -126,11 +125,11 @@ namespace easyunit
 		search_match_ptr b(new search_match) ;
 		b->set_base_score( 0.1 ) ;
 
-		ASSERT_TRUE( translation_match_compare()( b, a ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
 	}
 
-	TEST( translation_match_compareTest, ScoreTie )
+	BOOST_AUTO_TEST_CASE( ScoreTie )
 	{	
 		search_match_ptr a(new search_match) ;
 		a->set_base_score( 0.5 ) ;
@@ -152,36 +151,38 @@ namespace easyunit
 		ra->set_modified(modified) ;
 		rb->set_modified(modified) ;
 
-		ASSERT_TRUE( ! translation_match_compare()( b, a ) ) ;
-		ASSERT_TRUE( ! translation_match_compare()( a, b ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( b, a ) ) ;
+		BOOST_CHECK( ! translation_match_compare()( a, b ) ) ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	//  search_match
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( search_matchTestCase )
+using namespace mem_engine ;
 
-	TEST( search_matchTestCase, Score )
+	BOOST_AUTO_TEST_CASE( Score )
 	{
 		search_match match ;
 
-		ASSERT_EQUALS_DELTA( match.get_score(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( match.get_base_score(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( match.get_formatting_penalty(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS( false, match.has_formatting_penalty() ) ;
+		BOOST_CHECK_CLOSE( match.get_score(), 0.0, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_base_score(), 0.0, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_formatting_penalty(), 0.0, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( false, match.has_formatting_penalty() ) ;
 
 		match.set_base_score( 0.5f ) ;
-		ASSERT_EQUALS_DELTA( match.get_score(), 0.5f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( match.get_base_score(), 0.5f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_score(), 0.5, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_base_score(), 0.5, 0.0001 ) ;
 
-		match.set_formatting_penalty( 0.1f ) ;
-		ASSERT_EQUALS_DELTA( match.get_formatting_penalty(), 0.1f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( match.get_base_score(), 0.5f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( match.get_score(), 0.4f, 0.0001 ) ;
-		ASSERT_EQUALS( true, match.has_formatting_penalty() ) ;
+		match.set_formatting_penalty( 0.1 ) ;
+		BOOST_CHECK_CLOSE( match.get_formatting_penalty(), 0.1, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_base_score(), 0.5, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( match.get_score(), 0.4, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( true, match.has_formatting_penalty() ) ;
 
 	}
 
-	TEST( search_matchTestCase, Markup )
+	BOOST_AUTO_TEST_CASE( Markup )
 	{
 		search_match match ;
 
@@ -191,13 +192,13 @@ namespace easyunit
 		pMarkup->SetTrans( L"trans" ) ;
 		pMarkup->SetContext( L"context" ) ;
 
-		ASSERT_EQUALS(  L"source", match.get_markup()->GetSource() ) ;
-		ASSERT_EQUALS(  L"trans", match.get_markup()->GetTrans() ) ;
-		ASSERT_EQUALS(  L"context", match.get_markup()->GetContext() ) ;
+		BOOST_CHECK_EQUAL(  L"source", match.get_markup()->GetSource() ) ;
+		BOOST_CHECK_EQUAL(  L"trans", match.get_markup()->GetTrans() ) ;
+		BOOST_CHECK_EQUAL(  L"context", match.get_markup()->GetContext() ) ;
 
 	}
 
-	TEST( search_matchTestCase, Assignment )
+	BOOST_AUTO_TEST_CASE( Assignment )
 	{
 		search_match_ptr match1(new search_match), match2(new search_match) ;
 
@@ -209,10 +210,8 @@ namespace easyunit
 
 		match2 = match1 ;
 
-		ASSERT_EQUALS(  L"source", match2->get_markup()->GetSource() ) ;
-		ASSERT_EQUALS(  L"trans", match2->get_markup()->GetTrans() ) ;
-		ASSERT_EQUALS(  L"context", match2->get_markup()->GetContext() ) ;
+		BOOST_CHECK_EQUAL(  L"source", match2->get_markup()->GetSource() ) ;
+		BOOST_CHECK_EQUAL(  L"trans", match2->get_markup()->GetTrans() ) ;
+		BOOST_CHECK_EQUAL(  L"context", match2->get_markup()->GetContext() ) ;
 	}
-}
-
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()

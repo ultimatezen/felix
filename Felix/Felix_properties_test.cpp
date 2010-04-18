@@ -10,28 +10,24 @@
 #include "StdAfx.h"
 #include "Felix_properties.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( test_properties )
 
-#ifdef _DEBUG
 
-namespace easyunit
-{
 	// defaults
 
 	using namespace app_props ;
 
-	TEST( app_props_tests, NumMems)
+	BOOST_AUTO_TEST_CASE( test_NumMems_15 )
 	{
-		ASSERT_EQUALS_V(15, NumMems) ;
+		BOOST_CHECK_EQUAL(15, NumMems) ;
 	}
-	TEST( properties_general_tests, user_name_default_RyanVista)
+	BOOST_AUTO_TEST_CASE( user_name_default_Ryan)
 	{
 		properties_general props ;
-		SimpleString actual = (LPCSTR)CStringA(props.m_data.m_user_name); 
-		SimpleString expected = "Ryan" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		wstring actual(props.m_data.m_user_name); 
+		wstring expected = L"Ryan" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-}
-
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()

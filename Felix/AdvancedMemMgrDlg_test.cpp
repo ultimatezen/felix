@@ -1,93 +1,88 @@
 #include "StdAfx.h"
 #include "AdvancedMemMgrDlg.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
-#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCAdvancedMemMgrDlg )
 
-namespace easyunit
+BOOST_AUTO_TEST_CASE( get_reliability_0 )
 {
-	TEST( TestCAdvancedMemMgrDlg, get_reliability_0 )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		int reliability = dlg.parse_reliability(_T("0")) ;
-		ASSERT_EQUALS_V(reliability, 0) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, get_reliability_blank )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		int reliability = dlg.parse_reliability(_T("")) ;
-		ASSERT_EQUALS_V(reliability, -1) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, get_reliability_10 )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		int reliability = dlg.parse_reliability(_T("10")) ;
-		ASSERT_EQUALS_V(reliability, 10) ;
-	}
-
-	TEST( TestCAdvancedMemMgrDlg, validation )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		ASSERT_EQUALS_V(dlg.get_validation(), BST_UNCHECKED) ;
-		dlg.set_validation(BST_CHECKED) ;
-		ASSERT_EQUALS_V(dlg.get_validation(), BST_CHECKED) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, reliability )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		ASSERT_EQUALS_V((int)dlg.get_reliability(), -1) ;
-		dlg.set_reliability(10) ;
-		ASSERT_EQUALS_V((int)dlg.get_reliability(), 10) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, lock )
-	{
-		CAdvancedMemMgrDlg dlg ;
-		ASSERT_EQUALS_V(dlg.get_lock(), BST_UNCHECKED) ;
-		dlg.set_lock(BST_CHECKED) ;
-		ASSERT_EQUALS_V(dlg.get_lock(), BST_CHECKED) ;
-	}
-
-	// message processing
-	TEST( TestCAdvancedMemMgrDlg, test_message_WM_INITDIALOG)
-	{
-		CAdvancedMemMgrDlg dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, test_message_IDOK)
-	{
-		CAdvancedMemMgrDlg dialog ;
-		dialog.m_bModal = TRUE ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnOK"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, test_message_IDCANCEL)
-	{
-		CAdvancedMemMgrDlg dialog ;
-		dialog.m_bModal = TRUE ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
-	}
-	TEST( TestCAdvancedMemMgrDlg, test_message_ZERO)
-	{
-		CAdvancedMemMgrDlg dialog ;
-		LRESULT lResult = 1 ;
-		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(0, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(0, (int)result) ;
-		ASSERT_EQUALS_V(1, (int)lResult) ;
-	}
+	CAdvancedMemMgrDlg dlg ;
+	int reliability = dlg.parse_reliability(_T("0")) ;
+	BOOST_CHECK_EQUAL(reliability, 0) ;
+}
+BOOST_AUTO_TEST_CASE(get_reliability_blank )
+{
+	CAdvancedMemMgrDlg dlg ;
+	int reliability = dlg.parse_reliability(_T("")) ;
+	BOOST_CHECK_EQUAL(reliability, -1) ;
+}
+BOOST_AUTO_TEST_CASE(get_reliability_10 )
+{
+	CAdvancedMemMgrDlg dlg ;
+	int reliability = dlg.parse_reliability(_T("10")) ;
+	BOOST_CHECK_EQUAL(reliability, 10) ;
 }
 
+BOOST_AUTO_TEST_CASE(validation )
+{
+	CAdvancedMemMgrDlg dlg ;
+	BOOST_CHECK_EQUAL(dlg.get_validation(), BST_UNCHECKED) ;
+	dlg.set_validation(BST_CHECKED) ;
+	BOOST_CHECK_EQUAL(dlg.get_validation(), BST_CHECKED) ;
+}
+BOOST_AUTO_TEST_CASE(reliability )
+{
+	CAdvancedMemMgrDlg dlg ;
+	BOOST_CHECK_EQUAL((int)dlg.get_reliability(), -1) ;
+	dlg.set_reliability(10) ;
+	BOOST_CHECK_EQUAL((int)dlg.get_reliability(), 10) ;
+}
+BOOST_AUTO_TEST_CASE(lock )
+{
+	CAdvancedMemMgrDlg dlg ;
+	BOOST_CHECK_EQUAL(dlg.get_lock(), BST_UNCHECKED) ;
+	dlg.set_lock(BST_CHECKED) ;
+	BOOST_CHECK_EQUAL(dlg.get_lock(), BST_CHECKED) ;
+}
 
-#endif // #ifdef _DEBUG
+// message processing
+BOOST_AUTO_TEST_CASE(test_message_WM_INITDIALOG)
+{
+	CAdvancedMemMgrDlg dialog ;
+	LRESULT lResult = 1 ;
+	dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
+	BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL( dialog.m_sensing_variable[0], "OnInitDialog"); 
+	BOOST_CHECK_EQUAL( 1, (int)lResult) ;
+}
+BOOST_AUTO_TEST_CASE(test_message_IDOK)
+{
+	CAdvancedMemMgrDlg dialog ;
+	dialog.m_bModal = TRUE ;
+	LRESULT lResult = 1 ;
+	dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
+	BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL( dialog.m_sensing_variable[0], "OnOK"); 
+	BOOST_CHECK_EQUAL( 0, (int)lResult) ;
+}
+BOOST_AUTO_TEST_CASE(test_message_IDCANCEL)
+{
+	CAdvancedMemMgrDlg dialog ;
+	dialog.m_bModal = TRUE ;
+	LRESULT lResult = 1 ;
+	dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
+	BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL( dialog.m_sensing_variable[0], "OnCancel"); 
+	BOOST_CHECK_EQUAL( 0, (int)lResult) ;
+}
+BOOST_AUTO_TEST_CASE(test_message_ZERO)
+{
+	CAdvancedMemMgrDlg dialog ;
+	LRESULT lResult = 1 ;
+	BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
+	BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL(0, (int)result) ;
+	BOOST_CHECK_EQUAL(1, (int)lResult) ;
+}
+BOOST_AUTO_TEST_SUITE_END()

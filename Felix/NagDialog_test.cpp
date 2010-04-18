@@ -1,57 +1,53 @@
 #include "StdAfx.h"
 #include "NagDialog.h"
 
-#include "easyunit/testharness.h"
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( CColorRefTestCases )
 
-#ifdef UNIT_TEST
-namespace easyunit
-{
-	TEST( TestCNagDialog, instantiate)
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
 		CNagDialog dialog ;
-		ASSERT_EQUALS_V(IDD_NAG_BOX, CNagDialog::IDD) ;
+		BOOST_CHECK_EQUAL(IDD_NAG_BOX, CNagDialog::IDD) ;
 	}
 
 	// CExportDialog message processing
-	TEST( TestCNagDialog, test_message_WM_INITDIALOG)
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CNagDialog dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestCNagDialog, test_message_IDOK)
+	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
 		CNagDialog dialog ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestCNagDialog, test_message_IDCANCEL)
+	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
 		CNagDialog dialog ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestCNagDialog, test_message_ZERO)
+	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CNagDialog dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(0, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(0, (int)result) ;
-		ASSERT_EQUALS_V(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)result) ;
+		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
-}
-#endif
-#endif
+
+BOOST_AUTO_TEST_SUITE_END()

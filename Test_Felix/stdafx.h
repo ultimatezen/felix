@@ -9,6 +9,8 @@
 
 // This is to keep the compiler from complaining about insecure code in the STL (as if I can do anything about it!)
 #define _SCL_SECURE_NO_WARNINGS
+#define BOOST_UNIT_TESTING
+#define UNIT_TEST
 
 // Change these values to use different versions
 #define _WINVER			0x0500  // Windows 2000
@@ -134,7 +136,8 @@ extern CLocalizedServerAppModule _Module;
 
 #include <atlwin.h>
 
-#ifdef UNIT_TEST
+#ifdef BOOST_UNIT_TESTING
+
 #include "FakeWindow.h"
 #define TWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
@@ -193,6 +196,14 @@ static const double EPSILON = 0.00001 ;
 #define LOGGING_SERVER L"FelixHelpers.FelixLogger"
 #define LOGFILE_NAME _T("felix.log")
 
+namespace std {
+	inline std::ostream& operator<<(std::ostream& out, const std::wstring& value)
+	{
+		out << string2string(value);
+		return out;
+	}
+
+} 
 
 #ifdef _EMBEDDED_MANIFEST
 #if defined _M_IX86

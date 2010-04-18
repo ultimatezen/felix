@@ -3,5 +3,5 @@
 
 #include "stdafx.h"
 
-#define BOOST_TEST_MODULE ColorRefTests
+#define BOOST_TEST_MODULE WordAssistTests
 #include <boost/test/unit_test.hpp>

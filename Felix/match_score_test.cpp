@@ -10,33 +10,31 @@
 #include "StdAfx.h"
 #include "match_score.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 
-#ifdef _DEBUG
 
-namespace easyunit
-{
-	TEST( match_scoreTestCase, Score )
+	BOOST_AUTO_TEST_CASE( Score )
 	{
 		match_score mscore ;
 
-		ASSERT_EQUALS_DELTA( mscore.get_score(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore.GetBaseScore(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore.GetFormattingPenalty(), 0.f, 0.0001 ) ;
-		ASSERT_EQUALS( false, mscore.HasFormattingPenalty() ) ;
+		BOOST_CHECK_CLOSE( mscore.get_score(), (double)0.f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.GetFormattingPenalty(), (double)0.f, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( false, mscore.HasFormattingPenalty() ) ;
 
 		mscore.SetBaseScore( 0.5f ) ;
-		ASSERT_EQUALS_DELTA( mscore.get_score(), 0.5f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore.GetBaseScore(), 0.5f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.get_score(), (double)0.5f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.5f, 0.0001 ) ;
 
 		mscore.SetFormattingPenalty( 0.1f ) ;
-		ASSERT_EQUALS_DELTA( mscore.GetFormattingPenalty(), 0.1f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore.GetBaseScore(), 0.5f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore.get_score(), 0.4f, 0.0001 ) ;
-		ASSERT_EQUALS( true, mscore.HasFormattingPenalty() ) ;
+		BOOST_CHECK_CLOSE( mscore.GetFormattingPenalty(), (double)0.1f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.5f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore.get_score(), (double)0.4f, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( true, mscore.HasFormattingPenalty() ) ;
 	}
 
-	TEST( match_scoreTestCase, Assignment )
+	BOOST_AUTO_TEST_CASE( Assignment )
 	{
 		match_score mscore ;
 		mscore.SetBaseScore( 0.5f ) ;
@@ -44,12 +42,10 @@ namespace easyunit
 
 		match_score mscore2 = mscore ;
 
-		ASSERT_EQUALS_DELTA( mscore2.GetFormattingPenalty(), 0.1f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore2.GetBaseScore(), 0.5f, 0.0001 ) ;
-		ASSERT_EQUALS_DELTA( mscore2.get_score(), 0.4f, 0.0001 ) ;
-		ASSERT_EQUALS( true, mscore2.HasFormattingPenalty() ) ;
+		BOOST_CHECK_CLOSE( mscore2.GetFormattingPenalty(), (double)0.1f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore2.GetBaseScore(), (double)0.5f, 0.0001 ) ;
+		BOOST_CHECK_CLOSE( mscore2.get_score(), (double)0.4f, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( true, mscore2.HasFormattingPenalty() ) ;
 
 	}
-}
-
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()

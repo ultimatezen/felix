@@ -3,14 +3,14 @@
 #include "ResHtmlFile.h"
 #include "file.h"
 
-#include "easyunit/testharness.h"
 #include "textstream_reader.h"
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
 
-namespace easyunit
-{
-	using namespace text_tmpl ;
-	TEST( AppTemplateTest, ReplaceTestTu )
+BOOST_AUTO_TEST_SUITE( AppTemplateTest )
+
+using namespace text_tmpl ;
+
+BOOST_AUTO_TEST_CASE( ReplaceTestTu )
 	{
 		CTextTemplate textTemplate ;
 		textTemplate.SetMarker(L'@') ;
@@ -29,7 +29,7 @@ namespace easyunit
 		file::view raw_view ;
 
 		LPCWSTR rawData = static_cast< LPCWSTR >( raw_view.create_view( _T("C:\\Dev\\Test Files\\tatemplates\\tmx_tu_out.xml") ) ) ;
-		ASSERT_TRUE( rawData != NULL ) ;
+		BOOST_CHECK( rawData != NULL ) ;
 		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(rawData) ;
 		reader.jump_to_first_of(L'<') ;
@@ -45,9 +45,7 @@ namespace easyunit
 			 ;
 
 		wstring FetchedData = textTemplate.Fetch( resFile ) ;
-		ASSERT_EQUALS( FetchedData, expected ) ;
+		BOOST_CHECK( FetchedData == expected ) ;
 	}
 
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

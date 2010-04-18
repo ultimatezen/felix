@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "html_writer.h"
 
-#ifdef UNIT_TEST
-#include "easyunit/testharness.h"
 
-namespace easyunit
-{
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
+
+
 	class fake_html_writer : public html_writer
 	{
 	public:
@@ -38,5 +38,4 @@ namespace easyunit
 			FAIL_M( "Failed to instantiate html_writer class in test harness" ) ;
 		}
 	}
-}
-#endif
+BOOST_AUTO_TEST_SUITE_END()

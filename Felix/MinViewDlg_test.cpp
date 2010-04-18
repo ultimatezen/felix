@@ -1,36 +1,33 @@
 #include "StdAfx.h"
 #include "MinViewDlg.h"
 
-#include "easyunit/testharness.h"
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMinViewDlg )
 
-namespace easyunit
-{
-	TEST( TestMinViewDlg, instantiate)
+
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
 		CMinViewDlg dialog ;
-		ASSERT_EQUALS_V(IDD_MIN_VIEW_DLG, CMinViewDlg::IDD) ;
+		BOOST_CHECK_EQUAL(IDD_MIN_VIEW_DLG, CMinViewDlg::IDD) ;
 	}
 	// CExportDialog message processing
-	TEST( TestMinViewDlg, test_message_WM_INITDIALOG)
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CMinViewDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( "OnInitDialog", SimpleString(dialog.m_sensing_variable[0].c_str())); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( "OnInitDialog", string(dialog.m_sensing_variable[0].c_str())); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestMinViewDlg, test_message_ZERO)
+	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CMinViewDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(0, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(0, (int)result) ;
-		ASSERT_EQUALS_V(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)result) ;
+		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
 
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

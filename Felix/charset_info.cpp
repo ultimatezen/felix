@@ -155,6 +155,5 @@ unsigned int charset_info::cp_from_lang_str( const string lang ) const
 		}
 	}
 
-	ATLTRACE( "Unknown language code!!\n" ) ;
 	return CP_ACP ;
 }

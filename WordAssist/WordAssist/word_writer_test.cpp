@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "word_writer.h"
 
-#ifdef UNIT_TEST
-#include "easyunit/testharness.h"
 
-namespace easyunit
-{
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
 	TEST( word_writer_test, Instantiate )
 	{
@@ -20,5 +18,4 @@ namespace easyunit
 			FAIL_M( "Failed to instantiate word_writer class in test harness" ) ;
 		}
 	}
-}
-#endif
+BOOST_AUTO_TEST_SUITE_END()

@@ -2,51 +2,50 @@
 #include "memory_header.h"
 #include "output_device_fake.h"
 #include "Felix_properties.h"
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( memory_header_test_case )
 
-namespace easyunit
-{
 	// defaults
+	using boost::contains ;
 
-	TEST( memory_header_test_case, get_header_default_modified_by_RyanVista)
+	BOOST_AUTO_TEST_CASE( get_header_default_modified_by_RyanVista)
 	{
 		app_props::properties_general props; 
 		props.read_from_registry() ;
 
 		mem_engine::memory_header header ;
-		ASSERT_EQUALS(header.get_modified_by(), props.m_data.m_user_name) ;
+		BOOST_CHECK(header.get_modified_by() == props.m_data.m_user_name) ;
 	}
-	TEST( memory_header_test_case, get_header_default_modified_by_equals_creator)
+	BOOST_AUTO_TEST_CASE( get_header_default_modified_by_equals_creator)
 	{
 		mem_engine::memory_header header ;
-		ASSERT_EQUALS(header.get_creator(), header.get_modified_by()) ;
+		BOOST_CHECK(header.get_creator() == header.get_modified_by()) ;
 	}
-	TEST( memory_header_test_case, get_header_default_modified_on_equals_created_on)
+	BOOST_AUTO_TEST_CASE( get_header_default_modified_on_equals_created_on)
 	{
 		mem_engine::memory_header header ;
-		ASSERT_EQUALS(header.get_created_on(), header.get_modified_on()) ;
+		BOOST_CHECK(header.get_created_on() == header.get_modified_on()) ;
 	}
 
 	// getters and setters
 
-	TEST( memory_header_test_case, get_header_getset_modified_by)
+	BOOST_AUTO_TEST_CASE( get_header_getset_modified_by)
 	{
 		mem_engine::memory_header header ;
 		header.set_modified_by(L"spam") ;
-		ASSERT_EQUALS(header.get_modified_by(), L"spam") ;
+		BOOST_CHECK(header.get_modified_by() == L"spam") ;
 	}
-	TEST( memory_header_test_case, get_header_getset_modified_on)
+	BOOST_AUTO_TEST_CASE( get_header_getset_modified_on)
 	{
 		mem_engine::memory_header header ;
 		header.set_modified_on(L"spam") ;
-		ASSERT_EQUALS(header.get_modified_on(), L"spam") ;
+		BOOST_CHECK(header.get_modified_on() == L"spam") ;
 	}
 
 	// parsing
 
-	TEST( memory_header_test_case, get_header_field_empty)
+	BOOST_AUTO_TEST_CASE( get_header_field_empty)
 	{
 		mem_engine::memory_header header ;
 
@@ -54,9 +53,9 @@ namespace easyunit
 		LPCWSTR text = L"" ;
 		reader.set_buffer(text) ;
 		CStringA field = header.get_header_field(reader, L"spam").c_str() ;
-		ASSERT_EQUALS_V(field, "") ;
+		BOOST_CHECK_EQUAL(field, "") ;
 	}
-	TEST( memory_header_test_case, get_header_field_broken)
+	BOOST_AUTO_TEST_CASE( get_header_field_broken)
 	{
 		mem_engine::memory_header header ;
 
@@ -64,9 +63,9 @@ namespace easyunit
 		LPCWSTR text = L"<spam>egg</sp<one>two</one>" ;
 		reader.set_buffer(text) ;
 		CStringA field = header.get_header_field(reader, L"spam").c_str() ;
-		ASSERT_EQUALS_V(field, "") ;
+		BOOST_CHECK_EQUAL(field, "") ;
 	}
-	TEST( memory_header_test_case, get_header_field_spam_egg)
+	BOOST_AUTO_TEST_CASE( get_header_field_spam_egg)
 	{
 		mem_engine::memory_header header ;
 
@@ -74,9 +73,9 @@ namespace easyunit
 		LPCWSTR text = L"<spam>egg</spam>" ;
 		reader.set_buffer(text) ;
 		CStringA field = header.get_header_field(reader, L"spam").c_str() ;
-		ASSERT_EQUALS_V("egg", field) ;
+		BOOST_CHECK_EQUAL("egg", field) ;
 	}
-	TEST( memory_header_test_case, read_header)
+	BOOST_AUTO_TEST_CASE( read_header)
 	{
 		mem_engine::memory_header header ;
 
@@ -99,22 +98,22 @@ namespace easyunit
 		props.read_from_registry() ;
 
 		header.read_header(header_text) ;
-		ASSERT_EQUALS(SimpleString(string2string(header.get_creator()).c_str()), "RyanVista") ;
-		ASSERT_EQUALS(SimpleString(string2string(header.get_created_on()).c_str()), "2007/08/23 13:52:38") ;
-		ASSERT_EQUALS(SimpleString(string2string(header.get_creation_tool()).c_str()), "Felix") ;
-		ASSERT_EQUALS(SimpleString(string2string(header.get_creation_tool_version()).c_str()), "1.0") ;
-		ASSERT_EQUALS_V(header.get_count(), 6) ;
-		ASSERT_EQUALS(header.is_locked(), false) ;
-		ASSERT_EQUALS(header.is_memory(), false) ;
+		BOOST_CHECK_EQUAL(string(string2string(header.get_creator()).c_str()), "RyanVista") ;
+		BOOST_CHECK_EQUAL(string(string2string(header.get_created_on()).c_str()), "2007/08/23 13:52:38") ;
+		BOOST_CHECK_EQUAL(string(string2string(header.get_creation_tool()).c_str()), "Felix") ;
+		BOOST_CHECK_EQUAL(string(string2string(header.get_creation_tool_version()).c_str()), "1.0") ;
+		BOOST_CHECK_EQUAL(header.get_count(), 6) ;
+		BOOST_CHECK_EQUAL(header.is_locked(), false) ;
+		BOOST_CHECK_EQUAL(header.is_memory(), false) ;
 		// this one is the default value
-		ASSERT_EQUALS(SimpleString("RyanVista"), (LPCSTR)(CStringA(header.get_modified_by().c_str()))) ;
+		BOOST_CHECK_EQUAL(string("RyanVista"), (LPCSTR)(CStringA(header.get_modified_by().c_str()))) ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Test writing
 	//////////////////////////////////////////////////////////////////////////
 
-	TEST( memory_header_test_case, write_header_creator)
+	BOOST_AUTO_TEST_CASE( write_header_creator)
 	{
 		mem_engine::memory_header header ;
 		header.set_creator(L"spam") ;
@@ -122,9 +121,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<creator>spam</creator>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<creator>spam</creator>")) ;
 	}
-	TEST( memory_header_test_case, write_header_creator_empty)
+	BOOST_AUTO_TEST_CASE( write_header_creator_empty)
 	{
 		mem_engine::memory_header header ;
 		header.set_creator(L"") ;
@@ -132,18 +131,18 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<creator>") == wstring::npos) ;
+		BOOST_CHECK(! boost::contains(output_device.m_value, L"<creator>")) ;
 	}
-	TEST( memory_header_test_case, write_header_modified_by_default)
+	BOOST_AUTO_TEST_CASE( write_header_modified_by_default)
 	{
 		mem_engine::memory_header header ;
 
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<modified_by>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<modified_by>")) ;
 	}
-	TEST( memory_header_test_case, write_header_modified_on)
+	BOOST_AUTO_TEST_CASE( write_header_modified_on)
 	{
 		mem_engine::memory_header header ;
 		header.set_modified_on(L"spam") ;
@@ -151,9 +150,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<modified_on>spam</modified_on>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<modified_on>spam</modified_on>")) ;
 	}
-	TEST( memory_header_test_case, write_header_field)
+	BOOST_AUTO_TEST_CASE( write_header_field)
 	{
 		mem_engine::memory_header header ;
 		header.set_field(L"spam") ;
@@ -161,9 +160,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<field>spam</field>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<field>spam</field>")) ;
 	}
-	TEST( memory_header_test_case, write_header_created_on)
+	BOOST_AUTO_TEST_CASE( write_header_created_on)
 	{
 		mem_engine::memory_header header ;
 		header.set_created_on(L"spam") ;
@@ -171,9 +170,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<created_on>spam</created_on>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<created_on>spam</created_on>")) ;
 	}
-	TEST( memory_header_test_case, write_header_source_language)
+	BOOST_AUTO_TEST_CASE( write_header_source_language)
 	{
 		mem_engine::memory_header header ;
 		header.set_source_language(L"spam") ;
@@ -181,9 +180,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<source_language>spam</source_language>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<source_language>spam</source_language>")) ;
 	}
-	TEST( memory_header_test_case, write_header_target_language)
+	BOOST_AUTO_TEST_CASE( write_header_target_language)
 	{
 		mem_engine::memory_header header ;
 		header.set_target_language(L"spam") ;
@@ -191,9 +190,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<target_language>spam</target_language>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<target_language>spam</target_language>")) ;
 	}
-	TEST( memory_header_test_case, write_header_client)
+	BOOST_AUTO_TEST_CASE( write_header_client)
 	{
 		mem_engine::memory_header header ;
 		header.set_client(L"spam") ;
@@ -201,10 +200,10 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<client>spam</client>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<client>spam</client>")) ;
 	}
 
-	TEST( memory_header_test_case, write_header_creation_tool)
+	BOOST_AUTO_TEST_CASE( write_header_creation_tool)
 	{
 		mem_engine::memory_header header ;
 		header.set_creation_tool(L"spam egg") ;
@@ -212,9 +211,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<creation_tool>spam egg</creation_tool>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<creation_tool>spam egg</creation_tool>")) ;
 	}
-	TEST( memory_header_test_case, write_header_creation_tool_version)
+	BOOST_AUTO_TEST_CASE( write_header_creation_tool_version)
 	{
 		mem_engine::memory_header header ;
 		header.set_creation_tool_version(L"spam") ;
@@ -222,9 +221,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<creation_tool_version>spam</creation_tool_version>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<creation_tool_version>spam</creation_tool_version>")) ;
 	}
-	TEST( memory_header_test_case, write_header_num_records)
+	BOOST_AUTO_TEST_CASE( write_header_num_records)
 	{
 		mem_engine::memory_header header ;
 		header.set_count(10) ;
@@ -232,10 +231,10 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<num_records>10</num_records>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<num_records>10</num_records>")) ;
 	}
 
-	TEST( memory_header_test_case, write_header_locked_on)
+	BOOST_AUTO_TEST_CASE( write_header_locked_on)
 	{
 		mem_engine::memory_header header ;
 		header.set_locked_on() ;
@@ -243,9 +242,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<locked>true</locked>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<locked>true</locked>")) ;
 	}
-	TEST( memory_header_test_case, write_header_locked_off)
+	BOOST_AUTO_TEST_CASE( write_header_locked_off)
 	{
 		mem_engine::memory_header header ;
 		header.set_locked_off() ;
@@ -253,9 +252,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<locked>false</locked>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<locked>false</locked>")) ;
 	}
-	TEST( memory_header_test_case, write_header_is_memory_on)
+	BOOST_AUTO_TEST_CASE( write_header_is_memory_on)
 	{
 		mem_engine::memory_header header ;
 		header.set_is_memory_on() ;
@@ -263,9 +262,9 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<is_memory>true</is_memory>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<is_memory>true</is_memory>")) ;
 	}
-	TEST( memory_header_test_case, write_header_is_memory_off)
+	BOOST_AUTO_TEST_CASE( write_header_is_memory_off)
 	{
 		mem_engine::memory_header header ;
 		header.set_is_memory_off() ;
@@ -273,9 +272,7 @@ namespace easyunit
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		ASSERT_TRUE(output_device.m_value.find(L"<is_memory>false</is_memory>") != wstring::npos) ;
+		BOOST_CHECK(contains(output_device.m_value, L"<is_memory>false</is_memory>")) ;
 	}
 
-}
-
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()

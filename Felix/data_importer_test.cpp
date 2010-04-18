@@ -2,15 +2,13 @@
 #include "data_importer.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 
-#ifdef _DEBUG
 
-namespace easyunit
-{
 	using namespace mem_engine;
 
-	TEST( test_trados_data_importer, load )
+	BOOST_AUTO_TEST_CASE( load )
 	{
 		CProgressListenerDummy dummy ;
 		trados_data_importer importer(&dummy) ;
@@ -23,12 +21,12 @@ namespace easyunit
 		mem_engine::memory_pointer mem(new mem_engine::memory_local());
 		bool LoadSuccess = importer.load(_T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt"), mem ) ;
 
-		ASSERT_TRUE( LoadSuccess ) ;
+		BOOST_CHECK( LoadSuccess ) ;
 
 		CStringA expected = "1" ;
 		CStringA actual ;
 		actual.Format( "%d", mem->size() ) ;
-		ASSERT_EQUALS_V( expected, actual ) ;		
+		BOOST_CHECK_EQUAL( expected, actual ) ;		
 	}
 
 	/*
@@ -37,7 +35,7 @@ namespace easyunit
 	<CrU>TANAKA
 	<Seg L=EN-US>The{\cs6\f1\cf6 <:cs "Function" 1>} Argus{\cs6\f1\cf6 <:/cs>} program has been specially designed for viewing and analyzing these images.
 	*/
-	TEST( test_trados_data_importer, process_line_Seg )
+	BOOST_AUTO_TEST_CASE( process_line_Seg )
 	{
 		string line = "<Seg L=EN-US>The{\\cs6\\f1\\cf6 <:cs \"Function\" 1>} Argus{\\cs6\\f1\\cf6 <:/cs>} program has been specially designed for viewing and analyzing these images." ;
 		CProgressListenerDummy dummy ;
@@ -49,12 +47,15 @@ namespace easyunit
 		importer.process_line(line) ;
 		record_pointer rec = importer.m_current_record ;
 
-		SimpleString actual = string2string(rec->get_source_rich()).c_str() ;
+		string actual = string2string(rec->get_source_rich());
+		string expected = "The<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:cs \"Function\" 1></font></font> Argus<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:/cs></font></font> program has been specially designed for viewing and analyzing these images." ;
 
-		SimpleString expected = "The<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:cs \"Function\" 1></font></font> Argus<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:/cs></font></font> program has been specially designed for viewing and analyzing these images." ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_MESSAGE(actual) ;
+		BOOST_MESSAGE(expected) ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( test_trados_data_importer, process_line_Seg_new_type )
+	BOOST_AUTO_TEST_CASE( process_line_Seg_new_type )
 	{
 		string line = "<Seg L=EN-US>The{\\cs6\\f1\\cf6 <:cs \"Function\" 1>} Argus{\\cs6\\f1\\cf6 <:/cs>} program has been specially designed for viewing and analyzing these images." ;
 		CProgressListenerDummy dummy ;
@@ -67,13 +68,13 @@ namespace easyunit
 		importer.process_line(line) ;
 		record_pointer rec = importer.m_current_record ;
 
-		SimpleString actual = string2string(rec->get_source_rich()).c_str() ;
+		string actual = string2string(rec->get_source_rich()).c_str() ;
 
-		SimpleString expected = "The Argus program has been specially designed for viewing and analyzing these images." ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "The Argus program has been specially designed for viewing and analyzing these images." ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	TEST( test_trados_data_importer, process_line_CrD )
+	BOOST_AUTO_TEST_CASE( process_line_CrD )
 	{
 		string line = "<CrD>13122002, 01:55:01" ;
 		CProgressListenerDummy dummy ;
@@ -85,14 +86,14 @@ namespace easyunit
 
 		misc_wrappers::date created = rec->get_created() ;
 
-		ASSERT_EQUALS_V(2002, (int)created.wYear) ;
-		ASSERT_EQUALS_V(12, (int)created.wMonth) ;
-		ASSERT_EQUALS_V(13, (int)created.wDay) ;
-		ASSERT_EQUALS_V(1, (int)created.wHour) ;
-		ASSERT_EQUALS_V(55, (int)created.wMinute) ;
-		ASSERT_EQUALS_V(1, (int)created.wSecond) ;
+		BOOST_CHECK_EQUAL(2002, (int)created.wYear) ;
+		BOOST_CHECK_EQUAL(12, (int)created.wMonth) ;
+		BOOST_CHECK_EQUAL(13, (int)created.wDay) ;
+		BOOST_CHECK_EQUAL(1, (int)created.wHour) ;
+		BOOST_CHECK_EQUAL(55, (int)created.wMinute) ;
+		BOOST_CHECK_EQUAL(1, (int)created.wSecond) ;
 	}
-	TEST( test_trados_data_importer, process_line_CrU )
+	BOOST_AUTO_TEST_CASE( process_line_CrU )
 	{
 		string line = "<CrU>TANAKA" ;
 		CProgressListenerDummy dummy ;
@@ -102,11 +103,9 @@ namespace easyunit
 		importer.process_line(line) ;
 		record_pointer rec = importer.m_current_record ;
 
-		SimpleString actual = string2string(rec->get_creator()).c_str() ;
+		string actual = string2string(rec->get_creator()).c_str() ;
 
-		ASSERT_EQUALS_V("TANAKA", actual) ;
+		BOOST_CHECK_EQUAL("TANAKA", actual) ;
 	}
 
-}
-
-#endif 
+BOOST_AUTO_TEST_SUITE_END()

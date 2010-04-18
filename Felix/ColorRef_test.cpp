@@ -1,76 +1,73 @@
 #include "StdAfx.h"
 #include "ColorRef.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( CColorRefTestCases )
 
-#ifdef UNIT_TEST
-
-namespace easyunit
-{
-	TEST( CColorRefTestCases, TestModule )
+	BOOST_AUTO_TEST_CASE( TestModule )
 	{
 		CColorRef color ;
-		ASSERT_TRUE( color.is_black() ) ;
+		BOOST_CHECK( color.is_black() ) ;
 	}
-	TEST( CColorRefTestCases, as_wstring_black )
+	BOOST_AUTO_TEST_CASE( as_wstring_black )
 	{
 		CColorRef color ;
-		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
-		ASSERT_EQUALS_V( actual, "#000000" ) ;
+		string actual = CStringA(color.as_wstring().c_str()) ;
+		BOOST_CHECK_EQUAL( actual, "#000000" ) ;
 	}
-	TEST( CColorRefTestCases, byte_2_wstring_0 )
+	BOOST_AUTO_TEST_CASE( byte_2_wstring_0 )
 	{
 		CColorRef color ;
-		SimpleString actual = CStringA(color.byte_2_wstring(0).c_str()) ;
-		ASSERT_EQUALS_V( actual, "00" ) ;
+		string actual = CStringA(color.byte_2_wstring(0).c_str()) ;
+		BOOST_CHECK_EQUAL( actual, "00" ) ;
 	}
-	TEST( CColorRefTestCases, constructor_bytes_red )
+	BOOST_AUTO_TEST_CASE( constructor_bytes_red )
 	{
 		CColorRef color(255, 0, 0) ;
-		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
-		ASSERT_EQUALS_V( "#ff0000", actual ) ;
+		string actual = CStringA(color.as_wstring().c_str()) ;
+		BOOST_CHECK_EQUAL( "#ff0000", actual ) ;
 	}
-	TEST( CColorRefTestCases, constructor_copy_red )
+	BOOST_AUTO_TEST_CASE( constructor_copy_red )
 	{
 		CColorRef source(255, 0, 0) ;
 		CColorRef color(source) ;
-		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
-		ASSERT_EQUALS_V( "#ff0000", actual ) ;
+		string actual = CStringA(color.as_wstring().c_str()) ;
+		BOOST_CHECK_EQUAL( "#ff0000", actual ) ;
 	}
-	TEST( CColorRefTestCases, constructor_bytes_gray )
+	BOOST_AUTO_TEST_CASE( constructor_bytes_gray )
 	{
 		CColorRef color(0x10, 0x10, 0x10) ;
-		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
-		ASSERT_EQUALS_V( "#101010", actual ) ;
+		string actual = CStringA(color.as_wstring().c_str()) ;
+		BOOST_CHECK_EQUAL( "#101010", actual ) ;
 	}
-	TEST( CColorRefTestCases, constructor_colorref_turquoise)
+	BOOST_AUTO_TEST_CASE( constructor_colorref_turquoise)
 	{
 		CColorRef color(COLOR_TURQUOISE) ;
-		SimpleString actual = CStringA(color.as_wstring().c_str()) ;
-		ASSERT_EQUALS_V( "#008080", actual ) ;
+		string actual = CStringA(color.as_wstring().c_str()) ;
+		BOOST_CHECK_EQUAL( "#008080", actual ) ;
 	}
-	TEST( CColorRefTestCases, is_black )
+	BOOST_AUTO_TEST_CASE( is_black )
 	{
 		CColorRef color ;
-		ASSERT_TRUE( color.is_black() ) ;
+		BOOST_CHECK( color.is_black() ) ;
 	}
-	TEST( CColorRefTestCases, is_white_true )
+	BOOST_AUTO_TEST_CASE( is_white_true )
 	{
 		CColorRef color ;
 		color.set_red_value(0xff) ;
 		color.set_green_value(0xff) ;
 		color.set_blue_value(0xff) ;
-		ASSERT_TRUE( color.is_white() ) ;
+		BOOST_CHECK( color.is_white() ) ;
 	}
-	TEST( CColorRefTestCases, is_white_false )
+	BOOST_AUTO_TEST_CASE( is_white_false )
 	{
 		CColorRef color ;
 		color.set_red_value(0x00) ;
 		color.set_green_value(0xff) ;
 		color.set_blue_value(0xff) ;
-		ASSERT_TRUE( ! color.is_white() ) ;
+		BOOST_CHECK( ! color.is_white() ) ;
 	}
-	TEST( CColorRefTestCases, as_colorref )
+	BOOST_AUTO_TEST_CASE( as_colorref )
 	{
 		CColorRef color ;
 		color.set_red_value(0x80) ;
@@ -78,9 +75,7 @@ namespace easyunit
 		color.set_blue_value(0x20) ;
 		COLORREF actual = color.as_colorref() ;
 		COLORREF expected = RGB(0x80, 0x40, 0x20) ;
-		ASSERT_EQUALS_V( (int)expected, (int)actual ) ;
+		BOOST_CHECK_EQUAL( (int)expected, (int)actual ) ;
 	}
-}
 
-
-#endif // #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE_END()

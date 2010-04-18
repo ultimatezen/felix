@@ -1600,14 +1600,6 @@
 				Name="tests"
 				>
 				<File
-					RelativePath=".\aboutdlg_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\AdvancedMemMgrDlg_test.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\App2_test.cpp"
 					>
 				</File>

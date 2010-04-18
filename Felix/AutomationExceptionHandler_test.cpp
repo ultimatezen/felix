@@ -1,22 +1,18 @@
 #include "stdafx.h"
 #include "AutomationExceptionHandler.h"
-#include "easyunit/testharness.h"
 #include "App.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestAutomationExceptionHandler )
 
-namespace easyunit
-{
 	typedef CComPtr< CComObject< CApp > > appPtr ;
-	TEST( TestAutomationExceptionHandler, std_exception)
+	BOOST_AUTO_TEST_CASE( std_exception)
 	{
 		appPtr app ;
 		CComObject< CApp >::CreateInstance( &app ) ;
 		std::exception e("boom!") ;
 		CString msg(_T("msg")) ;
-		ASSERT_EQUALS_V((int)E_FAIL, (int)app.p->handle_exception(e, msg)) ;
+		BOOST_CHECK_EQUAL((int)E_FAIL, (int)app.p->handle_exception(e, msg)) ;
 	}
 
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()

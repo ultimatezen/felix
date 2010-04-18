@@ -2,44 +2,41 @@
 #include "rtf.h"
 #include "easyunit/testharness.h"
 
-#ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( rich_text_formatter_test )
 
-namespace easyunit
-{
+
 	// rtf::my_font
-	TEST( test_my_font, default_ctor)
+	BOOST_AUTO_TEST_CASE( font_default_ctor)
 	{
 		rtf::my_font font ;
-		ASSERT_EQUALS_V((int)font.get_charset(), (int)DEFAULT_CHARSET) ;
+		BOOST_CHECK_EQUAL((int)font.get_charset(), (int)DEFAULT_CHARSET) ;
 	}
 
 	// rtf::font_table_entry
-	TEST( test_font_table_entry, default_ctor)
+	BOOST_AUTO_TEST_CASE( font_table_entry_default_ctor)
 	{
 		rtf::font_table_entry  entry;
 
-		ASSERT_TRUE(entry.m_family.empty()) ;
-		ASSERT_TRUE(entry.m_charset.empty()) ;
-		ASSERT_TRUE(entry.m_pitch.empty()) ;
-		ASSERT_TRUE(entry.m_name.empty()) ;
-		ASSERT_TRUE(entry.m_code.empty()) ;
-		ASSERT_EQUALS_V((int)entry.m_font.get_charset(), (int)DEFAULT_CHARSET) ;
+		BOOST_CHECK(entry.m_family.empty()) ;
+		BOOST_CHECK(entry.m_charset.empty()) ;
+		BOOST_CHECK(entry.m_pitch.empty()) ;
+		BOOST_CHECK(entry.m_name.empty()) ;
+		BOOST_CHECK(entry.m_code.empty()) ;
+		BOOST_CHECK_EQUAL((int)entry.m_font.get_charset(), (int)DEFAULT_CHARSET) ;
 	}
 
 	// rtf::font_table
-	TEST( test_font_table, default_ctor)
+	BOOST_AUTO_TEST_CASE( font_table_default_ctor)
 	{
 		rtf::font_table table ;
-		ASSERT_EQUALS_V(0, (int)table.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)table.size()) ;
 	}
 
-	TEST(rich_text_formatter_test, init)
+	BOOST_AUTO_TEST_CASE( rich_text_formatter_init)
 	{
 		rtf::rich_text_formatter formatter ;
-		ASSERT_TRUE(formatter.m_package->mText.empty()) ;
+		BOOST_CHECK(formatter.m_package->mText.empty()) ;
 	}
 
-
-}
-
-#endif 
+	BOOST_AUTO_TEST_SUITE_END()

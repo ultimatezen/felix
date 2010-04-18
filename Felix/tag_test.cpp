@@ -1,23 +1,20 @@
 #include "StdAfx.h"
 #include "tag.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( TestCTag )
 
-namespace easyunit
-{
-	TEST( TestCTag, empty_attribute )
+
+	BOOST_AUTO_TEST_CASE( empty_attribute )
 	{
 		CTag<char> tag ;
 		string raw = "<b>" ;
 		tag.parse_tag(raw) ;
-		SimpleString expected("") ;
+		string expected("") ;
 		string key = "style" ;
 		string actual = tag.get_attribute(key) ;
-		ASSERT_EQUALS_V(expected, actual.c_str()) ;
+		BOOST_CHECK_EQUAL(expected, actual.c_str()) ;
 	}
 
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()
