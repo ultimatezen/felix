@@ -1,15 +1,15 @@
 #include "StdAfx.h"
 #include "Exceptions.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( ExceptionTest )
 
-namespace easyunit
-{
+
 	using namespace except ;
 
-	TEST( ExceptionTest, Instantiate)
+	BOOST_AUTO_TEST_CASE( Instantiate)
 	{
 		try
 		{
@@ -17,40 +17,40 @@ namespace easyunit
 		}
 		catch (...)
 		{
-			FAIL_M( "Failed to instantiate CException class in test harness" ) ;
+			BOOST_FAIL( "Failed to instantiate CException class in test harness" ) ;
 		}
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK(true) ;
 	}
-	TEST( ExceptionTest, what)
+	BOOST_AUTO_TEST_CASE( what)
 	{
 			CException e(_T("exception")) ;
-			ASSERT_EQUALS( e.what(), CString("exception") ) ;
+			BOOST_CHECK_EQUAL( e.what(), CString("exception") ) ;
 	}
-	TEST( ExceptionTest, message)
+	BOOST_AUTO_TEST_CASE( message)
 	{
 		CException e(_T("exception")) ;
 
 		CString text( "message" ) ;
 		e.set_message(text) ;
-		ASSERT_EQUALS( e.what(), text ) ;
+		BOOST_CHECK_EQUAL( e.what(), text ) ;
 	}
-	TEST( ExceptionTest, description)
+	BOOST_AUTO_TEST_CASE( description)
 	{
 		CException e(_T("exception")) ;
 
 		CString text( "message" ) ;
 		e.set_description(text) ;
-		ASSERT_EQUALS( e.description(), text ) ;
+		BOOST_CHECK_EQUAL( e.description(), text ) ;
 	}
-	TEST( ExceptionTest, bottom_message)
+	BOOST_AUTO_TEST_CASE( bottom_message)
 	{
 		CException e(_T("exception")) ;
 
 		CString text( "message" ) ;
 		e.set_bottom_message(text) ;
-		ASSERT_EQUALS( e.bottom_message(), text ) ;
+		BOOST_CHECK_EQUAL( e.bottom_message(), text ) ;
 	}
-	TEST( ExceptionTest, add_to_message)
+	BOOST_AUTO_TEST_CASE( add_to_message)
 	{
 		CException e(_T("\nexception")) ;
 
@@ -58,18 +58,18 @@ namespace easyunit
 		e.set_message(text) ;
 		e.add_to_message(text) ;
 		TRACE( e.what() ) ;
-		ASSERT_EQUALS( e.what(), _T("message\r\n\r\nmessage") ) ;
+		BOOST_CHECK_EQUAL( e.what(), _T("message\r\n\r\nmessage") ) ;
 	}
-	TEST( ExceptionTest, add_to_message_constructor)
+	BOOST_AUTO_TEST_CASE( add_to_message_constructor)
 	{
 		CException e(_T("exception")) ;
 
 		CString text( "message" ) ;
 		e.add_to_message(text) ;
 		TRACE( e.what() ) ;
-		ASSERT_EQUALS( e.what(), _T("message\r\n\r\nexception") ) ;
+		BOOST_CHECK_EQUAL( e.what(), _T("message\r\n\r\nexception") ) ;
 	}
-	TEST( ExceptionTest, add_to_description)
+	BOOST_AUTO_TEST_CASE( add_to_description)
 	{
 		CException e(_T("exception")) ;
 
@@ -77,9 +77,9 @@ namespace easyunit
 		e.set_description(text) ;
 		e.add_to_description(text) ;
 		TRACE( e.description() ) ;
-		ASSERT_EQUALS( e.description(), _T("message\r\n\r\nmessage") ) ;
+		BOOST_CHECK_EQUAL( e.description(), _T("message\r\n\r\nmessage") ) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -1,44 +1,44 @@
 #include "StdAfx.h"
 #include "ScintillaEdit.h"
 
-#include "easyunit/testharness.h"
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCScintillaEdit )
 
-namespace easyunit
-{
+
 	// CTOR
-	TEST( TestCScintillaEdit, constructor )
+	BOOST_AUTO_TEST_CASE( constructor )
 	{
 		CScintillaEdit edit ;
-		ASSERT_EQUALS_V( (int)edit.m_working_encoding, (int)CP_UTF8 ) ;
+		BOOST_CHECK_EQUAL( (int)edit.m_working_encoding, (int)CP_UTF8 ) ;
 	}
 
 	// set_working_encoding
-	TEST( TestCScintillaEdit, set_working_encoding )
+	BOOST_AUTO_TEST_CASE( set_working_encoding )
 	{
 		CScintillaEdit edit ;
 		edit.set_working_encoding(CP_ACP) ;
-		ASSERT_EQUALS_V( (int)edit.m_working_encoding, (int)CP_ACP ) ;
+		BOOST_CHECK_EQUAL( (int)edit.m_working_encoding, (int)CP_ACP ) ;
 	}
 
 	// PreTranslateMessage
-	TEST( TestCScintillaEdit, PreTranslateMessage )
+	BOOST_AUTO_TEST_CASE( PreTranslateMessage )
 	{
 		CScintillaEdit edit ;
-		ASSERT_TRUE_M(!edit.PreTranslateMessage(NULL), "Should never try to handle PreTranslateMessage") ;
+		BOOST_CHECK(!edit.PreTranslateMessage(NULL)) ;
 	}
 
 	// set_correct_lexer
-	TEST( TestCScintillaEdit, set_lexer_html )
+	BOOST_AUTO_TEST_CASE( set_lexer_html )
 	{
 		CScintillaEdit edit ;
 		edit.set_correct_lexer(_T("foo.html")) ;
-		ASSERT_EQUALS_V(1, (int)edit.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(edit.m_sensing_variable[0].c_str()), "lexer:html") ;
+		BOOST_CHECK_EQUAL(1, (int)edit.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(edit.m_sensing_variable[0].c_str()), "lexer:html") ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef UNIT_TEST

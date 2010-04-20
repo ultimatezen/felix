@@ -146,7 +146,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.find_matches(matches, params) ;
 
-			BOOST_CHECK_EQUAL(1, matches.size()) ;
+			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 		}
 		catch (_com_error& e)
 		{
@@ -214,7 +214,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_source = L"aa" ;
 
 			mem.find_matches(matches, params) ;
-			BOOST_CHECK_EQUAL(1, matches.size()) ;
+			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;

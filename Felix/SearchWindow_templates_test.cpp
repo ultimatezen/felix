@@ -1,15 +1,15 @@
 #include "StdAfx.h"
 #include "SearchWindow.h"
 #include "text_templates.h"
-#include "easyunit/testharness.h"
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_replace_match )
 
-namespace easyunit
-{
+
 	using namespace text_tmpl ;
 	// replace_match
-	TEST(test_replace_match, simple)
+	BOOST_AUTO_TEST_CASE( simple)
 	{
 		CTextTemplate text_tmpl ;
 
@@ -63,10 +63,10 @@ namespace easyunit
 
 		wstring text = text_tmpl.Fetch(get_template_text(_T("replace_match.txt"))) ;
 
-		ASSERT_TRUE(text.find(L"<h3>Match 1 of 100</h3>") != wstring::npos) ;
-		ASSERT_TRUE(text.find(L"<th>Now</th>") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"<h3>Match 1 of 100</h3>") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"<th>Now</th>") != wstring::npos) ;
 	}
-	TEST(test_replace_match, not_found)
+	BOOST_AUTO_TEST_CASE( not_found)
 	{
 		CTextTemplate text_tmpl ;
 
@@ -78,11 +78,16 @@ namespace easyunit
 
 		wstring text = text_tmpl.Fetch(get_template_text(_T("replace_match.txt"))) ;
 
-		ASSERT_TRUE(text.find(L"<h3>Match 1 of 100</h3>") == wstring::npos) ;
-		ASSERT_TRUE(text.find(L"<th>Now</th>") == wstring::npos) ;
+		BOOST_CHECK(text.find(L"<h3>Match 1 of 100</h3>") == wstring::npos) ;
+		BOOST_CHECK(text.find(L"<th>Now</th>") == wstring::npos) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST(test_replacelinks, found)
+BOOST_AUTO_TEST_SUITE( test_replacelinks )
+
+	using namespace text_tmpl ;
+
+	BOOST_AUTO_TEST_CASE( found)
 	{
 		CTextTemplate text_tmpl ;
 
@@ -91,10 +96,10 @@ namespace easyunit
 
 		wstring text = text_tmpl.Fetch(get_template_text(_T("replacelinks.txt"))) ;
 
-		ASSERT_TRUE(text.find(L"<a href=\"replace_replace\" id=\"replace-replace\" class=\"ui-state-default ui-corner-all\">&nbsp;Replace&nbsp;</a>") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"<a href=\"replace_replace\" id=\"replace-replace\" class=\"ui-state-default ui-corner-all\">&nbsp;Replace&nbsp;</a>") != wstring::npos) ;
 	}
 
-	TEST(test_replacelinks, not_found)
+	BOOST_AUTO_TEST_CASE( not_found)
 	{
 		CTextTemplate text_tmpl ;
 
@@ -103,9 +108,9 @@ namespace easyunit
 
 		wstring text = text_tmpl.Fetch(get_template_text(_T("replacelinks.txt"))) ;
 
-		ASSERT_TRUE(text.find(L"<a href=\"replace_replace\" id=\"replace-replace\" class=\"ui-state-default ui-corner-all\">&nbsp;Replace&nbsp;</a>") == wstring::npos) ;
+		BOOST_CHECK(text.find(L"<a href=\"replace_replace\" id=\"replace-replace\" class=\"ui-state-default ui-corner-all\">&nbsp;Replace&nbsp;</a>") == wstring::npos) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "HtmlDocColorSetter.h"
 
-#include "easyunit/testharness.h"
+
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCHtmlDocColorSetter )
 
-namespace easyunit
-{
-	TEST( TestCHtmlDocColorSetter, instantiate)
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
-		html::CHtmlDocColorSetter setter ;
-		ASSERT_TRUE_M(TRUE, "Should not blow up") ;
+		BOOST_CHECK_NO_THROW(html::CHtmlDocColorSetter());
 	}
-}
-
+BOOST_AUTO_TEST_SUITE_END()
 #endif

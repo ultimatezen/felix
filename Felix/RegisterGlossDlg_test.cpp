@@ -1,273 +1,273 @@
 #include "StdAfx.h"
 #include "RegisterGlossDlg.h"
 
-#include "easyunit/testharness.h"
-#ifdef _DEBUG
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
-namespace easyunit
-{
-	TEST( TestCRegisterGlossDlg, instantiate)
+BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
+
+
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
 		CRegisterGlossDlg dialog ;
-		ASSERT_EQUALS_V(IDD_ADD_GLOSS, CRegisterGlossDlg::IDD) ;
+		BOOST_CHECK_EQUAL(IDD_ADD_GLOSS, CRegisterGlossDlg::IDD) ;
 	}
 	// trim_text
-	TEST( TestCRegisterGlossDlg, trim_text_empty)
+	BOOST_AUTO_TEST_CASE( trim_text_empty)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_one_letter)
+	BOOST_AUTO_TEST_CASE( trim_text_one_letter)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"a" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "a" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "a" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_only_spaces)
+	BOOST_AUTO_TEST_CASE( trim_text_only_spaces)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"  " ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_no_spaces)
+	BOOST_AUTO_TEST_CASE( trim_text_no_spaces)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_simple)
+	BOOST_AUTO_TEST_CASE( trim_text_simple)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam " ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_middle)
+	BOOST_AUTO_TEST_CASE( trim_text_middle)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam egg" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam egg" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam egg" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_tag)
+	BOOST_AUTO_TEST_CASE( trim_text_tag)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B>" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam</B>" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam</B>" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_two_tags)
+	BOOST_AUTO_TEST_CASE( trim_text_two_tags)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B></I>" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam</B></I>" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam</B></I>" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_two_tags_spaces_between)
+	BOOST_AUTO_TEST_CASE( trim_text_two_tags_spaces_between)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B> </I>" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam</B></I>" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam</B></I>" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_tag_no_space)
+	BOOST_AUTO_TEST_CASE( trim_text_tag_no_space)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam</B>" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam</B>" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam</B>" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_starting_spaces)
+	BOOST_AUTO_TEST_CASE( trim_text_starting_spaces)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_both)
+	BOOST_AUTO_TEST_CASE( trim_text_both)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam " ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_nl)
+	BOOST_AUTO_TEST_CASE( trim_text_nl)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\negg" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam egg" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam egg" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCRegisterGlossDlg, trim_text_cr_nl)
+	BOOST_AUTO_TEST_CASE( trim_text_cr_nl)
 	{
 		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\r\negg" ;
 		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
-		SimpleString expected = "spam egg" ;
-		SimpleString actual(after) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "spam egg" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 	// messages
-	TEST( TestCRegisterGlossDlg, test_message_WM_INITDIALOG)
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
-	TEST( TestCRegisterGlossDlg, test_message_IDCANCEL)
+	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestCRegisterGlossDlg, test_message_IDCLOSE)
+	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestCRegisterGlossDlg, test_message_ZERO)
+	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(0, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(1, (int)result) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( TestCRegisterGlossDlg, test_message_WM_SIZE)
+	BOOST_AUTO_TEST_CASE( test_message_WM_SIZE)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_SIZE, SIZE_MINIMIZED, MAKELPARAM(5, 5), lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
-		ASSERT_EQUALS_V(SimpleString(dialog.m_sensing_variable[1].c_str()), "SIZE_MINIMIZED"); 
-		ASSERT_EQUALS_V(1, (int)result) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
+		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[1].c_str()), "SIZE_MINIMIZED"); 
+		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( TestCRegisterGlossDlg, test_message_WM_SIZE_shebang)
+	BOOST_AUTO_TEST_CASE( test_message_WM_SIZE_shebang)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_SIZE, 0, MAKELPARAM(5, 5), lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
-		ASSERT_EQUALS_V(1, (int)result) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
+		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 
 	// sizing
-	TEST( TestCRegisterGlossDlg, pad_rectangle)
+	BOOST_AUTO_TEST_CASE( pad_rectangle)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 10, 10) ;
 		dialog.pad_rectangle(rect, 5) ;
 
-		ASSERT_EQUALS_V(15, rect.left) ;
-		ASSERT_EQUALS_V(15, rect.top) ;
-		ASSERT_EQUALS_V(5, rect.right) ;
-		ASSERT_EQUALS_V(5, rect.bottom) ;
+		BOOST_CHECK_EQUAL(15, rect.left) ;
+		BOOST_CHECK_EQUAL(15, rect.top) ;
+		BOOST_CHECK_EQUAL(5, rect.right) ;
+		BOOST_CHECK_EQUAL(5, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_row_button)
+	BOOST_AUTO_TEST_CASE( resize_row_button)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 100, 100) ;
 		dialog.resize_row_button(rect, 5, 5) ;
 
-		ASSERT_EQUALS_V(95, rect.left) ;
-		ASSERT_EQUALS_V(95, rect.top) ;
-		ASSERT_EQUALS_V(100, rect.right) ;
-		ASSERT_EQUALS_V(100, rect.bottom) ;
+		BOOST_CHECK_EQUAL(95, rect.left) ;
+		BOOST_CHECK_EQUAL(95, rect.top) ;
+		BOOST_CHECK_EQUAL(100, rect.right) ;
+		BOOST_CHECK_EQUAL(100, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_advanced_rect)
+	BOOST_AUTO_TEST_CASE( resize_advanced_rect)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 100, 100) ;
 		CRect advanced_rect(10, 10, 20, 20) ;
 		dialog.resize_advanced_rect(rect, advanced_rect) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(90, rect.top) ;
-		ASSERT_EQUALS_V(20, rect.right) ;
-		ASSERT_EQUALS_V(100, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(90, rect.top) ;
+		BOOST_CHECK_EQUAL(20, rect.right) ;
+		BOOST_CHECK_EQUAL(100, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_register_button)
+	BOOST_AUTO_TEST_CASE( resize_register_button)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 10, 10) ;
 		dialog.resize_register_button(rect) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(10, rect.top) ;
-		ASSERT_EQUALS_V(10, rect.right) ;
-		ASSERT_EQUALS_V(10, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(10, rect.top) ;
+		BOOST_CHECK_EQUAL(10, rect.right) ;
+		BOOST_CHECK_EQUAL(10, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_close_button)
+	BOOST_AUTO_TEST_CASE( resize_close_button)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 10, 10) ;
 		dialog.resize_close_button(rect) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(10, rect.top) ;
-		ASSERT_EQUALS_V(10, rect.right) ;
-		ASSERT_EQUALS_V(10, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(10, rect.top) ;
+		BOOST_CHECK_EQUAL(10, rect.right) ;
+		BOOST_CHECK_EQUAL(10, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_advanced_button)
+	BOOST_AUTO_TEST_CASE( resize_advanced_button)
 	{
 		CRegisterGlossDlg dialog ;
 		CRect rect(10, 10, 10, 10) ;
 		dialog.resize_advanced_button(rect) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(10, rect.top) ;
-		ASSERT_EQUALS_V(10, rect.right) ;
-		ASSERT_EQUALS_V(10, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(10, rect.top) ;
+		BOOST_CHECK_EQUAL(10, rect.right) ;
+		BOOST_CHECK_EQUAL(10, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_client_rect_close)
+	BOOST_AUTO_TEST_CASE( resize_client_rect_close)
 	{
 		CRegisterGlossDlg dialog ;
 		dialog.m_CloseBtn.m_window_rect.top = 10 ;
@@ -276,12 +276,12 @@ namespace easyunit
 		CRect rect(10, 10, 100, 100) ;
 		dialog.resize_client_rect_close(rect, 5) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(10, rect.top) ;
-		ASSERT_EQUALS_V(100, rect.right) ;
-		ASSERT_EQUALS_V(85, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(10, rect.top) ;
+		BOOST_CHECK_EQUAL(100, rect.right) ;
+		BOOST_CHECK_EQUAL(85, rect.bottom) ;
 	}
-	TEST( TestCRegisterGlossDlg, resize_client_rect_advanced)
+	BOOST_AUTO_TEST_CASE( resize_client_rect_advanced)
 	{
 		CRegisterGlossDlg dialog ;
 
@@ -291,12 +291,10 @@ namespace easyunit
 		CRect rect(10, 10, 100, 100) ;
 		dialog.resize_client_rect_advanced(rect, 5) ;
 
-		ASSERT_EQUALS_V(10, rect.left) ;
-		ASSERT_EQUALS_V(10, rect.top) ;
-		ASSERT_EQUALS_V(100, rect.right) ;
-		ASSERT_EQUALS_V(90, rect.bottom) ;
+		BOOST_CHECK_EQUAL(10, rect.left) ;
+		BOOST_CHECK_EQUAL(10, rect.top) ;
+		BOOST_CHECK_EQUAL(100, rect.right) ;
+		BOOST_CHECK_EQUAL(90, rect.bottom) ;
 	}
-}
-
-#endif
+BOOST_AUTO_TEST_SUITE_END()
 #endif

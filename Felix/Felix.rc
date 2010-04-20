@@ -13,33 +13,8 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Japanese resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
-LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
-#pragma code_page(932)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// REGISTRY
-//
-
-IDR_APP                 REGISTRY                "App.rgs"
-IDR_FELIXMEMDOCUIHANDLER REGISTRY                "FelixMemDocUIHandler.rgs"
-#endif    // Japanese resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -51,6 +26,9 @@ IDR_PARAMETERS          REGISTRY                "Parameters.rgs"
 IDR_APP2                REGISTRY                "App2.rgs"
 IDR_RECORD              REGISTRY                "Record.rgs"
 IDR_SEARCHRESULT        REGISTRY                "SearchResult.rgs"
+IDR_SEARCHRESULTS       REGISTRY                "SearchResults.rgs"
+IDR_APP                 REGISTRY                "App.rgs"
+IDR_FELIXMEMDOCUIHANDLER REGISTRY                "FelixMemDocUIHandler.rgs"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -125,7 +103,7 @@ BEGIN
     END
 END
 
-#endif    // English (U.S.) resources
+
 /////////////////////////////////////////////////////////////////////////////
 
 

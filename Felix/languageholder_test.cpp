@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include ".\languageholder.h"
 
-#include "easyunit/testharness.h"
-#ifdef _DEBUG
 
-namespace easyunit
-{
-	TEST( TestlanguageHolder, languages )
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestlanguageHolder )
+
+	BOOST_AUTO_TEST_CASE( languages )
 	{
 		CLanguageHolder holder ;
 		std::set<tstring> langs ;
@@ -17,23 +17,22 @@ namespace easyunit
 		CComboBox combo ;
 		holder.put_langs_into_combo(combo) ;
 
-		ASSERT_EQUALS_V(2, (int)holder.m_languages.size()) ;
+		BOOST_CHECK_EQUAL(2, (int)holder.m_languages.size()) ;
 	}
-	TEST( TestlanguageHolder, set_source )
+	BOOST_AUTO_TEST_CASE( set_source )
 	{
 		CLanguageHolder holder ;
 		holder.set_source(_T("Japanese")) ;
 		string source = string2string(holder.get_source_plain()) ;
-		ASSERT_EQUALS_V("Japanese", SimpleString(source.c_str())) ;
+		BOOST_CHECK_EQUAL("Japanese", string(source.c_str())) ;
 	}
-	TEST( TestlanguageHolder, set_trans )
+	BOOST_AUTO_TEST_CASE( set_trans )
 	{
 		CLanguageHolder holder ;
 		holder.set_trans(_T("Japanese")) ;
 		string trans = string2string(holder.get_trans_plain()) ;
-		ASSERT_EQUALS_V("Japanese", SimpleString(trans.c_str())) ;
+		BOOST_CHECK_EQUAL("Japanese", string(trans.c_str())) ;
 	}
 
-}
-
+BOOST_AUTO_TEST_SUITE_END()
 #endif

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "rtf.h"
-#include "easyunit/testharness.h"
+
 
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( rich_text_formatter_test )

@@ -1,11 +1,10 @@
 #include "StdAfx.h"
 #include "WideRichEdit.h"
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCWideRichEdit )
 
-namespace easyunit
-{
 	struct BufferHolder
 	{
 		wstring m_buffer ;
@@ -15,13 +14,13 @@ namespace easyunit
 			return 0 ;
 		}
 	};
-	TEST( TestCWideRichEdit, PreTranslateMessage)
+	BOOST_AUTO_TEST_CASE( PreTranslateMessage)
 	{
 		CWideRichEdit edit ;
-		ASSERT_TRUE_M(! edit.PreTranslateMessage(NULL), "Should not pre-translate messages") ;
+		BOOST_CHECK(! edit.PreTranslateMessage(NULL)) ;
 	}
 
-	TEST( TestCWideRichEdit, load_document_utf16)
+	BOOST_AUTO_TEST_CASE( load_document_utf16)
 	{
 		CWideRichEdit edit ;
 		BufferHolder holder ;
@@ -32,10 +31,10 @@ namespace easyunit
 		edit.load_document(location) ;
 
 		wstring text = L"“ú–{Œê - I love it!" ;
-		SimpleString expected = string2string(text, CP_UTF8).c_str() ;
-		SimpleString actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
+		string expected = string2string(text, CP_UTF8).c_str() ;
+		string actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		// now reload it
 		edit.reload_document(location) ;
@@ -44,9 +43,9 @@ namespace easyunit
 		expected = string2string(text, CP_UTF8).c_str() ;
 		actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCWideRichEdit, load_document_utf8)
+	BOOST_AUTO_TEST_CASE( load_document_utf8)
 	{
 		CWideRichEdit edit ;
 		BufferHolder holder ;
@@ -57,10 +56,10 @@ namespace easyunit
 		edit.load_document(location) ;
 
 		wstring text = L"“ú–{Œê - I love it!" ;
-		SimpleString expected = string2string(text, CP_UTF8).c_str() ;
-		SimpleString actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
+		string expected = string2string(text, CP_UTF8).c_str() ;
+		string actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		// now reload it
 		edit.reload_document(location) ;
@@ -69,9 +68,9 @@ namespace easyunit
 		expected = string2string(text, CP_UTF8).c_str() ;
 		actual = string2string(holder.m_buffer.substr(1), CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCWideRichEdit, load_document_sjis)
+	BOOST_AUTO_TEST_CASE( load_document_sjis)
 	{
 		CWideRichEdit edit ;
 		BufferHolder holder ;
@@ -82,10 +81,10 @@ namespace easyunit
 		edit.load_document(location) ;
 
 		wstring text = L"“ú–{Œê - I love it!" ;
-		SimpleString expected = string2string(text, CP_UTF8).c_str() ;
-		SimpleString actual = string2string(holder.m_buffer, CP_UTF8).c_str() ;
+		string expected = string2string(text, CP_UTF8).c_str() ;
+		string actual = string2string(holder.m_buffer, CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		// now reload it
 		edit.reload_document(location) ;
@@ -94,10 +93,10 @@ namespace easyunit
 		expected = string2string(text, CP_UTF8).c_str() ;
 		actual = string2string(holder.m_buffer, CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

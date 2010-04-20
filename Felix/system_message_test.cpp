@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include ".\system_message.h"
 
-#include "easyunit/testharness.h"
-
 
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( test_system_message )

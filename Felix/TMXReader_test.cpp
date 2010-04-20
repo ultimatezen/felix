@@ -8,27 +8,25 @@
 #include "record_local.h"
 #include "memory_local.h"
 #include "memory_info.h"
-#include "easyunit/testharness.h"
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
-
-namespace easyunit
-{
+BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 
 	using namespace mem_engine ;
 	using namespace except ;
 
 #define EXPORT_TEST_FILE_1A _T("C:\\dev\\Test Files\\TMXComplianceKit\\ExportTest1A.tmx")
 
-	TEST(CTMXReaderTestCase, get_bom )
+	BOOST_AUTO_TEST_CASE( get_bom )
 	{
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
-		ASSERT_EQUALS ( file::file::UTF8_BOM, tmx_reader.get_bom( EXPORT_TEST_FILE_1A ) ) ; 
+		BOOST_CHECK_EQUAL ( file::file::UTF8_BOM, tmx_reader.get_bom( EXPORT_TEST_FILE_1A ) ) ; 
 	}
-	TEST(CTMXReaderTestCase, srclang_in_languages_true )
+	BOOST_AUTO_TEST_CASE( srclang_in_languages_true )
 	{
 		std::set<tstring> languages ;
 		languages.insert(L"EN") ;
@@ -38,9 +36,9 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 		tmx_reader.m_header.m_srclang = L"EN" ;
-		ASSERT_TRUE_M(tmx_reader.srclang_in_languages(languages), "The source lang should be in the languages") ; 
+		BOOST_CHECK(tmx_reader.srclang_in_languages(languages)) ; 
 	}
-	TEST(CTMXReaderTestCase, srclang_in_languages_false)
+	BOOST_AUTO_TEST_CASE( srclang_in_languages_false)
 	{
 		std::set<tstring> languages ;
 		languages.insert(L"EN") ;
@@ -50,10 +48,10 @@ namespace easyunit
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 		tmx_reader.m_header.m_srclang = L"*all*" ;
-		ASSERT_TRUE_M(! tmx_reader.srclang_in_languages(languages), "The source lang should not be in the languages") ; 
+		BOOST_CHECK(! tmx_reader.srclang_in_languages(languages)) ; 
 	}
 
-	TEST(CTMXReaderTestCase,load_tmx_memory)
+	BOOST_AUTO_TEST_CASE(load_tmx_memory)
 	{
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
@@ -65,36 +63,43 @@ namespace easyunit
 
 			mem_engine::MemoryInfo *mem_info = mem->get_memory_info() ;
 
-			SimpleString actual = (LPCSTR)CStringA(mem_info->get_creation_tool().c_str()) ;
-			ASSERT_EQUALS_V( "XYZTool", actual) ; 
+			string actual = (LPCSTR)CStringA(mem_info->get_creation_tool().c_str()) ;
+			BOOST_CHECK_EQUAL( "XYZTool", actual) ; 
 			actual = (LPCSTR)CStringA(mem_info->get_creation_tool_version().c_str()) ;
-			ASSERT_EQUALS_V( "1.0.0", actual ) ; 
+			BOOST_CHECK_EQUAL( "1.0.0", actual ) ; 
 
 			actual = (LPCSTR)CStringA(mem_info->get_source_language().c_str()) ;
-			ASSERT_EQUALS_V( "EN-US", actual ) ;
+			BOOST_CHECK_EQUAL( "EN-US", actual ) ;
 			actual = (LPCSTR)CStringA(mem_info->get_target_language().c_str()) ;
-			ASSERT_EQUALS_V( "FR-CA", actual ) ;
+			BOOST_CHECK_EQUAL( "FR-CA", actual ) ;
 
-			ASSERT_EQUALS ( 4u, mem->size() ) ;  
+			BOOST_CHECK_EQUAL ( 4u, mem->size() ) ;  
 		}
 		catch ( CException &e ) 
 		{
 			string reason = CT2A( e.what() ) ;
-			FAIL_M( reason.c_str() ) ;
+			BOOST_FAIL( reason.c_str() ) ;
 		}
 
 	}
-	TEST( CTMXReaderTestCase, TestGetSegText )
+	BOOST_AUTO_TEST_CASE( TestGetSegText )
 	{
 		memory_pointer mem(new mem_engine::memory_local()) ;
 		CProgressListenerDummy dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
 		wstring toStrip = L"<seg><it pos=\"begin\" x=\"1\">&lt;1&gt;</it>Digitally Sign a Macro Project in Microsoft Word 2000</seg>" ;
-		ASSERT_EQUALS_M( tmx_reader.get_seg_text( toStrip ), L"Digitally Sign a Macro Project in Microsoft Word 2000", "String should be 'Digitally Sign a Macro Project in Microsoft Word 2000'" ) ;
+		BOOST_CHECK_EQUAL( tmx_reader.get_seg_text( toStrip ), L"Digitally Sign a Macro Project in Microsoft Word 2000") ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
 	// CTU
-	TEST( CTMXReader_CTU_TestCase, set_attributes_tuid )
+BOOST_AUTO_TEST_SUITE( CTMXReader_CTU_TestCase )
+using namespace mem_engine ;
+using namespace except ;
+
+
+	BOOST_AUTO_TEST_CASE( set_attributes_tuid )
 	{
 		tmx_reader::CTU ctu ;
 
@@ -103,10 +108,10 @@ namespace easyunit
 
 		ctu.set_attributes(attributes) ;
 
-		ASSERT_EQUALS(ctu.m_tuid, L"10") ;
+		BOOST_CHECK_EQUAL(ctu.m_tuid, L"10") ;
 	}
 
-	TEST( CTMXReader_CTU_TestCase, reflect_attributes_creator )
+	BOOST_AUTO_TEST_CASE( reflect_attributes_creator )
 	{
 		tmx_reader::CTU ctu ;
 		ctu.m_creationid = L"Ryan" ;
@@ -114,9 +119,9 @@ namespace easyunit
 		record_pointer rec(new record_local) ;
 
 		ctu.reflect_attributes(rec) ;
-		ASSERT_EQUALS(rec->get_creator(), L"Ryan") ;
+		BOOST_CHECK_EQUAL(rec->get_creator(), L"Ryan") ;
 	}
-	TEST( CTMXReader_CTU_TestCase, reflect_attributes_modified_by )
+	BOOST_AUTO_TEST_CASE( reflect_attributes_modified_by )
 	{
 		tmx_reader::CTU ctu ;
 		ctu.m_changeid = L"Ryan" ;
@@ -124,9 +129,9 @@ namespace easyunit
 		record_pointer rec(new record_local) ;
 
 		ctu.reflect_attributes(rec) ;
-		ASSERT_EQUALS(rec->get_modified_by(), L"Ryan") ;
+		BOOST_CHECK_EQUAL(rec->get_modified_by(), L"Ryan") ;
 	}
-	TEST( CTMXReader_CTU_TestCase, reflect_attributes_created )
+	BOOST_AUTO_TEST_CASE( reflect_attributes_created )
 	{
 		tmx_reader::CTU ctu ;
 		ctu.m_creationdate = L"20001011T123456Z" ;
@@ -137,15 +142,15 @@ namespace easyunit
 
 		misc_wrappers::date actual = rec->get_created() ;
 
-		ASSERT_EQUALS_V(2000, (int)actual.wYear) ;
-		ASSERT_EQUALS_V(10, (int)actual.wMonth) ;
-		ASSERT_EQUALS_V(11, (int)actual.wDay) ;
+		BOOST_CHECK_EQUAL(2000, (int)actual.wYear) ;
+		BOOST_CHECK_EQUAL(10, (int)actual.wMonth) ;
+		BOOST_CHECK_EQUAL(11, (int)actual.wDay) ;
 
-		ASSERT_EQUALS_V(12, (int)actual.wHour) ;
-		ASSERT_EQUALS_V(34, (int)actual.wMinute) ;
-		ASSERT_EQUALS_V(56, (int)actual.wSecond) ;
+		BOOST_CHECK_EQUAL(12, (int)actual.wHour) ;
+		BOOST_CHECK_EQUAL(34, (int)actual.wMinute) ;
+		BOOST_CHECK_EQUAL(56, (int)actual.wSecond) ;
 	}
-	TEST( CTMXReader_CTU_TestCase, reflect_attributes_modified )
+	BOOST_AUTO_TEST_CASE( reflect_attributes_modified )
 	{
 		tmx_reader::CTU ctu ;
 		ctu.m_changedate = L"20001011T123456Z" ;
@@ -156,15 +161,15 @@ namespace easyunit
 
 		misc_wrappers::date actual = rec->get_modified() ;
 
-		ASSERT_EQUALS_V(2000, (int)actual.wYear) ;
-		ASSERT_EQUALS_V(10, (int)actual.wMonth) ;
-		ASSERT_EQUALS_V(11, (int)actual.wDay) ;
+		BOOST_CHECK_EQUAL(2000, (int)actual.wYear) ;
+		BOOST_CHECK_EQUAL(10, (int)actual.wMonth) ;
+		BOOST_CHECK_EQUAL(11, (int)actual.wDay) ;
 
-		ASSERT_EQUALS_V(12, (int)actual.wHour) ;
-		ASSERT_EQUALS_V(34, (int)actual.wMinute) ;
-		ASSERT_EQUALS_V(56, (int)actual.wSecond) ;
+		BOOST_CHECK_EQUAL(12, (int)actual.wHour) ;
+		BOOST_CHECK_EQUAL(34, (int)actual.wMinute) ;
+		BOOST_CHECK_EQUAL(56, (int)actual.wSecond) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif
 

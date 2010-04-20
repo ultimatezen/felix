@@ -2,21 +2,18 @@
 #include "StdAfx.h"
 #include "query.h"
 #include "TranslationMemory.h"
-#include "easyunit/testharness.h"
 #include "File.h"
 #include "record_local.h"
 #include "memory_local.h"
 
-/************************************************************************/
-/* Unit Tests                                                           */
-/************************************************************************/
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 
-namespace easyunit
-{
+
 	using namespace mem_engine ;
-#define ADD_RECORD(mem, source, trans) \
+	#define ADD_RECORD(mem, source, trans) \
 	{\
 	record_pointer rec(new record_local()) ;\
 	rec->set_source(wstring(source)) ;\
@@ -24,7 +21,7 @@ namespace easyunit
 	mem.add_record(rec) ;\
 	}
 
-#define GET_MATCHES(mem, query, match_query)\
+	#define GET_MATCHES(mem, query, match_query)\
 	trans_match_container matches ;\
 	\
 	params.m_rich_source = query ;\
@@ -33,7 +30,7 @@ namespace easyunit
 	\
 	match_query.set_matches(matches) ;
 
-	TEST( translation_match_queryTestCase, get_html_short_twice )
+	BOOST_AUTO_TEST_CASE( get_html_short_twice )
 	{
 		memory_local mem(0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
@@ -45,12 +42,9 @@ namespace easyunit
 		string first = string2string(match_query.get_html_short()) ;
 		string second = string2string(match_query.get_html_short()) ;
 
-		SimpleString err_msg = SimpleString(first.c_str()) +
-			SimpleString("\n\n") +
-			SimpleString(second.c_str()) ;
-		ASSERT_EQUALS_M(first, second, err_msg) ;
+		BOOST_CHECK_EQUAL(first, second) ;
 	}
-	TEST( translation_match_queryTestCase, get_html_short_word )
+	BOOST_AUTO_TEST_CASE( get_html_short_word )
 	{
 		memory_local mem(0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
@@ -61,13 +55,13 @@ namespace easyunit
 		GET_MATCHES(mem, L"I love spam and eggs.", match_query) ;
 
 		string actual = string2string(match_query.get_html_short()) ;
-		ASSERT_TRUE(actual.find("Nailed to the perch") != string::npos) ;
-		ASSERT_TRUE(actual.find("I love") != string::npos) ;
-		ASSERT_TRUE(actual.find("and eggs") != string::npos) ;
-		ASSERT_TRUE(actual.find("ham") != string::npos) ;
-		ASSERT_TRUE(actual.find("spam") != string::npos) ;
+		BOOST_CHECK(actual.find("Nailed to the perch") != string::npos) ;
+		BOOST_CHECK(actual.find("I love") != string::npos) ;
+		BOOST_CHECK(actual.find("and eggs") != string::npos) ;
+		BOOST_CHECK(actual.find("ham") != string::npos) ;
+		BOOST_CHECK(actual.find("spam") != string::npos) ;
 	}
-	TEST( translation_match_queryTestCase, get_html_short_word_twice )
+	BOOST_AUTO_TEST_CASE( get_html_short_word_twice )
 	{
 		memory_local mem(0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
@@ -80,12 +74,9 @@ namespace easyunit
 		string first = string2string(match_query.get_html_short()) ;
 		string second = string2string(match_query.get_html_short()) ;
 
-		SimpleString err_msg = SimpleString(first.c_str()) +
-			SimpleString("\n\n") +
-			SimpleString(second.c_str()) ;
-		ASSERT_EQUALS_M(first, second, err_msg) ;
+		BOOST_CHECK_EQUAL(first, second) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef _DEBUG

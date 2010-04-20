@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		file::view xml_view ;
 		char *text = (char *)xml_view.create_view( path.Path() ) ;
 
-		BOOST_CHECK_EQUAL( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( (int)CP_UTF8, (int)mem.get_correct_encoding( text, file_size ) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf8 )
 	{
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		file::view utf8_view ;
 		char *text = (char *)utf8_view.create_view( path.Path() ) ;
 
-		BOOST_CHECK_EQUAL( CP_UTF8, mem.get_correct_encoding( text, file_size ) ) ;
+		BOOST_CHECK_EQUAL( (int)CP_UTF8, (int)mem.get_correct_encoding( text, file_size ) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextSjis )
@@ -426,7 +426,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 			"</memory>\n" ;
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyMemory.xml") ;
 		mem.load_text(text, filename, strlen(text)) ;
-		BOOST_CHECK_EQUAL( 0, mem.size() ) ;
+		BOOST_CHECK_EQUAL( 0, (int)mem.size() ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_one_entry )
 	{
@@ -464,9 +464,9 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
-		BOOST_CHECK_EQUAL(0, rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL((int)0, (int)rec->get_reliability()) ;
 		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
-		BOOST_CHECK_EQUAL(0, rec->get_refcount()) ;
+		BOOST_CHECK_EQUAL((int)0, (int)rec->get_refcount()) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_big_memory )
 	{
@@ -500,9 +500,9 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
-		BOOST_CHECK_EQUAL(0, rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL((int)0, (int)rec->get_reliability()) ;
 		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
-		BOOST_CHECK_EQUAL(0, rec->get_refcount()) ;
+		BOOST_CHECK_EQUAL((int)0, (int)rec->get_refcount()) ;
 	}
 	BOOST_AUTO_TEST_CASE( TestDegenerateEmpty )
 	{
@@ -548,7 +548,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.find_matches(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize2)
 	{
@@ -563,7 +563,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.find_matches(matches, params) ;
 
-		BOOST_CHECK_EQUAL(2, matches.size()) ;
+		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
 	{
@@ -577,7 +577,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_source = L"aa" ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -623,7 +623,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -646,7 +646,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_match_algo = IDC_ALGO_WORD ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, matches.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;

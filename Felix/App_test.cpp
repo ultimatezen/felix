@@ -1,55 +1,55 @@
 #include "stdafx.h"
 #include "App.h"
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 #include "FelixApp.h"
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
+BOOST_AUTO_TEST_SUITE( AppTest )
+
 	typedef CComPtr< CComObject< CApp > > appPtr ;
 
-	TEST( AppTest, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
 		appPtr app ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &app ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( app ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( app ) ;
 	}
 
-	TEST( AppTest, IsVisible )
+	BOOST_AUTO_TEST_CASE( IsVisible )
 	{
 		appPtr app ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &app ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 		
 		VARIANT_BOOL is_visible = VARIANT_FALSE ;
 
 		app->get_Visible( &is_visible ) ;
 
-		ASSERT_EQUALS_M( is_visible, VARIANT_TRUE, "Window should be reported as visible" ) ;
+		BOOST_CHECK(is_visible == VARIANT_TRUE) ;
 	}
 
-	TEST( AppTest, Quit)
+	BOOST_AUTO_TEST_CASE( Quit)
 	{
 		app::get_app().m_sensing_variable.clear() ;
 		appPtr ta ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &ta ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 
 		ta->Quit() ;
 
 		CMainFrame &main_frame = app::get_app() ;
-		ASSERT_EQUALS_V( 1, (int)main_frame.m_sensing_variable.size() ) ;
-		SimpleString expected = "exit_silently" ;
-		SimpleString actual = main_frame.m_sensing_variable[0].c_str() ;
-		ASSERT_EQUALS_V( expected, actual ) ;
+		BOOST_CHECK_EQUAL( 1, (int)main_frame.m_sensing_variable.size() ) ;
+		string expected = "exit_silently" ;
+		string actual = main_frame.m_sensing_variable[0].c_str() ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
-	TEST( AppTest, Lookup)
+	BOOST_AUTO_TEST_CASE( Lookup)
 	{
 		appPtr ta ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &ta ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 
 		CComBSTR query = L"foo" ;
 
@@ -59,27 +59,27 @@ namespace easyunit
 
 		ta->get_Trans( &trans ) ;
 
-		ASSERT_TRUE( trans.Length() == 0 )
+		BOOST_CHECK( trans.Length() == 0 ) ;
 	}
 
-	TEST( AppTest, ShowMarkup )
+	BOOST_AUTO_TEST_CASE( ShowMarkup )
 	{
 		appPtr ta ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &ta ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 
 		ta->put_ShowMarkup( VARIANT_FALSE ) ;
 
 		VARIANT_BOOL markup_visible = VARIANT_FALSE ;
 
 		ta->get_ShowMarkup( &markup_visible ) ;
-		ASSERT_EQUALS( markup_visible, VARIANT_FALSE ) ;
+		BOOST_CHECK( markup_visible == VARIANT_FALSE ) ;
 
 		ta->put_ShowMarkup( VARIANT_TRUE ) ;
 		ta->get_ShowMarkup( &markup_visible ) ;
-		ASSERT_EQUALS( markup_visible, VARIANT_TRUE ) ;
+		BOOST_CHECK( markup_visible == VARIANT_TRUE ) ;
 
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -42,17 +42,86 @@
 
 #include <float.h> // _controlfp
 
-#include "easyunittester.h"
-
 #include "FelixApp.h"
 #include "DispatchWrapper.h"
 #include "atlscintilla.h"
+
+#define BOOST_TEST_MODULE FelixUnitTests
+#include <boost/test/unit_test.hpp>
+#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
+
+template <class CharT, class TraitsT = std::char_traits<CharT> >
+class basic_debugbuf : 
+	public std::basic_stringbuf<CharT, TraitsT>
+{
+public:
+
+	virtual ~basic_debugbuf()
+	{
+		sync();
+	}
+
+protected:
+
+	int sync()
+	{
+		output_debug_string(str().c_str());
+		str(std::basic_string<CharT>());    // Clear the string buffer
+
+
+		return 0;
+	}
+
+	void output_debug_string(const CharT *text) {}
+};
+template<>
+void basic_debugbuf<char>::output_debug_string(const char *text)
+{
+	::OutputDebugStringA(text);
+}
+
+template<>
+void basic_debugbuf<wchar_t>::output_debug_string(const wchar_t *text)
+{
+	::OutputDebugStringW(text);
+}
+template<class CharT, class TraitsT = std::char_traits<CharT> >
+class basic_dostream : 
+	public std::basic_ostream<CharT, TraitsT>
+{
+public:
+
+	basic_dostream() : std::basic_ostream<CharT, TraitsT>
+		(new basic_debugbuf<CharT, TraitsT>()) {}
+	~basic_dostream() 
+	{
+		delete rdbuf(); 
+	}
+};
+
+typedef basic_dostream<char>    dostream;
+typedef basic_dostream<wchar_t> wdostream;
+
+struct UnitTestConfig {
+	UnitTestConfig()
+	{ boost::unit_test::unit_test_log.set_stream( out ); }
+	~UnitTestConfig()  { boost::unit_test::unit_test_log.set_stream( std::cout ); }
+
+	dostream                    out ;
+
+};
+
+
+BOOST_GLOBAL_FIXTURE( UnitTestConfig );
+
 
 using namespace except ;
 
@@ -301,10 +370,27 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
     ATLTRACE( "Unit testing app...\n" ) ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
-	run_unit_tests() ;
+
+	ATLTRACE("Running boost unit tests...\n") ;
+
+	char *args[] = {"", "--result_code=yes"};
+	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
+
+	if (ut_result)
+	{
+		::MessageBeep(MB_ICONSTOP) ;
+		ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
+	}
+	else
+	{
+		::MessageBeep(MB_ICONINFORMATION) ;
+		ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
+	}
+
 	_Module.Term() ;
 	::OleUninitialize() ;
     return EXIT_SUCCESS ;
+
 #else
 
 	// going to a subroutine makes it cleaner to separate app code from error handling

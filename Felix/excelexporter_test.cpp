@@ -1,30 +1,29 @@
 #include "stdafx.h"
 #include "excelexporter.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 
-namespace easyunit
-{
-	TEST( TestCExcelExporter, process_cell_text_empty)
+	BOOST_AUTO_TEST_CASE( process_cell_text_empty)
 	{
 		wstring text ;
 		wstring out = process_cell_text(text) ;
-		ASSERT_TRUE_M(out.empty(), "Output of empty string should be empty") ;
+		BOOST_CHECK(out.empty()) ;
 	}
-	TEST( TestCExcelExporter, process_cell_text_foo)
+	BOOST_AUTO_TEST_CASE( process_cell_text_foo)
 	{
 		wstring text = L"foo";
 		wstring out = process_cell_text(text) ;
-		ASSERT_EQUALS_V(SimpleString(string2string(out).c_str()), "foo") ;
+		BOOST_CHECK_EQUAL(string(string2string(out).c_str()), "foo") ;
 	}
-	TEST( TestCExcelExporter, process_cell_text_equals_sign)
+	BOOST_AUTO_TEST_CASE( process_cell_text_equals_sign)
 	{
 		wstring text = L"=foo" ;
 		wstring out = process_cell_text(text) ;
-		ASSERT_EQUALS_V(SimpleString(string2string(out).c_str()), "\'=foo") ;
+		BOOST_CHECK_EQUAL(string(string2string(out).c_str()), "\'=foo") ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

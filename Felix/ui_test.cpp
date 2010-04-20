@@ -1,17 +1,14 @@
 #include "StdAfx.h"
 #include "ui.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( ui_test )
 
-namespace easyunit
-{
 	// windows_ui
-	TEST( windows_ui_test, init )
+	BOOST_AUTO_TEST_CASE( windows_ui_test_init )
 	{
-		windows_ui ui ;
-		ASSERT_TRUE_M(TRUE, "Should not blow up") ;
+		BOOST_CHECK_NO_THROW(windows_ui()) ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -19,16 +16,16 @@ namespace easyunit
 	//////////////////////////////////////////////////////////////////////////
 
 	// CTOR
-	TEST( file_dlg_test, constructor )
+	BOOST_AUTO_TEST_CASE( file_dlg_test_constructor )
 	{
 		file_dlg dlg(false, NULL) ;
-		ASSERT_EQUALS_M(dlg.m_dialog.m_ofn.hwndOwner, NULL, "Parent should be null") ;
-		ASSERT_EQUALS_M(dlg.m_parent_hwnd, NULL, "Parent should be null") ;
-		ASSERT_EQUALS_M(dlg.m_dialog.m_ofn.lpstrFilter, NULL, "lpstrFilter should be null") ;
-		ASSERT_EQUALS_M(dlg.m_dialog.m_ofn.lpstrDefExt, NULL, "lpstrDefExt should be null") ;
+		BOOST_CHECK(dlg.m_dialog.m_ofn.hwndOwner == NULL) ;
+		BOOST_CHECK(dlg.m_parent_hwnd == NULL) ;
+		BOOST_CHECK(dlg.m_dialog.m_ofn.lpstrFilter == NULL) ;
+		BOOST_CHECK(dlg.m_dialog.m_ofn.lpstrDefExt == NULL) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef UNIT_TEST

@@ -1388,6 +1388,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SearchResults.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SearchWindow.cpp"
 				>
 			</File>
@@ -2550,6 +2554,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SearchResults.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SearchWindow.h"
 				>
 			</File>
@@ -2876,6 +2884,10 @@
 			</File>
 			<File
 				RelativePath=".\SearchResult.rgs"
+				>
+			</File>
+			<File
+				RelativePath=".\SearchResults.rgs"
 				>
 			</File>
 			<File

@@ -4,12 +4,15 @@
 #include "record_local.h"
 #include "query.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
+	//////////////////////////////////////////////////////////////////////////
+	// frame
+	//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
+
 	using namespace mem_engine ;
 	search_match_ptr make_match_con(string source, string trans, int id=0, string name="new")
 	{
@@ -24,44 +27,24 @@ namespace easyunit
 
 		return match ;
 	}
-	//////////////////////////////////////////////////////////////////////////
-	// frame
-	//////////////////////////////////////////////////////////////////////////
 
-	TEST( view_state_concordance_test, handle_toggle_edit_mode_false )
+	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_false )
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_concordance") ;
+		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_concordance") ;
 
-		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
+		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		BOOST_CHECK_EQUAL(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_test, handle_toggle_edit_mode_true_view )
-	{
-		ViewStateConcordanceMain state ;
-		view_state_obj vso(&state) ;
-		vso.view.m_is_edit_mode = true ;
-
-		mem_engine::search_query_mainframe matches ;
-		state.set_search_matches(&matches) ;
-
-		state.handle_toggle_edit_mode() ;
-
-		ASSERT_EQUALS_V(4, (int)vso.view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_concordance") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "<b>Search Results:</b><br />Found 0 matches.") ;
-	}
-	TEST( view_state_concordance_test, handle_toggle_edit_mode_true_listener )
+	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_true_view )
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -72,12 +55,29 @@ namespace easyunit
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
+		BOOST_CHECK_EQUAL(4, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_concordance") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "<b>Search Results:</b><br />Found 0 matches.") ;
+	}
+	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_true_listener )
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+		vso.view.m_is_edit_mode = true ;
+
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
+
+		state.handle_toggle_edit_mode() ;
+
+		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		BOOST_CHECK_EQUAL(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_test, show_content_0_matches_view )
+	BOOST_AUTO_TEST_CASE( show_content_0_matches_view )
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -87,12 +87,12 @@ namespace easyunit
 
 		state.show_content() ;
 
-		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
-		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("Found 0 matches.") != string::npos) ;
+		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		BOOST_CHECK(vso.view.m_sensing_variable[1].find("Found 0 matches.") != string::npos) ;
 	}
 
-	TEST( view_state_concordance_test, retrieve_edit_record_model )
+	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -116,16 +116,16 @@ namespace easyunit
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(3, (int)vso.model.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
-		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
-		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[2].c_str()), "get_memories") ;
+		BOOST_CHECK_EQUAL(3, (int)vso.model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
+		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
+		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[2].c_str()), "get_memories") ;
 
-		SimpleString expected("source") ;
-		SimpleString actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected("source") ;
+		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( view_state_concordance_test, retrieve_edit_record_listener )
+	BOOST_AUTO_TEST_CASE( retrieve_edit_record_listener )
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -149,17 +149,17 @@ namespace easyunit
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(5, (int)vso.listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
-		SimpleString expected_msgid(int2string(IDS_ADDED_TRANSLATION).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), expected_msgid) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(5, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
+		string expected_msgid(int2string(IDS_ADDED_TRANSLATION).c_str()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), expected_msgid) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), "0") ;
 	}
 
 	// get_current_match
-	TEST( view_state_concordance_test, get_current_match_non_empty)
+	BOOST_AUTO_TEST_CASE( get_current_match_non_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -174,13 +174,13 @@ namespace easyunit
 
 		search_match_ptr current_match = state.get_current_match() ;
 
-		SimpleString expected("record source") ;
-		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("record source") ;
+		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	TEST( view_state_concordance_test, get_current_match_empty)
+	BOOST_AUTO_TEST_CASE( get_current_match_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -192,15 +192,15 @@ namespace easyunit
 
 		search_match_ptr match = state.get_current_match() ;
 
-		SimpleString expected("query") ;
-		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected("query") ;
+		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
 	}
 
 	// on_user_edit
-	TEST( view_state_concordance_test, on_user_edit_non_empty)
+	BOOST_AUTO_TEST_CASE( on_user_edit_non_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -216,14 +216,14 @@ namespace easyunit
 		state.on_user_edit() ;
 		search_match_ptr current_match = vso.listener.item_under_edit ;
 
-		SimpleString expected("record source") ;
-		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("record source") ;
+		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(vso.mem->get_id(), current_match->get_memory_id()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(vso.mem->get_id(), current_match->get_memory_id()) ;
 	}
 
-	TEST( view_state_concordance_test, on_user_edit_empty)
+	BOOST_AUTO_TEST_CASE( on_user_edit_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -236,34 +236,34 @@ namespace easyunit
 		state.on_user_edit() ;
 		search_match_ptr match = vso.listener.item_under_edit ;
 
-		SimpleString expected("query") ;
-		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected("query") ;
+		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
-		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
+		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
 	}
 
 	// activate
-	TEST( view_state_concordance_test, activate)
+	BOOST_AUTO_TEST_CASE( activate)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
 
 		state.activate() ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "set_menu_checkmark") ;
-		SimpleString id_view_match(int2string(ID_VIEW_MATCH).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), id_view_match) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "false") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), "set_menu_checkmark") ;
-		SimpleString id_view_search(int2string(ID_VIEW_SEARCH).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), id_view_search) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[5].c_str()), "true") ;
-		ASSERT_EQUALS_V(6, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "set_menu_checkmark") ;
+		string id_view_match(int2string(ID_VIEW_MATCH).c_str()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), id_view_match) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "false") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "set_menu_checkmark") ;
+		string id_view_search(int2string(ID_VIEW_SEARCH).c_str()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), id_view_search) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5].c_str()), "true") ;
+		BOOST_CHECK_EQUAL(6, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
 	// delete_match
-	TEST( view_state_concordance_test, delete_match_empty)
+	BOOST_AUTO_TEST_CASE( delete_match_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -273,14 +273,14 @@ namespace easyunit
 
 		state.delete_match(0) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
-		SimpleString ids_no_matches(int2string(IDS_NO_MATCHES).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_no_matches) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
-		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		string ids_no_matches(int2string(IDS_NO_MATCHES).c_str()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), ids_no_matches) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(3, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
-	TEST( view_state_concordance_test, delete_match_out_of_range)
+	BOOST_AUTO_TEST_CASE( delete_match_out_of_range)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -295,14 +295,14 @@ namespace easyunit
 
 		state.delete_match(1) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
-		SimpleString ids_out_of_range(int2string(IDS_OUT_OF_RANGE).c_str()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), ids_out_of_range) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "0") ;
-		ASSERT_EQUALS_V(3, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "user_feedback") ;
+		string ids_out_of_range(int2string(IDS_OUT_OF_RANGE).c_str()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), ids_out_of_range) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(3, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
-	TEST( view_state_concordance_test, delete_match_check_delete)
+	BOOST_AUTO_TEST_CASE( delete_match_check_delete)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -318,11 +318,11 @@ namespace easyunit
 
 		state.delete_match(0) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "check_delete") ;
-		ASSERT_EQUALS_V(1, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "check_delete") ;
+		BOOST_CHECK_EQUAL(1, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
-	TEST( view_state_concordance_test, delete_match_to_empty)
+	BOOST_AUTO_TEST_CASE( delete_match_to_empty)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -338,14 +338,14 @@ namespace easyunit
 
 		state.delete_match(0) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "<center><h1>No Matches</h1></center>") ;
-		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "<center><h1>No Matches</h1></center>") ;
+		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
 	}
 
-	TEST( view_state_concordance_test, delete_match_to_1)
+	BOOST_AUTO_TEST_CASE( delete_match_to_1)
 	{
 		ViewStateConcordanceMain state ;
 		view_state_obj vso(&state) ;
@@ -363,35 +363,52 @@ namespace easyunit
 
 		state.delete_match(0) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
-		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"source\">source</td>") != string::npos) ;
-		ASSERT_TRUE(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"trans\">trans</td>") != string::npos) ;
-		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		BOOST_CHECK(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"source\">source</td>") != string::npos) ;
+		BOOST_CHECK(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"trans\">trans</td>") != string::npos) ;
+		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 	// glossary
 	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 
-	TEST( view_state_concordance_gloss_test, handle_toggle_edit_mode_false )
+	using namespace mem_engine ;
+
+	search_match_ptr make_match_con(string source, string trans, int id=0, string name="new")
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
+		match->set_memory_location(string2wstring(name)) ;
+
+		return match ;
+	}
+
+	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_false )
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(2, (int)vso.view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_new_record") ;
+		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_new_record") ;
 
-		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
+		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		BOOST_CHECK_EQUAL(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_gloss_test, handle_toggle_edit_mode_true )
+	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_true )
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -399,20 +416,20 @@ namespace easyunit
 
 		state.handle_toggle_edit_mode() ;
 
-		ASSERT_EQUALS_V(6, (int)vso.view.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[3].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		ASSERT_EQUALS_V(SimpleString(vso.view.m_sensing_variable[5].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(6, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_new") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5].c_str()), "0") ;
 
-		ASSERT_EQUALS_V(2, (int)vso.listener.m_feedback_int.size()) ;
-		ASSERT_EQUALS_V(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
-		ASSERT_EQUALS_V(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
+		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
+		BOOST_CHECK_EQUAL(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
 
-	TEST( view_state_concordance_gloss_test, retrieve_edit_record_model )
+	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -433,16 +450,16 @@ namespace easyunit
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
-		ASSERT_EQUALS_V(SimpleString(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
-		ASSERT_EQUALS_V(2, (int)vso.model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
+		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
+		BOOST_CHECK_EQUAL(2, (int)vso.model.m_sensing_variable.size()) ;
 
-		SimpleString expected("source") ;
-		SimpleString actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected("source") ;
+		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 
 	}
-	TEST( view_state_concordance_gloss_test, retrieve_edit_record_listener )
+	BOOST_AUTO_TEST_CASE( retrieve_edit_record_listener )
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -463,17 +480,17 @@ namespace easyunit
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		ASSERT_EQUALS_V(5, (int)vso.listener.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[3].c_str()), "345") ;
-		ASSERT_EQUALS_V(SimpleString(vso.listener.m_sensing_variable[4].c_str()), "0") ;
-		ASSERT_TRUE(vso.listener.new_rec->is_valid_record()) ;
+		BOOST_CHECK_EQUAL(5, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "345") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), "0") ;
+		BOOST_CHECK(vso.listener.new_rec->is_valid_record()) ;
 	}
 
 	// get_current_match
-	TEST( view_state_concordance_gloss_test, get_current_match_non_empty)
+	BOOST_AUTO_TEST_CASE( get_current_match_non_empty)
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -488,13 +505,13 @@ namespace easyunit
 
 		search_match_ptr current_match = state.get_current_match() ;
 
-		SimpleString expected("record source") ;
-		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("record source") ;
+		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	TEST( view_state_concordance_gloss_test, get_current_match_empty)
+	BOOST_AUTO_TEST_CASE( get_current_match_empty)
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -506,15 +523,15 @@ namespace easyunit
 
 		search_match_ptr match = state.get_current_match() ;
 
-		SimpleString expected("query") ;
-		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected("query") ;
+		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
 	}
 
 	// on_user_edit
-	TEST( view_state_concordance_gloss_test, on_user_edit_non_empty)
+	BOOST_AUTO_TEST_CASE( on_user_edit_non_empty)
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -530,14 +547,14 @@ namespace easyunit
 		state.on_user_edit() ;
 		search_match_ptr current_match = vso.listener.item_under_edit ;
 
-		SimpleString expected("record source") ;
-		SimpleString actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("record source") ;
+		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(vso.mem->get_id(), current_match->get_memory_id()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(vso.mem->get_id(), current_match->get_memory_id()) ;
 	}
 
-	TEST( view_state_concordance_gloss_test, on_user_edit_empty)
+	BOOST_AUTO_TEST_CASE( on_user_edit_empty)
 	{
 		ViewStateConcordanceGloss state ;
 		view_state_obj vso(&state) ;
@@ -550,19 +567,19 @@ namespace easyunit
 		state.on_user_edit() ;
 		search_match_ptr match = vso.listener.item_under_edit ;
 
-		SimpleString expected("query") ;
-		SimpleString actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected("query") ;
+		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_TRUE(match->get_record()->get_trans_rich().empty()) ;
-		ASSERT_EQUALS_V(vso.mem->get_id(), match->get_memory_id()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
+		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
 	}
 
 	// show_content
-	TEST( view_state_concordance_gloss_test, show_content )
+	BOOST_AUTO_TEST_CASE( show_content )
 	{
 		view_interface_fake view ;
-		ASSERT_TRUE(! view.is_edit_mode()) ;
+		BOOST_CHECK(! view.is_edit_mode()) ;
 		WindowListenerFake listener; 
 
 		ViewStateConcordanceGloss state ;
@@ -572,6 +589,6 @@ namespace easyunit
 
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif // #ifdef UNIT_TEST

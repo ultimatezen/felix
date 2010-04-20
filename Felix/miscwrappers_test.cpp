@@ -1,149 +1,148 @@
 #include "stdafx.h"
 #include "miscwrappers.h"
-#include "easyunit/testharness.h"
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_misc_wrappers_date )
 
-namespace easyunit
-{
-	TEST( misc_wrappers_date, init)
+	BOOST_AUTO_TEST_CASE( init)
 	{
 		misc_wrappers::date thedate ;
-		ASSERT_EQUALS_V(thedate.wYear, 0) ;
-		ASSERT_EQUALS_V(thedate.wMonth, 0) ;
-		ASSERT_EQUALS_V(thedate.wDay, 0) ;
-		ASSERT_EQUALS_V(thedate.wHour, 0) ;
-		ASSERT_EQUALS_V(thedate.wMinute, 0) ;
-		ASSERT_EQUALS_V(thedate.wSecond, 0) ;
-		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wYear, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMonth, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wDay, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wHour, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMinute, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wSecond, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMilliseconds, 0) ;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// set values
 	//////////////////////////////////////////////////////////////////////////
 
 	// year
-	TEST( misc_wrappers_date_set, year_2009)
+	BOOST_AUTO_TEST_CASE( year_2009)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_year(wstring(L"2009")) ;
-		ASSERT_EQUALS_V(thedate.wYear, 2009) ;
+		BOOST_CHECK_EQUAL(thedate.wYear, 2009) ;
 	}
-	TEST( misc_wrappers_date_set, year_empty)
+	BOOST_AUTO_TEST_CASE( year_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_year(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wYear, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wYear, 0) ;
 	}
 	// month
-	TEST( misc_wrappers_date_set, month_10)
+	BOOST_AUTO_TEST_CASE( month_10)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_month(wstring(L"10")) ;
-		ASSERT_EQUALS_V(thedate.wMonth, 10) ;
+		BOOST_CHECK_EQUAL(thedate.wMonth, 10) ;
 	}
-	TEST( misc_wrappers_date_set, month_empty)
+	BOOST_AUTO_TEST_CASE( month_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_month(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wMonth, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMonth, 0) ;
 	}
 	// day
-	TEST( misc_wrappers_date_set, day_13)
+	BOOST_AUTO_TEST_CASE( day_13)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_day(wstring(L"13")) ;
-		ASSERT_EQUALS_V(thedate.wDay, 13) ;
+		BOOST_CHECK_EQUAL(thedate.wDay, 13) ;
 	}
-	TEST( misc_wrappers_date_set, day_empty)
+	BOOST_AUTO_TEST_CASE( day_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_day(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wDay, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wDay, 0) ;
 	}
 	// hour
-	TEST( misc_wrappers_date_set, hour_20)
+	BOOST_AUTO_TEST_CASE( hour_20)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_hour(wstring(L"20")) ;
-		ASSERT_EQUALS_V(thedate.wHour, 20) ;
+		BOOST_CHECK_EQUAL(thedate.wHour, 20) ;
 	}
-	TEST( misc_wrappers_date_set, hour_empty)
+	BOOST_AUTO_TEST_CASE( hour_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_hour(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wHour, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wHour, 0) ;
 	}
 	// minute
-	TEST( misc_wrappers_date_set, minute_20)
+	BOOST_AUTO_TEST_CASE( minute_20)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_minute(wstring(L"20")) ;
-		ASSERT_EQUALS_V(thedate.wMinute, 20) ;
+		BOOST_CHECK_EQUAL(thedate.wMinute, 20) ;
 	}
-	TEST( misc_wrappers_date_set, minute_empty)
+	BOOST_AUTO_TEST_CASE( minute_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_minute(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wMinute, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMinute, 0) ;
 	}
 	// second
-	TEST( misc_wrappers_date_set, second_30)
+	BOOST_AUTO_TEST_CASE( second_30)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_second(wstring(L"30")) ;
-		ASSERT_EQUALS_V(thedate.wSecond, 30) ;
+		BOOST_CHECK_EQUAL(thedate.wSecond, 30) ;
 	}
-	TEST( misc_wrappers_date_set, second_empty)
+	BOOST_AUTO_TEST_CASE( second_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_second(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wSecond, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wSecond, 0) ;
 	}
 	// msec
-	TEST( misc_wrappers_date_set, msec_600)
+	BOOST_AUTO_TEST_CASE( msec_600)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_milliseconds(wstring(L"600")) ;
-		ASSERT_EQUALS_V(thedate.wMilliseconds, 600) ;
+		BOOST_CHECK_EQUAL(thedate.wMilliseconds, 600) ;
 	}
-	TEST( misc_wrappers_date_set, msec_empty)
+	BOOST_AUTO_TEST_CASE( msec_empty)
 	{
 		misc_wrappers::date thedate ;
 		thedate.set_milliseconds(wstring(L"")) ;
-		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wMilliseconds, 0) ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Parse date/time
 	//////////////////////////////////////////////////////////////////////////
 
-	TEST(misc_wrappers_date_parse, init_2009_10_01_5_13_1)
+	BOOST_AUTO_TEST_CASE( init_2009_10_01_5_13_1)
 	{
 		const wstring datestr = L"2009/10/01 5:13:01" ;
 		misc_wrappers::date thedate(datestr) ;
 
-		ASSERT_EQUALS_V(thedate.wYear, 2009) ;
-		ASSERT_EQUALS_V(thedate.wMonth, 10) ;
-		ASSERT_EQUALS_V(thedate.wDay, 1) ;
-		ASSERT_EQUALS_V(thedate.wHour, 5) ;
-		ASSERT_EQUALS_V(thedate.wMinute, 13) ;
-		ASSERT_EQUALS_V(thedate.wSecond, 1) ;
-		ASSERT_EQUALS_V(thedate.wMilliseconds, 0) ;
+		BOOST_CHECK_EQUAL(thedate.wYear, 2009) ;
+		BOOST_CHECK_EQUAL(thedate.wMonth, 10) ;
+		BOOST_CHECK_EQUAL(thedate.wDay, 1) ;
+		BOOST_CHECK_EQUAL(thedate.wHour, 5) ;
+		BOOST_CHECK_EQUAL(thedate.wMinute, 13) ;
+		BOOST_CHECK_EQUAL(thedate.wSecond, 1) ;
+		BOOST_CHECK_EQUAL(thedate.wMilliseconds, 0) ;
 	}
-	TEST(misc_wrappers_date_parse, bad_date_throws)
+	BOOST_AUTO_TEST_CASE( bad_date_throws)
 	{
 		try
 		{
 			const wstring first_datestr = L"foo/bar/baz" ;
 			misc_wrappers::date first(first_datestr) ;
-			FAIL_M("Should have thrown on bad date format") ;
+			BOOST_FAIL("Should have thrown on bad date format") ;
 		}
 		catch (except::CException& e)
 		{
 			e ;
-			ASSERT_TRUE(TRUE) ;			
+			BOOST_CHECK(TRUE) ;			
 		}
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

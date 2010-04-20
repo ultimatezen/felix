@@ -1,24 +1,22 @@
 #include "stdafx.h"
 #include "FelixMemDocUIHandler.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( CFelixMemDocUIHandlerTest )
 
-namespace easyunit
-{
-	TEST( CFelixMemDocUIHandlerTest, FinalConstruct )
+	BOOST_AUTO_TEST_CASE( FinalConstruct )
 	{
 		CComObject<CFelixMemDocUIHandler> *handler = NULL;
-		ASSERT_TRUE_M(SUCCEEDED(CComObject<CFelixMemDocUIHandler>::CreateInstance (&handler)), "Creation should succeed");
-		ASSERT_TRUE_M(SUCCEEDED(handler->FinalConstruct()), "Final construct should succeed") ;
+		BOOST_CHECK(SUCCEEDED(CComObject<CFelixMemDocUIHandler>::CreateInstance (&handler)));
+		BOOST_CHECK(SUCCEEDED(handler->FinalConstruct()));
 	}
-	TEST( CFelixMemDocUIHandlerTest, ShowUI )
+	BOOST_AUTO_TEST_CASE( ShowUI )
 	{
 		CComObject<CFelixMemDocUIHandler> *handler = NULL;
-		ASSERT_TRUE_M(SUCCEEDED(CComObject<CFelixMemDocUIHandler>::CreateInstance (&handler)), "Creation should succeed");
+		BOOST_CHECK(SUCCEEDED(CComObject<CFelixMemDocUIHandler>::CreateInstance (&handler)));
 		HRESULT retval = S_OK ;
-		ASSERT_TRUE_M(E_NOTIMPL == handler->ShowUI(0, NULL, NULL, NULL, NULL, &retval), "ShowUI should return E_NOTIMPL") ;
+		BOOST_CHECK(E_NOTIMPL == handler->ShowUI(0, NULL, NULL, NULL, NULL, &retval));
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 #endif

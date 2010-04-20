@@ -9,20 +9,12 @@
 #include "record_local.h"
 #include "output_device_fake.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 
-namespace easyunit
-{
-
-	SimpleString errMsg( wstring expected, wstring actual )
-	{
-		wstring msg = L"Expected [" + expected + L"] but actual [" + actual + L"]";
-		return SimpleString( CW2A( msg.c_str() ) ) ;
-	}
 	// write
-	TEST(CTMXWriterTestCase, write_footer )
+	BOOST_AUTO_TEST_CASE( write_footer )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -30,13 +22,13 @@ namespace easyunit
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
 		tmx_writer.write_footer() ;
-		SimpleString actual = string2string(device->m_value).c_str() ;
-		SimpleString expected = "  </body>\n</tmx>" ;
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
-		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+		string actual = string2string(device->m_value).c_str() ;
+		string expected = "  </body>\n</tmx>" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
-	TEST(CTMXWriterTestCase, write_tu)
+	BOOST_AUTO_TEST_CASE( write_tu)
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -49,13 +41,13 @@ namespace easyunit
 		rec->set_source(L"spam") ;
 		rec->set_trans(L"egg");
 		tmx_writer.write_tu(rec) ;
-		SimpleString actual = string2string(device->m_value).c_str() ;
-		SimpleString expected = "spam egg" ;
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
-		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+		string actual = string2string(device->m_value).c_str() ;
+		string expected = "spam egg" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
-	TEST(CTMXWriterTestCase, write_header)
+	BOOST_AUTO_TEST_CASE( write_header)
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -67,18 +59,18 @@ namespace easyunit
 		tmx_writer.write_header() ;
 		const wstring text = device->m_value ;
 
-		ASSERT_TRUE_M(text.find(L"<!DOCTYPE tmx SYSTEM \"tmx14.dtd\">") != wstring::npos, errMsg(L"<!DOCTYPE tmx SYSTEM \"tmx14.dtd\">", text)) ;
-		ASSERT_TRUE_M(text.find(L"<tmx version=\"1.4\">") != wstring::npos, errMsg(L"<tmx version=\"1.4\">", text)) ;
-		ASSERT_TRUE_M(text.find(L"<header") != wstring::npos, errMsg(L"<header", text)) ;
-		ASSERT_TRUE_M(text.find(L"creationtool=\"Felix\"") != wstring::npos, errMsg(L"creationtool=\"Felix\"", text)) ;
-		ASSERT_TRUE_M(text.find(L"srclang=\"Pekinese\"") != wstring::npos, errMsg(L"srclang=\"Pekinese\"", text)) ;
-		ASSERT_TRUE_M(text.find(L"o-tmf=\"Felix\"") != wstring::npos, errMsg(L"o-tmf=\"Felix\"", text)) ;
-		ASSERT_EQUALS_V(1, (int)device->m_calls.size()) ;
-		ASSERT_EQUALS_V(SimpleString("write_wstring"), device->m_calls[0].c_str()) ;
+		BOOST_CHECK(text.find(L"<!DOCTYPE tmx SYSTEM \"tmx14.dtd\">") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"<tmx version=\"1.4\">") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"<header") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"creationtool=\"Felix\"") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"srclang=\"Pekinese\"") != wstring::npos) ;
+		BOOST_CHECK(text.find(L"o-tmf=\"Felix\"") != wstring::npos) ;
+		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
 
 	// make_tu
-	TEST(CTMXWriterTestCase, make_tu_simple )
+	BOOST_AUTO_TEST_CASE( make_tu_simple )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -88,9 +80,9 @@ namespace easyunit
 		rec->set_trans(L"egg");
 		wstring text = tmx_writer.make_tu(rec, L"{$srcseg} {$transseg}") ;
 		wstring expected = L"spam egg" ;
-		ASSERT_EQUALS_M(expected, text, errMsg(expected, text)) ;
+		BOOST_CHECK_EQUAL(expected, text) ;
 	}
-	TEST(CTMXWriterTestCase, make_tu_real_trans )
+	BOOST_AUTO_TEST_CASE( make_tu_real_trans )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -102,9 +94,9 @@ namespace easyunit
 		wstring tmplText = (LPCWSTR)resFile.text() ;
 		wstring text = tmx_writer.make_tu(rec, tmplText) ;
 		wstring expected = L"<seg>egg</seg>" ;
-		ASSERT_TRUE_M(text.find(expected) != wstring::npos, errMsg(expected, text)) ;
+		BOOST_CHECK(text.find(expected) != wstring::npos) ;
 	}
-	TEST(CTMXWriterTestCase, make_tu_real_source)
+	BOOST_AUTO_TEST_CASE( make_tu_real_source)
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -116,9 +108,9 @@ namespace easyunit
 		wstring tmplText = (LPCWSTR)resFile.text() ;
 		wstring text = tmx_writer.make_tu(rec, tmplText) ;
 		wstring expected = L"<seg>spam</seg>" ;
-		ASSERT_TRUE_M(text.find(expected) != wstring::npos, errMsg(expected, text)) ;
+		BOOST_CHECK(text.find(expected) != wstring::npos) ;
 	}
-	TEST(CTMXWriterTestCase, make_tu_real_creationid)
+	BOOST_AUTO_TEST_CASE( make_tu_real_creationid)
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -131,9 +123,9 @@ namespace easyunit
 		wstring tmplText = (LPCWSTR)resFile.text() ;
 		wstring text = tmx_writer.make_tu(rec, tmplText) ;
 		wstring expected = L"creationid=\"Elephant\"" ;
-		ASSERT_TRUE_M(text.find(expected) != wstring::npos, errMsg(expected, text)) ;
+		BOOST_CHECK(text.find(expected) != wstring::npos) ;
 	}
-	TEST(CTMXWriterTestCase, make_tu_real_changeid)
+	BOOST_AUTO_TEST_CASE( make_tu_real_changeid)
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
@@ -146,91 +138,89 @@ namespace easyunit
 		wstring tmplText = (LPCWSTR)resFile.text() ;
 		wstring text = tmx_writer.make_tu(rec, tmplText) ;
 		wstring expected = L"changeid=\"Snuffles\"" ;
-		ASSERT_TRUE_M(text.find(expected) != wstring::npos, errMsg(expected, text)) ;
+		BOOST_CHECK(text.find(expected) != wstring::npos) ;
 	}
 
-	TEST( CTmxWriterTestCase, SetSourceAndTrans )
+	BOOST_AUTO_TEST_CASE( SetSourceAndTrans )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		writer.set_src_lang( L"jp" ) ;
-		ASSERT_EQUALS ( L"JP", writer.m_src_lang ) ; 
+		BOOST_CHECK_EQUAL ( L"JP", writer.m_src_lang ) ; 
 		writer.set_target_lang( L"eN-US" ) ;
-		ASSERT_EQUALS_M( L"EN-US", writer.m_target_lang, errMsg( writer.m_target_lang, L"EN-US" ) ) ;
+		BOOST_CHECK_EQUAL( L"EN-US", writer.m_target_lang) ;
 	}
-	TEST( CTmxWriterTestCase, cleanUpForTmx )
+	BOOST_AUTO_TEST_CASE( cleanUpForTmx )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"f\too hi!" ;
 		wstring outStr = writer.cleanUpForTMX( inStr ) ;
 		wstring expected = L"foo hi!" ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	// get_segment
-	TEST( CTmxWriterTestCase, getSegmentSimple )
+	BOOST_AUTO_TEST_CASE( getSegmentSimple )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"foo" ;
 		wstring outStr = writer.get_segment( inStr ) ;
-		ASSERT_EQUALS( inStr, outStr ) ;
+		BOOST_CHECK_EQUAL( inStr, outStr ) ;
 		// try it twice...
 		outStr = writer.get_segment( inStr ) ;
-		ASSERT_EQUALS_M( outStr, inStr, errMsg( outStr, inStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, inStr) ;
 	}
-	TEST( CTmxWriterTestCase, getSegmentBr )
+	BOOST_AUTO_TEST_CASE( getSegmentBr )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"foo<br />" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"foo<it pos=\"begin\" x=\"1\">&lt;br /&gt;</it>" ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
-	TEST( CTmxWriterTestCase, getSegmentP )
+	BOOST_AUTO_TEST_CASE( getSegmentP )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"<p>foo</p>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"<bpt i=\"1\" x=\"1\">&lt;p&gt;</bpt>foo<ept i=\"1\">&lt;/p&gt;</ept>" ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
-	TEST( CTmxWriterTestCase, getSegmentDivSpan )
+	BOOST_AUTO_TEST_CASE( getSegmentDivSpan )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"<bpt i=\"1\" x=\"1\">&lt;div style=\"float:left;\"&gt;</bpt><bpt i=\"2\" x=\"2\">&lt;span style=\"color:blue;\"&gt;</bpt>foo<ept i=\"2\">&lt;/span&gt;</ept><ept i=\"1\">&lt;/div&gt;</ept>" ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
 
-	TEST( CTmxWriterTestCase, get_segment_bad_html )
+	BOOST_AUTO_TEST_CASE( get_segment_bad_html )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"This is < & > not cool..." ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"This is &lt; &amp; &gt; not cool..." ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
-	TEST( CTmxWriterTestCase, get_segment_bad_html_with_tag )
+	BOOST_AUTO_TEST_CASE( get_segment_bad_html_with_tag )
 	{
 		CProgressListenerDummy dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"This is < & > not cool...<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"This is &lt; &amp; &gt; not cool...<bpt i=\"1\" x=\"1\">&lt;div style=\"float:left;\"&gt;</bpt><bpt i=\"2\" x=\"2\">&lt;span style=\"color:blue;\"&gt;</bpt>foo<ept i=\"2\">&lt;/span&gt;</ept><ept i=\"1\">&lt;/div&gt;</ept>" ;
-		ASSERT_EQUALS_M( outStr, expected, errMsg( expected, outStr ) ) ;
+		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
 
-}
-
-
-
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif
-

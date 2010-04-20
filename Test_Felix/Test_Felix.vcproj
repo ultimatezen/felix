@@ -196,6 +196,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\App.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\App2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\App2_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\App_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\AppTemplateTests.cpp"
 				>
 			</File>
@@ -205,6 +221,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\array_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\AutomationExceptionHandler_test.cpp"
 				>
 			</File>
 			<File
@@ -221,6 +241,26 @@
 			</File>
 			<File
 				RelativePath="..\Felix\ColorRef_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\com_utilities_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\CommonWindowFunctionality.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\CommonWindowFunctionality_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ComRecord.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ComRecord_test.cpp"
 				>
 			</File>
 			<File
@@ -248,6 +288,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\ContentPresenterAddedTrans.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ContentPresenterAddedTrans_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\data_converter.cpp"
 				>
 			</File>
@@ -272,6 +320,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\demo_exception_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\DemoException.cpp"
 				>
 			</File>
@@ -280,12 +332,116 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\document_wrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\xpmenu\Draw.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\Drop.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditModeFindDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditModeFindDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialog_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogModal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogModal_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogRegGloss.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogRegGloss_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\element_wrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\element_wrapper_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ExcelExporter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\excelexporter_test.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\Exceptions.cpp"
 				>
+			</File>
+			<File
+				RelativePath="..\Felix\Exceptions_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ExtraStringsView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\extrastringsview_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\Felix.idl"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\felix_cl_options.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\felix_cl_options_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Felix_i.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\Felix_p.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Felix\Felix_properties.cpp"
@@ -296,7 +452,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\FelixMemDocUIHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FelixMemDocUIHandler_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\FileOpHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FindDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FindDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -308,11 +480,55 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\GlossaryDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\GlossaryDialog_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HrefTags.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HrefTags_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HtmlDocColorSetter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HtmlDocColorSetter_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\HtmlDocument.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\HtmlDocument_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\HtmlView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ImportDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ImportDialog_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ImportMultitermFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ImportMultitermFile_test.cpp"
 				>
 			</File>
 			<File
@@ -324,11 +540,39 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\InputSymbolDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\LanguageHolder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\LocalizedServerAppModule.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\logging.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\logging_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\mainframe_messaging_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MainFrameController_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\mainfrm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\mainfrm_test.cpp"
 				>
 			</File>
 			<File
@@ -436,7 +680,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\miscwrappers_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\MultiLanguage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MultitermConversionDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MultitermConversionDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -448,11 +704,47 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\NavUrl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\NavUrl_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\oleautowrapper_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\pagination.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\pagination_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\PropertiesDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\PropertiesDlg_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\query.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Felix\query_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\QueryMergeDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\QueryMergeDlg_test.cpp"
 				>
 			</File>
 			<File
@@ -480,6 +772,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\RegisterGlossDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\RegisterGlossDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\RegSettings.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\replacer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\replacer_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\ResHtmlFile.cpp"
 				>
 			</File>
@@ -504,11 +816,51 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\ScintillaEdit_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\search_match.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Felix\search_match_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchResult.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchResult_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchWindow_browser_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchWindow_templates_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchWindow_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\segment_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SourceAndHtmlEdit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\sourceandhtmledit_test.cpp"
 				>
 			</File>
 			<File
@@ -530,6 +882,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Felix\stdafx.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\Felix\StringConversions_test.cpp"
@@ -580,11 +936,155 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\TMXImportDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TmxImportLangsDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXReader_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TmxSymbolMapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXWriter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXWriter_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\translation_match_query_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\TranslationMemory.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Felix\TranslationMemory_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ui_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\UserStringDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\UserStringDlg_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_interface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_interface_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_concordance.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_concordance_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_initial.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_initial_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_match.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_match_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_new.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_new_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_review.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_review_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ViewCollectionWalker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ViewCollectionWalker_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\WebPage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\WideRichEdit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\WideRichEdit_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\window_state_tests.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\WindowExceptionHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\WindowsMessage_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\xpmenu_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\zoom_dialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\zoom_dialog_test.cpp"
 				>
 			</File>
 		</Filter>
@@ -598,7 +1098,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\App.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\App2.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\array.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\automationexceptionhandler.h"
 				>
 			</File>
 			<File
@@ -607,6 +1119,14 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\ColorRef.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\CommonWindowFunctionality.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ComRecord.h"
 				>
 			</File>
 			<File
@@ -619,6 +1139,14 @@
 			</File>
 			<File
 				RelativePath="..\Felix\ContentPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ContentPresenterAddedTrans.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\CRecordLabelPickerDlg.h"
 				>
 			</File>
 			<File
@@ -642,7 +1170,51 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\document_wrapper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\document_wrapper_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\xpmenu\Draw.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\Drop.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditModeFindDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogCommon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogModal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\EditTransRecordDialogRegGloss.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\element_wrapper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\element_wrapper_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ExcelExporter.h"
 				>
 			</File>
 			<File
@@ -650,7 +1222,35 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\ExtraStringsView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\felix_cl_options.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Felix_h.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\felix_model_fake.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\Felix_properties.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FelixMemDocUIHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FelixModelInterface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\FelixStatusBar.h"
 				>
 			</File>
 			<File
@@ -658,7 +1258,35 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\FindDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\font_tabulator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\GlossaryDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\GlossaryDlgListener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\GlossaryDlgListenerFake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\GlossaryWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HrefTags.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\HtmlDocColorSetter.h"
 				>
 			</File>
 			<File
@@ -670,7 +1298,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\ImportDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ImportMultitermFile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\InputKeyDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\InputSymbolDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\LanguageHolder.h"
 				>
 			</File>
 			<File
@@ -679,6 +1323,14 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\logging.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\MainFrameModel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\mainfrm.h"
 				>
 			</File>
 			<File
@@ -730,6 +1382,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\xpmenu\MenuXP.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\MiniVersion.h"
 				>
 			</File>
@@ -742,11 +1398,47 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\MultitermConversionDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\NagDialog.h"
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\NavInterface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\NavUrl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\output_device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\output_device_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\pagination.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ProgressListener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\PropertiesDlg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\query.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\QueryMergeDlg.h"
 				>
 			</File>
 			<File
@@ -759,6 +1451,22 @@
 			</File>
 			<File
 				RelativePath="..\Felix\record_remote.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\reg_msg_filter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\RegisterGlossDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\RegSettings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\replacer.h"
 				>
 			</File>
 			<File
@@ -790,6 +1498,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\SearchResult.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SearchWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\segment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\SourceAndHtmlEdit.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
@@ -818,11 +1542,115 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Felix\TMXImportDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TmxImportLangsDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXReader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TmxSymbolMapper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\TMXWriter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\xpmenu\Tools.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Felix\TranslationMemory.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Felix\UserName.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\UserStringDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_interface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_interface_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_concordance.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_initial.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_match.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_new.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_review.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\view_state_test_utils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\ViewCollectionWalker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\WebPage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\WideRichEdit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\window_listener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\window_listener_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\WindowExceptionHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\WindowsMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Felix\zoom_dialog.h"
 				>
 			</File>
 		</Filter>

@@ -1,31 +1,31 @@
 #include "stdafx.h"
 #include "Library.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_library )
 
-namespace easyunit
-{
-	TEST(test_library, null_arg)
+
+	BOOST_AUTO_TEST_CASE( null_arg)
 	{
 		CLibrary library(NULL) ;
-		ASSERT_TRUE(! library.is_loaded()) ;
+		BOOST_CHECK(! library.is_loaded()) ;
 	}
-	TEST(test_library, rich_edit)
+	BOOST_AUTO_TEST_CASE( rich_edit)
 	{
 		CLibrary library(_T("RICHED20.DLL")) ;
-		ASSERT_TRUE(library.is_loaded()) ;
+		BOOST_CHECK(library.is_loaded()) ;
 	}
-	TEST(test_library, get_proc_address)
+	BOOST_AUTO_TEST_CASE( get_proc_address)
 	{
 		CLibrary library(_T("ArmAccess.DLL")) ;
-		ASSERT_TRUE(library.is_loaded()) ;
+		BOOST_CHECK(library.is_loaded()) ;
 		FARPROC proc_address = library.get_proc_address("InstallKeyLater") ;
-		ASSERT_TRUE(proc_address) ;
+		BOOST_CHECK(proc_address) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif

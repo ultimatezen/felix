@@ -1,21 +1,20 @@
 #include "StdAfx.h"
 #include "HtmlDocument.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestWebBrowser )
 
-namespace easyunit
-{
 	using namespace html ;
-	TEST( TestWebBrowser, instantiate)
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
 		browser_ptr bptr ;
 		CHtmlWebBrowser browser(bptr) ;
-		ASSERT_TRUE(! browser.is_instantiated()) ;
+		BOOST_CHECK(! browser.is_instantiated()) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef _DEBUG

@@ -1,33 +1,77 @@
 #include "StdAfx.h"
 #include "numberfmt.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
 
-#ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE( CNumberFmtTestCase )
 
-namespace easyunit
+BOOST_AUTO_TEST_CASE( GetFormattedNumberInt )
 {
-	TEST( TestCNumberFormat, zero )
+	CNumberFmt fm ;
+
+	int i = 1000 ;
+
+	CString n = fm.Format( i ) ;
+
+	BOOST_CHECK_EQUAL( n, _T("1,000" ) ) ;
+}
+
+BOOST_AUTO_TEST_CASE( GetFormattedNumberSizeT )
+{
+	CNumberFmt fm ;
+
+	size_t s = 10001 ;
+
+	CString n = fm.Format( s ) ;
+
+	BOOST_CHECK_EQUAL( n, _T("10,001" ) ) ;
+}
+
+BOOST_AUTO_TEST_CASE( SmallNum )
+{
+	CNumberFmt fm ;
+
+	size_t s = 5 ;
+
+	CString n = fm.Format( s ) ;
+
+	BOOST_CHECK_EQUAL( n, _T("5" ) ) ;
+}
+
+BOOST_AUTO_TEST_CASE( ReallyBigNum )
+{
+	CNumberFmt fm ;
+
+	size_t s = 100100100 ;
+
+	CString n = fm.Format( s ) ;
+
+	BOOST_CHECK_EQUAL( n, _T("100,100,100" ) ) ;
+}
+
+
+	BOOST_AUTO_TEST_CASE( zero )
 	{
 		CNumberFmt fmt ;
 		CStringA actual = fmt.Format(0) ;
 		CStringA expected = "0" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCNumberFormat, format_1_234 )
+	BOOST_AUTO_TEST_CASE( format_1_234 )
 	{
 		CNumberFmt fmt ;
 		CStringA actual = fmt.Format(1234) ;
 		CStringA expected = "1,234" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestCNumberFormat, format_1_001_001 )
+	BOOST_AUTO_TEST_CASE( format_1_001_001 )
 	{
 		CNumberFmt fmt ;
 		CStringA actual = fmt.Format(1001001) ;
 		CStringA expected = "1,001,001" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-}
 
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()
+#endif

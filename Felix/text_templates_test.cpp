@@ -3,8 +3,8 @@
 
 
 #include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( test_text_templates )
-
 
 	using namespace text_tmpl;
 	BOOST_AUTO_TEST_CASE( start_file )
@@ -33,8 +33,9 @@ BOOST_AUTO_TEST_SUITE( test_text_templates )
 	{
 		string filename = (LPCSTR)CStringA(calculate_module_template_filename("foo.txt")) ;
 		string actual = str::make_lower_out(filename).c_str() ;
-		string expected = "c:/dev/cpp/assistant suite/test_felix/debug/html/en/foo.txt" ;
+		string expected = "c:/dev/cpp/assistant suite/felix/testing/html/en/foo.txt" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+#endif

@@ -18,15 +18,6 @@
 using namespace mem_engine ;
 using namespace text_tmpl ;
 
-bool ends_with(const wstring haystack, const wstring needle)
-{
-	if (haystack.size() < needle.size())
-	{
-		return false; 
-	}
-	return str::right(haystack, needle.size()) == needle ;
-}
-
 // for displaying search results in HTML view
 wstring escape_entities(const wstring text)
 {
@@ -205,22 +196,22 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	const wstring url = BSTR2wstring(burl) ;
 
 	// "#" is used for JavaScript links.
-	if(ends_with(url, L"#"))
+	if(boost::ends_with(url, L"#"))
 	{
 		return false ; // don't cancel
 	}
 
-	if (ends_with(url, L"gotoreplace"))
+	if (boost::ends_with(url, L"gotoreplace"))
 	{
 		handle_gotoreplace() ;
 		return true ;
 	}
-	if (ends_with(url, L"gotosearch"))
+	if (boost::ends_with(url, L"gotosearch"))
 	{
 		show_search_page() ;
 		return true ;
 	}
-	if (ends_with(url, L"newsearch"))
+	if (boost::ends_with(url, L"newsearch"))
 	{
 		m_search_runner.clear_terms() ;
 		m_paginator.set_num_records(0) ;
@@ -228,55 +219,55 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		show_search_page() ;
 		return true ;
 	}
-	if (ends_with(url, L"dosearch"))
+	if (boost::ends_with(url, L"dosearch"))
 	{
 		perform_search(get_doc3());
 		return true ;
 	}
-	if (ends_with(url, L"next_page"))
+	if (boost::ends_with(url, L"next_page"))
 	{
 		m_paginator.next_page() ;
 		show_search_results(get_doc3(), m_matches) ;
 	}
-	if (ends_with(url, L"prev_page"))
+	if (boost::ends_with(url, L"prev_page"))
 	{
 		m_paginator.prev_page() ;
 		show_search_results(get_doc3(), m_matches) ;
 	}
-	if (ends_with(url, L"deletefilter"))
+	if (boost::ends_with(url, L"deletefilter"))
 	{
 		handle_deletefilter(get_doc3(), url) ;
 	}
-	if (ends_with(url, L"editrecord"))
+	if (boost::ends_with(url, L"editrecord"))
 	{
 		handle_editrecord(get_doc3(), url) ;
 	}
-	if (ends_with(url, L"deleterecord"))
+	if (boost::ends_with(url, L"deleterecord"))
 	{
 		handle_deleterecord(get_doc3(), url) ;
 	}
-	if (ends_with(url, L"undodelete"))
+	if (boost::ends_with(url, L"undodelete"))
 	{
 		handle_undodelete(get_doc3()) ;
 	}
 
 
 	// replace page links
-	if (ends_with(url, L"replace_find"))
+	if (boost::ends_with(url, L"replace_find"))
 	{
 		handle_replace_find(get_doc3()) ;
 	}
-	if (ends_with(url, L"replace_replace"))
+	if (boost::ends_with(url, L"replace_replace"))
 	{
 		handle_replace_replace(get_doc3()) ;
 	}
-	if (ends_with(url, L"replace_all"))
+	if (boost::ends_with(url, L"replace_all"))
 	{
 		handle_replace_all(get_doc3()) ;
 	}
 
 
-	if (ends_with(url, L".html"))
+	if (boost::ends_with(url, L".html"))
 	{
 		return false ;
 	}

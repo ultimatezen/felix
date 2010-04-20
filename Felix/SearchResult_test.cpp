@@ -1,41 +1,41 @@
 #include "StdAfx.h"
 #include "SearchResult.h"
 #include "query.h"
-#include "easyunit/testharness.h"
 
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestSearchResult )
 
-namespace easyunit
-{
+
 	using namespace mem_engine;
 	typedef CComObject< CSearchResult > result_obj ;
 	typedef CComPtr< result_obj > result_ptr ;
 
-	TEST( TestSearchResult, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
 		result_ptr result ;
 		HRESULT hr = result_obj::CreateInstance( &result ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( result ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( result ) ;
 	}
-	TEST( TestSearchResult, get_record )
+	BOOST_AUTO_TEST_CASE( get_record )
 	{
 		result_ptr result ;
 		result_obj::CreateInstance( &result ) ;
 		CComPtr<IRecord> rec ;
 		HRESULT hr = result->get_Record(&rec) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( rec ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( rec ) ;
 	}
-	TEST( TestSearchResult, get_score )
+	BOOST_AUTO_TEST_CASE( get_score )
 	{
 		result_ptr result ;
 		result_obj::CreateInstance( &result ) ;
 		double score = 5.0 ;
 		result->get_Score(&score) ;
-		ASSERT_EQUALS_DELTA_V(0.0, score, 0.00001);
+		BOOST_CHECK_CLOSE(0.0, score, 0.00001);
 	}
-	TEST( TestSearchResult, set_match )
+	BOOST_AUTO_TEST_CASE( set_match )
 	{
 		result_ptr result ;
 		result_obj::CreateInstance( &result ) ;
@@ -44,9 +44,9 @@ namespace easyunit
 		result->set_match(match) ;
 		double score = 1.0 ;
 		result->get_Score(&score) ;
-		ASSERT_EQUALS_DELTA_V(0.5, score, 0.00001);
+		BOOST_CHECK_CLOSE(0.5, score, 0.00001);
 	}
-	TEST( TestSearchResult, get_name )
+	BOOST_AUTO_TEST_CASE( get_name )
 	{
 		result_ptr result ;
 		result_obj::CreateInstance( &result ) ;
@@ -57,10 +57,10 @@ namespace easyunit
 		match->set_memory_location(loc) ;
 		result->set_match(match) ;
 		result->get_MemoryName(&name) ;
-		SimpleString expected = "foo.ftm" ;
-		SimpleString actual = CW2A(name) ;
-		ASSERT_EQUALS_V(expected, actual);
+		string expected = "foo.ftm" ;
+		string actual = CW2A(name) ;
+		BOOST_CHECK_EQUAL(expected, actual);
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

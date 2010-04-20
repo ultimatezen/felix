@@ -1,26 +1,4 @@
 
-
-/* this ALWAYS GENERATED file contains the IIDs and CLSIDs */
-
-/* link this file in with the server and any clients */
-
-
- /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Apr 20 12:41:17 2010
- */
-/* Compiler settings for Felix.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run)
-    protocol : dce , ms_ext, c_ext, robust
-    error checks: allocation ref bounds_check enum stub_data 
-    VC __declspec() decoration level: 
-         __declspec(uuid()), __declspec(selectany), __declspec(novtable)
-         DECLSPEC_UUID(), MIDL_INTERFACE()
-*/
-//@@MIDL_FILE_HEADING(  )
-
-#pragma warning( disable: 4049 )  /* more than 64k source lines */
-
-
 #ifdef __cplusplus
 extern "C"{
 #endif 
@@ -82,9 +60,6 @@ MIDL_DEFINE_GUID(IID, IID_IApp,0xC9063D7F,0x5F1F,0x4155,0x96,0x66,0xC3,0x49,0x03
 MIDL_DEFINE_GUID(IID, IID_IFelixMemDocUIHandler,0x13AA9D46,0xD1BD,0x4531,0x95,0xF7,0x00,0x35,0x7E,0xB3,0x1D,0x8D);
 
 
-MIDL_DEFINE_GUID(IID, IID_ISearchResults,0x654061B0,0x533B,0x43C5,0xA6,0x31,0x3E,0xDA,0xB2,0x36,0x23,0x8C);
-
-
 MIDL_DEFINE_GUID(IID, LIBID_Felix,0x47D0B52B,0x7365,0x4A47,0x82,0x87,0xF5,0x41,0xC1,0x47,0x07,0xA5);
 
 
@@ -107,9 +82,6 @@ MIDL_DEFINE_GUID(CLSID, CLSID_SearchResult,0xBD1341E4,0x5BDB,0x4866,0x87,0x5E,0x
 
 
 MIDL_DEFINE_GUID(CLSID, CLSID_FelixMemDocUIHandler,0x022ECF0F,0xE006,0x44D7,0xB9,0xBA,0xED,0x47,0x86,0xFB,0xDE,0x76);
-
-
-MIDL_DEFINE_GUID(CLSID, CLSID_SearchResults,0xAE39B643,0x6534,0x42D9,0xA4,0xA1,0x9C,0x5F,0x41,0x4B,0xD6,0xD8);
 
 #undef MIDL_DEFINE_GUID
 

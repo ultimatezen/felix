@@ -1,17 +1,15 @@
 #include "stdafx.h"
 #include "DemoException.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( CDemoExceptionTest )
 
-namespace easyunit
-{
-	TEST( CDemoExceptionTest, init )
+	BOOST_AUTO_TEST_CASE( init )
 	{
 		CDemoException exception ;
-		SimpleString msg = (LPCSTR)CStringA(exception.what()) ;
-		ASSERT_EQUALS_V(msg, "Demo Exception") ;
+		string msg = (LPCSTR)CStringA(exception.what()) ;
+		BOOST_CHECK_EQUAL(msg, "Demo Exception") ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 #endif

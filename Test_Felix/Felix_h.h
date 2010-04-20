@@ -3,10 +3,10 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Apr 20 12:41:17 2010
+ /* File created by MIDL compiler version 7.00.0499 */
+/* at Sun Apr 18 17:41:17 2010
  */
-/* Compiler settings for Felix.idl:
+/* Compiler settings for ..\Felix\Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
@@ -36,8 +36,8 @@
 #include "ole2.h"
 #endif /*COM_NO_WINDOWS_H*/
 
-#ifndef __Felix_h__
-#define __Felix_h__
+#ifndef __Felix_h_h__
+#define __Felix_h_h__
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
@@ -73,12 +73,6 @@ typedef interface IApp IApp;
 #define __IFelixMemDocUIHandler_FWD_DEFINED__
 typedef interface IFelixMemDocUIHandler IFelixMemDocUIHandler;
 #endif 	/* __IFelixMemDocUIHandler_FWD_DEFINED__ */
-
-
-#ifndef __ISearchResults_FWD_DEFINED__
-#define __ISearchResults_FWD_DEFINED__
-typedef interface ISearchResults ISearchResults;
-#endif 	/* __ISearchResults_FWD_DEFINED__ */
 
 
 #ifndef __App_FWD_DEFINED__
@@ -151,18 +145,6 @@ typedef struct FelixMemDocUIHandler FelixMemDocUIHandler;
 #endif /* __cplusplus */
 
 #endif 	/* __FelixMemDocUIHandler_FWD_DEFINED__ */
-
-
-#ifndef __SearchResults_FWD_DEFINED__
-#define __SearchResults_FWD_DEFINED__
-
-#ifdef __cplusplus
-typedef class SearchResults SearchResults;
-#else
-typedef struct SearchResults SearchResults;
-#endif /* __cplusplus */
-
-#endif 	/* __SearchResults_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -1375,117 +1357,6 @@ EXTERN_C const IID IID_IFelixMemDocUIHandler;
 #endif 	/* __IFelixMemDocUIHandler_INTERFACE_DEFINED__ */
 
 
-#ifndef __ISearchResults_INTERFACE_DEFINED__
-#define __ISearchResults_INTERFACE_DEFINED__
-
-/* interface ISearchResults */
-/* [unique][helpstring][nonextensible][dual][uuid][object] */ 
-
-
-EXTERN_C const IID IID_ISearchResults;
-
-#if defined(__cplusplus) && !defined(CINTERFACE)
-    
-    MIDL_INTERFACE("654061B0-533B-43C5-A631-3EDAB236238C")
-    ISearchResults : public IDispatch
-    {
-    public:
-    };
-    
-#else 	/* C style interface */
-
-    typedef struct ISearchResultsVtbl
-    {
-        BEGIN_INTERFACE
-        
-        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
-            ISearchResults * This,
-            /* [in] */ REFIID riid,
-            /* [iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
-        
-        ULONG ( STDMETHODCALLTYPE *AddRef )( 
-            ISearchResults * This);
-        
-        ULONG ( STDMETHODCALLTYPE *Release )( 
-            ISearchResults * This);
-        
-        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
-            ISearchResults * This,
-            /* [out] */ UINT *pctinfo);
-        
-        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
-            ISearchResults * This,
-            /* [in] */ UINT iTInfo,
-            /* [in] */ LCID lcid,
-            /* [out] */ ITypeInfo **ppTInfo);
-        
-        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
-            ISearchResults * This,
-            /* [in] */ REFIID riid,
-            /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
-            /* [in] */ LCID lcid,
-            /* [size_is][out] */ DISPID *rgDispId);
-        
-        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
-            ISearchResults * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
-        
-        END_INTERFACE
-    } ISearchResultsVtbl;
-
-    interface ISearchResults
-    {
-        CONST_VTBL struct ISearchResultsVtbl *lpVtbl;
-    };
-
-    
-
-#ifdef COBJMACROS
-
-
-#define ISearchResults_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
-
-#define ISearchResults_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
-
-#define ISearchResults_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
-
-
-#define ISearchResults_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
-
-#define ISearchResults_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
-
-#define ISearchResults_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
-
-#define ISearchResults_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
-
-
-#endif /* COBJMACROS */
-
-
-#endif 	/* C style interface */
-
-
-
-
-#endif 	/* __ISearchResults_INTERFACE_DEFINED__ */
-
-
 
 #ifndef __Felix_LIBRARY_DEFINED__
 #define __Felix_LIBRARY_DEFINED__
@@ -1748,14 +1619,6 @@ EXTERN_C const CLSID CLSID_FelixMemDocUIHandler;
 
 class DECLSPEC_UUID("022ECF0F-E006-44D7-B9BA-ED4786FBDE76")
 FelixMemDocUIHandler;
-#endif
-
-EXTERN_C const CLSID CLSID_SearchResults;
-
-#ifdef __cplusplus
-
-class DECLSPEC_UUID("AE39B643-6534-42D9-A4A1-9C5F414BD6D8")
-SearchResults;
 #endif
 #endif /* __Felix_LIBRARY_DEFINED__ */
 

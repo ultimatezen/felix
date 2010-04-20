@@ -1,12 +1,13 @@
 #include "StdAfx.h"
 #include "App2.h"
 #include "FelixApp.h"
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
+// test_properties_loaded_history
+BOOST_AUTO_TEST_SUITE( TestApp2 )
+
 	using namespace mem_engine;
 
 	typedef CComPtr< ISearchResult > result_ptr ;
@@ -23,14 +24,14 @@ namespace easyunit
 	}
 
 
-	TEST( TestApp2, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
 		app2_ptr app ;
 		HRESULT hr = app2_obj::CreateInstance( &app ) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( app ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( app ) ;
 	}
-	TEST( TestApp2, get_CurrentMatch )
+	BOOST_AUTO_TEST_CASE( get_CurrentMatch )
 	{
 		app2_ptr app ;
 		app2_obj::CreateInstance( &app ) ;
@@ -38,13 +39,13 @@ namespace easyunit
 		app::get_app().lookup(L"spam") ;
 		result_ptr result ;
 		HRESULT hr = app->get_CurrentMatch(&result) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( result ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( result ) ;
 		double score(5.0) ;
 		result->get_Score(&score) ;
-		ASSERT_EQUALS_DELTA_V(1.0, score, 0.00001) ;
+		BOOST_CHECK_CLOSE(1.0, score, 0.00001) ;
 	}
-	TEST( TestApp2, get_record )
+	BOOST_AUTO_TEST_CASE( get_record )
 	{
 		app::get_app().lookup(L"foo") ;
 		app::get_app().set_translation(L"bar") ;
@@ -57,15 +58,15 @@ namespace easyunit
 		
 		CComPtr<IRecord> record ;
 		HRESULT hr = result->get_Record(&record) ;
-		ASSERT_TRUE( SUCCEEDED( hr ) ) ;
-		ASSERT_TRUE( record ) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( record ) ;
 		CComBSTR source ;
 		record->get_Source(&source) ;
-		SimpleString actual = CStringA(source) ;
-		SimpleString expected = "foo" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = CStringA(source) ;
+		string expected = "foo" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestApp2, ReflectChanges )
+	BOOST_AUTO_TEST_CASE( ReflectChanges )
 	{
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
@@ -80,11 +81,11 @@ namespace easyunit
 		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
 		record_pointer firstrec = *mem->get_records().begin() ;
 
-		SimpleString expected = "changed" ;
-		SimpleString actual = CStringA(firstrec->get_source_plain().c_str()) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "changed" ;
+		string actual = CStringA(firstrec->get_source_plain().c_str()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestApp2, ReviewTranslation )
+	BOOST_AUTO_TEST_CASE( ReviewTranslation )
 	{
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
@@ -99,11 +100,11 @@ namespace easyunit
 		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
 		record_pointer firstrec = *mem->get_records().begin() ;
 
-		SimpleString expected = "changed" ;
-		SimpleString actual = CStringA(firstrec->get_source_plain().c_str()) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string expected = "changed" ;
+		string actual = CStringA(firstrec->get_source_plain().c_str()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

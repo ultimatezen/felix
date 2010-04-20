@@ -3,14 +3,12 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
-namespace easyunit
-{
 	using namespace mem_engine;
-	TEST( TestGlossaryWindow, get_record_translation_standard)
+	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
 		CGlossaryWindow gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
@@ -21,13 +19,13 @@ namespace easyunit
 
 		wstring normalized = gloss.get_record_translation(record) ;
 
-		SimpleString expected = "spam" ;
-		SimpleString actual = (LPCSTR)CStringA(normalized.c_str()) ;
+		string expected = "spam" ;
+		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(1, (int)record->get_refcount()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(1, (int)record->get_refcount()) ;
 	}
-	TEST( TestGlossaryWindow, get_record_translation_lower)
+	BOOST_AUTO_TEST_CASE( get_record_translation_lower)
 	{
 		CGlossaryWindow gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = TRUE ;
@@ -38,12 +36,12 @@ namespace easyunit
 
 		wstring normalized = gloss.get_record_translation(record) ;
 
-		SimpleString expected = "spam" ;
-		SimpleString actual = (LPCSTR)CStringA(normalized.c_str()) ;
+		string expected = "spam" ;
+		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST( TestGlossaryWindow, get_record_translation_plain)
+	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
 		CGlossaryWindow gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
@@ -52,29 +50,29 @@ namespace easyunit
 		record_pointer record(new record_local) ;
 		record->set_trans(L"<bold>spam &lt; &amp; &gt; eggs</bold>") ;
 
-		ASSERT_EQUALS(record->get_trans_plain(), L"spam < & > eggs") ;
+		BOOST_CHECK_EQUAL(record->get_trans_plain(), L"spam < & > eggs") ;
 
 		wstring normalized = gloss.get_record_translation(record) ;
 
-		SimpleString expected = "spam &lt; &amp; &gt; eggs" ;
-		SimpleString actual = (LPCSTR)CStringA(normalized.c_str()) ;
+		string expected = "spam &lt; &amp; &gt; eggs" ;
+		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 	/*********************************************************************/
 	/* multiterm stuff                                                   */
 	/*********************************************************************/
-	TEST( TestGlossaryWindow, load_multiterm6)
+	BOOST_AUTO_TEST_CASE( load_multiterm6)
 	{
 		CGlossaryWindow gloss ;
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample.txt") ;
 		gloss.import_multiterm(filename) ;
-		ASSERT_EQUALS_V(1, (int)gloss.m_memories->size()) ;
+		BOOST_CHECK_EQUAL(1, (int)gloss.m_memories->size()) ;
 		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
-		ASSERT_EQUALS_V(50, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(50, (int)mem->size()) ;
 	}
-	TEST(TestGlossaryWindow, export_gloss_mt55)
+	BOOST_AUTO_TEST_CASE( export_gloss_mt55)
 	{
 		CGlossaryWindow gloss ;
 		CString filename = _T("c:\\test\\mt.55.output.txt") ;
@@ -104,7 +102,7 @@ namespace easyunit
 		fmt += "<%2%>%6%\r\n" ;
 		fmt += "<Notes>-\r\n" ;
 		fmt += "***\r\n" ;
-		SimpleString expected = (format(fmt.c_str())
+		string expected = (format(fmt.c_str())
 			% "Japanese" % "English"
 			% string2string(rec1->get_source_plain())
 			% string2string(rec1->get_trans_plain())
@@ -113,10 +111,10 @@ namespace easyunit
 			).str().c_str() ;
 
 		file::view fview ;
-		SimpleString actual = (LPSTR)fview.create_view(filename) ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = (LPSTR)fview.create_view(filename) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestGlossaryWindow, export_gloss_mt6)
+	BOOST_AUTO_TEST_CASE( export_gloss_mt6)
 	{
 		CGlossaryWindow gloss ;
 		CString filename = _T("c:\\test\\mt.6.output.txt") ;
@@ -142,62 +140,61 @@ namespace easyunit
 		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
 		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
 		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		SimpleString expected = string2string(fmt, CP_UTF8).c_str() ;
+		string expected = string2string(fmt, CP_UTF8).c_str() ;
 
 		file::view fview ;
 		LPWSTR raw_text = (LPWSTR)fview.create_view(filename) ;
-		SimpleString actual = string2string(wstring(raw_text+1), CP_UTF8).c_str() ;
+		string actual = string2string(wstring(raw_text+1), CP_UTF8).c_str() ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 	// CGlossaryWindow message processing
-	TEST( TestGlossaryWindow, test_message_WM_INITDIALOG)
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestGlossaryWindow, test_message_IDOK)
+	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestGlossaryWindow, test_message_IDCANCEL)
+	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestGlossaryWindow, test_message_IDCLOSE)
+	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
 	{
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( TestGlossaryWindow, test_message_ZERO)
+	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(0, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(0, (int)result) ;
-		ASSERT_EQUALS_V(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)result) ;
+		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
-
-#endif // #ifdef _DEBUG
+#endif 

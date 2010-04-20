@@ -3,121 +3,121 @@
 #include "mainfrm.h"
 #include "MainFrameModel.h"
 #include "record_local.h"
-#include "easyunit/testharness.h"
 #include "view_interface_fake.h"
 #include "window_listener_fake.h"
 #include "felix_model_fake.h"
 #include "memory_local.h"
 #include "record_local.h"
 
+
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 
-namespace easyunit
-{
 	using namespace mem_engine ;
 	using namespace except ;
 
-	TEST( MainFrameControllerTests, TestInstantiate)
+	BOOST_AUTO_TEST_CASE( TestInstantiate)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
-		ASSERT_TRUE( true ) ;
+		BOOST_CHECK( true ) ;
 	}
-	TEST( MainFrameControllerTests, TestCallCreate)
+	BOOST_AUTO_TEST_CASE( TestCallCreate)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, TestCallDestroy)
+	BOOST_AUTO_TEST_CASE( TestCallDestroy)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_DESTROY, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_destroy" ) ;
-		ASSERT_EQUALS_V(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[1].c_str()), "on_destroy" ) ;
+		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, TestCallClose)
+	BOOST_AUTO_TEST_CASE( TestCallClose)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CLOSE, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_close" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_close" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, TestCallDrop)
+	BOOST_AUTO_TEST_CASE( TestCallDrop)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_DROPFILES, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_drop" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_drop" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_create)
+	BOOST_AUTO_TEST_CASE( Teston_create)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create( message ) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
 	}
 	// user messages
-	TEST( MainFrameControllerTests, Teston_user_save )
+	BOOST_AUTO_TEST_CASE( Teston_user_save )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_SAVE_MEMORIES, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(4, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_save" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_file_save" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[3].c_str()), "empty" ) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(4, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_save" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "on_file_save" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[3].c_str()), "empty" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_lookup_source)
+	BOOST_AUTO_TEST_CASE( Teston_user_lookup_source)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.m_deferred_query = L"foo" ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_source" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_source" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_lookup_trans )
+	BOOST_AUTO_TEST_CASE( Teston_user_lookup_trans )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.m_deferred_query = L"foo" ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_trans") ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[1].c_str()), "CMainFrame::on_user_lookup_trans") ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record_message )
+	BOOST_AUTO_TEST_CASE( Teston_user_retrieve_edit_record_message )
 	{
 		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
@@ -133,12 +133,12 @@ namespace easyunit
 		main_frame.m_editor->set_memory_id(1) ;
 		LRESULT lResult = CMainFrame::INIT_DISPLAY_STATE ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_retrieve_edit_record" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_retrieve_edit_record" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_retrieve_edit_record_state )
+	BOOST_AUTO_TEST_CASE( Teston_user_retrieve_edit_record_state )
 	{
 		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
@@ -159,231 +159,231 @@ namespace easyunit
 		LRESULT lResult = CMainFrame::INIT_DISPLAY_STATE ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, 0, lResult, 0)  ;
 
-		ASSERT_EQUALS_V(1, (int)model.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
+		BOOST_CHECK_EQUAL(1, (int)model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(model.m_sensing_variable[0].c_str()), "get_memory_by_id") ;
 	}
 
-	TEST( MainFrameControllerTests, Teston_user_edit_search )
+	BOOST_AUTO_TEST_CASE( Teston_user_edit_search )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_EDIT_FIND, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_edit_search" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_edit_search" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_search )
+	BOOST_AUTO_TEST_CASE( Teston_user_search )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_USER_SEARCH, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_search" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_search" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Found 0 matches." ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_replace_edit_record )
+	BOOST_AUTO_TEST_CASE( Teston_user_replace_edit_record )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_REPLACE_EDIT_RECORD, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_replace_edit_record" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_replace_edit_record" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_edit_replace )
+	BOOST_AUTO_TEST_CASE( Teston_user_edit_replace )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_EDIT_REPLACE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_edit_replace" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_edit_replace" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_user_view_min_end )
+	BOOST_AUTO_TEST_CASE( Teston_user_view_min_end )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_MIN_VIEW_END, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_view_min_end" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_view_min_end" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	// WM_COMMAND
-	TEST( MainFrameControllerTests, Teston_demo_check_excess_memories )
+	BOOST_AUTO_TEST_CASE( Teston_demo_check_excess_memories )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_DEMO_CHECK_EXCESS, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_demo_check_excess_memories" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_demo_check_excess_memories" ) ;
 	}
-	TEST( MainFrameControllerTests, Teston_check_demo)
+	BOOST_AUTO_TEST_CASE( Teston_check_demo)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_CHECK_DEMO, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_check_demo" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_check_demo" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_source_concordance )
+	BOOST_AUTO_TEST_CASE( Teston_source_concordance )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_SOURCE_CONCORDANCE_SEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_source_concordance" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_source_concordance" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_trans_concordance)
+	BOOST_AUTO_TEST_CASE( Teston_trans_concordance)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_TRANS_CONCORDANCE_SEL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_trans_concordance" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_trans_concordance" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Found 0 concordances for string [spam]." ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 
-	TEST( MainFrameControllerTests, Teston_tools_memory_manager)
+	BOOST_AUTO_TEST_CASE( Teston_tools_memory_manager)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_TOOLS_MEMORY_MGR, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_tools_memory_manager" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_tools_memory_manager" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_underline)
+	BOOST_AUTO_TEST_CASE( Teston_underline)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_UNDERLINE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_underline" ) ;
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_underline" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_bold)
+	BOOST_AUTO_TEST_CASE( Teston_bold)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_BOLD, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_bold" ) ;
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_bold" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 
-	TEST( MainFrameControllerTests, Teston_italic)
+	BOOST_AUTO_TEST_CASE( Teston_italic)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_ITALIC, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_italic" ) ;
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_italic" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_format_background_color)
+	BOOST_AUTO_TEST_CASE( Teston_format_background_color)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FORMAT_BGCOLOR, 0, lResult, 0)  ;
 
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "OnFormatBackgroundColor"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "#ffffff"); 
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "OnFormatBackgroundColor"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "#ffffff"); 
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 }
-	TEST( MainFrameControllerTests, Teston_file_exit)
+	BOOST_AUTO_TEST_CASE( Teston_file_exit)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_APP_EXIT, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_exit" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_exit" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 
-	TEST( MainFrameControllerTests, Teston_new_glossary)
+	BOOST_AUTO_TEST_CASE( Teston_new_glossary)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_GLOSSARY_NEW, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_new_glossary" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_new_glossary" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, Teston_file_new)
+	BOOST_AUTO_TEST_CASE( Teston_file_new)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_NEW, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_new" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_new" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 }
-	TEST( MainFrameControllerTests, Teston_file_open)
+	BOOST_AUTO_TEST_CASE( Teston_file_open)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_OPEN, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_open" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_open" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 
-	TEST( MainFrameControllerTests, Teston_file_save)
+	BOOST_AUTO_TEST_CASE( Teston_file_save)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_SAVE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_save" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "empty" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_save" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "empty" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 
-	TEST( MainFrameControllerTests, on_mru_file_open)
+	BOOST_AUTO_TEST_CASE( on_mru_file_open)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -394,22 +394,22 @@ namespace easyunit
 		LRESULT lResult = 1 ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Loading file [spam_n_bacon.xml]..." ) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Loading file [spam_n_bacon.xml]..." ) ;
 
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 
 		main_frame.m_sensing_variable.clear() ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST+1, 0, lResult, 0)  ;
 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
-		ASSERT_EQUALS_V(0, (int)lResult) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
+		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 
 	}
-	TEST( MainFrameControllerTests, on_mru_file_open_tmx)
+	BOOST_AUTO_TEST_CASE( on_mru_file_open_tmx)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -419,15 +419,15 @@ namespace easyunit
 		LRESULT lResult = 1 ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(5, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "Loading file [sample.tmx]..." ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[3].c_str()), "Failed to load file [sample.tmx]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[4].c_str()), "Failed to load file [sample.tmx]" ) ;
-		ASSERT_EQUALS_V( 0, (int)lResult) ;
+		BOOST_CHECK_EQUAL(5, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Loading file [sample.tmx]..." ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[3].c_str()), "Failed to load file [sample.tmx]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[4].c_str()), "Failed to load file [sample.tmx]" ) ;
+		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	TEST( MainFrameControllerTests, on_mru_file_open_direct_call)
+	BOOST_AUTO_TEST_CASE( on_mru_file_open_direct_call)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -438,16 +438,16 @@ namespace easyunit
 		dummy.wParam = MAKEWPARAM(ID_FILE_MRU_FIRST, 0) ;
 		try
 		{
-			ASSERT_EQUALS_V(0, (int)main_frame.m_model->get_memories()->size() ) ;
+			BOOST_CHECK_EQUAL(0, (int)main_frame.m_model->get_memories()->size() ) ;
 			main_frame.on_mru_file_open(dummy)  ;
-			ASSERT_EQUALS_V(1, (int)main_frame.m_model->get_memories()->size() ) ;
+			BOOST_CHECK_EQUAL(1, (int)main_frame.m_model->get_memories()->size() ) ;
 		}
 		catch (CException&)
 		{
-			FAIL_M("Should not fail to open MRU item") ;
+			BOOST_FAIL("Should not fail to open MRU item") ;
 		}
 	}
-	TEST( MainFrameControllerTests, on_mru_file_open_bogus_xml)
+	BOOST_AUTO_TEST_CASE( on_mru_file_open_bogus_xml)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -461,18 +461,18 @@ namespace easyunit
 		try
 		{
 			main_frame.on_mru_file_open(dummy)  ;
-			FAIL_M("Should have thrown for bogus file") ;
+			BOOST_FAIL("Should have thrown for bogus file") ;
 		}
 		catch (CWinException&)
 		{
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 		catch (CException&)
 		{
-			FAIL_M("Threw wrong kind of exception") ;
+			BOOST_FAIL("Threw wrong kind of exception") ;
 		}
 	}
-	TEST( MainFrameControllerTests, on_mru_file_open_out_of_index)
+	BOOST_AUTO_TEST_CASE( on_mru_file_open_out_of_index)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -490,7 +490,7 @@ namespace easyunit
 				main_frame.on_mru_file_open(dummy)  ;
 				CStringA fail_msg ;
 				fail_msg.Format("Should not have entry %d", i-ID_FILE_MRU_FIRST) ;
-				FAIL_M(SimpleString(fail_msg)) ;
+				BOOST_FAIL(string(fail_msg)) ;
 			}
 			catch (CException &e)
 			{
@@ -498,7 +498,7 @@ namespace easyunit
 			}
 		}
 	}
-	TEST( MainFrameControllerTests, Teston_register_gloss )
+	BOOST_AUTO_TEST_CASE( Teston_register_gloss )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
@@ -511,260 +511,260 @@ namespace easyunit
 		main_frame.m_search_matches.set_matches( matches ) ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_SET_GLOSS, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "[Other display state]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "[Other display state]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "on_user_register" ) ;
 
 	}
-	TEST( MainFrameControllerTests, TestOtherCommands)
+	BOOST_AUTO_TEST_CASE( TestOtherCommands)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_SAVE_AS, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_save_as" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_save_as" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_FILE_SAVE_ALL)
+	BOOST_AUTO_TEST_CASE( Test_ID_FILE_SAVE_ALL)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_SAVE_ALL, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_file_save_all" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_file_save_all" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_IDD_EDIT_ENTRY)
+	BOOST_AUTO_TEST_CASE( Test_IDD_EDIT_ENTRY)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDD_EDIT_ENTRY, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_edit_entry" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_user_edit" ) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_edit_entry" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "on_user_edit" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_EDIT_DELETE)
+	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_DELETE)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_EDIT_DELETE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_delete_entry" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_delete_entry" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_EDIT_ADD)
+	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_ADD)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_EDIT_ADD, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_add" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_add" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_EDIT_FIND)
+	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_FIND)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_EDIT_FIND, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 	}
-	TEST( MainFrameControllerTests, Test_ID_FIND_QUICKSEARCH)
+	BOOST_AUTO_TEST_CASE( Test_ID_FIND_QUICKSEARCH)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FIND_QUICKSEARCH, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_find") ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[1].c_str()), "on_find") ;
 	}
-	TEST( MainFrameControllerTests, Test_IDD_CONCORDANCE)
+	BOOST_AUTO_TEST_CASE( Test_IDD_CONCORDANCE)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDD_CONCORDANCE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_concordance" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_concordance" ) ;
 	}
-	TEST( MainFrameControllerTests, TestID_EDIT_REPLACE)
+	BOOST_AUTO_TEST_CASE( TestID_EDIT_REPLACE)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_EDIT_REPLACE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_edit_replace" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_edit_replace" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_TOOLBAR)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_TOOLBAR)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_VIEW_TOOLBAR, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_toolbar" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_toolbar" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_STATUS_BAR)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_STATUS_BAR)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_VIEW_STATUS_BAR, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_status_bar" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_status_bar" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_EDIT_MODE)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_EDIT_MODE)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_VIEW_EDIT_MODE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_edit_mode" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_edit_mode" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_MATCH)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_MATCH)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_VIEW_MATCH, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_match" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_match" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_SEARCH)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_SEARCH)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND,ID_VIEW_SEARCH , 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_search" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_search" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_VIEW_SWITCH)
+	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_SWITCH)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_VIEW_SWITCH, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_switch" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_switch" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_IDC_MIN_VIEW_BEGIN)
+	BOOST_AUTO_TEST_CASE( Test_IDC_MIN_VIEW_BEGIN)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_MIN_VIEW_BEGIN, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_view_min_begin" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_view_min_begin" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_APP_ABOUT)
+	BOOST_AUTO_TEST_CASE( Test_ID_APP_ABOUT)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_APP_ABOUT, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "show_about_dialog" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "show_about_dialog" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_HELP)
+	BOOST_AUTO_TEST_CASE( Test_ID_HELP)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_HELP, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_help" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_help" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_HELP_FAQ)
+	BOOST_AUTO_TEST_CASE( Test_ID_HELP_FAQ)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_HELP_FAQ, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_help_faq" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_help_faq" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_get_help_file_path)
+	BOOST_AUTO_TEST_CASE( Test_get_help_file_path)
 	{
 		CStringA help_file_path(get_help_file_path(get_docs_path())) ;
-		ASSERT_EQUALS_V("http://felix-cat.com/media/manuals/felix/", help_file_path) ;
+		BOOST_CHECK_EQUAL("http://felix-cat.com/media/manuals/felix/", help_file_path) ;
 	}
 
-	TEST( MainFrameControllerTests, Test_ID_HELP_REGISTER)
+	BOOST_AUTO_TEST_CASE( Test_ID_HELP_REGISTER)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_HELP_REGISTER, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_help_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_help_register" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_TOOLS_PREFERENCES)
+	BOOST_AUTO_TEST_CASE( Test_ID_TOOLS_PREFERENCES)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_TOOLS_PREFERENCES, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_tools_preferences" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_tools_preferences" ) ;
 	}
-	TEST( MainFrameControllerTests, Test_ID_TOOLS_LANGUAGE)
+	BOOST_AUTO_TEST_CASE( Test_ID_TOOLS_LANGUAGE)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_TOOLS_LANGUAGE, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key");
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_tools_switch_language" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_tools_switch_language" ) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif 
 

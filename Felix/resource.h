@@ -1,7 +1,4 @@
-//{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by FelixJPN.rc
-//
+
 #pragma once
 
 #define IDS_LANG_CODE                   3
@@ -579,6 +576,7 @@
 #define IDS_SAVE_MEMORY                 575
 #define IDS_SAVE_ALL_GLOSSARIES         576
 #define IDS_SAVE_ALL_MEMORIES           577
+#define IDR_SEARCHRESULTS               578
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -640,14 +638,3 @@
 #define ID_TOGGLE_HELP                  32828
 #define IDC_SOURCE_LANG_STATIC          -1
 
-// Next default values for new objects
-// 
-#ifdef APSTUDIO_INVOKED
-#ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        476
-#define _APS_NEXT_COMMAND_VALUE         32829
-#define _APS_NEXT_CONTROL_VALUE         481
-#define _APS_NEXT_SYMED_VALUE           572
-#endif
-#endif

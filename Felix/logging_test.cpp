@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "logging.h"
 
-#include "easyunit/testharness.h"
-
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_logging )
 
 static std::vector<string> m_debug_calls ;
 static std::vector<string> m_warn_calls ;
@@ -53,47 +53,46 @@ void init_vectors()
 	m_error_calls.clear() ;
 	m_exception_calls.clear() ;
 }
-namespace easyunit
-{
+
 	// cp_from_lang_str
-	TEST( test_logging, log_warn )
+	BOOST_AUTO_TEST_CASE( test_logging_log_warn )
 	{
 		file_logger logger ;
 		logger.log_warn("from felix") ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK(true) ;
 	}
 
-	TEST( test_logger, log_warn)
+	BOOST_AUTO_TEST_CASE( log_warn)
 	{
 		init_vectors() ;
 		fake_logger *faker = new fake_logger ;
 		logging::set_logger(logger_ptr(faker)) ;
 		logging::log_warn("spam") ;
 
-		ASSERT_EQUALS_V(0, (int)m_debug_calls.size()) ;
-		ASSERT_EQUALS_V(1, (int)m_warn_calls.size()) ;
-		ASSERT_EQUALS_V(0, (int)m_error_calls.size()) ;
-		ASSERT_EQUALS_V(0, (int)m_exception_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_debug_calls.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)m_warn_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_error_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_exception_calls.size()) ;
 		string actual = m_warn_calls[0] ;
-		ASSERT_EQUALS_V("spam", SimpleString(actual.c_str()))
+		BOOST_CHECK_EQUAL("spam", string(actual.c_str())) ;
 
 	}
-	TEST( test_logger, log_error)
+	BOOST_AUTO_TEST_CASE( log_error)
 	{
 		init_vectors() ;
 		fake_logger *faker = new fake_logger ;
 		logging::set_logger(logger_ptr(faker)) ;
 		logging::log_error("spam") ;
 
-		ASSERT_EQUALS_V(0, (int)m_debug_calls.size()) ;
-		ASSERT_EQUALS_V(0, (int)m_warn_calls.size()) ;
-		ASSERT_EQUALS_V(1, (int)m_error_calls.size()) ;
-		ASSERT_EQUALS_V(0, (int)m_exception_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_debug_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_warn_calls.size()) ;
+		BOOST_CHECK_EQUAL(1, (int)m_error_calls.size()) ;
+		BOOST_CHECK_EQUAL(0, (int)m_exception_calls.size()) ;
 		string actual = m_error_calls[0] ;
-		ASSERT_EQUALS_V("spam", SimpleString(actual.c_str()))
+		BOOST_CHECK_EQUAL("spam", string(actual.c_str())) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef _DEBUG

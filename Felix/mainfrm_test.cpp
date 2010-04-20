@@ -9,11 +9,10 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
-namespace easyunit
-{
 	using namespace mem_engine ;
 
 	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
@@ -37,7 +36,7 @@ namespace easyunit
 	/* tests start here                                                     */
 	/************************************************************************/	
 	// Tests for CMainFrame
-	TEST( TestCMainFrame, get_record_translation_standard)
+	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -48,13 +47,13 @@ namespace easyunit
 
 		wstring normalized = mainframe.get_record_translation(record) ;
 
-		SimpleString expected = "spam" ;
-		SimpleString actual = (LPCSTR)CStringA(normalized.c_str()) ;
+		string expected = "spam" ;
+		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
-		ASSERT_EQUALS_V(1, (int)record->get_refcount()) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(1, (int)record->get_refcount()) ;
 	}
-	TEST( TestCMainFrame, get_record_translation_plain)
+	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -63,20 +62,20 @@ namespace easyunit
 		record_pointer record(new record_local) ;
 		record->set_trans(L"<bold>spam &lt; &amp; &gt; eggs</bold>") ;
 
-		ASSERT_EQUALS(record->get_trans_plain(), L"spam < & > eggs") ;
+		BOOST_CHECK_EQUAL(record->get_trans_plain(), L"spam < & > eggs") ;
 
 		wstring normalized = mainframe.get_record_translation(record) ;
 
-		SimpleString expected = "spam &lt; &amp; &gt; eggs" ;
-		SimpleString actual = (LPCSTR)CStringA(normalized.c_str()) ;
+		string expected = "spam &lt; &amp; &gt; eggs" ;
+		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
 	/************************************************************************/
 	/* message tests                                                        */
 	/************************************************************************/
-	TEST(TestCMainFrame, AddMessageFilter)
+	BOOST_AUTO_TEST_CASE( AddMessageFilter)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -87,16 +86,16 @@ namespace easyunit
 			_Module.AddMessageLoop(&theLoop);
 			register_message_filter(&mainframe) ;
 			_Module.RemoveMessageLoop();
-			ASSERT_TRUE(true) ;
+			BOOST_CHECK(true) ;
 		}
 		catch (...)
 		{
-			FAIL_M("Exception thrown while mucking about with message filter") ;
+			BOOST_FAIL("Exception thrown while mucking about with message filter") ;
 		}
 
 	}
 
-	TEST(TestCMainFrame, toggle_markup)
+	BOOST_AUTO_TEST_CASE( toggle_markup)
 	{
 		app_props::properties_general props ;
 		props.read_from_registry() ;
@@ -111,15 +110,15 @@ namespace easyunit
 		mainframe.on_user_toggle_markup(dummy) ;
 
 		props.read_from_registry() ;
-		ASSERT_EQUALS(old_markup, ! props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup != props.m_data.m_show_markup) ;
 
 		mainframe.on_user_toggle_markup(dummy) ;
 
 		props.read_from_registry() ;
-		ASSERT_EQUALS(old_markup, props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
 	}
 
-	TEST(TestCMainFrame, lookup_does_not_change_markup)
+	BOOST_AUTO_TEST_CASE( lookup_does_not_change_markup)
 	{
 		app_props::properties_general props ;
 		props.read_from_registry() ;
@@ -134,25 +133,25 @@ namespace easyunit
 		wstring query = L"spam" ;
 
 		mainframe.lookup(query) ;
-		ASSERT_EQUALS(mainframe.m_trans_matches.m_params.m_show_marking,
+		BOOST_CHECK_EQUAL(mainframe.m_trans_matches.m_params.m_show_marking,
 			!! old_markup) ;
 
 		mainframe.on_user_toggle_markup(dummy) ;
 		props.read_from_registry() ;
-		ASSERT_EQUALS(old_markup, ! props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup != props.m_data.m_show_markup) ;
 
 		mainframe.lookup(query) ;
-		ASSERT_EQUALS(mainframe.m_trans_matches.m_params.m_show_marking,
+		BOOST_CHECK_EQUAL(mainframe.m_trans_matches.m_params.m_show_marking,
 			! old_markup) ;
 
 		mainframe.on_user_toggle_markup(dummy) ;
 
 		props.read_from_registry() ;
-		ASSERT_EQUALS(old_markup, props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
 	}
 
 	// match lookup stuff
-	TEST(TestCMainFrame, get_matches_size_0)
+	BOOST_AUTO_TEST_CASE( get_matches_size_0)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -163,11 +162,10 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have zero matches: ") + 
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(0, matches.size(), err_msg) ;
+
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
 	}
-	TEST(TestCMainFrame, get_matches_size_1)
+	BOOST_AUTO_TEST_CASE( get_matches_size_1)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -180,11 +178,10 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have exactly one match: ") + 
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(1, matches.size(), err_msg) ;
+
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
-	TEST(TestCMainFrame, get_matches_size_1_trans)
+	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -198,9 +195,9 @@ namespace easyunit
 		search_match_ptr match = get_first_match(mainframe, params) ;
 		CStringA actual = match->get_markup()->GetTrans().c_str() ;
 		CStringA expected = "lovely plumage" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_size_1_trans_bold)
+	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans_bold)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -214,9 +211,9 @@ namespace easyunit
 		search_match_ptr match = get_first_match(mainframe, params) ;
 		CStringA actual = match->get_markup()->GetTrans().c_str() ;
 		CStringA expected = "lovely <b>plumage</b>" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_size_2)
+	BOOST_AUTO_TEST_CASE( get_matches_size_2)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -230,15 +227,14 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have two matches: ") + 
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(2, matches.size(), err_msg) ;
+
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 
 	/************************************************************************/
 	/* get_matches with placement                                           */
 	/************************************************************************/
-	TEST(TestCMainFrame, get_matches_placement_size_1)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_size_1)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -252,11 +248,9 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have exactly one match: ") + 
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(1, matches.size(), err_msg) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
-	TEST(TestCMainFrame, get_matches_placement_size_2)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_size_2)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -270,12 +264,10 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(2, matches.size(), err_msg) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 
-	TEST(TestCMainFrame, get_matches_placement_eating_numbers)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -289,18 +281,17 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(2, matches.size(), err_msg) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+
 		search_match_ptr match = *matches.begin() ;
-		SimpleString actual = (LPCSTR)CStringA(match->get_record()->get_trans_plain().c_str()) ;
-		SimpleString expected = "3. bar" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = (LPCSTR)CStringA(match->get_record()->get_trans_plain().c_str()) ;
+		string expected = "3. bar" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 		double actualscore = match->get_score() ;
 		double expectedscore = 6.0 / 9.0 ;
-		ASSERT_EQUALS_DELTA_V(expectedscore, actualscore, 0.0001) ;
+		BOOST_CHECK_CLOSE(expectedscore, actualscore, 0.01) ;
 	}
-	TEST(TestCMainFrame, get_matches_placement_eating_numbers_flipped_trans)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_trans)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -314,16 +305,15 @@ namespace easyunit
 
 		trans_match_container matches ;
 		mainframe.get_matches(matches, params) ;
-		SimpleString err_msg = SimpleString("Should have exactly two matches: ") +
-			StringFrom(static_cast< int >(matches.size())) ;
-		ASSERT_EQUALS_M(2, matches.size(), err_msg) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+
 		search_match_ptr match = *matches.begin() ;
 
 		wstring actualtrans = match->get_record()->get_trans_plain() ;
 		wstring expectedtrans = L"ÇRÅDIPä¥Ç∂" ;
-		ASSERT_EQUALS(expectedtrans, actualtrans) ;
+		BOOST_CHECK_EQUAL(expectedtrans, actualtrans) ;
 	}
-	TEST(TestCMainFrame, get_matches_placement_eating_numbers_flipped_source)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_source)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -339,9 +329,9 @@ namespace easyunit
 
 		wstring actualsource = match->get_record()->get_source_plain() ;
 		wstring expectedsource = L"ÇTÅDIPä¥Ç∂" ;
-		ASSERT_EQUALS(expectedsource, actualsource) ;
+		BOOST_CHECK_EQUAL(expectedsource, actualsource) ;
 	}
-	TEST(TestCMainFrame, get_matches_placement_eating_numbers_flipped_marked_source)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_marked_source)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -357,9 +347,9 @@ namespace easyunit
 
 		wstring actualsource = match->get_markup()->GetSource() ;
 		wstring expectedsource = L"<span class=\"placement\">ÇRÅD</span><span class=\"nomatch\">IP</span>ä¥Ç∂" ;
-		ASSERT_EQUALS(expectedsource, actualsource) ;
+		BOOST_CHECK_EQUAL(expectedsource, actualsource) ;
 	}
-	TEST(TestCMainFrame, get_matches_placement_eating_numbers_flipped_score)
+	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_score)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -375,13 +365,13 @@ namespace easyunit
 
 		double actualscore = match->get_score() ;
 		double expectedscore = 2.0 / 3.0 ;
-		ASSERT_EQUALS_DELTA_V(expectedscore, actualscore, 0.0001) ;
+		BOOST_CHECK_CLOSE(expectedscore, actualscore, 0.01) ;
 	}
 
 	/************************************************************************/
 	/* get_matches with markup                                              */
 	/************************************************************************/
-	TEST(TestCMainFrame, get_matches_markup)
+	BOOST_AUTO_TEST_CASE( get_matches_markup)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -394,12 +384,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <span class=\"nomatch\">sp</span>am and egg" ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "beans beans <span class=\"nomatch\">sp</span>am and egg" ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_query)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_query)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -412,12 +402,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <span class=\"nomatch\">h</span>am and egg" ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "beans beans <span class=\"nomatch\">h</span>am and egg" ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_twice)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_twice)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -430,12 +420,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = CStringA(match->get_markup()->GetSource().c_str()) ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_query_twice)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_query_twice)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -448,12 +438,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = CStringA(match->get_markup()->GetQuery().c_str()) ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_word_algo)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -467,12 +457,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <span class=\"nomatch\">spam</span> and egg" ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "beans beans <span class=\"nomatch\">spam</span> and egg" ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_word_algo_query)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -486,12 +476,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "beans beans <span class=\"nomatch\">ham</span> and egg" ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "beans beans <span class=\"nomatch\">ham</span> and egg" ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_word_algo_twice)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_twice)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -505,14 +495,12 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString first_time = CStringA(match->get_markup()->GetSource().c_str()) ;
-		SimpleString second_time = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string first_time = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string second_time = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		SimpleString err_msg = SimpleString("\nexpected: ") + first_time + 
-			SimpleString("\nactual: ") + second_time ;
-		ASSERT_EQUALS_M(first_time, second_time, err_msg) ;
+		BOOST_CHECK_EQUAL(first_time, second_time) ;
 	}
-	TEST(TestCMainFrame, get_matches_markup_word_algo_query_twice)
+	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query_twice)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -526,16 +514,14 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString first_time = CStringA(match->get_markup()->GetQuery().c_str()) ;
-		SimpleString second_time = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string first_time = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string second_time = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		SimpleString err_msg = SimpleString("\nexpected: ") + first_time + 
-			SimpleString("\nactual: ") + second_time ;
-		ASSERT_EQUALS_M(first_time, second_time, err_msg) ;
+		BOOST_CHECK_EQUAL(first_time, second_time) ;
 	}
 
 	// recalculate_match
-	TEST(TestCMainFrame, recalculate_source)
+	BOOST_AUTO_TEST_CASE( recalculate_source)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -549,14 +535,14 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "aa<span class=\"nomatch\">bb</span>cc" ;
+		string expected = "aa<span class=\"nomatch\">bb</span>cc" ;
 
 		mainframe.recalculate_match(match, params) ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, recalculate_query)
+	BOOST_AUTO_TEST_CASE( recalculate_query)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -570,14 +556,14 @@ namespace easyunit
 
 		search_match_ptr match = get_first_match(mainframe, params) ;
 
-		SimpleString expected = "aa<span class=\"nomatch\">dd</span>cc" ;
+		string expected = "aa<span class=\"nomatch\">dd</span>cc" ;
 
 		mainframe.recalculate_match(match, params) ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, recalculate_source_trans_lookup)
+	BOOST_AUTO_TEST_CASE( recalculate_source_trans_lookup)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -594,12 +580,12 @@ namespace easyunit
 		model.m_is_reverse_lookup = true ;
 		mainframe.recalculate_match(match, params) ;
 
-		SimpleString expected = "aabbcc" ;
-		SimpleString actual = CStringA(match->get_markup()->GetSource().c_str()) ;
+		string expected = "aabbcc" ;
+		string actual = CStringA(match->get_markup()->GetSource().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, recalculate_trans_trans_lookup)
+	BOOST_AUTO_TEST_CASE( recalculate_trans_trans_lookup)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -616,12 +602,12 @@ namespace easyunit
 		model.m_is_reverse_lookup = true ;
 		mainframe.recalculate_match(match, params) ;
 
-		SimpleString expected = "11<span class=\"nomatch\">22</span>33" ;
-		SimpleString actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
+		string expected = "11<span class=\"nomatch\">22</span>33" ;
+		string actual = CStringA(match->get_markup()->GetTrans().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, recalculate_query_trans_lookup)
+	BOOST_AUTO_TEST_CASE( recalculate_query_trans_lookup)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -638,13 +624,13 @@ namespace easyunit
 		model.m_is_reverse_lookup = true ;
 		mainframe.recalculate_match(match, params) ;
 
-		SimpleString expected = "11<span class=\"nomatch\">aa</span>33" ;
-		SimpleString actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		string expected = "11<span class=\"nomatch\">aa</span>33" ;
+		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
 
-		ASSERT_EQUALS_V(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	// init_lookup_properties
-	TEST(TestCMainFrame, test_init_trans_matches_for_lookup_on)
+	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_on)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -663,18 +649,18 @@ namespace easyunit
 		source->m_mem_props.m_data.m_place_gloss = TRUE ;
 
 		mainframe.init_lookup_properties(source, dest) ;
-		ASSERT_TRUE(dest.m_ignore_case) ;
-		ASSERT_TRUE(dest.m_ignore_width) ;
-		ASSERT_TRUE(dest.m_ignore_hira_kata) ;
-		ASSERT_TRUE(dest.m_assess_format_penalty) ;
+		BOOST_CHECK(dest.m_ignore_case) ;
+		BOOST_CHECK(dest.m_ignore_width) ;
+		BOOST_CHECK(dest.m_ignore_hira_kata) ;
+		BOOST_CHECK(dest.m_assess_format_penalty) ;
 
-		ASSERT_EQUALS_V(dest.m_match_algo, IDC_ALGO_WORD) ;
+		BOOST_CHECK_EQUAL(dest.m_match_algo, IDC_ALGO_WORD) ;
 
-		ASSERT_TRUE(dest.m_place_numbers) ;
-		ASSERT_TRUE(dest.m_place_gloss) ;
+		BOOST_CHECK(dest.m_place_numbers) ;
+		BOOST_CHECK(dest.m_place_gloss) ;
 	}
 
-	TEST(TestCMainFrame, test_init_trans_matches_for_lookup_off)
+	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_off)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -694,27 +680,27 @@ namespace easyunit
 
 		mainframe.init_lookup_properties(source, dest) ;
 
-		ASSERT_TRUE(!dest.m_ignore_case) ;
-		ASSERT_TRUE(!dest.m_ignore_width) ;
-		ASSERT_TRUE(!dest.m_ignore_hira_kata) ;
-		ASSERT_TRUE(!dest.m_assess_format_penalty) ;
+		BOOST_CHECK(!dest.m_ignore_case) ;
+		BOOST_CHECK(!dest.m_ignore_width) ;
+		BOOST_CHECK(!dest.m_ignore_hira_kata) ;
+		BOOST_CHECK(!dest.m_assess_format_penalty) ;
 
-		ASSERT_EQUALS_V(dest.m_match_algo, IDC_ALGO_CHAR) ;
+		BOOST_CHECK_EQUAL(dest.m_match_algo, IDC_ALGO_CHAR) ;
 
-		ASSERT_TRUE(!dest.m_place_numbers) ;
-		ASSERT_TRUE(!dest.m_place_gloss) ;
+		BOOST_CHECK(!dest.m_place_numbers) ;
+		BOOST_CHECK(!dest.m_place_gloss) ;
 	}
 
-	TEST(TestCMainFrame, get_window_type_string)
+	BOOST_AUTO_TEST_CASE( get_window_type_string)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 
 		CStringA typestring = mainframe.get_window_type_string() ;
 
-		ASSERT_EQUALS_V("Memory", typestring) ;
+		BOOST_CHECK_EQUAL("Memory", typestring) ;
 	}
-	TEST(TestCMainFrame, put_show_marking)
+	BOOST_AUTO_TEST_CASE( put_show_marking)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -722,16 +708,14 @@ namespace easyunit
 		VARIANT_BOOL old_markup = mainframe.get_show_marking() ;
 
 		mainframe.put_show_marking(VARIANT_TRUE) ;
-		ASSERT_EQUALS_M(VARIANT_TRUE, mainframe.get_show_marking(), 
-			"Show marking should be VARIANT_TRUE, but it's VARIANT_FALSE") ;
+		BOOST_CHECK(VARIANT_TRUE == mainframe.get_show_marking()) ;
 
 		mainframe.put_show_marking(VARIANT_FALSE) ;
-		ASSERT_EQUALS_M(VARIANT_FALSE, mainframe.get_show_marking(), 
-			"Show marking should be VARIANT_FALSE, but it's VARIANT_TRUE") ;
+		BOOST_CHECK(VARIANT_FALSE == mainframe.get_show_marking()) ;
 
 		mainframe.put_show_marking(old_markup) ;
 	}
-	TEST(TestCMainFrame, get_review_content)
+	BOOST_AUTO_TEST_CASE( get_review_content)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -786,30 +770,30 @@ namespace easyunit
 		text += "</table>" ;
 
 		string actual_text(actual) ;
-		SimpleString expected = text.c_str() ;
+		string expected = text.c_str() ;
 
-		ASSERT_EQUALS_V(expected, SimpleString(actual)) ;
+		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
-	TEST(TestCMainFrame, clear_memory)
+	BOOST_AUTO_TEST_CASE( clear_memory)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"foo", L"bar") ;
-		ASSERT_EQUALS_V(1, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(1, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
 		mainframe.clear_memory() ;
-		ASSERT_EQUALS_V(0, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(0, (int)mainframe.get_memory_model()->get_first_memory()->size()) ;
 	}
 
 	// get_active_mem_name
-	TEST(TestCMainFrame, get_active_mem_name_new)
+	BOOST_AUTO_TEST_CASE( get_active_mem_name_new)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
-		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
-		SimpleString expected = "New" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
+		string expected = "New" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	TEST(TestCMainFrame, get_active_mem_name_spam)
+	BOOST_AUTO_TEST_CASE( get_active_mem_name_spam)
 	{
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
@@ -817,45 +801,45 @@ namespace easyunit
 
 		mainframe.m_model->get_memories()->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
 
-		SimpleString actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
-		SimpleString expected = "spam" ;
-		ASSERT_EQUALS_V(expected, actual) ;
+		string actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
+		string expected = "spam" ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	// match_count_feedback
-	TEST( CMainFrameMessageTestCase, match_count_feedback_1 )
+	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1 )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 1 match." ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 1 match." ) ;
 	}
-	TEST( CMainFrameMessageTestCase, match_count_feedback_0 )
+	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_0 )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(0) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 0 matches." ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 0 matches." ) ;
 	}
-	TEST( CMainFrameMessageTestCase, match_count_feedback_10 )
+	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_10 )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(10) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 10 matches." ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 10 matches." ) ;
 	}
-	TEST( CMainFrameMessageTestCase, match_count_feedback_1001 )
+	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1001 )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1001) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V(SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found 1,001 matches." ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 1,001 matches." ) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif 
 

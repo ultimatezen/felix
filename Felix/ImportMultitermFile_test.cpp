@@ -3,22 +3,21 @@
 #include "MockListener.h"
 #include "memory_local.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 
-namespace easyunit
-{
+
 	using namespace mem_engine ;
 
-	TEST( TestCImportMultitermFile, instantiate )
+	BOOST_AUTO_TEST_CASE( instantiate )
 	{
 		CMockListener listener ;
 		CImportMultitermFile importer(&listener) ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK(true) ;
 	}
 
-	TEST( TestCImportMultitermFile, get_multiterm55_line)
+	BOOST_AUTO_TEST_CASE( get_multiterm55_line)
 	{
 		CMockListener listener ;
 		CImportMultitermFile importer(&listener) ;
@@ -26,10 +25,10 @@ namespace easyunit
 		c_reader reader ;
 		reader.set_buffer(text.c_str()) ;
 		const strcols cols = importer.get_multiterm55_line(reader) ;
-		ASSERT_EQUALS_V("English", SimpleString(cols.get<0>().c_str())) ;
-		ASSERT_EQUALS_V("Foo", SimpleString(cols.get<1>().c_str())) ;
+		BOOST_CHECK_EQUAL("English", string(cols.get<0>().c_str())) ;
+		BOOST_CHECK_EQUAL("Foo", string(cols.get<1>().c_str())) ;
 	}
-	TEST( TestCImportMultitermFile, import_multiterm_55_text)
+	BOOST_AUTO_TEST_CASE( import_multiterm_55_text)
 	{
 		CMockListener listener ;
 		CImportMultitermFile importer(&listener) ;
@@ -48,10 +47,10 @@ namespace easyunit
 		mem_engine::memory_pointer mem(new memory_local()) ;
 
 		importer.import_multiterm_55_text(reader, source_lang, trans_lang, mem) ;
-		ASSERT_EQUALS_V(2, (int)mem->size()) ;
-		//ASSERT_EQUALS(L"English", mem->get_memory_info()->get_source_language()) ;
+		BOOST_CHECK_EQUAL(2, (int)mem->size()) ;
+		//BOOST_CHECK_EQUAL(L"English", mem->get_memory_info()->get_source_language()) ;
 	}
-	TEST( TestCImportMultitermFile, import_multiterm_6_text)
+	BOOST_AUTO_TEST_CASE( import_multiterm_6_text)
 	{
 		CMockListener listener ;
 		CImportMultitermFile importer(&listener) ;
@@ -60,10 +59,10 @@ namespace easyunit
 		text += L"ƒXƒLƒƒƒ“”\tNumber of Scans\tsyngo Basic\r\n" ;
 
 		importer.import_multiterm_6_text(text.c_str()) ;
-		ASSERT_EQUALS_V(2, (int)importer.m_memory->size()) ;
-		ASSERT_EQUALS(L"English", importer.m_memory->get_memory_info()->get_source_language()) ;
+		BOOST_CHECK_EQUAL(2, (int)importer.m_memory->size()) ;
+		BOOST_CHECK_EQUAL(L"English", importer.m_memory->get_memory_info()->get_source_language()) ;
 	}
-	TEST( TestCImportMultitermFile, get_multiterm6_line)
+	BOOST_AUTO_TEST_CASE( get_multiterm6_line)
 	{
 		CMockListener listener ;
 		CImportMultitermFile importer(&listener) ;
@@ -71,11 +70,11 @@ namespace easyunit
 		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(text.c_str()) ;
 		const wstrcols cols = importer.get_multiterm6_line(reader) ;
-		ASSERT_EQUALS_V("spam", SimpleString(string2string(cols.get<0>()).c_str())) ;
-		ASSERT_EQUALS_V("eggs", SimpleString(string2string(cols.get<1>()).c_str())) ;
-		ASSERT_EQUALS_V("context", SimpleString(string2string(cols.get<2>()).c_str())) ;
+		BOOST_CHECK_EQUAL("spam", string(string2string(cols.get<0>()).c_str())) ;
+		BOOST_CHECK_EQUAL("eggs", string(string2string(cols.get<1>()).c_str())) ;
+		BOOST_CHECK_EQUAL("context", string(string2string(cols.get<2>()).c_str())) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef UNIT_TEST

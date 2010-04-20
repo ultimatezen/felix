@@ -3,10 +3,10 @@
 /* this ALWAYS GENERATED file contains the proxy stub code */
 
 
- /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Apr 20 12:41:17 2010
+ /* File created by MIDL compiler version 7.00.0499 */
+/* at Sun Apr 18 17:41:17 2010
  */
-/* Compiler settings for Felix.idl:
+/* Compiler settings for ..\Felix\Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
@@ -47,7 +47,7 @@
 #endif // __RPCPROXY_H_VERSION__
 
 
-#include "Felix.h"
+#include "Felix_h.h"
 
 #define TYPE_FORMAT_STRING_SIZE   135                               
 #define PROC_FORMAT_STRING_SIZE   1849                              
@@ -116,13 +116,6 @@ extern const MIDL_STUB_DESC Object_StubDesc;
 
 extern const MIDL_SERVER_INFO IFelixMemDocUIHandler_ServerInfo;
 extern const MIDL_STUBLESS_PROXY_INFO IFelixMemDocUIHandler_ProxyInfo;
-
-
-extern const MIDL_STUB_DESC Object_StubDesc;
-
-
-extern const MIDL_SERVER_INFO ISearchResults_ServerInfo;
-extern const MIDL_STUBLESS_PROXY_INFO ISearchResults_ProxyInfo;
 
 
 extern const USER_MARSHAL_ROUTINE_QUADRUPLE UserMarshalRoutines[ WIRE_MARSHAL_TABLE_SIZE ];
@@ -2365,72 +2358,6 @@ CInterfaceStubVtbl _IFelixMemDocUIHandlerStubVtbl =
     CStdStubBuffer_DELEGATING_METHODS
 };
 
-
-/* Object interface: ISearchResults, ver. 0.0,
-   GUID={0x654061B0,0x533B,0x43C5,{0xA6,0x31,0x3E,0xDA,0xB2,0x36,0x23,0x8C}} */
-
-#pragma code_seg(".orpc")
-static const unsigned short ISearchResults_FormatStringOffsetTable[] =
-    {
-    (unsigned short) -1,
-    (unsigned short) -1,
-    (unsigned short) -1,
-    (unsigned short) -1,
-    0
-    };
-
-static const MIDL_STUBLESS_PROXY_INFO ISearchResults_ProxyInfo =
-    {
-    &Object_StubDesc,
-    Felix__MIDL_ProcFormatString.Format,
-    &ISearchResults_FormatStringOffsetTable[-3],
-    0,
-    0,
-    0
-    };
-
-
-static const MIDL_SERVER_INFO ISearchResults_ServerInfo = 
-    {
-    &Object_StubDesc,
-    0,
-    Felix__MIDL_ProcFormatString.Format,
-    &ISearchResults_FormatStringOffsetTable[-3],
-    0,
-    0,
-    0,
-    0};
-CINTERFACE_PROXY_VTABLE(7) _ISearchResultsProxyVtbl = 
-{
-    0,
-    &IID_ISearchResults,
-    IUnknown_QueryInterface_Proxy,
-    IUnknown_AddRef_Proxy,
-    IUnknown_Release_Proxy ,
-    0 /* (void *) (INT_PTR) -1 /* IDispatch::GetTypeInfoCount */ ,
-    0 /* (void *) (INT_PTR) -1 /* IDispatch::GetTypeInfo */ ,
-    0 /* (void *) (INT_PTR) -1 /* IDispatch::GetIDsOfNames */ ,
-    0 /* IDispatch_Invoke_Proxy */
-};
-
-
-static const PRPC_STUB_FUNCTION ISearchResults_table[] =
-{
-    STUB_FORWARDING_FUNCTION,
-    STUB_FORWARDING_FUNCTION,
-    STUB_FORWARDING_FUNCTION,
-    STUB_FORWARDING_FUNCTION
-};
-
-CInterfaceStubVtbl _ISearchResultsStubVtbl =
-{
-    &IID_ISearchResults,
-    &ISearchResults_ServerInfo,
-    7,
-    &ISearchResults_table[-3],
-    CStdStubBuffer_DELEGATING_METHODS
-};
-
 static const MIDL_STUB_DESC Object_StubDesc = 
     {
     0,
@@ -2445,7 +2372,7 @@ static const MIDL_STUB_DESC Object_StubDesc =
     1, /* -error bounds_check flag */
     0x50002, /* Ndr library version */
     0,
-    0x70001f4, /* MIDL Version 7.0.500 */
+    0x70001f3, /* MIDL Version 7.0.499 */
     0,
     UserMarshalRoutines,
     0,  /* notify & notify_flag routine table */
@@ -2461,7 +2388,6 @@ const CInterfaceProxyVtbl * _Felix_ProxyVtblList[] =
     ( CInterfaceProxyVtbl *) &_IFelixMemDocUIHandlerProxyVtbl,
     ( CInterfaceProxyVtbl *) &_IAppProxyVtbl,
     ( CInterfaceProxyVtbl *) &_ISearchResultProxyVtbl,
-    ( CInterfaceProxyVtbl *) &_ISearchResultsProxyVtbl,
     ( CInterfaceProxyVtbl *) &_IApp2ProxyVtbl,
     0
 };
@@ -2472,7 +2398,6 @@ const CInterfaceStubVtbl * _Felix_StubVtblList[] =
     ( CInterfaceStubVtbl *) &_IFelixMemDocUIHandlerStubVtbl,
     ( CInterfaceStubVtbl *) &_IAppStubVtbl,
     ( CInterfaceStubVtbl *) &_ISearchResultStubVtbl,
-    ( CInterfaceStubVtbl *) &_ISearchResultsStubVtbl,
     ( CInterfaceStubVtbl *) &_IApp2StubVtbl,
     0
 };
@@ -2483,7 +2408,6 @@ PCInterfaceName const _Felix_InterfaceNamesList[] =
     "IFelixMemDocUIHandler",
     "IApp",
     "ISearchResult",
-    "ISearchResults",
     "IApp2",
     0
 };
@@ -2492,7 +2416,6 @@ const IID *  _Felix_BaseIIDList[] =
 {
     &IID_IDispatch,
     &IID_IDocHostUIHandlerDispatch,
-    &IID_IDispatch,
     &IID_IDispatch,
     &IID_IDispatch,
     &IID_IDispatch,
@@ -2506,10 +2429,10 @@ int __stdcall _Felix_IID_Lookup( const IID * pIID, int * pIndex )
 {
     IID_BS_LOOKUP_SETUP
 
-    IID_BS_LOOKUP_INITIAL_TEST( _Felix, 6, 4 )
+    IID_BS_LOOKUP_INITIAL_TEST( _Felix, 5, 4 )
     IID_BS_LOOKUP_NEXT_TEST( _Felix, 2 )
     IID_BS_LOOKUP_NEXT_TEST( _Felix, 1 )
-    IID_BS_LOOKUP_RETURN_RESULT( _Felix, 6, *pIndex )
+    IID_BS_LOOKUP_RETURN_RESULT( _Felix, 5, *pIndex )
     
 }
 
@@ -2520,7 +2443,7 @@ const ExtendedProxyFileInfo Felix_ProxyFileInfo =
     (const PCInterfaceName * ) & _Felix_InterfaceNamesList,
     (const IID ** ) & _Felix_BaseIIDList,
     & _Felix_IID_Lookup, 
-    6,
+    5,
     2,
     0, /* table of [async_uuid] interfaces */
     0, /* Filler1 */

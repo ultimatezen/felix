@@ -1,19 +1,20 @@
 #include "stdafx.h"
 #include "xpmenu/ToolBarXP.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
-	TEST( ToolBarXPTest, handled )
+BOOST_AUTO_TEST_SUITE( ToolBarXPTest )
+
+	BOOST_AUTO_TEST_CASE(handled )
 	{
 		CToolBarXP toolbar ;
 		toolbar.SetMsgHandled(TRUE) ;
-		ASSERT_TRUE_M(toolbar.IsMsgHandled(), "Should have been set to true") ;
+		BOOST_CHECK(toolbar.IsMsgHandled()) ;
 		toolbar.SetMsgHandled(FALSE) ;
-		ASSERT_TRUE_M(! toolbar.IsMsgHandled(), "Should have been set to false") ;
+		BOOST_CHECK(! toolbar.IsMsgHandled()) ;
 	}
-}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 #endif

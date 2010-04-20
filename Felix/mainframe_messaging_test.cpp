@@ -7,12 +7,12 @@
 #include "MainFrm.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
+
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 
-namespace easyunit
-{
 	using namespace mem_engine;
 
 	LRESULT FakeFreeFunction( WindowsMessage &message )
@@ -24,82 +24,82 @@ namespace easyunit
 	//////////////////////////////////////////////////////////////////////////
 	// Windows message handling
 	//////////////////////////////////////////////////////////////////////////
-	TEST( CMainFrameMessageTestCase, TestMessageMap )
+	BOOST_AUTO_TEST_CASE( TestMessageMap )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
-		ASSERT_EQUALS_V( 4, (int)main_frame.m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 	}
-	TEST( CMainFrameMessageTestCase, TestMessageMapAddFunction )
+	BOOST_AUTO_TEST_CASE( TestMessageMapAddFunction )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
-		ASSERT_EQUALS_V( 4, (int)main_frame.m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 		main_frame.register_event_listener( WM_CREATE, FakeFreeFunction ) ;
-		ASSERT_EQUALS_V( 4, (int)main_frame.m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Teston_create )
+	BOOST_AUTO_TEST_CASE( Teston_create )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create(message) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Teston_close )
+	BOOST_AUTO_TEST_CASE( Teston_close )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_close(message) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "on_close" ) ;
-		ASSERT_EQUALS_M( message.isHandled(), false, "We should not handle the closed message here" ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_close" ) ;
+		BOOST_CHECK( !message.isHandled()) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Teston_destroy )
+	BOOST_AUTO_TEST_CASE( Teston_destroy )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 		main_frame.on_destroy(message) ;
-		ASSERT_EQUALS_V(1, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "on_destroy" ) ;
-		ASSERT_EQUALS_M( message.isHandled(), false, "We should not handle the closed message here" ) ;
+		BOOST_CHECK_EQUAL(1, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_destroy" ) ;
+		BOOST_CHECK( !message.isHandled()) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Test_get_message_map )
+	BOOST_AUTO_TEST_CASE( Test_get_message_map )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 		CMainFrame::messageMapType *mmap = main_frame.get_message_map( WM_CREATE ) ;
-		ASSERT_EQUALS_M( mmap, &main_frame.m_message_map, "Should get the standard message map" ) ;
+		BOOST_CHECK( mmap == &main_frame.m_message_map) ;
 
 		mmap = main_frame.get_message_map( UWM_USER_MESSAGE ) ;
-		ASSERT_EQUALS_M( mmap, &main_frame.m_user_message_map, "Should get the user message map" ) ;
+		BOOST_CHECK( mmap == &main_frame.m_user_message_map) ;
 
 		mmap = main_frame.get_message_map( WM_COMMAND ) ;
-		ASSERT_EQUALS_M( mmap, &main_frame.m_command_message_map, "Should get the user message map" ) ;
+		BOOST_CHECK( mmap == &main_frame.m_command_message_map) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Test_get_message_key )
+	BOOST_AUTO_TEST_CASE( Test_get_message_key )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 		UINT key = main_frame.get_message_key( WM_CREATE, 7 ) ;
-		ASSERT_EQUALS_M( key, WM_CREATE, "Should get the message as key" ) ;
+		BOOST_CHECK( key == WM_CREATE ) ;
 
 		key = main_frame.get_message_key( UWM_USER_MESSAGE, 10 ) ;
-		ASSERT_EQUALS_M( key, 10, "Should get the wParam as key" ) ;
+		BOOST_CHECK( key == 10 ) ;
 
 		key = main_frame.get_message_key( WM_COMMAND, MAKEWPARAM( 15, 20 ) ) ;
-		ASSERT_EQUALS_M( key, 15, "Should get the low word of wParam as key" ) ;
+		BOOST_CHECK( key == 15 ) ;
 	}
 
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_no_display_state )
+	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_no_display_state )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
@@ -113,12 +113,12 @@ namespace easyunit
 		main_frame.m_trans_matches.set_matches( matches ) ;
 
 		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
 
 	}
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_NEW_RECORD_DISPLAY_STATE )
+	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_NEW_RECORD_DISPLAY_STATE )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
@@ -133,13 +133,13 @@ namespace easyunit
 
 		main_frame.set_display_state( CMainFrame::NEW_RECORD_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[NEW_RECORD_DISPLAY_STATE]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[NEW_RECORD_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
 
 
 	}
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_MATCH_DISPLAY_STATE )
+	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_MATCH_DISPLAY_STATE )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
@@ -154,13 +154,13 @@ namespace easyunit
 
 		main_frame.set_display_state( CMainFrame::MATCH_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[MATCH_DISPLAY_STATE]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[MATCH_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
 
 
 	}
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_CONCORDANCE_DISPLAY_STATE )
+	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_CONCORDANCE_DISPLAY_STATE )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
@@ -175,13 +175,13 @@ namespace easyunit
 
 		main_frame.set_display_state( CMainFrame::CONCORDANCE_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[CONCORDANCE_DISPLAY_STATE]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[CONCORDANCE_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
 
 
 	}
-	TEST( CMainFrameMessageTestCase, Test_register_glossary_entries_INIT_DISPLAY_STATE )
+	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_INIT_DISPLAY_STATE )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
@@ -196,77 +196,78 @@ namespace easyunit
 
 		main_frame.set_display_state( CMainFrame::INIT_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
 
 
 	}
-
+BOOST_AUTO_TEST_SUITE_END()
 
 	//////////////////////////////////////////////////////////////////////////
 	// messages
 	//////////////////////////////////////////////////////////////////////////
-	TEST( CMainFrameMessages, on_create )
+BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
+
+	BOOST_AUTO_TEST_CASE( on_create )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
 
-		ASSERT_EQUALS_M( 0, lResult, "lResult should equal 0") ;
+		BOOST_CHECK( 0 == lResult ) ;
 	}
 
-	TEST( CMainFrameMessages, OnNavEdit )
+	BOOST_AUTO_TEST_CASE( OnNavEdit )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavEdit(0) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnNavEdit"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_edit" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavEdit"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_edit" ) ;
 	}
-	TEST( CMainFrameMessages, OnBeforeNavigateNavEdit )
+	BOOST_AUTO_TEST_CASE( OnBeforeNavigateNavEdit )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnBeforeNavigate2( _bstr_t(L"100:edit:0") ) ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnBeforeNavigate2"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "OnNavEdit"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "on_user_edit" ) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnBeforeNavigate2"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "OnNavEdit"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "on_user_edit" ) ;
 	}
 
-	TEST( CMainFrameMessages, OnNavDelete)
+	BOOST_AUTO_TEST_CASE( OnNavDelete)
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavDelete(0) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnNavDelete"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_delete" ) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[2].c_str()), "No Matches" ) ;
-		ASSERT_EQUALS_V(3, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavDelete"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_delete" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "No Matches" ) ;
+		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
 	}
 
-	TEST( CMainFrameMessages, TestOnNavAddToGloss )
+	BOOST_AUTO_TEST_CASE( TestOnNavAddToGloss )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavAddToGloss(0) ;
-		ASSERT_EQUALS_V(2, (int)main_frame.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[0].c_str()), "OnNavAddToGloss"); 
-		ASSERT_EQUALS_V( SimpleString(main_frame.m_sensing_variable[1].c_str()), "on_user_add_to_glossary" ) ;
+		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavAddToGloss"); 
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_add_to_glossary" ) ;
 	}
 
-}
-
+BOOST_AUTO_TEST_SUITE_END()
 #endif 
 
 

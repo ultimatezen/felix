@@ -2,6 +2,9 @@
 #include "charset_info.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( test_charset_info )
 
 	// cp_from_lang_str
@@ -72,3 +75,5 @@ BOOST_AUTO_TEST_SUITE( test_charset_info )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

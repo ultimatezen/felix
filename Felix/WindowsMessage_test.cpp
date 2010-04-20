@@ -2,45 +2,42 @@
 #include "StdAfx.h"
 #include "WindowsMessage.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( WindowsMessageTests )
 
-#ifdef _DEBUG
-
-
-namespace easyunit
-{
-
-	TEST( WindowsMessageTests, TestInstantiate)
+	BOOST_AUTO_TEST_CASE( TestInstantiate)
 	{
 		WindowsMessage message ;
 
-		ASSERT_EQUALS_M( message.hWnd, NULL, "hWnd should be NULL" ) ;
-		ASSERT_EQUALS_M( message.uMsg, 0, "uMsg should be 0" ) ;
-		ASSERT_EQUALS_M( message.wParam, 0, "wParam should be 0" ) ;
-		ASSERT_EQUALS_M( message.lParam, 0, "lParam should be 0" ) ;
-		ASSERT_EQUALS_M( message.bHandled, true, "Message should be handled" ) ;
+		BOOST_CHECK( message.hWnd == NULL) ;
+		BOOST_CHECK( message.uMsg == 0) ;
+		BOOST_CHECK( message.wParam == 0) ;
+		BOOST_CHECK( message.lParam == 0) ;
+		BOOST_CHECK( message.bHandled == true) ;
 			// HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	}
-	TEST( WindowsMessageTests, TestNotHandled)
+	BOOST_AUTO_TEST_CASE( TestNotHandled)
 	{
 		WindowsMessage message ;
 		message.notHandled() ;
 
-		ASSERT_EQUALS_M( message.isHandled(), false, "Message should be handled" ) ;
+		BOOST_CHECK(!message.isHandled()) ;
 	}
-	TEST( WindowsMessageTests, TestuMsg)
+	BOOST_AUTO_TEST_CASE( TestuMsg)
 	{
 		WindowsMessage message( NULL, WM_CREATE) ;
 
-		ASSERT_EQUALS_M( message.hWnd, NULL, "hWnd should be NULL" ) ;
-		ASSERT_EQUALS_M( message.uMsg, WM_CREATE, "uMsg should be WM_CREATE" ) ;
-		ASSERT_EQUALS_M( message.wParam, 0, "wParam should be 0" ) ;
-		ASSERT_EQUALS_M( message.lParam, 0, "lParam should be 0" ) ;
+		BOOST_CHECK( message.hWnd == NULL) ;
+		BOOST_CHECK( message.uMsg == WM_CREATE) ;
+		BOOST_CHECK( message.wParam == 0) ;
+		BOOST_CHECK( message.lParam == 0) ;
 		// HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	}
 
-}
 
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()
+
+#endif
 
 

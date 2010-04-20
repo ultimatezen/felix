@@ -1,25 +1,25 @@
 #include "stdafx.h"
 #include ".\extrastringsview.h"
 
-#include "easyunit/testharness.h"
-#ifdef _DEBUG
 
-namespace easyunit
-{
-	TEST( TestCExtraStringsView, instantiate)
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCExtraStringsView )
+
+	BOOST_AUTO_TEST_CASE( instantiate)
 	{
 		CExtraStringsView dialog ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK(true) ;
 	}
-	TEST( TestCExtraStringsView, eliminate_whitespace_and_punctuation )
+	BOOST_AUTO_TEST_CASE( eliminate_whitespace_and_punctuation )
 	{
 		CExtraStringsView dlg ;
 		wstring setting = L"Hello, world!" ;
 		wstring key ;
 		dlg.eliminate_whitespace_and_punctuation( setting, key ) ;
-		ASSERT_EQUALS( L"Hello__world_", key ) ;
+		BOOST_CHECK_EQUAL( L"Hello__world_", key ) ;
 	}
 
-}
+	BOOST_AUTO_TEST_SUITE_END()
 
 #endif

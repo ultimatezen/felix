@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "zoom_dialog.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( CZoomDlgTest )
 
-namespace easyunit
-{
 	class FakeZoomDialogInterface : public CZoomInterface
 	{
 	public:
@@ -17,13 +15,14 @@ namespace easyunit
 			m_zoom_level = zoom_level ;
 		}
 	};
-	TEST( CZoomDlgTest, init_message )
+	BOOST_AUTO_TEST_CASE( init_message )
 	{
 		CZoomDlg dialog ;
 		LRESULT lresult = 0 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lresult) ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V("CZoomDlg::OnInitDialog", SimpleString(dialog.m_sensing_variable[0].c_str())) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL("CZoomDlg::OnInitDialog", dialog.m_sensing_variable[0]) ;
 	}
-}
+
+BOOST_AUTO_TEST_SUITE_END()
 #endif

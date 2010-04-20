@@ -12,7 +12,7 @@
 #include "logging.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
+#include <boost/test/unit_test.hpp>
 
 using namespace mem_engine ;
 using namespace except;
@@ -775,56 +775,55 @@ namespace tmx_reader
 }
 // =====================>
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_txmStripTags )
 
-namespace easyunit
-{
-	TEST( txmStripTags, TestSimple )
+	BOOST_AUTO_TEST_CASE( TestSimple )
 	{
 		wstring toStrip = L"<bpt>&lt;b&gt;</bpt>hello<ept>&lt;/b&gt;</ept>" ;
-		ASSERT_EQUALS_M( tmx_strip_tags( toStrip ), L"<b>hello</b>", "String should be '<b>hello</b>'" ) ;
+		BOOST_CHECK_EQUAL( tmx_strip_tags( toStrip ), L"<b>hello</b>") ;
 	}
-	TEST( txmStripTags, TestIt )
+	BOOST_AUTO_TEST_CASE( TestIt )
 	{
 		wstring toStrip = L"<it pos=\"Begin\">&lt;1&gt;</it><bpt>&lt;b&gt;</bpt>hello<ept>&lt;/b&gt;</ept>" ;
-		ASSERT_EQUALS_M( tmx_strip_tags( toStrip ), L"<b>hello</b>", "String should be '<b>hello</b>'" ) ;
+		BOOST_CHECK_EQUAL( tmx_strip_tags( toStrip ), L"<b>hello</b>") ;
 
 		//toStrip = L"<it pos=\"Begin\">&lt;br&gt;</it><bpt>&lt;b&gt;</bpt>hello<ept>&lt;/b&gt;</ept>" ;
-		//ASSERT_EQUALS_M( tmx_strip_tags( toStrip ), L"<br><b>hello</b>", "String should be '<b>hello</b>'" ) ;
+		//BOOST_CHECK_EQUAL( tmx_strip_tags( toStrip ), L"<br><b>hello</b>", "String should be '<b>hello</b>'" ) ;
 
 		//toStrip = L"<it pos=\"Begin\">&lt;br /&gt;</it><bpt>&lt;b&gt;</bpt>hello<ept>&lt;/b&gt;</ept>" ;
-		//ASSERT_EQUALS_M( tmx_strip_tags( toStrip ), L"<br /><b>hello</b>", "String should be '<b>hello</b>'" ) ;
+		//BOOST_CHECK_EQUAL( tmx_strip_tags( toStrip ), L"<br /><b>hello</b>", "String should be '<b>hello</b>'" ) ;
 
 		toStrip = L"<it pos=\"begin\" x=\"1\">&lt;1&gt;</it>Digitally Sign a Macro Project in Microsoft Word 2000" ;
-		ASSERT_EQUALS_M( tmx_strip_tags( toStrip ), L"Digitally Sign a Macro Project in Microsoft Word 2000", "String should be 'Digitally Sign a Macro Project in Microsoft Word 2000'" ) ;
+		BOOST_CHECK_EQUAL( tmx_strip_tags( toStrip ), L"Digitally Sign a Macro Project in Microsoft Word 2000") ;
 	}
-	TEST( unknown_strip_tags_tests, simple)
+	BOOST_AUTO_TEST_CASE( unknown_strip_tags_tests_simple)
 	{
 		wstring raw_string = L"foobar" ;
 
 		wstring stripped_text = unknown_strip_tags( raw_string ) ;
 
-		ASSERT_EQUALS_M( raw_string, stripped_text, "Expected foobar") ;
+		BOOST_CHECK_EQUAL( raw_string, stripped_text) ;
 	}
-	TEST( unknown_strip_tags_tests, ampersand)
+	BOOST_AUTO_TEST_CASE( unknown_strip_tags_tests_ampersand)
 	{
 		wstring raw_string = L"foo &amp; bar" ;
 
 		wstring stripped_text = unknown_strip_tags( raw_string ) ;
 
-		ASSERT_EQUALS_M( raw_string, stripped_text, "Expected 'foo &amp; bar'") ;
+		BOOST_CHECK_EQUAL( raw_string, stripped_text) ;
 	}
 
-	TEST( unknown_strip_tags_tests, angle_brackets)
+	BOOST_AUTO_TEST_CASE( unknown_strip_tags_tests_angle_brackets)
 	{
 		wstring raw_string = L"&lt;foo&gt;" ;
 
 		wstring stripped_text = unknown_strip_tags( raw_string ) ;
 
-		ASSERT_EQUALS_M( raw_string, stripped_text, "Expected '&lt;foo&gt;'") ;
+		BOOST_CHECK_EQUAL( raw_string, stripped_text) ;
 	}
 
-	TEST( unknown_strip_tags_tests, ignored_tags)
+	BOOST_AUTO_TEST_CASE( unknown_strip_tags_tests_ignored_tags)
 	{
 		wstring raw_string = L"<b>foo</b>" ;
 
@@ -832,8 +831,8 @@ namespace easyunit
 
 		wstring expected = L"" ;
 		TRACE( stripped_text ) ;
-		ASSERT_EQUALS_M( expected, stripped_text, "Expected ''") ;
+		BOOST_CHECK_EQUAL( expected, stripped_text) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

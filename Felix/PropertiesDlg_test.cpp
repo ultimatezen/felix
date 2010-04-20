@@ -1,97 +1,116 @@
 #include "StdAfx.h"
 #include "PropertiesDlg.h"
 
-#include "easyunit/testharness.h"
-#ifdef _DEBUG
+
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
-	TEST( TestCMemoryPage, instantiate)
-	{
-		CMemoryPage dialog ;
-		ASSERT_EQUALS_V(IDD_PROPPAGE_MEMORY, CMemoryPage::IDD) ;
-	}
-	TEST( TestCGeneralPage, instantiate)
-	{
-		CGeneralPage dialog ;
-		ASSERT_EQUALS_V(IDD_PROPPAGE_GENERAL, CGeneralPage::IDD) ;
-	}
-	TEST( TestCAlgorithmPage, instantiate)
-	{
-		CAlgorithmPage dialog ;
-		ASSERT_EQUALS_V(IDD_PROPPAGE_ALGORITHM, CAlgorithmPage::IDD) ;
-	}
-	TEST( TestCGlossaryPage, instantiate)
-	{
-		CGlossaryPage dialog ;
-		ASSERT_EQUALS_V(IDD_PROPPAGE_GLOSSARY, CGlossaryPage::IDD) ;
-	}
-	TEST( TestCViewPage, instantiate)
-	{
-		CViewPage dialog ;
-		ASSERT_EQUALS_V(IDD_PROPPAGE_VIEW, CViewPage::IDD) ;
-	}
-	TEST( TestCPropertiesDlg, instantiate)
+BOOST_AUTO_TEST_SUITE( TestCPropertiesDlg )
+
+	BOOST_AUTO_TEST_CASE(instantiate)
 	{
 		CPropertiesDlg dialog ;
-		ASSERT_EQUALS_V(IDD_PROPSHEET, CPropertiesDlg::IDD) ;
+		BOOST_CHECK_EQUAL(IDD_PROPSHEET, CPropertiesDlg::IDD) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestCMemoryPage )
+
+	BOOST_AUTO_TEST_CASE( instantiate)
+	{
+		CMemoryPage dialog ;
+		BOOST_CHECK_EQUAL(IDD_PROPPAGE_MEMORY, CMemoryPage::IDD) ;
+	}
 	// message processing
-	TEST( TestCMemoryPage, test_message_WM_INITDIALOG)
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CMemoryPage dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestCGeneralPage, test_message_WM_INITDIALOG)
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( TestCGeneralPage )
+	BOOST_AUTO_TEST_CASE( instantiate)
+	{
+		CGeneralPage dialog ;
+		BOOST_CHECK_EQUAL(IDD_PROPPAGE_GENERAL, CGeneralPage::IDD) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CGeneralPage dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestCAlgorithmPage, test_message_WM_INITDIALOG)
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestCAlgorithmPage )
+	BOOST_AUTO_TEST_CASE( instantiate)
+	{
+		CAlgorithmPage dialog ;
+		BOOST_CHECK_EQUAL(IDD_PROPPAGE_ALGORITHM, CAlgorithmPage::IDD) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CAlgorithmPage dialog ;
 		app_props::properties_algorithm	properties ;
 		dialog.set_props(&properties) ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestCGlossaryPage, test_message_WM_INITDIALOG)
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestCGlossaryPage )
+
+	BOOST_AUTO_TEST_CASE( instantiate)
+	{
+		CGlossaryPage dialog ;
+		BOOST_CHECK_EQUAL(IDD_PROPPAGE_GLOSSARY, CGlossaryPage::IDD) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CGlossaryPage dialog ;
 		app_props::properties_glossary	properties ;
 		dialog.set_props(&properties) ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
 
 	// CViewPage
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST( TestCViewPage, test_message_WM_INITDIALOG)
+BOOST_AUTO_TEST_SUITE( TestCViewPage )
+	BOOST_AUTO_TEST_CASE( instantiate)
+	{
+		CViewPage dialog ;
+		BOOST_CHECK_EQUAL(IDD_PROPPAGE_VIEW, CViewPage::IDD) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CViewPage dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		ASSERT_EQUALS_V(1, (int)dialog.m_sensing_variable.size()) ;
-		ASSERT_EQUALS_V( SimpleString(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		ASSERT_EQUALS_V( 1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL( 1, (int)lResult) ;
 	}
-	TEST( TestCViewPage, Rect2Points)
+	BOOST_AUTO_TEST_CASE( Rect2Points)
 	{
 		CViewPage dialog ;
 		RECT rc ;
@@ -103,26 +122,25 @@ namespace easyunit
 		POINT points[POINTS_IN_RECT] = {0};
 		dialog.Rect2Points(rc, points) ;
 		
-		ASSERT_EQUALS_V(points[0].y, 100) ;
-		ASSERT_EQUALS_V(points[0].x, 100) ;
+		BOOST_CHECK_EQUAL(points[0].y, 100) ;
+		BOOST_CHECK_EQUAL(points[0].x, 100) ;
 
-		ASSERT_EQUALS_V(points[1].y, 100) ;
-		ASSERT_EQUALS_V(points[1].x, 200) ;
+		BOOST_CHECK_EQUAL(points[1].y, 100) ;
+		BOOST_CHECK_EQUAL(points[1].x, 200) ;
 
-		ASSERT_EQUALS_V(points[2].y, 200) ;
-		ASSERT_EQUALS_V(points[2].x, 200) ;
+		BOOST_CHECK_EQUAL(points[2].y, 200) ;
+		BOOST_CHECK_EQUAL(points[2].x, 200) ;
 
-		ASSERT_EQUALS_V(points[3].y, 200) ;
-		ASSERT_EQUALS_V(points[3].x, 100) ;
+		BOOST_CHECK_EQUAL(points[3].y, 200) ;
+		BOOST_CHECK_EQUAL(points[3].x, 100) ;
 
-		ASSERT_EQUALS_V(points[4].y, 100) ;
-		ASSERT_EQUALS_V(points[4].x, 100) ;
+		BOOST_CHECK_EQUAL(points[4].y, 100) ;
+		BOOST_CHECK_EQUAL(points[4].x, 100) ;
 
-		ASSERT_EQUALS_V(points[0].x, points[4].x) ;
-		ASSERT_EQUALS_V(points[0].y, points[4].y) ;
+		BOOST_CHECK_EQUAL(points[0].x, points[4].x) ;
+		BOOST_CHECK_EQUAL(points[0].y, points[4].y) ;
 	}
 
-}
-#endif
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

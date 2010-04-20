@@ -2,23 +2,22 @@
 #include ".\contentpresenteraddedtrans.h"
 #include "record_local.h"
 
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#include <boost/test/unit_test.hpp>
+#ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( TestCContentPresenterAddedTrans )
 
-namespace easyunit
-{
 	using namespace content_presenter ;
 	using namespace mem_engine ;
 
-	TEST( TestCContentPresenterAddedTrans, Instantiate )
+	BOOST_AUTO_TEST_CASE(Instantiate )
 	{
 		CHtmlView view ;
 		record_pointer record(new record_local()) ;
 		CContentPresenterAddedTrans presenter(view, record) ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK(true) ;
 	}
-	TEST( TestCContentPresenterAddedTrans, generate_text )
+	BOOST_AUTO_TEST_CASE( generate_text )
 	{
 		CHtmlView view ;
 		record_pointer record(new record_local()) ;
@@ -26,11 +25,11 @@ namespace easyunit
 		record->set_trans(wstring(L"egg")) ;
 		CContentPresenterAddedTrans presenter(view, record) ;
 		wstring out = presenter.generate_text() ;
-		ASSERT_TRUE(out.find(L"spam") != wstring::npos) ;
-		ASSERT_TRUE(out.find(L"egg") != wstring::npos) ;
+		BOOST_CHECK(out.find(L"spam") != wstring::npos) ;
+		BOOST_CHECK(out.find(L"egg") != wstring::npos) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif 

@@ -13,7 +13,6 @@
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
 
-bool ends_with(const wstring haystack, const wstring needle) ;
 wstring escape_entities(const wstring text) ;
 
 wstring get_filter_text(const std::vector<wstring> & terms) ;

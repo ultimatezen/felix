@@ -179,6 +179,16 @@ interface IApp : IDispatch{
 interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
 };
 [
+	object,
+	uuid(654061B0-533B-43C5-A631-3EDAB236238C),
+	dual,
+	nonextensible,
+	helpstring("ISearchResults Interface"),
+	pointer_default(unique)
+]
+interface ISearchResults : IDispatch{
+};
+[
 	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
 	version(1.0),
 	helpstring("Felix 1.0 Type Library")
@@ -248,5 +258,13 @@ library Felix
 	coclass FelixMemDocUIHandler
 	{
 		[default] interface IFelixMemDocUIHandler;
+	};
+	[
+		uuid(AE39B643-6534-42D9-A4A1-9C5F414BD6D8),
+		helpstring("SearchResults Class")
+	]
+	coclass SearchResults
+	{
+		[default] interface ISearchResults;
 	};
 };

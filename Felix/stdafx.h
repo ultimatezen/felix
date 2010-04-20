@@ -196,6 +196,15 @@ static const double EPSILON = 0.00001 ;
 #define LOGFILE_NAME _T("felix.log")
 
 
+namespace std {
+	inline std::ostream& operator<<(std::ostream& out, const std::wstring& value)
+	{
+		out << string2string(value);
+		return out;
+	}
+
+} 
+
 #ifdef _EMBEDDED_MANIFEST
 #if defined _M_IX86
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")

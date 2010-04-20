@@ -1,43 +1,42 @@
 #include "StdAfx.h"
 #include "logical.h"
 
-#include "easyunit/testharness.h"
-
+#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+BOOST_AUTO_TEST_SUITE( test_logical )
 
-namespace easyunit
-{
+
 	// any
-	TEST( test_logical, any_true )
+	BOOST_AUTO_TEST_CASE( any_true )
 	{
 		bool arg1=false, arg2=false, arg3=true, arg4=false;
-		ASSERT_TRUE(logical::any(arg1, arg2, arg3, arg4)) ;
+		BOOST_CHECK(logical::any(arg1, arg2, arg3, arg4)) ;
 	}
-	TEST( test_logical, any_false )
+	BOOST_AUTO_TEST_CASE( any_false )
 	{
 		bool arg1=false, arg2=false, arg3=false, arg4=false;
-		ASSERT_TRUE(! logical::any(arg1, arg2, arg3, arg4)) ;
+		BOOST_CHECK(! logical::any(arg1, arg2, arg3, arg4)) ;
 	}
-	TEST( test_logical, any_true_6)
+	BOOST_AUTO_TEST_CASE( any_true_6)
 	{
-		ASSERT_TRUE( logical::any(false, false, false, false, false, true)) ;
+		BOOST_CHECK( logical::any(false, false, false, false, false, true)) ;
 	}
 	// all
-	TEST( test_logical, all_true )
+	BOOST_AUTO_TEST_CASE( all_true )
 	{
 		bool arg1=true, arg2=true, arg3=true, arg4=true;
-		ASSERT_TRUE(logical::all(arg1, arg2, arg3, arg4)) ;
+		BOOST_CHECK(logical::all(arg1, arg2, arg3, arg4)) ;
 	}
-	TEST( test_logical, all_false )
+	BOOST_AUTO_TEST_CASE( all_false )
 	{
 		bool arg1=true, arg2=true, arg3=false, arg4=true;
-		ASSERT_TRUE(! logical::all(arg1, arg2, arg3, arg4)) ;
+		BOOST_CHECK(! logical::all(arg1, arg2, arg3, arg4)) ;
 	}
-	TEST( test_logical, all_true_6 )
+	BOOST_AUTO_TEST_CASE( all_true_6 )
 	{
-		ASSERT_TRUE(logical::all(true, true, true, true, true, true)) ;
+		BOOST_CHECK(logical::all(true, true, true, true, true, true)) ;
 	}
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 
 #endif // #ifdef _DEBUG

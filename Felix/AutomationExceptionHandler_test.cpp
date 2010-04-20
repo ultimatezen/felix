@@ -3,6 +3,9 @@
 #include "App.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestAutomationExceptionHandler )
 
 	typedef CComPtr< CComObject< CApp > > appPtr ;
@@ -16,3 +19,5 @@ BOOST_AUTO_TEST_SUITE( TestAutomationExceptionHandler )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif
