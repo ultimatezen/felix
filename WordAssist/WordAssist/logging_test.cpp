@@ -3,7 +3,12 @@
 
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( test_logging )
+
+using namespace except ;
 
 class fake_logger : public logger
 {
@@ -39,3 +44,5 @@ public:
 		ASSERT_TRUE(true) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

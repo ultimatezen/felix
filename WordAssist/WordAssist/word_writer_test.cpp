@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "word_writer.h"
 
-
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
 	TEST( word_writer_test, Instantiate )
@@ -19,3 +21,5 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 		}
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

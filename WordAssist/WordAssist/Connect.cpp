@@ -375,30 +375,6 @@ STDMETHODIMP CConnect::OnAddInsUpdate (SAFEARRAY ** /*custom*/ )
 */
 STDMETHODIMP CConnect::OnStartupComplete (SAFEARRAY ** /*custom*/ )
 {
-	try 
-	{
-
-		// run unit tests if we are in debug mode.
-#ifdef _DEBUG
-
-		try
-		{
-			easyunit::CATLResultsPrinter printer ;
-			easyunit::CProgressBarTestRunner runner ;
-			easyunit::TestRegistry::runAndPrint( 
-				static_cast< easyunit::TestPrinter* >( &printer ), 
-				static_cast< easyunit::TestRunner* >( &runner ) ) ;
-		}
-		catch( ... )
-		{
-			ATLASSERT( "OOPS!" && false ) ;
-		}
-
-#endif // #ifdef _DEBUG
-	}
-
-	CATCH_ALL( _T("OnStartupComplete") ) ;
-
 	return S_OK;
 }
 
