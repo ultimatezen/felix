@@ -4398,6 +4398,8 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 	if ( newPairing.PlaceNumbers( Transpair ) )
 	{
 		search_match_ptr NewMatch(new search_match) ;
+		NewMatch->set_memory_id(match->get_memory_id()) ;
+		NewMatch->set_memory_location(match->get_memory_location()) ;
 		// record
 		record_pointer NewRec = record_pointer(rec->clone()) ;
 		NewRec->set_validated_off() ;
@@ -4547,9 +4549,8 @@ mem_engine::search_match_ptr CMainFrame::get_current_match()
 // Content when using translation history
 wstring CMainFrame::get_review_content( memory_pointer mem )
 {
-	search_match_ptr match(new search_match) ;
+	search_match_ptr match(mem->make_match()) ;
 	match->set_record(m_review_record) ;
-	match->set_memory_location(wstring(CT2W(mem->get_location()))) ;
 	match->set_values_to_record() ;
 
 	text_tmpl::CTextTemplate engine ;

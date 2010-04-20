@@ -337,11 +337,9 @@ void CSearchWindow::get_replace_matches( std::vector<mem_engine::search_match_pt
 				if (m_search_runner.is_match(rec) 
 					&& m_search_runner.term_matches(rec, replace_from))
 				{
-					search_match_ptr match(new search_match) ;
+					search_match_ptr match(mem->make_match()) ;
 					match->set_record(rec) ;
 					match->get_markup()->SetTrans(rec->get_trans_rich()) ;
-					match->set_memory_location(wstring(mem->get_location())) ;
-					match->set_memory_id(mem->get_id()) ;
 					matchset.insert(match) ;
 				}
 			}

@@ -5,6 +5,9 @@
 #include "output_device_fake.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestCXml2RecordConverter )
 
 	//////////////////////////////////////////////////////////////////////////
@@ -284,3 +287,5 @@ BOOST_AUTO_TEST_SUITE( test_CRecord2XmlConverter )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

@@ -2,8 +2,10 @@
 #include "MinViewDlg.h"
 
 #include <boost/test/unit_test.hpp>
-BOOST_AUTO_TEST_SUITE( TestMinViewDlg )
 
+#ifdef UNIT_TEST
+
+BOOST_AUTO_TEST_SUITE( TestMinViewDlg )
 
 	BOOST_AUTO_TEST_CASE( instantiate)
 	{
@@ -31,3 +33,5 @@ BOOST_AUTO_TEST_SUITE( TestMinViewDlg )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

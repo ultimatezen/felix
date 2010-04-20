@@ -105,6 +105,37 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
+	// CurrentMatches
+	BOOST_AUTO_TEST_CASE(current_matches_init_empty)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<ISearchResults> matches ;
+		HRESULT hr = application->get_CurrentMatches(&matches) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+
+		long count(0) ;
+		matches->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(0, count) ;
+	}
+
+
+	// CurrentGlossMatches
+	BOOST_AUTO_TEST_CASE(current_gloss_matches_init_empty)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<ISearchResults> matches ;
+		HRESULT hr = application->get_CurrentGlossMatches(&matches) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+
+		long count(0) ;
+		matches->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(0, count) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -81,7 +81,7 @@ namespace mem_engine
 			set_minimum_score( m_gloss_properties.get_min_score() ) ;
 			const Segment haystack(m_cmp_maker, params.m_rich_source) ;
 
-			search_match_ptr match(new search_match) ;
+			search_match_ptr match(this->make_match()) ;
 			foreach(record_pointer record, candidates)
 			{
 				const Segment needle(m_cmp_maker, record->get_source_rich()) ;
@@ -89,7 +89,7 @@ namespace mem_engine
 				if(m_match_maker.fuzzy_gloss_score(needle, haystack, match))
 				{
 					set_gloss_fuzzy_match(matches, params, match);	
-					match = search_match_ptr(new search_match) ;
+					match = this->make_match() ;
 				}
 			}
 
@@ -103,10 +103,10 @@ namespace mem_engine
 
 			foreach( record_pointer record, candidates)
 			{
-				search_match_ptr match(new search_match) ;
+				search_match_ptr match(this->make_match()) ;
 				match->set_record(record) ;
 				match->set_values_to_record() ;
-				set_gloss_100_char(matches, match);
+				matches.insert( match ) ;
 			}
 		}
 		return ( false == matches.empty() ) ;
@@ -139,14 +139,11 @@ namespace mem_engine
 			this->convert_candidates(candidates, com_matches) ;
 		}
 
-		const wstring location = static_cast<LPCWSTR>( this->get_location() ) ;
 		foreach(record_pointer record, candidates)
 		{
-			search_match_ptr match(new search_match) ;
+			search_match_ptr match(this->make_match()) ;
 			match->set_record(record) ;
 			match->set_values_to_record() ;
-			match->set_memory_location( location ) ;
-			match->set_memory_id( get_id() ) ;
 			matches.insert(match);
 		}
 		return ( ! matches.empty() ) ;

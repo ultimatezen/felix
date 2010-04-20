@@ -50,6 +50,26 @@ interface ISearchResult : IDispatch{
 	[propget, id(3), helpstring("property MemoryName")] 
 		HRESULT MemoryName([out, retval] BSTR* pVal) ;
 };
+
+// SearchResults
+[
+	object,
+	uuid(654061B0-533B-43C5-A631-3EDAB236238C),
+	dual,
+	nonextensible,
+	helpstring("ISearchResults Interface"),
+	pointer_default(unique)
+]
+interface ISearchResults : IDispatch{
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] ISearchResult**ppSearchResult );
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+
+};
+
 // App2
 [
 	object,
@@ -62,9 +82,11 @@ interface ISearchResult : IDispatch{
 interface IApp2 : IDispatch{
 	[propget, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([out, retval] ISearchResult** pVal);
 	[propput, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([in] ISearchResult* newVal);
-	[id(2), helpstring("method ReflectChanges")] 
+	[propget, id(3), helpstring("property CurrentMatches")] HRESULT CurrentMatches([out, retval] ISearchResults** newVal);
+	[propget, id(4), helpstring("property CurrentGlossMatches")] HRESULT CurrentGlossMatches([out, retval] ISearchResults** newVal);
+	[id(5), helpstring("method ReflectChanges")] 
 		HRESULT ReflectChanges([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
-	[id(3), helpstring("method ReviewTranslation")] 
+	[id(6), helpstring("method ReviewTranslation")] 
 		HRESULT ReviewTranslation([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
 };
 // App
@@ -178,16 +200,7 @@ interface IApp : IDispatch{
 ]
 interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
 };
-[
-	object,
-	uuid(654061B0-533B-43C5-A631-3EDAB236238C),
-	dual,
-	nonextensible,
-	helpstring("ISearchResults Interface"),
-	pointer_default(unique)
-]
-interface ISearchResults : IDispatch{
-};
+
 [
 	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
 	version(1.0),

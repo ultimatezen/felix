@@ -160,7 +160,7 @@ private:
 
 	void compose_source_string(std::list< std::wstring >& col_list);
 public:
-	wstring  compose_markup_string( std::list< std::wstring >& element_list );
+	wstring compose_markup_string( std::list< std::wstring >& element_list );
 	wstring get_gloss_markup_start( double gloss_score );
 	wstring get_gloss_markup_end(void);
 } ;

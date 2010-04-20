@@ -116,7 +116,6 @@ struct UnitTestConfig {
 	~UnitTestConfig()  { boost::unit_test::unit_test_log.set_stream( std::cout ); }
 
 	dostream                    out ;
-
 };
 
 
@@ -370,8 +369,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
     ATLTRACE( "Unit testing app...\n" ) ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
-
-	ATLTRACE("Running boost unit tests...\n") ;
 
 	char *args[] = {"", "--result_code=yes"};
 	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);

@@ -353,4 +353,16 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	}
 
 
+
+	// get matches
+	BOOST_AUTO_TEST_CASE(make_match)
+	{
+		memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+
+		search_match_ptr match = mem.make_match() ;
+		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;
+		BOOST_CHECK_EQUAL(match->get_memory_location(), L"Fake Memory") ;
+	}
+
+
 BOOST_AUTO_TEST_SUITE_END()

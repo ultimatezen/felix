@@ -47,6 +47,8 @@ STDMETHODIMP CApp2::get_CurrentMatch(ISearchResult **pVal)
 		
 	return E_FAIL ;
 }
+
+
 STDMETHODIMP CApp2::put_CurrentMatch(ISearchResult *pVal)
 {
 	try
@@ -56,6 +58,42 @@ STDMETHODIMP CApp2::put_CurrentMatch(ISearchResult *pVal)
 	}
 	TA_CATCH("put_CurrentMatch")
 }
+
+// current matches
+STDMETHODIMP CApp2::get_CurrentMatches(ISearchResults **pVal)
+{
+	try
+	{
+		if ( m_current_matches )
+		{
+			m_current_matches->set_matches(app::get_app().get_current_matches());
+			return m_current_matches->QueryInterface(pVal) ;
+		}
+	}
+	TA_CATCH("get_CurrentMatch")
+
+		return E_FAIL ;
+}
+STDMETHODIMP CApp2::get_CurrentGlossMatches(ISearchResults **pVal)
+{
+	try
+	{
+		if ( m_current_gloss_matches )
+		{
+			mem_engine::felix_query *matches = app::get_app().get_current_gloss_matches() ;
+			if (matches)
+			{
+				m_current_gloss_matches->set_matches(matches);
+			}
+			return m_current_gloss_matches->QueryInterface(pVal) ;
+		}
+	}
+	TA_CATCH("get_CurrentMatch")
+
+		return E_FAIL ;
+}
+
+
 STDMETHODIMP CApp2::ReflectChanges(ULONG RecId, BSTR Source, BSTR Trans)
 {
 	try

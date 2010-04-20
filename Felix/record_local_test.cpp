@@ -336,7 +336,6 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec.set_item( L"key", L"val" ) ;
 
 		BOOST_CHECK ( true == rec.item_exists( L"key" ) ) ; 
-
 	}
 
 	//	const wstring get_item( const wstring key ) const ;
@@ -349,7 +348,6 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec.set_item( L"key", L"val" ) ;
 
 		BOOST_CHECK ( L"val" == rec.get_item( L"key" ) ) ; 
-
 	}
 
 	//	size_t get_reliability() const ;
@@ -457,7 +455,6 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec.set_reliability( 5u ) ;
 
 		BOOST_CHECK ( rec.get_reliability() == 5u ) ; 
-
 	}
 
 	//	void translation_record_tester::set_validated( const bool validated );
@@ -558,7 +555,7 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 
 		now.set_to_local_time() ;
 
-		BOOST_CHECK_EQUAL((int)misc_wrappers::Delta(rec.get_modified(), now), 0) ;
+		BOOST_CHECK_EQUAL(rec.get_modified().wYear, now.wYear) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( set_created_good)

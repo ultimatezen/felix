@@ -417,12 +417,14 @@ namespace mem_engine
 	{
 		Segment query(m_cmp_maker, params.m_source) ;
 		gloss_match_tester tester(query.cmp()) ;
+		tester.set_search_match(this->make_match()) ;
 
 		foreach( record_pointer record, m_records)
 		{
 			if ( tester.test_source( record ) )
 			{
-				set_gloss_100_char(matches, tester.get_search_match());
+				matches.insert( tester.get_search_match() ) ;
+				tester.set_search_match(this->make_match()) ;
 			}
 		}
 	}
@@ -436,7 +438,7 @@ namespace mem_engine
 		distance.set_minscore(min_score) ;
 		Segment haystack(m_cmp_maker, params.m_rich_source) ;
 
-		search_match_ptr match(new search_match) ;
+		search_match_ptr match(this->make_match()) ;
 		foreach(record_pointer record, m_records)
 		{
 			if (distance.subdist_score(record->get_source_cmp(), haystack.cmp()) >= min_score)
@@ -446,7 +448,7 @@ namespace mem_engine
 				if(m_match_maker.fuzzy_gloss_score(needle, haystack, match))
 				{
 					set_gloss_fuzzy_match(matches, params, match);	
-					match = search_match_ptr(new search_match) ;
+					match = this->make_match() ;
 				}
 			}
 		}

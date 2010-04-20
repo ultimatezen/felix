@@ -84,10 +84,8 @@ void ViewStateReview::show_content()
 {
 	memory_pointer mem = m_model->get_first_memory() ;
 
-	mem_engine::search_match_ptr match(new mem_engine::search_match) ;
+	mem_engine::search_match_ptr match(mem->make_match()) ;
 	match->set_record(m_window_listener->get_review_record()) ;
-	match->set_memory_location(wstring(CT2W(mem->get_location()))) ;
-	match->set_memory_id(mem->get_id()) ;
 	match->set_values_to_record() ;
 
 	text_tmpl::CTextTemplate engine ;

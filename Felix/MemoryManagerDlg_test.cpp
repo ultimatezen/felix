@@ -3,8 +3,10 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 
@@ -487,3 +489,5 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

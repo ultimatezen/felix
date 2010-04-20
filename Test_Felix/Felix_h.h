@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0499 */
-/* at Sun Apr 18 17:41:17 2010
+/* at Tue Apr 20 23:22:36 2010
  */
 /* Compiler settings for ..\Felix\Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -55,6 +55,12 @@ typedef interface IRecord IRecord;
 #define __ISearchResult_FWD_DEFINED__
 typedef interface ISearchResult ISearchResult;
 #endif 	/* __ISearchResult_FWD_DEFINED__ */
+
+
+#ifndef __ISearchResults_FWD_DEFINED__
+#define __ISearchResults_FWD_DEFINED__
+typedef interface ISearchResults ISearchResults;
+#endif 	/* __ISearchResults_FWD_DEFINED__ */
 
 
 #ifndef __IApp2_FWD_DEFINED__
@@ -145,6 +151,18 @@ typedef struct FelixMemDocUIHandler FelixMemDocUIHandler;
 #endif /* __cplusplus */
 
 #endif 	/* __FelixMemDocUIHandler_FWD_DEFINED__ */
+
+
+#ifndef __SearchResults_FWD_DEFINED__
+#define __SearchResults_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class SearchResults SearchResults;
+#else
+typedef struct SearchResults SearchResults;
+#endif /* __cplusplus */
+
+#endif 	/* __SearchResults_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -539,6 +557,149 @@ EXTERN_C const IID IID_ISearchResult;
 #endif 	/* __ISearchResult_INTERFACE_DEFINED__ */
 
 
+#ifndef __ISearchResults_INTERFACE_DEFINED__
+#define __ISearchResults_INTERFACE_DEFINED__
+
+/* interface ISearchResults */
+/* [unique][helpstring][nonextensible][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_ISearchResults;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("654061B0-533B-43C5-A631-3EDAB236238C")
+    ISearchResults : public IDispatch
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Count( 
+            /* [retval][out] */ long *pCount) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Item( 
+            /* [in] */ long n,
+            /* [retval][out] */ ISearchResult **ppSearchResult) = 0;
+        
+        virtual /* [id][propget] */ HRESULT STDMETHODCALLTYPE get__NewEnum( 
+            /* [retval][out] */ IUnknown **ppEnum) = 0;
+        
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct ISearchResultsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            ISearchResults * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ 
+            __RPC__deref_out  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            ISearchResults * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            ISearchResults * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            ISearchResults * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            ISearchResults * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            ISearchResults * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            ISearchResults * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
+            ISearchResults * This,
+            /* [retval][out] */ long *pCount);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Item )( 
+            ISearchResults * This,
+            /* [in] */ long n,
+            /* [retval][out] */ ISearchResult **ppSearchResult);
+        
+        /* [id][propget] */ HRESULT ( STDMETHODCALLTYPE *get__NewEnum )( 
+            ISearchResults * This,
+            /* [retval][out] */ IUnknown **ppEnum);
+        
+        END_INTERFACE
+    } ISearchResultsVtbl;
+
+    interface ISearchResults
+    {
+        CONST_VTBL struct ISearchResultsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define ISearchResults_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define ISearchResults_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define ISearchResults_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define ISearchResults_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define ISearchResults_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define ISearchResults_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define ISearchResults_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#define ISearchResults_get_Count(This,pCount)	\
+    ( (This)->lpVtbl -> get_Count(This,pCount) ) 
+
+#define ISearchResults_get_Item(This,n,ppSearchResult)	\
+    ( (This)->lpVtbl -> get_Item(This,n,ppSearchResult) ) 
+
+#define ISearchResults_get__NewEnum(This,ppEnum)	\
+    ( (This)->lpVtbl -> get__NewEnum(This,ppEnum) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __ISearchResults_INTERFACE_DEFINED__ */
+
+
 #ifndef __IApp2_INTERFACE_DEFINED__
 #define __IApp2_INTERFACE_DEFINED__
 
@@ -559,6 +720,12 @@ EXTERN_C const IID IID_IApp2;
         
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_CurrentMatch( 
             /* [in] */ ISearchResult *newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CurrentMatches( 
+            /* [retval][out] */ ISearchResults **newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CurrentGlossMatches( 
+            /* [retval][out] */ ISearchResults **newVal) = 0;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE ReflectChanges( 
             /* [in] */ ULONG RecId,
@@ -627,6 +794,14 @@ EXTERN_C const IID IID_IApp2;
             IApp2 * This,
             /* [in] */ ISearchResult *newVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CurrentMatches )( 
+            IApp2 * This,
+            /* [retval][out] */ ISearchResults **newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CurrentGlossMatches )( 
+            IApp2 * This,
+            /* [retval][out] */ ISearchResults **newVal);
+        
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *ReflectChanges )( 
             IApp2 * This,
             /* [in] */ ULONG RecId,
@@ -680,6 +855,12 @@ EXTERN_C const IID IID_IApp2;
 
 #define IApp2_put_CurrentMatch(This,newVal)	\
     ( (This)->lpVtbl -> put_CurrentMatch(This,newVal) ) 
+
+#define IApp2_get_CurrentMatches(This,newVal)	\
+    ( (This)->lpVtbl -> get_CurrentMatches(This,newVal) ) 
+
+#define IApp2_get_CurrentGlossMatches(This,newVal)	\
+    ( (This)->lpVtbl -> get_CurrentGlossMatches(This,newVal) ) 
 
 #define IApp2_ReflectChanges(This,RecId,Source,Trans)	\
     ( (This)->lpVtbl -> ReflectChanges(This,RecId,Source,Trans) ) 
@@ -1619,6 +1800,14 @@ EXTERN_C const CLSID CLSID_FelixMemDocUIHandler;
 
 class DECLSPEC_UUID("022ECF0F-E006-44D7-B9BA-ED4786FBDE76")
 FelixMemDocUIHandler;
+#endif
+
+EXTERN_C const CLSID CLSID_SearchResults;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("AE39B643-6534-42D9-A4A1-9C5F414BD6D8")
+SearchResults;
 #endif
 #endif /* __Felix_LIBRARY_DEFINED__ */
 

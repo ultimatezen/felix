@@ -1,8 +1,12 @@
 #include "StdAfx.h"
 #include "data_importer.h"
 #include "memory_local.h"
+#include "ProgressListener.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 
 
@@ -109,3 +113,5 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

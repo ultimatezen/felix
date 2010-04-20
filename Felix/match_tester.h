@@ -22,6 +22,10 @@ protected:
 	search_match_ptr	m_search_match ;
 
 public:
+	void set_search_match(search_match_ptr match)
+	{
+		m_search_match = match ;
+	}
 	match_tester(void);
 	~match_tester(void);
 };

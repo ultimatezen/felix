@@ -6,6 +6,7 @@
 #include "Felix.h"
 #include "_IApp2Events_CP.h"
 #include "SearchResult.h"
+#include "SearchResults.h"
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 
 #if defined(_WIN32_WCE) && !defined(_CE_DCOM) && !defined(_CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA)
@@ -26,8 +27,15 @@ class ATL_NO_VTABLE CApp2 :
 	typedef CComObject< CSearchResult > MatchObject ;
 
 	MatchObject *m_current_match ;
+
+	CComObject<CSearchResults> *m_current_matches ;
+	CComObject<CSearchResults> *m_current_gloss_matches ;
+
 public:
-	CApp2()
+	CApp2() :
+	  m_current_match(NULL),
+	  m_current_matches(NULL),
+	  m_current_gloss_matches(NULL)
 	{
 	}
 
@@ -53,10 +61,26 @@ END_CONNECTION_POINT_MAP()
 	HRESULT FinalConstruct()
 	{
 		HRESULT hr = MatchObject::CreateInstance( &m_current_match ) ;
-		if ( SUCCEEDED( hr ) )
+		if ( FAILED( hr ) )
 		{
-			m_current_match->AddRef() ;
+			return hr ;
 		}
+		m_current_match->AddRef() ;
+
+		hr = CComObject<CSearchResults>::CreateInstance(&m_current_matches) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_current_matches->AddRef() ;
+
+		hr = CComObject<CSearchResults>::CreateInstance(&m_current_gloss_matches) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_current_gloss_matches->AddRef() ;
+
 		return hr ;
 	}
 
@@ -66,9 +90,20 @@ END_CONNECTION_POINT_MAP()
 		{
 			m_current_match->Release() ;
 		}
+		if ( m_current_matches )
+		{
+			m_current_matches->Release() ;
+		}
+		if ( m_current_gloss_matches )
+		{
+			m_current_gloss_matches->Release() ;
+		}
 	}
 
 public:
+	STDMETHOD(get_CurrentMatches)(ISearchResults **pVal);
+	STDMETHOD(get_CurrentGlossMatches)(ISearchResults **pVal);
+
 	STDMETHOD(get_CurrentMatch)(ISearchResult **pVal);
 	STDMETHOD(put_CurrentMatch)(ISearchResult *pVal);
 	STDMETHOD(ReflectChanges)(ULONG RecId, BSTR Source, BSTR Trans);

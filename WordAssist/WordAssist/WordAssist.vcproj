@@ -281,10 +281,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Connect_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\MyLibrary\Exceptions.cpp"
 				>
 			</File>
@@ -313,15 +309,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\html_writer_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\MyLibrary\logging.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\logging_test.cpp"
 				>
 			</File>
 			<File
@@ -373,10 +361,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WordAutomationObject_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\WordController.cpp"
 				>
 			</File>
@@ -394,10 +378,6 @@
 			</File>
 			<File
 				RelativePath=".\WordParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WordParser_test.cpp"
 				>
 			</File>
 			<File
@@ -502,11 +482,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File

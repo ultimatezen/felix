@@ -179,13 +179,18 @@ public:
 	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, except::CException& e);
 
 	void check_progress_update( int progress_interval );
+
+	search_match_ptr make_match()
+	{
+		search_match_ptr match(new search_match) ;
+		match->set_memory_id(this->get_id()) ;
+		match->set_memory_location(get_fname_from_loc((LPCWSTR)this->get_location())) ;
+		return match ;
+	}
 	// glossary stuff
 	void set_gloss_fuzzy_match(search_match_container& matches, 
 							const search_query_params& params, 
 							search_match_ptr& match_test);
-
-	void set_gloss_100_char(search_match_container& matches, 
-							search_match_ptr match);
 
 	std::wstring prep_pattern_string_gloss_100(const search_query_params& params, record_pointer& rec);
 

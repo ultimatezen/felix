@@ -2,11 +2,12 @@
 #include "data_exporter.h"
 #include "record_local.h"
 #include "memory_local.h"
-
+#include "ProgressListener.h"
 #include "output_device_fake.h"
 
 #include <boost/test/unit_test.hpp>
 
+#ifdef UNIT_TEST
 
 	using namespace mem_engine ;
 
@@ -164,3 +165,5 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

@@ -3,6 +3,9 @@
 
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( rich_text_formatter_test )
 
 
@@ -40,3 +43,5 @@ BOOST_AUTO_TEST_SUITE( rich_text_formatter_test )
 	}
 
 	BOOST_AUTO_TEST_SUITE_END()
+
+#endif

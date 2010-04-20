@@ -534,6 +534,19 @@ public:
 	// the current match
 	mem_engine::search_match_ptr get_current_match();
 
+	mem_engine::felix_query *get_current_matches()
+	{
+		return &m_trans_matches ;
+	}
+	mem_engine::felix_query *get_current_gloss_matches()
+	{
+		if ( ! m_glossary_windows.empty() )
+		{
+			return m_glossary_windows[0]->get_current_matches() ;
+		}
+		return NULL ;
+	}
+
 	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
 	edit_record_dlg_ptr get_editor();
 	bool is_short_format();

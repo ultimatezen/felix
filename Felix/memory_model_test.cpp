@@ -8,6 +8,9 @@
 #include "record_local.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	using namespace mem_engine ;
 	using namespace except ;
@@ -381,3 +384,5 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

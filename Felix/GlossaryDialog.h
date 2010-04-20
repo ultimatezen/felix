@@ -93,6 +93,11 @@ class CGlossaryWindow :
 	ViewStateMatchGloss			m_view_state_match ;
 
 public:
+	mem_engine::felix_query *get_current_matches()
+	{
+		return &m_search_matches ;
+	}
+
 	void set_zoom_level(int zoom_level);
 	void set_bg_color_if_needed();
 

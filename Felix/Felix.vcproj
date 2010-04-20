@@ -1392,6 +1392,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SearchResults_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SearchWindow.cpp"
 				>
 			</File>

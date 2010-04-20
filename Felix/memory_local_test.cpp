@@ -7,6 +7,9 @@
 #include "MockListener.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestMemory )
 
 	using namespace mem_engine ;
@@ -1212,4 +1215,17 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 	}
 
+	// get matches
+	BOOST_AUTO_TEST_CASE(make_match)
+	{
+		memory_local mem(0.0f) ;
+		mem.m_file_location = _T("c:\\foo.ftm") ;
+
+		search_match_ptr match = mem.make_match() ;
+		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;
+		BOOST_CHECK_EQUAL(match->get_memory_location(), L"foo.ftm") ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif
