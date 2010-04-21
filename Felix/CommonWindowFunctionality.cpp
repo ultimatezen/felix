@@ -268,8 +268,12 @@ HWND CCommonWindowFunctionality::init_view()
 // TODO: Change to undoable action.
 bool CCommonWindowFunctionality::check_delete()
 {
+#ifdef UNIT_TEST
+	return true ;
+#else
 	ATLASSERT( IsWindow() ) ;
 	return IDYES == ::MessageBox( m_hWnd, R2T( IDS_PROMPT_DELETE ), R2T( IDS_DELETE_RECORD ), MB_YESNO | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
+#endif
 }
 
 

@@ -817,7 +817,7 @@ wstring CGlossaryWindow::get_glossary_entry(const int index)
 		localIndex = 9 ; // 10th item by 0 index
 	}
 
-	ATLASSERT( localIndex >= 0 && static_cast<size_t>( localIndex )  < m_search_matches.size() ) ;
+	ATLASSERT( localIndex >= 0 ) ;
 
 	m_view_state->set_current(static_cast<size_t>( localIndex )) ;
 	return get_record_translation(m_view_state->get_current_match()->get_record());
