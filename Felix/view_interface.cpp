@@ -157,10 +157,8 @@ void frame_view::set_bg_color( const wstring color )
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
-		TRACE(element->tagName) ;
 		if ( 0 == _wcsicmp(static_cast< LPCWSTR >( element->tagName ), L"TD" ))
 		{
 			element->style->cssText = bg_style ;
@@ -338,7 +336,6 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item( _variant_t( i ), _variant_t(0) ) ;
 
 		const wstring id = BSTR2wstring( element->id ) ;
@@ -411,7 +408,6 @@ void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches 
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
 		const wstring id = BSTR2wstring( element->id ) ;
@@ -479,7 +475,6 @@ void frame_view::handle_leave_edit_mode_new( record_pointer &record )
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
 		walker.ElementToRecord( make_element_wrapper(element), record ) ;
@@ -514,7 +509,6 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories,
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
-		TRACE( i ) ;
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
 
 		const wstring id = BSTR2wstring( element->id ) ;
@@ -601,15 +595,11 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 		{
 			if ( str::is_int_rep( id ) )
 			{
-				ATLTRACE("\n ... Found an id\n") ;
-				TRACE( i ) ;
 				if ( rec->is_valid_record() )
 				{
-					ATLTRACE(" ... Adding to list\n") ;
 					walker.AddRecordToList(rec, memories, match, match_list);
 				}
 				// get current match setting, and erase it from memory
-				ATLTRACE(" ... Erasing\n") ;
 				walker.EraseCurrentRecord(match, matches, id, memories);
 
 				// set to current record

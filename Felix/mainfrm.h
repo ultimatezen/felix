@@ -201,6 +201,8 @@ public:
 	wstring get_glossary_entry( short index ) ;
 	// concordance
 	bool get_concordances( const wstring query );
+
+	void perform_concordance_search();
 	void source_concordance_feedback();
 
 	bool get_translation_concordances( const wstring query_string );

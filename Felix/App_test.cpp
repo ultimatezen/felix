@@ -287,18 +287,19 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 
 		app::get_app().clear_memory() ;
+		memory_pointer mem = app::get_app().get_model()->get_first_memory() ;
 
 		CComBSTR source = L"aaa source" ;
 		CComBSTR trans = L"aaa trans" ;
 		CComBSTR context = L"aaa context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
 
-		source = L"bbb source" ;
+		source = L"aa source" ;
 		trans = L"bbb trans" ;
 		context = L"bbb context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
 
-		source = L"ccc source" ;
+		source = L"a source" ;
 		trans = L"ccc trans" ;
 		context = L"ccc context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
@@ -316,7 +317,7 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		CComBSTR retrieved_trans ;
 		felix->get_Trans(&retrieved_trans) ;
 
-		BOOST_CHECK_EQUAL(L"ccc trans", retrieved_trans) ;
+		BOOST_CHECK_EQUAL(wstring(L"ccc trans"), BSTR2wstring(retrieved_trans)) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(lookup_3_prev_prev)
@@ -332,12 +333,12 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		CComBSTR context = L"aaa context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
 
-		source = L"bbb source" ;
+		source = L"aa source" ;
 		trans = L"bbb trans" ;
 		context = L"bbb context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
 
-		source = L"ccc source" ;
+		source = L"a source" ;
 		trans = L"ccc trans" ;
 		context = L"ccc context" ;
 		felix->AddMemoryEntry(source, trans, context) ;
@@ -355,7 +356,7 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		CComBSTR retrieved_trans ;
 		felix->get_Trans(&retrieved_trans) ;
 
-		BOOST_CHECK_EQUAL(L"bbb trans", retrieved_trans) ;
+		BOOST_CHECK_EQUAL(wstring(L"bbb trans"), BSTR2wstring(retrieved_trans)) ;
 	}
 	BOOST_AUTO_TEST_CASE(lookup_2_delete_one)
 	{

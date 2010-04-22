@@ -830,7 +830,6 @@ BOOST_AUTO_TEST_SUITE( test_txmStripTags )
 		wstring stripped_text = unknown_strip_tags( raw_string ) ;
 
 		wstring expected = L"" ;
-		TRACE( stripped_text ) ;
 		BOOST_CHECK_EQUAL( expected, stripped_text) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()

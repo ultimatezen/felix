@@ -112,7 +112,6 @@ void CExtraStringsView::fill_user_strings( record_pointer &rec )
 	// loop through each of the elements
 	for ( int i=0 ; i<len ; ++i )
 	{
-		TRACE( i ) ;
 		CHtmlElement element = collection.item( i ) ;
 
 		wstring id ;

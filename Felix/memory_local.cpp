@@ -45,14 +45,6 @@ namespace mem_engine
 		}
 		if ( ! record->is_valid_record() ) 
 		{
-
-			ATLTRACE( "*** FAILED TO ADD RECORD ***\n" ) ;
-			TRACE( record->get_source_plain()  ) ;
-			TRACE( record->get_trans_plain()  ) ;
-			TRACE( record->get_context_plain()  ) ;
-			TRACE( record->get_created().get_date_time_string() ) ;
-			TRACE( record->get_modified().get_date_string() ) ;
-
 			throw except::CException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
 		}
 

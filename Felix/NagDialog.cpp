@@ -85,7 +85,6 @@ LRESULT CNagDialog::OnClose( WORD wID )
 LRESULT CNagDialog::OnSize( UINT type, CSize size )
 {
 	SENSE( "OnSize" ) ;
-	TRACE( type ) ;
 
 	SetMsgHandled( FALSE ) ;
 

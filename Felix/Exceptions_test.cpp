@@ -57,7 +57,6 @@ BOOST_AUTO_TEST_SUITE( ExceptionTest )
 		CString text( "message" ) ;
 		e.set_message(text) ;
 		e.add_to_message(text) ;
-		TRACE( e.what() ) ;
 		BOOST_CHECK_EQUAL( e.what(), _T("message\r\n\r\nmessage") ) ;
 	}
 	BOOST_AUTO_TEST_CASE( add_to_message_constructor)
@@ -66,7 +65,6 @@ BOOST_AUTO_TEST_SUITE( ExceptionTest )
 
 		CString text( "message" ) ;
 		e.add_to_message(text) ;
-		TRACE( e.what() ) ;
 		BOOST_CHECK_EQUAL( e.what(), _T("message\r\n\r\nexception") ) ;
 	}
 	BOOST_AUTO_TEST_CASE( add_to_description)
@@ -76,7 +74,6 @@ BOOST_AUTO_TEST_SUITE( ExceptionTest )
 		CString text( "message" ) ;
 		e.set_description(text) ;
 		e.add_to_description(text) ;
-		TRACE( e.description() ) ;
 		BOOST_CHECK_EQUAL( e.description(), _T("message\r\n\r\nmessage") ) ;
 	}
 

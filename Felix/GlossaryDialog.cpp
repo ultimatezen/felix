@@ -51,7 +51,8 @@ using namespace text_tmpl;
 CGlossaryWindow::CGlossaryWindow( ) : 
 m_is_main( false ),
 m_listener( NULL),
-m_editor(new CEditTransRecordDialog)
+m_editor(new CEditTransRecordDialog),
+m_is_trans_concordance(false)
 { 
 	m_is_short_format = true ;
 	m_silent_mode = false ;
@@ -889,8 +890,15 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 	prep_for_gloss_lookup(m_search_matches.get_query_rich( ));
 	perform_gloss_lookup();
 
-	prep_concordance_search(m_concordance_matches.get_query_rich( ));
-	perform_concordance_search();
+	if (m_is_trans_concordance)
+	{
+		prep_concordance_search(m_concordance_matches.get_query_rich( ));
+		perform_concordance_search();
+	}
+	else
+	{
+		get_translation_concordances(m_concordance_matches.get_trans_plain()) ;
+	}
 
 	// this is to allow the entry to be edited or deleted
 	m_new_record = record ;
@@ -991,9 +999,8 @@ LRESULT CGlossaryWindow::handle_user_search()
 {
 	prep_user_search();
 
-	mem_engine::search_match_container matches ;
-	this->get_memory_model()->perform_search( matches, m_concordance_matches.m_params ) ;
-	m_concordance_matches.set_matches( matches ) ;	
+	m_is_trans_concordance = false ;
+	perform_concordance_search() ;
 
 	// give the user feedback
 	this->set_display_state(CONCORDANCE_DISPLAY_STATE) ;
@@ -1557,6 +1564,7 @@ LRESULT CGlossaryWindow::on_trans_concordance()
 
 bool CGlossaryWindow::get_concordances( const wstring query_string )
 {
+	m_is_trans_concordance = false ;
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
@@ -1566,7 +1574,6 @@ bool CGlossaryWindow::get_concordances( const wstring query_string )
 	}
 
 	prep_concordance_search(query_string);
-	
 	perform_concordance_search();
 	
 	show_concordance_results();
@@ -1609,6 +1616,7 @@ void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
 
 bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 {
+	m_is_trans_concordance = true ;
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
@@ -1629,7 +1637,7 @@ bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 	// in the future, make an array of states to allow Explorer-style page navigation
 	set_display_state (CONCORDANCE_DISPLAY_STATE) ;
 	show_view_content() ;
-	
+
 	// give the user feedback
 	const wstring plain_trans = m_concordance_matches.get_trans_plain() ;
 	user_feedback( system_message(IDS_FOUND_X_MATCHES_FOR_STRING, 

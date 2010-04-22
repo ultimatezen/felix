@@ -582,7 +582,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 
 		now.set_to_local_time() ;
 
-		BOOST_CHECK_EQUAL((int)misc_wrappers::Delta(rec.get_created(), now), 0) ;
+		BOOST_CHECK_EQUAL(rec.get_created().wYear, now.wYear) ;
+		BOOST_CHECK_EQUAL(rec.get_created().wMonth, now.wMonth) ;
 	}
 
 	// reset created

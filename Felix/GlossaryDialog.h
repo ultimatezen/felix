@@ -92,6 +92,8 @@ class CGlossaryWindow :
 	ViewStateConcordanceGloss	m_view_state_concordance ;
 	ViewStateMatchGloss			m_view_state_match ;
 
+	bool m_is_trans_concordance ;
+
 public:
 	mem_engine::felix_query *get_current_matches()
 	{

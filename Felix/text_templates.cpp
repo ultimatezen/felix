@@ -31,8 +31,6 @@ namespace text_tmpl
 	}
 	CString get_module_template_filename(const CString filename, const CString tpl_filename)
 	{
-		ATLTRACE("** Html file doesn't exist\n") ;
-		TRACE(tpl_filename) ;
 
 		const CString module_filename = calculate_module_template_filename(filename) ;
 		try

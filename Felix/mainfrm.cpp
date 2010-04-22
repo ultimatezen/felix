@@ -1311,7 +1311,6 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 #else
 	const bool edit_mode_enabled = m_view_interface.is_edit_mode() ;
 
-	TRACE( edit_mode_enabled ) ;
 
 	UISetCheck(ID_VIEW_EDIT_MODE, ! edit_mode_enabled );
 	UIEnable( ID_EDIT_REPLACE, ! edit_mode_enabled ) ;
@@ -1806,10 +1805,7 @@ bool CMainFrame::get_concordances( const wstring query_string )
 	m_search_matches.m_params.m_ignore_width =		!! m_properties->m_gloss_props.m_data.m_ignore_width ;
 	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties->m_gloss_props.m_data.m_ignore_hir_kat ;
 
-	search_match_container matches ;
-	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
-
-	m_search_matches.set_matches( matches ) ;
+	perform_concordance_search();
 
 	show_view_content() ;
 	m_view_interface.set_scroll_pos(0) ;
@@ -2845,10 +2841,7 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 
 	m_search_matches.m_params.m_ignore_case = true ;
 
-	search_match_container matches ;
-	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
-
-	m_search_matches.set_matches( matches ) ;
+	perform_concordance_search() ;
 
 	// remember where we were
 	// in the future, make an array of states to allow Explorer-style page navigation
@@ -3707,10 +3700,7 @@ void CMainFrame::perform_user_search()
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
 
-	search_match_container matches ;
-	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
-
-	m_search_matches.set_matches( matches ) ;
+	perform_concordance_search() ;
 
 }
 /** This is kind of a useless method, isn't it?
@@ -4736,7 +4726,6 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	}
 	fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
 	logging::log_debug("Saving preferences") ;
-	TRACE(filename) ;
 
 	if (! m_glossary_windows.empty())
 	{
@@ -5203,4 +5192,11 @@ void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
 	}
 	UISetCheck(item_id, !! is_checked);
 	UpdateLayout( FALSE ) ;
+}
+
+void CMainFrame::perform_concordance_search()
+{
+	search_match_container matches ;
+	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
+	m_search_matches.set_matches( matches ) ;
 }

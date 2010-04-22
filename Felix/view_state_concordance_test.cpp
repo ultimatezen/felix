@@ -600,6 +600,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 		BOOST_CHECK_EQUAL(4u, vso.listener.m_sensing_variable.size()) ;
 	}
 
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif // #ifdef UNIT_TEST

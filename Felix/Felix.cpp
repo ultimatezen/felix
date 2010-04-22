@@ -350,7 +350,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	catch (_com_error& e)
 	{
 		e ;
-		TRACE(e.ErrorMessage()) ;
 	}
 	catch(...)
 	{
@@ -370,7 +369,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
 
-	char *args[] = {"", "--result_code=yes"};
+	char *args[] = {"", "--report_format=short", "--result_code=yes"};
 	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
 
 	if (ut_result)

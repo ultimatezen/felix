@@ -67,7 +67,6 @@ BOOST_AUTO_TEST_SUITE( TestCmpmaker )
 		maker.m_ignore_hira_kata = true ;
 		wstring rich = L"ÇPÇP<b> FOO </b>Ç†ÇŒ<i> BAR </i>" ;
 		wstring stripped = maker.make_cmp( rich ) ;
-		TRACE(stripped) ;
 		BOOST_CHECK_EQUAL( stripped, L"11 foo ÉAÉo bar " ) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()

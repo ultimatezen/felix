@@ -266,7 +266,6 @@ void CEditModeReplaceDlg::fill_replace_string()
 	if ( ! m_replace_edit.IsWindow() )
 		return ;
 	m_params.m_replace_string = m_replace_edit.GetText() ;
-	TRACE( m_params.m_replace_string ) ;
 }
 
 
