@@ -37,6 +37,14 @@ public:
 class ViewStateConcordanceGloss : public ViewStateConcordance
 {
 public:
+	app_props::properties_glossary		*m_properties_gloss ;
+
+	ViewStateConcordanceGloss() : m_properties_gloss(NULL){}
+
+	void set_app_props(app_props::properties_glossary *properties)
+	{
+		m_properties_gloss = properties ;
+	}
 	void show_content();
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);

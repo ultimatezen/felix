@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr match = main_frame.get_current_match() ;
 
 		string expected("") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr match = main_frame.get_current_match() ;
 
 		string expected("source") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.001) ;
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr match = main_frame.get_current_match() ;
 
 		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr current_match = main_frame.get_current_match() ;
 
 		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr match = main_frame.get_current_match() ;
 
 		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr match = main_frame.get_current_match() ;
 
 		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr current_match = main_frame.get_current_match() ;
 
 		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -233,12 +233,12 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		search_match_ptr current_match = main_frame.get_current_match() ;
 
 		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		expected = "record trans" ;
-		actual = string2string(current_match->get_record()->get_trans_rich()).c_str() ;
+		actual = string2string(current_match->get_record()->get_trans_rich()) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		search_match_ptr match = gloss.get_current_match() ;
 
 		string expected("") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		search_match_ptr match = gloss.get_current_match() ;
 
 		string expected("source") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.001) ;
@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		search_match_ptr match = gloss.get_current_match() ;
 
 		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -360,7 +360,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		search_match_ptr current_match = gloss.get_current_match() ;
 
 		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -371,12 +371,12 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		gloss.m_search_matches.set_query_rich(query) ;
+		gloss.m_concordance_matches.set_query_rich(query) ;
 
 		search_match_ptr match = gloss.get_current_match() ;
 
 		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
@@ -398,7 +398,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 		gloss.OnUserAdd(0) ;
 
-		string actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL("", actual) ;
 
@@ -421,7 +421,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 		gloss.OnUserAdd(0) ;
 
-		string actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL("new state", actual) ;
 
@@ -453,7 +453,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 		gloss.OnUserAdd(1) ;
 
-		string actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL("match 1", actual) ;
 
@@ -476,13 +476,13 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		matches.push_back(m1) ;
 		matches.push_back(m2) ;
 
-		gloss.m_search_matches.set_matches(matches) ;
+		gloss.m_concordance_matches.set_matches(matches) ;
 
 		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		gloss.OnUserAdd(2) ;
 
-		string actual(string2string(listener.added_rec->get_source_rich()).c_str()) ;
+		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL("match 2", actual) ;
 

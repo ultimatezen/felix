@@ -128,8 +128,8 @@ using namespace mem_engine ;
 		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
 
 		BOOST_CHECK_EQUAL(2, (int)vso.model.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[0].c_str()), "get_memories") ;
-		BOOST_CHECK_EQUAL(string(vso.model.m_sensing_variable[1].c_str()), "get_memory_by_id") ;
+		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
+		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
 	}
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_listener )
 	{

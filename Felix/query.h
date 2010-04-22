@@ -156,6 +156,7 @@ struct felix_query
 	// =======================
 	// pure virtual functions
 	// =======================
+	virtual void set_start_numbering(size_t start) = 0 ;
 	virtual wstring get_html_short() = 0 ;
 	virtual wstring get_html_long() = 0 ;
 	virtual wstring get_html_all() = 0 ;
@@ -174,6 +175,11 @@ struct search_query
 	search_query() : m_start_numbering(1) {}
 	virtual ~search_query(){}
 
+	void set_start_numbering(size_t start)
+	{
+		ATLASSERT(start == 0 || start == 1) ;
+		m_start_numbering = start ;
+	}
 	wstring get_mem_name(match_ptr match) ;
 	wstring get_html_long() ;
 	wstring get_html_all()
@@ -187,9 +193,15 @@ struct search_query
 /** This is for concordance searches in the main memory. */
 struct search_query_mainframe : public search_query
 {
-	search_query_mainframe() {}
+	size_t m_start_numbering ;
+	search_query_mainframe() : m_start_numbering(1) {}
 	virtual ~search_query_mainframe() {}
 
+	void set_start_numbering(size_t start)
+	{
+		ATLASSERT(start == 0 || start == 1) ;
+		m_start_numbering = start ;
+	}
 	wstring get_html_short();
 } ;
 
@@ -209,10 +221,16 @@ struct translation_match_query : public felix_query
 	CColorRef m_query_color ;
 	CColorRef m_source_color ;
 	CColorRef m_trans_color ;
+	size_t m_start_numbering ;
 
 	// construction
 	translation_match_query()  ;
 
+	void set_start_numbering(size_t start)
+	{
+		ATLASSERT(start == 0 || start == 1) ;
+		m_start_numbering = start ;
+	}
 	// =====================
 	// creating html content
 	// =====================

@@ -282,7 +282,7 @@ void felix_query::set_marking_off()
 // translation_match_query
 //////////////////////////////////////////////////////////////////////////
 
-translation_match_query::translation_match_query() 
+translation_match_query::translation_match_query() : m_start_numbering(1)
 {
 }
 // ===================================

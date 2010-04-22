@@ -13,10 +13,6 @@
 // ViewStateMatch
 //////////////////////////////////////////////////////////////////////////
 
-
-
-
-
 void ViewStateMatch::set_search_matches( mem_engine::felix_query *search_matches )
 {
 	m_search_matches = search_matches ;
@@ -80,6 +76,7 @@ size_t ViewStateMatch::get_current()
 {
 	return m_search_matches->current_pos() ;
 }
+
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchMain
 //////////////////////////////////////////////////////////////////////////
@@ -118,6 +115,7 @@ void ViewStateMatchMain::handle_toggle_edit_mode()
 		this->show_content() ;
 	}
 }
+
 void ViewStateMatchMain::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
@@ -138,6 +136,7 @@ void ViewStateMatchMain::retrieve_edit_record( int mem_id, mem_engine::record_po
 	m_window_listener->redo_lookup(current_match, true) ;
 	m_window_listener->user_feedback(IDS_CORRECTED_TRANS) ;
 }
+
 void ViewStateMatchMain::show_content()
 {
 	wstring content ;
@@ -189,6 +188,7 @@ void ViewStateMatchMain::activate()
 	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, true);
 	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
 }
+
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchGloss
 //////////////////////////////////////////////////////////////////////////
@@ -268,6 +268,7 @@ void ViewStateMatchGloss::retrieve_edit_record( int mem_id, mem_engine::record_p
 	m_window_listener->set_new_record(new_rec) ;
 	m_window_listener->user_feedback( IDS_ADDED_TRANSLATION ) ;
 }
+
 void ViewStateMatchGloss::show_content()
 {
 	wstring html_content ;

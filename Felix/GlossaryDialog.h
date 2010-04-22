@@ -66,8 +66,8 @@ class CGlossaryWindow :
 
 	CAccelerator				m_accelerator ;
 
-	// pointer to newly added record, to allow editing
 	mem_engine::search_query_glossary		m_search_matches ;
+	mem_engine::search_query_glossary		m_concordance_matches ;
 
 	// various user preferences
 	app_props::properties_glossary		m_properties_gloss ;
@@ -159,7 +159,6 @@ public:
 	void give_user_search_feedback() ;
 
 	void prep_user_search() ;
-	void show_user_search_results() ;
 
 	void prep_concordance_search(const std::wstring& query_string) ;
 
@@ -205,10 +204,9 @@ public:
 	bool load( const CString file_name, const bool check_empty = true  ) ;
 
 	const MERGE_CHOICE get_merge_type( const bool check_empty );
-	wstring create_concordance_list(mem_engine::search_query_glossary &search_matches) ;
+
 	wstring build_glossary_list(mem_engine::search_query_glossary &search_matches) ;
 	void handle_glossary_lookup(const std::wstring& query_text) ;
-	void report_deleted_entry() ;
 	wstring get_glossary_entry(const int index) ;
 	bool add_record(mem_engine::record_pointer record, const CString gloss_name = CString() ) ;
 	bool add_record(mem_engine::record_pointer record, const size_t i );
@@ -216,11 +214,10 @@ public:
 	bool handle_open() ;
 	mem_engine::record_pointer get_record( size_t pos ) ; 
 	void handle_new_record_edit( bool edit_mode_enabled ) ;
-	void handle_concordance_edit( bool edit_mode_enabled ) ; 
+
 	void handle_enter_edit_mode_new_record() ;
-	void handle_enter_edit_mode_concordance() ;
 	void handle_leave_edit_mode_new_record() ;
-	void handle_leave_edit_mode_concordance() ;
+
 	bool set_main ( bool setting ) ; 
 	bool set_window_title() ;
 

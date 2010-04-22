@@ -268,7 +268,34 @@ void ViewStateConcordanceGloss::retrieve_edit_record( int mem_id, mem_engine::re
 
 void ViewStateConcordanceGloss::show_content()
 {
+	wstring html_content ;
 
+	if ( m_search_matches->size() == 0 )
+	{
+		html_content += L"<b>" + R2WSTR( IDS_SEARCH_RESULTS ) + wstring(L":</b>") ;
+		CStringW msg = system_message_w( IDS_FOUND_X_MATCHES, int_arg_w( 0 ) ) ;
+		html_content << L"<p>" <<  static_cast< LPCWSTR >( msg )  << L"</p>" ;
+	}
+	else
+	{
+		m_search_matches->set_start_numbering(m_properties_gloss->m_data.m_numbering) ;
+		html_content = m_search_matches->get_html_long() ;
+	}
+
+
+	// give the user feedback
+	CString status_text = system_message
+		( 
+		IDS_FOUND_X_MATCHES_FOR_STRING, 
+		int_arg( m_search_matches->size() ), 
+		CString( m_search_matches->get_source_plain().c_str() )
+		) ;
+	m_window_listener->user_feedback( status_text ) ;
+
+
+	m_view->set_text( html_content ) ;
+	m_window_listener->check_mousewheel() ;
+	m_view->set_scroll_pos(0) ;
 }
 
 mem_engine::search_match_ptr ViewStateConcordanceGloss::get_current_match()

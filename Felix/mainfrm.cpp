@@ -3604,7 +3604,7 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 	{
 		if ( mem->is_locked() )
 		{
-			user_feedback( IDS_GLOSSARY_LOCKED ) ;
+			user_feedback( IDS_MEMORY_LOCKED ) ;
 		}
 		else
 		{

@@ -64,7 +64,7 @@ m_editor(new CEditTransRecordDialog)
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
-	m_view_state_concordance.set_search_matches(&m_search_matches) ;
+	m_view_state_concordance.set_search_matches(&m_concordance_matches) ;
 	this->init_state(&m_view_state_match) ;
 	m_view_state_match.set_search_matches(&m_search_matches) ;
 
@@ -706,24 +706,6 @@ bool CGlossaryWindow::load(const CString file_name, const bool check_empty /*= t
 }
 
 
-wstring CGlossaryWindow::create_concordance_list(search_query_glossary &search_matches)
-{
-	wstring html_content ;
-
-	html_content += L"<b>" + R2WSTR( IDS_SEARCH_RESULTS ) + wstring(L":</b>") ;
-
-	if ( search_matches.size() == 0 )
-	{
-		CStringW msg = system_message_w( IDS_FOUND_X_MATCHES, int_arg_w( 0 ) ) ;
-		html_content << L"<p>" <<  static_cast< LPCWSTR >( msg )  << L"</p>" ;
-		return html_content ;
-	}
-
-	search_matches.m_start_numbering = m_properties_gloss.m_data.m_numbering ;
-	return search_matches.get_html_long() ;
-}
-
-
 wstring CGlossaryWindow::build_glossary_list(search_query_glossary &search_matches)
 {
 	wstring html_content ;
@@ -793,18 +775,6 @@ void CGlossaryWindow::config_matches_for_gloss_lookup(const std::wstring& query_
 	m_search_matches.set_query_rich(query_text) ;
 }
 
-
-void CGlossaryWindow::report_deleted_entry()
-{
-	CString feedback_string = resource_string( IDS_DELETED_ENTRY ) ;
-	feedback_string += _T(" ") ;
-
-	memory_pointer mem = m_memories->get_first_memory() ;
-
-	feedback_string += system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
-
-	user_feedback( feedback_string ) ;
-}
 
 // 
 
@@ -916,16 +886,12 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 		user_feedback( content ) ;
 	}
 
-	const wstring query = m_search_matches.get_query_rich( ) ;
+	prep_for_gloss_lookup(m_search_matches.get_query_rich( ));
+	perform_gloss_lookup();
 
-	if ( get_display_state() == MATCH_DISPLAY_STATE )
-	{
-		handle_glossary_lookup( query ) ;
-	}
-	else if ( get_display_state() == CONCORDANCE_DISPLAY_STATE )
-	{
-		get_concordances( query ) ;
-	}
+	prep_concordance_search(m_concordance_matches.get_query_rich( ));
+	perform_concordance_search();
+
 	// this is to allow the entry to be edited or deleted
 	m_new_record = record ;
 
@@ -1026,11 +992,12 @@ LRESULT CGlossaryWindow::handle_user_search()
 	prep_user_search();
 
 	mem_engine::search_match_container matches ;
-	this->get_memory_model()->perform_search( matches, m_search_matches.m_params ) ;
-	m_search_matches.set_matches( matches ) ;	
+	this->get_memory_model()->perform_search( matches, m_concordance_matches.m_params ) ;
+	m_concordance_matches.set_matches( matches ) ;	
 
 	// give the user feedback
-	show_user_search_results();
+	this->set_display_state(CONCORDANCE_DISPLAY_STATE) ;
+	this->show_view_content() ;
 
 	return 0L ;
 }
@@ -1045,15 +1012,6 @@ void CGlossaryWindow::prep_user_search()
 
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
-}
-
-void CGlossaryWindow::show_user_search_results()
-{
-	wstring content = create_concordance_list(m_search_matches) ;
-	m_view_interface.set_text( content  ) ;
-	check_mousewheel() ;
-
-	give_user_search_feedback();
 }
 
 void CGlossaryWindow::give_user_search_feedback()
@@ -1176,19 +1134,6 @@ void CGlossaryWindow::handle_new_record_edit( bool edit_mode_enabled )
 	}
 }
 
-// Leaving edit mode finishes our edits.
-void CGlossaryWindow::handle_concordance_edit( bool edit_mode_enabled ) 
-{
-	if ( ! edit_mode_enabled ) // we are entering edit mode
-	{
-		handle_enter_edit_mode_concordance() ;
-	}
-	else 
-	{
-		handle_leave_edit_mode_concordance() ;
-	}
-}
-
 // =========================
 // for entering edit mode
 // =========================
@@ -1199,13 +1144,6 @@ void CGlossaryWindow::handle_enter_edit_mode_new_record()
 	user_feedback( IDS_IN_EDIT_MODE ) ;
 }
 
-
-void CGlossaryWindow::handle_enter_edit_mode_concordance()
-{
-	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-	m_view_interface.handle_enter_edit_mode_concordance_glossary( &m_search_matches ) ;
-	user_feedback( IDS_IN_EDIT_MODE ) ;
-}
 
 // =========================
 // for leaving edit mode
@@ -1232,35 +1170,6 @@ void CGlossaryWindow::handle_leave_edit_mode_new_record()
 
 }
 
-void CGlossaryWindow::handle_leave_edit_mode_concordance()
-{
-	user_feedback( IDS_LEAVING_EDIT_MODE ) ;
-	
-	if( false == m_view_interface.handle_leave_edit_mode_concordance_glossary( m_memories, 
-																			   &m_search_matches ) )
-	{
-		m_view_interface.set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
-		check_mousewheel() ;
-		user_feedback( IDS_DELETED_ENTRY ) ;
-		::MessageBeep( MB_ICONINFORMATION ) ;
-		return ;
-	}
-
-	wstring content ;
-
-	if ( get_display_state() == MATCH_DISPLAY_STATE )
-	{
-		content = build_glossary_list(m_search_matches) ;
-	}
-	else
-	{
-		content = create_concordance_list(m_search_matches) ;
-	}
-	m_view_interface.set_text( content ) ;
-	check_mousewheel() ;
-	user_feedback( IDS_LEFT_EDIT_MODE ) ;
-
-}
 
 // Make this the main glossary/not the main glossary
 bool CGlossaryWindow::set_main ( bool setting ) 
@@ -1431,7 +1340,7 @@ LRESULT CGlossaryWindow::OnUserAdd( LPARAM lParam )
 LRESULT CGlossaryWindow::OnUserPrev( LPARAM /* lParam */ )
 {
 	set_display_state( MATCH_DISPLAY_STATE ) ;
-	show_user_search_results();
+	show_view_content() ;
 	return 0L ;
 }
 
@@ -1446,41 +1355,8 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 
 	// set the new display_state (we set this when we called up the editor)
 	set_display_state ( static_cast< DISPLAY_STATE >( lParam ) );
-	switch ( get_display_state() )
-	{
-	case INIT_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-											   m_editor->get_new_record()) ;
-			break ;
-		}
-	case NEW_RECORD_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-											   m_editor->get_new_record()) ;
-			break ;
-		}
-
-	case MATCH_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_match) ;
-			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-											   m_editor->get_new_record()) ;
-			break ;
-		}
-	case CONCORDANCE_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_concordance) ;
-			m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-											   m_editor->get_new_record()) ;
-			break ;
-		}
-
-	default:
-		ATLASSERT( "Unknown state" && FALSE ) ;
-	}
+	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+									   m_editor->get_new_record()) ;
 	show_view_content() ;
 	return 0L ;
 }
@@ -1583,10 +1459,12 @@ void CGlossaryWindow::put_show_marking( VARIANT_BOOL setting )
 	if ( setting == VARIANT_FALSE ) 
 	{
 		m_search_matches.m_params.m_show_marking = false ;
+		m_concordance_matches.m_params.m_show_marking = false ;
 	}
 	else
 	{
 		m_search_matches.m_params.m_show_marking = true ;
+		m_concordance_matches.m_params.m_show_marking = true ;
 	}
 }
 
@@ -1636,36 +1514,8 @@ void CGlossaryWindow::show_view_content()
 	{
 		return ;
 	}
-	switch ( get_display_state()  )
-	{
-	case NEW_RECORD_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_new) ;
-			m_view_state->show_content() ;
-			return ;
-		}
-	case MATCH_DISPLAY_STATE: // = glossary lookup
-		{
-			m_view_interface.set_text(build_glossary_list(m_search_matches)) ;
-			m_view_interface.set_scroll_pos(0) ;
-			check_mousewheel() ;
-			return ;
-		}
-	case CONCORDANCE_DISPLAY_STATE: // = search from find dialog
-		{
-			show_user_search_results();
-			return ;
-		}
-	case INIT_DISPLAY_STATE:
-		{
-			ATLASSERT(m_view_state == &m_view_state_initial) ;
-			m_view_state->show_content() ;
 
-			return ;
-		}
-	default:
-		ATLASSERT( "Unkown display state in CGlossaryDialog" && FALSE ) ;
-	}
+	m_view_state->show_content() ;
 }
 
 LRESULT CGlossaryWindow::on_view_match( ) 
@@ -1729,30 +1579,20 @@ void CGlossaryWindow::show_concordance_results()
 {
 	set_display_state ( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
-
-	// give the user feedback
-	CString status_text = system_message
-		( 
-		IDS_FOUND_X_MATCHES_FOR_STRING, 
-		int_arg( m_search_matches.size() ), 
-		CString( m_search_matches.get_source_plain().c_str() )
-		) ;
-	user_feedback( status_text ) ;
 }
 
 void CGlossaryWindow::perform_concordance_search()
 {
 	search_match_container matches ;
-	m_memories->perform_search( matches, m_search_matches.m_params ) ;
-
-	m_search_matches.set_matches( matches ) ;
+	m_memories->perform_search( matches, m_concordance_matches.m_params ) ;
+	m_concordance_matches.set_matches( matches ) ;
 }
 
 void CGlossaryWindow::config_concordance_search_settings()
 {
-	m_search_matches.m_params.m_ignore_case = true ;
-	m_search_matches.m_params.m_ignore_width =		!! m_properties_gloss.m_data.m_ignore_width ;
-	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss.m_data.m_ignore_hir_kat ;
+	m_concordance_matches.m_params.m_ignore_case = true ;
+	m_concordance_matches.m_params.m_ignore_width =		!! m_properties_gloss.m_data.m_ignore_width ;
+	m_concordance_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss.m_data.m_ignore_hir_kat ;
 }
 
 void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
@@ -1761,8 +1601,8 @@ void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
 	m_view_interface.put_edit_mode( false ) ;
 
 	// this will hold our matches
-	m_search_matches.clear() ;
-	m_search_matches.set_query_rich( query_string ) ;
+	m_concordance_matches.clear() ;
+	m_concordance_matches.set_query_rich( query_string ) ;
 
 	config_concordance_search_settings();
 }
@@ -1778,10 +1618,10 @@ bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 	}
 
 	// this will hold our matches
-	m_search_matches.clear() ;
-	m_search_matches.set_trans( query_string ) ;
+	m_concordance_matches.clear() ;
+	m_concordance_matches.set_trans( query_string ) ;
 
-	m_search_matches.m_params.m_ignore_case = true ;
+	m_concordance_matches.m_params.m_ignore_case = true ;
 
 	perform_concordance_search() ;
 	
@@ -1791,9 +1631,9 @@ bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 	show_view_content() ;
 	
 	// give the user feedback
-	const wstring plain_trans = m_search_matches.get_trans_plain() ;
+	const wstring plain_trans = m_concordance_matches.get_trans_plain() ;
 	user_feedback( system_message(IDS_FOUND_X_MATCHES_FOR_STRING, 
-								int_arg( m_search_matches.size() ), 
+								int_arg( m_concordance_matches.size() ), 
 								CString( plain_trans.c_str()))) ;
 	return true ; 
 }
