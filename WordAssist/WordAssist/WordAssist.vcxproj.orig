@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C6F58301-0D06-4702-8C61-DEF6BD725438}</ProjectGuid>
+    <RootNamespace>WordAssist</RootNamespace>
+    <Keyword>AtlProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>easyunitVC.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>libc; libcp;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <GenerateMapFile>true</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AddIn.cpp" />
+    <ClCompile Include="AddIn_i.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="app_state.cpp" />
+    <ClCompile Include="ClipboardBackup.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp" />
+    <ClCompile Include="Connect.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\font_properties.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp" />
+    <ClCompile Include="hooker.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\logging.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\Parser.cpp" />
+    <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Word2HtmlParser.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\word_writer.cpp" />
+    <ClCompile Include="word_writer_test.cpp" />
+    <ClCompile Include="..\..\..\MyLibrary\WordAutomationObject.cpp" />
+    <ClCompile Include="WordController.cpp" />
+    <ClCompile Include="WordController_test.cpp" />
+    <ClCompile Include="WordControllerHtml.cpp" />
+    <ClCompile Include="WordControllerWord.cpp" />
+    <ClCompile Include="WordParser.cpp" />
+    <ClCompile Include="WordScreenUpdateLock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddIn.def" />
+    <None Include="AddIn.rgs" />
+    <None Include="bin00001.bin" />
+    <None Include="bin00002.bin" />
+    <None Include="bin00003.bin" />
+    <None Include="bin00004.bin" />
+    <None Include="bin00005.bin" />
+    <None Include="bin00006.bin" />
+    <None Include="bin00007.bin" />
+    <None Include="bin00008.bin" />
+    <None Include="bitmap1.bmp" />
+    <None Include="bmp00001.bmp" />
+    <None Include="correct.bmp" />
+    <None Include="correct_and_next.bmp" />
+    <None Include="DELETE.BMP" />
+    <None Include="HELP.BMP" />
+    <None Include="idb_corr.bin" />
+    <None Include="idb_get_.bin" />
+    <None Include="idb_glos.bin" />
+    <None Include="idb_help.bin" />
+    <None Include="idb_look.bin" />
+    <None Include="idb_rest.bin" />
+    <None Include="idb_save.bin" />
+    <None Include="idb_set_.bin" />
+    <None Include="idb_swit.bin" />
+    <None Include="image1.bin" />
+    <None Include="image2.bin" />
+    <None Include="lookup_next_trans.bmp" />
+    <None Include="lookup_trans.bmp" />
+    <None Include="next1.bmp" />
+    <None Include="next2.bmp" />
+    <None Include="next3.bmp" />
+    <None Include="next4.bmp" />
+    <None Include="next5.bmp" />
+    <None Include="next6.bmp" />
+    <None Include="PROP.BMP" />
+    <None Include="restore.bmp" />
+    <None Include="restore_and_next.bmp" />
+    <None Include="save.bmp" />
+    <None Include="switch_t.bmp" />
+    <None Include="Word2HtmlParser.rgs" />
+    <None Include="default.doxygen" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="AddIn.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddGlossDialog.h" />
+    <ClInclude Include="AddIn.h" />
+    <ClInclude Include="app_state.h" />
+    <ClInclude Include="..\..\MyLibrary\Broadcaster.h" />
+    <ClInclude Include="..\..\MyLibrary\Broker.h" />
+    <ClInclude Include="ClipboardBackup.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\ColorRef.h" />
+    <ClInclude Include="Connect.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\font_properties.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h" />
+    <ClInclude Include="hooker.h" />
+    <ClInclude Include="..\..\..\MyLibrary\html_formatter.h" />
+    <ClInclude Include="..\..\..\MyLibrary\html_processing.h" />
+    <ClInclude Include="..\..\..\MyLibrary\html_writer.h" />
+    <ClInclude Include="InputNumDlg.h" />
+    <ClInclude Include="KeyboardListener.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\logging.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\logical.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\Parser.h" />
+    <ClInclude Include="Properties.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="..\..\..\MyLibrary\resource_string.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\resource_string.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="..\..\..\MyLibrary\stringex.h" />
+    <ClInclude Include="..\..\..\..\MyLibrary\textstream_reader.h" />
+    <ClInclude Include="..\..\MyLibrary\TextTemplate.h" />
+    <ClInclude Include="Word2HtmlParser.h" />
+    <ClInclude Include="..\..\..\MyLibrary\word_writer.h" />
+    <ClInclude Include="WordController.h" />
+    <ClInclude Include="WordControllerHtml.h" />
+    <ClInclude Include="WordControllerWord.h" />
+    <ClInclude Include="WordParser.h" />
+    <ClInclude Include="WordScreenUpdateLock.h" />
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\DumpExceptionInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AddIn.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
