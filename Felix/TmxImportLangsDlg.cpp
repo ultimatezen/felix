@@ -16,11 +16,13 @@ LRESULT CTMXImportLangsDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPAR
 {
 	SENSE("OnInitDialog") ;
 	// set icon
+#ifndef UNIT_TEST
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
 	CenterWindow(GetParent());
 
 	init_combo() ;
+#endif
 
 	return TRUE;
 }

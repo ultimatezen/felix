@@ -6,46 +6,56 @@
 
 #pragma once
 
-
 #include "resource.h"
-#include "StringEx.h"				// extended strings/char stream support
-#include "StringConversions.h"		// convert to/from wstrings/strings/tstrings/nums
-#include "ArmadilloStuff.h"
 #include "MessageMapDefines.h"
 #include "Exceptions.h"
-#include "WindowExceptionHandler.h"
-
+#include "logging.h"
 
 /**
 	@class CInputKeyDlg 
 	@brief Input the key to register the software.
  */
+
 class CInputKeyDlg : 
-	public CDialogImpl< CInputKeyDlg, TWindow >, 
-	public CWindowExceptionHandler< CInputKeyDlg >
+	public CDialogImpl< CInputKeyDlg, CWindow >
 {
-	CEdit	m_edit ;
+	CEditT<CWindow>	m_edit ;
 
 public:
-	static const int IDD = IDD_INPUT_KEY_DLG ;
 	DECLARE_SENSING_VAR ;
+	const static int IDD = IDD_INPUT_KEY_DLG ;
 
 	LRESULT OnInitDialog( );
 	LRESULT OnOK(  WORD wID );
 	LRESULT OnCloseCommand(  WORD wID );
 
 	BEGIN_MSG_MAP_EX(CInputKeyDlg)
-	MSG_TRY	
-		MSG_HANDLER_0 ( WM_INITDIALOG, OnInitDialog )
+		try
+		{
+			MSG_HANDLER_0 ( WM_INITDIALOG, OnInitDialog )
 
-		BEGIN_CMD_HANDLER_EX
-			CMD_HANDLER_EX_ID ( IDCANCEL, OnCloseCommand )
-			CMD_HANDLER_EX_ID ( IDOK,     OnOK )
-		END_CMD_HANDLER_EX
-
-	MSG_CATCH( R2T( IDS_MSG_ACTION_FAILED ) )
+			BEGIN_CMD_HANDLER_EX
+				CMD_HANDLER_EX_ID ( IDCANCEL, OnCloseCommand )
+				CMD_HANDLER_EX_ID ( IDOK,     OnOK )
+			END_CMD_HANDLER_EX
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception") ;
+			logging::log_exception(e) ;
+			
+		}
+		catch (_com_error& e)
+		{
+			logging::log_error("COM exception") ;
+			logging::log_exception(e) ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("C runtime exception") ;
+			logging::log_error(e.what()) ;
+		}
 	END_MSG_MAP()
 
+
 };
-
-

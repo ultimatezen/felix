@@ -7,9 +7,6 @@
 	@dir c:\Programming\Programming Projects\Felix 1.5
  */
 
-#if !defined(AFX_ArmadilloStuff_H__33C5702C_8CF8_452D_B815_BB1B9FD8B6A9__INCLUDED_)
-#define AFX_ArmadilloStuff_H__33C5702C_8CF8_452D_B815_BB1B9FD8B6A9__INCLUDED_
-
 #pragma once
 
 #include <string>	// string functions
@@ -657,15 +654,14 @@ inline std::string get_arm_error_string( DWORD err = ::GetLastError() )
 
 #ifdef _DEBUG
 	return true ;
-#endif
+#else
 
 	std::string raw_check("NOCHECK") ;
 	set_environment_var( to_check, raw_check ) ;
 
 	return ( get_environment_var( raw_check ) != raw_check ) ;
+#endif
 
  }
 
 }
-
-#endif // #if !defined(AFX_ArmadilloStuff_H__33C5702C_8CF8_452D_B815_BB1B9FD8B6A9__INCLUDED_)

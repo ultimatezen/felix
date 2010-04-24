@@ -1,14 +1,13 @@
 
 #include "StdAfx.h"
 #include "mainfrm.h"
-#include "MainFrameModel.h"
 #include "record_local.h"
 #include "view_interface_fake.h"
 #include "window_listener_fake.h"
 #include "felix_model_fake.h"
 #include "memory_local.h"
 #include "record_local.h"
-
+#include "felix_model_fake.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -20,13 +19,13 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( TestInstantiate)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		BOOST_CHECK( true ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TestCallCreate)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
@@ -37,7 +36,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( TestCallDestroy)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_DESTROY, 0, 0, lResult, 0)  ;
@@ -48,7 +47,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( TestCallClose)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CLOSE, 0, 0, lResult, 0)  ;
@@ -59,7 +58,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( TestCallDrop)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_DROPFILES, 0, 0, lResult, 0)  ;
@@ -70,7 +69,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_create)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create( message ) ;
@@ -80,7 +79,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	// user messages
 	BOOST_AUTO_TEST_CASE( Teston_user_save )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, USER_SAVE_MEMORIES, 0, lResult, 0)  ;
@@ -93,7 +92,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_lookup_source)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.m_deferred_query = L"foo" ;
 		LRESULT lResult = 1 ;
@@ -106,7 +105,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_lookup_trans )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.m_deferred_query = L"foo" ;
 		LRESULT lResult = 1 ;
@@ -165,7 +164,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Teston_user_edit_search )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_EDIT_FIND, 0, lResult, 0)  ;
@@ -176,7 +175,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_search )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_USER_SEARCH, 0, lResult, 0)  ;
@@ -188,7 +187,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_replace_edit_record )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_REPLACE_EDIT_RECORD, 0, lResult, 0)  ;
@@ -199,7 +198,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_edit_replace )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, ID_EDIT_REPLACE, 0, lResult, 0)  ;
@@ -210,7 +209,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_user_view_min_end )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, UWM_USER_MESSAGE, IDC_MIN_VIEW_END, 0, lResult, 0)  ;
@@ -222,7 +221,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	// WM_COMMAND
 	BOOST_AUTO_TEST_CASE( Teston_demo_check_excess_memories )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_DEMO_CHECK_EXCESS, 0, lResult, 0)  ;
@@ -232,7 +231,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_check_demo)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_CHECK_DEMO, 0, lResult, 0)  ;
@@ -243,7 +242,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_source_concordance )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_SOURCE_CONCORDANCE_SEL, 0, lResult, 0)  ;
@@ -255,7 +254,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_trans_concordance)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_TRANS_CONCORDANCE_SEL, 0, lResult, 0)  ;
@@ -268,7 +267,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Teston_tools_memory_manager)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_TOOLS_MEMORY_MGR, 0, lResult, 0)  ;
@@ -279,7 +278,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_underline)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_UNDERLINE, 0, lResult, 0)  ;
@@ -290,7 +289,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_bold)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_BOLD, 0, lResult, 0)  ;
@@ -302,7 +301,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Teston_italic)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, IDC_ITALIC, 0, lResult, 0)  ;
@@ -313,7 +312,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_format_background_color)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FORMAT_BGCOLOR, 0, lResult, 0)  ;
@@ -326,7 +325,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 }
 	BOOST_AUTO_TEST_CASE( Teston_file_exit)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_APP_EXIT, 0, lResult, 0)  ;
@@ -338,7 +337,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Teston_new_glossary)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_GLOSSARY_NEW, 0, lResult, 0)  ;
@@ -349,7 +348,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Teston_file_new)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_NEW, 0, lResult, 0)  ;
@@ -360,7 +359,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 }
 	BOOST_AUTO_TEST_CASE( Teston_file_open)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_OPEN, 0, lResult, 0)  ;
@@ -372,7 +371,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Teston_file_save)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_SAVE, 0, lResult, 0)  ;
@@ -385,7 +384,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( on_mru_file_open)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		main_frame.m_mru.AddStringToList(tstring(_T("c:\\test\\spam_n_eggs.xml") ) )  ;
@@ -411,7 +410,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( on_mru_file_open_tmx)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		main_frame.m_mru.AddStringToList(tstring(_T("c:\\test\\sample.tmx") ) )  ;
@@ -429,7 +428,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( on_mru_file_open_direct_call)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		main_frame.m_mru.AddStringToList(tstring(_T("c:\\test\\spam_n_eggs.xml") ) )  ;
@@ -449,7 +448,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( on_mru_file_open_bogus_xml)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		main_frame.m_mru.AddStringToList(tstring(_T("c:\\bogus.xml") ) )  ;
@@ -474,7 +473,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( on_mru_file_open_out_of_index)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		main_frame.m_mru.AddStringToList(tstring(_T("c:\\test\\spam_n_eggs.xml") ) )  ;
@@ -484,23 +483,13 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 		for ( WORD i=ID_FILE_MRU_FIRST +2; i <=ID_FILE_MRU_LAST+5 ; ++i )
 		{
-			try
-			{
-				dummy.wParam = MAKEWPARAM(i, 0) ;
-				main_frame.on_mru_file_open(dummy)  ;
-				CStringA fail_msg ;
-				fail_msg.Format("Should not have entry %d", i-ID_FILE_MRU_FIRST) ;
-				BOOST_FAIL(string(fail_msg)) ;
-			}
-			catch (CException &e)
-			{
-				e ;
-			}
+			dummy.wParam = MAKEWPARAM(i, 0) ;
+			BOOST_CHECK_THROW(main_frame.on_mru_file_open(dummy), CException)  ;
 		}
 	}
 	BOOST_AUTO_TEST_CASE( Teston_register_gloss )
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 
@@ -519,7 +508,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( TestOtherCommands)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -530,7 +519,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_FILE_SAVE_ALL)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -541,7 +530,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_IDD_EDIT_ENTRY)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -553,7 +542,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_DELETE)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -564,7 +553,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_ADD)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -575,7 +564,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_EDIT_FIND)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -585,7 +574,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_FIND_QUICKSEARCH)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -596,7 +585,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_IDD_CONCORDANCE)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -607,7 +596,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( TestID_EDIT_REPLACE)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -618,7 +607,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_TOOLBAR)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;		
@@ -629,7 +618,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_STATUS_BAR)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -640,7 +629,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_EDIT_MODE)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -651,7 +640,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_MATCH)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -662,7 +651,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_SEARCH)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -673,7 +662,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_VIEW_SWITCH)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -684,7 +673,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_IDC_MIN_VIEW_BEGIN)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -695,7 +684,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_APP_ABOUT)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -705,7 +694,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_HELP)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -716,7 +705,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_HELP_FAQ)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -733,7 +722,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 
 	BOOST_AUTO_TEST_CASE( Test_ID_HELP_REGISTER)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -744,7 +733,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_TOOLS_PREFERENCES)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;
@@ -754,7 +743,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 	}
 	BOOST_AUTO_TEST_CASE( Test_ID_TOOLS_LANGUAGE)
 	{
-		MainFrameModel model ;
+		FelixModelInterfaceFake model ;
 		CMainFrame main_frame(&model) ;
 
 		LRESULT lResult = 1 ;

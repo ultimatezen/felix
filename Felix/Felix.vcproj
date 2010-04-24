@@ -1597,6 +1597,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\WebPage_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\WideRichEdit.cpp"
 				>
 			</File>
@@ -1607,6 +1611,10 @@
 			<Filter
 				Name="tests"
 				>
+				<File
+					RelativePath=".\AdvancedMemMgrDlg_test.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\App2_test.cpp"
 					>
@@ -1969,6 +1977,10 @@
 				</File>
 				<File
 					RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TmxImportLangsDlg_test.cpp"
 					>
 				</File>
 				<File

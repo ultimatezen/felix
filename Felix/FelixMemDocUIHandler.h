@@ -20,6 +20,7 @@ class ATL_NO_VTABLE CFelixMemDocUIHandler :
 	public IDispatchImpl<IFelixMemDocUIHandler, &IID_IFelixMemDocUIHandler, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
+	DECLARE_SENSING_VAR ;
 
 	boost::function< HRESULT() > m_get_menu ;
 

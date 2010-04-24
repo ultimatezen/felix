@@ -54,9 +54,6 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 		string actual = string2string(rec->get_source_rich());
 		string expected = "The<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:cs \"Function\" 1></font></font> Argus<font face=\"MS UI Gothic\"><font color=\"#ff0000\">&#60;:/cs></font></font> program has been specially designed for viewing and analyzing these images." ;
 
-		BOOST_MESSAGE(actual) ;
-		BOOST_MESSAGE(expected) ;
-
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( process_line_Seg_new_type )

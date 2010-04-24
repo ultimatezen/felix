@@ -9,7 +9,6 @@
 
 namespace html
 {
-
 	class CWebPage  
 	{
 	public:
@@ -30,10 +29,10 @@ namespace html
 		bool CallJScript(const CString strFunc,const CString strArg1,const CString strArg2,const CString strArg3,CComVariant* pVarResult = NULL);
 		bool CallJScript(const CString strFunc,const std::vector<CString>& paramArray,CComVariant* pVarResult = NULL);
 
+#ifndef UNIT_TEST
 	protected:
+#endif
 		void ShowError(CString lpszText);
-
-	protected:
 
 		document_ptr	m_spDoc;
 		CString	m_strError;

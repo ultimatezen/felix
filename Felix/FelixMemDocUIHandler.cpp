@@ -14,16 +14,15 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::ShowContextMenu( /* [in] */ DWO
 																 /* [in] */ IDispatch * /*pdispReserved*/, 
 																 /* [retval][out] */ HRESULT *dwRetVal )
 {
+	SENSE("ShowContextMenu") ;
 	*dwRetVal = S_OK;      //This is what the WebBrowser control is looking for.
-	//You can show your own context menu here.
-	ATLTRACE("CFelixMemDocUIHandler::ShowContextMenu\n") ;
 	return this->m_get_menu() ;
 }
 
 HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::GetHostInfo( /* [out][in] */ DWORD *pdwFlags, 
 															 /* [out][in] */ DWORD * /*pdwDoubleClick*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::GetHostInfo\n") ;
+	SENSE("GetHostInfo") ;
 	const DWORD _DOCHOSTUIFLAG_THEME = 0x40000;
 	*pdwFlags = DOCHOSTUIFLAG_NO3DBORDER | _DOCHOSTUIFLAG_THEME;
 	return S_OK ;
@@ -71,7 +70,7 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::ResizeBorder( /* [in] */ long /
 															  /* [in] */ IUnknown * /*pUIWindow*/, 
 															  /* [in] */ VARIANT_BOOL /*fFrameWindow*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::ResizeBorder\n") ;
+	SENSE("ResizeBorder") ;
 	return E_NOTIMPL ;
 }
 
@@ -83,27 +82,27 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::TranslateAccelerator( /* [in] *
 																	  /* [in] */ DWORD /*nCmdID*/, 
 																	  /* [retval][out] */ HRESULT * /*dwRetVal*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::TranslateAccelerator\n") ;
+	SENSE("TranslateAccelerator") ;
 	return E_NOTIMPL ;
 }
 
 HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::GetOptionKeyPath( /* [out] */ BSTR * /*pbstrKey*/, 
 																  /* [in] */ DWORD /*dw*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::GetOptionKeyPath\n") ;
+	SENSE("GetOptionKeyPath") ;
 	return E_NOTIMPL ;
 }
 
 HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::GetDropTarget( /* [in] */ IUnknown * /*pDropTarget*/, 
 															   /* [out] */ IUnknown ** /*ppDropTarget*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::GetDropTarget\n") ;
+	SENSE("GetDropTarget") ;
 	return E_NOTIMPL ;
 }
 
 HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::GetExternal( /* [out] */ IDispatch ** /*ppDispatch*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::GetExternal\n") ;
+	SENSE("GetExternal") ;
 	return E_NOTIMPL ;
 }
 
@@ -111,13 +110,13 @@ HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::TranslateUrl( /* [in] */ DWORD 
 															  /* [in] */ BSTR /*bstrURLIn*/, 
 															  /* [out] */ BSTR * /*pbstrURLOut */)
 {
-	ATLTRACE("CFelixMemDocUIHandler::TranslateUrl\n") ;
+	SENSE("TranslateUrl") ;
 	return E_NOTIMPL ;
 }
 
 HRESULT STDMETHODCALLTYPE CFelixMemDocUIHandler::FilterDataObject( /* [in] */ IUnknown * /*pDO*/, 
 																  /* [out] */ IUnknown ** /*ppDORet*/ )
 {
-	ATLTRACE("CFelixMemDocUIHandler::FilterDataObject\n") ;
+	SENSE("FilterDataObject") ;
 	return E_NOTIMPL ;
 }

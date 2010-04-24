@@ -1,15 +1,20 @@
 #include "stdafx.h"
 #include "InputKeyDlg.h"
+#include "ArmadilloStuff.h"
+
+// CInputKeyDlg
 
 LRESULT CInputKeyDlg::OnInitDialog()
 {
 	SENSE("OnInitDialog") ;
+#ifndef UNIT_TEST
 	CenterWindow( ::GetDesktopWindow() ) ;
 
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
 	m_edit.Attach( GetDlgItem( IDC_KEY_EDIT ) ) ;
+#endif
 
 	return TRUE;
 }
@@ -36,6 +41,7 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 	boost::replace_all( key, "\r", "" ) ;
 	boost::replace_all( key, " ", "" ) ;
 
+#ifndef UNIT_TEST
 #ifdef _DEBUG
 	if ( key != "debug" )
 #else
@@ -67,7 +73,6 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 		return 0L ;
 	}
 
-#ifndef UNIT_TEST
 	EndDialog(wID);
 #endif
 

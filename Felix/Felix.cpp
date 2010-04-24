@@ -46,6 +46,8 @@
 #include "DispatchWrapper.h"
 #include "atlscintilla.h"
 
+#include <boost/timer.hpp>
+
 #define BOOST_TEST_MODULE FelixUnitTests
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -111,9 +113,17 @@ typedef basic_dostream<char>    dostream;
 typedef basic_dostream<wchar_t> wdostream;
 
 struct UnitTestConfig {
+	boost::timer t ;
+
 	UnitTestConfig()
-	{ boost::unit_test::unit_test_log.set_stream( out ); }
-	~UnitTestConfig()  { boost::unit_test::unit_test_log.set_stream( std::cout ); }
+	{ 
+		boost::unit_test::unit_test_log.set_stream( out ); 
+	}
+	~UnitTestConfig()  
+	{
+		BOOST_TEST_MESSAGE((format("Finished in %.2f seconds\n\n") % t.elapsed()).str()) ;
+		boost::unit_test::unit_test_log.set_stream( std::cout ); 
+	}
 
 	dostream                    out ;
 };
@@ -369,7 +379,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
 
-	char *args[] = {"", "--report_format=short", "--result_code=yes"};
+	char *args[] = {"", "--log_format=detailed", "--result_code=yes", "--log_level=message"};
 	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
 
 	if (ut_result)

@@ -149,6 +149,29 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// translation concordance
+	//////////////////////////////////////////////////////////////////////////
+	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_initially_false )
+	{
+		CGlossaryWindow dialog ;
+		BOOST_CHECK( ! dialog.m_is_trans_concordance ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_true )
+	{
+		CGlossaryWindow dialog ;
+		dialog.get_translation_concordances(L"foo") ;
+		BOOST_CHECK( dialog.m_is_trans_concordance ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_false )
+	{
+		CGlossaryWindow dialog ;
+		dialog.m_is_trans_concordance = true ;
+		dialog.get_concordances(L"foo") ;
+		BOOST_CHECK( ! dialog.m_is_trans_concordance ) ;
+	}
+
+
 	// CGlossaryWindow message processing
 	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
