@@ -118,6 +118,7 @@ public:
 
 
 	// importing/exporting multiterm files
+	void import_tabbed_text( const CString &file_name );
 	void import_multiterm( const file::OpenDlgList &import_files ) ;
 	void import_multiterm( const CString &multiterm_filename ) ;
 

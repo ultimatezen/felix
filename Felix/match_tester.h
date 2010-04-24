@@ -10,7 +10,7 @@
 #pragma once
 
 #include "query.h"					// query structs
-#include "RegEx.h"					// CRegEx
+#include <boost/regex.hpp>
 
 namespace mem_engine
 {
@@ -77,9 +77,9 @@ class search_match_tester_regex : public match_tester
 {
 	search_query_params m_params ;
 
-	CRegEx				m_source_regex ;
-	CRegEx				m_trans_regex ;
-	CRegEx				m_context_regex ;
+	boost::wregex m_source_regex ;
+	boost::wregex m_trans_regex ;
+	boost::wregex m_context_regex ;
 
 public:
 	search_match_tester_regex( const search_query_params &params ) ;

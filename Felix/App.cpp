@@ -416,8 +416,7 @@ STDMETHODIMP CApp::AddGlossaryEntry(BSTR Source, BSTR Trans, BSTR EntryContext)
 {
 	try
 	{
-
-		record_pointer record(new record_local()) ;
+		record_pointer record(new record_local) ;
 		record->set_source( BSTR2wstring(Source) ) ;
 		record->set_trans( BSTR2wstring(Trans) ) ;
 		record->set_context( BSTR2wstring(EntryContext) ) ;

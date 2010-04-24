@@ -33,6 +33,7 @@
 #include "FelixMemDocUIHandler.h"
 #include "record_local.h"
 #include "ConcordanceDialog.h"
+#include "TabbedTextImporter.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -235,6 +236,15 @@ LRESULT CGlossaryWindow::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam )
 	size_client_and_status_bar() ;
 
 	return 0;
+}
+
+
+void CGlossaryWindow::import_tabbed_text( const CString &file_name )
+{
+	CTabbedTextImporter importer(this) ;
+	importer.load_file(file_name) ;
+	m_memories->insert_memory(importer.m_memory) ;
+	set_window_title() ;
 }
 
 //! Import a multiterm file
@@ -951,12 +961,21 @@ bool CGlossaryWindow::handle_open()
 
 	switch(dialog.get_selected_index()) 
 	{
-	case 1: case 3:
+	case 1: case 4:
 		load_felix_files( import_files ) ;
 		break;
 
 	case 2:
 		import_multiterm( import_files ) ;
+		break ;
+
+	case 3:
+		{
+			foreach(CString filename, import_files.m_filenames)
+			{
+				import_tabbed_text(filename) ;
+			}
+		}
 		break ;
 
 	default:
@@ -1568,7 +1587,6 @@ bool CGlossaryWindow::get_concordances( const wstring query_string )
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
-		::MessageBeep(MB_ICONEXCLAMATION) ;
 		user_feedback(IDS_EMPTY_QUERY) ;
 		return false ;
 	}
@@ -1620,7 +1638,6 @@ bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
 	{
-		::MessageBeep(MB_ICONEXCLAMATION) ;
 		user_feedback(IDS_EMPTY_QUERY) ;
 		return false ;
 	}
@@ -1953,24 +1970,46 @@ void CGlossaryWindow::refresh_mru_doc_list(HMENU menu)
 
 LPCTSTR CGlossaryWindow::get_save_filter()
 {
-	static LPCTSTR glossary_file_filter = 
+	static LPCTSTR glossary_file_filter_english = 
 		_T("Felix Glossary File (*.fgloss)\0*.fgloss\0")
 		_T("XML File (*.xml)\0*.xml\0")
 		_T("Multiterm 5.5 (*.txt)\0*.txt\0")
 		_T("Multiterm 6.0 (*.txt)\0*.txt\0")
 		_T("Excel File (*.xls)\0*.xls\0") ;
 
-	return glossary_file_filter ;
+	static LPCTSTR glossary_file_filter_japanese = 
+		_T("Felix 用語集 (*.fgloss)\0*.fgloss\0")
+		_T("XML ファイル (*.xml)\0*.xml\0")
+		_T("マルチターム(Multiterm) 5.5 (*.txt)\0*.txt\0")
+		_T("マルチターム(Multiterm) 6.0 (*.txt)\0*.txt\0")
+		_T("エクセルファイル (*.xls)\0*.xls\0") ;
+
+	if (boost::icontains(_Module.get_library(), _T("j")))
+	{
+		return glossary_file_filter_japanese ;
+	}
+	return glossary_file_filter_english ;
 }
 
 LPCTSTR CGlossaryWindow::get_open_filter()
 {
-	static LPCTSTR glossary_file_filter = 
+	static LPCTSTR glossary_file_filter_english = 
 		_T("Felix Glossary Files (*.fgloss;*.xml)\0*.fgloss;*.xml\0")
 		_T("Multiterm Files (*.txt)\0*.txt\0")
+		_T("Tab-delimited Text Files (*.txt)\0*.txt\0")
 		_T("All files (*.*)\0*.*\0") ;
 
-	return glossary_file_filter ;
+	static LPCTSTR glossary_file_filter_japanese = 
+		_T("Felix 用語集 (*.fgloss;*.xml)\0*.fgloss;*.xml\0")
+		_T("マルチターム(Multiterm) (*.txt)\0*.txt\0")
+		_T("タブ区切り用語集 (*.txt)\0*.txt\0")
+		_T("すべてのファイル (*.*)\0*.*\0") ;
+
+	if (boost::icontains(_Module.get_library(), _T("j")))
+	{
+		return glossary_file_filter_japanese ;
+	}
+	return glossary_file_filter_english ;
 }
 
 // This is just to fool would-be crackers into going on a goose chase.

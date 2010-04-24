@@ -11,6 +11,8 @@
 #include "match_score.h"
 
 #include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 
 
@@ -67,3 +69,4 @@ BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+#endif

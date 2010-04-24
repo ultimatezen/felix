@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "App2.h"
 #include "FelixApp.h"
+#include "query.h"
+
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
@@ -15,12 +17,26 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 	typedef CComObject< CApp2 > app2_obj ;
 	typedef CComPtr< app2_obj > app2_ptr ;
 
-	record_pointer make_record_app2(string source, string trans)
+	record_pointer make_record(string source, string trans)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(string2wstring(source)) ;
 		rec->set_trans(string2wstring(trans)) ;
 		return rec ;
+	}
+
+	search_match_ptr make_match(string source, string trans, int id=0, string name="new")
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
+		match->set_memory_location(string2wstring(name)) ;
+
+		return match ;
 	}
 
 
@@ -35,7 +51,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 	{
 		app2_ptr app ;
 		app2_obj::CreateInstance( &app ) ;
-		app::get_app().add_record(make_record_app2("spam", "egg")) ;
+		app::get_app().add_record(make_record("spam", "egg")) ;
 		app::get_app().lookup(L"spam") ;
 		result_ptr result ;
 		HRESULT hr = app->get_CurrentMatch(&result) ;
@@ -71,7 +87,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
-		record_pointer rec = make_record_app2("spam", "egg") ;
+		record_pointer rec = make_record("spam", "egg") ;
 		app::get_app().add_record(rec) ;
 		result_ptr result ;
 		application->ReflectChanges(rec->get_id(),
@@ -90,7 +106,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
-		record_pointer rec = make_record_app2("spam", "egg") ;
+		record_pointer rec = make_record("spam", "egg") ;
 		app::get_app().add_record(rec) ;
 		result_ptr result ;
 		application->ReviewTranslation(rec->get_id(),

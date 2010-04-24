@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchResults )
 	using namespace mem_engine ;
 	typedef CComPtr< CComObject< CSearchResults > > results_ptr ;
 
-	search_match_ptr make_match_match(string source, string trans, int id=0)
+	search_match_ptr make_match(string source, string trans, int id=0)
 	{
 		search_match_ptr match(new search_match) ;
 		record_pointer rec(new record_local) ;
@@ -59,8 +59,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchResults )
 		results_ptr results ;
 		CComObject< CSearchResults >::CreateInstance( &results ) ;
 
-		search_match_ptr m1 = make_match_match("source 1", "trans 1", 1) ;
-		search_match_ptr m2 = make_match_match("source 2", "trans 2", 1) ;
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+		search_match_ptr m2 = make_match("source 2", "trans 2", 1) ;
 
 		search_match_container matches ;
 		matches.insert(m1) ;
@@ -71,13 +71,40 @@ BOOST_AUTO_TEST_SUITE( TestCSearchResults )
 		results->set_matches(&search_matches) ;
 		BOOST_CHECK_EQUAL(2u, results->m_coll.size()) ;
 	}
+	BOOST_AUTO_TEST_CASE( set_matches_2_twice )
+	{
+		results_ptr results ;
+		CComObject< CSearchResults >::CreateInstance( &results ) ;
+
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+		search_match_ptr m2 = make_match("source 2", "trans 2", 1) ;
+
+		search_match_container matches ;
+		matches.insert(m1) ;
+		matches.insert(m2) ;
+		translation_match_query search_matches; 
+		search_matches.set_matches(matches) ;
+
+		results->set_matches(&search_matches) ;
+
+		long count1(0) ;
+		results->get_Count(&count1) ;
+		BOOST_CHECK_EQUAL(2, count1) ;
+
+		results->set_matches(&search_matches) ;
+
+		long count2(0) ;
+		results->get_Count(&count2) ;
+		BOOST_CHECK_EQUAL(2, count2) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( retrieve_match )
 	{
 		results_ptr results ;
 		CComObject< CSearchResults >::CreateInstance( &results ) ;
 
-		search_match_ptr m1 = make_match_match("source 1", "trans 1", 1) ;
-		search_match_ptr m2 = make_match_match("source 2", "trans 2", 1) ;
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+		search_match_ptr m2 = make_match("source 2", "trans 2", 1) ;
 
 		search_match_container matches ;
 		matches.insert(m1) ;

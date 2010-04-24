@@ -187,7 +187,7 @@ namespace mem_engine
 		out.reserve( len_needed ) ;
 
 		out += str::left( to_search, start_pos ) ;
-		out += L"<span style=\"background:#FFFF99\">" ;
+		out += L"<span class=\"concordance_match\">" ;
 		out += to_search.substr( start_pos, len ) ;
 		out += L"</span>" ;
 		out += to_search.substr( start_pos + len ) ;
@@ -223,37 +223,68 @@ namespace mem_engine
 	//! CTOR.
 	search_match_tester_regex::search_match_tester_regex( const search_query_params &params ) : 
 		m_params( params )
+		, m_source_regex( L"(" + params.m_source + L")", params.m_ignore_case ? boost::regex::extended|boost::regex::icase : boost::regex::extended )
+		, m_trans_regex( L"(" + params.m_trans + L")", params.m_ignore_case ? boost::regex::extended|boost::regex::icase : boost::regex::extended )
+		, m_context_regex( L"(" + params.m_context + L")", params.m_ignore_case ? boost::regex::extended|boost::regex::icase : boost::regex::extended )
 	{
 		// set patterns
-		m_source_regex.set_pattern ( params.m_source  ) ;
-		m_trans_regex.set_pattern ( params.m_trans ) ;
-		m_context_regex.set_pattern ( params.m_context  ) ;
 		// set ignore case
-		m_source_regex.set_ignore_case( params.m_ignore_case ) ;
-		m_trans_regex.set_ignore_case( params.m_ignore_case ) ;
-		m_context_regex.set_ignore_case( params.m_ignore_case ) ;
+		//m_source_regex.set_ignore_case( params.m_ignore_case ) ;
+		//m_trans_regex.set_ignore_case( params.m_ignore_case ) ;
+		//m_context_regex.set_ignore_case( params.m_ignore_case ) ;
 	}
 
 	// Function name	: search_match_tester_regex::test_source
 	bool search_match_tester_regex::test_source( record_pointer rec )
 	{
-		return m_source_regex.test( rec->get_source_plain()  ) ;
+		if (m_params.m_source.empty())
+		{
+			return true ;
+		}
+		if(! boost::regex_search(rec->get_source_plain(), m_source_regex))
+		{
+			return false ;
+		}
+		wstring source = rec->get_source_plain() ;
+		m_search_match->get_markup()->SetSource(boost::regex_replace(source, 
+																	 m_source_regex, 
+																	 L"<span class=\"concordance_match\">$1</span>")) ;
+		return true ;
 	}
 
 	// Function name	: search_match_tester_regex::test_trans
 	bool search_match_tester_regex::test_trans( record_pointer rec )
 	{
-		if ( ! test_source( rec ) ) return false ;
-
-		return m_trans_regex.test( rec->get_trans_plain()  ) ;
+		if (m_params.m_trans.empty())
+		{
+			return true ;
+		}
+		if(! boost::regex_search(rec->get_trans_plain(), m_trans_regex) )
+		{
+			return false ;
+		}
+		m_search_match->get_markup()->SetTrans(boost::regex_replace(rec->get_trans_plain(), 
+			m_trans_regex, 
+			L"<span class=\"concordance_match\">$1</span>")) ;
+		return true ;
 	}
 
 	// Function name	: search_match_tester_regex::test_context
 	bool search_match_tester_regex::test_context( record_pointer rec )
 	{
-		if ( ! test_trans( rec ) ) return false ;
-
-		return m_context_regex.test( rec->get_context_plain()  ) ;
+		if (m_params.m_context.empty())
+		{
+			return true ;
+		}
+		if (!boost::regex_search(rec->get_context_plain(), m_context_regex))
+		{
+			return false ;
+		}
+		m_search_match->get_markup()->SetContext(boost::regex_replace(rec->get_context_plain(), 
+			m_context_regex, 
+			L"<span class=\"concordance_match\">$1</span>")) ;
+		return true ;
+		 
 	}
 
 	// Function name	: search_match_tester_regex::test_validity
@@ -278,8 +309,17 @@ namespace mem_engine
 				return false ;
 		}
 		if ( ! test_reliability( rec ) )
+		{
 			return false ;
-
+		}
+		if (! test_source(rec))
+		{
+			return false ;
+		}
+		if (! test_trans(rec))
+		{
+			return false ;
+		}
 		return test_context( rec ) ;
 	}
 
@@ -287,7 +327,21 @@ namespace mem_engine
 	search_match_ptr search_match_tester_regex::get_search_match( record_pointer rec ) 
 	{
 		m_search_match->set_record(record_pointer(rec->clone()))	;
-		m_search_match->set_values_to_record() ;
+
+		markup_ptr markup = m_search_match->get_markup() ;
+
+		if ( markup->GetSource().empty() )
+		{
+			markup->SetSource( rec->get_source_rich() );
+		}
+		if ( markup->GetTrans().empty() )
+		{
+			markup->SetTrans( rec->get_trans_rich() );
+		}
+		if ( markup->GetContext().empty() )
+		{
+			markup->SetContext( rec->get_context_rich() );
+		}
 
 		return m_search_match ;
 	}

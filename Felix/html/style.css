@@ -135,3 +135,4 @@ table.form td
 .partial_match2 {font-weight: bold; background-color: #ffff80;}
 .placement {font-weight: bold; color: blue}
 .format_penalty {color: #888888;}
+.concordance_match { background-color: #FFFF99; }

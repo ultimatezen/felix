@@ -7,7 +7,6 @@
 #ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 
-
 	using namespace mem_engine ;
 
 	BOOST_AUTO_TEST_CASE( instantiate )

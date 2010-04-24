@@ -1392,10 +1392,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SearchResults_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SearchWindow.cpp"
 				>
 			</File>
@@ -1445,6 +1441,14 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\system_message.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TabbedTextImporter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TabbedTextImporter_test.cpp"
 				>
 			</File>
 			<File
@@ -1929,6 +1933,10 @@
 				</File>
 				<File
 					RelativePath=".\SearchResult_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SearchResults_test.cpp"
 					>
 				</File>
 				<File
@@ -2599,6 +2607,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\system_message.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TabbedTextImporter.h"
 				>
 			</File>
 			<File

@@ -99,64 +99,9 @@ BEGIN_COM_MAP(CSearchResults)
 	COM_INTERFACE_ENTRY(IDispatch)
 END_COM_MAP()
 
-	HRESULT set_matches(mem_engine::felix_query *matches)
-	{
-		for (size_t i = 0 ; i < matches->size() ; ++i)
-		{
-			mem_engine::search_match_ptr match = matches->at(i) ;
-
-			CComObject< CSearchResult > *result_object ;
-			HRESULT hr = CComObject< CSearchResult >::CreateInstance( &result_object ) ;
-			if ( FAILED( hr ) )
-			{
-				return hr;
-			}
-			result_object->set_match(match) ;
-			CComPtr< ISearchResult > result_ptr ;
-			hr = result_object->QueryInterface( &result_ptr ) ;
-			if ( FAILED( hr ) )
-			{
-				return hr ;
-			}
-			m_coll.push_back( result_ptr ) ;
-		}
-
-		return S_OK ;
-	}
+	HRESULT set_matches(mem_engine::felix_query *matches);
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
-
-	STDMETHODIMP Add( ISearchResult*pRecord )
-	{
-		if ( ! pRecord )
-		{
-			return E_POINTER ;
-		}
-
-		CComPtr<ISearchResult> spRec = pRecord ;
-		m_coll.push_back( spRec ) ;
-
-		return S_OK ;
-	}
-	STDMETHODIMP Remove( ISearchResult*pRecord )
-	{
-		if ( ! pRecord )
-		{
-			return E_POINTER ;
-		}
-		CComPtr<ISearchResult> spRec = pRecord ;
-		for(SearchResultContainerType::iterator pos = m_coll.begin() ; pos != m_coll.end() ; ++pos)
-		{
-			if (*pos == spRec)
-			{
-				m_coll.erase(pos) ;
-				return S_OK ;
-			}
-		}
-
-		return S_OK ;
-	}
-
 
 	HRESULT FinalConstruct()
 	{

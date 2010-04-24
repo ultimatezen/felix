@@ -2,12 +2,13 @@
 
 #include "ProgressListener.h"
 #include "TranslationMemory.h"
-#include <boost/tuple/tuple.hpp>
 #include "memory_local.h"
 
 
 typedef boost::tuple<string, string> strcols ;
 typedef boost::tuple<wstring, wstring, wstring> wstrcols ;
+
+file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name ) ;
 
 class CImportMultitermFile
 {
@@ -20,8 +21,6 @@ public:
 	~CImportMultitermFile(void);
 
 	void import( const CString &file_name );
-
-	const file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name ) const;
 
 	void import_multiterm55( const CString &file_name );
 	void import_multiterm_55_text(textstream_reader< char >& reader, const std::string& source_lang, const std::string& trans_lang, mem_engine::memory_pointer& mem);

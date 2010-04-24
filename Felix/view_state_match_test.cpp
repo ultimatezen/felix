@@ -10,7 +10,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 
 	using namespace mem_engine ;
 
-	search_match_ptr make_match_match(string source, string trans, int id=0)
+	search_match_ptr make_match(string source, string trans, int id=0, string name="new")
 	{
 		search_match_ptr match(new search_match) ;
 		record_pointer rec(new record_local) ;
@@ -19,6 +19,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		match->set_record(rec) ;
 		match->set_values_to_record() ;
 		match->set_memory_id(id) ;
+		match->set_memory_location(string2wstring(name)) ;
 
 		return match ;
 	}
@@ -240,7 +241,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		ViewStateMatchMain state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match = make_match_match("record source", "record trans", vso.mem->get_id()) ;
+		search_match_ptr match = make_match("record source", "record trans", vso.mem->get_id()) ;
 
 		trans_match_container matches ;
 		matches.insert(match) ;
@@ -320,7 +321,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		ViewStateMatchMain state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match = make_match_match("record source", "record trans") ;
+		search_match_ptr match = make_match("record source", "record trans") ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -343,7 +344,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = false ;
 
-		search_match_ptr match = make_match_match("source", "trans") ;
+		search_match_ptr match = make_match("source", "trans") ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -363,7 +364,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = true ;
 
-		search_match_ptr match = make_match_match("source", "trans", vso.mem->get_id()) ;
+		search_match_ptr match = make_match("source", "trans", vso.mem->get_id()) ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -386,8 +387,8 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = true ;
 
-		search_match_ptr m1 = make_match_match("source", "trans", vso.mem->get_id()) ;
-		search_match_ptr m2 = make_match_match("source", "trans", vso.mem->get_id()) ;
+		search_match_ptr m1 = make_match("source", "trans", vso.mem->get_id()) ;
+		search_match_ptr m2 = make_match("source", "trans", vso.mem->get_id()) ;
 
 		search_match_container matches ;
 		matches.insert(m1) ;
@@ -415,7 +416,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 
 	using namespace mem_engine ;
 
-search_match_ptr make_match_match(string source, string trans, int id=0)
+search_match_ptr make_match(string source, string trans, int id=0)
 {
 	search_match_ptr match(new search_match) ;
 	record_pointer rec(new record_local) ;
@@ -578,7 +579,7 @@ search_match_ptr make_match_match(string source, string trans, int id=0)
 		ViewStateMatchGloss state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match = make_match_match("record source", "record trans", vso.mem->get_id()) ;
+		search_match_ptr match = make_match("record source", "record trans", vso.mem->get_id()) ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -655,7 +656,7 @@ search_match_ptr make_match_match(string source, string trans, int id=0)
 		ViewStateMatchGloss state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match = make_match_match("record source", "record trans") ;
+		search_match_ptr match = make_match("record source", "record trans") ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -678,7 +679,7 @@ search_match_ptr make_match_match(string source, string trans, int id=0)
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = false ;
 
-		search_match_ptr match = make_match_match("source", "trans") ;
+		search_match_ptr match = make_match("source", "trans") ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -698,7 +699,7 @@ search_match_ptr make_match_match(string source, string trans, int id=0)
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = true ;
 
-		search_match_ptr match = make_match_match("source", "trans", vso.mem->get_id()) ;
+		search_match_ptr match = make_match("source", "trans", vso.mem->get_id()) ;
 
 		search_match_container matches ;
 		matches.insert(match) ;
@@ -721,8 +722,8 @@ search_match_ptr make_match_match(string source, string trans, int id=0)
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = true ;
 
-		search_match_ptr m1 = make_match_match("source 1", "trans 1", vso.mem->get_id()) ;
-		search_match_ptr m2 = make_match_match("source 2", "trans 2", vso.mem->get_id()) ;
+		search_match_ptr m1 = make_match("source 1", "trans 1", vso.mem->get_id()) ;
+		search_match_ptr m2 = make_match("source 2", "trans 2", vso.mem->get_id()) ;
 
 		search_match_container matches ;
 		matches.insert(m1) ;

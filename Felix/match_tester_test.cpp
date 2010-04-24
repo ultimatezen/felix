@@ -45,29 +45,133 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 
 		search_match_ptr match1 = matcher.get_search_match(rec1) ;
 
-		string expected = "1" ;
-		string actual = CStringA(match1->get_markup()->GetSource().c_str()) ;
+		wstring expected = L"1" ;
+		wstring actual = match1->get_markup()->GetSource() ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	BOOST_AUTO_TEST_CASE( is_match_one)
+	BOOST_AUTO_TEST_CASE(is_match_one_source)
 	{
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
 
 		search_query_params params ;
-		params.m_use_regex = false ;
+		params.m_use_regex = true ;
 		params.m_source = L"egg" ;
 		search_match_tester_regex matcher(params) ;
 
 		matcher.is_match(rec1) ;
 		search_match_ptr match1 = matcher.get_search_match(rec1) ;
 
-		string expected = "egg 1" ;
-		string actual = CStringA(match1->get_markup()->GetSource().c_str()) ;
+		wstring expected = L"<span class=\"concordance_match\">egg</span> 1" ;
+		wstring actual = match1->get_markup()->GetSource() ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
+
+	BOOST_AUTO_TEST_CASE(match_num_regex_source_true)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 13") ;
+		rec->set_trans(L"egg 13 chicks") ;
+		rec->set_context(L"13 eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_source = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(matcher.is_match(rec)) ;
+		search_match_ptr match = matcher.get_search_match(rec) ;
+
+		wstring expected = L"egg <span class=\"concordance_match\">13</span>" ;
+		wstring actual = match->get_markup()->GetSource() ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_num_regex_source_false)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 1") ;
+		rec->set_trans(L"egg 13 chicks") ;
+		rec->set_context(L"13 eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_source = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(!matcher.is_match(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_num_regex_trans_true)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 13") ;
+		rec->set_trans(L"egg 13 chicks") ;
+		rec->set_context(L"13 eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_trans = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(matcher.is_match(rec)) ;
+		search_match_ptr match = matcher.get_search_match(rec) ;
+
+		wstring expected = L"egg <span class=\"concordance_match\">13</span> chicks" ;
+		wstring actual = match->get_markup()->GetTrans() ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_num_regex_trans_false)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 13") ;
+		rec->set_trans(L"egg 1a3 chicks") ;
+		rec->set_context(L"13 eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_trans = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(!matcher.is_match(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_num_regex_context_true)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 13") ;
+		rec->set_trans(L"egg 13 chicks") ;
+		rec->set_context(L"13 eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_context = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(matcher.is_match(rec)) ;
+		search_match_ptr match = matcher.get_search_match(rec) ;
+
+		wstring expected = L"<span class=\"concordance_match\">13</span> eggs" ;
+		wstring actual = match->get_markup()->GetContext() ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_num_regex_context_false)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"egg 13") ;
+		rec->set_trans(L"egg 13 chicks") ;
+		rec->set_context(L"eggs") ;
+
+		search_query_params params ;
+		params.m_use_regex = true ;
+		params.m_context = L"\\d{2}" ;
+		search_match_tester_regex matcher(params) ;
+
+		BOOST_CHECK(!matcher.is_match(rec)) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( is_match_two)
 	{
 		record_pointer rec1(new record_local) ;
@@ -86,18 +190,21 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 		matcher.is_match(rec2) ;
 		search_match_ptr match2 = matcher.get_search_match(rec2) ;
 
-		string expected = "egg 1" ;
-		string actual = CStringA(match1->get_markup()->GetSource().c_str()) ;
+		wstring expected = L"<span class=\"concordance_match\">egg</span> 1" ;
+		wstring actual = match1->get_markup()->GetSource() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
-		expected = "egg 2" ;
-		actual = (LPCSTR)CStringA(match2->get_markup()->GetSource().c_str()) ;
+		expected = L"<span class=\"concordance_match\">egg</span> 2" ;
+		actual = match2->get_markup()->GetSource() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
-	// search_match_tester
 
-	BOOST_AUTO_TEST_SUITE( test_search_match_tester )
+//////////////////////////////////////////////////////////////////////////
+// search_match_tester
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 
 		using namespace mem_engine ;
 
@@ -114,7 +221,7 @@ BOOST_AUTO_TEST_SUITE_END()
 		matcher.is_match(rec1) ;
 		search_match_ptr match1 = matcher.get_search_match(rec1) ;
 
-		string expected = "<span style=\"background:#FFFF99\">egg</span> 1" ;
+		string expected = "<span class=\"concordance_match\">egg</span> 1" ;
 		string actual = CStringA(match1->get_markup()->GetSource().c_str()) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
@@ -137,11 +244,11 @@ BOOST_AUTO_TEST_SUITE_END()
 		matcher.is_match(rec2) ;
 		search_match_ptr match2 = matcher.get_search_match(rec2) ;
 
-		string expected = "<span style=\"background:#FFFF99\">egg</span> 1" ;
+		string expected = "<span class=\"concordance_match\">egg</span> 1" ;
 		string actual = CStringA(match1->get_markup()->GetSource().c_str()) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
-		expected = "<span style=\"background:#FFFF99\">egg</span> 2" ;
+		expected = "<span class=\"concordance_match\">egg</span> 2" ;
 		actual = (LPCSTR)CStringA(match2->get_markup()->GetSource().c_str()) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
