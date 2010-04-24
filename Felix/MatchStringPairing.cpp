@@ -21,20 +21,6 @@ wchar_t narrow_num( wchar_t c )
 	return c ;
 }
 
-/** Replaces the first occurrence of from (if any) with to.
-*/
-bool replace_first( wstring &source, const wstring from, const wstring to )
-{
-	size_t pos = source.find( from ) ;
-	if( pos == wstring::npos )
-	{
-		return false ;
-	}
-
-	source.replace( pos, from.size(), to ) ;
-	return true ;
-}
-
 
 /** Base contructor.
  */
@@ -216,8 +202,9 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 					}
 					QueryNum = newsource ;
 				}
-				replace_first( trans.first, SourceNum, QueryNum ) ;
-				replace_first( trans.second, SourceNum, ( boost::wformat( PlacementFmt ) % QueryNum ).str() ) ;
+				
+				boost::replace_first( trans.first, SourceNum, QueryNum ) ;
+				boost::replace_first( trans.second, SourceNum, ( boost::wformat( PlacementFmt ) % QueryNum ).str() ) ;
 
 				for ( std::set< size_t >::iterator pos = m_PlacementPositionsTmp.begin() ;
 						pos != m_PlacementPositionsTmp.end() ;
@@ -307,9 +294,9 @@ void CMatchStringPairing::ReAlignPairs(std::vector< CMatchStringPairing::Pairing
 		}
 		else
 		{
-			if( pe.m_Chars[QUERY] != 0 )
+			if( pe.query() != 0 )
 			{
-				pe.m_Chars[SOURCE] = pe.m_Chars[QUERY] ;
+				pe.source() = pe.query() ;
 				pe.m_MatchType = PLACEMENT ;
 				m_Pairs.push_back(pe) ;
 			}
@@ -351,15 +338,15 @@ std::wstring CMatchStringPairing::GetNum(std::vector< CMatchStringPairing::Pairi
  */
 int CMatchStringPairing::IsNumOrNull( wchar_t c )
 {
-	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'D') ;
+	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'D' || c == L',') ;
 }
 
 /** Are we looking at a pair of number characters?
  */
 int CMatchStringPairing::IsNumPair(CMatchStringPairing::PairingEntity& pe)
 {
-	return iswdigit( narrow_num( pe.m_Chars[SOURCE] ) ) 
-		&& iswdigit( narrow_num( pe.m_Chars[QUERY] ) );
+	return iswdigit( narrow_num( pe.source() ) ) 
+		&& iswdigit( narrow_num( pe.query() ) );
 }
 
 /** Calculates the score based on our pairings.

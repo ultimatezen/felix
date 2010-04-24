@@ -5,6 +5,32 @@
 
 BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 
+	void pair_up(CMatchStringPairing &pairing, wstring source, wstring query)
+	{
+		for (int i = source.size() - 1 ; i >= 0 ; --i)
+		{
+			wchar_t s = source[i] ;
+			wchar_t q = query[i] ;
+
+			if (s == L'*')
+			{
+				pairing.QueryToEpsilon(q) ;
+			}
+			else if (q == L'*')
+			{
+				pairing.SourceToEpsilon(s) ;
+			}
+			else if ( s == q )
+			{
+				pairing.Match(s, q) ;
+			}
+			else
+			{
+				pairing.NoMatch(s, q) ;
+			}
+		}
+	}
+
 	BOOST_AUTO_TEST_CASE( IsNumRep_tag )
 	{
 		CMatchStringPairing pairing ;
@@ -164,6 +190,16 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 
 		BOOST_CHECK( ! pairing.PlaceNumbers( trans ) ) ;
 	}
+	BOOST_AUTO_TEST_CASE( placement_false_commas )
+	{
+		CMatchStringPairing pairing ;
+
+		pair_up(pairing, L"I have, apples", L"I have 3 apples") ;
+
+		std::pair< wstring, wstring > trans( L"I have 5 apples", L"I have 5 apples" ) ;
+
+		BOOST_CHECK( ! pairing.PlaceNumbers( trans ) ) ;
+	}
 	BOOST_AUTO_TEST_CASE( trival_placement_bad_entities )
 	{
 		CMatchStringPairing pairing ;
@@ -259,12 +295,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.NoMatch( L'1', L'2' ) ;
-		pairing.Match( L'1', L'1' ) ;
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
+		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
 		std::pair< wstring, wstring > trans( L"a11", L"a11" ) ;
 
@@ -277,12 +308,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.NoMatch( L'1', L'2' ) ;
-		pairing.Match( L'1', L'1' ) ;
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
+		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
 		std::pair< wstring, wstring > trans( L"1111", L"1111" ) ;
 		BOOST_CHECK( ! pairing.PlaceNumbers( trans ) ) ;
@@ -295,13 +321,9 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.SourceToEpsilon( L'a' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.SourceToEpsilon( L'1' ) ;
-		pairing.NoMatch( L'1', L'2' ) ;
-		pairing.QueryToEpsilon( L'3' ) ;
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"aa*11aa", 
+			L"ab32*a*") ;
 
 		// a11
 		std::pair< wstring, wstring > trans( L"a11", L"a11" ) ;
@@ -321,17 +343,15 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 	}
+
+
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchEpsilons2 )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.SourceToEpsilon( L'a' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.SourceToEpsilon( L'1' ) ;
-		pairing.NoMatch( L'1', L'2' ) ;
-		pairing.QueryToEpsilon( L'3' ) ;
-		pairing.NoMatch( L'a', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"aa*11aa", 
+			L"ab32*a*") ;
 
 		// 1111
 		std::pair< wstring, wstring > trans( L"1111", L"1111" ) ;
@@ -347,18 +367,15 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.Match  ( L'a', L'a' ) ;
-		pairing.NoMatch( L'3', L'6' ) ;
-		pairing.Match  ( L',', L',' ) ;
-		pairing.NoMatch( L'2', L'5' ) ;
-		pairing.NoMatch( L'1', L'4' ) ;
-		pairing.Match  ( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"a12,3a", 
+			L"a45,6a") ;
 
 		std::pair< wstring, wstring > trans( L"c12,3c", L"c12,3c" ) ;
 
 		BOOST_CHECK( pairing.PlaceNumbers( trans ) ) ;
-		CStringA expected = "c45,6c" ;
-		CStringA actual = trans.first.c_str() ;
+		wstring expected = L"c45,6c" ;
+		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
@@ -367,17 +384,15 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.Match  ( L'a', L'a' ) ;
-		pairing.NoMatch( L'3', L'6' ) ;
-		pairing.Match  ( L'か', L'か' ) ;
-		pairing.NoMatch( L'2', L'5' ) ;
-		pairing.Match  ( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"a2か3a", 
+			L"a5か6a") ;
 
 		std::pair< wstring, wstring > trans( L"c2a3c", L"c2a3c" ) ;
 
 		BOOST_CHECK( pairing.PlaceNumbers( trans ) ) ;
-		CStringA expected = "c5a6c" ;
-		CStringA actual = trans.first.c_str() ;
+		wstring expected = L"c5a6c" ;
+		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
@@ -398,24 +413,24 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.Match( L'>', L'>' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.Match( L'<', L'<' ) ;
+		pair_up(pairing, 
+			L"<a>", 
+			L"<a>") ;
 
 		string markup = string2string(pairing.MarkupSource()) ;
-		BOOST_CHECK_EQUAL("&lt;a&gt;", string(markup.c_str())) ;
+		BOOST_CHECK_EQUAL("&lt;a&gt;", markup) ;
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
-	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_trans )
+	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.Match( L'>', L'>' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.Match( L'<', L'<' ) ;
+		pair_up(pairing, 
+			L"<a>", 
+			L"<a>") ;
 
 		string markup = string2string(pairing.MarkupQuery()) ;
-		BOOST_CHECK_EQUAL("&lt;a&gt;", string(markup.c_str())) ;
+		BOOST_CHECK_EQUAL("&lt;a&gt;", markup) ;
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialNoMatch )
@@ -438,71 +453,114 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.Match( L'c', L'c' ) ;
-		pairing.Match( L'b', L'b' ) ;
-		pairing.Match( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"abc", 
+			L"abc") ;
 
 		BOOST_CHECK_EQUAL( pairing.MarkupSource(), L"abc") ;
 		BOOST_CHECK_EQUAL( pairing.MarkupQuery(), L"abc") ;
 
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
-	BOOST_AUTO_TEST_CASE( LargerNoMatch )
+	BOOST_AUTO_TEST_CASE( LargerNoMatch_source )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.NoMatch( L'c', L'c' ) ;
-		pairing.NoMatch( L'b', L'b' ) ;
-		pairing.NoMatch( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"abc", 
+			L"def") ;
 
-		CStringA expected = "<span class=\"nomatch\">abc</span>" ;
-
-		CStringA actual = pairing.MarkupSource().c_str() ;
+		wstring expected = L"<span class=\"nomatch\">abc</span>" ;
+		wstring actual = pairing.MarkupSource() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		actual = pairing.MarkupQuery().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
 		BOOST_CHECK_CLOSE( (double)0.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
-	BOOST_AUTO_TEST_CASE( Mixed )
+	BOOST_AUTO_TEST_CASE( LargerNoMatch_query )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.NoMatch( L'c', L'c' ) ;
-		pairing.Match( L'b', L'b' ) ;
-		pairing.NoMatch( L'a', L'a' ) ;
+		pair_up(pairing, 
+			L"abc", 
+			L"def") ;
 
-		CStringA expected = "<span class=\"nomatch\">a</span>b<span class=\"nomatch\">c</span>" ;
-
-		CStringA actual = pairing.MarkupSource().c_str() ;
+		wstring expected = L"<span class=\"nomatch\">def</span>" ;
+		wstring actual = pairing.MarkupQuery() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
+		BOOST_CHECK_CLOSE( (double)0.0f, pairing.CalcScore(), 0.00001 ) ;
+	}
+	BOOST_AUTO_TEST_CASE( Mixed_Score )
+	{
+		CMatchStringPairing pairing ;
 
-		actual = pairing.MarkupQuery().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
+		pair_up(pairing, 
+			L"abc", 
+			L"xbx") ;
 
-		expected.Format( "%f", 1.0f / 3.0f ) ;
-		actual.Format( "%f", pairing.CalcScore()) ;
+		double expected_score = 1.0 / 3.0 ;
+		BOOST_CHECK_CLOSE(expected_score, pairing.CalcScore(), 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE( Mixed_Source )
+	{
+		CMatchStringPairing pairing ;
+
+		pair_up(pairing, 
+			L"abc", 
+			L"xbx") ;
+
+		wstring expected = L"<span class=\"nomatch\">a</span>b<span class=\"nomatch\">c</span>" ;
+
+		wstring actual = pairing.MarkupSource() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
-	BOOST_AUTO_TEST_CASE( MixedEnds )
+	BOOST_AUTO_TEST_CASE( Mixed_Query )
 	{
 		CMatchStringPairing pairing ;
 
-		pairing.NoMatch( L'c', L'c' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.Match( L'a', L'a' ) ;
-		pairing.NoMatch( L'c', L'c' ) ;
+		pair_up(pairing, 
+			L"abc", 
+			L"xbx") ;
 
-		CStringA expected = "<span class=\"nomatch\">c</span>aa<span class=\"nomatch\">c</span>" ;
+		wstring expected = L"<span class=\"nomatch\">x</span>b<span class=\"nomatch\">x</span>" ;
 
-		CStringA actual = pairing.MarkupSource().c_str() ;
+		wstring actual = pairing.MarkupQuery() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
+	}
 
-		actual = pairing.MarkupQuery().c_str() ;
+	BOOST_AUTO_TEST_CASE( MixedEnds_score )
+	{
+		CMatchStringPairing pairing ;
+
+		pair_up(pairing, 
+			L"abba", 
+			L"xbbx") ;
+
+		BOOST_CHECK_CLOSE( 0.5, pairing.CalcScore(), 0.00001 ) ;
+	}
+	BOOST_AUTO_TEST_CASE( MixedEnds_source )
+	{
+		CMatchStringPairing pairing ;
+
+		pair_up(pairing, 
+			L"abba", 
+			L"xbbx") ;
+
+		wstring expected = L"<span class=\"nomatch\">a</span>bb<span class=\"nomatch\">a</span>" ;
+
+		wstring actual = pairing.MarkupSource() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
+	}
+	BOOST_AUTO_TEST_CASE( MixedEnds_query )
+	{
+		CMatchStringPairing pairing ;
 
-		BOOST_CHECK_CLOSE( (double)0.5f, pairing.CalcScore(), 0.00001 ) ;
+		pair_up(pairing, 
+			L"abba", 
+			L"xbbx") ;
+
+		wstring expected = L"<span class=\"nomatch\">x</span>bb<span class=\"nomatch\">x</span>" ;
+
+		wstring actual = pairing.MarkupQuery() ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
 	BOOST_AUTO_TEST_CASE( MixedMiddle )
 	{
@@ -574,6 +632,87 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		actual = pairing.MarkupQuery().c_str() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// tests for bug #274 (placement with backslash
+	//////////////////////////////////////////////////////////////////////////
+	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_trans )
+	{
+		CMatchStringPairing pairing ;
+
+		// source: \850,000 （税込\892,500）
+		// query:  \1,300,000 （税込\1,365,000）
+		// trans: \850,000 (\892,500 with tax)
+
+		wstring source = L"\\**850,000 （税込\\**892,500）" ;
+		wstring query  = L"\\1,300,000 （税込\\1,365,000）" ;
+
+		BOOST_CHECK_EQUAL(source.size(), query.size()) ;
+
+		pair_up(pairing, source, query) ;
+
+		// a11
+		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+										     L"\\850,000 (\\892,500 with tax)" ) ;
+
+		BOOST_CHECK( pairing.PlaceNumbers( trans ) ) ;
+
+		wstring expected = L"\\1,300,000 (\\1,365,000 with tax)" ;
+		wstring actual = trans.first ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
+
+		expected = L"\\<span class=\"placement\">1,300,000</span> (\\<span class=\"placement\">1,365,000</span> with tax)" ;
+		actual = trans.second ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
+	}
+	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_source )
+	{
+		CMatchStringPairing pairing ;
+
+		// source: \850,000 （税込\892,500）
+		// query:  \1,300,000 （税込\1,365,000）
+		// trans: \850,000 (\892,500 with tax)
+
+		wstring source = L"\\**850,000 （税込\\**892,500）" ;
+		wstring query  = L"\\1,300,000 （税込\\1,365,000）" ;
+
+		pair_up(pairing, source, query) ;
+
+		// a11
+		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+			L"\\850,000 (\\892,500 with tax)" ) ;
+
+		BOOST_CHECK( pairing.PlaceNumbers( trans ) ) ;
+
+		wstring expected = L"\\<span class=\"placement\">1,300,000</span> （税込\\<span class=\"placement\">1,365,000</span>）" ;
+		wstring actual = pairing.MarkupSource() ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
+	}
+	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_query )
+	{
+
+		CMatchStringPairing pairing ;
+
+		// source: \850,000 （税込\892,500）
+		// query:  \1,300,000 （税込\1,365,000）
+		// trans: \850,000 (\892,500 with tax)
+
+		wstring source = L"\\**850,000 （税込\\**892,500）" ;
+		wstring query  = L"\\1,300,000 （税込\\1,365,000）" ;
+
+		pair_up(pairing, source, query) ;
+
+		// a11
+		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+			L"\\850,000 (\\892,500 with tax)" ) ;
+
+		BOOST_CHECK( pairing.PlaceNumbers( trans ) ) ;
+
+		wstring expected = L"\\<span class=\"placement\">1,300,000</span> （税込\\<span class=\"placement\">1,365,000</span>）" ;
+		wstring actual = pairing.MarkupQuery() ;
+		BOOST_CHECK_EQUAL( expected, actual ) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_narrow_num )
@@ -613,65 +752,4 @@ BOOST_AUTO_TEST_CASE( MatchesWide )
 }
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE( test_replace_first )
 
-BOOST_AUTO_TEST_CASE( foo_foo )
-{
-	wstring src, to, from ;
-	CStringA expected, actual ;
-
-	// foo -> foo
-	src = L"foo" ;
-	from = L"baz" ;
-	to = L"bar" ;
-	replace_first( src, from, to ) ;
-	expected = "foo" ;
-	actual = src.c_str() ;
-	BOOST_CHECK_EQUAL( expected, actual ) ;
-
-}
-
-BOOST_AUTO_TEST_CASE( foo_bar )
-{
-	wstring src, to, from ;
-	CStringA expected, actual ;
-	// foo -> bar
-	src = L"foo" ;
-	from = L"foo" ;
-	to = L"bar" ;
-	replace_first( src, from, to ) ;
-	expected = "bar" ;
-	actual = src.c_str() ;
-	BOOST_CHECK_EQUAL( expected, actual ) ;
-}
-
-BOOST_AUTO_TEST_CASE( foo_foo_2_bar_foo )
-{
-	wstring src, to, from ;
-	// foo foo -> bar foo
-	src = L"foo foo" ;
-	from = L"foo" ;
-	to = L"bar" ;
-	replace_first( src, from, to ) ;
-	CStringA expected = "bar foo" ;
-	CStringA actual = src.c_str() ;
-	BOOST_CHECK_EQUAL( expected, actual ) ;
-}
-
-BOOST_AUTO_TEST_CASE( modern_major_general )
-{
-	wstring src, to, from ;
-	CStringA expected, actual ;
-
-	// "I am the very model of a modern major general" -> "I ate the very model of a modern major general"
-	src = L"I am the very model of a modern major general" ;
-	from = L"m" ;
-	to = L"te" ;
-	replace_first( src, from, to ) ;
-	expected = "I ate the very model of a modern major general" ;
-	actual = src.c_str() ;
-	BOOST_CHECK_EQUAL( expected, actual ) ;
-
-}
-
-BOOST_AUTO_TEST_SUITE_END()

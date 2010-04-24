@@ -40,3 +40,10 @@ double match_score::GetBaseScore() const
 {
 	return m_base_score ;
 }
+
+match_score& match_score::operator=( const match_score &cpy )
+{
+	m_base_score = cpy.m_base_score ;
+	m_formatting_penalty = cpy.m_formatting_penalty ;
+	return *this ;
+}

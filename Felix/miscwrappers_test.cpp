@@ -131,17 +131,8 @@ BOOST_AUTO_TEST_SUITE( test_misc_wrappers_date )
 	}
 	BOOST_AUTO_TEST_CASE( bad_date_throws)
 	{
-		try
-		{
-			const wstring first_datestr = L"foo/bar/baz" ;
-			misc_wrappers::date first(first_datestr) ;
-			BOOST_FAIL("Should have thrown on bad date format") ;
-		}
-		catch (except::CException& e)
-		{
-			e ;
-			BOOST_CHECK(TRUE) ;			
-		}
+		const wstring first_datestr = L"foo/bar/baz" ;
+		BOOST_CHECK_THROW(misc_wrappers::date the_date(first_datestr), except::CException) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

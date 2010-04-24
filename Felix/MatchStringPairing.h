@@ -6,7 +6,6 @@
 #pragma once
 
 wchar_t narrow_num( wchar_t c ) ;
-bool replace_first( wstring &source, const wstring from, const wstring to ) ;
 
 /*!
  * Represents a pairing of match strings.
@@ -30,6 +29,16 @@ class CMatchStringPairing
 			m_Chars[SOURCE] = s ;
 			m_Chars[QUERY] = q ;
 		}
+
+	   wchar_t& source()
+	   {
+		   return m_Chars[SOURCE] ; 
+	   }
+	   wchar_t& query()
+	   {
+		   return m_Chars[QUERY] ; 
+	   }
+
 	} ;
 
 	typedef std::list< PairingEntity > PairList ;

@@ -15,12 +15,7 @@ public:
 		m_formatting_penalty( cpy.m_formatting_penalty )
 	{}
 
-	match_score& operator= ( const match_score &cpy )
-	{
-		m_base_score = cpy.m_base_score ;
-		m_formatting_penalty = cpy.m_formatting_penalty ;
-		return *this ;
-	}
+	match_score& operator= ( const match_score &cpy );
 	void SetBaseScore(double score) ;
 	void SetFormattingPenalty(double formatting_penalty) ;
 
