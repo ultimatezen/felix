@@ -79,6 +79,15 @@ public:
 	STDMETHOD(get_Context)(BSTR* pVal);
 	STDMETHOD(put_Context)(BSTR context);
 
+	// PLAIN source
+	STDMETHOD(get_PlainSource)(BSTR* pVal);
+
+	// PLAIN trans
+	STDMETHOD(get_PlainTrans)(BSTR* pVal);
+
+	// PLAIN context
+	STDMETHOD(get_PlainContext)(BSTR* pVal);
+
 	// created-by
 	STDMETHOD(get_CreatedBy)(BSTR* pVal);
 	STDMETHOD(put_CreatedBy)(BSTR created_by);
@@ -86,6 +95,18 @@ public:
 	// modified-by
 	STDMETHOD(get_ModifiedBy)(BSTR* pVal);
 	STDMETHOD(put_ModifiedBy)(BSTR modified_by);
+
+	// id
+	STDMETHOD(get_RefCount)(ULONG* pVal);
+	STDMETHOD(put_RefCount)(ULONG pVal);
+
+	// created
+	STDMETHOD(get_DateCreated)(DATE* pVal);
+	STDMETHOD(put_DateCreated)(DATE pVal);
+
+	// modified
+	STDMETHOD(get_LastModified)(DATE* pVal);
+	STDMETHOD(put_LastModified)(DATE pVal);
 
 	// id
 	STDMETHOD(get_Id)(ULONG* pVal);

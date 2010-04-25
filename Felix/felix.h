@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Apr 20 19:37:14 2010
+/* at Sun Apr 25 09:47:52 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -202,23 +202,50 @@ EXTERN_C const IID IID_IRecord;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Trans( 
             /* [in] */ BSTR trans_val) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Context( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Context( 
             /* [in] */ BSTR context_val) = 0;
         
-        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Context( 
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_PlainSource( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_PlainTrans( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_PlainContext( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CreatedBy( 
             /* [retval][out] */ BSTR *pVal) = 0;
         
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_CreatedBy( 
             /* [in] */ BSTR created_by_val) = 0;
         
-        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CreatedBy( 
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ModifiedBy( 
             /* [retval][out] */ BSTR *pVal) = 0;
         
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ModifiedBy( 
             /* [in] */ BSTR modified_by_val) = 0;
         
-        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ModifiedBy( 
-            /* [retval][out] */ BSTR *pVal) = 0;
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_DateCreated( 
+            /* [retval][out] */ DATE *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_DateCreated( 
+            /* [in] */ DATE created_val) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_LastModified( 
+            /* [retval][out] */ DATE *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_LastModified( 
+            /* [in] */ DATE modified_val) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RefCount( 
+            /* [retval][out] */ ULONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_RefCount( 
+            /* [in] */ ULONG newVal) = 0;
         
         virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Id( 
             /* [retval][out] */ ULONG *pVal) = 0;
@@ -291,11 +318,27 @@ EXTERN_C const IID IID_IRecord;
             IRecord * This,
             /* [in] */ BSTR trans_val);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Context )( 
+            IRecord * This,
+            /* [retval][out] */ BSTR *pVal);
+        
         /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Context )( 
             IRecord * This,
             /* [in] */ BSTR context_val);
         
-        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Context )( 
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_PlainSource )( 
+            IRecord * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_PlainTrans )( 
+            IRecord * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_PlainContext )( 
+            IRecord * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CreatedBy )( 
             IRecord * This,
             /* [retval][out] */ BSTR *pVal);
         
@@ -303,7 +346,7 @@ EXTERN_C const IID IID_IRecord;
             IRecord * This,
             /* [in] */ BSTR created_by_val);
         
-        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CreatedBy )( 
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModifiedBy )( 
             IRecord * This,
             /* [retval][out] */ BSTR *pVal);
         
@@ -311,9 +354,29 @@ EXTERN_C const IID IID_IRecord;
             IRecord * This,
             /* [in] */ BSTR modified_by_val);
         
-        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModifiedBy )( 
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DateCreated )( 
             IRecord * This,
-            /* [retval][out] */ BSTR *pVal);
+            /* [retval][out] */ DATE *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DateCreated )( 
+            IRecord * This,
+            /* [in] */ DATE created_val);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_LastModified )( 
+            IRecord * This,
+            /* [retval][out] */ DATE *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_LastModified )( 
+            IRecord * This,
+            /* [in] */ DATE modified_val);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_RefCount )( 
+            IRecord * This,
+            /* [retval][out] */ ULONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_RefCount )( 
+            IRecord * This,
+            /* [in] */ ULONG newVal);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Id )( 
             IRecord * This,
@@ -371,23 +434,50 @@ EXTERN_C const IID IID_IRecord;
 #define IRecord_put_Trans(This,trans_val)	\
     ( (This)->lpVtbl -> put_Trans(This,trans_val) ) 
 
-#define IRecord_put_Context(This,context_val)	\
-    ( (This)->lpVtbl -> put_Context(This,context_val) ) 
-
 #define IRecord_get_Context(This,pVal)	\
     ( (This)->lpVtbl -> get_Context(This,pVal) ) 
 
-#define IRecord_put_CreatedBy(This,created_by_val)	\
-    ( (This)->lpVtbl -> put_CreatedBy(This,created_by_val) ) 
+#define IRecord_put_Context(This,context_val)	\
+    ( (This)->lpVtbl -> put_Context(This,context_val) ) 
+
+#define IRecord_get_PlainSource(This,pVal)	\
+    ( (This)->lpVtbl -> get_PlainSource(This,pVal) ) 
+
+#define IRecord_get_PlainTrans(This,pVal)	\
+    ( (This)->lpVtbl -> get_PlainTrans(This,pVal) ) 
+
+#define IRecord_get_PlainContext(This,pVal)	\
+    ( (This)->lpVtbl -> get_PlainContext(This,pVal) ) 
 
 #define IRecord_get_CreatedBy(This,pVal)	\
     ( (This)->lpVtbl -> get_CreatedBy(This,pVal) ) 
 
-#define IRecord_put_ModifiedBy(This,modified_by_val)	\
-    ( (This)->lpVtbl -> put_ModifiedBy(This,modified_by_val) ) 
+#define IRecord_put_CreatedBy(This,created_by_val)	\
+    ( (This)->lpVtbl -> put_CreatedBy(This,created_by_val) ) 
 
 #define IRecord_get_ModifiedBy(This,pVal)	\
     ( (This)->lpVtbl -> get_ModifiedBy(This,pVal) ) 
+
+#define IRecord_put_ModifiedBy(This,modified_by_val)	\
+    ( (This)->lpVtbl -> put_ModifiedBy(This,modified_by_val) ) 
+
+#define IRecord_get_DateCreated(This,pVal)	\
+    ( (This)->lpVtbl -> get_DateCreated(This,pVal) ) 
+
+#define IRecord_put_DateCreated(This,created_val)	\
+    ( (This)->lpVtbl -> put_DateCreated(This,created_val) ) 
+
+#define IRecord_get_LastModified(This,pVal)	\
+    ( (This)->lpVtbl -> get_LastModified(This,pVal) ) 
+
+#define IRecord_put_LastModified(This,modified_val)	\
+    ( (This)->lpVtbl -> put_LastModified(This,modified_val) ) 
+
+#define IRecord_get_RefCount(This,pVal)	\
+    ( (This)->lpVtbl -> get_RefCount(This,pVal) ) 
+
+#define IRecord_put_RefCount(This,newVal)	\
+    ( (This)->lpVtbl -> put_RefCount(This,newVal) ) 
 
 #define IRecord_get_Id(This,pVal)	\
     ( (This)->lpVtbl -> get_Id(This,pVal) ) 

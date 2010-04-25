@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Apr 20 19:37:14 2010
+/* at Sun Apr 25 09:47:52 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)

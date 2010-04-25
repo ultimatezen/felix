@@ -7,7 +7,7 @@
 #include "TranslationMemory.h"
 
 // To use this macro, derive from CAutomationExceptionHandler
-#define TA_CATCH( func_str ) \
+#define FELIX_AUTO_CATCH( func_str ) \
 	catch( _com_error &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }  \
 	catch( CWinException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
 	catch( CComException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
@@ -43,7 +43,7 @@ STDMETHODIMP CApp2::get_CurrentMatch(ISearchResult **pVal)
 			return m_current_match->QueryInterface(pVal) ;
 		}
 	}
-	TA_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_CurrentMatch")
 		
 	return E_FAIL ;
 }
@@ -56,7 +56,7 @@ STDMETHODIMP CApp2::put_CurrentMatch(ISearchResult *pVal)
 		pVal ;
 		return S_OK ;
 	}
-	TA_CATCH("put_CurrentMatch")
+	FELIX_AUTO_CATCH("put_CurrentMatch")
 }
 
 // current matches
@@ -70,7 +70,7 @@ STDMETHODIMP CApp2::get_CurrentMatches(ISearchResults **pVal)
 			return m_current_matches->QueryInterface(pVal) ;
 		}
 	}
-	TA_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_CurrentMatch")
 
 		return E_FAIL ;
 }
@@ -88,7 +88,7 @@ STDMETHODIMP CApp2::get_CurrentGlossMatches(ISearchResults **pVal)
 			return m_current_gloss_matches->QueryInterface(pVal) ;
 		}
 	}
-	TA_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_CurrentMatch")
 
 		return E_FAIL ;
 }
@@ -102,7 +102,7 @@ STDMETHODIMP CApp2::ReflectChanges(ULONG RecId, BSTR Source, BSTR Trans)
 			BSTR2wstring(Source),
 			BSTR2wstring(Trans)) ;
 	}
-	TA_CATCH( "ReflectChanges" ) ;
+	FELIX_AUTO_CATCH( "ReflectChanges" ) ;
 
 	return S_OK;
 }
@@ -114,7 +114,7 @@ STDMETHODIMP CApp2::ReviewTranslation(ULONG RecId, BSTR Source, BSTR Trans)
 			BSTR2wstring(Source),
 			BSTR2wstring(Trans)) ;
 	}
-	TA_CATCH( "ReflectChanges" ) ;
+	FELIX_AUTO_CATCH( "ReflectChanges" ) ;
 
 	return S_OK;
 }

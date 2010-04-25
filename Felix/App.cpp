@@ -12,7 +12,7 @@
 #include "background_processor.h"
 
 // To use this macro, derive from CAutomationExceptionHandler
-#define TA_CATCH( func_str ) \
+#define FELIX_AUTO_CATCH( func_str ) \
 	catch( _com_error &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }  \
 	catch( CWinException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
 	catch( CComException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
@@ -33,7 +33,7 @@ STDMETHODIMP CApp::get_App2(IApp2 **pVal)
 			return m_App2->QueryInterface(pVal) ;
 		}
 	}
-	TA_CATCH("App2")
+	FELIX_AUTO_CATCH("App2")
 	return E_FAIL ;
 }
 
@@ -59,7 +59,7 @@ STDMETHODIMP CApp::get_Visible(VARIANT_BOOL* pVal)
 			*pVal = VARIANT_FALSE ;
 		}
 	}
-	TA_CATCH( "Visible" ) ;
+	FELIX_AUTO_CATCH( "Visible" ) ;
 
 	return S_OK;
 }
@@ -84,7 +84,7 @@ STDMETHODIMP CApp::put_Visible(VARIANT_BOOL newVal)
 
 		MainFrame.put_visible( newVal ? SW_SHOW : SW_HIDE ) ;
 	}
-	TA_CATCH( "Visible" ) ;
+	FELIX_AUTO_CATCH( "Visible" ) ;
 
 	return S_OK;
 }
@@ -103,7 +103,7 @@ STDMETHODIMP CApp::Quit(void)
 			MainFrame.exit_silently() ;
 		}
 	}
-	TA_CATCH( "Quit" ) ;
+	FELIX_AUTO_CATCH( "Quit" ) ;
 
 	return S_OK;
 }
@@ -118,7 +118,7 @@ STDMETHODIMP CApp::Lookup(BSTR Query)
 		//MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
 		//MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
-	TA_CATCH( "Lookup" ) ;
+	FELIX_AUTO_CATCH( "Lookup" ) ;
 
 	return S_OK;
 }
@@ -133,7 +133,7 @@ STDMETHODIMP CApp::LookupTrans(BSTR Trans)
 		//MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
 		//MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS ) ;
 	}
-	TA_CATCH( "LookupTrans" ) ;
+	FELIX_AUTO_CATCH( "LookupTrans" ) ;
 
 	return S_OK;
 }
@@ -146,7 +146,7 @@ STDMETHODIMP CApp::LookupDeferred(BSTR Query)
 		MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
-	TA_CATCH( "Lookup" ) ;
+	FELIX_AUTO_CATCH( "Lookup" ) ;
 
 	return S_OK;
 }
@@ -159,7 +159,7 @@ STDMETHODIMP CApp::LookupTransDeferred(BSTR Trans)
 		MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS ) ;
 	}
-	TA_CATCH( "LookupTrans" ) ;
+	FELIX_AUTO_CATCH( "LookupTrans" ) ;
 
 	return S_OK;
 }
@@ -171,7 +171,7 @@ STDMETHODIMP CApp::Concordance(BSTR Query)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.get_concordances( BSTR2wstring( Query ) ) ;
 	}
-	TA_CATCH( "Concordance" ) ;
+	FELIX_AUTO_CATCH( "Concordance" ) ;
 
 	return S_OK;
 }
@@ -183,7 +183,7 @@ STDMETHODIMP CApp::TransConcordance(BSTR Trans)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.get_translation_concordances( BSTR2wstring( Trans ) ) ;
 	}
-	TA_CATCH( "TransConcordance" ) ;
+	FELIX_AUTO_CATCH( "TransConcordance" ) ;
 
 	return S_OK;
 }
@@ -197,7 +197,7 @@ STDMETHODIMP CApp::get_Score(DOUBLE* pVal)
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_score() ;
 	}
-	TA_CATCH( "get_Score" ) ;
+	FELIX_AUTO_CATCH( "get_Score" ) ;
 
 	return S_OK ;
 }
@@ -210,7 +210,7 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 		const wstring current_query = MainFrame.get_current_query( ) ;
 		*pVal = ::SysAllocStringLen( current_query.c_str(), current_query.size() ) ;
 	}
-	TA_CATCH( "get_Query" ) ;
+	FELIX_AUTO_CATCH( "get_Query" ) ;
 
 	return S_OK ;
 }
@@ -221,7 +221,7 @@ STDMETHODIMP CApp::put_Query(BSTR Query)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.lookup(BSTR2wstring( Query )) ;
 	}
-	TA_CATCH( "put_Query" ) ;
+	FELIX_AUTO_CATCH( "put_Query" ) ;
 
 	return S_OK ;
 }
@@ -236,7 +236,7 @@ STDMETHODIMP CApp::get_Trans(BSTR* pVal)
 		const wstring trans = MainFrame.get_current_translation( ) ;
 		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
 	}
-	TA_CATCH( "get_Trans" ) ;
+	FELIX_AUTO_CATCH( "get_Trans" ) ;
 
 	return S_OK ;
 }
@@ -247,7 +247,7 @@ STDMETHODIMP CApp::put_Trans(BSTR pVal)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.set_translation(  BSTR2wstring( pVal ) ) ;
 	}
-	TA_CATCH( "put_Trans" ) ;
+	FELIX_AUTO_CATCH( "put_Trans" ) ;
 
 	return S_OK ;
 }
@@ -259,7 +259,7 @@ STDMETHODIMP CApp::Save(void)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_SAVE_MEMORIES, USER_SAVE_MEMORIES ) ;
 	}
-	TA_CATCH( "Save" ) ;
+	FELIX_AUTO_CATCH( "Save" ) ;
 
 	return S_OK ;
 }
@@ -271,7 +271,7 @@ STDMETHODIMP CApp::NextTrans(void)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.next_match() ;
 	}
-	TA_CATCH( "NextTrans" ) ;
+	FELIX_AUTO_CATCH( "NextTrans" ) ;
 
 	return S_OK ;
 }
@@ -283,7 +283,7 @@ STDMETHODIMP CApp::PrevTrans(void)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.prev_match() ;
 	}
-	TA_CATCH( "PrevTrans" ) ;
+	FELIX_AUTO_CATCH( "PrevTrans" ) ;
 
 	return S_OK ;
 }
@@ -298,7 +298,7 @@ STDMETHODIMP CApp::get_GlossMatch(SHORT Index, BSTR* pVal)
 		const wstring entry = MainFrame.get_glossary_entry( Index ) ;
 		*pVal = ::SysAllocStringLen( entry.c_str(), entry.size() ) ;
 	}
-	TA_CATCH( "get_GlossMatch" ) ;
+	FELIX_AUTO_CATCH( "get_GlossMatch" ) ;
 
 	return S_OK ;
 }
@@ -313,7 +313,7 @@ STDMETHODIMP CApp::get_NumGlossMatches(SHORT* pVal)
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		*pVal = static_cast< SHORT >( gloss->num_matches() ) ;
 	}
-	TA_CATCH( "get_NumGlossMatches" ) ;
+	FELIX_AUTO_CATCH( "get_NumGlossMatches" ) ;
 
 	return S_OK ;
 }
@@ -325,7 +325,7 @@ STDMETHODIMP CApp::LoadMemory(BSTR MemoryName)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.load( MemoryName ) ;
 	}
-	TA_CATCH( "LoadMemory" ) ;
+	FELIX_AUTO_CATCH( "LoadMemory" ) ;
 
 	return S_OK ;
 }
@@ -339,7 +339,7 @@ STDMETHODIMP CApp::LoadGlossary(BSTR GlossaryName)
 		gloss->load( GlossaryName ) ;
 
 	}
-	TA_CATCH( "LoadGlossary" ) ;
+	FELIX_AUTO_CATCH( "LoadGlossary" ) ;
 
 	return S_OK ;
 }
@@ -351,7 +351,7 @@ STDMETHODIMP CApp::ClearMemories(void)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.clear_memory() ;
 	}
-	TA_CATCH( "ClearMemories" ) ;
+	FELIX_AUTO_CATCH( "ClearMemories" ) ;
 
 	return S_OK;
 }
@@ -364,7 +364,7 @@ STDMETHODIMP CApp::ClearGlossaries(void)
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		gloss->clear_memory() ;
 	}
-	TA_CATCH( "ClearGlossaries" ) ;
+	FELIX_AUTO_CATCH( "ClearGlossaries" ) ;
 
 	return S_OK;
 }
@@ -378,7 +378,7 @@ STDMETHODIMP CApp::get_ShowMarkup(VARIANT_BOOL* pVal)
 		CMainFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_show_marking() ;
 	}
-	TA_CATCH( "get_ShowMarkup" ) ;
+	FELIX_AUTO_CATCH( "get_ShowMarkup" ) ;
 
 	return S_OK;
 }
@@ -390,7 +390,7 @@ STDMETHODIMP CApp::put_ShowMarkup(VARIANT_BOOL newVal)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.put_show_marking( newVal ) ;
 	}
-	TA_CATCH( "put_ShowMarkup" ) ;
+	FELIX_AUTO_CATCH( "put_ShowMarkup" ) ;
 
 	return S_OK;
 }
@@ -407,7 +407,7 @@ STDMETHODIMP CApp::AddMemoryEntry(BSTR Source, BSTR Trans, BSTR EntryContext)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.add_record( record ) ;
 	}
-	TA_CATCH( "AddMemoryEntry" ) ;
+	FELIX_AUTO_CATCH( "AddMemoryEntry" ) ;
 
 	return S_OK;
 }
@@ -426,7 +426,7 @@ STDMETHODIMP CApp::AddGlossaryEntry(BSTR Source, BSTR Trans, BSTR EntryContext)
 		gloss->add_record(record) ;
 
 	}
-	TA_CATCH( "AddGlossaryEntry" )
+	FELIX_AUTO_CATCH( "AddGlossaryEntry" )
 
 	return S_OK;
 }
@@ -438,7 +438,7 @@ STDMETHODIMP CApp::DeleteMemEntry(void)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.delete_current_translation( ) ;
 	}
-	TA_CATCH( "DeleteMemEntry" ) ;
+	FELIX_AUTO_CATCH( "DeleteMemEntry" ) ;
 
 	return S_OK;
 }
@@ -450,7 +450,7 @@ STDMETHODIMP CApp::CorrectTrans(BSTR Trans)
 		CMainFrame &MainFrame = app::get_app() ;
 		MainFrame.correct_trans(BSTR2wstring(Trans)) ;
 	}
-	TA_CATCH( _T("CorrectedTranslation") )
+	FELIX_AUTO_CATCH( _T("CorrectedTranslation") )
 
 	return S_OK;
 }
@@ -464,7 +464,7 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 		CMainFrame &MainFrame = app::get_app() ;
 		*index = static_cast< SHORT >( MainFrame.get_num_matches() ) ;
 	}
-	TA_CATCH( "get_NumMatches" ) ;
+	FELIX_AUTO_CATCH( "get_NumMatches" ) ;
 
 	return S_OK ;
 }

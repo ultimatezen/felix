@@ -1448,10 +1448,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TabbedTextImporter_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\tag_name_holder.cpp"
 				>
 			</File>
@@ -1969,6 +1965,10 @@
 				</File>
 				<File
 					RelativePath=".\system_message_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TabbedTextImporter_test.cpp"
 					>
 				</File>
 				<File

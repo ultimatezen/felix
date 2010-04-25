@@ -98,7 +98,51 @@ BOOST_AUTO_TEST_SUITE( TestCSearchResults )
 		BOOST_CHECK_EQUAL(2, count2) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( retrieve_match )
+	BOOST_AUTO_TEST_CASE( retrieve_match_score )
+	{
+		results_ptr results ;
+		CComObject< CSearchResults >::CreateInstance( &results ) ;
+
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+		m1->set_base_score(1.0) ;
+
+		search_match_container matches ;
+		matches.insert(m1) ;
+		translation_match_query search_matches; 
+		search_matches.set_matches(matches) ;
+
+		results->set_matches(&search_matches) ;
+
+		CComPtr<ISearchResult> result ;
+		results->get_Item(1, &result) ;
+		double score(0.0) ;
+		result->get_Score(&score) ;
+		BOOST_CHECK_CLOSE(1.0, score, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE( retrieve_match_memory_name )
+	{
+		results_ptr results ;
+		CComObject< CSearchResults >::CreateInstance( &results ) ;
+
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+		m1->set_base_score(1.0) ;
+		m1->set_memory_location(L"foo.ftm") ;
+
+		search_match_container matches ;
+		matches.insert(m1) ;
+		translation_match_query search_matches; 
+		search_matches.set_matches(matches) ;
+
+		results->set_matches(&search_matches) ;
+
+		CComPtr<ISearchResult> result ;
+		results->get_Item(1, &result) ;
+		CComBSTR memory_name ;
+		result->get_MemoryName(&memory_name) ;
+		BOOST_CHECK_EQUAL(L"foo.ftm", memory_name) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( retrieve_match_record_source )
 	{
 		results_ptr results ;
 		CComObject< CSearchResults >::CreateInstance( &results ) ;
@@ -121,6 +165,41 @@ BOOST_AUTO_TEST_SUITE( TestCSearchResults )
 		CComBSTR source ;
 		record->get_Source(&source) ;
 		BOOST_CHECK_EQUAL(L"source 1", source) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( retrieve_match_record_created )
+	{
+		results_ptr results ;
+		CComObject< CSearchResults >::CreateInstance( &results ) ;
+
+		search_match_ptr m1 = make_match("source 1", "trans 1", 1) ;
+
+		misc_wrappers::date setting ;
+		setting.set_to_local_time() ;
+		setting.wYear = 1998 ;
+		m1->get_record()->set_created(setting) ;
+
+		search_match_container matches ;
+		matches.insert(m1) ;
+		translation_match_query search_matches; 
+		search_matches.set_matches(matches) ;
+
+		results->set_matches(&search_matches) ;
+
+		CComPtr<ISearchResult> result ;
+		results->get_Item(1, &result) ;
+		CComPtr<IRecord> record ;
+		result->get_Record(&record) ;
+
+		DATE created(0) ;
+		record->get_DateCreated(&created) ;
+		SYSTEMTIME retrieved_date ;
+		::VariantTimeToSystemTime(created, &retrieved_date) ;
+
+		misc_wrappers::date actual = m1->get_record()->get_created() ;
+		BOOST_CHECK_EQUAL(retrieved_date.wYear, 1998) ;
+		BOOST_CHECK_EQUAL(retrieved_date.wMonth, actual.wMonth) ;
+		BOOST_CHECK_EQUAL(retrieved_date.wDay, actual.wDay) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

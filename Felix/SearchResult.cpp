@@ -4,7 +4,7 @@
 #include "SearchResult.h"
 
 // To use this macro, derive from CAutomationExceptionHandler
-#define TA_CATCH( func_str ) \
+#define FELIX_AUTO_CATCH( func_str ) \
 	catch( _com_error &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }  \
 	catch( CWinException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
 	catch( CComException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
@@ -23,7 +23,7 @@ STDMETHODIMP CSearchResult::get_Record(IRecord **pVal)
 			return m_record->QueryInterface(pVal) ;
 		}
 	}
-	TA_CATCH("get_Record")
+	FELIX_AUTO_CATCH("get_Record")
 
 	return E_FAIL ;
 }
@@ -33,7 +33,7 @@ STDMETHODIMP CSearchResult::put_Record(IRecord *pVal)
 	{
 		pVal ;
 	}
-	TA_CATCH("put_Record")
+	FELIX_AUTO_CATCH("put_Record")
 
 	return S_OK ;
 }
@@ -45,7 +45,7 @@ STDMETHODIMP CSearchResult::get_Score(DOUBLE* pVal)
 	{
 		*pVal = m_match->get_score() ;
 	}
-	TA_CATCH( "get_Score" ) ;
+	FELIX_AUTO_CATCH( "get_Score" ) ;
 
 	return S_OK;
 }
@@ -56,7 +56,7 @@ STDMETHODIMP CSearchResult::get_MemoryName(BSTR* pVal)
 		const wstring memory_location = m_match->get_memory_location() ;
 		*pVal = ::SysAllocStringLen( memory_location.c_str(), memory_location.size() ) ;
 	}
-	TA_CATCH( "get_MemoryName" ) ;
+	FELIX_AUTO_CATCH( "get_MemoryName" ) ;
 	return S_OK;
 }
 

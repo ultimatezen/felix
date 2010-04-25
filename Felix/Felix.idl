@@ -23,16 +23,34 @@ import "atliface.idl";
 interface IRecord : IDispatch{
 	[propget, id(1), helpstring("property Source")] HRESULT Source([out, retval] BSTR* pVal);
 	[propput, id(1), helpstring("property Source")] HRESULT Source([in] BSTR source_val);
+
 	[propget, id(2), helpstring("property Trans")] HRESULT Trans([out, retval] BSTR* pVal);
 	[propput, id(2), helpstring("property Trans")] HRESULT Trans([in] BSTR trans_val);
-	[propput, id(3), helpstring("property Context")] HRESULT Context([in] BSTR context_val);
+	
 	[propget, id(3), helpstring("property Context")] HRESULT Context([out, retval] BSTR* pVal);
-	[propput, id(4), helpstring("property CreatedBy")] HRESULT CreatedBy([in] BSTR created_by_val);
-	[propget, id(4), helpstring("property CreatedBy")] HRESULT CreatedBy([out, retval] BSTR* pVal);
-	[propput, id(5), helpstring("property ModifiedBy")] HRESULT ModifiedBy([in] BSTR modified_by_val);
-	[propget, id(5), helpstring("property ModifiedBy")] HRESULT ModifiedBy([out, retval] BSTR* pVal);
-	[propget, id(6), helpstring("property Id")] HRESULT Id([out, retval] ULONG* pVal);
-	[propput, id(6), helpstring("property Id")] HRESULT Id([in] ULONG newVal);
+	[propput, id(3), helpstring("property Context")] HRESULT Context([in] BSTR context_val);
+	
+	[propget, id(4), helpstring("property PlainSource")] HRESULT PlainSource([out, retval] BSTR* pVal);
+	[propget, id(5), helpstring("property PlainTrans")] HRESULT PlainTrans([out, retval] BSTR* pVal);
+	[propget, id(6), helpstring("property PlainContext")] HRESULT PlainContext([out, retval] BSTR* pVal);
+	
+	[propget, id(7), helpstring("property CreatedBy")] HRESULT CreatedBy([out, retval] BSTR* pVal);
+	[propput, id(7), helpstring("property CreatedBy")] HRESULT CreatedBy([in] BSTR created_by_val);
+	
+	[propget, id(8), helpstring("property ModifiedBy")] HRESULT ModifiedBy([out, retval] BSTR* pVal);
+	[propput, id(8), helpstring("property ModifiedBy")] HRESULT ModifiedBy([in] BSTR modified_by_val);
+	
+	[propget, id(9), helpstring("property DateCreated")] HRESULT DateCreated([out, retval] DATE* pVal);
+	[propput, id(9), helpstring("property DateCreated")] HRESULT DateCreated([in] DATE created_val);
+	
+	[propget, id(10), helpstring("property LastModified")] HRESULT LastModified([out, retval] DATE* pVal);
+	[propput, id(10), helpstring("property LastModified")] HRESULT LastModified([in] DATE modified_val);
+	
+	[propget, id(11), helpstring("property RefCount")] HRESULT RefCount([out, retval] ULONG* pVal);
+	[propput, id(11), helpstring("property RefCount")] HRESULT RefCount([in] ULONG newVal);
+	
+	[propget, id(12), helpstring("property Id")] HRESULT Id([out, retval] ULONG* pVal);
+	[propput, id(12), helpstring("property Id")] HRESULT Id([in] ULONG newVal);
 };
 // SearchResult
 [

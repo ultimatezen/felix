@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "ComRecord.h"
 #include "record_local.h"
+#include "miscwrappers.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -17,6 +18,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		BOOST_CHECK( SUCCEEDED( hr ) ) ;
 		BOOST_CHECK( rec ) ;
 	}
+	// trans
 	BOOST_AUTO_TEST_CASE( trans_empty )
 	{
 		com_rec_ptr rec ;
@@ -35,6 +37,18 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_Trans(&result) ;
 		BOOST_CHECK_EQUAL("spam", string(CW2A(result))) ;
 	}
+	BOOST_AUTO_TEST_CASE( trans_plain )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR trans = L"<b><font color=\"red\">spam &amp; eggs</font></b>" ;
+		rec->put_Trans(trans) ;
+		CComBSTR result ;
+		rec->get_PlainTrans(&result) ;
+		BOOST_CHECK_EQUAL("spam & eggs", string(CW2A(result))) ;
+	}
+
+	// source
 	BOOST_AUTO_TEST_CASE( source )
 	{
 		com_rec_ptr rec ;
@@ -45,6 +59,27 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_Source(&result) ;
 		BOOST_CHECK_EQUAL("spam", string(CW2A(result))) ;
 	}
+	BOOST_AUTO_TEST_CASE( source_rich )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR source = L"<b>spam</b>" ;
+		rec->put_Source(source) ;
+		CComBSTR result ;
+		rec->get_Source(&result) ;
+		BOOST_CHECK_EQUAL("<b>spam</b>", string(CW2A(result))) ;
+	}
+	BOOST_AUTO_TEST_CASE( source_plain )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR source = L"<b>spam</b>" ;
+		rec->put_Source(source) ;
+		CComBSTR result ;
+		rec->get_PlainSource(&result) ;
+		BOOST_CHECK_EQUAL("spam", string(CW2A(result))) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( source_empty )
 	{
 		com_rec_ptr rec ;
@@ -61,6 +96,16 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->put_Context(context) ;
 		CComBSTR result ;
 		rec->get_Context(&result) ;
+		BOOST_CHECK_EQUAL("context", string(CW2A(result))) ;
+	}
+	BOOST_AUTO_TEST_CASE( context_plain )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		CComBSTR context = L"<p>context</p><br/>" ;
+		rec->put_Context(context) ;
+		CComBSTR result ;
+		rec->get_PlainContext(&result) ;
 		BOOST_CHECK_EQUAL("context", string(CW2A(result))) ;
 	}
 	BOOST_AUTO_TEST_CASE( created_by )
@@ -93,13 +138,113 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->put_ModifiedBy(modified_by) ;
 		BOOST_CHECK_EQUAL("modified_by", string(string2string(record->get_modified_by()).c_str())) ;
 	}
+	BOOST_AUTO_TEST_CASE( get_refcount )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		rec->put_RefCount(10) ;
+		ULONG result(0);
+		rec->get_RefCount(&result) ;
+		BOOST_CHECK_EQUAL(10u, result) ;
+	}
+	BOOST_AUTO_TEST_CASE( get_created )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		
+		record_pointer record(new record_local) ;
+		rec->set_record(record) ;
+		misc_wrappers::date created ;
+		created.set_to_local_time() ;
+		created.wYear = 2005 ;
+		created.wMonth = 7 ;
+		record->set_created(created) ;
+
+		DATE result(0);
+		rec->get_DateCreated(&result) ;
+
+		SYSTEMTIME rectime ;
+		::VariantTimeToSystemTime(result, &rectime) ;
+		BOOST_CHECK_EQUAL(2005, rectime.wYear) ;
+		BOOST_CHECK_EQUAL(7, rectime.wMonth) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( set_created )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+
+		record_pointer record(new record_local) ;
+		rec->set_record(record) ;
+		misc_wrappers::date created ;
+		created.set_to_local_time() ;
+		created.wYear = 2003 ;
+		created.wMonth = 2 ;
+
+		DATE setting(0);
+		::SystemTimeToVariantTime(&created, &setting) ;
+
+		rec->put_DateCreated(setting) ;
+
+		misc_wrappers::date result = record->get_created() ;
+
+		BOOST_CHECK_EQUAL(2003, result.wYear) ;
+		BOOST_CHECK_EQUAL(2, result.wMonth) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE( get_modified )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+
+		record_pointer record(new record_local) ;
+		rec->set_record(record) ;
+		misc_wrappers::date modified ;
+		modified.set_to_local_time() ;
+		modified.wYear = 2005 ;
+		modified.wMonth = 7 ;
+		record->set_modified(modified) ;
+
+		DATE result(0);
+		rec->get_LastModified(&result) ;
+
+		SYSTEMTIME rectime ;
+		::VariantTimeToSystemTime(result, &rectime) ;
+		BOOST_CHECK_EQUAL(2005, rectime.wYear) ;
+		BOOST_CHECK_EQUAL(7, rectime.wMonth) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( set_modified )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+
+		record_pointer record(new record_local) ;
+		rec->set_record(record) ;
+		misc_wrappers::date modified ;
+		modified.set_to_local_time() ;
+		modified.wYear = 2003 ;
+		modified.wMonth = 2 ;
+
+		DATE setting(0);
+		::SystemTimeToVariantTime(&modified, &setting) ;
+
+		rec->put_LastModified(setting) ;
+
+		misc_wrappers::date result = record->get_modified() ;
+
+		BOOST_CHECK_EQUAL(2003, result.wYear) ;
+		BOOST_CHECK_EQUAL(2, result.wMonth) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( get_id_0 )
 	{
 		com_rec_ptr rec ;
 		CComObject< CRecord >::CreateInstance( &rec ) ;
 		ULONG result = 10;
 		rec->get_Id(&result) ;
-		BOOST_CHECK_EQUAL(0, (int)result) ;
+		BOOST_CHECK_EQUAL(0u, result) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_id )
 	{
@@ -108,7 +253,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->put_Id(10) ;
 		ULONG result = 0;
 		rec->get_Id(&result) ;
-		BOOST_CHECK_EQUAL(10, (int)result) ;
+		BOOST_CHECK_EQUAL(10u, result) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
