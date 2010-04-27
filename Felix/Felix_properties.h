@@ -278,6 +278,22 @@ struct properties_glossary : public props::CRegMap
 
 	props_data m_data ;
 
+	bool get_ignore_case()
+	{
+		return !!  m_data.m_ignore_case ;
+	}
+	bool get_ignore_width()
+	{
+		return !!  m_data.m_ignore_width ;
+	}
+	bool get_m_ignore_hir_kat()
+	{
+		return !!  m_data.m_ignore_hir_kat ;
+	}
+	size_t get_numbering()
+	{
+		return m_data.m_numbering ;
+	}
 	size_t get_min_score()
 	{
 		return m_data.m_min_score ;

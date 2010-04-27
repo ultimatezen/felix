@@ -42,7 +42,6 @@ BOOST_AUTO_TEST_SUITE( TestPaginator )
 		BOOST_CHECK(! paginator.has_next()) ;
 	}
 
-
 	BOOST_AUTO_TEST_CASE( prev_page_50)
 	{
 		Paginator paginator ;

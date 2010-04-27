@@ -919,6 +919,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\longest_common_substring.cpp"
+				>
+			</File>
+			<File
 				RelativePath="mainfrm.cpp"
 				>
 				<FileConfiguration
@@ -1796,6 +1800,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\longest_common_substring_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\mainframe_messaging_test.cpp"
 					>
 				</File>
@@ -2355,6 +2363,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\logical.h"
+				>
+			</File>
+			<File
+				RelativePath=".\longest_common_substring.h"
 				>
 			</File>
 			<File

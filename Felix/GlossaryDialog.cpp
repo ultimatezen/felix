@@ -67,8 +67,11 @@ m_is_trans_concordance(false)
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_concordance_matches) ;
+	m_view_state_concordance.set_app_props(&this->m_properties_gloss) ;
+
 	this->init_state(&m_view_state_match) ;
 	m_view_state_match.set_search_matches(&m_search_matches) ;
+	m_view_state_match.set_app_props(&this->m_properties_gloss) ;
 
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	m_view_state = &m_view_state_initial ;
@@ -741,9 +744,7 @@ wstring CGlossaryWindow::build_glossary_list(search_query_glossary &search_match
 void CGlossaryWindow::handle_glossary_lookup(const std::wstring& query_text)
 {
 	prep_for_gloss_lookup(query_text);
-
 	perform_gloss_lookup();
-
 	show_gloss_lookup_results();
 }
 
@@ -752,17 +753,13 @@ void CGlossaryWindow::prep_for_gloss_lookup(const std::wstring& query_text)
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
 
-	// remember where we were, we may want to navigate back
-	// remember where we are, makes a difference how we respond to user input
+	m_search_matches.set_start_numbering(m_properties_gloss.get_numbering()) ;
 	set_display_state( MATCH_DISPLAY_STATE ) ;
-
 	config_matches_for_gloss_lookup(query_text);
 }
 
 void CGlossaryWindow::show_gloss_lookup_results()
 {
-	m_search_matches.m_start_numbering = m_properties_gloss.m_data.m_numbering ;
-
 	m_view_state_match.show_content() ;
 	// give the user feedback
 }
@@ -778,9 +775,9 @@ void CGlossaryWindow::perform_gloss_lookup()
 void CGlossaryWindow::config_matches_for_gloss_lookup(const std::wstring& query_text)
 {
 	// our various parameters
-	m_search_matches.m_params.m_ignore_case =		!! m_properties_gloss.m_data.m_ignore_case ;
-	m_search_matches.m_params.m_ignore_width =		!! m_properties_gloss.m_data.m_ignore_width ;
-	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss.m_data.m_ignore_hir_kat ;
+	m_search_matches.m_params.m_ignore_case =		m_properties_gloss.get_ignore_case() ;
+	m_search_matches.m_params.m_ignore_width =		m_properties_gloss.get_ignore_width() ;
+	m_search_matches.m_params.m_ignore_hira_kata =	m_properties_gloss.get_m_ignore_hir_kat() ;
 
 	// source
 	m_search_matches.set_query_rich(query_text) ;
@@ -900,7 +897,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 	prep_for_gloss_lookup(m_search_matches.get_query_rich( ));
 	perform_gloss_lookup();
 
-	if (m_is_trans_concordance)
+	if (!m_is_trans_concordance)
 	{
 		prep_concordance_search(m_concordance_matches.get_query_rich( ));
 		perform_concordance_search();
@@ -1143,55 +1140,6 @@ void CGlossaryWindow::SwapFindDialogs(const bool edit_mode_enabled)
 			m_find.ShowWindow( SW_HIDE ) ;
 			m_edit_find.ShowWindow( SW_SHOW ) ;
 		}
-	}
-
-}
-
-// Leaving edit mode finishes our edits.
-void CGlossaryWindow::handle_new_record_edit( bool edit_mode_enabled )
-{
-	if ( ! edit_mode_enabled ) // we are entering edit mode
-	{
-		handle_enter_edit_mode_new_record() ;
-	}
-	else
-	{
-		handle_leave_edit_mode_new_record() ;
-	}
-}
-
-// =========================
-// for entering edit mode
-// =========================
-void CGlossaryWindow::handle_enter_edit_mode_new_record()
-{
-	user_feedback( IDS_ENTERING_EDIT_MODE ) ;
-	m_view_interface.handle_enter_edit_mode_new_record_glossary( ) ;
-	user_feedback( IDS_IN_EDIT_MODE ) ;
-}
-
-
-// =========================
-// for leaving edit mode
-// =========================
-void CGlossaryWindow::handle_leave_edit_mode_new_record()
-{
-	user_feedback( IDS_LEAVING_EDIT_MODE ) ;
-	
-	if( false == m_view_interface.handle_leave_edit_mode_new_record_glossary( m_memories, m_new_record ) )
-	{
-		m_view_interface.set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
-		check_mousewheel() ;
-		m_view_interface.set_scroll_pos(0) ;
-		user_feedback( IDS_DELETED_ENTRY ) ;
-		m_new_record = record_pointer(new record_local()) ;
-		::MessageBeep( MB_ICONINFORMATION ) ;
-	}
-	else
-	{
-		add_record( m_new_record ) ;
-
-		user_feedback( IDS_LEFT_EDIT_MODE ) ;
 	}
 
 }

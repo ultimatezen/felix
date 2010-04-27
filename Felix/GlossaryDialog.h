@@ -216,10 +216,6 @@ public:
 	bool show_new_record() ;
 	bool handle_open() ;
 	mem_engine::record_pointer get_record( size_t pos ) ; 
-	void handle_new_record_edit( bool edit_mode_enabled ) ;
-
-	void handle_enter_edit_mode_new_record() ;
-	void handle_leave_edit_mode_new_record() ;
 
 	bool set_main ( bool setting ) ; 
 	bool set_window_title() ;

@@ -8,6 +8,80 @@
 BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
 	using namespace mem_engine;
+
+	//////////////////////////////////////////////////////////////////////////
+	// initial setup
+	//////////////////////////////////////////////////////////////////////////
+	BOOST_AUTO_TEST_CASE(init_view_state_search_matches)
+	{
+		CGlossaryWindow gloss ;
+		BOOST_CHECK(gloss.m_view_state_concordance.m_search_matches) ;
+		BOOST_CHECK(gloss.m_view_state_match.m_search_matches) ;
+	}
+	BOOST_AUTO_TEST_CASE(init_view_state_gloss_properties)
+	{
+		CGlossaryWindow gloss ;
+		BOOST_CHECK(gloss.m_view_state_concordance.m_properties_gloss) ;
+		BOOST_CHECK(gloss.m_view_state_match.m_properties_gloss) ;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// config_matches_for_gloss_lookup
+	//////////////////////////////////////////////////////////////////////////
+	BOOST_AUTO_TEST_CASE(config_matches_for_gloss_lookup)
+	{
+		CGlossaryWindow gloss ;
+		gloss.m_search_matches.m_params.m_ignore_case = false ;
+		gloss.m_search_matches.m_params.m_ignore_width = false ;
+		gloss.m_search_matches.m_params.m_ignore_hira_kata = false ;
+
+		gloss.m_properties_gloss.m_data.m_ignore_case = TRUE ;
+		gloss.m_properties_gloss.m_data.m_ignore_width = TRUE ;
+		gloss.m_properties_gloss.m_data.m_ignore_hir_kat = TRUE ;
+
+		wstring query = L"gloss query" ;
+
+		gloss.config_matches_for_gloss_lookup(query) ;
+
+		BOOST_CHECK(gloss.m_search_matches.m_params.m_ignore_case) ;
+		BOOST_CHECK(gloss.m_search_matches.m_params.m_ignore_width) ;
+		BOOST_CHECK(gloss.m_search_matches.m_params.m_ignore_hira_kata) ;
+
+		BOOST_CHECK_EQUAL(L"gloss query", gloss.m_search_matches.get_query_rich()) ;
+	}
+
+
+	// on_toggle_views
+	BOOST_AUTO_TEST_CASE(toggle_views_from_match)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(WindowListener::MATCH_DISPLAY_STATE) ;
+		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
+		BOOST_CHECK_EQUAL(WindowListener::CONCORDANCE_DISPLAY_STATE, gloss.get_display_state()) ;
+	}
+	BOOST_AUTO_TEST_CASE(toggle_views_from_concordance_nothrow)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(WindowListener::CONCORDANCE_DISPLAY_STATE) ;
+		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
+		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
+	}
+	BOOST_AUTO_TEST_CASE(toggle_views_from_init_nothrow)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(WindowListener::INIT_DISPLAY_STATE) ;
+		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
+		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
+	}
+	BOOST_AUTO_TEST_CASE(toggle_views_from_new_nothrow)
+	{
+		CGlossaryWindow gloss ;
+		gloss.set_display_state(WindowListener::NEW_RECORD_DISPLAY_STATE) ;
+		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
+		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
+	}
+
+	// get_record_translation
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
 		CGlossaryWindow gloss ;
@@ -172,7 +246,10 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 
 
-	// CGlossaryWindow message processing
+	//////////////////////////////////////////////////////////////////////////
+	// message processing
+	//////////////////////////////////////////////////////////////////////////
+
 	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
 		CGlossaryWindow dialog ;

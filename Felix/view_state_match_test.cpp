@@ -452,13 +452,16 @@ search_match_ptr make_match(string source, string trans, int id=0)
 		view_state_obj vso(&state) ;
 		vso.view.m_is_edit_mode = true ;
 
+		search_query_glossary search_matches ;
+		state.set_search_matches(&search_matches) ;
+
 		state.handle_toggle_edit_mode() ;
 
 		BOOST_CHECK_EQUAL(6, (int)vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_leave_edit_mode_new") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_leave_edit_mode_concordance_glossary") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2]), "set_text") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3]), "<center><h1>Deleted entry.</h1></center>") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3]), "<p>Found 0 matches.</p>") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4]), "set_scroll_pos") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5]), "0") ;
 

@@ -38,6 +38,14 @@ public:
 class ViewStateMatchGloss : public ViewStateMatch
 {
 public:
+	app_props::properties_glossary		*m_properties_gloss ;
+
+	ViewStateMatchGloss() : m_properties_gloss(NULL){}
+
+	void set_app_props(app_props::properties_glossary *properties)
+	{
+		m_properties_gloss = properties ;
+	}
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
 	void activate()
