@@ -9,9 +9,6 @@
 
 {% endif %}
 {% if results %}
-<p>Found {$num_matches} matches for your criteria.</p>
-
-    <h3>Page {$page} of {$num_pages}</h3>
 
 {$pagination}
     <table>

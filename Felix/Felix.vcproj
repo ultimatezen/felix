@@ -1226,6 +1226,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\pagination.cpp"
+				>
+			</File>
+			<File
 				RelativePath="PropertiesDlg.cpp"
 				>
 				<FileConfiguration
@@ -1888,6 +1892,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\pagination_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PropertiesDlg_test.cpp"
 					>
 				</File>
@@ -2494,15 +2502,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pagination.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\pagination.h"
-				>
-			</File>
-			<File
-				RelativePath=".\pagination_test.cpp"
 				>
 			</File>
 			<File

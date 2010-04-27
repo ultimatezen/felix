@@ -9,9 +9,6 @@
 
 {% endif %}
 {% if results %}
-<p>{$num_matches}個のマッチがありました。</p>
-
-    <h3>ページ　{$page}/{$num_pages}</h3>
 
 {$pagination}
     <table>

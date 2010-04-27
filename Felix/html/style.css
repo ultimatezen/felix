@@ -136,3 +136,48 @@ table.form td
 .placement {font-weight: bold; color: blue}
 .format_penalty {color: #888888;}
 .concordance_match { background-color: #FFFF99; }
+
+/* paginator */
+.paginator {
+font-size:11px;
+padding-top:10px;
+padding-bottom:10px;
+line-height:22px;
+border-top:1px solid #ddd;
+margin:0;
+}
+
+.paginator a:link,.paginator a:visited {
+border:solid 1px #ccc;
+background:#FFF;
+text-decoration:none;
+padding:2px 6px;
+}
+
+.paginator a.showall {
+border:none !important;
+padding:0 !important;
+}
+
+.paginator a.showall:hover {
+color:#036 !important;
+background:transparent !important;
+}
+
+.paginator .end {
+margin-right:6px;
+border-width:2px !important;
+}
+
+.paginator .this-page {
+font-weight:700;
+font-size:13px;
+vertical-align:top;
+padding:2px 6px;
+}
+
+.paginator a:hover {
+color:#FFF;
+background:#5b80b2;
+border-color:#036;
+}
