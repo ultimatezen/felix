@@ -224,31 +224,66 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		perform_search(get_doc3());
 		return true ;
 	}
+	// page navigation
 	if (boost::ends_with(url, L"next_page"))
 	{
 		m_paginator.next_page() ;
 		show_search_results(get_doc3(), m_matches) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"prev_page"))
 	{
 		m_paginator.prev_page() ;
 		show_search_results(get_doc3(), m_matches) ;
+		return true ;
 	}
+	if (boost::ends_with(url, L"first_page"))
+	{
+		while(m_paginator.has_prev())
+		{
+			m_paginator.prev_page() ;
+		}
+		show_search_results(get_doc3(), m_matches) ;
+		return true ;
+	}
+	if (boost::ends_with(url, L"last_page"))
+	{
+		while(m_paginator.has_next())
+		{
+			m_paginator.next_page() ;
+		}
+		show_search_results(get_doc3(), m_matches) ;
+		return true ;
+	}
+	if (boost::ends_with(url, L"goto_page"))
+	{
+		std::vector<wstring> tokens ;
+		boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
+		size_t penultimate = tokens.size() - 2 ;
+		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[penultimate])-1) ;
+		show_search_results(get_doc3(), m_matches) ;
+		return true ;
+	}
+
 	if (boost::ends_with(url, L"deletefilter"))
 	{
 		handle_deletefilter(get_doc3(), url) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"editrecord"))
 	{
 		handle_editrecord(get_doc3(), url) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"deleterecord"))
 	{
 		handle_deleterecord(get_doc3(), url) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"undodelete"))
 	{
 		handle_undodelete(get_doc3()) ;
+		return true ;
 	}
 
 
@@ -256,16 +291,18 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	if (boost::ends_with(url, L"replace_find"))
 	{
 		handle_replace_find(get_doc3()) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"replace_replace"))
 	{
 		handle_replace_replace(get_doc3()) ;
+		return true ;
 	}
 	if (boost::ends_with(url, L"replace_all"))
 	{
 		handle_replace_all(get_doc3()) ;
+		return true ;
 	}
-
 
 	if (boost::ends_with(url, L".html"))
 	{

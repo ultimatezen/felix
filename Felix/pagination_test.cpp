@@ -5,6 +5,13 @@
 BOOST_AUTO_TEST_SUITE( TestPaginator )
 
 	// getting basic info
+	BOOST_AUTO_TEST_CASE(init_has_next)
+	{
+		Paginator paginator ;
+		BOOST_CHECK(! paginator.has_next()) ;
+	}
+
+
 	BOOST_AUTO_TEST_CASE( default_1)
 	{
 		Paginator paginator ;
@@ -64,10 +71,14 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		paginator.set_num_records(1) ;
 		wstring text = get_pagination_text(paginator) ;
 
-		BOOST_CHECK(text.find(L"Previous") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"Next") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"/next_page") == wstring::npos) ;
-		BOOST_CHECK(text.find(L"/prev_page") == wstring::npos) ;
+		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
+		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">1</span>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 1 of 1 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"</p>")) ;
+
+		BOOST_CHECK(! boost::contains(text, L"/next_page")) ;
+		BOOST_CHECK(! boost::contains(text, L"/prev_page")) ;
+
 	}
 	BOOST_AUTO_TEST_CASE( first_page_50)
 	{
@@ -75,10 +86,17 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		paginator.set_num_records(50) ;
 		wstring text = get_pagination_text(paginator) ;
 
-		BOOST_CHECK(text.find(L"Previous") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"Next") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"/next_page") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"/prev_page") == wstring::npos) ;
+		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
+		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">1</span>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/2/goto_page\" title=\"Go to page 2\">2</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to page 3\">3</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/next_page\" title=\"Go to next page\">&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/last_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 20 of 50 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"</p>")) ;
+
+		BOOST_CHECK(!boost::contains(text, L"/prev_page")) ;
+		BOOST_CHECK(!boost::contains(text, L"/first_page")) ;
 	}
 	BOOST_AUTO_TEST_CASE( next_page_50)
 	{
@@ -87,9 +105,15 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		paginator.next_page() ;
 		wstring text = get_pagination_text(paginator) ;
 
-		BOOST_CHECK(text.find(L"Previous") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"Next") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"/next_page") != wstring::npos) ;
-		BOOST_CHECK(text.find(L"/prev_page") != wstring::npos) ;
+		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/first_page\" title=\"Go to first page\">&lt;&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/prev_page\" title=\"Go to previous page\">&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/1/goto_page\" title=\"Go to page 1\">1</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">2</span>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to page 3\">3</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/next_page\" title=\"Go to next page\">&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/last_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;21 to 40 of 50 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"</p>")) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()

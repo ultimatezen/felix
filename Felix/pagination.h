@@ -12,8 +12,13 @@ public:
 
 	void set_num_records(size_t num_records);
 	size_t get_current_page();
+	size_t get_num_records();
+
 	void next_page();
 	void prev_page();
+
+	void goto_page(size_t page);
+
 	bool has_next();
 	bool has_prev();
 	size_t get_num_pages();

@@ -5,11 +5,9 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
-
 
 	using namespace mem_engine ;
 

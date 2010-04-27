@@ -9,7 +9,7 @@
 	<span class="this-page" title="現在のページ">{$num}</span>
 	{% endif %}
 	{% if num != current_page %}
-	<a href="/{$num}/goto_page" title="ページ{$num}へ進む">{{num}}</a>
+	<a href="/{$num}/goto_page" title="ページ{$num}へ進む">{$num}</a>
 	{% endif %}
 {% endfor %}
 
@@ -18,5 +18,5 @@
 	<a href="/last_page" title="最後のページへ進む">&gt;&gt;</a>
 {% endif %}
 
-&nbsp;&nbsp;&nbsp;&nbsp;{$num_matches}個のマッチが見つかりました。
+&nbsp;&nbsp;&nbsp;&nbsp;{$num_matches}個のマッチ中の{$matches_start}～{$matches_end}。
 </p>
