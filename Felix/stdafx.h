@@ -177,6 +177,8 @@ CExeModule
 
 #include "resource_string.h"
 
+#include "unit_testing.h"
+
 static const int SEND_BUTTON_ID = 17 ;
 static const int DONT_SEND_BUTTON_ID = 18 ;
 static const int CRASH_PAGE_ID = 19 ;
@@ -194,16 +196,7 @@ static const double EPSILON = 0.00001 ;
 #define VERSION "1.5.5"
 #define LOGGING_SERVER L"FelixHelpers.FelixLogger"
 #define LOGFILE_NAME _T("felix.log")
-
-
-namespace std {
-	inline std::ostream& operator<<(std::ostream& out, const std::wstring& value)
-	{
-		out << string2string(value);
-		return out;
-	}
-
-} 
+ 
 
 #ifdef _EMBEDDED_MANIFEST
 #if defined _M_IX86

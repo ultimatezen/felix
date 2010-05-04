@@ -19,7 +19,6 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 
 CMultitermConversionDlg::CMultitermConversionDlg()
 :
-	m_is_import(false),
 	m_multiterm_version( IDC_MULTI6 )
 {
 
@@ -31,18 +30,6 @@ CMultitermConversionDlg::~CMultitermConversionDlg()
 	
 }
 
-bool CMultitermConversionDlg::is_import() 
-{
-	return m_is_import ;
-}
-void CMultitermConversionDlg::put_import_on() 
-{
-	m_is_import = true ;
-}
-void CMultitermConversionDlg::put_import_off() 
-{
-	m_is_import = false ;	
-}
 
 int CMultitermConversionDlg::get_multiterm_version()
 {
@@ -66,8 +53,7 @@ LRESULT CMultitermConversionDlg::OnInitDialog( )
 
 	SendDlgItemMessage( IDC_MULTI6, BM_SETCHECK, TRUE, 0 ) ;
 
-	if ( m_is_import ) SetWindowText( resource_string( IDS_MULTITERM_IMPORT_TITLE ) ) ;
-	else SetWindowText( resource_string( IDS_MULTITERM_EXPORT_TITLE ) ) ;
+	SetWindowText( resource_string( IDS_MULTITERM_EXPORT_TITLE ) ) ;
 
 	return TRUE;
 }
@@ -105,7 +91,7 @@ LRESULT CMultitermConversionDlg::OnMulti55( )
 {
 	BANNER( "CMultitermConversionDlg::OnMulti55" ) ;
 
-	m_multiterm_version = IDC_MULTI55 ;
+	set_multiterm_version(IDC_MULTI55) ;
 	return 0;
 }
 
@@ -116,6 +102,6 @@ LRESULT CMultitermConversionDlg::OnMulti66( )
 {
 	BANNER( "CMultitermConversionDlg::OnMulti66" ) ;
 
-	m_multiterm_version = IDC_MULTI6 ;
+	set_multiterm_version(IDC_MULTI6) ;
 	return 0;
 }

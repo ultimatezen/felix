@@ -10,7 +10,7 @@ class Paginator
 public:
 	Paginator();
 
-	void set_num_records(size_t num_records);
+	void set_num_records(size_t num_records, bool reset_current_page=true);
 	size_t get_current_page();
 	size_t get_num_records();
 
@@ -25,5 +25,8 @@ public:
 	size_t get_start();
 	size_t get_end();
 };
+typedef std::pair<size_t, size_t> window_range ;
+
+window_range make_window(size_t current, size_t num, size_t window_size) ;
 
 wstring get_pagination_text(Paginator &paginator) ;

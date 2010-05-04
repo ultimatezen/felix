@@ -62,18 +62,25 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	{
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"foo") ;
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
+		search_match_ptr match = mem->make_match() ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		window.m_matches.push_back(match) ;
+
 		window.m_search_runner.add_term(L"foo") ;
 		_bstr_t url = L"/0/deleterecord" ;
 		window.OnBeforeNavigate2(url) ;
-		BOOST_CHECK_EQUAL(3, (int)window.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2, (int)window.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(window.m_sensing_variable[0].c_str()), "CSearchWindow::OnBeforeNavigate2"); 
 		BOOST_CHECK_EQUAL(string(window.m_sensing_variable[1].c_str()), "handle_deleterecord"); 
-		BOOST_CHECK_EQUAL(string(window.m_sensing_variable[2].c_str()), "CSearchWindow::retrieve_and_show_matches"); 
 	}
+
+
 	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_undodelete)
 	{
 		CSearchWindow window ;
@@ -110,12 +117,47 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		rec->set_source(L"foo") ;
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
+
+		search_match_ptr match = mem->make_match() ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		window.m_matches.push_back(match) ;
+
 		window.m_search_runner.add_term(L"foo") ;
 		_bstr_t url = L"/0/deleterecord" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(0, (int)mem->size()) ;
 		BOOST_CHECK_EQUAL(L"foo", window.m_deleted_match->get_record()->get_source_rich()) ;
 	}
+
+	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_deleterecord_page_stays_same)
+	{
+		CSearchWindow window ;
+		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"foo") ;
+		rec->set_trans(L"bar") ;
+		mem->add_record(rec) ;
+
+		search_match_ptr match = mem->make_match() ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		for (int i = 0 ; i < 230 ; ++i)
+		{
+			window.m_matches.push_back(match) ;
+		}
+		window.m_current_match = 100 ;
+		window.m_paginator.set_num_records(window.m_matches.size()) ;
+		window.m_paginator.goto_page(10) ;
+		BOOST_CHECK_EQUAL(10u, window.m_paginator.get_current_page()) ;
+
+		window.m_search_runner.add_term(L"foo") ;
+		_bstr_t url = L"/0/deleterecord" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(10u, window.m_paginator.get_current_page()) ;
+	}
+
+
 	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_undodelete)
 	{
 		CSearchWindow window ;
@@ -249,9 +291,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		mem->add_record(rec) ;
 		window.m_search_runner.add_term(L"foo") ;
 
-		match_vec matches_before ;
-		window.get_search_matches(matches_before) ;
-		BOOST_CHECK_EQUAL(1, (int)matches_before.size()) ;
+		window.get_search_matches(window.m_matches) ;
+		BOOST_CHECK_EQUAL(1, (int)window.m_matches.size()) ;
 		BOOST_CHECK_EQUAL(1, (int)mem->size()) ;
 
 		wstring url = L"/0/deleterecord" ;
@@ -264,6 +305,35 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(0, (int)mem->size()) ;
 		BOOST_CHECK_EQUAL(L"foo", window.m_deleted_match->get_record()->get_source_rich()) ;
 	}
+
+	BOOST_AUTO_TEST_CASE( handle_editrecord_page_stays_same)
+	{
+		CSearchWindow window ;
+		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"foo") ;
+		rec->set_trans(L"bar") ;
+		mem->add_record(rec) ;
+
+		search_match_ptr match = mem->make_match() ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		for (int i = 0 ; i < 130 ; ++i)
+		{
+			window.m_matches.push_back(match) ;
+		}
+		window.m_current_match = 50 ;
+		window.m_paginator.set_num_records(window.m_matches.size()) ;
+		window.m_paginator.goto_page(5) ;
+		BOOST_CHECK_EQUAL(5u, window.m_paginator.get_current_page()) ;
+
+		window.m_search_runner.add_term(L"foo") ;
+		wstring url = L"/0/editrecord" ;
+		window.handle_editrecord(window.get_doc3(), url) ;
+		BOOST_CHECK_EQUAL(5u, window.m_paginator.get_current_page()) ;
+	}
+
+
 	BOOST_AUTO_TEST_CASE( delete_record)
 	{
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;

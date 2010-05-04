@@ -14,18 +14,7 @@ namespace mem_engine
 		wstring m_context;
 
 	public:
-		markup_strings(void);
-		markup_strings( const markup_strings &cpy )
-		{
-			internal_copy( cpy ) ;
-		}
-		~markup_strings(void);
-		markup_strings& operator = ( const markup_strings &cpy )
-		{
-			internal_copy( cpy ) ;
-			return *this ;
-		}
-
+		markup_strings(void){}
 
 		void SetQuery(const std::wstring& query)
 		{
@@ -67,14 +56,6 @@ namespace mem_engine
 			return m_context;
 		}
 
-	private:
-		void internal_copy( const markup_strings &cpy )
-		{
-			SetQuery( cpy.GetQuery() ) ;
-			SetSource( cpy.GetSource() ) ;
-			SetTrans( cpy.GetTrans() ) ;
-			SetContext( cpy.GetContext() ) ;
-		}
 	};
 
 	typedef boost::shared_ptr< markup_strings > markup_ptr ;

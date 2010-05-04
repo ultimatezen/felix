@@ -158,6 +158,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		created.set_to_local_time() ;
 		created.wYear = 2005 ;
 		created.wMonth = 7 ;
+		created.wDay = 10 ;
 		record->set_created(created) ;
 
 		DATE result(0);
@@ -179,7 +180,8 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		misc_wrappers::date created ;
 		created.set_to_local_time() ;
 		created.wYear = 2003 ;
-		created.wMonth = 2 ;
+		created.wMonth = 6 ;
+		created.wDay = 10 ;
 
 		DATE setting(0);
 		::SystemTimeToVariantTime(&created, &setting) ;
@@ -189,7 +191,8 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		misc_wrappers::date result = record->get_created() ;
 
 		BOOST_CHECK_EQUAL(2003, result.wYear) ;
-		BOOST_CHECK_EQUAL(2, result.wMonth) ;
+		BOOST_CHECK_EQUAL(6, result.wMonth) ;
+		BOOST_CHECK_EQUAL(10, result.wDay) ;
 	}
 
 
@@ -226,6 +229,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		modified.set_to_local_time() ;
 		modified.wYear = 2003 ;
 		modified.wMonth = 2 ;
+		modified.wDay = 10 ;
 
 		DATE setting(0);
 		::SystemTimeToVariantTime(&modified, &setting) ;

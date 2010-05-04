@@ -43,6 +43,24 @@ BOOST_AUTO_TEST_SUITE( TestMultitermConversionDlg )
 		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
+	BOOST_AUTO_TEST_CASE( test_message_IDC_MULTI55)
+	{
+		CMultitermConversionDlg dialog ;
+		dialog.m_bModal = TRUE ;
+		dialog.m_multiterm_version = 0 ;
+		LRESULT lResult = 1 ;
+		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDC_MULTI55, 0, lResult, 0)  ;
+		BOOST_CHECK_EQUAL(dialog.get_multiterm_version(), IDC_MULTI55) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_message_IDC_MULTI6)
+	{
+		CMultitermConversionDlg dialog ;
+		dialog.m_bModal = TRUE ;
+		dialog.m_multiterm_version = 0 ;
+		LRESULT lResult = 1 ;
+		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDC_MULTI6, 0, lResult, 0)  ;
+		BOOST_CHECK_EQUAL(dialog.get_multiterm_version(), IDC_MULTI6) ;
+	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CMultitermConversionDlg dialog ;

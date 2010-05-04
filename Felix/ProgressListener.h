@@ -23,7 +23,7 @@ public:
 	virtual bool OnProgressWriteUpdate( size_t current_val ) = 0 ; // true to continue
 	virtual void OnProgressDoneWrite( size_t final_val ) = 0 ;
 	virtual void OnProgressDoneLoad( size_t final_val ) = 0 ;
-	virtual bool RecoverFromExceptions()
+	virtual bool ShouldBailFromException()
 	{
 		return true ;
 	}

@@ -21,7 +21,7 @@ using namespace text_tmpl ;
 // for displaying search results in HTML view
 wstring escape_entities(const wstring text)
 {
-	return str::replace(str::replace(text, L"&", L"&amp;"), L"<", L"&lt;") ;
+	return boost::replace_all_copy(boost::replace_all_copy(text, L"&", L"&amp;"), L"<", L"&lt;") ;
 }
 
 wstring tows(const size_t i)
@@ -514,14 +514,25 @@ void CSearchWindow::handle_editrecord( doc3_wrapper_ptr doc, wstring url )
 	SENSE("handle_editrecord") ;
 	CEditTransRecordDialogModal editdlg ;
 
-	mem_engine::search_match_ptr match = get_match_at(get_pos_arg(url));
+	size_t pos = get_pos_arg(url) ;
+	if (pos >= m_matches.size())
+	{
+		m_message = L"Edit parameter is out of bounds: " + ulong2wstring(pos) ;
+		return ;
+	}
+	mem_engine::search_match_ptr match = m_matches[pos] ;
 
 	editdlg.set_record(match->get_record()) ;
+	editdlg.set_memory_id(match->get_memory_id()) ;
 
+#ifndef UNIT_TEST
 	if (editdlg.DoModal(*this) == IDOK)
 	{
-		retrieve_and_show_matches(doc);
+#endif		
+		show_search_results(doc, m_matches) ;
+#ifndef UNIT_TEST
 	}
+#endif		
 }
 
 /*
@@ -535,10 +546,22 @@ void CSearchWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 
 	SENSE("handle_deleterecord") ;
 
-	m_deleted_match = get_match_at(get_pos_arg(url));
-
+	size_t pos = get_pos_arg(url) ;
+	if (pos >= m_matches.size())
+	{
+		m_message = L"Deletion parameter is out of bounds: " + ulong2wstring(pos) ;
+		return ;
+	}
+	m_deleted_match = m_matches[pos] ;
+	m_matches.erase(m_matches.begin() + pos) ;
+	// set the number of records, but don't reset the current page
+	m_paginator.set_num_records(m_matches.size(), false) ;
 	delete_record(m_deleted_match);
-	retrieve_and_show_matches(doc);
+	show_search_results(doc, m_matches) ;
+	if (m_current_match)
+	{
+		--m_current_match ;
+	}
 }
 
 /*
@@ -566,12 +589,10 @@ void CSearchWindow::handle_undodelete( doc3_wrapper_ptr doc )
  */
 size_t CSearchWindow::get_pos_arg( const wstring url )
 {
-	textstream_reader<wchar_t> reader ;
-	reader.set_buffer(url.c_str()) ;
 	std::vector<wstring> tokens ;
-	reader.split(tokens, L"\\/") ;
+	boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
+	ATLASSERT(! tokens.empty()) ;
 	const size_t last = tokens.size() -1 ;
-	ATLASSERT(last > 0) ;
 	return boost::lexical_cast<size_t>(tokens[last-1]) ;
 }
 

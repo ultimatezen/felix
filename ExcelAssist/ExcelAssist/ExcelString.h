@@ -180,9 +180,9 @@ private:
 			return ;
 		}
 		wstring out( (LPCWSTR)m_data ) ;
-		str::replace_all( out, L"&", L"&amp;" ) ;
-		str::replace_all( out, L"<", L"&lt;" ) ;
-		str::replace_all( out, L">", L"&gt;" ) ;
+		boost::replace_all( out, L"&", L"&amp;" ) ;
+		boost::replace_all( out, L"<", L"&lt;" ) ;
+		boost::replace_all( out, L">", L"&gt;" ) ;
 		m_data = out.c_str() ;
 	}
 };

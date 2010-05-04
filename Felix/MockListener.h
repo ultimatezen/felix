@@ -5,36 +5,36 @@
 class CMockListener : public CProgressListener
 {
 public:
-	void sense(string value)
-	{
-		m_calls += value ;
-	}
-	std::vector< string > m_calls ;
+	DECLARE_SENSING_VAR ;
+
+	bool m_should_bail ;
+	CMockListener() : m_should_bail(false){}
+
 	void OnProgressInit( const CString &/*file_name*/, size_t /*min_val*/, size_t /*max_val*/ )
 	{
-		sense("OnProgressInit") ;
+		SENSE("OnProgressInit") ;
 	}
 	bool OnProgressLoadUpdate( size_t /*current_val*/ ) 
 	{
-		sense("OnProgressLoadUpdate") ;
+		SENSE("OnProgressLoadUpdate") ;
 		return true ;
 	}
 	bool OnProgressWriteUpdate( size_t /*current_val*/ ) 
 	{
-		sense("OnProgressWriteUpdate") ;
+		SENSE("OnProgressWriteUpdate") ;
 		return true ;
 	}
 	void OnProgressDoneWrite( size_t /*final_val*/ ) 
 	{
-		sense("OnProgressDoneWrite") ;
+		SENSE("OnProgressDoneWrite") ;
 	}
 	void OnProgressDoneLoad( size_t /*final_val*/ )
 	{
-		sense("OnProgressDoneLoad") ;
+		SENSE("OnProgressDoneLoad") ;
 	}
-	virtual bool RecoverFromExceptions()
+	virtual bool ShouldBailFromException()
 	{
-		sense("RecoverFromExceptions") ;
-		return false ;
+		SENSE("ShouldBailFromException") ;
+		return m_should_bail ;
 	}
 } ;

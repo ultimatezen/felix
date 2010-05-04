@@ -2686,6 +2686,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\unit_testing.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\UserName.h"
 				>
 			</File>

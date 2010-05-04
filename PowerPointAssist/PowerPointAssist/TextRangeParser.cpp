@@ -36,8 +36,8 @@ _bstr_t CTextRangeParser::selectionToRichText()
 _bstr_t CTextRangeParser::selectionToPlainText()
 {
 	wstring plainText = BSTR2wstring( m_currentSegment->Text ) ;
-	str::replace_all( plainText, L"&", L"&amp;" ) ;
-	str::replace_all( plainText, L"<", L"&lt;" ) ;
+	boost::replace_all( plainText, L"&", L"&amp;" ) ;
+	boost::replace_all( plainText, L"<", L"&lt;" ) ;
 	return string2BSTR( plainText ) ;
 }
 

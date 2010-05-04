@@ -681,7 +681,7 @@ bool CRecord2XmlConverter::convert_rest()
 
 		convert_cdata_node( start_tag, 
 						    end_tag, 
-							str::replace( pos->second, L"<", L"&lt;" )) ;
+							boost::replace_all_copy( pos->second, L"<", L"&lt;" )) ;
 	}
 	return true ;
 }

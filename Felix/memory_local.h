@@ -40,7 +40,7 @@ namespace mem_engine
 		  void loadRecords(const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved);
 		  bool load( const CString &file_name ) ;
 		  void load_header( const CString &location );
-		  int setProgressInterval(int num_records) ;
+		  int get_progress_interval(int num_records) ;
 		  void handleCExceptionOnLoad( const CString& file_name, bool was_saved, except::CException& e ) ;
 
 		  // TranslationMemory

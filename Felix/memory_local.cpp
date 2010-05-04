@@ -49,11 +49,10 @@ namespace mem_engine
 		}
 
 
-		// check for demo status
-#ifndef _DEBUG
 		// Only check when conditions are right
 		if (should_check_for_demo())
 		{
+		// check for demo status
 			int cookie = 0xDECAFBAD ;
 			try
 			{
@@ -66,7 +65,6 @@ namespace mem_engine
 				throw ;
 			}
 		}
-#endif
 
 		record->set_cmp_maker(m_cmp_maker) ;
 
@@ -694,7 +692,7 @@ namespace mem_engine
 			m_listener->OnProgressInit( file_name, size(), size() + num_records ) ;
 		}
 
-		int progress_interval = setProgressInterval(num_records);
+		int progress_interval = get_progress_interval(num_records);
 
 		bool was_saved = is_saved() ;
 
@@ -855,15 +853,18 @@ namespace mem_engine
 		wide_buffer.ReleaseBuffer(len_needed) ;
 	}
 
-	int memory_local::setProgressInterval(int num_records)
+	int memory_local::get_progress_interval(int num_records)
 	{
-		int progress_interval(10) ;
-		if ( 1000 < num_records ) 
+		const int SMALL_TM_SIZE = 1000 ;
+		const int DEFAULT_PROGRESS_INTERVAL = 10 ;
+		const int NUM_INTERVAL_STEPS = 200 ;
+
+		if ( num_records > SMALL_TM_SIZE  ) 
 		{
-			progress_interval = num_records / 200 ;
+			return num_records / NUM_INTERVAL_STEPS ;
 		}
 
-		return progress_interval;
+		return DEFAULT_PROGRESS_INTERVAL;
 	}
 
 	void memory_local::handleCExceptionOnLoad( const CString& file_name, bool was_saved, CException& e ) 
@@ -879,27 +880,28 @@ namespace mem_engine
 			}
 		}
 
-		if ( UserSaysBail() )
+		if (m_listener)
 		{
-			m_listener->OnProgressDoneLoad(0) ;
-			set_saved_flag( was_saved ) ;
-			e.set_bottom_message( get_load_failure_msg(file_name) ) ;
-			throw except::CException( e ) ;
-		}
-
-		e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
-		if ( IDNO == e.notify_user( IDS_LOAD_RECORD_FAILED, MB_YESNO ) )
-		{
-			if ( m_listener != NULL )
+			if ( UserSaysBail() )
 			{
 				m_listener->OnProgressDoneLoad(0) ;
+				set_saved_flag( was_saved ) ;
+				e.set_bottom_message( get_load_failure_msg(file_name) ) ;
+				throw except::CException( e ) ;
 			}
-
-			set_saved_flag( was_saved ) ;
-			CString exception_message ;
-			exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
-			throw except::CException( exception_message ) ;
 		}
+		else
+		{
+			e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
+			if ( IDNO == e.notify_user( IDS_LOAD_RECORD_FAILED, MB_YESNO ) )
+			{
+				set_saved_flag( was_saved ) ;
+				CString exception_message ;
+				exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
+				throw except::CException( exception_message ) ;
+			}
+		}
+
 
 	}
 

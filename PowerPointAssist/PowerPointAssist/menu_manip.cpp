@@ -38,8 +38,8 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 bool item_needs_killing( _bstr_t caption )
 {
 	wstring candidate_for_death = (LPCWSTR)caption ;
-	str::replace_all( candidate_for_death, L"&", L"" ) ;
-	str::make_lower( candidate_for_death ) ;
+	boost::replace_all( candidate_for_death, L"&", L"" ) ;
+	boost::to_lower( candidate_for_death ) ;
 
 	wstring marked_for_death(L"felix") ;
 	return ( candidate_for_death.find( marked_for_death ) != wstring::npos  ) ;

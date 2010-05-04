@@ -37,9 +37,9 @@ CMenuAdder::~CMenuAdder(void)
 _bstr_t getTag(_bstr_t& text)
 {
 	wstring idText = (LPCWSTR)text ;
-	str::replace_all( idText, L" ", L"_" ) ;
-	str::replace_all( idText, L"&", L"_" ) ;
-	str::replace_all( idText, L"\t", L"_" ) ;
+	boost::replace_all( idText, L" ", L"_" ) ;
+	boost::replace_all( idText, L"&", L"_" ) ;
+	boost::replace_all( idText, L"\t", L"_" ) ;
 
 	_bstr_t tag = idText.c_str( ) ;
 	return tag ;

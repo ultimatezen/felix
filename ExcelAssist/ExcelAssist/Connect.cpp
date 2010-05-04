@@ -478,7 +478,7 @@ void CConnect::killOldMenu(void)
 	{
 		MSOffice::CommandBarControlPtr control = controls->Item[i] ;
 		wstring candidate_for_death = (LPCWSTR)control->Caption ;
-		str::replace_all( candidate_for_death, L"&", L"" ) ;
+		boost::replace_all( candidate_for_death, L"&", L"" ) ;
 		boost::to_lower(candidate_for_death) ;
 		if ( candidate_for_death.find( L"felix" ) != wstring::npos  )
 		{

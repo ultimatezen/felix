@@ -124,32 +124,32 @@ namespace memory_searcher
 		tag = L"source:" ; // Search in source field
 		if (boost::starts_with(term, tag))
 		{
-			wstring query = str::make_lower_out(term.substr(tag.size())) ;
+			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
 			if (boost::trim_copy(query).empty())
 			{
 				return true ;
 			}
-			return str::make_lower_out(rec->get_source_cmp()).find(query) != wstring::npos ;
+			return boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos ;
 		}
 		tag = L"trans:" ; // Search in translation field
 		if (boost::starts_with(term, tag))
 		{
-			wstring query = str::make_lower_out(term.substr(tag.size())) ;
+			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
 			if (boost::trim_copy(query).empty())
 			{
 				return true ;
 			}
-			return str::make_lower_out(rec->get_trans_cmp()).find(query) != wstring::npos ;
+			return boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos ;
 		}
 		tag = L"context:" ; // Search in context field
 		if (boost::starts_with(term, tag))
 		{
-			wstring query = str::make_lower_out(term.substr(tag.size())) ;
+			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
 			if (boost::trim_copy(query).empty())
 			{
 				return true ;
 			}
-			return str::make_lower_out(rec->get_context_cmp()).find(query) != wstring::npos ;
+			return boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos ;
 		}
 		// Created
 		tag = L"created-by:" ; // Search in creator field
@@ -323,16 +323,16 @@ namespace memory_searcher
 		}
 
 		// search in source, trans, and context fields
-		wstring query = str::make_lower_out(term) ;
-		if (str::make_lower_out(rec->get_source_cmp()).find(query) != wstring::npos)
+		wstring query = boost::to_lower_copy(term) ;
+		if (boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos)
 		{
 			return true ;
 		}
-		if (str::make_lower_out(rec->get_trans_cmp()).find(query) != wstring::npos)
+		if (boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos)
 		{
 			return true ;
 		}
-		if (str::make_lower_out(rec->get_context_cmp()).find(query) != wstring::npos)
+		if (boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos)
 		{
 			return true ;
 		}

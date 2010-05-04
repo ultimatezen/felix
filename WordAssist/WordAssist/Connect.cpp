@@ -820,7 +820,7 @@ void CConnect::kill_old_menu(office_cmd_bar_ctls controls)
 		TRACE( caption ) ;
 
 		wstring candidate_for_death = BSTR2wstring( caption ) ;
-		str::replace_all( candidate_for_death, L"&", L"" ) ;
+		boost::replace_all( candidate_for_death, L"&", L"" ) ;
 		boost::to_lower(candidate_for_death) ;
 		if ( candidate_for_death.find( L"felix" ) != wstring::npos ||
 			candidate_for_death.find( L"transassist" ) != wstring::npos  )

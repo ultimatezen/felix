@@ -1683,7 +1683,7 @@ void WordController::write_gloss_entry( int index, bool as_plaintext )
 	
 	if ( as_plaintext )
 	{
-		str::make_lower( entry ) ;
+		boost::to_lower( entry ) ;
 	}
 
 	write_translation( entry, as_plaintext ) ;

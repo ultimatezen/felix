@@ -18,15 +18,11 @@ class CMultitermConversionDlg :
 	, public CWinDataExchange< CMultitermConversionDlg >
 	, public CWindowExceptionHandler< CMultitermConversionDlg >
 {
-	bool	m_is_import ;
+VISIBLE_TO_TESTS
 	int	m_multiterm_version ;
 public:
 	static const int IDD = IDD_MULTITERM_CONVERSION_DLG ;
 	DECLARE_SENSING_VAR ;
-
-	bool is_import() ;
-	void put_import_on() ;
-	void put_import_off() ;
 
 	int get_multiterm_version() ;
 	void set_multiterm_version( int setting ) ;

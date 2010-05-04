@@ -757,7 +757,7 @@ HRESULT CPowerPointInterface::set_gloss_entry(int index, bool plaintext)
 
 	if ( plaintext )
 	{
-		wstring plain = str::make_lower_out(strip_tags(BSTR2wstring(entry))) ;
+		wstring plain = boost::to_lower_copy(strip_tags(BSTR2wstring(entry))) ;
 		selectionTextRange->Text = string2BSTR(plain) ;
 	}
 	else

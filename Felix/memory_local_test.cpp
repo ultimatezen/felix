@@ -5,6 +5,7 @@
 #include "record_local.h"
 
 #include "MockListener.h"
+#include "DemoException.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -90,22 +91,6 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK( mem.is_local()) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( RefreshUserName )
-	{
-		memory_local mem ;
-
-		MemoryInfo *mem_info = mem.get_memory_info() ;
-		mem_info->set_creator( L"FooBar" ) ;
-		BOOST_CHECK( L"FooBar" == mem.get_memory_info()->get_creator() ) ;
-
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
-		props.write_to_registry() ;
-
-		string actual = string2string(mem_info->get_current_user()).c_str() ;
-		BOOST_CHECK_EQUAL( "Ryan",  actual) ;
-	}
 
 	// add_record
 	BOOST_AUTO_TEST_CASE( AddRecord )
@@ -471,6 +456,11 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
 		BOOST_CHECK_EQUAL((int)0, (int)rec->get_refcount()) ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// load
+	//////////////////////////////////////////////////////////////////////////
+
 	BOOST_AUTO_TEST_CASE( test_big_memory )
 	{
 		CMockListener listener ;
@@ -528,16 +518,12 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		CMockListener listener ;
 		memory_local mem ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
-		try
-		{
-			mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ) ;
-			BOOST_FAIL( "Must throw on malformed memory (really tmx)" ) ;
-		}
-		catch (CException &)
-		{
-			BOOST_CHECK(true) ;
-		}
+		BOOST_CHECK_THROW(mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ), CException) ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// find_matches
+	//////////////////////////////////////////////////////////////////////////
 
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
 	{
@@ -755,7 +741,10 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-	// trans lookup
+
+	//////////////////////////////////////////////////////////////////////////
+	// find_trans_matches
+	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
 		memory_local mem(0.0f) ;
@@ -828,7 +817,10 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// get_best_match_score
+	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE( test_get_best_match_score_1_0)
 	{
 		memory_local mem(0.0f) ;
@@ -1116,7 +1108,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	
 	/************************************************************************/
-	/* concordance                                                          */
+	/* perform_search (concordance)                                         */
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( concordance_0)
 	{
@@ -1159,7 +1151,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_EQUAL((int)match->get_memory_id(), (int)mem.get_id()) ;
 	}
 
-	// reverse concordance
+	// perform_search (reverse concordance)
 
 	BOOST_AUTO_TEST_CASE( rconcordance)
 	{
@@ -1215,7 +1207,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 	}
 
-	// get matches
+	// make_match
 	BOOST_AUTO_TEST_CASE(make_match)
 	{
 		memory_local mem(0.0f) ;
@@ -1224,6 +1216,122 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		search_match_ptr match = mem.make_match() ;
 		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;
 		BOOST_CHECK_EQUAL(match->get_memory_location(), L"foo.ftm") ;
+	}
+
+	// adding records
+	BOOST_AUTO_TEST_CASE(cant_add_record_to_locked_mem)
+	{
+		memory_local mem(0.0f) ;
+
+		mem.set_locked_on() ;
+
+		BOOST_CHECK(! mem.add_record(make_record("foo", "bar"))) ;
+	}
+	BOOST_AUTO_TEST_CASE(cant_add_invalid_record)
+	{
+		memory_local mem(0.0f) ;
+
+		BOOST_CHECK_THROW(mem.add_record(make_record("foo", "")), CException) ;
+	}
+
+	// get_progress_interval
+	BOOST_AUTO_TEST_CASE(get_progress_interval_4000)
+	{
+		memory_local mem(0.0f) ;
+
+		BOOST_CHECK_EQUAL(4000 / 200, mem.get_progress_interval(4000)) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_progress_interval_10)
+	{
+		memory_local mem(0.0f) ;
+
+		BOOST_CHECK_EQUAL(10, mem.get_progress_interval(10)) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_progress_interval_0)
+	{
+		memory_local mem(0.0f) ;
+
+		BOOST_CHECK_EQUAL(10, mem.get_progress_interval(0)) ;
+	}
+
+	// handle exception on load
+	BOOST_AUTO_TEST_CASE(exception_size_over_max_demo)
+	{
+		CMockListener listener ;
+		memory_local mem ;
+		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
+
+		mem.m_is_demo = true ;
+
+		for (int i = 0 ; i < MAX_MEMORY_SIZE_FOR_DEMO ; ++i )
+		{
+			mem.add_record(make_record(int2string(i), "trans")) ;
+		}
+		BOOST_CHECK_EQUAL(MAX_MEMORY_SIZE_FOR_DEMO, mem.size()) ;
+
+		CString filename("c:\\foo.ftm") ;
+		CException the_error(_T("boom")) ;
+		BOOST_CHECK_THROW(mem.handleCExceptionOnLoad(filename, false, the_error), CDemoException) ;
+	}
+	BOOST_AUTO_TEST_CASE(exception_size_over_max_user_says_bail)
+	{
+		CMockListener listener ;
+		listener.m_should_bail = true ;
+		memory_local mem ;
+		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
+
+		CString filename("c:\\foo.ftm") ;
+		CException the_error(_T("boom")) ;
+		BOOST_CHECK_THROW(mem.handleCExceptionOnLoad(filename, false, the_error), CException) ;
+		BOOST_CHECK_EQUAL(2u, listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL("ShouldBailFromException", listener.m_sensing_variable[0]) ;
+		BOOST_CHECK_EQUAL("OnProgressDoneLoad", listener.m_sensing_variable[1]) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_memory_header_info )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
+	// header info
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		memory_local mem(0.0f) ;
+
+		MemoryInfo *info = mem.get_memory_info() ;
+
+		BOOST_CHECK_EQUAL(VERSION, string2string(info->get_creation_tool_version())) ;
+		BOOST_CHECK_EQUAL(L"Felix", info->get_creation_tool()) ;
+		BOOST_CHECK(! info->is_locked()) ;
+	}
+	BOOST_AUTO_TEST_CASE(set_locked_on)
+	{
+		memory_local mem(0.0f) ;
+
+		MemoryInfo *info = mem.get_memory_info() ;
+
+		BOOST_CHECK(! info->is_locked()) ;
+		mem.set_locked_on() ;
+		BOOST_CHECK(info->is_locked()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( RefreshUserName )
+	{
+		memory_local mem ;
+
+		MemoryInfo *mem_info = mem.get_memory_info() ;
+		mem_info->set_creator( L"FooBar" ) ;
+		BOOST_CHECK( L"FooBar" == mem.get_memory_info()->get_creator() ) ;
+
+		app_props::properties_general props ;
+		props.read_from_registry() ;
+		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
+		props.write_to_registry() ;
+
+		string actual = string2string(mem_info->get_current_user()) ;
+		BOOST_CHECK_EQUAL( "Ryan",  actual) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

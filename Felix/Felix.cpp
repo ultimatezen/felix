@@ -24,6 +24,7 @@
  */
 
 #include "StdAfx.h"
+
 #include "resource.h"
 #include "ErrorTranslator.h"
 #include "logging.h"
@@ -35,7 +36,6 @@
 #include "Felix.h"
 #include "Felix_i.c"
 
-
 #include "Library.h"			// CLibrary
 
 #include "App.h"
@@ -45,20 +45,16 @@
 #include "FelixApp.h"
 #include "DispatchWrapper.h"
 #include "atlscintilla.h"
-
-#include <boost/timer.hpp>
-
 #define BOOST_TEST_MODULE FelixUnitTests
 #include <boost/test/unit_test.hpp>
-#include <iostream>
-#include <ostream>
-#include <sstream>
+#include <boost/timer.hpp>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 #endif
+
 
 template <class CharT, class TraitsT = std::char_traits<CharT> >
 class basic_debugbuf : 
@@ -77,7 +73,6 @@ protected:
 	{
 		output_debug_string(str().c_str());
 		str(std::basic_string<CharT>());    // Clear the string buffer
-
 
 		return 0;
 	}
@@ -128,9 +123,7 @@ struct UnitTestConfig {
 	dostream                    out ;
 };
 
-
 BOOST_GLOBAL_FIXTURE( UnitTestConfig );
-
 
 using namespace except ;
 

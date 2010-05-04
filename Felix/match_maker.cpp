@@ -301,7 +301,7 @@ namespace mem_engine
 			const wstring tag = reader.getline(L'>', true ) ;
 			if ( tag.empty() == false && tag[0] != L'/' ) 
 			{
-				tags.insert( str::make_lower_out(tag) ) ;
+				tags.insert( boost::to_lower_copy(tag) ) ;
 			}
 			reader.find( L"<", true ) ;
 		}
