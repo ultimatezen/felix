@@ -43,8 +43,6 @@
 
 #include "NumberFmt.h"
 
-#include "easyunittester.h"
-
 #include "ContentPresenterSimple.h"
 #include "ContentPresenterAddedTrans.h"
 

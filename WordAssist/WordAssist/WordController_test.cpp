@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "WordControllerWord.h"
 
-
 #ifdef UNIT_TEST
-
-#include "easyunit/testharness.h"
 
 namespace easyunit
 {

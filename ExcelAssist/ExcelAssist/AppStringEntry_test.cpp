@@ -1,8 +1,7 @@
 #include "stdafx.h"
-#include "easyunit/testharness.h"
 #include "AppStringEntry.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 
 namespace easyunit

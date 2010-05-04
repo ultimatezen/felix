@@ -7,7 +7,6 @@
 
 #include "shapeparser.h"
 #include "TextRangeParser.h"
-#include "EasyUnitTester.h"
 #include "app_state.h"
 
 

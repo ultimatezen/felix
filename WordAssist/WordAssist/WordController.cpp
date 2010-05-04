@@ -33,8 +33,6 @@
 #pragma message("   automatic link to HtmlHelp.lib")
 #pragma comment(lib, "HtmlHelp.lib")
 
-#include "easyunit/testharness.h"
-
 using namespace except ;
 
 #define CATCH_C_EXCEPTIONS(msg) catch ( std::exception &e ) { return handle_exception( e, msg ) ; }

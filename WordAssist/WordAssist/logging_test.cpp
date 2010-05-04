@@ -1,14 +1,9 @@
 #include "StdAfx.h"
 #include "logging.h"
 
-
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
-
-BOOST_AUTO_TEST_SUITE( test_logging )
-
-using namespace except ;
 
 class fake_logger : public logger
 {
@@ -30,18 +25,19 @@ public:
 	{
 		m_error_calls.push_back(msg) ;
 	}
-	void log_exception(CException &e)
+	void log_exception(except::CException &e)
 	{
 		m_exception_calls.push_back((LPCSTR)CStringA(e.format_message_for_message_box())) ;
 	}
 };
 
 
+BOOST_AUTO_TEST_SUITE( test_logging )
+
 	// cp_from_lang_str
-	BOOST_AUTO_TEST_SUITE( test_log_warn )
+	BOOST_AUTO_TEST_CASE( test_log_warn )
 	{
-		logging::log_warn("from felix") ;
-		ASSERT_TRUE(true) ;
+		BOOST_CHECK_NO_THROW(logging::log_warn("from felix")) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

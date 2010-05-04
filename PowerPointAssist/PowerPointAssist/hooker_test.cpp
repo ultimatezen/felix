@@ -2,8 +2,6 @@
 #include "Hooker.h"
 #include "KeyboardDriver.h"
 
-#include "easyunit/testharness.h"
-
 #ifdef _DEBUG
 
 namespace easyunit

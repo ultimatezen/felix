@@ -6,8 +6,7 @@
 
 #ifdef UNIT_TEST
 
-BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
-
+BOOST_AUTO_TEST_SUITE( html_writer_test )
 
 	class fake_html_writer : public html_writer
 	{
@@ -29,17 +28,9 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 		
 	};
 
-	TEST( html_writer_test, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			fake_html_writer writer ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate html_writer class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(fake_html_writer()) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

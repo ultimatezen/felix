@@ -5,20 +5,13 @@
 
 #ifdef UNIT_TEST
 
-BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
+BOOST_AUTO_TEST_SUITE( word_writer_test )
 
-	TEST( word_writer_test, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordSelection selection ;
-			word_writer writer(selection) ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate word_writer class in test harness" ) ;
-		}
+		WordSelection selection ;
+		word_writer writer(selection) ;
+		BOOST_CHECK(! writer.m_write_font_face) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

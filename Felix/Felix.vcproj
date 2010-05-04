@@ -738,6 +738,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\Exceptions_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExtraStringsView.cpp"
 				>
 			</File>
@@ -1721,10 +1725,6 @@
 				</File>
 				<File
 					RelativePath=".\excelexporter_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Exceptions_test.cpp"
 					>
 				</File>
 				<File

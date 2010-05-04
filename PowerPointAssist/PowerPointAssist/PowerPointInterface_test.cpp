@@ -4,8 +4,6 @@
 
 #include "globalApp.h"
 
-#include "easyunit/testharness.h"
-
 #ifdef _DEBUG
 
 namespace easyunit

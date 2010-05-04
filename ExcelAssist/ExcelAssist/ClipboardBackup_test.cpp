@@ -1,9 +1,7 @@
 #include "StdAfx.h"
 #include "ClipboardBackup.h"
 
-#include "easyunit/testharness.h"
-
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

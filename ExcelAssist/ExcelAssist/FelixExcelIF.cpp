@@ -12,9 +12,7 @@
 
 #include "Exceptions.h"
 #include "DispatchWrapper.h"
-#include "EasyUnitTester.h"
 
-#include "easyunit/testharness.h"
 #include <cmath>    // for fabs( )
 
 static const int MAX_CELL_EXTEND = 30 ;
@@ -1049,7 +1047,7 @@ void CFelixExcelIF::select_final_cell( excel::sheet_ptr activeSheet, long curren
 /* Unit tests
 /************************************************************************/
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

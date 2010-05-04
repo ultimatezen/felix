@@ -21,14 +21,11 @@ extern CAddInModule _AtlModule;
 #include "ErrorTranslator.h"
 #include <exception>
 
-#include "EasyUnitTester.h"
-
 #include "resource.h"
 #include "Broadcaster.h"
 
 #include "testresultsprinter.h"		// CAtlResultsPrinter
 #include "ProgressBarTestRunner.h"	// CProgressBarTestRunner
-#include "easyunit/testregistry.h"	// TestRegistry
 
 #include "Localizer.h"
 #include "ClipboardBackup.h"

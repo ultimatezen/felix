@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "AddIn.h"
 #include "Connect.h"
-#include "easyunit/testharness.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

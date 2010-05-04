@@ -4,10 +4,8 @@
 #include "fake_excel.h"
 #include "fake_ta.h"
 
-#include "easyunit/testharness.h"
 
-
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 struct IFHolder
 {

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "AddIn.h"
 #include "Connect.h"
-#include "easyunit/testharness.h"
 
 #ifdef _DEBUG
 

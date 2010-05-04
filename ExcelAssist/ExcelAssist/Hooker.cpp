@@ -5,7 +5,6 @@
  */
 #include "stdafx.h"
 #include "Hooker.h"
-#include "easyunittester.h"
 #include "logging.h"
 
 #ifdef _DEBUG

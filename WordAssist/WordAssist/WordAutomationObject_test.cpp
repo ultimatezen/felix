@@ -1,147 +1,93 @@
 #include "stdafx.h"
 #include "WordAutomationObject.h"
 
+#include <boost/test/unit_test.hpp>
+
 #ifdef UNIT_TEST
-#include "easyunit/testharness.h"
 
-namespace easyunit
-{
-	// WordFont
+BOOST_AUTO_TEST_SUITE( WordFontTest )
 
-	TEST( WordFontTest, Instantiate )
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordFont font ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordFont class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(WordFont()) ;
 	}
 
-	// WordRange
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST( WordRangeest, Instantiate )
+BOOST_AUTO_TEST_SUITE( WordRangeTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordRange range ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordRange class in test harness" ) ;
-		}
-	}
-
-	// WordWords
-
-	TEST( WordWordsTest, Instantiate )
-	{
-		try
-		{
-			WordWords words ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordWords class in test harness" ) ;
-		}
-	}
-
-	// WordCharacters
-
-	TEST( WordCharactersTest, Instantiate )
-	{
-		try
-		{
-			WordCharacters characters ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordCharacters class in test harness" ) ;
-		}
-	}
-
-	// WordSelection
-
-	TEST( WordSelectionTest, Instantiate )
-	{
-		try
-		{
-			WordSelection selection ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordSelection class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(WordRange()) ;
 	}
 
 
-	// WordBookmark
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST( WordBookmarkTest, Instantiate )
+BOOST_AUTO_TEST_SUITE( WordWordsTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordBookmark bookmark ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordBookmark class in test harness" ) ;
-		}
-	}
-
-	// WordBookmarks
-
-	TEST( WordBookmarksTest, Instantiate )
-	{
-		try
-		{
-			WordBookmarks bookmarks ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordBookmarks class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(WordWords()) ;
 	}
 
 
-	// WordDocument
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST( WordDocumentTest, Instantiate )
+BOOST_AUTO_TEST_SUITE( WordCharactersTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordDocument document ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordDocument class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(WordCharacters()) ;
 	}
 
-	// WordApplication
+BOOST_AUTO_TEST_SUITE_END()
 
-	TEST( WordApplicationTest, Instantiate )
+BOOST_AUTO_TEST_SUITE( WordSelectionTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
-		try
-		{
-			WordApplication application ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate WordApplication class in test harness" ) ;
-		}
+		BOOST_CHECK_NO_THROW(WordSelection()) ;
 	}
 
-}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( WordBookmarkTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
+	{
+		BOOST_CHECK_NO_THROW(WordBookmark()) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( WordBookmarksTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
+	{
+		BOOST_CHECK_NO_THROW(WordBookmarks()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( WordDocumentTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
+	{
+		BOOST_CHECK_NO_THROW(WordDocument()) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( WordApplicationTest )
+
+	BOOST_AUTO_TEST_CASE( Instantiate )
+	{
+		BOOST_CHECK_NO_THROW(WordApplication()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
 #endif
