@@ -1058,12 +1058,12 @@ wstring CMemoryManagerDlg::get_reliability_range(memory_pointer mem)
 	double ave ;
 	boost::tuples::tie(low, high, ave) = mem->get_reliability_stats() ;
 
-	const size_t BUFLEN = 256 ;
-	wchar_t buf[BUFLEN] ;
-	wchar_t *wbuf = buf ;
-	StringCbPrintfW( wbuf, BUFLEN, L"%d &ndash; %d (Ave: %3.1lf)", low, high, ave ) ;
+	wformat relformat = wformat(L"%d &ndash; %d (Ave: %3.1lf)")
+		% low
+		% high
+		% ave ;
 
-	return wstring(wbuf) ;
+	return relformat.str() ;
 }
 
 wstring CMemoryManagerDlg::get_loading_message( const CString &mem_file )

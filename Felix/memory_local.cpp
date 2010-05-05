@@ -825,12 +825,11 @@ namespace mem_engine
 			size_t srcSize = static_cast< size_t >( file_len / 2 ) ;
 			LPCWSTR src = (LPCWSTR)( raw_text ) ;
 			LPWSTR dest = wide_buffer.GetBufferSetLength( destSize+1 ) ;
-			ATLVERIFY( SUCCEEDED( StringCbCopyNW(          
-				dest,
-				destSize,
-				src,
-				srcSize
-				) ) ) ;
+
+			_tcsncpy_s(dest, 
+				destSize, 
+				src, 
+				srcSize ) ;
 			wide_buffer.ReleaseBuffer(destSize) ;
 			return ;
 

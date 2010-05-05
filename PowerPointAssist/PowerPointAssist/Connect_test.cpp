@@ -2,7 +2,7 @@
 #include "AddIn.h"
 #include "Connect.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

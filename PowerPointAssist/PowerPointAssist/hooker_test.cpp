@@ -2,7 +2,7 @@
 #include "Hooker.h"
 #include "KeyboardDriver.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

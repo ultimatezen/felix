@@ -464,12 +464,12 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 	{
 		file::CPath path( file_name ) ;
 		path.RemoveExtension() ;
-		dialog.set_default_file( path.Path() ) ;
+		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
 	}
 
 	CString dialog_title ;
 	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_GLOSSARY ) ) ;
-	dialog.set_prompt( dialog_title ) ;
+	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
 
 	dialog.set_filter( get_save_filter() ) ;
 
@@ -1872,13 +1872,21 @@ void CGlossaryWindow::check_save_history()
 		const CString location = mem->get_fullpath() ;
 		if ( ::PathFileExists(location) && mem->is_local() ) 
 		{
-			StringCbCopy( history_props.m_data.m_glosses[mem_num], MAX_PATH, location ) ;
+			tstring gloss_title = (LPCTSTR)location;
+			_tcsncpy_s(history_props.m_data.m_glosses[mem_num], 
+							MAX_PATH, 
+							(LPCTSTR)gloss_title.c_str(), 
+							gloss_title.size() ) ;
 			ATLASSERT ( remote_num + mem_num < m_memories->size() ) ;
 			mem_num++ ;
 		}
 		else if (! mem->is_local())
 		{
-			StringCbCopy( history_props.m_data.m_remote_glosses[remote_num], MAX_PATH, location ) ;
+			tstring gloss_title = (LPCTSTR)location;
+			_tcsncpy_s(history_props.m_data.m_remote_glosses[remote_num], 
+				MAX_PATH, 
+				(LPCTSTR)gloss_title.c_str(), 
+				gloss_title.size() ) ;
 			ATLASSERT ( remote_num + mem_num < m_memories->size() ) ;
 			remote_num++ ;
 		}

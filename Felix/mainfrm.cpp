@@ -1255,13 +1255,22 @@ void CMainFrame::check_save_history()
 		const CString location = mem->get_fullpath() ;
 		if ( ::PathFileExists(location) && mem->is_local()) 
 		{
-			StringCbCopy( history_props.m_data.m_mems[mem_num], MAX_PATH, location ) ;
+			tstring mem_title = (LPCTSTR)location;
+			_tcsncpy_s(history_props.m_data.m_mems[mem_num], 
+				MAX_PATH, 
+				(LPCTSTR)mem_title.c_str(), 
+				mem_title.size() ) ;
+
 			ATLASSERT ( mem_num + remote_num < m_model->get_memories()->size() ) ;
 			mem_num++ ;
 		}
 		else if (! mem->is_local())
 		{
-			StringCbCopy( history_props.m_data.m_remote_mems[remote_num], MAX_PATH, location ) ;
+			tstring mem_title = (LPCTSTR)location;
+			_tcsncpy_s(history_props.m_data.m_remote_mems[remote_num], 
+				MAX_PATH, 
+				(LPCTSTR)mem_title.c_str(), 
+				mem_title.size() ) ;
 			ATLASSERT ( remote_num + mem_num < m_model->get_memories()->size() ) ;
 			remote_num++ ;
 		}
@@ -1966,18 +1975,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 	if ( ! m_reg_gloss_dlg.IsWindow() )
 	{
-		_Module.AddCreateWndData( &m_reg_gloss_dlg.m_thunk.cd, (CDialogImplBaseT< TWindow >*)&m_reg_gloss_dlg);
-
-		DLGPROC lpDialogProc = (DLGPROC)m_reg_gloss_dlg.StartDialogProc ;
-
-		instantiate_dlg(IDD_ADD_GLOSS, lpDialogProc) ;
-
-		ATLASSERT( m_reg_gloss_dlg.IsWindow() ) ;
-
-		if ( ! m_reg_gloss_dlg.IsWindow() )
-		{
-			throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
-		}
+		create_reg_gloss_window();
 	}
 
 	m_reg_gloss_dlg.ShowWindow( SW_SHOW ) ;
@@ -5220,4 +5218,20 @@ void CMainFrame::perform_concordance_search()
 	search_match_container matches ;
 	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
 	m_search_matches.set_matches( matches ) ;
+}
+
+void CMainFrame::create_reg_gloss_window()
+{
+	_Module.AddCreateWndData( &m_reg_gloss_dlg.m_thunk.cd, (CDialogImplBaseT< TWindow >*)&m_reg_gloss_dlg);
+
+	DLGPROC lpDialogProc = (DLGPROC)m_reg_gloss_dlg.StartDialogProc ;
+
+	instantiate_dlg(IDD_ADD_GLOSS, lpDialogProc) ;
+
+	ATLASSERT( m_reg_gloss_dlg.IsWindow() ) ;
+
+	if ( ! m_reg_gloss_dlg.IsWindow() )
+	{
+		throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
+	}
 }

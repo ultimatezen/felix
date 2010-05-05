@@ -99,8 +99,14 @@ typedef boost::basic_format< TCHAR > tformat;
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
 
+#include <iostream>
+#include <ostream>
+#include <sstream>
+
 #include <atlbase.h>
 #include <atlcom.h>
+
+
 
 #pragma warning( disable : 4996 ) 
 #include "atlapp.h"
@@ -147,6 +153,15 @@ extern CAddInModule _AtlModule;
 #include "stringconversions.h"
 #include "resource_string.h"
 
+
+// Allow streaming of wstring's to std::ostream
+namespace std {
+	inline std::ostream& operator<<(std::ostream& out, const std::wstring& value)
+	{
+		out << string2string(value);
+		return out;
+	}
+}
 
 #ifndef FLOAT_EQ
 #define EPSILON 0.00001

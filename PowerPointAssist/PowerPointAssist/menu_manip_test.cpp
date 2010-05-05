@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "menu_manip.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

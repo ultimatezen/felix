@@ -62,7 +62,6 @@ void set_cell_text(excel::range_ptr cell, _bstr_t text)
 	 */
 	void CFelixExcelIF::OnUnitTest()
 	{
-		run_unit_tests() ;
 	}
 #endif
 

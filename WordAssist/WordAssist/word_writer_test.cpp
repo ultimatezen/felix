@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE( word_writer_test )
 	{
 		WordSelection selection ;
 		word_writer writer(selection) ;
-		BOOST_CHECK(! writer.m_write_font_face) ;
+		BOOST_CHECK(writer.m_write_font_face) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

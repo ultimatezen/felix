@@ -355,6 +355,7 @@ public:
 	// handling of UWM_USER_MESSAGE messages
 	LRESULT on_user_register(LPARAM num );
 
+	void create_reg_gloss_window();
 	record_type get_reg_gloss_record( const size_t num );
 
 	LRESULT on_user_delete( size_t num );

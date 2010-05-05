@@ -14,7 +14,6 @@
 #include "Shlwapi.h"
 #pragma comment(lib, "shlwapi.lib")
 
-#include "SafeString.h"
 
 typedef std::basic_string< TCHAR > tstring ;
 
@@ -259,7 +258,7 @@ public:
 inline bool CLocalizedServerAppModule::set_library(const tstring &lib_name)
 {
 	// set the name
-	StringCbCopy( m_lib_name, _MAX_PATH, lib_name.c_str() ) ;
+	_tcsncpy_s(m_lib_name, _MAX_PATH, (LPCTSTR)lib_name.c_str(), lib_name.size() ) ;
 
 	// load the library
 	HINSTANCE localized_instance = NULL ;

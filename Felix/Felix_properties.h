@@ -5,7 +5,6 @@
 
 #include "RegistryStuff.h"		// CRegMap
 #include "resource_string.h"	// R2T
-#include "SafeString.h"
 
 /**
 	@namespace app_props

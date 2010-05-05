@@ -4,7 +4,7 @@
 
 #include "globalApp.h"
 
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 namespace easyunit
 {

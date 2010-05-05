@@ -63,7 +63,7 @@ public:
 
 	void OnUnitTestAction()
 	{
-#ifdef _DEBUG
+#ifdef UNIT_TEST
 
 		try
 		{
