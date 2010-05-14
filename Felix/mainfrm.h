@@ -202,7 +202,7 @@ public:
 	// concordance
 	bool get_concordances( const wstring query );
 
-	void perform_concordance_search();
+	void perform_concordance_search(mem_engine::search_query_params &params);
 	void source_concordance_feedback();
 
 	bool get_translation_concordances( const wstring query_string );

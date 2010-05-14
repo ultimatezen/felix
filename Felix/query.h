@@ -144,6 +144,7 @@ struct felix_query
 	void set_matches( const mem_engine::search_match_container &matches ) ;
 	void set_matches( const mem_engine::trans_match_container &matches ) ;
 	void set_matches( const match_list &matches ) ;
+	void add_match(mem_engine::search_match_ptr match);
 	void  forward( );
 	void  back( );
 	void erase_current();

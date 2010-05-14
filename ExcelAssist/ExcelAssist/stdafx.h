@@ -163,7 +163,7 @@ extern CAddInModule _AtlModule;
 #endif
 
 
-#define VERSION "1.5.4"
+#define VERSION "1.6"
 
 #define LOGGING_SERVER L"FelixHelpers.ExcelLogger"
 #define LOGFILE_NAME _T("excel_assist.log")

@@ -560,7 +560,7 @@ void CMainFrame::check_command_line(commandline_options &options)
 		memory_local *rawmem = new memory_local() ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
-		this->m_glossary_windows[0]->add_glossary(mem) ;
+		this->get_glossary_window()->add_glossary(mem) ;
 	}
 	foreach(tstring filename, options.m_xml_files)
 	{
@@ -573,12 +573,12 @@ void CMainFrame::check_command_line(commandline_options &options)
 		}
 		else
 		{
-			this->m_glossary_windows[0]->add_glossary(mem) ;
+			this->get_glossary_window()->add_glossary(mem) ;
 		}
 	}
 	foreach(tstring filename, options.m_multiterm_files)
 	{
-		this->m_glossary_windows[0]->import_multiterm(CString(filename.c_str())) ;
+		this->get_glossary_window()->import_multiterm(CString(filename.c_str())) ;
 	}
 	foreach(tstring filename, options.m_tmx_files)
 	{
@@ -778,7 +778,7 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 //	gloss_window->set_properties_algo( m_properties->m_alg_props ) ;
 	
 	m_glossary_windows += gloss_window ;
-	m_glossary_windows[0]->set_main( true ) ;
+	get_glossary_window()->set_main( true ) ;
 
 #ifdef UNIT_TEST
 	return true ;
@@ -1072,12 +1072,12 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	{
 		file::CPath path( mem->get_location() ) ;
 		path.RemoveExtension() ;
-		dialog.set_default_file( path.Path() ) ;
+		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
 	}
 
 	CString dialog_title ;
 	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
-	dialog.set_prompt( dialog_title ) ;
+	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
 
 	dialog.set_filter( get_save_filter() ) ;
 
@@ -1724,7 +1724,7 @@ bool CMainFrame::set_translation( const wstring translation)
 			if ( false == m_glossary_windows.empty() )
 			{
 				record_pointer gloss_record = record_pointer(record->clone()) ;
-				m_glossary_windows[0]->add_record( gloss_record ) ;
+				get_glossary_window()->add_record( gloss_record ) ;
 			}
 		}
 		// now, set the display content
@@ -1762,7 +1762,7 @@ bool CMainFrame::register_trans_to_glossary(const wstring trans)
 	record->create() ;
 
 	if ( false == m_glossary_windows.empty() )
-		m_glossary_windows[0]->add_record( record ) ;
+		get_glossary_window()->add_record( record ) ;
 
 	// give the user feedback
 	user_feedback( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) ;
@@ -1788,7 +1788,7 @@ void CMainFrame::delete_current_translation()
  * Concordances are co-locations of query_string in the source
  * fields of memory records.
  */
-bool CMainFrame::get_concordances( const wstring query_string )
+bool CMainFrame::get_concordances(const wstring query_string )
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
@@ -1812,7 +1812,7 @@ bool CMainFrame::get_concordances( const wstring query_string )
 	m_search_matches.m_params.m_ignore_width =		!! m_properties->m_gloss_props.m_data.m_ignore_width ;
 	m_search_matches.m_params.m_ignore_hira_kata =	!! m_properties->m_gloss_props.m_data.m_ignore_hir_kat ;
 
-	perform_concordance_search();
+	perform_concordance_search(m_search_matches.m_params);
 
 	show_view_content() ;
 	m_view_interface.set_scroll_pos(0) ;
@@ -1829,7 +1829,7 @@ wstring CMainFrame::get_glossary_entry(short index)
 {
 	if ( false == m_glossary_windows.empty() )
 	{
-		return m_glossary_windows[0]->get_glossary_entry( index ) ;
+		return get_glossary_window()->get_glossary_entry( index ) ;
 	}
 	return wstring( ) ;
 }
@@ -2193,50 +2193,11 @@ LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
 	SENSE("on_user_add_to_glossary") ;
 
 	const size_t index = static_cast<size_t>(lParam) ;
-	record_pointer rec ;
-	switch ( get_display_state() )
-	{
-	case NEW_RECORD_DISPLAY_STATE: 
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		rec = m_new_record ;
-		break ;
-	}
-	case TRANS_REVIEW_STATE:
-	{
-		rec = m_review_record ;
-		break ;
-	}
-	case MATCH_DISPLAY_STATE: 
-		{
-			if ( index >= m_trans_matches.size() )
-			{
-				MessageBeep(MB_ICONEXCLAMATION) ;
-				user_feedback(IDS_OUT_OF_RANGE) ;
-				return 0L ;
-			}
-			rec = m_trans_matches.at(index)->get_record() ;
-			break ;
-		}
-	case CONCORDANCE_DISPLAY_STATE:
-		{
-			if ( index >= m_search_matches.size() )
-			{
-				MessageBeep(MB_ICONEXCLAMATION) ;
-				user_feedback(IDS_OUT_OF_RANGE) ;
-				return 0L ;
-			}
-			rec = m_search_matches.at(index)->get_record() ;
-			break ;
-		}
-	}
-#ifdef UNIT_TEST
-	return 0 ;
-#else
-
-	m_glossary_windows[0]->add_record(rec->clone());
+	m_view_state->set_current(index) ;
+	record_pointer rec = m_view_state->get_current_match()->get_record();
+	
+	get_glossary_window()->add_record(rec->clone());
 	return 0L ;
-#endif
 }
 
 
@@ -2837,7 +2798,7 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 
 	m_search_matches.m_params.m_ignore_case = true ;
 
-	perform_concordance_search() ;
+	perform_concordance_search(m_search_matches.m_params) ;
 
 	// remember where we were
 	// in the future, make an array of states to allow Explorer-style page navigation
@@ -3061,7 +3022,7 @@ LRESULT CMainFrame::on_view_switch(WindowsMessage &)
 		return 0L ;
 	}
 
-	m_glossary_windows[0]->SetFocus() ;
+	get_glossary_window()->SetFocus() ;
 
 	return 0L ;
 }
@@ -3341,7 +3302,7 @@ void CMainFrame::set_up_default_initial_size()
 	// get dimensions of desktop
 	const CWindowRect desktop_rect(GetDesktopWindow()) ;
 	// dimensions of our top glossary window
-	const CWindowRect dialog_rect(m_glossary_windows[0]->m_hWnd) ;
+	const CWindowRect dialog_rect(get_glossary_window()->m_hWnd) ;
 	
 	// get dimensions of the mainframe
 	CWindowRect frame_window_rect(*this) ;
@@ -3696,8 +3657,7 @@ void CMainFrame::perform_user_search()
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
 
-	perform_concordance_search() ;
-
+	perform_concordance_search(m_search_matches.m_params) ;
 }
 /** This is kind of a useless method, isn't it?
  */
@@ -3982,37 +3942,8 @@ LRESULT CMainFrame::on_user_edit_search(WindowsMessage &message)
  */
 mem_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
 {
-	if (get_display_state() == TRANS_REVIEW_STATE)
-	{
-		return m_review_record ;
-	}
-	else if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
-	{
-		ATLASSERT(m_view_state == &m_view_state_new) ;
-		return m_new_record ;
-	}
-	else if ( get_display_state() == MATCH_DISPLAY_STATE )
-	{
-		if ( num >= m_trans_matches.size() )
-		{
-			record_pointer nomatches_rec = record_pointer(new record_local) ;
-			nomatches_rec->set_source( m_trans_matches.get_query_rich() ) ;
-			return nomatches_rec ;
-		}
-
-		search_match_ptr match = m_trans_matches.current() ;
-		return match->get_record() ;
-	}
-	else
-	{
-		if ( num >= m_search_matches.size() )
-		{
-			return record_pointer(new record_local) ;
-		}
-
-		search_match_ptr match = m_search_matches.at( num ) ;
-		return match->get_record() ;
-	}
+	m_view_state->set_current(num) ;
+	return m_view_state->get_current_match()->get_record() ;
 }
 
 //! Open a file from the MRU list
@@ -4501,7 +4432,7 @@ void CMainFrame::remove_record_from_glossaries( record_pointer rec )
 {
 	if (! m_glossary_windows.empty() && m_properties->m_gloss_props.get_max_add())
 	{
-		m_glossary_windows[0]->delete_record(rec) ;
+		get_glossary_window()->delete_record(rec) ;
 	}
 }
 
@@ -4748,7 +4679,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 
 	if (! m_glossary_windows.empty())
 	{
-		gloss_window_pointer gloss = m_glossary_windows[0];
+		gloss_window_pointer gloss = get_glossary_window();
 		gloss->save_prefs() ;
 	}
 	save_settings_close() ;
@@ -4966,7 +4897,7 @@ void CMainFrame::load_preferences( const CString filename )
 
 	if (! m_glossary_windows.empty())
 	{
-		gloss_window_pointer gloss = m_glossary_windows[0];
+		gloss_window_pointer gloss = get_glossary_window();
 		CWindowSettings ws;
 
 		if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
@@ -5213,10 +5144,10 @@ void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
 	UpdateLayout( FALSE ) ;
 }
 
-void CMainFrame::perform_concordance_search()
+void CMainFrame::perform_concordance_search(mem_engine::search_query_params &params)
 {
 	search_match_container matches ;
-	m_model->get_memories()->perform_search( matches, m_search_matches.m_params ) ;
+	m_model->get_memories()->perform_search( matches, params ) ;
 	m_search_matches.set_matches( matches ) ;
 }
 

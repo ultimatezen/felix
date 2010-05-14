@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 
 		search_match_ptr match = main_frame.get_current_match() ;
 
-		string expected("query") ;
+		string expected("") ;
 		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
@@ -192,20 +192,14 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		CMainFrame main_frame(&model) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::TRANS_REVIEW_STATE) ;
 
-		search_match_ptr match(new search_match) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"record source") ;
-		rec->set_trans(L"record trans") ;
-		match->set_record(rec) ;
-		match->set_values_to_record() ;
+		record_pointer newrec(new record_local) ;
+		newrec->set_source(L"get_current_match_review_non_empty") ;
 
-		trans_match_container matches ;
-		matches.insert(match) ;
-		main_frame.m_trans_matches.set_matches(matches) ;
+		main_frame.set_review_record(newrec) ;
 
 		search_match_ptr current_match = main_frame.get_current_match() ;
 
-		string expected("record source") ;
+		string expected("get_current_match_review_non_empty") ;
 		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;

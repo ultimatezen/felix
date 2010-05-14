@@ -9,8 +9,7 @@
 #ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 
-
-	BOOST_AUTO_TEST_CASE( Score )
+	BOOST_AUTO_TEST_CASE( init )
 	{
 		match_score mscore ;
 
@@ -18,11 +17,23 @@ BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.f, 0.0001 ) ;
 		BOOST_CHECK_CLOSE( mscore.GetFormattingPenalty(), (double)0.f, 0.0001 ) ;
 		BOOST_CHECK_EQUAL( false, mscore.HasFormattingPenalty() ) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( set_to_0_5 )
+	{
+		match_score mscore ;
 
 		mscore.SetBaseScore( 0.5f ) ;
 		BOOST_CHECK_CLOSE( mscore.get_score(), (double)0.5f, 0.0001 ) ;
 		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.5f, 0.0001 ) ;
+		BOOST_CHECK_EQUAL( false, mscore.HasFormattingPenalty() ) ;
+	}
 
+	BOOST_AUTO_TEST_CASE( formatting_penalty )
+	{
+		match_score mscore ;
+
+		mscore.SetBaseScore( 0.5f ) ;
 		mscore.SetFormattingPenalty( 0.1f ) ;
 		BOOST_CHECK_CLOSE( mscore.GetFormattingPenalty(), (double)0.1f, 0.0001 ) ;
 		BOOST_CHECK_CLOSE( mscore.GetBaseScore(), (double)0.5f, 0.0001 ) ;
@@ -42,7 +53,6 @@ BOOST_AUTO_TEST_SUITE( match_scoreTestCase )
 		BOOST_CHECK_CLOSE( mscore2.GetBaseScore(), (double)0.5f, 0.0001 ) ;
 		BOOST_CHECK_CLOSE( mscore2.get_score(), (double)0.4f, 0.0001 ) ;
 		BOOST_CHECK_EQUAL( true, mscore2.HasFormattingPenalty() ) ;
-
 	}
 
 	BOOST_AUTO_TEST_CASE( Assignment )

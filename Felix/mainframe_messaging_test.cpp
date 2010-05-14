@@ -261,7 +261,8 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		MainFrameModel model ;
 		CMainFrame main_frame( &model ) ;
 
-		main_frame.OnNavAddToGloss(0) ;
+		// Will throw because record is invalid.
+		BOOST_CHECK_THROW(main_frame.OnNavAddToGloss(0), except::CException) ;
 		BOOST_CHECK_EQUAL(2, (int)main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavAddToGloss"); 
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_add_to_glossary" ) ;

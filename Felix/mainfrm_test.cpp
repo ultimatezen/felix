@@ -35,6 +35,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	/************************************************************************/
 	/* tests start here                                                     */
 	/************************************************************************/	
+
 	// Tests for CMainFrame
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
@@ -149,7 +150,32 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		props.read_from_registry() ;
 		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
+//////////////////////////////////////////////////////////////////////////
+// match lookup
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
+
+	using namespace mem_engine;
+
+	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
+	{
+		record_pointer rec(new record_local()) ;
+		rec->set_source(wstring(source)) ;
+		rec->set_trans(wstring(trans)) ;
+		mainframe.add_record(rec) ;
+	}
+
+	search_match_ptr get_first_match(CMainFrame &mainframe, search_query_params &params)
+	{
+		trans_match_container matches ;
+		mainframe.get_matches(matches, params) ;
+
+		trans_match_container::iterator pos = matches.begin() ;
+		return *pos ;
+	}
 	// match lookup stuff
 	BOOST_AUTO_TEST_CASE( get_matches_size_0)
 	{
@@ -629,6 +655,47 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// concordance
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameConcordance )
+
+	using namespace mem_engine;
+
+	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
+	{
+		record_pointer rec(new record_local()) ;
+		rec->set_source(wstring(source)) ;
+		rec->set_trans(wstring(trans)) ;
+		mainframe.add_record(rec) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(get_concordance_size_1)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+
+		add_record(mainframe, L"aaa BBB ccc", L"get_concordance_size_1") ;
+
+		mainframe.get_concordances(L"BBB") ;
+
+		BOOST_CHECK_EQUAL(1u, mainframe.m_search_matches.size()) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// search init
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
+
+	using namespace mem_engine ;
 	// init_lookup_properties
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_on)
 	{
@@ -689,6 +756,25 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 		BOOST_CHECK(!dest.m_place_numbers) ;
 		BOOST_CHECK(!dest.m_place_gloss) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// settings
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
+
+	using namespace mem_engine ;
+
+	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
+	{
+		record_pointer rec(new record_local()) ;
+		rec->set_source(wstring(source)) ;
+		rec->set_trans(wstring(trans)) ;
+		mainframe.add_record(rec) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_window_type_string)
@@ -770,9 +856,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		text += "</table>" ;
 
 		string actual_text(actual) ;
-		string expected = text.c_str() ;
+		string expected = text ;
 
-		BOOST_CHECK_EQUAL(expected, string(actual)) ;
+		BOOST_CHECK_EQUAL(expected, actual_text) ;
 	}
 	BOOST_AUTO_TEST_CASE( clear_memory)
 	{
@@ -839,6 +925,105 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 1,001 matches." ) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+/************************************************************************/
+/* get_reg_gloss_record                                                 */
+/************************************************************************/
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
+
+	using namespace mem_engine ;
+
+	BOOST_AUTO_TEST_CASE( concordance_state_0 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+
+		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"concordance_state_0") ;
+		main_frame.m_search_matches.add_match(match) ;
+
+		main_frame.set_display_state(WindowListener::CONCORDANCE_DISPLAY_STATE) ;
+
+		record_pointer rec = main_frame.get_reg_gloss_record(0u) ;
+		BOOST_CHECK_EQUAL(rec->get_source_plain(), L"concordance_state_0" ) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( initial_state )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+
+		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"concordance_state_0") ;
+		main_frame.m_search_matches.add_match(match) ;
+
+		main_frame.set_display_state(WindowListener::INIT_DISPLAY_STATE) ;
+
+		record_pointer rec = main_frame.get_reg_gloss_record(0u) ;
+		BOOST_CHECK(rec->get_source_plain().empty()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( match_state_0 )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+
+		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"concordance_state_0") ;
+		main_frame.m_search_matches.add_match(match) ;
+
+		match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"match_state_0") ;
+		main_frame.m_trans_matches.add_match(match) ;
+
+		main_frame.set_display_state(WindowListener::MATCH_DISPLAY_STATE) ;
+
+		record_pointer rec = main_frame.get_reg_gloss_record(0u) ;
+		BOOST_CHECK_EQUAL(rec->get_source_plain(), L"match_state_0" ) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( new_state )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+
+		record_pointer newrec(new record_local) ;
+		newrec->set_source(L"new_state") ;
+
+		main_frame.set_new_record(newrec) ;
+
+		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"match_state_0") ;
+		main_frame.m_trans_matches.add_match(match) ;
+
+		main_frame.set_display_state(WindowListener::NEW_RECORD_DISPLAY_STATE) ;
+
+		record_pointer rec = main_frame.get_reg_gloss_record(0u) ;
+		BOOST_CHECK_EQUAL(rec->get_source_plain(), L"new_state" ) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE( review_state )
+	{
+		MainFrameModel model ;
+		CMainFrame main_frame(&model) ;
+
+		record_pointer newrec(new record_local) ;
+		newrec->set_source(L"review_state") ;
+
+		main_frame.set_review_record(newrec) ;
+
+		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
+		match->get_record()->set_source(L"match_state_0") ;
+		main_frame.m_trans_matches.add_match(match) ;
+
+		main_frame.set_display_state(WindowListener::TRANS_REVIEW_STATE) ;
+
+		record_pointer rec = main_frame.get_reg_gloss_record(0u) ;
+		BOOST_CHECK_EQUAL(rec->get_source_plain(), wstring(L"review_state")) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif 

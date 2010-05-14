@@ -114,6 +114,12 @@ BOOST_AUTO_TEST_SUITE( view_state_new_test )
 		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.001) ;
 		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateNewMain state ;
+		view_state_obj vso(&state) ;
+		BOOST_CHECK_EQUAL(0u, state.get_current()) ;
+	}
 
 	BOOST_AUTO_TEST_CASE( on_user_edit )
 	{
@@ -277,6 +283,12 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.001) ;
 		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
+	}
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateNewGloss state ;
+		view_state_obj vso(&state) ;
+		BOOST_CHECK_EQUAL(0u, state.get_current()) ;
 	}
 	BOOST_AUTO_TEST_CASE( on_user_edit )
 	{

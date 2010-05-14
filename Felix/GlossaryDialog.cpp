@@ -1277,8 +1277,9 @@ void CGlossaryWindow::set_properties_algo( const app_props::properties_algorithm
 // User wants to edit an entry.
 LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 {	
-	const size_t num = static_cast<size_t>(lParam) ;
+	SENSE("on_user_edit") ;
 
+	const size_t num = static_cast<size_t>(lParam) ;
 	m_view_state->set_current(num) ;
 	m_view_state->on_user_edit() ;
 

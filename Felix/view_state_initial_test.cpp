@@ -158,6 +158,15 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateInitialMain state ;
+		view_state_obj vso(&state) ;
+		BOOST_CHECK_EQUAL(0u, state.get_current()) ;
+	}
+
+
 	// on_user_edit
 	BOOST_AUTO_TEST_CASE( on_user_edit )
 	{
@@ -263,6 +272,15 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_EQUAL(vso.mem->get_id(), match->get_memory_id()) ;
 	}
+
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateInitialGloss state ;
+		view_state_obj vso(&state) ;
+		BOOST_CHECK_EQUAL(0u, state.get_current()) ;
+	}
+
 	// on_user_edit
 	BOOST_AUTO_TEST_CASE( on_user_edit )
 	{

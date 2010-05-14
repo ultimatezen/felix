@@ -179,7 +179,7 @@ namespace std {
 #define SENSE(x) (void)0
 #endif
 
-#define VERSION "1.5.5"
+#define VERSION "1.6"
 
 #define LOGGING_SERVER L"FelixHelpers.WordLogger"
 #define LOGFILE_NAME _T("word_assist.log")

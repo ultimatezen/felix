@@ -235,6 +235,25 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
 	}
+
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = vso.mem->make_match() ;
+
+		search_query_glossary trans_matches; 
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.set_current(1u) ;
+		state.set_search_matches(&trans_matches) ;
+
+		BOOST_CHECK_EQUAL(1u, state.get_current()) ;
+	}
+
 	// on_user_edit
 	BOOST_AUTO_TEST_CASE( on_user_edit)
 	{
@@ -416,18 +435,18 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 
 	using namespace mem_engine ;
 
-search_match_ptr make_match(string source, string trans, int id=0)
-{
-	search_match_ptr match(new search_match) ;
-	record_pointer rec(new record_local) ;
-	rec->set_source(string2wstring(source)) ;
-	rec->set_trans(string2wstring(trans)) ;
-	match->set_record(rec) ;
-	match->set_values_to_record() ;
-	match->set_memory_id(id) ;
+	search_match_ptr make_match(string source, string trans, int id=0)
+	{
+		search_match_ptr match(new search_match) ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		match->set_memory_id(id) ;
 
-	return match ;
-}
+		return match ;
+	}
 
 	// handle_toggle_edit_mode
 	BOOST_AUTO_TEST_CASE( handle_toggle_edit_mode_false )
@@ -544,10 +563,8 @@ search_match_ptr make_match(string source, string trans, int id=0)
 		match->set_record(rec) ;
 		match->set_values_to_record() ;
 
-		trans_match_container matches ;
-		matches.insert(match) ;
 		translation_match_query trans_matches; 
-		trans_matches.set_matches(matches) ;
+		trans_matches.add_match(match) ;
 		state.set_search_matches(&trans_matches) ;
 
 		search_match_ptr current_match = state.get_current_match() ;
@@ -576,6 +593,25 @@ search_match_ptr make_match(string source, string trans, int id=0)
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
 	}
+
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateMatchGloss state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = vso.mem->make_match() ;
+
+		search_query_glossary trans_matches; 
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.set_current(1u) ;
+		state.set_search_matches(&trans_matches) ;
+
+		BOOST_CHECK_EQUAL(1u, state.get_current()) ;
+	}
+
 	// on_user_edit
 	BOOST_AUTO_TEST_CASE( on_user_edit)
 	{

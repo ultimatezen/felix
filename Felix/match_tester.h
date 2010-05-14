@@ -51,6 +51,8 @@ public:
 /** User search matching engine */
 class search_match_tester : public match_tester
 {
+	VISIBLE_TO_TESTS ;
+
 	search_query_params m_params ;
 
 	wstring				m_source_pattern ;
@@ -67,14 +69,19 @@ public:
 	bool test_validity( const record_pointer rec ) const ;
 	bool test_reliability( const record_pointer rec ) const ;
 	bool is_match( record_pointer rec ) ;
+
 private:
-	void check_lower( wstring to_search ) ;
+	VISIBLE_TO_TESTS ;
+
+	void normalize( wstring &to_search ) ;
 	wstring mark_up_string( const wstring to_search, size_t start_pos, size_t len ) ;
 } ;
 
 /** Glossary matching engine with regular expressions */
 class search_match_tester_regex : public match_tester
 {
+	VISIBLE_TO_TESTS ;
+
 	search_query_params m_params ;
 
 	boost::wregex m_source_regex ;
@@ -90,7 +97,6 @@ public:
 	bool test_validity( const record_pointer rec ) const ;
 	bool test_reliability( const record_pointer rec ) const ;
 	bool is_match( record_pointer rec ) ;
-private:
 } ;
 
 }

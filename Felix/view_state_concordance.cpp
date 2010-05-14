@@ -84,6 +84,21 @@ size_t ViewStateConcordance::get_current()
 {
 	return m_search_matches->current_pos() ;
 }
+
+
+mem_engine::search_match_ptr ViewStateConcordance::get_current_match()
+{
+	if (m_search_matches->empty())
+	{
+		record_pointer rec(new mem_engine::record_local) ;
+		rec->set_source( m_search_matches->get_query_rich() ) ;
+		search_match_ptr match = this->m_model->get_first_memory()->make_match() ;
+		match->set_record(rec) ;
+		match->set_values_to_record() ;
+		return match ;
+	}
+	return m_search_matches->current( ) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceMain
 //////////////////////////////////////////////////////////////////////////
@@ -167,19 +182,6 @@ void ViewStateConcordanceMain::show_content()
 	m_window_listener->check_mousewheel() ;
 }
 
-mem_engine::search_match_ptr ViewStateConcordanceMain::get_current_match()
-{
-	if (m_search_matches->empty())
-	{
-		record_pointer rec(new mem_engine::record_local) ;
-		rec->set_source( m_search_matches->get_query_rich() ) ;
-		search_match_ptr match(new search_match(rec)) ;
-		match->set_values_to_record() ;
-		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
-		return match ;
-	}
-	return m_search_matches->current( ) ;
-}
 
 void ViewStateConcordanceMain::activate()
 {
@@ -275,18 +277,4 @@ void ViewStateConcordanceGloss::show_content()
 	m_view->set_text( html_content ) ;
 	m_window_listener->check_mousewheel() ;
 	m_view->set_scroll_pos(0) ;
-}
-
-mem_engine::search_match_ptr ViewStateConcordanceGloss::get_current_match()
-{
-	if (m_search_matches->empty())
-	{
-		record_pointer rec(new mem_engine::record_local) ;
-		rec->set_source( m_search_matches->get_query_rich() ) ;
-		search_match_ptr match(new search_match(rec)) ;
-		match->set_values_to_record() ;
-		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
-		return match ;
-	}
-	return m_search_matches->current( ) ;
 }

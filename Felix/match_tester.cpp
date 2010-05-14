@@ -44,46 +44,28 @@ namespace mem_engine
 		m_trans_pattern		= params.m_trans ;
 		m_context_pattern	= params.m_context ;
 
-		if ( m_params.m_ignore_case )
-		{
-			boost::to_lower( m_source_pattern ) ;
-			boost::to_lower( m_trans_pattern ) ;
-			boost::to_lower( m_context_pattern ) ;
-		}
-		if ( m_params.m_ignore_hira_kata )
-		{
-			str::normalize_hiragana_to_katakana( m_source_pattern ) ;
-			str::normalize_hiragana_to_katakana( m_trans_pattern ) ;
-			str::normalize_hiragana_to_katakana( m_context_pattern ) ;
-		}
-		if ( m_params.m_ignore_width )
-		{
-			str::normalize_width( m_source_pattern ) ;
-			str::normalize_width( m_trans_pattern ) ;
-			str::normalize_width( m_context_pattern ) ;
-		}
+		normalize( m_source_pattern ) ;
+		normalize( m_trans_pattern ) ;
+		normalize( m_context_pattern ) ;
 	}
 
 
 	// search_match_tester::test_source
 	bool search_match_tester::test_source( record_pointer rec )
 	{
-		m_search_match->get_markup()->SetTrans( wstring() ) ;
-		m_search_match->get_markup()->SetContext( wstring() ) ;
-
 		if ( m_source_pattern.empty() )
 		{
-			m_search_match->get_markup()->SetSource( wstring() ) ;
 			return true ;
 		}
 		wstring to_search = rec->get_source_plain() ;
-		check_lower( to_search ) ;
+		normalize( to_search ) ;
+
 		size_t pos = to_search.find( m_source_pattern ) ;
 		if ( pos == wstring::npos )
 		{
-			m_search_match->get_markup()->SetSource( wstring() ) ;
 			return false ;
 		}
+
 		m_search_match->get_markup()->SetSource( mark_up_string( rec->get_source_plain(), pos, m_source_pattern.size()) ) ;
 		return true ;
 	}
@@ -91,19 +73,19 @@ namespace mem_engine
 	// search_match_tester::test_trans
 	bool search_match_tester::test_trans( record_pointer rec )
 	{
-		if ( ! test_source( rec ) ) return false ;
-
 		if ( m_trans_pattern.empty() )
 		{
 			return true ;
 		}
 
 		wstring to_search = rec->get_trans_plain() ;
-		check_lower( to_search ) ;
+		normalize( to_search ) ;
 
 		size_t pos = to_search.find( m_trans_pattern ) ;
 		if ( pos == wstring::npos )
+		{
 			return false ;
+		}
 
 		m_search_match->get_markup()->SetTrans( mark_up_string( rec->get_trans_plain(), pos, m_trans_pattern.size()) );
 		return true ;
@@ -112,23 +94,22 @@ namespace mem_engine
 	// search_match_tester::test_context
 	bool search_match_tester::test_context( record_pointer rec )
 	{
-		if ( ! test_trans( rec ) ) return false ;
-
 		if ( m_context_pattern.empty() )
 		{
 			return true ;
 		}
 
 		wstring to_search = rec->get_context_plain() ;
-		check_lower( to_search ) ;
+		normalize( to_search ) ;
 
 		size_t pos = to_search.find( m_context_pattern ) ;
 		if ( pos == wstring::npos )
+		{
 			return false ;
+		}
 
 		m_search_match->get_markup()->SetContext( mark_up_string( rec->get_context_plain(), pos, m_context_pattern.size()) ) ;
 		return true ;
-
 	}
 
 	// Function name	: search_match_tester::test_validity
@@ -147,21 +128,43 @@ namespace mem_engine
 	bool search_match_tester::is_match( record_pointer rec )
 	{
 		m_search_match = search_match_ptr(new search_match) ;
+
 		if ( m_params.m_only_validated )
 		{
 			if ( ! test_validity( rec ) )
+			{
 				return false ;
+			}
 		}
 		if ( ! test_reliability( rec ) )
+		{
 			return false ;
+		}
 
-		return test_context( rec ) ;
+		markup_ptr markup = m_search_match->get_markup() ;
+		markup->SetTrans( wstring() ) ;
+		markup->SetContext( wstring() ) ;
+		markup->SetSource( wstring() ) ;
+
+		if (! test_source(rec))
+		{
+			return false ;
+		}
+		if (! test_trans(rec))
+		{
+			return false ;
+		}
+		if (! test_context(rec))
+		{
+			return false ;
+		}
+		return true ;
 	}
 
 	// private:
 
-	// Function name	: search_match_tester::check_lower
-	void search_match_tester::check_lower( wstring to_search )
+	// Function name	: search_match_tester::normalize
+	void search_match_tester::normalize( wstring &to_search )
 	{
 		if ( m_params.m_ignore_case )
 		{
@@ -227,11 +230,6 @@ namespace mem_engine
 		, m_trans_regex( L"(" + params.m_trans + L")", params.m_ignore_case ? boost::regex::extended|boost::regex::icase : boost::regex::extended )
 		, m_context_regex( L"(" + params.m_context + L")", params.m_ignore_case ? boost::regex::extended|boost::regex::icase : boost::regex::extended )
 	{
-		// set patterns
-		// set ignore case
-		//m_source_regex.set_ignore_case( params.m_ignore_case ) ;
-		//m_trans_regex.set_ignore_case( params.m_ignore_case ) ;
-		//m_context_regex.set_ignore_case( params.m_ignore_case ) ;
 	}
 
 	// Function name	: search_match_tester_regex::test_source

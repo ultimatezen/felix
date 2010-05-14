@@ -278,6 +278,11 @@ void felix_query::set_marking_off()
 {
 	m_params.m_show_marking = false ;
 }
+
+void felix_query::add_match( mem_engine::search_match_ptr match )
+{
+	m_match_list.push_back(match) ;
+}
 //////////////////////////////////////////////////////////////////////////
 // translation_match_query
 //////////////////////////////////////////////////////////////////////////

@@ -166,7 +166,7 @@ extern CAddInModule _AtlModule;
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
 
-#define VERSION "1.5.4"
+#define VERSION "1.6"
 
 #define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"
 #define LOGFILE_NAME _T("ppt_assist.log")

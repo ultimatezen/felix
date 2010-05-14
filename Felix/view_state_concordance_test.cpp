@@ -166,10 +166,8 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		search_match_ptr match = make_match_con("record source", "record trans") ;
 
-		search_match_container matches ;
-		matches.insert(match) ;
 		search_query_mainframe trans_matches; 
-		trans_matches.set_matches(matches) ;
+		trans_matches.add_match(match) ;
 		state.set_search_matches(&trans_matches) ;
 
 		search_match_ptr current_match = state.get_current_match() ;
@@ -197,6 +195,23 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = make_match_con("record source", "record trans") ;
+
+		search_query_mainframe trans_matches; 
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.set_current(1u) ;
+		state.set_search_matches(&trans_matches) ;
+
+		BOOST_CHECK_EQUAL(1u, state.get_current()) ;
 	}
 
 	// on_user_edit
@@ -533,6 +548,23 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateConcordanceGloss state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match = make_match_con("record source", "record trans") ;
+
+		search_query_glossary trans_matches; 
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.add_match(match) ;
+		trans_matches.set_current(1u) ;
+		state.set_search_matches(&trans_matches) ;
+
+		BOOST_CHECK_EQUAL(1u, state.get_current()) ;
 	}
 
 	// on_user_edit

@@ -61,7 +61,6 @@ public:
 	void wait_for_query();
 	STDMETHOD(get_App2)(IApp2 **pVal);
 
-
 	STDMETHOD(get_Visible)(VARIANT_BOOL* pVal);
 	STDMETHOD(put_Visible)(VARIANT_BOOL newVal);
 

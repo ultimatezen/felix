@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.handle_toggle_edit_mode() ;
 
 		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_enter_edit_mode_match") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_enter_edit_mode_match") ;
 
 		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
@@ -55,12 +55,12 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.handle_toggle_edit_mode() ;
 
 		BOOST_CHECK_EQUAL(6, (int)vso.view.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "handle_leave_edit_mode_match") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2].c_str()), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_leave_edit_mode_match") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2]), "set_text") ;
 		BOOST_CHECK(vso.view.m_sensing_variable[3].find("<table class=") != string::npos) ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4].c_str()), "set_scroll_pos") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4]), "set_scroll_pos") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5]), "0") ;
 
 		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
@@ -78,10 +78,10 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.show_content() ;
 	
 		BOOST_CHECK_EQUAL(4, (int)vso.view.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK(vso.view.m_sensing_variable[1].find("<table class=") != string::npos) ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2].c_str()), "set_scroll_pos") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2]), "set_scroll_pos") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3]), "0") ;
 
 		BOOST_CHECK(vso.view.m_text.find(L"Review Translation") != wstring::npos) ;
 	}
@@ -96,9 +96,9 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.show_content() ;
 
 		BOOST_CHECK_EQUAL(3, (int)vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_review_record") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "is_short_format") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "set_bg_color_if_needed") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "is_short_format") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "set_bg_color_if_needed") ;
 	}
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
 	{
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
 
 		string expected("source") ;
-		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich()).c_str()) ;
+		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
 	}
@@ -152,12 +152,12 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
 		BOOST_CHECK_EQUAL(6, (int)vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_review_record") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "redo_lookup") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "user_feedback") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), "425") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_item_under_edit") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "set_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "redo_lookup") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3]), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4]), "425") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5]), "0") ;
 		BOOST_CHECK(vso.listener.review_rec->is_valid_record()) ;
 	}
 
@@ -167,23 +167,15 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		ViewStateReview state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match(new search_match) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"record source") ;
-		rec->set_trans(L"record trans") ;
-		match->set_record(rec) ;
-		match->set_values_to_record() ;
+		record_pointer newrec(new record_local) ;
+		newrec->set_source(L"review_state") ;
 
-		trans_match_container matches ;
-		matches.insert(match) ;
-		translation_match_query trans_matches; 
-		trans_matches.set_matches(matches) ;
-		state.set_search_matches(&trans_matches) ;
+		vso.listener.set_review_record(newrec) ;
 
 		search_match_ptr current_match = state.get_current_match() ;
 
-		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("review_state") ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -193,38 +185,39 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		ViewStateReview state ;
 		view_state_obj vso(&state) ;
 
-		translation_match_query trans_matches; 
-		wstring query(L"query") ;
-		trans_matches.set_query_rich(query) ;
-		state.set_search_matches(&trans_matches) ;
-
 		search_match_ptr match = state.get_current_match() ;
 
-		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
 	}
+
+
+	BOOST_AUTO_TEST_CASE( get_current )
+	{
+		ViewStateReview state ;
+		view_state_obj vso(&state) ;
+		BOOST_CHECK_EQUAL(0u, state.get_current()) ;
+	}
+
 	// on_user_edit
 	BOOST_AUTO_TEST_CASE( on_user_edit)
 	{
 		ViewStateReview state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match = make_match_review("record source", "record trans", vso.mem->get_id()) ;
+		record_pointer newrec(new record_local) ;
+		newrec->set_source(L"on_user_edit") ;
 
-		trans_match_container matches ;
-		matches.insert(match) ;
-		translation_match_query trans_matches; 
-		trans_matches.set_matches(matches) ;
-		state.set_search_matches(&trans_matches) ;
+		vso.listener.set_review_record(newrec) ;
 
 		state.on_user_edit() ;
 		search_match_ptr current_match = vso.listener.item_under_edit ;
 
-		string expected("record source") ;
-		string actual(string2string(current_match->get_record()->get_source_rich()).c_str()) ;
+		string expected("on_user_edit") ;
+		string actual(string2string(current_match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK_EQUAL(vso.mem->get_id(), current_match->get_memory_id()) ;
@@ -243,8 +236,8 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.on_user_edit() ;
 		search_match_ptr match = vso.listener.item_under_edit ;
 
-		string expected("query") ;
-		string actual(string2string(match->get_record()->get_source_rich()).c_str()) ;
+		string expected("") ;
+		string actual(string2string(match->get_record()->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich().empty()) ;
@@ -258,14 +251,14 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		view_state_obj vso(&state) ;
 
 		state.activate() ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "set_menu_checkmark") ;
-		string id_view_match(int2string(ID_VIEW_MATCH).c_str()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), id_view_match) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "true") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "set_menu_checkmark") ;
-		string id_view_search(int2string(ID_VIEW_SEARCH).c_str()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), id_view_search) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5].c_str()), "false") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "set_menu_checkmark") ;
+		string id_view_match(int2string(ID_VIEW_MATCH)) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), id_view_match) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "true") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3]), "set_menu_checkmark") ;
+		string id_view_search(int2string(ID_VIEW_SEARCH)) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4]), id_view_search) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5]), "false") ;
 		BOOST_CHECK_EQUAL(6, (int)vso.listener.m_sensing_variable.size()) ;
 	}
 
@@ -286,7 +279,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		state.delete_match(0) ;
 
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "check_delete") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "check_delete") ;
 		BOOST_CHECK_EQUAL(1, (int)vso.listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(0, (int)vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(1, (int)vso.mem->size()) ;
@@ -307,14 +300,14 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		state.delete_match(0) ;
 
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "set_text") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "<center><h1>Deleted entry.</h1></center>") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2].c_str()), "set_scroll_pos") ;
-		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "<center><h1>Deleted entry.</h1></center>") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[2]), "set_scroll_pos") ;
+		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3]), "0") ;
 		BOOST_CHECK_EQUAL(4, (int)vso.view.m_sensing_variable.size()) ;
 
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "get_review_record") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "get_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "user_feedback") ;
 
 		BOOST_CHECK_EQUAL(0, (int)vso.mem->size()) ;
 	}

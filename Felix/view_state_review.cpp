@@ -108,16 +108,10 @@ void ViewStateReview::show_content()
 
 mem_engine::search_match_ptr ViewStateReview::get_current_match()
 {
-	if (m_search_matches->empty())
-	{
-		record_pointer rec(new mem_engine::record_local) ;
-		rec->set_source( m_search_matches->get_query_rich() ) ;
-		search_match_ptr match(new search_match(rec)) ;
-		match->set_values_to_record() ;
-		match->set_memory_id(this->m_model->get_first_memory()->get_id()) ;
-		return match ;
-	}
-	return m_search_matches->current( ) ;
+	search_match_ptr match = this->m_model->get_first_memory()->make_match() ;
+	match->set_record(this->m_window_listener->get_review_record()) ;
+	match->set_values_to_record() ;
+	return match ;
 }
 
 void ViewStateReview::activate()
@@ -157,5 +151,5 @@ void ViewStateReview::delete_match( size_t index )
 
 size_t ViewStateReview::get_current()
 {
-	return m_search_matches->current_pos() ;
+	return 0u ;
 }

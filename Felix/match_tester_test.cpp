@@ -4,6 +4,10 @@
 
 #include <boost/test/unit_test.hpp>
 
+//////////////////////////////////////////////////////////////////////////
+// search_match_tester_regex
+//////////////////////////////////////////////////////////////////////////
+
 BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 
 	using namespace mem_engine ;
@@ -206,9 +210,69 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 
-		using namespace mem_engine ;
+	using namespace mem_engine ;
 
-	BOOST_AUTO_TEST_CASE( is_match_one)
+	BOOST_AUTO_TEST_CASE(test_normalize_case)
+	{
+		search_query_params params ;
+		params.m_ignore_case = true ;
+		search_match_tester tester(params) ;
+
+		wstring query = L"ABC" ;
+		tester.normalize(query) ;
+
+		wstring expected = L"abc" ;
+
+		BOOST_CHECK_EQUAL(expected, query) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_normalize_hira_kara)
+	{
+		search_query_params params ;
+		params.m_ignore_case = true ;
+		params.m_ignore_hira_kata = true ;
+		search_match_tester tester(params) ;
+
+		wstring query = L"Ç†Ç¢Ç§Ç¶Ç®" ;
+		tester.normalize(query) ;
+
+		wstring expected = L"ÉAÉCÉEÉGÉI" ;
+
+		BOOST_CHECK_EQUAL(expected, query) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_normalize_width)
+	{
+		search_query_params params ;
+		params.m_ignore_width = true ;
+		search_match_tester tester(params) ;
+
+		wstring query = L"ÇPÇQÇR" ;
+		tester.normalize(query) ;
+
+		wstring expected = L"123" ;
+
+		BOOST_CHECK_EQUAL(expected, query) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_mark_up_string)
+	{
+		search_query_params params ;
+		search_match_tester tester(params) ;
+
+		wstring base = L"1234567" ;
+		wstring sub = L"345" ;
+
+		wstring actual = tester.mark_up_string(base,
+											   base.find(sub),
+											   sub.size()) ;
+
+		wstring expected = L"12<span class=\"concordance_match\">345</span>67" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(is_match_one)
 	{
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
@@ -226,7 +290,7 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	BOOST_AUTO_TEST_CASE( is_match_two)
+	BOOST_AUTO_TEST_CASE(is_match_two)
 	{
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
@@ -253,13 +317,17 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END()
 
-		BOOST_AUTO_TEST_SUITE( test_gloss_match_tester )
+//////////////////////////////////////////////////////////////////////////
+// gloss_match_tester
+//////////////////////////////////////////////////////////////////////////
 
-		using namespace mem_engine ;
+BOOST_AUTO_TEST_SUITE( test_gloss_match_tester )
+
+	using namespace mem_engine ;
 	// gloss_match_tester
-	BOOST_AUTO_TEST_CASE( is_match_one)
+	BOOST_AUTO_TEST_CASE(is_match_one)
 	{
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"spam") ;
