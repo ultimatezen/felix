@@ -90,9 +90,9 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 		BOOST_CHECK_EQUAL(2002, (int)created.wYear) ;
 		BOOST_CHECK_EQUAL(12, (int)created.wMonth) ;
 		BOOST_CHECK_EQUAL(13, (int)created.wDay) ;
-		BOOST_CHECK_EQUAL(1, (int)created.wHour) ;
+		BOOST_CHECK_EQUAL(1u, created.wHour) ;
 		BOOST_CHECK_EQUAL(55, (int)created.wMinute) ;
-		BOOST_CHECK_EQUAL(1, (int)created.wSecond) ;
+		BOOST_CHECK_EQUAL(1u, created.wSecond) ;
 	}
 	BOOST_AUTO_TEST_CASE( process_line_CrU )
 	{

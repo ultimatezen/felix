@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 			expected.Format("Memory not found with id %d", third_id) ;
 			CStringA actual(e.what()) ;
 			BOOST_CHECK_EQUAL(string(expected), string(actual)) ;
-			BOOST_CHECK_EQUAL(2, (int)mm.size()) ;
+			BOOST_CHECK_EQUAL(2u, mm.size()) ;
 		}
 	}
 	// removing memories
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		memory_pointer retrieved = mm.get_first_memory() ;
 		CStringA actual = retrieved->get_location() ;
 		BOOST_CHECK_EQUAL("first memory", string(actual)) ;
-		BOOST_CHECK_EQUAL(1, (int)mm.size()) ;
+		BOOST_CHECK_EQUAL(1u, mm.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( reduce_size_to )
 	{
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 
 		mm.reduce_size_to(2) ;
 		BOOST_CHECK_EQUAL(mem2->get_id(), mm.get_first_memory()->get_id()) ;
-		BOOST_CHECK_EQUAL(1, (int)mm.size()) ;
+		BOOST_CHECK_EQUAL(1u, mm.size()) ;
 	}
 
 	// adding and removing records
@@ -142,8 +142,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem2) ;
 
 		mm.add_record(make_rec("spam", "egg"), mem1->get_id()) ;
-		BOOST_CHECK_EQUAL(1, (int)mem1->size()) ;
-		BOOST_CHECK_EQUAL(0, (int)mem2->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem1->size()) ;
+		BOOST_CHECK_EQUAL(0u, mem2->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( add_record_to_second )
 	{
@@ -154,8 +154,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem2) ;
 
 		mm.add_record(make_rec("spam", "egg"), mem2->get_id()) ;
-		BOOST_CHECK_EQUAL(1, (int)mem2->size()) ;
-		BOOST_CHECK_EQUAL(0, (int)mem1->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem2->size()) ;
+		BOOST_CHECK_EQUAL(0u, mem1->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( remove_record )
 	{
@@ -165,9 +165,9 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 
 		record_pointer rec = make_rec("spam", "egg") ;
 		mm.add_record(rec, mem->get_id()) ;
-		BOOST_CHECK_EQUAL(1, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
 		mm.remove_record(rec); 
-		BOOST_CHECK_EQUAL(0, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(0u, mem->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( remove_record_by_id )
 	{
@@ -182,8 +182,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.add_record(rec, mem2->get_id()) ;
 
 		mm.remove_record(rec, mem1->get_id()) ;
-		BOOST_CHECK_EQUAL(1, (int)mem2->size()) ;
-		BOOST_CHECK_EQUAL(0, (int)mem1->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem2->size()) ;
+		BOOST_CHECK_EQUAL(0u, mem1->size()) ;
 	}
 	// setting properties
 	BOOST_AUTO_TEST_CASE( set_properties_algo )
@@ -229,8 +229,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		app_props::properties_memory properties ;
 		properties.m_data.m_min_score = 0 ;
 		mm.set_properties_memory(properties) ;
-		BOOST_CHECK_EQUAL(0, (int)mem1->m_properties.m_data.m_min_score) ;
-		BOOST_CHECK_EQUAL(0, (int)mem2->m_properties.m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(0u, mem1->m_properties.m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(0u, mem2->m_properties.m_data.m_min_score) ;
 	}
 	// finding matches
 	BOOST_AUTO_TEST_CASE( find_trans_matches )
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		search_query_params params ;
 		params.m_rich_source = L"egg 3" ;
 		mm.find_trans_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( find_matches )
 	{
@@ -265,7 +265,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		search_query_params params ;
 		params.m_rich_source = L"spam 3" ;
 		mm.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_glossary_matches )
 	{
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		search_query_params params ;
 		params.m_source = L"spam" ;
 		mm.perform_search(matches, params) ;
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 
 	// memory info
@@ -317,7 +317,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		BOOST_CHECK_EQUAL(0, (int)mm.total_memory_size()) ;
+		BOOST_CHECK_EQUAL(0u, mm.total_memory_size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( total_memory_size_3 )
 	{
@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	{
 		memory_model_gloss mm ;
 
-		BOOST_CHECK_EQUAL(0, (int)mm.size()) ;
+		BOOST_CHECK_EQUAL(0u, mm.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( size_2 )
 	{
@@ -362,7 +362,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		BOOST_CHECK_EQUAL(2, (int)mm.size()) ;
+		BOOST_CHECK_EQUAL(2u, mm.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_memories_needing_saving )
 	{
@@ -377,7 +377,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 
 		memory_list mems ;
 		mm.get_memories_needing_saving(mems) ;
-		BOOST_CHECK_EQUAL(1, (int)mems.size()) ;
+		BOOST_CHECK_EQUAL(1u, mems.size()) ;
 		memory_pointer retrieved = *(mems.begin()) ;
 		CStringA actual = retrieved->get_location() ;
 		BOOST_CHECK_EQUAL("first memory", string(actual)) ;

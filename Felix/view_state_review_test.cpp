@@ -34,11 +34,11 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		state.handle_toggle_edit_mode() ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_enter_edit_mode_match") ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4]), "set_scroll_pos") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5]), "0") ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
 
@@ -280,9 +280,9 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.delete_match(0) ;
 
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "check_delete") ;
-		BOOST_CHECK_EQUAL(1, (int)vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)vso.view.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(1, (int)vso.mem->size()) ;
+		BOOST_CHECK_EQUAL(1u, vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(0u, vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(1u, vso.mem->size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( delete_match_to_empty)
@@ -309,7 +309,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "get_review_record") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "user_feedback") ;
 
-		BOOST_CHECK_EQUAL(0, (int)vso.mem->size()) ;
+		BOOST_CHECK_EQUAL(0u, vso.mem->size()) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_SUITE( CZoomDlgTest )
 		CZoomDlg dialog ;
 		LRESULT lresult = 0 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lresult) ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL("CZoomDlg::OnInitDialog", dialog.m_sensing_variable[0]) ;
 	}
 

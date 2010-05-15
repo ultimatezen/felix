@@ -11,34 +11,34 @@
 
 #ifdef UNIT_TEST
 
+using namespace mem_engine ;
+using namespace except ;
+
+record_pointer make_record(wstring source, wstring trans)
+{
+	record_pointer rec(new record_local) ;
+	rec->set_source(string2wstring(source)) ;
+	rec->set_trans(string2wstring(trans)) ;
+	return rec ;
+}
+record_pointer make_record(string source, string trans)
+{
+	return make_record(string2wstring(source), string2wstring(trans)) ;
+}
+record_pointer add_record(memory_local &mem, string source, string trans)
+{
+	record_pointer rec = make_record(source, trans) ;
+	mem.add_record(rec) ;
+	return rec ;
+}
+record_pointer add_record(memory_local &mem, wstring source, wstring trans)
+{
+	record_pointer rec = make_record(source, trans) ;
+	mem.add_record(make_record(source, trans)) ;
+	return rec ;
+}
+
 BOOST_AUTO_TEST_SUITE( TestMemory )
-
-	using namespace mem_engine ;
-	using namespace except ;
-
-	record_pointer make_record(wstring source, wstring trans)
-	{
-		record_pointer rec(new record_local) ;
-		rec->set_source(string2wstring(source)) ;
-		rec->set_trans(string2wstring(trans)) ;
-		return rec ;
-	}
-	record_pointer make_record(string source, string trans)
-	{
-		return make_record(string2wstring(source), string2wstring(trans)) ;
-	}
-	record_pointer add_record(memory_local &mem, string source, string trans)
-	{
-		record_pointer rec = make_record(source, trans) ;
-		mem.add_record(rec) ;
-		return rec ;
-	}
-	record_pointer add_record(memory_local &mem, wstring source, wstring trans)
-	{
-		record_pointer rec = make_record(source, trans) ;
-		mem.add_record(make_record(source, trans)) ;
-		return rec ;
-	}
 
 	// should_check_for_demo
 	BOOST_AUTO_TEST_CASE( should_check_for_demo_false_empty )
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		add_record(mem, "dummy", "dummy") ;
 
-		BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
+		BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
 		BOOST_CHECK_EQUAL( false, mem.empty() ) ;
 
 	}
@@ -130,8 +130,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
-		BOOST_CHECK_EQUAL( 0, (int)rec1->get_reliability() ) ;
-		BOOST_CHECK_EQUAL( 0, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0u, rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0u, rec2->get_reliability() ) ;
 
 		mem.batch_set_reliability(5u) ;
 
@@ -144,8 +144,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
-		BOOST_CHECK_EQUAL( 0, (int)rec1->get_reliability() ) ;
-		BOOST_CHECK_EQUAL( 0, (int)rec2->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0u, rec1->get_reliability() ) ;
+		BOOST_CHECK_EQUAL( 0u, rec2->get_reliability() ) ;
 
 		mem.batch_set_reliability(mem_engine::MAX_RELIABILITY+15u) ;
 
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		memory_local mem ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 
-		BOOST_CHECK_EQUAL(0, (int)rec->get_id()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_id()) ;
 		mem.add_record(rec) ;
 		BOOST_CHECK(rec->get_id() != 0) ;
 	}
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		CStringA actual = rec->get_source_plain().c_str() ;
 		string expected = "spam" ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
-		BOOST_CHECK_EQUAL(2, (int)mem.size()) ;
+		BOOST_CHECK_EQUAL(2u, mem.size()) ;
 	}
 	// clear_memory
 	BOOST_AUTO_TEST_CASE( clear_memory_empty )
@@ -277,7 +277,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
-		BOOST_CHECK_EQUAL(1, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK_EQUAL(1u, mem.m_extra_strings.size()) ;
 		BOOST_CHECK( L"bar" == mem.get_extra_string(L"foo") ) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_extra_string_erase )
@@ -286,11 +286,11 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
-		BOOST_CHECK_EQUAL(1, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK_EQUAL(1u, mem.m_extra_strings.size()) ;
 		BOOST_CHECK( L"bar" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"" ) ;
-		BOOST_CHECK_EQUAL(0, (int)mem.m_extra_strings.size()) ;
+		BOOST_CHECK_EQUAL(0u, mem.m_extra_strings.size()) ;
 		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 	}
 
@@ -414,7 +414,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 			"</memory>\n" ;
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyMemory.xml") ;
 		mem.load_text(text, filename, strlen(text)) ;
-		BOOST_CHECK_EQUAL( 0, (int)mem.size() ) ;
+		BOOST_CHECK_EQUAL( 0u, mem.size() ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_one_entry )
 	{
@@ -452,9 +452,9 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
-		BOOST_CHECK_EQUAL((int)0, (int)rec->get_reliability()) ;
-		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
-		BOOST_CHECK_EQUAL((int)0, (int)rec->get_refcount()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
+		BOOST_CHECK(! rec->is_validated()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_refcount()) ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -493,9 +493,9 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
-		BOOST_CHECK_EQUAL((int)0, (int)rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
 		BOOST_CHECK_EQUAL(false, rec->is_validated()) ;
-		BOOST_CHECK_EQUAL((int)0, (int)rec->get_refcount()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_refcount()) ;
 	}
 	BOOST_AUTO_TEST_CASE( TestDegenerateEmpty )
 	{
@@ -521,9 +521,16 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_THROW(mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ), CException) ;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// find_matches
-	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// find_matches
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_find_matches )
+
+	using namespace mem_engine ;
+	using namespace except ;
 
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
 	{
@@ -537,7 +544,22 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.find_matches(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE( GetMatchesSize1_not_active)
+	{
+		memory_local mem ;
+		mem.set_active_off() ;
+		add_record(mem, "I luv spam", "Yes I do") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"I luv spam" ;
+		params.m_source = L"I luv spam" ;
+
+		mem.find_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize2)
 	{
@@ -552,7 +574,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.find_matches(matches, params) ;
 
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
 	{
@@ -566,7 +588,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_source = L"aa" ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -589,7 +611,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -612,7 +634,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -635,7 +657,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_match_algo = IDC_ALGO_WORD ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -659,7 +681,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -683,7 +705,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -707,7 +729,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -731,7 +753,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -742,9 +764,47 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// find_trans_matches
-	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// find_trans_matches
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
+	BOOST_AUTO_TEST_CASE(GetMatchesSize1)
+	{
+		memory_local mem ;
+		add_record(mem, "I luv spam", "I luv spam") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"I luv spam" ;
+		params.m_source = L"I luv spam" ;
+
+		mem.find_trans_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(GetMatchesSize1_not_active)
+	{
+		memory_local mem ;
+		mem.set_active_off() ;
+		add_record(mem, "I luv spam", "I luv spam") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"I luv spam" ;
+		params.m_source = L"I luv spam" ;
+
+		mem.find_trans_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
 		memory_local mem(0.0f) ;
@@ -759,7 +819,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -769,6 +829,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
+
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseTrans)
 	{
 		memory_local mem(0.0f) ;
@@ -783,7 +844,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -807,7 +868,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_ignore_case = true ;
 
 		mem.find_trans_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		trans_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
@@ -818,9 +879,17 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// get_best_match_score
-	//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// get_best_match_score
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_get_best_match_score )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
 	BOOST_AUTO_TEST_CASE( test_get_best_match_score_1_0)
 	{
 		memory_local mem(0.0f) ;
@@ -842,9 +911,17 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK_CLOSE((double)0.5f, mem.get_best_match_score(query), 0.001) ;
 	}
 
-	/************************************************************************/
-	/* get_glossary_matches                                                 */
-	/************************************************************************/
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// get_glossary_matches
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_100_char)
 	{
 		memory_local mem(0.0f) ;
@@ -862,7 +939,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
@@ -887,7 +964,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
@@ -911,7 +988,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
@@ -937,7 +1014,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.set_gloss_props(props) ;
 
 		mem.get_glossary_matches(matches, params) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		search_match_container::iterator pos = matches.begin() ;
 		search_match_ptr match = *pos ;
 
@@ -983,10 +1060,17 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		BOOST_CHECK_EQUAL(3, (int)matches.size()) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
-	/************************************************************************/
-	/* get_gloss_fuzzy                                                      */
-	/************************************************************************/
+//////////////////////////////////////////////////////////////////////////
+// get_gloss_fuzzy
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_100)
 	{
 		memory_local mem(0.0f) ;
@@ -1003,7 +1087,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kanji_100)
@@ -1022,7 +1106,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_hira_100)
@@ -1041,7 +1125,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_exact)
@@ -1058,7 +1142,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		search_match_ptr match = *matches.begin() ;
 		BOOST_CHECK_CLOSE(1.0, match->get_score(), 0.00001) ;
 	}
@@ -1081,15 +1165,22 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.m_gloss_properties.set_min_score(10) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		search_match_ptr match = *matches.begin() ;
 		BOOST_CHECK_CLOSE(0.5, match->get_score(), 0.00001) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
 
-	//////////////////////////////////////////////////////////////////////////
-	// tabulate_fonts
-	//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// tabulate_fonts
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_tabulate_fonts )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
 	BOOST_AUTO_TEST_CASE( test_tabulate_fonts_size_2)
 	{
 		memory_local mem(0.0f) ;
@@ -1101,15 +1192,24 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.tabulate_fonts(tabulator) ;
 
 		font_tabulator::font_set fonts = tabulator.get_font_set() ;
-		BOOST_CHECK_EQUAL(2, (int)fonts.size()) ;
+		BOOST_CHECK_EQUAL(2u, fonts.size()) ;
 		BOOST_CHECK(fonts.find(L"helvetica") != fonts.end()) ;
 		BOOST_CHECK(fonts.find(L"times") != fonts.end()) ;
 		BOOST_CHECK(fonts.find(L"symbol") == fonts.end()) ;
 	}
-	
-	/************************************************************************/
-	/* perform_search (concordance)                                         */
-	/************************************************************************/
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// perform_search (concordance)       
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
+
+	using namespace mem_engine ;
+	using namespace except ;
+
 	BOOST_AUTO_TEST_CASE( concordance_0)
 	{
 		memory_local mem(0.0f) ;
@@ -1126,7 +1226,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_use_regex = false ;
 
 		mem.perform_search( matches, params ) ;
-		BOOST_CHECK_EQUAL(0, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( concordance_1)
 	{
@@ -1144,7 +1244,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		params.m_use_regex = false ;
 
 		mem.perform_search( matches, params ) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		search_match_ptr match = *(matches.begin()) ;
 		BOOST_CHECK(match->get_record()->get_source_rich() == L"I love ham and eggs.") ;
@@ -1191,7 +1291,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 		// one match
 		mem.perform_search( matches, params ) ;
-		BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 		search_match_ptr match = *(matches.begin()) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
@@ -1201,11 +1301,23 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		// two matches
 		matches.clear() ;
 		mem.perform_search( matches, params ) ;
-		BOOST_CHECK_EQUAL(2, (int)matches.size()) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
 
 		match = *(matches.begin()) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// test_other_mem_local_stuff
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
+
+	using namespace mem_engine ;
+	using namespace except ;
 
 	// make_match
 	BOOST_AUTO_TEST_CASE(make_match)

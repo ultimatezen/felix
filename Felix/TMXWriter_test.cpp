@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 		string actual = string2string(device->m_value).c_str() ;
 		string expected = "  </body>\n</tmx>" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
-		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(1u, device->m_calls.size()) ;
 		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
 	BOOST_AUTO_TEST_CASE( write_tu)
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 		string actual = string2string(device->m_value).c_str() ;
 		string expected = "spam egg" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
-		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(1u, device->m_calls.size()) ;
 		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
 	BOOST_AUTO_TEST_CASE( write_header)
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 		BOOST_CHECK(text.find(L"creationtool=\"Felix\"") != wstring::npos) ;
 		BOOST_CHECK(text.find(L"srclang=\"Pekinese\"") != wstring::npos) ;
 		BOOST_CHECK(text.find(L"o-tmf=\"Felix\"") != wstring::npos) ;
-		BOOST_CHECK_EQUAL(1, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(1u, device->m_calls.size()) ;
 		BOOST_CHECK_EQUAL(string("write_wstring"), device->m_calls[0].c_str()) ;
 	}
 

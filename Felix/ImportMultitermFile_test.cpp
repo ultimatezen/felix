@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 		mem_engine::memory_pointer mem(new memory_local()) ;
 
 		importer.import_multiterm_55_text(reader, source_lang, trans_lang, mem) ;
-		BOOST_CHECK_EQUAL(2, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(2u, mem->size()) ;
 		//BOOST_CHECK_EQUAL(L"English", mem->get_memory_info()->get_source_language()) ;
 	}
 	BOOST_AUTO_TEST_CASE( import_multiterm_6_text)
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 		text += L"ƒXƒLƒƒƒ“”\tNumber of Scans\tsyngo Basic\r\n" ;
 
 		importer.import_multiterm_6_text(text.c_str()) ;
-		BOOST_CHECK_EQUAL(2, (int)importer.m_memory->size()) ;
+		BOOST_CHECK_EQUAL(2u, importer.m_memory->size()) ;
 		BOOST_CHECK_EQUAL(L"English", importer.m_memory->get_memory_info()->get_source_language()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_multiterm6_line)

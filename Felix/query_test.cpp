@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	BOOST_AUTO_TEST_CASE( initial_match_conditions)
 	{
 		search_query_mainframe query ;
-		BOOST_CHECK_EQUAL(0, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(0u, query.size()) ;
 		BOOST_CHECK(query.empty()) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_matches_smm_empty)
@@ -219,7 +219,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m1) ;
 		query.set_matches(matches) ;
 		BOOST_CHECK(! query.empty()) ;
-		BOOST_CHECK_EQUAL(1, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(1u, query.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(add_match)
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	{
 		search_query_mainframe query ;
 		query.forward() ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 	}
 	BOOST_AUTO_TEST_CASE( forward_two_matches)
 	{
@@ -244,17 +244,17 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		query.set_matches(matches) ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 		query.forward() ;
-		BOOST_CHECK_EQUAL(1, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(1u, query.current_pos()) ;
 		query.forward() ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 	}
 	BOOST_AUTO_TEST_CASE( back_empty)
 	{
 		search_query_mainframe query ;
 		query.back() ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 	}
 	BOOST_AUTO_TEST_CASE( back_three_matches)
 	{
@@ -267,13 +267,13 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m2) ;
 		matches.insert(m3) ;
 		query.set_matches(matches) ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 		query.back() ;
-		BOOST_CHECK_EQUAL(2, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(2u, query.current_pos()) ;
 		query.back() ;
-		BOOST_CHECK_EQUAL(1, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(1u, query.current_pos()) ;
 		query.back() ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( erase_current)
@@ -300,13 +300,13 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m2) ;
 		query.set_matches(matches) ;
 		query.set_current(1) ;
-		BOOST_CHECK_EQUAL(1, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(1u, query.current_pos()) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_current_for_emtpy)
 	{
 		search_query_mainframe query ;
 		query.set_current(1) ;
-		BOOST_CHECK_EQUAL(0, (int)query.current_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.current_pos()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( erase_at)
@@ -317,15 +317,15 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m1) ;
 		matches.insert(m2) ;
 		query.set_matches(matches) ;
-		BOOST_CHECK_EQUAL(2, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(2u, query.size()) ;
 		query.erase_at(1) ;
-		BOOST_CHECK_EQUAL(1, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(1u, query.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( erase_at_for_empty)
 	{
 		search_query_mainframe query ;
 		query.erase_at(1) ;
-		BOOST_CHECK_EQUAL(0, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(0u, query.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( erase_at_beyond_bounds)
 	{
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m2) ;
 		query.set_matches(matches) ;
 		query.erase_at(5) ;
-		BOOST_CHECK_EQUAL(2, (int)query.size()) ;
+		BOOST_CHECK_EQUAL(2u, query.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( make_id_cell)
@@ -366,7 +366,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(0) ;
 
-		BOOST_CHECK_EQUAL(1, (int)query.prev_match_pos()) ;
+		BOOST_CHECK_EQUAL(1u, query.prev_match_pos()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_prev_match_pos_mid)
@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(1) ;
 
-		BOOST_CHECK_EQUAL(0, (int)query.prev_match_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.prev_match_pos()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_next_match_pos_0)
 	{
@@ -392,7 +392,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(0) ;
 
-		BOOST_CHECK_EQUAL(1, (int)query.next_match_pos()) ;
+		BOOST_CHECK_EQUAL(1u, query.next_match_pos()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_next_match_pos_end)
@@ -406,7 +406,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(2) ;
 
-		BOOST_CHECK_EQUAL(0, (int)query.next_match_pos()) ;
+		BOOST_CHECK_EQUAL(0u, query.next_match_pos()) ;
 	}
 	BOOST_AUTO_TEST_SUITE_END()
 	BOOST_AUTO_TEST_SUITE( test_search_query_glossary )

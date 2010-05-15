@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		felix->Quit() ;
 
 		CMainFrame &main_frame = app::get_app() ;
-		BOOST_CHECK_EQUAL( 1, (int)main_frame.m_sensing_variable.size() ) ;
+		BOOST_CHECK_EQUAL( 1u, main_frame.m_sensing_variable.size() ) ;
 		string expected = "exit_silently" ;
 		string actual = main_frame.m_sensing_variable[0].c_str() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;

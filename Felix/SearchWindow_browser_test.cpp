@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_SUITE( TestSearchWindow_perform_search )
 		window.perform_search(doc) ;
 
 		BOOST_CHECK_EQUAL(searchbox->get_attribute(L"value"), L"") ;
-		BOOST_CHECK_EQUAL(1, (int)window.m_search_runner.get_terms().size()) ;
+		BOOST_CHECK_EQUAL(1u, window.m_search_runner.get_terms().size()) ;
 		BOOST_CHECK_EQUAL(window.m_search_runner.get_terms()[0], L"foo") ;
 	}
 	BOOST_AUTO_TEST_CASE(filterbox_text)

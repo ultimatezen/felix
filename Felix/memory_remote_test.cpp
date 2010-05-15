@@ -111,10 +111,10 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 			add_record(mem, "dummy", "dummy") ;
 
-			BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
+			BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
 
 			record_pointer record = mem.add_by_id(1, L"source", L"trans") ;
-			BOOST_CHECK_EQUAL( 1, (int)mem.size() ) ;
+			BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
 
 			BOOST_CHECK_EQUAL((int)record->get_id(), 1) ;
 			BOOST_CHECK(L"source" == record->get_source_rich()) ;
@@ -146,7 +146,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			mem.find_matches(matches, params) ;
 
-			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1u, matches.size()) ;
 		}
 		catch (_com_error& e)
 		{
@@ -180,9 +180,9 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 			record_pointer record = match->get_record() ;
 
-			BOOST_CHECK_EQUAL(0, (int)record->get_refcount()) ;
+			BOOST_CHECK_EQUAL(0u, record->get_refcount()) ;
 			record->increment_refcount() ;
-			BOOST_CHECK_EQUAL(1, (int)record->get_refcount()) ;
+			BOOST_CHECK_EQUAL(1u, record->get_refcount()) ;
 
 			mem.m_engine.method(L"Delete") ;
 		}
@@ -214,7 +214,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_source = L"aa" ;
 
 			mem.find_matches(matches, params) ;
-			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
@@ -255,7 +255,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_ignore_case = true ;
 
 			mem.find_trans_matches(matches, params) ;
-			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1u, matches.size()) ;
 
 			trans_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
@@ -326,7 +326,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			mem.set_gloss_props(props) ;
 
 			mem.get_glossary_matches(matches, params) ;
-			BOOST_CHECK_EQUAL(1, (int)matches.size()) ;
+			BOOST_CHECK_EQUAL(1u, matches.size()) ;
 			search_match_container::iterator pos = matches.begin() ;
 			search_match_ptr match = *pos ;
 

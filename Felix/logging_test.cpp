@@ -69,10 +69,10 @@ void init_vectors()
 		logging::set_logger(logger_ptr(faker)) ;
 		logging::log_warn("spam") ;
 
-		BOOST_CHECK_EQUAL(0, (int)m_debug_calls.size()) ;
-		BOOST_CHECK_EQUAL(1, (int)m_warn_calls.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)m_error_calls.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)m_exception_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_debug_calls.size()) ;
+		BOOST_CHECK_EQUAL(1u, m_warn_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_error_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_exception_calls.size()) ;
 		string actual = m_warn_calls[0] ;
 		BOOST_CHECK_EQUAL("spam", string(actual.c_str())) ;
 
@@ -84,10 +84,10 @@ void init_vectors()
 		logging::set_logger(logger_ptr(faker)) ;
 		logging::log_error("spam") ;
 
-		BOOST_CHECK_EQUAL(0, (int)m_debug_calls.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)m_warn_calls.size()) ;
-		BOOST_CHECK_EQUAL(1, (int)m_error_calls.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)m_exception_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_debug_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_warn_calls.size()) ;
+		BOOST_CHECK_EQUAL(1u, m_error_calls.size()) ;
+		BOOST_CHECK_EQUAL(0u, m_exception_calls.size()) ;
 		string actual = m_error_calls[0] ;
 		BOOST_CHECK_EQUAL("spam", string(actual.c_str())) ;
 	}

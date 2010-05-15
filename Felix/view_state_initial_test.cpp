@@ -127,7 +127,7 @@ using namespace mem_engine ;
 		rec->set_trans(L"trans") ;
 		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
 	}
@@ -141,7 +141,7 @@ using namespace mem_engine ;
 		rec->set_trans(L"trans") ;
 		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_new_record") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
 		BOOST_CHECK(vso.listener.new_rec->is_valid_record()) ;

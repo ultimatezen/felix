@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE( test_symbol_map )
 	BOOST_AUTO_TEST_CASE( get_val_existent )
 	{
 		symbol_map symbols ;
-		BOOST_CHECK_EQUAL(0, (int)symbols.get_val(L"side of bacon")) ;
+		BOOST_CHECK_EQUAL(0u, symbols.get_val(L"side of bacon")) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
 		mem->add_record(rec) ;
-		BOOST_CHECK_EQUAL(1, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
 
 		// match
 		search_match_ptr match(new search_match) ;
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		walker.EraseCurrentRecord(match, &matches, id, memories) ;
 
 		// record is deleted
-		BOOST_CHECK_EQUAL(0, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(0u, mem->size()) ;
 
 	}
 	// reliability
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		CViewCollectionWalker walker ;
 		walker.SetReliabilityFromElement( element_wrapper_ptr(wrapper), rec ) ;
 
-		BOOST_CHECK_EQUAL(0, (int)rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( set_reliability_9)
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		element_wrapper_fake *wrapper = new element_wrapper_fake() ;
 		wrapper->set_inner_text(L"9") ;
 		record_pointer rec(new record_local()) ;
-		BOOST_CHECK_EQUAL(0, (int)rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
 
 		CViewCollectionWalker walker ;
 		walker.SetReliabilityFromElement( element_wrapper_ptr(wrapper), rec ) ;
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		element_wrapper_fake *wrapper = new element_wrapper_fake() ;
 		wrapper->set_inner_text(L"spam") ;
 		record_pointer rec(new record_local()) ;
-		BOOST_CHECK_EQUAL(0, (int)rec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
 
 		try
 		{
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 		}
 		catch (std::exception&)
 		{
-			BOOST_CHECK_EQUAL(0, (int)rec->get_reliability()) ;
+			BOOST_CHECK_EQUAL(0u, rec->get_reliability()) ;
 		}
 	}
 	// validated

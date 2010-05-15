@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_SUITE( test_element_wrapper_html )
 	{
 		element_wrapper_html wrapper ;
 		wrapper.set_inner_text(L"text") ;
-		BOOST_CHECK_EQUAL(2, (int)wrapper.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, wrapper.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string("set_inner_text"), wrapper.m_sensing_variable[0].c_str()) ;
 		BOOST_CHECK_EQUAL(string("text"), wrapper.m_sensing_variable[1].c_str()) ;
 	}

@@ -146,17 +146,17 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
+		BOOST_CHECK_EQUAL(1, lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnCancel"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnCancel"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
@@ -164,8 +164,8 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnClose"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
@@ -173,8 +173,8 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(0u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(TRUE, result) ;
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_WM_SIZE)
@@ -182,10 +182,10 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_SIZE, SIZE_MINIMIZED, MAKELPARAM(5, 5), lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
-		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[1].c_str()), "SIZE_MINIMIZED"); 
-		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(2u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnSize"); 
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[1], "SIZE_MINIMIZED"); 
+		BOOST_CHECK_EQUAL(TRUE, result) ;
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_WM_SIZE_shebang)
@@ -193,9 +193,9 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		CRegisterGlossDlg dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_SIZE, 0, MAKELPARAM(5, 5), lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(dialog.m_sensing_variable[0].c_str()), "OnSize"); 
-		BOOST_CHECK_EQUAL(1, (int)result) ;
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnSize"); 
+		BOOST_CHECK_EQUAL(TRUE, result) ;
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
 

@@ -29,10 +29,10 @@ BOOST_AUTO_TEST_SUITE( test_properties_loaded_history )
 
 		for (int i = 0 ; i < app_props::NumMems ; ++i)
 		{
-			BOOST_CHECK_EQUAL( 0, (int)_tcslen(props.m_data.m_mems[i])) ;
-			BOOST_CHECK_EQUAL( 0, (int)_tcslen(props.m_data.m_glosses[i])) ;
-			BOOST_CHECK_EQUAL( 0, (int)_tcslen(props.m_data.m_remote_mems[i])) ;
-			BOOST_CHECK_EQUAL( 0, (int)_tcslen(props.m_data.m_remote_glosses[i])) ;
+			BOOST_CHECK_EQUAL( 0u, _tcslen(props.m_data.m_mems[i])) ;
+			BOOST_CHECK_EQUAL( 0u, _tcslen(props.m_data.m_glosses[i])) ;
+			BOOST_CHECK_EQUAL( 0u, _tcslen(props.m_data.m_remote_mems[i])) ;
+			BOOST_CHECK_EQUAL( 0u, _tcslen(props.m_data.m_remote_glosses[i])) ;
 		}
 	}
 

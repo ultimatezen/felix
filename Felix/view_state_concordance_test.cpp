@@ -35,11 +35,11 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		state.handle_toggle_edit_mode() ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_enter_edit_mode_concordance") ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		state.handle_toggle_edit_mode() ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		state.show_content() ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK(vso.view.m_sensing_variable[1].find("Found 0 matches.") != string::npos) ;
 	}
@@ -334,7 +334,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		state.delete_match(0) ;
 
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "check_delete") ;
-		BOOST_CHECK_EQUAL(1, (int)vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(1u, vso.listener.m_sensing_variable.size()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( delete_match_to_empty)
@@ -355,7 +355,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "<center><h1>No Matches</h1></center>") ;
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "user_feedback") ;
 	}
@@ -381,7 +381,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"source\">source</td>") != string::npos) ;
 		BOOST_CHECK(vso.view.m_sensing_variable[1].find("<td class=\"match_content\" id=\"trans\">trans</td>") != string::npos) ;
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "user_feedback") ;
 	}
@@ -416,11 +416,11 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 
 		state.handle_toggle_edit_mode() ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.view.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "is_edit_mode") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "handle_enter_edit_mode_new_record") ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_ENTERING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_IN_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -444,7 +444,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[4]), "set_scroll_pos") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[5]), "0") ;
 
-		BOOST_CHECK_EQUAL(2, (int)vso.listener.m_feedback_int.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.listener.m_feedback_int.size()) ;
 		BOOST_CHECK_EQUAL(IDS_LEAVING_EDIT_MODE, vso.listener.m_feedback_int[0]) ;
 		BOOST_CHECK_EQUAL(IDS_LEFT_EDIT_MODE, vso.listener.m_feedback_int[1]) ;
 	}
@@ -472,7 +472,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
 		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
-		BOOST_CHECK_EQUAL(2, (int)vso.model.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
 
 		string expected("source") ;
 		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;

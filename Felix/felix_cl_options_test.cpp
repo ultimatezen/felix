@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE( test_parse_command_line )
 
 		parse_command_line(command_line_text, tokens) ;
 
-		BOOST_CHECK_EQUAL(1, (int)tokens.size()) ;
+		BOOST_CHECK_EQUAL(1u, tokens.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), tokens[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( two)
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE( test_parse_command_line )
 
 		parse_command_line(command_line_text, tokens) ;
 
-		BOOST_CHECK_EQUAL(2, (int)tokens.size()) ;
+		BOOST_CHECK_EQUAL(2u, tokens.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), tokens[0]) ;
 		BOOST_CHECK_EQUAL(_T("bar.txt"), tokens[1]) ;
 	}
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_SUITE( test_parse_command_line )
 
 		parse_command_line(command_line_text, tokens) ;
 
-		BOOST_CHECK_EQUAL(1, (int)tokens.size()) ;
+		BOOST_CHECK_EQUAL(1u, tokens.size()) ;
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), tokens[0]) ;
 	}
 
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE( test_parse_command_line )
 
 		parse_command_line(command_line_text, tokens) ;
 
-		BOOST_CHECK_EQUAL(2, (int)tokens.size()) ;
+		BOOST_CHECK_EQUAL(2u, tokens.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), tokens[0]) ;
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), tokens[1]) ;
 	}
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_tm_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_tm_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.ftm"), options.m_tm_files[0]) ;
 		BOOST_CHECK_EQUAL(_T(""), options.m_prefs_file) ;
 	}
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_glossary_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_glossary_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.fgloss"), options.m_glossary_files[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( tmx_simple)
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_tmx_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_tmx_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.tmx"), options.m_tmx_files[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( trados_text_simple)
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_trados_text_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_trados_text_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), options.m_trados_text_files[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( xml_simple)
@@ -179,7 +179,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_xml_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_xml_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.xml"), options.m_xml_files[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( fprefs_simple)
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		LPCTSTR command_line_text = _T("foo.txt bar.txt") ;
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(2, (int)options.m_trados_text_files.size()) ;
+		BOOST_CHECK_EQUAL(2u, options.m_trados_text_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), options.m_trados_text_files[0]) ;
 		BOOST_CHECK_EQUAL(_T("bar.txt"), options.m_trados_text_files[1]) ;
 	}
@@ -240,9 +240,9 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		LPCTSTR command_line_text = _T("foo.fgloss bar.ftm") ;
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_tm_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_tm_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("bar.ftm"), options.m_tm_files[0]) ;
-		BOOST_CHECK_EQUAL(1, (int)options.m_glossary_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_glossary_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.fgloss"), options.m_glossary_files[0]) ;
 	}
 
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		LPCTSTR command_line_text = _T("\"c:\\program files\\foo.txt\"") ;
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(1, (int)options.m_trados_text_files.size()) ;
+		BOOST_CHECK_EQUAL(1u, options.m_trados_text_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), options.m_trados_text_files[0]) ;
 	}
 	BOOST_AUTO_TEST_CASE( trados_text_two_one_with_space)
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		LPCTSTR command_line_text = _T("foo.txt \"c:\\program files\\foo.txt\"") ;
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(2, (int)options.m_trados_text_files.size()) ;
+		BOOST_CHECK_EQUAL(2u, options.m_trados_text_files.size()) ;
 		BOOST_CHECK_EQUAL(_T("foo.txt"), options.m_trados_text_files[0]) ;
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), options.m_trados_text_files[1]) ;
 	}

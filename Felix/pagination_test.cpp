@@ -19,10 +19,10 @@ BOOST_AUTO_TEST_SUITE( TestPaginator )
 	{
 		Paginator paginator ;
 		paginator.set_num_records(1) ;
-		BOOST_CHECK_EQUAL(1, (int)paginator.get_num_pages()) ;
-		BOOST_CHECK_EQUAL(0, (int)paginator.get_current_page()) ;
-		BOOST_CHECK_EQUAL(0, (int)paginator.get_start()) ;
-		BOOST_CHECK_EQUAL(1, (int)paginator.get_end()) ;
+		BOOST_CHECK_EQUAL(1u, paginator.get_num_pages()) ;
+		BOOST_CHECK_EQUAL(0u, paginator.get_current_page()) ;
+		BOOST_CHECK_EQUAL(0u, paginator.get_start()) ;
+		BOOST_CHECK_EQUAL(1u, paginator.get_end()) ;
 		BOOST_CHECK(! paginator.has_next()) ;
 		BOOST_CHECK(! paginator.has_prev()) ;
 	}
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_SUITE( TestPaginator )
 		BOOST_CHECK(paginator.has_next()) ;
 		paginator.next_page() ;
 		BOOST_CHECK_EQUAL(3, (int)paginator.get_num_pages()) ;
-		BOOST_CHECK_EQUAL(1, (int)paginator.get_current_page()) ;
+		BOOST_CHECK_EQUAL(1u, paginator.get_current_page()) ;
 		BOOST_CHECK_EQUAL(20, (int)paginator.get_start()) ;
 		BOOST_CHECK_EQUAL(40, (int)paginator.get_end()) ;
 		BOOST_CHECK(paginator.has_prev()) ;
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_SUITE( TestPaginator )
 		Paginator paginator ;
 		paginator.set_num_records(30) ;
 		paginator.next_page() ;
-		BOOST_CHECK_EQUAL(1, (int)paginator.get_current_page()) ;
+		BOOST_CHECK_EQUAL(1u, paginator.get_current_page()) ;
 		BOOST_CHECK_EQUAL(20, (int)paginator.get_start()) ;
 		BOOST_CHECK_EQUAL(30, (int)paginator.get_end()) ;
 		BOOST_CHECK(paginator.has_prev()) ;
@@ -57,10 +57,10 @@ BOOST_AUTO_TEST_SUITE( TestPaginator )
 		Paginator paginator ;
 		paginator.set_num_records(50) ;
 		paginator.next_page() ;
-		BOOST_CHECK_EQUAL(1, (int)paginator.get_current_page()) ;
+		BOOST_CHECK_EQUAL(1u, paginator.get_current_page()) ;
 		paginator.prev_page() ;
-		BOOST_CHECK_EQUAL(0, (int)paginator.get_current_page()) ;
-		BOOST_CHECK_EQUAL(0, (int)paginator.get_start()) ;
+		BOOST_CHECK_EQUAL(0u, paginator.get_current_page()) ;
+		BOOST_CHECK_EQUAL(0u, paginator.get_start()) ;
 		BOOST_CHECK_EQUAL(20, (int)paginator.get_end()) ;
 		BOOST_CHECK(! paginator.has_prev()) ;
 		BOOST_CHECK(paginator.has_next()) ;

@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( TestlanguageHolder )
 		CComboBox combo ;
 		holder.put_langs_into_combo(combo) ;
 
-		BOOST_CHECK_EQUAL(2, (int)holder.m_languages.size()) ;
+		BOOST_CHECK_EQUAL(2u, holder.m_languages.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_source )
 	{

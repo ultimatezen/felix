@@ -28,4 +28,13 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 		BOOST_CHECK(is_vista_or_later()) ;
 	}
 
+	BOOST_AUTO_TEST_CASE(ensure_path_exists_throw)
+	{
+		BOOST_CHECK_THROW(ensure_file_exists(_T("c:\\path\\does\\not\\exist.ftm")), except::CWinException) ;
+	}
+	BOOST_AUTO_TEST_CASE(ensure_path_exists_nothrow)
+	{
+		BOOST_CHECK_NO_THROW(ensure_file_exists(_T("c:\\dev\\cpp\\Assistant Suite\\Felix\\TranslationMemory_test.cpp"))) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

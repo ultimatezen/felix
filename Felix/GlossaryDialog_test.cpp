@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		string actual = (LPCSTR)CStringA(normalized.c_str()) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
-		BOOST_CHECK_EQUAL(1, (int)record->get_refcount()) ;
+		BOOST_CHECK_EQUAL(1u, record->get_refcount()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_record_translation_lower)
 	{
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow gloss ;
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample.txt") ;
 		gloss.import_multiterm(filename) ;
-		BOOST_CHECK_EQUAL(1, (int)gloss.m_memories->size()) ;
+		BOOST_CHECK_EQUAL(1u, gloss.m_memories->size()) ;
 		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
 		BOOST_CHECK_EQUAL(50, (int)mem->size()) ;
 	}
@@ -255,8 +255,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnInitDialog"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
@@ -264,8 +264,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnClose"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
@@ -273,8 +273,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnClose"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
@@ -282,8 +282,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(dialog.m_sensing_variable[0].c_str()), "OnClose"); 
+		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnClose"); 
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
@@ -291,9 +291,9 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		CGlossaryWindow dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(0, (int)dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(0, (int)result) ;
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
+		BOOST_CHECK_EQUAL(0u, dialog.m_sensing_variable.size()) ;
+		BOOST_CHECK(! result) ;
+		BOOST_CHECK_EQUAL(1, lResult) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

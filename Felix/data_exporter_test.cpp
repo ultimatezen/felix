@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		exporter.m_file = device_ptr(device) ;
 
 		exporter.open_destination(_T("foo.txt")) ;
-		BOOST_CHECK_EQUAL(2, (int)device->m_calls.size()) ;
+		BOOST_CHECK_EQUAL(2u, device->m_calls.size()) ;
 		BOOST_CHECK_EQUAL(string("open"), device->m_calls[0].c_str()) ;
 		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_calls[1].c_str()) ;
 	}

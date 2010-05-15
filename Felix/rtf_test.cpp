@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_SUITE( font_table_test )
 	BOOST_AUTO_TEST_CASE( font_table_default_ctor)
 	{
 		rtf::font_table table ;
-		BOOST_CHECK_EQUAL(0, (int)table.size()) ;
+		BOOST_CHECK_EQUAL(0u, table.size()) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
