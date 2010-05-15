@@ -164,6 +164,12 @@ BOOST_AUTO_TEST_SUITE( test_make_window )
 		BOOST_CHECK_EQUAL(winrange.first, 0u) ;
 		BOOST_CHECK_EQUAL(winrange.second, 5u) ;
 	}
+	BOOST_AUTO_TEST_CASE(test_current_less_than_half)
+	{
+		window_range winrange = make_window(1, 25, 10) ;
+		BOOST_CHECK_EQUAL(winrange.first, 0u) ;
+		BOOST_CHECK_EQUAL(winrange.second, 10u) ;
+	}
 	BOOST_AUTO_TEST_CASE(test_0_10_10)
 	{
 		window_range winrange = make_window(0, 10, 10) ;

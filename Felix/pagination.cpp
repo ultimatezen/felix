@@ -83,6 +83,22 @@ void Paginator::goto_page( size_t page )
 	m_current_page = page ;
 }
 
+/*
+	Create the window of page numbers to show.
+	This is so if there are lots of pages, only the surrounding ones are shown, 
+	with links to the start and end.
+
+	params
+	current: current page
+	num: number of pages
+	window_size: size of window (half on each side)
+
+	Something like this:
+
+	[<<] [<] [10] [11] [12] 13 [14] [15] [16] [>] [>>]
+
+	Where 13 is the current item.
+*/
 window_range make_window(size_t current, size_t num, size_t window_size)
 {
 	if (num < window_size)
