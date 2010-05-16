@@ -91,10 +91,10 @@ BOOST_AUTO_TEST_SUITE( NormalizeWidthTest )
 	BOOST_AUTO_TEST_CASE( FullWidthPercent )
 	{
 		file::view fview ;
-		wstring ftext = (LPCWSTR)fview.create_view(_T("c:\\dev\\test files\\FullWidthPercent.txt")) ;
+		wstring ftext = L"ÅìÇUÇOÅì" ;
 		str::normalize_width( ftext ) ;
 		// we skip character 0 because that is just the BOM
-		BOOST_CHECK_EQUAL( L"%60%", ftext.substr(1)) ;
+		BOOST_CHECK_EQUAL( L"%60%", ftext) ;
 }
 // normalize_fullwidth_upper
 BOOST_AUTO_TEST_CASE( normalize_fullwidth_upper )

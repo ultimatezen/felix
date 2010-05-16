@@ -25,19 +25,24 @@ public:
 	wstring make_cmp(const wstring rich)
 	{
 		wstring cmp = strip_tags(rich) ;
+		this->normalize(cmp) ;
+		return cmp ;
+	}
+	wstring &normalize(wstring &irregular)
+	{
 		if (m_ignore_width)
 		{
-			str::normalize_width(cmp) ;
+			str::normalize_width(irregular) ;
 		}
 		if (m_ignore_case)
 		{
-			boost::to_lower(cmp) ;
+			boost::to_lower(irregular) ;
 		}
 		if (m_ignore_hira_kata)
 		{
-			str::normalize_hiragana_to_katakana(cmp) ;
+			str::normalize_hiragana_to_katakana(irregular) ;
 		}
-		return cmp ;
+		return irregular ;
 	}
 };
 

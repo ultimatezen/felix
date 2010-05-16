@@ -10,6 +10,7 @@
 #pragma once
 
 #include "query.h"					// query structs
+#include "segment.h"				// CmpMaker
 #include <boost/regex.hpp>
 
 namespace mem_engine
@@ -53,7 +54,9 @@ class search_match_tester : public match_tester
 {
 	VISIBLE_TO_TESTS ;
 
-	search_query_params m_params ;
+	CmpMaker m_cmp ;
+	size_t	 m_min_reliability ;
+	bool	 m_only_validated ;
 
 	wstring				m_source_pattern ;
 	wstring				m_trans_pattern ;

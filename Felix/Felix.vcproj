@@ -1700,6 +1700,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\destination_parser_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\MyLibrary\distance_test.cpp"
 					>
 				</File>

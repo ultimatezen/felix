@@ -38,7 +38,10 @@ namespace mem_engine
 	// ==============================
 
 	// search_match_tester::search_match_tester
-	search_match_tester::search_match_tester( const search_query_params &params ) : m_params( params )
+	search_match_tester::search_match_tester( const search_query_params &params ) : 
+		m_cmp( params.m_ignore_width, params.m_ignore_hira_kata, params.m_ignore_case ),
+		m_only_validated(params.m_only_validated),
+		m_min_reliability(params.m_min_reliability)
 	{
 		m_source_pattern	= params.m_source ; 
 		m_trans_pattern		= params.m_trans ;
@@ -121,7 +124,7 @@ namespace mem_engine
 	// Function name	: search_match_tester::test_reliability
 	bool search_match_tester::test_reliability( const record_pointer rec ) const
 	{
-		return ( m_params.m_min_reliability <= rec->get_reliability() ) ;
+		return ( m_min_reliability <= rec->get_reliability() ) ;
 	}
 
 	// Function name	: search_match_tester::is_match
@@ -129,7 +132,7 @@ namespace mem_engine
 	{
 		m_search_match = search_match_ptr(new search_match) ;
 
-		if ( m_params.m_only_validated )
+		if ( m_only_validated )
 		{
 			if ( ! test_validity( rec ) )
 			{
@@ -161,23 +164,10 @@ namespace mem_engine
 		return true ;
 	}
 
-	// private:
-
 	// Function name	: search_match_tester::normalize
 	void search_match_tester::normalize( wstring &to_search )
 	{
-		if ( m_params.m_ignore_case )
-		{
-			boost::to_lower( to_search ) ;
-		}
-		if ( m_params.m_ignore_hira_kata )
-		{
-			str::normalize_hiragana_to_katakana( to_search ) ;
-		}
-		if ( m_params.m_ignore_width )
-		{
-			str::normalize_width( to_search ) ;
-		}
+		m_cmp.normalize(to_search) ;
 	}
 
 	// Function name	: search_match_tester::mark_up_string
@@ -207,13 +197,19 @@ namespace mem_engine
 		markup_ptr markup = m_search_match->get_markup() ;
 
 		if ( markup->GetSource().empty() )
+		{
 			markup->SetSource( rec->get_source_rich() );
+		}
 
 		if ( markup->GetTrans().empty() )
+		{
 			markup->SetTrans( rec->get_trans_rich() );
+		}
 
 		if ( markup->GetContext().empty() )
+		{
 			markup->SetContext( rec->get_context_rich() );
+		}
 
 		return m_search_match ;
 	}
