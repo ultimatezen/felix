@@ -63,22 +63,7 @@ public:
 
 	void OnUnitTestAction()
 	{
-#ifdef UNIT_TEST
 
-		try
-		{
-			run_unit_tests() ;
-		}
-		catch( _com_error &e )
-		{
-			MessageBox( NULL, e.ErrorMessage(), _T("COM ERROR"), MB_OK | MB_SYSTEMMODAL ) ;
-		}
-		catch( ... )
-		{
-			ATLASSERT( "OOPS!" && false ) ;
-		}
-
-#endif // #ifdef _DEBUG
 	}
 
 

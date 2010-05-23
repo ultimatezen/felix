@@ -27,7 +27,14 @@ void CAppStrings::load(UINT lang_id )
 {
 	CString filename = get_file_name(lang_id);
 
-	HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
+	HINSTANCE hInst ;
+#ifdef UNIT_TEST
+	hInst = NULL ;
+#else
+	hInst = _AtlModule.GetResourceInstance()
+#endif
+
+
 	HRSRC hrsrc = FindResource(hInst, filename, RT_HTML);	// リソースに組み込んだ時の名前が「jpg」の場合
 	DWORD dwFileSize = SizeofResource(hInst, hrsrc);
 	HANDLE hres = LoadResource(hInst, hrsrc);

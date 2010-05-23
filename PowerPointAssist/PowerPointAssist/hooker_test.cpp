@@ -4,16 +4,16 @@
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( HookerTests )
 
-	TEST(HookerTests, shift_key_is_pressed)
+
+	BOOST_AUTO_TEST_CASE(test_shift_key_is_pressed)
 	{
 
-		ASSERT_TRUE( ! shift_key_is_pressed() ) ;
-
+		BOOST_CHECK( ! shift_key_is_pressed() ) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif // #ifdef _DEBUG

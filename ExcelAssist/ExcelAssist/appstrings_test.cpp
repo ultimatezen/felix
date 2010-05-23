@@ -5,26 +5,16 @@
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
-	TEST(CAppStringsTests, Initialize)
+
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( CAppStringsTests )
+
+	BOOST_AUTO_TEST_CASE(test_Initialize)
 	{
-		try
-		{
-			CAppStrings app_strings ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Exception initializing CAppStrings" ) ;
-		}
+		BOOST_CHECK_NO_THROW(CAppStrings()) ;
 	}
-	TEST(CAppStringsTests, load_english)
-	{
-		CAppStrings app_strings ;
-		app_strings.load(LANG_ENGLISH) ;
-		CStringA get_string((LPCWSTR)app_strings.get_get()) ;
-		ASSERT_EQUALS_V("Ge&t  (Alt+DWN ARR)", get_string) ;
-	}
-}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
 #endif

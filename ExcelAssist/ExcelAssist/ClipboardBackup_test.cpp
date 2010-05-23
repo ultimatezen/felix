@@ -3,20 +3,14 @@
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
-	TEST( CClipboardBackupTest, Initialize )
-	{
-		try
-		{
-			CClipboardBackup backup ;
-			ASSERT_TRUE( true ) ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to initialize clipboard object ") ;
-		}
-	}
-}
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( CClipboardBackupTest )
 
+
+	BOOST_AUTO_TEST_CASE( test_Initialize )
+	{
+		BOOST_CHECK_NO_THROW(CClipboardBackup()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
 #endif

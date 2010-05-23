@@ -6,28 +6,24 @@
 
 #ifdef UNIT_TEST
 
-namespace easyunit
-{
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( SimpleDocParseTest )
+
 
 //////////////////////////////////////////////////////////////////////////
 // SimpleDocParseTest unit tests =================================
 //////////////////////////////////////////////////////////////////////////
 
-	TEST( SimpleDocParseTest, ParseFirstPage )
-	{
-		PowerPoint::_ApplicationPtr mApp ;
-		mApp = globalApp::get() ;
-		ASSERT_TRUE_M( mApp, "Failed to get application pointer") ;
-	}
 
-
-	TEST( strategyFactoryTest, NullShape )
+	BOOST_AUTO_TEST_CASE(test_NullShape )
 	{
 		parsingStrategy strat = strategyFactory::create( NULL ) ;
 
-		ASSERT_EQUALS_M( strat, NULL, "create with null shape must produce null strategy" ) ;
+		BOOST_CHECK( ! strat ) ;
 
 	}
-}
 
-#endif // #ifdef _DEBUG
+BOOST_AUTO_TEST_SUITE_END()
+
+#endif
+

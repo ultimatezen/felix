@@ -14,11 +14,13 @@
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit
 
 #include <atlbase.h>
-#include <atlstr.h>
 
 // stdafx.h : include file for standard system include files,
 // or project specific include files that are used frequently,
 // but are changed infrequently
+
+#pragma warning( disable : 4267 ) // 'size_t' から 'DWORD' に変換しました。データが失われているかもしれません。
+#pragma warning( disable : 4312 ) // 'reinterpret_cast' : 'LONG' からより大きいサイズの 'HINSTANCE' へ変換します。
 
 #ifndef STRICT
 #define STRICT
@@ -41,16 +43,21 @@
 #define WIN32_IE		0x0501  // we need 5 or higher anyway...
 
 
+#define _ATL_APARTMENT_THREADED
+#define _ATL_NO_AUTOMATIC_NAMESPACE
+
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
+
 // WTL 7 handlers for property sheets
 #define _WTL_NEW_PAGE_NOTIFY_HANDLERS
 
 // turns off ATL's hiding of some common and often safely ignored warning messages
 #define _ATL_ALL_WARNINGS
-//#define _ATL_DEBUG_INTERFACES
 
 #define _WTL_NO_CSTRING
 #include <atlstr.h>
 #include "resource.h"
+
 
 #include "cstringinterface.h"
 #include <atltypes.h>
@@ -58,6 +65,29 @@
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
 #include "resource_string.h"
+
+#pragma warning( disable : 4996 ) 
+#include "atlapp.h"
+#pragma warning( default : 4996 ) 
+
+#include <atlwin.h>
+
+
+using namespace ATL ;
+
+#ifdef UNIT_TEST
+#include "c:\dev\cpp\MyLibrary\fakewindow.h"
+#define TWindow CFakeWindow
+#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
+#define SENSE(x) m_sensing_variable.push_back(string(x))
+#else
+#define TWindow CWindow
+#define DECLARE_SENSING_VAR
+#define SENSE(x) (void)0
+#endif
+
+
+#include "atldlgs.h"
 
 // stl libraries we are using
 #include <map>							// for record data
@@ -81,13 +111,10 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/scoped_array.hpp>
 #include <boost/shared_array.hpp>
 
-#include <boost/signal.hpp>
-#include <boost/signals.hpp>
-#include <boost/signals/connection.hpp>
-#include <boost/any.hpp>
 #include <boost/function.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <boost/bind.hpp>
+#include <boost/cast.hpp>
 
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
@@ -97,25 +124,22 @@ typedef boost::basic_format< TCHAR > tformat;
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
 
-#include <iostream>
-#include <ostream>
-#include <sstream>
-
 #include <atlbase.h>
 #include <atlcom.h>
 
-
-
-#pragma warning( disable : 4996 ) 
 #include "atlapp.h"
-#pragma warning( default : 4996 ) 
+
+#include "stringex.h"
 
 #pragma warning( disable : 4278 )
 #pragma warning( disable : 4146 )
-
+//The following #import imports the IDTExtensibility2 interface based on its LIBID
+#import "libid:AC0714F2-3D04-11D1-AE7D-00A0C90F26F4" version("1.0") lcid("0")  raw_interfaces_only named_guids
 
 #pragma warning( default : 4146 )
 #pragma warning( default : 4278 )
+
+class DECLSPEC_UUID("828EC85D-73CA-4B7D-B98C-6287F543C894") PowerPointAssistLib;
 
 using namespace ATL;
 
@@ -127,6 +151,7 @@ public:
 		m_hInstance = NULL;
 	}
 
+	DECLARE_LIBID(__uuidof(PowerPointAssistLib))
 
 	inline HINSTANCE GetResourceInstance()
 	{
@@ -144,13 +169,12 @@ private:
 
 extern CAddInModule _AtlModule;
 
-
-#include "atlconv.h"
-
-#include "stringex.h"
-#include "stringconversions.h"
+#include "StringEx.h"
+#include "File.h"
+#include "CStringInterface.h"
 #include "resource_string.h"
 
+#include <map>
 
 // Allow streaming of wstring's to std::ostream
 namespace std {
@@ -166,19 +190,10 @@ namespace std {
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
 
-#ifdef UNIT_TEST
-#include "FakeWindow.h"
-#define TWindow CFakeWindow
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
-#else
-#define TWindow CWindow
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#endif
-
 #define VERSION "1.6"
 
-#define LOGGING_SERVER L"FelixHelpers.WordLogger"
-#define LOGFILE_NAME _T("word_assist.log")
+#define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"
+#define LOGFILE_NAME _T("ppt_assist.log")
+
+#include "logging.h"
 

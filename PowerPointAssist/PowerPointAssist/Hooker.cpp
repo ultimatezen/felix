@@ -312,7 +312,17 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 BOOL installhook( CPowerPointInterface *addy )
 {
 	addin = addy ;
-	hkb=SetWindowsHookEx(WH_KEYBOARD,(HOOKPROC)KeyboardProc,_AtlModule.GetResourceInstance(),::GetCurrentThreadId() ); 
+	HINSTANCE res ;
+#ifdef UNIT_TEST
+	res = NULL ;
+#else
+	res = _AtlModule.GetResourceInstance()
+#endif
+
+	hkb=SetWindowsHookEx(WH_KEYBOARD,
+						(HOOKPROC)KeyboardProc,
+						res,
+						::GetCurrentThreadId() ); 
 
 	return TRUE;
 }

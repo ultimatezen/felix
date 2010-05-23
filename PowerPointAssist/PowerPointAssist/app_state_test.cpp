@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "app_state.h"
-#include "easyunit/testharness.h"
 
-#ifdef DEBUG
+#ifdef UNIT_TEST
 
-namespace easyunit
-{
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( app_state_test )
+
 	static const wchar_t maru_char_array[] =
 	{
 		0x0021	// EXCLAMATION MARK
@@ -21,33 +21,13 @@ namespace easyunit
 
 		, L'\0'		// end of array
 	} ;
-	TEST( app_stateTest, initial_values_seg_chars )
+	BOOST_AUTO_TEST_CASE( test_initial_values_seg_chars )
 	{
-		try
-		{
-			app_state state ;
-			CString expected = CW2T(maru_char_array) ;
-			CString actual(state.m_segChars) ;
-			ASSERT_EQUALS_M( expected, actual, "Seg chars don\'t match expectation") ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate app_props class in harness" ) ;
-		}
+		app_state state ;
+		CString expected = CW2T(maru_char_array) ;
+		CString actual(state.m_data.m_segChars) ;
+		BOOST_CHECK_EQUAL( expected, actual) ;
 	}
-	TEST( app_stateTest, initial_values_manual_url )
-	{
-		try
-		{
-			app_state state ;
-			CString expected = _T("http://felix-cat.com/media/manuals/felix/5.html") ;
-			CString actual(state.m_manual_url) ;
-			ASSERT_EQUALS_M( expected, actual, "Manual URL doesn\'t match expectation") ;
-		}
-		catch (...)
-		{
-			FAIL_M( "Failed to instantiate app_props class in harness" ) ;
-		}
-	}
-}
+
+BOOST_AUTO_TEST_SUITE_END()
 #endif

@@ -1,5 +1,5 @@
-#include "resource.h"
 #include "stdafx.h"
+#include "resource.h"
 #include "PowerPointInterface.h"
 
 #include "ui.h"
@@ -1054,7 +1054,14 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 	characters->get_Start( &m_queryStart ) ;
 
 	PowerPoint::TextRangePtr character ;
-	wstring delimiters = resource2wstring( IDS_DELIMITERS, _AtlModule.GetResourceInstance() ) ;
+	HINSTANCE res ;
+#ifdef UNIT_TEST
+	res = NULL ;
+#else
+	res = _AtlModule.GetResourceInstance()
+#endif
+	wstring delimiters = resource2wstring( IDS_DELIMITERS, res ) ;
+
 	ATLTRACE( "Delimiters = " ) ;
 	ATLTRACE( delimiters.c_str() ) ;
 	ATLTRACE( "\n" ) ;

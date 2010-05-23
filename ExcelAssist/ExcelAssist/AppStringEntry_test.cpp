@@ -4,56 +4,57 @@
 #ifdef UNIT_TEST
 
 
-namespace easyunit
-{
-	TEST( CAppStringEntryTest, GetSet )
+#include <boost/test/unit_test.hpp>
+BOOST_AUTO_TEST_SUITE( CAppStringEntryTest )
+
+	BOOST_AUTO_TEST_CASE(test_GetSet )
 	{
 		CAppStringEntry entry ;
 		entry.set_entry( L"text", L"foo" ) ;
 		entry.set_entry( L"tooltip", L"bar" ) ;
 		entry.set_entry( L"id", L"foo2" ) ;
 		entry.set_entry( L"type", L"bar2" ) ;
-		ASSERT_EQUALS( L"foo", entry.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"bar", entry.get_entry(L"tooltip") ) ;
-		ASSERT_EQUALS( L"foo2", entry.get_entry(L"id") ) ;
-		ASSERT_EQUALS( L"bar2", entry.get_entry(L"type") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"bar", entry.get_entry(L"tooltip") ) ;
+		BOOST_CHECK_EQUAL( L"foo2", entry.get_entry(L"id") ) ;
+		BOOST_CHECK_EQUAL( L"bar2", entry.get_entry(L"type") ) ;
 
 		CAppStringEntry entry2( entry ) ;
-		ASSERT_EQUALS( L"foo", entry2.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"bar", entry2.get_entry(L"tooltip") ) ;
-		ASSERT_EQUALS( L"foo2", entry2.get_entry(L"id") ) ;
-		ASSERT_EQUALS( L"bar2", entry2.get_entry(L"type") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry2.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"bar", entry2.get_entry(L"tooltip") ) ;
+		BOOST_CHECK_EQUAL( L"foo2", entry2.get_entry(L"id") ) ;
+		BOOST_CHECK_EQUAL( L"bar2", entry2.get_entry(L"type") ) ;
 
 		entry2.set_entry( L"text", L"test1" ) ;
 		entry2.set_entry( L"tooltip", L"test2" ) ;
 
-		ASSERT_EQUALS( L"test1", entry2.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"test2", entry2.get_entry(L"tooltip") ) ;
+		BOOST_CHECK_EQUAL( L"test1", entry2.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"test2", entry2.get_entry(L"tooltip") ) ;
 	}
 
-	TEST( CAppStringEntryTest, GetSetFalse )
+	BOOST_AUTO_TEST_CASE(test_GetSetFalse )
 	{
 		CAppStringEntry entry ;
 		entry.set_entry( L"text", L"foo" ) ;
 		entry.set_entry( L"tooltip", L"bar" ) ;
 
-		ASSERT_EQUALS( L"foo", entry.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"", entry.get_entry(L"idontexist") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"", entry.get_entry(L"idontexist") ) ;
 
 		CAppStringEntry entry2( entry ) ;
-		ASSERT_EQUALS( L"foo", entry2.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"", entry2.get_entry(L"meneither") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry2.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"", entry2.get_entry(L"meneither") ) ;
 
 		entry2.set_entry( L"text2", L"test1" ) ;
-		ASSERT_EQUALS( L"test1", entry2.get_entry(L"text2") ) ;
-		ASSERT_EQUALS( L"", entry2.get_entry(L"meneither") ) ;
+		BOOST_CHECK_EQUAL( L"test1", entry2.get_entry(L"text2") ) ;
+		BOOST_CHECK_EQUAL( L"", entry2.get_entry(L"meneither") ) ;
 
 		CAppStringEntry entry3 = entry2 ;
-		ASSERT_EQUALS( L"foo", entry3.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"", entry3.get_entry(L"idontexist") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry3.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"", entry3.get_entry(L"idontexist") ) ;
 	}
 
-	TEST( CAppStringEntryTest, AssignmentOperator )
+	BOOST_AUTO_TEST_CASE(test_AssignmentOperator )
 	{
 		CAppStringEntry entry ;
 		entry.set_entry( L"text", L"foo" ) ;
@@ -65,11 +66,11 @@ namespace easyunit
 
 		entry2 = entry ;
 
-		ASSERT_EQUALS( L"foo", entry2.get_entry(L"text") ) ;
-		ASSERT_EQUALS( L"bar", entry2.get_entry(L"tooltip") ) ;
-		ASSERT_EQUALS( L"foo2", entry2.get_entry(L"id") ) ;
-		ASSERT_EQUALS( L"bar2", entry2.get_entry(L"type") ) ;
+		BOOST_CHECK_EQUAL( L"foo", entry2.get_entry(L"text") ) ;
+		BOOST_CHECK_EQUAL( L"bar", entry2.get_entry(L"tooltip") ) ;
+		BOOST_CHECK_EQUAL( L"foo2", entry2.get_entry(L"id") ) ;
+		BOOST_CHECK_EQUAL( L"bar2", entry2.get_entry(L"type") ) ;
 	}
 
-}
+BOOST_AUTO_TEST_SUITE_END()
 #endif

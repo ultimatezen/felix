@@ -43,7 +43,7 @@ app_str_entry_ptr CAppStringRecordParser::get_next_record(void)
 	m_reader.find( L"<record>", true ) ;
 	if ( m_reader.empty() ) 
 	{
-		THROW_PROGRAM_EXCEPTION( "Reader must not be empty" ) ;
+		THROW_PROGRAM_EXCEPTION( _T("Reader must not be empty") ) ;
 	}
 	reader_type::bookmark_type pos_start = m_reader.get_current_pos() ;
 	m_reader.find( L"</record>", false ) ;
