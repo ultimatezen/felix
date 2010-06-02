@@ -2262,6 +2262,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExcelInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExcelInterfaceFake.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExcelInterfaceReal.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\Exceptions.h"
 				>
 			</File>

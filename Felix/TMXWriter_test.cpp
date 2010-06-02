@@ -8,6 +8,7 @@
 #include "ResHtmlFile.h"
 #include "record_local.h"
 #include "output_device_fake.h"
+#include "MockListener.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -16,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	// write
 	BOOST_AUTO_TEST_CASE( write_footer )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
@@ -30,7 +31,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( write_tu)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
@@ -49,7 +50,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( write_header)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
@@ -72,7 +73,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	// make_tu
 	BOOST_AUTO_TEST_CASE( make_tu_simple )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
@@ -84,7 +85,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( make_tu_real_trans )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
@@ -98,7 +99,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( make_tu_real_source)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
@@ -112,7 +113,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( make_tu_real_creationid)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
@@ -127,7 +128,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( make_tu_real_changeid)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy ) ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
@@ -143,7 +144,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 
 	BOOST_AUTO_TEST_CASE( SetSourceAndTrans )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		writer.set_src_lang( L"jp" ) ;
 		BOOST_CHECK_EQUAL ( L"JP", writer.m_src_lang ) ; 
@@ -152,7 +153,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( cleanUpForTmx )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"f\too hi!" ;
 		wstring outStr = writer.cleanUpForTMX( inStr ) ;
@@ -165,7 +166,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	// get_segment
 	BOOST_AUTO_TEST_CASE( getSegmentSimple )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"foo" ;
 		wstring outStr = writer.get_segment( inStr ) ;
@@ -176,7 +177,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( getSegmentBr )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"foo<br />" ;
 		wstring outStr = writer.get_segment( inStr ) ;
@@ -185,7 +186,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( getSegmentP )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"<p>foo</p>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
@@ -194,7 +195,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( getSegmentDivSpan )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
@@ -204,7 +205,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 
 	BOOST_AUTO_TEST_CASE( get_segment_bad_html )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"This is < & > not cool..." ;
 		wstring outStr = writer.get_segment( inStr ) ;
@@ -213,7 +214,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( get_segment_bad_html_with_tag )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXWriter writer( &dummy ) ;
 		wstring inStr = L"This is < & > not cool...<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;

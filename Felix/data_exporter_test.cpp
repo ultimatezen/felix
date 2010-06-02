@@ -4,6 +4,7 @@
 #include "memory_local.h"
 #include "ProgressListener.h"
 #include "output_device_fake.h"
+#include "MockListener.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -19,7 +20,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	BOOST_AUTO_TEST_CASE( internal_date_to_trados_date )
 	{
 		std::set< wstring > fonts ;
-		CProgressListenerDummy listener ;
+		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = device_ptr(device) ;
@@ -40,7 +41,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	BOOST_AUTO_TEST_CASE( open_destination )
 	{
 		std::set< wstring > fonts ;
-		CProgressListenerDummy listener ;
+		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = device_ptr(device) ;
@@ -53,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	BOOST_AUTO_TEST_CASE( write_preamble )
 	{
 		std::set< wstring > fonts ;
-		CProgressListenerDummy listener ;
+		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = device_ptr(device) ;
@@ -67,7 +68,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	BOOST_AUTO_TEST_CASE( create_unicode_escape )
 	{
 		std::set< wstring > fonts ;
-		CProgressListenerDummy listener ;
+		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 
 		string escape = exporter.create_unicode_escape(L't', 't') ;
@@ -83,7 +84,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 
 	BOOST_AUTO_TEST_CASE( export_gloss)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		multiterm_data_exporter_55 exporter(&dummy) ;
 
 		exporter.set_source("Japanese") ;
@@ -132,7 +133,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 
 	BOOST_AUTO_TEST_CASE( export_gloss)
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		multiterm_data_exporter_6 exporter(&dummy) ;
 
 		exporter.set_source(L"Japanese") ;

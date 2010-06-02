@@ -34,6 +34,7 @@
 #include "record_local.h"
 #include "ConcordanceDialog.h"
 #include "TabbedTextImporter.h"
+#include "ExcelInterfaceReal.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -403,7 +404,8 @@ void CGlossaryWindow::do_save( memory_pointer mem )
 			{
 				if ( ext.equals( _T(".xls" ) ) ) 
 				{
-					CExcelExporter exporter ( static_cast< CProgressListener* >( this ) ) ;
+					CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
+						ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
 					exporter.export_excel( mem, mem->get_location() ) ; 
 				}
 				else
@@ -510,7 +512,8 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 		{
 			logging::log_debug("Exporting glossary as Excel workbook") ;
 			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
+			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
+				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
 			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
 			return 0L ;
 		}
@@ -1033,8 +1036,8 @@ void CGlossaryWindow::prep_user_search()
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
 
-	m_search_matches.clear() ;
-	m_search_matches.m_params = m_find.get_search_params() ;
+	m_concordance_matches.clear() ;
+	m_concordance_matches.m_params = m_find.get_search_params() ;
 }
 
 void CGlossaryWindow::give_user_search_feedback()
@@ -1558,7 +1561,10 @@ void CGlossaryWindow::show_concordance_results()
 void CGlossaryWindow::perform_concordance_search()
 {
 	search_match_container matches ;
-	m_memories->perform_search( matches, m_concordance_matches.m_params ) ;
+	if (! m_concordance_matches.get_source_plain().empty())
+	{
+		m_memories->perform_search( matches, m_concordance_matches.m_params ) ;
+	}
 	m_concordance_matches.set_matches( matches ) ;
 }
 

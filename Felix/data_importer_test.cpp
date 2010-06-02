@@ -2,6 +2,7 @@
 #include "data_importer.h"
 #include "memory_local.h"
 #include "ProgressListener.h"
+#include "MockListener.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -14,7 +15,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 
 	BOOST_AUTO_TEST_CASE( load )
 	{
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 
 		importer.open_data_source( _T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt") ) ;
@@ -42,7 +43,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 	BOOST_AUTO_TEST_CASE( process_line_Seg )
 	{
 		string line = "<Seg L=EN-US>The{\\cs6\\f1\\cf6 <:cs \"Function\" 1>} Argus{\\cs6\\f1\\cf6 <:/cs>} program has been specially designed for viewing and analyzing these images." ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 		importer.clear_record() ;
 		importer.m_source_language = "EN-US" ;
@@ -59,7 +60,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 	BOOST_AUTO_TEST_CASE( process_line_Seg_new_type )
 	{
 		string line = "<Seg L=EN-US>The{\\cs6\\f1\\cf6 <:cs \"Function\" 1>} Argus{\\cs6\\f1\\cf6 <:/cs>} program has been specially designed for viewing and analyzing these images." ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 		importer.clear_record() ;
 		importer.m_source_language = "EN-US" ;
@@ -78,7 +79,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 	BOOST_AUTO_TEST_CASE( process_line_CrD )
 	{
 		string line = "<CrD>13122002, 01:55:01" ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 		importer.clear_record() ;
 
@@ -97,7 +98,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 	BOOST_AUTO_TEST_CASE( process_line_CrU )
 	{
 		string line = "<CrU>TANAKA" ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 		importer.clear_record() ;
 

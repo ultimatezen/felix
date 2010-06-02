@@ -139,8 +139,8 @@ extern CLocalizedServerAppModule _Module;
 #ifdef UNIT_TEST
 #include "FakeWindow.h"
 #define TWindow CFakeWindow
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
+#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
+#define SENSE(x) m_sensing_variable.push_back(std::string(x))
 #define VISIBLE_TO_TESTS public:
 #else
 #define TWindow CWindow

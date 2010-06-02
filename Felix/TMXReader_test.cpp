@@ -8,6 +8,7 @@
 #include "record_local.h"
 #include "memory_local.h"
 #include "memory_info.h"
+#include "MockListener.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -21,7 +22,7 @@ BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 	BOOST_AUTO_TEST_CASE( get_bom )
 	{
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
 		BOOST_CHECK_EQUAL ( file::file::UTF8_BOM, tmx_reader.get_bom( EXPORT_TEST_FILE_1A ) ) ; 
@@ -33,7 +34,7 @@ BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 		languages.insert(L"JA") ;
 
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 		tmx_reader.m_header.m_srclang = L"EN" ;
 		BOOST_CHECK(tmx_reader.srclang_in_languages(languages)) ; 
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 		languages.insert(L"JA") ;
 
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 		tmx_reader.m_header.m_srclang = L"*all*" ;
 		BOOST_CHECK(! tmx_reader.srclang_in_languages(languages)) ; 
@@ -54,7 +55,7 @@ BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 	BOOST_AUTO_TEST_CASE(load_tmx_memory)
 	{
 		mem_engine::memory_pointer mem(new mem_engine::memory_local()) ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
 		try
@@ -85,7 +86,7 @@ BOOST_AUTO_TEST_SUITE( CTMXReaderTestCase )
 	BOOST_AUTO_TEST_CASE( TestGetSegText )
 	{
 		memory_pointer mem(new mem_engine::memory_local()) ;
-		CProgressListenerDummy dummy ;
+		CMockListener dummy ;
 		CTMXReader tmx_reader( mem, static_cast< CProgressListener* >( &dummy ) ) ;
 
 		wstring toStrip = L"<seg><it pos=\"begin\" x=\"1\">&lt;1&gt;</it>Digitally Sign a Macro Project in Microsoft Word 2000</seg>" ;

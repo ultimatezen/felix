@@ -55,6 +55,7 @@
 #include "text_templates.h"
 #include "FelixMemDocUIHandler.h"
 #include "memory_local.h"
+#include "ExcelInterfaceReal.h"
 
 #include <shellapi.h>
 
@@ -1029,7 +1030,8 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 		}
 		else if ( ext.equals( _T(".xls") ) )
 		{
-			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
+			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
+									ExcelInterfacePtr(new ExcelInterfaceReal)) ;
 			exporter.export_excel( mem, mem->get_location() ) ;
 		}
 		else
