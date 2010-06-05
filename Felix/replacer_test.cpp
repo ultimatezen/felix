@@ -335,7 +335,10 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL(9, newdate.wMonth) ;
 		BOOST_CHECK_EQUAL(9, newdate.wDay) ;
 	}
+
+
 BOOST_AUTO_TEST_SUITE_END()
+
 
 #endif 
 

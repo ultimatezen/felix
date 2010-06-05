@@ -91,7 +91,9 @@ public:
 	// replace page nav handlers
 	void handle_replace_find(doc3_wrapper_ptr doc);
 	void handle_replace_replace(doc3_wrapper_ptr doc);
-	void handle_replace_all(doc3_wrapper_ptr doc);
+	void handle_replace_all(doc3_wrapper_ptr doc, 
+							wstring search_template,
+							wstring replace_template);
 
 	bool replace_in_memory( search_match_ptr match,
 				const wstring replace_from, 

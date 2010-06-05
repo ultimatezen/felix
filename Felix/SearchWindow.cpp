@@ -300,7 +300,9 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	}
 	if (boost::ends_with(url, L"replace_all"))
 	{
-		handle_replace_all(get_doc3()) ;
+		handle_replace_all(get_doc3(), 
+							get_template_text(_T("replace_match.txt")),
+							get_template_text(_T("replacelinks.txt"))) ;
 		return true ;
 	}
 
@@ -762,17 +764,16 @@ void CSearchWindow::handle_replace_replace( doc3_wrapper_ptr doc )
 /*
  Do replacement on all found records.
  */
-void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc)
+void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc, 
+									   wstring search_template,
+									   wstring replace_template)
 {
-	SENSE("handle_replace_all") ;
-
 	element_wrapper_ptr search_box = doc->get_element_by_id(L"replacefrom") ;
-	wstring replace_from = search_box->get_attribute(L"value") ;
+	const wstring replace_from = search_box->get_attribute(L"value") ;
 	this->get_replace_matches(m_replace_matches, replace_from) ;
 
-
 	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
-	wstring replace_to = replaceto_box->get_attribute(L"value") ;
+	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
 
 	size_t num_replaced = 0 ;
 	foreach(search_match_ptr match, m_replace_matches)
@@ -797,13 +798,8 @@ void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc)
 	text_tmpl.Assign(L"found", L"") ;
 	text_tmpl.Assign(L"result", L"None") ;
 
-	wstring text = text_tmpl.Fetch(get_template_text(_T("replace_match.txt"))) ;
-
-	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
-
-	wstring replacelinks = text_tmpl.Fetch(get_template_text(_T("replacelinks.txt"))) ;
-	doc->get_element_by_id(L"replacelinks")->set_inner_text(replacelinks) ;
-
+	doc->get_element_by_id(L"searchresults")->set_inner_text(text_tmpl.Fetch(search_template)) ;
+	doc->get_element_by_id(L"replacelinks")->set_inner_text(text_tmpl.Fetch(replace_template)) ;
 	doc->get_element_by_id(L"filterbox")->set_inner_text(L"") ;
 }
 

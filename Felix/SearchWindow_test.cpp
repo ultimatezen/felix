@@ -253,9 +253,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 		_bstr_t url = L"/replace_all" ;
 		window.OnBeforeNavigate2(url) ;
-		BOOST_CHECK_EQUAL(2u, window.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(1u, window.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(window.m_sensing_variable[0].c_str()), "CSearchWindow::OnBeforeNavigate2"); 
-		BOOST_CHECK_EQUAL(string(window.m_sensing_variable[1].c_str()), "handle_replace_all"); 
 	}
 
 
@@ -462,6 +461,66 @@ BOOST_AUTO_TEST_SUITE( test_perform_replace )
 
 		BOOST_CHECK_EQUAL(L"ham", rec->get_source_rich()) ;
 		BOOST_CHECK_EQUAL(L"ham", rec->get_trans_rich()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// handle_replace_all
+//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
+
+	using namespace mem_engine;
+
+	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
+	{
+		boost::shared_ptr<memory_model> model(new memory_model_mem) ;
+		memory_pointer mem1(new memory_local) ;
+		mem1->set_location(name1) ;
+		memory_pointer mem2(new memory_local) ;
+		mem2->set_location(name2) ;
+
+		model->insert_memory(mem1) ;
+		model->insert_memory(mem2) ;
+
+		window.set_mem_controller(model) ;
+
+		return mem1 ;
+	}
+
+	BOOST_AUTO_TEST_CASE(result_none)
+	{
+		// replace stuff
+		element_wrapper_ptr filterbox(new element_wrapper_fake()) ;
+		element_wrapper_ptr replacelinks(new element_wrapper_fake()) ;
+		element_wrapper_ptr searchresults(new element_wrapper_fake()) ;
+
+		element_wrapper_ptr replacefrom(new element_wrapper_fake()) ;
+		element_wrapper_ptr replaceto(new element_wrapper_fake()) ;
+
+		replacefrom->set_attribute(L"value", L"spam") ;
+		replaceto->set_attribute(L"value", L"ham") ;
+
+		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
+		wrapper->add_element(L"filterbox", filterbox) ;
+		wrapper->add_element(L"replacelinks", replacelinks) ;
+		wrapper->add_element(L"searchresults", searchresults) ;
+		wrapper->add_element(L"replacefrom", replacefrom) ;
+		wrapper->add_element(L"replaceto", replaceto) ;
+
+
+		CSearchWindow window ;
+
+		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+
+		wstring text = L"{$result}" ;
+		window.handle_replace_all(doc3_wrapper_ptr(wrapper), text, L"") ;
+
+		wstring expected = L"None" ;
+
+		BOOST_CHECK_EQUAL(searchresults->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(filterbox->get_inner_text(), L"") ;
+
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
