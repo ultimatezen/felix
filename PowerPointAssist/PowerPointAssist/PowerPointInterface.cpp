@@ -1058,7 +1058,7 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 #ifdef UNIT_TEST
 	res = NULL ;
 #else
-	res = _AtlModule.GetResourceInstance()
+	res = _AtlModule.GetResourceInstance() ;
 #endif
 	wstring delimiters = resource2wstring( IDS_DELIMITERS, res ) ;
 

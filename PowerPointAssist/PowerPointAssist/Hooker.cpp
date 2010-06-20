@@ -316,7 +316,7 @@ BOOL installhook( CPowerPointInterface *addy )
 #ifdef UNIT_TEST
 	res = NULL ;
 #else
-	res = _AtlModule.GetResourceInstance()
+	res = _AtlModule.GetResourceInstance() ;
 #endif
 
 	hkb=SetWindowsHookEx(WH_KEYBOARD,

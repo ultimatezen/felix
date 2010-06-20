@@ -281,7 +281,7 @@ mem_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
 			return mem ;
 		}
 	}
-
+	
 	CString msg ;
 	msg.Format(_T("Memory not found with id %d"), cmp_id) ;
 	throw CProgramException(msg) ;

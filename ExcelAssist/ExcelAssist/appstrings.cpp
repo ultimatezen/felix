@@ -31,7 +31,7 @@ void CAppStrings::load(UINT lang_id )
 #ifdef UNIT_TEST
 	hInst = NULL ;
 #else
-	hInst = _AtlModule.GetResourceInstance()
+	hInst = _AtlModule.GetResourceInstance() ;
 #endif
 
 

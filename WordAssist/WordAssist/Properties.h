@@ -175,10 +175,15 @@ public:
 	}
 	void fill_seg_text()
 	{
+		CString text = get_seg_text() ;
+		_tcscpy_s(m_segChars, (LPCTSTR)text ) ;
+	}
+	CString get_seg_text()
+	{
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		CString text ;
 		edit.GetWindowText(text) ;
-		_tcscpy_s(m_segChars, (LPCTSTR)text ) ;
+		return text ;
 	}
 	int OnApply()
 	{
@@ -197,7 +202,11 @@ public:
 		BANNER("CPageSegmentation::OnKillActive") ;
 		DoDataExchange(TRUE);
 
-		this->fill_seg_text() ;
+		CString text = get_seg_text() ;
+		if (! text.IsEmpty())
+		{
+			this->fill_seg_text() ;
+		}
 
 		// FALSE = allow deactivate
 		// TRUE = prevent deactivation

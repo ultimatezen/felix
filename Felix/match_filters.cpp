@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "match_filters.h"
 #include <boost/regex.hpp>
+#include "logging.h"
 
 namespace memory_searcher
 {
@@ -13,15 +14,15 @@ namespace memory_searcher
 		reader.split(bits, L"-/") ;
 		if (bits.size() >= 1)
 		{
-			query_date.set_year(bits[0]) ;
+			query_date.set_year(boost::trim_copy(bits[0])) ;
 		}
 		if (bits.size() >= 2)
 		{
-			query_date.set_month(bits[1]) ;
+			query_date.set_month(boost::trim_copy(bits[1])) ;
 		}
 		if (bits.size() >= 3)
 		{
-			query_date.set_day(bits[2]) ;
+			query_date.set_day(boost::trim_copy(bits[2])) ;
 		}
 	}
 
@@ -121,222 +122,231 @@ namespace memory_searcher
 	{
 		wstring tag ;
 
-		tag = L"source:" ; // Search in source field
-		if (boost::starts_with(term, tag))
+		try
 		{
-			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-			if (boost::trim_copy(query).empty())
+			tag = L"source:" ; // Search in source field
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos ;
 			}
-			return boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos ;
-		}
-		tag = L"trans:" ; // Search in translation field
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-			if (boost::trim_copy(query).empty())
+			tag = L"trans:" ; // Search in translation field
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos ;
 			}
-			return boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos ;
-		}
-		tag = L"context:" ; // Search in context field
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-			if (boost::trim_copy(query).empty())
+			tag = L"context:" ; // Search in context field
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos ;
 			}
-			return boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos ;
-		}
-		// Created
-		tag = L"created-by:" ; // Search in creator field
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
+			// Created
+			tag = L"created-by:" ; // Search in creator field
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return rec->get_creator().find(query) != wstring::npos ;
 			}
-			return rec->get_creator().find(query) != wstring::npos ;
-		}
-		
-		// Search in modifier field
-		if (boost::starts_with(term, L"created:") || boost::starts_with(term, L"created-on:"))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
-			{
-				return true ;
-			}
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			misc_wrappers::date created_date = rec->get_created() ;
-			return dates_match(query_date, created_date) ;
-		}
-		tag = L"created-before:" ; // Search for records created before date (YYYY-MM-DD format)
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			return rec->get_created() < query_date ;
-		}
-		tag = L"created-after:" ; // Search for records created after date (YYYY-MM-DD format)
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			misc_wrappers::date date_created = rec->get_created() ;
-			return date_after(query_date, date_created) ;
-		}
-		// Modified
-		if (boost::starts_with(term, L"modified-by:"))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
-			{
-				return true ;
-			}
-			return rec->get_modified_by().find(query) != wstring::npos ;
-		}
 
-		if (boost::starts_with(term, L"modified:") || boost::starts_with(term, L"modified-on:"))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
+			// Search in modifier field
+			if (boost::starts_with(term, L"created:") || boost::starts_with(term, L"created-on:"))
 			{
-				return true ;
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				misc_wrappers::date created_date = rec->get_created() ;
+				return dates_match(query_date, created_date) ;
 			}
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			misc_wrappers::date modified_date = rec->get_modified() ;
-			return dates_match(query_date, modified_date) ;
-		}
-		tag = L"modified-before:" ; // Search for records modified before date (YYYY-MM-DD format)
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
+			tag = L"created-before:" ; // Search for records created before date (YYYY-MM-DD format)
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = term.substr(term.find(L':')+1) ;
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				return rec->get_created() < query_date ;
 			}
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			return rec->get_modified() < query_date ;
-		}
-		tag = L"modified-after:" ; // Search for records modified after date (YYYY-MM-DD format)
-		if (boost::starts_with(term, tag))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			misc_wrappers::date query_date ;
-			mod_date(query_date, query) ;
-			misc_wrappers::date date_modified = rec->get_modified() ;
-			return date_after(query_date, date_modified) ;
-		}
-		// Reliability
-		
-		// Search for records with the specified reliability
-		if (boost::starts_with(term, L"reliability:"))
-		{
-			wstring query = term.substr(term.find(L':')+1) ;
-			if (boost::trim_copy(query).empty())
+			tag = L"created-after:" ; // Search for records created after date (YYYY-MM-DD format)
+			if (boost::starts_with(term, tag))
 			{
-				return true ;
+				wstring query = term.substr(term.find(L':')+1) ;
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				misc_wrappers::date date_created = rec->get_created() ;
+				return date_after(query_date, date_created) ;
 			}
-			return rec->get_reliability() == boost::lexical_cast<size_t>(query) ;
-		}
-		tag = L"reliability-gt:" ; // Search for records with greater than the specified reliability
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_reliability() > query ;
-		}
-		tag = L"reliability-gte:" ; // Search for records with at least the specified reliability
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_reliability() >= query ;
-		}
-		tag = L"reliability-lt:" ; // Search for records with less than the specified reliability
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_reliability() < query ;
-		}
-		tag = L"reliability-lte:" ; // Search for records with no more than than the specified reliability
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_reliability() <= query ;
-		}
-		// Validated
-		tag = L"validated:" ; // Search for records that are validated ("true") or not validated ("false")
-		if (boost::starts_with(term, tag))
-		{
-			wstring rhs = term.substr(tag.size()) ;
-			if (boost::trim_copy(rhs).empty())
+			// Modified
+			if (boost::starts_with(term, L"modified-by:"))
 			{
-				return true ;
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return rec->get_modified_by().find(query) != wstring::npos ;
 			}
-			bool query = string2bool(rhs) ;
-			return rec->is_validated() == query ;
-		}
-		// Reference Count
-		tag = L"refcount:" ; // Search for records with the specified reference count
-		if (boost::starts_with(term, tag))
-		{
-			wstring rhs = term.substr(tag.size()) ;
-			if (boost::trim_copy(rhs).empty())
-			{
-				return true ;
-			}
-			size_t query = boost::lexical_cast<size_t>(rhs) ;
-			return rec->get_refcount() == query ;
-		}
-		tag = L"refcount-gt:" ; // Search for records with greater than the specified reference count
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_refcount() > query ;
-		}
-		tag = L"refcount-gte:" ; // Search for records with at least the specified reference count
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_refcount() >= query ;
-		}
-		tag = L"refcount-lt:" ; // Search for records with less than the specified reference count
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_refcount() < query ;
-		}
-		tag = L"refcount-lte:" ; // Search for records with no more than than the specified reference count
-		if (boost::starts_with(term, tag))
-		{
-			size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
-			return rec->get_refcount() >= query ;
-		}
 
-		// search in source, trans, and context fields
-		wstring query = boost::to_lower_copy(term) ;
-		if (boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos)
-		{
-			return true ;
+			if (boost::starts_with(term, L"modified:") || boost::starts_with(term, L"modified-on:"))
+			{
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				misc_wrappers::date modified_date = rec->get_modified() ;
+				return dates_match(query_date, modified_date) ;
+			}
+			tag = L"modified-before:" ; // Search for records modified before date (YYYY-MM-DD format)
+			if (boost::starts_with(term, tag))
+			{
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				return rec->get_modified() < query_date ;
+			}
+			tag = L"modified-after:" ; // Search for records modified after date (YYYY-MM-DD format)
+			if (boost::starts_with(term, tag))
+			{
+				wstring query = term.substr(term.find(L':')+1) ;
+				misc_wrappers::date query_date ;
+				mod_date(query_date, query) ;
+				misc_wrappers::date date_modified = rec->get_modified() ;
+				return date_after(query_date, date_modified) ;
+			}
+			// Reliability
+
+			// Search for records with the specified reliability
+			if (boost::starts_with(term, L"reliability:"))
+			{
+				wstring query = term.substr(term.find(L':')+1) ;
+				if (boost::trim_copy(query).empty())
+				{
+					return true ;
+				}
+				return rec->get_reliability() == boost::lexical_cast<size_t>(query) ;
+			}
+			tag = L"reliability-gt:" ; // Search for records with greater than the specified reliability
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_reliability() > query ;
+			}
+			tag = L"reliability-gte:" ; // Search for records with at least the specified reliability
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_reliability() >= query ;
+			}
+			tag = L"reliability-lt:" ; // Search for records with less than the specified reliability
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_reliability() < query ;
+			}
+			tag = L"reliability-lte:" ; // Search for records with no more than than the specified reliability
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_reliability() <= query ;
+			}
+			// Validated
+			tag = L"validated:" ; // Search for records that are validated ("true") or not validated ("false")
+			if (boost::starts_with(term, tag))
+			{
+				wstring rhs = term.substr(tag.size()) ;
+				if (boost::trim_copy(rhs).empty())
+				{
+					return true ;
+				}
+				bool query = string2bool(rhs) ;
+				return rec->is_validated() == query ;
+			}
+			// Reference Count
+			tag = L"refcount:" ; // Search for records with the specified reference count
+			if (boost::starts_with(term, tag))
+			{
+				wstring rhs = term.substr(tag.size()) ;
+				if (boost::trim_copy(rhs).empty())
+				{
+					return true ;
+				}
+				size_t query = boost::lexical_cast<size_t>(rhs) ;
+				return rec->get_refcount() == query ;
+			}
+			tag = L"refcount-gt:" ; // Search for records with greater than the specified reference count
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_refcount() > query ;
+			}
+			tag = L"refcount-gte:" ; // Search for records with at least the specified reference count
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_refcount() >= query ;
+			}
+			tag = L"refcount-lt:" ; // Search for records with less than the specified reference count
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_refcount() < query ;
+			}
+			tag = L"refcount-lte:" ; // Search for records with no more than than the specified reference count
+			if (boost::starts_with(term, tag))
+			{
+				size_t query = boost::lexical_cast<size_t>(term.substr(tag.size())) ;
+				return rec->get_refcount() >= query ;
+			}
+
+			// search in source, trans, and context fields
+			wstring query = boost::to_lower_copy(term) ;
+			if (boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos)
+			{
+				return true ;
+			}
+			if (boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos)
+			{
+				return true ;
+			}
+			if (boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos)
+			{
+				return true ;
+			}
+			return false ;
 		}
-		if (boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos)
+		catch (std::exception& e)
 		{
-			return true ;
+			logging::log_error("CRT exception") ;
+			logging::log_error(e.what()) ;
+			return false ;
 		}
-		if (boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos)
-		{
-			return true ;
-		}
-		return false ;
 	}
 
 }

@@ -122,6 +122,21 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		BOOST_CHECK( r2->get_id() != 3 ) ;
 
 	}
+	BOOST_AUTO_TEST_CASE( add_record_same_diff_ids )
+	{
+		memory_local mem ;
+
+		record_pointer r1 = make_record("s", "t") ;
+		record_pointer r2 = make_record("s", "t") ;
+
+		r1->set_id(1) ;
+		r2->set_id(3) ;
+
+		mem.add_record(r1) ;
+		mem.add_record(r2) ;
+
+		BOOST_CHECK_EQUAL( 1u, mem.size() ) ;
+	}
 
 	// batch_set_reliability
 	BOOST_AUTO_TEST_CASE( batch_set_reliability_5)

@@ -133,10 +133,7 @@ namespace mem_engine
 		foreach ( record_pointer record, m_records )
 		{
 			const double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
-			if (score > best_score)
-			{
-				best_score = score ;
-			}
+			best_score = max(score, best_score) ;
 		}
 
 		return best_score ;

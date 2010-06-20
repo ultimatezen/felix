@@ -1122,7 +1122,8 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 		{
 			logging::log_debug("Saving memory as Excel file") ;
 			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter( static_cast< CProgressListener* >( this ) ) ;
+			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
+				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
 			exporter.export_excel( m_model->get_memories()->get_first_memory(), file_name ) ;
 			return 0L ;
 		}

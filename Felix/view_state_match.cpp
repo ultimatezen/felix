@@ -55,7 +55,17 @@ void ViewStateMatch::delete_match( size_t index )
 	}
 
 	search_match_ptr match = m_search_matches->at(index) ;
-	mem_engine::memory_pointer mem = m_model->get_memory_by_id(match->get_memory_id()) ;
+	mem_engine::memory_pointer mem ;
+	try
+	{
+		mem = m_model->get_memory_by_id(match->get_memory_id()) ;
+	}
+	catch (except::CProgramException& e)
+	{
+		logging::log_error("Program exception") ;
+		logging::log_exception(e) ;
+		mem = m_model->get_first_memory() ;
+	}
 	mem->erase(match->get_record()) ;
 
 	m_search_matches->erase_at(index) ;
