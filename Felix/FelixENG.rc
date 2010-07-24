@@ -1094,6 +1094,7 @@ BEGIN
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "Could not delete record (memory locked)"
     IDS_REPLACE_COMPLETE_MSG "Made %1 replacements."
     IDS_SEARCHWIN_TITLE_MEM "Search Translation Memories"
+    IDS_SEARCH_MANAGER_TITLE "Manage TMs and Glossaries"
     IDS_SEARCHWIN_TITLE_GLOSS "Search Glossaries"
     IDS_POPUP_COPY          "&Copy"
     IDS_RETRIEVING_LANG_CODES "Retrieving language codes..."

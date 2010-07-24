@@ -104,9 +104,6 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 			return CallNextHookEx(hkb, nCode, wParam, lParam); 
 		}
 
-
-		ATLTRACE( "*** KEYBOARD ACTION\n" ) ;
-
 		if ( classic_interface ) 
 		{
 			if ( ! classic_keyboard_proc( wParam, wKeystrokeMsg ) ) 
@@ -492,7 +489,6 @@ bool classic_keyboard_proc( WPARAM wParam, WORD wKeystrokeMsg )
 
 	const bool control_key_pressed	= control_key_is_pressed() ;
 	const bool alt_key_pressed		= alt_key_is_pressed(wKeystrokeMsg) ;
-
 
 	
 	TRACE( control_key_pressed ) ;

@@ -964,6 +964,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\ManagerWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\markup_strings.cpp"
 				>
 			</File>
@@ -2399,6 +2403,10 @@
 			</File>
 			<File
 				RelativePath="mainfrm.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ManagerWindow.h"
 				>
 			</File>
 			<File

@@ -136,7 +136,9 @@ public:
 	TCHAR m_segChars[SEG_CHAR_SIZE] ;
 	const static int IDD = id_type ;
 
-	CPageSegmentation()
+	bool m_wants_to_clear  ;
+
+	CPageSegmentation() : m_wants_to_clear(false)
 	{
 		ZeroMemory(m_segChars, SEG_CHAR_SIZE*sizeof(TCHAR)) ;
 	}
@@ -176,7 +178,10 @@ public:
 	void fill_seg_text()
 	{
 		CString text = get_seg_text() ;
-		_tcscpy_s(m_segChars, (LPCTSTR)text ) ;
+		if (! text.IsEmpty() || m_wants_to_clear)
+		{
+			_tcscpy_s(m_segChars, (LPCTSTR)text ) ;
+		}
 	}
 	CString get_seg_text()
 	{

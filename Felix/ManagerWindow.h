@@ -9,20 +9,15 @@
 #include "document_wrapper.h"
 #include "pagination.h"
 #include "Exceptions.h"
+#include "SearchWindow.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
-					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
-
-wstring escape_entities(const wstring text) ;
-
-wstring get_filter_text(const std::vector<wstring> & terms) ;
-const wstring retrieve_input_value( element_wrapper_ptr input_box ) ;
-wstring tows(const size_t i) ;
+		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
 // The new search window
 // Uses hosted IE browser control to show content
-class CSearchWindow : 
-	public CWindowImpl<CSearchWindow, TWindow, SearchWindowTraits>
+class CManagerWindow : 
+	public CWindowImpl<CManagerWindow, TWindow, ManagerWindowTraits>
 	, public html::CHtmlViewListener
 	, public CMessageFilter
 
@@ -35,8 +30,6 @@ public:
 	memory_controller m_controller ;
 	// location of window settings
 	CString m_settings_key ;
-	// window title
-	CString m_title ;
 
 	// the HTML view
 	html::CHtmlView m_view ;
@@ -59,15 +52,14 @@ public:
 
 public:
 	// sensing stuff for unit testing
-	DECLARE_WND_CLASS(_T("SearchWindowClass"))
+	DECLARE_WND_CLASS(_T("ManagerWindowClass"))
 	DECLARE_SENSING_VAR ;
 
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
-	CSearchWindow() : 
-		m_settings_key(_T("MemorySearchWindow"))
-		, m_title(_T("Search Memory"))
+	CManagerWindow() : 
+	m_settings_key(_T("MemoryMangerWindow"))
 		, m_current_match(0)
 	{
 
@@ -93,12 +85,12 @@ public:
 	void handle_replace_find(doc3_wrapper_ptr doc);
 	void handle_replace_replace(doc3_wrapper_ptr doc);
 	void handle_replace_all(doc3_wrapper_ptr doc, 
-							wstring search_template,
-							wstring replace_template);
+		wstring search_template,
+		wstring replace_template);
 
 	bool replace_in_memory( search_match_ptr match,
-				const wstring replace_from, 
-				const wstring replace_to );
+		const wstring replace_from, 
+		const wstring replace_to );
 
 	void delete_record(search_match_ptr match);
 	void handle_undodelete(doc3_wrapper_ptr doc);
@@ -136,44 +128,44 @@ public:
 	LRESULT OnSearch();
 	LRESULT OnReplace();
 	LRESULT OnToggleHelp();
-	BEGIN_MSG_MAP_EX(CSearchWindow)
+	BEGIN_MSG_MAP_EX(CManagerWindow)
 		try
-		{
-			// don't use MSG_HANDLER_0 for OnCreate
-			// we need the arguments to pass to DefWindowProc
-			MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
+	{
+		// don't use MSG_HANDLER_0 for OnCreate
+		// we need the arguments to pass to DefWindowProc
+		MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
 			MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
 			MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
 
 			BEGIN_CMD_HANDLER_EX
 
-				CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
-				CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
-				CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
-				CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
+			CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
+			CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
+			CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
+			CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
 
 			END_CMD_HANDLER_EX
-		}
-		catch (except::CException& e)
-		{
-			logging::log_error("Program exception") ;
-			logging::log_exception(e) ;
-			e.notify_user( _T("Error in Search Window"), MB_OK, _T("Search Error"), m_hWnd ) ;		 
-		}
-		catch (_com_error& e)
-		{
-			logging::log_error("COM exception") ;
-			logging::log_exception(e) ;
-			except::CComException com_exception(_T("COM Error"), e) ;		 
-			com_exception.notify_user( _T("COM Error in Search Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
-		}
-		catch (std::exception& e)
-		{
-			logging::log_error("std::exception") ;
-			logging::log_error(e.what()) ;
-			const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
-			::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error"), msg_flags ) ;  
-		}
+	}
+	catch (except::CException& e)
+	{
+		logging::log_error("Program exception") ;
+		logging::log_exception(e) ;
+		e.notify_user( _T("Error in Search Window"), MB_OK, _T("Search Error"), m_hWnd ) ;		 
+	}
+	catch (_com_error& e)
+	{
+		logging::log_error("COM exception") ;
+		logging::log_exception(e) ;
+		except::CComException com_exception(_T("COM Error"), e) ;		 
+		com_exception.notify_user( _T("COM Error in Search Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
+	}
+	catch (std::exception& e)
+	{
+		logging::log_error("std::exception") ;
+		logging::log_error(e.what()) ;
+		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
+		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error"), msg_flags ) ;  
+	}
 
 
 	END_MSG_MAP()

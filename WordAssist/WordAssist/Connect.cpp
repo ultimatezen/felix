@@ -634,8 +634,6 @@ HRESULT CConnect::add_menu( office_cmd_bars &spCmdBars )
 */
 command_button_ptr CConnect::add_menu_item(office_cmd_bar_ctls &controls, int button_id, int string_id )
 {
-	BANNER( "CConnect::add_menu_item" ) ;
-
 	office_cmd_bar_ctl spMenuItemCtrl ;
 	_variant_t vTemp(VARIANT_FALSE); // menu is not temporary        
 	COM_ENFORCE( controls->raw_Add(
@@ -737,8 +735,6 @@ HRESULT CConnect::add_toolbar( office_cmd_bars &spCmdBars )
 */
 command_button_ptr CConnect::add_toolbar_item(office_cmd_bar_ctls &controls, int button_id, int string_id)
 {
-	BANNER( "CConnect::add_toolbar_item" ) ;
-
 	//MsoControlType::msoControlButton = 1
 	_variant_t vToolBarType(1);
 	//show the toolbar?
@@ -1224,7 +1220,6 @@ void CConnect::gui_to_language(int lang_offset)
 */
 bool CConnect::load_picture(command_button_ptr &button, int button_id)
 {
-	BANNER("CConnect::load_picture") ;
 	try
 	{
 		HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
@@ -1330,9 +1325,6 @@ bool CConnect::set_button_image(command_button_ptr &button, const int image_id)
 	{
 		logging::log_error("exception thrown in set_button_image!") ;
 		logging::log_exception(e) ;
-#ifdef _DEBUG
-		e.notify_user( _("set_button_image") ) ;
-#endif
 		return false ;
 	}
 	catch ( _com_error &er ) 
@@ -1340,9 +1332,6 @@ bool CConnect::set_button_image(command_button_ptr &button, const int image_id)
 		CComException e(er) ;
 		logging::log_error("_com_error thrown in set_button_image") ;
 		logging::log_exception(e) ;
-#ifdef _DEBUG
-		e.notify_user( _("_com_error in set_button_image") ) ;
-#endif
 		return false ;
 	}
 	catch ( ... ) 

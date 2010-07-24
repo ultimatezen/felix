@@ -702,7 +702,17 @@ bool WordController::OnLookupAction( bool as_plaintext )
 			}
 			else
 			{
-				app->LookupDeferred(get_selection_text(as_plaintext)) ;
+				try
+				{
+					app->LookupDeferred(get_selection_text(as_plaintext)) ;
+				}
+				catch (CSWException& e)
+				{
+					logging::log_error("Failed to do deferred lookup") ;
+					logging::log_exception(e) ;
+					Felix::IAppPtr app = getAssistant( ) ;
+					app->Query = get_selection_text(as_plaintext) ;
+				}
 			}
 		}
 		catch (CSWException& e)

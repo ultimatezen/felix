@@ -1211,6 +1211,10 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	{
 		m_search_window.DestroyWindow() ;
 	}
+	if (m_manager_window.IsWindow())
+	{
+		m_manager_window.DestroyWindow() ;
+	}
 
 	save_settings_destroy();
 
@@ -2970,10 +2974,14 @@ LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 {
 	SENSE("on_tools_memory_manager") ;
 
-	if ( show_mem_mgr_dlg() )
+	if (! m_manager_window.IsWindow())
 	{
-		set_window_title() ;
+		m_manager_window.Create(*this) ;
 	}
+
+	m_manager_window.set_mem_controller( this->get_memory_model() ) ;
+	m_manager_window.ShowWindow(SW_SHOW) ;
+	m_manager_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
 
 	return 0L ;
 }
@@ -4161,6 +4169,9 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 //! Set the background color unless it's white (the default)
 void CMainFrame::set_bg_color_if_needed()
 {
+#ifdef UNIT_TEST
+	return ;
+#endif
 	const CColorRef color((COLORREF)m_properties->m_view_props.m_data.m_back_color) ;
 	if (! color.is_white())
 	{
@@ -4930,7 +4941,7 @@ LRESULT CMainFrame::on_new_search( WindowsMessage &)
 	m_search_window.set_mem_window(true) ;
 	if (! m_search_window.IsWindow())
 	{
-		m_search_window.Create(NULL) ;
+		m_search_window.Create(*this) ;
 	}
 
 	m_search_window.set_mem_controller( this->get_memory_model() ) ;

@@ -1284,6 +1284,7 @@ BEGIN
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "削除できません(メモリがロック状態)"
     IDS_REPLACE_COMPLETE_MSG "%1個のエントリを置換しました"
     IDS_SEARCHWIN_TITLE_MEM "メモリの検索"
+    IDS_SEARCH_MANAGER_TITLE "TM・用語集の管理"
     IDS_SEARCHWIN_TITLE_GLOSS "用語の検索"
     IDS_POPUP_COPY          "コピー(&C)"
     IDS_RETRIEVING_LANG_CODES "言語コードを取得中..."

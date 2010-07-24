@@ -6,8 +6,9 @@
 
 #pragma once
 
-#include "GlossaryDialog.h"			// CGlossaryDialog
+#include "GlossaryDialog.h"		// CGlossaryDialog
 #include "SearchWindow.h"
+#include "ManagerWindow.h"		// CManagerWindow
 
 #include "TranslationMemory.h"		// memory
 #include "background_processor.h"
@@ -108,6 +109,7 @@ VISIBLE_TO_TESTS
 	mem_engine::memory_model_mem	m_silent_memories ;
 
 	CSearchWindow		m_search_window ;
+	CManagerWindow		m_manager_window ;
 public:
 	static const int IDD = IDR_MAINFRAME ;
 
