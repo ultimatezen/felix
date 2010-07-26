@@ -27,7 +27,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="mkdir &quot;%LOCALAPPDATA%\Felix\html\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\jp\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\en\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\js\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\images\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\*&quot; &quot;%LOCALAPPDATA%\Felix\html\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\jp\*&quot; &quot;%LOCALAPPDATA%\Felix\html\jp\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\en\*&quot; &quot;%LOCALAPPDATA%\Felix\html\en\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\js\*&quot; &quot;%LOCALAPPDATA%\Felix\html\js\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\images\*&quot; &quot;%LOCALAPPDATA%\Felix\html\images\&quot;&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;%LOCALAPPDATA%\Felix\html\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\jp\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\en\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\jp\manager\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\en\manager\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\js\&quot;&#x0D;&#x0A;mkdir &quot;%LOCALAPPDATA%\Felix\html\images\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\*.css&quot;               &quot;%LOCALAPPDATA%\Felix\html\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\jp\*&quot;                &quot;%LOCALAPPDATA%\Felix\html\jp\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\en\*&quot;               &quot;%LOCALAPPDATA%\Felix\html\en\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\jp\manager\*&quot; &quot;%LOCALAPPDATA%\Felix\html\jp\manager\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\en\manager\*&quot; &quot;%LOCALAPPDATA%\Felix\html\en\manager\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\js\*&quot;                &quot;%LOCALAPPDATA%\Felix\html\js\&quot;&#x0D;&#x0A;copy &quot;C:\dev\cpp\Assistant Suite\Felix\html\images\*&quot;        &quot;%LOCALAPPDATA%\Felix\html\images\&quot;&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -2092,6 +2092,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="ManagerView"
+				>
+				<File
+					RelativePath=".\ManagerView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewBrowse.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewDetails.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewStart.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -2814,6 +2834,26 @@
 				</File>
 				<File
 					RelativePath=".\window_listener_fake.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="ManagerView"
+				>
+				<File
+					RelativePath=".\ManagerView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewBrowse.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewDetails.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewStart.h"
 					>
 				</File>
 			</Filter>

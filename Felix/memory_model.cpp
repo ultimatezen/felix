@@ -168,12 +168,12 @@ bool memory_model::get_glossary_matches( search_match_container &matches, const 
 bool memory_model::perform_search( search_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
-	memory_iterator pos ;
-	for ( pos = m_memories.begin() ; pos != m_memories.end() ; ++pos )
+	foreach ( memory_pointer mem, m_memories )
 	{
-		memory_pointer mem = *pos ;
 		if( mem->perform_search( matches, params ) )
+		{
 			search_success = true ;
+		}
 	}
 	
 	return search_success ;

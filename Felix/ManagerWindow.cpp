@@ -10,6 +10,13 @@
 #include "numberfmt.h"
 #include "system_message.h"
 
+
+#include "ManagerViewBrowse.h"
+#include "ManagerViewDetails.h"
+#include "ManagerViewStart.h"
+
+
+
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
@@ -18,7 +25,16 @@
 using namespace mem_engine ;
 using namespace text_tmpl ;
 
+CManagerWindow::CManagerWindow() : 
+m_settings_key(_T("MemoryMangerWindow")),
+m_mem_model(NULL),
+m_gloss_model(NULL),
+m_view_start(new mgrview::ManagerViewStart),
+m_view_details(new mgrview::ManagerViewDetails),
+m_view_browse(new mgrview::ManagerViewBrowse)
+{
 
+}
 LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 {
 	SENSE("OnCreate") ;
@@ -26,7 +42,7 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	logging::log_debug("Creating TM manager window") ;
 
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
-	const CString filename = get_template_filename(_T("start_search.html")) ;
+	const CString filename = get_template_filename(_T("manager/start.html")) ;
 	m_view.create(*this, filename) ;
 
 	CWindowSettings ws;
@@ -35,6 +51,10 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 		ws.ApplyTo( *this ) ;
 	}
 	m_view.set_listener(static_cast<CHtmlViewListener *>(this)) ;
+	m_view.ensure_document_complete() ;
+
+	this->set_active_state(m_view_start) ;
+	m_current_state->show_content() ;
 
 	CString title ;
 	title.LoadString(IDS_SEARCH_MANAGER_TITLE) ;
@@ -190,7 +210,6 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 	{
 		m_search_runner.clear_terms() ;
 		m_paginator.set_num_records(0) ;
-		m_current_match = 0 ;
 		show_search_page() ;
 		return true ;
 	}
@@ -324,12 +343,16 @@ void CManagerWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::
 }
 
 /*
- The memory window or glossary window will set this.
+ The memory window will set this.
  It contains the list of memories/glossaries that we'll be searching.
  */
-void CManagerWindow::set_mem_controller( memory_controller controller )
+void CManagerWindow::set_mem_model(FelixModelInterface *model)
 {
-	m_controller = controller ;
+	m_mem_model = model ;
+}
+void CManagerWindow::set_gloss_model(FelixModelInterface *model)
+{
+	m_gloss_model = model ;
 }
 
 /*
@@ -342,7 +365,8 @@ void CManagerWindow::get_replace_matches( std::vector<mem_engine::search_match_p
 {
 	matches.clear() ;
 	mem_engine::search_match_container matchset ;
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
+	FelixModelInterface::model_ptr model = m_mem_model->get_memories() ;
+	foreach(mem_engine::memory_pointer mem, model->get_memories())
 	{
 		if (mem->is_local())
 		{
@@ -369,7 +393,7 @@ void CManagerWindow::get_search_matches( std::vector<mem_engine::search_match_pt
 {
 	matches.clear() ;
 	mem_engine::search_match_container matchset ;
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
+	foreach(mem_engine::memory_pointer mem, m_mem_controller->get_memories())
 	{
 		if (mem->is_local())
 		{
@@ -378,7 +402,6 @@ void CManagerWindow::get_search_matches( std::vector<mem_engine::search_match_pt
 	}
 	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
 	m_paginator.set_num_records(matches.size()) ;
-	m_current_match = 0 ;
 }
 
 /*
@@ -474,7 +497,6 @@ void CManagerWindow::handle_deletefilter(doc3_wrapper_ptr doc, wstring url)
 	if (m_search_runner.get_terms().empty())
 	{
 		m_paginator.set_num_records(0) ;
-		m_current_match = 0 ;
 		show_search_page() ;
 		return ;
 	}
@@ -535,10 +557,6 @@ void CManagerWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 	m_paginator.set_num_records(m_matches.size(), false) ;
 	delete_record(m_deleted_match);
 	show_search_results(doc, m_matches) ;
-	if (m_current_match)
-	{
-		--m_current_match ;
-	}
 }
 
 /*
@@ -550,7 +568,7 @@ void CManagerWindow::handle_undodelete( doc3_wrapper_ptr doc )
 	const int memid = m_deleted_match->get_memory_id() ;
 	record_pointer record = m_deleted_match->get_record() ;
 
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
+	foreach(mem_engine::memory_pointer mem, m_mem_controller->get_memories())
 	{
 		if (mem->get_id() == memid)
 		{
@@ -607,7 +625,7 @@ doc3_wrapper_ptr CManagerWindow::get_doc3()
  */
 void CManagerWindow::delete_record( search_match_ptr match )
 {
-	memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
+	memory_pointer mem = m_mem_controller->get_memory_by_id(match->get_memory_id()) ;
 
 	if (mem->erase(match->get_record()))
 	{
@@ -631,7 +649,6 @@ void CManagerWindow::handle_replace_find( doc3_wrapper_ptr doc )
 	this->get_replace_matches(m_replace_matches, replace_from) ;
 
 	show_replace_results(doc, m_replace_matches) ;
-	m_current_match++ ;
 }
 
 /*
@@ -646,57 +663,14 @@ void CManagerWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &matc
 	text_tmpl.Assign(L"message", m_message) ;
 	m_message.clear() ;
 
-	if (m_current_match >= matches.size())
+
 	{
-		text_tmpl.Assign(L"found", L"") ;
-		text_tmpl.Assign(L"result", L"") ;
-		m_current_match = 0 ;
-	}
-	else
-	{
-		text_tmpl.Assign(L"match_num", ulong2wstring(m_current_match+1)) ;
 		text_tmpl.Assign(L"num_matches", ulong2wstring(matches.size())) ;
 
 		text_tmpl::DictPtr found = text_tmpl.CreateDict() ;
 		text_tmpl::DictPtr result = text_tmpl.CreateDict() ;
 
-		mem_engine::record_pointer record = matches[m_current_match]->get_record() ;
-		// found
-		text_tmpl.Assign(found, L"source", record->get_source_rich()) ;
-		text_tmpl.Assign(found, L"trans", record->get_trans_rich()) ;
-		text_tmpl.Assign(found, L"context", record->get_context_rich()) ;
-		text_tmpl.Assign(found, L"created", record->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"date_created", record->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"modified", record->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"last_modified", record->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"reliability", tows(record->get_reliability())) ;
-		text_tmpl.Assign(found, L"validated", bool2wstring(record->is_validated())) ;
 
-		text_tmpl.Assign(found, L"creator", record->get_creator()) ;
-		text_tmpl.Assign(found, L"created_by", record->get_creator()) ;
-		text_tmpl.Assign(found, L"modified_by", record->get_modified_by()) ;
-		text_tmpl.Assign(found, L"refcount", tows(record->get_refcount())) ;
-		text_tmpl.Assign(found, L"ref_count", tows(record->get_refcount())) ;
-
-		// result
-		mem_engine::record_pointer replaced(new record_local(record)) ;
-		perform_replace(doc, replaced);
-
-		text_tmpl.Assign(result, L"source", replaced->get_source_rich()) ;
-		text_tmpl.Assign(result, L"trans", replaced->get_trans_rich()) ;
-		text_tmpl.Assign(result, L"context", replaced->get_context_rich()) ;
-		text_tmpl.Assign(result, L"created", replaced->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"date_created", replaced->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"modified", replaced->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"last_modified", replaced->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"reliability", tows(replaced->get_reliability())) ;
-		text_tmpl.Assign(result, L"validated", bool2wstring(replaced->is_validated())) ;
-
-		text_tmpl.Assign(result, L"creator", replaced->get_creator()) ;
-		text_tmpl.Assign(result, L"created_by", replaced->get_creator()) ;
-		text_tmpl.Assign(result, L"modified_by", replaced->get_modified_by()) ;
-		text_tmpl.Assign(result, L"refcount", tows(replaced->get_refcount())) ;
-		text_tmpl.Assign(result, L"ref_count", tows(replaced->get_refcount())) ;
 
 
 		text_tmpl.Assign(L"found", found) ;
@@ -719,12 +693,6 @@ void CManagerWindow::handle_replace_replace( doc3_wrapper_ptr doc )
 {
 	SENSE("handle_replace_replace") ;
 
-	if (m_current_match >= m_replace_matches.size())
-	{
-		return; 
-	}
-	ATLASSERT(m_current_match>0) ;
-	search_match_ptr match = m_replace_matches[m_current_match-1] ;
 
 	element_wrapper_ptr replacefrom_box = doc->get_element_by_id(L"replacefrom") ;
 	const wstring replace_from = replacefrom_box->get_attribute(L"value") ;
@@ -732,7 +700,6 @@ void CManagerWindow::handle_replace_replace( doc3_wrapper_ptr doc )
 	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
 	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
 
-	replace_in_memory(match, replace_from, replace_to);
 	handle_replace_find(doc) ;
 }
 
@@ -762,7 +729,6 @@ void CManagerWindow::handle_replace_all(doc3_wrapper_ptr doc,
 	m_message = (LPCWSTR)system_message(IDS_REPLACE_COMPLETE_MSG, int_arg(num_replaced)) ;
 
 	m_replace_matches.clear() ;
-	m_current_match = 0 ;
 
 	CTextTemplate text_tmpl ;
 
@@ -814,7 +780,7 @@ bool CManagerWindow::replace_in_memory( search_match_ptr match, const wstring re
 	const int memid = match->get_memory_id() ;
 	if( result != record)  // was there a modification?
 	{
-		m_controller->get_memory_by_id(memid)->replace(record, modified) ;
+		m_mem_controller->get_memory_by_id(memid)->replace(record, modified) ;
 		return true ;
 	}
 	return false ;
@@ -825,7 +791,6 @@ LRESULT CManagerWindow::OnNewSearch()
 {
 	m_search_runner.clear_terms() ;
 	m_paginator.set_num_records(0) ;
-	m_current_match = 0 ;
 	show_search_page() ;
 
 	return 0L ;
@@ -853,4 +818,11 @@ LRESULT CManagerWindow::OnToggleHelp()
 	page.CallJScript("toggleHelp") ;
 
 	return 0L ;
+}
+
+void CManagerWindow::set_active_state( mgr_state_ptr mgr_state )
+{
+	m_current_state = mgr_state ;
+	m_current_state->set_mem_model(m_mem_model) ;
+	m_current_state->set_gloss_model(m_gloss_model) ;
 }

@@ -11,6 +11,8 @@
 #include "Exceptions.h"
 #include "SearchWindow.h"
 
+#include "ManagerView.h"
+
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
@@ -25,9 +27,15 @@ class CManagerWindow :
 	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
 	typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 	typedef mem_engine::search_match_ptr search_match_ptr ;
+
+	typedef boost::shared_ptr<mgrview::ManagerView> mgr_state_ptr ;
 public:
 	// the mainframe/glossary window passes in a list of memories
-	memory_controller m_controller ;
+	memory_controller m_mem_controller ;
+
+	FelixModelInterface *m_mem_model ;
+	FelixModelInterface *m_gloss_model ;
+
 	// location of window settings
 	CString m_settings_key ;
 
@@ -45,10 +53,15 @@ public:
 
 	match_vec m_matches ;
 	match_vec m_replace_matches ;
-	size_t m_current_match ;
 	// any messages to stick to top of search results
 	wstring m_message ;	
 	CAccelerator				m_accelerator ;
+
+	mgr_state_ptr m_view_start ;
+	mgr_state_ptr m_view_details ;
+	mgr_state_ptr m_view_browse ;
+
+	mgr_state_ptr m_current_state ;
 
 public:
 	// sensing stuff for unit testing
@@ -58,17 +71,14 @@ public:
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
-	CManagerWindow() : 
-	m_settings_key(_T("MemoryMangerWindow"))
-		, m_current_match(0)
-	{
-
-	}
+	CManagerWindow();
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
-	void set_mem_controller(memory_controller controller);
+	void set_mem_model(FelixModelInterface *model);
+	void set_gloss_model(FelixModelInterface *model);
 
+	void set_active_state(mgr_state_ptr mgr_state);
 	// ========================
 	// URL navigation
 	// ========================

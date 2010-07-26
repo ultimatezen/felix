@@ -38,6 +38,8 @@ public:
 	{
 	}
 
+	virtual ~ViewState(){}
+
 	void set_view(view_interface *view);
 	void set_model(FelixModelInterface *model);
 	void set_window_listener(WindowListener *listener);
