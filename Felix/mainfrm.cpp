@@ -2974,13 +2974,14 @@ LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 {
 	SENSE("on_tools_memory_manager") ;
 
+	m_manager_window.set_mem_model( this->get_model() ) ;
+	m_manager_window.set_gloss_model(this->get_glossary_window()->get_model()) ;
+
 	if (! m_manager_window.IsWindow())
 	{
 		m_manager_window.Create(*this) ;
 	}
 
-	m_manager_window.set_mem_model( this->get_model() ) ;
-	m_manager_window.set_gloss_model(this->get_glossary_window()->get_model()) ;
 	m_manager_window.ShowWindow(SW_SHOW) ;
 	m_manager_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
 

@@ -18,7 +18,7 @@ namespace mgrview
 		m_gloss_model = model ;
 	}
 
-	void mgrview::ManagerView::set_window_listener( FelixManagerWindowListener *listener )
+	void mgrview::ManagerView::set_listener( FelixManagerWindowListener *listener )
 	{
 		m_window_listener = listener ;
 	}

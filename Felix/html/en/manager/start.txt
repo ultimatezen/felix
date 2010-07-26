@@ -1,0 +1,25 @@
+<h2>TMs</h2>
+<div id="tms">
+	<table>
+	{% for tm in tms %}
+		<tr>
+			<td>{$loop.index}</td>
+			<td>{$tm.memtype}</td>
+			<td>{$tm.name}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+
+<h2>Glossaries</h2>
+<div id="glossaries">
+	<table>
+	{% for gloss in glossaries %}
+		<tr>
+			<td>{$loop.index}</td>
+			<td>{$gloss.memtype}</td>
+			<td>{$gloss.name}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>

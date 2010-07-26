@@ -43,7 +43,9 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 	const CString filename = get_template_filename(_T("manager/start.html")) ;
-	m_view.create(*this, filename) ;
+	HWND client ;
+	m_view.create(*this, client) ;
+	m_view.navigate(filename) ;
 
 	CWindowSettings ws;
 	if( ws.Load( resource_string(IDS_REG_KEY), m_settings_key ) )
@@ -97,25 +99,20 @@ LRESULT CManagerWindow::OnSize(UINT, WPARAM, LPARAM)
 	GetClientRect( &ClientRect ) ;
 
 	// resize edit window
-	m_view.MoveWindow( &ClientRect, TRUE ) ;
+	m_view.Move( &ClientRect ) ;
 	return 0L ;
 }
 
 void CManagerWindow::wait_for_doc_complete()
 {
-	background_processor backer( 100, NULL, *this ) ;
-
-	while ( ! m_view.is_document_complete() || ! m_view.is_navigation_complete() ) 
-	{
-		backer.perform_background_processing() ;
-	}
+	m_view.ensure_document_complete() ;
 }
 
 // When we navigate from the replace page, or when the window is created
 void CManagerWindow::show_search_page()
 {
 	SENSE("CManagerWindow::show_search_page") ;
-	const wstring filename = (LPCWSTR)get_template_filename(_T("start_search.html")) ;
+	const CString filename = get_template_filename(_T("start_search.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -129,7 +126,7 @@ void CManagerWindow::show_search_page()
 void CManagerWindow::handle_gotoreplace()
 {
 	SENSE("handle_gotoreplace") ;
-	const wstring filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
+	const CString filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -169,12 +166,9 @@ BOOL CManagerWindow::PreTranslateMessage( LPMSG pMsg )
 		return FALSE ;
 	}
 
-	if (m_view.IsWindow())
+	if (m_view.PreTranslateMessage( pMsg ))
 	{
-		if (m_view.PreTranslateMessage( pMsg ))
-		{
-			return TRUE ;
-		}
+		return TRUE ;
 	}
 
 	return FALSE ;
@@ -612,7 +606,7 @@ mem_engine::search_match_ptr CManagerWindow::get_match_at( const size_t i )
 doc3_wrapper_ptr CManagerWindow::get_doc3()
 {
 #ifndef UNIT_TEST
-	return make_doc3_wrapper(m_view.get_document3());
+	return make_doc3_wrapper(m_view.m_view.get_document3());
 #else
 	return get_fake_search_doc(); 
 #endif
@@ -825,4 +819,7 @@ void CManagerWindow::set_active_state( mgr_state_ptr mgr_state )
 	m_current_state = mgr_state ;
 	m_current_state->set_mem_model(m_mem_model) ;
 	m_current_state->set_gloss_model(m_gloss_model) ;
+	m_current_state->set_view(&m_view) ;
+	m_current_state->set_listener(this) ;
+	m_current_state->activate() ;
 }

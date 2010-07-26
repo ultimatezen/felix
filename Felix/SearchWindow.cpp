@@ -415,25 +415,25 @@ void CSearchWindow::get_search_matches( std::vector<mem_engine::search_match_ptr
  */
 void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matches )
 {
-	CTextTemplate text_tmpl ;
+	CTextTemplate engine ;
 
 	// message
-	text_tmpl.Assign(L"message", m_message) ;
+	engine.Assign(L"message", m_message) ;
 	m_message.clear() ;
 	// page stuff
-	text_tmpl.Assign(L"pagination", get_pagination_text(m_paginator)) ;
-	text_tmpl.Assign(L"page", ulong2wstring(m_paginator.get_current_page()+1)) ;
+	engine.Assign(L"pagination", get_pagination_text(m_paginator)) ;
+	engine.Assign(L"page", ulong2wstring(m_paginator.get_current_page()+1)) ;
 
 	CNumberFmt number_format ;
-	text_tmpl.Assign(L"num_pages", wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
+	engine.Assign(L"num_pages", wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
 
-	text_tmpl.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
+	engine.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
 
-	text_tmpl::DictListPtr items = text_tmpl.CreateDictList();
+	text_tmpl::DictListPtr items = engine.CreateDictList();
 
 	for (size_t i = m_paginator.get_start() ; i < m_paginator.get_end() ; ++i)
 	{
-		text_tmpl::DictPtr item = text_tmpl.CreateDict() ;
+		text_tmpl::DictPtr item = engine.CreateDict() ;
 
 		mem_engine::search_match_ptr match = matches[i] ;
 		mem_engine::record_pointer record = match->get_record() ;
@@ -469,9 +469,9 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 
 		items->push_back(item) ;
 	}
-	text_tmpl.Assign(L"results", items) ;
+	engine.Assign(L"results", items) ;
 
-	wstring text = text_tmpl.Fetch(get_template_text(_T("search_matches.txt"))) ;
+	wstring text = engine.Fetch(get_template_text(_T("search_matches.txt"))) ;
 
 	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
 }
@@ -665,75 +665,75 @@ void CSearchWindow::handle_replace_find( doc3_wrapper_ptr doc )
  */
 void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &matches )
 {
-	CTextTemplate text_tmpl ;
+	CTextTemplate engine ;
 
 	// message
-	text_tmpl.Assign(L"message", m_message) ;
+	engine.Assign(L"message", m_message) ;
 	m_message.clear() ;
 
 	if (m_current_match >= matches.size())
 	{
-		text_tmpl.Assign(L"found", L"") ;
-		text_tmpl.Assign(L"result", L"") ;
+		engine.Assign(L"found", L"") ;
+		engine.Assign(L"result", L"") ;
 		m_current_match = 0 ;
 	}
 	else
 	{
-		text_tmpl.Assign(L"match_num", ulong2wstring(m_current_match+1)) ;
-		text_tmpl.Assign(L"num_matches", ulong2wstring(matches.size())) ;
+		engine.Assign(L"match_num", ulong2wstring(m_current_match+1)) ;
+		engine.Assign(L"num_matches", ulong2wstring(matches.size())) ;
 
-		text_tmpl::DictPtr found = text_tmpl.CreateDict() ;
-		text_tmpl::DictPtr result = text_tmpl.CreateDict() ;
+		text_tmpl::DictPtr found = engine.CreateDict() ;
+		text_tmpl::DictPtr result = engine.CreateDict() ;
 
 		mem_engine::record_pointer record = matches[m_current_match]->get_record() ;
 		// found
-		text_tmpl.Assign(found, L"source", record->get_source_rich()) ;
-		text_tmpl.Assign(found, L"trans", record->get_trans_rich()) ;
-		text_tmpl.Assign(found, L"context", record->get_context_rich()) ;
-		text_tmpl.Assign(found, L"created", record->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"date_created", record->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"modified", record->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"last_modified", record->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(found, L"reliability", tows(record->get_reliability())) ;
-		text_tmpl.Assign(found, L"validated", bool2wstring(record->is_validated())) ;
+		engine.Assign(found, L"source", record->get_source_rich()) ;
+		engine.Assign(found, L"trans", record->get_trans_rich()) ;
+		engine.Assign(found, L"context", record->get_context_rich()) ;
+		engine.Assign(found, L"created", record->get_created().get_date_time_string()) ;
+		engine.Assign(found, L"date_created", record->get_created().get_date_time_string()) ;
+		engine.Assign(found, L"modified", record->get_modified().get_date_time_string()) ;
+		engine.Assign(found, L"last_modified", record->get_modified().get_date_time_string()) ;
+		engine.Assign(found, L"reliability", tows(record->get_reliability())) ;
+		engine.Assign(found, L"validated", bool2wstring(record->is_validated())) ;
 
-		text_tmpl.Assign(found, L"creator", record->get_creator()) ;
-		text_tmpl.Assign(found, L"created_by", record->get_creator()) ;
-		text_tmpl.Assign(found, L"modified_by", record->get_modified_by()) ;
-		text_tmpl.Assign(found, L"refcount", tows(record->get_refcount())) ;
-		text_tmpl.Assign(found, L"ref_count", tows(record->get_refcount())) ;
+		engine.Assign(found, L"creator", record->get_creator()) ;
+		engine.Assign(found, L"created_by", record->get_creator()) ;
+		engine.Assign(found, L"modified_by", record->get_modified_by()) ;
+		engine.Assign(found, L"refcount", tows(record->get_refcount())) ;
+		engine.Assign(found, L"ref_count", tows(record->get_refcount())) ;
 
 		// result
 		mem_engine::record_pointer replaced(new record_local(record)) ;
 		perform_replace(doc, replaced);
 
-		text_tmpl.Assign(result, L"source", replaced->get_source_rich()) ;
-		text_tmpl.Assign(result, L"trans", replaced->get_trans_rich()) ;
-		text_tmpl.Assign(result, L"context", replaced->get_context_rich()) ;
-		text_tmpl.Assign(result, L"created", replaced->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"date_created", replaced->get_created().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"modified", replaced->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"last_modified", replaced->get_modified().get_date_time_string()) ;
-		text_tmpl.Assign(result, L"reliability", tows(replaced->get_reliability())) ;
-		text_tmpl.Assign(result, L"validated", bool2wstring(replaced->is_validated())) ;
+		engine.Assign(result, L"source", replaced->get_source_rich()) ;
+		engine.Assign(result, L"trans", replaced->get_trans_rich()) ;
+		engine.Assign(result, L"context", replaced->get_context_rich()) ;
+		engine.Assign(result, L"created", replaced->get_created().get_date_time_string()) ;
+		engine.Assign(result, L"date_created", replaced->get_created().get_date_time_string()) ;
+		engine.Assign(result, L"modified", replaced->get_modified().get_date_time_string()) ;
+		engine.Assign(result, L"last_modified", replaced->get_modified().get_date_time_string()) ;
+		engine.Assign(result, L"reliability", tows(replaced->get_reliability())) ;
+		engine.Assign(result, L"validated", bool2wstring(replaced->is_validated())) ;
 
-		text_tmpl.Assign(result, L"creator", replaced->get_creator()) ;
-		text_tmpl.Assign(result, L"created_by", replaced->get_creator()) ;
-		text_tmpl.Assign(result, L"modified_by", replaced->get_modified_by()) ;
-		text_tmpl.Assign(result, L"refcount", tows(replaced->get_refcount())) ;
-		text_tmpl.Assign(result, L"ref_count", tows(replaced->get_refcount())) ;
+		engine.Assign(result, L"creator", replaced->get_creator()) ;
+		engine.Assign(result, L"created_by", replaced->get_creator()) ;
+		engine.Assign(result, L"modified_by", replaced->get_modified_by()) ;
+		engine.Assign(result, L"refcount", tows(replaced->get_refcount())) ;
+		engine.Assign(result, L"ref_count", tows(replaced->get_refcount())) ;
 
 
-		text_tmpl.Assign(L"found", found) ;
-		text_tmpl.Assign(L"result", result) ;
+		engine.Assign(L"found", found) ;
+		engine.Assign(L"result", result) ;
 
 	}
 
-	const wstring text = text_tmpl.Fetch(get_template_text(_T("replace_match.txt"))) ;
+	const wstring text = engine.Fetch(get_template_text(_T("replace_match.txt"))) ;
 
 	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
 
-	wstring replacelinks = text_tmpl.Fetch(get_template_text(_T("replacelinks.txt"))) ;
+	wstring replacelinks = engine.Fetch(get_template_text(_T("replacelinks.txt"))) ;
 	doc->get_element_by_id(L"replacelinks")->set_inner_text(replacelinks) ;
 }
 
@@ -789,17 +789,17 @@ void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc,
 	m_replace_matches.clear() ;
 	m_current_match = 0 ;
 
-	CTextTemplate text_tmpl ;
+	CTextTemplate engine ;
 
 	// message
-	text_tmpl.Assign(L"message", m_message) ;
+	engine.Assign(L"message", m_message) ;
 	m_message.clear() ;
 
-	text_tmpl.Assign(L"found", L"") ;
-	text_tmpl.Assign(L"result", L"None") ;
+	engine.Assign(L"found", L"") ;
+	engine.Assign(L"result", L"None") ;
 
-	doc->get_element_by_id(L"searchresults")->set_inner_text(text_tmpl.Fetch(search_template)) ;
-	doc->get_element_by_id(L"replacelinks")->set_inner_text(text_tmpl.Fetch(replace_template)) ;
+	doc->get_element_by_id(L"searchresults")->set_inner_text(engine.Fetch(search_template)) ;
+	doc->get_element_by_id(L"replacelinks")->set_inner_text(engine.Fetch(replace_template)) ;
 	doc->get_element_by_id(L"filterbox")->set_inner_text(L"") ;
 }
 
@@ -895,14 +895,14 @@ const wstring retrieve_input_value( element_wrapper_ptr input_box )
  */
 wstring get_filter_text( const std::vector<wstring> & terms ) 
 {
-	CTextTemplate text_tmpl ;
-	text_tmpl::ValListPtr filters = text_tmpl.CreateValList();
+	CTextTemplate engine ;
+	text_tmpl::ValListPtr filters = engine.CreateValList();
 
 	foreach(wstring term, terms)
 	{
 		filters->push_back(escape_entities(term)) ;
 	}
-	text_tmpl.Assign( L"filters", filters ) ;
+	engine.Assign( L"filters", filters ) ;
 
-	return text_tmpl.Fetch(get_template_text(_T("filter_list.txt"))) ;
+	return engine.Fetch(get_template_text(_T("filter_list.txt"))) ;
 }

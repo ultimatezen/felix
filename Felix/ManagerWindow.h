@@ -3,7 +3,7 @@
 #include "MessageMapDefines.h"	// for CMD_HANDER_EX et al
 #include "TranslationMemory.h"
 #include "memory_model.h"
-#include "HtmlView.h"
+#include "view_interface.h"
 #include "match_filters.h"
 #include "element_wrapper.h"
 #include "document_wrapper.h"
@@ -22,6 +22,7 @@ class CManagerWindow :
 	public CWindowImpl<CManagerWindow, TWindow, ManagerWindowTraits>
 	, public html::CHtmlViewListener
 	, public CMessageFilter
+	, public mgrview::FelixManagerWindowListener
 
 {
 	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
@@ -40,7 +41,7 @@ public:
 	CString m_settings_key ;
 
 	// the HTML view
-	html::CHtmlView m_view ;
+	frame_view m_view ;
 
 	// performs searches, wraps list of search terms
 	memory_searcher::search_runner m_search_runner ;

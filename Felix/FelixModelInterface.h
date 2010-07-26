@@ -8,6 +8,15 @@ public:
 	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
 	typedef mem_engine::memory_pointer memory_type ;
 
+	size_t size()
+	{
+		return this->get_memories()->size() ;
+	}
+	memory_type memory_at(size_t i)
+	{
+		return this->get_memories()->get_memory_at(i) ;
+	}
+
 	virtual model_ptr get_memories() = 0 ;
 	virtual void set_reverse_lookup(bool setting) = 0 ;
 	virtual bool is_reverse_lookup() = 0 ;

@@ -36,7 +36,7 @@ namespace mgrview
 			void set_view(view_interface *view);
 			void set_mem_model(FelixModelInterface *model);
 			void set_gloss_model(FelixModelInterface *model);
-			void set_window_listener(FelixManagerWindowListener *listener);
+			void set_listener(FelixManagerWindowListener *listener);
 
 			// pure virtual
 			virtual void activate() = 0 ;
