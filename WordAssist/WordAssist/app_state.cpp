@@ -48,7 +48,8 @@ app_state::app_state() :
 	m_freshInstall(TRUE),
 
 	m_use_trans_hist(FALSE),
-	m_shortcuts_active(TRUE)
+	m_shortcuts_active(TRUE),
+	m_really_wants_no_delims(FALSE)
 {
 	setDefaults() ;
 }
@@ -115,9 +116,7 @@ void app_state::setDefaults()
 app_state::app_state( const app_state &rhs )
 {
 	BANNER( "app_state::app_state( const app_state &rhs )" ) ;
-	CopyMemory( this, &rhs, sizeof(app_state) ) ;
-	_tcscpy_s( m_segChars, rhs.m_segChars ) ;
-	TRACE( m_segChars ) ;
+	this->_internal_copy(rhs) ;
 }
 
 /*!
@@ -128,10 +127,34 @@ app_state &app_state::operator=( const app_state &rhs )
 {
 	BANNER( "app_state::operator=( const app_state &rhs )" ) ;
 
-	CopyMemory( this, &rhs, sizeof(app_state) ) ;
-
-	TRACE( m_segChars ) ;
-
+	this->_internal_copy(rhs) ;
 	return *this ;
 }
 
+void app_state::_internal_copy ( const app_state &rhs )
+{
+	CopyMemory( this, &rhs, sizeof(app_state) ) ;
+	if (! rhs.m_segChars[0])
+	{
+		if (m_really_wants_no_delims)
+		{
+			ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
+		}
+	}
+	else if (CString(m_segChars) == _T("NONE"))
+	{
+		m_really_wants_no_delims = TRUE ;
+		m_segChars[0] = 0 ;
+	}
+	else if (CString(m_segChars) == _T("DEFAULT"))
+	{
+		m_really_wants_no_delims = FALSE ;
+		this->set_seg_defaults() ;
+	}
+	else
+	{
+		m_really_wants_no_delims = FALSE ;
+		_tcscpy_s( m_segChars, rhs.m_segChars ) ;
+	}
+	TRACE( m_segChars ) ;
+}

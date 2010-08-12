@@ -439,7 +439,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		text += "<td rowspan=\"2\">" ;
 		text += "<strong>1.</strong><br /> " ;
 		text += "<a title=\"Edit entry\" href=\"142:0\">[E]</a>-<a title=\"Delete entry\" href=\"122:0\">[D]</a>-<a title=\"Add entry to memory\" href=\"158:0\">[M]</a><br /> " ;
-		text += "[foo.xml]</td> " ;
+		text += "[foo]</td> " ;
 		text += "<td><strong>Source</strong></td> " ;
 		text += "<td id=\"source\">spam</td></tr> " ;
 		text += "<tr> " ;
@@ -465,7 +465,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring loc = L"c:\\text.txt" ;
 
 		CStringA memory_name = get_fname_from_loc(loc).c_str() ;
-		BOOST_CHECK_EQUAL( "text.txt", string(memory_name) ) ;
+		BOOST_CHECK_EQUAL( "text", string(memory_name) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( test_get_fname_from_loc )
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring loc = L"text.xml" ;
 
 		CStringA memory_name = get_fname_from_loc(loc).c_str() ;
-		BOOST_CHECK_EQUAL( "text.xml", string(memory_name) ) ;
+		BOOST_CHECK_EQUAL( "text", string(memory_name) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( get_mem_name_empty )

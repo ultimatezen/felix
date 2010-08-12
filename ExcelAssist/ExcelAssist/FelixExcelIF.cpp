@@ -20,9 +20,12 @@ static const int ROW_SELECTION_INTERVAL = 10 ;
 static const int MAX_ROWS_NO_ENTRY = 5 ;
 
 using namespace except ;
-_bstr_t get_cell_text(excel::range_ptr cell); // prototype
-void set_cell_text(excel::range_ptr cell, _bstr_t text); // prototype
 
+_bstr_t message_cell_text(_bstr_t text)
+{
+	wstring wtext = BSTR2wstring(text) ;
+	return string2BSTR(boost::replace_all_copy(wtext, L"&gt;", L">")) ;
+}
 bool double_equals(double left, double right, double epsilon=0.001)
 {
 	return (fabs(left - right) < epsilon);
@@ -43,7 +46,7 @@ _bstr_t get_cell_text(excel::range_ptr cell)
 }
 void set_cell_text(excel::range_ptr cell, _bstr_t text)
 {
-	const _variant_t vtext(text) ;
+	const _variant_t vtext(message_cell_text(text)) ;
 	try
 	{
 		cell->SetText(vtext)  ;
@@ -947,7 +950,7 @@ _bstr_t CFelixExcelIF::get_selection_text( excel::app_ptr application )
  */
 void CFelixExcelIF::set_active_cell_text( _bstr_t text )
 {
-	CFelixString trans = text ;
+	CFelixString trans = message_cell_text(text) ;
 
 	// First we try writing to the Selection.
 	try

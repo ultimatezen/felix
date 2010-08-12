@@ -145,6 +145,7 @@ public:
 	void set_props( app_state *props )
 	{
 		m_properties = props ;
+		_tcscpy_s(m_segChars, (LPCTSTR)m_properties->m_segChars ) ;
 	}
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&)
@@ -168,10 +169,9 @@ public:
 		SendDlgItemMessage( m_properties->m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
 
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
-		edit.SetWindowText( m_properties->m_segChars ) ;
+		edit.SetWindowText( m_segChars ) ;
 		// Initialize the seg chars to the defaults, in case
 		// our DDX isn't instantiated.
-		_tcscpy_s(m_segChars, (LPCTSTR)m_properties->m_segChars ) ;
 
 		return TRUE;
 	}
@@ -232,16 +232,6 @@ public:
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageSegmentation> )
 
 	END_MSG_MAP()
-	//LRESULT OnWordDoc(WORD, WORD, HWND, BOOL& )
-	//{
-	//	m_properties->m_segmentation_type = IDC_RADIO_WORD_DOC ;
-	//	return 0;
-	//}
-	//LRESULT OnHtmlDoc(WORD, WORD, HWND, BOOL& )
-	//{
-	//	m_properties->m_segmentation_type = IDC_RADIO_HTML_DOC ;
-	//	return 0;
-	//}
 
 
 	LRESULT OnSkipJpn(WORD, WORD, HWND, BOOL& )

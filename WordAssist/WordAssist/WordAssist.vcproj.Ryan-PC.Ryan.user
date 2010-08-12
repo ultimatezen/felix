@@ -9,7 +9,7 @@
 			Name="Debug|Win32"
 			>
 			<DebugSettings
-				Command="C:\Program Files (x86)\Microsoft Office\Office12\WINWORD.EXE"
+				Command="C:\Program Files (x86)\Microsoft Office\Office14\WINWORD.EXE"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
@@ -22,7 +22,7 @@
 				SQLDebugging=""
 				Environment=""
 				EnvironmentMerge="true"
-				DebuggerFlavor=""
+				DebuggerFlavor="0"
 				MPIRunCommand=""
 				MPIRunArguments=""
 				MPIRunWorkingDirectory=""

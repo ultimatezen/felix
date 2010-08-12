@@ -1342,7 +1342,7 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 
 		search_match_ptr match = mem.make_match() ;
 		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;
-		BOOST_CHECK_EQUAL(match->get_memory_location(), L"foo.ftm") ;
+		BOOST_CHECK_EQUAL(match->get_memory_location(), L"foo") ;
 	}
 
 	// adding records

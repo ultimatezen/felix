@@ -1,25 +1,9 @@
-<h2>TMs</h2>
+<h2><a href="/memories">TMs</a></h2>
 <div id="tms">
-	<table>
-	{% for tm in tms %}
-		<tr>
-			<td>{$loop.index}</td>
-			<td>{$tm.memtype}</td>
-			<td>{$tm.name}</td>
-		</tr>
-	{% endfor %}
-	</table>
+{$memlist}
 </div>
 
-<h2>Glossaries</h2>
+<h2><a href="/glossaries">Glossaries</a></h2>
 <div id="glossaries">
-	<table>
-	{% for gloss in glossaries %}
-		<tr>
-			<td>{$loop.index}</td>
-			<td>{$gloss.memtype}</td>
-			<td>{$gloss.name}</td>
-		</tr>
-	{% endfor %}
-	</table>
+{$glosslist}
 </div>

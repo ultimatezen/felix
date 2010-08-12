@@ -594,8 +594,8 @@ size_t CSearchWindow::get_pos_arg( const wstring url )
 	std::vector<wstring> tokens ;
 	boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
 	ATLASSERT(! tokens.empty()) ;
-	const size_t last = tokens.size() -1 ;
-	return boost::lexical_cast<size_t>(tokens[last-1]) ;
+	std::reverse(tokens.begin(), tokens.end()) ;
+	return boost::lexical_cast<size_t>(tokens[1]) ;
 }
 
 /*

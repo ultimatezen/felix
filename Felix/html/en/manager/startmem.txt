@@ -1,0 +1,6 @@
+<p><a href="/start" title="Go to Manager Home">Home</a> &gt;&gt; TMs</p>
+
+<h2>TMs</h2>
+<div id="tms">
+{$memlist}
+</div>

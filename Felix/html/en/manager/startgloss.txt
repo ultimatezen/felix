@@ -1,0 +1,6 @@
+<p><a href="/start" title="Go to Manager Home">Home</a> &gt;&gt; Glossaries</p>
+
+<h2>Glossaries</h2>
+<div id="glossaries">
+{$glosslist}
+</div>

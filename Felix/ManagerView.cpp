@@ -1,8 +1,18 @@
 #include "stdafx.h"
 #include "ManagerView.h"
+#include "Path.h"
 
 namespace mgrview
 {
+
+	wstring get_memname(mem_engine::memory_pointer mem)
+	{
+		file::CPath path(mem->get_location()) ;
+		path.StripPath() ;
+		path.RemoveExtension() ;
+		return wstring((LPCWSTR)path.Path()) ;
+	}
+
 	void mgrview::ManagerView::set_view( view_interface *view )
 	{
 		m_view = view ;

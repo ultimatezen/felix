@@ -56,6 +56,10 @@ td{
 	/*font-size: 100%;*/
 	border: 1px solid #000;
 }
+table.datalist td
+{
+	padding-left: 3px;
+}
 
 /* This is where match text is displayed -- query, source, and trans */
 td.match_content{
@@ -74,6 +78,10 @@ th{
 th.header{
 	background-color: #DDFFDD;
 	text-align: center;
+}
+table.datalist th
+{
+	padding-left: 3px;
 }
 /* markup for perfect-match page */
 th.perfect{

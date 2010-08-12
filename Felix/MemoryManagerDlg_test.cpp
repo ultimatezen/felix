@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		mem->set_location("c:\\foo\\bill.xml") ;
 		wstring text = dialog.get_memory_name(mem) ;
 		CStringA actual = text.c_str() ;
-		string expected = "bill.xml" ;
+		string expected = "bill" ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_new)

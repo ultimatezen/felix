@@ -2,6 +2,7 @@
 
 #include "view_interface.h"
 #include "FelixModelInterface.h"
+#include "TranslationMemory.h"
 
 namespace mgrview
 {
@@ -43,4 +44,6 @@ namespace mgrview
 			virtual void show_content() = 0 ;
 
 	};
+
+	wstring get_memname(mem_engine::memory_pointer mem) ;
 }

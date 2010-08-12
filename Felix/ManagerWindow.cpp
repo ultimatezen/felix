@@ -28,10 +28,7 @@ using namespace text_tmpl ;
 CManagerWindow::CManagerWindow() : 
 m_settings_key(_T("MemoryMangerWindow")),
 m_mem_model(NULL),
-m_gloss_model(NULL),
-m_view_start(new mgrview::ManagerViewStart),
-m_view_details(new mgrview::ManagerViewDetails),
-m_view_browse(new mgrview::ManagerViewBrowse)
+m_gloss_model(NULL)
 {
 
 }
@@ -55,7 +52,7 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	m_view.set_listener(static_cast<CHtmlViewListener *>(this)) ;
 	m_view.ensure_document_complete() ;
 
-	this->set_active_state(m_view_start) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStart)) ;
 	m_current_state->show_content() ;
 
 	CString title ;
@@ -182,117 +179,94 @@ BOOL CManagerWindow::PreTranslateMessage( LPMSG pMsg )
 bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 {
 	SENSE("CManagerWindow::OnBeforeNavigate2") ;
-	const wstring url = BSTR2wstring(burl) ;
+	const string url = BSTR2string(burl) ;
 
+	TRACE(url) ;
 	// "#" is used for JavaScript links.
-	if(boost::ends_with(url, L"#"))
+	if(boost::ends_with(url, "#"))
 	{
 		return false ; // don't cancel
 	}
 
-	if (boost::ends_with(url, L"gotoreplace"))
+	std::vector<string> tokens ;
+	boost::split(tokens, url, boost::is_any_of("/\\")) ;
+	std::reverse(tokens.begin(), tokens.end()) ;
+
+	if (tokens.empty())
 	{
-		handle_gotoreplace() ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"gotosearch"))
+	if (tokens[0] == "start")
 	{
-		show_search_page() ;
+		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStart)) ;
+		m_current_state->show_content() ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"newsearch"))
+	if (tokens[0] == "memories")
 	{
-		m_search_runner.clear_terms() ;
-		m_paginator.set_num_records(0) ;
-		show_search_page() ;
+		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartMem)) ;
+		m_current_state->show_content() ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"dosearch"))
+	if (tokens[0] == "glossaries")
 	{
-		perform_search(get_doc3());
-		return true ;
-	}
-	// page navigation
-	if (boost::ends_with(url, L"next_page"))
-	{
-		m_paginator.next_page() ;
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"prev_page"))
-	{
-		m_paginator.prev_page() ;
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"first_page"))
-	{
-		while(m_paginator.has_prev())
-		{
-			m_paginator.prev_page() ;
-		}
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"last_page"))
-	{
-		while(m_paginator.has_next())
-		{
-			m_paginator.next_page() ;
-		}
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"goto_page"))
-	{
-		std::vector<wstring> tokens ;
-		boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
-		size_t penultimate = tokens.size() - 2 ;
-		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[penultimate])-1) ;
-		show_search_results(get_doc3(), m_matches) ;
+		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartGloss)) ;
+		m_current_state->show_content() ;
 		return true ;
 	}
 
-	if (boost::ends_with(url, L"deletefilter"))
+	// moving items in list
+	if (tokens[0] == "moveup")
 	{
-		handle_deletefilter(get_doc3(), url) ;
+		MessageBox(_T("moveup"), CString(tokens[1].c_str())) ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"editrecord"))
+	if (tokens[0] == "movedown")
 	{
-		handle_editrecord(get_doc3(), url) ;
+		MessageBox(_T("movedown"), CString(tokens[1].c_str())) ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"deleterecord"))
+
+	// crud
+	if (tokens[0] == "view")
 	{
-		handle_deleterecord(get_doc3(), url) ;
+		bool is_memory = tokens[1] == "mem" ;
+		size_t item = boost::lexical_cast<size_t>(tokens[2]) ;
+		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewDetails(item, is_memory))) ;
+		m_current_state->show_content() ;
 		return true ;
 	}
-	if (boost::ends_with(url, L"undodelete"))
+	if (tokens[0] == "edit")
 	{
-		handle_undodelete(get_doc3()) ;
+		MessageBox(_T("edit"), CString(tokens[1].c_str())) ;
+		return true ;
+	}
+	if (tokens[0] == "browse")
+	{
+		bool is_memory = tokens[1] == "mem" ;
+		size_t page = boost::lexical_cast<int>(tokens[2]) ;
+		size_t item = boost::lexical_cast<size_t>(tokens[3]) ;
+		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(item, is_memory, page))) ;
+		m_current_state->show_content() ;
+		return true ;
+	}
+	if (tokens[0] == "remove")
+	{
+		MessageBox(_T("remove"), CString(tokens[1].c_str())) ;
+		return true ;
+	}
+	if (tokens[0] == "addnew")
+	{
+		MessageBox(_T("addnew"), CString(tokens[1].c_str())) ;
+		return true ;
+	}
+	if (tokens[0] == "load")
+	{
+		MessageBox(_T("load"), CString(tokens[1].c_str())) ;
 		return true ;
 	}
 
 
-	// replace page links
-	if (boost::ends_with(url, L"replace_find"))
-	{
-		handle_replace_find(get_doc3()) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"replace_replace"))
-	{
-		handle_replace_replace(get_doc3()) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"replace_all"))
-	{
-		handle_replace_all(get_doc3(), 
-							get_template_text(_T("replace_match.txt")),
-							get_template_text(_T("replacelinks.txt"))) ;
-		return true ;
-	}
 
 	if (boost::ends_with(url, L".html"))
 	{

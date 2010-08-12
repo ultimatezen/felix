@@ -1,0 +1,39 @@
+<table class="datalist">
+        <tr>
+                <th style="width:40%">
+                    {% if memtype == "mem" %}Memory{% endif %}
+                    {% if memtype == "gloss" %}Glosary{% endif %} Name</th>
+                <th style="width:5%">Size</th>
+                <th style="width:35%">Actions</th>
+                <th style="width:10%">Order</th>
+        </tr>
+{% for tm in tms %}
+        <tr>
+                <td>{$loop.index}. {$tm.name}</td>
+                <td>{$tm.size}</td>
+                <td>
+                        <a href="/{$loop.index0}/{$memtype}/view">View</a> |
+                        <a href="/{$loop.index0}/{$memtype}/edit">Edit</a> |
+                        <a href="/{$loop.index0}/1/{$memtype}/browse">Browse</a> |
+                        <a href="/{$loop.index0}/{$memtype}/remove">Remove</a>
+                </td>
+                <td>
+                        <div style="padding: 5 3 5 3; float:left; width=22px; height=31px;">
+                        {% if tm.has_down %}
+                        <a href="/{$loop.index0}/{$memtype}/movedown" class="ui-state-default ui-corner-all" title="Move Down" style="text-decoration:none;"><span class="ui-icon ui-icon-arrowthick-1-s"></span></a>
+                        {% endif %}
+                        </div>
+                        <div style="padding: 5 3 5 3; float:left; width=22px; height=31px;">
+                        {% if tm.has_up %}
+                        <a href="/{$loop.index0}/{$memtype}/moveup" class="ui-state-default ui-corner-all" title="Move Up" style="text-decoration:none;"><span class="ui-icon ui-icon-arrowthick-1-n"></span></a>
+                        {% endif %}
+                        </div>
+                </td>
+        </tr>
+{% endfor %}
+</table>
+
+<div style="margin-left:40px;">
+    <a href="/{$memtype}/load" title="Load File" >Load File</a> |
+    <a href="/{$memtype}/addnew" title="Add New" >Add New</a>
+</div>

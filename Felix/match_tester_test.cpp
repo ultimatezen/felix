@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include ".\match_tester.h"
 #include "record_local.h"
+#include "memory_local.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -180,6 +181,7 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 
 	BOOST_AUTO_TEST_CASE( is_match_two)
 	{
+		memory_local mem ;
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
 
@@ -191,8 +193,10 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 		params.m_source = L"egg" ;
 		search_match_tester_regex matcher(params) ;
 
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.is_match(rec1) ;
 		search_match_ptr match1 = matcher.get_search_match(rec1) ;
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.is_match(rec2) ;
 		search_match_ptr match2 = matcher.get_search_match(rec2) ;
 
@@ -294,6 +298,8 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 	}
 	BOOST_AUTO_TEST_CASE(is_match_two)
 	{
+		memory_local mem ;
+
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
 
@@ -305,8 +311,10 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 		params.m_source = L"egg" ;
 		search_match_tester matcher(params) ;
 
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.is_match(rec1) ;
 		search_match_ptr match1 = matcher.get_search_match(rec1) ;
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.is_match(rec2) ;
 		search_match_ptr match2 = matcher.get_search_match(rec2) ;
 
@@ -345,6 +353,8 @@ BOOST_AUTO_TEST_SUITE( test_gloss_match_tester )
 	}
 	BOOST_AUTO_TEST_CASE( is_match_two)
 	{
+		memory_local mem ;
+
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"spam") ;
 
@@ -353,8 +363,10 @@ BOOST_AUTO_TEST_SUITE( test_gloss_match_tester )
 
 		gloss_match_tester matcher(L"I like spam and eggs") ;
 
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.test_source(rec1) ;
 		search_match_ptr match1 = matcher.get_search_match() ;
+		matcher.set_search_match(mem.make_match()) ;
 		matcher.test_source(rec2) ;
 		search_match_ptr match2 = matcher.get_search_match() ;
 

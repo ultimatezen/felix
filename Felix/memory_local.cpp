@@ -181,6 +181,7 @@ namespace mem_engine
 
 		// we are using regular expressions
 		search_match_tester_regex tester( params ) ;
+		tester.set_search_match(this->make_match()) ;
 		foreach( record_pointer record, m_records)
 		{
 			if ( tester.is_match( record ) )
@@ -190,6 +191,7 @@ namespace mem_engine
 				match->set_memory_location( location ) ;
 				match->set_memory_id( get_id() ) ;
 				matches.insert( match ) ;
+				tester.set_search_match(this->make_match()) ;
 			}
 		}
 		return ( false == matches.empty() ) ;
@@ -613,6 +615,7 @@ namespace mem_engine
 	void memory_local::search_no_regex( const search_query_params & params, search_match_container &matches ) 
 	{
 		search_match_tester tester( params ) ;
+		tester.set_search_match(this->make_match()) ;
 		foreach( record_pointer record, m_records )
 		{
 			if ( tester.is_match( record ) )
@@ -622,6 +625,7 @@ namespace mem_engine
 				match->set_memory_location( location ) ;
 				match->set_memory_id( get_id() ) ;
 				matches.insert( match ) ;
+				tester.set_search_match(this->make_match()) ;
 			}
 		}
 	}

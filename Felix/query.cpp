@@ -2,7 +2,7 @@
 #include "StdAfx.h"
 #include "query.h"
 #include "logging.h"
-
+#include "Path.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -17,7 +17,10 @@ namespace mem_engine
 
 	wstring get_fname_from_loc(const wstring loc)
 	{
-		return fs::wpath(loc).leaf() ;
+		file::CPath path(CString(loc.c_str())) ;
+		path.StripPath() ;
+		path.RemoveExtension() ;
+		return wstring((LPCWSTR)path.Path()) ;
 	}
 
 felix_query::felix_query( const size_t pos /* =0 */ ) : m_pos( pos ) 
@@ -636,7 +639,7 @@ wstring search_query::get_mem_name(match_ptr match)
 	}
 	else
 	{
-		return get_fname_from_loc(loc);		
+		return get_fname_from_loc(loc) ;
 	}
 }
 

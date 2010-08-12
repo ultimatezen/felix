@@ -25,7 +25,6 @@ namespace mem_engine
 		if ( wstring::npos == m_source_pattern.find( to_find ) )
 			return false ;
 
-		m_search_match = search_match_ptr(new search_match) ;
 		m_search_match->set_record( rec ) ;
 		m_search_match->set_values_to_record() ;
 
@@ -130,7 +129,6 @@ namespace mem_engine
 	// Function name	: search_match_tester::is_match
 	bool search_match_tester::is_match( record_pointer rec )
 	{
-		m_search_match = search_match_ptr(new search_match) ;
 
 		if ( m_only_validated )
 		{
@@ -296,7 +294,6 @@ namespace mem_engine
 	// Function name	: search_match_tester_regex::is_match
 	bool search_match_tester_regex::is_match( record_pointer rec )
 	{
-		m_search_match = search_match_ptr(new search_match) ;
 		if ( m_params.m_only_validated )
 		{
 			if ( ! test_validity( rec ) )

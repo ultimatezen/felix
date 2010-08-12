@@ -58,10 +58,6 @@ public:
 	wstring m_message ;	
 	CAccelerator				m_accelerator ;
 
-	mgr_state_ptr m_view_start ;
-	mgr_state_ptr m_view_details ;
-	mgr_state_ptr m_view_browse ;
-
 	mgr_state_ptr m_current_state ;
 
 public:
