@@ -76,6 +76,13 @@ public:
 	void set_gloss_model(FelixModelInterface *model);
 
 	void set_active_state(mgr_state_ptr mgr_state);
+
+	void swap_memories( FelixModelInterface *model,
+											const int index );
+
+	mem_engine::memory_iterator get_pos_at( FelixModelInterface *model,
+											int sel );
+
 	// ========================
 	// URL navigation
 	// ========================
@@ -123,6 +130,28 @@ public:
 	void wait_for_doc_complete();
 
 	// ========================
+	// Navigation handlers
+	// ========================
+
+	bool nav_empty(const std::vector<string> &tokens);
+	// navigation to various category pages
+	bool nav_start(const std::vector<string> &tokens) ;
+	bool nav_memories(const std::vector<string> &tokens) ;
+	bool nav_glossaries(const std::vector<string> &tokens) ;
+
+	// moving items in list
+	bool nav_moveup(const std::vector<string> &tokens) ;
+	bool nav_movedown(const std::vector<string> &tokens) ;
+
+	// crud
+	bool nav_view(const std::vector<string> &tokens) ;
+	bool nav_edit(const std::vector<string> &tokens) ;
+	bool nav_browse(const std::vector<string> &tokens) ;
+	bool nav_remove(const std::vector<string> &tokens) ;
+	bool nav_addnew(const std::vector<string> &tokens) ;
+	bool nav_load(const std::vector<string> &tokens) ;
+
+	// ========================
 	// message map
 	// ========================
 
@@ -155,23 +184,23 @@ public:
 	}
 	catch (except::CException& e)
 	{
-		logging::log_error("Program exception") ;
+		logging::log_error("Program exception (Manager Window)") ;
 		logging::log_exception(e) ;
-		e.notify_user( _T("Error in Search Window"), MB_OK, _T("Search Error"), m_hWnd ) ;		 
+		e.notify_user( _T("Error in Manager Window"), MB_OK, _T("Manager Window Error"), m_hWnd ) ;		 
 	}
 	catch (_com_error& e)
 	{
-		logging::log_error("COM exception") ;
+		logging::log_error("COM exception (Manager Window)") ;
 		logging::log_exception(e) ;
 		except::CComException com_exception(_T("COM Error"), e) ;		 
-		com_exception.notify_user( _T("COM Error in Search Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
+		com_exception.notify_user( _T("COM Error in Manager Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
 	}
 	catch (std::exception& e)
 	{
-		logging::log_error("std::exception") ;
+		logging::log_error("std::exception (Manager Window)") ;
 		logging::log_error(e.what()) ;
 		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
-		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error"), msg_flags ) ;  
+		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error in Manager Window"), msg_flags ) ;  
 	}
 
 

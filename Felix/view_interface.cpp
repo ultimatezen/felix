@@ -11,6 +11,8 @@
 
 using namespace mem_engine ;
 
+const static size_t MAX_VIEW_WAIT_ITERATIONS = 10000;
+
 /** Set the HTML listener in the view.
  */
 void frame_view::set_listener( html::CHtmlViewListener *listener )
@@ -32,10 +34,9 @@ void frame_view::ensure_document_complete()
 	{
 		return ;
 	}
-	const size_t num_iterations = 100 ;
-	background_processor backer( num_iterations, m_accel, m_parent) ;
+	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
 
-	while ( m_view.is_document_complete() == false ) 
+	while ( m_view.is_document_complete() == false) 
 	{
 		backer.check_iterations() ;
 	}
@@ -48,8 +49,7 @@ void frame_view::ensure_navigation_complete()
 	{
 		return ;
 	}
-	const size_t num_iterations = 100 ;
-	background_processor backer( num_iterations, m_accel, m_parent) ;
+	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
 
 	while ( m_view.is_navigation_complete() == false ) 
 	{

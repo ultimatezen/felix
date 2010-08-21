@@ -42,7 +42,10 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	const CString filename = get_template_filename(_T("manager/start.html")) ;
 	HWND client ;
 	m_view.create(*this, client) ;
+	m_view.ensure_document_complete() ;
 	m_view.navigate(filename) ;
+	m_view.ensure_navigation_complete() ;
+	m_view.ensure_document_complete() ;
 
 	CWindowSettings ws;
 	if( ws.Load( resource_string(IDS_REG_KEY), m_settings_key ) )
@@ -50,7 +53,6 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 		ws.ApplyTo( *this ) ;
 	}
 	m_view.set_listener(static_cast<CHtmlViewListener *>(this)) ;
-	m_view.ensure_document_complete() ;
 
 	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStart)) ;
 	m_current_state->show_content() ;
@@ -181,7 +183,6 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 	SENSE("CManagerWindow::OnBeforeNavigate2") ;
 	const string url = BSTR2string(burl) ;
 
-	TRACE(url) ;
 	// "#" is used for JavaScript links.
 	if(boost::ends_with(url, "#"))
 	{
@@ -192,85 +193,69 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 	boost::split(tokens, url, boost::is_any_of("/\\")) ;
 	std::reverse(tokens.begin(), tokens.end()) ;
 
-	if (tokens.empty())
+	if (tokens.empty() || tokens[0] == "")
 	{
-		return true ;
+		return nav_empty(tokens) ;
 	}
 	if (tokens[0] == "start")
 	{
-		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStart)) ;
-		m_current_state->show_content() ;
-		return true ;
+		return nav_start(tokens) ;
 	}
 	if (tokens[0] == "memories")
 	{
-		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartMem)) ;
-		m_current_state->show_content() ;
-		return true ;
+		return nav_memories(tokens) ;
 	}
 	if (tokens[0] == "glossaries")
 	{
-		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartGloss)) ;
-		m_current_state->show_content() ;
-		return true ;
+		return nav_glossaries(tokens) ;
 	}
 
 	// moving items in list
 	if (tokens[0] == "moveup")
 	{
-		MessageBox(_T("moveup"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_moveup(tokens) ;
 	}
 	if (tokens[0] == "movedown")
 	{
-		MessageBox(_T("movedown"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_movedown(tokens) ;
 	}
 
 	// crud
 	if (tokens[0] == "view")
 	{
-		bool is_memory = tokens[1] == "mem" ;
-		size_t item = boost::lexical_cast<size_t>(tokens[2]) ;
-		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewDetails(item, is_memory))) ;
-		m_current_state->show_content() ;
-		return true ;
+		return nav_view(tokens) ;
 	}
 	if (tokens[0] == "edit")
 	{
-		MessageBox(_T("edit"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_edit(tokens) ;
 	}
 	if (tokens[0] == "browse")
 	{
-		bool is_memory = tokens[1] == "mem" ;
-		size_t page = boost::lexical_cast<int>(tokens[2]) ;
-		size_t item = boost::lexical_cast<size_t>(tokens[3]) ;
-		this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(item, is_memory, page))) ;
-		m_current_state->show_content() ;
-		return true ;
+		return nav_browse(tokens) ;
 	}
 	if (tokens[0] == "remove")
 	{
-		MessageBox(_T("remove"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_remove(tokens) ;
 	}
 	if (tokens[0] == "addnew")
 	{
-		MessageBox(_T("addnew"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_addnew(tokens) ;
 	}
 	if (tokens[0] == "load")
 	{
-		MessageBox(_T("load"), CString(tokens[1].c_str())) ;
-		return true ;
+		return nav_load(tokens) ;
 	}
 
 
-
+	// navigate to url (quick and dirty...)
 	if (boost::ends_with(url, L".html"))
 	{
 		return false ;
+	}
+	else // is this not a recognized navigation link?
+	{
+		MessageBox(CString(url.c_str()), L"Unknown command") ;
+		return true ;
 	}
 	return true ;
 }
@@ -796,4 +781,120 @@ void CManagerWindow::set_active_state( mgr_state_ptr mgr_state )
 	m_current_state->set_view(&m_view) ;
 	m_current_state->set_listener(this) ;
 	m_current_state->activate() ;
+}
+
+/************************************************************************/
+/* navigation methods (called from OnBeforeNavigate)                    */
+/************************************************************************/
+
+bool CManagerWindow::nav_empty( const std::vector<string> &tokens )
+{
+	SENSE("nav_empty"); 
+	tokens ;
+	return true ;
+}
+// moving items in list
+bool CManagerWindow::nav_moveup(const std::vector<string> &tokens)
+{
+	SENSE("nav_moveup"); 
+	bool is_mem = tokens[1] == "mem" ;
+	size_t num = boost::lexical_cast<size_t>(tokens[2]) ;
+	this->swap_memories(is_mem ? m_mem_model : m_gloss_model,
+		num-1) ;
+	this->m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_movedown(const std::vector<string> &tokens)
+{
+	SENSE("nav_movedown"); 
+	bool is_mem = tokens[1] == "mem" ;
+	size_t num = boost::lexical_cast<size_t>(tokens[2]) ;
+	this->swap_memories(is_mem ? m_mem_model : m_gloss_model,
+		num) ;
+	this->m_current_state->show_content() ;
+	return true ;
+}
+// navigation to various category pages
+bool CManagerWindow::nav_start(const std::vector<string> &tokens)
+{
+	SENSE("nav_start"); 
+	tokens ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStart)) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_memories(const std::vector<string> &tokens)
+{
+	SENSE("nav_memories"); 
+	tokens ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartMem)) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_glossaries(const std::vector<string> &tokens)
+{
+	SENSE("nav_glossaries"); 
+	tokens ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewStartGloss)) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+// crud
+bool CManagerWindow::nav_view(const std::vector<string> &tokens)
+{
+	SENSE("nav_view"); 
+	bool is_memory = tokens[1] == "mem" ;
+	size_t item = boost::lexical_cast<size_t>(tokens[2]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewDetails(item, is_memory))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
+{
+	SENSE("nav_edit"); 
+	MessageBox(_T("edit"), CString(tokens[1].c_str())) ;
+	return true ;
+}
+bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
+{
+	SENSE("nav_browse"); 
+	bool is_memory = tokens[1] == "mem" ;
+	size_t page = boost::lexical_cast<int>(tokens[2]) ;
+	size_t item = boost::lexical_cast<size_t>(tokens[3]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(item, is_memory, page))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_remove(const std::vector<string> &tokens)
+{
+	SENSE("nav_remove"); 
+	MessageBox(_T("remove"), CString(tokens[1].c_str())) ;
+	return true ;
+}
+bool CManagerWindow::nav_addnew(const std::vector<string> &tokens)
+{
+	SENSE("nav_addnew"); 
+	MessageBox(_T("addnew"), CString(tokens[1].c_str())) ;
+	return true ;
+}
+bool CManagerWindow::nav_load(const std::vector<string> &tokens)
+{
+	SENSE("nav_load"); 
+	MessageBox(_T("load"), CString(tokens[1].c_str())) ;
+	return true ;
+}
+
+void CManagerWindow::swap_memories( FelixModelInterface *model, const int index )
+{
+	memory_iterator pos1 = get_pos_at(model, index) ;
+	memory_iterator pos2 = pos1 ; 
+	std::advance(pos2, 1) ;
+	std::swap(*pos1, *pos2) ;
+}
+mem_engine::memory_iterator CManagerWindow::get_pos_at( FelixModelInterface *model,
+									   int sel )
+{
+	memory_iterator pos = model->begin() ;
+	std::advance(pos, static_cast<size_t>(sel)) ;
+	return pos ;
 }

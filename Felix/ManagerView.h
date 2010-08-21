@@ -46,4 +46,6 @@ namespace mgrview
 	};
 
 	wstring get_memname(mem_engine::memory_pointer mem) ;
+
+	typedef boost::shared_ptr<ManagerView> mgr_ptr ;
 }

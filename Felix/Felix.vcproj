@@ -1828,6 +1828,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerWindow_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\match_filters_searcher_test.cpp"
 					>
 				</File>
@@ -2822,6 +2826,10 @@
 				</File>
 				<File
 					RelativePath=".\felix_model_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewFake.h"
 					>
 				</File>
 				<File

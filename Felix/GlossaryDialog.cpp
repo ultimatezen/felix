@@ -2165,7 +2165,6 @@ void CGlossaryWindow::load_history()
 void CGlossaryWindow::save_prefs()
 {
 	m_appstate.write_to_registry() ;
-	//	m_properties_gloss.write_to_registry() ;
 
 	m_mru.WriteToRegistry( R2T( IDS_REG_KEY_GLOSS ) );
 

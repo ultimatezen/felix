@@ -16,6 +16,14 @@ public:
 	{
 		return this->get_memories()->get_memory_at(i) ;
 	}
+	mem_engine::memory_iterator begin()
+	{
+		return this->get_memories()->begin() ;
+	}
+	mem_engine::memory_iterator end()
+	{
+		return this->get_memories()->end() ;
+	}
 
 	virtual model_ptr get_memories() = 0 ;
 	virtual void set_reverse_lookup(bool setting) = 0 ;
@@ -23,6 +31,10 @@ public:
 	virtual int get_first_mem_id() = 0 ;
 	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
 
+	void add_memory()
+	{
+		this->get_memories()->add_memory() ;
+	}
 	bool perform_search( mem_engine::search_match_container &matches, 
 						 const mem_engine::search_query_params &params )
 	{
