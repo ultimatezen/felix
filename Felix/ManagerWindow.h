@@ -10,6 +10,7 @@
 #include "pagination.h"
 #include "Exceptions.h"
 #include "SearchWindow.h"
+#include "ProgressListener.h"
 
 #include "ManagerView.h"
 
@@ -23,6 +24,7 @@ class CManagerWindow :
 	, public html::CHtmlViewListener
 	, public CMessageFilter
 	, public mgrview::FelixManagerWindowListener
+	, public CProgressListener
 
 {
 	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
@@ -55,10 +57,11 @@ public:
 	match_vec m_matches ;
 	match_vec m_replace_matches ;
 	// any messages to stick to top of search results
-	wstring m_message ;	
-	CAccelerator				m_accelerator ;
+	wstring			m_message ;	
+	CAccelerator	m_accelerator ;
 
-	mgr_state_ptr m_current_state ;
+	mgr_state_ptr	m_current_state ;
+	int				m_title_id ;
 
 public:
 	// sensing stuff for unit testing
@@ -68,7 +71,8 @@ public:
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
-	CManagerWindow();
+	CManagerWindow(int title_id=IDS_SEARCH_MANAGER_TITLE, 
+				   LPCTSTR key=_T("MemoryMangerWindow"));
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
@@ -80,9 +84,15 @@ public:
 	void swap_memories( FelixModelInterface *model,
 											const int index );
 
-	mem_engine::memory_iterator get_pos_at( FelixModelInterface *model,
+	mem_engine::memory_iterator get_mem_iter_at(FelixModelInterface *model,
 											int sel );
+	CString get_save_prompt( mem_engine::memory_pointer mem );
+	bool getMemName(mem_engine::memory_pointer mem);
 
+	void add_memory_files(FelixModelInterface *model,
+		file::OpenDlgList &import_files) ;
+
+	void add_memory_file( FelixModelInterface * model, CString filename );
 	// ========================
 	// URL navigation
 	// ========================
@@ -130,6 +140,15 @@ public:
 	void wait_for_doc_complete();
 
 	// ========================
+	// CProgressListener
+	// ========================
+	void OnProgressInit( const CString &file_name, size_t min_val, size_t max_val );
+	bool OnProgressLoadUpdate( size_t current_val ) ;// true to continue
+	bool OnProgressWriteUpdate( size_t current_val )  ;// true to continue
+	void OnProgressDoneWrite( size_t final_val ) ;
+	void OnProgressDoneLoad( size_t final_val ) ;
+
+	// ========================
 	// Navigation handlers
 	// ========================
 
@@ -160,6 +179,8 @@ public:
 	LRESULT OnDestroy(UINT, WPARAM, LPARAM);
 	LRESULT OnSize(UINT, WPARAM, LPARAM);
 
+	LRESULT OnInitView();
+
 	LRESULT OnNewSearch();
 	LRESULT OnSearch();
 	LRESULT OnReplace();
@@ -175,10 +196,7 @@ public:
 
 			BEGIN_CMD_HANDLER_EX
 
-			CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
-			CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
-			CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
-			CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
+			CMD_HANDLER_EX_0(IDC_CHECK_DEMO, OnInitView)
 
 			END_CMD_HANDLER_EX
 	}

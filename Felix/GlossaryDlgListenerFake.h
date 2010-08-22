@@ -3,6 +3,7 @@
 #include "GlossaryDlgListener.h"
 #include "memory_local.h"
 #include "record_local.h"
+#include "felix_model_fake.h"
 
 #ifdef UNIT_TEST
 
@@ -15,13 +16,21 @@ public:
 	mem_engine::memory_pointer check_save_mem ;
 	mem_engine::record_pointer added_rec ;
 
+	FelixModelInterfaceFake m_model ;
+
 	CGlossaryWinListenerFake() : 
 		check_save_retval(IDCANCEL), 
 		check_save_mem(new mem_engine::memory_local),
 		added_rec(new mem_engine::record_local)
 	{
 
+	}	
+		
+	FelixModelInterface* get_model()
+	{
+		return &m_model ;
 	}
+
 
 	INT_PTR gloss_check_save_location( mem_engine::memory_pointer mem )
 	{

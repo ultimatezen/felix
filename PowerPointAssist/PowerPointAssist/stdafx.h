@@ -70,6 +70,7 @@ using namespace ATL ;
 #define SENSE(x) (void)0
 #endif
 
+#define POWERPOINT_ASSIST_APP
 
 #include "atldlgs.h"
 
@@ -152,6 +153,7 @@ private:
 };
 
 extern CAddInModule _AtlModule;
+
 
 #include "StringEx.h"
 #include "File.h"

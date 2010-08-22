@@ -23,5 +23,6 @@ public:
 	virtual INT_PTR gloss_check_save_location( mem_engine::memory_pointer mem ) = 0 ;
 	virtual bool gloss_add_record( mem_engine::record_pointer rec ) = 0 ;
 	virtual void gloss_view_switch( HWND hwnd ) = 0 ;
+	virtual FelixModelInterface* get_model() = 0 ;
 };
 

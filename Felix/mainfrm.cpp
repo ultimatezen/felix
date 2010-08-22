@@ -3728,26 +3728,7 @@ void CMainFrame::refresh_mru_doc_list(HMENU menu)
  */
 LPCTSTR CMainFrame::get_save_filter()
 {
-	static LPCTSTR memory_file_save_filter_english = 
-		_T("Felix Memory File (*.ftm)\0*.ftm\0")
-		_T("XML File (*.xml)\0*.xml\0")
-		_T("TMX File (*.tmx)\0*.tmx\0")
-		_T("Trados Text File (*.txt)\0*.txt\0") 
-		_T("Excel File (*.xls)\0*.xls\0") ;
-
-	static LPCTSTR memory_file_save_filter_japanese = 
-		_T("Felix TMファイル (*.ftm)\0*.ftm\0")
-		_T("XML ファイル (*.xml)\0*.xml\0")
-		_T("TMX ファイル (*.tmx)\0*.tmx\0")
-		_T("トラドス(Trados)テキストファイル (*.txt)\0*.txt\0") 
-		_T("エクセルファイル (*.xls)\0*.xls\0") ;
-
-	if (boost::icontains(_Module.get_library(), _T("j")))
-	{
-		return memory_file_save_filter_japanese ;
-	}
-	return memory_file_save_filter_english ;
-
+	return get_mem_save_filter() ;
 }
 
 /** This is so we can call this from CCommonWindowFunctionality
@@ -3758,24 +3739,7 @@ LPCTSTR CMainFrame::get_save_filter()
 */
 LPCTSTR CMainFrame::get_open_filter()
 {
-	static LPCTSTR memory_file_filter_english = 
-		_T("Felix Memory Files (*.ftm; *.xml)\0*.xml;*.ftm\0")
-		_T("TMX Files (*.tmx)\0*.tmx\0")
-		_T("Trados Text Files (*.txt)\0*.txt\0")
-		_T("All files (*.*)\0*.*\0") ;
-
-
-	static LPCTSTR memory_file_filter_japanese = 
-		_T("Felix TMファイル (*.ftm; *.xml)\0*.xml;*.ftm\0")
-		_T("TMX ファイル (*.tmx)\0*.tmx\0")
-		_T("トラドス(Trados)ファイル(*.txt)\0*.txt\0")
-		_T("すべてのファイル(*.*)\0*.*\0") ;
-
-	if (boost::icontains(_Module.get_library(), _T("j")))
-	{
-		return memory_file_filter_japanese ;
-	}
-	return memory_file_filter_english ;
+	return get_mem_open_filter() ;
 }
 
 

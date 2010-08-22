@@ -89,9 +89,10 @@ public:
 	void set_listener( html::CHtmlViewListener *listener ) ;
 	void ensure_document_complete() ;
 	void ensure_navigation_complete() ;
+	void destroy();
 	const wstring get_selection_text() ;
 
-	void create( HWND parent, HWND &client ) ;
+	void create( HWND parent, HWND &client, CString filename=CString() ) ;
 
 	void set_text( const wstring text ) ;
 	void load_resource( LPCTSTR resource_name ) ;

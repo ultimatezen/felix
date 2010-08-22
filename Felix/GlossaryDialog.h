@@ -16,6 +16,7 @@
 #include "xpmenu/MenuXP.h"
 #include "xpmenu/ToolBarXP.h"
 #include "SearchWindow.h"
+#include "ManagerWindow.h"		// CManagerWindow
 
 //#include "HtmlView.h"				// CHtmlView
 //#include "FindDlg.h"										// CFindDlg
@@ -86,6 +87,7 @@ class CGlossaryWindow :
 	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
 
 	CSearchWindow		m_search_window ;
+	CManagerWindow		m_manager_window ;
 
 	ViewStateInitialGloss		m_view_state_initial ;
 	ViewStateNewGloss			m_view_state_new;

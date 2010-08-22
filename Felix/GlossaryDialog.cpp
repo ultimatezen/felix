@@ -51,10 +51,11 @@ using namespace text_tmpl;
 
 // CTOR
 CGlossaryWindow::CGlossaryWindow( ) : 
-m_is_main( false ),
-m_listener( NULL),
-m_editor(new CEditTransRecordDialog),
-m_is_trans_concordance(false)
+	m_is_main(false),
+	m_listener(NULL),
+	m_editor(new CEditTransRecordDialog),
+	m_is_trans_concordance(false),
+	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"))
 { 
 	m_is_short_format = true ;
 	m_silent_mode = false ;
@@ -81,7 +82,6 @@ m_is_trans_concordance(false)
 
 	m_memories = m_model.get_memories() ; 
 	m_editor->m_is_glossary = true ;
-
 }
 
 // DTOR
@@ -1649,10 +1649,16 @@ LRESULT CGlossaryWindow::OnDrop(HDROP dropped)
 // change the window title.
 LRESULT CGlossaryWindow::on_tools_memory_manager()
 {
-	if ( show_mem_mgr_dlg(IDS_GLOSSARY_MANAGER_TITLE) )
+	m_manager_window.set_mem_model(m_listener->get_model()) ;
+	m_manager_window.set_gloss_model(get_model()) ;
+
+	if (! m_manager_window.IsWindow())
 	{
-		set_window_title() ;
+		m_manager_window.Create(*this) ;
 	}
+
+	m_manager_window.ShowWindow(SW_SHOW) ;
+	m_manager_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
 	
 	return 0L ;
 }
@@ -1933,46 +1939,12 @@ void CGlossaryWindow::refresh_mru_doc_list(HMENU menu)
 
 LPCTSTR CGlossaryWindow::get_save_filter()
 {
-	static LPCTSTR glossary_file_filter_english = 
-		_T("Felix Glossary File (*.fgloss)\0*.fgloss\0")
-		_T("XML File (*.xml)\0*.xml\0")
-		_T("Multiterm 5.5 (*.txt)\0*.txt\0")
-		_T("Multiterm 6.0 (*.txt)\0*.txt\0")
-		_T("Excel File (*.xls)\0*.xls\0") ;
-
-	static LPCTSTR glossary_file_filter_japanese = 
-		_T("Felix 用語集 (*.fgloss)\0*.fgloss\0")
-		_T("XML ファイル (*.xml)\0*.xml\0")
-		_T("マルチターム(Multiterm) 5.5 (*.txt)\0*.txt\0")
-		_T("マルチターム(Multiterm) 6.0 (*.txt)\0*.txt\0")
-		_T("エクセルファイル (*.xls)\0*.xls\0") ;
-
-	if (boost::icontains(_Module.get_library(), _T("j")))
-	{
-		return glossary_file_filter_japanese ;
-	}
-	return glossary_file_filter_english ;
+	return get_gloss_save_filter() ;
 }
 
 LPCTSTR CGlossaryWindow::get_open_filter()
 {
-	static LPCTSTR glossary_file_filter_english = 
-		_T("Felix Glossary Files (*.fgloss;*.xml)\0*.fgloss;*.xml\0")
-		_T("Multiterm Files (*.txt)\0*.txt\0")
-		_T("Tab-delimited Text Files (*.txt)\0*.txt\0")
-		_T("All files (*.*)\0*.*\0") ;
-
-	static LPCTSTR glossary_file_filter_japanese = 
-		_T("Felix 用語集 (*.fgloss;*.xml)\0*.fgloss;*.xml\0")
-		_T("マルチターム(Multiterm) (*.txt)\0*.txt\0")
-		_T("タブ区切り用語集 (*.txt)\0*.txt\0")
-		_T("すべてのファイル (*.*)\0*.*\0") ;
-
-	if (boost::icontains(_Module.get_library(), _T("j")))
-	{
-		return glossary_file_filter_japanese ;
-	}
-	return glossary_file_filter_english ;
+	return get_gloss_open_filter() ;
 }
 
 // This is just to fool would-be crackers into going on a goose chase.

@@ -76,10 +76,17 @@ const wstring frame_view::get_selection_text()
 #endif
 }
 
-void frame_view::create( HWND parent, HWND &client )
+void frame_view::create( HWND parent, HWND &client, CString filename )
 {
 	m_parent = parent ;
-	client = m_view.create( parent ) ;
+	if (filename.GetLength())
+	{
+		client = m_view.create(parent, filename) ;
+	}
+	else
+	{
+		client = m_view.create(parent) ;
+	}
 	ATLASSERT( TWindow( client ).IsWindow() ) ;
 }
 void frame_view::set_text( const wstring text )
@@ -731,4 +738,9 @@ frame_view::record_pointer frame_view::get_match_record( mem_engine::felix_query
 		record->set_source(matches->get_query_rich()) ;
 		return record ;
 	}
+}
+
+void frame_view::destroy()
+{
+	m_view.DestroyWindow() ;
 }

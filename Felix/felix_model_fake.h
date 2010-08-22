@@ -14,7 +14,7 @@ public:
 	bool m_is_reverse_lookup ;
 
 	FelixModelInterfaceFake() :
-		m_model(model_ptr(new mem_engine::memory_model_mem())),
+		m_model(model_ptr(new mem_engine::memory_model_mem)),
 		m_is_reverse_lookup(false)
 	{
 	}
