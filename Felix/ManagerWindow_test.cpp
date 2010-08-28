@@ -39,32 +39,6 @@ struct ManagerWindowTestSetup
 	}
 };
 
-BOOST_AUTO_TEST_SUITE( TestCManagerWindowBasic )
-
-	using namespace mem_engine ;
-
-	// get_pos_arg
-	BOOST_AUTO_TEST_CASE( get_pos_arg_back_1)
-	{
-		CManagerWindow window ;
-		FelixModelInterfaceFake mem_model, gloss_model ;
-		window.set_mem_model(&mem_model) ;
-		window.set_gloss_model(&gloss_model) ;
-		wstring url = L"c:\\foo\\bar\\1\\deletefilter" ;
-		BOOST_CHECK_EQUAL(1u, window.get_pos_arg(url)) ;
-	}
-	BOOST_AUTO_TEST_CASE( get_pos_arg_forward_1)
-	{
-		CManagerWindow window ;
-		FelixModelInterfaceFake mem_model, gloss_model ;
-		window.set_mem_model(&mem_model) ;
-		window.set_gloss_model(&gloss_model) ;
-		wstring url = L"c:\\foo/bar/1/deletefilter" ;
-		BOOST_CHECK_EQUAL(1u, window.get_pos_arg(url)) ;
-	}
-
-BOOST_AUTO_TEST_SUITE_END()
-
 BOOST_AUTO_TEST_SUITE( TestCManagerWindowNavTests )
 
 using namespace mem_engine ;
