@@ -51,19 +51,19 @@ size_t Paginator::get_num_pages()
 
 size_t Paginator::get_start()
 {
-	return m_current_page * records_per_page ;
+	return m_current_page * RECORDS_PER_PAGE ;
 }
 
 size_t Paginator::get_end()
 {
-	return min(m_num_records, get_start() + records_per_page) ;
+	return min(m_num_records, get_start() + RECORDS_PER_PAGE) ;
 }
 
 void Paginator::set_num_records( size_t num_records, bool reset_current_page )
 {
 	m_num_records = num_records ;
-	m_num_pages = num_records / records_per_page ;
-	if ((m_num_pages*records_per_page) < num_records)
+	m_num_pages = num_records / RECORDS_PER_PAGE ;
+	if ((m_num_pages*RECORDS_PER_PAGE) < num_records)
 	{
 		++m_num_pages ;
 	}
@@ -130,6 +130,7 @@ wstring get_pagination_text(Paginator &paginator)
 	if (paginator.has_prev())
 	{
 		text_tmpl.Assign(L"has_prev", L"true") ;
+		text_tmpl.Assign(L"prev_page", ulong2wstring(paginator.get_current_page())) ;
 	}
 	else
 	{
@@ -140,6 +141,7 @@ wstring get_pagination_text(Paginator &paginator)
 	if (paginator.has_next())
 	{
 		text_tmpl.Assign(L"has_next", L"true") ;
+		text_tmpl.Assign(L"next_page", ulong2wstring(paginator.get_current_page()+2)) ;
 	}
 	else
 	{
@@ -148,6 +150,7 @@ wstring get_pagination_text(Paginator &paginator)
 
 	// current page
 	text_tmpl.Assign(L"current_page", ulong2wstring(paginator.get_current_page()+1)) ;
+	text_tmpl.Assign(L"last_page", ulong2wstring(paginator.get_num_pages())) ;
 
 	// num matches
 	CNumberFmt number_format ;

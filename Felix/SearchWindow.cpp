@@ -225,42 +225,12 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		return true ;
 	}
 	// page navigation
-	if (boost::ends_with(url, L"next_page"))
-	{
-		m_paginator.next_page() ;
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"prev_page"))
-	{
-		m_paginator.prev_page() ;
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"first_page"))
-	{
-		while(m_paginator.has_prev())
-		{
-			m_paginator.prev_page() ;
-		}
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"last_page"))
-	{
-		while(m_paginator.has_next())
-		{
-			m_paginator.next_page() ;
-		}
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
 	if (boost::ends_with(url, L"goto_page"))
 	{
 		std::vector<wstring> tokens ;
 		boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
-		size_t penultimate = tokens.size() - 2 ;
-		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[penultimate])-1) ;
+		std::reverse(tokens.begin(), tokens.end()) ;
+		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[1])-1) ;
 		show_search_results(get_doc3(), m_matches) ;
 		return true ;
 	}

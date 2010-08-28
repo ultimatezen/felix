@@ -1,6 +1,6 @@
 #pragma once
 
-const static size_t records_per_page = 20 ;
+const static size_t RECORDS_PER_PAGE = 20 ;
 
 class Paginator
 {

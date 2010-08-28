@@ -10,12 +10,84 @@
 
 <p>Page {$page}</p>
 
-<table>
-<tr>
-<th>Size</th>
-<td>{$size}</td>
-</tr>
-</table>
+{$pagination}
+    <table>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Source</th>
+            <th>Trans</th>
+        </tr>
+		{% for record in results %}
+        <tr>
+            <td rowspan="2">
+                {$record.num}
+            </td>
+            <td>
+                {$record.source}
+            </td>
+            <td>
+                {$record.trans}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                {$record.memory} | <a href="/{$record.num0}/editrecord">Edit</a>
+                | <a href="/{$record.num0}/deleterecord">Delete</a>
+                | <a href="#" id="view_{$record.num}" onclick="toggleDetails({$record.num});">Details &gt;&gt;</a>
+                <div id="item_{$record.num}" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+                        <tr>
+                            <th>Memory/Glossary</th>
+                            <td>{$record.memory}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{$pagination}
 
 <h3>Actions</h3>
 

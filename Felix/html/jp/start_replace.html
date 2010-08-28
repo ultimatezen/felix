@@ -12,28 +12,25 @@
 
 <script type="text/javascript">
 // Set focus to "from" field in replace form
-$(function()
-  {$("#replacefrom").focus();}
-  );
-
+$(function() {$("#replacefrom").focus();});
   // Toggle help on and off
-function toggleHelp()
-{
+function toggleHelp() {
 	var item = "#help_details" ;
 	var link = "#showhelp" ;
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == 'ヘルプの表示(H) >>')
-	{$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)')}
-	else
-	{$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') }
+	if (currentText == 'ヘルプの表示(H) >>') {
+		$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)');
+	}
+	else {
+		$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') ;
+	}
     return false;
 }
 
 // Toggle record details visibility
-function toggleDetails(id)
-{
+function toggleDetails(id) {
 	var item = "#item_" + id ;
 	var link = "#view_" + id ;
 	$(item).toggle("blind");
@@ -51,7 +48,7 @@ $(function() {
     $("#searchform").submit(function() {
         document.forms[0].action = "replace_find" ;
         return true;
-		});
+	});
 });
 
 
@@ -89,7 +86,7 @@ $(function() {
 	<input type="submit" value="submit" style="display:none;" />
     </form>
 
-	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> | 
+	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> |
 	<a href="/gotosearch" title="Replace in results">検索ページへ(<b>S</b>)</a> |
 	<!-- HELP -->
 	<a href="#" id="showhelp" onclick="toggleHelp();">ヘルプの表示(<b>H</b>) &gt;&gt;</a>
@@ -183,6 +180,5 @@ $(function() {
 
 	<div id="searchresults">
 	</div>
-	
 </body>
 </html>

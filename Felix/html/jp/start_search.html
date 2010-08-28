@@ -12,36 +12,36 @@
 
 <script type="text/javascript">
 // Set focus to search box
-$(function()
-  {$("#searchbox").focus();}
-  );
+$(function() {$("#searchbox").focus();});
 
 // Toggle help on and off
-function toggleHelp()
-{
+function toggleHelp() {
 	var item = "#help_details" ;
 	var link = "#showhelp" ;
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == 'ヘルプの表示(H) >>')
-	{$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)')}
-	else
-	{$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') }
+	if (currentText == 'ヘルプの表示(H) >>') {
+		$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)') ;
+	}
+	else {
+		$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') ;
+	}
     return false;
 }
 // Toggle details for record on and off
-function toggleDetails(id)
-{
+function toggleDetails(id) {
 	var item = "#item_" + id ;
 	var link = "#view_" + id ;
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == '詳細 >>')
-	{$(link).html('&lt;&lt; 非表示')}
-	else
-	{$(link).html('詳細 &gt;&gt;') }
+	if (currentText == '詳細 >>') {
+		$(link).html('&lt;&lt; 非表示');
+	}
+	else {
+		$(link).html('詳細 &gt;&gt;') ;
+	}
     return false;
 }
 
@@ -50,7 +50,7 @@ $(function() {
     $("#searchform").submit(function() {
         document.forms[0].action = "replace_find" ;
         return true;
-		});
+	});
 });
 
 </script>
@@ -68,7 +68,7 @@ $(function() {
 	</form>
 
 	<div>
-	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> | 
+	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> |
 	<a href="/gotoreplace" title="Replace in results">置換(<b>R</b>)</a> |
 	<!-- HELP -->
 	<a href="#" id="showhelp" onclick="toggleHelp();">ヘルプの表示(<b>H</b>) &gt;&gt;</a>

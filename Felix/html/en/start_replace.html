@@ -12,38 +12,38 @@
 
 <script type="text/javascript">
 // Set focus to "from" field in replace form
-$(function()
-  {$("#replacefrom").focus();}
-  );
+$(function() { $("#replacefrom").focus(); });
 
 // Toggle the help text on/off
 // Toggle help on and off
-function toggleHelp()
-{
+function toggleHelp() {
 	var item = "#help_details" ;
 	var link = "#showhelp" ;
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == 'Replace Help >>')
-	{$(link).html('&lt;&lt; Hide <b>H</b>elp')}
-	else
-	{$(link).html('Replace <b>H</b>elp &gt;&gt;') }
+	if (currentText == 'Replace Help >>') {
+		$(link).html('&lt;&lt; Hide <b>H</b>elp') ;
+	}
+	else {
+		$(link).html('Replace <b>H</b>elp &gt;&gt;') ;
+	}
     return false;
 }
 
 // Toggle record details visibility
-function toggleDetails(id)
-{
+function toggleDetails(id) {
 	var item = "#item_" + id ;
 	var link = "#view_" + id ;
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == 'Details >>')
-	{$(link).html('&lt;&lt; Hide')}
-	else
-	{$(link).html('Details &gt;&gt;') }
+	if (currentText == 'Details >>'){
+		$(link).html('&lt;&lt; Hide');
+	}
+	else {
+		$(link).html('Details &gt;&gt;') ;
+	}
     return false;
 }
 
@@ -52,10 +52,8 @@ $(function() {
     $("#searchform").submit(function() {
         document.forms[0].action = "replace_find" ;
         return true;
-		});
+	});
 });
-
-
 </script>
 </head>
 <body>
@@ -90,7 +88,7 @@ $(function() {
 	<input type="submit" value="submit" style="display:none;" />
     </form>
 
-	<a href="/newsearch" title="Clear search filters"><b>N</b>ew Search</a> | 
+	<a href="/newsearch" title="Clear search filters"><b>N</b>ew Search</a> |
 	<a href="/gotosearch" title="Replace in results"><b>S</b>earch</a> |
 	<!-- HELP -->
 	<a href="#" id="showhelp" onclick="toggleHelp();">Replace <b>H</b>elp &gt;&gt;</a>
@@ -184,6 +182,6 @@ $(function() {
 
 	<div id="searchresults">
 	</div>
-	
+
 </body>
 </html>

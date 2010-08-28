@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 
 		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
 		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">1</span>")) ;
-		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 1 of 1 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 1 of 1.")) ;
 		BOOST_CHECK(boost::contains(text, L"</p>")) ;
 
 		BOOST_CHECK(! boost::contains(text, L"/next_page")) ;
@@ -94,13 +94,13 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">1</span>")) ;
 		BOOST_CHECK(boost::contains(text, L"<a href=\"/2/goto_page\" title=\"Go to page 2\">2</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to page 3\">3</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/next_page\" title=\"Go to next page\">&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/last_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 20 of 50 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/2/goto_page\" title=\"Go to next page\">&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;1 to 20 of 50.")) ;
 		BOOST_CHECK(boost::contains(text, L"</p>")) ;
 
-		BOOST_CHECK(!boost::contains(text, L"/prev_page")) ;
-		BOOST_CHECK(!boost::contains(text, L"/first_page")) ;
+		BOOST_CHECK(!boost::contains(text, L"Go to first page")) ;
+		BOOST_CHECK(!boost::contains(text, L"Go to previous page")) ;
 		BOOST_CHECK(! boost::contains(text, L">4</a>")) ;
 	}
 	BOOST_AUTO_TEST_CASE( next_page_50)
@@ -111,14 +111,14 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		wstring text = get_pagination_text(paginator) ;
 
 		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/first_page\" title=\"Go to first page\">&lt;&lt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/prev_page\" title=\"Go to previous page\">&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/1/goto_page\" title=\"Go to first page\">&lt;&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/1/goto_page\" title=\"Go to previous page\">&lt;</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"<a href=\"/1/goto_page\" title=\"Go to page 1\">1</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"<span class=\"this-page\" title=\"Current page\">2</span>")) ;
 		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to page 3\">3</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/next_page\" title=\"Go to next page\">&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/last_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;21 to 40 of 50 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to next page\">&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/3/goto_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;21 to 40 of 50.")) ;
 		BOOST_CHECK(boost::contains(text, L"</p>")) ;
 	}
 
@@ -130,8 +130,8 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		wstring text = get_pagination_text(paginator) ;
 
 		BOOST_CHECK(boost::contains(text, L"<p class=\"paginator\">")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/first_page\" title=\"Go to first page\">&lt;&lt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/prev_page\" title=\"Go to previous page\">&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/1/goto_page\" title=\"Go to first page\">&lt;&lt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/19/goto_page\" title=\"Go to previous page\">&lt;</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"Go to page 15\">15</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"Go to page 16\">16</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"Go to page 17\">17</a>")) ;
@@ -143,9 +143,9 @@ BOOST_AUTO_TEST_SUITE( test_get_pagination_text )
 		BOOST_CHECK(boost::contains(text, L"Go to page 23\">23</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"Go to page 24\">24</a>")) ;
 		BOOST_CHECK(boost::contains(text, L"Go to page 25\">25</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/next_page\" title=\"Go to next page\">&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"<a href=\"/last_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
-		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;381 to 400 of 2,000 matches.")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/21/goto_page\" title=\"Go to next page\">&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"<a href=\"/100/goto_page\" title=\"Go to last page\">&gt;&gt;</a>")) ;
+		BOOST_CHECK(boost::contains(text, L"&nbsp;&nbsp;&nbsp;&nbsp;381 to 400 of 2,000.")) ;
 		BOOST_CHECK(boost::contains(text, L"</p>")) ;
 
 		BOOST_CHECK(! boost::contains(text, L"Go to page 14\">14</a>")) ;
