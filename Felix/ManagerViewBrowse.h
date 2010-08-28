@@ -21,13 +21,7 @@ namespace mgrview
 
 		ManagerViewBrowse(size_t item, 
 							bool is_memory=true,
-							size_t page=1) : 
-				m_item(item),
-				m_page(page),
-				m_is_memory(is_memory),
-				m_model(NULL),
-				ManagerView()
-		{}
+							size_t page=1);
 
 		void activate();
 		void show_content();

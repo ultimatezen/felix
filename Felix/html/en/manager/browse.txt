@@ -6,9 +6,7 @@
 	Browse {$name}
 </p>
 
-<h2>Browse {$name}</h2>
-
-<p>Page {$page}</p>
+<h2>Browse {$name} (Page {$page} of {$num_pages})</h2>
 
 {$pagination}
     <table>
@@ -17,7 +15,7 @@
             <th>Source</th>
             <th>Trans</th>
         </tr>
-		{% for record in results %}
+		{% for record in records %}
         <tr>
             <td rowspan="2">
                 {$record.num}
@@ -31,8 +29,8 @@
         </tr>
         <tr>
             <td colspan="2">
-                {$record.memory} | <a href="/{$record.num0}/editrecord">Edit</a>
-                | <a href="/{$record.num0}/deleterecord">Delete</a>
+                {$record.memory} | <a href="/{$index}/{$memtype}/{$record.num0}/editrecord">Edit</a>
+                | <a href="/{$index}/{$memtype}/{$record.num0}/deleterecord">Delete</a>
                 | <a href="#" id="view_{$record.num}" onclick="toggleDetails({$record.num});">Details &gt;&gt;</a>
                 <div id="item_{$record.num}" style="display:none;">
                     <table class="props">

@@ -62,6 +62,8 @@ public:
 
 	mgr_state_ptr	m_current_state ;
 	int				m_title_id ;
+	size_t		    m_current_item ;
+	bool			m_is_memory ;
 
 public:
 	// sensing stuff for unit testing
@@ -100,45 +102,12 @@ public:
 	// return true to cancel!
 	bool OnBeforeNavigate2(_bstr_t url);
 
-	// navigation handlers
-	void handle_deletefilter(doc3_wrapper_ptr doc, wstring url);
-	void handle_editrecord(doc3_wrapper_ptr doc, wstring url);
-	void handle_deleterecord(doc3_wrapper_ptr doc, wstring url);
-
-	// replace page nav handlers
-	void handle_replace_find(doc3_wrapper_ptr doc);
-	void handle_replace_replace(doc3_wrapper_ptr doc);
-	void handle_replace_all(doc3_wrapper_ptr doc, 
-		wstring search_template,
-		wstring replace_template);
-
-	bool replace_in_memory( search_match_ptr match,
-		const wstring replace_from, 
-		const wstring replace_to );
-
-	void delete_record(search_match_ptr match);
 	void handle_undodelete(doc3_wrapper_ptr doc);
 
-	void show_search_page();
-	void handle_gotoreplace();
-	void show_search_results_page();
-	void show_replace_results_page();
-	void perform_search(doc3_wrapper_ptr doc);
 
-	size_t get_pos_arg(const wstring url);
-	mem_engine::search_match_ptr get_match_at( const size_t i );
-
-	void retrieve_and_show_matches( doc3_wrapper_ptr doc );
-	void show_search_results(doc3_wrapper_ptr doc, match_vec &matches);
-	void get_search_matches(match_vec &matches);
-	void show_replace_results(doc3_wrapper_ptr doc, match_vec &matches);
-
-	void perform_replace(doc3_wrapper_ptr doc, mem_engine::record_pointer rec);
-	void get_replace_matches(match_vec &matches,
-		const wstring replace_from);
-	void set_filterbox_text( doc3_wrapper_ptr doc, const std::vector<wstring> &terms );
 	void wait_for_doc_complete();
 
+	mem_engine::memory_pointer get_mem(string memtype, size_t item_num);
 	// ========================
 	// CProgressListener
 	// ========================
@@ -166,9 +135,14 @@ public:
 	bool nav_view(const std::vector<string> &tokens) ;
 	bool nav_edit(const std::vector<string> &tokens) ;
 	bool nav_browse(const std::vector<string> &tokens) ;
+	bool nav_browse_page(const std::vector<string> &tokens) ;
 	bool nav_remove(const std::vector<string> &tokens) ;
 	bool nav_addnew(const std::vector<string> &tokens) ;
 	bool nav_load(const std::vector<string> &tokens) ;
+
+	bool delete_record(const std::vector<string> &tokens);
+	bool edit_record(const std::vector<string> &tokens);
+
 
 	// ========================
 	// message map
@@ -179,14 +153,11 @@ public:
 	LRESULT OnDestroy(UINT, WPARAM, LPARAM);
 	LRESULT OnSize(UINT, WPARAM, LPARAM);
 
+	LRESULT OnToggleHelp();
 	LRESULT OnInitView();
 
-	LRESULT OnNewSearch();
-	LRESULT OnSearch();
-	LRESULT OnReplace();
-	LRESULT OnToggleHelp();
 	BEGIN_MSG_MAP_EX(CManagerWindow)
-		try
+	try
 	{
 		// don't use MSG_HANDLER_0 for OnCreate
 		// we need the arguments to pass to DefWindowProc

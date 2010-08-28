@@ -196,7 +196,7 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_glossaries") ;
 	}
 	// crud
-	BOOST_AUTO_TEST_CASE( test_nav_view)
+	BOOST_AUTO_TEST_CASE(test_nav_view)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
@@ -206,7 +206,7 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_view") ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_edit)
+	BOOST_AUTO_TEST_CASE(test_nav_edit)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
@@ -219,21 +219,29 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_edit") ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_browse)
+	BOOST_AUTO_TEST_CASE(test_nav_browse)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
-
-		mgrview::ManagerViewFake *view = new mgrview::ManagerViewFake ;
-		window.m_current_state = mgrview::mgr_ptr(view) ;
 
 		// browse / mem_type / page / item
 		_bstr_t url = L"c:\\foo/0/0/mem/browse" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_browse") ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_remove)
+	BOOST_AUTO_TEST_CASE(test_nav_browse_page)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(1) ;
+
+		// browse / mem_type / page / item
+		_bstr_t url = L"c:\\3/goto_page" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_browse_page") ;
+	}	
+	BOOST_AUTO_TEST_CASE(test_nav_remove)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
@@ -244,7 +252,7 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_remove") ;
 		BOOST_CHECK_EQUAL(0u, setup.mem_model.size()) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_addnew_mem)
+	BOOST_AUTO_TEST_CASE(test_nav_addnew_mem)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
@@ -254,7 +262,7 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_addnew") ;
 		BOOST_CHECK_EQUAL(1u, setup.mem_model.size()) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_addnew_gloss)
+	BOOST_AUTO_TEST_CASE(test_nav_addnew_gloss)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;
@@ -264,7 +272,7 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_addnew") ;
 		BOOST_CHECK_EQUAL(1u, setup.gloss_model.size()) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_nav_load)
+	BOOST_AUTO_TEST_CASE(test_nav_load)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;

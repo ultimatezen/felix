@@ -8,10 +8,11 @@ using namespace text_tmpl ;
 
 const static size_t PAGE_WINDOW_SIZE = 10 ;
 
-Paginator::Paginator() :
+Paginator::Paginator(size_t records_per_page) :
 m_current_page(0),
 m_num_records(0),
-m_num_pages(0)
+m_num_pages(0),
+m_records_per_page(records_per_page)
 {
 }
 
@@ -51,19 +52,19 @@ size_t Paginator::get_num_pages()
 
 size_t Paginator::get_start()
 {
-	return m_current_page * RECORDS_PER_PAGE ;
+	return m_current_page * m_records_per_page ;
 }
 
 size_t Paginator::get_end()
 {
-	return min(m_num_records, get_start() + RECORDS_PER_PAGE) ;
+	return min(m_num_records, get_start() + m_records_per_page) ;
 }
 
 void Paginator::set_num_records( size_t num_records, bool reset_current_page )
 {
 	m_num_records = num_records ;
-	m_num_pages = num_records / RECORDS_PER_PAGE ;
-	if ((m_num_pages*RECORDS_PER_PAGE) < num_records)
+	m_num_pages = num_records / m_records_per_page ;
+	if ((m_num_pages*m_records_per_page) < num_records)
 	{
 		++m_num_pages ;
 	}
@@ -83,6 +84,10 @@ void Paginator::goto_page( size_t page )
 	m_current_page = page ;
 }
 
+void Paginator::set_current_page( size_t page )
+{
+	m_current_page = page ;
+}
 /*
 	Create the window of page numbers to show.
 	This is so if there are lots of pages, only the surrounding ones are shown, 

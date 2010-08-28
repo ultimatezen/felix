@@ -30,7 +30,9 @@ CManagerWindow::CManagerWindow(int title_id, LPCTSTR key) :
 	m_title_id(title_id),
 	m_settings_key(key),
 	m_mem_model(NULL),
-	m_gloss_model(NULL)
+	m_gloss_model(NULL),
+	m_current_item(0),
+	m_is_memory(true)
 {
 
 }
@@ -106,48 +108,6 @@ LRESULT CManagerWindow::OnSize(UINT, WPARAM, LPARAM)
 void CManagerWindow::wait_for_doc_complete()
 {
 	m_view.ensure_document_complete() ;
-}
-
-// When we navigate from the replace page, or when the window is created
-void CManagerWindow::show_search_page()
-{
-	SENSE("CManagerWindow::show_search_page") ;
-	const CString filename = get_template_filename(_T("start_search.html")) ;
-	m_view.navigate(filename) ;
-
-	wait_for_doc_complete() ;
-	if (! m_search_runner.get_terms().empty())
-	{
-		show_search_results_page() ;
-	}
-}
-
-// When we navigate from the search page
-void CManagerWindow::handle_gotoreplace()
-{
-	SENSE("handle_gotoreplace") ;
-	const CString filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
-	m_view.navigate(filename) ;
-
-	wait_for_doc_complete() ;
-	set_filterbox_text(get_doc3(),
-		m_search_runner.get_terms()) ;
-}
-
-void CManagerWindow::show_search_results_page()
-{
-	SENSE("CManagerWindow::show_search_results_page") ;
-	doc3_wrapper_ptr doc = get_doc3();
-	set_filterbox_text(doc, m_search_runner.get_terms()) ;
-
-	retrieve_and_show_matches(doc);
-}
-
-void CManagerWindow::show_replace_results_page()
-{
-	SENSE("CManagerWindow::show_replace_results_page") ;
-	set_filterbox_text(get_doc3(),
-		m_search_runner.get_terms()) ;
 }
 
 BOOL CManagerWindow::PreTranslateMessage( LPMSG pMsg )
@@ -249,7 +209,20 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return nav_load(tokens) ;
 		}
-
+		// page navigation
+		if (tokens[0] == "goto_page")
+		{
+			return nav_browse_page(tokens) ;
+		}
+		// record crud
+		if (tokens[0] == "deleterecord")
+		{
+			return delete_record(tokens) ;
+		}
+		if (tokens[0] == "editrecord")
+		{
+			return edit_record(tokens) ;
+		}
 
 		// navigate to url (quick and dirty...)
 		if (boost::ends_with(url, L".html"))
@@ -287,41 +260,6 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 }
 
 /*
- Perform the search based on the search form.
- Get the search term from the "searchbox" text box, add that to our list of search terms,
- and then retrieve and show the matches.
- Also show the list of terms in the "filterbox" div of the web page.
- */
-void CManagerWindow::perform_search(doc3_wrapper_ptr doc)
-{
-	SENSE("CManagerWindow::perform_search") ;
-	element_wrapper_ptr search_box = doc->get_element_by_id(L"searchbox") ;
-
-	const wstring term = retrieve_input_value(search_box) ;
-	if (term.empty())
-	{
-		ATLTRACE("Empty term in search box\n") ;
-		return ;
-	}
-	m_search_runner.add_term(term) ;
-
-	set_filterbox_text(doc, m_search_runner.get_terms());
-
-	retrieve_and_show_matches(doc);
-}
-
-/*
- Generate the list of search terms, and show the list in the "filterbox" div
- of the hosted web page.
- */
-void CManagerWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::vector<wstring> &terms )
-{
-	SENSE("CManagerWindow::set_filterbox_text") ;
-	element_wrapper_ptr filter_box = doc->get_element_by_id(L"filterbox") ;
-	filter_box->set_inner_text(get_filter_text(terms));
-}
-
-/*
  The memory window will set this.
  It contains the list of memories/glossaries that we'll be searching.
  */
@@ -334,209 +272,6 @@ void CManagerWindow::set_gloss_model(FelixModelInterface *model)
 	m_gloss_model = model ;
 }
 
-/*
- Fills `matches` with the potential records for replacement.
- This is separate from the normal search function (`get_search_matches`), 
- because we also have to make sure that the "replace_from" is matched.
- */
-void CManagerWindow::get_replace_matches( std::vector<mem_engine::search_match_ptr> &matches,
-										const wstring replace_from)
-{
-	matches.clear() ;
-	mem_engine::search_match_container matchset ;
-	FelixModelInterface::model_ptr model = m_mem_model->get_memories() ;
-	foreach(mem_engine::memory_pointer mem, model->get_memories())
-	{
-		if (mem->is_local())
-		{
-			foreach(record_pointer rec, mem->get_records())
-			{
-				if (m_search_runner.is_match(rec) 
-					&& m_search_runner.term_matches(rec, replace_from))
-				{
-					search_match_ptr match(mem->make_match()) ;
-					match->set_record(rec) ;
-					match->get_markup()->SetTrans(rec->get_trans_rich()) ;
-					matchset.insert(match) ;
-				}
-			}
-		}
-	}
-	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
-}
-
-/*
- Fills `matches` with the records that match our search terms.
- */
-void CManagerWindow::get_search_matches( std::vector<mem_engine::search_match_ptr> &matches )
-{
-	matches.clear() ;
-	mem_engine::search_match_container matchset ;
-	foreach(mem_engine::memory_pointer mem, m_mem_controller->get_memories())
-	{
-		if (mem->is_local())
-		{
-			m_search_runner.get_matches(mem, matchset) ;
-		}
-	}
-	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
-	m_paginator.set_num_records(matches.size()) ;
-}
-
-/*
- Generates the HTML rendering of the search results, and places it in 
- the "searchresults" div on the hosted web page.
-
- Search results are paginated, so we only show the range given us by
- the paginator.
- */
-void CManagerWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matches )
-{
-	CTextTemplate text_tmpl ;
-
-	// message
-	text_tmpl.Assign(L"message", m_message) ;
-	m_message.clear() ;
-	// page stuff
-	text_tmpl.Assign(L"pagination", get_pagination_text(m_paginator)) ;
-	text_tmpl.Assign(L"page", ulong2wstring(m_paginator.get_current_page()+1)) ;
-
-	CNumberFmt number_format ;
-	text_tmpl.Assign(L"num_pages", wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
-
-	text_tmpl.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
-
-	text_tmpl::DictListPtr items = text_tmpl.CreateDictList();
-
-	for (size_t i = m_paginator.get_start() ; i < m_paginator.get_end() ; ++i)
-	{
-		text_tmpl::DictPtr item = text_tmpl.CreateDict() ;
-
-		mem_engine::search_match_ptr match = matches[i] ;
-		mem_engine::record_pointer record = match->get_record() ;
-
-		item->insert(std::make_pair(L"num0", tows(i))) ;
-		item->insert(std::make_pair(L"num", tows(i+1))) ;
-		item->insert(std::make_pair(L"source", record->get_source_rich())) ;
-		item->insert(std::make_pair(L"trans", record->get_trans_rich())) ;
-		item->insert(std::make_pair(L"context", record->get_context_rich())) ;
-		item->insert(std::make_pair(L"created", record->get_created().get_date_time_string())) ;
-		item->insert(std::make_pair(L"modified", record->get_modified().get_date_time_string())) ;
-		item->insert(std::make_pair(L"reliability", tows(record->get_reliability()))) ;
-		item->insert(std::make_pair(L"validated", bool2wstring(record->is_validated()))) ;
-
-		item->insert(std::make_pair(L"creator", record->get_creator())) ;
-		item->insert(std::make_pair(L"modified_by", record->get_modified_by())) ;
-		// other info
-		const wstring filename = match->get_memory_location() ;
-		wstring loc ;
-		if ( filename.empty() )
-		{
-			loc = R2WSTR( IDS_NEW ) ;
-		}
-		else
-		{
-			loc = fs::wpath(filename).leaf();		
-		}
-
-		item->insert(std::make_pair(L"mem", loc)) ;
-		item->insert(std::make_pair(L"memory", loc)) ;
-		item->insert(std::make_pair(L"refcount", tows(record->get_refcount()))) ;
-		item->insert(std::make_pair(L"ref_count", tows(record->get_refcount()))) ;
-
-		items->push_back(item) ;
-	}
-	text_tmpl.Assign(L"results", items) ;
-
-	wstring text = text_tmpl.Fetch(get_template_text(_T("search_matches.txt"))) ;
-
-	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
-}
-
-void CManagerWindow::retrieve_and_show_matches( doc3_wrapper_ptr doc )
-{
-	SENSE("CManagerWindow::retrieve_and_show_matches") ;
-	get_search_matches(m_matches);
-	show_search_results(doc, m_matches) ;
-}
-
-/*
- The user has chosen to delete one of the search filters.
- Extract the filter pos number from the url, then delete it,
- and recalculate the matches.
- */
-void CManagerWindow::handle_deletefilter(doc3_wrapper_ptr doc, wstring url)
-{
-	SENSE("handle_deletefilter") ;
-
-	m_search_runner.remove_term(get_pos_arg(url)) ;
-
-	set_filterbox_text(doc, m_search_runner.get_terms());
-
-	if (m_search_runner.get_terms().empty())
-	{
-		m_paginator.set_num_records(0) ;
-		show_search_page() ;
-		return ;
-	}
-	retrieve_and_show_matches(doc);
-}
-
-/*
- The user wants to edit a record.
- Extract the match pos from the url.
- Use a modal version of the Edit Record dialog to edit the record.
- */
-void CManagerWindow::handle_editrecord( doc3_wrapper_ptr doc, wstring url )
-{
-	SENSE("handle_editrecord") ;
-	CEditTransRecordDialogModal editdlg ;
-
-	size_t pos = get_pos_arg(url) ;
-	if (pos >= m_matches.size())
-	{
-		m_message = L"Edit parameter is out of bounds: " + ulong2wstring(pos) ;
-		return ;
-	}
-	mem_engine::search_match_ptr match = m_matches[pos] ;
-
-	editdlg.set_record(match->get_record()) ;
-	editdlg.set_memory_id(match->get_memory_id()) ;
-
-#ifndef UNIT_TEST
-	if (editdlg.DoModal(*this) == IDOK)
-	{
-#endif		
-		show_search_results(doc, m_matches) ;
-#ifndef UNIT_TEST
-	}
-#endif		
-}
-
-/*
- The user chose to delete the indicated record.
- Extract the match pos from the url.
- Add an undo link to recover the record.
- */
-void CManagerWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
-{
-	using namespace mem_engine ;
-
-	SENSE("handle_deleterecord") ;
-
-	size_t pos = get_pos_arg(url) ;
-	if (pos >= m_matches.size())
-	{
-		m_message = L"Deletion parameter is out of bounds: " + ulong2wstring(pos) ;
-		return ;
-	}
-	m_deleted_match = m_matches[pos] ;
-	m_matches.erase(m_matches.begin() + pos) ;
-	// set the number of records, but don't reset the current page
-	m_paginator.set_num_records(m_matches.size(), false) ;
-	delete_record(m_deleted_match);
-	show_search_results(doc, m_matches) ;
-}
 
 /*
  Undo the deleted record and recover it.
@@ -552,36 +287,12 @@ void CManagerWindow::handle_undodelete( doc3_wrapper_ptr doc )
 		if (mem->get_id() == memid)
 		{
 			mem->add_record(record) ;
-			retrieve_and_show_matches(doc);
+			this->m_current_state->show_content() ;
 			return ;
 		}
 	}
 }
 
-/*
- Extract the pos argument from the URL.
- */
-size_t CManagerWindow::get_pos_arg( const wstring url )
-{
-	std::vector<wstring> tokens ;
-	boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
-	ATLASSERT(! tokens.empty()) ;
-	const size_t last = tokens.size() -1 ;
-	return boost::lexical_cast<size_t>(tokens[last-1]) ;
-}
-
-/*
- Get the match at the indicated position.
-
- Recalculates the matches each time.
- */
-mem_engine::search_match_ptr CManagerWindow::get_match_at( const size_t i )
-{
-	match_vec matches; 
-	get_search_matches(matches);
-	ATLASSERT(i < matches.size()) ;
-	return matches[i] ;
-}
 
 /*
  Get the document element from the web browser.
@@ -595,198 +306,6 @@ doc3_wrapper_ptr CManagerWindow::get_doc3()
 #else
 	return get_fake_search_doc(); 
 #endif
-}
-
-/*
- Delete the record from the appropriate memory.
- If we failed to delete it, check if the memory is locked.
- Give appropriate feedback.
- */
-void CManagerWindow::delete_record( search_match_ptr match )
-{
-	memory_pointer mem = m_mem_controller->get_memory_by_id(match->get_memory_id()) ;
-
-	if (mem->erase(match->get_record()))
-	{
-		m_message = R2WSTR(IDS_DELETED_RECORD_MSG) ;
-	}
-	else if (mem->is_locked())
-	{
-		m_message = R2WSTR(IDS_DELETE_FAILED_MEM_LOCKED_MSG) ;
-	}
-}
-
-/*
- Find the next candidate for replacement.
- */
-void CManagerWindow::handle_replace_find( doc3_wrapper_ptr doc )
-{
-	SENSE("handle_replace_find") ;
-
-	element_wrapper_ptr search_box = doc->get_element_by_id(L"replacefrom") ;
-	const wstring replace_from = search_box->get_attribute(L"value") ;
-	this->get_replace_matches(m_replace_matches, replace_from) ;
-
-	show_replace_results(doc, m_replace_matches) ;
-}
-
-/*
- Show the results of the found record, and what it will look like
- after we do the replacement.
- */
-void CManagerWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &matches )
-{
-	CTextTemplate text_tmpl ;
-
-	// message
-	text_tmpl.Assign(L"message", m_message) ;
-	m_message.clear() ;
-
-
-	{
-		text_tmpl.Assign(L"num_matches", ulong2wstring(matches.size())) ;
-
-		text_tmpl::DictPtr found = text_tmpl.CreateDict() ;
-		text_tmpl::DictPtr result = text_tmpl.CreateDict() ;
-
-
-
-
-		text_tmpl.Assign(L"found", found) ;
-		text_tmpl.Assign(L"result", result) ;
-
-	}
-
-	const wstring text = text_tmpl.Fetch(get_template_text(_T("replace_match.txt"))) ;
-
-	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
-
-	wstring replacelinks = text_tmpl.Fetch(get_template_text(_T("replacelinks.txt"))) ;
-	doc->get_element_by_id(L"replacelinks")->set_inner_text(replacelinks) ;
-}
-
-/*
- Replace the curround found record, and search for the next one.
- */
-void CManagerWindow::handle_replace_replace( doc3_wrapper_ptr doc )
-{
-	SENSE("handle_replace_replace") ;
-
-
-	element_wrapper_ptr replacefrom_box = doc->get_element_by_id(L"replacefrom") ;
-	const wstring replace_from = replacefrom_box->get_attribute(L"value") ;
-
-	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
-	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
-
-	handle_replace_find(doc) ;
-}
-
-/*
- Do replacement on all found records.
- */
-void CManagerWindow::handle_replace_all(doc3_wrapper_ptr doc, 
-									   wstring search_template,
-									   wstring replace_template)
-{
-	element_wrapper_ptr search_box = doc->get_element_by_id(L"replacefrom") ;
-	const wstring replace_from = search_box->get_attribute(L"value") ;
-	this->get_replace_matches(m_replace_matches, replace_from) ;
-
-	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
-	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
-
-	size_t num_replaced = 0 ;
-	foreach(search_match_ptr match, m_replace_matches)
-	{
-		if (replace_in_memory(match, replace_from, replace_to))
-		{
-			num_replaced++;
-		}
-	}
-
-	m_message = (LPCWSTR)system_message(IDS_REPLACE_COMPLETE_MSG, int_arg(num_replaced)) ;
-
-	m_replace_matches.clear() ;
-
-	CTextTemplate text_tmpl ;
-
-	// message
-	text_tmpl.Assign(L"message", m_message) ;
-	m_message.clear() ;
-
-	text_tmpl.Assign(L"found", L"") ;
-	text_tmpl.Assign(L"result", L"None") ;
-
-	doc->get_element_by_id(L"searchresults")->set_inner_text(text_tmpl.Fetch(search_template)) ;
-	doc->get_element_by_id(L"replacelinks")->set_inner_text(text_tmpl.Fetch(replace_template)) ;
-	doc->get_element_by_id(L"filterbox")->set_inner_text(L"") ;
-}
-
-/*
- Do the actual replacement.
- Get the replace_from and replace_to from the appropriate text boxes in the 
- hosted web page.
- */
-void CManagerWindow::perform_replace(doc3_wrapper_ptr doc, record_pointer rec)
-{
-	element_wrapper_ptr replacefrom_box = doc->get_element_by_id(L"replacefrom") ;
-	wstring replace_from = replacefrom_box->get_attribute(L"value") ;
-
-	element_wrapper_ptr replaceto_box = doc->get_element_by_id(L"replaceto") ;
-	wstring replace_to = replaceto_box->get_attribute(L"value") ;
-
-	if (replace_from.empty())
-	{
-		return ;
-	}
-	replacer::do_replace(rec, replace_from, replace_to) ;
-}
-
-/*
- Do the replacement in the memory.
- */
-bool CManagerWindow::replace_in_memory( search_match_ptr match, const wstring replace_from, const wstring replace_to )
-{
-	if (replace_from.empty())
-	{
-		return false ;
-	}
-
-	record_pointer record = match->get_record() ;
-	record_pointer modified = record->clone() ;
-	record_pointer result = replacer::do_replace(modified, replace_from, replace_to) ;
-	const int memid = match->get_memory_id() ;
-	if( result != record)  // was there a modification?
-	{
-		m_mem_controller->get_memory_by_id(memid)->replace(record, modified) ;
-		return true ;
-	}
-	return false ;
-}
-
-// Clear the filters and load a new search page
-LRESULT CManagerWindow::OnNewSearch()
-{
-	m_search_runner.clear_terms() ;
-	m_paginator.set_num_records(0) ;
-	show_search_page() ;
-
-	return 0L ;
-}
-
-// Navigate to the search page
-LRESULT CManagerWindow::OnSearch()
-{
-	show_search_page() ;
-	return 0L ;
-}
-
-// Navigate to the replace page
-LRESULT CManagerWindow::OnReplace()
-{
-	handle_gotoreplace() ;
-	return 0L ;
 }
 
 // Call the toggleHelp JavaScript function
@@ -884,13 +403,68 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
 {
 	SENSE("nav_browse"); 
-	bool is_memory = tokens[1] == "mem" ;
+	m_is_memory = tokens[1] == "mem" ;
 	size_t page = boost::lexical_cast<int>(tokens[2]) ;
-	size_t item = boost::lexical_cast<size_t>(tokens[3]) ;
-	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(item, is_memory, page))) ;
+	size_t m_current_item = boost::lexical_cast<size_t>(tokens[3]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(m_current_item, m_is_memory, page))) ;
 	m_current_state->show_content() ;
 	return true ;
 }
+bool CManagerWindow::nav_browse_page(const std::vector<string> &tokens) 
+{
+	SENSE("nav_browse_page"); 
+	size_t page = boost::lexical_cast<int>(tokens[1]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(m_current_item, m_is_memory, page))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+
+bool CManagerWindow::delete_record( const std::vector<string> &tokens )
+{
+	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+
+	mem_engine::memory_pointer mem = get_mem(tokens[2],
+											 boost::lexical_cast<size_t>(tokens[3]));
+
+	mem->erase(mem->get_record_at(record_number)) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+
+// href="/{$index}/{$memtype}/{$record.num0}/editrecord"
+bool CManagerWindow::edit_record( const std::vector<string> &tokens )
+{
+	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+
+	mem_engine::memory_pointer mem = get_mem(tokens[2],
+											 boost::lexical_cast<size_t>(tokens[3]));
+
+	CEditTransRecordDialogModal editdlg ;
+
+	editdlg.set_record(mem->get_record_at(record_number)) ;
+	editdlg.set_memory_id(mem->get_id()) ;
+
+#ifndef UNIT_TEST
+	if (editdlg.DoModal(*this) == IDOK)
+	{
+#endif		
+		m_current_state->show_content() ;
+#ifndef UNIT_TEST
+	}
+#endif	
+
+	return true ;
+}
+
+mem_engine::memory_pointer CManagerWindow::get_mem( string memtype, size_t item_num )
+{
+	if (memtype == "mem")
+	{
+		return m_mem_model->memory_at(item_num) ;
+	}
+	return m_gloss_model->memory_at(item_num) ;
+}
+
 bool CManagerWindow::nav_remove(const std::vector<string> &tokens)
 {
 	SENSE("nav_remove"); 

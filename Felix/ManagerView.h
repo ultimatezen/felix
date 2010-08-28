@@ -23,6 +23,7 @@ namespace mgrview
 			FelixModelInterface *m_mem_model ;
 			FelixModelInterface *m_gloss_model ;
 			FelixManagerWindowListener *m_window_listener ;
+			wstring m_message ;
 
 			ManagerView():
 				m_view(NULL),
