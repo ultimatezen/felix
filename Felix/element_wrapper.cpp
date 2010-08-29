@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "element_wrapper.h"
 
-void element_wrapper_html::set_element( MSHTML::IHTMLElementPtr element )
+void element_wrapper_html::set_element( MSHTML::IHTMLElement2Ptr element )
 {
 	m_element = element ;
 }
@@ -13,7 +13,7 @@ wstring element_wrapper_html::get_inner_text()
 	return wstring(L"text") ;
 #else
 
-	return BSTR2wstring(m_element->innerHTML) ;
+	return BSTR2wstring(MSHTML::IHTMLElementPtr(m_element)->innerHTML) ;
 #endif
 }
 
@@ -24,7 +24,7 @@ wstring element_wrapper_html::get_tag()
 	return wstring(L"tag") ;
 #else
 
-	return BSTR2wstring(m_element->tagName) ;
+	return BSTR2wstring(MSHTML::IHTMLElementPtr(m_element)->tagName) ;
 #endif
 }
 
@@ -35,7 +35,7 @@ wstring element_wrapper_html::get_id()
 	return wstring(L"id") ;
 #else
 
-	return BSTR2wstring( m_element->id ) ;
+	return BSTR2wstring( MSHTML::IHTMLElementPtr(m_element)->id ) ;
 #endif
 }
 
@@ -48,7 +48,7 @@ wstring element_wrapper_html::get_attribute( const wstring key )
 #else
 
 	const _bstr_t bkey = key.c_str() ;
-	const CComVariant var_href = m_element->getAttribute( bkey, 0 ) ;
+	const CComVariant var_href = MSHTML::IHTMLElementPtr(m_element)->getAttribute( bkey, 0 ) ;
 	ATLASSERT( var_href.vt == VT_BSTR ) ;
 	return BSTR2wstring(var_href.bstrVal) ;
 #endif
@@ -64,7 +64,7 @@ void element_wrapper_html::set_attribute( const wstring key, const wstring val )
 #else
 	const _bstr_t bkey = key.c_str() ;
 	const CComVariant var_val(val.c_str()) ;
-	m_element->setAttribute( bkey, var_val, 0 ) ;
+	MSHTML::IHTMLElementPtr(m_element)->setAttribute( bkey, var_val, 0 ) ;
 #endif
 }
 
@@ -75,6 +75,16 @@ void element_wrapper_html::set_inner_text( const wstring text )
 #ifdef UNIT_TEST
 	return ;
 #else
-	m_element->innerHTML = string2BSTR(text) ;
+	MSHTML::IHTMLElementPtr(m_element)->innerHTML = string2BSTR(text) ;
+#endif
+}
+
+void element_wrapper_html::focus (void)
+{
+	SENSE("focus") ;
+#ifdef UNIT_TEST
+	return ;
+#else	
+	m_element->focus() ;
 #endif
 }

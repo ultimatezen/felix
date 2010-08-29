@@ -62,6 +62,10 @@ public:
 
 	virtual bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
 
+	virtual html::document3_ptr get_document3() = 0 ;
+
+	virtual void run_script(CString script) = 0 ;
+	virtual void run_script(CString script, CString arg1) = 0 ;
 };
 
 /**
@@ -118,7 +122,12 @@ public:
 		page.SetDocument(m_view.get_document()) ;
 		page.CallJScript(script) ;
 	}
-	// edit stuff
+	void run_script(CString script, CString arg1)
+	{
+		html::CWebPage page ;
+		page.SetDocument(m_view.get_document()) ;
+		page.CallJScript(script, arg1) ;
+	}	// edit stuff
 
 	// =========================
 	// for entering edit mode
@@ -157,6 +166,12 @@ public:
 	void Move( LPRECT rect ) ;
 
 	wstring get_doc_path( const wstring doc_url );
+
+	html::document3_ptr get_document3()
+	{
+		return m_view.get_document3() ;
+	}
+
 private:
 	html::collection_ptr get_element_collection() ;
 

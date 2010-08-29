@@ -8,43 +8,50 @@
 
 <h2>Edit {$name}</h2>
 
-<table width="100%" class="info" border="0">
+<form method="post" action="/submit_edit" name="mem_edit_form">
+
+<table width="100%" class="info">
 	<tr>
-		<td><b>Creator:</b></td>
-		<td><input type="text" name="creator" id="creator" value="{$creator}" /></td>
+		<td bgcolor="#E6FFE6"><b>Creator:</b></td>
+		<td bgcolor="#E6FFE6"><input type="text" name="creator" id="creator" value="{$creator}" /></td>
 	</tr>
 	<tr>
 		<td><b>Field:</b></td>
 		<td><input type="text" name="field" id="field" value="{$field}" /></td>
 	</tr>
 	<tr>
-		<td><b>Created:</b></td>
-		<td><input type="text" name="created_on" id="created_on" value="{$created_on}" /></td>
+		<td bgcolor="#E6FFE6"><b>Created:</b></td>
+		<td bgcolor="#E6FFE6"><input type="text" name="created_on" id="created_on" value="{$created_on}" /></td>
 	</tr>
 	<tr>
 		<td><b>Source Language:</b></td>
 		<td><input type="text" name="source_language" id="source_language" value="{$source_language}" /></td>
 	</tr>
 	<tr>
-		<td><b>Target Language:</b></td>
-		<td><input type="target_language" name="target_language" id="target_language" value="{$target_language}" /></td>
+		<td bgcolor="#E6FFE6"><b>Target Language:</b></td>
+		<td bgcolor="#E6FFE6"><input type="target_language" name="target_language" id="target_language" value="{$target_language}" /></td>
 	</tr>
 	<tr>
 		<td><b>Client:</b></td>
 		<td><input type="text" name="client" id="client" value="{$client}" /></td>
 	</tr>
 	<tr>
-		<td><b><label for="mem_type_tm">Type:</label></b></td>
-		<td><input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
+		<td bgcolor="#E6FFE6"><b><label for="mem_type_tm">Type:</label></b></td>
+		<td bgcolor="#E6FFE6"><input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
                     <input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "gloss" %}checked="checked" {% endif %}/> Glossary
 		</td>
 	</tr>
 	<tr>
 		<td><b>Locked:</b></td>
-		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked %}checked="checked" {% endif %}/></td>
+		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked == "true" %}checked="checked" {% endif %}/></td>
 	</tr>
 </table>
+                    <!-- submit button -->
+                    <p>
+                    <input type="submit" name="submit" value="Submit" />
+                    </p>
 
+</form>
 
 <h3>Actions</h3>
 

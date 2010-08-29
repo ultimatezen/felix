@@ -13,6 +13,7 @@
 
 #include "ManagerViewBrowse.h"
 #include "ManagerViewDetails.h"
+#include "ManagerViewEdit.h"
 #include "ManagerViewStart.h"
 
 #include "ui.h"
@@ -397,7 +398,10 @@ bool CManagerWindow::nav_view(const std::vector<string> &tokens)
 bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 {
 	SENSE("nav_edit"); 
-	MessageBox(_T("edit"), CString(tokens[1].c_str())) ;
+	bool is_memory = tokens[1] == "mem" ;
+	size_t item = boost::lexical_cast<size_t>(tokens[2]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewEdit(item, is_memory))) ;
+	m_current_state->show_content() ;
 	return true ;
 }
 bool CManagerWindow::nav_browse(const std::vector<string> &tokens)

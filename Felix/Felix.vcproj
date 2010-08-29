@@ -2112,6 +2112,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewEdit.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewStart.cpp"
 					>
 				</File>
@@ -2858,6 +2862,10 @@
 				</File>
 				<File
 					RelativePath=".\ManagerViewDetails.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewEdit.h"
 					>
 				</File>
 				<File

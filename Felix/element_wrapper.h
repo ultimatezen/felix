@@ -11,31 +11,34 @@ public:
 	virtual wstring get_attribute(const wstring key) = 0 ;
 	virtual void set_attribute(const wstring key, const wstring val) = 0 ;
 	virtual wstring get_id() = 0 ;
+	virtual void focus() = 0 ;
 };
 
 typedef boost::shared_ptr<element_wrapper> element_wrapper_ptr ;
 
 class element_wrapper_html : public element_wrapper
 {
-	MSHTML::IHTMLElementPtr m_element ;
+	MSHTML::IHTMLElement2Ptr m_element ;
 
 public:
 	DECLARE_SENSING_VAR ;
 
-	void set_element(MSHTML::IHTMLElementPtr element);
+	void set_element(MSHTML::IHTMLElement2Ptr element);
 	wstring get_inner_text();
 	void set_inner_text (const wstring text);
 	wstring get_tag();
 	wstring get_id();
 	wstring get_attribute(const wstring key);
 	void set_attribute(const wstring key, const wstring val);
+	void focus (void);
 };
 
 
 
 inline element_wrapper_ptr make_element_wrapper(MSHTML::IHTMLElementPtr element)
 {
+	MSHTML::IHTMLElement2Ptr element2(element) ;
 	element_wrapper_html *wrapper = new element_wrapper_html() ;
-	wrapper->set_element(element) ;
+	wrapper->set_element(element2) ;
 	return element_wrapper_ptr(wrapper) ;
 }

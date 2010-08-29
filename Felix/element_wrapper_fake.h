@@ -10,6 +10,7 @@ public:
 	wstring m_tag ; 
 	std::map<wstring, wstring> m_attributes ;
 	wstring m_id ;
+	wstring m_focus ;
 
 	void set_inner_text(const wstring text)
 	{
@@ -39,5 +40,9 @@ public:
 	wstring get_attribute(const wstring key)
 	{
 		return m_attributes[key]  ;
+	}
+	void focus(void)
+	{
+		m_focus += L"focus()" ;
 	}
 };
