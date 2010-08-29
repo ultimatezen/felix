@@ -90,7 +90,7 @@
 <h3>Actions</h3>
 
 <ul>
-	<li><a href="/{$index}/{$memtype}/view">View</a></li>
-	<li><a href="/{$index}/{$memtype}/edit">Edit</a></li>
-	<li><a href="/{$index}/{$memtype}/remove">Remove</a></li>
+	<li><a href="/{$index}/{$memtype}/view">View {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/edit">Edit {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
 </ul>

@@ -10,48 +10,48 @@
 
 <table width="100%" class="info">
 	<tr>
-		<td bgcolor="#F2F2F2"><b>File Name:</b></td>
-		<td id="file_name" bgcolor="#F2F2F2">{$file_name}</td>
+		<td bgcolor="#E6FFE6"><b>File Name:</b></td>
+		<td id="file_name" bgcolor="#E6FFE6">{$file_name}</td>
 	</tr>
 	<tr>
 		<td><b>Creator:</b></td>
 		<td id="creator">{$creator}</td>
 	</tr>
 	<tr>
-		<td bgcolor="#F0F0F0"><b>Field:</b></td>
-		<td id="field" bgcolor="#F0F0F0"><b>{$field}</b></td>
+		<td bgcolor="#E6FFE6"><b>Field:</b></td>
+		<td id="field" bgcolor="#E6FFE6"><b>{$field}</b></td>
 	</tr>
 	<tr>
 		<td><b>Created:</b></td>
 		<td id="created_on">{$created_on}</td>
 	</tr>
 	<tr>
-		<td bgcolor="#F0F0F0"><b>Source Language:</b></td>
-		<td id="source_language" bgcolor="#F0F0F0"><b>{$source_language}</b></td>
+		<td bgcolor="#E6FFE6"><b>Source Language:</b></td>
+		<td id="source_language" bgcolor="#E6FFE6"><b>{$source_language}</b></td>
 	</tr>
 	<tr>
 		<td><b>Target Language:</b></td>
 		<td id="target_language"><b>{$target_language}</b></td>
 	</tr>
 	<tr>
-		<td bgcolor="#F0F0F0"><b>Client:</b></td>
-		<td id="client" bgcolor="#F0F0F0"><b>{$client}</b></td>
+		<td bgcolor="#E6FFE6"><b>Client:</b></td>
+		<td id="client" bgcolor="#E6FFE6"><b>{$client}</b></td>
 	</tr>
 	<tr>
 		<td><b>Num. Entries:</b></td>
 		<td id="mem_size">{$mem_size}</td>
 	</tr>
 	<tr>
-		<td bgcolor="#F0F0F0"><b>File Size:</b></td>
-		<td id="file_size" bgcolor="#F0F0F0">{$file_size}</td>
+		<td bgcolor="#E6FFE6"><b>File Size:</b></td>
+		<td id="file_size" bgcolor="#E6FFE6">{$file_size}</td>
 	</tr>
 	<tr>
 		<td><b>Reliability:</b></td>
 		<td id="reliability">{$reliability}</td>
 	</tr>
 	<tr>
-		<td bgcolor="#F0F0F0"><b>Validated %</b></td>
-		<td id="validated" bgcolor="#F0F0F0">{$validated}</td>
+		<td bgcolor="#E6FFE6"><b>Validated %</b></td>
+		<td id="validated" bgcolor="#E6FFE6">{$validated}</td>
 	</tr>
 	<tr>
 		<td><b>Locked:</b></td>
@@ -62,7 +62,7 @@
 <h3>Actions</h3>
 
 <ul>
-	<li><a href="/{$index}/{$memtype}/edit">Edit</a></li>
-        <li><a href="/{$index}/1/{$memtype}/browse">Browse</a></li>
-	<li><a href="/{$index}/{$memtype}/remove">Remove</a></li>
+	<li><a href="/{$index}/{$memtype}/edit">Edit {$name}</a></li>
+        <li><a href="/{$index}/1/{$memtype}/browse">Browse {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
 </ul>

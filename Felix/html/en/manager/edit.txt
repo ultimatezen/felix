@@ -1,24 +1,56 @@
 <p><a href="/start" title="Go to Manager Home">Home</a>
 	&gt;&gt;
-        {% if memtype == "mem" %}Memory{% endif %}
-        {% if memtype == "gloss" %}Glosary{% endif %}
+        {% if memtype == "mem" %}<a href="/memories">TMs</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">Glossaries</a>{% endif %}
 	&gt;&gt;
-	View {$name}
+	Edit {$name}
 </p>
 
-<h2>{$name}</h2>
+<h2>Edit {$name}</h2>
 
-<table>
-<tr>
-<th>Size</th>
-<td>{$size}</td>
-</tr>
+<table width="100%" class="info" border="0">
+	<tr>
+		<td><b>Creator:</b></td>
+		<td><input type="text" name="creator" id="creator" value="{$creator}" /></td>
+	</tr>
+	<tr>
+		<td><b>Field:</b></td>
+		<td><input type="text" name="field" id="field" value="{$field}" /></td>
+	</tr>
+	<tr>
+		<td><b>Created:</b></td>
+		<td><input type="text" name="created_on" id="created_on" value="{$created_on}" /></td>
+	</tr>
+	<tr>
+		<td><b>Source Language:</b></td>
+		<td><input type="text" name="source_language" id="source_language" value="{$source_language}" /></td>
+	</tr>
+	<tr>
+		<td><b>Target Language:</b></td>
+		<td><input type="target_language" name="target_language" id="target_language" value="{$target_language}" /></td>
+	</tr>
+	<tr>
+		<td><b>Client:</b></td>
+		<td><input type="text" name="client" id="client" value="{$client}" /></td>
+	</tr>
+	<tr>
+		<td><b><label for="mem_type_tm">Type:</label></b></td>
+		<td><input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
+                    <input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "gloss" %}checked="checked" {% endif %}/> Glossary
+		</td>
+	</tr>
+	<tr>
+		<td><b>Locked:</b></td>
+		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked %}checked="checked" {% endif %}/></td>
+	</tr>
 </table>
+
 
 <h3>Actions</h3>
 
 <ul>
-	<li><a href="/{$index}/{$memtype}/edit">Edit</a></li>
-        <li><a href="/{$index}/{$memtype}/browse">Browse</a></li>
-	<li><a href="/{$index}/{$memtype}/remove">Remove</a></li>
+	<li><a href="/{$index}/{$memtype}/view">View {$name}</a></li>
+	<!-- mem-num / page / mem-type -->
+        <li><a href="/{$index}/1/{$memtype}/browse">Browse {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
 </ul>
