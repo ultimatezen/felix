@@ -11,31 +11,31 @@ namespace mgrview
 
 	wstring EditFormParser::creator()
 	{
-		return m_doc->get_element_by_id(L"creator")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"creator")->get_attribute(L"value") ;
 	}
 	wstring EditFormParser::field()
 	{
-		return m_doc->get_element_by_id(L"field")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"field")->get_attribute(L"value") ;
 	}
 
 	wstring EditFormParser::created_on()
 	{
-		return m_doc->get_element_by_id(L"created_on")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"created_on")->get_attribute(L"value") ;
 	}
 
 	wstring EditFormParser::source_language()
 	{
-		return m_doc->get_element_by_id(L"source_language")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"source_language")->get_attribute(L"value") ;
 	}
 
 	wstring EditFormParser::target_language()
 	{
-		return m_doc->get_element_by_id(L"target_language")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"target_language")->get_attribute(L"value") ;
 	}
 
 	wstring EditFormParser::client()
 	{
-		return m_doc->get_element_by_id(L"client")->get_inner_text() ;
+		return m_doc->get_element_by_id(L"client")->get_attribute(L"value") ;
 	}
 
 	bool EditFormParser::is_memory()

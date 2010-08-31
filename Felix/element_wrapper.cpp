@@ -49,6 +49,10 @@ wstring element_wrapper_html::get_attribute( const wstring key )
 
 	const _bstr_t bkey = key.c_str() ;
 	const CComVariant var_href = m_element->getAttribute( bkey, 0 ) ;
+	if (var_href.vt == VT_BOOL)
+	{
+		return bool2wstring(var_href.boolVal != VARIANT_FALSE) ;
+	}
 	ATLASSERT( var_href.vt == VT_BSTR ) ;
 	return BSTR2wstring(var_href.bstrVal) ;
 #endif

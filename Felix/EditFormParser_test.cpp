@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"creator")->set_inner_text(L"Bozo") ;
+		wrapper->get_element_by_id(L"creator")->set_attribute(L"value", L"Bozo") ;
 		
 		mgrview::EditFormParser parser(doc) ;
 
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"field")->set_inner_text(L"Electronics") ;
+		wrapper->get_element_by_id(L"field")->set_attribute(L"value", L"Electronics") ;
 
 		mgrview::EditFormParser parser(doc) ;
 
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"created_on")->set_inner_text(L"2010/08/01 11:11:11") ;
+		wrapper->get_element_by_id(L"created_on")->set_attribute(L"value", L"2010/08/01 11:11:11") ;
 
 		mgrview::EditFormParser parser(doc) ;
 
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"source_language")->set_inner_text(L"Japanese") ;
+		wrapper->get_element_by_id(L"source_language")->set_attribute(L"value", L"Japanese") ;
 
 		mgrview::EditFormParser parser(doc) ;
 
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"target_language")->set_inner_text(L"English") ;
+		wrapper->get_element_by_id(L"target_language")->set_attribute(L"value", L"English") ;
 
 		mgrview::EditFormParser parser(doc) ;
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_SUITE( EditFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"client")->set_inner_text(L"Bozo") ;
+		wrapper->get_element_by_id(L"client")->set_attribute(L"value", L"Bozo") ;
 
 		mgrview::EditFormParser parser(doc) ;
 

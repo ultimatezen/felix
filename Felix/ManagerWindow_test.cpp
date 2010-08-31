@@ -204,12 +204,12 @@ using namespace mem_engine ;
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"creator")->set_inner_text(L"Bozo") ;
-		wrapper->get_element_by_id(L"field")->set_inner_text(L"Ships") ;
-		wrapper->get_element_by_id(L"created_on")->set_inner_text(L"2010/08/01 11:11:11") ;
-		wrapper->get_element_by_id(L"source_language")->set_inner_text(L"Japanese") ;
-		wrapper->get_element_by_id(L"target_language")->set_inner_text(L"English") ;
-		wrapper->get_element_by_id(L"client")->set_inner_text(L"George Lucas") ;
+		wrapper->get_element_by_id(L"creator")->set_attribute(L"value", L"Bozo") ;
+		wrapper->get_element_by_id(L"field")->set_attribute(L"value", L"Ships") ;
+		wrapper->get_element_by_id(L"created_on")->set_attribute(L"value", L"2010/08/01 11:11:11") ;
+		wrapper->get_element_by_id(L"source_language")->set_attribute(L"value", L"Japanese") ;
+		wrapper->get_element_by_id(L"target_language")->set_attribute(L"value", L"English") ;
+		wrapper->get_element_by_id(L"client")->set_attribute(L"value", L"George Lucas") ;
 		wrapper->get_element_by_id(L"mem_type_tm")->set_attribute(L"checked", L"true") ;
 		wrapper->get_element_by_id(L"locked")->set_attribute(L"checked", L"true") ;
 
