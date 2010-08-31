@@ -23,5 +23,6 @@ namespace mgrview
 		void activate();
 		void show_content();
 
+
 	};
 }

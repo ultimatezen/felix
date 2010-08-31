@@ -8,7 +8,7 @@
 
 <h2>Edit {$name}</h2>
 
-<form method="post" action="/submit_edit" name="mem_edit_form">
+<form method="post" action="/{$index}/{$memtype}/submit_edit" name="mem_edit_form">
 
 <table width="100%" class="info">
 	<tr>
@@ -37,8 +37,9 @@
 	</tr>
 	<tr>
 		<td bgcolor="#E6FFE6"><b><label for="mem_type_tm">Type:</label></b></td>
-		<td bgcolor="#E6FFE6"><input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
-                    <input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "gloss" %}checked="checked" {% endif %}/> Glossary
+		<td bgcolor="#E6FFE6">
+			<input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
+			<input type="radio" name="memtype" id="mem_type_gloss" value="gloss" {% if memtype == "gloss" %}checked="checked" {% endif %}/> Glossary
 		</td>
 	</tr>
 	<tr>

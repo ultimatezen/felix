@@ -18,12 +18,12 @@ typedef boost::shared_ptr<element_wrapper> element_wrapper_ptr ;
 
 class element_wrapper_html : public element_wrapper
 {
-	MSHTML::IHTMLElement2Ptr m_element ;
+	MSHTML::IHTMLElementPtr m_element ;
 
 public:
 	DECLARE_SENSING_VAR ;
 
-	void set_element(MSHTML::IHTMLElement2Ptr element);
+	void set_element(MSHTML::IHTMLElementPtr element);
 	wstring get_inner_text();
 	void set_inner_text (const wstring text);
 	wstring get_tag();
@@ -37,8 +37,7 @@ public:
 
 inline element_wrapper_ptr make_element_wrapper(MSHTML::IHTMLElementPtr element)
 {
-	MSHTML::IHTMLElement2Ptr element2(element) ;
 	element_wrapper_html *wrapper = new element_wrapper_html() ;
-	wrapper->set_element(element2) ;
+	wrapper->set_element(element) ;
 	return element_wrapper_ptr(wrapper) ;
 }

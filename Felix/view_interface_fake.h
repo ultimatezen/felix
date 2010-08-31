@@ -137,5 +137,20 @@ public:
 		return true ;
 	}
 
+	html::document3_ptr get_document3() 
+	{
+		SENSE("get_document3") ;
+		return html::document3_ptr(NULL) ;
+	}
+
+	void run_script(CString) 
+	{
+		SENSE("run_script(CString)") ;
+	}
+	void run_script(CString, CString) 
+	{
+		SENSE("run_script(CString, CString)") ;
+	}
+
 };
 

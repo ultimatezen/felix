@@ -15,7 +15,7 @@
 #include "ManagerViewDetails.h"
 #include "ManagerViewEdit.h"
 #include "ManagerViewStart.h"
-
+#include "EditFormParser.h"
 #include "ui.h"
 
 
@@ -193,6 +193,10 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		if (tokens[0] == "edit")
 		{
 			return nav_edit(tokens) ;
+		}
+		if (tokens[0] == "submit_edit")
+		{
+			return handle_edit_memory(tokens, this->get_doc3()) ;
 		}
 		if (tokens[0] == "browse")
 		{
@@ -403,6 +407,41 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewEdit(item, is_memory))) ;
 	m_current_state->show_content() ;
 	return true ;
+}
+
+bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc)
+{
+	mem_engine::memory_pointer mem = get_mem(tokens[1],
+									 		 boost::lexical_cast<size_t>(tokens[2]));
+
+	mgrview::EditFormParser parser(doc) ;
+
+	mem_engine::MemoryInfo *header = mem->get_memory_info() ;
+
+	header->set_creator(parser.creator()) ;
+	header->set_field(parser.field()) ;
+	header->set_created_on(parser.created_on()) ;
+	header->set_source_language(parser.source_language()) ;
+	header->set_target_language(parser.target_language()) ;
+	header->set_client(parser.client()) ;
+	if (parser.is_memory())
+	{
+		header->set_is_memory_on() ;
+	}
+	else
+	{
+		header->set_is_memory_off() ;
+	}
+	if (parser.locked())
+	{
+		header->set_locked_on();
+	}
+	else
+	{
+		header->set_locked_off();
+	}
+	return nav_view(tokens) ;
+
 }
 bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
 {
@@ -741,3 +780,4 @@ LRESULT CManagerWindow::OnInitView()
 
 	return 0L ;
 }
+

@@ -1712,6 +1712,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\EditFormParser_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\EditModeFindDlg_test.cpp"
 					>
 				</File>
@@ -2099,6 +2103,10 @@
 			<Filter
 				Name="ManagerView"
 				>
+				<File
+					RelativePath=".\EditFormParser.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\ManagerView.cpp"
 					>
@@ -2837,6 +2845,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerWindowFactoryFake.h"
+					>
+				</File>
+				<File
 					RelativePath=".\output_device_fake.h"
 					>
 				</File>
@@ -2852,6 +2864,10 @@
 			<Filter
 				Name="ManagerView"
 				>
+				<File
+					RelativePath=".\EditFormParser.h"
+					>
+				</File>
 				<File
 					RelativePath=".\ManagerView.h"
 					>
@@ -2870,6 +2886,14 @@
 				</File>
 				<File
 					RelativePath=".\ManagerViewStart.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerWindowFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerWindowFactoryConcrete.h"
 					>
 				</File>
 			</Filter>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "document_wrapper.h"
+#include "element_wrapper_fake.h"
 
 class doc3_wrapper_fake : public doc3_wrapper
 {

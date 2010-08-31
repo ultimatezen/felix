@@ -143,6 +143,7 @@ public:
 	bool delete_record(const std::vector<string> &tokens);
 	bool edit_record(const std::vector<string> &tokens);
 
+	bool handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc);
 
 	// ========================
 	// message map

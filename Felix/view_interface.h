@@ -118,16 +118,27 @@ public:
 
 	void run_script(CString script)
 	{
+#ifdef UNIT_TEST
+		script ;
+		return ;
+#endif		
 		html::CWebPage page ;
 		page.SetDocument(m_view.get_document()) ;
 		page.CallJScript(script) ;
 	}
 	void run_script(CString script, CString arg1)
 	{
+#ifdef UNIT_TEST
+		script ;
+		arg1 ;
+		return ;
+#endif		
 		html::CWebPage page ;
 		page.SetDocument(m_view.get_document()) ;
 		page.CallJScript(script, arg1) ;
-	}	// edit stuff
+	}	
+	
+	// edit stuff
 
 	// =========================
 	// for entering edit mode

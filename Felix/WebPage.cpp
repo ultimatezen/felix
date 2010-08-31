@@ -88,6 +88,7 @@ namespace html
 
 	bool CWebPage::GetJScript(CComPtr<IDispatch>& spDisp)
 	{
+
 		CHECK_POINTER(m_spDoc);
 		HRESULT hr = m_spDoc->get_Script(&spDisp);
 		ATLASSERT(SUCCEEDED(hr));
@@ -134,6 +135,7 @@ namespace html
 
 	bool CWebPage::CallJScript(const CString strFunc, const std::vector<CString>& paramArray,CComVariant* pVarResult)
 	{
+
 		CComPtr<IDispatch> spScript;
 		if(!GetJScript(spScript))
 		{

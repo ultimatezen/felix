@@ -15,11 +15,11 @@
 	</tr>
 	<tr>
 		<td><b>Creator:</b></td>
-		<td id="creator">{$creator}</td>
+		<td id="creator">{% if not creator %}None Specified{% endif %}{$creator}</td>
 	</tr>
 	<tr>
 		<td bgcolor="#E6FFE6"><b>Field:</b></td>
-		<td id="field" bgcolor="#E6FFE6"><b>{$field}</b></td>
+		<td id="field" bgcolor="#E6FFE6"><b>{% if not field %}None Specified{% endif %}{$field}</b></td>
 	</tr>
 	<tr>
 		<td><b>Created:</b></td>
@@ -27,15 +27,15 @@
 	</tr>
 	<tr>
 		<td bgcolor="#E6FFE6"><b>Source Language:</b></td>
-		<td id="source_language" bgcolor="#E6FFE6"><b>{$source_language}</b></td>
+		<td id="source_language" bgcolor="#E6FFE6"><b>{% if not source_language %}None Specified{% endif %}{$source_language}</b></td>
 	</tr>
 	<tr>
 		<td><b>Target Language:</b></td>
-		<td id="target_language"><b>{$target_language}</b></td>
+		<td id="target_language"><b>{% if not target_language %}None Specified{% endif %}{$target_language}</b></td>
 	</tr>
 	<tr>
 		<td bgcolor="#E6FFE6"><b>Client:</b></td>
-		<td id="client" bgcolor="#E6FFE6"><b>{$client}</b></td>
+		<td id="client" bgcolor="#E6FFE6"><b>{% if not client %}None Specified{% endif %}{$client}</b></td>
 	</tr>
 	<tr>
 		<td><b>Num. Entries:</b></td>

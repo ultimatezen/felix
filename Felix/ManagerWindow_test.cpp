@@ -6,6 +6,8 @@
 #include "memory_local.h"
 #include "felix_model_fake.h"
 #include "ManagerViewFake.h"
+#include "EditFormParser.h"
+#include "document_wrapper_fake.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -189,10 +191,47 @@ using namespace mem_engine ;
 		mgrview::ManagerViewFake *view = new mgrview::ManagerViewFake ;
 		window.m_current_state = mgrview::mgr_ptr(view) ;
 
-		_bstr_t url = L"c:\\foo/bar/1/edit" ;
+		_bstr_t url = L"c:\\0/mem/edit" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_edit") ;
 	}
+	BOOST_AUTO_TEST_CASE(test_submit_edit)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(1) ;
+
+		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
+		doc3_wrapper_ptr doc(wrapper) ;
+
+		wrapper->get_element_by_id(L"creator")->set_inner_text(L"Bozo") ;
+		wrapper->get_element_by_id(L"field")->set_inner_text(L"Ships") ;
+		wrapper->get_element_by_id(L"created_on")->set_inner_text(L"2010/08/01 11:11:11") ;
+		wrapper->get_element_by_id(L"source_language")->set_inner_text(L"Japanese") ;
+		wrapper->get_element_by_id(L"target_language")->set_inner_text(L"English") ;
+		wrapper->get_element_by_id(L"client")->set_inner_text(L"George Lucas") ;
+		wrapper->get_element_by_id(L"mem_type_tm")->set_attribute(L"checked", L"true") ;
+		wrapper->get_element_by_id(L"locked")->set_attribute(L"checked", L"true") ;
+
+
+		mgrview::ManagerViewFake *view = new mgrview::ManagerViewFake ;
+		window.m_current_state = mgrview::mgr_ptr(view) ;
+
+		std::vector<string> tokens ;
+		tokens += "submit_edit", "mem", "0" ;
+
+		window.handle_edit_memory(tokens, doc) ;
+		mem_engine::MemoryInfo *header = setup.mem_model.memory_at(0)->get_memory_info() ;
+		BOOST_CHECK_EQUAL(header->get_creator(), L"Bozo") ;
+		BOOST_CHECK_EQUAL(header->get_field(), L"Ships") ;
+		BOOST_CHECK_EQUAL(header->get_created_on(), L"2010/08/01 11:11:11") ;
+		BOOST_CHECK_EQUAL(header->get_source_language(), L"Japanese") ;
+		BOOST_CHECK_EQUAL(header->get_target_language(), L"English") ;
+		BOOST_CHECK_EQUAL(header->get_client(), L"George Lucas") ;
+		BOOST_CHECK(header->is_memory()) ;
+		BOOST_CHECK(header->is_locked()) ;
+	}
+
 	BOOST_AUTO_TEST_CASE(test_nav_browse)
 	{
 		CManagerWindow window ;

@@ -3,6 +3,7 @@
 #include "view_interface.h"
 #include "FelixModelInterface.h"
 #include "TranslationMemory.h"
+#include "TextTemplate.h"
 
 namespace mgrview
 {
@@ -45,6 +46,10 @@ namespace mgrview
 			virtual void show_content() = 0 ;
 
 	};
+	void set_mem_tmpl_info( mem_engine::memory_pointer mem, 
+							text_tmpl::CTextTemplate &engine, 
+							bool is_memory,
+							size_t index ) ;
 
 	wstring get_memname(mem_engine::memory_pointer mem) ;
 

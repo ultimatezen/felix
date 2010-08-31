@@ -44,4 +44,5 @@ public:
 		SENSE("get_memory_by_id") ;
 		return m_model->get_memory_by_id(id) ;
 	}
+
 };
