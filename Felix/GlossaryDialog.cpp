@@ -55,7 +55,7 @@ CGlossaryWindow::CGlossaryWindow( ) :
 	m_listener(NULL),
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
-	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"))
+	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this)
 { 
 	m_is_short_format = true ;
 	m_silent_mode = false ;

@@ -28,7 +28,9 @@ void parse_command_line(LPCTSTR text, std::vector<tstring> &tokens)
 	LocalFree(szArglist);
 }
 
-commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENGLISH*/ ) : m_language(language)
+commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENGLISH*/ ) : 
+	m_language(language),
+	m_logging_level(LOGGING_WARN)
 {
 	std::vector<tstring> tokens ;
 	parse_command_line(text, tokens) ;
@@ -66,6 +68,23 @@ commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENG
 		{
 			++i ;
 			this->m_language = this->parse_lang(tokens[i]) ;
+		}
+		else if (boost::to_lower_copy(token) == _T("-logging"))
+		{
+			++i ;
+			tstring level = tokens[i] ;
+			if (boost::to_lower_copy(level) == _T("error"))
+			{
+				m_logging_level = LOGGING_ERROR ;
+			}
+			else if (boost::to_lower_copy(level) == _T("warn"))
+			{
+				m_logging_level = LOGGING_WARN ;
+			}
+			else
+			{
+				m_logging_level = LOGGING_ALL ;
+			}
 		}
 	}
 }

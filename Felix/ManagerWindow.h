@@ -17,6 +17,12 @@
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
+class ManagerWindowParentListener
+{
+	public:
+		virtual bool set_window_title() = 0 ;
+};
+
 // The new search window
 // Uses hosted IE browser control to show content
 class CManagerWindow : 
@@ -25,7 +31,6 @@ class CManagerWindow :
 	, public CMessageFilter
 	, public mgrview::FelixManagerWindowListener
 	, public CProgressListener
-
 {
 	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
 	typedef std::vector<mem_engine::search_match_ptr> match_vec ;
@@ -65,16 +70,25 @@ public:
 	size_t		    m_current_item ;
 	bool			m_is_memory ;
 
+	ManagerWindowParentListener *m_listener ;
+
 public:
 	// sensing stuff for unit testing
 	DECLARE_WND_CLASS(_T("ManagerWindowClass"))
 	DECLARE_SENSING_VAR ;
 
+	wstring get_message()
+	{
+		wstring message = m_message ;
+		m_message.clear() ;
+		return message ;
+	}
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
 	CManagerWindow(int title_id=IDS_SEARCH_MANAGER_TITLE, 
-				   LPCTSTR key=_T("MemoryMangerWindow"));
+				   LPCTSTR key=_T("MemoryMangerWindow"),
+				   ManagerWindowParentListener *listener=NULL);
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 

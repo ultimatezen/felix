@@ -56,6 +56,7 @@ class CGlossaryWindow :
 		public CDialogImpl< CGlossaryWindow, CCommonWindowFunctionality >
 		, public CWindowExceptionHandler< CGlossaryWindow >
 		, public CZoomInterface
+		, public ManagerWindowParentListener
 {
 	VISIBLE_TO_TESTS
 

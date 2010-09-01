@@ -39,16 +39,28 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 	}
 
+	// on_create
 	BOOST_AUTO_TEST_CASE( Teston_create )
 	{
 		MainFrameModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create(message) ;
+
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
 	}
+	BOOST_AUTO_TEST_CASE(starts_with_one_gloss_window)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		WindowsMessage message ;
+		mainframe.on_create(message) ;
 
+		BOOST_CHECK_EQUAL(1u, mainframe.m_glossary_windows.size()) ;
+	}
+
+	// on_close
 	BOOST_AUTO_TEST_CASE( Teston_close )
 	{
 		MainFrameModel model ;

@@ -109,9 +109,10 @@ CString get_docs_path()
 /** Constructor. Takes model interface.
  */
 CMainFrame::CMainFrame( FelixModelInterface *model ) : 
-m_model( model ),
-m_properties(new app_props::properties()),
-m_editor(new CEditTransRecordDialog)
+	m_model( model ),
+	m_properties(new app_props::properties()),
+	m_editor(new CEditTransRecordDialog),
+	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this)
 {
 	m_is_short_format = true ;
 	m_silent_mode = false ;
@@ -482,14 +483,12 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		pLoop->AddIdleHandler(this) ;
 #endif
 
+		// the glossary window
+		logging::log_debug("Setting up the glossary window") ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
+
 		// set the title
 		set_window_title() ;
-
-		logging::log_debug("Setting up the glossary window") ;
-
-		// the glossary window
-		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
-		ATLASSERT( m_glossary_windows.size() == 1 ) ; // one and only...
 
 		set_up_window_size() ;
 
@@ -2399,6 +2398,9 @@ bool CMainFrame::set_window_title()
 		SetWindowText( title ) ;
 		return false ;
 	}
+
+	// refresh glossary window title as well
+	this->get_glossary_window()->set_window_title() ;
 
 	return FALSE != SetWindowText( title ) ;
 }

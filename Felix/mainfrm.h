@@ -60,6 +60,7 @@ class CMainFrame :
 		, public CWindowExceptionHandler< CMainFrame >
 		, public CGlossaryWinListener
 		, public CZoomInterface
+		, public ManagerWindowParentListener
 {
 VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;

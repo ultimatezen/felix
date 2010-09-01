@@ -37,6 +37,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	/************************************************************************/	
 
 	// Tests for CMainFrame
+
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
 		MainFrameModel model ;

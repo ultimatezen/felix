@@ -25,6 +25,7 @@ namespace mgrview
 		text_tmpl::CTextTemplate engine ;
 
 		mem_engine::memory_pointer mem = m_model->memory_at(m_item) ;
+		engine.Assign("message", m_window_listener->get_message()) ;
 		set_mem_tmpl_info(mem, engine, m_is_memory, m_item);
 
 		wstring tpl_text = text_tmpl::get_template_text(_T("manager/view.txt")) ;

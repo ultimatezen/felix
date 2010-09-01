@@ -10,7 +10,7 @@ namespace mgrview
 	class FelixManagerWindowListener
 	{
 	public:
-
+		virtual wstring get_message() = 0 ;
 	};
 
 	class ManagerView

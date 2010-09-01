@@ -27,7 +27,8 @@
 using namespace mem_engine ;
 using namespace text_tmpl ;
 
-CManagerWindow::CManagerWindow(int title_id, LPCTSTR key) : 
+CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, ManagerWindowParentListener *listener) : 
+	m_listener(listener),
 	m_title_id(title_id),
 	m_settings_key(key),
 	m_mem_model(NULL),
@@ -352,6 +353,7 @@ bool CManagerWindow::nav_moveup(const std::vector<string> &tokens)
 	this->swap_memories(is_mem ? m_mem_model : m_gloss_model,
 		num-1) ;
 	this->m_current_state->show_content() ;
+	m_listener->set_window_title() ;
 	return true ;
 }
 bool CManagerWindow::nav_movedown(const std::vector<string> &tokens)
@@ -362,6 +364,7 @@ bool CManagerWindow::nav_movedown(const std::vector<string> &tokens)
 	this->swap_memories(is_mem ? m_mem_model : m_gloss_model,
 		num) ;
 	this->m_current_state->show_content() ;
+	m_listener->set_window_title() ;
 	return true ;
 }
 // navigation to various category pages
@@ -440,6 +443,7 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 	{
 		header->set_locked_off();
 	}
+	m_message = L"Edited details for " + mgrview::get_memname(mem) ;
 	return nav_view(tokens) ;
 
 }
@@ -568,6 +572,7 @@ bool CManagerWindow::nav_remove(const std::vector<string> &tokens)
 	}
 
 	m_current_state->show_content() ;
+	m_listener->set_window_title() ;
 	return true ;
 }
 bool CManagerWindow::nav_addnew(const std::vector<string> &tokens)
@@ -590,7 +595,6 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	SENSE("nav_load"); 
 	bool is_memory = tokens[1] == "mem" ;
 	is_memory ;
-	MessageBox(_T("load"), CString(tokens[1].c_str())) ;
 	m_current_state->show_content() ;
 
 	windows_ui ui( m_hWnd ) ;
@@ -623,6 +627,7 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 		import_files);
 
 	m_current_state->show_content() ;
+	m_listener->set_window_title() ;
 	return true ;
 }
 
@@ -663,6 +668,7 @@ void CManagerWindow::add_memory_file( FelixModelInterface *model, CString filena
 		mem->set_listener( NULL ) ;
 		throw ;
 	}
+	m_listener->set_window_title() ;
 }
 
 /* swap_memories

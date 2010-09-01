@@ -1,3 +1,12 @@
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
 <h2><a href="/memories">TMs</a></h2>
 <div id="tms">
 {$memlist}

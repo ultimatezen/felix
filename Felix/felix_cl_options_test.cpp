@@ -265,6 +265,29 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), options.m_trados_text_files[1]) ;
 	}
 
+	// logging level
+	BOOST_AUTO_TEST_CASE(logging_all)
+	{
+		LPCTSTR command_line_text = _T("-logging all") ;
+		commandline_options options(command_line_text) ;
+
+		BOOST_CHECK_EQUAL(options.m_logging_level, LOGGING_ALL) ;
+	}
+	BOOST_AUTO_TEST_CASE(logging_warn)
+	{
+		LPCTSTR command_line_text = _T("-logging warn") ;
+		commandline_options options(command_line_text) ;
+
+		BOOST_CHECK_EQUAL(options.m_logging_level, LOGGING_WARN) ;
+	}
+	BOOST_AUTO_TEST_CASE(logging_error_upper)
+	{
+		LPCTSTR command_line_text = _T("-logging ERROR") ;
+		commandline_options options(command_line_text) ;
+
+		BOOST_CHECK_EQUAL(options.m_logging_level, LOGGING_ERROR) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif 

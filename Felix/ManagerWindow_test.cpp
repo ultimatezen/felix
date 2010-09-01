@@ -12,14 +12,26 @@
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
+class ManagerWindowParentListenerFake : public ManagerWindowParentListener
+{
+public:
+	DECLARE_SENSING_VAR ;
+	bool set_window_title()
+	{
+		SENSE("set_window_title") ;
+		return true ;
+	}
+};
 struct ManagerWindowTestSetup
 {
 	FelixModelInterfaceFake mem_model ;
 	FelixModelInterfaceFake gloss_model ;
 	mgrview::ManagerViewFake *view ;
+	ManagerWindowParentListenerFake listener ;
 
 	ManagerWindowTestSetup(CManagerWindow *window)
 	{
+		window->m_listener = &listener ;
 		window->set_mem_model(&mem_model) ;
 		window->set_gloss_model(&gloss_model) ;
 		view = new mgrview::ManagerViewFake ;
