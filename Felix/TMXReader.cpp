@@ -686,26 +686,8 @@ namespace tmx_reader
 			m_datatype = attributes[L"datatype"] ;
 		}
 
-		if ( attributes.find(L"o-encoding") != attributes.end() ) 
-		{
-			m_o_encoding = attributes[L"o-encoding"] ;
-		}
-		if ( attributes.find(L"creationdate") != attributes.end() ) 
-		{
-			m_creationdate = attributes[L"creationdate"] ;
-		}
-		if ( attributes.find(L"creationid") != attributes.end() ) 
-		{
-			m_creationid = attributes[L"creationid"] ;
-		}
-		if ( attributes.find(L"changedate") != attributes.end() ) 
-		{
-			m_changedate = attributes[L"changedate"] ;
-		}
-		if ( attributes.find(L"changeid") != attributes.end() ) 
-		{
-			m_changeid = attributes[L"changeid"] ;
-		}
+		set_optional_attributes(attributes);
+
 	}
 
 	void CTU::reflect_attributes( record_pointer record )
@@ -771,6 +753,30 @@ namespace tmx_reader
 		thedate.set_minute(date_part) ;
 		date_part = datestring.substr(13, 2) ;
 		thedate.set_second(date_part) ;
+	}
+
+	void tmx_data::set_optional_attributes( std::map< wstring, wstring > &attributes )
+	{
+		if ( attributes.find(L"o-encoding") != attributes.end() ) 
+		{
+			m_o_encoding = attributes[L"o-encoding"] ;
+		}
+		if ( attributes.find(L"creationdate") != attributes.end() ) 
+		{
+			m_creationdate = attributes[L"creationdate"] ;
+		}
+		if ( attributes.find(L"creationid") != attributes.end() ) 
+		{
+			m_creationid = attributes[L"creationid"] ;
+		}
+		if ( attributes.find(L"changedate") != attributes.end() ) 
+		{
+			m_changedate = attributes[L"changedate"] ;
+		}
+		if ( attributes.find(L"changeid") != attributes.end() ) 
+		{
+			m_changeid = attributes[L"changeid"] ;
+		}
 	}
 }
 // =====================>

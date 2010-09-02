@@ -84,7 +84,6 @@ LRESULT CManagerWindow::OnDestroy( UINT, WPARAM, LPARAM )
 {
 	SENSE("OnDestroy") ;
 	save_window_settings() ;
-	m_search_runner.clear_terms() ;
 	m_view.destroy() ;
 
 #ifndef UNIT_TEST
@@ -285,18 +284,7 @@ void CManagerWindow::set_gloss_model(FelixModelInterface *model)
 void CManagerWindow::handle_undodelete( doc3_wrapper_ptr doc )
 {
 	SENSE("handle_undodelete") ;
-	const int memid = m_deleted_match->get_memory_id() ;
-	record_pointer record = m_deleted_match->get_record() ;
-
-	foreach(mem_engine::memory_pointer mem, m_mem_controller->get_memories())
-	{
-		if (mem->get_id() == memid)
-		{
-			mem->add_record(record) ;
-			this->m_current_state->show_content() ;
-			return ;
-		}
-	}
+	doc ;
 }
 
 

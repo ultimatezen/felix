@@ -985,3 +985,48 @@ void CCommonWindowFunctionality::initialize_values( void )
 	m_review_record = record_type(new mem_engine::record_local);
 	m_item_under_edit = match_ptr(new match_type(record_type(new mem_engine::record_local)));
 }
+
+void CCommonWindowFunctionality::init_state( ViewState *state )
+{
+	state->set_model(this->get_model()) ;
+	state->set_window_listener(this) ;
+	state->set_view(&m_view_interface) ;
+}
+
+void CCommonWindowFunctionality::init_tooltip_map( std::map<int, int> &toolmap )
+{
+	toolmap[ID_FILE_NEW] = IDS_NEW_TOOLBAR ;
+	toolmap[ID_FILE_OPEN] = IDS_OPEN_TOOLBAR ;
+	toolmap[ID_EDIT_CUT] = ID_EDIT_CUT ;
+	toolmap[ID_EDIT_COPY] = ID_EDIT_COPY ;
+	toolmap[ID_EDIT_PASTE] = ID_EDIT_PASTE ;
+	toolmap[ID_TOOLS_PREFERENCES] = ID_TOOLS_PREFERENCES ;
+	toolmap[ID_HELP] = ID_HELP  ;
+	toolmap[ID_APP_ABOUT] = ID_APP_ABOUT ;
+	toolmap[ID_NEXT_PANE] = ID_NEXT_PANE ;
+}
+
+void CCommonWindowFunctionality::handle_tooltip( LPNMHDR pnmh, int idCtrl, std::map<int, int> &toolmap )
+{
+	LPNMTTDISPINFOW pDispInfo = (LPNMTTDISPINFOW)pnmh;
+	pDispInfo->szText[0] = 0;
+
+	if((idCtrl != 0) && !(pDispInfo->uFlags & TTF_IDISHWND))
+	{
+		const int cchBuff = 256;
+		wchar_t szBuff[cchBuff];
+		szBuff[0] = 0;
+		const int id = toolmap[idCtrl] ;
+		const int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
+		for(int i = 0; i < nRet; i++)
+		{
+			pDispInfo->szText[i] = szBuff[i] ;
+			pDispInfo->szText[i+1] = 0 ;
+			if(szBuff[i] == L'\n')
+			{
+				SecureHelper::strncpyW_x(pDispInfo->szText, _countof(pDispInfo->szText), &szBuff[i + 1], _TRUNCATE);
+				break;
+			}
+		}
+	}
+}

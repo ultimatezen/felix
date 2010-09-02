@@ -3340,8 +3340,19 @@ void CMainFrame::set_up_command_bars()
 		ID_FILE_SAVE,	ID_FILE_SAVE_ALL,	SEP_ID,
 		ID_NEXT_PANE,	SEP_ID,
 		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,		SEP_ID,
-		ID_EDIT_FIND,	ID_TOOLS_PREFERENCES,	SEP_ID,
+		ID_EDIT_FIND,	
+		ID_TOOLS_PREFERENCES,	SEP_ID,
 		ID_HELP,		ID_APP_ABOUT;
+	std::vector< int > StdBitmaps ;
+	StdBitmaps += 
+		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,
+		IDB_SAVE,	IDB_SAVEMANY,
+		IDB_SWITCH_VIEWS,
+		IDB_CUT,			IDB_COPY,	IDB_PASTE,
+		IDB_SEARCH,			
+		IDB_PROPERTIES,
+		IDB_HELP,			IDB_INFORMATION ;
+
 
 #ifdef UNIT_TEST
 	return ;
@@ -3350,15 +3361,6 @@ void CMainFrame::set_up_command_bars()
 
 	m_stdToolbar.SubclassWindow( toolbarWnd, MAKEINTRESOURCE(IDR_MAINFRAME));
 	m_stdToolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
-
-	std::vector< int > StdBitmaps ;
-	StdBitmaps += 
-		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,
-		IDB_SAVE,	IDB_SAVEMANY,
-		IDB_SWITCH_VIEWS,
-		IDB_CUT,			IDB_COPY,	IDB_PASTE,
-		IDB_SEARCH,			IDB_PROPERTIES,
-		IDB_HELP,			IDB_INFORMATION ;
 
 	CImageList images ;
 	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
@@ -4147,46 +4149,17 @@ void CMainFrame::set_bg_color_if_needed()
  */
 LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/ )
 {
-	static std::map<int, int> toolmap ;
-
-	if( toolmap.empty() )
+	if( m_toolmap.empty() )
 	{
-		toolmap[ID_FILE_NEW] = IDS_NEW_TOOLBAR ;
-		toolmap[ID_FILE_OPEN] = IDS_OPEN_TOOLBAR ;
-		toolmap[ID_MEMORY_CLOSE] = IDS_MEMORY_CLOSE ;
-		toolmap[ID_FILE_SAVE] = IDS_SAVE_MEMORY ;
-		toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_MEMORIES ;
-		toolmap[ID_EDIT_CUT] = ID_EDIT_CUT ;
-		toolmap[ID_EDIT_COPY] = ID_EDIT_COPY ;
-		toolmap[ID_EDIT_PASTE] = ID_EDIT_PASTE ;
-		toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR ;
-		toolmap[ID_TOOLS_PREFERENCES] = ID_TOOLS_PREFERENCES ;
-		toolmap[ID_HELP] = ID_HELP  ;
-		toolmap[ID_APP_ABOUT] = ID_APP_ABOUT ;
-		toolmap[ID_NEXT_PANE] = ID_NEXT_PANE ;
+		init_tooltip_map(m_toolmap);
+
+		m_toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR ;
+		m_toolmap[ID_MEMORY_CLOSE] = IDS_MEMORY_CLOSE ;
+		m_toolmap[ID_FILE_SAVE] = IDS_SAVE_MEMORY ;
+		m_toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_MEMORIES ;
 	}
 
-	LPNMTTDISPINFOW pDispInfo = (LPNMTTDISPINFOW)pnmh;
-	pDispInfo->szText[0] = 0;
-
-	if((idCtrl != 0) && !(pDispInfo->uFlags & TTF_IDISHWND))
-	{
-		const int cchBuff = 256;
-		wchar_t szBuff[cchBuff];
-		szBuff[0] = 0;
-		const int id = toolmap[idCtrl] ;
-		const int nRet = ::LoadStringW(ModuleHelper::GetResourceInstance(), id, szBuff, cchBuff);
-		for(int i = 0; i < nRet; i++)
-		{
-			pDispInfo->szText[i] = szBuff[i] ;
-			pDispInfo->szText[i+1] = 0 ;
-			if(szBuff[i] == L'\n')
-			{
-				SecureHelper::strncpyW_x(pDispInfo->szText, _countof(pDispInfo->szText), &szBuff[i + 1], _TRUNCATE);
-				break;
-			}
-		}
-	}
+	handle_tooltip(pnmh, idCtrl, m_toolmap);
 
 	return 0L;
 }

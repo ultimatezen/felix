@@ -513,6 +513,8 @@ public:
 	void reflect_sb_vis() ;
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
+
+
 	void delete_record(mem_engine::record_pointer rec) ;
 
 	void load_util_settings() ;

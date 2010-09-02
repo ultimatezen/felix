@@ -50,17 +50,6 @@ public:
 	// the HTML view
 	frame_view m_view ;
 
-	// performs searches, wraps list of search terms
-	memory_searcher::search_runner m_search_runner ;
-
-	// for paginating search results
-	Paginator m_paginator ;
-
-	// holds pointer to deleted match (to enable undo)
-	mem_engine::search_match_ptr m_deleted_match ;
-
-	match_vec m_matches ;
-	match_vec m_replace_matches ;
 	// any messages to stick to top of search results
 	wstring			m_message ;	
 	CAccelerator	m_accelerator ;

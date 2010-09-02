@@ -17,29 +17,76 @@
 namespace tmx_reader
 {
 	using namespace mem_engine ;
-	struct CTU
+
+	struct tmx_data
+	{
+		// required
+		wstring	m_creationtool ;
+		wstring m_creationtoolversion ;
+		wstring m_segtype ; // "block", "paragraph", "sentence", or "phrase".
+		wstring m_o_tmf ; // original translation memory format
+		wstring m_srclang ; // 
+		wstring m_datatype ; // Text. The recommended values for the datatype attribute are as follow (this list is not exhaustive):
+						//- "unknown" = undefined (default)
+						//	- "alptext" = WinJoust data.
+						//	- "cdf" = Channel Definition Format.
+						//	- "cmx" = Corel CMX Format.
+						//	- "cpp" = C and C++ style text.
+						//	- "hptag" = HP-Tag.
+						//	- "html" = HTML, DHTML, etc.
+						//	- "interleaf" = Interleaf documents.
+						//	- "ipf" = IPF/BookMaster.
+						//	- "java" = Java, source and property files.
+						//	- "javascript" = JavaScript, ECMAScript scripts.
+						//	- "lisp" = Lisp.
+						//	- "mif" = Framemaker MIF, MML, etc.
+						//	- "opentag" = OpenTag data.
+						//	- "pascal" = Pascal, Delphi style text.
+						//	- "plaintext" = Plain text.
+						//	- "pm" = PageMaker.
+						//	- "rtf" = Rich Text Format.
+						//	- "sgml" = SGML.
+						//	- "stf-f" = S-Tagger for FrameMaker.
+						//	- "stf-i" = S-Tagger for Interleaf.
+						//	- "transit" = Transit data.
+						//	- "vbscript" = Visual Basic scripts.
+						//	- "winres" = Windows resources from RC, DLL, EXE.
+						//	- "xml" = XML.
+						//	- "xptag" = Quark XPressTag.
+
+		// optional
+		wstring m_o_encoding ; // original encoding
+		wstring m_creationdate ;	// Date in [ISO 8601] Format. The recommended pattern to use is: YYYYMMDDThhmmssZ  
+		// Where: YYYY is the year (4 digits), 
+		// MM is the month (2 digits), 
+		// DD is the day (2 digits), 
+		// hh is the hours (2 digits), 
+		// mm is the minutes (2 digits), 
+		// ss is the second (2 digits), and 
+		// Z indicates the time is UTC time. For example:
+		// date="20020125T210600Z"
+		// is January 25, 2002 at 9:06pm GMT
+
+		wstring m_creationid, m_changedate, m_changeid ;
+
+		tmx_data() :
+			m_datatype(L"unknown")
+		{}
+		void set_optional_attributes( std::map< wstring, wstring > &attributes );	
+	};
+
+	struct CTU : public tmx_data
 	{
 		// optional
 		wstring m_tuid ;
 		wstring m_usagecount ;
 		wstring m_lastusagedate ;
 
-		wstring m_creationtool ;
-		wstring m_creationtoolversion ;
-		wstring m_segtype ; // "block", "paragraph", "sentence", or "phrase".
-		wstring m_o_tmf ; // original translation memory format
-		wstring m_srclang ; // 
-		wstring m_datatype ; 
-
-		wstring m_o_encoding ; // original encoding
-		wstring m_creationdate ;	// Date in [ISO 8601] Format. The recommended pattern to use is: YYYYMMDDThhmmssZ  
-
-		wstring m_creationid ;
-		wstring m_changedate ;
-		wstring m_changeid ;
 
 	public:
 		void set_attributes( std::map< wstring, wstring > &attributes );
+
+
 		void reflect_attributes(record_pointer record);
 
 		void fill_date( misc_wrappers::date &thedate, const wstring datestring );
@@ -68,62 +115,13 @@ class CTMXReader
 	wstring			m_target_lang ;
 
 
-	struct CTMXHeader
+	struct CTMXHeader : public tmx_reader::tmx_data
 	{
-		// required
-		wstring	m_creationtool ;
-		wstring m_creationtoolversion ;
-		wstring m_segtype ; // "block", "paragraph", "sentence", or "phrase".
-		wstring m_o_tmf ; // original translation memory format
+
 		wstring m_adminlang ; // not case sensitive
-		wstring m_srclang ; // 
-		wstring m_datatype ; // Text. The recommended values for the datatype attribute are as follow (this list is not exhaustive):
-									//- "unknown" = undefined (default)
-									//	- "alptext" = WinJoust data.
-									//	- "cdf" = Channel Definition Format.
-									//	- "cmx" = Corel CMX Format.
-									//	- "cpp" = C and C++ style text.
-									//	- "hptag" = HP-Tag.
-									//	- "html" = HTML, DHTML, etc.
-									//	- "interleaf" = Interleaf documents.
-									//	- "ipf" = IPF/BookMaster.
-									//	- "java" = Java, source and property files.
-									//	- "javascript" = JavaScript, ECMAScript scripts.
-									//	- "lisp" = Lisp.
-									//	- "mif" = Framemaker MIF, MML, etc.
-									//	- "opentag" = OpenTag data.
-									//	- "pascal" = Pascal, Delphi style text.
-									//	- "plaintext" = Plain text.
-									//	- "pm" = PageMaker.
-									//	- "rtf" = Rich Text Format.
-									//	- "sgml" = SGML.
-									//	- "stf-f" = S-Tagger for FrameMaker.
-									//	- "stf-i" = S-Tagger for Interleaf.
-									//	- "transit" = Transit data.
-									//	- "vbscript" = Visual Basic scripts.
-									//	- "winres" = Windows resources from RC, DLL, EXE.
-									//	- "xml" = XML.
-									//	- "xptag" = Quark XPressTag.
-
-
-		// optional
-		wstring m_o_encoding ; // original encoding
-		wstring m_creationdate ;	// Date in [ISO 8601] Format. The recommended pattern to use is: YYYYMMDDThhmmssZ  
-											// Where: YYYY is the year (4 digits), 
-											// MM is the month (2 digits), 
-											// DD is the day (2 digits), 
-											// hh is the hours (2 digits), 
-											// mm is the minutes (2 digits), 
-											// ss is the second (2 digits), and 
-											// Z indicates the time is UTC time. For example:
-											// date="20020125T210600Z"
-											// is January 25, 2002 at 9:06pm GMT
-
-		wstring m_creationid, m_changedate, m_changeid ;
 
 	public:
-		CTMXHeader() :
-			m_datatype(L"unknown")
+		CTMXHeader() 
 		{}
 
 		void set_attributes( std::map< wstring, wstring > &attributes )
@@ -137,26 +135,7 @@ class CTMXReader
 			m_datatype = attributes[L"datatype"] ;
 
 			// optional attributes
-			if ( attributes.find(L"o-encoding") != attributes.end() ) 
-			{
-				m_o_encoding = attributes[L"o-encoding"] ;
-			}
-			if ( attributes.find(L"creationdate") != attributes.end() ) 
-			{
-				m_creationdate = attributes[L"creationdate"] ;
-			}
-			if ( attributes.find(L"creationid") != attributes.end() ) 
-			{
-				m_creationid = attributes[L"creationid"] ;
-			}
-			if ( attributes.find(L"changedate") != attributes.end() ) 
-			{
-				m_changedate = attributes[L"changedate"] ;
-			}
-			if ( attributes.find(L"changeid") != attributes.end() ) 
-			{
-				m_changeid = attributes[L"changeid"] ;
-			}
+			set_optional_attributes(attributes);
 		}
 
 	};

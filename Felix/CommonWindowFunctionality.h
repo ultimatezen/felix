@@ -94,6 +94,7 @@ public:
 	// background processing
 	// (Checks for messages on the queue)
 	background_processor	m_background_processor ;
+	std::map<int, int>		m_toolmap ;
 
 
 	// ====================
@@ -120,12 +121,8 @@ protected:
 	void refresh_view_content();
 
 public:
-	void init_state(ViewState *state)
-	{
-		state->set_model(this->get_model()) ;
-		state->set_window_listener(this) ;
-		state->set_view(&m_view_interface) ;
-	}
+	void init_state(ViewState *state);
+	void init_tooltip_map( std::map<int, int> &toolmap );
 	record_type get_new_record()
 	{
 		return m_new_record ;
@@ -168,6 +165,7 @@ public:
 	void do_progress_msg( size_t current_val, UINT msg_id ) ;
 	void do_percent_done_msg( size_t current_val ) ;
 
+	void handle_tooltip( LPNMHDR pnmh, int idCtrl, std::map<int, int> &toolmap );
 	CString get_location() ;
 	bool is_demo() const;
 
