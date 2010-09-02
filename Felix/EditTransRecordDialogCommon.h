@@ -103,6 +103,8 @@ public:
 
 	void initialize_dialog()
 	{
+		SENSE("OnInitDialog") ;
+
 		ATLASSERT(IsWindow()) ;
 
 		// center us on our parent
@@ -250,6 +252,15 @@ public:
 #endif
 
 		m_extra_strings_view.fill_user_strings(rec) ;
+	}
+	void init_dlg_part_two()
+	{
+		fill_from_record( m_old_record ) ;
+#ifndef UNIT_TEST
+
+		// set focus to source edit
+		m_source_edit.set_html_focus() ;
+#endif
 	}
 	void fill_from_record(record_type record)
 	{

@@ -274,6 +274,7 @@ public:
 
 	LRESULT on_memory_close();
 
+
 	LRESULT on_find( ) ;
 	LRESULT on_new_search( );
 	LRESULT on_edit_replace( ) ;

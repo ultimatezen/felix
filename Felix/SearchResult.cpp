@@ -3,15 +3,6 @@
 #include "StdAfx.h"
 #include "SearchResult.h"
 
-// To use this macro, derive from CAutomationExceptionHandler
-#define FELIX_AUTO_CATCH( func_str ) \
-	catch( _com_error &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }  \
-	catch( CWinException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
-	catch( CComException &e )   { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
-	catch( CSWException &e )    { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
-	catch( CException &e )      { CString Func( func_str ) ; return handle_exception( e, Func ) ; }	\
-	catch ( std::exception &e ) { CString Func( func_str ) ; return handle_exception( e, Func ) ; }
-
 using namespace except ;
 
 STDMETHODIMP CSearchResult::get_Record(IRecord **pVal)

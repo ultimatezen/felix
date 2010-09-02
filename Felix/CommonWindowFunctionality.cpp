@@ -125,39 +125,45 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	memory_list memories_needing_saving ;
 	this->get_memory_model()->get_memories_needing_saving( memories_needing_saving ) ;
 
-	memory_iterator pos ;
-	for ( pos = memories_needing_saving.begin() ;
-			pos != memories_needing_saving.end() ;
-			++pos )
+	foreach (memory_pointer mem, memories_needing_saving)
 	{
-		memory_pointer mem = *pos ;
-		switch( user_wants_to_save( mem->get_location() ) ) 
+		if (check_save_memory(mem) == IDCANCEL)
 		{
-		case IDNO :
-
-			mem->set_saved_flag( true ) ;
-			break;
-
-		case IDYES :
- 
-			if ( IDCANCEL == LetUserSaveMemory(mem) )
-			{
-				return IDCANCEL ;
-			}
-			break ;
-
-		case IDCANCEL :
-
-			return IDCANCEL ;
-
-		default :
-
-			ATLASSERT( "Unknown response!" && FALSE ) ;
-			return IDCANCEL ;
-
+			return IDCANCEL	;
 		}
+
 	}
 
+	return IDYES ;
+}
+
+INT_PTR CCommonWindowFunctionality::check_save_memory( mem_engine::memory_pointer mem )
+{
+	switch( user_wants_to_save( mem->get_location() ) ) 
+	{
+	case IDNO :
+
+		mem->set_saved_flag( true ) ;
+		return IDNO;
+
+	case IDYES :
+
+		if ( IDCANCEL == LetUserSaveMemory(mem) )
+		{
+			return IDCANCEL ;
+		}
+		return IDYES ;
+
+	case IDCANCEL :
+
+		return IDCANCEL ;
+
+	default :
+
+		ATLASSERT( "Unknown response!" && FALSE ) ;
+		return IDCANCEL ;
+
+	}
 	return IDYES ;
 }
 
@@ -960,4 +966,22 @@ void CCommonWindowFunctionality::set_bg_color( COLORREF c )
 	CHtmlDocument doc = m_view_interface.get_document() ;
 	doc.set_bg_color( color_str ) ;
 #endif
+}
+
+void CCommonWindowFunctionality::remove_memory( mem_engine::memory_pointer mem, int msgid )
+{
+	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
+	this->set_window_title() ;
+
+	user_feedback( system_message(msgid, mem->get_location()) ) ;
+}
+
+void CCommonWindowFunctionality::initialize_values( void )
+{
+	m_is_short_format = true ;
+	m_silent_mode = false ;
+	m_mousewheel_count = 0;
+	m_new_record = record_type(new mem_engine::record_local);
+	m_review_record = record_type(new mem_engine::record_local);
+	m_item_under_edit = match_ptr(new match_type(record_type(new mem_engine::record_local)));
 }

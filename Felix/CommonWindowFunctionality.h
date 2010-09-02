@@ -177,6 +177,11 @@ public:
 	mem_engine::memory_list & get_memories() ;
 	INT_PTR user_wants_to_save( const CString &f_name ) ;
 	INT_PTR check_save() ;
+
+	INT_PTR check_save_memory(mem_engine::memory_pointer mem);
+
+	void initialize_values(void);
+	void remove_memory(mem_engine::memory_pointer mem, int msgid);
 	bool check_location() ;
 	void init_edit_replace_window( int show_command = SW_HIDE ) ;
 	void init_edit_find_window( int show_command = SW_HIDE ) ;

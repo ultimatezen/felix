@@ -59,18 +59,12 @@
 
 #include <shellapi.h>
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
-using namespace text_tmpl;
 
 CString get_help_file_path( CString path )
 {
@@ -114,15 +108,12 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_editor(new CEditTransRecordDialog),
 	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this)
 {
-	m_is_short_format = true ;
-	m_silent_mode = false ;
-	m_mousewheel_count = 0;
-	m_new_record = record_pointer(new record_local);
-	m_review_record = record_pointer(new record_local);
-	m_item_under_edit = search_match_ptr(new match_type(record_pointer(new record_local)));
+	initialize_values() ;
 
+	// initialize min view
 	m_min_view.set_listener(this) ;
 	m_min_view.set_matches(&m_trans_matches) ;
+
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
@@ -149,6 +140,7 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 
     addToMessageLoop();
 
+	// register command handlers
 	this->register_event_listener( WM_CREATE, boost::bind(&CMainFrame::on_create, this, _1 ) ) ; 
 	this->register_event_listener( WM_DESTROY, boost::bind(&CMainFrame::on_destroy, this, _1 ) ) ; 
 	this->register_event_listener( WM_CLOSE, boost::bind(&CMainFrame::on_close, this, _1 ) ) ; 
@@ -4485,11 +4477,11 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	wstring content ;
 	if ( m_is_short_format )
 	{
-		content = engine.Fetch(get_template_text(_T("review.txt"))) ;
+		content = engine.Fetch(text_tmpl::get_template_text(_T("review.txt"))) ;
 	}
 	else
 	{
-		content = engine.Fetch(get_template_text(_T("review_full.txt"))) ;
+		content = engine.Fetch(text_tmpl::get_template_text(_T("review_full.txt"))) ;
 	}
 	return content ;
 }
@@ -4988,38 +4980,14 @@ LRESULT CMainFrame::on_memory_close(WindowsMessage &)
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 	if (! mem->is_saved())
 	{
-		switch( user_wants_to_save( mem->get_location() ) ) 
+		if (check_save_memory(mem) == IDCANCEL)
 		{
-		case IDNO :
-			// Set it as saved, and carry on
-			mem->set_saved_flag( true ) ;
-			break;
-
-		case IDYES :
-			// Save it, then carry on
-			if ( IDCANCEL == LetUserSaveMemory(mem) )
-			{
-				return 0L ;
-			}
-			break ;
-
-		case IDCANCEL :
-			// User wants to abort the whole thing
 			return 0L ;
-
-		default :
-			// WTF...
-			ATLASSERT( "Unknown response!" && FALSE ) ;
-			return 0L ;
-
 		}
 	}
 
 	// Now remove it.
-	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
-	this->set_window_title() ;
-
-	user_feedback(system_message(IDS_CLOSED_MEMORY, mem->get_location())) ;
+	remove_memory(mem, IDS_CLOSED_MEMORY);
 
 	return 0L ;
 }

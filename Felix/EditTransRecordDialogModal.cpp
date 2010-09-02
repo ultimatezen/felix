@@ -15,16 +15,8 @@ using namespace mem_engine ;
 // Return type		: LRESULT 
 LRESULT CEditTransRecordDialogModal::OnInitDialog( )
 {
-	SENSE("OnInitDialog") ;
-
 	initialize_dialog() ;
-
-#ifndef UNIT_TEST
-	fill_from_record( m_old_record ) ;
-
-	// set focus to source edit
-	m_source_edit.set_html_focus() ;
-#endif
+	init_dlg_part_two() ;
 	return TRUE ;
 }
 

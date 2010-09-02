@@ -36,18 +36,12 @@
 #include "TabbedTextImporter.h"
 #include "ExcelInterfaceReal.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
-using namespace text_tmpl;
 
 // CTOR
 CGlossaryWindow::CGlossaryWindow( ) : 
@@ -57,12 +51,7 @@ CGlossaryWindow::CGlossaryWindow( ) :
 	m_is_trans_concordance(false),
 	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this)
 { 
-	m_is_short_format = true ;
-	m_silent_mode = false ;
-	m_mousewheel_count = 0;
-	m_new_record = record_pointer(new record_local);
-	m_review_record = record_pointer(new record_local);
-	m_item_under_edit = search_match_ptr(new match_type(record_pointer(new record_local)));
+	initialize_values() ;
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -75,9 +64,10 @@ CGlossaryWindow::CGlossaryWindow( ) :
 	m_view_state_match.set_search_matches(&m_search_matches) ;
 	m_view_state_match.set_app_props(&this->m_properties_gloss) ;
 
+	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
-	m_view_state = &m_view_state_initial ;
-	//m_new_record = record_pointer(new record_local()) ;
+	ATLASSERT(m_view_state == &m_view_state_initial) ;
+
 	seed_random_numbers();
 
 	m_memories = m_model.get_memories() ; 
@@ -2277,37 +2267,14 @@ LRESULT CGlossaryWindow::on_memory_close()
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 	if (! mem->is_saved())
 	{
-		switch( user_wants_to_save( mem->get_location() ) ) 
+		if (check_save_memory(mem) == IDCANCEL)
 		{
-		case IDNO :
-			// Set it as saved, and carry on
-			mem->set_saved_flag( true ) ;
-			break;
-
-		case IDYES :
-			// Save it, then carry on
-			if ( IDCANCEL == LetUserSaveMemory(mem) )
-			{
-				return 0L ;
-			}
-			break ;
-
-		case IDCANCEL :
-			// User wants to abort the whole thing
-			return 0L ;
-
-		default :
-			// WTF...
-			ATLASSERT( "Unknown response!" && FALSE ) ;
 			return 0L ;
 		}
 	}
 
 	// Now remove it.
-	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
-	this->set_window_title() ;
-
-	user_feedback( system_message(IDS_CLOSED_GLOSSARY, mem->get_location()) ) ;
+	remove_memory(mem, IDS_CLOSED_GLOSSARY);
 	return 0L ;
 }
 

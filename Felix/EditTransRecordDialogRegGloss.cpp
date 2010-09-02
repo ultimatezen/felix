@@ -17,14 +17,9 @@ CEditTransRecordDialogRegGloss::CEditTransRecordDialogRegGloss(const bool make_d
 // Function name	: CEditTransRecordDialogRegGloss::OnInitDialog
 LRESULT CEditTransRecordDialogRegGloss::OnInitDialog( )
 {
-	SENSE("OnInitDialog") ;
-
 	initialize_dialog() ;
 
-	fill_from_record( m_old_record ) ;
-
-	// set focus to source edit
-	m_source_edit.set_html_focus() ;
+	init_dlg_part_two() ;
 
 	return TRUE ;
 }
