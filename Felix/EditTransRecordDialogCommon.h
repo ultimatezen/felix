@@ -493,6 +493,21 @@ public:
 
 		return 0L ;
 	}
+	LRESULT OnEditDelete()
+	{
+		CSourceAndHtmlEdit* active_edit = get_active_edit() ;
+
+		if (active_edit != NULL) 
+		{
+			active_edit->handle_delete() ;
+		}
+		else
+		{
+			SetMsgHandled(FALSE) ;
+		}
+
+		return 0L ;
+	}
 
 	virtual LRESULT OnEditStrings() = 0 ;
 	void edit_strings(record_type &rec)
@@ -724,6 +739,7 @@ public:
 			CMD_HANDLER_EX_0(IDC_BOLD,			OnFormatBold)
 			CMD_HANDLER_EX_0(IDC_ITALIC,		OnFormatItalic)
 			CMD_HANDLER_EX_0(IDC_UNDERLINE,		OnFormatUnderline)
+			CMD_HANDLER_EX_0(ID_EDIT_DELETE,	OnEditDelete)
 
 			CMD_HANDLER_EX_0(IDC_EDIT_STRINGS,	OnEditStrings) 
 			CMD_HANDLER_EX_0(IDC_ADD_STRING,	OnAddString)
@@ -830,6 +846,9 @@ public:
 				{
 					return TRUE ;
 				}
+			case VK_DELETE:
+				this->OnEditDelete() ;
+				return TRUE ;
 			}	
 		}
 

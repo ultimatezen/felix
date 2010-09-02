@@ -66,6 +66,7 @@ public:
 	void load_html_into_source( );
 	void load_source_into_html( );
 
+	void handle_delete(void);
 	void handle_bold(void);
 	void handle_italic(void);
 	void handle_underline(void);

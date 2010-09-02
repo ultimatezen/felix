@@ -385,6 +385,17 @@ void CSourceAndHtmlEdit::handle_underline(void)
 {
 	wrap_selection( "u" ) ;
 }
+void CSourceAndHtmlEdit::handle_delete(void)
+{
+	if ( m_html_edit == get_active_view() ) 
+	{
+		m_html_edit.do_delete() ;
+	}
+	else
+	{
+		m_text_edit.DeleteBack() ;
+	}
+}
 
 void CSourceAndHtmlEdit::detach(void)
 {

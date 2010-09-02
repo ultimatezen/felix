@@ -667,21 +667,22 @@ END
 
 IDC_EDIT_ACCELERATORS ACCELERATORS 
 BEGIN
-    "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
-    "B",            IDC_BOLD,               VIRTKEY, CONTROL, NOINVERT
-    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
-    "I",            IDC_ITALIC,             VIRTKEY, CONTROL, NOINVERT
-    "U",            IDC_UNDERLINE,          VIRTKEY, CONTROL, NOINVERT
-    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
-    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     VK_DELETE,      ID_EDIT_CLEAR,          VIRTKEY, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
-    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
-    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
-    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
-    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "B",            IDC_BOLD,               VIRTKEY, CONTROL, NOINVERT
+    "I",            IDC_ITALIC,             VIRTKEY, CONTROL, NOINVERT
+    "U",            IDC_UNDERLINE,          VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_DELETE,         VIRTKEY, NOINVERT
 END
 
 IDR_SEARCH_ACCEL ACCELERATORS 
@@ -926,11 +927,6 @@ BEGIN
         BOTTOMMARGIN, 16
     END
 
-    IDD_SELECT_LANG_DLG, DIALOG
-    BEGIN
-        RIGHTMARGIN, 143
-    END
-
     IDD_PROPPAGE_ALGORITHM, DIALOG
     BEGIN
         BOTTOMMARGIN, 154
@@ -1054,6 +1050,7 @@ STRINGTABLE
 BEGIN
     IDS_SAVE_ALL_GLOSSARIES "Save all glossaries\nSave all glossaries"
     IDS_SAVE_ALL_MEMORIES   "Save all memories\nSave all memories"
+    IDS_SEARCH_MANAGER_TITLE "Manage TMs and Glossaries"
 END
 
 STRINGTABLE 
@@ -1094,7 +1091,6 @@ BEGIN
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "Could not delete record (memory locked)"
     IDS_REPLACE_COMPLETE_MSG "Made %1 replacements."
     IDS_SEARCHWIN_TITLE_MEM "Search Translation Memories"
-    IDS_SEARCH_MANAGER_TITLE "Manage TMs and Glossaries"
     IDS_SEARCHWIN_TITLE_GLOSS "Search Glossaries"
     IDS_POPUP_COPY          "&Copy"
     IDS_RETRIEVING_LANG_CODES "Retrieving language codes..."
@@ -1554,6 +1550,7 @@ END
 #endif    // Japanese resources
 /////////////////////////////////////////////////////////////////////////////
 
+
 /////////////////////////////////////////////////////////////////////////////
 // Neutral (Sys. Default) resources
 
@@ -1586,6 +1583,7 @@ BEGIN
     LTEXT           "-5",IDC_STATIC,56,32,15,8
     RTEXT           "5",IDC_STATIC,144,32,15,8
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

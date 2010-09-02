@@ -120,6 +120,10 @@ public:
 	void perform_replace(doc3_wrapper_ptr doc, mem_engine::record_pointer rec);
 	void get_replace_matches(match_vec &matches,
 		const wstring replace_from);
+
+	void get_replace_matches_mem( mem_engine::memory_pointer mem,
+								  const wstring replace_from, 
+								  mem_engine::search_match_container &matchset );
 	void set_filterbox_text( doc3_wrapper_ptr doc, const std::vector<wstring> &terms );
 	void wait_for_doc_complete();
 

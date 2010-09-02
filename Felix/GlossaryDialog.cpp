@@ -197,9 +197,9 @@ void CGlossaryWindow::check_load_history()
 		return ;
 	}
 
-	app_props::properties_general gen_props ;
-	gen_props.read_from_registry() ;
-	if ( ! gen_props.m_data.m_load_prev_gloss_on_startup ) 
+	boost::shared_ptr<app_props::properties_general> gen_props(new app_props::properties_general) ;
+	gen_props->read_from_registry() ;
+	if ( ! gen_props->m_data.m_load_prev_gloss_on_startup ) 
 	{
 		return ;
 	}
@@ -1869,11 +1869,8 @@ void CGlossaryWindow::check_save_history()
 		return ;
 	}
 
-	app_props::properties_general gen_props ;
-	gen_props.read_from_registry() ;
-
-	app_props::properties_loaded_history history_props ;
-	history_props.read_from_registry() ;
+	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+	history_props->read_from_registry() ;
 
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
@@ -1886,7 +1883,7 @@ void CGlossaryWindow::check_save_history()
 		if ( ::PathFileExists(location) && mem->is_local() ) 
 		{
 			tstring gloss_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props.m_data.m_glosses[mem_num], 
+			_tcsncpy_s(history_props->m_data.m_glosses[mem_num], 
 							MAX_PATH, 
 							(LPCTSTR)gloss_title.c_str(), 
 							gloss_title.size() ) ;
@@ -1896,7 +1893,7 @@ void CGlossaryWindow::check_save_history()
 		else if (! mem->is_local())
 		{
 			tstring gloss_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props.m_data.m_remote_glosses[remote_num], 
+			_tcsncpy_s(history_props->m_data.m_remote_glosses[remote_num], 
 				MAX_PATH, 
 				(LPCTSTR)gloss_title.c_str(), 
 				gloss_title.size() ) ;
@@ -1904,9 +1901,9 @@ void CGlossaryWindow::check_save_history()
 			remote_num++ ;
 		}
 	}
-	history_props.m_data.m_num_gloss = mem_num ;
-	history_props.m_data.m_num_remote_gloss = remote_num ;
-	history_props.write_to_registry() ;
+	history_props->m_data.m_num_gloss = mem_num ;
+	history_props->m_data.m_num_remote_gloss = remote_num ;
+	history_props->write_to_registry() ;
 }
 
 void CGlossaryWindow::refresh_menu()
@@ -2107,26 +2104,26 @@ void CGlossaryWindow::set_zoom_level( int zoom_level )
 void CGlossaryWindow::load_history()
 {
 	m_memories->clear() ;
-	app_props::properties_loaded_history history_props ;
-	history_props.read_from_registry() ;
-	for ( int i = history_props.m_data.m_num_gloss ; 0 < i  ; --i )
+	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+	history_props->read_from_registry() ;
+	for ( int i = history_props->m_data.m_num_gloss ; 0 < i  ; --i )
 	{
-		load( history_props.m_data.m_glosses[i-1], false ) ;
+		load( history_props->m_data.m_glosses[i-1], false ) ;
 	}
-	for ( int i = history_props.m_data.m_num_remote_gloss ; 0 < i  ; --i )
+	for ( int i = history_props->m_data.m_num_remote_gloss ; 0 < i  ; --i )
 	{
 		try
 		{
 			memory_remote *mem = new memory_remote() ;
 			memory_pointer pmem(mem) ;
-			mem->connect(history_props.m_data.m_remote_glosses[i-1]) ;
+			mem->connect(history_props->m_data.m_remote_glosses[i-1]) ;
 			this->add_glossary(pmem) ;
 		}
 		catch (CException& e)
 		{
-			history_props.m_data.m_num_remote_gloss = i-1 ;
+			history_props->m_data.m_num_remote_gloss = i-1 ;
 			logging::log_error("Failed to load remote glossary") ;
-			logging::log_error(string2string(history_props.m_data.m_remote_glosses[i-1])) ;
+			logging::log_error(string2string(history_props->m_data.m_remote_glosses[i-1])) ;
 			logging::log_exception(e) ;
 			this->FlashWindow(FALSE) ;
 		}

@@ -480,7 +480,10 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 #ifndef UNIT_TEST
 		CMessageLoop* pLoop = _Module.GetMessageLoop() ;
 		ATLASSERT(pLoop != NULL) ;
-		pLoop->AddIdleHandler(this) ;
+		if (pLoop)
+		{
+			pLoop->AddIdleHandler(this) ;
+		}
 #endif
 
 		// the glossary window
@@ -1249,8 +1252,8 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
  */
 void CMainFrame::check_save_history()
 {
-	app_props::properties_loaded_history history_props ;
-	history_props.read_from_registry() ;
+	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+	history_props->read_from_registry() ;
 
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
@@ -1262,7 +1265,7 @@ void CMainFrame::check_save_history()
 		if ( ::PathFileExists(location) && mem->is_local()) 
 		{
 			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props.m_data.m_mems[mem_num], 
+			_tcsncpy_s(history_props->m_data.m_mems[mem_num], 
 				MAX_PATH, 
 				(LPCTSTR)mem_title.c_str(), 
 				mem_title.size() ) ;
@@ -1273,7 +1276,7 @@ void CMainFrame::check_save_history()
 		else if (! mem->is_local())
 		{
 			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props.m_data.m_remote_mems[remote_num], 
+			_tcsncpy_s(history_props->m_data.m_remote_mems[remote_num], 
 				MAX_PATH, 
 				(LPCTSTR)mem_title.c_str(), 
 				mem_title.size() ) ;
@@ -1281,9 +1284,9 @@ void CMainFrame::check_save_history()
 			remote_num++ ;
 		}
 	}
-	history_props.m_data.m_num_mems = mem_num ;
-	history_props.m_data.m_num_remote_mems = remote_num ;
-	history_props.write_to_registry() ;
+	history_props->m_data.m_num_mems = mem_num ;
+	history_props->m_data.m_num_remote_mems = remote_num ;
+	history_props->write_to_registry() ;
 }
 //! See if we have more memories to save to our history.
 bool CMainFrame::has_more_memory_history( memory_iterator pos, 
@@ -4566,26 +4569,27 @@ void CMainFrame::set_zoom_level( int zoom_level )
 
 void CMainFrame::load_history()
 {
-	app_props::properties_loaded_history history_props ;
-	history_props.read_from_registry() ;
-	for ( int i = history_props.m_data.m_num_mems ; 0 < i  ; --i )
+	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+
+	history_props->read_from_registry() ;
+	for ( int i = history_props->m_data.m_num_mems ; 0 < i  ; --i )
 	{
-		load( history_props.m_data.m_mems[i-1], false ) ;
+		load( history_props->m_data.m_mems[i-1], false ) ;
 	}
-	for ( int i = history_props.m_data.m_num_remote_mems ; 0 < i  ; --i )
+	for ( int i = history_props->m_data.m_num_remote_mems ; 0 < i  ; --i )
 	{
 		try
 		{
 			memory_remote *mem = new memory_remote() ;
 			memory_pointer pmem(mem) ;
-			mem->connect(history_props.m_data.m_remote_mems[i-1]) ;
+			mem->connect(history_props->m_data.m_remote_mems[i-1]) ;
 			this->add_memory(pmem) ;
 		}
 		catch (CException& e)
 		{
-			history_props.m_data.m_num_remote_mems = i-1 ;
+			history_props->m_data.m_num_remote_mems = i-1 ;
 			logging::log_error("Failed to load remote memory") ;
-			logging::log_error(string2string(history_props.m_data.m_remote_mems[i-1])) ;
+			logging::log_error(string2string(history_props->m_data.m_remote_mems[i-1])) ;
 			logging::log_exception(e) ;
 			this->FlashWindow(FALSE) ;
 		}

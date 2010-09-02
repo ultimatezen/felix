@@ -341,20 +341,27 @@ void CSearchWindow::get_replace_matches( std::vector<mem_engine::search_match_pt
 	{
 		if (mem->is_local())
 		{
-			foreach(record_pointer rec, mem->get_records())
-			{
-				if (m_search_runner.is_match(rec) 
-					&& m_search_runner.term_matches(rec, replace_from))
-				{
-					search_match_ptr match(mem->make_match()) ;
-					match->set_record(rec) ;
-					match->get_markup()->SetTrans(rec->get_trans_rich()) ;
-					matchset.insert(match) ;
-				}
-			}
+			get_replace_matches_mem(mem, replace_from, matchset);
 		}
 	}
 	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
+}
+
+void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem, 
+											 const wstring replace_from, 
+											 mem_engine::search_match_container &matchset )
+{
+	foreach(record_pointer rec, mem->get_records())
+	{
+		if (m_search_runner.is_match(rec) 
+			&& m_search_runner.term_matches(rec, replace_from))
+		{
+			search_match_ptr match(mem->make_match()) ;
+			match->set_record(rec) ;
+			match->get_markup()->SetTrans(rec->get_trans_rich()) ;
+			matchset.insert(match) ;
+		}
+	}
 }
 
 /*

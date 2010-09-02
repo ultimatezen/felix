@@ -38,7 +38,11 @@ void add_popup_item( CMenu &menu, int command_id, int text_id )
 	menu_item.fType = MFT_STRING ;
 	menu_item.wID = command_id ;
 	CString copy_text ;
-	copy_text.LoadString(text_id) ;
+	if (!copy_text.LoadString(text_id))
+	{
+		logging::log_warn("Failed to load popup item with id " + int2string(text_id)) ;
+		return ;
+	}
 	menu_item.cch = copy_text.GetLength() ;
 	menu_item.dwTypeData = copy_text.GetBuffer() ;
 
@@ -375,7 +379,10 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 			GlobalFree(GlobalHandle(lpDialogTemplate));
 		}
 		UnlockResource(hResource);
-		FreeResource(hResource);
+		if (hResource)
+		{
+			FreeResource(hResource);
+		}
 	}
 	if (pInitData && hDlgInit)
 	{

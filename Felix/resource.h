@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixENG.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -578,7 +578,7 @@
 #define IDS_SAVE_ALL_GLOSSARIES         576
 #define IDS_SAVE_ALL_MEMORIES           577
 #define IDR_SEARCHRESULTS               578
-#define IDS_SEARCH_MANAGER_TITLE		579
+#define IDS_SEARCH_MANAGER_TITLE        579
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -645,7 +645,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
-#define _APS_NEXT_COMMAND_VALUE         40001
+#define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
