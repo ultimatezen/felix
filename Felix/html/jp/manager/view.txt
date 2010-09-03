@@ -1,0 +1,77 @@
+﻿<p><a href="/start" title="管理ＴＯＰへ">トップ</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}<a href="/memories">TM</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">用語集</a>{% endif %}
+	&gt;&gt;
+	{$name}の表示
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>{$name}</h2>
+
+<table width="100%" class="info">
+	<tr>
+		<td bgcolor="#E6FFE6"><b>ファイル名</b></td>
+		<td id="file_name" bgcolor="#E6FFE6">{$file_name}</td>
+	</tr>
+	<tr>
+		<td><b>作成者</b></td>
+		<td id="creator">{% if not creator %}None Specified{% endif %}{$creator}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>分野</b></td>
+		<td id="field" bgcolor="#E6FFE6"><b>{% if not field %}None Specified{% endif %}{$field}</b></td>
+	</tr>
+	<tr>
+		<td><b>作成日時</b></td>
+		<td id="created_on">{$created_on}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>起点言語</b></td>
+		<td id="source_language" bgcolor="#E6FFE6"><b>{% if not source_language %}未定{% endif %}{$source_language}</b></td>
+	</tr>
+	<tr>
+		<td><b>目標言語</b></td>
+		<td id="target_language"><b>{% if not target_language %}未定{% endif %}{$target_language}</b></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>クライアント</b></td>
+		<td id="client" bgcolor="#E6FFE6"><b>{% if not client %}未定{% endif %}{$client}</b></td>
+	</tr>
+	<tr>
+		<td><b>エントリ数</b></td>
+		<td id="mem_size">{$mem_size}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>ファイル・サイズ</b></td>
+		<td id="file_size" bgcolor="#E6FFE6">{$file_size}</td>
+	</tr>
+	<tr>
+		<td><b>信頼度</b></td>
+		<td id="reliability">{$reliability}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>確認済み％</b></td>
+		<td id="validated" bgcolor="#E6FFE6">{$validated}</td>
+	</tr>
+	<tr>
+		<td><b>ロック</b></td>
+		<td id="locked">{$locked}</td>
+	</tr>
+</table>
+
+<h3>操作</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/edit">{$name}の編集</a></li>
+        <li><a href="/{$index}/1/{$memtype}/browse">{$name}の一覧表</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">{$name}の退避</a></li>
+</ul>
