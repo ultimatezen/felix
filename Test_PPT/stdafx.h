@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define POWERPOINT_ASSIST_APP
+
 #include "targetver.h"
 
 #include <stdio.h>

@@ -1,7 +1,7 @@
 <p class="paginator">
 {% if has_prev %}
-	<a href="/first_page" title="最初のページに戻る">&lt;&lt;</a>
-	<a href="/prev_page" title="前に戻る">&lt;</a>
+	<a href="/1/goto_page" title="最初のページに戻る">&lt;&lt;</a>
+	<a href="/{$prev_page}/goto_page" title="前に戻る">&lt;</a>
 {% endif %}
 
 {% for num in pages %}
@@ -14,8 +14,8 @@
 {% endfor %}
 
 {% if has_next %}
-	<a href="/next_page" title="次へ進む">&gt;</a>
-	<a href="/last_page" title="最後のページへ進む">&gt;&gt;</a>
+	<a href="/{$next_page}/goto_page" title="次へ進む">&gt;</a>
+	<a href="/{$last_page}/goto_page" title="最後のページへ進む">&gt;&gt;</a>
 {% endif %}
 
 &nbsp;&nbsp;&nbsp;&nbsp;{$num_matches}個のマッチ中の{$matches_start}～{$matches_end}。
