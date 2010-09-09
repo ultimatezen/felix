@@ -12,7 +12,7 @@
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
-class ManagerWindowParentListenerFake : public ManagerWindowParentListener
+class FrameListenerFake : public FrameListener
 {
 public:
 	DECLARE_SENSING_VAR ;
@@ -21,13 +21,18 @@ public:
 		SENSE("set_window_title") ;
 		return true ;
 	}
+	void save_memory_as(mem_engine::memory_pointer mem)
+	{
+		mem ;
+		SENSE("save_memory_as") ;
+	}
 };
 struct ManagerWindowTestSetup
 {
 	FelixModelInterfaceFake mem_model ;
 	FelixModelInterfaceFake gloss_model ;
 	mgrview::ManagerViewFake *view ;
-	ManagerWindowParentListenerFake listener ;
+	FrameListenerFake listener ;
 
 	ManagerWindowTestSetup(CManagerWindow *window)
 	{

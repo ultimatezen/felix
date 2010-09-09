@@ -49,7 +49,8 @@ CGlossaryWindow::CGlossaryWindow( ) :
 	m_listener(NULL),
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
-	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this)
+	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
+	m_search_window(this)
 { 
 	initialize_values() ;
 
@@ -443,92 +444,9 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 	}
 	// clearing location won't work, because we want to offer the current location
 	// as the default file name
-	CString file_name ;
 	memory_pointer mem = m_memories->get_first_memory() ;
-	if ( mem->is_new() == false )
-	{
-		file_name = mem->get_location() ;
-	}
 
-	save_file_dlg dialog ;
-
-	if ( ! file_name.IsEmpty() ) 
-	{
-		file::CPath path( file_name ) ;
-		path.RemoveExtension() ;
-		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
-	}
-
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_GLOSSARY ) ) ;
-	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
-
-	dialog.set_filter( get_save_filter() ) ;
-
-	CString save_as_file_name = dialog.get_save_file() ;
-
-	if ( save_as_file_name.IsEmpty() )
-	{
-		return false ;
-	}
-
-	int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
-	{
-	case 1: case 6:
-		logging::log_debug("Saving glossary as fgloss file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
-		break;
-
-	case 2:
-		logging::log_debug("Saving glossary as xml file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
-		break;
-
-	case 3:
-		logging::log_debug("Exporting glossary as Multiterm 5.5 file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
-		export_multiterm_55( mem, save_as_file_name ) ;
-		return 0L ;
-
-	case 4:
-		logging::log_debug("Exporting glossary as Multiterm 6.0 file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
-		export_multiterm_6( mem, save_as_file_name ) ;
-		return 0L ;
-
-	case 5:
-		{
-			logging::log_debug("Exporting glossary as Excel workbook") ;
-			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
-				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
-			return 0L ;
-		}
-
-	default:
-		logging::log_warn("Unknown case is switch statement") ;
-		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
-		logging::log_debug("Saving glossary as fgloss file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
-		return 0L ;
-	}
-
-	// If the name changes, then we make the current user into the creator
-	CString old_location = mem->get_location() ;
-
-	mem->set_location( save_as_file_name ) ;
-
-	save_memory( mem ) ;
-
-	if ( 0 != old_location.CompareNoCase( save_as_file_name ) )
-	{
-		mem->set_creator_to_current_user( ) ;
-	}
-
-	set_window_title() ;
+	save_memory_as(mem);
 
 	return 0L ;
 
@@ -2344,4 +2262,93 @@ void CGlossaryWindow::set_menu_checkmark( int item_id, bool is_checked )
 {
 	CheckMenuItem( GetMenu(), item_id, ( is_checked ? MF_CHECKED : MF_UNCHECKED ) ) ;
 	return ;
+}
+
+void CGlossaryWindow::save_memory_as( memory_pointer mem )
+{
+	CString file_name ;
+	if ( mem->is_new() == false )
+	{
+		file_name = mem->get_location() ;
+	}
+
+	save_file_dlg dialog ;
+
+	if ( ! file_name.IsEmpty() ) 
+	{
+		file::CPath path( file_name ) ;
+		path.RemoveExtension() ;
+		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
+	}
+
+	CString dialog_title ;
+	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_GLOSSARY ) ) ;
+	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
+
+	dialog.set_filter( get_save_filter() ) ;
+
+	CString save_as_file_name = dialog.get_save_file() ;
+
+	if ( save_as_file_name.IsEmpty() )
+	{
+		return ;
+	}
+
+	const int selected_index = dialog.get_selected_index() ;
+
+	switch( selected_index ) 
+	{
+	case 1: case 6:
+		logging::log_debug("Saving glossary as fgloss file") ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		break;
+
+	case 2:
+		logging::log_debug("Saving glossary as xml file") ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
+		break;
+
+	case 3:
+		logging::log_debug("Exporting glossary as Multiterm 5.5 file") ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		export_multiterm_55( mem, save_as_file_name ) ;
+		return ;
+
+	case 4:
+		logging::log_debug("Exporting glossary as Multiterm 6.0 file") ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		export_multiterm_6( mem, save_as_file_name ) ;
+		return ;
+
+	case 5:
+		{
+			logging::log_debug("Exporting glossary as Excel workbook") ;
+			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
+			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
+				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
+			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
+			return ;
+		}
+
+	default:
+		logging::log_warn("Unknown case is switch statement") ;
+		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+		logging::log_debug("Saving glossary as fgloss file") ;
+		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		return ;
+	}
+
+	// If the name changes, then we make the current user into the creator
+	CString old_location = mem->get_location() ;
+
+	mem->set_location( save_as_file_name ) ;
+
+	save_memory( mem ) ;
+
+	if ( 0 != old_location.CompareNoCase( save_as_file_name ) )
+	{
+		mem->set_creator_to_current_user( ) ;
+	}
+
+	set_window_title() ;
 }

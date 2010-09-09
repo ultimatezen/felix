@@ -17,11 +17,7 @@
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
-class ManagerWindowParentListener
-{
-	public:
-		virtual bool set_window_title() = 0 ;
-};
+
 
 // The new search window
 // Uses hosted IE browser control to show content
@@ -59,7 +55,7 @@ public:
 	size_t		    m_current_item ;
 	bool			m_is_memory ;
 
-	ManagerWindowParentListener *m_listener ;
+	FrameListener *m_listener ;
 
 public:
 	// sensing stuff for unit testing
@@ -77,7 +73,7 @@ public:
 	BOOL PreTranslateMessage(LPMSG pMsg);
 	CManagerWindow(int title_id=IDS_SEARCH_MANAGER_TITLE, 
 				   LPCTSTR key=_T("MemoryMangerWindow"),
-				   ManagerWindowParentListener *listener=NULL);
+				   FrameListener *listener=NULL);
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 

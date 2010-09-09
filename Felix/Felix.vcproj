@@ -2366,6 +2366,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FrameListener.h"
+				>
+			</File>
+			<File
 				RelativePath="GlossaryDialog.h"
 				>
 			</File>

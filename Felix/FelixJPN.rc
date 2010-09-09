@@ -1590,6 +1590,7 @@ END
 STRINGTABLE 
 BEGIN
     IDC_SOURCE_LANG_STATIC  "Œ´Œ¾Œê‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢"
+	IDS_SAVED_RESULTS		"ŒŸõŒ‹‰Ê‚ð•Û‘¶‚µ‚Ü‚µ‚½"
 END
 
 #endif    // Japanese resources

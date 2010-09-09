@@ -32,7 +32,7 @@
 using namespace mem_engine ;
 using namespace text_tmpl ;
 
-CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, ManagerWindowParentListener *listener) : 
+CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, FrameListener *listener) : 
 	m_listener(listener),
 	m_title_id(title_id),
 	m_settings_key(key),

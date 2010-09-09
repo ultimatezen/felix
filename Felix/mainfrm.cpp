@@ -106,7 +106,8 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_model( model ),
 	m_properties(new app_props::properties()),
 	m_editor(new CEditTransRecordDialog),
-	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this)
+	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
+	m_search_window(this)
 {
 	initialize_values() ;
 
@@ -1062,88 +1063,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	// as the default file name
 	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
 	
-	save_file_dlg dialog ;
-
-	if ( ! mem->is_new() ) 
-	{
-		file::CPath path( mem->get_location() ) ;
-		path.RemoveExtension() ;
-		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
-	}
-
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
-	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
-
-	dialog.set_filter( get_save_filter() ) ;
-
-	CString file_name = dialog.get_save_file() ;
-
-	if ( file_name.IsEmpty() )
-	{
-		return false ;
-	}
-
-	file::CPath path( file_name ) ;
-
-	const int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
-	{
-	case 1: case 6:
-		logging::log_debug("Saving memory as ftm file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
-		break;
-
-	case 2:
-		logging::log_debug("Saving memory as xml file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
-		break;
-
-	case 3:
-		logging::log_debug("Saving memory as tmx file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name ) ;
-		return 0L ;
-
-	case 4:
-		logging::log_debug("Saving memory as Trados text file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
-		export_trados( file_name ) ;
-		return 0L ;
-
-	case 5:
-		{
-			logging::log_debug("Saving memory as Excel file") ;
-			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
-				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_model->get_memories()->get_first_memory(), file_name ) ;
-			return 0L ;
-		}
-
-	default:
-		logging::log_warn("Unknown case in switch statement") ;
-		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
-		logging::log_debug("Saving memory as tmx file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name ) ;
-		break;
-	}
-
-	// If the name changes, then we make the current user into the creator
-	const CString old_location = mem->get_location() ;
-
-	mem->set_location( file_name ) ;
-
-	save_memory( mem ) ;
-
-	if ( 0 != old_location.CompareNoCase( file_name ) )
-	{
-		mem->set_creator_to_current_user( ) ;
-	}
-
-	set_window_title() ;
+	save_memory_as(mem);
 
 	return 0L ;
 #endif
@@ -5095,4 +5015,90 @@ void CMainFrame::create_reg_gloss_window()
 	{
 		throw except::CException( R2T( IDS_MSG_EDIT_REC_FAILED ) ) ;
 	}
+}
+
+void CMainFrame::save_memory_as( memory_pointer mem )
+{
+	save_file_dlg dialog ;
+
+	if ( ! mem->is_new() ) 
+	{
+		file::CPath path( mem->get_location() ) ;
+		path.RemoveExtension() ;
+		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
+	}
+
+	CString dialog_title ;
+	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
+	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
+
+	dialog.set_filter( get_save_filter() ) ;
+
+	CString file_name = dialog.get_save_file() ;
+
+	if ( file_name.IsEmpty() )
+	{
+		return ;
+	}
+
+	file::CPath path( file_name ) ;
+
+	const int selected_index = dialog.get_selected_index() ;
+
+	switch( selected_index ) 
+	{
+	case 1: case 6:
+		logging::log_debug("Saving memory as ftm file") ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
+		break;
+
+	case 2:
+		logging::log_debug("Saving memory as xml file") ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
+		break;
+
+	case 3:
+		logging::log_debug("Saving memory as tmx file") ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		export_tmx( file_name ) ;
+		return ;
+
+	case 4:
+		logging::log_debug("Saving memory as Trados text file") ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
+		export_trados( file_name ) ;
+		return ;
+
+	case 5:
+		{
+			logging::log_debug("Saving memory as Excel file") ;
+			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
+			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
+				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
+			exporter.export_excel( m_model->get_memories()->get_first_memory(), file_name ) ;
+			return ;
+		}
+
+	default:
+		logging::log_warn("Unknown case in switch statement") ;
+		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+		logging::log_debug("Saving memory as tmx file") ;
+		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		export_tmx( file_name ) ;
+		break;
+	}
+
+	// If the name changes, then we make the current user into the creator
+	const CString old_location = mem->get_location() ;
+
+	mem->set_location( file_name ) ;
+
+	save_memory( mem ) ;
+
+	if ( 0 != old_location.CompareNoCase( file_name ) )
+	{
+		mem->set_creator_to_current_user( ) ;
+	}
+
+	set_window_title() ;
 }

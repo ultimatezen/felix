@@ -1548,6 +1548,7 @@ END
 STRINGTABLE 
 BEGIN
     IDC_SOURCE_LANG_STATIC  "Connect\nConnect to a memory on a local server."
+	IDS_SAVED_RESULTS		"Saved search results"
 END
 
 #endif    // Japanese resources

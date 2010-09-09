@@ -9,6 +9,7 @@
 #include "document_wrapper.h"
 #include "pagination.h"
 #include "Exceptions.h"
+#include "FrameListener.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
@@ -50,12 +51,14 @@ public:
 	// holds pointer to deleted match (to enable undo)
 	mem_engine::search_match_ptr m_deleted_match ;
 
-	match_vec m_matches ;
-	match_vec m_replace_matches ;
-	size_t m_current_match ;
+	match_vec	m_matches ;
+	match_vec	m_replace_matches ;
+	size_t		m_current_match ;
 	// any messages to stick to top of search results
-	wstring m_message ;	
-	CAccelerator				m_accelerator ;
+	wstring			m_message ;	
+	CAccelerator	m_accelerator ;
+
+	FrameListener	*m_listener ;
 
 public:
 	// sensing stuff for unit testing
@@ -65,10 +68,11 @@ public:
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
-	CSearchWindow() : 
+	CSearchWindow(FrameListener	*listener=NULL) : 
 		m_settings_key(_T("MemorySearchWindow"))
 		, m_title(_T("Search Memory"))
 		, m_current_match(0)
+		, m_listener(listener)
 	{
 
 	}
@@ -84,6 +88,8 @@ public:
 	// return true to cancel!
 	bool OnBeforeNavigate2(_bstr_t url);
 
+	// save results
+	void save_results(match_vec &matches);
 	// navigation handlers
 	void handle_deletefilter(doc3_wrapper_ptr doc, wstring url);
 	void handle_editrecord(doc3_wrapper_ptr doc, wstring url);

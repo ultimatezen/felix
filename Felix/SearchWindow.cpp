@@ -9,6 +9,7 @@
 #include "WebPage.h"
 #include "numberfmt.h"
 #include "system_message.h"
+#include "memory_local.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -234,7 +235,11 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		show_search_results(get_doc3(), m_matches) ;
 		return true ;
 	}
-
+	if (boost::ends_with(url, L"save_results"))
+	{
+		save_results(m_matches);
+		return true ;
+	}
 	if (boost::ends_with(url, L"deletefilter"))
 	{
 		handle_deletefilter(get_doc3(), url) ;
@@ -855,6 +860,20 @@ LRESULT CSearchWindow::OnToggleHelp()
 	page.CallJScript("toggleHelp") ;
 
 	return 0L ;
+}
+
+void CSearchWindow::save_results( match_vec &matches )
+{
+	mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
+
+	foreach(mem_engine::search_match_ptr match, matches)
+	{
+		mem->add_record(match->get_record()) ;
+	}
+	m_listener->save_memory_as(mem) ;
+	m_message = R2WSTR(IDS_SAVED_RESULTS) ;
+
+	show_search_results(get_doc3(), matches) ;
 }
 /*
  Get the value of the specified input box, and clear that value

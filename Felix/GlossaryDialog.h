@@ -56,7 +56,7 @@ class CGlossaryWindow :
 		public CDialogImpl< CGlossaryWindow, CCommonWindowFunctionality >
 		, public CWindowExceptionHandler< CGlossaryWindow >
 		, public CZoomInterface
-		, public ManagerWindowParentListener
+		, public FrameListener
 {
 	VISIBLE_TO_TESTS
 
@@ -272,6 +272,7 @@ public:
 	LRESULT on_file_save( ) ;
 	LRESULT on_file_save_as(  ) ;
 
+	void save_memory_as( mem_engine::memory_pointer mem );
 	LRESULT on_memory_close();
 
 

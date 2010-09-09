@@ -60,7 +60,7 @@ class CMainFrame :
 		, public CWindowExceptionHandler< CMainFrame >
 		, public CGlossaryWinListener
 		, public CZoomInterface
-		, public ManagerWindowParentListener
+		, public FrameListener
 {
 VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
@@ -87,7 +87,7 @@ VISIBLE_TO_TESTS
 
 	// the match records for glossary registration
 	CRegisterGlossDlg		m_reg_gloss_dlg ;
-	edit_record_dlg_ptr m_editor ;
+	edit_record_dlg_ptr		m_editor ;
 
 	// ====================
 	// glossary interface
@@ -292,6 +292,7 @@ public:
 	LRESULT on_file_save(WindowsMessage &message);
 	LRESULT on_file_save_as(WindowsMessage &message);
 
+	void save_memory_as( mem_engine::memory_pointer mem );
 	LRESULT on_memory_close(WindowsMessage &message);
 
 	LRESULT on_file_connect(UINT, int, HWND);

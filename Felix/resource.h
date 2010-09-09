@@ -581,6 +581,7 @@
 #define IDS_SEARCH_MANAGER_TITLE        579
 #define IDS_SOURCE_CONCORDANCE			580
 #define IDS_TRANS_CONCORDANCE			581
+#define IDS_SAVED_RESULTS				582
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
