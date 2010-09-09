@@ -881,7 +881,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Ginstrom IT Solutions"
             VALUE "FileDescription", "Felix Localized Module"
-            VALUE "FileVersion", "0, 0, 0, 0"
+            VALUE "FileVersion", "1, 6, 1, 0"
             VALUE "InternalName", "FelixJpn"
             VALUE "LegalCopyright", "Copyright GITS"
             VALUE "OriginalFilename", "JpnResource.dll"
