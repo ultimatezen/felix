@@ -120,6 +120,38 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
 	}
 
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// match lookup
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
+
+	using namespace mem_engine;
+
+	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
+	{
+		record_pointer rec(new record_local()) ;
+		rec->set_source(wstring(source)) ;
+		rec->set_trans(wstring(trans)) ;
+		mainframe.add_record(rec) ;
+	}
+
+	search_match_ptr get_first_match(CMainFrame &mainframe, search_query_params &params)
+	{
+		trans_match_container matches ;
+		mainframe.get_matches(matches, params) ;
+
+		trans_match_container::iterator pos = matches.begin() ;
+		return *pos ;
+	}
+
+	/************************************************************************/
+	/* lookup                                                               */
+	/************************************************************************/
+
 	BOOST_AUTO_TEST_CASE( lookup_does_not_change_markup)
 	{
 		app_props::properties_general props ;
@@ -151,31 +183,33 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		props.read_from_registry() ;
 		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
 	}
-BOOST_AUTO_TEST_SUITE_END()
-
-//////////////////////////////////////////////////////////////////////////
-// match lookup
-//////////////////////////////////////////////////////////////////////////
-
-BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
-
-	using namespace mem_engine;
-
-	void add_record(CMainFrame &mainframe, LPCWSTR source, LPCWSTR trans)
+	BOOST_AUTO_TEST_CASE(lookup_brackets)
 	{
-		record_pointer rec(new record_local()) ;
-		rec->set_source(wstring(source)) ;
-		rec->set_trans(wstring(trans)) ;
-		mainframe.add_record(rec) ;
+		app_props::properties_general props ;
+		props.read_from_registry() ;
+
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		add_record(mainframe, L"&lt;spam&gt;", L"foo") ;
+
+		wstring query = L"&lt;spam&gt;" ;
+
+		mainframe.lookup(query) ;
+		BOOST_CHECK_EQUAL(1u, mainframe.m_trans_matches.size()) ;
 	}
-
-	search_match_ptr get_first_match(CMainFrame &mainframe, search_query_params &params)
+	BOOST_AUTO_TEST_CASE(lookup_trans_brackets)
 	{
-		trans_match_container matches ;
-		mainframe.get_matches(matches, params) ;
+		app_props::properties_general props ;
+		props.read_from_registry() ;
 
-		trans_match_container::iterator pos = matches.begin() ;
-		return *pos ;
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		add_record(mainframe, L"source", L"&lt;trans&gt;") ;
+
+		wstring query = L"&lt;trans&gt;" ;
+
+		mainframe.lookup_trans(query) ;
+		BOOST_CHECK_EQUAL(1u, mainframe.m_trans_matches.size()) ;
 	}
 	// match lookup stuff
 	BOOST_AUTO_TEST_CASE( get_matches_size_0)

@@ -148,9 +148,22 @@ public:
 
 	bool handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc);
 
+	bool import_tmx( const file::OpenDlgList &files );
+
+	/** import a single tmx file. */
+	bool import_tmx( const CString &file_name );
+
+	bool import_trados( const file::OpenDlgList &files );
+	/** Imports a Trados memory.
+	 */
+	bool import_trados(const CString &trados_file_name);
 	// ========================
 	// message map
 	// ========================
+	void import_multiterm( const file::OpenDlgList &import_files );
+	//! Import a multiterm file
+	void import_multiterm( const CString &file_name );
+	void import_tabbed_text( const CString &file_name );
 
 	// Win32 message handlers
 	LRESULT OnCreate(UINT, WPARAM, LPARAM);

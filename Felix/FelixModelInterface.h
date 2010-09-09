@@ -31,9 +31,9 @@ public:
 		this->get_memories()->remove_memory_by_id(mem->get_id()) ;
 	}
 
-	void add_memory()
+	memory_type add_memory()
 	{
-		this->get_memories()->add_memory() ;
+		return this->get_memories()->add_memory() ;
 	}
 	bool perform_search( mem_engine::search_match_container &matches, 
 		const mem_engine::search_query_params &params )

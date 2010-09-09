@@ -635,6 +635,7 @@ BEGIN
     "D",            ID_EDIT_DELETE,         VIRTKEY, CONTROL, NOINVERT
     "F",            ID_EDIT_FIND,           VIRTKEY, CONTROL, NOINVERT
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_FIND_QUICKSEARCH,    VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
     "H",            ID_EDIT_REPLACE,        VIRTKEY, CONTROL, NOINVERT
     "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
@@ -723,7 +724,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright GITS"
             VALUE "OriginalFilename", "EngResource.dll"
             VALUE "ProductName", "Felix English Module"
-            VALUE "ProductVersion", "1, 5, 4, 0"
+            VALUE "ProductVersion", "1, 6, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1200,6 +1201,8 @@ BEGIN
     IDS_SEND_BTN            "&Send"
     IDS_DONT_SEND_BTN       "Do &Not Send"
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
+	IDS_SOURCE_CONCORDANCE	"Concordance for &Source"
+	IDS_TRANS_CONCORDANCE	"Concordance for &Trans"
 END
 
 STRINGTABLE 

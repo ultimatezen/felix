@@ -803,6 +803,7 @@ BEGIN
     "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_FIND_QUICKSEARCH,    VIRTKEY, CONTROL, NOINVERT
     "R",            IDC_SET_GLOSS,          VIRTKEY, ALT, NOINVERT
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
     "S",            IDC_SET_SOURCE,         VIRTKEY, ALT, NOINVERT
@@ -885,7 +886,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright GITS"
             VALUE "OriginalFilename", "JpnResource.dll"
             VALUE "ProductName", "Felix Japanese Module"
-            VALUE "ProductVersion", "1, 5, 4, 0"
+            VALUE "ProductVersion", "1, 6, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1200,6 +1201,8 @@ BEGIN
     IDS_SEND_BTN            "ëóêM(&S)"
     IDS_DONT_SEND_BTN       "ëóêMÇµÇ»Ç¢(&S)"
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
+	IDS_SOURCE_CONCORDANCE	"å¥ï∂àÍívÇÃåüçı(&S)"
+	IDS_TRANS_CONCORDANCE	"ñÛï∂àÍívÇÃåüçı(&T)"
 END
 
 STRINGTABLE 

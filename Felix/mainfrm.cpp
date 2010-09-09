@@ -4927,6 +4927,9 @@ HRESULT CMainFrame::get_doc_context_menu()
 	add_popup_item(menu, ID_NEXT_PANE, IDS_POPUP_SWITCH_VIEWS) ;
 	add_popup_item(menu, ID_EDIT_REGISTER, IDS_POPUP_REGISTER_GLOSS) ;
 	add_popup_separator(menu) ;
+	add_popup_item(menu, IDC_SOURCE_CONCORDANCE_SEL, IDS_SOURCE_CONCORDANCE) ;
+	add_popup_item(menu, IDC_TRANS_CONCORDANCE_SEL, IDS_TRANS_CONCORDANCE) ;
+	add_popup_separator(menu) ;
 	add_popup_item(menu, ID_EDIT_DELETE, IDS_POPUP_DELETE) ;
 
 	// Show the menu at the cursor position

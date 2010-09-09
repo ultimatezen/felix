@@ -561,6 +561,20 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
+	BOOST_AUTO_TEST_CASE( GetMatchesSize1_brackets)
+	{
+		memory_local mem ;
+		add_record(mem, "&lt;I luv spam&gt;", "Yes I do") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"&lt;I luv spam&gt;" ;
+		params.m_source = strip_tags(params.m_rich_source) ;
+
+		mem.find_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1_not_active)
 	{
 		memory_local mem ;
@@ -643,7 +657,6 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 
 		trans_match_container matches ;
 		search_query_params params ;
-
 		params.m_rich_source = L"CAAC" ;
 		params.m_source = L"CAAC" ;
 		params.m_ignore_case = true ;
@@ -804,6 +817,20 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}	
+	BOOST_AUTO_TEST_CASE(GetMatchesSize1_brackets)
+	{
+		memory_local mem ;
+		add_record(mem, "A random source string", "&lt;I luv spam trans&gt;") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"&lt;I luv spam trans&gt;" ;
+		params.m_source = strip_tags(params.m_rich_source) ;
+
+		mem.find_trans_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
 	BOOST_AUTO_TEST_CASE(GetMatchesSize1_not_active)
 	{
 		memory_local mem ;

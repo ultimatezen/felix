@@ -18,6 +18,11 @@
 #include "EditFormParser.h"
 #include "ui.h"
 
+#include "TMXReader.h"		// CTMXReader
+#include "data_importer.h"	// trados_data_importer
+#include "ImportDialog.h"
+#include "ImportMultitermFile.h"
+#include "TabbedTextImporter.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -578,86 +583,6 @@ bool CManagerWindow::nav_addnew(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
-bool CManagerWindow::nav_load(const std::vector<string> &tokens)
-{
-	SENSE("nav_load"); 
-	bool is_memory = tokens[1] == "mem" ;
-	is_memory ;
-	m_current_state->show_content() ;
-
-	windows_ui ui( m_hWnd ) ;
-	file::OpenDlgList import_files ;
-
-	const CString dialog_title = resource_string(IDS_OPEN);
-
-	LPCTSTR filter = NULL ;
-	LPCTSTR fileext = NULL ;
-
-	LPCTSTR fileext_gloss = _T("flgoss") ;
-	LPCTSTR fileext_mem = _T("ftm") ;
-
-	if (m_title_id == IDS_GLOSSARY_MANAGER_TITLE)
-	{
-		filter = get_gloss_open_filter() ;
-		fileext = fileext_gloss ;
-	}
-	else
-	{
-		filter = get_mem_open_filter() ;
-		fileext = fileext_mem ;
-	}
-
-	if ( ! ui.get_open_files( import_files, dialog_title, filter, fileext ) )
-	{
-		return true ;
-	}
-	add_memory_files(is_memory ? m_mem_model : m_gloss_model,
-		import_files);
-
-	m_current_state->show_content() ;
-	m_listener->set_window_title() ;
-	return true ;
-}
-
-// nav helpers
-
-void CManagerWindow::add_memory_files(FelixModelInterface *model,
-									  file::OpenDlgList &import_files)
-{
-	foreach(CString filename, import_files.m_filenames)
-	{
-		add_memory_file(model, filename);
-	}
-}
-
-void CManagerWindow::add_memory_file( FelixModelInterface *model, CString filename )
-{
-	const file::CPath path(filename) ;
-	if ( ! path.FileExists() ) // whoops -- file not there
-	{
-		CString msg ;
-		msg.FormatMessage( IDS_MSG_NO_FILE, filename ) ;
-		THROW_WIN_EXCEPTION( msg ) ;
-	}
-	model->add_memory() ;
-	mem_engine::memory_pointer mem = model->memory_at(model->size()-1) ;
-
-	try
-	{
-		mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
-
-		if ( ! mem->load( filename ) )
-		{
-			return ;
-		}
-	}
-	catch ( ... ) 
-	{
-		mem->set_listener( NULL ) ;
-		throw ;
-	}
-	m_listener->set_window_title() ;
-}
 
 /* swap_memories
  swaps the memory at `index` with the one below it.
@@ -775,3 +700,253 @@ LRESULT CManagerWindow::OnInitView()
 	return 0L ;
 }
 
+
+/************************************************************************/
+/* loading memories                                                     */
+/************************************************************************/
+bool CManagerWindow::nav_load(const std::vector<string> &tokens)
+{
+	SENSE("nav_load"); 
+	bool is_memory = tokens[1] == "mem" ;
+	is_memory ;
+	m_current_state->show_content() ;
+
+	open_file_dlg dialog ;
+
+	if (is_memory)
+	{
+		dialog.set_prompt( R2T( IDS_OPEN ) ) ;
+		dialog.set_filter( get_mem_open_filter() ) ;
+	}
+	else
+	{
+		dialog.set_prompt( R2T( IDS_OPEN_GLOSS_FILE ) ) ;
+		dialog.set_filter( get_gloss_open_filter() ) ;
+	}
+
+	file::OpenDlgList import_files ;
+
+	if ( ! dialog.get_open_files( import_files ) ) 
+	{
+		return true ;
+	}
+	const int selected_index = dialog.get_selected_index() ;
+	if (is_memory)
+	{
+		switch( selected_index ) 
+		{
+		case 1: case 4:
+			add_memory_files(m_mem_model, import_files);
+			break ;
+
+		case 2:
+			import_tmx( import_files ) ;
+			break ;
+
+		case 3:
+			import_trados( import_files ) ;
+			break ;
+
+		default:
+			ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+			break ;
+
+		}	
+	}
+	else
+	{
+		switch(selected_index) 
+		{
+		case 1: case 4:
+			add_memory_files(m_gloss_model, import_files);
+			break ;
+
+		case 2:
+			import_multiterm( import_files ) ;
+			break ;
+
+		case 3:
+			{
+				foreach(CString filename, import_files.m_filenames)
+				{
+					import_tabbed_text(filename) ;
+				}
+			}
+			break ;
+
+		default:
+			ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+			break ;
+		}		
+	}
+
+	m_current_state->show_content() ;
+	m_listener->set_window_title() ;
+	return true ;
+}
+
+
+void CManagerWindow::add_memory_files(FelixModelInterface *model,
+									  file::OpenDlgList &import_files)
+{
+	foreach(CString filename, import_files.m_filenames)
+	{
+		add_memory_file(model, filename);
+	}
+}
+
+void CManagerWindow::add_memory_file( FelixModelInterface *model, CString filename )
+{
+	const file::CPath path(filename) ;
+	if ( ! path.FileExists() ) // whoops -- file not there
+	{
+		CString msg ;
+		msg.FormatMessage( IDS_MSG_NO_FILE, filename ) ;
+		THROW_WIN_EXCEPTION( msg ) ;
+	}
+
+	mem_engine::memory_pointer mem = model->add_memory() ;
+
+	try
+	{
+		mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
+
+		if ( ! mem->load( filename ) )
+		{
+			return ;
+		}
+	}
+	catch ( ... ) 
+	{
+		mem->set_listener( NULL ) ;
+		throw ;
+	}
+	m_listener->set_window_title() ;
+}
+
+bool CManagerWindow::import_tmx( const file::OpenDlgList &files )
+{
+	foreach(CString filename, files.m_filenames)
+	{
+		import_tmx(filename) ;
+	}
+
+	return true ;
+}
+
+bool CManagerWindow::import_tmx( const CString &file_name )
+{
+	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
+
+	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
+	reader.load_tmx_memory( file_name ) ;
+
+	// if we failed to load any entries, remove the memory
+	if ( mem->empty() ) 
+	{
+		m_mem_model->get_memories()->remove_memory_by_id( mem->get_id() ) ;
+		return false ;
+	}
+
+	mem->set_location(file_name) ;
+
+	m_listener->set_window_title() ;
+	return true ;
+}
+
+bool CManagerWindow::import_trados( const file::OpenDlgList &files )
+{
+	try
+	{
+		foreach(CString filename, files.m_filenames)
+		{
+			import_trados(filename) ;
+		}
+	}
+	catch( except::CException &e )
+	{
+		logging::log_error("Failed to load trados memory from manager window") ;
+		logging::log_exception(e) ;
+		e.notify_user( IDS_IMPORT_ABORTED ) ;
+
+		return false ;
+	}
+
+	return true ;
+}
+
+bool CManagerWindow::import_trados( const CString &trados_file_name )
+{
+	trados_data_importer importer( static_cast< CProgressListener* >( this ) ) ;
+
+	CWaitCursor wait_cursor ;
+
+	importer.open_data_source( trados_file_name ) ;
+
+	// convert them to internal format
+	trados_data_importer::language_code_set languages ;
+
+	for ( int num_codes = 0 ; 
+		importer.get_language_code( languages ) && num_codes < 100 ; 
+		++num_codes)
+	{
+	}
+
+	wait_cursor.Restore() ;
+
+	CImportDialog import_dialog ;
+	import_dialog.set_languages( languages ) ;
+	if ( import_dialog.DoModal() == IDCANCEL )
+	{
+		return false ;
+	}
+
+	importer.set_source_language( import_dialog.get_source_plain() ) ;
+	importer.set_target_language( import_dialog.get_trans_plain() ) ;
+
+	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
+
+	MemoryInfo *mem_info = mem->get_memory_info() ;
+	mem_info->set_creation_tool( L"TradosText" ) ;
+	mem_info->set_creation_tool_version( L"6.0" ) ;
+
+	ATLASSERT ( mem->get_memory_info()->get_creation_tool() == L"TradosText" ) ; 
+	ATLASSERT ( mem->get_memory_info()->get_creation_tool_version() == L"6.0" ) ; 
+
+	if ( ! importer.load( trados_file_name, mem ) )
+	{
+		return false ;
+	}
+	else
+	{
+		mem->set_location( trados_file_name ) ;
+		m_listener->set_window_title() ;
+	}
+
+	return true ;
+}
+
+void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
+{
+	foreach(CString filename, import_files.m_filenames)
+	{
+		import_multiterm(filename) ;
+	}
+	m_listener->set_window_title() ;
+}
+
+void CManagerWindow::import_multiterm( const CString &file_name )
+{
+	CImportMultitermFile importer(this) ;
+	importer.import(file_name) ;
+	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
+	m_listener->set_window_title() ;
+}
+
+void CManagerWindow::import_tabbed_text( const CString &file_name )
+{
+	CTabbedTextImporter importer(this) ;
+	importer.load_file(file_name) ;
+	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
+	m_listener->set_window_title() ;
+}
