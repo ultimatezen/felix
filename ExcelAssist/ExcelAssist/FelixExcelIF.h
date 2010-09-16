@@ -24,7 +24,6 @@
  * Wraps the various actions we want to perform in Excel, like looking up and retrieving cells.
  */
 
-_bstr_t message_cell_text(_bstr_t text) ;
 _bstr_t get_cell_text(excel::range_ptr cell); // prototype
 void set_cell_text(excel::range_ptr cell, _bstr_t text); // prototype
 

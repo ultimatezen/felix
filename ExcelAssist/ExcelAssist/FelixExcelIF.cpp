@@ -21,11 +21,6 @@ static const int MAX_ROWS_NO_ENTRY = 5 ;
 
 using namespace except ;
 
-_bstr_t message_cell_text(_bstr_t text)
-{
-	wstring wtext = BSTR2wstring(text) ;
-	return string2BSTR(boost::replace_all_copy(wtext, L"&gt;", L">")) ;
-}
 bool double_equals(double left, double right, double epsilon=0.001)
 {
 	return (fabs(left - right) < epsilon);
@@ -46,16 +41,16 @@ _bstr_t get_cell_text(excel::range_ptr cell)
 }
 void set_cell_text(excel::range_ptr cell, _bstr_t text)
 {
-	const _variant_t vtext(message_cell_text(text)) ;
+	CFelixString felix_text(text) ;
 	try
 	{
-		cell->SetText(vtext)  ;
+		cell->SetText(felix_text.as_variant())  ;
 	}
 	catch (_com_error& e)
 	{
 		logging::log_error("COM exception setting cell text") ;
 		logging::log_exception(e) ;
-		cell->SetFormula(vtext) ;
+		cell->SetFormula(felix_text.as_variant()) ;
 	}
 }
 
@@ -391,12 +386,9 @@ void CFelixExcelIF::OnGet( )
 	{
 		ta_ptr assistant = getAssistant() ;
 
-		CFelixString trans = assistant->GetTrans() ;
-
 		set_active_cell_text(assistant->GetTrans()) ;
 
 		restore_cell_color();
-
 	}
 	catch( _com_error &e ) 
 	{
@@ -934,9 +926,9 @@ _bstr_t CFelixExcelIF::get_selection_text( excel::app_ptr application )
 	}
 	catch ( _com_error &e ) 
 	{
-		ATLTRACE("_com_error -- Failed to get text from Selection->Characters\n") ;
 		CComException cce(e) ;
-		ATLTRACE(cce.format_message_for_message_box()) ;
+		logging::log_warn("Failed to set text in Excel textbox") ;
+		logging::log_exception(cce) ;
 
 		excel::range_ptr activeCell = application->GetActiveCell() ;
 		lookupText = activeCell->GetText() ;
@@ -950,19 +942,17 @@ _bstr_t CFelixExcelIF::get_selection_text( excel::app_ptr application )
  */
 void CFelixExcelIF::set_active_cell_text( _bstr_t text )
 {
-	CFelixString trans = message_cell_text(text) ;
+	CFelixString felix_text(text) ;
 
 	// First we try writing to the Selection.
 	try
 	{
-		m_excel_app->GetSelectedChars()->SetText(trans.as_bstring()) ;
+		m_excel_app->GetSelectedChars()->SetText(felix_text.as_bstr()) ;
 	}
 	// If that fails, we try writing to the active cell
 	catch ( ... ) 
 	{
-		ATLTRACE( "Failed to set the Characters.Text -- setting the formula instead..." ) ;
-		excel::range_ptr activeCell = m_excel_app->GetActiveCell() ;
-		activeCell->SetFormula( trans.as_variant() ) ;
+		set_cell_text(m_excel_app->GetActiveCell(), text) ;
 	}
 }
 
@@ -985,13 +975,6 @@ void CFelixExcelIF::real_restore_cell_color()
 		logging::log_exception(e) ;
 		ATLTRACE( "_com_error -- Failed to restore the cell color from the selection. That must mean that the selection isn't a cell!\n" ) ;
 	}
-	//catch (...) 
-	//{
-	//	ATLASSERT( "Unknown error restoring cell text!" && FALSE ) ;
-	//	ATLTRACE( "Unknown error...\n"
-	//							"Failed to restore the cell color from the selection.\n"
-	//							"That must mean that the selection isn't a cell!" ) ;
-	//}
 }
 
 void CFelixExcelIF::setProperties( app_state *properties )

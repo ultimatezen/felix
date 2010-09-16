@@ -7,7 +7,7 @@
 
 #include "stringex.h"
 #include "atlstr.h"
-
+#include "tag_stripper.h"
 /*!
  * \brief
  * Write brief comment for CExcelString here.
@@ -136,26 +136,15 @@ public:
 		return m_data.length() == 0 ;
 	}
 	/*!
-	 * \brief
-	 * Write brief comment for as_bstr here.
-	 * 
-	 * \returns
-	 * Write description of return value here.
-	 * 
-	 * \throws <exception class>
-	 * Description of criteria for throwing this exception.
-	 * 
-	 * Write detailed description for as_bstr here.
-	 * 
-	 * \remarks
-	 * Write remarks for as_bstr here.
-	 * 
-	 * \see
-	 * Separate items with the '|' character.
+		Retrieve the string value
 	 */
 	_bstr_t as_bstr()
 	{
 		return m_data ;
+	}
+	_variant_t as_variant()
+	{
+		return _variant_t( m_data ) ;
 	}
 private:
 	/*!
@@ -179,10 +168,10 @@ private:
 		{
 			return ;
 		}
-		wstring out( (LPCWSTR)m_data ) ;
-		boost::replace_all( out, L"&", L"&amp;" ) ;
-		boost::replace_all( out, L"<", L"&lt;" ) ;
-		boost::replace_all( out, L">", L"&gt;" ) ;
-		m_data = out.c_str() ;
+		wstring out = BSTR2wstring(m_data) ;
+		boost::replace_all(out, L"&", L"&amp;") ;
+		boost::replace_all(out, L"<", L"&lt;") ;
+		boost::replace_all(out, L">", L"&gt;") ;
+		m_data = string2BSTR(out) ;
 	}
 };

@@ -42,7 +42,7 @@ class WordParser  : public CParserBase
 	WordRange		m_original_range ;
 	html_formatter	m_formatter ;
 	bool			m_eat_whitespace ;
-	std::vector<wstring>	m_ok_endings ;
+	Abbreviations	m_ok_endings ;
 
 public:
 	_bstr_t			m_SegStopChars ;
@@ -51,7 +51,7 @@ public:
 	bool			m_select_spaces ;
 
 public:
-	void setPrefs( app_state &prefs );
+	void setPrefs( app_state *prefs );
 	// format toolbar combo selections
 	bool OnPreferencesChanged( boost::any &Param );
 	bool select_to_maru();
@@ -92,7 +92,7 @@ public:
 	void advance_end(  WordRange &range, long &old_end, _bstr_t &text, _bstr_t &next_char);
 	_bstr_t segment_as_plaintext( );
 	_bstr_t segment_as_html( );
-	WordParser( WordSelection selection );
+	WordParser( WordSelection selection, app_state *params, const wstring &abbreviations );
 #ifdef _DEBUG
 	WordParser( ) ;
 #endif

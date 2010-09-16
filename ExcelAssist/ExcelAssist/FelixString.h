@@ -35,6 +35,10 @@ public:
 	{
 		internal_copy( text ) ;
 	}
+	CFelixString( const _variant_t &text )
+	{
+		internal_copy( text.bstrVal ) ;
+	}
 	virtual ~CFelixString(){}
 	/*!
 	 * \brief
@@ -46,6 +50,12 @@ public:
 	CFelixString& operator=( const _bstr_t &text )
 	{
 		internal_copy( text ) ;
+		return *this ;
+	}
+	CFelixString& operator=( const _variant_t &text )
+	{
+		internal_copy( text.bstrVal ) ;
+		return *this ;
 	}
 	/*!
 	 * \brief
@@ -54,7 +64,7 @@ public:
 	 * \returns
 	 * The translation as a BSTR.
 	 */
-	_bstr_t as_bstring()
+	_bstr_t as_bstr()
 	{
 		return _bstr_t( m_data.c_str( ) ) ;
 	}
@@ -82,7 +92,6 @@ private:
 	 */
 	void internal_copy( const _bstr_t &text )
 	{
-		wstring tmp( (LPCWSTR)text, text.length() ) ;
-		m_data = strip_tags( tmp ) ;
+		m_data = strip_tags( BSTR2wstring(text) ) ;
 	}
 };

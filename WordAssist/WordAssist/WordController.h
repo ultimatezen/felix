@@ -36,6 +36,7 @@ public:
 
 	bool				m_is_trans_mode ;
 	app_state			m_properties ;
+	wstring				m_abbreviations ;
 	bool				m_isAndSetAction ;
 
 
