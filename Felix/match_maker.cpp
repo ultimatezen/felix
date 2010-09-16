@@ -511,10 +511,22 @@ namespace mem_engine
 		size_t col_num = num_cols ;
 		
 		// get the row tokens
-		row_tokens.clear() ;
-		tokenize_words( m_row_show_string, row_tokens ) ;
-		col_tokens.clear() ;
-		tokenize_words( m_col_show_string, col_tokens ) ;
+		wstring row_show = m_row_show_string ;
+		for (size_t i = 0 ; i < row_tokens.size() ; ++i)
+		{
+			wstring token = row_tokens[i] ;
+			size_t len = token.size() ;
+			row_tokens[i] = row_show.substr(0, len) ;
+			row_show = row_show.substr(len) ;
+		}
+		wstring col_show = m_col_show_string ;
+		for (size_t i = 0 ; i < col_tokens.size() ; ++i)
+		{
+			wstring token = col_tokens[i] ;
+			size_t len = token.size() ;
+			col_tokens[i] = col_show.substr(0, len) ;
+			col_show = col_show.substr(len) ;
+		}
 
 		std::list< wstring > row_list ;
 		std::list< wstring > col_list ;

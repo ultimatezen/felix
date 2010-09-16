@@ -185,9 +185,6 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_brackets)
 	{
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"&lt;spam&gt;", L"foo") ;
@@ -199,9 +196,6 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_trans_brackets)
 	{
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"source", L"&lt;trans&gt;") ;
@@ -211,6 +205,19 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		mainframe.lookup_trans(query) ;
 		BOOST_CHECK_EQUAL(1u, mainframe.m_trans_matches.size()) ;
 	}
+	// MON[0]Å`MON[6] of ScheduleNo1Å`7
+	BOOST_AUTO_TEST_CASE(lookup_naishi)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+		add_record(mainframe, L"MON[0]Å`MON[6] of ScheduleNo1Å`7", L"MON[0]Å`MON[6] of ScheduleNo1Å`7") ;
+
+		wstring query = L"MON[0]Å`MON[6] of ScheduleNo1Å`7" ;
+
+		mainframe.lookup(query) ;
+		BOOST_CHECK_EQUAL(1u, mainframe.m_trans_matches.size()) ;
+	}
+
 	// match lookup stuff
 	BOOST_AUTO_TEST_CASE( get_matches_size_0)
 	{
