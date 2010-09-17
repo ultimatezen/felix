@@ -182,6 +182,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\app_state_test.cpp"
 				>
 			</File>
@@ -336,6 +340,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\AddGlossDialog.h"
 				>
 			</File>
@@ -416,11 +424,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
 				>
 			</File>
 			<File

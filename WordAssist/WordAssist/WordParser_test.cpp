@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "WordParser.h"
+#include "app_state.h"
+
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
@@ -9,7 +11,9 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	BOOST_AUTO_TEST_CASE( is_whitespace_char)
 	{
 		WordSelection selection ;
-		WordParser parser(selection) ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 
 		BOOST_CHECK( parser.is_whitespace_char(L" ")) ;
 		BOOST_CHECK( parser.is_whitespace_char(L"\naha")) ;
@@ -22,7 +26,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( formatting_enabled )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		parser.m_parse_font_face = FALSE;
 		parser.m_parse_font_color = FALSE ;
 		parser.m_parse_font_bold = FALSE ;
@@ -35,56 +42,83 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	BOOST_AUTO_TEST_CASE( table_selected_false )
 	{
 		_bstr_t text = L"spam" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( ! parser.table_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( table_selected_false_emtpy )
 	{
 		_bstr_t text = L"" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( ! parser.table_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( table_selected_true )
 	{
 		_bstr_t text = L"foo\7" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( parser.table_selected(text) ) ;
 	}
 	// is_right_quote_selected
 	BOOST_AUTO_TEST_CASE( is_right_quote_selected_false )
 	{
 		_bstr_t text = L"spam" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( ! parser.is_right_quote_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_right_quote_selected_false_emtpy )
 	{
 		_bstr_t text = L"" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( ! parser.is_right_quote_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_straight )
 	{
 		_bstr_t text = L"\"" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_single )
 	{
 		_bstr_t text = L"\x2019" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_right_quote_selected_true_double )
 	{
 		_bstr_t text = L"\x201D" ;
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		BOOST_CHECK( parser.is_right_quote_selected(text) ) ;
 	}
 	// make_bold_setting
 	BOOST_AUTO_TEST_CASE( make_bold_setting_true )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_bold_established()) ;
 		parser.make_bold_setting(MSOffice::msoTrue, props) ;
@@ -93,7 +127,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_bold_setting_false )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_bold_established()) ;
 		parser.make_bold_setting(MSOffice::msoFalse, props) ;
@@ -102,7 +139,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_bold_setting_msoTriStateMixed )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_bold_established()) ;
 		parser.make_bold_setting(MSOffice::msoTriStateMixed, props) ;
@@ -112,7 +152,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	// make_italic_setting
 	BOOST_AUTO_TEST_CASE( make_italic_setting_true )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_italic_established()) ;
 		parser.make_italic_setting(MSOffice::msoTrue, props) ;
@@ -121,7 +164,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_italic_setting_false )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_italic_established()) ;
 		parser.make_italic_setting(MSOffice::msoFalse, props) ;
@@ -130,7 +176,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_italic_setting_msoTriStateMixed )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_italic_established()) ;
 		parser.make_italic_setting(MSOffice::msoTriStateMixed, props) ;
@@ -140,7 +189,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	// make_subscript_setting
 	BOOST_AUTO_TEST_CASE( make_subscript_setting_true )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_subscript_established()) ;
 		parser.make_subscript_setting(MSOffice::msoTrue, props) ;
@@ -149,7 +201,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_subscript_setting_false )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_subscript_established()) ;
 		parser.make_subscript_setting(MSOffice::msoFalse, props) ;
@@ -158,7 +213,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_subscript_setting_msoTriStateMixed )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_subscript_established()) ;
 		parser.make_subscript_setting(MSOffice::msoTriStateMixed, props) ;
@@ -168,7 +226,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	// make_superscript_setting
 	BOOST_AUTO_TEST_CASE( make_superscript_setting_true )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_superscript_established()) ;
 		parser.make_superscript_setting(MSOffice::msoTrue, props) ;
@@ -177,7 +238,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_superscript_setting_false )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_superscript_established()) ;
 		parser.make_superscript_setting(MSOffice::msoFalse, props) ;
@@ -186,7 +250,10 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	}
 	BOOST_AUTO_TEST_CASE( make_superscript_setting_msoTriStateMixed )
 	{
-		WordParser parser ;
+		WordSelection selection ;
+		wstring abbrev = L"Mr.\nMrs." ;
+		app_state state ;
+		WordParser parser(selection, &state, abbrev) ;
 		font_properties props ;
 		BOOST_CHECK(!props.is_superscript_established()) ;
 		parser.make_superscript_setting(MSOffice::msoTriStateMixed, props) ;
