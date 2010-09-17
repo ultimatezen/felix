@@ -2,11 +2,14 @@
 #include "TextRangeParser.h"
 #include "PPTFormatter.h"
 #include "globalApp.h"
+#include "abbreviations.h"
 
 CTextRangeParser::CTextRangeParser(void)
 : m_start(0)
 {
-	m_ok_endings += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
+	Abbreviations abbreviations ;
+	abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
+	std::copy(abbreviations.m_abbreviations.begin(), abbreviations.m_abbreviations.end(), m_ok_endings.begin()) ;
 }
 
 CTextRangeParser::~CTextRangeParser(void)

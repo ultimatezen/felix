@@ -5,10 +5,6 @@
 #include "stdafx.h"
 #include "app_state.h"
 #include "file.h"
-#include <shlobj.h>
-#include "Path.h"
-#include "logging.h"
-#include "Exceptions.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -164,58 +160,3 @@ void app_state::_internal_copy ( const app_state &rhs )
 	TRACE( m_segChars ) ;
 }
 
-void Abbreviations::load(const wstring &text)
-{
-	std::vector<wstring> tokens ;
-	boost::split(tokens, text, boost::is_space()) ;
-	if (! tokens.empty())
-	{
-		m_abbreviations.clear() ;
-		foreach(wstring token, tokens)
-		{
-			if (! token.empty())
-			{
-				m_abbreviations.insert(token) ;
-			}
-		}
-	}
-}
-
-Abbreviations::Abbreviations()
-{
-	std::vector<wstring> tokens ;
-	tokens += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
-	foreach(wstring token, tokens)
-	{
-		m_abbreviations.insert(token) ;
-	}
-}
-
-wstring get_config_text(CString filename)
-{
-	TCHAR szPath[MAX_PATH];
-	HRESULT hr = SHGetFolderPath(NULL, // hwndOwner
-		CSIDL_LOCAL_APPDATA,		  // nFolder
-		(HANDLE)NULL,				  // hToken (-1 means "default user")
-		SHGFP_TYPE_CURRENT,			  // dwFlags 
-		szPath) ;
-	if (! SUCCEEDED(hr))
-	{
-		logging::log_error("Failed to get local app data folder") ;
-		except::CComException e(hr) ;
-		logging::log_exception(e) ;
-		return wstring();
-	}
-
-	const fs::wpath pathname = fs::wpath(static_cast<LPCTSTR>(szPath)) 
-		/ _T("Felix") 
-		/ static_cast<LPCTSTR>(filename) ;
-	CString abbrev_file(pathname.string().c_str()) ;
-	if (! file::CPath(abbrev_file).FileExists())
-	{
-		return wstring() ;
-	}
-	file::view abbrev_view ;
-	string raw_text(static_cast<LPCSTR>(abbrev_view.create_view_readonly(abbrev_file))) ;
-	return string2wstring(raw_text, CP_UTF8) ;
-}

@@ -233,6 +233,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				>
+			</File>
+			<File
 				RelativePath="AddIn.cpp"
 				>
 			</File>
@@ -405,6 +409,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
+			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				>
+			</File>
 			<File
 				RelativePath=".\AddGlossDialog.h"
 				>

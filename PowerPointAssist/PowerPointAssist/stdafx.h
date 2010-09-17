@@ -109,6 +109,12 @@ typedef boost::basic_format< TCHAR > tformat;
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
 
+#pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
+#include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations
+#pragma warning( default : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
+
+namespace fs = boost::filesystem;
+
 #include <atlbase.h>
 #include <atlcom.h>
 

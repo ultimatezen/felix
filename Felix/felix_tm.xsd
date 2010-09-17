@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="memory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="head">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="creator" type="xs:string" />
+              <xs:element name="created_on" type="xs:string" />
+              <xs:element name="creation_tool" type="xs:string" />
+              <xs:element name="creation_tool_version" type="xs:decimal" />
+              <xs:element name="num_records" type="xs:unsignedShort" />
+              <xs:element name="locked" type="xs:boolean" />
+              <xs:element name="is_memory" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="records">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="record">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="id" type="xs:unsignedShort" />
+                    <xs:element name="source" type="xs:string" />
+                    <xs:element name="trans" type="xs:string" />
+                    <xs:element name="context" type="xs:string" />
+                    <xs:element name="date_created" type="xs:string" />
+                    <xs:element name="last_modified" type="xs:string" />
+                    <xs:element name="reliability" type="xs:unsignedByte" />
+                    <xs:element name="validated" type="xs:boolean" />
+                    <xs:element name="ref_count" type="xs:unsignedInt" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

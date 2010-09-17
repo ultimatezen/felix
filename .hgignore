@@ -24,3 +24,6 @@ glob:Felix/view_state_new_test.cp
 relre:Test_Felix/dlldata.c
 glob:Felix/RDa01212
 glob:Felix/RDa05520
+glob:Felix/felix_tm.dll
+glob:Felix/felix_tm.dll.manifest
+glob:Felix/Unicode_Debug.obj

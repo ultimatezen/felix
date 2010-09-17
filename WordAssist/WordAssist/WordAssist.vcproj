@@ -233,6 +233,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				>
+			</File>
+			<File
 				RelativePath="AddIn.cpp"
 				>
 			</File>
@@ -390,6 +394,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
+				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				>
+			</File>
+			<File
 				RelativePath=".\AddGlossDialog.h"
 				>
 			</File>
@@ -482,11 +490,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File

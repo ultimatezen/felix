@@ -3059,6 +3059,14 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\felix_tm.xsd"
+			>
+			<File
+				RelativePath=".\felix_tm.h"
+				>
+			</File>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
