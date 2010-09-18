@@ -8,7 +8,7 @@
 #include "shapeparser.h"
 #include "TextRangeParser.h"
 #include "app_state.h"
-
+#include "abbreviations.h"
 
 class CPowerPointInterface
 {
@@ -17,7 +17,7 @@ class CPowerPointInterface
 	CShapeParser				m_shapeParser ;
 	CTextRangeParser			m_textRangeParser ;
 	app_state					*m_properties ;
-	std::vector<wstring>	m_ok_endings ;
+	Abbreviations				m_abbreviations ;
 public:
 	bool m_is_auto ;
 

@@ -43,10 +43,10 @@ if ( FAILED( x ) ) \
 
 CPowerPointInterface::CPowerPointInterface() : 
 	m_queryStart( 0 ),
-	m_is_auto(false)
+	m_is_auto(false),
+	m_textRangeParser(&m_abbreviations)
 {
-	m_ok_endings += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
-
+	m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
 }
 
 CPowerPointInterface::~CPowerPointInterface()
@@ -1108,7 +1108,7 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 		{
 			PowerPoint::TextRangePtr chars_so_far = characters->Characters( 1, i ) ;
 			const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
-			foreach(wstring word, m_ok_endings)
+			foreach(wstring word, m_abbreviations.m_abbreviations)
 			{
 				if (boost::ends_with(text_so_far, word))
 				{
@@ -1138,7 +1138,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::setTableCell(PowerPoint::TextRang
 	const long selStart = selectionTextRange->Start ;
 	const long selLen = selectionTextRange->Length + selStart - 1;
 
-	CTextRangeParser parser ;
+	CTextRangeParser parser(&m_abbreviations) ;
 	parser.setRangeFromSelection() ;
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 
@@ -1595,7 +1595,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::getSetSelShapeRange()
 	selLen += selStart ;
 	--selLen ; // make up for 1-based index
 
-	CTextRangeParser parser ;
+	CTextRangeParser parser(&m_abbreviations) ;
 	parser.setRangeFromSelection() ;
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 

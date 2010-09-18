@@ -4,12 +4,11 @@
 #include "globalApp.h"
 #include "abbreviations.h"
 
-CTextRangeParser::CTextRangeParser(void)
-: m_start(0)
+CTextRangeParser::CTextRangeParser(Abbreviations *abbreviations) : 
+	m_start(0),
+	m_properties(NULL),
+	m_abbreviations(abbreviations)
 {
-	Abbreviations abbreviations ;
-	abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
-	std::copy(abbreviations.m_abbreviations.begin(), abbreviations.m_abbreviations.end(), m_ok_endings.begin()) ;
 }
 
 CTextRangeParser::~CTextRangeParser(void)
@@ -125,7 +124,7 @@ bool CTextRangeParser::selectNext(void)
 				last_char_was_period = true ;
 				PowerPoint::TextRangePtr chars_so_far = characters->Characters( 1, i ) ;
 				const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
-				foreach(wstring word, m_ok_endings)
+				foreach(wstring word, m_abbreviations->m_abbreviations)
 				{
 					if (boost::ends_with(text_so_far, word))
 					{

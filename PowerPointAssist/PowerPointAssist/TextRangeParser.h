@@ -3,6 +3,7 @@
 #include "PowerPointImports.h"
 #include "globalApp.h"
 #include "app_state.h"
+#include "abbreviations.h"
 
 class CTextRangeParser
 {
@@ -12,9 +13,9 @@ public:
 
 	long m_start;
 	app_state		*m_properties ;
-	std::vector<wstring>	m_ok_endings ;
+	Abbreviations	*m_abbreviations ;
 
-	CTextRangeParser(void);
+	CTextRangeParser(Abbreviations *abbreviations);
 	~CTextRangeParser(void);
 	void setProperties(app_state *properties)
 	{
