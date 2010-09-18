@@ -317,6 +317,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_word.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\MyLibrary\logging.cpp"
 				>
 			</File>
@@ -326,6 +334,14 @@
 			</File>
 			<File
 				RelativePath=".\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
@@ -470,6 +486,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\key_mapper_word.h"
+				>
+			</File>
+			<File
+				RelativePath=".\key_target_word.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_word.h"
+				>
+			</File>
+			<File
 				RelativePath=".\KeyboardListener.h"
 				>
 			</File>
@@ -494,15 +530,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				>
+			</File>
+			<File
 				RelativePath="Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
 				>
 			</File>
 			<File

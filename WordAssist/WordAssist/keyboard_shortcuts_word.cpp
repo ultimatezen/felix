@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "keyboard_shortcuts_ppt.h"
+#include "keyboard_shortcuts_word.h"
 #include "file.h"
 #include "Path.h"
 
@@ -19,7 +19,7 @@ string get_shortcuts_text(CString base_filename)
 
 string get_default_file_text(void)
 {
-	
+
 	pugi::xml_document doc;
 	pugi::xml_node shortcuts_node = doc.append_child();
 	shortcuts_node.set_name("shortcuts") ;
@@ -46,7 +46,7 @@ string get_default_file_text(void)
 	create_shortcut_node(shortcuts_node, "ALT", "C", "", CMD_AUTO_TRANS_TO_FUZZY);
 	create_shortcut_node(shortcuts_node, "ALT", "D", "", CMD_DELETE);
 
-	 // entries
+	// entries
 	create_shortcut_node(shortcuts_node, "ALT", "0", "", CMD_ENTRY_0);
 	create_shortcut_node(shortcuts_node, "ALT", "1", "", CMD_ENTRY_1);
 	create_shortcut_node(shortcuts_node, "ALT", "2", "", CMD_ENTRY_2);

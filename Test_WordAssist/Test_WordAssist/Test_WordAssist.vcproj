@@ -214,7 +214,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\keyboard_mapper_word_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\logging_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
@@ -400,6 +420,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\key_mapper_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\WordAssist\WordAssist\key_mapper_word.h"
+				>
+			</File>
+			<File
+				RelativePath=".\key_target_word_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\KeyboardListener.h"
 				>
 			</File>
@@ -420,6 +464,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\resource.h"
 				>
 			</File>
@@ -432,11 +484,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
 				>
 			</File>
 			<File

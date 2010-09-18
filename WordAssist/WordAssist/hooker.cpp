@@ -44,20 +44,7 @@ void set_classic_if_off()
 	classic_interface = false ;
 }
 
-bool shift_key_is_pressed()
-{
-	return !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
-}
 
-bool control_key_is_pressed()
-{
-	return !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-}
-
-bool alt_key_is_pressed( WORD key_message )
-{
-	return !! ( key_message & KF_ALTDOWN ) ;
-}
 
 LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 															  WPARAM wParam, 
