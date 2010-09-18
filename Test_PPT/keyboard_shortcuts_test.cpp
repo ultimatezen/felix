@@ -1,14 +1,16 @@
 #include "stdafx.h"
 #include "keyboard_shortcuts.h"
+#include "key_mapper_fake.h"
 
 #ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
-BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
+BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 
 	BOOST_AUTO_TEST_CASE(test_load_simple)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 		string text = "<shortcuts>"
 			"<shortcut>"
 			"<type>CTRL</type>"
@@ -26,7 +28,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
 	}
 	BOOST_AUTO_TEST_CASE(test_load_alt)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 		string text = "<shortcuts>"
 			"<shortcut>"
 			"<type>alt</type>"
@@ -44,7 +47,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
 	}
 	BOOST_AUTO_TEST_CASE(test_load_ctrl_alt)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 		string text = "<shortcuts>"
 			"<shortcut>"
 			"<type>CTRL+ALT</type>"
@@ -63,7 +67,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
 
 	BOOST_AUTO_TEST_CASE(test_load_two)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 		string text = "<?xml version=\"1.0\"?>"
 			"<shortcuts>"
 			"<shortcut>"
@@ -87,7 +92,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
 
 	BOOST_AUTO_TEST_CASE(test_load_secondkey)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 		string text = "<shortcuts>"
 			"<shortcut>"
 			"<type>CTRL</type>"
@@ -103,7 +109,77 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsTest )
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, L'm') ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
 
+
+BOOST_AUTO_TEST_SUITE( KeyboardShortcutsMapperTest )
+
+	using namespace shortcuts ;
+	
+	BOOST_AUTO_TEST_CASE(test_ctrl_m)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', 0, "FooBar")) ;
+		keyboard_shortcuts.add_shortcut(cut) ;
+
+		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+
+		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
+		BOOST_CHECK_EQUAL("FooBar", mapper.m_sensing_variable[0]);
+	}
+
+	BOOST_AUTO_TEST_CASE(test_ctrl_m_missed)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'k', 0, "FooBar")) ;
+		keyboard_shortcuts.add_shortcut(cut) ;
+
+		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+
+		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
+	}
+
+	BOOST_AUTO_TEST_CASE(test_second_key_first_hit)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar")) ;
+		keyboard_shortcuts.add_shortcut(cut) ;
+
+		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+
+		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
+		BOOST_CHECK_EQUAL(L'x', keyboard_shortcuts.m_second_key);
+	}
+	BOOST_AUTO_TEST_CASE(test_second_key_second_hit)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar")) ;
+		keyboard_shortcuts.add_shortcut(cut) ;
+
+		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+		keyboard_shortcuts.receive_keypress(true, false, L'x') ;
+
+		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
+		BOOST_CHECK_EQUAL("FooBar", mapper.m_sensing_variable[0]);
+		BOOST_CHECK_EQUAL(0, keyboard_shortcuts.m_second_key);
+	}
+	BOOST_AUTO_TEST_CASE(test_second_key_second_miss)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar")) ;
+		keyboard_shortcuts.add_shortcut(cut) ;
+
+		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+		keyboard_shortcuts.receive_keypress(false, false, L'k') ;
+
+		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
+		BOOST_CHECK_EQUAL(0, keyboard_shortcuts.m_second_key);
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( KeyboardShortcutTest )
@@ -124,28 +200,28 @@ BOOST_AUTO_TEST_SUITE( test_get_shortcut_key )
 
 	BOOST_AUTO_TEST_CASE(test_a)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("a"), L'a') ;
 	}
 	BOOST_AUTO_TEST_CASE(test_A)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("A"), L'a') ;
 	}
 	BOOST_AUTO_TEST_CASE(test_1)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("1"), L'1') ;
 	}
 	BOOST_AUTO_TEST_CASE(test_vk_right)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
-		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("VK_RIGHT"), VK_RIGHT) ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
+		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("RIGHT"), VK_RIGHT) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_vk_delete)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
-		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("vk_delete"), VK_DELETE) ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
+		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_key("delete"), VK_DELETE) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -154,17 +230,17 @@ BOOST_AUTO_TEST_SUITE( test_get_shortcut_type )
 
 	BOOST_AUTO_TEST_CASE(test_ctrl)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_shortcut_type("ctrl"), shortcuts::SHORTCUT_CTRL) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_alt)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_shortcut_type("alt"), shortcuts::SHORTCUT_ALT) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_ctrl_alt)
 	{
-		shortcuts::KeyboardShortcuts keyboard_shortcuts ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(NULL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcuts.get_shortcut_type("ctrl+alt"), shortcuts::SHORTCUT_CTRL_ALT) ;
 	}
 

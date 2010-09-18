@@ -482,6 +482,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
 				>
 			</File>

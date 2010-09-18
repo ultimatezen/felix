@@ -387,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\key_mapper_fake.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\keyboard_shortcuts.h"
 				>
 			</File>
