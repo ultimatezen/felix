@@ -11,6 +11,9 @@
 
 #include "AddIn.h"
 #include "logging.h"
+#include "keyboard_shortcuts.h"
+#include "keyboard_shortcuts_ppt.h"
+#include "key_mapper_ppt.h"
 
 // CConnect
 class ATL_NO_VTABLE CConnect : 
@@ -130,10 +133,16 @@ class ATL_NO_VTABLE CConnect :
 	CComPtr<IDispatch>			m_pAddInInstance;
 	Office::CommandBarControlPtr m_felix_menu ;
 	app_state m_properties ;
+
+	KeyMapperPpt m_mapper ;
+	shortcuts::KeyboardShortcuts m_keyboard_shortcuts ;
+
 public:
 	HMODULE scidll_;
 
-	CConnect() : scidll_(NULL)
+	CConnect() : 
+		scidll_(NULL),
+		m_keyboard_shortcuts(&m_mapper)
 	{
 		scidll_ = ::LoadLibrary( _T("SciLexer.dll") ) ;
 	}

@@ -25,6 +25,36 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_CTRL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
+		BOOST_CHECK_EQUAL(keyboard_shortcut->m_command, "GetAndNext") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_load_twice)
+	{
+		KeyMapperFake mapper ;
+		shortcuts::KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+		string text = "<shortcuts>"
+			"<shortcut>"
+			"<type>CTRL</type>"
+			"<first>k</first>"
+			"<second />"
+			"<command>GetAndNext</command>"
+			"</shortcut>"
+			"</shortcuts>" ;
+		keyboard_shortcuts.load(text) ;
+		text = "<shortcuts>"
+			"<shortcut>"
+			"<type>ALT</type>"
+			"<first>k</first>"
+			"<second />"
+			"<command>DoSomeFoo</command>"
+			"</shortcut>"
+			"</shortcuts>" ;
+		keyboard_shortcuts.load(text) ;
+		BOOST_CHECK_EQUAL(0u, keyboard_shortcuts.m_ctrl_shortcuts.size()) ;
+		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_alt_shortcuts.size()) ;
+		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_alt_shortcuts[L'k'] ;
+		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_ALT) ;
+		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
+		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_load_alt)
 	{
@@ -120,23 +150,50 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsMapperTest )
 	{
 		KeyMapperFake mapper ;
 		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
-		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', 0, "FooBar")) ;
-		keyboard_shortcuts.add_shortcut(cut) ;
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, L'm', 0, "FooBar"))) ;
 
 		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
 
 		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
 		BOOST_CHECK_EQUAL("FooBar", mapper.m_sensing_variable[0]);
 	}
+	BOOST_AUTO_TEST_CASE(test_toggle)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
 
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, L'm', 0, "FooBar"))) ;
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, VK_F1, 0, "ToggleShortcuts"))) ;
+
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, VK_F1)) ;
+		BOOST_CHECK(! keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
+
+		BOOST_CHECK_EQUAL(false, keyboard_shortcuts.m_shortcuts_enabled);
+		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
+	}
+	BOOST_AUTO_TEST_CASE(test_toggle_back)
+	{
+		KeyMapperFake mapper ;
+		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
+
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, L'm', 0, "FooBar"))) ;
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, VK_F1, 0, "ToggleShortcuts"))) ;
+
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, VK_F1)) ;
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, VK_F1)) ;
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
+
+		BOOST_CHECK_EQUAL(true, keyboard_shortcuts.m_shortcuts_enabled);
+		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
+		BOOST_CHECK_EQUAL("FooBar", mapper.m_sensing_variable[0]);
+	}
 	BOOST_AUTO_TEST_CASE(test_ctrl_m_missed)
 	{
 		KeyMapperFake mapper ;
 		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
-		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'k', 0, "FooBar")) ;
-		keyboard_shortcuts.add_shortcut(cut) ;
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, L'k', 0, "FooBar"))) ;
 
-		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+		BOOST_CHECK(! keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
 
 		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
 	}
@@ -148,7 +205,7 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsMapperTest )
 		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar")) ;
 		keyboard_shortcuts.add_shortcut(cut) ;
 
-		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
 
 		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
 		BOOST_CHECK_EQUAL(L'x', keyboard_shortcuts.m_second_key);
@@ -157,14 +214,13 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsMapperTest )
 	{
 		KeyMapperFake mapper ;
 		KeyboardShortcuts keyboard_shortcuts(&mapper) ;
-		shortcut_ptr cut(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar")) ;
-		keyboard_shortcuts.add_shortcut(cut) ;
+		keyboard_shortcuts.add_shortcut(shortcut_ptr(new KeyboardShortcut(SHORTCUT_CTRL, L'm', L'x', "FooBar"))) ;
 
-		keyboard_shortcuts.receive_keypress(true, false, L'm') ;
-		keyboard_shortcuts.receive_keypress(true, false, L'x') ;
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
+		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, L'x')) ;
 
-		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
 		BOOST_CHECK_EQUAL("FooBar", mapper.m_sensing_variable[0]);
+		BOOST_CHECK_EQUAL(1u, mapper.m_sensing_variable.size());
 		BOOST_CHECK_EQUAL(0, keyboard_shortcuts.m_second_key);
 	}
 	BOOST_AUTO_TEST_CASE(test_second_key_second_miss)

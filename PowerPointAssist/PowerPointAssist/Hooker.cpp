@@ -11,7 +11,7 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 using namespace except;
 
 HHOOK	hkb ;
-CPowerPointInterface *addin ;
+shortcuts::KeyboardShortcuts *hook_keys ;
 static BOOL shortcuts_enabled = TRUE ;
 static boost::function<void(BOOL)> shortcuts_callback = NULL ;
 
@@ -21,27 +21,9 @@ void set_shortcuts_callback(boost::function<void(BOOL)> callback, BOOL current_s
 	shortcuts_enabled = current_setting ;
 }
 
-CPowerPointInterface* getInterface() 
+shortcuts::KeyboardShortcuts* getInterface() 
 {
-	return addin ;
-}
-
-//////////////////////////////////////////////////////////////////////////
-// Check for various key-press states
-//////////////////////////////////////////////////////////////////////////
-
-bool shift_key_is_pressed()
-{
-	return !! ( ::GetKeyState(VK_SHIFT) & 0x8000 ) ;
-}
-bool control_key_is_pressed()
-{
-	return !! ( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-}
-
-bool alt_key_is_pressed( WORD key_message )
-{
-	return !! ( key_message & KF_ALTDOWN ) ;
+	return hook_keys ;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -64,11 +46,22 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
 	}
+	if (wParam == VK_MENU)
+	{
+		return CallNextHookEx(hkb, nCode, wParam, lParam); 
+	}
 
 	const bool control_key_pressed = control_key_is_pressed() ;
-
 	const bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
 
+	if (hook_keys->receive_keypress(control_key_pressed, alt_key_pressed, static_cast<wchar_t>(wParam)))
+	{
+		return 1 ;
+	}
+	return CallNextHookEx(hkb, nCode, wParam, lParam); 
+
+	// stuff below is toast
+	/*
 	if (alt_key_pressed &&
 		control_key_pressed && 
 		wParam == VK_F9)
@@ -85,12 +78,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	}
 
 #ifdef _DEBUG
-	if ( control_key_pressed && wParam == VK_F2 )
-	{
-		addin->OnUnitTestAction() ;
-		return 1 ;
-	}
-	else if ( control_key_pressed && wParam == VK_F3 )
+	if ( control_key_pressed && wParam == VK_F3 )
 	{
 		ATLTRACE( "Creating exception...\n" ) ;
 		try
@@ -110,7 +98,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 
 	if (control_key_pressed && wParam == VK_RIGHT && ! alt_key_pressed )
 	{
-		if ( ::GetKeyState( VK_SHIFT ) & 0x8000 )
+		if ( shift_key_is_pressed() )
 		{
 			return CallNextHookEx( hkb, nCode, wParam, lParam ) ;
 		}
@@ -306,12 +294,13 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	}
 
 	return CallNextHookEx( hkb, nCode, wParam, lParam );
+	*/
 }
 
 // installhook
-BOOL installhook( CPowerPointInterface *addy )
+BOOL installhook( shortcuts::KeyboardShortcuts *keys )
 {
-	addin = addy ;
+	hook_keys = keys ;
 	HINSTANCE res ;
 #ifdef UNIT_TEST
 	res = NULL ;
@@ -328,11 +317,12 @@ BOOL installhook( CPowerPointInterface *addy )
 }
 
 // uninstallhook
-BOOL uninstallhook( CPowerPointInterface *addy )
+BOOL uninstallhook( shortcuts::KeyboardShortcuts *keys )
 {
-	addy ;
+	keys ;
 
-	ATLASSERT( addy == addin ) ;
+	ATLASSERT( hook_keys == keys ) ;
 
 	return UnhookWindowsHookEx( hkb ) ;
+
 }

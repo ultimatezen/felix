@@ -233,7 +233,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\key_mapper_ppt_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\keyboard_shortcuts.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\PowerPointAssist\PowerPointAssist\keyboard_shortcuts_ppt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_ppt_test.cpp"
 				>
 			</File>
 			<File
@@ -391,7 +403,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\key_target_ppt_fake.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\PowerPointAssist\PowerPointAssist\keyboard_shortcuts_ppt.h"
 				>
 			</File>
 			<File
@@ -459,11 +479,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\PowerPointAssist\PowerPointAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\PowerPointAssist\PowerPointAssist\stdafx.h"
 				>
 			</File>
 			<File

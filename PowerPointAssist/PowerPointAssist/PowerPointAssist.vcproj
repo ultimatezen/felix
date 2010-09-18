@@ -309,6 +309,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\keyboard_shortcuts_ppt.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\KeyboardDriver.cpp"
 				>
 			</File>
@@ -486,7 +490,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\key_mapper_ppt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\key_target_ppt.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_ppt.h"
 				>
 			</File>
 			<File

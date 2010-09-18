@@ -72,13 +72,14 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 		// attach old created
 		init_toolbar(spCmdBars);
 
-
 		logging::log_debug("adding menu") ;
 		add_menu( spCmdBars ) ;
 
 		init_properties();
 
-		installhook( static_cast<CPowerPointInterface *>(&m_interface) ) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text()) ;
+		m_mapper.m_target = &m_interface ;
+		installhook( &m_keyboard_shortcuts ) ;
 
 		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1), 
 			m_properties.get_shortcuts_active()) ;

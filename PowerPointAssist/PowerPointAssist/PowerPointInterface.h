@@ -9,8 +9,9 @@
 #include "TextRangeParser.h"
 #include "app_state.h"
 #include "abbreviations.h"
+#include "key_target_ppt.h"
 
-class CPowerPointInterface
+class CPowerPointInterface : public KeyTargetPpt
 {
 	PowerPoint::_ApplicationPtr m_app ; 
 	long						m_queryStart ;
@@ -27,6 +28,7 @@ public:
 	void setProperties(app_state *properties)
 	{
 		m_properties = properties ;
+		m_textRangeParser.m_properties = properties; 
 	}
 	void setApp( PowerPoint::_ApplicationPtr app )
 	{
