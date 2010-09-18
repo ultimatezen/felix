@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\keyboard_shortcuts_word_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\logging_test.cpp"
 				>
 			</File>

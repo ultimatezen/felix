@@ -4,33 +4,56 @@
 #include "key_target_word.h"
 #include "keyboard_shortcuts.h"
 
-const static string CMD_EXTEND_LOOKUP = "Extend Lookup" ;
-const static string CMD_EXTEND_TRANS_LOOKUP = "Extend Trans Lookup" ;
-const static string CMD_LOOK_UP_NEXT_TRANS = "Look up Next Trans" ;
-const static string CMD_CORRECT_TRANS = "Correct Trans" ;
-const static string CMD_LOOK_UP_TRANS = "Look up Trans" ;
-const static string CMD_TRANS_CONCORDANCE = "Trans Concordance" ;
-const static string CMD_LOOK_UP_NEXT = "Look up Next" ;
-const static string CMD_SET = "Set" ;
-const static string CMD_GET = "Get" ;
-const static string CMD_PREVIOUS = "Previous" ;
-const static string CMD_NEXT = "Next" ;
-const static string CMD_GET_AND_NEXT = "Get and Next" ;
-const static string CMD_SET_AND_NEXT = "Set and Next" ;
-const static string CMD_LOOK_UP = "Look up" ;
-const static string CMD_AUTO_TRANS_TO_FUZZY = "Auto Trans to Fuzzy" ;
-const static string CMD_DELETE = "Delete" ;
+const static string CmdAutoTransAction = "Auto Trans" ;
+const static string CmdAutoTransFuzzyAction = "Auto Trans to Fuzzy" ;
 
-const static string CMD_ENTRY_0 = "Entry 0" ;
-const static string CMD_ENTRY_1 = "Entry 1" ;
-const static string CMD_ENTRY_2 = "Entry 2" ;
-const static string CMD_ENTRY_3 = "Entry 3" ;
-const static string CMD_ENTRY_4 = "Entry 4" ;
-const static string CMD_ENTRY_5 = "Entry 5" ;
-const static string CMD_ENTRY_6 = "Entry 6" ;
-const static string CMD_ENTRY_7 = "Entry 7" ;
-const static string CMD_ENTRY_8 = "Entry 8" ;
-const static string CMD_ENTRY_9 = "Entry 9" ;
+// get and set translations
+const static string CmdGetAction = "Get" ;
+const static string CmdSetAction = "Set" ;
+const static string CmdGetAndNextAction = "get and Next" ;
+const static string CmdSetAndNextAction = "Set and Next" ;
+
+// look up source segment
+const static string CmdLookupAction = "Look up" ;
+const static string CmdLookupNextAction = "Look up Next" ;
+const static string CmdConcordanceAction  = "Concordance" ;
+const static string CmdExtendLookupAction  = "Extend Lookup" ;
+const static string CmdToMaruAction  = "To Period Character" ;
+
+// register a glossary entry
+const static string CmdRegisterGlossAction  = "Register Glossary" ;
+// delete entry
+const static string CmdDeleteAction  = "Delete" ;
+// navigate through matches
+const static string CmdNextAction  = "Next" ;
+const static string CmdPrevAction  = "Previous" ;
+
+// get glossary entries
+const static string CmdEntry0Action  = "Entry 0" ;
+const static string CmdEntry1Action  = "Entry 1" ;
+const static string CmdEntry2Action  = "Entry 2" ;
+const static string CmdEntry3Action  = "Entry 3" ;
+const static string CmdEntry4Action  = "Entry 4" ;
+const static string CmdEntry5Action  = "Entry 5" ;
+const static string CmdEntry6Action  = "Entry 6" ;
+const static string CmdEntry7Action  = "Entry 7" ;
+const static string CmdEntry8Action  = "Entry 8" ;
+const static string CmdEntry9Action  = "Entry 9" ;
+const static string CmdGlossNAction  = "Specify Entry Number" ;
+
+// look up translation
+const static string CmdLookupTransAction  = "Look up Translation" ;
+const static string CmdLookupNextTransAction  = "Look up Next Translation" ;
+const static string CmdTransConcordanceAction  = "Trans Concordance" ;
+const static string CmdExtendTransLookupAction  = "Extend Trans Lookup" ;
+const static string CmdCorrectAction  = "Correct" ;
+const static string CmdCorrectAndNextAction  = "Correct and Next" ;
+const static string CmdRestoreAction  = "Restore" ;
+const static string CmdRestoreAndNextAction  = "Restore and Next" ;
+const static string CmdSaveMemoryAction = "Save Memory" ;
+const static string CmdShiftStateAction = "Shift State" ;
+const static string CmdAnalyze = "Analyze" ;
+
 
 class KeyMapperWord : public KeyMapper
 {
@@ -39,117 +62,171 @@ public:
 	KeyTargetWord	*m_target ;
 	bool map_command(string command)
 	{
-		if (command == CMD_EXTEND_LOOKUP)
+
+		if (command == CmdAutoTransAction)
 		{
-			if ( shift_key_is_pressed() )
-			{
-				return false ;
-			}
-			return SUCCEEDED( m_target->OnExtendLookupAction( shift_key_is_pressed() ) ) ;
+			return m_target->OnAutoTransAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_LOOK_UP_NEXT_TRANS)
+		if (command == CmdAutoTransFuzzyAction)
 		{
-			return SUCCEEDED( m_target->OnLookupNextTransAction( shift_key_is_pressed() )  ) ;
-		}
-		if (command == CMD_CORRECT_TRANS)
-		{
-			return SUCCEEDED( m_target->OnCorrectTransAction( shift_key_is_pressed() )  ) ;
+			return m_target->OnAutoTransFuzzyAction( shift_key_is_pressed() ) ;
 		}
 
-		if (command == CMD_EXTEND_TRANS_LOOKUP)
+		// get and set translations
+		if (command == CmdGetAction)
 		{
-			return SUCCEEDED( m_target->OnExtendTransLookupAction( shift_key_is_pressed() )  ) ;
+			return m_target->OnGetAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_LOOK_UP_TRANS)
+		if (command == CmdSetAction)
 		{
-			return SUCCEEDED( m_target->OnLookupTransAction( shift_key_is_pressed() )  ) ;
+			return m_target->OnSetAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_TRANS_CONCORDANCE)
+		if (command == CmdGetAndNextAction)
 		{
-			return SUCCEEDED( m_target->OnTransConcordanceAction( shift_key_is_pressed() )  ) ;
+			return m_target->OnGetAndNextAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_LOOK_UP_NEXT)
+		if (command == CmdSetAndNextAction)
 		{
-			return SUCCEEDED( m_target->OnLookupNextAction( shift_key_is_pressed() )  ) ;
-		}
-		if (command == CMD_SET)
-		{
-			return SUCCEEDED( m_target->OnSetAction( shift_key_is_pressed() ) ) ;
-		}
-		if (command == CMD_GET)
-		{
-			return SUCCEEDED( m_target->OnGetAction( shift_key_is_pressed() )  ) ;
+			return m_target->OnSetAndNextAction( shift_key_is_pressed() ) ;
 		}
 
-		if (command == CMD_PREVIOUS)
+		// look up source segment
+		if (command == CmdLookupAction)
 		{
-			return SUCCEEDED( m_target->OnPrevAction( )  ) ;
+			return m_target->OnLookupAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_NEXT)
+		if (command == CmdLookupNextAction)
 		{
-			return SUCCEEDED( m_target->OnNextAction( )  ) ;
+			return m_target->OnLookupNextAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_GET_AND_NEXT)
+		if (command == CmdConcordanceAction )
 		{
-			return SUCCEEDED( m_target->OnGetAndNextAction( shift_key_is_pressed() ) ) ;
+			return m_target->OnConcordanceAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_SET_AND_NEXT)
+		if (command == CmdExtendLookupAction )
 		{
-			return SUCCEEDED( m_target->OnSetAndNextAction( shift_key_is_pressed() ) ) ;
+			return m_target->OnExtendLookupAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_LOOK_UP)
+		if (command == CmdToMaruAction )
 		{
-			return SUCCEEDED( m_target->OnLookupAction( shift_key_is_pressed() ) ) ;
+			return m_target->OnToMaruAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_AUTO_TRANS_TO_FUZZY)
+
+		// register a glossary entry
+		if (command == CmdRegisterGlossAction )
 		{
-			return SUCCEEDED( m_target->OnAutoTransFuzzyAction( ) ) ;
+			return m_target->OnRegisterGlossAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_DELETE)
+		// delete entry
+		if (command == CmdDeleteAction )
 		{
-			return SUCCEEDED( m_target->OnDeleteAction( ) ) ;
+			return m_target->OnDeleteAction( ) ;
 		}
-		// entries
-		if (command == CMD_ENTRY_0)
+		// navigate through matches
+		if (command == CmdNextAction )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 0, shift_key_is_pressed() ) ) ;
+			return m_target->OnNextAction( ) ;
 		}
-		if (command == CMD_ENTRY_1)
+		if (command == CmdPrevAction )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 1, shift_key_is_pressed() ) ) ;
+			return m_target->OnPrevAction( ) ;
 		}
-		if (command == CMD_ENTRY_2)
+		// get glossary entries
+		if (command == CmdEntry0Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 2, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry0Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_3)
+		if (command == CmdEntry1Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 3, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry1Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_4)
+		if (command == CmdEntry2Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 4, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry2Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_5)
+		if (command == CmdEntry3Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 5, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry3Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_6)
+		if (command == CmdEntry4Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 6, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry4Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_7)
+		if (command == CmdEntry5Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 7, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry5Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_8)
+		if (command == CmdEntry6Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 8, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry6Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CMD_ENTRY_9)
+		if (command == CmdEntry7Action )
 		{
-			return SUCCEEDED( m_target->OnEntryAction( 9, shift_key_is_pressed() ) ) ;
+			return m_target->OnEntry7Action( shift_key_is_pressed() ) ;
 		}
+		if (command == CmdEntry8Action )
+		{
+			return m_target->OnEntry8Action( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdEntry9Action )
+		{
+			return m_target->OnEntry9Action( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdGlossNAction)
+		{
+			return m_target->OnGlossNAction( shift_key_is_pressed() ) ;
+		}
+
+		// look up translation
+		if (command == CmdLookupTransAction )
+		{
+			return m_target->OnLookupTransAction( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdLookupNextTransAction )
+		{
+			return m_target->OnLookupNextTransAction( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdTransConcordanceAction )
+		{
+			return m_target->OnTransConcordanceAction( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdExtendTransLookupAction )
+		{
+			return m_target->OnExtendTransLookupAction( shift_key_is_pressed() ) ;
+		}
+
+		if (command == CmdCorrectAction )
+		{
+			return m_target->OnCorrectAction( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdCorrectAndNextAction )
+		{
+			return m_target->OnCorrectAndNextAction( shift_key_is_pressed() ) ;
+		}
+
+		if (command == CmdRestoreAction )
+		{
+			return m_target->OnRestoreAction( shift_key_is_pressed() ) ;
+		}
+		if (command == CmdRestoreAndNextAction )
+		{
+			return m_target->OnRestoreAndNextAction( shift_key_is_pressed() ) ;
+		}
+
+		if (command == CmdSaveMemoryAction)
+		{
+			return m_target->OnSaveMemoryAction( ) ;
+		}
+		if (command == CmdShiftStateAction)
+		{
+			return m_target->OnShiftStateAction( ) ;
+		}
+
+		if (command == CmdAnalyze)
+		{
+			return m_target->OnAnalyze( ) ;
+		}
+
 		return false ;
 	}
 };
