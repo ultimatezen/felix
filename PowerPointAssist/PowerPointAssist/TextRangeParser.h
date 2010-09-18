@@ -15,12 +15,8 @@ public:
 	app_state		*m_properties ;
 	Abbreviations	*m_abbreviations ;
 
-	CTextRangeParser(Abbreviations *abbreviations);
+	CTextRangeParser(app_state *properties, Abbreviations *abbreviations);
 	~CTextRangeParser(void);
-	void setProperties(app_state *properties)
-	{
-		m_properties = properties ;
-	}
 
 	_bstr_t getSelectedText( bool isPlainText = false );
 	bool selectNext(void);

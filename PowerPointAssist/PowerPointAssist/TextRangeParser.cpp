@@ -4,9 +4,9 @@
 #include "globalApp.h"
 #include "abbreviations.h"
 
-CTextRangeParser::CTextRangeParser(Abbreviations *abbreviations) : 
+CTextRangeParser::CTextRangeParser(app_state *properties, Abbreviations *abbreviations) : 
 	m_start(0),
-	m_properties(NULL),
+	m_properties(properties),
 	m_abbreviations(abbreviations)
 {
 }

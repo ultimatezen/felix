@@ -27,7 +27,6 @@ public:
 	void setProperties(app_state *properties)
 	{
 		m_properties = properties ;
-		m_textRangeParser.setProperties(properties) ;
 	}
 	void setApp( PowerPoint::_ApplicationPtr app )
 	{

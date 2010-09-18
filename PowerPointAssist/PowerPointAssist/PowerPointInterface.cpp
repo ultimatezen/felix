@@ -44,7 +44,7 @@ if ( FAILED( x ) ) \
 CPowerPointInterface::CPowerPointInterface() : 
 	m_queryStart( 0 ),
 	m_is_auto(false),
-	m_textRangeParser(&m_abbreviations)
+	m_textRangeParser(m_properties, &m_abbreviations)
 {
 	m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
 }
@@ -1138,7 +1138,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::setTableCell(PowerPoint::TextRang
 	const long selStart = selectionTextRange->Start ;
 	const long selLen = selectionTextRange->Length + selStart - 1;
 
-	CTextRangeParser parser(&m_abbreviations) ;
+	CTextRangeParser parser(m_properties, &m_abbreviations) ;
 	parser.setRangeFromSelection() ;
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 
@@ -1595,7 +1595,7 @@ PowerPoint::TextRangePtr CPowerPointInterface::getSetSelShapeRange()
 	selLen += selStart ;
 	--selLen ; // make up for 1-based index
 
-	CTextRangeParser parser(&m_abbreviations) ;
+	CTextRangeParser parser(m_properties, &m_abbreviations) ;
 	parser.setRangeFromSelection() ;
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 
