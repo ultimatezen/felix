@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\config_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\Exceptions.cpp"
 				>
 			</File>
@@ -352,6 +356,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\ColorRef.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\config_file.h"
 				>
 			</File>
 			<File

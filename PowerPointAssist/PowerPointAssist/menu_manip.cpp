@@ -8,14 +8,13 @@ using namespace except ;
 
 bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 {
-	ATLTRACE("load_picture\n") ;
 	try
 	{
 		CPicture pic ;
 		BOOL success = pic.Load( button_id ) ;
 		if ( ! success ) 
 		{
-			logging::log_error("Failed to load picture") ;
+			logging::log_warn("Failed to load picture; pasting instead") ;
 			return false ;
 		}
 		_variant_t vPicture ( static_cast< IUnknown* >( pic ) ) ;
@@ -24,7 +23,7 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 	}
 	catch( CException &e )
 	{
-		logging::log_error("Failed to load picture") ;
+		logging::log_error("Error loading picture; pasting instead") ;
 		logging::log_exception(e) ;
 
 		return false ;

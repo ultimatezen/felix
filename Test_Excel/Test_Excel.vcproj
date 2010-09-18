@@ -225,6 +225,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\config_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\ExcelAssist\ExcelAssist\DispatchWrapper_test.cpp"
 				>
 			</File>
@@ -234,6 +238,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\Exceptions_test.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\keyboard_shortcuts.cpp"
 				>
 			</File>
 			<File
@@ -295,7 +303,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\config_file.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\Exceptions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\keyboard_shortcuts.h"
 				>
 			</File>
 			<File

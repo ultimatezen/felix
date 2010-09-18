@@ -295,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\config_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Connect.cpp"
 				>
 			</File>
@@ -324,6 +328,10 @@
 			</File>
 			<File
 				RelativePath=".\Hooker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
 				>
 			</File>
 			<File
@@ -392,6 +400,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\config_file.h"
+				>
+			</File>
+			<File
 				RelativePath="Connect.h"
 				>
 			</File>
@@ -453,6 +465,10 @@
 			</File>
 			<File
 				RelativePath=".\Hooker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
 				>
 			</File>
 			<File
