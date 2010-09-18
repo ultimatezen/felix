@@ -77,7 +77,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 
 		init_properties();
 
-		m_keyboard_shortcuts.load(get_shortcuts_text()) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
 		m_mapper.m_target = &m_interface ;
 		installhook( &m_keyboard_shortcuts ) ;
 
