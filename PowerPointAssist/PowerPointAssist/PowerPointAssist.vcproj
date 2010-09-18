@@ -301,6 +301,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\KeyboardDriver.cpp"
 				>
 			</File>
@@ -338,6 +342,14 @@
 			</File>
 			<File
 				RelativePath=".\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
@@ -462,6 +474,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
 				RelativePath=".\KeyboardDriver.h"
 				>
 			</File>
@@ -519,6 +535,30 @@
 			</File>
 			<File
 				RelativePath=".\Properties.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_iterators.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_print.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_utils.hpp"
 				>
 			</File>
 			<File

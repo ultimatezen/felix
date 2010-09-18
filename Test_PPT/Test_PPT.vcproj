@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\abbreviations_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\PowerPointAssist\PowerPointAssist\app_state.cpp"
 				>
 			</File>
@@ -225,6 +229,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\keyboard_shortcuts.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\PowerPointAssist\PowerPointAssist\KeyboardDriver.cpp"
 				>
 			</File>
@@ -246,6 +258,14 @@
 			</File>
 			<File
 				RelativePath="..\PowerPointAssist\PowerPointAssist\PPTWriter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
@@ -359,6 +379,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\keyboard_shortcuts.h"
+				>
+			</File>
+			<File
 				RelativePath="..\PowerPointAssist\PowerPointAssist\KeyboardDriver.h"
 				>
 			</File>
@@ -376,6 +400,14 @@
 			</File>
 			<File
 				RelativePath="..\PowerPointAssist\PowerPointAssist\PPTWriter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\MyLibrary\pugxml\src\pugixml.hpp"
 				>
 			</File>
 			<File

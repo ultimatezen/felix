@@ -29,7 +29,6 @@ static const wchar_t maru_char_array[] =
  */
 app_state::app_state() 
 {
-	BANNER( "app_state::app_state()" ) ;
 	setDefaults() ;
 }
 
@@ -64,7 +63,6 @@ void app_state::app_data::set_segchars_to_defaults()
 	*/
 void app_state::setDefaults()
 {
-	BANNER( "app_state::setDefaults" ) ;
 	m_data.m_toolbar_visible = TRUE ;
 
 	m_data.set_segchars_to_defaults() ;
