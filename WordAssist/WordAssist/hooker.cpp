@@ -125,9 +125,5 @@ if ( control_key_pressed && wParam == VK_F3 )
 	}
 #endif
 
-	if (! control_key_pressed && ! alt_key_pressed)
-	{
-		return false ;
-	}
 	return hook_keys->receive_keypress(control_key_pressed, alt_key_pressed, static_cast<wchar_t>(wParam)) ;
 }

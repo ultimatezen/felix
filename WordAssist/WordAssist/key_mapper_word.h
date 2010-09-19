@@ -105,6 +105,10 @@ public:
 		}
 		if (command == CmdExtendLookupAction )
 		{
+			if (shift_key_is_pressed())
+			{
+				return false ;
+			}
 			return m_target->OnExtendLookupAction( shift_key_is_pressed() ) ;
 		}
 		if (command == CmdToMaruAction )

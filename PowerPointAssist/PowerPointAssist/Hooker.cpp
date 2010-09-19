@@ -28,6 +28,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 															  WPARAM wParam, 
 															  LPARAM lParam)
 {
+	static const int stop_flags = ( KF_DLGMODE | KF_UP | KF_MENUMODE ) ;
 	if ( HC_ACTION != nCode )
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
@@ -36,11 +37,11 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	// get the first word
 	const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
-	if ( wKeystrokeMsg & KF_UP ) // key is up
+	if ( wKeystrokeMsg & stop_flags ) // key is up
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
 	}
-	if (wParam == VK_MENU)
+	if ( wParam == VK_MENU || wParam == VK_CONTROL ) 
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
 	}

@@ -39,12 +39,12 @@ string get_default_file_text(void)
 	create_shortcut_node(shortcuts_node, "ALT", "OEM_PERIOD", "", CmdToMaruAction);
 	create_shortcut_node(shortcuts_node, "ALT", ".", "", CmdToMaruAction);
 	create_shortcut_node(shortcuts_node, "ALT", "P", "", CmdPrevAction);
-	create_shortcut_node(shortcuts_node, "ALT", "n", "", CmdNextAction);
-	create_shortcut_node(shortcuts_node, "ALT", "g", "", CmdGetAndNextAction);
-	create_shortcut_node(shortcuts_node, "ALT", "s", "", CmdSetAndNextAction);
-	create_shortcut_node(shortcuts_node, "ALT", "l", "", CmdLookupAction);
-	create_shortcut_node(shortcuts_node, "ALT", "z", "", CmdAutoTransFuzzyAction);
-	create_shortcut_node(shortcuts_node, "ALT", "d", "", CmdDeleteAction);
+	create_shortcut_node(shortcuts_node, "ALT", "N", "", CmdNextAction);
+	create_shortcut_node(shortcuts_node, "ALT", "G", "", CmdGetAndNextAction);
+	create_shortcut_node(shortcuts_node, "ALT", "S", "", CmdSetAndNextAction);
+	create_shortcut_node(shortcuts_node, "ALT", "L", "", CmdLookupAction);
+	create_shortcut_node(shortcuts_node, "ALT", "Z", "", CmdAutoTransFuzzyAction);
+	create_shortcut_node(shortcuts_node, "ALT", "D", "", CmdDeleteAction);
 
 	// entries
 	create_shortcut_node(shortcuts_node, "ALT", "0", "", CmdEntry0Action);
@@ -59,11 +59,11 @@ string get_default_file_text(void)
 	create_shortcut_node(shortcuts_node, "ALT", "9", "", CmdEntry9Action);
 
 	// meta-keys
-	create_shortcut_node(shortcuts_node, "ALT", "m", "h", CmdGlossNAction);
-	create_shortcut_node(shortcuts_node, "ALT", "m", "a", CmdAutoTransAction);
-	create_shortcut_node(shortcuts_node, "ALT", "m", "g", CmdRegisterGlossAction);
-	create_shortcut_node(shortcuts_node, "ALT", "m", "s", CmdSaveMemoryAction);
-	create_shortcut_node(shortcuts_node, "ALT", "m", "c", CmdConcordanceAction);
+	create_shortcut_node(shortcuts_node, "ALT", "M", "H", CmdGlossNAction);
+	create_shortcut_node(shortcuts_node, "ALT", "M", "A", CmdAutoTransAction);
+	create_shortcut_node(shortcuts_node, "ALT", "M", "G", CmdRegisterGlossAction);
+	create_shortcut_node(shortcuts_node, "ALT", "M", "S", CmdSaveMemoryAction);
+	create_shortcut_node(shortcuts_node, "ALT", "M", "C", CmdConcordanceAction);
 
 	//////////////////////////////////////////////////////////////////////////
 	// unused

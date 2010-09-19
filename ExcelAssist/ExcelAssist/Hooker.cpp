@@ -16,25 +16,17 @@ static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
 using namespace except ;
 
 HHOOK	hkb ;
-CFelixExcelIF *addin ;
+shortcuts::KeyboardShortcuts *hook_keys ;
 
 
 /*!
  * Get the Excel interface.
  */
-CFelixExcelIF* getInterface() 
+shortcuts::KeyboardShortcuts* getInterface() 
 {
-	return addin ;
+	return hook_keys ;
 }
 
-bool alt_key_is_pressed( WORD key_message )
-{
-	return !! ( key_message & KF_ALTDOWN ) ;
-}
-bool control_key_is_pressed()
-{
-	return !!( ::GetKeyState(VK_CONTROL) & 0x8000 ) ;
-}
 /*!
  * Key press spy for shortcuts.
  */
@@ -42,6 +34,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 													WPARAM wParam, 
 													LPARAM lParam)
 {
+	static const int stop_flags = ( KF_DLGMODE | KF_UP | KF_MENUMODE ) ;
 	if ( HC_ACTION != nCode )
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
@@ -50,7 +43,11 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	// get the first word
 	const WORD wKeystrokeMsg = (WORD)(lParam >> 16);
 
-	if ( wKeystrokeMsg & KF_UP ) // key is up
+	if ( wKeystrokeMsg & stop_flags ) // key is up
+	{
+		return CallNextHookEx(hkb, nCode, wParam, lParam); 
+	}
+	if ( wParam == VK_MENU || wParam == VK_CONTROL ) 
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
 	}
@@ -58,16 +55,13 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	const bool control_key_pressed = control_key_is_pressed() ;
 	const bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
 
-	if (alt_key_pressed &&
-		control_key_pressed && 
-		wParam == VK_F9)
+	if (hook_keys->receive_keypress(control_key_pressed, alt_key_pressed, static_cast<wchar_t>(wParam)))
 	{
-		shortcuts_enabled = ! shortcuts_enabled ;
-		shortcuts_callback(shortcuts_enabled) ;
-		MessageBeep(MB_ICONASTERISK) ;
-		return CallNextHookEx(hkb, nCode, wParam, lParam); 
+		return 1 ;
 	}
+	return CallNextHookEx(hkb, nCode, wParam, lParam); 
 
+	/*
 	if (! shortcuts_enabled)
 	{
 		return CallNextHookEx(hkb, nCode, wParam, lParam); 
@@ -76,7 +70,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 #ifdef _DEBUG
 	if ( control_key_pressed && wParam == VK_F2 )
 	{
-		addin->OnUnitTest() ;
+		hook_keys->OnUnitTest() ;
 		return 1 ;
 	}
 	else if ( control_key_pressed && wParam == VK_F3 )
@@ -108,119 +102,120 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 		{
 			CASE( VK_RIGHT ) 
 			{
-				addin->OnLookupNext() ;
+				hook_keys->OnLookupNext() ;
 				return 1 ;
 			}
 			CASE( VK_UP ) 
 			{
-				addin->OnSet() ;
+				hook_keys->OnSet() ;
 				return 1 ;
 			}
 			CASE( VK_DOWN ) 
 			{
-				addin->OnGet() ;
+				hook_keys->OnGet() ;
 				return 1 ;
 			}
 			CASE( _T('P') ) 
 			{
-				addin->OnPrev() ;
+				hook_keys->OnPrev() ;
 				return 1 ;
 			}
 			CASE( _T('N') ) 
 			{
-				addin->OnNext() ;
+				hook_keys->OnNext() ;
 				return 1 ;
 			}
 			CASE( _T('G') ) 
 			{
-				addin->OnGetAndNext() ;
+				hook_keys->OnGetAndNext() ;
 				return 1 ;
 			}
 			CASE( _T('S') ) 
 			{
-				addin->OnSetAndNext() ;
+				hook_keys->OnSetAndNext() ;
 				return 1 ;
 			}
 			CASE( _T('L') ) 
 			{
-				addin->OnLookup() ;
+				hook_keys->OnLookup() ;
 				return 1 ;
 			}
 			CASE( _T('Z') )
 			{
-				addin->OnAutoTransSel() ;
+				hook_keys->OnAutoTransSel() ;
 			}
 			CASE( _T('0') )
 			{
-				addin->OnEntry( 0 ) ;
+				hook_keys->OnEntry( 0 ) ;
 				return 1 ;
 			}
 			CASE( _T('1') )
 			{
-				addin->OnEntry( 1 ) ;
+				hook_keys->OnEntry( 1 ) ;
 				return 1 ;
 			}
 			CASE( _T('2') )
 			{
-				addin->OnEntry( 2 ) ;
+				hook_keys->OnEntry( 2 ) ;
 				return 1 ;
 			}
 			CASE( _T('3') )
 			{
-				addin->OnEntry( 3 ) ;
+				hook_keys->OnEntry( 3 ) ;
 				return 1 ;
 			}
 			CASE( _T('4') )
 			{
-				addin->OnEntry( 4 ) ;
+				hook_keys->OnEntry( 4 ) ;
 				return 1 ;
 			}
 			CASE( _T('5') )
 			{
-				addin->OnEntry( 5 ) ;
+				hook_keys->OnEntry( 5 ) ;
 				return 1 ;
 			}
 			CASE( _T('6') )
 			{
-				addin->OnEntry( 6 ) ;
+				hook_keys->OnEntry( 6 ) ;
 				return 1 ;
 			}
 			CASE( _T('7') )
 			{
-				addin->OnEntry( 7 ) ;
+				hook_keys->OnEntry( 7 ) ;
 				return 1 ;
 			}
 			CASE( _T('8') )
 			{
-				addin->OnEntry( 8 ) ;
+				hook_keys->OnEntry( 8 ) ;
 				return 1 ;
 			}
 			CASE( _T('9') )
 			{
-				addin->OnEntry( 9 ) ;
+				hook_keys->OnEntry( 9 ) ;
 				return 1 ;
 			}
 		}
 	}
 
 	return CallNextHookEx( hkb, nCode, wParam, lParam );
+*/
 }
 
 
-BOOL installhook( CFelixExcelIF *addy )
+BOOL installhook( shortcuts::KeyboardShortcuts *addy )
 {
-	addin = addy ;
+	hook_keys = addy ;
 	hkb=SetWindowsHookEx(WH_KEYBOARD,(HOOKPROC)KeyboardProc,_AtlModule.GetResourceInstance(),::GetCurrentThreadId() ); 
 
 	return TRUE;
 }
 
 
-BOOL uninstallhook( CFelixExcelIF *addy )
+BOOL uninstallhook( shortcuts::KeyboardShortcuts *addy )
 {
 	addy ;
 
-	ATLASSERT( addy == addin ) ;
+	ATLASSERT( addy == hook_keys ) ;
 
 	return UnhookWindowsHookEx( hkb ) ;
 }

@@ -14,6 +14,10 @@
 #include "Properties.h"
 #include "logging.h"
 
+#include "keyboard_shortcuts.h"
+#include "keyboard_shortcuts_excel.h"
+#include "key_mapper_excel.h"
+
 _bstr_t glossCap( _bstr_t txt, int num ) ;
 _bstr_t glossDesc( _bstr_t txt, int num ) ;
 
@@ -147,6 +151,10 @@ class ATL_NO_VTABLE CConnect :
 	CComPtr<IDispatch> m_pAddInInstance;
 
 	app_state m_properties ;
+
+
+	KeyMapperExcel m_mapper ;
+	shortcuts::KeyboardShortcuts m_keyboard_shortcuts ;
 
 public:
 

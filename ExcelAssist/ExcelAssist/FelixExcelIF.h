@@ -15,6 +15,8 @@
 #include "Properties.h"
 #include "logging.h"
 
+#include "key_target_excel.h"
+
 #pragma warning( disable : 4180 ) 
 
 /*!
@@ -27,7 +29,7 @@
 _bstr_t get_cell_text(excel::range_ptr cell); // prototype
 void set_cell_text(excel::range_ptr cell, _bstr_t text); // prototype
 
-class CFelixExcelIF
+class CFelixExcelIF : public KeyTargetExcel
 {
 #ifdef _DEBUG
 public:

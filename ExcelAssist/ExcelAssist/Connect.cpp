@@ -41,7 +41,8 @@ _ATL_FUNC_INFO SheetActivationInfo =
 _ATL_FUNC_INFO BeforeCloseInfo =
 {CC_STDCALL, VT_EMPTY, 2, {VT_DISPATCH | VT_BYREF, VT_BYREF | VT_BOOL}};
 
-CConnect::CConnect()
+CConnect::CConnect():
+	m_keyboard_shortcuts(&m_mapper)
 {
 }
 
@@ -230,9 +231,13 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		setMenuStrings( m_properties.get_preferred_gui_lang() ) ;
 
-		installhook( &m_excelIF ) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+		m_mapper.m_target = &m_excelIF ;
 
-		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1)) ;
+		installhook( &m_keyboard_shortcuts ) ;
+
+		m_keyboard_shortcuts.m_on_toggle_shortcuts = boost::bind(&CConnect::on_toggle_shortcuts, this, _1) ;
+		logging::log_debug("connection complete") ;
 
 	}
 	catch(except::CException &e)
@@ -326,7 +331,7 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 		// menu items
 		unadvise_menu_methods();
 
-		uninstallhook( &m_excelIF ) ;
+		uninstallhook( &m_keyboard_shortcuts ) ;
 		m_excelIF.shut_down() ;
 
 		logging::log_debug("shutdown complete") ;

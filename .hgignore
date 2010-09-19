@@ -27,3 +27,5 @@ glob:Felix/RDa05520
 glob:Felix/felix_tm.dll
 glob:Felix/felix_tm.dll.manifest
 glob:Felix/Unicode_Debug.obj
+glob:Felix/Testing.obj
+glob:Felix/felix_tm.h

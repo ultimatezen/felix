@@ -7,8 +7,9 @@
 
 #include "FelixExcelif.h"
 #include <boost/function.hpp>
+#include "keyboard_shortcuts.h"
 
-BOOL installhook( CFelixExcelIF *addy ) ;
-BOOL uninstallhook( CFelixExcelIF *addy ) ;
+BOOL installhook( shortcuts::KeyboardShortcuts *keys ) ;
+BOOL uninstallhook( shortcuts::KeyboardShortcuts *keys ) ;
 
-CFelixExcelIF* getInterface() ;
+shortcuts::KeyboardShortcuts* getInterface() ;
