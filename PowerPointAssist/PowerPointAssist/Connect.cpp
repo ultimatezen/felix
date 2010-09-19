@@ -81,9 +81,8 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 		m_mapper.m_target = &m_interface ;
 		installhook( &m_keyboard_shortcuts ) ;
 
-		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1), 
-			m_properties.get_shortcuts_active()) ;
-
+		m_keyboard_shortcuts.m_on_toggle_shortcuts = boost::bind(&CConnect::on_toggle_shortcuts, this, _1) ;
+		logging::log_debug("connection complete") ;
 	}
 	CATCH_ALL(_T("Error connecting to PowerPoint")) ;
 

@@ -34,6 +34,9 @@ string get_default_file_text(void)
 	create_shortcut_node(shortcuts_node, "CTRL+ALT", "L", "", CMD_LOOK_UP_TRANS);
 	create_shortcut_node(shortcuts_node, "CTRL+ALT", "C", "", CMD_TRANS_CONCORDANCE);
 
+	create_shortcut_node(shortcuts_node, "CTRL+ALT", "F9", "", "ToggleShortcuts");
+
+
 	// alt
 	create_shortcut_node(shortcuts_node, "ALT", "RIGHT", "", CMD_LOOK_UP_NEXT);
 	create_shortcut_node(shortcuts_node, "ALT", "UP", "", CMD_SET);

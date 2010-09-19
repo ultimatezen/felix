@@ -19,6 +19,10 @@
 #include "Localizer.h"
 #include "logging.h"
 
+#include "keyboard_shortcuts.h"
+#include "keyboard_shortcuts_word.h"
+#include "key_mapper_word.h"
+
 // static const GUID DIID__CommandBarButtonEvents = {0x000C0351,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
 //static const GUID DIID_ApplicationEvents2 =
 //    {0x000209fe,0x0000,0x0000,{0xc0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
@@ -317,6 +321,10 @@ class ATL_NO_VTABLE CConnect :
 	app_state			m_properties ;
 
 	CBroadcaster::SignalPtrType m_PropChangeSig ;
+
+	KeyMapperWord m_mapper ;
+	shortcuts::KeyboardShortcuts m_keyboard_shortcuts ;
+
 
 public:
 	CConnect();

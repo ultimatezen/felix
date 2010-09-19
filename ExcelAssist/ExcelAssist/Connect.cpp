@@ -232,8 +232,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		installhook( &m_excelIF ) ;
 
-		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1), 
-			m_properties.get_shortcuts_active()) ;
+		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1)) ;
 
 	}
 	catch(except::CException &e)

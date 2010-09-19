@@ -183,8 +183,6 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		m_properties.read_from_registry() ;
 
-		set_shortcuts_callback(boost::bind(&CConnect::on_toggle_shortcuts, this, _1), 
-						m_properties.get_shortcuts_active()) ;
 		setUpController();
 		try
 		{
@@ -202,7 +200,11 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		advise_document_events() ;
 
-		installhook( static_cast<CKeyboardListener *>(m_controller) ) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+		m_mapper.m_target = m_controller ;
+		installhook( &m_keyboard_shortcuts ) ;
+		m_keyboard_shortcuts.m_on_toggle_shortcuts = boost::bind(&CConnect::on_toggle_shortcuts, this, _1) ;
+
 		logging::log_debug("connection complete") ;
 	}
 	CATCH_ALL( _T("En error occured loading WordAssist Addin (OnConnection)") ) ;
@@ -303,7 +305,8 @@ void CConnect::setUpController()
 {
 	logging::log_debug("setUpController") ;
 	m_controller = get_listener( m_properties.get_segmentation_type() ) ;
-	set_listener(m_controller) ;
+	m_mapper.m_target = m_controller ;
+	set_listener(&m_keyboard_shortcuts) ;
 }
 
 STDMETHODIMP CConnect::OnDisconnection(AddInDesignerObjects::ext_DisconnectMode /*RemoveMode*/, SAFEARRAY ** /*custom*/ )
@@ -398,7 +401,7 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 
 		unadvise_menu_items() ;
 
-		uninstallhook( static_cast<CKeyboardListener *>(m_controller) ) ;
+		uninstallhook( &m_keyboard_shortcuts ) ;
 
 		m_controller->shut_down() ;
 		logging::log_debug("shutdown complete") ;
@@ -2048,7 +2051,8 @@ CKeyboardListener* CConnect::get_listener(int /*listener_type*/)
 }
 
 CConnect::CConnect() :
-m_controller( NULL )
+	m_controller( NULL ),
+	m_keyboard_shortcuts(&m_mapper)
 {
 	CBroadcaster instance = CBroadcaster::instance() ;
 	m_PropChangeSig = instance.Register( "preferences", "changed" ) ;
@@ -2559,7 +2563,6 @@ void CConnect::reflectClassicPref( BOOL old_classic_if )
 			}
 			switch_to_classic_menu() ;
 			switch_to_classic_toolbar() ;
-			set_classic_if_on() ;
 		}
 		// Or new
 		else
@@ -2570,7 +2573,6 @@ void CConnect::reflectClassicPref( BOOL old_classic_if )
 
 			switch_to_new_menu() ;
 			switch_to_translation_toolbar() ;
-			set_classic_if_off() ;
 		}
 	}
 }
@@ -2601,8 +2603,9 @@ void CConnect::reflectSegType( int old_segmentation_type )
 			was_active = m_controller->IsActive() ;
 		}
 		m_controller = get_listener( m_properties.get_segmentation_type() ) ;
-		set_listener(m_controller) ;
+		set_listener(&m_keyboard_shortcuts) ;
 		m_controller->set_app( m_app ) ;
+		m_mapper.m_target = m_controller ;
 
 		// In order to propagate that info to the new controller
 		if ( was_active )

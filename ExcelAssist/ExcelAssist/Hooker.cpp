@@ -17,14 +17,7 @@ using namespace except ;
 
 HHOOK	hkb ;
 CFelixExcelIF *addin ;
-static BOOL shortcuts_enabled = TRUE ;
-static boost::function<void(BOOL)> shortcuts_callback = NULL ;
 
-void set_shortcuts_callback(boost::function<void(BOOL)> callback, BOOL current_setting)
-{
-	shortcuts_callback = callback ;
-	shortcuts_enabled = current_setting ;
-}
 
 /*!
  * Get the Excel interface.

@@ -23,7 +23,7 @@ const static string CmdToMaruAction  = "To Period Character" ;
 // register a glossary entry
 const static string CmdRegisterGlossAction  = "Register Glossary" ;
 // delete entry
-const static string CmdDeleteAction  = "Delete" ;
+const static string CmdDeleteAction  = "Delete Entry" ;
 // navigate through matches
 const static string CmdNextAction  = "Next" ;
 const static string CmdPrevAction  = "Previous" ;

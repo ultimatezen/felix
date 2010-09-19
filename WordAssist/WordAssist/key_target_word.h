@@ -4,7 +4,12 @@ class KeyTargetWord
 {
 public:
 
+	virtual void set_auto_off() = 0 ;
 	virtual bool IsActive() = 0 ;
+
+	//////////////////////////////////////////////////////////////////////////
+	// These hook keyboard shortcuts
+	//////////////////////////////////////////////////////////////////////////
 
 	virtual bool OnAutoTransAction ( bool as_plaintext ) = 0 ;
 	virtual bool OnAutoTransFuzzyAction ( bool as_plaintext ) = 0 ;

@@ -7,6 +7,5 @@
 
 BOOL installhook( shortcuts::KeyboardShortcuts *keys ) ;
 BOOL uninstallhook( shortcuts::KeyboardShortcuts *keys ) ;
-void set_shortcuts_callback(boost::function<void(BOOL)> callback, BOOL current_setting) ;
 
 shortcuts::KeyboardShortcuts* getInterface() ;

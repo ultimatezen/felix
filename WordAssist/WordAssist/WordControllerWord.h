@@ -54,11 +54,23 @@ public:
 	// get and set translations
 	bool OnGetAction( bool as_plaintext ) { return WordController::OnGetAction(as_plaintext) ; }
 	bool OnSetAction( bool as_plaintext ) { return WordController::OnSetAction(as_plaintext) ; }
-	bool OnGetAndNextAction( bool as_plaintext ) { return WordController::OnGetAndNextAction(as_plaintext) ; }
-	bool OnSetAndNextAction( bool as_plaintext ) { return WordController::OnSetAndNextAction(as_plaintext) ; }
+	bool OnGetAndNextAction( bool as_plaintext ) 
+	{
+		set_auto_off() ;
+		return WordController::OnGetAndNextAction(as_plaintext) ; 
+	}
+	bool OnSetAndNextAction( bool as_plaintext ) 
+	{ 
+		set_auto_off() ;
+		return WordController::OnSetAndNextAction(as_plaintext) ; 
+	}
 
 	// look up source segment
-	bool OnLookupAction( bool as_plaintext ) { return WordController::OnLookupAction(as_plaintext) ; }
+	bool OnLookupAction( bool as_plaintext ) 
+	{ 
+		set_auto_off() ;
+		return WordController::OnLookupAction(as_plaintext) ; 
+	}
 	bool OnLookupNextAction( bool as_plaintext ) { return WordController::OnLookupNextAction(as_plaintext) ; }
 	bool OnConcordanceAction ( bool as_plaintext ) { return WordController::OnConcordanceAction(as_plaintext) ; }
 	bool OnExtendLookupAction ( bool as_plaintext ) { return WordController::OnExtendLookupAction(as_plaintext) ; }

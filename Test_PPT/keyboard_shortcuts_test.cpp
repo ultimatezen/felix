@@ -7,6 +7,8 @@
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 
+	using namespace shortcuts ;
+
 	BOOST_AUTO_TEST_CASE(test_load_simple)
 	{
 		KeyMapperFake mapper ;
@@ -21,7 +23,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 			"</shortcuts>" ;
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_ctrl_shortcuts.size()) ;
-		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_ctrl_shortcuts[L'k'] ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_ctrl_shortcuts[L'k'] ;
+		shortcut_ptr keyboard_shortcut = (*cut)[0] ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_CTRL) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
@@ -51,7 +54,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(0u, keyboard_shortcuts.m_ctrl_shortcuts.size()) ;
 		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_alt_shortcuts.size()) ;
-		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_alt_shortcuts[L'k'] ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_alt_shortcuts[L'k'] ;
+		shortcut_ptr keyboard_shortcut = (*cut)[0] ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_ALT) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
@@ -70,7 +74,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 			"</shortcuts>";
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_alt_shortcuts.size()) ;
-		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_alt_shortcuts[L'k'] ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_alt_shortcuts[L'k'] ;
+		shortcut_ptr keyboard_shortcut = (*cut)[0] ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_ALT) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
@@ -89,7 +94,8 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 			"</shortcuts>" ;
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_ctrl_alt_shortcuts.size()) ;
-		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_ctrl_alt_shortcuts[L'k'] ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_ctrl_alt_shortcuts[L'k'] ;
+		shortcut_ptr keyboard_shortcut = (*cut)[0] ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_CTRL_ALT) ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
 		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, 0) ;
@@ -116,8 +122,10 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 			"</shortcuts>" ;
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(2u, keyboard_shortcuts.m_ctrl_shortcuts.size()) ;
-		BOOST_CHECK_EQUAL(keyboard_shortcuts.m_ctrl_shortcuts[L'k']->m_firstkey, L'k') ;
-		BOOST_CHECK_EQUAL(keyboard_shortcuts.m_ctrl_shortcuts[L'p']->m_firstkey, L'p') ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_ctrl_shortcuts[L'k'] ;
+		BOOST_CHECK_EQUAL((*cut)[0]->m_firstkey, L'k') ;
+		cut = keyboard_shortcuts.m_ctrl_shortcuts[L'p'] ;
+		BOOST_CHECK_EQUAL((*cut)[0]->m_firstkey, L'p') ;
 	}
 
 	BOOST_AUTO_TEST_CASE(test_load_secondkey)
@@ -134,10 +142,10 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsLoadTest )
 			"</shortcuts>" ;
 		keyboard_shortcuts.load(text) ;
 		BOOST_CHECK_EQUAL(1u, keyboard_shortcuts.m_ctrl_shortcuts.size()) ;
-		shortcuts::shortcut_ptr keyboard_shortcut = keyboard_shortcuts.m_ctrl_shortcuts[L'k'] ;
-		BOOST_CHECK_EQUAL(keyboard_shortcut->m_type, shortcuts::SHORTCUT_CTRL) ;
-		BOOST_CHECK_EQUAL(keyboard_shortcut->m_firstkey, L'k') ;
-		BOOST_CHECK_EQUAL(keyboard_shortcut->m_secondkey, L'm') ;
+		KeyboardShortcuts::shortcut_map_ptr cut = keyboard_shortcuts.m_ctrl_shortcuts[L'k'] ;
+		BOOST_CHECK_EQUAL((*cut)[L'm']->m_type, shortcuts::SHORTCUT_CTRL) ;
+		BOOST_CHECK_EQUAL((*cut)[L'm']->m_firstkey, L'k') ;
+		BOOST_CHECK_EQUAL((*cut)[L'm']->m_secondkey, L'm') ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -208,7 +216,7 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsMapperTest )
 		BOOST_CHECK(keyboard_shortcuts.receive_keypress(true, false, L'm')) ;
 
 		BOOST_CHECK_EQUAL(0u, mapper.m_sensing_variable.size());
-		BOOST_CHECK_EQUAL(L'x', keyboard_shortcuts.m_second_key);
+		BOOST_CHECK_EQUAL(L'm', keyboard_shortcuts.m_second_key);
 	}
 	BOOST_AUTO_TEST_CASE(test_second_key_second_hit)
 	{
