@@ -33,91 +33,101 @@ public:
 	KeyTargetExcel	*m_target ;
 	bool map_command(string command)
 	{
-		if (command == CmdLookupNext)
+		if (boost::iequals(command, CmdLookupNext))
 		{
 			m_target->OnLookupNext() ;
 			return true ;
 		}
-		if (command == CmdSet)
+		if (boost::iequals(command, CmdSet))
 		{
 			m_target->OnSet() ;
 			return true ;
 		}
-		if (command == CmdGet)
+		if (boost::iequals(command, CmdGet))
 		{
 			m_target->OnGet() ;
 			return true ;
 		}
-		if (command == CmdPrev)
+		if (boost::iequals(command, CmdPrev))
 		{
 			m_target->OnPrev() ;
 			return true ;
 		}
-		if (command == CmdNext)
+		if (boost::iequals(command, CmdNext))
 		{
 			m_target->OnNext() ;
 			return true ;
 		}
-		if (command == CmdGetAndNext)
+		if (boost::iequals(command, CmdGetAndNext))
 		{
 			m_target->OnGetAndNext() ;
 			return true ;
 		}
-		if (command == CmdSetAndNext)
+		if (boost::iequals(command, CmdSetAndNext))
 		{
 			m_target->OnSetAndNext() ;
 			return true ;
 		}
-		if (command == CmdLookup)
+		if (boost::iequals(command, CmdLookup))
 		{
 			m_target->OnLookup() ;
 			return true ;
 		}
-		if (command == CmdAutoTransSel) 
+		if (boost::iequals(command, CmdAutoTransSel))
 		{
 			m_target->OnAutoTransSel() ;
 			return true ;
 		}
 		// get glossary entries
-		if (command == CmdEntry0Action )
+		if (boost::iequals(command, CmdEntry0Action ))
 		{
 			m_target->OnEntry( 0 ) ;
+			return true ;
 		}
-		if (command == CmdEntry1Action )
+		if (boost::iequals(command, CmdEntry1Action ))
 		{
 			m_target->OnEntry( 1 ) ;
+			return true ;
 		}
-		if (command == CmdEntry2Action )
+		if (boost::iequals(command, CmdEntry2Action ))
 		{
 			m_target->OnEntry( 2 ) ;
+			return true ;
 		}
-		if (command == CmdEntry3Action )
+		if (boost::iequals(command, CmdEntry3Action ))
 		{
 			m_target->OnEntry( 3 ) ;
+			return true ;
 		}
-		if (command == CmdEntry4Action )
+		if (boost::iequals(command, CmdEntry4Action ))
 		{
 			m_target->OnEntry( 4 ) ;
+			return true ;
 		}
-		if (command == CmdEntry5Action )
+		if (boost::iequals(command, CmdEntry5Action ))
 		{
 			m_target->OnEntry( 5 ) ;
+			return true ;
 		}
-		if (command == CmdEntry6Action )
+		if (boost::iequals(command, CmdEntry6Action ))
 		{
 			m_target->OnEntry( 6 ) ;
+			return true ;
 		}
-		if (command == CmdEntry7Action )
+		if (boost::iequals(command, CmdEntry7Action ))
 		{
 			m_target->OnEntry( 7 ) ;
+			return true ;
 		}
-		if (command == CmdEntry8Action )
+		if (boost::iequals(command, CmdEntry8Action ))
 		{
 			m_target->OnEntry( 8 ) ;
+			return true ;
 		}
-		if (command == CmdEntry9Action )
+		if (boost::iequals(command, CmdEntry9Action ))
 		{
 			m_target->OnEntry( 9 ) ;
+			return true ;
 		}
 		return false ;
 	}

@@ -10,7 +10,7 @@ const static string CmdAutoTransFuzzyAction = "Auto Trans to Fuzzy" ;
 // get and set translations
 const static string CmdGetAction = "Get" ;
 const static string CmdSetAction = "Set" ;
-const static string CmdGetAndNextAction = "get and Next" ;
+const static string CmdGetAndNextAction = "Get and Next" ;
 const static string CmdSetAndNextAction = "Set and Next" ;
 
 // look up source segment
@@ -63,47 +63,47 @@ public:
 	bool map_command(string command)
 	{
 
-		if (command == CmdAutoTransAction)
+		if (boost::iequals(command, CmdAutoTransAction))
 		{
 			return m_target->OnAutoTransAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdAutoTransFuzzyAction)
+		if (boost::iequals(command, CmdAutoTransFuzzyAction))
 		{
 			return m_target->OnAutoTransFuzzyAction( shift_key_is_pressed() ) ;
 		}
 
 		// get and set translations
-		if (command == CmdGetAction)
+		if (boost::iequals(command, CmdGetAction))
 		{
 			return m_target->OnGetAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdSetAction)
+		if (boost::iequals(command, CmdSetAction))
 		{
 			return m_target->OnSetAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdGetAndNextAction)
+		if (boost::iequals(command, CmdGetAndNextAction))
 		{
 			return m_target->OnGetAndNextAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdSetAndNextAction)
+		if (boost::iequals(command, CmdSetAndNextAction))
 		{
 			return m_target->OnSetAndNextAction( shift_key_is_pressed() ) ;
 		}
 
 		// look up source segment
-		if (command == CmdLookupAction)
+		if (boost::iequals(command, CmdLookupAction))
 		{
 			return m_target->OnLookupAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdLookupNextAction)
+		if (boost::iequals(command, CmdLookupNextAction))
 		{
 			return m_target->OnLookupNextAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdConcordanceAction )
+		if (boost::iequals(command, CmdConcordanceAction ))
 		{
 			return m_target->OnConcordanceAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdExtendLookupAction )
+		if (boost::iequals(command, CmdExtendLookupAction ))
 		{
 			if (shift_key_is_pressed())
 			{
@@ -111,122 +111,122 @@ public:
 			}
 			return m_target->OnExtendLookupAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdToMaruAction )
+		if (boost::iequals(command, CmdToMaruAction ))
 		{
 			return m_target->OnToMaruAction( shift_key_is_pressed() ) ;
 		}
 
 		// register a glossary entry
-		if (command == CmdRegisterGlossAction )
+		if (boost::iequals(command, CmdRegisterGlossAction ))
 		{
 			return m_target->OnRegisterGlossAction( shift_key_is_pressed() ) ;
 		}
 		// delete entry
-		if (command == CmdDeleteAction )
+		if (boost::iequals(command, CmdDeleteAction ))
 		{
 			return m_target->OnDeleteAction( ) ;
 		}
 		// navigate through matches
-		if (command == CmdNextAction )
+		if (boost::iequals(command, CmdNextAction ))
 		{
 			return m_target->OnNextAction( ) ;
 		}
-		if (command == CmdPrevAction )
+		if (boost::iequals(command, CmdPrevAction ))
 		{
 			return m_target->OnPrevAction( ) ;
 		}
 		// get glossary entries
-		if (command == CmdEntry0Action )
+		if (boost::iequals(command, CmdEntry0Action ))
 		{
 			return m_target->OnEntry0Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry1Action )
+		if (boost::iequals(command, CmdEntry1Action ))
 		{
 			return m_target->OnEntry1Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry2Action )
+		if (boost::iequals(command, CmdEntry2Action ))
 		{
 			return m_target->OnEntry2Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry3Action )
+		if (boost::iequals(command, CmdEntry3Action ))
 		{
 			return m_target->OnEntry3Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry4Action )
+		if (boost::iequals(command, CmdEntry4Action ))
 		{
 			return m_target->OnEntry4Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry5Action )
+		if (boost::iequals(command, CmdEntry5Action ))
 		{
 			return m_target->OnEntry5Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry6Action )
+		if (boost::iequals(command, CmdEntry6Action ))
 		{
 			return m_target->OnEntry6Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry7Action )
+		if (boost::iequals(command, CmdEntry7Action ))
 		{
 			return m_target->OnEntry7Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry8Action )
+		if (boost::iequals(command, CmdEntry8Action ))
 		{
 			return m_target->OnEntry8Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdEntry9Action )
+		if (boost::iequals(command, CmdEntry9Action ))
 		{
 			return m_target->OnEntry9Action( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdGlossNAction)
+		if (boost::iequals(command, CmdGlossNAction))
 		{
 			return m_target->OnGlossNAction( shift_key_is_pressed() ) ;
 		}
 
 		// look up translation
-		if (command == CmdLookupTransAction )
+		if (boost::iequals(command, CmdLookupTransAction ))
 		{
 			return m_target->OnLookupTransAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdLookupNextTransAction )
+		if (boost::iequals(command, CmdLookupNextTransAction ))
 		{
 			return m_target->OnLookupNextTransAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdTransConcordanceAction )
+		if (boost::iequals(command, CmdTransConcordanceAction ))
 		{
 			return m_target->OnTransConcordanceAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdExtendTransLookupAction )
+		if (boost::iequals(command, CmdExtendTransLookupAction ))
 		{
 			return m_target->OnExtendTransLookupAction( shift_key_is_pressed() ) ;
 		}
 
-		if (command == CmdCorrectAction )
+		if (boost::iequals(command, CmdCorrectAction ))
 		{
 			return m_target->OnCorrectAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdCorrectAndNextAction )
+		if (boost::iequals(command, CmdCorrectAndNextAction ))
 		{
 			return m_target->OnCorrectAndNextAction( shift_key_is_pressed() ) ;
 		}
 
-		if (command == CmdRestoreAction )
+		if (boost::iequals(command, CmdRestoreAction ))
 		{
 			return m_target->OnRestoreAction( shift_key_is_pressed() ) ;
 		}
-		if (command == CmdRestoreAndNextAction )
+		if (boost::iequals(command, CmdRestoreAndNextAction ))
 		{
 			return m_target->OnRestoreAndNextAction( shift_key_is_pressed() ) ;
 		}
 
-		if (command == CmdSaveMemoryAction)
+		if (boost::iequals(command, CmdSaveMemoryAction))
 		{
 			return m_target->OnSaveMemoryAction( ) ;
 		}
-		if (command == CmdShiftStateAction)
+		if (boost::iequals(command, CmdShiftStateAction))
 		{
 			return m_target->OnShiftStateAction( ) ;
 		}
 
-		if (command == CmdAnalyze)
+		if (boost::iequals(command, CmdAnalyze))
 		{
 			return m_target->OnAnalyze( ) ;
 		}

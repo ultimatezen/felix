@@ -241,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\key_mapper_excel_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\keyboard_shortcuts.cpp"
 				>
 			</File>
@@ -340,6 +344,10 @@
 			</File>
 			<File
 				RelativePath="..\ExcelAssist\ExcelAssist\key_target_excel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\key_target_excel_fake.h"
 				>
 			</File>
 			<File
