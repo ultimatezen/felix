@@ -3,6 +3,7 @@
 class KeyTargetExcel
 {
 public:
+	virtual bool IsActive() = 0 ;
 	virtual void OnLookupNext() = 0 ;
 	virtual void OnSet() = 0 ;
 	virtual void OnGet() = 0 ;

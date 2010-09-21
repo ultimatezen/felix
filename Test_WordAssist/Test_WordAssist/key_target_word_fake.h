@@ -14,7 +14,6 @@ public:
 
 	bool IsActive()
 	{ 
-		SENSE("IsActive") ; 
 		return true ; 
 	}
 

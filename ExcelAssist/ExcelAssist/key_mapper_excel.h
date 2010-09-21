@@ -33,6 +33,10 @@ public:
 	KeyTargetExcel	*m_target ;
 	bool map_command(string command)
 	{
+		if (! m_target->IsActive())
+		{
+			return false ;
+		}
 		if (boost::iequals(command, CmdLookupNext))
 		{
 			m_target->OnLookupNext() ;

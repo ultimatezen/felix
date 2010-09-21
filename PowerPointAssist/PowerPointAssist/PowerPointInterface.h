@@ -25,6 +25,11 @@ public:
 	CPowerPointInterface();
 	virtual ~CPowerPointInterface();
 
+	bool IsActive()
+	{
+		return true ;
+	}
+
 	void setProperties(app_state *properties)
 	{
 		m_properties = properties ;
@@ -61,12 +66,6 @@ public:
 	HRESULT OnCorrectAndNextTransAction ( bool plaintext = false ) ;
 	HRESULT OnRestoreTransAction ( bool plaintext = false ) ;
 	HRESULT OnRestoreAndNextTransAction ( bool plaintext = false ) ;
-
-	void OnUnitTestAction()
-	{
-
-	}
-
 
 	PowerPoint::TextRangePtr collapse_selection( PowerPoint::TextRangePtr &selection );
 	PowerPoint::TextRangePtr eat_whitespace( PowerPoint::TextRangePtr &range );

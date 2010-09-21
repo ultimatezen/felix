@@ -78,6 +78,13 @@ public:
 public:
 	CFelixExcelIF(LPCWSTR trans_hist_servername = L"FelixTransHistory.Excel");
 	~CFelixExcelIF();
+
+	bool IsActive()
+	{
+		return true ;
+	}
+
+
 	void set_app_ptr(LPDISPATCH app);
 	void shut_down();
 	void close_workbook(IDispatch* workbook);	

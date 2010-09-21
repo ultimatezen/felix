@@ -62,7 +62,10 @@ public:
 	KeyTargetWord	*m_target ;
 	bool map_command(string command)
 	{
-
+		if (! m_target->IsActive())
+		{
+			return false ;
+		}
 		if (boost::iequals(command, CmdAutoTransAction))
 		{
 			return m_target->OnAutoTransAction( shift_key_is_pressed() ) ;
