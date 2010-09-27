@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0499 */
-/* at Wed Aug 04 23:29:45 2010
+/* at Sat Sep 25 19:18:06 2010
  */
 /* Compiler settings for .\AddIn.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)

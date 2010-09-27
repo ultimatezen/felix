@@ -21,6 +21,8 @@ public:
 
 	virtual void shut_down() = 0 ;
 	virtual void close_doc(IDispatch* doc) = 0 ;
+
+	virtual void load_abbreviations() = 0 ;
 	//	IDS_MENU_AUTO_TRANS_SEL					"&Auto Translate Selection (ALT + M, A)"
 	//	IDS_MENU_REGISTER_GLOSS					"Regis&ter As Glossary Entry (ALT + M, G)"
 	//	IDS_MENU_GLOSS_N						"Specify &Number... (ALT + M, H)"

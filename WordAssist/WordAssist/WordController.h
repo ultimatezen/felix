@@ -36,7 +36,7 @@ public:
 
 	bool				m_is_trans_mode ;
 	app_state			m_properties ;
-	wstring				m_abbreviations ;
+	Abbreviations		m_abbreviations ;
 	bool				m_isAndSetAction ;
 
 
@@ -44,6 +44,11 @@ public:
 
 public:
 	WordController(LPCWSTR history_server = L"FelixTransHistory.Word");
+
+	void load_abbreviations() 
+	{
+		m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
+	}
 	virtual ~WordController();
 
 	long get_query_start();

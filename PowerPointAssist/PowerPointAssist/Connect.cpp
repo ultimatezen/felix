@@ -1318,6 +1318,8 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
+			m_interface.load_abbreviations() ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1331,6 +1333,8 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
+			m_interface.load_abbreviations() ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1342,8 +1346,15 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 		}
 		const int props[] = {SKIP_IF_J, SKIP_UNLESS_J, NO_SKIP} ;
 		const size_t index = static_cast<size_t>(m_properties.m_data.m_skipJ) ;
-		ATLASSERT(index < sizeof(props)) ;
-		m_properties.m_data.m_skipJ = props[index] ;
+		if(index < sizeof(props))
+		{
+			m_properties.m_data.m_skipJ = props[index] ;
+		}
+		else
+		{
+			ATLASSERT(index == SKIP_IF_J || index == SKIP_UNLESS_J || index == NO_SKIP) ;
+			m_properties.m_data.m_skipJ = index;
+		}
 
 		TRACE(m_properties.get_preferred_gui_lang()) ;
 		if ( m_properties.get_preferred_gui_lang() == PREF_LANG_ENGLISH)

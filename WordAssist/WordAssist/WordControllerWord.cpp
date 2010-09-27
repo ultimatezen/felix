@@ -21,7 +21,7 @@ bool CWordControllerWord::OnAnalyze()
 	assistant.CreateInstance( L"Felix.App" ) ;
 
 	boost::shared_ptr<WordParser> parser 
-		= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, m_abbreviations )) ;
+		= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 	try
 	{
 		parser = boost::shared_ptr<WordParser>() ;

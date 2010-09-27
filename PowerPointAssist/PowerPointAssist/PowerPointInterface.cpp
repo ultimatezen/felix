@@ -46,8 +46,8 @@ CPowerPointInterface::CPowerPointInterface() :
 	m_is_auto(false),
 	m_textRangeParser(m_properties, &m_abbreviations)
 {
-	m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
-}
+	load_abbreviations();
+	}
 
 CPowerPointInterface::~CPowerPointInterface()
 {
@@ -1672,4 +1672,9 @@ bool CPowerPointInterface::has_j( const wstring &text )
 	}
 
 	return false ;
+}
+
+void CPowerPointInterface::load_abbreviations()
+{
+	m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
 }

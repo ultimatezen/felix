@@ -94,6 +94,7 @@ BEGIN
     GROUPBOX        "Interface Language",IDC_STATIC,9,5,106,44
     CONTROL         "&English",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
     CONTROL         "&Japanese",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    PUSHBUTTON      "&Keyboard Shortcuts...",IDC_KEYBOARD_SHORTCUTS,12,60,107,18
 END
 
 IDD_PROPPAGE_VIEW_J DIALOGEX 0, 0, 247, 212
@@ -104,6 +105,7 @@ BEGIN
     GROUPBOX        "ÇhÅ^ÇeåæåÍ",IDC_STATIC,9,5,106,44
     CONTROL         "âpåÍ(&E)",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
     CONTROL         "ì˙ñ{åÍ(&J)",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    PUSHBUTTON      "ÉVÉáÅ[ÉgÉJÉbÉg(&K)...",IDC_KEYBOARD_SHORTCUTS,14,66,111,22
 END
 
 IDD_PROPSHEET_E DIALOGEX 0, 0, 205, 186
@@ -155,29 +157,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// IMAGE
-//
-//
-//IDB_SWITCH_TO_TRANS_IMG IMAGE                   "idb_swit.bin"
-//IDB_SWITCH_TO_REVIEW_IMG IMAGE                   "bin00001.bin"
-//IDB_SET_IMG             IMAGE                   "idb_set_.bin"
-//IDB_SET_AND_NEXT_IMG    IMAGE                   "bin00002.bin"
-//IDB_SAVE_IMG            IMAGE                   "idb_save.bin"
-//IDB_RESTORE_IMG         IMAGE                   "idb_rest.bin"
-//IDB_RESTORE_AND_NEXT_IMG IMAGE                   "bin00003.bin"
-//IDB_LOOKUP_TRANS_IMG    IMAGE                   "idb_look.bin"
-//IDB_LOOKUP_NEXT_TRANS_IMG IMAGE                   "bin00004.bin"
-//IDB_LOOKUP_NEXT_IMG     IMAGE                   "bin00005.bin"
-//IDB_LOOKUP_IMG          IMAGE                   "bin00006.bin"
-//IDB_HELP_IMG            IMAGE                   "idb_help.bin"
-//IDB_GLOSS_N_IMG         IMAGE                   "idb_glos.bin"
-//IDB_GET_IMG             IMAGE                   "idb_get_.bin"
-//IDB_GET_AND_NEXT_IMG    IMAGE                   "bin00007.bin"
-//IDB_CORRECT_IMG         IMAGE                   "idb_corr.bin"
-//IDB_CORRECT_AND_NEXT_IMG IMAGE                   "bin00008.bin"
 #endif    // Japanese resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -209,14 +188,6 @@ JAPANESE.HTML           HTML                    "japanese_strings.htm"
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// IMAGE
-//
-//
-//IDB_PROPERTIES_IMG      IMAGE                   "image1.bin"
-//IDB_DELETE_IMG          IMAGE                   "image2.bin"
 
 /////////////////////////////////////////////////////////////////////////////
 //

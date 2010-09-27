@@ -48,17 +48,19 @@
 #include <list>
 #include <vector>
 
-// Loki
-#include "loki/AssocVector.h"
-
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 using namespace boost::assign; // bring 'operator+=()' into scope
+
+#pragma warning( disable : 4100 ) // unreferenced formal parameter
 
 #include <boost/format.hpp>
 using boost::format;
 using boost::wformat ;
 typedef boost::basic_format< TCHAR > tformat;
+
+#pragma warning( default : 4100 ) // unreferenced formal parameter
+
 
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_array.hpp>

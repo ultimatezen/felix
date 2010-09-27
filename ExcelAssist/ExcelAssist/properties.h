@@ -15,6 +15,7 @@
 #include "StringConversions.h"	// convert to/from strings
 #include "DebugUtilities.h"	// extra debugging stuff
 #include "app_state.h"
+#include "dispatchwrapper.h" // For COM dialogs
 
 
 // ======================
@@ -37,10 +38,41 @@ public:
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
 	int OnApply();
 
-
+	LRESULT OnShortcuts(WORD, WORD, HWND, BOOL& )
+	{
+		try
+		{
+			CDispatchWrapper wrapper(L"Felix.Preferences"); 
+			CComVariant language = L"English";
+			CComVariant prog = L"excel" ;
+			if (IDD == IDD_PROPPAGE_VIEW_J)
+			{
+				language = L"Japanese" ;
+			}
+			wrapper.method(L"EditShortcuts", prog, language) ;
+			wrapper.m_app = NULL ;
+		}
+		catch (_com_error& err)
+		{
+			ATLASSERT(FALSE && "Raised exception in file_logger") ;
+			except::CComException ce(err) ;
+			logging::log_warn("Failed to edit shortcuts") ;
+			logging::log_exception(e) ;
+			ce.notify_user(_T("Shortcuts Error")) ;
+		}	
+		catch(except::CException &e)
+		{
+			logging::log_error("Failed to edit shortcuts") ;
+			logging::log_exception(e) ;
+			e.notify_user(_T("Shortcuts Error")) ;
+		}
+		return 0;
+	}
 	BEGIN_MSG_MAP(CPageView)
 
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
+
+		COMMAND_HANDLER(IDC_KEYBOARD_SHORTCUTS, BN_CLICKED, OnShortcuts)
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageView> )
 
 	END_MSG_MAP()

@@ -14,7 +14,10 @@ public:
 	{
 		m_is_auto = false ;
 	}
-
+	void load_abbreviations() 
+	{
+		m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
+	}
 	bool is_translation_mode() { return WordController::is_translation_mode() ; }
 
 	void OnSwitchModeAction() { WordController::OnSwitchModeAction() ; }

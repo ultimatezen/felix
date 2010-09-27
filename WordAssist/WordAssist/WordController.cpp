@@ -59,7 +59,7 @@ WordController::WordController(LPCWSTR history_server) :
 {
 	logging::log_debug("Initializing Word controller") ;
 	m_properties.read_from_registry() ;
-	m_abbreviations = get_config_text(_T("abbreviations.txt")) ;
+	load_abbreviations();
 	HRESULT hr = Word2HtmlObject::CreateInstance( &m_word2html ) ;
 	if ( SUCCEEDED( hr ) )
 	{
@@ -1596,7 +1596,7 @@ bool WordController::select_next_sentence()
 		
 	WordSelection selection = m_word_object.get_selection() ;
 		
-	parser_ptr parser = parser_ptr(new WordParser( selection, &m_properties, m_abbreviations )) ;
+	parser_ptr parser = parser_ptr(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 	while ( parser->select_next_sentence( ) )
 	{
 		WordSelection selection = m_word_object.get_selection() ;
@@ -1644,7 +1644,7 @@ _bstr_t WordController::get_selection_text(bool as_plaintext )
 		
 	WordSelection selection = m_word_object.get_selection() ;
 	
-	parser_ptr parser = parser_ptr(new WordParser( selection, &m_properties, m_abbreviations )) ;
+	parser_ptr parser = parser_ptr(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 	_bstr_t text ;
 	if ( as_plaintext || ! parser->formatting_enabled())
@@ -1800,7 +1800,7 @@ bool WordController::OnToMaruAction(bool as_plaintext)
 		WordSelection selection = m_word_object.get_selection() ;
 		
 		boost::shared_ptr<WordParser> parser = 
-			boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, m_abbreviations )) ;
+			boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 		if( ! parser->select_to_maru( ) )
 		{
@@ -1855,7 +1855,7 @@ bool WordController::OnMem2TransAction(bool as_plaintext)
 	WordSelection selection = m_word_object.get_selection() ;
 
 	boost::shared_ptr<WordParser> parser 
-		= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, m_abbreviations )) ;
+		= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 	word_writer writer( selection ) ;
 	
@@ -2010,7 +2010,7 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 		WordSelection selection = m_word_object.get_selection() ;
 
 		boost::shared_ptr<WordParser> parser 
-			= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, m_abbreviations )) ;
+			= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 		Felix::IAppPtr app = getAssistant( ) ;
 

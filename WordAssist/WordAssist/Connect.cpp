@@ -1984,6 +1984,8 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
+			m_controller->load_abbreviations() ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1997,6 +1999,8 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
+			m_controller->load_abbreviations() ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

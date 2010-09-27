@@ -55,6 +55,7 @@ LRESULT __declspec(dllexport)__stdcall  CALLBACK KeyboardProc(int nCode,
 	const bool control_key_pressed = control_key_is_pressed() ;
 	const bool alt_key_pressed = alt_key_is_pressed(wKeystrokeMsg) ;
 
+
 	if (hook_keys->receive_keypress(control_key_pressed, alt_key_pressed, static_cast<wchar_t>(wParam)))
 	{
 		return 1 ;

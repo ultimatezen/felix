@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( KeyboardShortcutsWordTest )
 		keys.load(text) ;
 
 		BOOST_CHECK_EQUAL(23u, keys.m_alt_shortcuts.size()) ;
-		BOOST_CHECK_EQUAL(3u, keys.m_ctrl_alt_shortcuts.size()) ;
+		BOOST_CHECK_EQUAL(2u, keys.m_ctrl_alt_shortcuts.size()) ;
 		BOOST_CHECK_EQUAL(1u, keys.m_ctrl_shortcuts.size()) ;
 
 		KeyboardShortcuts::shortcut_map_ptr cut = keys.m_alt_shortcuts[L'0'] ;

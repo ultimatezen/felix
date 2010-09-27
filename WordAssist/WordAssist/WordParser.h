@@ -42,7 +42,7 @@ class WordParser  : public CParserBase
 	WordRange		m_original_range ;
 	html_formatter	m_formatter ;
 	bool			m_eat_whitespace ;
-	Abbreviations	m_ok_endings ;
+	Abbreviations	*m_ok_endings ;
 
 public:
 	_bstr_t			m_SegStopChars ;
@@ -92,9 +92,11 @@ public:
 	void advance_end(  WordRange &range, long &old_end, _bstr_t &text, _bstr_t &next_char);
 	_bstr_t segment_as_plaintext( );
 	_bstr_t segment_as_html( );
-	WordParser( WordSelection selection, app_state *params, const wstring &abbreviations );
+	WordParser( WordSelection selection, app_state *params, Abbreviations *abbreviations );
 #ifdef _DEBUG
 	WordParser( ) ;
+
+	void load_abbreviations( const wstring & abbreviations );
 #endif
 	void load_params();
 	~WordParser();

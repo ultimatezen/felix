@@ -16,7 +16,7 @@ STDMETHODIMP CWord2HtmlParser::RangeToHtml(IDispatch *word_range,
 		WordSelection selection = selection_ptr ;
 
 		boost::shared_ptr<WordParser> parser 
-			= boost::shared_ptr<WordParser>(new WordParser( selection, m_properties, m_abbreviations )) ;
+			= boost::shared_ptr<WordParser>(new WordParser( selection, m_properties, &m_abbreviations )) ;
 
 		if ( m_plaintext )
 		{

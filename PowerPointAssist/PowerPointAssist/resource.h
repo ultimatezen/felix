@@ -34,6 +34,7 @@
 #define IDC_NAV_ASK                     207
 #define IDC_NEXT_SLIDE                  207
 #define IDC_TRANS_EDIT                  207
+#define IDC_ABBREVIATIONS               207
 #define IDB_SET_AND_NEXT                208
 #define IDC_FONT_ITALIC                 208
 #define IDC_NAV_TOP                     208
@@ -43,6 +44,8 @@
 #define IDC_NAV_SLIDE                   209
 #define IDC_DONT_ASK                    209
 #define IDS_DELIMITERS                  210
+#define IDC_BUTTON1                     210
+#define IDC_KEYBOARD_SHORTCUTS          210
 #define IDB_SAVE                        211
 #define IDS_REG_KEY                     212
 #define IDB_CORRECT_AND_NEXT            213
@@ -134,7 +137,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         32768
-#define _APS_NEXT_CONTROL_VALUE         210
+#define _APS_NEXT_CONTROL_VALUE         211
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

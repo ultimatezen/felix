@@ -23,6 +23,8 @@ public:
 	bool m_is_auto ;
 
 	CPowerPointInterface();
+
+	void load_abbreviations();
 	virtual ~CPowerPointInterface();
 
 	bool IsActive()

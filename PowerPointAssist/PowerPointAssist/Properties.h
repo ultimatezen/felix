@@ -15,6 +15,7 @@
 #include "StringConversions.h"	// convert to/from strings
 #include "DebugUtilities.h"	// extra debugging stuff
 #include "app_state.h"
+#include "dispatchwrapper.h" // For COM dialogs
 
 // ======================
 // class CPageFormat 
@@ -128,6 +129,34 @@ public:
 		m_properties->m_data.m_navigation_type = id ;
 		return 0;
 	}
+	LRESULT OnShortcuts(WORD, WORD, HWND, BOOL& )
+	{
+		try
+		{
+			CDispatchWrapper wrapper(L"Felix.Preferences"); 
+			CComVariant language = L"English";
+			CComVariant prog = L"ppt" ;
+			if (IDD == IDD_PROPPAGE_VIEW_J)
+			{
+				language = L"Japanese" ;
+			}
+			wrapper.method(L"EditShortcuts", prog, language) ;
+			wrapper.m_app = NULL ;
+		}
+		catch (_com_error& err)
+		{
+			ATLASSERT(FALSE && "Raised exception in file_logger") ;
+			except::CComException ce(err) ;
+			ce.notify_user(_T("Abbreviations Error")) ;
+		}		
+		catch(except::CException &e)
+		{
+			logging::log_error("Failed to edit shortcuts") ;
+			logging::log_exception(e) ;
+			e.notify_user(_T("Shortcuts Error")) ;
+		}
+		return 0;
+	}
 	BEGIN_MSG_MAP(CPageView)
 		COMMAND_HANDLER(IDC_LANG_ENG, BN_CLICKED, OnLangCmd)
 		COMMAND_HANDLER(IDC_LANG_JAPANESE, BN_CLICKED, OnLangCmd)
@@ -135,6 +164,8 @@ public:
 		COMMAND_HANDLER(IDC_NAV_SLIDE, BN_CLICKED, OnNavCmd)
 		COMMAND_HANDLER(IDC_NAV_TOP, BN_CLICKED, OnNavCmd)
 		COMMAND_HANDLER(IDC_NAV_ASK, BN_CLICKED, OnNavCmd)
+
+		COMMAND_HANDLER(IDC_KEYBOARD_SHORTCUTS, BN_CLICKED, OnShortcuts)
 
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageView> )
@@ -212,6 +243,34 @@ public:
 		return FALSE;
 	}
 
+	LRESULT OnAbbreviations(WORD, WORD, HWND, BOOL& )
+	{
+		try
+		{
+			CDispatchWrapper wrapper(L"Felix.Preferences"); 
+			CComVariant language = L"English";
+			if (IDD == IDD_PROPPAGE_SEGMENTATION_J)
+			{
+				language = L"Japanese" ;
+			}
+			wrapper.method(L"EditAbbreviations", language) ;
+			wrapper.m_app = NULL ;
+		}
+		catch (_com_error& err)
+		{
+			ATLASSERT(FALSE && "Raised exception in file_logger") ;
+			except::CComException ce(err) ;
+			ce.notify_user(_T("Abbreviations Error")) ;
+		}	
+		catch(except::CException &e)
+		{
+			logging::log_error("Failed to edit abbreviations") ;
+			logging::log_exception(e) ;
+			e.notify_user(_T("Abbreviations Error")) ;
+		}
+
+		return 0;
+	}
 	//LRESULT OnSkipJpn(WORD, WORD id, HWND, BOOL& )
 	//{
 	//	m_properties->m_skipJ = id ;
@@ -224,6 +283,8 @@ public:
 		//COMMAND_HANDLER(IDC_SKIP_NOJ, BN_CLICKED, OnSkipJpn)
 		//COMMAND_HANDLER(IDC_NOSKIP, BN_CLICKED, OnSkipJpn)
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
+
+		COMMAND_HANDLER(IDC_ABBREVIATIONS, BN_CLICKED, OnAbbreviations)
 
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageSegmentation> )
 

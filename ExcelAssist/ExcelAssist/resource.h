@@ -26,6 +26,7 @@
 #define IDC_LANG_JAPANESE               206
 #define IDB_SET_AND_NEXT                208
 #define IDB_GLOSS_N                     209
+#define IDC_KEYBOARD_SHORTCUTS          210
 #define IDB_CORRECT_AND_NEXT            213
 #define IDB_SAVE                        214
 #define IDB_CORRECT                     215

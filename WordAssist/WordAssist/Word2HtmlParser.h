@@ -22,7 +22,7 @@ class ATL_NO_VTABLE CWord2HtmlParser :
 {
 	bool m_plaintext ;
 	app_state	*m_properties ;
-	wstring		m_abbreviations ;
+	Abbreviations		m_abbreviations ;
 public:
 	void set_properties(app_state *properties)
 	{
@@ -35,7 +35,7 @@ public:
 	CWord2HtmlParser() :
 		m_plaintext(false)
 	{
-		m_abbreviations = get_config_text(_T("abbreviations.txt")) ;
+		m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
 	}
 
 	DECLARE_REGISTRY_RESOURCEID(IDR_WORD2HTMLPARSER)

@@ -45,6 +45,7 @@
 #define IDC_RADIO_WORD_DOC              207
 #define IDC_FONT_BOLD                   207
 #define IDC_TRANS_EDIT                  207
+#define IDC_ABBREVIATIONS               207
 #define IDB_SAVE                        208
 #define IDC_RADIO_HTML_DOC              208
 #define IDC_FONT_ITALIC                 208
@@ -53,6 +54,7 @@
 #define IDC_FONT_UNDERLINE              209
 #define IDB_CORRECT_AND_NEXT            210
 #define IDC_FONT_SUPER_SUB              210
+#define IDC_KEYBOARD_SHORTCUTS          210
 #define IDB_LOOKUP_TRANS                211
 #define IDC_BUTTON_ADVANCED             211
 #define IDB_CORRECT                     212
@@ -426,7 +428,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        205
 #define _APS_NEXT_COMMAND_VALUE         32768
-#define _APS_NEXT_CONTROL_VALUE         207
+#define _APS_NEXT_CONTROL_VALUE         209
 #define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif
