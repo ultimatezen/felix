@@ -16,7 +16,7 @@
 #include "DebugUtilities.h"	// extra debugging stuff
 #include "app_state.h"
 #include "dispatchwrapper.h" // For COM dialogs
-
+#include "logging.h"
 
 // ======================
 // class CPageView 
@@ -57,7 +57,7 @@ public:
 			ATLASSERT(FALSE && "Raised exception in file_logger") ;
 			except::CComException ce(err) ;
 			logging::log_warn("Failed to edit shortcuts") ;
-			logging::log_exception(e) ;
+			logging::log_exception(ce) ;
 			ce.notify_user(_T("Shortcuts Error")) ;
 		}	
 		catch(except::CException &e)

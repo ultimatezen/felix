@@ -123,6 +123,7 @@ public:
 
 	void PerformSheetAutoTrans();
 
+	bool escape_is_pressed();
 	void autoTransSheetName( excel::sheet_ptr activeSheet, ta_ptr assistant );
 	void AutoTransCell( excel::range_ptr activeCell, ta_ptr assistant );
 

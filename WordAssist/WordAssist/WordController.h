@@ -67,7 +67,7 @@ public:
 		m_properties = params ;
 		return true ;
 	}
-
+	bool escape_is_pressed();
 	void ensure_trans_history();
 	void set_status_bar_text( const int string_id );
 	bool new_window_has_focus();

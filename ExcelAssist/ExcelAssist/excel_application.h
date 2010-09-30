@@ -26,6 +26,7 @@ public:
 		m_pApplication = app ;
 	}
 
+
 	/*!
 	* \brief
 	* Gets the active sheet.

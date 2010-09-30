@@ -229,13 +229,26 @@ bool WordController::OnAutoTransAction ( bool as_plaintext )
 			selection = m_word_object.get_selection() ;
 			_variant_t direction( (int)MSWord::wdCollapseEnd ) ;
 			selection->Collapse( &direction ) ;
+
+			if (escape_is_pressed())
+			{
+				m_is_auto = false ;
+				return true ;
+			}
 		}
 		m_is_auto = false ;
 
 	}
 	CATCH_ALL("Action: Auto translating current selection")
 
+
 	return true ;
+}
+
+bool WordController::escape_is_pressed()
+{
+	SHORT val = ::GetAsyncKeyState(VK_ESCAPE) & 0x8000 ;
+	return !! (val) ;
 }
 void WordController::dispose_trans_history()
 {
@@ -414,6 +427,11 @@ bool WordController::OnAutoTransFuzzyAction(  bool as_plaintext  )
 				return true ;
 			}
 			
+			if (escape_is_pressed())
+			{
+				m_is_auto = false ;
+				return true ;
+			}
 		} 
 	}	
 	CATCH_ALL("Action: Auto translating until next fuzzy segment")

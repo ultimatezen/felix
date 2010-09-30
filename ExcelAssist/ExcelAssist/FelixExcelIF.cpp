@@ -18,6 +18,7 @@
 static const int MAX_CELL_EXTEND = 30 ;
 static const int ROW_SELECTION_INTERVAL = 10 ;
 static const int MAX_ROWS_NO_ENTRY = 5 ;
+static const int CHECK_ESC_INTERVAL = 5 ;
 
 using namespace except ;
 
@@ -132,6 +133,10 @@ void CFelixExcelIF::OnAutoAddGloss ( )
 			}
 
 			current_row++ ;
+			if (escape_is_pressed())
+			{
+				return ;
+			}
 		}
 
 		select_final_cell(activeSheet, current_row, start_col);
@@ -189,6 +194,10 @@ void CFelixExcelIF::OnAutoAddMem ( )
 			}
 
 			current_row++ ;
+			if (escape_is_pressed())
+			{
+				return ;
+			}
 		}
 
 		select_final_cell(activeSheet, current_row, start_col);
@@ -439,6 +448,10 @@ void CFelixExcelIF::OnAutoTransSel ( )
 			excel::range_ptr range = excel::range_ptr(new excel::range) ;
 			range->set_range(activeCell) ;
 			AutoTransCell( range, assistant );
+			if (escape_is_pressed())
+			{
+				return ;
+			}
 		}
 
 	}
@@ -553,6 +566,10 @@ void CFelixExcelIF::OnAutoTransWorkbook()
 			sheet->Activate() ;
 			excel::range_ptr activeCell = sheet->Cell( 1 , 1 ) ;
 			activeCell->Select() ;
+			if (escape_is_pressed())
+			{
+				return ;
+			}
 
 		}
 
@@ -826,10 +843,15 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 
 				// sanity check...
 				ATLASSERT ( UsedRows < 10000 ) ;
+				if (escape_is_pressed())
+				{
+					return ;
+				}
 			}
 
 			excel::range_ptr topLeftCell = activeSheet->Cell( 1 , 1 ) ;
 			topLeftCell->Select() ;
+
 		}
 		else if (this->m_properties->m_use_trans_hist)
 		{
@@ -1028,6 +1050,11 @@ void CFelixExcelIF::select_final_cell( excel::sheet_ptr activeSheet, long curren
 	final_cell->Select() ;
 }
 
+bool CFelixExcelIF::escape_is_pressed()
+{
+	SHORT val = ::GetAsyncKeyState(VK_ESCAPE) & 0x8000 ;
+	return !! (val) ;
+}
 /************************************************************************/
 /* Unit tests
 /************************************************************************/
