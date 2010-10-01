@@ -731,6 +731,11 @@ void CFelixExcelIF::AutoTransCell( excel::range_ptr activeCell, ta_ptr assistant
 			return ;
 		}
 
+		if (activeCell->is_hidden())
+		{
+			return ;
+		}
+
 		assistant->SetQuery(cell_text) ;
 
 		if ( ! double_equals(assistant->GetScore(), 1.0) ) // || ! isAcceptableCell )

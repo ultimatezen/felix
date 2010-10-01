@@ -45,6 +45,18 @@ public:
 
 		//excel_chars->SetText(text.bstrVal) ;
 	}
+	bool is_hidden()
+	{
+		if (m_range->EntireColumn->Hidden)
+		{
+			return true ;
+		}
+		if (m_range->EntireRow->Hidden)
+		{
+			return true ;
+		}
+		return false ;
+	}
 	virtual int Row()
 	{
 		return m_range->Row ;
