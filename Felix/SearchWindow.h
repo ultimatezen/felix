@@ -43,7 +43,7 @@ public:
 	html::CHtmlView m_view ;
 
 	// performs searches, wraps list of search terms
-	memory_searcher::search_runner m_search_runner ;
+	mem_search::search_runner m_search_runner ;
 
 	// for paginating search results
 	Paginator m_paginator ;

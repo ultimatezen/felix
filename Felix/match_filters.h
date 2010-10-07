@@ -4,7 +4,7 @@
 #include "TranslationMemory.h"
 #include "miscwrappers.h"
 
-namespace memory_searcher
+namespace mem_search
 {
 	using namespace mem_engine ;
 
@@ -46,6 +46,11 @@ namespace memory_searcher
 		bool is_match(const record_pointer rec) const;
 		// Does the record match a given search term?
 		bool term_matches(const record_pointer rec, const wstring term) const;
+
+		bool textfield_name_match( const wstring &term, const wstring &tag, const wstring haystack ) const;
+
+		wstring extract_needle( const wstring &term, const wstring &tag ) const;
+		bool textfield_match( const wstring needle, const wstring haystack ) const;
 	};
 
 }

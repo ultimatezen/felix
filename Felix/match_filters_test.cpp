@@ -6,7 +6,7 @@
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 
-	using namespace memory_searcher ;
+	using namespace mem_search ;
 	using namespace mem_engine ;
 
 	// dates_match
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( match_filters_date_after )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 using namespace mem_engine ;
 
 	// date_after
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( runner_term_matches_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 using namespace mem_engine ;
 
 	// match_filter_generic
@@ -141,6 +141,30 @@ using namespace mem_engine ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
+	}
+	BOOST_AUTO_TEST_CASE( generic_regex_source_true)
+	{
+		wstring term(L"regex:\\w\\d\\w") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"I h8ed that") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
+	}
+	BOOST_AUTO_TEST_CASE( generic_regex_source_start_true)
+	{
+		wstring term(L"regex:^\\w\\d\\w+") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"h8ed that") ;
 		rec->set_trans(L"egg") ;
 		rec->set_context(L"egg") ;
 
@@ -192,6 +216,18 @@ using namespace mem_engine ;
 		search_runner runner ;
 		BOOST_CHECK(!runner.term_matches(rec, term)) ;
 	}
+	BOOST_AUTO_TEST_CASE( generic_regex_source_start_false)
+	{
+		wstring term(L"regex:^\\w\\d\\w+") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"i h8ed that") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
+	}
 	BOOST_AUTO_TEST_CASE( generic_substring_true)
 	{
 		wstring term(L"pa") ;
@@ -238,6 +274,45 @@ using namespace mem_engine ;
 
 		search_runner runner ;
 		BOOST_CHECK(runner.term_matches(rec, term)) ;
+	}
+	BOOST_AUTO_TEST_CASE( source_term_regex_true)
+	{
+		wstring term(L"source:regex:\\d\\d") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"I have 44 eggs") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
+	}
+	BOOST_AUTO_TEST_CASE( source_japanese_true)
+	{
+		wstring term(L"source:ひらがなカタカナ") ;
+
+		record_pointer rec(new record_local) ;
+		CmpMaker maker ;
+		maker.m_ignore_hira_kata = true ;
+		rec->set_cmp_maker(maker) ;
+		rec->set_source(L"ひらがなカタカナ") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(runner.term_matches(rec, term)) ;
+	}
+	BOOST_AUTO_TEST_CASE( source_term_regex_false)
+	{
+		wstring term(L"source:regex:\\d\\d") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"I have 4 eggs") ;
+		rec->set_trans(L"egg") ;
+		rec->set_context(L"egg") ;
+
+		search_runner runner ;
+		BOOST_CHECK(! runner.term_matches(rec, term)) ;
 	}
 	BOOST_AUTO_TEST_CASE( source_trans_false)
 	{
@@ -463,7 +538,7 @@ BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( match_filters_created_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 using namespace mem_engine ;
 
 	// true
@@ -571,7 +646,7 @@ using namespace mem_engine ;
 	//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( match_filters_modified_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 	using namespace mem_engine ;
 
 	// true
@@ -679,7 +754,7 @@ BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( match_filters_created_before_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 using namespace mem_engine ;
 
 	// true
@@ -776,7 +851,7 @@ using namespace mem_engine ;
 	//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( match_filters_created_after_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 	using namespace mem_engine ;
 
 	// true
@@ -869,7 +944,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( match_filters_test )
 
-using namespace memory_searcher ;
+using namespace mem_search ;
 using namespace mem_engine ;
 
 	//////////////////////////////////////////////////////////////////////////

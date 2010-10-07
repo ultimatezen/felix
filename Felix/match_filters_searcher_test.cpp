@@ -7,7 +7,7 @@
 BOOST_AUTO_TEST_SUITE( searcher_test )
 
 
-	using namespace memory_searcher ;
+	using namespace mem_search ;
 	using namespace mem_engine ;
 
 	record_pointer make_record_searcher(wstring source, 

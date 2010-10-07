@@ -3,7 +3,7 @@
 #include <boost/regex.hpp>
 #include "logging.h"
 
-namespace memory_searcher
+namespace mem_search
 {
 
 	void mod_date( misc_wrappers::date &query_date, const wstring datestring )
@@ -35,6 +35,7 @@ namespace memory_searcher
 			return false ;
 		}
 		// month
+		ATLASSERT(query.wYear == entry.wYear) ;
 		if (! query.wMonth)
 		{
 			return true ;
@@ -44,6 +45,7 @@ namespace memory_searcher
 			return false ;
 		}
 		// day
+		ATLASSERT(query.wMonth == entry.wMonth) ;
 		if (! query.wDay)
 		{
 			return true ;
@@ -121,38 +123,23 @@ namespace memory_searcher
 	bool search_runner::term_matches( const record_pointer rec, const wstring term ) const
 	{
 		wstring tag ;
+		const wstring SOURCE_TAG = L"source:" ;
+		const wstring TRANS_TAG = L"trans:" ;
+		const wstring CONTEXT_TAG = L"context:" ;
 
 		try
 		{
-			tag = L"source:" ; // Search in source field
-			if (boost::starts_with(term, tag))
+			if (boost::starts_with(term, SOURCE_TAG))
 			{
-				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-				if (boost::trim_copy(query).empty())
-				{
-					return true ;
-				}
-				return boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos ;
+				return textfield_name_match(term, SOURCE_TAG, rec->get_source_plain());
 			}
-			tag = L"trans:" ; // Search in translation field
-			if (boost::starts_with(term, tag))
+			if (boost::starts_with(term, TRANS_TAG))
 			{
-				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-				if (boost::trim_copy(query).empty())
-				{
-					return true ;
-				}
-				return boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos ;
+				return textfield_name_match(term, TRANS_TAG, rec->get_trans_plain());
 			}
-			tag = L"context:" ; // Search in context field
-			if (boost::starts_with(term, tag))
+			if (boost::starts_with(term, CONTEXT_TAG))
 			{
-				wstring query = boost::to_lower_copy(term.substr(tag.size())) ;
-				if (boost::trim_copy(query).empty())
-				{
-					return true ;
-				}
-				return boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos ;
+				return textfield_name_match(term, CONTEXT_TAG, rec->get_context_plain());
 			}
 			// Created
 			tag = L"created-by:" ; // Search in creator field
@@ -326,20 +313,11 @@ namespace memory_searcher
 			}
 
 			// search in source, trans, and context fields
-			wstring query = boost::to_lower_copy(term) ;
-			if (boost::to_lower_copy(rec->get_source_cmp()).find(query) != wstring::npos)
-			{
-				return true ;
-			}
-			if (boost::to_lower_copy(rec->get_trans_cmp()).find(query) != wstring::npos)
-			{
-				return true ;
-			}
-			if (boost::to_lower_copy(rec->get_context_cmp()).find(query) != wstring::npos)
-			{
-				return true ;
-			}
-			return false ;
+
+			return ( textfield_match(term, rec->get_source_plain()) ||
+				     textfield_match(term, rec->get_trans_plain()) ||
+					 textfield_match(term, rec->get_context_plain())
+					 ) ;
 		}
 		catch (std::exception& e)
 		{
@@ -349,4 +327,33 @@ namespace memory_searcher
 		}
 	}
 
+	bool search_runner::textfield_name_match( const wstring &term, const wstring &tag, const wstring haystack ) const
+	{
+		const wstring needle =extract_needle(term, tag);
+		 return textfield_match(needle, haystack);
+	}
+
+	wstring search_runner::extract_needle( const wstring &term, const wstring &tag ) const
+	{
+		return term.substr(tag.size()) ;
+	}
+
+	bool search_runner::textfield_match( const wstring needle, const wstring haystack ) const
+	{
+		if (boost::trim_copy(needle).empty())
+		{
+			return true ;
+		}
+		const wstring REGEX_TAG = L"regex:" ;
+		if (boost::starts_with(needle, REGEX_TAG))
+		{
+			const wstring pattern  = L"(" + extract_needle(needle, REGEX_TAG) + L")" ;
+			boost::wregex search_regex( pattern, boost::regex::extended|boost::regex::icase) ;
+			return boost::regex_search(haystack, search_regex) ;
+		}
+		else
+		{
+			return boost::icontains(haystack, needle) ;
+		}
+	}
 }
