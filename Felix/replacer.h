@@ -8,10 +8,13 @@ namespace replacer
 	using mem_engine::record_pointer ;
 
 	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
+	wstring getrest(wstring from, wstring tag) ;
 
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to) ;
 
 	record_pointer source(record_pointer rec, wstring from, wstring to) ;
+
+	void replace_text( wstring &old, const wstring &from, const wstring &to )  ;
 	record_pointer trans(record_pointer rec, wstring from, wstring to) ;
 	record_pointer context(record_pointer rec, wstring from, wstring to) ;
 	record_pointer none_specified(record_pointer rec, wstring from, wstring to) ;

@@ -2,6 +2,7 @@
 #include "match_filters.h"
 #include <boost/regex.hpp>
 #include "logging.h"
+#include "replacer.h"
 
 namespace mem_search
 {
@@ -329,13 +330,8 @@ namespace mem_search
 
 	bool search_runner::textfield_name_match( const wstring &term, const wstring &tag, const wstring haystack ) const
 	{
-		const wstring needle =extract_needle(term, tag);
-		 return textfield_match(needle, haystack);
-	}
-
-	wstring search_runner::extract_needle( const wstring &term, const wstring &tag ) const
-	{
-		return term.substr(tag.size()) ;
+		const wstring needle = replacer::getrest(term, tag);
+		return textfield_match(needle, haystack);
 	}
 
 	bool search_runner::textfield_match( const wstring needle, const wstring haystack ) const
@@ -347,7 +343,7 @@ namespace mem_search
 		const wstring REGEX_TAG = L"regex:" ;
 		if (boost::starts_with(needle, REGEX_TAG))
 		{
-			const wstring pattern  = L"(" + extract_needle(needle, REGEX_TAG) + L")" ;
+			const wstring pattern  = L"(" + replacer::getrest(needle, REGEX_TAG) + L")" ;
 			boost::wregex search_regex( pattern, boost::regex::extended|boost::regex::icase) ;
 			return boost::regex_search(haystack, search_regex) ;
 		}

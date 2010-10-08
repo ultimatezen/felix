@@ -94,25 +94,38 @@ namespace replacer
 		return none_specified(rec, from, to) ;
 	}
 
-
+	void replace_text( wstring &old, const wstring &from, const wstring &to ) 
+	{
+		const wstring REGEX_TAG = L"regex:" ;
+		if (boost::starts_with(from, REGEX_TAG))
+		{
+			const wstring pattern  = L"(" + getrest(from, REGEX_TAG) + L")" ;
+			boost::wregex from_regex( pattern, boost::regex::extended|boost::regex::icase) ;
+			old = boost::regex_replace(old, from_regex, to) ;
+		}
+		else
+		{
+			boost::replace_all(old, from, to) ;
+		}
+	}
 	record_pointer source(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_source = rec->get_source_rich() ;
-		boost::replace_all(old_source, from, to) ;
+		replace_text(old_source, from, to);
 		rec->set_source(old_source) ;
 		return rec ;
 	}
 	record_pointer trans(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_trans = rec->get_trans_rich() ;
-		boost::replace_all(old_trans, from, to) ;
+		replace_text(old_trans, from, to) ;
 		rec->set_trans(old_trans) ;
 		return rec ;
 	}
 	record_pointer context(record_pointer rec, wstring from, wstring to)
 	{
 		wstring old_context = rec->get_context_rich() ;
-		boost::replace_all(old_context, from, to) ;
+		replace_text(old_context, from, to) ;
 		rec->set_context(old_context) ;
 		return rec ;
 	}

@@ -49,7 +49,6 @@ namespace mem_search
 
 		bool textfield_name_match( const wstring &term, const wstring &tag, const wstring haystack ) const;
 
-		wstring extract_needle( const wstring &term, const wstring &tag ) const;
 		bool textfield_match( const wstring needle, const wstring haystack ) const;
 	};
 

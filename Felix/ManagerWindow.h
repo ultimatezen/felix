@@ -13,6 +13,7 @@
 #include "ProgressListener.h"
 
 #include "ManagerView.h"
+#include "undoable_action.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
@@ -55,7 +56,9 @@ public:
 	size_t		    m_current_item ;
 	bool			m_is_memory ;
 
-	FrameListener *m_listener ;
+	FrameListener	*m_listener ;
+
+	action::undo_action_ptr m_undo ;
 
 public:
 	// sensing stuff for unit testing

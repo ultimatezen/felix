@@ -10,6 +10,10 @@
 
 #include "GlossaryDialog.h"	// gloss_window_pointer
 
+wstring trim_text(const _bstr_t before) ;
+wstring trim_text(const wstring before) ;
+
+
 /**
 @class CRegisterGlossDlg 
 @brief Dialog for editing translation records.
@@ -130,7 +134,6 @@ public:
 	void SizeBoxes();
 	void sizeGripper(UINT type);
 
-	wstring trim_text(const _bstr_t before) const ;
 	void set_initial_source(const _bstr_t selection);
 	void fresh_record_focus();
 	BEGIN_MSG_MAP_EX( CRegisterGlossDlg )

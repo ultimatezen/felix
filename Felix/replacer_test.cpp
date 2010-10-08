@@ -75,6 +75,26 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL(L"egg", rec->get_source_rich()) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_trans_rich())) ;
 	}
+	BOOST_AUTO_TEST_CASE(source_japanese)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"ひらがな") ;
+
+		replacer::source(rec, L"ひらがな", L"カタカナ"); 
+
+		BOOST_CHECK_EQUAL(L"カタカナ", rec->get_source_rich()) ;
+	}
+	BOOST_AUTO_TEST_CASE(source_regex)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam xxx egg") ;
+
+		replacer::source(rec, L"regex:(\\s(\\w\\w\\w)\\s)", L" \\3-\\3 "); 
+
+		wstring expected = L"spam xxx-xxx egg" ;
+		BOOST_CHECK_EQUAL(expected, rec->get_source_rich()) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( trans)
 	{
 		record_pointer rec(new record_local) ;

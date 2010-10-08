@@ -30,6 +30,68 @@ static char THIS_FILE[] = __FILE__ ;
 using namespace mem_engine ;
 using namespace except ;
 
+wstring trim_text( const _bstr_t before )
+{
+	return trim_text(BSTR2wstring(before)) ;
+}
+wstring trim_text(const wstring before)
+{
+
+	if (before.empty())
+	{
+		return wstring() ;
+	}
+
+	// normalize whitespace
+	std::vector<wstring> tokens ;
+	boost::split(tokens, before, boost::is_space(), boost::token_compress_on) ;
+	wstring text = boost::join(tokens, L" ") ;
+	if (text.empty())
+	{
+		return wstring() ;
+	}
+
+	for (size_t i = text.size()-1 ; i>=0 && ! text.empty(); --i)
+	{
+		if (text[i] == L'>')
+		{
+			while (i>=0 && text[i] != L'<')
+			{
+				--i ;
+			}
+		}
+		else if (! iswspace(text[i]))
+		{
+			break ;
+		}
+		else
+		{
+			text.erase(i, 1) ;
+		}
+	}
+	wstring out ;
+	for (size_t i = 0 ; i < text.size() ; ++i)
+	{
+		if (text[i] == L'<')
+		{
+			while (i < text.size() && text[i] != L'>')
+			{
+				out += text[i] ;
+				++i ;
+			}
+			ATLASSERT(text[i] == L'>') ;
+			out += text[i] ;
+		}
+		else if (! iswspace(text[i]))
+		{
+			return out + text.substr(i) ;
+			break ;
+		}
+	}
+
+	return wstring() ;
+}
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -766,39 +828,7 @@ LRESULT CRegisterGlossDlg::OnCmdAddTrans()
 }
 
 
-wstring CRegisterGlossDlg::trim_text( const _bstr_t before ) const
-{
-	if (before.length() == 0)
-	{
-		return wstring() ;
-	}
 
-	// normalize whitespace
-	std::vector<wstring> tokens ;
-	textstream_reader<wchar_t> reader((LPCWSTR)before) ;
-	reader.split(tokens, L"\r\n\t ");
-	wstring text = boost::join(tokens, L" ") ;
-
-	for (int i = (int)text.size()-1 ; i>=0 ; --i)
-	{
-		if (text[i] == L'>')
-		{
-			while (i>=0 && text[i] != L'<')
-			{
-				--i ;
-			}
-		}
-		else if (! iswspace(text[i]))
-		{
-			return boost::trim_left_copy(text) ;
-		}
-		else
-		{
-			text.erase(i, 1) ;
-		}
-	}
-	return wstring() ;
-}
 LRESULT CRegisterGlossDlg::OnCmdAdvanced()
 {
 	CEditTransRecordDialogRegGloss editdlg(m_make_defaults) ;

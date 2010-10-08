@@ -15,126 +15,119 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 	// trim_text
 	BOOST_AUTO_TEST_CASE( trim_text_empty)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_one_letter)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"a" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "a" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_only_spaces)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"  " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_no_spaces)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_simple)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_middle)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam egg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam egg" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_tag)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam</B>" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_two_tags)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam </B></I>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam</B></I>" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	BOOST_AUTO_TEST_CASE( trim_text_two_tags_spaces_between)
+	BOOST_AUTO_TEST_CASE( trim_text_tags_before)
 	{
-		CRegisterGlossDlg dialog ;
+		wstring before = L" <b> spam" ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
+		string expected = "<b>spam" ;
+		string actual(after) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	BOOST_AUTO_TEST_CASE( trim_text_two_tags_spaces_between)
+	{
 		_bstr_t before = L"spam </B> </I>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam</B></I>" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_tag_no_space)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam</B>" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam</B>" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_starting_spaces)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_both)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L" spam " ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_nl)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\negg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam egg" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( trim_text_cr_nl)
 	{
-		CRegisterGlossDlg dialog ;
 		_bstr_t before = L"spam\r\negg" ;
-		CStringA after((LPCWSTR)dialog.trim_text(before).c_str()) ;
+		CStringA after((LPCWSTR)trim_text(before).c_str()) ;
 		string expected = "spam egg" ;
 		string actual(after) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;

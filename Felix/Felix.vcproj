@@ -387,6 +387,14 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\action_strip_tags.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\action_trim_spaces.cpp"
+				>
+			</File>
+			<File
 				RelativePath="AdvancedMemMgrDlg.cpp"
 				>
 				<FileConfiguration
@@ -1628,6 +1636,14 @@
 				Name="tests"
 				>
 				<File
+					RelativePath=".\action_strip_tags_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\action_trim_spaces_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\AdvancedMemMgrDlg_test.cpp"
 					>
 				</File>
@@ -2143,6 +2159,14 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\aboutdlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\action_strip_tags.h"
+				>
+			</File>
+			<File
+				RelativePath=".\action_trim_spaces.h"
 				>
 			</File>
 			<File
@@ -2747,6 +2771,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\ui.h"
+				>
+			</File>
+			<File
+				RelativePath=".\undoable_action.h"
 				>
 			</File>
 			<File
