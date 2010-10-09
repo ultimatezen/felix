@@ -8,8 +8,9 @@
 #include "ManagerViewFake.h"
 #include "EditFormParser.h"
 #include "document_wrapper_fake.h"
-
+#include "fake_undoable_action.h"
 #include <boost/test/unit_test.hpp>
+
 #ifdef UNIT_TEST
 
 class FrameListenerFake : public FrameListener
@@ -79,6 +80,31 @@ using namespace mem_engine ;
 		_bstr_t url = L"" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_empty") ;
+	}
+	// undo/redo
+	BOOST_AUTO_TEST_CASE(test_undo)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+		_bstr_t url = L"/mem/1/undo" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "undo") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "/mem/1/redo") ;
+		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "undo") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_redo)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+		_bstr_t url = L"/mem/1/redo" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "redo") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "/mem/1/undo") ;
+		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
 	}
 	// moving items in list
 	BOOST_AUTO_TEST_CASE(get_mem_iter_at_1)

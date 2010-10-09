@@ -10,9 +10,9 @@
 
 #include "GlossaryDialog.h"	// gloss_window_pointer
 
-wstring trim_text(const _bstr_t before) ;
+wstring trim_and_normalize(const _bstr_t before) ;
 wstring trim_text(const wstring before) ;
-
+wstring normalize_spaces(const wstring before) ;
 
 /**
 @class CRegisterGlossDlg 

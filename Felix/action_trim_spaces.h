@@ -17,8 +17,11 @@ namespace action
 		{}
 
 		void undo();
-
 		void redo();
+		wstring name()
+		{
+			return R2WSTR(IDS_ACTION_TRIM_SPACES) ;
+		}
 
 
 	} ;

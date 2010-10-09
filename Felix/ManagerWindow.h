@@ -18,8 +18,6 @@
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
-
-
 // The new search window
 // Uses hosted IE browser control to show content
 class CManagerWindow : 
@@ -132,6 +130,10 @@ public:
 	// moving items in list
 	bool nav_moveup(const std::vector<string> &tokens) ;
 	bool nav_movedown(const std::vector<string> &tokens) ;
+
+	// undo/redo
+	bool undo(const std::vector<string> &tokens);
+	bool redo(const std::vector<string> &tokens);
 
 	// crud
 	bool nav_view(const std::vector<string> &tokens) ;

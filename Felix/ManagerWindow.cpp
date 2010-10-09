@@ -180,6 +180,17 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 			return nav_glossaries(tokens) ;
 		}
 
+		// undo/redo
+		if (tokens[0] == "undo")
+		{
+			return undo(tokens) ;
+		}
+		if (tokens[0] == "redo")
+		{
+			return redo(tokens) ;
+		}
+
+
 		// moving items in list
 		if (tokens[0] == "moveup")
 		{
@@ -949,4 +960,24 @@ void CManagerWindow::import_tabbed_text( const CString &file_name )
 	importer.load_file(file_name) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;
+}
+
+bool CManagerWindow::undo( const std::vector<string> &tokens )
+{
+	tokens ;
+	SENSE("undo") ;
+	string link = "/" + tokens[2] + "/" + tokens[1] + "/redo" ;
+	SENSE(link) ;
+	m_undo->undo() ;
+	return true ;
+}
+
+bool CManagerWindow::redo(const std::vector<string> &tokens)
+{
+	tokens ;
+	SENSE("redo") ;
+	string link = "/" + tokens[2] + "/" + tokens[1] + "/undo" ;
+	SENSE(link) ;
+	m_undo->redo() ;
+	return true ;
 }

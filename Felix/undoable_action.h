@@ -5,6 +5,7 @@ namespace action
 	class UndoableAction
 	{
 	public:
+		virtual wstring name() = 0 ;
 		virtual void undo() = 0 ;
 		virtual void redo() = 0 ;
 	};

@@ -2869,6 +2869,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\fake_undoable_action.h"
+					>
+				</File>
+				<File
 					RelativePath=".\felix_model_fake.h"
 					>
 				</File>

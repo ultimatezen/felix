@@ -30,27 +30,26 @@ static char THIS_FILE[] = __FILE__ ;
 using namespace mem_engine ;
 using namespace except ;
 
-wstring trim_text( const _bstr_t before )
+wstring normalize_spaces(const wstring before)
 {
-	return trim_text(BSTR2wstring(before)) ;
+	// normalize whitespace
+	std::vector<wstring> tokens ;
+	boost::split(tokens, before, boost::is_space(), boost::token_compress_on) ;
+	return boost::join(tokens, L" ") ;
+}
+
+wstring trim_and_normalize( const _bstr_t before )
+{
+	return trim_text(normalize_spaces(BSTR2wstring(before))) ;
 }
 wstring trim_text(const wstring before)
 {
-
 	if (before.empty())
 	{
 		return wstring() ;
 	}
 
-	// normalize whitespace
-	std::vector<wstring> tokens ;
-	boost::split(tokens, before, boost::is_space(), boost::token_compress_on) ;
-	wstring text = boost::join(tokens, L" ") ;
-	if (text.empty())
-	{
-		return wstring() ;
-	}
-
+	wstring text = before ;
 	for (size_t i = text.size()-1 ; i>=0 && ! text.empty(); --i)
 	{
 		if (text[i] == L'>')
@@ -85,7 +84,6 @@ wstring trim_text(const wstring before)
 		else if (! iswspace(text[i]))
 		{
 			return out + text.substr(i) ;
-			break ;
 		}
 	}
 
@@ -816,13 +814,13 @@ CSourceAndHtmlEdit* CRegisterGlossDlg::get_active_edit()
 
 LRESULT CRegisterGlossDlg::OnCmdAddSource()
 {
-	const _bstr_t text = string2BSTR(trim_text(m_rec_source_edit.get_selected_text())) ;
+	const _bstr_t text = string2BSTR(trim_and_normalize(m_rec_source_edit.get_selected_text())) ;
 	m_gloss_source_edit.SetText(text) ;
 	return 0L ;
 }
 LRESULT CRegisterGlossDlg::OnCmdAddTrans()
 {
-	const _bstr_t text = string2BSTR(trim_text(m_rec_trans_edit.get_selected_text())) ;
+	const _bstr_t text = string2BSTR(trim_and_normalize(m_rec_trans_edit.get_selected_text())) ;
 	m_gloss_trans_edit.SetText(text) ;
 	return 0L ;
 }
@@ -1014,14 +1012,14 @@ void CRegisterGlossDlg::add_gloss_entry()
 		wstring source = BSTR2wstring(m_gloss_source_edit.GetText()) ;
 		if (source.empty())
 		{
-			source = trim_text(m_rec_source_edit.get_selected_text(false)) ;
+			source = trim_and_normalize(m_rec_source_edit.get_selected_text(false)) ;
 		}
 		m_gloss_record->set_source(source) ;
 
 		wstring trans = BSTR2wstring(m_gloss_trans_edit.GetText()) ;
 		if (trans.empty())
 		{
-			trans = trim_text(m_rec_trans_edit.get_selected_text(false)) ;
+			trans = trim_and_normalize(m_rec_trans_edit.get_selected_text(false)) ;
 		}
 		m_gloss_record->set_trans(trans) ;
 
