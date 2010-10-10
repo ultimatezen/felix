@@ -92,7 +92,7 @@ public:
 	mem_engine::memory_iterator get_mem_iter_at(FelixModelInterface *model,
 											int sel );
 	CString get_save_prompt( mem_engine::memory_pointer mem );
-	bool getMemName(mem_engine::memory_pointer mem);
+	bool getMemName(mem_engine::memory_pointer mem) const;
 
 	void add_memory_files(FelixModelInterface *model,
 		file::OpenDlgList &import_files) ;
@@ -136,10 +136,10 @@ public:
 
 	// undo/redo
 	bool undo(const std::vector<string> &tokens);
-	wstring create_undo_msg(const std::vector<string> &tokens);
+	wstring create_undo_msg(const std::vector<string> &tokens) const;
 
 	bool redo(const std::vector<string> &tokens);
-	wstring create_redo_msg(const std::vector<string> &tokens)  ;
+	wstring create_redo_msg(const std::vector<string> &tokens) const;
 
 	// actions
 	bool actions(const std::vector<string> &tokens);

@@ -551,120 +551,6 @@
 				>
 			</File>
 			<File
-				RelativePath="data_converter.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						UsePrecompiledHeader="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="data_exporter.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="data_importer.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\DemoException.cpp"
 				>
 			</File>
@@ -1488,22 +1374,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TmxImportLangsDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TMXReader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TmxSymbolMapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TMXWriter.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.cpp"
 				>
 			</File>
@@ -1589,39 +1459,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view_state.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_concordance.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_initial.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_match.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_new.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_review.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ViewCollectionWalker.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\WebPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WebPage_test.cpp"
 				>
 			</File>
 			<File
@@ -2096,6 +1938,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\WebPage_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\WideRichEdit_test.cpp"
 					>
 				</File>
@@ -2145,6 +1991,168 @@
 				</File>
 				<File
 					RelativePath=".\ManagerViewStart.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="view_state"
+				>
+				<File
+					RelativePath=".\view_state.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_concordance.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_initial.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_match.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_new.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_review.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="import_export"
+				>
+				<File
+					RelativePath="data_converter.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							UsePrecompiledHeader="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="data_exporter.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="data_importer.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\TmxImportLangsDlg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXReader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TmxSymbolMapper.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXWriter.cpp"
 					>
 				</File>
 			</Filter>
@@ -2258,18 +2266,6 @@
 				>
 			</File>
 			<File
-				RelativePath="data_converter.h"
-				>
-			</File>
-			<File
-				RelativePath="data_exporter.h"
-				>
-			</File>
-			<File
-				RelativePath="data_importer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\debugutilities.h"
 				>
 			</File>
@@ -2323,10 +2319,6 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\errortranslator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExcelExporter.h"
 				>
 			</File>
 			<File
@@ -2742,26 +2734,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\TMXImportDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TmxImportLangsDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TMXReader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TmxSymbolMapper.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TMXWriter.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.h"
 				>
 			</File>
@@ -2795,38 +2767,6 @@
 			</File>
 			<File
 				RelativePath=".\view_interface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_concordance.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_fake.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_initial.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_match.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_new.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_review.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view_state_test_utils.h"
 				>
 			</File>
 			<File
@@ -2897,6 +2837,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\view_state_fake.h"
+					>
+				</File>
+				<File
 					RelativePath=".\window_listener_fake.h"
 					>
 				</File>
@@ -2938,6 +2882,78 @@
 				</File>
 				<File
 					RelativePath=".\ManagerWindowFactoryConcrete.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="import_export"
+				>
+				<File
+					RelativePath="data_converter.h"
+					>
+				</File>
+				<File
+					RelativePath="data_exporter.h"
+					>
+				</File>
+				<File
+					RelativePath="data_importer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ExcelExporter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXImportDlg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TmxImportLangsDlg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXReader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TmxSymbolMapper.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TMXWriter.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="view_state"
+				>
+				<File
+					RelativePath=".\view_state.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_concordance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_initial.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_match.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_new.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_review.h"
+					>
+				</File>
+				<File
+					RelativePath=".\view_state_test_utils.h"
 					>
 				</File>
 			</Filter>

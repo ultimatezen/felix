@@ -21,7 +21,7 @@ bool is_other_tag( wstring id, tag_name_holder &tags )
 		&& id != tags.rich_source_id;
 }
 
-void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path )
+void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path ) const
 {
 	const wstring tag_name = element->get_tag() ;
 
@@ -31,7 +31,7 @@ void CViewCollectionWalker::CheckLinkUrl( element_wrapper_ptr element, const wst
 	}
 }
 
-void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const wstring doc_path )
+void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const wstring doc_path ) const
 {
 	wstring href = element->get_attribute(L"HREF") ;
 
@@ -65,7 +65,7 @@ void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const ws
 	}
 }
 
-void CViewCollectionWalker::SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record )
+void CViewCollectionWalker::SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record ) const
 {
 	const wstring rel_text = element->get_inner_text() ;
 	if ( ! rel_text.empty() ) 
@@ -74,7 +74,7 @@ void CViewCollectionWalker::SetReliabilityFromElement( element_wrapper_ptr eleme
 	}
 }
 
-void CViewCollectionWalker::SetValidatedFromElement( element_wrapper_ptr element, record_pointer & record )
+void CViewCollectionWalker::SetValidatedFromElement( element_wrapper_ptr element, record_pointer & record ) const
 {
 	wstring val = element->get_inner_text();
 
@@ -90,7 +90,7 @@ void CViewCollectionWalker::SetValidatedFromElement( element_wrapper_ptr element
 	}
 }
 
-void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id )
+void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id ) const
 {
 	const wstring tag_str = element->get_tag() ;
 
@@ -100,7 +100,7 @@ void CViewCollectionWalker::SetItemFromElement( element_wrapper_ptr element, rec
 	}
 }
 
-void CViewCollectionWalker::ElementToRecord( element_wrapper_ptr element, record_pointer rec )
+void CViewCollectionWalker::ElementToRecord( element_wrapper_ptr element, record_pointer rec ) const
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
 	const wstring id = element->get_id() ;
@@ -152,7 +152,7 @@ void CViewCollectionWalker::ElementToRecord( element_wrapper_ptr element, record
 void CViewCollectionWalker::AddRecordToList( record_pointer rec,  
 											MemoryControllerType memories,  
 											SearchMatchType match,  
-											MatchListType &match_list )
+											MatchListType &match_list ) const
 {
 	BANNER("CViewCollectionWalker::AddRecordToList") ;
 	rec->modify() ;
@@ -177,7 +177,7 @@ void CViewCollectionWalker::AddRecordToList( record_pointer rec,
 	ATLTRACE(" ... Record added\n\n") ;
 }
 
-void CViewCollectionWalker::RecordToElement( MSHTML::IHTMLElementPtr &element, record_pointer &rec )
+void CViewCollectionWalker::RecordToElement( MSHTML::IHTMLElementPtr &element, record_pointer &rec ) const
 {
 	tag_name_holder &tags = tag_name_holder::instance() ;
 	const wstring id = BSTR2wstring( element->id ) ;
@@ -227,4 +227,52 @@ CViewCollectionWalker::CViewCollectionWalker( void )
 CViewCollectionWalker::~CViewCollectionWalker( void )
 {
 
+}
+
+void CViewCollectionWalker::RecordsToElements( mem_engine::felix_query *matches, html::collection_ptr collection ) const
+{
+	record_pointer rec(new mem_engine::record_local) ;
+
+	// loop through each of the elements
+	for ( int i=0 ; i < collection->length ; ++i )
+	{
+		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
+
+		wstring id = BSTR2wstring( element->id ) ;
+
+		if ( id.empty() == false )
+		{
+			if ( str::is_int_rep( id ) )
+			{
+				SearchMatchType match = matches->at( boost::lexical_cast< long >( id ) ) ;
+				rec = match->get_record() ;
+			}
+			else
+			{
+				RecordToElement( element, rec ) ;
+			}
+		}
+	}
+}
+
+void CViewCollectionWalker::EraseCurrentRecord( SearchMatchType &match, mem_engine::felix_query *matches, const wstring id, MemoryControllerType memories ) const
+{
+	BANNER("CViewCollectionWalker::EraseCurrentRecord") ;
+	if ( matches->empty())
+	{
+		return ;
+	}
+	match = matches->at( boost::lexical_cast< long >( id ) ) ;
+
+	try
+	{
+		memories->remove_record( match->get_record(), match->get_memory_id() ) ;
+		ATLTRACE(" ... Record erased\n\n") ;
+	}
+	catch (except::CProgramException &e)
+	{
+		logging::log_error("Failed to delete record: memory not found") ;
+		logging::log_exception(e) ;
+		e.notify_user("Failed to delete record: memory not found") ;
+	}
 }

@@ -3,33 +3,33 @@
 
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
-
-	void pair_up(CMatchStringPairing &pairing, wstring source, wstring query)
+void pair_up(CMatchStringPairing &pairing, wstring source, wstring query)
+{
+	for (int i = source.size() - 1 ; i >= 0 ; --i)
 	{
-		for (int i = source.size() - 1 ; i >= 0 ; --i)
-		{
-			wchar_t s = source[i] ;
-			wchar_t q = query[i] ;
+		wchar_t s = source[i] ;
+		wchar_t q = query[i] ;
 
-			if (s == L'*')
-			{
-				pairing.QueryToEpsilon(q) ;
-			}
-			else if (q == L'*')
-			{
-				pairing.SourceToEpsilon(s) ;
-			}
-			else if ( s == q )
-			{
-				pairing.Match(s, q) ;
-			}
-			else
-			{
-				pairing.NoMatch(s, q) ;
-			}
+		if (s == L'*')
+		{
+			pairing.QueryToEpsilon(q) ;
+		}
+		else if (q == L'*')
+		{
+			pairing.SourceToEpsilon(s) ;
+		}
+		else if ( s == q )
+		{
+			pairing.Match(s, q) ;
+		}
+		else
+		{
+			pairing.NoMatch(s, q) ;
 		}
 	}
+}
+
+BOOST_AUTO_TEST_SUITE( Test_CMatchStringPairing_IsNumRep )
 
 	BOOST_AUTO_TEST_CASE( IsNumRep_tag )
 	{
@@ -65,6 +65,11 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		wstring PotentialNum = L"0003(1,7)0004" ;
 		BOOST_CHECK( ! pairing.IsNumRep( PotentialNum ) ) ;
 	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_IsSubstitution )
+
 	BOOST_AUTO_TEST_CASE( IsSubstitution_non_num_source )
 	{
 		wstring first = L"spam" ;
@@ -85,6 +90,11 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		CMatchStringPairing pairing ;
 		BOOST_CHECK( ! pairing.IsSubstitution( trans, SourceNum, 0, QueryNum ) ) ;
 	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 
 	BOOST_AUTO_TEST_CASE( DoublePlacement )
@@ -398,6 +408,10 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
+
 	BOOST_AUTO_TEST_CASE( TrivialMatch )
 	{
 		CMatchStringPairing pairing ;
@@ -525,17 +539,6 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		wstring actual = pairing.MarkupQuery() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
-
-	BOOST_AUTO_TEST_CASE( MixedEnds_score )
-	{
-		CMatchStringPairing pairing ;
-
-		pair_up(pairing, 
-			L"abba", 
-			L"xbbx") ;
-
-		BOOST_CHECK_CLOSE( 0.5, pairing.CalcScore(), 0.00001 ) ;
-	}
 	BOOST_AUTO_TEST_CASE( MixedEnds_source )
 	{
 		CMatchStringPairing pairing ;
@@ -632,6 +635,72 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing )
 		actual = pairing.MarkupQuery().c_str() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_MarkupString )
+
+BOOST_AUTO_TEST_CASE(test_lt_source)
+{
+	CMatchStringPairing pairing ;
+
+	pair_up(pairing, 
+		L"<", 
+		L"<") ;
+
+	wstring markup = pairing.MarkupSource() ;
+
+	wstring expected = L"&lt;" ;
+	BOOST_CHECK_EQUAL( expected, markup ) ;
+}
+
+BOOST_AUTO_TEST_CASE(test_gt_source)
+{
+	CMatchStringPairing pairing ;
+
+	pair_up(pairing, 
+		L">", 
+		L">") ;
+
+	wstring markup = pairing.MarkupSource() ;
+
+	wstring expected = L"&gt;" ;
+	BOOST_CHECK_EQUAL( expected, markup ) ;
+}
+BOOST_AUTO_TEST_CASE(test_amp_source)
+{
+	CMatchStringPairing pairing ;
+
+	pair_up(pairing, 
+		L"&", 
+		L"&") ;
+
+	wstring markup = pairing.MarkupSource() ;
+
+	wstring expected = L"&amp;" ;
+	BOOST_CHECK_EQUAL( expected, markup ) ;
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_CalcScore )
+
+	BOOST_AUTO_TEST_CASE( MixedEnds_score )
+	{
+		CMatchStringPairing pairing ;
+
+		pair_up(pairing, 
+			L"abba", 
+			L"xbbx") ;
+
+		BOOST_CHECK_CLOSE( 0.5, pairing.CalcScore(), 0.00001 ) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// tests for bug #274 (placement with backslash

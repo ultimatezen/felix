@@ -218,7 +218,9 @@ namespace html
 		}
 
 		if(!bFound)
+		{
 			return "";
+		}
 
 		CString strFunc = GetNextToken(strSrc,"(",true);
 		CString strArgs = GetNextToken(strSrc,")",true);

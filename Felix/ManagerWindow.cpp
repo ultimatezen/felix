@@ -641,7 +641,7 @@ CString CManagerWindow::get_save_prompt( mem_engine::memory_pointer mem )
 	return user_prompt ;
 }
 
-bool CManagerWindow::getMemName( mem_engine::memory_pointer mem )
+bool CManagerWindow::getMemName( mem_engine::memory_pointer mem ) const
 {
 	CString dialog_title ;
 	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
@@ -1024,17 +1024,15 @@ bool CManagerWindow::redo(const std::vector<string> &tokens)
 }
 
 // messages for undo/redo (with undo/redo links)
-wstring CManagerWindow::create_undo_msg( const std::vector<string> &tokens )
+wstring CManagerWindow::create_undo_msg( const std::vector<string> &tokens ) const
 {
 	string link = "\"/" + tokens[2] + "/" + tokens[1] + "/undo\"" ;
-	SENSE(link) ;
 	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
 	return wstring(static_cast<LPCWSTR>(msg)) ;
 }
-wstring CManagerWindow::create_redo_msg(const std::vector<string> &tokens) 
+wstring CManagerWindow::create_redo_msg(const std::vector<string> &tokens) const 
 {
 	string link = "\"/" + tokens[2] + "/" + tokens[1] + "/redo\"" ;
-	SENSE(link) ;
 	CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str())) ;
 	return wstring(static_cast<LPCWSTR>(msg)) ;
 }

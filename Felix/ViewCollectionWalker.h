@@ -35,67 +35,22 @@ public:
 
 	~CViewCollectionWalker(void);
 
-	void EraseCurrentRecord( SearchMatchType &match, mem_engine::felix_query *matches, const wstring id, MemoryControllerType memories )
-	{
-		BANNER("CViewCollectionWalker::EraseCurrentRecord") ;
-		if ( matches->empty())
-		{
-			return ;
-		}
-		match = matches->at( boost::lexical_cast< long >( id ) ) ;
+	void EraseCurrentRecord( SearchMatchType &match, mem_engine::felix_query *matches, const wstring id, MemoryControllerType memories ) const;
+	void RecordsToElements( mem_engine::felix_query *matches, html::collection_ptr collection ) const;
 
-		try
-		{
-			memories->remove_record( match->get_record(), match->get_memory_id() ) ;
-			ATLTRACE(" ... Record erased\n\n") ;
-		}
-		catch (except::CProgramException &e)
-		{
-			logging::log_error("Failed to delete record: memory not found") ;
-			logging::log_exception(e) ;
-			e.notify_user("Failed to delete record: memory not found") ;
-		}
-	}
+	void CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path ) const;
+	void RepairLinkUrl( element_wrapper_ptr element, const wstring doc_path ) const;
+	void SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record ) const;
+	void SetValidatedFromElement( element_wrapper_ptr element, record_pointer & record ) const;
+	void SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id ) const;
 
-	void RecordsToElements( mem_engine::felix_query *matches, html::collection_ptr collection )
-	{
-		record_pointer rec(new mem_engine::record_local) ;
-
-		// loop through each of the elements
-		for ( int i=0 ; i < collection->length ; ++i )
-		{
-			MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
-
-			wstring id = BSTR2wstring( element->id ) ;
-
-			if ( id.empty() == false )
-			{
-				if ( str::is_int_rep( id ) )
-				{
-					SearchMatchType match = matches->at( boost::lexical_cast< long >( id ) ) ;
-					rec = match->get_record() ;
-				}
-				else
-				{
-					RecordToElement( element, rec ) ;
-				}
-			}
-		}
-	}
-
-	void CheckLinkUrl( element_wrapper_ptr element, const wstring doc_path );
-	void RepairLinkUrl( element_wrapper_ptr element, const wstring doc_path );
-	void SetReliabilityFromElement( element_wrapper_ptr element, record_pointer & record );
-	void SetValidatedFromElement( element_wrapper_ptr element, record_pointer & record );
-	void SetItemFromElement( element_wrapper_ptr element, record_pointer rec, wstring id );
-
-	void ElementToRecord( element_wrapper_ptr element, record_pointer rec );
+	void ElementToRecord( element_wrapper_ptr element, record_pointer rec ) const;
 
 	void AddRecordToList( record_pointer rec, 
 		MemoryControllerType memories, 
 		SearchMatchType match, 
-		MatchListType &match_list );
+		MatchListType &match_list ) const;
 
-	void RecordToElement( MSHTML::IHTMLElementPtr &element, record_pointer &rec );
+	void RecordToElement( MSHTML::IHTMLElementPtr &element, record_pointer &rec ) const;
 
 };

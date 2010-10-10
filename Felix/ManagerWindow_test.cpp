@@ -187,8 +187,7 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "perform_action") ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "redo") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "\"/1/mem/undo\"") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[4], "nav_view") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "nav_view") ;
 
 		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
 	}
@@ -204,8 +203,7 @@ using namespace mem_engine ;
 		_bstr_t url = L"/1/mem/undo" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "undo") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "\"/1/mem/redo\"") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "nav_view") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "nav_view") ;
 
 		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "undo") ;
 	}
@@ -220,8 +218,7 @@ using namespace mem_engine ;
 		_bstr_t url = L"/1/mem/redo" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "redo") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "\"/1/mem/undo\"") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "nav_view") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "nav_view") ;
 
 		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
 	}
@@ -239,7 +236,6 @@ using namespace mem_engine ;
 		wstring actual = window.create_undo_msg(nav_tokens) ;
 		wstring expected = L"Performed action [FakeUndoableAction]. <a href=\"/1/mem/undo\">Undo</a>" ;
 		BOOST_CHECK_EQUAL(actual, expected) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "\"/1/mem/undo\"") ;
 	}
 	BOOST_AUTO_TEST_CASE(test_redo_msg)
 	{
@@ -255,7 +251,6 @@ using namespace mem_engine ;
 		wstring actual = window.create_redo_msg(nav_tokens) ;
 		wstring expected = L"Undid action [FakeUndoableAction]. <a href=\"/1/mem/redo\">Redo</a>" ;
 		BOOST_CHECK_EQUAL(actual, expected) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "\"/1/mem/redo\"") ;
 	}
 
 	// navigation to various category pages

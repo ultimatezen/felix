@@ -101,11 +101,11 @@ std::wstring CMatchStringPairing::MarkupString( CharType ct )
 			{
 				TextBuffer += L"&lt;" ;
 			}
-			else if ( c == L'>' )	// we need to convert back to &lt; for display purposes
+			else if ( c == L'>' )	// we need to convert back to &gt; for display purposes
 			{
 				TextBuffer += L"&gt;" ;
 			}
-			else if ( c == L'&' )	// we need to convert back to &lt; for display purposes
+			else if ( c == L'&' )	// we need to convert back to &amp; for display purposes
 			{
 				TextBuffer += L"&amp;" ;
 			}

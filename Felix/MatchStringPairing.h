@@ -12,6 +12,7 @@ wchar_t narrow_num( wchar_t c ) ;
  */
 class CMatchStringPairing
 {
+public:
 	enum MatchType { MATCH, NOMATCH, PLACEMENT } ;
 	enum CharType { SOURCE, QUERY } ;
 
@@ -61,7 +62,6 @@ class CMatchStringPairing
 	 */
 	std::set< size_t > m_PlacementPositionsTmp ;
 
-public:
 	CMatchStringPairing(void);
 	~CMatchStringPairing(void);
 	void clear();
