@@ -97,4 +97,5 @@ namespace mem_engine
 		  void batch_set_validation( bool val );
 	};
 
+	void copy_mem_info(memory_pointer from, memory_pointer to) ;
 }

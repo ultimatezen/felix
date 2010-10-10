@@ -915,8 +915,18 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 
 		wstring raw_command = BSTR2wstring( url );
 
-		// will return NULL if fails to parse
+		/***********************************************************************
+		 There are two url navigation schemes here:
+			- destination_parser
+			- CNavUrl
+		   We've got to consolidate this into one scheme.
+		   Also, the newer components (SearchWindow, ManagerWindow) use the
+		   simpler tokenize-and-parse scheme. I think we should switch to this
+		   for the mainframe and glossary windows, too.
+	   *************************************************************************/
 		destination_parser parser ;
+
+		// will return NULL if fails to parse
 		const LPMSG pMsg = parser.parse( raw_command ) ;
 
 		if ( pMsg ) 

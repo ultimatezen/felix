@@ -290,11 +290,16 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name)
 	{
 		CTMXImportLangsDlg dlg ;
 		dlg.set_languages( target_languages ) ;
+#ifdef UNIT_TEST
+		m_target_lang = L"EN" ;
+		m_header.m_srclang = L"JA" ;
+#else
 		if ( IDCANCEL != dlg.DoModal() ) 
 		{
 			m_target_lang = string2wstring( dlg.get_trans_plain() ) ;
 			m_header.m_srclang = string2wstring( dlg.get_source_plain() ) ;
 		}
+#endif
 	}
 	else
 	{

@@ -15,6 +15,7 @@
 #include "ManagerViewDetails.h"
 #include "ManagerViewEdit.h"
 #include "ManagerViewStart.h"
+#include "ManagerViewActions.h"
 #include "EditFormParser.h"
 #include "ui.h"
 
@@ -23,6 +24,10 @@
 #include "ImportDialog.h"
 #include "ImportMultitermFile.h"
 #include "TabbedTextImporter.h"
+
+// undoable actions
+#include "action_strip_tags.h"
+#include "action_trim_spaces.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -180,6 +185,16 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 			return nav_glossaries(tokens) ;
 		}
 
+		// actions
+		if (tokens[0] == "actions")
+		{
+			return actions(tokens) ;
+		}
+		if (tokens[0] == "perform_action")
+		{
+			return perform_action(tokens) ;
+		}
+
 		// undo/redo
 		if (tokens[0] == "undo")
 		{
@@ -189,7 +204,6 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return redo(tokens) ;
 		}
-
 
 		// moving items in list
 		if (tokens[0] == "moveup")
@@ -962,22 +976,83 @@ void CManagerWindow::import_tabbed_text( const CString &file_name )
 	m_listener->set_window_title() ;
 }
 
+bool CManagerWindow::actions( const std::vector<string> &tokens )
+{
+	SENSE("actions") ;
+	bool is_memory = tokens[1] == "mem" ;
+	size_t item = boost::lexical_cast<size_t>(tokens[2]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewActions(item, is_memory))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::perform_action(const std::vector<string> &tokens)
+{
+	SENSE("perform_action") ;
+
+	string action = tokens[1] ;
+	string memtype = tokens[2] ;
+	string item = tokens[3] ;
+	set_undo_action(action, memtype, item);
+	std::vector<string> nav_tokens ;
+	nav_tokens += "redo", memtype, item ;
+	return this->redo(nav_tokens) ;
+}
+
+// undo an action
 bool CManagerWindow::undo( const std::vector<string> &tokens )
 {
-	tokens ;
 	SENSE("undo") ;
-	string link = "/" + tokens[2] + "/" + tokens[1] + "/redo" ;
-	SENSE(link) ;
+	m_message = create_redo_msg(tokens);
 	m_undo->undo() ;
+	std::vector<string> nav_tokens ;
+	nav_tokens += "view", tokens[1], tokens[2] ;
+	nav_view(nav_tokens) ;
 	return true ;
 }
 
+// redo an action that was undone
+// also used to actually perform the action.
 bool CManagerWindow::redo(const std::vector<string> &tokens)
 {
-	tokens ;
 	SENSE("redo") ;
-	string link = "/" + tokens[2] + "/" + tokens[1] + "/undo" ;
-	SENSE(link) ;
+	m_message = create_undo_msg(tokens) ;
 	m_undo->redo() ;
+	std::vector<string> nav_tokens ;
+	nav_tokens += "view", tokens[1], tokens[2] ;
+	nav_view(nav_tokens) ;
 	return true ;
+}
+
+// messages for undo/redo (with undo/redo links)
+wstring CManagerWindow::create_undo_msg( const std::vector<string> &tokens )
+{
+	string link = "\"/" + tokens[2] + "/" + tokens[1] + "/undo\"" ;
+	SENSE(link) ;
+	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+	return wstring(static_cast<LPCWSTR>(msg)) ;
+}
+wstring CManagerWindow::create_redo_msg(const std::vector<string> &tokens) 
+{
+	string link = "\"/" + tokens[2] + "/" + tokens[1] + "/redo\"" ;
+	SENSE(link) ;
+	CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str())) ;
+	return wstring(static_cast<LPCWSTR>(msg)) ;
+}
+
+void CManagerWindow::set_undo_action(const string &action, const string &memtype, const string &item)
+{
+#ifdef UNIT_TEST
+	return ;
+#endif
+	mem_engine::memory_pointer mem = this->get_mem(memtype, 
+						boost::lexical_cast<size_t>(item)) ;
+
+	if (action == ACTION_NAME_TRIM)
+	{
+		this->m_undo = action::undo_action_ptr(new action::TrimSpacesAction(mem)) ;
+	}
+	else if (action == ACTION_NAME_STRIP)
+	{
+		this->m_undo = action::undo_action_ptr(new action::StripTagsAction(mem)) ;
+	}
 }

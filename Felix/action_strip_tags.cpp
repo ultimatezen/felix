@@ -11,11 +11,13 @@ namespace action
 		{
 			m_new->add_record(rec) ;
 		}
+		mem_engine::copy_mem_info(m_old, m_new) ;
 	}
 
 	void StripTagsAction::redo()
 	{
 		m_old->clear_memory() ;
+		mem_engine::copy_mem_info(m_new, m_old) ;
 		mem_engine::trans_set records ;
 		foreach(mem_engine::record_pointer rec, m_new->get_records())
 		{
@@ -26,6 +28,7 @@ namespace action
 			records.insert(rec) ;
 		}
 		m_new->clear_memory() ;
+		mem_engine::copy_mem_info(m_old, m_new) ;
 		foreach(mem_engine::record_pointer rec, records)
 		{
 			m_new->add_record(rec) ;

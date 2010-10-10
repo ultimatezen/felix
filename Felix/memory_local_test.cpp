@@ -1490,4 +1490,221 @@ BOOST_AUTO_TEST_SUITE( test_memory_header_info )
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE( test_copy_mem_info )
+
+using namespace mem_engine ;
+using namespace except ;
+	// header info
+	BOOST_AUTO_TEST_CASE(new_mem)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = static_cast<LPCWSTR>(to->get_location()) ;
+		wstring expected = L"New" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(to->is_new()) ;
+	}
+	BOOST_AUTO_TEST_CASE(has_loc)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+		from->set_location("C:\\foo\\bar.ftm") ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = static_cast<LPCWSTR>(to->get_location()) ;
+		wstring expected = L"C:\\foo\\bar.ftm" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK(! to->is_new()) ;
+	}
+	BOOST_AUTO_TEST_CASE(set_creator)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_creator(L"Barbie") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_creator() ;
+		wstring expected = L"Barbie" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE(set_field)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_field(L"Electronics") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_field() ;
+		wstring expected = L"Electronics" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_created_on)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_created_on(L"2005/10/05 10:11:12") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_created_on() ;
+		wstring expected = L"2005/10/05 10:11:12" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_source_language)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_source_language(L"Pargunese") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_source_language() ;
+		wstring expected = L"Pargunese" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_target_language)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_target_language(L"Wookie") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_target_language() ;
+		wstring expected = L"Wookie" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_client)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_client(L"Elmo") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_client() ;
+		wstring expected = L"Elmo" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_count)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+		from->add_record(make_record("foo", "bar")) ;
+
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+
+		BOOST_CHECK_EQUAL(1, to_info->get_count()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_locked_on)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_locked_on() ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+
+		BOOST_CHECK(to_info->is_locked()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_locked_off)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_locked_off() ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+
+		BOOST_CHECK(! to_info->is_locked()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_is_memory_on)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_is_memory_on() ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+
+		BOOST_CHECK(to_info->is_memory()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_is_memory_off)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_is_memory_off() ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+
+		BOOST_CHECK(! to_info->is_memory()) ;
+	}	
+	BOOST_AUTO_TEST_CASE(set_creation_tool)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_creation_tool(L"Felix") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_creation_tool() ;
+		wstring expected = L"Felix" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE(set_creation_tool_version)
+	{
+		memory_pointer from(new memory_local(0.0f)) ;
+		memory_pointer to(new memory_local(0.0f)) ;
+
+		MemoryInfo *from_info = from->get_memory_info() ;
+		from_info->set_creation_tool_version(L"1.6.1") ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		copy_mem_info(from, to) ;
+		wstring actual = to_info->get_creation_tool_version() ;
+		wstring expected = L"1.6.1" ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+
 #endif

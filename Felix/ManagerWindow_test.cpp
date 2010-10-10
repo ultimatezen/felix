@@ -81,31 +81,6 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_empty") ;
 	}
-	// undo/redo
-	BOOST_AUTO_TEST_CASE(test_undo)
-	{
-		CManagerWindow window ;
-		ManagerWindowTestSetup setup(&window) ;
-		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
-		window.m_undo = action::undo_action_ptr(fake) ;
-		_bstr_t url = L"/mem/1/undo" ;
-		window.OnBeforeNavigate2(url) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "undo") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "/mem/1/redo") ;
-		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "undo") ;
-	}
-	BOOST_AUTO_TEST_CASE(test_redo)
-	{
-		CManagerWindow window ;
-		ManagerWindowTestSetup setup(&window) ;
-		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
-		window.m_undo = action::undo_action_ptr(fake) ;
-		_bstr_t url = L"/mem/1/redo" ;
-		window.OnBeforeNavigate2(url) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "redo") ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "/mem/1/undo") ;
-		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
-	}
 	// moving items in list
 	BOOST_AUTO_TEST_CASE(get_mem_iter_at_1)
 	{
@@ -186,8 +161,105 @@ using namespace mem_engine ;
 
 		BOOST_CHECK_EQUAL(setup.view->m_sensing_variable[0], "show_content") ;
 	}
+	// actions
+	BOOST_AUTO_TEST_CASE(test_actions)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(2) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+		_bstr_t url = L"/1/mem/actions" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "actions") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_perform_action)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(2) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+
+		_bstr_t url = L"/1/mem/trim/perform_action" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "perform_action") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "redo") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "\"/1/mem/undo\"") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[4], "nav_view") ;
+
+		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
+	}
+	// undo/redo
+	BOOST_AUTO_TEST_CASE(test_undo)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(2) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+		_bstr_t url = L"/1/mem/undo" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "undo") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "\"/1/mem/redo\"") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "nav_view") ;
+
+		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "undo") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_redo)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+		setup.add_mems(2) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+		_bstr_t url = L"/1/mem/redo" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "redo") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "\"/1/mem/undo\"") ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[3], "nav_view") ;
+
+		BOOST_CHECK_EQUAL(fake->m_sensing_variable[0], "redo") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_undo_msg)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+
+		std::vector<string> nav_tokens ;
+		nav_tokens += "redo", "mem", "1" ;
+
+		wstring actual = window.create_undo_msg(nav_tokens) ;
+		wstring expected = L"Performed action [FakeUndoableAction]. <a href=\"/1/mem/undo\">Undo</a>" ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "\"/1/mem/undo\"") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_redo_msg)
+	{
+		CManagerWindow window ;
+		ManagerWindowTestSetup setup(&window) ;
+
+		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
+		window.m_undo = action::undo_action_ptr(fake) ;
+
+		std::vector<string> nav_tokens ;
+		nav_tokens += "undo", "mem", "1" ;
+
+		wstring actual = window.create_redo_msg(nav_tokens) ;
+		wstring expected = L"Undid action [FakeUndoableAction]. <a href=\"/1/mem/redo\">Redo</a>" ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
+		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "\"/1/mem/redo\"") ;
+	}
+
 	// navigation to various category pages
-	BOOST_AUTO_TEST_CASE( test_nav_start)
+	BOOST_AUTO_TEST_CASE(test_nav_start)
 	{
 		CManagerWindow window ;
 		ManagerWindowTestSetup setup(&window) ;

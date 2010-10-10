@@ -15,6 +15,9 @@
 #include "ManagerView.h"
 #include "undoable_action.h"
 
+const static string ACTION_NAME_TRIM = "trim" ;
+const static string ACTION_NAME_STRIP = "strip" ;
+
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
@@ -133,8 +136,16 @@ public:
 
 	// undo/redo
 	bool undo(const std::vector<string> &tokens);
-	bool redo(const std::vector<string> &tokens);
+	wstring create_undo_msg(const std::vector<string> &tokens);
 
+	bool redo(const std::vector<string> &tokens);
+	wstring create_redo_msg(const std::vector<string> &tokens)  ;
+
+	// actions
+	bool actions(const std::vector<string> &tokens);
+	bool perform_action(const std::vector<string> &tokens);
+
+	void set_undo_action(const string &action, const string &memtype, const string &item);
 	// crud
 	bool nav_view(const std::vector<string> &tokens) ;
 	bool nav_edit(const std::vector<string> &tokens) ;

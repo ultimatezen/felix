@@ -71,6 +71,7 @@
 <h3>操作</h3>
 
 <ul>
+	<li><a href="/{$index}/{$memtype}/actions">{$name}のアクション</a></li>
 	<li><a href="/{$index}/{$memtype}/edit">{$name}の編集</a></li>
         <li><a href="/{$index}/1/{$memtype}/browse">{$name}の一覧表</a></li>
 	<li><a href="/{$index}/{$memtype}/remove">{$name}の退避</a></li>

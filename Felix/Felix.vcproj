@@ -2128,6 +2128,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewActions.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewBrowse.cpp"
 					>
 				</File>
@@ -2906,6 +2910,10 @@
 				</File>
 				<File
 					RelativePath=".\ManagerView.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewActions.h"
 					>
 				</File>
 				<File

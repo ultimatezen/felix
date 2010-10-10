@@ -58,7 +58,44 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 	wstring expected = L"<b>foo</b>" ;
 	BOOST_CHECK_EQUAL(expected, after->get_source_rich()) ;
 }
+BOOST_AUTO_TEST_CASE(undo_strip_one_record_location)
+{
+	me::memory_pointer mem(new me::memory_local) ;
+	add_record(mem, "<b>foo</b>", "blarg") ;
+	mem->set_location("c:\\foo\\bar.ftm") ;
 
+	action::StripTagsAction stripper(mem) ;
+	stripper.redo() ;
+	stripper.undo() ;
+	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
+	wstring expected = L"c:\\foo\\bar.ftm" ;
+	BOOST_CHECK_EQUAL(expected, actual) ;
+}
+BOOST_AUTO_TEST_CASE(undo_strip_one_record_location_new)
+{
+	me::memory_pointer mem(new me::memory_local) ;
+	add_record(mem, "<b>foo</b>", "blarg") ;
+
+	action::StripTagsAction stripper(mem) ;
+	stripper.redo() ;
+	stripper.undo() ;
+	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
+	wstring expected = L"New" ;
+	BOOST_CHECK_EQUAL(expected, actual) ;
+}
+BOOST_AUTO_TEST_CASE(undo_strip_creator)
+{
+	me::memory_pointer mem(new me::memory_local) ;
+	add_record(mem, "<b>foo</b>", "blarg") ;
+	mem->get_memory_info()->set_creator(L"Barney") ;
+
+	action::StripTagsAction stripper(mem) ;
+	stripper.redo() ;
+	stripper.undo() ;
+	wstring actual = stripper.m_new->get_memory_info()->get_creator() ;
+	wstring expected = L"Barney" ;
+	BOOST_CHECK_EQUAL(expected, actual) ;
+}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

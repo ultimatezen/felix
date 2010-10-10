@@ -1,0 +1,56 @@
+<p><a href="/start" title="Go to Manager Home">Home</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}<a href="/memories">TMs</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">Glossaries</a>{% endif %}
+	&gt;&gt;
+	Actions for {$name}
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>Actions for {$name}</h2>
+
+<table width="100%" class="info">
+    <tr>
+	<th scope="col">Action</th>
+	<th scope="col">Description</th>
+    </tr>
+    <tr>
+        <td style="padding-left:10px; padding-right:10px">
+            <form method="get" action="/{$index}/{$memtype}/strip/perform_action" name="mem_strip_form">
+                <input type="submit" name="submit" value="Strip Tags" />
+            </form>
+        </td>
+        <td>
+        <p>Strip all formatting tags from the {% if memtype == "mem" %}memory{% endif %}{% if memtype == "gloss" %}glossary{% endif %}.
+        Note that superscript/subscript information (like "CO<sub>2</sub>" or "m<sup>2</sup>") will also be lost (it will become "CO2" or "m2").
+        </p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-left:10px; padding-right:10px">
+            <form method="get" action="/{$index}/{$memtype}/trim/perform_action" name="mem_trim_form">
+                <input type="submit" name="submit" value="Trim Spaces" />
+            </form>
+        </td>
+        <td>
+        <p>Trim spaces from the beginning and end of each source, translation, and context segment.
+        For example, the segment [ source ] would become [source].</p>
+        </td>
+    </tr>
+</table>
+
+<h3>More Actions</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/edit">Edit {$name}</a></li>
+        <li><a href="/{$index}/1/{$memtype}/browse">Browse {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
+</ul>

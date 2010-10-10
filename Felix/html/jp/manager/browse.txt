@@ -98,8 +98,9 @@
 
 <h3>操作</h3>
 
-<ul>
-	<li><a href="/{$index}/{$memtype}/view">{$name}の表示</a></li>
-	<li><a href="/{$index}/{$memtype}/edit">{$name}の編集</a></li>
-	<li><a href="/{$index}/{$memtype}/remove">{$name}の退避</a></li>
-</ul>
+<p>
+<a href="/{$index}/{$memtype}/actions">{$name}のアクション</a> |
+<a href="/{$index}/{$memtype}/view">{$name}の表示</a> |
+<a href="/{$index}/{$memtype}/edit">{$name}の編集</a> |
+<a href="/{$index}/{$memtype}/remove">{$name}の退避</a>
+</p>

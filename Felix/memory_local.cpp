@@ -9,6 +9,46 @@ namespace mem_engine
 	using namespace except ;
 	using ATL::CString ;
 
+	void copy_mem_info(memory_pointer from, memory_pointer to)
+	{
+		if (! from->is_new())
+		{
+			to->set_location(from->get_location()) ;
+		}
+		MemoryInfo *from_info = from->get_memory_info() ;
+		MemoryInfo *to_info = to->get_memory_info() ;
+
+		to_info->set_creator( from_info->get_creator() ) ;
+		to_info->set_field( from_info->get_field() ) ;
+		to_info->set_created_on( from_info->get_created_on() ) ;
+		to_info->set_source_language( from_info->get_source_language() ) ;
+		to_info->set_target_language( from_info->get_target_language() ) ;
+		to_info->set_client( from_info->get_client() ) ;
+		to_info->set_count( static_cast<long>(from->size()) ) ;
+		if (from_info->is_memory())
+		{
+			to_info->set_is_memory_on() ;
+		}
+		else
+		{
+			to_info->set_is_memory_off() ;
+		}
+		if (from_info->is_locked())
+		{
+			to_info->set_locked_on() ;
+		}
+		else
+		{
+			to_info->set_locked_off() ;
+		}
+
+		to_info->set_creation_tool( from_info->get_creation_tool() ) ;
+		to_info->set_creation_tool_version( from_info->get_creation_tool_version() ) ;
+
+		to_info->set_modified_by( from_info->get_modified_by() ) ;
+		to_info->set_modified_on( from_info->get_modified_on() ) ;
+	}
+
 	size_t memory_local::size()
 	{
 		return m_records.size() ;

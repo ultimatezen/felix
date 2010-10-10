@@ -71,6 +71,7 @@
 <h3>Actions</h3>
 
 <ul>
+	<li><a href="/{$index}/{$memtype}/actions">Global Actions for {$name}</a></li>
 	<li><a href="/{$index}/{$memtype}/edit">Edit {$name}</a></li>
         <li><a href="/{$index}/1/{$memtype}/browse">Browse {$name}</a></li>
 	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
