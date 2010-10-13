@@ -29,4 +29,4 @@ glob:Felix/felix_tm.dll.manifest
 glob:Felix/Unicode_Debug.obj
 glob:Felix/Testing.obj
 glob:Felix/felix_tm.h
-glob:Felix/RDa31020
+glob:Felix/RD*
