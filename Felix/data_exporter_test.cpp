@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		thedate.wSecond = 0 ;
 		thedate.wMilliseconds = 0 ;
 
-		string actual = exporter.internal_date_to_trados_date(thedate).c_str() ;
+		string actual = exporter.internal_date_to_trados_date(thedate) ;
 		string expected = "17012000, 12:00:00" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -48,8 +48,8 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 
 		exporter.open_destination(_T("foo.txt")) ;
 		BOOST_CHECK_EQUAL(2u, device->m_calls.size()) ;
-		BOOST_CHECK_EQUAL(string("open"), device->m_calls[0].c_str()) ;
-		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_calls[1].c_str()) ;
+		BOOST_CHECK_EQUAL(string("open"), device->m_calls[0]) ;
+		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_calls[1]) ;
 	}
 	BOOST_AUTO_TEST_CASE( write_preamble )
 	{
@@ -61,9 +61,9 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 
 		exporter.write_preamble() ;
 		BOOST_CHECK_EQUAL(3, (int)device->m_calls.size()) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[0].c_str()) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[1].c_str()) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[2].c_str()) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[0]) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[1]) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[2]) ;
 	}
 	BOOST_AUTO_TEST_CASE( create_unicode_escape )
 	{
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		TradosDataExporter exporter(fonts, &listener) ;
 
 		string escape = exporter.create_unicode_escape(L't', 't') ;
-		string actual = escape.c_str() ;
+		string actual = escape ;
 		string expected = "\\uc1\\u116 t" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
@@ -115,15 +115,15 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 			  fmt += "<%2%>%6%\r\n" ;
 			  fmt += "<Notes>-\r\n" ;
 			  fmt += "***\r\n" ;
-		string expected = (format(fmt.c_str())
+		string expected = (format(fmt)
 					% "Japanese" % "English"
 					% string2string(rec1->get_source_plain())
 					% string2string(rec1->get_trans_plain())
 					% string2string(rec2->get_source_plain())
 					% string2string(rec2->get_trans_plain())
-					).str().c_str() ;
+					).str() ;
 
-		BOOST_CHECK_EQUAL(expected, string(string2string(device->m_value).c_str())) ;
+		BOOST_CHECK_EQUAL(expected, string(string2string(device->m_value))) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 	//////////////////////////////////////////////////////////////////////////
@@ -159,10 +159,10 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
 		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
 		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		string expected = string2string(fmt, CP_UTF8).c_str() ;
+		string expected = string2string(fmt, CP_UTF8) ;
 
 		BOOST_CHECK_EQUAL(expected, 
-			string(string2string(device->m_value, CP_UTF8).c_str())) ;
+			string(string2string(device->m_value, CP_UTF8))) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
