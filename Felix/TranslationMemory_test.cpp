@@ -9,7 +9,7 @@
 #include "Path.h"
 #include "record_local.h"
 #include "MockListener.h"
-
+#include "memory_local.h"
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
@@ -36,5 +36,16 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	{
 		BOOST_CHECK_NO_THROW(ensure_file_exists(_T("c:\\dev\\cpp\\Assistant Suite\\Felix\\TranslationMemory_test.cpp"))) ;
 	}
-
+	BOOST_AUTO_TEST_CASE(get_correct_encoding_xml_utf8_sq)
+	{
+		string text = "<?xml version='1.0' encoding='utf-8'?>" ;
+		memory_local mem ;
+		BOOST_CHECK_EQUAL((UINT)CP_UTF8, (UINT)mem.get_correct_encoding(text.c_str(), text.size())) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_correct_encoding_xml_utf8_dq)
+	{
+		string text = "<?xml version='1.0' encoding=\"utf-8\"?>" ;
+		memory_local mem ;
+		BOOST_CHECK_EQUAL((UINT)CP_UTF8, (UINT)mem.get_correct_encoding(text.c_str(), text.size())) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()

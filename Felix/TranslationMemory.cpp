@@ -393,12 +393,13 @@ namespace mem_engine
 		return encoding_from_multi_lang( text, text_size ) ;
 	}
 
-
 	UINT CTranslationMemory::encoding_from_encoding_string(textstream_reader< char > & xml_reader)
 	{
-		xml_reader.find( "\"", true ) ;
+		xml_reader.jump_to_first_of( "\"'", true ) ;
 		xml_reader.eat_whitespace() ;
-		const string charset_str = xml_reader.getline('\"') ;
+		textstream_reader<char>::bookmark_type start = xml_reader.get_current_pos() ;
+		xml_reader.jump_to_first_of( "\"'", false ) ;
+		string charset_str(start, xml_reader.get_current_pos()) ;
 		return sci_encoding_from_encoding_string( charset_str ) ;
 	}
 

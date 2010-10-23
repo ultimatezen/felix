@@ -15,7 +15,6 @@
 #endif
 
 
-
 // CRecord
 
 class ATL_NO_VTABLE CRecord :

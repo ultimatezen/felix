@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by FelixENG.rc
+// Used by Felix.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -211,6 +211,7 @@
 #define IDS_MSG_REGISTERED_SERVER_TITLE 173
 #define IDS_MSG_RECORD_CREATION_FAILED  174
 #define IDS_OPEN_GLOSS_FILE             175
+#define IDR_COMMEMORY                   176
 #define IDC_REPLACE_EDIT_RECORD         177
 #define SIDEBAR_ID                      178
 #define IDR_RECORD                      179
@@ -579,13 +580,13 @@
 #define IDS_SAVE_ALL_MEMORIES           577
 #define IDR_SEARCHRESULTS               578
 #define IDS_SEARCH_MANAGER_TITLE        579
-#define IDS_SOURCE_CONCORDANCE			580
-#define IDS_TRANS_CONCORDANCE			581
-#define IDS_SAVED_RESULTS				582
-#define IDS_ACTION_TRIM_SPACES			583
-#define IDS_ACTION_STRIP_TAGS			584
-#define IDS_ACTION_UNDO_MSG				585
-#define IDS_ACTION_REDO_MSG				586
+#define IDS_SOURCE_CONCORDANCE          580
+#define IDS_TRANS_CONCORDANCE           581
+#define IDS_SAVED_RESULTS               582
+#define IDS_ACTION_TRIM_SPACES          583
+#define IDS_ACTION_STRIP_TAGS           584
+#define IDS_ACTION_UNDO_MSG             585
+#define IDS_ACTION_REDO_MSG             586
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -654,6 +655,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_SYMED_VALUE           177
 #endif
 #endif
