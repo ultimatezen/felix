@@ -24,6 +24,35 @@ STDMETHODIMP CApp2::InterfaceSupportsErrorInfo(REFIID riid)
 	}
 	return S_FALSE;
 }
+
+STDMETHODIMP CApp2::get_ActiveMemory(IComMemory **pVal)
+{
+	try
+	{
+		if ( m_active_memory)
+		{
+			return m_active_memory->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_CurrentMatch")
+
+		return E_FAIL ;
+}
+STDMETHODIMP CApp2::get_ActiveGlossary(IComMemory **pVal)
+{
+	try
+	{
+		if ( m_active_glossary)
+		{
+			return m_active_glossary->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_CurrentMatch")
+
+		return E_FAIL ;
+}
+
+
 STDMETHODIMP CApp2::get_CurrentMatch(ISearchResult **pVal)
 {
 	try

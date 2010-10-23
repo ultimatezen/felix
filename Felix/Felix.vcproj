@@ -490,6 +490,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ComMemory.cpp"
+				>
+			</File>
+			<File
 				RelativePath="CommonWindowFunctionality.cpp"
 				>
 				<FileConfiguration
@@ -528,6 +532,10 @@
 			</File>
 			<File
 				RelativePath=".\ComRecord.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ComRecords.cpp"
 				>
 			</File>
 			<File
@@ -2222,11 +2230,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\com2stl_coll.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ComMemory.h"
+				>
+			</File>
+			<File
 				RelativePath="CommonWindowFunctionality.h"
 				>
 			</File>
 			<File
 				RelativePath=".\ComRecord.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ComRecords.h"
 				>
 			</File>
 			<File
@@ -2992,6 +3012,14 @@
 			</File>
 			<File
 				RelativePath=".\bmp00007.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\ComMemory.rgs"
+				>
+			</File>
+			<File
+				RelativePath=".\ComRecords.rgs"
 				>
 			</File>
 			<File

@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Sun Apr 25 09:47:52 2010
+/* at Sat Oct 23 12:42:42 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -61,6 +61,18 @@ typedef interface ISearchResult ISearchResult;
 #define __ISearchResults_FWD_DEFINED__
 typedef interface ISearchResults ISearchResults;
 #endif 	/* __ISearchResults_FWD_DEFINED__ */
+
+
+#ifndef __IComRecords_FWD_DEFINED__
+#define __IComRecords_FWD_DEFINED__
+typedef interface IComRecords IComRecords;
+#endif 	/* __IComRecords_FWD_DEFINED__ */
+
+
+#ifndef __IComMemory_FWD_DEFINED__
+#define __IComMemory_FWD_DEFINED__
+typedef interface IComMemory IComMemory;
+#endif 	/* __IComMemory_FWD_DEFINED__ */
 
 
 #ifndef __IApp2_FWD_DEFINED__
@@ -163,6 +175,30 @@ typedef struct SearchResults SearchResults;
 #endif /* __cplusplus */
 
 #endif 	/* __SearchResults_FWD_DEFINED__ */
+
+
+#ifndef __ComMemory_FWD_DEFINED__
+#define __ComMemory_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class ComMemory ComMemory;
+#else
+typedef struct ComMemory ComMemory;
+#endif /* __cplusplus */
+
+#endif 	/* __ComMemory_FWD_DEFINED__ */
+
+
+#ifndef __ComRecords_FWD_DEFINED__
+#define __ComRecords_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class ComRecords ComRecords;
+#else
+typedef struct ComRecords ComRecords;
+#endif /* __cplusplus */
+
+#endif 	/* __ComRecords_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -790,6 +826,228 @@ EXTERN_C const IID IID_ISearchResults;
 #endif 	/* __ISearchResults_INTERFACE_DEFINED__ */
 
 
+#ifndef __IComRecords_INTERFACE_DEFINED__
+#define __IComRecords_INTERFACE_DEFINED__
+
+/* interface IComRecords */
+/* [unique][helpstring][nonextensible][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IComRecords;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("08CCF650-1CC9-47B1-8304-D9863E83C8F5")
+    IComRecords : public IDispatch
+    {
+    public:
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct IComRecordsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IComRecords * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ 
+            __RPC__deref_out  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IComRecords * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IComRecords * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            IComRecords * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            IComRecords * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            IComRecords * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IComRecords * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
+        
+        END_INTERFACE
+    } IComRecordsVtbl;
+
+    interface IComRecords
+    {
+        CONST_VTBL struct IComRecordsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IComRecords_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IComRecords_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IComRecords_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IComRecords_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define IComRecords_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define IComRecords_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define IComRecords_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IComRecords_INTERFACE_DEFINED__ */
+
+
+#ifndef __IComMemory_INTERFACE_DEFINED__
+#define __IComMemory_INTERFACE_DEFINED__
+
+/* interface IComMemory */
+/* [unique][helpstring][nonextensible][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IComMemory;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("F17938E6-D888-4760-970C-C1B4707B67A5")
+    IComMemory : public IDispatch
+    {
+    public:
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct IComMemoryVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IComMemory * This,
+            /* [in] */ REFIID riid,
+            /* [iid_is][out] */ 
+            __RPC__deref_out  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IComMemory * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IComMemory * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            IComMemory * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            IComMemory * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            IComMemory * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IComMemory * This,
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
+        
+        END_INTERFACE
+    } IComMemoryVtbl;
+
+    interface IComMemory
+    {
+        CONST_VTBL struct IComMemoryVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IComMemory_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IComMemory_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IComMemory_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IComMemory_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define IComMemory_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define IComMemory_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define IComMemory_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IComMemory_INTERFACE_DEFINED__ */
+
+
 #ifndef __IApp2_INTERFACE_DEFINED__
 #define __IApp2_INTERFACE_DEFINED__
 
@@ -826,6 +1084,12 @@ EXTERN_C const IID IID_IApp2;
             /* [in] */ ULONG RecId,
             /* [in] */ BSTR Source,
             /* [in] */ BSTR Trans) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ActiveMemory( 
+            /* [retval][out] */ IComMemory **pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ActiveGlossary( 
+            /* [retval][out] */ IComMemory **pVal) = 0;
         
     };
     
@@ -904,6 +1168,14 @@ EXTERN_C const IID IID_IApp2;
             /* [in] */ BSTR Source,
             /* [in] */ BSTR Trans);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ActiveMemory )( 
+            IApp2 * This,
+            /* [retval][out] */ IComMemory **pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ActiveGlossary )( 
+            IApp2 * This,
+            /* [retval][out] */ IComMemory **pVal);
+        
         END_INTERFACE
     } IApp2Vtbl;
 
@@ -957,6 +1229,12 @@ EXTERN_C const IID IID_IApp2;
 
 #define IApp2_ReviewTranslation(This,RecId,Source,Trans)	\
     ( (This)->lpVtbl -> ReviewTranslation(This,RecId,Source,Trans) ) 
+
+#define IApp2_get_ActiveMemory(This,pVal)	\
+    ( (This)->lpVtbl -> get_ActiveMemory(This,pVal) ) 
+
+#define IApp2_get_ActiveGlossary(This,pVal)	\
+    ( (This)->lpVtbl -> get_ActiveGlossary(This,pVal) ) 
 
 #endif /* COBJMACROS */
 
@@ -1898,6 +2176,22 @@ EXTERN_C const CLSID CLSID_SearchResults;
 
 class DECLSPEC_UUID("AE39B643-6534-42D9-A4A1-9C5F414BD6D8")
 SearchResults;
+#endif
+
+EXTERN_C const CLSID CLSID_ComMemory;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("0CEE03C8-86F5-437C-940E-E30FB40FD3FA")
+ComMemory;
+#endif
+
+EXTERN_C const CLSID CLSID_ComRecords;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("8B991DDC-940F-42B1-A779-81CF64C94B6E")
+ComRecords;
 #endif
 #endif /* __Felix_LIBRARY_DEFINED__ */
 

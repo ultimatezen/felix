@@ -277,6 +277,7 @@
 #define IDS_MSG_NO_FILE                 231
 #define IDC_FILENAME_EDIT               232
 #define IDD_IMPORT_DIALOG               233
+#define IDR_COMRECORDS                  234
 #define IDC_MIN_MATCH_STATIC3           235
 #define IDD_EDIT_RECORD                 236
 #define IDC_BROWSE_BTN                  237
@@ -655,6 +656,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           177
+#define _APS_NEXT_SYMED_VALUE           235
 #endif
 #endif

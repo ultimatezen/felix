@@ -88,6 +88,36 @@ interface ISearchResults : IDispatch{
 
 };
 
+//////////////////////////////////////////////////////////////////////////
+// ComRecords
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(08CCF650-1CC9-47B1-8304-D9863E83C8F5),
+	dual,
+	nonextensible,
+	helpstring("IComRecords Interface"),
+	pointer_default(unique)
+]
+interface IComRecords : IDispatch{
+};
+
+//////////////////////////////////////////////////////////////////////////
+// ComMemory
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(F17938E6-D888-4760-970C-C1B4707B67A5),
+	dual,
+	nonextensible,
+	helpstring("IComMemory Interface"),
+	pointer_default(unique)
+]
+
+interface IComMemory : IDispatch{
+};
+
+
 // App2
 [
 	object,
@@ -106,6 +136,8 @@ interface IApp2 : IDispatch{
 		HRESULT ReflectChanges([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
 	[id(6), helpstring("method ReviewTranslation")] 
 		HRESULT ReviewTranslation([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
+	[propget, id(7), helpstring("property ActiveMemory")] HRESULT ActiveMemory([out, retval] IComMemory** pVal);
+	[propget, id(8), helpstring("property ActiveGlossary")] HRESULT ActiveGlossary([out, retval] IComMemory** pVal);
 };
 // App
 [
@@ -219,6 +251,9 @@ interface IApp : IDispatch{
 interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
 };
 
+//////////////////////////////////////////////////////////////////////////
+// Felix library
+//////////////////////////////////////////////////////////////////////////
 [
 	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
 	version(1.0),
@@ -297,5 +332,21 @@ library Felix
 	coclass SearchResults
 	{
 		[default] interface ISearchResults;
+	};
+	[
+		uuid(0CEE03C8-86F5-437C-940E-E30FB40FD3FA),
+		helpstring("ComMemory Class")
+	]
+	coclass ComMemory
+	{
+		[default] interface IComMemory;
+	};
+	[
+		uuid(8B991DDC-940F-42B1-A779-81CF64C94B6E),
+		helpstring("ComRecords Class")
+	]
+	coclass ComRecords
+	{
+		[default] interface IComRecords;
 	};
 };

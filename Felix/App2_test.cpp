@@ -13,6 +13,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 	using namespace mem_engine;
 
 	typedef CComPtr< ISearchResult > result_ptr ;
+	typedef CComPtr< IComMemory > com_mem_ptr ;
 
 	typedef CComObject< CApp2 > app2_obj ;
 	typedef CComPtr< app2_obj > app2_ptr ;
@@ -38,7 +39,26 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 
 		return match ;
 	}
+	BOOST_AUTO_TEST_CASE( get_active_memory )
+	{
+		app2_ptr app ;
+		app2_obj::CreateInstance( &app ) ;
 
+		com_mem_ptr mem ;
+		HRESULT hr = app->get_ActiveMemory(&mem) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( mem ) ;
+	}
+	BOOST_AUTO_TEST_CASE( get_active_glossary )
+	{
+		app2_ptr app ;
+		app2_obj::CreateInstance( &app ) ;
+
+		com_mem_ptr mem ;
+		HRESULT hr = app->get_ActiveGlossary(&mem) ;
+		BOOST_CHECK( SUCCEEDED( hr ) ) ;
+		BOOST_CHECK( mem ) ;
+	}
 
 	BOOST_AUTO_TEST_CASE( Instantiate )
 	{
