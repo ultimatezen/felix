@@ -376,7 +376,7 @@ bool CMainFrame::export_tmx( const CString &file_name )
 	path.RemoveExtension() ;
 	path.AddExtension( _T(".tmx" ) ) ;
 
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	mem->set_location( path.Path() ) ;
 
 	exporter.write_memory( mem ) ;
@@ -402,7 +402,7 @@ bool CMainFrame::export_trados( const CString &file_name )
 		return false ;
 	}
 
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	
 	// get a set of the fonts used in our current memory
 	font_tabulator tabulator ;
@@ -481,7 +481,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		// the glossary window
 		logging::log_debug("Setting up the glossary window") ;
-		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
 
 		// set the title
 		set_window_title() ;
@@ -747,7 +747,7 @@ LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
+	add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
 	return 0L ;
 #endif
 }
@@ -990,7 +990,7 @@ LRESULT CMainFrame::on_file_save(WindowsMessage &)
 		return 0L ;
 	}
 	
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ; 
+	memory_pointer mem = m_model->get_first_memory() ; 
 	
 	if ( mem->is_new() ) 
 	{
@@ -1071,7 +1071,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 	}
 	// clearing location won't work, because we want to offer the current location
 	// as the default file name
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	
 	save_memory_as(mem);
 
@@ -1894,7 +1894,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 	if ( m_glossary_windows.empty() ) 
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
 	}
 
 	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
@@ -1952,7 +1952,7 @@ gloss_window_pointer CMainFrame::get_glossary_window()
 {
 	if ( m_glossary_windows.empty() )
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryWindow)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
 	}
 	return m_glossary_windows[0] ;
 }
@@ -2016,7 +2016,7 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
 
 	user_feedback( IDS_MEMORY_OPEN ) ;
 
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 
 	CQueryMergeDlg dlg(IDS_MERGE_MEM_TITLE, 
 		IDS_MERGE_MEM_TEXT, 
@@ -2056,7 +2056,7 @@ wstring CMainFrame::get_translation_at(short index)
  */
 void CMainFrame::report_memory_after_load(size_t original_num)
 {
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	
 	// get number of records loaded
 	const size_t num_records_after_load = mem->size() ;
@@ -2164,8 +2164,12 @@ bool CMainFrame::clear_memory()
 {
 	if ( ! m_model->get_memories()->empty() ) 
 	{
-		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+		memory_pointer mem = m_model->get_first_memory() ;
 		mem->clear_memory() ;
+	}
+	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	{
+		gloss->clear_memory() ;
 	}
 
 	m_view_interface.set_text( wstring() ) ;
@@ -2180,7 +2184,6 @@ bool CMainFrame::clear_memory()
 
 	// clear the matches
 	m_search_matches.clear() ;
-
 	m_trans_matches.clear() ;
 
 	return true ;
@@ -2645,7 +2648,7 @@ bool CMainFrame::correct_trans(const wstring trans)
 	{
 		if (get_display_state() == TRANS_REVIEW_STATE)
 		{
-			memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+			memory_pointer mem = m_model->get_first_memory() ;
 			mem->erase( m_new_record ) ;
 			m_review_record->set_trans( trans ) ;
 			mem->add_record( m_review_record ) ;
@@ -2665,7 +2668,7 @@ bool CMainFrame::correct_trans(const wstring trans)
 		if ( get_display_state() == NEW_RECORD_DISPLAY_STATE ) 
 		{
 			ATLASSERT(m_view_state == &m_view_state_new) ;
-			memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+			memory_pointer mem = m_model->get_first_memory() ;
 			mem->erase( m_new_record ) ;
 			m_new_record->set_trans( trans ) ;
 			mem->add_record( m_new_record ) ;
@@ -3490,7 +3493,7 @@ void CMainFrame::look_up_in_glossaries(const wstring query)
  */
 void CMainFrame::add_record_to_memory(record_pointer record)
 {
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	
 	if ( ! mem->add_record( record ) )
 	{
@@ -3653,7 +3656,7 @@ void CMainFrame::refresh_mru_doc_list(HMENU menu)
 * 
 * Todo: localize
 * \see
-* CCommonWindowFunctionality | CGlossaryWindow
+* CCommonWindowFunctionality | CGlossaryDialog
  */
 LPCTSTR CMainFrame::get_save_filter()
 {
@@ -3664,7 +3667,7 @@ LPCTSTR CMainFrame::get_save_filter()
  * 
  * Todo: localize
  * \see
- * CCommonWindowFunctionality | CGlossaryWindow
+ * CCommonWindowFunctionality | CGlossaryDialog
 */
 LPCTSTR CMainFrame::get_open_filter()
 {
@@ -3742,7 +3745,7 @@ VARIANT_BOOL CMainFrame::get_show_marking()
  */
 bool CMainFrame::set_location( const CString &location ) 
 {
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	try
 	{
 		mem->set_location( location ) ;
@@ -4131,7 +4134,7 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 	else
 	{
 		ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
-		mem = m_model->get_memories()->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	// get the file spec
 
@@ -4915,7 +4918,7 @@ CString CMainFrame::get_active_mem_name()
 {
 	if ( ! m_model->get_memories()->empty() )
 	{
-		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+		memory_pointer mem = m_model->get_first_memory() ;
 		if (! mem->is_local())
 		{
 			return mem->get_location() ;
@@ -5085,7 +5088,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_model->get_memories()->get_first_memory(), file_name ) ;
+			exporter.export_excel( m_model->get_first_memory(), file_name ) ;
 			return ;
 		}
 

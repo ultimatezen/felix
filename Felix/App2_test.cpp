@@ -7,13 +7,15 @@
 
 #ifdef UNIT_TEST
 
+#include "amop/include/MockObject.h"
+
 // test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( TestApp2 )
 
 	using namespace mem_engine;
 
 	typedef CComPtr< ISearchResult > result_ptr ;
-	typedef CComPtr< IComMemory > com_mem_ptr ;
+	typedef CComPtr< IMemory > com_mem_ptr ;
 
 	typedef CComObject< CApp2 > app2_obj ;
 	typedef CComPtr< app2_obj > app2_ptr ;
@@ -141,7 +143,15 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
-	// CurrentMatches
+BOOST_AUTO_TEST_SUITE_END()
+
+// CurrentMatches
+BOOST_AUTO_TEST_SUITE(TestApp2CurrentMatches)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+
 	BOOST_AUTO_TEST_CASE(current_matches_init_empty)
 	{
 		app2_ptr application ;
@@ -156,20 +166,142 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 		BOOST_CHECK_EQUAL(0, count) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
 
-	// CurrentGlossMatches
+// get_CurrentGlossMatches
+BOOST_AUTO_TEST_SUITE(TestApp2CurrentGlossMatches)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
 	BOOST_AUTO_TEST_CASE(current_gloss_matches_init_empty)
 	{
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
 
 		CComPtr<ISearchResults> matches ;
+		app::get_app().clear_memory() ;
 		HRESULT hr = application->get_CurrentGlossMatches(&matches) ;
 		BOOST_CHECK(SUCCEEDED(hr)) ;
 
 		long count(0) ;
 		matches->get_Count(&count) ;
 		BOOST_CHECK_EQUAL(0, count) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_MemoryWindow
+BOOST_AUTO_TEST_SUITE(TestApp2MemoryWindow)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	// CurrentGlossMatches
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IMemoryWindow> mem_window ;
+		HRESULT hr = application->get_MemoryWindow(&mem_window) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(mem_window) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_GlossaryWindow
+BOOST_AUTO_TEST_SUITE(TestApp2GlossaryWindow)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IGlossaryWindow> gloss_window ;
+		HRESULT hr = application->get_GlossaryWindow(&gloss_window) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(gloss_window) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_Memories
+BOOST_AUTO_TEST_SUITE(TestApp2Memories)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IMemories> mems ;
+		HRESULT hr = application->get_Memories(&mems) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(mems) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_Glossaries
+BOOST_AUTO_TEST_SUITE(TestApp2Glossaries)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IMemories> mems ;
+		HRESULT hr = application->get_Glossaries(&mems) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(mems) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_ActiveMemory
+BOOST_AUTO_TEST_SUITE(TestApp2ActiveMemory)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IMemory> mem ;
+		HRESULT hr = application->get_ActiveMemory(&mem) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(mem) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// get_ActiveGlossary
+BOOST_AUTO_TEST_SUITE(TestApp2ActiveGlossary)
+
+	typedef CComObject< CApp2 > app2_obj ;
+	typedef CComPtr< app2_obj > app2_ptr ;
+
+	BOOST_AUTO_TEST_CASE(init)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+
+		CComPtr<IMemory> gloss ;
+		HRESULT hr = application->get_ActiveGlossary(&gloss) ;
+		BOOST_CHECK(SUCCEEDED(hr)) ;
+		BOOST_CHECK(gloss) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

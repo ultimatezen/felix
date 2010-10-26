@@ -14,13 +14,13 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE(init_view_state_search_matches)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		BOOST_CHECK(gloss.m_view_state_concordance.m_search_matches) ;
 		BOOST_CHECK(gloss.m_view_state_match.m_search_matches) ;
 	}
 	BOOST_AUTO_TEST_CASE(init_view_state_gloss_properties)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		BOOST_CHECK(gloss.m_view_state_concordance.m_properties_gloss) ;
 		BOOST_CHECK(gloss.m_view_state_match.m_properties_gloss) ;
 	}
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE(config_matches_for_gloss_lookup)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.m_search_matches.m_params.m_ignore_case = false ;
 		gloss.m_search_matches.m_params.m_ignore_width = false ;
 		gloss.m_search_matches.m_params.m_ignore_hira_kata = false ;
@@ -54,28 +54,28 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	// on_toggle_views
 	BOOST_AUTO_TEST_CASE(toggle_views_from_match)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(WindowListener::MATCH_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::CONCORDANCE_DISPLAY_STATE, gloss.get_display_state()) ;
 	}
 	BOOST_AUTO_TEST_CASE(toggle_views_from_concordance_nothrow)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(WindowListener::CONCORDANCE_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
 	}
 	BOOST_AUTO_TEST_CASE(toggle_views_from_init_nothrow)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(WindowListener::INIT_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
 	}
 	BOOST_AUTO_TEST_CASE(toggle_views_from_new_nothrow)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(WindowListener::NEW_RECORD_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss.get_display_state()) ;
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	// get_record_translation
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
 		gloss.m_properties_gloss.m_data.m_plaintext = FALSE ;
 
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( get_record_translation_lower)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = TRUE ;
 		gloss.m_properties_gloss.m_data.m_plaintext = FALSE ;
 
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
 		gloss.m_properties_gloss.m_data.m_plaintext = TRUE ;
 
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	/*********************************************************************/
 	BOOST_AUTO_TEST_CASE( load_multiterm6)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample.txt") ;
 		gloss.import_multiterm(filename) ;
 		BOOST_CHECK_EQUAL(1u, gloss.m_memories->size()) ;
@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( export_gloss_mt55)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CString filename = _T("c:\\test\\mt.55.output.txt") ;
 		::DeleteFile(filename) ;
 		string source("Japanese") ;
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( export_gloss_mt6)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CString filename = _T("c:\\test\\mt.6.output.txt") ;
 		::DeleteFile(filename) ;
 
@@ -228,18 +228,18 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_initially_false )
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		BOOST_CHECK( ! dialog.m_is_trans_concordance ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_true )
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		dialog.get_translation_concordances(L"foo") ;
 		BOOST_CHECK( dialog.m_is_trans_concordance ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_false )
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		dialog.m_is_trans_concordance = true ;
 		dialog.get_concordances(L"foo") ;
 		BOOST_CHECK( ! dialog.m_is_trans_concordance ) ;
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
 	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -270,7 +270,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -288,7 +288,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
-		CGlossaryWindow dialog ;
+		CGlossaryDialog dialog ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(0u, dialog.m_sensing_variable.size()) ;

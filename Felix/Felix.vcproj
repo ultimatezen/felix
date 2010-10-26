@@ -96,7 +96,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="easyunitVC.lib dbghelp.lib PocoFoundationd.lib"
+				AdditionalDependencies="dbghelp.lib"
 				OutputFile=".\Unicode_Debug/Felix.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -337,7 +337,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="easyunitVC.lib dbghelp.lib PocoFoundationd.lib"
+				AdditionalDependencies="dbghelp.lib amop.lib"
 				OutputFile=".\Testing/Felix.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -781,6 +781,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\GlossaryWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\HrefTags.cpp"
 				>
 			</File>
@@ -927,6 +931,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Memories.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\memory_header.cpp"
 				>
 			</File>
@@ -1011,6 +1019,10 @@
 						BrowseInformation="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\MemoryWindow.cpp"
+				>
 			</File>
 			<File
 				RelativePath="MinViewDlg.cpp"
@@ -1530,11 +1542,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ComMemories_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ComMemory_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\CommonWindowFunctionality_test.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\ComRecord_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ComRecords_test.cpp"
 					>
 				</File>
 				<File
@@ -2422,6 +2446,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GlossaryWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\HrefTags.h"
 				>
 			</File>
@@ -2518,6 +2546,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Memories.h"
+				>
+			</File>
+			<File
 				RelativePath=".\memory_header.h"
 				>
 			</File>
@@ -2539,6 +2571,10 @@
 			</File>
 			<File
 				RelativePath="MemoryManagerDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MemoryWindow.h"
 				>
 			</File>
 			<File
@@ -3083,6 +3119,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GlossaryWindow.rgs"
+				>
+			</File>
+			<File
 				RelativePath=".\help1.bmp"
 				>
 			</File>
@@ -3100,6 +3140,14 @@
 			</File>
 			<File
 				RelativePath=".\lookup_t.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\Memories.rgs"
+				>
+			</File>
+			<File
+				RelativePath=".\MemoryWindow.rgs"
 				>
 			</File>
 			<File

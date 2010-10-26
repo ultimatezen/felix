@@ -52,9 +52,9 @@
 	@class CGlossaryDialog 
 	@brief Class for a glossary window.
  */
-class CGlossaryWindow :
-		public CDialogImpl< CGlossaryWindow, CCommonWindowFunctionality >
-		, public CWindowExceptionHandler< CGlossaryWindow >
+class CGlossaryDialog :
+		public CDialogImpl< CGlossaryDialog, CCommonWindowFunctionality >
+		, public CWindowExceptionHandler< CGlossaryDialog >
 		, public CZoomInterface
 		, public FrameListener
 {
@@ -235,8 +235,8 @@ public:
 		return memory_file_ext ;
 	}
 
-	CGlossaryWindow( ) ;
-	~CGlossaryWindow( ) ;
+	CGlossaryDialog( ) ;
+	~CGlossaryDialog( ) ;
 
 	bool exit_silently() ;
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
@@ -326,7 +326,7 @@ public:
 	// ========================
 	// message map
 	// ========================
-	BEGIN_MSG_MAP_EX( CGlossaryWindow )
+	BEGIN_MSG_MAP_EX( CGlossaryDialog )
 	MSG_TRY
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
@@ -530,6 +530,6 @@ public:
 };
 
 
-typedef boost::shared_ptr< CGlossaryWindow > gloss_window_pointer ;
+typedef boost::shared_ptr< CGlossaryDialog > gloss_window_pointer ;
 typedef std::vector< gloss_window_pointer > gloss_window_list ;
 typedef std::vector< gloss_window_pointer >::iterator gloss_window_iterator ;

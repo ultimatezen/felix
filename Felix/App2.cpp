@@ -25,7 +25,64 @@ STDMETHODIMP CApp2::InterfaceSupportsErrorInfo(REFIID riid)
 	return S_FALSE;
 }
 
-STDMETHODIMP CApp2::get_ActiveMemory(IComMemory **pVal)
+// memories/glossaries
+STDMETHODIMP CApp2::get_Memories(IMemories **pVal)
+{
+	try
+	{
+		if (m_memories)
+		{
+			return m_memories->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_Memories")
+
+	return E_FAIL ;
+}
+STDMETHODIMP CApp2::get_Glossaries(IMemories **pVal)
+{
+	try
+	{
+		if (m_glossaries)
+		{
+			return m_glossaries->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_Glossaries")
+
+	return E_FAIL ;
+}
+
+// memory/glossary windows
+STDMETHODIMP CApp2::get_MemoryWindow(IMemoryWindow **pVal)
+{
+	try
+	{
+		if ( m_memory_window)
+		{
+			return m_memory_window->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_MemoryWindow")
+
+	return E_FAIL ;
+}
+STDMETHODIMP CApp2::get_GlossaryWindow(IGlossaryWindow **pVal)
+{
+	try
+	{
+		if (m_glossary_window)
+		{
+			return m_glossary_window->QueryInterface(pVal) ;
+		}
+	}
+	FELIX_AUTO_CATCH("get_GlossaryWindow")
+
+	return E_FAIL ;
+}
+
+// active memory/glossary
+STDMETHODIMP CApp2::get_ActiveMemory(IMemory **pVal)
 {
 	try
 	{
@@ -34,11 +91,11 @@ STDMETHODIMP CApp2::get_ActiveMemory(IComMemory **pVal)
 			return m_active_memory->QueryInterface(pVal) ;
 		}
 	}
-	FELIX_AUTO_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_ActiveMemory")
 
-		return E_FAIL ;
+	return E_FAIL ;
 }
-STDMETHODIMP CApp2::get_ActiveGlossary(IComMemory **pVal)
+STDMETHODIMP CApp2::get_ActiveGlossary(IMemory **pVal)
 {
 	try
 	{
@@ -47,12 +104,12 @@ STDMETHODIMP CApp2::get_ActiveGlossary(IComMemory **pVal)
 			return m_active_glossary->QueryInterface(pVal) ;
 		}
 	}
-	FELIX_AUTO_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_ActiveGlossary")
 
-		return E_FAIL ;
+	return E_FAIL ;
 }
 
-
+// current match
 STDMETHODIMP CApp2::get_CurrentMatch(ISearchResult **pVal)
 {
 	try
@@ -90,9 +147,9 @@ STDMETHODIMP CApp2::get_CurrentMatches(ISearchResults **pVal)
 			return m_current_matches->QueryInterface(pVal) ;
 		}
 	}
-	FELIX_AUTO_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_CurrentMatches")
 
-		return E_FAIL ;
+	return E_FAIL ;
 }
 STDMETHODIMP CApp2::get_CurrentGlossMatches(ISearchResults **pVal)
 {
@@ -108,9 +165,9 @@ STDMETHODIMP CApp2::get_CurrentGlossMatches(ISearchResults **pVal)
 			return m_current_gloss_matches->QueryInterface(pVal) ;
 		}
 	}
-	FELIX_AUTO_CATCH("get_CurrentMatch")
+	FELIX_AUTO_CATCH("get_CurrentGlossMatches")
 
-		return E_FAIL ;
+	return E_FAIL ;
 }
 
 
@@ -134,7 +191,7 @@ STDMETHODIMP CApp2::ReviewTranslation(ULONG RecId, BSTR Source, BSTR Trans)
 			BSTR2wstring(Source),
 			BSTR2wstring(Trans)) ;
 	}
-	FELIX_AUTO_CATCH( "ReflectChanges" ) ;
+	FELIX_AUTO_CATCH( "ReviewTranslation" ) ;
 
 	return S_OK;
 }

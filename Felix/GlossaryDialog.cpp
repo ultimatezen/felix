@@ -44,7 +44,7 @@ using namespace except ;
 using namespace html ;
 
 // CTOR
-CGlossaryWindow::CGlossaryWindow( ) : 
+CGlossaryDialog::CGlossaryDialog( ) : 
 	m_is_main(false),
 	m_listener(NULL),
 	m_editor(new CEditTransRecordDialog),
@@ -76,7 +76,7 @@ CGlossaryWindow::CGlossaryWindow( ) :
 }
 
 // DTOR
-CGlossaryWindow::~CGlossaryWindow() 
+CGlossaryDialog::~CGlossaryDialog() 
 { 
 }
 
@@ -87,7 +87,7 @@ CGlossaryWindow::~CGlossaryWindow()
 
 /** Load a memory from the MRU list.
 */
-LRESULT CGlossaryWindow::on_mru_file_open( WORD wID )
+LRESULT CGlossaryDialog::on_mru_file_open( WORD wID )
 {
 	CString file_name ;
 	m_mru.GetFromList(wID, file_name ) ;
@@ -116,7 +116,7 @@ LRESULT CGlossaryWindow::on_mru_file_open( WORD wID )
 }
 
 //! Show the find dialog.
-LRESULT CGlossaryWindow::handle_find()
+LRESULT CGlossaryDialog::handle_find()
 {
 	init_find_window( SW_RESTORE, IDS_GLOSS_SEARCH ) ;
 
@@ -126,7 +126,7 @@ LRESULT CGlossaryWindow::handle_find()
 	return 0 ;
 }
 
-LRESULT CGlossaryWindow::OnInitDialog( )
+LRESULT CGlossaryDialog::OnInitDialog( )
 {
 	SENSE("OnInitDialog") ;
 
@@ -181,7 +181,7 @@ LRESULT CGlossaryWindow::OnInitDialog( )
 	return 0;
 }
 
-void CGlossaryWindow::check_load_history()
+void CGlossaryDialog::check_load_history()
 {
 	if ( ! is_main() ) 
 	{
@@ -198,7 +198,7 @@ void CGlossaryWindow::check_load_history()
 	load_history();
 }
 
-LRESULT CGlossaryWindow::on_close_command( )
+LRESULT CGlossaryDialog::on_close_command( )
 {
 	SENSE("OnClose") ;
 
@@ -219,7 +219,7 @@ LRESULT CGlossaryWindow::on_close_command( )
  * First resize toolbar and status bar, then resize client to
  * fit in rest.
  */
-LRESULT CGlossaryWindow::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	SetMsgHandled( FALSE ) ;
 
@@ -234,7 +234,7 @@ LRESULT CGlossaryWindow::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam )
 }
 
 
-void CGlossaryWindow::import_tabbed_text( const CString &file_name )
+void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 {
 	CTabbedTextImporter importer(this) ;
 	importer.load_file(file_name) ;
@@ -243,7 +243,7 @@ void CGlossaryWindow::import_tabbed_text( const CString &file_name )
 }
 
 //! Import a multiterm file
-void CGlossaryWindow::import_multiterm( const CString &file_name )
+void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
 	CImportMultitermFile importer(this) ;
 	importer.import(file_name) ;
@@ -252,7 +252,7 @@ void CGlossaryWindow::import_multiterm( const CString &file_name )
 }
 
 //! Export a multiterm 6 file.
-void CGlossaryWindow::export_multiterm_6( memory_pointer mem, 
+void CGlossaryDialog::export_multiterm_6( memory_pointer mem, 
 										  const CString &file_name )
 {
 	CExportDialog export_dialog ;
@@ -269,7 +269,7 @@ void CGlossaryWindow::export_multiterm_6( memory_pointer mem,
 
 	export_multiterm_6_sub(source_lang, trans_lang, file_name, mem);
 }
-void CGlossaryWindow::export_multiterm_6_sub( const wstring source_lang, 
+void CGlossaryDialog::export_multiterm_6_sub( const wstring source_lang, 
 											  const wstring trans_lang, 
 											  const CString & file_name, 
 											  memory_pointer mem )
@@ -284,7 +284,7 @@ void CGlossaryWindow::export_multiterm_6_sub( const wstring source_lang,
 	mem->set_location(file_name) ;
 }
 
-void CGlossaryWindow::export_multiterm_55( memory_pointer mem, 
+void CGlossaryDialog::export_multiterm_55( memory_pointer mem, 
 										   const CString &file_name )
 {
 	CExportDialog export_dialog ;
@@ -300,7 +300,7 @@ void CGlossaryWindow::export_multiterm_55( memory_pointer mem,
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
 	export_multiterm_55_sub(source_lang, trans_lang, file_name, mem);
 }
-void CGlossaryWindow::export_multiterm_55_sub( const string source_lang, 
+void CGlossaryDialog::export_multiterm_55_sub( const string source_lang, 
 											   const string trans_lang, 
 											   const CString & file_name, 
 											   memory_pointer mem )
@@ -320,7 +320,7 @@ void CGlossaryWindow::export_multiterm_55_sub( const string source_lang,
 // Function name	: CGlossaryDialog::on_file_new
 // Description	    : 
 // Return type		: LRESULT 
-LRESULT CGlossaryWindow::on_file_new( )
+LRESULT CGlossaryDialog::on_file_new( )
 {
 	BANNER( "CGlossaryDialog::on_file_new" ) ;
 
@@ -340,7 +340,7 @@ LRESULT CGlossaryWindow::on_file_new( )
 	return 0 ;
 }
 
-LRESULT CGlossaryWindow::OnFormatBackgroundColor()
+LRESULT CGlossaryDialog::OnFormatBackgroundColor()
 {
 	BANNER( "CGlossaryDialog::OnFormatBackgroundColor" ) ;
 	
@@ -355,7 +355,7 @@ LRESULT CGlossaryWindow::OnFormatBackgroundColor()
 }
 
 
-LRESULT CGlossaryWindow::on_file_open( )
+LRESULT CGlossaryDialog::on_file_open( )
 {
 	BANNER( "CGlossaryDialog::on_file_open" ) ;
 
@@ -364,7 +364,7 @@ LRESULT CGlossaryWindow::on_file_open( )
 }
 
 
-LRESULT CGlossaryWindow::on_file_save( )
+LRESULT CGlossaryDialog::on_file_save( )
 {
 	if ( m_memories->empty() )
 	{
@@ -383,7 +383,7 @@ LRESULT CGlossaryWindow::on_file_save( )
 	return 0L ;
 }
 
-void CGlossaryWindow::do_save( memory_pointer mem )
+void CGlossaryDialog::do_save( memory_pointer mem )
 {
 	file::CFileExtension ext = mem->get_location() ;
 
@@ -435,7 +435,7 @@ void CGlossaryWindow::do_save( memory_pointer mem )
 }
 
 // File -> Save As...
-LRESULT CGlossaryWindow::on_file_save_as( )
+LRESULT CGlossaryDialog::on_file_save_as( )
 {
 	if ( m_memories->empty() )
 	{
@@ -452,7 +452,7 @@ LRESULT CGlossaryWindow::on_file_save_as( )
 
 }
 
-void CGlossaryWindow::HandleEditModeFind()
+void CGlossaryDialog::HandleEditModeFind()
 {
 	if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
 	{
@@ -462,7 +462,7 @@ void CGlossaryWindow::HandleEditModeFind()
 	init_edit_find_window( SW_RESTORE ) ;
 }
 
-LRESULT CGlossaryWindow::on_find( )
+LRESULT CGlossaryDialog::on_find( )
 {
 	BANNER( "CGlossaryDialog::on_find" ) ;
 
@@ -478,7 +478,7 @@ LRESULT CGlossaryWindow::on_find( )
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_edit_replace( )
+LRESULT CGlossaryDialog::on_edit_replace( )
 {
 	BANNER( "CGlossaryDialog::on_edit_replace" ) ;
 
@@ -496,7 +496,7 @@ LRESULT CGlossaryWindow::on_edit_replace( )
 	return 0 ;
 }
 
-LRESULT CGlossaryWindow::on_delete( )
+LRESULT CGlossaryDialog::on_delete( )
 {
 	return on_user_delete( 0 ) ;
 }
@@ -504,14 +504,14 @@ LRESULT CGlossaryWindow::on_delete( )
 // ===============================
 
 
-LRESULT CGlossaryWindow::on_add( )
+LRESULT CGlossaryDialog::on_add( )
 {
 	show_edit_dialog_for_new_entry( IDS_ADD_GLOSS_ENTRY ) ;
 	return 0;
 }
 
 
-LRESULT CGlossaryWindow::OnDestroy(  )
+LRESULT CGlossaryDialog::OnDestroy(  )
 {
 	check_save() ;
 
@@ -534,12 +534,12 @@ LRESULT CGlossaryWindow::OnDestroy(  )
 // ====================
 
 
-size_t CGlossaryWindow::num_matches()
+size_t CGlossaryDialog::num_matches()
 {
 	return m_search_matches.size() ;
 }
 
-CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::check_empty_on_load()
+CGlossaryDialog::MERGE_CHOICE CGlossaryDialog::check_empty_on_load()
 {
 	if ( m_memories->empty() ) 
 	{
@@ -558,7 +558,7 @@ CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::check_empty_on_load()
 
 }
 
-bool CGlossaryWindow::load(const CString file_name, const bool check_empty /*= true*/ )
+bool CGlossaryDialog::load(const CString file_name, const bool check_empty /*= true*/ )
 {
 	if ( ! ::PathFileExists( file_name ) ) 
 	{
@@ -631,7 +631,7 @@ bool CGlossaryWindow::load(const CString file_name, const bool check_empty /*= t
 }
 
 
-wstring CGlossaryWindow::build_glossary_list(search_query_glossary &search_matches)
+wstring CGlossaryDialog::build_glossary_list(search_query_glossary &search_matches)
 {
 	wstring html_content ;
 
@@ -652,14 +652,14 @@ wstring CGlossaryWindow::build_glossary_list(search_query_glossary &search_match
 }
 
 
-void CGlossaryWindow::handle_glossary_lookup(const std::wstring& query_text)
+void CGlossaryDialog::handle_glossary_lookup(const std::wstring& query_text)
 {
 	prep_for_gloss_lookup(query_text);
 	perform_gloss_lookup();
 	show_gloss_lookup_results();
 }
 
-void CGlossaryWindow::prep_for_gloss_lookup(const std::wstring& query_text)
+void CGlossaryDialog::prep_for_gloss_lookup(const std::wstring& query_text)
 {
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
@@ -669,13 +669,13 @@ void CGlossaryWindow::prep_for_gloss_lookup(const std::wstring& query_text)
 	config_matches_for_gloss_lookup(query_text);
 }
 
-void CGlossaryWindow::show_gloss_lookup_results()
+void CGlossaryDialog::show_gloss_lookup_results()
 {
 	m_view_state_match.show_content() ;
 	// give the user feedback
 }
 
-void CGlossaryWindow::perform_gloss_lookup()
+void CGlossaryDialog::perform_gloss_lookup()
 {
 	search_match_container matches ;
 	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
@@ -683,7 +683,7 @@ void CGlossaryWindow::perform_gloss_lookup()
 }
 
 
-void CGlossaryWindow::config_matches_for_gloss_lookup(const std::wstring& query_text)
+void CGlossaryDialog::config_matches_for_gloss_lookup(const std::wstring& query_text)
 {
 	// our various parameters
 	m_search_matches.m_params.m_ignore_case =		m_properties_gloss.get_ignore_case() ;
@@ -697,7 +697,7 @@ void CGlossaryWindow::config_matches_for_gloss_lookup(const std::wstring& query_
 
 // 
 
-wstring CGlossaryWindow::get_glossary_entry(const int index)
+wstring CGlossaryDialog::get_glossary_entry(const int index)
 {
 	int localIndex = index - m_properties_gloss.m_data.m_numbering ;
 
@@ -712,7 +712,7 @@ wstring CGlossaryWindow::get_glossary_entry(const int index)
 	return get_record_translation(m_view_state->get_current_match()->get_record());
 }
 
-std::wstring CGlossaryWindow::get_record_translation(record_pointer entry)
+std::wstring CGlossaryDialog::get_record_translation(record_pointer entry)
 {
 	return m_view_state->retrieve_record_trans(entry,
 						record_string_prefs(m_properties_gloss.is_plaintext(),
@@ -721,7 +721,7 @@ std::wstring CGlossaryWindow::get_record_translation(record_pointer entry)
 
 
 
-bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name )
+bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name )
 {
 	// Add record
 	memory_pointer mem(new mem_engine::memory_local()) ;
@@ -775,7 +775,7 @@ bool CGlossaryWindow::add_record(record_pointer record, const CString gloss_name
 	return true ;
 }
 
-bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
+bool CGlossaryDialog::add_record( record_pointer record, const size_t i )
 {
 	memory_iterator mempos = this->get_memories().begin() ;
 	std::advance(mempos, i) ;
@@ -830,7 +830,7 @@ bool CGlossaryWindow::add_record( record_pointer record, const size_t i )
 	return true ;
 
 }
-void CGlossaryWindow::give_added_record_feedback(memory_pointer& mem)
+void CGlossaryDialog::give_added_record_feedback(memory_pointer& mem)
 {
 	CString content = resource_string(IDS_ADDED_TRANSLATION ) ;
 	content	+= _T(" ") ;
@@ -839,7 +839,7 @@ void CGlossaryWindow::give_added_record_feedback(memory_pointer& mem)
 }
 
 // Got to make this a template!
-bool CGlossaryWindow::show_new_record()
+bool CGlossaryDialog::show_new_record()
 {
 	BANNER( "CGlossaryDialog::show_new_record()" ) ;
 
@@ -849,7 +849,7 @@ bool CGlossaryWindow::show_new_record()
 }
 
 // File -> Open
-bool CGlossaryWindow::handle_open()
+bool CGlossaryDialog::handle_open()
 {
 	user_feedback( IDS_OPEN_GLOSS_FILE ) ;
 
@@ -894,7 +894,7 @@ bool CGlossaryWindow::handle_open()
 	return true ;
 }
 
-void CGlossaryWindow::load_felix_files(file::OpenDlgList& import_files)
+void CGlossaryDialog::load_felix_files(file::OpenDlgList& import_files)
 {
 	foreach(CString filename, import_files.m_filenames)
 	{
@@ -902,7 +902,7 @@ void CGlossaryWindow::load_felix_files(file::OpenDlgList& import_files)
 	}
 }
 
-void CGlossaryWindow::import_multiterm( const file::OpenDlgList &import_files )
+void CGlossaryDialog::import_multiterm( const file::OpenDlgList &import_files )
 {
 	foreach(CString filename, import_files.m_filenames)
 	{
@@ -913,7 +913,7 @@ void CGlossaryWindow::import_multiterm( const file::OpenDlgList &import_files )
 
 // Makes a fresh record so that we can modify it without
 // changing the actual glossary entry.
-record_pointer CGlossaryWindow::get_record( size_t pos ) 
+record_pointer CGlossaryDialog::get_record( size_t pos ) 
 { 
 	BANNER( "CGlossaryDialog::get_record()" ) ;
 	ATLASSERT( pos >= 0 && pos < m_search_matches.size() ) ;
@@ -922,7 +922,7 @@ record_pointer CGlossaryWindow::get_record( size_t pos )
 }
 
 
-LRESULT CGlossaryWindow::handle_user_search()
+LRESULT CGlossaryDialog::handle_user_search()
 {
 	prep_user_search();
 
@@ -936,7 +936,7 @@ LRESULT CGlossaryWindow::handle_user_search()
 	return 0L ;
 }
 
-void CGlossaryWindow::prep_user_search()
+void CGlossaryDialog::prep_user_search()
 {
 	// remember where we are, makes a difference how we respond to user input
 	set_display_state( CONCORDANCE_DISPLAY_STATE ) ;
@@ -948,7 +948,7 @@ void CGlossaryWindow::prep_user_search()
 	m_concordance_matches.m_params = m_find.get_search_params() ;
 }
 
-void CGlossaryWindow::give_user_search_feedback()
+void CGlossaryDialog::give_user_search_feedback()
 {
 	if ( m_search_matches.size() == 1 )
 	{
@@ -965,7 +965,7 @@ void CGlossaryWindow::give_user_search_feedback()
 
 
 // toggle toolbar visibility
-LRESULT CGlossaryWindow::on_view_toolbar( )
+LRESULT CGlossaryDialog::on_view_toolbar( )
 {
 	ATLASSERT( m_toolbar.IsWindow() ) ;
 	ATLASSERT( m_toolbar.IsWindowVisible() == m_appstate.m_is_toolbar_visible ) ;
@@ -981,7 +981,7 @@ LRESULT CGlossaryWindow::on_view_toolbar( )
 }
 
 // toggle status bar visibility
-LRESULT CGlossaryWindow::on_view_status_bar( )
+LRESULT CGlossaryDialog::on_view_status_bar( )
 {
 	ATLASSERT( ::IsWindow( m_hWndStatusBar ) ) ;
 	ATLASSERT( ::IsWindowVisible(m_hWndStatusBar) == m_appstate.m_is_statusbar_visible ) ;
@@ -997,7 +997,7 @@ LRESULT CGlossaryWindow::on_view_status_bar( )
 }
 
 // View -> Edit Mode
-LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
+LRESULT CGlossaryDialog::on_view_edit_mode(WindowsMessage &)
 {
 	SENSE( "on_view_edit_mode" ) ;
 #ifdef UNIT_TEST
@@ -1017,12 +1017,12 @@ LRESULT CGlossaryWindow::on_view_edit_mode(WindowsMessage &)
 #endif
 }
 
-void CGlossaryWindow::ToggleEditMode()
+void CGlossaryDialog::ToggleEditMode()
 {
 	m_view_state->handle_toggle_edit_mode() ;
 }
 
-void CGlossaryWindow::SetEditModeMenuItems(const bool edit_mode_enabled)
+void CGlossaryDialog::SetEditModeMenuItems(const bool edit_mode_enabled)
 {
 	CheckMenuItem( GetMenu(), ID_VIEW_EDIT_MODE, ( edit_mode_enabled ? MF_UNCHECKED : MF_CHECKED ) ) ;
 	EnableMenuItem( GetMenu(), ID_EDIT_REPLACE, !! edit_mode_enabled ) ;
@@ -1032,7 +1032,7 @@ void CGlossaryWindow::SetEditModeMenuItems(const bool edit_mode_enabled)
 // * one for edit mode (find in the browser);
 // * and one for non-edit mode (quick search in glossary)
 // Swap them when we change the edit mode.
-void CGlossaryWindow::SwapFindDialogs(const bool edit_mode_enabled)
+void CGlossaryDialog::SwapFindDialogs(const bool edit_mode_enabled)
 {
 	if ( edit_mode_enabled )
 	{
@@ -1057,7 +1057,7 @@ void CGlossaryWindow::SwapFindDialogs(const bool edit_mode_enabled)
 
 
 // Make this the main glossary/not the main glossary
-bool CGlossaryWindow::set_main ( bool setting ) 
+bool CGlossaryDialog::set_main ( bool setting ) 
 { 
 	m_is_main = setting ;
 	return set_window_title() ;
@@ -1065,7 +1065,7 @@ bool CGlossaryWindow::set_main ( bool setting )
 
 // Set the window title.
 // Title consists of main declaration (if any) + Glossary - [Main Gloss]
-bool CGlossaryWindow::set_window_title()
+bool CGlossaryDialog::set_window_title()
 {
 	CString file_name ;
 	if ( ! m_memories->empty() )
@@ -1091,7 +1091,7 @@ bool CGlossaryWindow::set_window_title()
 
 // Before shutting down, see if there are any glossaries
 // that need saving.
-bool CGlossaryWindow::pre_shutdown_save_check()
+bool CGlossaryDialog::pre_shutdown_save_check()
 {
 	if ( m_memories->empty() )
 	{
@@ -1108,7 +1108,7 @@ bool CGlossaryWindow::pre_shutdown_save_check()
 }
 
 // Exit without prompting to save memories.
-bool CGlossaryWindow::exit_silently()
+bool CGlossaryDialog::exit_silently()
 {
 	memory_list memories ;
 	m_memories->get_memories_needing_saving( memories ) ;
@@ -1124,7 +1124,7 @@ bool CGlossaryWindow::exit_silently()
 	return true ;
 }
 
-BOOL CGlossaryWindow::PreTranslateMessage( LPMSG pMsg )
+BOOL CGlossaryDialog::PreTranslateMessage( LPMSG pMsg )
 {
 	ENSURE_FOCUS
 
@@ -1144,10 +1144,12 @@ BOOL CGlossaryWindow::PreTranslateMessage( LPMSG pMsg )
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
 }
 
-bool CGlossaryWindow::clear_memory()
+bool CGlossaryDialog::clear_memory()
 {
 	memory_pointer mem = m_memories->get_first_memory() ;
 	mem->clear_memory() ;
+	m_search_matches.clear() ;
+	m_concordance_matches.clear() ;
 
 	m_new_record = record_pointer(new record_local()) ;
 	set_window_title() ;
@@ -1159,7 +1161,7 @@ bool CGlossaryWindow::clear_memory()
 	return true ;
 }
 
-void CGlossaryWindow::set_properties_gloss( const app_props::properties_glossary &props )
+void CGlossaryDialog::set_properties_gloss( const app_props::properties_glossary &props )
 {
 	m_properties_gloss = props ;
 
@@ -1173,7 +1175,7 @@ void CGlossaryWindow::set_properties_gloss( const app_props::properties_glossary
 	set_bg_color((COLORREF)m_properties_gloss.m_data.m_back_color);
 
 }
-void CGlossaryWindow::set_properties_algo( const app_props::properties_algorithm &props )
+void CGlossaryDialog::set_properties_algo( const app_props::properties_algorithm &props )
 {
 	m_properties_algo = props ;
 
@@ -1186,7 +1188,7 @@ void CGlossaryWindow::set_properties_algo( const app_props::properties_algorithm
 // ====================
 
 // User wants to edit an entry.
-LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
+LRESULT CGlossaryDialog::on_user_editEntry( LPARAM lParam )
 {	
 	SENSE("on_user_edit") ;
 
@@ -1198,24 +1200,24 @@ LRESULT CGlossaryWindow::on_user_editEntry( LPARAM lParam )
 }
 
 // User wants to delete an entry.
-LRESULT CGlossaryWindow::on_user_delete( size_t number )
+LRESULT CGlossaryDialog::on_user_delete( size_t number )
 {
 	m_view_state->delete_match(number) ;
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_user_search( LPARAM /* lParam */ )
+LRESULT CGlossaryDialog::on_user_search( LPARAM /* lParam */ )
 {
 	return handle_user_search() ;
 }
 
-LRESULT CGlossaryWindow::on_user_edit_replace( LPARAM /* lParam */  )
+LRESULT CGlossaryDialog::on_user_edit_replace( LPARAM /* lParam */  )
 {
 	m_edit_find.set_search_params( m_edit_replace.get_search_params() ) ;
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::OnUserAdd( LPARAM lParam )
+LRESULT CGlossaryDialog::OnUserAdd( LPARAM lParam )
 {
 	m_view_state->set_current(static_cast<size_t>(lParam)) ;
 	m_listener->gloss_add_record( m_view_state->get_current_match()->get_record()->clone() ) ;
@@ -1223,14 +1225,14 @@ LRESULT CGlossaryWindow::OnUserAdd( LPARAM lParam )
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::OnUserPrev( LPARAM /* lParam */ )
+LRESULT CGlossaryDialog::OnUserPrev( LPARAM /* lParam */ )
 {
 	set_display_state( MATCH_DISPLAY_STATE ) ;
 	show_view_content() ;
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
+LRESULT CGlossaryDialog::on_user_retrieve_edit_record( LPARAM lParam )
 {
 	// This message has been sent to us by the edit dialog.
 	// Since we passed a reference counted record pointer, all
@@ -1248,12 +1250,12 @@ LRESULT CGlossaryWindow::on_user_retrieve_edit_record( LPARAM lParam )
 }
 
 
-CString CGlossaryWindow::get_window_type_string()
+CString CGlossaryDialog::get_window_type_string()
 {
 	return resource_string(IDS_GLOSSARY) ;
 }
 
-void CGlossaryWindow::route_nav_command(LPMSG pMsg)
+void CGlossaryDialog::route_nav_command(LPMSG pMsg)
 {
 	switch( pMsg->wParam )
 	{
@@ -1272,7 +1274,7 @@ void CGlossaryWindow::route_nav_command(LPMSG pMsg)
 	}
 }
 
-bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
+bool CGlossaryDialog::OnBeforeNavigate2( _bstr_t url )
 {
 	try
 	{
@@ -1318,12 +1320,12 @@ bool CGlossaryWindow::OnBeforeNavigate2( _bstr_t url )
 	return true ;
 }
 
-void CGlossaryWindow::set_listener( CGlossaryWinListener *listener)
+void CGlossaryDialog::set_listener( CGlossaryWinListener *listener)
 {
 	m_listener = listener ;
 }
 
-void CGlossaryWindow::get_gloss_names( std::list< CString > &names )
+void CGlossaryDialog::get_gloss_names( std::list< CString > &names )
 {
 	if ( m_memories->empty() ) 
 	{
@@ -1340,7 +1342,7 @@ void CGlossaryWindow::get_gloss_names( std::list< CString > &names )
 	ATLASSERT ( names.size() == m_memories->size() ) ; 
 }
 
-void CGlossaryWindow::put_show_marking( VARIANT_BOOL setting )
+void CGlossaryDialog::put_show_marking( VARIANT_BOOL setting )
 {
 	if ( setting == VARIANT_FALSE ) 
 	{
@@ -1354,7 +1356,7 @@ void CGlossaryWindow::put_show_marking( VARIANT_BOOL setting )
 	}
 }
 
-VARIANT_BOOL CGlossaryWindow::get_show_marking()
+VARIANT_BOOL CGlossaryDialog::get_show_marking()
 {
 	if ( m_search_matches.m_params.m_show_marking == false ) 
 	{
@@ -1366,14 +1368,14 @@ VARIANT_BOOL CGlossaryWindow::get_show_marking()
 	}
 }
 
-void CGlossaryWindow::show_post_edit_content()
+void CGlossaryDialog::show_post_edit_content()
 {
 	show_view_content() ;
 	user_feedback( IDS_EDIT_COMPLETE ) ;
 }
 
 
-void CGlossaryWindow::set_ui_language()
+void CGlossaryDialog::set_ui_language()
 {
 	wait_until_view_not_busy() ;
 
@@ -1394,7 +1396,7 @@ void CGlossaryWindow::set_ui_language()
 }
 
 
-void CGlossaryWindow::show_view_content()
+void CGlossaryDialog::show_view_content()
 {
 	if (! IsWindow())
 	{
@@ -1404,7 +1406,7 @@ void CGlossaryWindow::show_view_content()
 	m_view_state->show_content() ;
 }
 
-LRESULT CGlossaryWindow::on_view_match( ) 
+LRESULT CGlossaryDialog::on_view_match( ) 
 {
 	set_display_state( MATCH_DISPLAY_STATE ) ;
 	show_view_content() ;
@@ -1416,7 +1418,7 @@ LRESULT CGlossaryWindow::on_view_match( )
 }
 
 
-LRESULT CGlossaryWindow::on_view_search( ) 
+LRESULT CGlossaryDialog::on_view_search( ) 
 {
 	set_display_state( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
@@ -1427,21 +1429,21 @@ LRESULT CGlossaryWindow::on_view_search( )
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_source_concordance()
+LRESULT CGlossaryDialog::on_source_concordance()
 {
 	get_concordances(m_view_interface.get_selection_text()) ;
 	return 0L ;
 }
 
 
-LRESULT CGlossaryWindow::on_trans_concordance()
+LRESULT CGlossaryDialog::on_trans_concordance()
 {
 	get_translation_concordances(m_view_interface.get_selection_text()) ;
 	
 	return 0L ;
 }
 
-bool CGlossaryWindow::get_concordances( const wstring query_string )
+bool CGlossaryDialog::get_concordances( const wstring query_string )
 {
 	m_is_trans_concordance = false ;
 	// an empty string would retrieve everything - probably not what the user wants!
@@ -1460,13 +1462,13 @@ bool CGlossaryWindow::get_concordances( const wstring query_string )
 	return true ; 
 }
 
-void CGlossaryWindow::show_concordance_results()
+void CGlossaryDialog::show_concordance_results()
 {
 	set_display_state ( CONCORDANCE_DISPLAY_STATE ) ;
 	show_view_content() ;
 }
 
-void CGlossaryWindow::perform_concordance_search()
+void CGlossaryDialog::perform_concordance_search()
 {
 	search_match_container matches ;
 	if (! m_concordance_matches.get_source_plain().empty())
@@ -1476,14 +1478,14 @@ void CGlossaryWindow::perform_concordance_search()
 	m_concordance_matches.set_matches( matches ) ;
 }
 
-void CGlossaryWindow::config_concordance_search_settings()
+void CGlossaryDialog::config_concordance_search_settings()
 {
 	m_concordance_matches.m_params.m_ignore_case = true ;
 	m_concordance_matches.m_params.m_ignore_width =		!! m_properties_gloss.m_data.m_ignore_width ;
 	m_concordance_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss.m_data.m_ignore_hir_kat ;
 }
 
-void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
+void CGlossaryDialog::prep_concordance_search(const std::wstring& query_string)
 {
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
@@ -1495,7 +1497,7 @@ void CGlossaryWindow::prep_concordance_search(const std::wstring& query_string)
 	config_concordance_search_settings();
 }
 
-bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
+bool CGlossaryDialog::get_translation_concordances(const wstring query_string)
 {
 	m_is_trans_concordance = true ;
 	// an empty string would retrieve everything - probably not what the user wants!
@@ -1526,7 +1528,7 @@ bool CGlossaryWindow::get_translation_concordances(const wstring query_string)
 	return true ; 
 }
 
-LRESULT CGlossaryWindow::OnDrop(HDROP dropped)
+LRESULT CGlossaryDialog::OnDrop(HDROP dropped)
 {
 	if ( ! dropped_in_client( dropped ) ) 
 	{
@@ -1555,7 +1557,7 @@ LRESULT CGlossaryWindow::OnDrop(HDROP dropped)
 // Show the Glossary Manager dialog.
 // If the top glossary changed, we'll need to
 // change the window title.
-LRESULT CGlossaryWindow::on_tools_memory_manager()
+LRESULT CGlossaryDialog::on_tools_memory_manager()
 {
 	m_manager_window.set_mem_model(m_listener->get_model()) ;
 	m_manager_window.set_gloss_model(get_model()) ;
@@ -1572,13 +1574,13 @@ LRESULT CGlossaryWindow::on_tools_memory_manager()
 }
 
 // User wants to switch focus to memory window.
-LRESULT CGlossaryWindow::on_view_switch()
+LRESULT CGlossaryDialog::on_view_switch()
 {
 	m_listener->gloss_view_switch(*this) ;
 	return 0L ;
 }
 
-void CGlossaryWindow::set_up_initial_size()
+void CGlossaryDialog::set_up_initial_size()
 {
 	// get dimensions of desktop
 	const CWindowRect destop_rect(GetDesktopWindow()) ;
@@ -1599,7 +1601,7 @@ void CGlossaryWindow::set_up_initial_size()
 	SetWindowPos( HWND_BOTTOM, &dialog_rect, SWP_NOACTIVATE | SWP_NOMOVE ) ;
 }
 
-void CGlossaryWindow::size_client_and_status_bar()
+void CGlossaryDialog::size_client_and_status_bar()
 {
 	static const int SB_WIDTH_THRESHOLD = 400 ;
 	static const int SB_PANE2_WIDTH = 100 ;
@@ -1639,7 +1641,7 @@ void CGlossaryWindow::size_client_and_status_bar()
 #endif
 }
 
-void CGlossaryWindow::reflect_tb_vis()
+void CGlossaryDialog::reflect_tb_vis()
 {
 	if ( ! m_appstate.m_is_toolbar_visible )
 	{
@@ -1657,7 +1659,7 @@ void CGlossaryWindow::reflect_tb_vis()
 }
 
 // Set up the toolbar buttons.
-void CGlossaryWindow::init_toolbar()
+void CGlossaryDialog::init_toolbar()
 {
 	// 0 is for separators.
 	std::vector< int > commands ;
@@ -1698,7 +1700,7 @@ void CGlossaryWindow::init_toolbar()
 #endif
 }
 
-void CGlossaryWindow::reflect_sb_vis()
+void CGlossaryDialog::reflect_sb_vis()
 {
 	if ( ! m_appstate.m_is_statusbar_visible )
 	{
@@ -1716,7 +1718,7 @@ void CGlossaryWindow::reflect_sb_vis()
 
 }
 
-bool CGlossaryWindow::init_status_bar()
+bool CGlossaryDialog::init_status_bar()
 {
 	const int PANE_WIDTH = 100 ;
 
@@ -1750,13 +1752,13 @@ bool CGlossaryWindow::init_status_bar()
 #endif
 }
 
-void CGlossaryWindow::wait_until_view_not_busy()
+void CGlossaryDialog::wait_until_view_not_busy()
 {
 	m_view_interface.set_accel(m_accelerator) ;
 	m_view_interface.ensure_navigation_complete() ;
 }
 
-void CGlossaryWindow::set_up_recently_used_doclist()
+void CGlossaryDialog::set_up_recently_used_doclist()
 {
 	const int MAX_NUM_ENTRIES = 15 ;
 	const int MAX_ITEM_LEN = 400 ; // pixels
@@ -1769,7 +1771,7 @@ void CGlossaryWindow::set_up_recently_used_doclist()
 	m_mru.SetMaxItemLength(MAX_ITEM_LEN) ;
 }
 
-void CGlossaryWindow::check_save_history()
+void CGlossaryDialog::check_save_history()
 {
 	// We only save the history for the main glossary.
 	if ( ! is_main() ) 
@@ -1814,7 +1816,7 @@ void CGlossaryWindow::check_save_history()
 	history_props->write_to_registry() ;
 }
 
-void CGlossaryWindow::refresh_menu()
+void CGlossaryDialog::refresh_menu()
 {
 	HINSTANCE h = _Module.GetResourceInstance() ;
 	ATLASSERT( h != NULL ) ;
@@ -1832,7 +1834,7 @@ void CGlossaryWindow::refresh_menu()
 	refresh_mru_doc_list(menu);
 }
 
-void CGlossaryWindow::refresh_mru_doc_list(HMENU menu)
+void CGlossaryDialog::refresh_mru_doc_list(HMENU menu)
 {
 	// write our recent docs
 	m_mru.WriteToRegistry( R2T( IDS_REG_KEY_GLOSS ) );
@@ -1842,37 +1844,37 @@ void CGlossaryWindow::refresh_mru_doc_list(HMENU menu)
 	m_mru.ReadFromRegistry( R2T( IDS_REG_KEY_GLOSS ) );
 }
 
-LPCTSTR CGlossaryWindow::get_save_filter()
+LPCTSTR CGlossaryDialog::get_save_filter()
 {
 	return get_gloss_save_filter() ;
 }
 
-LPCTSTR CGlossaryWindow::get_open_filter()
+LPCTSTR CGlossaryDialog::get_open_filter()
 {
 	return get_gloss_open_filter() ;
 }
 
 // This is just to fool would-be crackers into going on a goose chase.
 // Consider removing.
-void CGlossaryWindow::seed_random_numbers()
+void CGlossaryDialog::seed_random_numbers()
 {
 	misc_wrappers::date current_date ;
 	current_date.set_to_local_time() ;
 	srand( current_date.wMilliseconds ) ;
 }
 
-bool CGlossaryWindow::check_for_clashes( memory_pointer mem )
+bool CGlossaryDialog::check_for_clashes( memory_pointer mem )
 {
 	return IDCANCEL != m_listener->gloss_check_save_location( mem ) ;
 }
 
-void CGlossaryWindow::edit_record( record_pointer rec )
+void CGlossaryDialog::edit_record( record_pointer rec )
 {
 	memory_pointer mem = m_memories->get_first_memory() ;
 	show_edit_dialog( rec, mem->get_id() ) ;
 }
 
-LRESULT CGlossaryWindow::on_file_connect()
+LRESULT CGlossaryDialog::on_file_connect()
 {
 	CConnectionDlg dlg ;
 	if (IDCANCEL == dlg.DoModal(*this))
@@ -1890,7 +1892,7 @@ LRESULT CGlossaryWindow::on_file_connect()
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
+LRESULT CGlossaryDialog::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {
 	if( m_toolmap.empty() )
 	{
@@ -1907,13 +1909,13 @@ LRESULT CGlossaryWindow::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandl
 	return 0;
 }
 
-void CGlossaryWindow::delete_record(record_pointer rec)
+void CGlossaryDialog::delete_record(record_pointer rec)
 {
 	m_memories->get_first_memory()->erase(rec) ;
 }
 
 
-void CGlossaryWindow::load_util_settings()
+void CGlossaryDialog::load_util_settings()
 {
 	try
 	{
@@ -1931,7 +1933,7 @@ void CGlossaryWindow::load_util_settings()
 	}
 }
 
-void CGlossaryWindow::save_util_settings()
+void CGlossaryDialog::save_util_settings()
 {
 	try
 	{
@@ -1946,7 +1948,7 @@ void CGlossaryWindow::save_util_settings()
 	}
 }
 
-LRESULT CGlossaryWindow::on_view_zoom()
+LRESULT CGlossaryDialog::on_view_zoom()
 {
 	CZoomDlg dlg ;
 	dlg.m_zoom_level = m_mousewheel_count ;
@@ -1962,7 +1964,7 @@ LRESULT CGlossaryWindow::on_view_zoom()
 	return 0L ;
 }
 
-void CGlossaryWindow::set_zoom_level( int zoom_level )
+void CGlossaryDialog::set_zoom_level( int zoom_level )
 {
 	m_view_interface.run_script("resetFontSizes") ;
 	if (zoom_level)
@@ -1979,7 +1981,7 @@ void CGlossaryWindow::set_zoom_level( int zoom_level )
 	}
 }
 
-void CGlossaryWindow::load_history()
+void CGlossaryDialog::load_history()
 {
 	m_memories->clear() ;
 	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
@@ -2009,7 +2011,7 @@ void CGlossaryWindow::load_history()
 	set_window_title() ;
 }
 
-void CGlossaryWindow::save_prefs()
+void CGlossaryDialog::save_prefs()
 {
 	m_appstate.write_to_registry() ;
 
@@ -2020,19 +2022,19 @@ void CGlossaryWindow::save_prefs()
 	save_util_settings() ;
 }
 
-void CGlossaryWindow::load_reg_settings()
+void CGlossaryDialog::load_reg_settings()
 {
 	m_appstate.read_from_registry() ;
 	m_properties_gloss.read_from_registry() ;
 	m_properties_algo.read_from_registry() ;
 }
 
-void CGlossaryWindow::apply_reg_bg_color()
+void CGlossaryDialog::apply_reg_bg_color()
 {
 	set_bg_color((COLORREF)m_properties_gloss.m_data.m_back_color);
 }
 
-void CGlossaryWindow::apply_mousewheel_setting()
+void CGlossaryDialog::apply_mousewheel_setting()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -2052,7 +2054,7 @@ void CGlossaryWindow::apply_mousewheel_setting()
 #endif
 }
 
-LRESULT CGlossaryWindow::on_new_search()
+LRESULT CGlossaryDialog::on_new_search()
 {
 	m_search_window.set_mem_window(false) ;
 	if (! m_search_window.IsWindow())
@@ -2067,7 +2069,7 @@ LRESULT CGlossaryWindow::on_new_search()
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_toggle_views()
+LRESULT CGlossaryDialog::on_toggle_views()
 {
 	if (this->get_display_state() == MATCH_DISPLAY_STATE)
 	{
@@ -2081,7 +2083,7 @@ LRESULT CGlossaryWindow::on_toggle_views()
 	return 0L ;
 }
 
-CString CGlossaryWindow::get_memory_name( memory_pointer mem )
+CString CGlossaryDialog::get_memory_name( memory_pointer mem )
 {
 	if (! mem->is_local())
 	{
@@ -2096,7 +2098,7 @@ CString CGlossaryWindow::get_memory_name( memory_pointer mem )
 
 
 // Override the browser context menu.
-void CGlossaryWindow::set_doc_ui_handler()
+void CGlossaryDialog::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -2105,7 +2107,7 @@ void CGlossaryWindow::set_doc_ui_handler()
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
 	{
-		pUIH->m_get_menu = boost::bind(&CGlossaryWindow::get_doc_context_menu, this) ;
+		pUIH->m_get_menu = boost::bind(&CGlossaryDialog::get_doc_context_menu, this) ;
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
@@ -2115,9 +2117,9 @@ void CGlossaryWindow::set_doc_ui_handler()
 }
 
 // Show context menu in response to right click in browser.
-HRESULT CGlossaryWindow::get_doc_context_menu()
+HRESULT CGlossaryDialog::get_doc_context_menu()
 {
-	BANNER("CGlossaryWindow::get_doc_context_menu") ;
+	BANNER("CGlossaryDialog::get_doc_context_menu") ;
 	CMenu menu ;
 
 	CImageList images ;
@@ -2142,9 +2144,9 @@ HRESULT CGlossaryWindow::get_doc_context_menu()
  Close the top memory on the stack, if any.
  Change window title to reflect new top memory, if any.
  */
-LRESULT CGlossaryWindow::on_memory_close()
+LRESULT CGlossaryDialog::on_memory_close()
 {
-	BANNER("CGlossaryWindow::on_memory_close") ;
+	BANNER("CGlossaryDialog::on_memory_close") ;
 	// base case -- there are no memories
 	if (this->get_memory_model()->get_memories().empty())
 	{
@@ -2166,7 +2168,7 @@ LRESULT CGlossaryWindow::on_memory_close()
 	return 0L ;
 }
 
-const CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::get_merge_type( const bool check_empty )
+const CGlossaryDialog::MERGE_CHOICE CGlossaryDialog::get_merge_type( const bool check_empty )
 {
 	if (check_empty)
 	{
@@ -2175,7 +2177,7 @@ const CGlossaryWindow::MERGE_CHOICE CGlossaryWindow::get_merge_type( const bool 
 	return MERGE_CHOICE_SEPARATE ;
 }
 
-LRESULT CGlossaryWindow::on_edit_concordance()
+LRESULT CGlossaryDialog::on_edit_concordance()
 {
 	CConcordanceDialog dialog ;
 	if ( IDCANCEL == dialog.DoModal() )
@@ -2191,17 +2193,17 @@ LRESULT CGlossaryWindow::on_edit_concordance()
 	return 0L ;
 }
 
-LRESULT CGlossaryWindow::on_edit_edit()
+LRESULT CGlossaryDialog::on_edit_edit()
 {
 	return on_user_editEntry(0) ;
 }
 
-LRESULT CGlossaryWindow::on_edit_delete()
+LRESULT CGlossaryDialog::on_edit_delete()
 {
 	return on_delete() ;
 }
 
-void CGlossaryWindow::set_bg_color_if_needed()
+void CGlossaryDialog::set_bg_color_if_needed()
 {
 	const CColorRef color((COLORREF)m_properties_gloss.m_data.m_back_color) ;
 	if (! color.is_white())
@@ -2210,7 +2212,7 @@ void CGlossaryWindow::set_bg_color_if_needed()
 	}
 }
 
-void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
+void CGlossaryDialog::set_display_state( DISPLAY_STATE new_state )
 {
 	switch(new_state)
 	{
@@ -2231,40 +2233,40 @@ void CGlossaryWindow::set_display_state( DISPLAY_STATE new_state )
 	m_view_state->activate() ;
 }
 
-mem_engine::search_match_ptr CGlossaryWindow::get_current_match()
+mem_engine::search_match_ptr CGlossaryDialog::get_current_match()
 {
 	return m_view_state->get_current_match() ;
 }
 
-void CGlossaryWindow::redo_lookup( mem_engine::search_match_ptr match, bool do_gloss /*= false */ )
+void CGlossaryDialog::redo_lookup( mem_engine::search_match_ptr match, bool do_gloss /*= false */ )
 {
-	logging::log_warn("`CGlossaryWindow::redo_lookup` is not implemented") ;
+	logging::log_warn("`CGlossaryDialog::redo_lookup` is not implemented") ;
 	match ;
 	do_gloss ;
 }
 
-edit_record_dlg_ptr CGlossaryWindow::get_editor()
+edit_record_dlg_ptr CGlossaryDialog::get_editor()
 {
 	return m_editor ;
 }
 
-bool CGlossaryWindow::is_short_format()
+bool CGlossaryDialog::is_short_format()
 {
 	return m_is_short_format ;
 }
 
-bool CGlossaryWindow::is_single_page()
+bool CGlossaryDialog::is_single_page()
 {
 	return true ;
 }
 
-void CGlossaryWindow::set_menu_checkmark( int item_id, bool is_checked )
+void CGlossaryDialog::set_menu_checkmark( int item_id, bool is_checked )
 {
 	CheckMenuItem( GetMenu(), item_id, ( is_checked ? MF_CHECKED : MF_UNCHECKED ) ) ;
 	return ;
 }
 
-void CGlossaryWindow::save_memory_as( memory_pointer mem )
+void CGlossaryDialog::save_memory_as( memory_pointer mem )
 {
 	CString file_name ;
 	if ( mem->is_new() == false )

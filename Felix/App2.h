@@ -9,6 +9,9 @@
 #include "SearchResults.h"
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 #include "ComMemory.h"
+#include "GlossaryWindow.h"
+#include "MemoryWindow.h"
+#include "Memories.h"
 
 #if defined(_WIN32_WCE) && !defined(_CE_DCOM) && !defined(_CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA)
 #error "Single-threaded COM objects are not properly supported on Windows CE platform, such as the Windows Mobile platforms that do not include full DCOM support. Define _CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA to force ATL to support creating single-thread COM object's and allow use of it's single-threaded COM object implementations. The threading model in your rgs file was set to 'Free' as that is the only threading model supported in non DCOM Windows CE platforms."
@@ -36,13 +39,23 @@ class ATL_NO_VTABLE CApp2 :
 	CComObject<CComMemory> *m_active_memory ;
 	CComObject<CComMemory> *m_active_glossary ;
 
+	CComObject<CGlossaryWindow> *m_glossary_window ;
+	CComObject<CMemoryWindow> *m_memory_window ;
+
+	CComObject<CMemories> *m_glossaries;
+	CComObject<CMemories> *m_memories ;
+
 public:
 	CApp2() :
 	  m_current_match(NULL),
 	  m_current_matches(NULL),
 	  m_current_gloss_matches(NULL),
 	  m_active_memory(NULL),
-	  m_active_glossary(NULL)
+	  m_active_glossary(NULL),
+	  m_glossary_window(NULL),
+	  m_memory_window(NULL),
+	  m_glossaries(NULL),
+	  m_memories(NULL)
 	{
 	}
 
@@ -102,6 +115,34 @@ END_CONNECTION_POINT_MAP()
 		}
 		m_active_glossary->AddRef() ;
 
+		hr = CComObject<CMemoryWindow>::CreateInstance(&m_memory_window) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_memory_window->AddRef() ;
+
+		hr = CComObject<CGlossaryWindow>::CreateInstance(&m_glossary_window) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_glossary_window->AddRef() ;
+
+		hr = CComObject<CMemories>::CreateInstance(&m_glossaries) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_glossaries->AddRef() ;
+
+		hr = CComObject<CMemories>::CreateInstance(&m_memories) ;
+		if ( FAILED( hr ) )
+		{
+			return hr ;
+		}
+		m_memories->AddRef() ;
+
 		return hr ;
 	}
 
@@ -119,11 +160,25 @@ END_CONNECTION_POINT_MAP()
 		{
 			m_current_gloss_matches->Release() ;
 		}
+		if (m_active_memory)
+		{
+			m_active_memory->Release() ;
+		}
+		if (m_active_glossary)
+		{
+			m_active_glossary->Release() ;
+		}
 	}
 
 public:
-	STDMETHOD(get_ActiveMemory)(IComMemory **pVal);
-	STDMETHOD(get_ActiveGlossary)(IComMemory **pVal);
+	STDMETHOD(get_MemoryWindow)(IMemoryWindow **pVal);
+	STDMETHOD(get_GlossaryWindow)(IGlossaryWindow **pVal);
+
+	STDMETHOD(get_Memories)(IMemories **pVal);
+	STDMETHOD(get_Glossaries)(IMemories **pVal);
+
+	STDMETHOD(get_ActiveMemory)(IMemory **pVal);
+	STDMETHOD(get_ActiveGlossary)(IMemory **pVal);
 
 	STDMETHOD(get_CurrentMatches)(ISearchResults **pVal);
 	STDMETHOD(get_CurrentGlossMatches)(ISearchResults **pVal);

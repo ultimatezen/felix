@@ -1,4 +1,4 @@
-// ComRecords.h : Declaration of the CComRecords
+// ComRecords.h : Declaration of the CRecords
 
 #pragma once
 #include "resource.h"       // main symbols
@@ -7,6 +7,7 @@
 #include "ComRecord.h"
 #include "com2stl_coll.h"
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
+#include "TranslationMemory.h"
 
 
 #if defined(_WIN32_WCE) && !defined(_CE_DCOM) && !defined(_CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA)
@@ -16,7 +17,7 @@
 
 typedef CAdapt< CComPtr<IRecord> > ComRecordPtr ;
 
-typedef IComRecords						RecordCollectionInterface;
+typedef IRecords						RecordCollectionInterface;
 typedef std::vector< ComRecordPtr >		RecordContainerType;
 typedef IEnumVARIANT						EnumeratorInterface;
 typedef VARIANT								EnumeratorExposedType;
@@ -44,27 +45,27 @@ typedef ICollectionOnSTLImpl
 	> 
 	RecordCollectionType;
 
-// CComRecords
+// CRecords
 
-class ATL_NO_VTABLE CComRecords :
+class ATL_NO_VTABLE CRecords :
 	public CComObjectRootEx<CComSingleThreadModel>,
-	public CAutomationExceptionHandler<CComRecords, &CLSID_ComRecords>,
-	public IDispatchImpl<RecordCollectionType, &IID_IComRecords, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
+	public CAutomationExceptionHandler<CRecords, &CLSID_ComRecords>,
+	public IDispatchImpl<RecordCollectionType, &IID_IRecords, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-	CComRecords()
+	CRecords()
 	{
 	}
 
 DECLARE_REGISTRY_RESOURCEID(IDR_COMRECORDS)
 
 
-BEGIN_COM_MAP(CComRecords)
-	COM_INTERFACE_ENTRY(IComRecords)
+BEGIN_COM_MAP(CRecords)
+	COM_INTERFACE_ENTRY(IRecords)
 	COM_INTERFACE_ENTRY(IDispatch)
 END_COM_MAP()
 
-
+	HRESULT set_records(mem_engine::trans_set& records);
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
@@ -81,4 +82,4 @@ public:
 
 };
 
-OBJECT_ENTRY_AUTO(__uuidof(ComRecords), CComRecords)
+OBJECT_ENTRY_AUTO(__uuidof(ComRecords), CRecords)

@@ -17,7 +17,7 @@
 
 	Frame (observer) classes:
 	- \ref CMainFrame
-	- \ref CGlossaryWindow
+	- \ref CGlossaryDialog
 
 	Felix is an automation server, and interacts with several application 
 	interfaces and stand-alone applications.

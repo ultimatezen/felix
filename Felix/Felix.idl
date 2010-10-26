@@ -82,41 +82,90 @@ interface ISearchResults : IDispatch{
 	[propget, id(1), helpstring("property Count")] 
 		HRESULT Count([out, retval] long* pCount) ;
 	[propget, id(DISPID_VALUE), helpstring("property Item")] 
-		HRESULT Item([in] long n, [out, retval] ISearchResult**ppSearchResult );
+		HRESULT Item([in] long n, [out, retval] ISearchResult **ppSearchResult );
 	[propget, id(DISPID_NEWENUM)] 
 		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
 
 };
 
 //////////////////////////////////////////////////////////////////////////
-// ComRecords
+// Records
 //////////////////////////////////////////////////////////////////////////
 [
 	object,
 	uuid(08CCF650-1CC9-47B1-8304-D9863E83C8F5),
 	dual,
 	nonextensible,
-	helpstring("IComRecords Interface"),
+	helpstring("IRecords Interface"),
 	pointer_default(unique)
 ]
-interface IComRecords : IDispatch{
+interface IRecords : IDispatch{
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] IRecord **ppRecord );
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
 };
 
 //////////////////////////////////////////////////////////////////////////
-// ComMemory
+// Memory
 //////////////////////////////////////////////////////////////////////////
 [
 	object,
 	uuid(F17938E6-D888-4760-970C-C1B4707B67A5),
 	dual,
 	nonextensible,
-	helpstring("IComMemory Interface"),
+	helpstring("IMemory Interface"),
 	pointer_default(unique)
 ]
-
-interface IComMemory : IDispatch{
+interface IMemory : IDispatch{
+	[propget, id(1), helpstring("property Records")] HRESULT Records([out, retval] IRecords** newVal);
 };
 
+//////////////////////////////////////////////////////////////////////////
+// Memories
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(A1E62CF4-8737-414E-B8C6-D4A276F2C121),
+	dual,
+	nonextensible,
+	helpstring("IMemories Interface"),
+	pointer_default(unique)
+]
+interface IMemories : IDispatch{
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] IMemory **ppMemory );
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Windows
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(42569D58-8B46-4A9F-869F-C839C5054ECA),
+	dual,
+	nonextensible,
+	helpstring("IMemoryWindow Interface"),
+	pointer_default(unique)
+]
+interface IMemoryWindow : IDispatch{
+};
+[
+	object,
+	uuid(BA98FAC9-3027-46EB-B870-0769A250229C),
+	dual,
+	nonextensible,
+	helpstring("IGlossaryWindow Interface"),
+	pointer_default(unique)
+]
+interface IGlossaryWindow : IDispatch{
+};
 
 // App2
 [
@@ -128,16 +177,30 @@ interface IComMemory : IDispatch{
 	pointer_default(unique)
 ]
 interface IApp2 : IDispatch{
-	[propget, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([out, retval] ISearchResult** pVal);
-	[propput, id(1), helpstring("property CurrentMatch")] HRESULT CurrentMatch([in] ISearchResult* newVal);
-	[propget, id(3), helpstring("property CurrentMatches")] HRESULT CurrentMatches([out, retval] ISearchResults** newVal);
-	[propget, id(4), helpstring("property CurrentGlossMatches")] HRESULT CurrentGlossMatches([out, retval] ISearchResults** newVal);
+	[propget, id(1), helpstring("property CurrentMatch")] 
+		HRESULT CurrentMatch([out, retval] ISearchResult** pVal);
+	[propput, id(1), helpstring("property CurrentMatch")] 
+		HRESULT CurrentMatch([in] ISearchResult* newVal);
+	[propget, id(3), helpstring("property CurrentMatches")] 
+		HRESULT CurrentMatches([out, retval] ISearchResults** newVal);
+	[propget, id(4), helpstring("property CurrentGlossMatches")] 
+		HRESULT CurrentGlossMatches([out, retval] ISearchResults** newVal);
 	[id(5), helpstring("method ReflectChanges")] 
 		HRESULT ReflectChanges([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
 	[id(6), helpstring("method ReviewTranslation")] 
 		HRESULT ReviewTranslation([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
-	[propget, id(7), helpstring("property ActiveMemory")] HRESULT ActiveMemory([out, retval] IComMemory** pVal);
-	[propget, id(8), helpstring("property ActiveGlossary")] HRESULT ActiveGlossary([out, retval] IComMemory** pVal);
+	[propget, id(7), helpstring("property ActiveMemory")] 
+		HRESULT ActiveMemory([out, retval] IMemory** pVal);
+	[propget, id(8), helpstring("property ActiveGlossary")] 
+		HRESULT ActiveGlossary([out, retval] IMemory** pVal);
+	[propget, id(9), helpstring("property MemoryWindow")] 
+		HRESULT MemoryWindow([out, retval] IMemoryWindow** pVal);
+	[propget, id(10), helpstring("property GlossaryWindow")] 
+		HRESULT GlossaryWindow([out, retval] IGlossaryWindow** pVal);
+	[propget, id(11), helpstring("property Memories")] 
+		HRESULT Memories([out, retval] IMemories** pVal);
+	[propget, id(12), helpstring("property Glossaries")] 
+		HRESULT Glossaries([out, retval] IMemories** pVal);
 };
 // App
 [
@@ -254,6 +317,7 @@ interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
 //////////////////////////////////////////////////////////////////////////
 // Felix library
 //////////////////////////////////////////////////////////////////////////
+
 [
 	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
 	version(1.0),
@@ -339,7 +403,7 @@ library Felix
 	]
 	coclass ComMemory
 	{
-		[default] interface IComMemory;
+		[default] interface IMemory;
 	};
 	[
 		uuid(8B991DDC-940F-42B1-A779-81CF64C94B6E),
@@ -347,6 +411,30 @@ library Felix
 	]
 	coclass ComRecords
 	{
-		[default] interface IComRecords;
+		[default] interface IRecords;
+	};
+	[
+		uuid(E63B3CE1-D643-4062-9349-8A96A162BE6A),
+		helpstring("MemoryWindow Class")
+	]
+	coclass MemoryWindow
+	{
+		[default] interface IMemoryWindow;
+	};
+	[
+		uuid(182930DF-8DED-4F9C-A330-2C8A39CBE79B),
+		helpstring("GlossaryWindow Class")
+	]
+	coclass GlossaryWindow
+	{
+		[default] interface IGlossaryWindow;
+	};
+	[
+		uuid(27A55855-3A19-4C57-B7CA-F49AC6A8E82C),
+		helpstring("Memories Class")
+	]
+	coclass Memories
+	{
+		[default] interface IMemories;
 	};
 };

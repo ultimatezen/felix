@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.GlossaryWindow.1 = s 'GlossaryWindow Class'
+	{
+		CLSID = s '{182930DF-8DED-4F9C-A330-2C8A39CBE79B}'
+	}
+	Felix.GlossaryWindow = s 'GlossaryWindow Class'
+	{
+		CLSID = s '{182930DF-8DED-4F9C-A330-2C8A39CBE79B}'
+		CurVer = s 'Felix.GlossaryWindow.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {182930DF-8DED-4F9C-A330-2C8A39CBE79B} = s 'GlossaryWindow Class'
+		{
+			ProgID = s 'Felix.GlossaryWindow.1'
+			VersionIndependentProgID = s 'Felix.GlossaryWindow'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

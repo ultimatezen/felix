@@ -1,4 +1,4 @@
-// GlossaryWindow.h : Declaration of the CGlossaryDialog
+// MemoryWindow.h : Declaration of the CMemoryWindow
 
 #pragma once
 #include "resource.h"       // main symbols
@@ -12,23 +12,23 @@
 
 
 
-// CGlossaryDialog
+// CMemoryWindow
 
-class ATL_NO_VTABLE CGlossaryWindow :
+class ATL_NO_VTABLE CMemoryWindow :
 	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CGlossaryWindow, &CLSID_GlossaryWindow>,
-	public IDispatchImpl<IGlossaryWindow, &IID_IGlossaryWindow, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
+	public CComCoClass<CMemoryWindow, &CLSID_MemoryWindow>,
+	public IDispatchImpl<IMemoryWindow, &IID_IMemoryWindow, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-	CGlossaryWindow()
+	CMemoryWindow()
 	{
 	}
 
-DECLARE_REGISTRY_RESOURCEID(IDR_GLOSSARYWINDOW)
+DECLARE_REGISTRY_RESOURCEID(IDR_MEMORYWINDOW)
 
 
-BEGIN_COM_MAP(CGlossaryWindow)
-	COM_INTERFACE_ENTRY(IGlossaryWindow)
+BEGIN_COM_MAP(CMemoryWindow)
+	COM_INTERFACE_ENTRY(IMemoryWindow)
 	COM_INTERFACE_ENTRY(IDispatch)
 END_COM_MAP()
 
@@ -49,4 +49,4 @@ public:
 
 };
 
-OBJECT_ENTRY_AUTO(__uuidof(GlossaryWindow), CGlossaryWindow)
+OBJECT_ENTRY_AUTO(__uuidof(MemoryWindow), CMemoryWindow)

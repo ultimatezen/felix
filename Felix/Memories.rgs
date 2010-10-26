@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.Memories.1 = s 'Memories Class'
+	{
+		CLSID = s '{27A55855-3A19-4C57-B7CA-F49AC6A8E82C}'
+	}
+	Felix.Memories = s 'Memories Class'
+	{
+		CLSID = s '{27A55855-3A19-4C57-B7CA-F49AC6A8E82C}'
+		CurVer = s 'Felix.Memories.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {27A55855-3A19-4C57-B7CA-F49AC6A8E82C} = s 'Memories Class'
+		{
+			ProgID = s 'Felix.Memories.1'
+			VersionIndependentProgID = s 'Felix.Memories'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

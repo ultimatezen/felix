@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.MemoryWindow.1 = s 'MemoryWindow Class'
+	{
+		CLSID = s '{E63B3CE1-D643-4062-9349-8A96A162BE6A}'
+	}
+	Felix.MemoryWindow = s 'MemoryWindow Class'
+	{
+		CLSID = s '{E63B3CE1-D643-4062-9349-8A96A162BE6A}'
+		CurVer = s 'Felix.MemoryWindow.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E63B3CE1-D643-4062-9349-8A96A162BE6A} = s 'MemoryWindow Class'
+		{
+			ProgID = s 'Felix.MemoryWindow.1'
+			VersionIndependentProgID = s 'Felix.MemoryWindow'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

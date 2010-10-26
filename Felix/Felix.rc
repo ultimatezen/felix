@@ -26,14 +26,20 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // REGISTRY
 //
 
-IDR_FELIX               REGISTRY                "Felix.rgs"
-IDR_PARAMETERS          REGISTRY                "Parameters.rgs"
-IDR_APP2                REGISTRY                "App2.rgs"
-IDR_RECORD              REGISTRY                "Record.rgs"
-IDR_SEARCHRESULT        REGISTRY                "SearchResult.rgs"
-IDR_SEARCHRESULTS       REGISTRY                "SearchResults.rgs"
-IDR_APP                 REGISTRY                "App.rgs"
-IDR_FELIXMEMDOCUIHANDLER REGISTRY                "FelixMemDocUIHandler.rgs"
+IDR_FELIX               REGISTRY            "Felix.rgs"
+IDR_PARAMETERS          REGISTRY            "Parameters.rgs"
+IDR_APP2                REGISTRY            "App2.rgs"
+IDR_RECORD              REGISTRY            "Record.rgs"
+IDR_SEARCHRESULT        REGISTRY            "SearchResult.rgs"
+IDR_SEARCHRESULTS       REGISTRY            "SearchResults.rgs"
+IDR_APP                 REGISTRY            "App.rgs"
+IDR_FELIXMEMDOCUIHANDLER REGISTRY           "FelixMemDocUIHandler.rgs"
+IDR_COMMEMORY			REGISTRY            "ComMemory.rgs"
+IDR_COMRECORDS			REGISTRY            "ComRecords.rgs"
+IDR_GLOSSARYWINDOW		REGISTRY			"GlossaryWindow.rgs"
+IDR_MEMORYWINDOW		REGISTRY            "MemoryWindow.rgs"
+IDR_MEMORIES		    REGISTRY            "Memories.rgs"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

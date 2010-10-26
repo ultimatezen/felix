@@ -281,6 +281,7 @@
 #define IDC_MIN_MATCH_STATIC3           235
 #define IDD_EDIT_RECORD                 236
 #define IDC_BROWSE_BTN                  237
+#define IDR_MEMORYWINDOW                238
 #define IDD_MULTITERM_CONVERSION_DLG    239
 #define IDD_NAG_BOX                     240
 #define IDD_INPUT_KEY_DLG               241
@@ -656,6 +657,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40003
 #define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           235
+#define _APS_NEXT_SYMED_VALUE           239
 #endif
 #endif

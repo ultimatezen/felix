@@ -261,25 +261,25 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	// glossary
 	BOOST_AUTO_TEST_CASE( set_display_state_init)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_initial) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_new)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_new) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_match)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_match) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_concordance)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_concordance) ;
 	}
@@ -293,7 +293,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	// glossary
 	BOOST_AUTO_TEST_CASE( get_current_match_init)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 
 		BOOST_CHECK_EQUAL((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)gloss.m_display_state) ;
 		search_match_ptr match = gloss.get_current_match() ;
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_new)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 
 		record_pointer rec(new record_local) ;
@@ -322,7 +322,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_match_empty)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_match_non_empty)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		search_match_ptr match(new search_match) ;
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 	BOOST_AUTO_TEST_CASE( get_current_match_concordance_match_empty)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -379,12 +379,12 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 
 	//////////////////////////////////////////////////////////////////////////
-	// CGlossaryWindow::OnUserAdd
+	// CGlossaryDialog::OnUserAdd
 	//////////////////////////////////////////////////////////////////////////
 
 	BOOST_AUTO_TEST_CASE( on_user_add_init)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CGlossaryWinListenerFake listener ;
 		gloss.set_listener(&listener) ;
 
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 	BOOST_AUTO_TEST_CASE( on_user_add_new)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CGlossaryWinListenerFake listener ;
 		gloss.set_listener(&listener) ;
 
@@ -428,7 +428,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 	BOOST_AUTO_TEST_CASE( on_user_add_match)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CGlossaryWinListenerFake listener ;
 		gloss.set_listener(&listener) ;
 
@@ -457,7 +457,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 	BOOST_AUTO_TEST_CASE( on_user_add_concordance)
 	{
-		CGlossaryWindow gloss ;
+		CGlossaryDialog gloss ;
 		CGlossaryWinListenerFake listener ;
 		gloss.set_listener(&listener) ;
 
