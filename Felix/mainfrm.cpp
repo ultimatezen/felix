@@ -57,6 +57,7 @@
 #include "memory_local.h"
 #include "ExcelInterfaceReal.h"
 
+#include "cpptempl.h"
 #include <shellapi.h>
 
 
@@ -4376,18 +4377,18 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	match->set_record(m_review_record) ;
 	match->set_values_to_record() ;
 
-	text_tmpl::CTextTemplate engine ;
-	m_trans_matches.fill_match_template_params(engine, match);
+	cpptempl::data_map data ;
+	m_trans_matches.fill_match_template_params(data, match);
 
 	// fill in the template
 	wstring content ;
 	if ( m_is_short_format )
 	{
-		content = engine.Fetch(text_tmpl::get_template_text(_T("review.txt"))) ;
+		content = cpptempl::parse(cpptempl::get_template_text(_T("review.txt")), data) ;
 	}
 	else
 	{
-		content = engine.Fetch(text_tmpl::get_template_text(_T("review_full.txt"))) ;
+		content = cpptempl::parse(cpptempl::get_template_text(_T("review_full.txt")), data) ;
 	}
 	return content ;
 }

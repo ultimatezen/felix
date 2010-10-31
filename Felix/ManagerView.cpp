@@ -37,7 +37,7 @@ namespace mgrview
 	}
 
 	void set_mem_tmpl_info( mem_engine::memory_pointer mem, 
-							text_tmpl::CTextTemplate &engine, 
+							cpptempl::data_map &data, 
 							bool is_memory,
 							size_t index) 
 	{
@@ -45,25 +45,25 @@ namespace mgrview
 
 		CNumberFmt number_format ;
 		wstring memsize = (LPCWSTR)(number_format.Format(mem->size())) ;
-		engine.Assign("size", memsize) ;
+		data[L"size"] = cpptempl::make_data(memsize) ;
 
-		engine.Assign("name", get_memname(mem)) ;
-		engine.Assign("memtype", is_memory ? L"mem" : L"gloss") ;
-		engine.Assign("index", tows(index)) ;
+		data[L"name"] = cpptempl::make_data(get_memname(mem)) ;
+		data[L"memtype"] = cpptempl::make_data(is_memory ? L"mem" : L"gloss") ;
+		data[L"index"] = cpptempl::make_data(tows(index)) ;
 
 		CMemoryManagerDlg dlg ;
 
-		engine.Assign(L"file_name", dlg.get_memory_name(mem)) ;
-		engine.Assign(L"creator", mem_info->get_creator()) ;
-		engine.Assign(L"field", mem_info->get_field()) ;
-		engine.Assign(L"created_on", mem_info->get_created_on()) ;
-		engine.Assign(L"source_language", mem_info->get_source_language()) ;
-		engine.Assign(L"target_language", mem_info->get_target_language()) ;
-		engine.Assign(L"client", mem_info->get_client()) ;
-		engine.Assign(L"mem_size", ulong2formatted_wstring(mem->size())) ;
-		engine.Assign(L"file_size", dlg.get_file_size(mem)) ;
-		engine.Assign(L"reliability", dlg.get_reliability_range(mem)) ;
-		engine.Assign(L"validated", mem->get_validated_percent()) ;
-		engine.Assign(L"locked", bool2wstring( mem->is_locked() )) ;
+		data[L"file_name"] = cpptempl::make_data(dlg.get_memory_name(mem)) ;
+		data[L"creator"] = cpptempl::make_data(mem_info->get_creator()) ;
+		data[L"field"] = cpptempl::make_data(mem_info->get_field()) ;
+		data[L"created_on"] = cpptempl::make_data(mem_info->get_created_on()) ;
+		data[L"source_language"] = cpptempl::make_data(mem_info->get_source_language()) ;
+		data[L"target_language"] = cpptempl::make_data(mem_info->get_target_language()) ;
+		data[L"client"] = cpptempl::make_data(mem_info->get_client()) ;
+		data[L"mem_size"] = cpptempl::make_data(ulong2formatted_wstring(mem->size())) ;
+		data[L"file_size"] = cpptempl::make_data(dlg.get_file_size(mem)) ;
+		data[L"reliability"] = cpptempl::make_data(dlg.get_reliability_range(mem)) ;
+		data[L"validated"] = cpptempl::make_data(mem->get_validated_percent()) ;
+		data[L"locked"] = cpptempl::make_data(bool2wstring( mem->is_locked() )) ;
 	}
 }

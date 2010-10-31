@@ -77,15 +77,15 @@ void CTMXWriter::write_memory(mem_engine::memory_pointer mem)
  */
 void CTMXWriter::write_header(void)
 {
-	textTemplate.Assign( L"srclang", m_src_lang ) ;
+	m_data[L"srclang"] = cpptempl::make_data(m_src_lang ) ;
 	string v = string(VERSION) ;
-	textTemplate.Assign( L"version", string2wstring(v) ) ;
+	m_data[L"version"] = cpptempl::make_data(string2wstring(v) ) ;
 
 	CResHtmlFile resFile( _T("TMX_HEAD") ) ;
 	const wstring tmplText = (LPCWSTR)resFile.text() ;
 	ATLASSERT( ! tmplText.empty() ) ;
 
-	m_file->write( textTemplate.Fetch( tmplText ) ) ;
+	m_file->write( cpptempl::parse(tmplText, m_data) ) ;
 }
 
 /*!
@@ -133,8 +133,8 @@ void CTMXWriter::write_tus(void)
 	CResHtmlFile resFile( _T("TMX_TU") ) ;
 	tmplText = (LPCWSTR)resFile.text() ;
 
-	textTemplate.Assign( L"srclang", m_src_lang ) ;
-	textTemplate.Assign( L"translang", m_target_lang ) ;
+	m_data[L"srclang"] = cpptempl::make_data(m_src_lang ) ;
+	m_data[L"translang"] = cpptempl::make_data(m_target_lang ) ;
 
 	ATLASSERT( m_tuid == 1 ) ;
 	m_tuid = 1 ;
@@ -230,25 +230,25 @@ wstring CTMXWriter::get_tag(wc_reader & reader)
 	boost::replace_all( tag_text, L"<", L"&lt;" ) ;
 	boost::replace_all( tag_text, L">", L"&gt;" ) ;
 
-	textTemplate.Assign( L"tagtext", tag_text ) ;
+	m_data[L"tagtext"] = cpptempl::make_data(tag_text ) ;
 	if ( tag.is_end_tag() ) 
 	{
 		ATLASSERT ( m_iLevel > 0 ) ; 
 		
-		textTemplate.Assign( L"eptid", int2wstring( m_iLevel ) ) ;
+		m_data[L"eptid"] = cpptempl::make_data(int2wstring( m_iLevel ) ) ;
 		m_iLevel-- ;
-		return textTemplate.Fetch( L"<ept i=\"{$eptid}\">{$tagtext}</ept>" ) ;
+		return cpptempl::parse( L"<ept i=\"{$eptid}\">{$tagtext}</ept>", m_data ) ;
 
 	}
 	else if ( tag.tag_is( L"br" ) || tag.tag_is( L"hr") )
 	{
-		return textTemplate.Fetch( L"<it pos=\"begin\" x=\"1\">{$tagtext}</it>" ) ;
+		return cpptempl::parse( L"<it pos=\"begin\" x=\"1\">{$tagtext}</it>", m_data ) ;
 	}
 	else
 	{
 		m_iLevel++ ;
-		textTemplate.Assign( L"eptid", int2wstring( m_iLevel ) ) ;
-		return textTemplate.Fetch( L"<bpt i=\"{$eptid}\" x=\"{$eptid}\">{$tagtext}</bpt>" ) ;
+		m_data[L"eptid"] = cpptempl::make_data(int2wstring( m_iLevel ) ) ;
+		return cpptempl::parse( L"<bpt i=\"{$eptid}\" x=\"{$eptid}\">{$tagtext}</bpt>", m_data ) ;
 	}
 }
 
@@ -303,22 +303,22 @@ void CTMXWriter::cleanup()
 wstring CTMXWriter::make_tu( mem_engine::record_pointer rec, const wstring tmpl_text )
 {
 	// Assign variable values
-	textTemplate.Assign( L"id", ulong2wstring( rec->get_id() ) ) ;
+	m_data[L"id"] = cpptempl::make_data(ulong2wstring( rec->get_id() ) ) ;
 
-	textTemplate.Assign( L"creationdate", tmx_date( rec->get_created() ) ) ;
-	textTemplate.Assign( L"changedate", tmx_date( rec->get_modified() ) ) ;
+	m_data[L"creationdate"] = cpptempl::make_data(tmx_date( rec->get_created() ) ) ;
+	m_data[L"changedate"] = cpptempl::make_data(tmx_date( rec->get_modified() ) ) ;
 
 	// last usage
-	textTemplate.Assign( L"lastusagedate", tmx_date( rec->get_modified() ) ) ;
+	m_data[L"lastusagedate"] = cpptempl::make_data(tmx_date( rec->get_modified() ) ) ;
 
-	textTemplate.Assign( L"creationid", rec->get_creator() ) ;
-	textTemplate.Assign( L"changeid", rec->get_modified_by() ) ;
-	textTemplate.Assign( L"usagecount", ulong2wstring( rec->get_refcount() ) ) ;
+	m_data[L"creationid"] = cpptempl::make_data(rec->get_creator() ) ;
+	m_data[L"changeid"] = cpptempl::make_data(rec->get_modified_by() ) ;
+	m_data[L"usagecount"] = cpptempl::make_data(ulong2wstring( rec->get_refcount() ) ) ;
 
 	m_iLevel = 0 ;
-	textTemplate.Assign( L"srcseg", get_segment( rec->get_source_rich() ) ) ;
+	m_data[L"srcseg"] = cpptempl::make_data(get_segment( rec->get_source_rich() ) ) ;
 	m_iLevel = 0 ;
-	textTemplate.Assign( L"transseg", get_segment( rec->get_trans_rich() ) ) ;
+	m_data[L"transseg"] = cpptempl::make_data(get_segment( rec->get_trans_rich() ) ) ;
 
-	return textTemplate.Fetch(tmpl_text) ;
+	return cpptempl::parse(tmpl_text, m_data) ;
 }

@@ -48,7 +48,7 @@ void ViewStateInitialMain::show_content()
 {
 	m_view->ensure_document_complete() ;
 
-	const CString filename = text_tmpl::get_template_filename(_T("start.html")) ;
+	const CString filename = cpptempl::get_template_filename(_T("start.html")) ;
 	m_view->navigate(filename) ;
 
 	m_view->ensure_document_complete() ;
@@ -77,7 +77,7 @@ void ViewStateInitialGloss::show_content()
 {
 	m_view->ensure_document_complete() ;
 
-	const CString filename = text_tmpl::get_template_filename(_T("start_gloss.html")) ;
+	const CString filename = cpptempl::get_template_filename(_T("start_gloss.html")) ;
 	m_view->navigate(filename) ;
 
 	m_view->ensure_document_complete() ;

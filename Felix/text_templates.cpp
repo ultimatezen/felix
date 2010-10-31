@@ -7,7 +7,7 @@
 // shell API support
 #include "FileOpHandler.h"
 
-namespace text_tmpl
+namespace cpptempl
 {
 
 	CString calculate_template_filename(const CString filename)

@@ -22,7 +22,6 @@
 
 using namespace html ;
 using namespace mem_engine ;
-using namespace text_tmpl;
 
 const wstring get_item(const wstring item)
 {
@@ -977,22 +976,22 @@ wstring CMemoryManagerDlg::get_info_for_item( memory_pointer mem )
 {
 	MemoryInfo *mem_info = mem->get_memory_info() ;
 
-	text_tmpl::CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	engine.Assign(L"file_name", get_memory_name(mem)) ;
-	engine.Assign(L"creator", get_creator_name(mem_info)) ;
-	engine.Assign(L"field", get_field_name(mem_info)) ;
-	engine.Assign(L"created_on", get_created_on(mem_info)) ;
-	engine.Assign(L"source_language", get_source_lang(mem_info)) ;
-	engine.Assign(L"target_language", get_target_lang(mem_info)) ;
-	engine.Assign(L"client", get_client_name(mem_info)) ;
-	engine.Assign(L"mem_size", get_mem_size(mem)) ;
-	engine.Assign(L"file_size", get_file_size(mem)) ;
-	engine.Assign(L"reliability", get_reliability_range(mem)) ;
-	engine.Assign(L"validated", mem->get_validated_percent()) ;
-	engine.Assign(L"locked", bool2wstring( mem->is_locked() )) ;
+	data[L"file_name"] = cpptempl::make_data(get_memory_name(mem)) ;
+	data[L"creator"] = cpptempl::make_data(get_creator_name(mem_info)) ;
+	data[L"field"] = cpptempl::make_data(get_field_name(mem_info)) ;
+	data[L"created_on"] = cpptempl::make_data(get_created_on(mem_info)) ;
+	data[L"source_language"] = cpptempl::make_data(get_source_lang(mem_info)) ;
+	data[L"target_language"] = cpptempl::make_data(get_target_lang(mem_info)) ;
+	data[L"client"] = cpptempl::make_data(get_client_name(mem_info)) ;
+	data[L"mem_size"] = cpptempl::make_data(get_mem_size(mem)) ;
+	data[L"file_size"] = cpptempl::make_data(get_file_size(mem)) ;
+	data[L"reliability"] = cpptempl::make_data(get_reliability_range(mem)) ;
+	data[L"validated"] = cpptempl::make_data(mem->get_validated_percent()) ;
+	data[L"locked"] = cpptempl::make_data(bool2wstring( mem->is_locked() )) ;
 
-	return engine.Fetch(get_template_text(_T("item_info.txt"))) ;
+	return cpptempl::parse(cpptempl::get_template_text(_T("item_info.txt")), data) ;
 }
 
 wstring CMemoryManagerDlg::get_memory_name( memory_pointer mem )

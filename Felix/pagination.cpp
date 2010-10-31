@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "pagination.h"
-#include "TextTemplate.h"
 #include "text_templates.h"
 #include "numberfmt.h"
+#include "cpptempl.h"
 
-using namespace text_tmpl ;
+using namespace cpptempl ;
 
 const static size_t PAGE_WINDOW_SIZE = 10 ;
 
@@ -129,57 +129,57 @@ window_range make_window(size_t current, size_t num, size_t window_size)
 
 wstring get_pagination_text(Paginator &paginator)
 {
-	CTextTemplate text_tmpl ;
+	data_map data ;
 
 	// previous
 	if (paginator.has_prev())
 	{
-		text_tmpl.Assign(L"has_prev", L"true") ;
-		text_tmpl.Assign(L"prev_page", ulong2wstring(paginator.get_current_page())) ;
+		data[L"has_prev"] = make_data(L"true") ;
+		data[L"prev_page"] = make_data(ulong2wstring(paginator.get_current_page())) ;
 	}
 	else
 	{
-		text_tmpl.Assign(L"has_prev", L"") ;
+		data[L"has_prev"] = make_data(L"") ;
 	}
 
 	// next
 	if (paginator.has_next())
 	{
-		text_tmpl.Assign(L"has_next", L"true") ;
-		text_tmpl.Assign(L"next_page", ulong2wstring(paginator.get_current_page()+2)) ;
+		data[L"has_next"] = make_data(L"true") ;
+		data[L"next_page"] = make_data(ulong2wstring(paginator.get_current_page()+2)) ;
 	}
 	else
 	{
-		text_tmpl.Assign(L"has_next", L"") ;
+		data[L"has_next"] = make_data(L"") ;
 	}
 
 	// current page
-	text_tmpl.Assign(L"current_page", ulong2wstring(paginator.get_current_page()+1)) ;
-	text_tmpl.Assign(L"last_page", ulong2wstring(paginator.get_num_pages())) ;
+	data[L"current_page"] = make_data(ulong2wstring(paginator.get_current_page()+1)) ;
+	data[L"last_page"] = make_data(ulong2wstring(paginator.get_num_pages())) ;
 
 	// num matches
 	CNumberFmt number_format ;
-	text_tmpl.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(paginator.get_num_records())))) ;
+	data[L"num_matches"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_num_records())))) ;
 
 	// start/end
-	text_tmpl.Assign(L"matches_start", wstring((LPCWSTR)(number_format.Format(paginator.get_start()+1)))) ;
-	text_tmpl.Assign(L"matches_end", wstring((LPCWSTR)(number_format.Format(paginator.get_end())))) ;
+	data[L"matches_start"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_start()+1)))) ;
+	data[L"matches_end"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_end())))) ;
 
 	// pages
-	text_tmpl::ValListPtr pages = text_tmpl.CreateValList();
+	cpptempl::data_list pages ;
 
 	window_range pagerange = make_window(paginator.get_current_page(), paginator.get_num_pages(), PAGE_WINDOW_SIZE) ;
 	for (size_t i = pagerange.first ; i < pagerange.second ; ++i )
 	{
-		pages->push_back(ulong2wstring(i+1)) ;
+		pages.push_back(cpptempl::make_data(ulong2wstring(i+1))) ;
 	}
 	if (pagerange.second < paginator.get_num_pages())
 	{
-		pages->push_back(ulong2wstring(pagerange.second+1)) ;
+		pages.push_back(cpptempl::make_data(ulong2wstring(pagerange.second+1))) ;
 	}
 
-	text_tmpl.Assign( L"pages", pages ) ;
+	data[L"pages"] = cpptempl::make_data(pages) ;
 
 	wstring text = get_template_text(_T("pagination.txt")) ;
-	return text_tmpl.Fetch(text) ;
+	return cpptempl::parse(text, data) ;
 }

@@ -87,7 +87,7 @@ namespace mgrview
 		}
 		engine.Assign(L"records", items) ;
 
-		wstring tpl_text = text_tmpl::get_template_text(_T("manager/browse.txt")) ;
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/browse.txt")) ;
 		m_view->set_text(engine.Fetch(tpl_text)) ;
 	}
 

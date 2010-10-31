@@ -17,7 +17,7 @@
 #endif
 
 using namespace mem_engine ;
-using namespace text_tmpl ;
+
 
 // for displaying search results in HTML view
 wstring escape_entities(const wstring text)
@@ -38,7 +38,7 @@ LRESULT CSearchWindow::OnCreate( UINT, WPARAM, LPARAM )
 	logging::log_debug("Creating search window") ;
 
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
-	const CString filename = get_template_filename(_T("start_search.html")) ;
+	const CString filename = cpptempl::get_template_filename(_T("start_search.html")) ;
 	m_view.create(*this, filename) ;
 
 	CWindowSettings ws;
@@ -121,7 +121,7 @@ void CSearchWindow::wait_for_doc_complete()
 void CSearchWindow::show_search_page()
 {
 	SENSE("CSearchWindow::show_search_page") ;
-	const wstring filename = (LPCWSTR)get_template_filename(_T("start_search.html")) ;
+	const wstring filename = (LPCWSTR)cpptempl::get_template_filename(_T("start_search.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -135,7 +135,7 @@ void CSearchWindow::show_search_page()
 void CSearchWindow::handle_gotoreplace()
 {
 	SENSE("handle_gotoreplace") ;
-	const wstring filename = (LPCWSTR)get_template_filename(_T("start_replace.html")) ;
+	const wstring filename = (LPCWSTR)cpptempl::get_template_filename(_T("start_replace.html")) ;
 	m_view.navigate(filename) ;
 
 	wait_for_doc_complete() ;
@@ -276,8 +276,8 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	if (boost::ends_with(url, L"replace_all"))
 	{
 		handle_replace_all(get_doc3(), 
-							get_template_text(_T("replace_match.txt")),
-							get_template_text(_T("replacelinks.txt"))) ;
+							cpptempl::get_template_text(_T("replace_match.txt")),
+							cpptempl::get_template_text(_T("replacelinks.txt"))) ;
 		return true ;
 	}
 
@@ -397,41 +397,41 @@ void CSearchWindow::get_search_matches( std::vector<mem_engine::search_match_ptr
  */
 void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matches )
 {
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
 	// message
-	engine.Assign(L"message", m_message) ;
+	data[L"message"] = cpptempl::make_data(m_message) ;
 	m_message.clear() ;
 	// page stuff
-	engine.Assign(L"pagination", get_pagination_text(m_paginator)) ;
-	engine.Assign(L"page", ulong2wstring(m_paginator.get_current_page()+1)) ;
+	data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator)) ;
+	data[L"page"] = cpptempl::make_data(ulong2wstring(m_paginator.get_current_page()+1)) ;
 
 	CNumberFmt number_format ;
-	engine.Assign(L"num_pages", wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
+	data[L"num_pages"] = cpptempl::make_data(wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
 
-	engine.Assign(L"num_matches", wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
+	data[L"num_matches"] = cpptempl::make_data(wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
 
-	text_tmpl::DictListPtr items = engine.CreateDictList();
+	cpptempl::data_list items ;
 
 	for (size_t i = m_paginator.get_start() ; i < m_paginator.get_end() ; ++i)
 	{
-		text_tmpl::DictPtr item = engine.CreateDict() ;
+		cpptempl::data_map item ;
 
 		mem_engine::search_match_ptr match = matches[i] ;
 		mem_engine::record_pointer record = match->get_record() ;
 
-		item->insert(std::make_pair(L"num0", tows(i))) ;
-		item->insert(std::make_pair(L"num", tows(i+1))) ;
-		item->insert(std::make_pair(L"source", record->get_source_rich())) ;
-		item->insert(std::make_pair(L"trans", record->get_trans_rich())) ;
-		item->insert(std::make_pair(L"context", record->get_context_rich())) ;
-		item->insert(std::make_pair(L"created", record->get_created().get_date_time_string())) ;
-		item->insert(std::make_pair(L"modified", record->get_modified().get_date_time_string())) ;
-		item->insert(std::make_pair(L"reliability", tows(record->get_reliability()))) ;
-		item->insert(std::make_pair(L"validated", bool2wstring(record->is_validated()))) ;
+		item[L"num0"] = cpptempl::make_data(tows(i)) ;
+		item[L"num"] = cpptempl::make_data(tows(i+1)) ;
+		item[L"source"] = cpptempl::make_data(record->get_source_rich()) ;
+		item[L"trans"] = cpptempl::make_data(record->get_trans_rich()) ;
+		item[L"context"] = cpptempl::make_data(record->get_context_rich()) ;
+		item[L"created"] = cpptempl::make_data(record->get_created().get_date_time_string()) ;
+		item[L"modified"] = cpptempl::make_data(record->get_modified().get_date_time_string()) ;
+		item[L"reliability"] = cpptempl::make_data(tows(record->get_reliability())) ;
+		item[L"validated"] = cpptempl::make_data(bool2wstring(record->is_validated())) ;
 
-		item->insert(std::make_pair(L"creator", record->get_creator())) ;
-		item->insert(std::make_pair(L"modified_by", record->get_modified_by())) ;
+		item[L"creator"] = cpptempl::make_data(record->get_creator()) ;
+		item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
 		// other info
 		const wstring filename = match->get_memory_location() ;
 		wstring loc ;
@@ -444,16 +444,16 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 			loc = fs::wpath(filename).leaf();		
 		}
 
-		item->insert(std::make_pair(L"mem", loc)) ;
-		item->insert(std::make_pair(L"memory", loc)) ;
-		item->insert(std::make_pair(L"refcount", tows(record->get_refcount()))) ;
-		item->insert(std::make_pair(L"ref_count", tows(record->get_refcount()))) ;
+		item[L"mem"] = cpptempl::make_data(loc) ;
+		item[L"memory"] = cpptempl::make_data(loc) ;
+		item[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
+		item[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
 
-		items->push_back(item) ;
+		items.push_back(cpptempl::make_data(item)) ;
 	}
-	engine.Assign(L"results", items) ;
+	data[L"results"] = cpptempl::make_data(items) ;
 
-	wstring text = engine.Fetch(get_template_text(_T("search_matches.txt"))) ;
+	wstring text = cpptempl::parse(cpptempl::get_template_text(_T("search_matches.txt")), data) ;
 
 	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
 }
@@ -647,75 +647,75 @@ void CSearchWindow::handle_replace_find( doc3_wrapper_ptr doc )
  */
 void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &matches )
 {
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
 	// message
-	engine.Assign(L"message", m_message) ;
+	data[L"message"] = cpptempl::make_data(m_message) ;
 	m_message.clear() ;
 
 	if (m_current_match >= matches.size())
 	{
-		engine.Assign(L"found", L"") ;
-		engine.Assign(L"result", L"") ;
+		data[L"found"] = cpptempl::make_data(L"") ;
+		data[L"result"] = cpptempl::make_data(L"") ;
 		m_current_match = 0 ;
 	}
 	else
 	{
-		engine.Assign(L"match_num", ulong2wstring(m_current_match+1)) ;
-		engine.Assign(L"num_matches", ulong2wstring(matches.size())) ;
+		data[L"match_num"] = cpptempl::make_data(ulong2wstring(m_current_match+1)) ;
+		data[L"num_matches"] = cpptempl::make_data(ulong2wstring(matches.size())) ;
 
-		text_tmpl::DictPtr found = engine.CreateDict() ;
-		text_tmpl::DictPtr result = engine.CreateDict() ;
+		cpptempl::data_map found ;
+		cpptempl::data_map result ;
 
 		mem_engine::record_pointer record = matches[m_current_match]->get_record() ;
 		// found
-		engine.Assign(found, L"source", record->get_source_rich()) ;
-		engine.Assign(found, L"trans", record->get_trans_rich()) ;
-		engine.Assign(found, L"context", record->get_context_rich()) ;
-		engine.Assign(found, L"created", record->get_created().get_date_time_string()) ;
-		engine.Assign(found, L"date_created", record->get_created().get_date_time_string()) ;
-		engine.Assign(found, L"modified", record->get_modified().get_date_time_string()) ;
-		engine.Assign(found, L"last_modified", record->get_modified().get_date_time_string()) ;
-		engine.Assign(found, L"reliability", tows(record->get_reliability())) ;
-		engine.Assign(found, L"validated", bool2wstring(record->is_validated())) ;
+		found[L"source"] = cpptempl::make_data(record->get_source_rich()) ;
+		found[L"trans"] = cpptempl::make_data(record->get_trans_rich()) ;
+		found[L"context"] = cpptempl::make_data(record->get_context_rich()) ;
+		found[L"created"] = cpptempl::make_data(record->get_created().get_date_time_string()) ;
+		found[L"date_created"] = cpptempl::make_data(record->get_created().get_date_time_string()) ;
+		found[L"modified"] = cpptempl::make_data(record->get_modified().get_date_time_string()) ;
+		found[L"last_modified"] = cpptempl::make_data(record->get_modified().get_date_time_string()) ;
+		found[L"reliability"] = cpptempl::make_data(tows(record->get_reliability())) ;
+		found[L"validated"] = cpptempl::make_data(bool2wstring(record->is_validated())) ;
 
-		engine.Assign(found, L"creator", record->get_creator()) ;
-		engine.Assign(found, L"created_by", record->get_creator()) ;
-		engine.Assign(found, L"modified_by", record->get_modified_by()) ;
-		engine.Assign(found, L"refcount", tows(record->get_refcount())) ;
-		engine.Assign(found, L"ref_count", tows(record->get_refcount())) ;
+		found[L"creator"] = cpptempl::make_data(record->get_creator()) ;
+		found[L"created_by"] = cpptempl::make_data(record->get_creator()) ;
+		found[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
+		found[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
+		found[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
 
 		// result
 		mem_engine::record_pointer replaced(new record_local(record)) ;
 		perform_replace(doc, replaced);
 
-		engine.Assign(result, L"source", replaced->get_source_rich()) ;
-		engine.Assign(result, L"trans", replaced->get_trans_rich()) ;
-		engine.Assign(result, L"context", replaced->get_context_rich()) ;
-		engine.Assign(result, L"created", replaced->get_created().get_date_time_string()) ;
-		engine.Assign(result, L"date_created", replaced->get_created().get_date_time_string()) ;
-		engine.Assign(result, L"modified", replaced->get_modified().get_date_time_string()) ;
-		engine.Assign(result, L"last_modified", replaced->get_modified().get_date_time_string()) ;
-		engine.Assign(result, L"reliability", tows(replaced->get_reliability())) ;
-		engine.Assign(result, L"validated", bool2wstring(replaced->is_validated())) ;
+		result[L"source"] = cpptempl::make_data(replaced->get_source_rich()) ;
+		result[L"trans"] = cpptempl::make_data(replaced->get_trans_rich()) ;
+		result[L"context"] = cpptempl::make_data(replaced->get_context_rich()) ;
+		result[L"created"] = cpptempl::make_data(replaced->get_created().get_date_time_string()) ;
+		result[L"date_created"] = cpptempl::make_data(replaced->get_created().get_date_time_string()) ;
+		result[L"modified"] = cpptempl::make_data(replaced->get_modified().get_date_time_string()) ;
+		result[L"last_modified"] = cpptempl::make_data(replaced->get_modified().get_date_time_string()) ;
+		result[L"reliability"] = cpptempl::make_data(tows(replaced->get_reliability())) ;
+		result[L"validated"] = cpptempl::make_data(bool2wstring(replaced->is_validated())) ;
 
-		engine.Assign(result, L"creator", replaced->get_creator()) ;
-		engine.Assign(result, L"created_by", replaced->get_creator()) ;
-		engine.Assign(result, L"modified_by", replaced->get_modified_by()) ;
-		engine.Assign(result, L"refcount", tows(replaced->get_refcount())) ;
-		engine.Assign(result, L"ref_count", tows(replaced->get_refcount())) ;
+		result[L"creator"] = cpptempl::make_data(replaced->get_creator()) ;
+		result[L"created_by"] = cpptempl::make_data(replaced->get_creator()) ;
+		result[L"modified_by"] = cpptempl::make_data(replaced->get_modified_by()) ;
+		result[L"refcount"] = cpptempl::make_data(tows(replaced->get_refcount())) ;
+		result[L"ref_count"] = cpptempl::make_data(tows(replaced->get_refcount())) ;
 
 
-		engine.Assign(L"found", found) ;
-		engine.Assign(L"result", result) ;
+		data[L"found"] = cpptempl::make_data(found) ;
+		data[L"result"] = cpptempl::make_data(result) ;
 
 	}
 
-	const wstring text = engine.Fetch(get_template_text(_T("replace_match.txt"))) ;
+	const wstring text = cpptempl::parse(cpptempl::get_template_text(_T("replace_match.txt")), data) ;
 
 	doc->get_element_by_id(L"searchresults")->set_inner_text(text) ;
 
-	wstring replacelinks = engine.Fetch(get_template_text(_T("replacelinks.txt"))) ;
+	wstring replacelinks = cpptempl::parse(cpptempl::get_template_text(_T("replacelinks.txt")), data) ;
 	doc->get_element_by_id(L"replacelinks")->set_inner_text(replacelinks) ;
 }
 
@@ -771,17 +771,17 @@ void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc,
 	m_replace_matches.clear() ;
 	m_current_match = 0 ;
 
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
 	// message
-	engine.Assign(L"message", m_message) ;
+	data[L"message"] = cpptempl::make_data(m_message) ;
 	m_message.clear() ;
 
-	engine.Assign(L"found", L"") ;
-	engine.Assign(L"result", L"None") ;
+	data[L"found"] = cpptempl::make_data(L"") ;
+	data[L"result"] = cpptempl::make_data(L"None") ;
 
-	doc->get_element_by_id(L"searchresults")->set_inner_text(engine.Fetch(search_template)) ;
-	doc->get_element_by_id(L"replacelinks")->set_inner_text(engine.Fetch(replace_template)) ;
+	doc->get_element_by_id(L"searchresults")->set_inner_text(cpptempl::parse(search_template, data)) ;
+	doc->get_element_by_id(L"replacelinks")->set_inner_text(cpptempl::parse(replace_template, data)) ;
 	doc->get_element_by_id(L"filterbox")->set_inner_text(L"") ;
 }
 
@@ -891,14 +891,14 @@ const wstring retrieve_input_value( element_wrapper_ptr input_box )
  */
 wstring get_filter_text( const std::vector<wstring> & terms ) 
 {
-	CTextTemplate engine ;
-	text_tmpl::ValListPtr filters = engine.CreateValList();
+	cpptempl::data_map data ;
+	cpptempl::data_list filters ;
 
 	foreach(wstring term, terms)
 	{
-		filters->push_back(escape_entities(term)) ;
+		filters.push_back(cpptempl::make_data(term)) ;
 	}
-	engine.Assign( L"filters", filters ) ;
+	data[L"filters"] = cpptempl::make_data(filters) ;
 
-	return engine.Fetch(get_template_text(_T("filter_list.txt"))) ;
+	return cpptempl::parse(cpptempl::get_template_text(_T("filter_list.txt")), data) ;
 }

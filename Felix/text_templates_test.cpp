@@ -6,7 +6,7 @@
 #ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( test_text_templates )
 
-	using namespace text_tmpl;
+	using namespace cpptempl;
 	BOOST_AUTO_TEST_CASE( start_file )
 	{
 		CStringA filename = get_template_filename(_T("start.html")) ;

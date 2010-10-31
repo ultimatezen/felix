@@ -3,6 +3,7 @@
 #include "query.h"
 #include "logging.h"
 #include "Path.h"
+#include "cpptempl.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -13,7 +14,7 @@ static char THIS_FILE[] = __FILE__ ;
 namespace mem_engine
 {
 
-	using namespace text_tmpl ;
+	using namespace cpptempl;
 
 	wstring get_fname_from_loc(const wstring loc)
 	{
@@ -302,12 +303,13 @@ translation_match_query::translation_match_query() : m_start_numbering(1)
 wstring translation_match_query::create_dummy_match( )
 {
 	wstring tpl_text = get_template_text("match_none.txt") ;
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	engine.Assign(L"color", L"#000") ;
-	engine.Assign(L"query", get_query_rich()) ;
 
-	return engine.Fetch(tpl_text) ;
+	data[L"color"] = cpptempl::make_data( L"#000") ;
+	data[L"query"] = cpptempl::make_data( get_query_rich()) ;
+
+	return cpptempl::parse(tpl_text, data) ;
 }
 
 // wstring prev_score()
@@ -347,9 +349,9 @@ wstring translation_match_query::get_html_short()
 		return create_dummy_match() ;
 	}
 
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	fill_match_template_params(engine, current());
+	fill_match_template_params(data, current());
 
 	// fill in the template
 	wstring tpl_text ;
@@ -361,7 +363,7 @@ wstring translation_match_query::get_html_short()
 	{
 		tpl_text = get_template_text(_T("match_fuzzy.txt")) ;
 	}
-	return engine.Fetch(tpl_text) ;
+	return cpptempl::parse(tpl_text, data) ;
 }
 
 // wstring get_html_long() 
@@ -373,9 +375,9 @@ wstring translation_match_query::get_html_long()
 		return create_dummy_match() ;
 	}
 
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	fill_match_template_params(engine, current());
+	fill_match_template_params(data, current());
 
 	// fill in the template
 	wstring tpl_text ;
@@ -387,66 +389,66 @@ wstring translation_match_query::get_html_long()
 	{
 		tpl_text = get_template_text(_T("match_fuzzy_full.txt")) ;
 	}
-	return engine.Fetch(tpl_text) ;
+	return cpptempl::parse(tpl_text, data) ;
 }
-void translation_match_query::fill_match_template_params(CTextTemplate &engine, match_ptr match)
+void translation_match_query::fill_match_template_params(cpptempl::data_map &data, match_ptr match)
 {
 	// colors
-	engine.Assign(L"query_color", m_query_color.as_wstring()) ;
-	engine.Assign(L"source_color", m_source_color.as_wstring()) ;
-	engine.Assign(L"trans_color", m_trans_color.as_wstring()) ;
-	engine.Assign(L"index", ulong2wstring(this->current_pos())) ;
+	data[L"query_color"] = cpptempl::make_data( m_query_color.as_wstring()) ;
+	data[L"source_color"] = cpptempl::make_data( m_source_color.as_wstring()) ;
+	data[L"trans_color"] = cpptempl::make_data( m_trans_color.as_wstring()) ;
+	data[L"index"] = cpptempl::make_data( ulong2wstring(this->current_pos())) ;
 	// match text
 	if ( m_params.m_show_marking ) 
 	{
 		markup_ptr markup = match->get_markup() ;
-		engine.Assign(L"query", markup->GetQuery()) ;
-		engine.Assign(L"source", markup->GetSource()) ;
-		engine.Assign(L"trans", markup->GetTrans()) ;
+		data[L"query"] = cpptempl::make_data( markup->GetQuery()) ;
+		data[L"source"] = cpptempl::make_data( markup->GetSource()) ;
+		data[L"trans"] = cpptempl::make_data( markup->GetTrans()) ;
 	}
 	else
 	{
-		engine.Assign(L"query", get_query_rich()) ;
-		engine.Assign(L"source", match->get_record()->get_source_rich()) ;
-		engine.Assign(L"trans", match->get_record()->get_trans_rich()) ;
+		data[L"query"] = cpptempl::make_data( get_query_rich()) ;
+		data[L"source"] = cpptempl::make_data( match->get_record()->get_source_rich()) ;
+		data[L"trans"] = cpptempl::make_data( match->get_record()->get_trans_rich()) ;
 	}
 
 	// score
-	engine.Assign(L"score", get_score_text( match )) ;
+	data[L"score"] = cpptempl::make_data( get_score_text( match )) ;
 
 	// num / total
-	engine.Assign(L"num", ulong2wstring( m_pos+1 )) ;
-	engine.Assign(L"total", ulong2wstring( size() )) ;
+	data[L"num"] = cpptempl::make_data( ulong2wstring( m_pos+1 )) ;
+	data[L"total"] = cpptempl::make_data( ulong2wstring( size() )) ;
 
 	// match navigation
 	if ( size() > 1 ) 
 	{
 		wstring nav_text = get_template_text("next_nav.txt") ;
-		CTextTemplate nav_engine ;
-		nav_engine.Assign(L"prev_score", prev_score()) ;
-		nav_engine.Assign(L"next_score", next_score()) ;
-		engine.Assign(L"next_nav", nav_engine.Fetch(nav_text)) ;
+		cpptempl::data_map nav_data ;
+		nav_data[L"prev_score"] = cpptempl::make_data( prev_score()) ;
+		nav_data[L"next_score"] = cpptempl::make_data( next_score()) ;
+		data[L"next_nav"] = cpptempl::make_data(cpptempl::parse(nav_text, nav_data)) ;
 	}
 	else
 	{
-		engine.Assign(L"next_nav", L"") ;
+		data[L"next_nav"] = cpptempl::make_data( L"") ;
 	}
 
 	record_pointer current_rec = match->get_record() ;
 
-	engine.Assign(L"context", current_rec->get_context_rich()) ;
-	engine.Assign(L"created", current_rec->get_created().get_date_time_string()) ;
-	engine.Assign(L"modified", current_rec->get_modified().get_date_time_string()) ;
-	engine.Assign(L"reliability", boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
-	engine.Assign(L"validated", bool2wstring(current_rec->is_validated())) ;
+	data[L"context"] = cpptempl::make_data( current_rec->get_context_rich()) ;
+	data[L"created"] = cpptempl::make_data( current_rec->get_created().get_date_time_string()) ;
+	data[L"modified"] = cpptempl::make_data( current_rec->get_modified().get_date_time_string()) ;
+	data[L"reliability"] = cpptempl::make_data( boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
+	data[L"validated"] = cpptempl::make_data( bool2wstring(current_rec->is_validated())) ;
 
-	engine.Assign(L"creator", current_rec->get_creator()) ;
-	engine.Assign(L"modified_by", current_rec->get_modified_by()) ;
+	data[L"creator"] = cpptempl::make_data( current_rec->get_creator()) ;
+	data[L"modified_by"] = cpptempl::make_data( current_rec->get_modified_by()) ;
 	// other info
-	engine.Assign(L"mem", get_mem_name(match->get_memory_location())) ;
+	data[L"mem"] = cpptempl::make_data( get_mem_name(match->get_memory_location())) ;
 	wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-	engine.Assign(L"refcount", refcount) ;
-	engine.Assign(L"ref_count", refcount) ;
+	data[L"refcount"] = cpptempl::make_data( refcount) ;
+	data[L"ref_count"] = cpptempl::make_data( refcount) ;
 }
 
 bool translation_match_query::is_perfect_match( match_ptr match )
@@ -461,13 +463,13 @@ wstring translation_match_query::get_html_all()
 		return create_dummy_match() ;
 	}
 
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	engine.Assign(L"query_color", m_query_color.as_wstring()) ;
-	engine.Assign(L"source_color", m_source_color.as_wstring()) ;
-	engine.Assign(L"trans_color", m_trans_color.as_wstring()) ;
+	data[L"query_color"] = cpptempl::make_data( m_query_color.as_wstring()) ;
+	data[L"source_color"] = cpptempl::make_data( m_source_color.as_wstring()) ;
+	data[L"trans_color"] = cpptempl::make_data( m_trans_color.as_wstring()) ;
 
-	text_tmpl::DictListPtr items = engine.CreateDictList();
+	cpptempl::data_list items ;
 
 	size_t pos = this->current_pos() ;
 
@@ -475,56 +477,56 @@ wstring translation_match_query::get_html_all()
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_tmpl::DictPtr item = engine.CreateDict() ;
+		cpptempl::data_map item ;
 
 
 		if (pos == i)
 		{
-			item->insert(std::make_pair(L"active", L"&gt;&gt; ")) ;
+			item[L"active"] = make_data(L"&gt;&gt; ") ;
 		}
 		else
 		{
-			item->insert(std::make_pair(L"active", L"")) ;
+			item[L"active"] = make_data(L"") ;
 		}
 
 		// match text
 		if ( m_params.m_show_marking ) 
 		{
 			markup_ptr markup = match->get_markup() ;
-			item->insert(std::make_pair( L"query", markup->GetQuery())) ;
-			item->insert(std::make_pair( L"source", markup->GetSource())) ;
-			item->insert(std::make_pair( L"trans", markup->GetTrans())) ;
+			item[L"query"] = make_data(markup->GetQuery()) ;
+			item[L"source"] = make_data(markup->GetSource()) ;
+			item[L"trans"] = make_data(markup->GetTrans()) ;
 		}
 		else
 		{
-			item->insert(std::make_pair(L"query", get_query_rich())) ;
-			item->insert(std::make_pair(L"source", current_rec->get_source_rich())) ;
-			item->insert(std::make_pair(L"trans", current_rec->get_trans_rich())) ;
+			item[L"query"] = make_data(get_query_rich()) ;
+			item[L"source"] = make_data(current_rec->get_source_rich()) ;
+			item[L"trans"] = make_data(current_rec->get_trans_rich()) ;
 		}
 		// score
-		item->insert(std::make_pair(L"score", get_score_text(match))) ;
+		item[L"score"] = make_data(get_score_text(match)) ;
 
-		item->insert(std::make_pair(L"context", current_rec->get_context_rich())) ;
-		item->insert(std::make_pair(L"created", current_rec->get_created().get_date_time_string())) ;
-		item->insert(std::make_pair(L"modified", current_rec->get_modified().get_date_time_string())) ;
-		item->insert(std::make_pair(L"reliability", boost::lexical_cast<wstring>(current_rec->get_reliability()))) ;
-		item->insert(std::make_pair(L"validated", bool2wstring(current_rec->is_validated()))) ;
+		item[L"context"] = make_data(current_rec->get_context_rich()) ;
+		item[L"created"] = make_data(current_rec->get_created().get_date_time_string()) ;
+		item[L"modified"] = make_data(current_rec->get_modified().get_date_time_string()) ;
+		item[L"reliability"] = make_data(boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
+		item[L"validated"] = make_data(bool2wstring(current_rec->is_validated())) ;
 
-		item->insert(std::make_pair(L"creator", current_rec->get_creator())) ;
-		item->insert(std::make_pair(L"modified_by", current_rec->get_modified_by())) ;
+		item[L"creator"] = make_data(current_rec->get_creator()) ;
+		item[L"modified_by"] = make_data(current_rec->get_modified_by()) ;
 		// other info
-		item->insert( std::make_pair(L"mem", get_mem_name(match->get_memory_location()))) ;
+		item[L"mem"] = make_data(get_mem_name(match->get_memory_location())) ;
 		wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-		item->insert(std::make_pair(L"refcount", refcount)) ;
-		item->insert(std::make_pair(L"ref_count", refcount)) ;
+		item[L"refcount"] = make_data(refcount) ;
+		item[L"ref_count"] = make_data(refcount) ;
 
-		items->push_back(item) ;
+		items.push_back(cpptempl::make_data(item)) ;
 	}
-	engine.Assign(L"records", items) ;
+	data[L"records"] = cpptempl::make_data(items) ;
 
 	// fill in the template
 	wstring tpl_text = get_template_text(_T("matches_all.txt")) ;
-	return engine.Fetch(tpl_text) ;
+	return cpptempl::parse(tpl_text, data) ;
 }
 
 
@@ -575,39 +577,39 @@ wstring search_query_mainframe::get_html_short()
 
 wstring search_query_glossary::get_html_short()
 {
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	text_tmpl::DictListPtr items = engine.CreateDictList();
+	cpptempl::data_list items ;
 
 	for( size_t i = 0 ; i < size() ; ++i )
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_tmpl::DictPtr item = engine.CreateDict() ;
+		data_map item ;
 
 		// match text
 		markup_ptr markup = match->get_markup() ;
-		item->insert(std::make_pair(L"source", markup->GetSource())) ;
-		item->insert(std::make_pair(L"trans", markup->GetTrans())) ;
+		item[L"source"] = make_data(markup->GetSource()) ;
+		item[L"trans"] = make_data(markup->GetTrans()) ;
 		wstring context = markup->GetContext() ;
-		item->insert(std::make_pair(L"context", context.empty() ? L"&nbsp;" : context)) ;
+		item[L"context"] = make_data(context.empty() ? L"&nbsp;" : context) ;
 
-		item->insert(std::make_pair(L"created", current_rec->get_created().get_date_time_string())) ;
-		item->insert(std::make_pair(L"modified", current_rec->get_modified().get_date_time_string())) ;
-		item->insert(std::make_pair(L"reliability", boost::lexical_cast<wstring>(current_rec->get_reliability()))) ;
-		item->insert(std::make_pair(L"validated", bool2wstring(current_rec->is_validated()))) ;
+		item[L"created"] = make_data(current_rec->get_created().get_date_time_string()) ;
+		item[L"modified"] = make_data(current_rec->get_modified().get_date_time_string()) ;
+		item[L"reliability"] = make_data(boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
+		item[L"validated"] = make_data(bool2wstring(current_rec->is_validated())) ;
 
-		item->insert(std::make_pair(L"creator", current_rec->get_creator())) ;
-		item->insert(std::make_pair(L"modified_by", current_rec->get_modified_by())) ;
+		item[L"creator"] = make_data(current_rec->get_creator()) ;
+		item[L"modified_by"] = make_data(current_rec->get_modified_by()) ;
 		// other info
-		item->insert( std::make_pair(L"mem", get_mem_name(match))) ;
+		item[L"mem"] = make_data(get_mem_name(match)) ;
 		wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-		item->insert(std::make_pair(L"refcount", refcount)) ;
-		item->insert(std::make_pair(L"ref_count", refcount)) ;
+		item[L"refcount"] = make_data(refcount) ;
+		item[L"ref_count"] = make_data(refcount) ;
 
-		items->push_back(item) ;
+		items.push_back(cpptempl::make_data(item)) ;
 	}
-	engine.Assign(L"records", items) ;
+	data[L"records"] = cpptempl::make_data(items) ;
 
 	// fill in the template
 	wstring tpl_text ;
@@ -620,7 +622,7 @@ wstring search_query_glossary::get_html_short()
 		tpl_text = get_template_text(_T("gloss_matches0.txt")) ;
 	}
 
-	return engine.Fetch(tpl_text) ;
+	return cpptempl::parse(tpl_text, data) ;
 }
 
 
@@ -645,9 +647,9 @@ wstring search_query::get_mem_name(match_ptr match)
 
 wstring search_query::get_html_long()
 {
-	CTextTemplate engine ;
+	cpptempl::data_map data ;
 
-	text_tmpl::DictListPtr items = engine.CreateDictList();
+	data_list items ;
 
 	size_t pos = this->current_pos() ;
 
@@ -655,41 +657,41 @@ wstring search_query::get_html_long()
 	{
 		match_ptr match = this->at(i) ;
 		record_pointer current_rec = match->get_record() ;
-		text_tmpl::DictPtr item = engine.CreateDict() ;
+		data_map item ;
 
 		if (pos == i)
 		{
-			item->insert(std::make_pair(L"active", L"&gt;&gt; ")) ;
+			item[L"active"] = make_data(L"&gt;&gt; ") ;
 		}
 		else
 		{
-			item->insert(std::make_pair(L"active", L"")) ;
+			item[L"active"] = make_data(L"") ;
 		}
 
 
 		// match text
 		markup_ptr markup = match->get_markup() ;
-		item->insert(std::make_pair(L"source", markup->GetSource())) ;
-		item->insert(std::make_pair(L"trans", markup->GetTrans())) ;
+		item[L"source"] = make_data(markup->GetSource()) ;
+		item[L"trans"] = make_data(markup->GetTrans()) ;
 		wstring context = markup->GetContext() ;
-		item->insert(std::make_pair(L"context", context.empty() ? L"&nbsp;" : context)) ;
+		item[L"context"] = make_data(context.empty() ? L"&nbsp;" : context) ;
 
-		item->insert(std::make_pair(L"created", current_rec->get_created().get_date_time_string())) ;
-		item->insert(std::make_pair(L"modified", current_rec->get_modified().get_date_time_string())) ;
-		item->insert(std::make_pair(L"reliability", boost::lexical_cast<wstring>(current_rec->get_reliability()))) ;
-		item->insert(std::make_pair(L"validated", bool2wstring(current_rec->is_validated()))) ;
+		item[L"created"] = make_data(current_rec->get_created().get_date_time_string()) ;
+		item[L"modified"] = make_data(current_rec->get_modified().get_date_time_string()) ;
+		item[L"reliability"] = make_data(boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
+		item[L"validated"] = make_data(bool2wstring(current_rec->is_validated())) ;
 
-		item->insert(std::make_pair(L"creator", current_rec->get_creator())) ;
-		item->insert(std::make_pair(L"modified_by", current_rec->get_modified_by())) ;
+		item[L"creator"] = make_data(current_rec->get_creator()) ;
+		item[L"modified_by"] = make_data(current_rec->get_modified_by()) ;
 		// other info
-		item->insert( std::make_pair(L"mem", get_mem_name(match))) ;
+		item[L"mem"] = make_data(get_mem_name(match)) ;
 		wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-		item->insert(std::make_pair(L"refcount", refcount)) ;
-		item->insert(std::make_pair(L"ref_count", refcount)) ;
+		item[L"refcount"] = make_data(refcount) ;
+		item[L"ref_count"] = make_data(refcount) ;
 
-		items->push_back(item) ;
+		items.push_back(make_data(item)) ;
 	}
-	engine.Assign(L"records", items) ;
+	data[L"records"] = cpptempl::make_data(items) ;
 
 	// fill in the template
 	wstring tpl_text ;
@@ -702,13 +704,11 @@ wstring search_query::get_html_long()
 		tpl_text = get_template_text(_T("mem_concordance0.txt")) ;
 	}
 	
-	return engine.Fetch(tpl_text) ;
+	return cpptempl::parse(tpl_text, data) ;
 }
 
-void search_query::fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match )
+void search_query::fill_match_template_params( cpptempl::data_map &, match_ptr )
 {
-	engine ;
-	match ;
 	logging::log_warn("fill_match_template_params not implemented for gloss/concordance queries") ;
 	throw except::CProgramException(_T("method `fill_match_template_params` not implemented for gloss/concordance")) ;
 }

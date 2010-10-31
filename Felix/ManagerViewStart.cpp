@@ -48,7 +48,7 @@ namespace mgrview
 		}
 		engine.Assign("tms", tms) ;
 
-		wstring tpl_text = text_tmpl::get_template_text(_T("manager/datalist.txt")) ;
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/datalist.txt")) ;
 		return engine.Fetch(tpl_text) ;
 	}
 
@@ -71,7 +71,7 @@ namespace mgrview
 		engine.Assign("glosslist", glosslist) ;
 
 		// fill in the template
-		wstring tpl_text = text_tmpl::get_template_text(_T("manager/start.txt")) ;
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/start.txt")) ;
 		m_view->set_text(engine.Fetch(tpl_text)) ;
 	}
 
@@ -85,7 +85,7 @@ namespace mgrview
 		engine.Assign("memlist", memlist) ;
 
 		// fill in the template
-		wstring tpl_text = text_tmpl::get_template_text(_T("manager/startmem.txt")) ;
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/startmem.txt")) ;
 		m_view->set_text(engine.Fetch(tpl_text)) ;
 	}
 	// ManagerViewStartGloss
@@ -98,7 +98,7 @@ namespace mgrview
 		engine.Assign("glosslist", glosslist) ;
 
 		// fill in the template
-		wstring tpl_text = text_tmpl::get_template_text(_T("manager/startgloss.txt")) ;
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/startgloss.txt")) ;
 		m_view->set_text(engine.Fetch(tpl_text)) ;
 	}
 }

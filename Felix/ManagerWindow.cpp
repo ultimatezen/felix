@@ -64,7 +64,7 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	m_view.set_listener(static_cast<CHtmlViewListener *>(this)) ;
 
 	HWND client ;
-	const CString filename = get_template_filename(_T("manager/start.html")) ;
+	const CString filename = cpptempl::get_template_filename(_T("manager/start.html")) ;
 	m_view.create(*this, client, filename) ;
 	m_view.ensure_document_complete() ;
 

@@ -102,7 +102,7 @@ void ViewStateNewMain::show_content()
 {
 	m_view->ensure_document_complete() ;
 
-	const wstring tpl_text = text_tmpl::get_template_text("match_new.txt") ;
+	const wstring tpl_text = cpptempl::get_template_text("match_new.txt") ;
 
 	record_pointer new_rec = m_window_listener->get_new_record() ;
 	text_tmpl::CTextTemplate engine ;
@@ -198,7 +198,7 @@ void ViewStateNewGloss::show_content()
 
 	record_pointer new_rec = m_window_listener->get_new_record() ;
 
-	const wstring tpl_text = text_tmpl::get_template_text("gloss_match_new.txt") ;
+	const wstring tpl_text = cpptempl::get_template_text("gloss_match_new.txt") ;
 
 	text_tmpl::CTextTemplate engine ;
 	engine.Assign(L"source", new_rec->get_source_rich()) ;

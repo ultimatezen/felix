@@ -559,6 +559,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\cpptempl\cpptempl.cpp"
+				>
+				<FileConfiguration
+					Name="Testing|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\DemoException.cpp"
 				>
 			</File>
@@ -1578,6 +1590,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\cpptempl\cpptempl_test.cpp"
+					>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\data_converter_test.cpp"
 					>
 				</File>
@@ -2295,6 +2319,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\ConvertUTF.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\cpptempl\cpptempl.h"
 				>
 			</File>
 			<File

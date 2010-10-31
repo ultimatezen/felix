@@ -3,7 +3,7 @@
 #include "view_interface.h"
 #include "FelixModelInterface.h"
 #include "TranslationMemory.h"
-#include "TextTemplate.h"
+#include "cpptempl.h"
 
 namespace mgrview
 {
@@ -47,7 +47,7 @@ namespace mgrview
 
 	};
 	void set_mem_tmpl_info( mem_engine::memory_pointer mem, 
-							text_tmpl::CTextTemplate &engine, 
+							cpptempl::data_map &data, 
 							bool is_memory,
 							size_t index ) ;
 

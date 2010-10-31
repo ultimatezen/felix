@@ -10,8 +10,8 @@
 #include "ColorRef.h"
 
 #include "search_match.h"
-#include "TextTemplate.h"
 #include "text_templates.h"
+#include "cpptempl.h"
 
 #define RES_INST _Module.GetResourceInstance()
 
@@ -161,7 +161,7 @@ struct felix_query
 	virtual wstring get_html_short() = 0 ;
 	virtual wstring get_html_long() = 0 ;
 	virtual wstring get_html_all() = 0 ;
-	virtual void fill_match_template_params( text_tmpl::CTextTemplate &engine, 
+	virtual void fill_match_template_params( cpptempl::data_map &data, 
 											 match_ptr match ) = 0 ;
 
 } ;
@@ -187,7 +187,7 @@ struct search_query
 	{
 		return this->get_html_long() ;
 	}
-	void fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match );
+	void fill_match_template_params( cpptempl::data_map &data, match_ptr match );
 } ;
 
 
@@ -251,7 +251,7 @@ struct translation_match_query : public felix_query
 	wstring get_html_long()  ;
 
 	bool is_perfect_match(match_ptr match);
-	void fill_match_template_params( text_tmpl::CTextTemplate &engine, match_ptr match );
+	void fill_match_template_params( cpptempl::data_map &data, match_ptr match );
 } ;
 
 

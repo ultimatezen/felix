@@ -24,8 +24,8 @@
 #include "StringEx.h"
 #include "ProgressListener.h"
 
-#include "TextTemplate.h"
 #include "output_device.h"
+#include "cpptempl.h"
 
 /**
 	@class CTMXWriter
@@ -46,7 +46,7 @@ VISIBLE_TO_TESTS
 	int					m_iLevel ;
 	CProgressListener	*m_listener ;
 
-	text_tmpl::CTextTemplate textTemplate ;
+	cpptempl::data_map m_data ;
 	wstring tmplText ;
 
 	// junk included by SDLX
