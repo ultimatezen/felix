@@ -35,7 +35,6 @@
 #endif
 
 using namespace mem_engine ;
-using namespace text_tmpl ;
 
 CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, FrameListener *listener) : 
 	m_listener(listener),

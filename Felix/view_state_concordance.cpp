@@ -3,7 +3,6 @@
 #include "text_templates.h"
 #include "logging.h"
 #include "resource_string.h"
-#include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "system_message.h"

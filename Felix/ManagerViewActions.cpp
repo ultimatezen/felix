@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ManagerViewActions.h"
-#include "TextTemplate.h"
 #include "SearchWindow.h"
 #include "cpptempl.h"
 

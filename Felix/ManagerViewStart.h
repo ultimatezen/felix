@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ManagerView.h"
-#include "TextTemplate.h"
 
 namespace mgrview
 {

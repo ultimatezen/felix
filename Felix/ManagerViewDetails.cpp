@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ManagerViewDetails.h"
-#include "TextTemplate.h"
 #include "SearchWindow.h"
 
 namespace mgrview
