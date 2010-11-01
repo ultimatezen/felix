@@ -406,10 +406,9 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 	data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator)) ;
 	data[L"page"] = cpptempl::make_data(ulong2wstring(m_paginator.get_current_page()+1)) ;
 
-	CNumberFmt number_format ;
-	data[L"num_pages"] = cpptempl::make_data(wstring((LPCWSTR)(number_format.Format(m_paginator.get_num_pages())))) ;
+	data[L"num_pages"] = cpptempl::make_data(fmt_num(m_paginator.get_num_pages())) ;
 
-	data[L"num_matches"] = cpptempl::make_data(wstring((LPCWSTR)(number_format.Format(matches.size())))) ;
+	data[L"num_matches"] = cpptempl::make_data(fmt_num(matches.size())) ;
 
 	cpptempl::data_list items ;
 

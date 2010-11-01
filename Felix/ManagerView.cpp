@@ -43,8 +43,7 @@ namespace mgrview
 	{
 		mem_engine::MemoryInfo *mem_info = mem->get_memory_info() ;
 
-		CNumberFmt number_format ;
-		wstring memsize = (LPCWSTR)(number_format.Format(mem->size())) ;
+		wstring memsize = fmt_num(mem->size()) ;
 		data[L"size"] = cpptempl::make_data(memsize) ;
 
 		data[L"name"] = cpptempl::make_data(get_memname(mem)) ;

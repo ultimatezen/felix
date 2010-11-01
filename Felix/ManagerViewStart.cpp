@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ManagerViewStart.h"
-#include "TextTemplate.h"
 #include "text_templates.h"
+#include "cpptempl.h"
 #include "numberfmt.h"
 
 namespace mgrview
@@ -9,47 +9,46 @@ namespace mgrview
 	wstring make_mem_list(FelixModelInterface *mems, 
 										const wstring memtype )
 	{
-		text_tmpl::CTextTemplate engine ;
+		cpptempl::data_map data ;
 
-		engine.Assign("memtype", memtype) ;
+		data[L"memtype"] = cpptempl::make_data(memtype) ;
 
-		text_tmpl::DictListPtr tms = engine.CreateDictList() ;
+		cpptempl::data_list tms ;
 		for(size_t i = 0 ; i < mems->size() ; ++i)
 		{
 			mem_engine::memory_pointer mem = mems->memory_at(i) ;
 
-			text_tmpl::DictPtr item = engine.CreateDict() ;
+			cpptempl::data_map item ;
 	
-			CNumberFmt number_format ;
-			wstring memsize = (LPCWSTR)(number_format.Format(mem->size())) ;
-			engine.Assign(item, L"size", memsize) ;
+			wstring memsize = fmt_num(mem->size()) ;
+			item[L"size"] = cpptempl::make_data(memsize) ;
 
 			// up/down arrows
 			if (i > 0 && mems->size() > 1)
 			{
-				engine.Assign(item, L"has_up", L"true") ;
+				item[L"has_up"] = cpptempl::make_data(L"true") ;
 			}
 			else
 			{
-				engine.Assign(item, L"has_up", L"") ;
+				item[L"has_up"] = cpptempl::make_data(L"") ;
 			}
 			if (i < mems->size() - 1 && mems->size() > 1)
 			{
-				engine.Assign(item, L"has_down", L"true") ;
+				item[L"has_down"] = cpptempl::make_data(L"true") ;
 			}
 			else
 			{
-				engine.Assign(item, L"has_down", L"") ;
+				item[L"has_down"] = cpptempl::make_data(L"") ;
 			}
 
-			engine.Assign(item, L"name", get_memname(mem)) ;
+			item[L"name"] = cpptempl::make_data(get_memname(mem)) ;
 
-			tms->push_back(item) ;
+			tms.push_back(cpptempl::make_data(item)) ;
 		}
-		engine.Assign("tms", tms) ;
+		data[L"tms"] = cpptempl::make_data(tms) ;
 
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/datalist.txt")) ;
-		return engine.Fetch(tpl_text) ;
+		return cpptempl::parse(tpl_text, data) ;
 	}
 
 	// ManagerViewStart

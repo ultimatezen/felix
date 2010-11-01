@@ -158,12 +158,11 @@ wstring get_pagination_text(Paginator &paginator)
 	data[L"last_page"] = make_data(ulong2wstring(paginator.get_num_pages())) ;
 
 	// num matches
-	CNumberFmt number_format ;
-	data[L"num_matches"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_num_records())))) ;
+	data[L"num_matches"] = make_data(fmt_num(paginator.get_num_records())) ;
 
 	// start/end
-	data[L"matches_start"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_start()+1)))) ;
-	data[L"matches_end"] = make_data(wstring((LPCWSTR)(number_format.Format(paginator.get_end())))) ;
+	data[L"matches_start"] = make_data(fmt_num(paginator.get_start()+1)) ;
+	data[L"matches_end"] = make_data(fmt_num(paginator.get_end())) ;
 
 	// pages
 	cpptempl::data_list pages ;
