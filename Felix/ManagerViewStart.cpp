@@ -60,44 +60,44 @@ namespace mgrview
 
 	void ManagerViewStart::show_content()
 	{
-		text_tmpl::CTextTemplate engine ;
+		cpptempl::data_map data ;
 
 		// tms
 		wstring memlist = make_mem_list(m_mem_model, L"mem") ;
-		engine.Assign("memlist", memlist) ;
+		data[L"memlist"] = cpptempl::make_data(memlist) ;
 
 		wstring glosslist = make_mem_list(m_gloss_model, L"gloss") ;
-		engine.Assign("glosslist", glosslist) ;
+		data[L"glosslist"] = cpptempl::make_data(glosslist) ;
 
 		// fill in the template
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/start.txt")) ;
-		m_view->set_text(engine.Fetch(tpl_text)) ;
+		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 
 	// ManagerViewStartMem
 	void ManagerViewStartMem::show_content()
 	{
-		text_tmpl::CTextTemplate engine ;
+		cpptempl::data_map data ;
 
 		// tms
 		wstring memlist = make_mem_list(m_mem_model, L"mem") ;
-		engine.Assign("memlist", memlist) ;
+		data[L"memlist"] = cpptempl::make_data(memlist) ;
 
 		// fill in the template
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/startmem.txt")) ;
-		m_view->set_text(engine.Fetch(tpl_text)) ;
+		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 	// ManagerViewStartGloss
 	void ManagerViewStartGloss::show_content()
 	{
-		text_tmpl::CTextTemplate engine ;
+		cpptempl::data_map data ;
 
 		// tms
 		wstring glosslist = make_mem_list(m_gloss_model, L"gloss") ;
-		engine.Assign("glosslist", glosslist) ;
+		data[L"glosslist"] = cpptempl::make_data(glosslist) ;
 
 		// fill in the template
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/startgloss.txt")) ;
-		m_view->set_text(engine.Fetch(tpl_text)) ;
+		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 }

@@ -3,11 +3,11 @@
 #include "text_templates.h"
 #include "logging.h"
 #include "resource_string.h"
-#include "TextTemplate.h"
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "record_local.h"
 #include "system_message.h"
+#include "cpptempl.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNew
@@ -105,11 +105,11 @@ void ViewStateNewMain::show_content()
 	const wstring tpl_text = cpptempl::get_template_text("match_new.txt") ;
 
 	record_pointer new_rec = m_window_listener->get_new_record() ;
-	text_tmpl::CTextTemplate engine ;
-	engine.Assign(L"source", new_rec->get_source_rich()) ;
-	engine.Assign(L"trans", new_rec->get_trans_rich()) ;
+	cpptempl::data_map data ;
+	data[L"source"] = cpptempl::make_data(new_rec->get_source_rich()) ;
+	data[L"trans"] = cpptempl::make_data(new_rec->get_trans_rich()) ;
 
-	m_view->set_text( engine.Fetch(tpl_text) ) ;
+	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;
 	m_window_listener->check_mousewheel() ;
 
 	m_window_listener->set_bg_color_if_needed() ;
@@ -200,24 +200,24 @@ void ViewStateNewGloss::show_content()
 
 	const wstring tpl_text = cpptempl::get_template_text("gloss_match_new.txt") ;
 
-	text_tmpl::CTextTemplate engine ;
-	engine.Assign(L"source", new_rec->get_source_rich()) ;
-	engine.Assign(L"trans", new_rec->get_trans_rich()) ;
+	cpptempl::data_map data ;
+	data[L"source"] = cpptempl::make_data(new_rec->get_source_rich()) ;
+	data[L"trans"] = cpptempl::make_data(new_rec->get_trans_rich()) ;
 
 	// context
 	if ( new_rec->get_context_plain().empty() )
 	{
-		engine.Assign(L"context", wstring(L"<b><font color=\"red\">") + R2W( IDS_NO_CONTEXT ) + L"</font></b>") ;
-		engine.Assign(L"context_id", L"context_tmp") ;
+		data[L"context"] = cpptempl::make_data(wstring(L"<b><font color=\"red\">") + R2W( IDS_NO_CONTEXT ) + L"</font></b>") ;
+		data[L"context_id"] = cpptempl::make_data(L"context_tmp") ;
 	}
 	else
 	{
-		engine.Assign(L"context", new_rec->get_context_rich()) ;
-		engine.Assign(L"context_id", R2W( IDS_CONTEXT_ID )) ;
+		data[L"context"] = cpptempl::make_data(new_rec->get_context_rich()) ;
+		data[L"context_id"] = cpptempl::make_data(R2W( IDS_CONTEXT_ID )) ;
 	}
 
 
-	m_view->set_text( engine.Fetch(tpl_text) ) ;
+	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;
 
 	m_view->ensure_document_complete() ;
 
