@@ -95,7 +95,8 @@ LRESULT CGlossaryDialog::on_mru_file_open( WORD wID )
 	
 	try
 	{
-		ensure_file_exists(file_name);
+		InputDeviceFile input ;
+		input.ensure_file_exists(file_name);
 		if ( load( file_name ) )
 		{
 			m_mru.MoveToTop(wID) ;

@@ -8,8 +8,10 @@
 #include "DemoException.h"
 
 #include <boost/test/unit_test.hpp>
-
 #ifdef UNIT_TEST
+
+#include <amop/include/MockObject.h>
+#include "input_device_fake.h"
 
 using namespace mem_engine ;
 using namespace except ;
@@ -1444,7 +1446,7 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE( test_memory_header_info )
+BOOST_AUTO_TEST_SUITE( test_memory_info )
 
 	using namespace mem_engine ;
 	using namespace except ;
@@ -1477,15 +1479,24 @@ BOOST_AUTO_TEST_SUITE( test_memory_header_info )
 
 		MemoryInfo *mem_info = mem.get_memory_info() ;
 		mem_info->set_creator( L"FooBar" ) ;
-		BOOST_CHECK( L"FooBar" == mem.get_memory_info()->get_creator() ) ;
+		BOOST_CHECK_EQUAL( L"FooBar", mem.get_memory_info()->get_creator() ) ;
 
 		app_props::properties_general props ;
 		props.read_from_registry() ;
 		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
 		props.write_to_registry() ;
 
-		string actual = string2string(mem_info->get_current_user()) ;
-		BOOST_CHECK_EQUAL( "Ryan",  actual) ;
+		BOOST_CHECK_EQUAL( L"Ryan",  mem_info->get_current_user()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(get_creation_date)
+	{
+		memory_local mem ;
+		InputDeviceFake input ;
+		input.m_filetime = L"2001/11/12 11:12:13" ;
+		mem.get_date_created(_T("foo.txt"), &input) ;
+		wstring actual = mem.get_memory_info()->get_created_on() ;
+		BOOST_CHECK_EQUAL(actual, input.m_filetime) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -27,8 +27,8 @@
 #include "UserName.h"
 #include "match_tester.h"
 #include "segment.h"
+#include "input_device.h"
 
-void ensure_file_exists( const CString & file_name );
 bool is_vista_or_later() ;
 const CString get_load_failure_msg( const CString & file_name ) ;
 
@@ -168,7 +168,7 @@ public:
 	void continue_or_throw(except::CException &e);
 
 	void refresh_user_name(void);
-	void get_date_created( const CString &location );
+	void get_date_created( const CString &location, InputDevice *input );
 
 	UINT get_correct_encoding(const char *text, UINT text_size ) ;
 

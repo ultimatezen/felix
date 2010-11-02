@@ -367,7 +367,8 @@ namespace mem_engine
 		// the document is saved
 		set_saved_flag( true ) ;
 
-		ensure_file_exists(get_location());
+		InputDeviceFile input ;
+		input.ensure_file_exists(get_location());
 
 		return is_saved() ;
 	}
@@ -492,7 +493,8 @@ namespace mem_engine
 		}
 		// input assumptions
 		ATLASSERT( file_name.IsEmpty() == false ) ;
-		ensure_file_exists(file_name);
+		InputDeviceFile input ;
+		input.ensure_file_exists(file_name);
 
 		// see if we are a demo...
 		refresh_status() ;
@@ -502,7 +504,7 @@ namespace mem_engine
 		// and refresh it whenever the preferences are changed.
 		refresh_user_name() ;
 
-		get_date_created(file_name) ;
+		get_date_created(file_name, &input) ;
 
 		const unsigned int file_len = file::file::size( file_name ) ;
 
@@ -521,7 +523,7 @@ namespace mem_engine
 		postLoadCleanup(file_name, was_saved, original_num_records);
 
 		set_location(file_name) ;
-		ensure_file_exists(get_location());
+		input.ensure_file_exists(get_location());
 
 		return true ;
 	}
@@ -617,7 +619,8 @@ namespace mem_engine
 
 		// get the size of the file and date created
 		file::file memory_file ;
-		ensure_file_exists(location);
+		InputDeviceFile input ;
+		input.ensure_file_exists(location);
 		try
 		{
 			memory_file.open( location ) ;

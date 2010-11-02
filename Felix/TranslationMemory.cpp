@@ -27,17 +27,6 @@ static char THIS_FILE[] = __FILE__ ;
 
 using namespace except;
 
-// Throw an exception if the file doesn't exist.
-void ensure_file_exists( const CString & file_name ) 
-{
-	const file::CPath path(file_name) ;
-	if ( ! path.FileExists() ) // whoops -- file not there
-	{
-		CString msg ;
-		msg.FormatMessage( IDS_MSG_NO_FILE, file_name ) ;
-		THROW_WIN_EXCEPTION( msg ) ;
-	}
-}
 
 bool is_vista_or_later() 
 {
@@ -359,19 +348,14 @@ namespace mem_engine
 		this->get_memory_info()->get_current_user() ;
 	}
 
-	void CTranslationMemory::get_date_created( const CString &location )
+	void CTranslationMemory::get_date_created( const CString &location, InputDevice *input )
 	{
 		// get the size of the file and date created
-		file::file memory_file ;
-		ensure_file_exists(location);
-		memory_file.open( location ) ;
-		FILETIME file_time ;
-		memory_file.get_creation_time( &file_time ) ;
+		input->ensure_file_exists(location);
 
 		// Get created on from file creation date (but the memory could be older than
 		// this if it has been copied, etc.)
-		misc_wrappers::date created_date( file_time ) ;
-		this->get_memory_info()->set_created_on( string2wstring( created_date.get_date_time_string( ) ) );
+		this->get_memory_info()->set_created_on( input->get_creation_time(location) ) ;
 	}
 
 	/*

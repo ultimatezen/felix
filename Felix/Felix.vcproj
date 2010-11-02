@@ -2502,6 +2502,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\input_device.h"
+				>
+			</File>
+			<File
 				RelativePath="InputKeyDlg.h"
 				>
 			</File>
@@ -2666,7 +2670,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\output_device.h"
+				RelativePath="..\common\output_device.h"
 				>
 			</File>
 			<File
@@ -2902,6 +2906,10 @@
 				</File>
 				<File
 					RelativePath=".\felix_model_fake.h"
+					>
+				</File>
+				<File
+					RelativePath="..\common\input_device_fake.h"
 					>
 				</File>
 				<File

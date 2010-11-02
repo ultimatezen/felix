@@ -31,7 +31,8 @@ CImportMultitermFile::~CImportMultitermFile(void)
 */
 void CImportMultitermFile::import( const CString &file_name )
 {
-	ensure_file_exists(file_name) ;
+	InputDeviceFile input ;
+	input.ensure_file_exists(file_name);
 
 	// multiterm 6 file?
 	if ( get_file_bom(file_name) == file::file::LE_BOM )

@@ -2548,7 +2548,8 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
  */
 bool CMainFrame::load(const CString file_name, const bool check_empty )
 {
-	ensure_file_exists(file_name);
+	InputDeviceFile input ;
+	input.ensure_file_exists(file_name);
 
 	// put message in status bar
 	loading_file_feedback(file_name);

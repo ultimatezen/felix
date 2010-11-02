@@ -26,7 +26,8 @@ using namespace mem_engine ;
 // Function name	: trados_data_importer::open_data_source
 bool  trados_data_importer::open_data_source(const CString &source_name)
 {
-	ensure_file_exists(source_name);
+	InputDeviceFile input ;
+	input.ensure_file_exists(source_name);
 	
 	m_file_size = file::file::size( source_name )  ;
 
