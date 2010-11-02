@@ -1402,10 +1402,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\TextTemplate.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.cpp"
 				>
 			</File>
@@ -1927,10 +1923,6 @@
 				</File>
 				<File
 					RelativePath="..\..\MyLibrary\textstream_reader_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
 					>
 				</File>
 				<File
@@ -2815,10 +2807,6 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\textstream_reader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\MyLibrary\TextTemplate.h"
 				>
 			</File>
 			<File
