@@ -3,18 +3,33 @@
 #include "key_mapper_word.h"
 #include "file.h"
 #include "Path.h"
+#include "logging.h"
 
 string get_shortcuts_text(CString base_filename)
 {
-	CString filename = get_config_filename(base_filename) ;
-	if (! file::CPath(filename).FileExists())
+	try
 	{
-		write_default_shortcuts_file(filename) ;
-	}
-	file::view config_view ;
-	string text(static_cast<LPCSTR>(config_view.create_view_readonly(filename))) ;
+		CString filename = get_config_filename(base_filename) ;
+		if (! file::CPath(filename).FileExists())
+		{
+			OutputDeviceFile output ;
+			write_default_shortcuts_file(filename, &output) ;
+		}
+		file::view config_view ;
+		string text(static_cast<LPCSTR>(config_view.create_view_readonly(filename))) ;
 
-	return text ;
+		if (text.empty())
+		{
+			return get_default_file_text() ;
+		}
+		return text ;
+	}
+	catch (except::CException& e)
+	{
+		logging::log_error("Program exception: Failed to get shortcuts text") ;
+		logging::log_exception(e) ;
+		return get_default_file_text() ;
+	}
 }
 
 
@@ -76,12 +91,11 @@ string get_default_file_text(void)
 	return writer.result ;
 }
 
-void write_default_shortcuts_file(CString filename)
+void write_default_shortcuts_file(CString filename, OutputDevice *output)
 {
 	const string text = get_default_file_text() ;
 
-	file::file outfile ;
-	outfile.open_always(filename) ;
-	outfile.write(text) ;
-	outfile.close() ;
+	output->open(filename) ;
+	output->write(text) ;
+	output->close() ;
 }
