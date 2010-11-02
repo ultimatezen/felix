@@ -3,6 +3,7 @@
 #include "logging.h"
 #include "record_local.h"
 #include "DemoException.h"
+#include "input_device_file.h"
 
 namespace mem_engine
 {
@@ -506,7 +507,7 @@ namespace mem_engine
 
 		get_date_created(file_name, &input) ;
 
-		const unsigned int file_len = file::file::size( file_name ) ;
+		const unsigned int file_len = input.get_size(file_name) ;
 
 		if ( file_len == 0 )
 		{
@@ -516,7 +517,7 @@ namespace mem_engine
 		const size_t original_num_records = size() ;
 		// create a view of the xml document
 		file::view memory_view ;
-		char *raw_text = (char *)memory_view.create_view( file_name ) ;
+		char *raw_text = input.create_view_char( file_name ) ;
 
 		bool was_saved = load_text(raw_text, file_name, file_len);
 
@@ -649,8 +650,7 @@ namespace mem_engine
 		m_header.set_created_on( created_on ) ;
 
 		// create a view of the xml document
-		file::view memory_view ;
-		char *raw_text = (char *)memory_view.create_view( location ) ;
+		char *raw_text = input.create_view_char( location ) ;
 
 		load_header_raw_text(raw_text, file_len);
 		return;

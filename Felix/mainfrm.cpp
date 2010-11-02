@@ -59,6 +59,7 @@
 
 #include "cpptempl.h"
 #include <shellapi.h>
+#include "input_device_file.h"
 
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
@@ -2418,7 +2419,9 @@ bool CMainFrame::import_tmx( const CString &file_name )
 	memory_pointer mem = m_model->get_memories()->add_memory() ;
 	
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
-	reader.load_tmx_memory( file_name ) ;
+	
+	InputDeviceFile input ;
+	reader.load_tmx_memory( file_name, &input ) ;
 
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 

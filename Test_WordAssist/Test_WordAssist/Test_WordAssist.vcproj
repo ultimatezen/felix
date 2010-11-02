@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\common\input_device_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\keyboard_mapper_word_test.cpp"
 				>
 			</File>
@@ -420,6 +424,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\common\input_device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\common\input_device_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\common\input_device_file.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\WordAssist\WordAssist\InputNumDlg.h"
 				>
 			</File>
@@ -460,6 +476,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\common\output_device.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\MyLibrary\Parser.h"
 				>
 			</File>
@@ -488,11 +508,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

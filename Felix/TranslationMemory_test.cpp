@@ -11,6 +11,8 @@
 #include "MockListener.h"
 #include "memory_local.h"
 #include <boost/test/unit_test.hpp>
+#include "input_device_file.h"
+
 BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
 	using namespace mem_engine ;

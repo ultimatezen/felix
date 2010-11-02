@@ -305,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\common\input_device_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
 				>
 			</File>
@@ -482,6 +486,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\common\input_device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\common\input_device_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\common\input_device_file.h"
+				>
+			</File>
+			<File
 				RelativePath=".\InputDlg.h"
 				>
 			</File>
@@ -535,6 +551,10 @@
 			</File>
 			<File
 				RelativePath=".\OfficeImports.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\common\output_device.h"
 				>
 			</File>
 			<File

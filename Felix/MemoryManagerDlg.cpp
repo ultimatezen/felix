@@ -19,6 +19,7 @@
 #include "xpmenu/Tools.h"
 #include "Drop.h"
 #include "system_message.h"
+#include "input_device_file.h"
 
 using namespace html ;
 using namespace mem_engine ;

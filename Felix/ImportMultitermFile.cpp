@@ -4,17 +4,14 @@
 #include "memory_local.h"
 #include "record.h"
 #include "record_local.h"
+#include "input_device_file.h"
 
 //! Get the byte order mark of the file.
 //! We use this to tell if it's a multiterm-6.0 glossary
 //! (multiterm 6.0 files will be UTF-16 with LE BOM)
-file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name )
+file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name, InputDevice *input )
 {
-	file::file import_file ;
-	import_file.open_read(file_name) ;
-	const file::file::BYTE_ORDER_MARK bom = import_file.get_bom() ;
-	import_file.close() ;
-	return bom ;
+	return input->get_file_bom(file_name) ;
 }
 
 CImportMultitermFile::CImportMultitermFile(CProgressListener *listener) :
@@ -35,7 +32,7 @@ void CImportMultitermFile::import( const CString &file_name )
 	input.ensure_file_exists(file_name);
 
 	// multiterm 6 file?
-	if ( get_file_bom(file_name) == file::file::LE_BOM )
+	if ( get_file_bom(file_name, &input) == file::file::LE_BOM )
 	{
 		import_multiterm6( file_name ) ;
 	}

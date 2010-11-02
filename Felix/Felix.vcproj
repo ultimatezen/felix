@@ -821,6 +821,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\input_device_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InputKeyDlg.cpp"
 				>
 			</File>
@@ -2495,6 +2499,10 @@
 			</File>
 			<File
 				RelativePath="..\common\input_device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\input_device_file.h"
 				>
 			</File>
 			<File

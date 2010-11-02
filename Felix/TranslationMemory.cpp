@@ -14,6 +14,7 @@
 #include "output_device.h"
 #include "logging.h"
 #include "DemoException.h"
+#include "input_device_file.h"
 
 static const int ONEKB = 1024 ;
 static const int ONEMB = (ONEKB*ONEKB) ;

@@ -35,6 +35,7 @@
 #include "ConcordanceDialog.h"
 #include "TabbedTextImporter.h"
 #include "ExcelInterfaceReal.h"
+#include "input_device_file.h"
 
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")

@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\input_device_file.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\key_mapper_ppt_test.cpp"
 				>
 			</File>
@@ -399,6 +403,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\input_device.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\input_device_fake.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\input_device_file.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\MyLibrary\key_mapper_fake.h"
 				>
 			</File>
@@ -424,6 +440,10 @@
 			</File>
 			<File
 				RelativePath="..\..\MyLibrary\MiniVersion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\output_device.h"
 				>
 			</File>
 			<File
@@ -479,11 +499,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\PowerPointAssist\PowerPointAssist\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\PowerPointAssist\PowerPointAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

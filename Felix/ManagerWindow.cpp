@@ -29,6 +29,8 @@
 #include "action_strip_tags.h"
 #include "action_trim_spaces.h"
 
+#include "input_device_file.h"
+
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
@@ -863,7 +865,8 @@ bool CManagerWindow::import_tmx( const CString &file_name )
 	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
 
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
-	reader.load_tmx_memory( file_name ) ;
+	InputDeviceFile input ;
+	reader.load_tmx_memory( file_name, &input ) ;
 
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 

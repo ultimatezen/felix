@@ -3,12 +3,12 @@
 #include "ProgressListener.h"
 #include "TranslationMemory.h"
 #include "memory_local.h"
-
+#include "input_device.h"
 
 typedef boost::tuple<string, string> strcols ;
 typedef boost::tuple<wstring, wstring, wstring> wstrcols ;
 
-file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name ) ;
+file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name, InputDevice *input ) ;
 
 class CImportMultitermFile
 {

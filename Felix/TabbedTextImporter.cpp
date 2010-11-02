@@ -3,6 +3,7 @@
 
 #include "record.h"
 #include "record_local.h"
+#include "input_device_file.h"
 
 CTabbedTextImporter::CTabbedTextImporter(CProgressListener *listener) :
 m_listener(listener),
@@ -56,10 +57,10 @@ void CTabbedTextImporter::add_records( const wstring text )
 
 void CTabbedTextImporter::load_file( const CString filename )
 {
-	file::file::BYTE_ORDER_MARK bom = get_file_bom(filename) ;
-	const size_t fsize = file::file::size(filename) ;
-	file::view fileview = file::view() ;
-	LPSTR raw_text = (LPSTR)fileview.create_view(filename) ;
+	InputDeviceFile input ;
+	file::file::BYTE_ORDER_MARK bom = input.get_file_bom(filename) ;
+	const size_t fsize = input.get_size(filename) ;
+	LPSTR raw_text = (LPSTR)input.create_view_char(filename) ;
 	UINT encoding = get_textfile_encoding(bom, raw_text, fsize) ;
 
 	CStringW wide_buffer ;

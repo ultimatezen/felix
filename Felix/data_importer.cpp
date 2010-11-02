@@ -11,6 +11,7 @@
 #include "ArmadilloStuff.h"
 
 #include "charset_info.h"	// convert lang ids to code pages
+#include "input_device_file.h"
 
 
 #ifdef _DEBUG
