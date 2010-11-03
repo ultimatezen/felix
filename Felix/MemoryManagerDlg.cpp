@@ -526,10 +526,10 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 }
 void CMemoryManagerDlg::add_memory_files( file::OpenDlgList &import_files )
 {
-	InputDeviceFile input ;
+	input_device_ptr input(new InputDeviceFile) ;
 	foreach(CString filename, import_files.m_filenames)
 	{
-		input.ensure_file_exists(filename);
+		input->ensure_file_exists(filename);
 		add_memory_file(filename) ;
 	}
 }
@@ -1049,7 +1049,8 @@ wstring CMemoryManagerDlg::get_file_size( memory_pointer mem )
 	}
 	else
 	{
-		return file_size2wstring(file::file::size( path.Path() )) ;
+		input_device_ptr input(new InputDeviceFile) ;
+		return file_size2wstring(input->get_size( path.Path() )) ;
 	}
 }
 

@@ -168,7 +168,7 @@ public:
 	void continue_or_throw(except::CException &e);
 
 	void refresh_user_name(void);
-	void get_date_created( const CString &location, InputDevice *input );
+	void get_date_created( const CString &location, input_device_ptr input );
 
 	UINT get_correct_encoding(const char *text, UINT text_size ) ;
 

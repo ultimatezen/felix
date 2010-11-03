@@ -249,7 +249,7 @@ CTMXReader::~CTMXReader(void)
 }
 
 // Load a TMX file into a memory
-memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, InputDevice *input)
+memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_device_ptr input)
 {
 	switch ( get_bom(file_name) )
 	{
@@ -511,29 +511,24 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 
 size_t CTMXReader::get_file_size(const CString & file_name)
 {
-	return file::file::size( file_name ) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	return input->get_size(file_name) ;
 }
 
 file::file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name)
 {
-	file::file tmx_file ;
-	tmx_file.open_read( file_name ) ;
-	ATLASSERT ( tmx_file.is_open() ) ; 
-
-	file::file::BYTE_ORDER_MARK bom = tmx_file.get_bom() ;
-	tmx_file.close() ;
-
-	return bom ;
+	input_device_ptr input(new InputDeviceFile) ;
+	return input->get_file_bom(file_name) ;
 }
 
-void CTMXReader::load_utf16(const CString & file_name, InputDevice *input)
+void CTMXReader::load_utf16(const CString & file_name, input_device_ptr input)
 {
 	LPCWSTR raw_text = input->create_view_wchar(file_name) ;
 	m_text = raw_text+1 ;
 	m_reader.set_buffer(m_text.c_str()) ;
 }
 
-void CTMXReader::load_utf16be(const CString & file_name, InputDevice *input)
+void CTMXReader::load_utf16be(const CString & file_name, input_device_ptr input)
 {
 	const size_t file_size = input->get_size(file_name) ;
 	LPCWSTR raw_text = input->create_view_wchar(file_name) ;
@@ -553,7 +548,7 @@ void CTMXReader::load_utf16be(const CString & file_name, InputDevice *input)
 	m_reader.set_buffer(m_text.c_str()+1) ;
 }
 
-void CTMXReader::load_utf8(const CString & file_name, InputDevice *input)
+void CTMXReader::load_utf8(const CString & file_name, input_device_ptr input)
 {
 	LPCSTR raw_text = input->create_view_char(file_name) ;
 	const UINT bom_size = file::file::bom_size( input->get_file_bom(file_name) ) ;
@@ -565,7 +560,7 @@ void CTMXReader::load_utf8(const CString & file_name, InputDevice *input)
 
 	m_reader.set_buffer( m_text.c_str() ) ;
 }
-void CTMXReader::load_utf7(const CString & file_name, InputDevice *input)
+void CTMXReader::load_utf7(const CString & file_name, input_device_ptr input)
 {
 	LPCSTR raw_text = input->create_view_char(file_name) ;
 	const UINT bom_size = file::file::bom_size( file::file::UTF7_BOM ) ;

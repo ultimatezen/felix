@@ -349,7 +349,7 @@ namespace mem_engine
 		this->get_memory_info()->get_current_user() ;
 	}
 
-	void CTranslationMemory::get_date_created( const CString &location, InputDevice *input )
+	void CTranslationMemory::get_date_created( const CString &location, input_device_ptr input )
 	{
 		// get the size of the file and date created
 		input->ensure_file_exists(location);

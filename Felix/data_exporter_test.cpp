@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = device_ptr(device) ;
+		exporter.m_file = output_device_ptr (device) ;
 
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = device_ptr(device) ;
+		exporter.m_file = output_device_ptr (device) ;
 
 		exporter.open_destination(_T("foo.txt")) ;
 		BOOST_CHECK_EQUAL(2u, device->m_calls.size()) ;
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		CMockListener listener ;
 		TradosDataExporter exporter(fonts, &listener) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = device_ptr(device) ;
+		exporter.m_file = output_device_ptr (device) ;
 
 		exporter.write_preamble() ;
 		BOOST_CHECK_EQUAL(3, (int)device->m_calls.size()) ;

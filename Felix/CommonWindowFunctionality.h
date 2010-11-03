@@ -31,6 +31,8 @@
 #include "WindowsMessage.h"
 #include "QueryMergeDlg.h"
 #include "window_listener.h"
+#include "input_device.h"
+#include "output_device.h"
 
 void add_popup_item(CMenu &menu, int command_id, int text_id) ;
 void add_popup_separator(CMenu &menu) ;
@@ -105,6 +107,9 @@ public:
 
 	int					m_mousewheel_count ;
 
+	input_device_ptr	m_input_device ;
+	output_device_ptr	m_output_device ;
+
 	void SetPaneWidths(int* arrWidths, int nPanes) ;
 
 private:
@@ -121,6 +126,15 @@ protected:
 	void refresh_view_content();
 
 public:
+	input_device_ptr get_input_device()
+	{
+		return m_input_device ;
+	}
+	output_device_ptr get_output_device()
+	{
+		return m_output_device ;
+	}
+
 	void init_state(ViewState *state);
 	void init_tooltip_map( std::map<int, int> &toolmap );
 	record_type get_new_record()

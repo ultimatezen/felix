@@ -865,8 +865,8 @@ bool CManagerWindow::import_tmx( const CString &file_name )
 	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
 
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
-	InputDeviceFile input ;
-	reader.load_tmx_memory( file_name, &input ) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	reader.load_tmx_memory( file_name, input ) ;
 
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 
@@ -965,7 +965,8 @@ void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
 void CManagerWindow::import_multiterm( const CString &file_name )
 {
 	CImportMultitermFile importer(this) ;
-	importer.import(file_name) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	importer.import(file_name, input) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;
 }

@@ -57,10 +57,10 @@ void CTabbedTextImporter::add_records( const wstring text )
 
 void CTabbedTextImporter::load_file( const CString filename )
 {
-	InputDeviceFile input ;
-	file::file::BYTE_ORDER_MARK bom = input.get_file_bom(filename) ;
-	const size_t fsize = input.get_size(filename) ;
-	LPSTR raw_text = (LPSTR)input.create_view_char(filename) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	file::file::BYTE_ORDER_MARK bom = input->get_file_bom(filename) ;
+	const size_t fsize = input->get_size(filename) ;
+	LPSTR raw_text = (LPSTR)input->create_view_char(filename) ;
 	UINT encoding = get_textfile_encoding(bom, raw_text, fsize) ;
 
 	CStringW wide_buffer ;

@@ -509,7 +509,8 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		logging::log_debug("Checking command line") ;
 		const int language = m_properties->m_gen_props.m_data.m_preferred_gui_lang ;
 		commandline_options options(GetCommandLine(), static_cast<WORD>(language)) ;
-		check_command_line(options) ;
+		input_device_ptr input(new InputDeviceFile) ;
+		check_command_line(options, input) ;
 		if (language != options.m_language)
 		{
 			SetUILanguage(options.m_language) ;
@@ -539,7 +540,7 @@ void CMainFrame::check_load_history( )
 }
 
 //! See if the command line has us loading any memories.
-void CMainFrame::check_command_line(commandline_options &options)
+void CMainFrame::check_command_line(commandline_options &options, input_device_ptr input)
 {
 	if (! options.m_prefs_file.empty())
 	{
@@ -580,7 +581,7 @@ void CMainFrame::check_command_line(commandline_options &options)
 	}
 	foreach(tstring filename, options.m_tmx_files)
 	{
-		this->import_tmx(CString(filename.c_str())) ;
+		this->import_tmx(CString(filename.c_str()), input) ;
 	}
 	foreach(tstring filename, options.m_trados_text_files)
 	{
@@ -862,6 +863,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 
 	const int selected_index = dialog.get_selected_index() ;
 
+	InputDeviceFile input ;
 	switch( selected_index ) 
 	{
 	case 1: case 4:
@@ -869,7 +871,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 		break;
 
 	case 2:
-		import_tmx( import_files ) ;
+		import_tmx( import_files, &input ) ;
 		return 0L ;
 
 	case 3:
@@ -1039,7 +1041,8 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 		{
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
 									ExcelInterfacePtr(new ExcelInterfaceReal)) ;
-			exporter.export_excel( mem, mem->get_location() ) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			exporter.export_excel( mem, mem->get_location(), input ) ;
 		}
 		else
 		{
@@ -2402,11 +2405,11 @@ void CMainFrame::set_translation_at(short index, const wstring translation )
 
 /** import a list of tmx files.
   */
-bool CMainFrame::import_tmx( const file::OpenDlgList &files )
+bool CMainFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr input )
 {
 	foreach(CString filename, files.m_filenames)
 	{
-		import_tmx(filename) ;
+		import_tmx(filename, input) ;
 	}
 
 	return true ;
@@ -2414,14 +2417,13 @@ bool CMainFrame::import_tmx( const file::OpenDlgList &files )
 
 /** import a single tmx file.
  */
-bool CMainFrame::import_tmx( const CString &file_name )
+bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
 {
 	memory_pointer mem = m_model->get_memories()->add_memory() ;
 	
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
 	
-	InputDeviceFile input ;
-	reader.load_tmx_memory( file_name, &input ) ;
+	reader.load_tmx_memory( file_name, input ) ;
 
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 
@@ -2551,8 +2553,8 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
  */
 bool CMainFrame::load(const CString file_name, const bool check_empty )
 {
-	InputDeviceFile input ;
-	input.ensure_file_exists(file_name);
+	input_device_ptr input(new InputDeviceFile) ;
+	input->ensure_file_exists(file_name);
 
 	// put message in status bar
 	loading_file_feedback(file_name);
@@ -2566,7 +2568,7 @@ bool CMainFrame::load(const CString file_name, const bool check_empty )
 	}
 	else if ( ext.equals( _T(".tmx") ) )
 	{
-		success = import_tmx( file_name ) ;
+		success = import_tmx( file_name, input ) ;
 	}
 	else  
 	{
@@ -5093,7 +5095,8 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_model->get_first_memory(), file_name ) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			exporter.export_excel( m_model->get_first_memory(), file_name, input ) ;
 			return ;
 		}
 

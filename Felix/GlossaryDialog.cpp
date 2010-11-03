@@ -90,29 +90,8 @@ CGlossaryDialog::~CGlossaryDialog()
 */
 LRESULT CGlossaryDialog::on_mru_file_open( WORD wID )
 {
-	CString file_name ;
-	m_mru.GetFromList(wID, file_name ) ;
-	ATLASSERT( ! file_name.IsEmpty() ) ;
-	
-	try
-	{
-		InputDeviceFile input ;
-		input.ensure_file_exists(file_name);
-		if ( load( file_name ) )
-		{
-			m_mru.MoveToTop(wID) ;
-			set_window_title() ;
-		}
-		else 
-		{
-			m_mru.RemoveFromList( wID ) ;
-		}
-	}
-	catch (...)
-	{
-		m_mru.RemoveFromList( wID ) ;
-		throw ;
-	}
+	input_device_ptr input(new InputDeviceFile) ;
+	open_mru_file(wID, input);
 
 	return 0;
 }
@@ -248,7 +227,8 @@ void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
 	CImportMultitermFile importer(this) ;
-	importer.import(file_name) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	importer.import(file_name, input) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
@@ -399,7 +379,8 @@ void CGlossaryDialog::do_save( memory_pointer mem )
 				{
 					CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 						ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-					exporter.export_excel( mem, mem->get_location() ) ; 
+					input_device_ptr input(new InputDeviceFile) ;
+					exporter.export_excel( mem, mem->get_location(), input ) ; 
 				}
 				else
 				{
@@ -2330,7 +2311,8 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
 				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name ) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name, input ) ;
 			return ;
 		}
 
@@ -2355,4 +2337,30 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 	}
 
 	set_window_title() ;
+}
+
+void CGlossaryDialog::open_mru_file( WORD wID, input_device_ptr input )
+{
+	CString file_name ;
+	m_mru.GetFromList(wID, file_name ) ;
+	ATLASSERT( ! file_name.IsEmpty() ) ;
+
+	try
+	{
+		input->ensure_file_exists(file_name);
+		if ( load( file_name ) )
+		{
+			m_mru.MoveToTop(wID) ;
+			set_window_title() ;
+		}
+		else 
+		{
+			m_mru.RemoveFromList( wID ) ;
+		}
+	}
+	catch (...)
+	{
+		m_mru.RemoveFromList( wID ) ;
+		throw ;
+	}
 }

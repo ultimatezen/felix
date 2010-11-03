@@ -257,6 +257,7 @@ public:
 
 	LRESULT on_mru_file_open(WORD wID ) ;
 
+	void open_mru_file( WORD wID, input_device_ptr input );
 	LRESULT OnInitDialog( ) ;
 
 	void apply_mousewheel_setting();

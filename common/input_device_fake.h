@@ -13,12 +13,14 @@ public:
 	boost::shared_array<char> m_view_char ;
 	boost::shared_array<wchar_t> m_view_wchar ;
 	bool m_is_open ;
+	bool m_exists ;
 
 	InputDeviceFake() : 
 		m_file_exists(true), 
 		m_size(0),
 		m_bom(file::file::UNKNOWN_BOM),
-		m_is_open(true)
+		m_is_open(true),
+		m_exists(true)
 		{}
 
 	file::file::BYTE_ORDER_MARK get_file_bom( const CString filename )
@@ -81,6 +83,16 @@ public:
 	{
 		filename ;
 		SENSE("open") ;
+		SENSE(CT2A(filename)) ;
+	}
+	bool exists(const CString filename) 
+	{
+		return m_exists ;
+	}
+	void delete_file(const CString filename) 
+	{
+		filename ;
+		SENSE("delete") ;
 		SENSE(CT2A(filename)) ;
 	}
 };

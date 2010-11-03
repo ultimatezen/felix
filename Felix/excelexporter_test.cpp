@@ -3,11 +3,13 @@
 #include "memory_local.h"
 #include "record_local.h"
 
-#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+
+#include <boost/test/unit_test.hpp>
 
 #include "ExcelInterfaceFake.h"
 #include "MockListener.h"
+#include "input_device_fake.h"
 
 using namespace mem_engine ;
 
@@ -137,7 +139,8 @@ BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 
 		mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
 
-		exporter.export_excel(mem, _T("foo.xls")) ;
+		input_device_ptr input(new InputDeviceFake) ;
+		exporter.export_excel(mem, _T("foo.xls"), input) ;
 
 		typedef ExcelInterfaceFake::cellcoord cellcoord;
 
@@ -174,7 +177,8 @@ BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 
 		mem->add_record(rec) ;
 
-		exporter.export_excel(mem, _T("foo.xls")) ;
+		input_device_ptr input(new InputDeviceFake) ;
+		exporter.export_excel(mem, _T("foo.xls"), input) ;
 
 		typedef ExcelInterfaceFake::cellcoord cellcoord;
 

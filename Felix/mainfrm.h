@@ -411,7 +411,7 @@ private:
 	void check_load_history() ;
 
 	void load_history();
-	void check_command_line(commandline_options &options) ;
+	void check_command_line(commandline_options &options, input_device_ptr input) ;
 
 	void check_save_history() ;
 
@@ -448,8 +448,8 @@ public:
 
 	bool import_trados( const CString &file_name ) ;
 	bool import_trados( const file::OpenDlgList &files ) ;
-	bool import_tmx( const file::OpenDlgList &files ) ;
-	bool import_tmx( const CString &file_name ) ;
+	bool import_tmx( const file::OpenDlgList &files, input_device_ptr input ) ;
+	bool import_tmx( const CString &file_name, input_device_ptr input ) ;
 
 	void set_translation_at( short index, const wstring translation );
 

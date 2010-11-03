@@ -8,8 +8,6 @@
 typedef boost::tuple<string, string> strcols ;
 typedef boost::tuple<wstring, wstring, wstring> wstrcols ;
 
-file::file::BYTE_ORDER_MARK get_file_bom( const CString & file_name, InputDevice *input ) ;
-
 class CImportMultitermFile
 {
 	CProgressListener *m_listener ;
@@ -20,7 +18,7 @@ public:
 	CImportMultitermFile(CProgressListener *listener);
 	~CImportMultitermFile(void);
 
-	void import( const CString &file_name );
+	void import( const CString &file_name, input_device_ptr input );
 
 	void import_multiterm55( const CString &file_name );
 	void import_multiterm_55_text(textstream_reader< char >& reader, const std::string& source_lang, const std::string& trans_lang, mem_engine::memory_pointer& mem);

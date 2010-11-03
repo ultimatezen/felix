@@ -27,7 +27,7 @@ public:
 
 	CExcelExporter(CProgressListener* listener, ExcelInterfacePtr excel);
 	~CExcelExporter(void);
-	void export_excel(mem_engine::memory_pointer mem, const CString mem_name);
+	void export_excel(mem_engine::memory_pointer mem, const CString mem_name, input_device_ptr input);
 	void write_header(void);
 
 	void set_header_cell(int row, int col, wstring text );

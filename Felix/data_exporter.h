@@ -43,7 +43,7 @@ class TradosDataExporter
 	string		m_target_tag ;
 	string		m_source_lang ;
 	string		m_target_lang ;
-	device_ptr	m_file ;
+	output_device_ptr 	m_file ;
 
 	CProgressListener		*m_listener ;
 
@@ -98,7 +98,7 @@ class multiterm_data_exporter_55
 	UINT	m_trans_cp ;
 	CProgressListener *m_listener ;
 public:
-	device_ptr m_file ;
+	output_device_ptr  m_file ;
 	multiterm_data_exporter_55(CProgressListener *listener) ;
 	~multiterm_data_exporter_55() ;
 	void export_gloss(mem_engine::memory_pointer &mem);
@@ -117,14 +117,14 @@ private:
  */
 class multiterm_data_exporter_6
 {
-	typedef boost::shared_ptr<OutputDevice> device_ptr ;
+	typedef boost::shared_ptr<OutputDevice> output_device_ptr  ;
 	wstring m_source_lang ;
 	wstring m_target_lang ;
 	
 	CProgressListener *m_listener ;
 
 public:
-	device_ptr m_file ;
+	output_device_ptr  m_file ;
 	multiterm_data_exporter_6(CProgressListener *listener) :
 		m_listener(listener)
 	{}

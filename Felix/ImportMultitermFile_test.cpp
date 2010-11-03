@@ -19,13 +19,6 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 		BOOST_CHECK(true) ;
 	}
 
-	BOOST_AUTO_TEST_CASE(test_get_file_bom)
-	{
-		InputDeviceFake input ;
-		input.m_bom = file::file::BE_BOM ;
-		file::file::BYTE_ORDER_MARK bom = get_file_bom(_T("foo.txt"), &input) ;
-		BOOST_CHECK_EQUAL((int)bom, (int)input.m_bom) ;
-	}
 	BOOST_AUTO_TEST_CASE( get_multiterm55_line)
 	{
 		CMockListener listener ;

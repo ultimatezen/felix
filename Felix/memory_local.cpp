@@ -368,8 +368,8 @@ namespace mem_engine
 		// the document is saved
 		set_saved_flag( true ) ;
 
-		InputDeviceFile input ;
-		input.ensure_file_exists(get_location());
+		input_device_ptr input(new InputDeviceFile) ;
+		input->ensure_file_exists(get_location());
 
 		return is_saved() ;
 	}
@@ -494,8 +494,8 @@ namespace mem_engine
 		}
 		// input assumptions
 		ATLASSERT( file_name.IsEmpty() == false ) ;
-		InputDeviceFile input ;
-		input.ensure_file_exists(file_name);
+		input_device_ptr input(new InputDeviceFile) ;
+		input->ensure_file_exists(file_name);
 
 		// see if we are a demo...
 		refresh_status() ;
@@ -505,9 +505,9 @@ namespace mem_engine
 		// and refresh it whenever the preferences are changed.
 		refresh_user_name() ;
 
-		get_date_created(file_name, &input) ;
+		get_date_created(file_name, input) ;
 
-		const unsigned int file_len = input.get_size(file_name) ;
+		const unsigned int file_len = input->get_size(file_name) ;
 
 		if ( file_len == 0 )
 		{
@@ -517,14 +517,14 @@ namespace mem_engine
 		const size_t original_num_records = size() ;
 		// create a view of the xml document
 		file::view memory_view ;
-		char *raw_text = input.create_view_char( file_name ) ;
+		char *raw_text = input->create_view_char( file_name ) ;
 
 		bool was_saved = load_text(raw_text, file_name, file_len);
 
 		postLoadCleanup(file_name, was_saved, original_num_records);
 
 		set_location(file_name) ;
-		input.ensure_file_exists(get_location());
+		input->ensure_file_exists(get_location());
 
 		return true ;
 	}
@@ -611,41 +611,6 @@ namespace mem_engine
 
 	}
 
-	void memory_local::load_header(const CString &location)
-	{
-		m_records.clear() ;
-
-		// refresh user name 
-		m_header.set_creator_to_current_user() ;
-
-		// get the size of the file and date created
-		InputDeviceFile input ;
-		input.ensure_file_exists(location);
-		try
-		{
-			input.open(location) ;
-			if ( ! input.is_open() )
-			{
-				throw CProgramException(IDS_FILE_NOT_OPEN_FOR_WRITING) ;
-			}
-			input.close() ;
-		}
-		catch( CFileException &e )
-		{
-			CString err_msg ;
-			err_msg.FormatMessage( IDS_FILE_NOT_OPEN_FOR_WRITING, location ) ;
-			e.add_to_message(err_msg) ;
-			throw except::CException(e) ;
-		}
-		m_header.set_created_on( input.get_creation_time(location) ) ;
-
-		const size_t file_len = input.get_size(location) ;
-		// create a view of the xml document
-		char *raw_text = input.create_view_char( location ) ;
-
-		load_header_raw_text(raw_text, file_len);
-		return;
-	}
 	void memory_local::search_no_regex( const search_query_params & params, search_match_container &matches ) 
 	{
 		search_match_tester tester( params ) ;

@@ -39,7 +39,6 @@ namespace mem_engine
 		  void postLoadCleanup(const ATL::CString& file_name, bool was_saved, size_t original_num_records);
 		  void loadRecords(const ATL::CString& file_name, textstream_reader< wchar_t >& reader, int progress_interval, bool was_saved);
 		  bool load( const CString &file_name ) ;
-		  void load_header( const CString &location );
 		  int get_progress_interval(int num_records) ;
 		  void handle_cexception_on_load( const CString& file_name, bool was_saved, except::CException& e ) ;
 

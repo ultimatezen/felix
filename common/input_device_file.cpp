@@ -52,11 +52,13 @@ file::file::BYTE_ORDER_MARK InputDeviceFile::get_file_bom( const CString filenam
 
 wchar_t* InputDeviceFile::create_view_wchar( const CString filename )
 {
+	m_view.dispose_of_view() ;
 	return (wchar_t*)m_view.create_view(filename) ;
 }
 
 char* InputDeviceFile::create_view_char( const CString filename )
 {
+	m_view.dispose_of_view() ;
 	return (char *)m_view.create_view(filename) ;
 }
 
@@ -72,5 +74,16 @@ void InputDeviceFile::close()
 
 void InputDeviceFile::open( const CString filename )
 {
+	m_target.close() ;
 	m_target.open_read(filename) ;
+}
+
+bool InputDeviceFile::exists( const CString filename )
+{
+	return m_target.exists(filename) ;
+}
+
+void InputDeviceFile::delete_file(const CString filename) 
+{
+	m_target.delete_file(filename) ;
 }

@@ -4,6 +4,7 @@
 #include "file.h"
 #include "logging.h"
 #include "ExcelInterfaceReal.h"
+#include "input_device_file.h"
 
 using namespace except ;
 using namespace mem_engine ;
@@ -34,7 +35,7 @@ CExcelExporter::~CExcelExporter(void)
 {
 }
 
-void CExcelExporter::export_excel(memory_pointer mem, const CString mem_name)
+void CExcelExporter::export_excel(memory_pointer mem, const CString mem_name, input_device_ptr input)
 {
 	m_listener->OnProgressInit( mem_name, 1, mem->size() ) ;
 
@@ -81,9 +82,9 @@ void CExcelExporter::export_excel(memory_pointer mem, const CString mem_name)
 	}
 
 	// delete the file if it exists
-	if ( file::file::exists( mem_name ) )
+	if ( input->exists(mem_name) )
 	{
-		file::file::delete_file( mem_name ) ;
+		input->delete_file(mem_name) ;
 	}
 
 	m_excel->SaveAs(mem_name) ;

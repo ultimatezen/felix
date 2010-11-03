@@ -147,7 +147,7 @@ public:
 	CTMXReader( mem_engine::memory_pointer mem, CProgressListener *listener ) ;
 	~CTMXReader(void);
 	// Load a TMX file into a memory
-	mem_engine::memory_pointer load_tmx_memory(const CString & file_name, InputDevice *input);
+	mem_engine::memory_pointer load_tmx_memory(const CString & file_name, input_device_ptr input);
 
 	bool srclang_in_languages( const std::set< tstring > &languages );
 	void load_head() ;
@@ -155,10 +155,10 @@ public:
 
 	size_t get_file_size(const CString & file_name);
 	file::file::BYTE_ORDER_MARK get_bom(const CString & file_name);
-	void load_utf16(const CString & file_name, InputDevice *input);
-	void load_utf16be(const CString & file_name, InputDevice *input) ;
-	void load_utf8(const CString & file_name, InputDevice *input);
-	void load_utf7(const CString & file_name, InputDevice *input);
+	void load_utf16(const CString & file_name, input_device_ptr input);
+	void load_utf16be(const CString & file_name, input_device_ptr input) ;
+	void load_utf8(const CString & file_name, input_device_ptr input);
+	void load_utf7(const CString & file_name, input_device_ptr input);
 	// Load a translation unit
 	void load_tu(const wstring  tu_text);
 	// load a seg tag

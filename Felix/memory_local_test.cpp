@@ -1492,9 +1492,9 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 	BOOST_AUTO_TEST_CASE(get_creation_date)
 	{
 		memory_local mem ;
-		InputDeviceFake input ;
+		input_device_ptr input(new InputDeviceFake) ;
 		input.m_filetime = L"2001/11/12 11:12:13" ;
-		mem.get_date_created(_T("foo.txt"), &input) ;
+		mem.get_date_created(_T("foo.txt"), input) ;
 		wstring actual = mem.get_memory_info()->get_created_on() ;
 		BOOST_CHECK_EQUAL(actual, input.m_filetime) ;
 	}
