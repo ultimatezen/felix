@@ -1427,7 +1427,7 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 
 		CString filename("c:\\foo.ftm") ;
 		CException the_error(_T("boom")) ;
-		BOOST_CHECK_THROW(mem.handleCExceptionOnLoad(filename, false, the_error), CDemoException) ;
+		BOOST_CHECK_THROW(mem.handle_cexception_on_load(filename, false, the_error), CDemoException) ;
 	}
 	BOOST_AUTO_TEST_CASE(exception_size_over_max_user_says_bail)
 	{
@@ -1438,7 +1438,7 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 
 		CString filename("c:\\foo.ftm") ;
 		CException the_error(_T("boom")) ;
-		BOOST_CHECK_THROW(mem.handleCExceptionOnLoad(filename, false, the_error), CException) ;
+		BOOST_CHECK_THROW(mem.handle_cexception_on_load(filename, false, the_error), CException) ;
 		BOOST_CHECK_EQUAL(2u, listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL("ShouldBailFromException", listener.m_sensing_variable[0]) ;
 		BOOST_CHECK_EQUAL("OnProgressDoneLoad", listener.m_sensing_variable[1]) ;

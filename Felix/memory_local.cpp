@@ -86,7 +86,7 @@ namespace mem_engine
 		}
 		if ( ! record->is_valid_record() ) 
 		{
-			throw except::CException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
+			throw except::CBadRecordException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
 		}
 
 
@@ -619,12 +619,16 @@ namespace mem_engine
 		m_header.set_creator_to_current_user() ;
 
 		// get the size of the file and date created
-		file::file memory_file ;
 		InputDeviceFile input ;
 		input.ensure_file_exists(location);
 		try
 		{
-			memory_file.open( location ) ;
+			input.open(location) ;
+			if ( ! input.is_open() )
+			{
+				throw CProgramException(IDS_FILE_NOT_OPEN_FOR_WRITING) ;
+			}
+			input.close() ;
 		}
 		catch( CFileException &e )
 		{
@@ -633,22 +637,9 @@ namespace mem_engine
 			e.add_to_message(err_msg) ;
 			throw except::CException(e) ;
 		}
-		ATLASSERT(memory_file.is_open()) ;
-		if ( ! memory_file.is_open() )
-		{
-			throw CProgramException(IDS_FILE_NOT_OPEN_FOR_WRITING) ;
-		}
-		const int file_len = memory_file.size() ;
-		FILETIME file_time ;
-		memory_file.get_creation_time( &file_time ) ;
-		memory_file.close() ;
+		m_header.set_created_on( input.get_creation_time(location) ) ;
 
-		// Get created on from file creation date (but the memory could be older than
-		// this if it has been copied, etc.)
-		misc_wrappers::date created_date( file_time ) ;
-		wstring created_on = string2wstring( created_date.get_date_time_string( ) ) ;
-		m_header.set_created_on( created_on ) ;
-
+		const size_t file_len = input.get_size(location) ;
 		// create a view of the xml document
 		char *raw_text = input.create_view_char( location ) ;
 
@@ -806,7 +797,7 @@ namespace mem_engine
 				LPWSTR bookmark_start = (LPWSTR)reader.get_current_pos() ;
 				if ( ! reader.find( L"</record>", true ) )
 				{
-					throw except::CException( IDS_CORRUPT_FILE ) ;
+					throw except::CBadRecordException( IDS_CORRUPT_FILE ) ;
 				}
 
 				bm_type bookmark_end = reader.get_current_pos() ;
@@ -825,13 +816,17 @@ namespace mem_engine
 
 				check_progress_update(progress_interval);
 			}
+			catch ( CBadRecordException &exception )
+			{
+				continue_or_throw(exception);
+			}			
 			catch ( CException &exception )
 			{
-				handleCExceptionOnLoad( file_name, was_saved, exception);
+				handle_cexception_on_load( file_name, was_saved, exception);
 			}
 			catch( std::exception &std_exception )
 			{
-				handleStdExceptionOnLoad( was_saved, file_name, std_exception);
+				handle_stdexception_on_load( was_saved, file_name, std_exception);
 			}
 		}
 
@@ -910,7 +905,7 @@ namespace mem_engine
 		return DEFAULT_PROGRESS_INTERVAL;
 	}
 
-	void memory_local::handleCExceptionOnLoad( const CString& file_name, bool was_saved, CException& e ) 
+	void memory_local::handle_cexception_on_load( const CString& file_name, bool was_saved, CException& e ) 
 	{
 		if ( this->is_demo() )
 		{

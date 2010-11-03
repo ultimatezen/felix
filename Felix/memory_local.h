@@ -41,7 +41,7 @@ namespace mem_engine
 		  bool load( const CString &file_name ) ;
 		  void load_header( const CString &location );
 		  int get_progress_interval(int num_records) ;
-		  void handleCExceptionOnLoad( const CString& file_name, bool was_saved, except::CException& e ) ;
+		  void handle_cexception_on_load( const CString& file_name, bool was_saved, except::CException& e ) ;
 
 		  // TranslationMemory
 		  bool add_record(record_pointer record) ;

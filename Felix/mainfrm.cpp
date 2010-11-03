@@ -1361,7 +1361,7 @@ LRESULT CMainFrame::show_about_dialog(WindowsMessage &)
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	CAboutDialog dlg(text_tmpl::get_template_filename(_T("about.html"))) ;
+	CAboutDialog dlg(cpptempl::get_template_filename(_T("about.html"))) ;
 	dlg.DoModal();
 	return 0L ;
 #endif

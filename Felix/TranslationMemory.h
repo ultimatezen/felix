@@ -160,7 +160,7 @@ public:
 	// get/set functions
 	// export/import
 
-	void handleStdExceptionOnLoad(  bool was_saved, const CString& file_name, std::exception &e );
+	void handle_stdexception_on_load(  bool was_saved, const CString& file_name, std::exception &e );
 
 	bool UserSaysBail();
 	bool ListenerSaysBail();
@@ -176,7 +176,7 @@ public:
 	UINT encoding_from_encoding_string(textstream_reader< char > & xml_reader);
 	UINT encoding_from_multi_lang(const char* text, UINT text_size);
 
-	void handleCExceptionOnLoad(const ATL::CString& file_name, bool was_saved, except::CException& e);
+	void handle_cexception_on_load(const ATL::CString& file_name, bool was_saved, except::CException& e);
 
 	void check_progress_update( int progress_interval );
 

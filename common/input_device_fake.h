@@ -12,11 +12,13 @@ public:
 	file::file::BYTE_ORDER_MARK m_bom ;
 	boost::shared_array<char> m_view_char ;
 	boost::shared_array<wchar_t> m_view_wchar ;
+	bool m_is_open ;
 
 	InputDeviceFake() : 
 		m_file_exists(true), 
 		m_size(0),
-		m_bom(file::file::UNKNOWN_BOM)
+		m_bom(file::file::UNKNOWN_BOM),
+		m_is_open(true)
 		{}
 
 	file::file::BYTE_ORDER_MARK get_file_bom( const CString filename )
@@ -67,5 +69,18 @@ public:
 	{
 		return m_view_char.get() ;
 	}
-
+	bool is_open()
+	{
+		return m_is_open ;
+	}
+	void close()
+	{
+		SENSE("close") ;
+	}
+	void open(const CString filename) 
+	{
+		filename ;
+		SENSE("open") ;
+		SENSE(CT2A(filename)) ;
+	}
 };

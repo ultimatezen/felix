@@ -398,7 +398,7 @@ namespace mem_engine
 		return detect.nCodePage ;
 	}
 
-	void CTranslationMemory::handleStdExceptionOnLoad(   bool was_saved, const CString& file_name, std::exception &e  ) 
+	void CTranslationMemory::handle_stdexception_on_load(   bool was_saved, const CString& file_name, std::exception &e  ) 
 	{
 		if ( UserSaysBail() )
 		{

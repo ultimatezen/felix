@@ -12,7 +12,11 @@ void InputDeviceFile::ensure_file_exists( const CString file_name )
 	if ( ! path.FileExists() ) // whoops -- file not there
 	{
 		CString msg ;
+#ifdef FELIX_APPLICATION
 		msg.FormatMessage( IDS_MSG_NO_FILE, file_name ) ;
+#else
+		msg = _T("File not found") ;
+#endif
 		THROW_WIN_EXCEPTION( msg ) ;
 	}
 }
@@ -54,4 +58,19 @@ wchar_t* InputDeviceFile::create_view_wchar( const CString filename )
 char* InputDeviceFile::create_view_char( const CString filename )
 {
 	return (char *)m_view.create_view(filename) ;
+}
+
+bool InputDeviceFile::is_open()
+{
+	return m_target.is_open() ;
+}
+
+void InputDeviceFile::close()
+{
+	m_target.close() ;
+}
+
+void InputDeviceFile::open( const CString filename )
+{
+	m_target.open_read(filename) ;
 }

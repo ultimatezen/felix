@@ -562,6 +562,22 @@
 				RelativePath="..\..\cpptempl\cpptempl.cpp"
 				>
 				<FileConfiguration
+					Name="Unicode_Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Unicode_Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Testing|Win32"
 					>
 					<Tool
@@ -1592,6 +1608,22 @@
 				<File
 					RelativePath="..\..\cpptempl\cpptempl_test.cpp"
 					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
 					<FileConfiguration
 						Name="Testing|Win32"
 						>
