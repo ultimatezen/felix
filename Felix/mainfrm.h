@@ -111,6 +111,11 @@ VISIBLE_TO_TESTS
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
+
+
+	input_device_ptr	m_input_device ;
+	output_device_ptr	m_output_device ;
+
 public:
 	static const int IDD = IDR_MAINFRAME ;
 
@@ -124,6 +129,16 @@ public:
 
 	~CMainFrame() ;
 	CMainFrame( FelixModelInterface *model ) ;
+
+	input_device_ptr get_input_device()
+	{
+		return m_input_device ;
+	}
+	output_device_ptr get_output_device()
+	{
+		return m_output_device ;
+	}
+
 
 	FelixModelInterface* get_model()
 	{

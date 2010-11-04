@@ -97,10 +97,22 @@ class CGlossaryDialog :
 
 	bool m_is_trans_concordance ;
 
+
+	input_device_ptr	m_input_device ;
+	output_device_ptr	m_output_device ;
+
 public:
 	mem_engine::felix_query *get_current_matches()
 	{
 		return &m_search_matches ;
+	}
+	input_device_ptr get_input_device()
+	{
+		return m_input_device ;
+	}
+	output_device_ptr get_output_device()
+	{
+		return m_output_device ;
 	}
 
 	void set_zoom_level(int zoom_level);

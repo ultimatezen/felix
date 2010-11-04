@@ -18,7 +18,7 @@ using namespace mem_engine ;
 using namespace html ;
 
 // CTOR
-CCommonWindowFunctionality::CCommonWindowFunctionality( )
+CCommonWindowFunctionality::CCommonWindowFunctionality( ) 
 {
 }
 

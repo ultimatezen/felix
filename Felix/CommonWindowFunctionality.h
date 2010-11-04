@@ -107,9 +107,6 @@ public:
 
 	int					m_mousewheel_count ;
 
-	input_device_ptr	m_input_device ;
-	output_device_ptr	m_output_device ;
-
 	void SetPaneWidths(int* arrWidths, int nPanes) ;
 
 private:
@@ -126,14 +123,8 @@ protected:
 	void refresh_view_content();
 
 public:
-	input_device_ptr get_input_device()
-	{
-		return m_input_device ;
-	}
-	output_device_ptr get_output_device()
-	{
-		return m_output_device ;
-	}
+	virtual input_device_ptr get_input_device() = 0 ;
+	virtual output_device_ptr get_output_device() = 0 ;
 
 	void init_state(ViewState *state);
 	void init_tooltip_map( std::map<int, int> &toolmap );

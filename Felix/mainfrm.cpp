@@ -109,7 +109,9 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_properties(new app_props::properties()),
 	m_editor(new CEditTransRecordDialog),
 	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
-	m_search_window(this)
+	m_search_window(this),
+	m_input_device(new InputDeviceFile),
+	m_output_device(new OutputDeviceFile)
 {
 	initialize_values() ;
 
@@ -509,8 +511,8 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		logging::log_debug("Checking command line") ;
 		const int language = m_properties->m_gen_props.m_data.m_preferred_gui_lang ;
 		commandline_options options(GetCommandLine(), static_cast<WORD>(language)) ;
-		input_device_ptr input(new InputDeviceFile) ;
-		check_command_line(options, input) ;
+
+		check_command_line(options, get_input_device()) ;
 		if (language != options.m_language)
 		{
 			SetUILanguage(options.m_language) ;
@@ -863,7 +865,6 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 
 	const int selected_index = dialog.get_selected_index() ;
 
-	InputDeviceFile input ;
 	switch( selected_index ) 
 	{
 	case 1: case 4:
@@ -871,7 +872,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 		break;
 
 	case 2:
-		import_tmx( import_files, &input ) ;
+		import_tmx( import_files, get_input_device() ) ;
 		return 0L ;
 
 	case 3:
@@ -1041,8 +1042,7 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 		{
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
 									ExcelInterfacePtr(new ExcelInterfaceReal)) ;
-			input_device_ptr input(new InputDeviceFile) ;
-			exporter.export_excel( mem, mem->get_location(), input ) ;
+			exporter.export_excel( mem, mem->get_location(), get_input_device() ) ;
 		}
 		else
 		{
@@ -2553,7 +2553,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
  */
 bool CMainFrame::load(const CString file_name, const bool check_empty )
 {
-	input_device_ptr input(new InputDeviceFile) ;
+	input_device_ptr input = get_input_device() ;
 	input->ensure_file_exists(file_name);
 
 	// put message in status bar
@@ -5095,8 +5095,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			input_device_ptr input(new InputDeviceFile) ;
-			exporter.export_excel( m_model->get_first_memory(), file_name, input ) ;
+			exporter.export_excel( m_model->get_first_memory(), file_name, get_input_device() ) ;
 			return ;
 		}
 

@@ -37,7 +37,6 @@
 #include "ExcelInterfaceReal.h"
 #include "input_device_file.h"
 
-
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
 using namespace mem_engine ;
@@ -51,7 +50,9 @@ CGlossaryDialog::CGlossaryDialog( ) :
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
 	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
-	m_search_window(this)
+	m_search_window(this),
+	m_input_device(new InputDeviceFile),
+	m_output_device(new OutputDeviceFile)
 { 
 	initialize_values() ;
 
@@ -90,8 +91,7 @@ CGlossaryDialog::~CGlossaryDialog()
 */
 LRESULT CGlossaryDialog::on_mru_file_open( WORD wID )
 {
-	input_device_ptr input(new InputDeviceFile) ;
-	open_mru_file(wID, input);
+	open_mru_file(wID, get_input_device());
 
 	return 0;
 }
@@ -227,8 +227,7 @@ void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
 	CImportMultitermFile importer(this) ;
-	input_device_ptr input(new InputDeviceFile) ;
-	importer.import(file_name, input) ;
+	importer.import(file_name, get_input_device()) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
@@ -379,8 +378,7 @@ void CGlossaryDialog::do_save( memory_pointer mem )
 				{
 					CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 						ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-					input_device_ptr input(new InputDeviceFile) ;
-					exporter.export_excel( mem, mem->get_location(), input ) ; 
+					exporter.export_excel( mem, mem->get_location(), get_input_device() ) ; 
 				}
 				else
 				{
@@ -2311,8 +2309,7 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
 			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
 				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			input_device_ptr input(new InputDeviceFile) ;
-			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name, input ) ;
+			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name, get_input_device() ) ;
 			return ;
 		}
 
