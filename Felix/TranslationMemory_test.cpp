@@ -6,12 +6,15 @@
 #include "StdAfx.h"
 #include "TranslationMemory.h"
 
+#ifdef UNIT_TEST
+
 #include "Path.h"
 #include "record_local.h"
 #include "MockListener.h"
 #include "memory_local.h"
 #include <boost/test/unit_test.hpp>
 #include "input_device_file.h"
+#include "amop/include/MockObject.h"
 
 BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 
@@ -53,3 +56,5 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 		BOOST_CHECK_EQUAL((UINT)CP_UTF8, (UINT)mem.get_correct_encoding(text.c_str(), text.size())) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

@@ -31,6 +31,7 @@ extern CAddInModule _AtlModule;
 #include "ClipboardBackup.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
+#include "input_device_file.h"
 
 using namespace except ;
 
@@ -200,7 +201,8 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		advise_document_events() ;
 
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+		input_device_ptr input(new InputDeviceFile) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 		m_mapper.m_target = m_controller ;
 		installhook( &m_keyboard_shortcuts ) ;
 		m_keyboard_shortcuts.m_on_toggle_shortcuts = boost::bind(&CConnect::on_toggle_shortcuts, this, _1) ;
@@ -1985,7 +1987,8 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 			CPropertiesDlgE props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
 			m_controller->load_abbreviations() ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -2000,7 +2003,8 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
 			m_controller->load_abbreviations() ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

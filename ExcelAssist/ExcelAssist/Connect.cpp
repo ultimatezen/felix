@@ -15,6 +15,7 @@
 #include "ClipboardBackup.h"
 #include <boost/bind.hpp>
 #include "logging.h"
+#include "input_device_file.h"
 
 #define CATCH_C_EXCEPTIONS(_msg) catch ( std::exception &e ) { handle_exception(e, _msg) ; }
 #define CATCH_COM_EXCEPTIONS(_msg) catch ( CComException &e ) { handle_exception(e, _msg) ; }
@@ -231,7 +232,8 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		setMenuStrings( m_properties.get_preferred_gui_lang() ) ;
 
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+		input_device_ptr input(new InputDeviceFile) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 		m_mapper.m_target = &m_excelIF ;
 
 		installhook( &m_keyboard_shortcuts ) ;
@@ -1380,7 +1382,8 @@ void __stdcall CConnect::OnPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1394,7 +1397,8 @@ void __stdcall CConnect::OnPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

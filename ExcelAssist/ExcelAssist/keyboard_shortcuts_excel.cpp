@@ -6,18 +6,18 @@
 #include "logging.h"
 
 
-string get_shortcuts_text(CString base_filename)
+string get_shortcuts_text(CString base_filename, input_device_ptr input)
 {
 	try
 	{
 		CString filename = get_config_filename(base_filename) ;
-		if (! file::CPath(filename).FileExists())
+		if (! input->exists(filename))
 		{
 			OutputDeviceFile output ;
 			write_default_shortcuts_file(filename, &output) ;
 		}
 		file::view config_view ;
-		string text(static_cast<LPCSTR>(config_view.create_view_readonly(filename))) ;
+		string text(input->create_view_const_char(filename)) ;
 
 		if (text.empty())
 		{

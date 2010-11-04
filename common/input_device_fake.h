@@ -62,12 +62,17 @@ public:
 	{
 		m_view_wchar = boost::shared_array<wchar_t>(new wchar_t[text.size()+1]) ;
 		wcscpy_s(m_view_wchar.get(), text.size()+1, text.c_str()) ;
+		m_size = text.size() * 2 ;
 	}	
-	wchar_t* create_view_wchar(const CString filename)
+	wchar_t* create_view_wchar(const CString )
 	{
 		return m_view_wchar.get() ;
 	}
-	char* create_view_char(const CString filename)
+	char* create_view_char(const CString )
+	{
+		return m_view_char.get() ;
+	}
+	const char* create_view_const_char(const CString )
 	{
 		return m_view_char.get() ;
 	}

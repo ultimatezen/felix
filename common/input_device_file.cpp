@@ -61,6 +61,11 @@ char* InputDeviceFile::create_view_char( const CString filename )
 	m_view.dispose_of_view() ;
 	return (char *)m_view.create_view(filename) ;
 }
+const char* InputDeviceFile::create_view_const_char(const CString filename)
+{
+	m_view.dispose_of_view() ;
+	return (const char*)m_view.create_view_readonly(filename) ;
+}
 
 bool InputDeviceFile::is_open()
 {

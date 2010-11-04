@@ -16,6 +16,7 @@
 #include "Properties.h"
 #include <boost/bind.hpp>
 #include "logging.h"
+#include "input_device_file.h"
 
 extern CAddInModule _AtlModule;
 using namespace except ;
@@ -77,7 +78,8 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 
 		init_properties();
 
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+		input_device_ptr input(new InputDeviceFile) ;
+		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 		m_mapper.m_target = &m_interface ;
 		installhook( &m_keyboard_shortcuts ) ;
 
@@ -1319,7 +1321,8 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 			CPropertiesDlgE props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
 			m_interface.load_abbreviations() ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1334,7 +1337,8 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
 			m_interface.load_abbreviations() ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE)) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

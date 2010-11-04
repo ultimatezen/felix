@@ -12,6 +12,7 @@ public:
 	virtual void ensure_file_exists( const CString filename ) = 0 ;
 	virtual unsigned int get_size(const CString filename) = 0 ;
 	virtual char* create_view_char(const CString filename) = 0 ;
+	virtual const char* create_view_const_char(const CString filename) = 0;
 	virtual wchar_t* create_view_wchar(const CString filename) = 0 ;
 	virtual bool exists(const CString filename) = 0;
 	virtual void delete_file(const CString filename) = 0;
