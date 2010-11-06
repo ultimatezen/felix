@@ -65,6 +65,30 @@ END_COM_MAP()
 
 public:
 	STDMETHOD(get_Records)(IRecords **pVal);
+	// Creator
+	STDMETHOD(get_Creator)(BSTR* pVal);
+	STDMETHOD(put_Creator)(BSTR source);
+	// modified_by
+	STDMETHOD(get_ModifiedBy)(BSTR* pVal);
+	STDMETHOD(put_ModifiedBy)(BSTR source);
+	// field
+	STDMETHOD(get_Field)(BSTR* pVal);
+	STDMETHOD(put_Field)(BSTR source);
+	// field
+	STDMETHOD(get_Client)(BSTR* pVal);
+	STDMETHOD(put_Client)(BSTR source);
+	// source_lang
+	STDMETHOD(get_SourceLanguage)(BSTR* pVal);
+	STDMETHOD(put_SourceLanguage)(BSTR source);
+	// target_lang
+	STDMETHOD(get_TargetLanguage)(BSTR* pVal);
+	STDMETHOD(put_TargetLanguage)(BSTR source);
+	// created_on
+	STDMETHOD(get_CreatedOn)(DATE* pVal);
+	STDMETHOD(put_CreatedOn)(DATE pVal);
+	// ModifiedOn
+	STDMETHOD(get_ModifiedOn)(DATE* pVal);
+	STDMETHOD(put_ModifiedOn)(DATE pVal);
 
 };
 

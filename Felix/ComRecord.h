@@ -95,7 +95,15 @@ public:
 	STDMETHOD(get_ModifiedBy)(BSTR* pVal);
 	STDMETHOD(put_ModifiedBy)(BSTR modified_by);
 
-	// id
+	// validated
+	STDMETHOD(get_Validated)(VARIANT_BOOL* pVal);
+	STDMETHOD(put_Validated)(VARIANT_BOOL modified_by);
+
+	// reliability
+	STDMETHOD(get_Reliability)(ULONG* pVal);
+	STDMETHOD(put_Reliability)(ULONG modified_by);
+
+	// refcount
 	STDMETHOD(get_RefCount)(ULONG* pVal);
 	STDMETHOD(put_RefCount)(ULONG pVal);
 

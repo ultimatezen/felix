@@ -88,6 +88,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_Source(&result) ;
 		BOOST_CHECK_EQUAL("", string(CW2A(result))) ;
 	}
+	// context
 	BOOST_AUTO_TEST_CASE( context )
 	{
 		com_rec_ptr rec ;
@@ -108,6 +109,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_PlainContext(&result) ;
 		BOOST_CHECK_EQUAL("context", string(CW2A(result))) ;
 	}
+	// created by
 	BOOST_AUTO_TEST_CASE( created_by )
 	{
 		com_rec_ptr rec ;
@@ -118,6 +120,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_CreatedBy(&result) ;
 		BOOST_CHECK_EQUAL("creator", string(CW2A(result))) ;
 	}
+	// modified by
 	BOOST_AUTO_TEST_CASE( modified_by )
 	{
 		com_rec_ptr rec ;
@@ -138,6 +141,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->put_ModifiedBy(modified_by) ;
 		BOOST_CHECK_EQUAL("modified_by", string(string2string(record->get_modified_by()).c_str())) ;
 	}
+	// refcount
 	BOOST_AUTO_TEST_CASE( get_refcount )
 	{
 		com_rec_ptr rec ;
@@ -147,6 +151,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_RefCount(&result) ;
 		BOOST_CHECK_EQUAL(10u, result) ;
 	}
+	// date created
 	BOOST_AUTO_TEST_CASE( get_created )
 	{
 		com_rec_ptr rec ;
@@ -196,6 +201,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 	}
 
 
+	// date modified
 	BOOST_AUTO_TEST_CASE( get_modified )
 	{
 		com_rec_ptr rec ;
@@ -242,6 +248,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		BOOST_CHECK_EQUAL(2, result.wMonth) ;
 	}
 
+	// id
 	BOOST_AUTO_TEST_CASE( get_id_0 )
 	{
 		com_rec_ptr rec ;
@@ -250,7 +257,7 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_Id(&result) ;
 		BOOST_CHECK_EQUAL(0u, result) ;
 	}
-	BOOST_AUTO_TEST_CASE( get_id )
+	BOOST_AUTO_TEST_CASE( set_id )
 	{
 		com_rec_ptr rec ;
 		CComObject< CRecord >::CreateInstance( &rec ) ;
@@ -258,6 +265,43 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		ULONG result = 0;
 		rec->get_Id(&result) ;
 		BOOST_CHECK_EQUAL(10u, result) ;
+	}
+
+	// reliability
+	BOOST_AUTO_TEST_CASE( get_reliability_0 )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		ULONG result = 10;
+		rec->get_Reliability(&result) ;
+		BOOST_CHECK_EQUAL(0u, result) ;
+	}
+	BOOST_AUTO_TEST_CASE( set_reliability )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		rec->put_Reliability(5u) ;
+		ULONG result = 0;
+		rec->get_Reliability(&result) ;
+		BOOST_CHECK_EQUAL(5u, result) ;
+	}
+	// validated
+	BOOST_AUTO_TEST_CASE(get_validated_inits_to_false)
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		VARIANT_BOOL result = VARIANT_TRUE;
+		rec->get_Validated(&result) ;
+		BOOST_CHECK_EQUAL((int)VARIANT_FALSE, (int)result) ;
+	}
+	BOOST_AUTO_TEST_CASE( set_validated )
+	{
+		com_rec_ptr rec ;
+		CComObject< CRecord >::CreateInstance( &rec ) ;
+		rec->put_Validated(VARIANT_TRUE) ;
+		VARIANT_BOOL result = VARIANT_FALSE;
+		rec->get_Validated(&result) ;
+		BOOST_CHECK_EQUAL((int)VARIANT_TRUE, (int)result) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

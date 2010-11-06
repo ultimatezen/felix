@@ -51,6 +51,14 @@ interface IRecord : IDispatch{
 	
 	[propget, id(12), helpstring("property Id")] HRESULT Id([out, retval] ULONG* pVal);
 	[propput, id(12), helpstring("property Id")] HRESULT Id([in] ULONG newVal);
+	
+	// validated
+	[propget, id(13), helpstring("property Validated")] HRESULT Validated([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(13), helpstring("property Validated")] HRESULT Validated([in] VARIANT_BOOL newVal);
+	
+	// reliability
+	[propget, id(14), helpstring("property Reliability")] HRESULT Reliability([out, retval] ULONG* pVal);
+	[propput, id(14), helpstring("property Reliability")] HRESULT Reliability([in] ULONG newVal);
 };
 // SearchResult
 [
@@ -121,6 +129,38 @@ interface IRecords : IDispatch{
 ]
 interface IMemory : IDispatch{
 	[propget, id(1), helpstring("property Records")] HRESULT Records([out, retval] IRecords** newVal);
+	
+	// Creator
+	[propget, id(2), helpstring("property Creator")] HRESULT Creator([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property Creator")] HRESULT Creator([in] BSTR newVal);
+	
+	// ModifiedBy
+	[propget, id(3), helpstring("property ModifiedBy")] HRESULT ModifiedBy([out, retval] BSTR* pVal);
+	[propput, id(3), helpstring("property ModifiedBy")] HRESULT ModifiedBy([in] BSTR newVal);
+	
+	// Field
+	[propget, id(4), helpstring("property Field")] HRESULT Field([out, retval] BSTR* pVal);
+	[propput, id(4), helpstring("property Field")] HRESULT Field([in] BSTR newVal);
+	
+	// Client
+	[propget, id(5), helpstring("property Client")] HRESULT Client([out, retval] BSTR* pVal);
+	[propput, id(5), helpstring("property Client")] HRESULT Client([in] BSTR newVal);
+	
+	// SourceLanguage
+	[propget, id(6), helpstring("property SourceLanguage")] HRESULT SourceLanguage([out, retval] BSTR* pVal);
+	[propput, id(6), helpstring("property SourceLanguage")] HRESULT SourceLanguage([in] BSTR newVal);
+	
+	// TargetLanguage
+	[propget, id(7), helpstring("property TargetLanguage")] HRESULT TargetLanguage([out, retval] BSTR* pVal);
+	[propput, id(7), helpstring("property TargetLanguage")] HRESULT TargetLanguage([in] BSTR newVal);
+	
+	// CreatedOn
+	[propget, id(8), helpstring("property CreatedOn")] HRESULT CreatedOn([out, retval] DATE* pVal);
+	[propput, id(8), helpstring("property CreatedOn")] HRESULT CreatedOn([in] DATE newVal);
+	
+	// ModifiedOn
+	[propget, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([out, retval] DATE* pVal);
+	[propput, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([in] DATE newVal);
 };
 
 //////////////////////////////////////////////////////////////////////////

@@ -34,6 +34,10 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		BOOST_CHECK( mem ) ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Records
+	//////////////////////////////////////////////////////////////////////////
+
 	BOOST_AUTO_TEST_CASE(test_records_init_empty)
 	{
 		mem_ptr mem ;
@@ -69,6 +73,36 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		BOOST_CHECK_EQUAL(count, 2) ;
 	}	
 
+	//////////////////////////////////////////////////////////////////////////
+	// MemoryInfo
+	//////////////////////////////////////////////////////////////////////////
+
+	// creator
+	BOOST_AUTO_TEST_CASE( get_creator )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		memory->get_memory_info()->set_creator(L"Charlie Chaplin") ;
+		mem->set_memory(memory) ;
+
+		CComBSTR creator ;
+		mem->get_Creator(&creator) ;
+		BOOST_CHECK_EQUAL("Charlie Chaplin", string(CW2A(creator))) ;
+	}
+	BOOST_AUTO_TEST_CASE( set_creator )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		mem->set_memory(memory) ;
+
+		CComBSTR creator = L"Mr. Splashypants";
+		mem->put_Creator(creator) ;
+		CComBSTR result ;
+		mem->get_Creator(&result) ;
+		BOOST_CHECK_EQUAL("Mr. Splashypants", string(CW2A(result))) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

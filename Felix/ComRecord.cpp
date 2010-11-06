@@ -80,7 +80,7 @@ STDMETHODIMP CRecord::get_Context(BSTR* pVal)
 		wstring context = m_record->get_context_rich() ;
 		*pVal = ::SysAllocStringLen( context.c_str(), context.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_Trans" ) ;
+	FELIX_AUTO_CATCH( "get_Context" ) ;
 
 	return S_OK ;
 }
@@ -90,21 +90,83 @@ STDMETHODIMP CRecord::put_Context(BSTR context)
 	{
 		m_record->set_context(BSTR2wstring( context )) ;
 	}
-	FELIX_AUTO_CATCH( "put_Trans" ) ;
+	FELIX_AUTO_CATCH( "put_Context" ) ;
 
 	return S_OK ;
 }
 
-
-// created by
-STDMETHODIMP CRecord::get_CreatedBy(BSTR* pVal)
+// validated
+STDMETHODIMP CRecord::get_Validated(VARIANT_BOOL* pVal)
 {
 	CHECK_OUT_PTR( pVal ) ;
 
 	try
 	{
+		if (m_record->is_validated())
+		{
+			*pVal = VARIANT_TRUE ;
+		}
+		else
+		{
+			*pVal = VARIANT_FALSE ;
+		}
+	}
+	FELIX_AUTO_CATCH( "get_Validated" ) ;
+
+	return S_OK ;
+}
+
+STDMETHODIMP CRecord::put_Validated(VARIANT_BOOL validated)
+{
+	try
+	{
+		if (validated)
+		{
+			m_record->set_validated_on() ;
+		}
+		else
+		{
+			m_record->set_validated_off() ;
+		}
+	}
+	FELIX_AUTO_CATCH( "put_Validated" ) ;
+
+	return S_OK ;
+}
+
+// reliability
+STDMETHODIMP CRecord::get_Reliability(ULONG* reliability)
+{
+	CHECK_OUT_PTR( reliability ) ;
+
+	try
+	{
+		*reliability = m_record->get_reliability() ;
+	}
+	FELIX_AUTO_CATCH( "get_Reliability" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CRecord::put_Reliability(ULONG reliability)
+{
+	try
+	{
+		m_record->set_reliability(reliability) ;
+	}
+	FELIX_AUTO_CATCH( "put_Reliability" ) ;
+
+	return S_OK ;
+}
+
+// created by
+STDMETHODIMP CRecord::get_CreatedBy(BSTR* created_by)
+{
+	CHECK_OUT_PTR( created_by ) ;
+
+	try
+	{
 		wstring source = m_record->get_creator() ;
-		*pVal = ::SysAllocStringLen( source.c_str(), source.size() ) ;
+		*created_by = ::SysAllocStringLen( source.c_str(), source.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_CreatedBy" ) ;
 
@@ -122,14 +184,14 @@ STDMETHODIMP CRecord::put_CreatedBy(BSTR created_by)
 }
 
 // modified
-STDMETHODIMP CRecord::get_ModifiedBy(BSTR* pVal)
+STDMETHODIMP CRecord::get_ModifiedBy(BSTR* modified_by)
 {
-	CHECK_OUT_PTR( pVal ) ;
+	CHECK_OUT_PTR( modified_by ) ;
 
 	try
 	{
 		wstring source = m_record->get_modified_by() ;
-		*pVal = ::SysAllocStringLen( source.c_str(), source.size() ) ;
+		*modified_by = ::SysAllocStringLen( source.c_str(), source.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_ModifiedBy" ) ;
 
@@ -147,24 +209,24 @@ STDMETHODIMP CRecord::put_ModifiedBy(BSTR modified_by)
 }
 
 // created
-STDMETHODIMP CRecord::get_DateCreated(DATE* pVal)
+STDMETHODIMP CRecord::get_DateCreated(DATE* date_created)
 {
-	CHECK_OUT_PTR( pVal ) ;
+	CHECK_OUT_PTR( date_created ) ;
 	try
 	{
 		misc_wrappers::date created = m_record->get_created() ;
-		::SystemTimeToVariantTime(&created, pVal) ;
+		::SystemTimeToVariantTime(&created, date_created) ;
 	}
 	FELIX_AUTO_CATCH( "get_DateCreated" ) ;
 
 	return S_OK ;
 }
-STDMETHODIMP CRecord::put_DateCreated(DATE pVal)
+STDMETHODIMP CRecord::put_DateCreated(DATE date_created)
 {
 	try
 	{
 		misc_wrappers::date created ;
-		::VariantTimeToSystemTime(pVal, &created) ;
+		::VariantTimeToSystemTime(date_created, &created) ;
 		m_record->set_created(created) ;
 	}
 	FELIX_AUTO_CATCH( "put_DateCreated" ) ;
@@ -173,24 +235,24 @@ STDMETHODIMP CRecord::put_DateCreated(DATE pVal)
 }
 
 // modified
-STDMETHODIMP CRecord::get_LastModified(DATE* pVal)
+STDMETHODIMP CRecord::get_LastModified(DATE* last_modified)
 {
-	CHECK_OUT_PTR( pVal ) ;
+	CHECK_OUT_PTR( last_modified ) ;
 	try
 	{
 		misc_wrappers::date modified = m_record->get_modified() ;
-		::SystemTimeToVariantTime(&modified, pVal) ;
+		::SystemTimeToVariantTime(&modified, last_modified) ;
 	}
 	FELIX_AUTO_CATCH( "get_LastModified" ) ;
 
 	return S_OK ;
 }
-STDMETHODIMP CRecord::put_LastModified(DATE pVal)
+STDMETHODIMP CRecord::put_LastModified(DATE last_modified)
 {
 	try
 	{
 		misc_wrappers::date modified ;
-		::VariantTimeToSystemTime(pVal, &modified) ;
+		::VariantTimeToSystemTime(last_modified, &modified) ;
 		m_record->set_modified(modified) ;
 	}
 	FELIX_AUTO_CATCH( "put_LastModified" ) ;
@@ -199,25 +261,25 @@ STDMETHODIMP CRecord::put_LastModified(DATE pVal)
 }
 
 // refcount
-STDMETHODIMP CRecord::get_RefCount(ULONG* pVal)
+STDMETHODIMP CRecord::get_RefCount(ULONG* refcount)
 {
-	CHECK_OUT_PTR( pVal ) ;
+	CHECK_OUT_PTR( refcount ) ;
 
 	try
 	{
-		*pVal = m_record->get_refcount() ;
+		*refcount = m_record->get_refcount() ;
 	}
-	FELIX_AUTO_CATCH( "get_Id" ) ;
+	FELIX_AUTO_CATCH( "get_RefCount" ) ;
 
 	return S_OK ;
 }
-STDMETHODIMP CRecord::put_RefCount(ULONG pVal)
+STDMETHODIMP CRecord::put_RefCount(ULONG refcount)
 {
 	try
 	{
-		m_record->set_refcount(pVal) ;
+		m_record->set_refcount(refcount) ;
 	}
-	FELIX_AUTO_CATCH( "put_Id" ) ;
+	FELIX_AUTO_CATCH( "put_RefCount" ) ;
 
 	return S_OK ;
 }
@@ -246,15 +308,19 @@ STDMETHODIMP CRecord::put_Id(ULONG pVal)
 	return S_OK ;
 }
 
+//////////////////////////////////////////////////////////////////////////
+// plain values (stripped of tags)
+//////////////////////////////////////////////////////////////////////////
+
 // trans
-STDMETHODIMP CRecord::get_PlainTrans(BSTR* pVal)
+STDMETHODIMP CRecord::get_PlainTrans(BSTR* plain_trans)
 {
-	CHECK_OUT_PTR( pVal ) ;
+	CHECK_OUT_PTR( plain_trans ) ;
 
 	try
 	{
 		wstring trans = m_record->get_trans_plain() ;
-		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
+		*plain_trans = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_PlainTrans" ) ;
 
@@ -290,5 +356,3 @@ STDMETHODIMP CRecord::get_PlainContext(BSTR* pVal)
 
 	return S_OK ;
 }
-
-
