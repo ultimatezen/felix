@@ -74,7 +74,7 @@ public:
 	// field
 	STDMETHOD(get_Field)(BSTR* pVal);
 	STDMETHOD(put_Field)(BSTR source);
-	// field
+	// client
 	STDMETHOD(get_Client)(BSTR* pVal);
 	STDMETHOD(put_Client)(BSTR source);
 	// source_lang

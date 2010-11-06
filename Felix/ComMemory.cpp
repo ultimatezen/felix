@@ -54,15 +54,15 @@ STDMETHODIMP CComMemory::put_Creator(BSTR creator)
 	return S_OK ;
 }
 // modified_by
-STDMETHODIMP CComMemory::get_ModifiedBy(BSTR* creator)
+STDMETHODIMP CComMemory::get_ModifiedBy(BSTR* modified_by)
 {
-	CHECK_OUT_PTR( creator ) ;
+	CHECK_OUT_PTR( modified_by ) ;
 
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		wstring val = info->get_modified_by() ;
-		*creator = ::SysAllocStringLen( val.c_str(), val.size() ) ;
+		*modified_by = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_ModifiedBy" ) ;
 
@@ -87,7 +87,7 @@ STDMETHODIMP CComMemory::get_Field(BSTR* creator)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		wstring val = info->get_modified_by() ;
+		wstring val = info->get_field() ;
 		*creator = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_Field" ) ;
@@ -99,13 +99,13 @@ STDMETHODIMP CComMemory::put_Field(BSTR modified_by)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		info->set_modified_by(BSTR2wstring( modified_by )) ;
+		info->set_field(BSTR2wstring( modified_by )) ;
 	}
 	FELIX_AUTO_CATCH( "put_Field" ) ;
 
 	return S_OK ;
 }
-// field
+// client
 STDMETHODIMP CComMemory::get_Client(BSTR* client)
 {
 	CHECK_OUT_PTR( client ) ;
@@ -113,7 +113,7 @@ STDMETHODIMP CComMemory::get_Client(BSTR* client)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		wstring val = info->get_modified_by() ;
+		wstring val = info->get_client() ;
 		*client = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_Client" ) ;
@@ -125,7 +125,7 @@ STDMETHODIMP CComMemory::put_Client(BSTR client)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		info->set_modified_by(BSTR2wstring( client )) ;
+		info->set_client(BSTR2wstring( client )) ;
 	}
 	FELIX_AUTO_CATCH( "put_Client" ) ;
 
@@ -139,7 +139,7 @@ STDMETHODIMP CComMemory::get_SourceLanguage(BSTR* language)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		wstring val = info->get_modified_by() ;
+		wstring val = info->get_source_language() ;
 		*language = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_SourceLanguage" ) ;
@@ -151,7 +151,7 @@ STDMETHODIMP CComMemory::put_SourceLanguage(BSTR language)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		info->set_modified_by(BSTR2wstring( language )) ;
+		info->set_source_language(BSTR2wstring( language )) ;
 	}
 	FELIX_AUTO_CATCH( "put_SourceLanguage" ) ;
 
@@ -165,7 +165,7 @@ STDMETHODIMP CComMemory::get_TargetLanguage(BSTR* language)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		wstring val = info->get_modified_by() ;
+		wstring val = info->get_target_language() ;
 		*language = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_TargetLanguage" ) ;
@@ -177,7 +177,7 @@ STDMETHODIMP CComMemory::put_TargetLanguage(BSTR language)
 	try
 	{
 		MemoryInfo *info = m_memory->get_memory_info() ;
-		info->set_modified_by(BSTR2wstring( language )) ;
+		info->set_target_language(BSTR2wstring( language )) ;
 	}
 	FELIX_AUTO_CATCH( "put_TargetLanguage" ) ;
 
