@@ -5,32 +5,37 @@
 class OutputDeviceFake : public OutputDevice
 {
 public:
-	std::vector<string> m_calls ;
+	DECLARE_SENSING_VAR ;
 	wstring m_value ;
 	
 	void close()
 	{
-		m_calls.push_back("close") ;
+		SENSE("close") ;
 	}
-	void open(const CString &filename)
+	void open(const CString filename)
 	{
-		m_calls.push_back("open") ;
-		m_calls.push_back((LPCSTR)CStringA(filename)) ;
+		SENSE("open") ;
+		SENSE((LPCSTR)CStringA(filename)) ;
 	}
 
 	void write(const char* text, size_t)
 	{
-		m_calls.push_back("write_charp") ;
+		SENSE("write_charp") ;
 		m_value += string2wstring(string(text)) ;
 	}
 	void write(const string &text)
 	{
-		m_calls.push_back("write_string") ;
+		SENSE("write_string") ;
 		m_value += string2wstring(text) ;
 	}
 	void write(const wstring text)
 	{
-		m_calls.push_back("write_wstring") ;
+		SENSE("write_wstring") ;
 		m_value += text ;
+	}
+	void ensure_dirs(const CString dirname) 
+	{
+		SENSE("ensure_dirs") ;
+		SENSE((LPCSTR)CStringA(dirname)) ;
 	}
 };
