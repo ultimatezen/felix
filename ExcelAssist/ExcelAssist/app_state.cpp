@@ -18,7 +18,6 @@ app_state::app_state() :
 		m_use_trans_hist(FALSE),
 		m_shortcuts_active(TRUE)
 	{
-		BANNER( "app_state::app_state()" ) ;
 		set_default_lang() ;
 	}
 

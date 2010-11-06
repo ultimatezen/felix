@@ -17,6 +17,7 @@
 #include <boost/bind.hpp>
 #include "logging.h"
 #include "input_device_file.h"
+#include "output_device.h"
 
 extern CAddInModule _AtlModule;
 using namespace except ;
@@ -78,8 +79,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 
 		init_properties();
 
-		input_device_ptr input(new InputDeviceFile) ;
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+		load_keyboard_shortcuts() ;
 		m_mapper.m_target = &m_interface ;
 		installhook( &m_keyboard_shortcuts ) ;
 
@@ -88,7 +88,27 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 	}
 	CATCH_ALL(_T("Error connecting to PowerPoint")) ;
 
+
 	return S_OK;
+}	
+void CConnect::load_keyboard_shortcuts()
+{
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input, output)) ;
+}
+void CConnect::add_toolbar_items( Office::CommandBarControlsPtr spBarControls )
+{
+	// add buttons
+
+	add_toolbar_item( spBarControls, IDB_LOOKUP ) ;
+	add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_GET ) ;
+	add_toolbar_item( spBarControls, IDB_GET_AND_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_SET ) ;
+	add_toolbar_item( spBarControls, IDB_SET_AND_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_GLOSS_N ) ;
+	add_toolbar_item( spBarControls, IDB_HELP ) ;
 }
 void CConnect::init_properties()
 {
@@ -1321,8 +1341,7 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 			CPropertiesDlgE props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
 			m_interface.load_abbreviations() ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts() ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1337,8 +1356,7 @@ void __stdcall CConnect::OnMenuPreferences( IDispatch *, VARIANT_BOOL * )
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
 			m_interface.load_abbreviations() ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts() ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

@@ -16,6 +16,7 @@
 #include <boost/bind.hpp>
 #include "logging.h"
 #include "input_device_file.h"
+#include "output_device.h"
 
 #define CATCH_C_EXCEPTIONS(_msg) catch ( std::exception &e ) { handle_exception(e, _msg) ; }
 #define CATCH_COM_EXCEPTIONS(_msg) catch ( CComException &e ) { handle_exception(e, _msg) ; }
@@ -232,8 +233,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		setMenuStrings( m_properties.get_preferred_gui_lang() ) ;
 
-		input_device_ptr input(new InputDeviceFile) ;
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+		load_keyboard_shortcuts() ;
 		m_mapper.m_target = &m_excelIF ;
 
 		installhook( &m_keyboard_shortcuts ) ;
@@ -730,6 +730,12 @@ void __stdcall CConnect::OnAutoAddGloss( IDispatch *Ctrl, VARIANT_BOOL * CancelD
 
 }	
 
+void CConnect::load_keyboard_shortcuts()
+{
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input, output)) ;
+}
 void __stdcall CConnect::OnWorkbookBeforeClose( IDispatch * workbook, VARIANT_BOOL * )
 {
 	if(m_properties.m_use_trans_hist)
@@ -1382,8 +1388,7 @@ void __stdcall CConnect::OnPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgE props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts() ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -1397,8 +1402,7 @@ void __stdcall CConnect::OnPreferences( IDispatch *, VARIANT_BOOL * )
 		{
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			const INT_PTR result = props_dlg.DoModal( ) ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts();
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

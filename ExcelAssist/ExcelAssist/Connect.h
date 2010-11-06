@@ -314,6 +314,7 @@ public:
 	void setMenuStrings(int lang_id);
 	void createMenu() ;
 
+	void load_keyboard_shortcuts();
 	void handle_exception(std::exception &e, tstring _msg)
 	{
 		logging::log_error(string("std::exception: ") + string2string(_msg)) ;

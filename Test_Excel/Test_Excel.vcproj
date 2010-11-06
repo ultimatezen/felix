@@ -229,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\config_file_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\ExcelAssist\ExcelAssist\DispatchWrapper_test.cpp"
 				>
 			</File>
@@ -254,6 +258,10 @@
 			</File>
 			<File
 				RelativePath="..\ExcelAssist\ExcelAssist\keyboard_shortcuts_excel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\keyboard_shortcuts_excel_test.cpp"
 				>
 			</File>
 			<File

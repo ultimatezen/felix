@@ -201,8 +201,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 		advise_document_events() ;
 
-		input_device_ptr input(new InputDeviceFile) ;
-		m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+		load_keyboard_shortcuts() ;
 		m_mapper.m_target = m_controller ;
 		installhook( &m_keyboard_shortcuts ) ;
 		m_keyboard_shortcuts.m_on_toggle_shortcuts = boost::bind(&CConnect::on_toggle_shortcuts, this, _1) ;
@@ -215,6 +214,12 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 	return S_OK;
 }
 
+void CConnect::load_keyboard_shortcuts()
+{
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input, output)) ;
+}
 void __stdcall CConnect::OnMenuSwitchMode( IDispatch *, VARIANT_BOOL * )
 {
 	try
@@ -1987,8 +1992,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 			CPropertiesDlgE props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
 			m_controller->load_abbreviations() ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts() ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;
@@ -2003,8 +2007,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 			CPropertiesDlgJ props_dlg(m_properties) ;
 			INT_PTR result = props_dlg.DoModal( ) ;
 			m_controller->load_abbreviations() ;
-			input_device_ptr input(new InputDeviceFile) ;
-			m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input)) ;
+			load_keyboard_shortcuts() ;
 			if ( result <= 0 || result == IDCANCEL ) 
 			{
 				ATLTRACE("User canceled.\n") ;

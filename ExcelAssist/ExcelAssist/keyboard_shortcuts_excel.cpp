@@ -6,15 +6,14 @@
 #include "logging.h"
 
 
-string get_shortcuts_text(CString base_filename, input_device_ptr input)
+string get_shortcuts_text(CString base_filename, input_device_ptr input, output_device_ptr output)
 {
 	try
 	{
-		CString filename = get_config_filename(base_filename) ;
+		CString filename = get_config_filename(base_filename, output) ;
 		if (! input->exists(filename))
 		{
-			OutputDeviceFile output ;
-			write_default_shortcuts_file(filename, &output) ;
+			write_default_shortcuts_file(filename, output) ;
 		}
 		file::view config_view ;
 		string text(input->create_view_const_char(filename)) ;
@@ -73,7 +72,7 @@ string get_default_file_text(void)
 	return writer.result ;
 }
 
-void write_default_shortcuts_file(CString filename, OutputDevice *output)
+void write_default_shortcuts_file(CString filename, output_device_ptr output)
 {
 	const string text = get_default_file_text() ;
 

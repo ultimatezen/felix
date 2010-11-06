@@ -47,9 +47,9 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		exporter.m_file = output_device_ptr (device) ;
 
 		exporter.open_destination(_T("foo.txt")) ;
-		BOOST_CHECK_EQUAL(2u, device->m_calls.size()) ;
-		BOOST_CHECK_EQUAL(string("open"), device->m_calls[0]) ;
-		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_calls[1]) ;
+		BOOST_CHECK_EQUAL(2u, device->m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string("open"), device->m_sensing_variable[0]) ;
+		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_sensing_variable[1]) ;
 	}
 	BOOST_AUTO_TEST_CASE( write_preamble )
 	{
@@ -60,10 +60,10 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		exporter.m_file = output_device_ptr (device) ;
 
 		exporter.write_preamble() ;
-		BOOST_CHECK_EQUAL(3, (int)device->m_calls.size()) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[0]) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[1]) ;
-		BOOST_CHECK_EQUAL(string("write_string"), device->m_calls[2]) ;
+		BOOST_CHECK_EQUAL(3, (int)device->m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[0]) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[1]) ;
+		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[2]) ;
 	}
 	BOOST_AUTO_TEST_CASE( create_unicode_escape )
 	{

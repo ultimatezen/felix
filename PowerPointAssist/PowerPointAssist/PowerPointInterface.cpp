@@ -15,12 +15,7 @@
 #include "tag_stripper.h"
 #include "Hooker.h"
 #include "logging.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
+#include "input_device_file.h"
 
 using namespace except ;
 
@@ -1676,5 +1671,7 @@ bool CPowerPointInterface::has_j( const wstring &text )
 
 void CPowerPointInterface::load_abbreviations()
 {
-	m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_abbreviations.load(get_config_text(_T("abbreviations.txt"), output, input)) ;
 }

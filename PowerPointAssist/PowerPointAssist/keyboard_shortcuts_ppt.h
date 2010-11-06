@@ -5,11 +5,12 @@
 #include "key_mapper_ppt.h"
 #include "output_device.h"
 #include "input_device.h"
+#include "output_device.h"
 
 const static CString SHORTCUTS_FILE = _T("shortcuts_ppt.xml") ;
 
-void write_default_shortcuts_file(CString filename, OutputDevice *output) ;
+void write_default_shortcuts_file(CString filename, output_device_ptr output) ;
 string get_default_file_text(void) ;
-string get_shortcuts_text(CString base_filename, input_device_ptr input) ;
+string get_shortcuts_text(CString base_filename, input_device_ptr input, output_device_ptr output) ;
 
 

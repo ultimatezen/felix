@@ -45,10 +45,7 @@ public:
 public:
 	WordController(LPCWSTR history_server = L"FelixTransHistory.Word");
 
-	void load_abbreviations() 
-	{
-		m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
-	}
+	void load_abbreviations();
 	virtual ~WordController();
 
 	long get_query_start();

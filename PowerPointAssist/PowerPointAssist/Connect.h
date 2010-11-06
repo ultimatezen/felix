@@ -332,20 +332,8 @@ private:
 
 	void setToolbarItemText(int button_id, Office::_CommandBarButtonPtr& toolbarItem);
 
-	void CConnect::add_toolbar_items( Office::CommandBarControlsPtr spBarControls )
-	{
-		// add buttons
-
-		add_toolbar_item( spBarControls, IDB_LOOKUP ) ;
-		add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT ) ;
-		add_toolbar_item( spBarControls, IDB_GET ) ;
-		add_toolbar_item( spBarControls, IDB_GET_AND_NEXT ) ;
-		add_toolbar_item( spBarControls, IDB_SET ) ;
-		add_toolbar_item( spBarControls, IDB_SET_AND_NEXT ) ;
-		add_toolbar_item( spBarControls, IDB_GLOSS_N ) ;
-		add_toolbar_item( spBarControls, IDB_HELP ) ;
-	}
-
+	void add_toolbar_items( Office::CommandBarControlsPtr spBarControls );
+	void load_keyboard_shortcuts();
 	void handle_exception(std::exception &e, tstring _msg)
 	{
 		logging::log_error(string("std::exception: ") + string2string(_msg)) ;

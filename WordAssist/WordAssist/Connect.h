@@ -608,6 +608,8 @@ private:
 		logging::log_exception(e) ;
 		e.notify_user( msg ) ;
 	}
+
+	void load_keyboard_shortcuts();
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Connect), CConnect)

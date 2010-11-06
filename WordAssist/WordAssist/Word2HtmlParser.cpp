@@ -4,7 +4,18 @@
 #include "Word2HtmlParser.h"
 #include "WordParser.h"
 #include "logging.h"
+#include "input_device_file.h"
+
 using namespace except ;
+
+
+CWord2HtmlParser::CWord2HtmlParser() :
+m_plaintext(false)
+{
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_abbreviations.load(get_config_text(_T("abbreviations.txt"), output, input)) ;
+}
 
 STDMETHODIMP CWord2HtmlParser::RangeToHtml(IDispatch *word_range, 
 											  BSTR* html_text)

@@ -40,7 +40,11 @@ public:
 		if ( ! m_file_exists ) // whoops -- file not there
 		{
 			CString msg ;
+#ifdef FELIX_APPLICATION
 			msg.FormatMessage( IDS_MSG_NO_FILE, filename ) ;
+#else
+			msg = _T("File does not exist") ;
+#endif
 			THROW_WIN_EXCEPTION( msg ) ;
 		}
 	}

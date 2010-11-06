@@ -28,6 +28,7 @@
 #include "WordScreenUpdateLock.h"
 
 #include ".\wordcontroller.h"
+#include "input_device_file.h"
 
 #include "HtmlHelp.h"
 #pragma message("   automatic link to HtmlHelp.lib")
@@ -245,6 +246,12 @@ bool WordController::OnAutoTransAction ( bool as_plaintext )
 	return true ;
 }
 
+void WordController::load_abbreviations()
+{
+	input_device_ptr input(new InputDeviceFile) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	m_abbreviations.load(get_config_text(_T("abbreviations.txt"), output, input)) ;
+}
 bool WordController::escape_is_pressed()
 {
 	SHORT val = ::GetAsyncKeyState(VK_ESCAPE) & 0x8000 ;

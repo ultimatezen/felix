@@ -9,7 +9,8 @@ public:
 	virtual void write(const string &text) = 0 ;
 	virtual void write(const wstring text) = 0 ;
 	virtual void close() = 0 ;
-	virtual void open(const CString &filename) = 0 ;
+	virtual void open(const CString filename) = 0 ;
+	virtual void ensure_dirs(const CString dirname) = 0 ;
 };
 typedef boost::shared_ptr<OutputDevice> output_device_ptr  ;
 
@@ -17,7 +18,7 @@ class OutputDeviceFile : public OutputDevice
 {
 public:
 	file::file m_file ;
-	void open(const CString &filename)
+	void open(const CString filename)
 	{
 		m_file.open_always(filename) ;
 	}
@@ -44,5 +45,12 @@ public:
 			m_file.close() ;
 		}
 		ATLASSERT ( ! m_file.is_open() ) ; 
+	}
+	void ensure_dirs(const CString dirname) 
+	{
+		if (! ::PathIsDirectory(dirname))
+		{
+			::CreateDirectory(dirname, NULL) ;
+		}
 	}
 };

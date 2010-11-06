@@ -32,11 +32,7 @@ public:
 	{
 		m_plaintext = plaintext ;
 	}
-	CWord2HtmlParser() :
-		m_plaintext(false)
-	{
-		m_abbreviations.load(get_config_text(_T("abbreviations.txt"))) ;
-	}
+	CWord2HtmlParser();
 
 	DECLARE_REGISTRY_RESOURCEID(IDR_WORD2HTMLPARSER)
 
