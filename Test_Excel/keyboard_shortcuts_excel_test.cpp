@@ -40,6 +40,18 @@ using namespace shortcuts;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
+	BOOST_AUTO_TEST_CASE(test_write_default_shortcuts_file)
+	{
+		OutputDeviceFake *fake = new OutputDeviceFake ;
+		output_device_ptr output(fake) ;
+
+		write_default_shortcuts_file(_T("foo.xml"), output) ;
+
+		string actual = string2string(fake->m_value) ;
+		string expected = get_default_file_text() ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif // #ifdef _DEBUG
