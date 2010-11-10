@@ -16,6 +16,8 @@ Debug/*
 *.sdf
 dupes.txt
 cpp_files.txt
+Felix/Felix_i.c
+Felix/Felix_p.c
 
 glob:MurasakiProject/*
 glob:Felix/RDb02196
