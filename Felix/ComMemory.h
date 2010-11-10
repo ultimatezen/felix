@@ -13,7 +13,6 @@
 #endif
 
 
-
 // CComMemory
 
 class ATL_NO_VTABLE CComMemory :
@@ -65,6 +64,11 @@ END_COM_MAP()
 
 public:
 	STDMETHOD(get_Records)(IRecords **pVal);
+	STDMETHOD(AddRecord)(IRecord *pVal);
+
+	STDMETHOD(Save)();
+	STDMETHOD(SaveAs)(BSTR location);
+
 	// Creator
 	STDMETHOD(get_Creator)(BSTR* pVal);
 	STDMETHOD(put_Creator)(BSTR source);

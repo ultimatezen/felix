@@ -19,6 +19,24 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	typedef CComObject< CComMemory > mem_obj ;
 	typedef CComPtr< mem_obj > mem_ptr ;
 
+	typedef CComObject<CRecord> rec_obj ;
+
+	struct ComRec
+	{
+		rec_obj *rec ;
+		CComPtr<IRecord> comrec ;
+		ComRec()
+		{
+			rec_obj::CreateInstance(&rec) ;
+			rec->AddRef() ;
+			rec->QueryInterface(&comrec) ;
+		}
+		~ComRec()
+		{
+			rec->Release() ;
+		}
+	};
+
 	record_pointer make_record(string source, string trans)
 	{
 		record_pointer rec(new record_local) ;
@@ -75,6 +93,28 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		BOOST_CHECK_EQUAL(count, 2) ;
 	}	
 
+	// add record
+	BOOST_AUTO_TEST_CASE(test_add_com_record)
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+
+		memory_pointer memory(new memory_local) ;
+		mem->set_memory(memory) ;
+
+		ComRec rec ;
+		rec.rec->put_Source(CComBSTR(L"source")) ;
+		rec.rec->put_Trans(CComBSTR(L"trans")) ;
+
+		mem->AddRecord(rec.rec) ;
+
+		records_ptr records ;
+		mem->get_Records(&records) ;
+
+		long count = 0 ;
+		records->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(count, 1) ;
+	}	
 	//////////////////////////////////////////////////////////////////////////
 	// MemoryInfo
 	//////////////////////////////////////////////////////////////////////////

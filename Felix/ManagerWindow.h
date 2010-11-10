@@ -66,12 +66,7 @@ public:
 	DECLARE_WND_CLASS(_T("ManagerWindowClass"))
 	DECLARE_SENSING_VAR ;
 
-	wstring get_message()
-	{
-		wstring message = m_message ;
-		m_message.clear() ;
-		return message ;
-	}
+	wstring get_message();
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
@@ -186,42 +181,40 @@ public:
 	LRESULT OnInitView();
 
 	BEGIN_MSG_MAP_EX(CManagerWindow)
-	try
-	{
-		// don't use MSG_HANDLER_0 for OnCreate
-		// we need the arguments to pass to DefWindowProc
-		MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
-			MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
-			MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
+		try
+		{
+			// don't use MSG_HANDLER_0 for OnCreate
+			// we need the arguments to pass to DefWindowProc
+			MESSAGE_HANDLER_EX(WM_CREATE, OnCreate) 
+				MESSAGE_HANDLER_EX(WM_SIZE, OnSize) 
+				MESSAGE_HANDLER_EX(WM_DESTROY, OnDestroy) 
 
-			BEGIN_CMD_HANDLER_EX
+				BEGIN_CMD_HANDLER_EX
 
-			CMD_HANDLER_EX_0(IDC_CHECK_DEMO, OnInitView)
+				CMD_HANDLER_EX_0(IDC_CHECK_DEMO, OnInitView)
 
-			END_CMD_HANDLER_EX
-	}
-	catch (except::CException& e)
-	{
-		logging::log_error("Program exception (Manager Window)") ;
-		logging::log_exception(e) ;
-		e.notify_user( _T("Error in Manager Window"), MB_OK, _T("Manager Window Error"), m_hWnd ) ;		 
-	}
-	catch (_com_error& e)
-	{
-		logging::log_error("COM exception (Manager Window)") ;
-		logging::log_exception(e) ;
-		except::CComException com_exception(_T("COM Error"), e) ;		 
-		com_exception.notify_user( _T("COM Error in Manager Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
-	}
-	catch (std::exception& e)
-	{
-		logging::log_error("std::exception (Manager Window)") ;
-		logging::log_error(e.what()) ;
-		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
-		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error in Manager Window"), msg_flags ) ;  
-	}
-
-
+				END_CMD_HANDLER_EX
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception (Manager Window)") ;
+			logging::log_exception(e) ;
+			e.notify_user( _T("Error in Manager Window"), MB_OK, _T("Manager Window Error"), m_hWnd ) ;		 
+		}
+		catch (_com_error& e)
+		{
+			logging::log_error("COM exception (Manager Window)") ;
+			logging::log_exception(e) ;
+			except::CComException com_exception(_T("COM Error"), e) ;		 
+			com_exception.notify_user( _T("COM Error in Manager Window"), MB_OK, _T("COM Exception"), m_hWnd ) ;		 
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("std::exception (Manager Window)") ;
+			logging::log_error(e.what()) ;
+			const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
+			::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error in Manager Window"), msg_flags ) ;  
+		}
 	END_MSG_MAP()
 
 };

@@ -26,6 +26,8 @@ class ATL_NO_VTABLE CRecord :
 	public CProxy_IRecordEvents<CRecord>,
 	public IDispatchImpl<IRecord, &IID_IRecord, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
+	VISIBLE_TO_TESTS ;
+
 	mem_engine::record_pointer m_record ;
 public:
 
@@ -122,3 +124,5 @@ public:
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Record), CRecord)
+
+mem_engine::record_pointer comrec2rec(CComPtr<IRecord> comrec) ;

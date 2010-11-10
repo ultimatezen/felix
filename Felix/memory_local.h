@@ -20,14 +20,8 @@ namespace mem_engine
 		  {}
 
 		  // MemoryInfo
-		  MemoryInfo* get_memory_info()
-		  {
-			  return static_cast<MemoryInfo*>(&m_header) ;
-		  }
-		  const MemoryInfo* get_memory_info_const() const
-		  {
-			  return static_cast<const MemoryInfo*>(&m_header) ;
-		  }
+		  MemoryInfo* get_memory_info();
+		  const MemoryInfo* get_memory_info_const() const;
 		  void set_locked_off();
 		  void set_locked_on( );
 		  bool is_locked();
@@ -56,16 +50,10 @@ namespace mem_engine
 		  bool erase( const record_pointer record ) ;
 		  CString get_location( );
 		  void set_location( CString location ) ;
-		  CString get_fullpath()
-		  {
-			  return this->get_location() ;
-		  }
+		  CString get_fullpath();
 		  bool is_new();
 		  bool save_memory( )  ;
-		  bool is_local()
-		  {
-			  return true ;
-		  }
+		  bool is_local();
 		  void set_cmp_params( const search_query_params &params ) ;
 
 		  void get_match_candidates(trans_set &candidates, 

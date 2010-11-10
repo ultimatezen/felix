@@ -1057,3 +1057,10 @@ void CManagerWindow::set_undo_action(const string &action, const string &memtype
 		this->m_undo = action::undo_action_ptr(new action::StripTagsAction(mem)) ;
 	}
 }
+
+wstring CManagerWindow::get_message()
+{
+	wstring message = m_message ;
+	m_message.clear() ;
+	return message ;
+}

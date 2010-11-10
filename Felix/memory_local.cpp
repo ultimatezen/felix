@@ -927,5 +927,23 @@ namespace mem_engine
 		return true ;
 	}
 
+	MemoryInfo* memory_local::get_memory_info()
+	{
+		return static_cast<MemoryInfo*>(&m_header) ;
+	}
 
+	const MemoryInfo* memory_local::get_memory_info_const() const
+	{
+		return static_cast<const MemoryInfo*>(&m_header) ;
+	}
+
+	bool memory_local::is_local()
+	{
+		return true ;
+	}
+
+	CString memory_local::get_fullpath()
+	{
+		return this->get_location() ;
+	}
 }

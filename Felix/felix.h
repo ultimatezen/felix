@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Oct 26 18:21:20 2010
+/* at Sun Nov 07 16:21:06 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -343,6 +343,18 @@ EXTERN_C const IID IID_IRecord;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Id( 
             /* [in] */ ULONG newVal) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Validated( 
+            /* [retval][out] */ VARIANT_BOOL *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Validated( 
+            /* [in] */ VARIANT_BOOL newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Reliability( 
+            /* [retval][out] */ ULONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Reliability( 
+            /* [in] */ ULONG newVal) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -476,6 +488,22 @@ EXTERN_C const IID IID_IRecord;
             IRecord * This,
             /* [in] */ ULONG newVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Validated )( 
+            IRecord * This,
+            /* [retval][out] */ VARIANT_BOOL *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Validated )( 
+            IRecord * This,
+            /* [in] */ VARIANT_BOOL newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Reliability )( 
+            IRecord * This,
+            /* [retval][out] */ ULONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Reliability )( 
+            IRecord * This,
+            /* [in] */ ULONG newVal);
+        
         END_INTERFACE
     } IRecordVtbl;
 
@@ -574,6 +602,18 @@ EXTERN_C const IID IID_IRecord;
 
 #define IRecord_put_Id(This,newVal)	\
     ( (This)->lpVtbl -> put_Id(This,newVal) ) 
+
+#define IRecord_get_Validated(This,pVal)	\
+    ( (This)->lpVtbl -> get_Validated(This,pVal) ) 
+
+#define IRecord_put_Validated(This,newVal)	\
+    ( (This)->lpVtbl -> put_Validated(This,newVal) ) 
+
+#define IRecord_get_Reliability(This,pVal)	\
+    ( (This)->lpVtbl -> get_Reliability(This,pVal) ) 
+
+#define IRecord_put_Reliability(This,newVal)	\
+    ( (This)->lpVtbl -> put_Reliability(This,newVal) ) 
 
 #endif /* COBJMACROS */
 
@@ -1041,6 +1081,57 @@ EXTERN_C const IID IID_IMemory;
         virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Records( 
             /* [retval][out] */ IRecords **newVal) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Creator( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Creator( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ModifiedBy( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ModifiedBy( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Field( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Field( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Client( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Client( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SourceLanguage( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SourceLanguage( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_TargetLanguage( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_TargetLanguage( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_CreatedOn( 
+            /* [retval][out] */ DATE *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_CreatedOn( 
+            /* [in] */ DATE newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ModifiedOn( 
+            /* [retval][out] */ DATE *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ModifiedOn( 
+            /* [in] */ DATE newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE AddRecord( 
+            /* [in] */ IRecord *newVal) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -1094,6 +1185,74 @@ EXTERN_C const IID IID_IMemory;
             IMemory * This,
             /* [retval][out] */ IRecords **newVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Creator )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Creator )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModifiedBy )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ModifiedBy )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Field )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Field )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Client )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Client )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SourceLanguage )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_SourceLanguage )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_TargetLanguage )( 
+            IMemory * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_TargetLanguage )( 
+            IMemory * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CreatedOn )( 
+            IMemory * This,
+            /* [retval][out] */ DATE *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_CreatedOn )( 
+            IMemory * This,
+            /* [in] */ DATE newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModifiedOn )( 
+            IMemory * This,
+            /* [retval][out] */ DATE *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ModifiedOn )( 
+            IMemory * This,
+            /* [in] */ DATE newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *AddRecord )( 
+            IMemory * This,
+            /* [in] */ IRecord *newVal);
+        
         END_INTERFACE
     } IMemoryVtbl;
 
@@ -1133,6 +1292,57 @@ EXTERN_C const IID IID_IMemory;
 #define IMemory_get_Records(This,newVal)	\
     ( (This)->lpVtbl -> get_Records(This,newVal) ) 
 
+#define IMemory_get_Creator(This,pVal)	\
+    ( (This)->lpVtbl -> get_Creator(This,pVal) ) 
+
+#define IMemory_put_Creator(This,newVal)	\
+    ( (This)->lpVtbl -> put_Creator(This,newVal) ) 
+
+#define IMemory_get_ModifiedBy(This,pVal)	\
+    ( (This)->lpVtbl -> get_ModifiedBy(This,pVal) ) 
+
+#define IMemory_put_ModifiedBy(This,newVal)	\
+    ( (This)->lpVtbl -> put_ModifiedBy(This,newVal) ) 
+
+#define IMemory_get_Field(This,pVal)	\
+    ( (This)->lpVtbl -> get_Field(This,pVal) ) 
+
+#define IMemory_put_Field(This,newVal)	\
+    ( (This)->lpVtbl -> put_Field(This,newVal) ) 
+
+#define IMemory_get_Client(This,pVal)	\
+    ( (This)->lpVtbl -> get_Client(This,pVal) ) 
+
+#define IMemory_put_Client(This,newVal)	\
+    ( (This)->lpVtbl -> put_Client(This,newVal) ) 
+
+#define IMemory_get_SourceLanguage(This,pVal)	\
+    ( (This)->lpVtbl -> get_SourceLanguage(This,pVal) ) 
+
+#define IMemory_put_SourceLanguage(This,newVal)	\
+    ( (This)->lpVtbl -> put_SourceLanguage(This,newVal) ) 
+
+#define IMemory_get_TargetLanguage(This,pVal)	\
+    ( (This)->lpVtbl -> get_TargetLanguage(This,pVal) ) 
+
+#define IMemory_put_TargetLanguage(This,newVal)	\
+    ( (This)->lpVtbl -> put_TargetLanguage(This,newVal) ) 
+
+#define IMemory_get_CreatedOn(This,pVal)	\
+    ( (This)->lpVtbl -> get_CreatedOn(This,pVal) ) 
+
+#define IMemory_put_CreatedOn(This,newVal)	\
+    ( (This)->lpVtbl -> put_CreatedOn(This,newVal) ) 
+
+#define IMemory_get_ModifiedOn(This,pVal)	\
+    ( (This)->lpVtbl -> get_ModifiedOn(This,pVal) ) 
+
+#define IMemory_put_ModifiedOn(This,newVal)	\
+    ( (This)->lpVtbl -> put_ModifiedOn(This,newVal) ) 
+
+#define IMemory_AddRecord(This,newVal)	\
+    ( (This)->lpVtbl -> AddRecord(This,newVal) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -1159,6 +1369,19 @@ EXTERN_C const IID IID_IMemories;
     IMemories : public IDispatch
     {
     public:
+        virtual /* [id][propget] */ HRESULT STDMETHODCALLTYPE get__NewEnum( 
+            /* [retval][out] */ IUnknown **ppEnum) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Item( 
+            /* [in] */ long n,
+            /* [retval][out] */ IMemory **ppMemory) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Count( 
+            /* [retval][out] */ long *pCount) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add( 
+            /* [retval][out] */ IMemory **newVal) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -1208,6 +1431,23 @@ EXTERN_C const IID IID_IMemories;
             /* [out] */ EXCEPINFO *pExcepInfo,
             /* [out] */ UINT *puArgErr);
         
+        /* [id][propget] */ HRESULT ( STDMETHODCALLTYPE *get__NewEnum )( 
+            IMemories * This,
+            /* [retval][out] */ IUnknown **ppEnum);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Item )( 
+            IMemories * This,
+            /* [in] */ long n,
+            /* [retval][out] */ IMemory **ppMemory);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
+            IMemories * This,
+            /* [retval][out] */ long *pCount);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Add )( 
+            IMemories * This,
+            /* [retval][out] */ IMemory **newVal);
+        
         END_INTERFACE
     } IMemoriesVtbl;
 
@@ -1243,6 +1483,18 @@ EXTERN_C const IID IID_IMemories;
 #define IMemories_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
+
+#define IMemories_get__NewEnum(This,ppEnum)	\
+    ( (This)->lpVtbl -> get__NewEnum(This,ppEnum) ) 
+
+#define IMemories_get_Item(This,n,ppMemory)	\
+    ( (This)->lpVtbl -> get_Item(This,n,ppMemory) ) 
+
+#define IMemories_get_Count(This,pCount)	\
+    ( (This)->lpVtbl -> get_Count(This,pCount) ) 
+
+#define IMemories_Add(This,newVal)	\
+    ( (This)->lpVtbl -> Add(This,newVal) ) 
 
 #endif /* COBJMACROS */
 

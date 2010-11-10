@@ -303,6 +303,190 @@ BOOST_AUTO_TEST_SUITE( TestComRecord )
 		rec->get_Validated(&result) ;
 		BOOST_CHECK_EQUAL((int)VARIANT_TRUE, (int)result) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// comrec2rec
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( TestComRecord2Record )
+
+	using namespace mem_engine ;
+
+	typedef CComObject<CRecord> rec_obj ;
+
+	struct ComRec
+	{
+		rec_obj *rec ;
+		CComPtr<IRecord> comrec ;
+		ComRec()
+		{
+			rec_obj::CreateInstance(&rec) ;
+			rec->AddRef() ;
+			rec->QueryInterface(&comrec) ;
+		}
+		~ComRec()
+		{
+			rec->Release() ;
+		}
+	};
+
+	// source
+	BOOST_AUTO_TEST_CASE( copy_source )
+	{
+		ComRec rec ;
+
+		CComBSTR val = L"foo" ;
+		rec.comrec->put_Source(val) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"foo", localrec->get_source_rich()) ;
+	}
+
+	// trans
+	BOOST_AUTO_TEST_CASE( copy_trans )
+	{
+		ComRec rec ;
+
+		CComBSTR val = L"foo" ;
+		rec.comrec->put_Trans(val) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"foo", localrec->get_trans_rich()) ;
+	}
+
+	// context
+	BOOST_AUTO_TEST_CASE( copy_context )
+	{
+		ComRec rec ;
+
+		CComBSTR val = L"foo" ;
+		rec.comrec->put_Context(val) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"foo", localrec->get_context_rich()) ;
+	}
+
+	// validated
+	BOOST_AUTO_TEST_CASE(copy_validated_false)
+	{
+		ComRec rec ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(false, localrec->is_validated()) ;
+	}
+	BOOST_AUTO_TEST_CASE(copy_validated_true)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_Validated(VARIANT_TRUE) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(true, localrec->is_validated()) ;
+	}
+
+	// reliability
+	BOOST_AUTO_TEST_CASE(copy_reliability)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_Reliability(15u) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(9u, localrec->get_reliability()) ;
+	}
+
+	// refcount
+	BOOST_AUTO_TEST_CASE(copy_refcount)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_RefCount(15u) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(15u, localrec->get_refcount()) ;
+	}
+
+	// id
+	BOOST_AUTO_TEST_CASE(copy_id)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_Id(1u) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(1u, localrec->get_id()) ;
+	}
+
+	// created_by
+	BOOST_AUTO_TEST_CASE(copy_creator)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_CreatedBy(CComBSTR(L"Chuck")) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"Chuck", localrec->get_creator()) ;
+	}
+
+	// modified_by
+	BOOST_AUTO_TEST_CASE(copy_modified_by)
+	{
+		ComRec rec ;
+
+		rec.comrec->put_ModifiedBy(CComBSTR(L"Chuck")) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"Chuck", localrec->get_modified_by()) ;
+	}
+
+	// created
+	BOOST_AUTO_TEST_CASE(copy_created)
+	{
+		ComRec rec ;
+		misc_wrappers::date created;
+		created.set_to_local_time() ;
+		rec.rec->m_record->set_created(created) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(created.wYear, localrec->get_created().wYear) ;
+		BOOST_CHECK_EQUAL(created.wMonth, localrec->get_created().wMonth) ;
+		BOOST_CHECK_EQUAL(created.wDay, localrec->get_created().wDay) ;
+	}
+
+	// modified
+	BOOST_AUTO_TEST_CASE(copy_modified)
+	{
+		ComRec rec ;
+		misc_wrappers::date modified;
+		modified.set_to_local_time() ;
+		rec.rec->m_record->set_modified(modified) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(modified.wYear, localrec->get_modified().wYear) ;
+		BOOST_CHECK_EQUAL(modified.wMonth, localrec->get_modified().wMonth) ;
+		BOOST_CHECK_EQUAL(modified.wDay, localrec->get_modified().wDay) ;
+	}
+
+	// multiple
+	BOOST_AUTO_TEST_CASE( copy_multiple )
+	{
+		ComRec rec ;
+
+		rec.comrec->put_Source(CComBSTR(L"source")) ;
+		rec.comrec->put_Trans(CComBSTR(L"trans")) ;
+		rec.comrec->put_Context(CComBSTR(L"context")) ;
+		rec.comrec->put_Reliability(7u) ;
+		rec.comrec->put_RefCount(10u) ;
+
+		record_pointer localrec = comrec2rec(rec.comrec); 
+		BOOST_CHECK_EQUAL(L"source", localrec->get_source_rich()) ;
+		BOOST_CHECK_EQUAL(L"trans", localrec->get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(L"context", localrec->get_context_rich()) ;
+		BOOST_CHECK_EQUAL(7u, localrec->get_reliability()) ;
+		BOOST_CHECK_EQUAL(10u, localrec->get_refcount()) ;
+	}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 #endif

@@ -161,6 +161,17 @@ interface IMemory : IDispatch{
 	// ModifiedOn
 	[propget, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([out, retval] DATE* pVal);
 	[propput, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([in] DATE newVal);
+
+	// AddRecord
+	[id(10), helpstring("method AddRecord")] 
+		HRESULT AddRecord([in] IRecord* newVal) ;
+	// AddRecord
+	[id(11), helpstring("method Save")] 
+		HRESULT Save() ;
+	// AddRecord
+	[id(12), helpstring("method SaveAs")] 
+		HRESULT SaveAs([in] BSTR location) ;
+
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -175,12 +186,19 @@ interface IMemory : IDispatch{
 	pointer_default(unique)
 ]
 interface IMemories : IDispatch{
-	[propget, id(1), helpstring("property Count")] 
-		HRESULT Count([out, retval] long* pCount) ;
-	[propget, id(DISPID_VALUE), helpstring("property Item")] 
-		HRESULT Item([in] long n, [out, retval] IMemory **ppMemory );
 	[propget, id(DISPID_NEWENUM)] 
 		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] IMemory **ppMemory );
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+
+	// Add
+	[id(2), helpstring("method Add")] 
+		HRESULT Add([out, retval] IMemory** newVal) ;
+	// Load
+	[id(3), helpstring("method Load")] 
+		HRESULT Load([in] BSTR location, [out, retval] IMemory** newVal) ;
 };
 
 //////////////////////////////////////////////////////////////////////////

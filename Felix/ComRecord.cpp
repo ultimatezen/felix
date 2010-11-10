@@ -2,8 +2,73 @@
 
 #include "stdafx.h"
 #include "ComRecord.h"
+#include "record_local.h"
 
 using namespace except ;
+
+mem_engine::record_pointer comrec2rec(CComPtr<IRecord> comrec)
+{
+	mem_engine::record_pointer rec(new mem_engine::record_local) ;
+
+	// source
+	CComBSTR source ;
+	comrec->get_Source(&source) ;
+	rec->set_source(BSTR2wstring(source)) ;
+
+	// trans
+	CComBSTR trans ;
+	comrec->get_Trans(&trans) ;
+	rec->set_trans(BSTR2wstring(trans)) ;
+
+	// context
+	CComBSTR context ;
+	comrec->get_Context(&context) ;
+	rec->set_context(BSTR2wstring(context)) ;
+
+	// validated
+	VARIANT_BOOL validated ;
+	comrec->get_Validated(&validated) ;
+	rec->set_validated(validated != VARIANT_FALSE) ;
+
+	// reliability
+	ULONG reliability ;
+	comrec->get_Reliability(&reliability) ;
+	rec->set_reliability(reliability) ;
+
+	// refcount
+	ULONG refcount ;
+	comrec->get_RefCount(&refcount) ;
+	rec->set_refcount(refcount) ;
+
+	// id
+	ULONG recid ;
+	comrec->get_Id(&recid) ;
+	rec->set_id(recid) ;
+
+	// created
+	CComBSTR created_by ;
+	comrec->get_CreatedBy(&created_by) ;
+	rec->set_creator(BSTR2wstring(created_by)) ;
+
+	DATE date_created ;
+	comrec->get_DateCreated(&date_created) ;
+	misc_wrappers::date created ;
+	::VariantTimeToSystemTime(date_created, &created) ;
+	rec->set_created(created) ;
+
+	// modified
+	CComBSTR modified_by ;
+	comrec->get_ModifiedBy(&modified_by) ;
+	rec->set_modified_by(BSTR2wstring(modified_by)) ;
+
+	DATE date_modified ;
+	comrec->get_LastModified(&date_modified) ;
+	misc_wrappers::date modified ;
+	::VariantTimeToSystemTime(date_modified, &modified) ;
+	rec->set_modified(modified) ;
+
+	return rec ;
+}
 
 STDMETHODIMP CRecord::InterfaceSupportsErrorInfo(REFIID riid)
 {
