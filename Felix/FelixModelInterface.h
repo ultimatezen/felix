@@ -44,7 +44,10 @@ public:
 	{
 		return this->get_memories()->get_first_memory() ;
 	}
-
+	virtual void clear()
+	{
+		this->get_memories()->clear() ;
+	}
 	// pure virtual functions
 	virtual model_ptr get_memories() = 0 ;
 	virtual void set_reverse_lookup(bool setting) = 0 ;

@@ -46,7 +46,7 @@ STDMETHODIMP CApp2::get_Glossaries(IMemories **pVal)
 	{
 		if (m_glossaries)
 		{
-			m_memories->set_model(app::get_app().get_glossary_window()->get_model()) ;
+			m_glossaries->set_model(app::get_app().get_glossary_window()->get_model()) ;
 			return m_glossaries->QueryInterface(pVal) ;
 		}
 	}

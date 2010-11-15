@@ -18,6 +18,26 @@ namespace mgrview
 		SENSE("show_content") ;
 	
 		cpptempl::data_map data ;
+		set_template_data(data);
+
+
+		wstring tpl_text = cpptempl::get_template_text(_T("manager/browse.txt")) ;
+		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
+	}
+
+	ManagerViewBrowse::ManagerViewBrowse( size_t item, bool is_memory/*=true*/, size_t page/*=1*/ ) : 
+	m_item(item),
+		m_page(page),
+		m_is_memory(is_memory),
+		m_model(NULL),
+		m_paginator(10u),
+		ManagerView()
+	{
+
+	}
+
+	void ManagerViewBrowse::set_template_data( cpptempl::data_map &data )
+	{
 		if(m_is_memory)
 		{
 			m_model = m_mem_model ;
@@ -34,8 +54,7 @@ namespace mgrview
 		m_paginator.set_num_records(mem->size()) ;
 		m_paginator.set_current_page(m_page-1);
 
-		data[L"message"] = cpptempl::make_data(m_message) ;
-		m_message.clear() ;
+		data[L"message"] = cpptempl::make_data(m_window_listener->get_message()) ;
 		data[L"name"] = cpptempl::make_data(get_memname(mem)) ;
 		// page stuff
 		data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator)) ;
@@ -84,19 +103,5 @@ namespace mgrview
 			items.push_back(cpptempl::make_data(item)) ;
 		}
 		data[L"records"] = cpptempl::make_data(items) ;
-
-		wstring tpl_text = cpptempl::get_template_text(_T("manager/browse.txt")) ;
-		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
-	}
-
-	ManagerViewBrowse::ManagerViewBrowse( size_t item, bool is_memory/*=true*/, size_t page/*=1*/ ) : 
-	m_item(item),
-		m_page(page),
-		m_is_memory(is_memory),
-		m_model(NULL),
-		m_paginator(10u),
-		ManagerView()
-	{
-
 	}
 }

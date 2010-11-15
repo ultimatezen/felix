@@ -246,7 +246,19 @@ BOOST_AUTO_TEST_SUITE(TestApp2Memories)
 		BOOST_CHECK(SUCCEEDED(hr)) ;
 		BOOST_CHECK(mems) ;
 	}
+	BOOST_AUTO_TEST_CASE(one_memory)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+		app::get_app().get_model()->clear() ;
+		app::get_app().get_model()->add_memory() ;
 
+		CComPtr<IMemories> mems ;
+		application->get_Memories(&mems) ;
+		long count(0) ;
+		mems->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(1, count) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 // get_Glossaries
@@ -265,7 +277,19 @@ BOOST_AUTO_TEST_SUITE(TestApp2Glossaries)
 		BOOST_CHECK(SUCCEEDED(hr)) ;
 		BOOST_CHECK(mems) ;
 	}
+	BOOST_AUTO_TEST_CASE(one_glossary)
+	{
+		app2_ptr application ;
+		app2_obj::CreateInstance( &application ) ;
+		app::get_app().get_glossary_window()->get_model()->clear() ;
+		app::get_app().get_glossary_window()->get_model()->add_memory() ;
 
+		CComPtr<IMemories> mems ;
+		application->get_Glossaries(&mems) ;
+		long count(0) ;
+		mems->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(1, count) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 // get_ActiveMemory

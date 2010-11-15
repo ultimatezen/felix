@@ -2062,7 +2062,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewActions_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewBrowse.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewBrowse_test.cpp"
 					>
 				</File>
 				<File
@@ -2070,11 +2078,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewDetails_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewEdit.cpp"
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewEdit_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewStart.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewStart_test.cpp"
 					>
 				</File>
 			</Filter>
@@ -2938,6 +2958,10 @@
 				</File>
 				<File
 					RelativePath="..\common\input_device_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\manager_window_listener_fake.h"
 					>
 				</File>
 				<File
