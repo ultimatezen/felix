@@ -14,6 +14,7 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewBrowse )
 	using namespace mgrview ;
 	using namespace cpptempl ;
 
+	// This sets up and initializes the view class
 	struct browse_view_setup
 	{
 		ManagerViewBrowse view; 

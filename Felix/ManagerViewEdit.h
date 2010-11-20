@@ -23,6 +23,7 @@ namespace mgrview
 		void activate();
 		void show_content();
 
+		void set_template_data( cpptempl::data_map &data );
 
 	};
 }

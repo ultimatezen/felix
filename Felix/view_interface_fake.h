@@ -60,7 +60,7 @@ public:
 	void scroll_element_into_view( const wstring current_id )
 	{
 		current_id ;
-		SENSE("set_scroll_pos") ;
+		SENSE("scroll_element_into_view") ;
 		SENSE(string2string(current_id)) ;
 	}
 
