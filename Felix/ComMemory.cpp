@@ -19,7 +19,7 @@ STDMETHODIMP CComMemory::get_Records(IRecords **pVal)
 	}
 	FELIX_AUTO_CATCH("get_Records")
 
-	return E_FAIL ;
+	return S_OK ;
 }
 STDMETHODIMP CComMemory::AddRecord(IRecord *pVal)
 {
@@ -29,7 +29,7 @@ STDMETHODIMP CComMemory::AddRecord(IRecord *pVal)
 	}
 	FELIX_AUTO_CATCH("AddRecord")
 
-	return E_FAIL ;
+	return S_OK ;
 }
 STDMETHODIMP CComMemory::Save()
 {
@@ -39,7 +39,7 @@ STDMETHODIMP CComMemory::Save()
 	}
 	FELIX_AUTO_CATCH("Save")
 
-	return E_FAIL ;
+	return S_OK ;
 }
 STDMETHODIMP CComMemory::SaveAs(BSTR location)
 {
@@ -50,7 +50,7 @@ STDMETHODIMP CComMemory::SaveAs(BSTR location)
 	}
 	FELIX_AUTO_CATCH("SaveAs")
 
-	return E_FAIL ;
+	return S_OK ;
 }
 
 void CComMemory::set_memory( mem_engine::memory_pointer mem )

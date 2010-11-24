@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		rec.rec->put_Source(CComBSTR(L"source")) ;
 		rec.rec->put_Trans(CComBSTR(L"trans")) ;
 
-		mem->AddRecord(rec.rec) ;
+		BOOST_CHECK(SUCCEEDED(mem->AddRecord(rec.rec))) ;
 
 		records_ptr records ;
 		mem->get_Records(&records) ;
