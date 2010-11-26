@@ -107,13 +107,30 @@ void CFelixExcelIF::OnAutoAddGloss ( )
 		long current_row = activeCell->Row() ;
 		const long start_col = activeCell->Column() ;
 
+		long trans_col_offset = 1 ;
+		excel::range_ptr col_cell = activeSheet->Cell( current_row, start_col + trans_col_offset ) ;
+		while(col_cell->is_hidden())
+		{
+			trans_col_offset++ ;
+			col_cell = activeSheet->Cell( current_row, start_col + trans_col_offset ) ;
+		}
+
+		long context_col_offset = trans_col_offset + 1 ;
+		col_cell = activeSheet->Cell( current_row, start_col + context_col_offset ) ;
+		while(col_cell->is_hidden())
+		{
+			context_col_offset++ ;
+			col_cell = activeSheet->Cell( current_row, start_col + context_col_offset ) ;
+		}
+
+
 		long num_rows_without_entry = 0 ;
 
 		while ( num_rows_without_entry < MAX_ROWS_NO_ENTRY ) 
 		{
 			const long source_col = start_col ;
-			const long trans_col = start_col+1 ;
-			const long context_col = start_col+2 ;
+			const long trans_col = start_col+trans_col_offset ;
+			const long context_col = start_col+context_col_offset ;
 
 			const _bstr_t source_text = get_cell_text(activeSheet->Cell(current_row, source_col)) ;
 			const _bstr_t trans_text = get_cell_text(activeSheet->Cell(current_row, trans_col)) ;
@@ -169,13 +186,30 @@ void CFelixExcelIF::OnAutoAddMem ( )
 		long current_row = activeCell->Row() ;
 		const long start_col = activeCell->Column() ;
 
+		long trans_col_offset = 1 ;
+		excel::range_ptr col_cell = activeSheet->Cell( current_row, start_col + trans_col_offset ) ;
+		while(col_cell->is_hidden())
+		{
+			trans_col_offset++ ;
+			col_cell = activeSheet->Cell( current_row, start_col + trans_col_offset ) ;
+		}
+
+		long context_col_offset = trans_col_offset + 1 ;
+		col_cell = activeSheet->Cell( current_row, start_col + context_col_offset ) ;
+		while(col_cell->is_hidden())
+		{
+			context_col_offset++ ;
+			col_cell = activeSheet->Cell( current_row, start_col + context_col_offset ) ;
+		}
+
+
 		long num_rows_without_entry = 0 ;
 
 		while ( num_rows_without_entry < MAX_ROWS_NO_ENTRY ) 
 		{
 			const long source_col = start_col ;
-			const long trans_col = start_col+1 ;
-			const long context_col = start_col+2 ;
+			const long trans_col = start_col+trans_col_offset ;
+			const long context_col = start_col+context_col_offset ;
 
 			const _bstr_t source_text = get_cell_text(activeSheet->Cell(current_row, source_col)) ;
 			const _bstr_t trans_text = get_cell_text(activeSheet->Cell(current_row, trans_col)) ;
@@ -295,10 +329,10 @@ void CFelixExcelIF::OnLookupNext( )
 
 		excel::sheet_ptr activeSheet = GetActiveSheet() ;
 
-		int UsedRows = max( activeSheet->UsedRows(), activeCell->Row() + MAX_CELL_EXTEND ) ;
+		const int UsedRows = max( activeSheet->UsedRows(), activeCell->Row() + MAX_CELL_EXTEND ) ;
 		ATLASSERT( UsedRows > activeCell->Row() ) ;
 
-		int UsedColumns = max( activeSheet->UsedColumns(), MAX_CELL_EXTEND ) ;
+		const int UsedColumns = max( activeSheet->UsedColumns(), MAX_CELL_EXTEND ) ;
 		ATLASSERT( UsedColumns > activeCell->Column() ) ;
 
 		long startCol = activeCell->Column() + 1;
@@ -309,12 +343,17 @@ void CFelixExcelIF::OnLookupNext( )
 			{
 				const _bstr_t cell_text = get_cell_text(activeSheet->Cell( iRow, iCol )) ;
 
-				if ( cell_text.length() > 0 && ! IsIgnoreCell(BSTR2wstring(cell_text) ) )
+				if ( cell_text.length() > 0 
+					&& ! IsIgnoreCell(BSTR2wstring(cell_text) ) 
+					)
 				{
 					activeCell = activeSheet->Cell( iRow, iCol ) ;
-					activeCell->Select() ;
-					OnLookup() ;
-					return ;
+					if( ! activeCell->is_hidden())
+					{
+						activeCell->Select() ;
+						OnLookup() ;
+						return ;
+					}
 				}
 			}
 			startCol = 1 ;
