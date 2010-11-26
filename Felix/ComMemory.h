@@ -27,10 +27,7 @@ class ATL_NO_VTABLE CComMemory :
 	mem_engine::memory_pointer m_memory ;
 
 public:
-	CComMemory():
-	  m_records(NULL)
-	{
-	}
+	CComMemory();
 
 DECLARE_REGISTRY_RESOURCEID(IDR_COMMEMORY)
 

@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "ComMemory.h"
+#include "memory_local.h"
 
 using namespace except ;
 using namespace mem_engine;
@@ -270,5 +271,11 @@ STDMETHODIMP CComMemory::put_ModifiedOn(DATE date_modified)
 	return S_OK ;
 }
 
+CComMemory::CComMemory() :
+	m_records(NULL),
+	m_memory(new mem_engine::memory_local)
+{
+
+}
 // CComMemory
 

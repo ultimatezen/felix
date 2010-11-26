@@ -13,10 +13,12 @@ namespace mem_engine
 		std::set<size_t>	m_ids ;
 		trans_set			m_records ;
 		CString				m_file_location ;
+		bool				m_is_loading ;
 	public:
 		memory_local(double min_score=0.5f) : 
 		  CTranslationMemory(min_score),
-			  m_next_id(1)
+			  m_next_id(1),
+			  m_is_loading(false)
 		  {}
 
 		  // MemoryInfo
@@ -69,6 +71,8 @@ namespace mem_engine
 			  const search_query_params &params ) ;
 		  record_pointer add_by_id(size_t recid, const wstring source, const wstring trans);
 		  void replace(const record_pointer old_rec, record_pointer new_rec);
+
+		  void make_dirty();
 		  void get_gloss_100(search_match_container& matches, 
 			  const search_query_params& params);
 		  void get_gloss_fuzzy(search_match_container& matches, 

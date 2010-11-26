@@ -4,12 +4,12 @@
 #include "Path.h"
 #include "record_local.h"
 
-#include "MockListener.h"
 #include "DemoException.h"
 
-#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
+#include "MockListener.h"
+#include <boost/test/unit_test.hpp>
 #include <amop/include/MockObject.h>
 #include "input_device_fake.h"
 
@@ -486,14 +486,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		// this will throw an AllocException on load. Make sure our backup
 		// function works...
 		mem.m_throw_exception = true ;
-		try
-		{
-			mem.load( _T("C:\\test\\test_memories\\one_record.xml") ) ;
-		}
-		catch (CException&)
-		{
-			BOOST_FAIL("Failed to load big memory") ;
-		}
+		BOOST_CHECK_NO_THROW(mem.load( _T("C:\\test\\test_memories\\one_record.xml") )) ;
 		BOOST_CHECK_EQUAL((int)mem.size(), 1) ;
 
 		/*

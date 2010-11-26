@@ -127,7 +127,7 @@ namespace mem_engine
 			m_ids.insert(record->get_id()) ;
 
 			// memory is now dirty
-			this->set_saved_flag(false) ;
+			make_dirty() ;
 		}
 
 		return was_added ;
@@ -257,7 +257,7 @@ namespace mem_engine
 		}
 
 		// mark memory as dirty
-		m_is_saved = false ;
+		make_dirty() ;
 
 		return true ;
 	}
@@ -279,6 +279,7 @@ namespace mem_engine
 
 	bool memory_local::save_memory()
 	{
+		m_is_loading = false ;
 		// make sure we have a valid directory
 		// But don't be too quick to throw an exception
 		// Throw it when we have no other choice only!
@@ -295,8 +296,6 @@ namespace mem_engine
 
 		try
 		{
-			ATLASSERT ( m_listener != NULL ) ; 
-
 			if ( m_listener != NULL ) 
 			{
 				m_listener->OnProgressInit(m_file_location, 0, static_cast< int >( size() ) ) ;
@@ -310,8 +309,6 @@ namespace mem_engine
 			output_device.write( rec_start ) ;
 
 			m_header.set_count( static_cast< long >( size() ) ) ;
-			m_header.set_modified_now() ;
-			m_header.modified_by_current_user() ;
 			m_header.write_header( &output_device ) ;
 
 			output_device.write( "<records>\r\n" ) ;
@@ -406,7 +403,7 @@ namespace mem_engine
 		m_records.insert(new_rec) ;
 
 		// memory is now dirty
-		this->set_saved_flag(false) ;
+		make_dirty();
 	}
 
 	size_t memory_local::get_next_id()
@@ -488,44 +485,56 @@ namespace mem_engine
 	}
 	bool memory_local::load( const CString& file_name )
 	{
-		if ( m_header.is_locked() )
+		try
 		{
-			return false ;
+			if ( m_header.is_locked() )
+			{
+				logging::log_debug("Memory is locked; cannot load") ;
+				return false ;
+			}
+			m_is_loading = true ;
+			// input assumptions
+			ATLASSERT( file_name.IsEmpty() == false ) ;
+			input_device_ptr input(new InputDeviceFile) ;
+			input->ensure_file_exists(file_name);
+
+			// see if we are a demo...
+			refresh_status() ;
+
+			// *** TODO: Consider deletion
+			// Probably not needed, since we now set the user name on Felix startup,
+			// and refresh it whenever the preferences are changed.
+			refresh_user_name() ;
+
+			get_date_created(file_name, input) ;
+
+			const unsigned int file_len = input->get_size(file_name) ;
+
+			if ( file_len == 0 )
+			{
+				logging::log_warn("Trying to load empty file") ;
+				throw except::CException( IDS_CORRUPT_FILE ) ;
+			}
+
+			const size_t original_num_records = size() ;
+			// create a view of the xml document
+			file::view memory_view ;
+			char *raw_text = input->create_view_char( file_name ) ;
+
+			bool was_saved = load_text(raw_text, file_name, file_len);
+
+			postLoadCleanup(file_name, was_saved, original_num_records);
+
+			set_location(file_name) ;
+			input->ensure_file_exists(get_location());
+
 		}
-		// input assumptions
-		ATLASSERT( file_name.IsEmpty() == false ) ;
-		input_device_ptr input(new InputDeviceFile) ;
-		input->ensure_file_exists(file_name);
-
-		// see if we are a demo...
-		refresh_status() ;
-
-		// *** TODO: Consider deletion
-		// Probably not needed, since we now set the user name on Felix startup,
-		// and refresh it whenever the preferences are changed.
-		refresh_user_name() ;
-
-		get_date_created(file_name, input) ;
-
-		const unsigned int file_len = input->get_size(file_name) ;
-
-		if ( file_len == 0 )
+		catch (...)
 		{
-			throw except::CException( IDS_CORRUPT_FILE ) ;
+			m_is_loading = false ;
+			throw ;
 		}
-
-		const size_t original_num_records = size() ;
-		// create a view of the xml document
-		file::view memory_view ;
-		char *raw_text = input->create_view_char( file_name ) ;
-
-		bool was_saved = load_text(raw_text, file_name, file_len);
-
-		postLoadCleanup(file_name, was_saved, original_num_records);
-
-		set_location(file_name) ;
-		input->ensure_file_exists(get_location());
-
+		m_is_loading = false ;
 		return true ;
 	}
 	bool memory_local::clear_memory()
@@ -945,5 +954,16 @@ namespace mem_engine
 	CString memory_local::get_fullpath()
 	{
 		return this->get_location() ;
+	}
+
+	void memory_local::make_dirty()
+	{
+		if (m_is_loading)
+		{
+			return ;
+		}
+		this->set_saved_flag(false) ;
+		m_header.set_modified_now() ;
+		m_header.modified_by_current_user() ;
 	}
 }
