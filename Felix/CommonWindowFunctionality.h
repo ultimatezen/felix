@@ -144,6 +144,8 @@ public:
 	long get_top();
 	void set_top(long top);
 
+	void raise();
+
 	WindowInterface* get_window_interface()
 	{
 		return this ;

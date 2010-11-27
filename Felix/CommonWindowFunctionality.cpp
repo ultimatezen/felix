@@ -1097,3 +1097,13 @@ void CCommonWindowFunctionality::set_top( long top )
 	rect.bottom = top + height ;
 	this->MoveWindow(&rect) ;
 }
+
+void CCommonWindowFunctionality::raise()
+{
+	CWindowRect rect(*this) ;
+	UINT flags = SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW ;
+	// The first call raises it to the top, the second call ensures
+	// that it's not pegged to the top
+	this->SetWindowPos(HWND_TOPMOST, &rect, flags) ;
+	this->SetWindowPos(HWND_NOTOPMOST, &rect, flags) ;
+}

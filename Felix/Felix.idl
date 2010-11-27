@@ -247,6 +247,9 @@ interface IMemoryWindow : IDispatch{
 	[propget, id(4), helpstring("property Left")] HRESULT Left([out, retval] LONG* pVal);
 	[propput, id(4), helpstring("property Left")] HRESULT Left([in] LONG newVal);
 
+	// Raise
+	[id(5), helpstring("method Raise")] 
+		HRESULT Raise() ;
 };
 [
 	object,

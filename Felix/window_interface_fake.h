@@ -63,4 +63,10 @@ public:
 		SENSE(int2string(top)) ;
 		m_top = top ;
 	}
+
+	void raise()
+	{
+		SENSE("raise") ;
+	}
+
 };

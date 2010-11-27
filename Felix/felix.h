@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Sat Nov 27 16:41:51 2010
+/* at Sat Nov 27 22:24:05 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -1644,6 +1644,8 @@ EXTERN_C const IID IID_IMemoryWindow;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Left( 
             /* [in] */ LONG newVal) = 0;
         
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Raise( void) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -1725,6 +1727,9 @@ EXTERN_C const IID IID_IMemoryWindow;
             IMemoryWindow * This,
             /* [in] */ LONG newVal);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Raise )( 
+            IMemoryWindow * This);
+        
         END_INTERFACE
     } IMemoryWindowVtbl;
 
@@ -1784,6 +1789,9 @@ EXTERN_C const IID IID_IMemoryWindow;
 
 #define IMemoryWindow_put_Left(This,newVal)	\
     ( (This)->lpVtbl -> put_Left(This,newVal) ) 
+
+#define IMemoryWindow_Raise(This)	\
+    ( (This)->lpVtbl -> Raise(This) ) 
 
 #endif /* COBJMACROS */
 

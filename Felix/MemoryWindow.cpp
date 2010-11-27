@@ -5,6 +5,16 @@
 
 using namespace except ;
 
+STDMETHODIMP CMemoryWindow::Raise()
+{
+	try
+	{
+		m_window->raise();
+	}
+	FELIX_AUTO_CATCH( "Raise method of CMemoryWindow" ) ;
+
+	return S_OK ;
+}
 
 
 STDMETHODIMP CMemoryWindow::get_Height(LONG* pVal)

@@ -15,4 +15,6 @@ public:
 	virtual long get_top() = 0 ;
 	virtual void set_top(long top) = 0 ;
 
+	virtual void raise() = 0 ;
+
 };

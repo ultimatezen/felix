@@ -70,6 +70,8 @@ public:
 	STDMETHOD(get_Top)(LONG* pVal);
 	STDMETHOD(put_Top)(LONG newVal);
 
+	STDMETHOD(Raise)(); 
+
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(MemoryWindow), CMemoryWindow)

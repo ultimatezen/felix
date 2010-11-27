@@ -62,7 +62,7 @@ STDMETHODIMP CApp2::get_MemoryWindow(IMemoryWindow **pVal)
 	{
 		if (m_memory_window)
 		{
-			m_memory_window->set_window(app::get_app().get_glossary_window()->get_window_interface()) ;
+			m_memory_window->set_window(app::get_app().get_window_interface()) ;
 			return m_memory_window->QueryInterface(pVal) ;
 		}
 	}
@@ -76,7 +76,7 @@ STDMETHODIMP CApp2::get_GlossaryWindow(IMemoryWindow **pVal)
 	{
 		if (m_glossary_window)
 		{
-			m_memory_window->set_window(app::get_app().get_window_interface()) ;
+			m_glossary_window->set_window(app::get_app().get_glossary_window()->get_window_interface()) ;
 			return m_glossary_window->QueryInterface(pVal) ;
 		}
 	}
