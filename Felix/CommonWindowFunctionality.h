@@ -33,6 +33,7 @@
 #include "window_listener.h"
 #include "input_device.h"
 #include "output_device.h"
+#include "window_interface.h"
 
 void add_popup_item(CMenu &menu, int command_id, int text_id) ;
 void add_popup_separator(CMenu &menu) ;
@@ -50,6 +51,7 @@ class CCommonWindowFunctionality :
 	, public html::CHtmlViewListener
 	, public CNavInterface
 	, public WindowListener
+	, public WindowInterface
 {
 public:
 	DECLARE_SENSING_VAR ;
@@ -123,6 +125,32 @@ protected:
 	void refresh_view_content();
 
 public:
+
+	/************************************************************************/
+	/* WindowInterface implementation                                       */
+	/************************************************************************/
+	// height
+	long get_height();
+	void set_height(long height);
+	// width
+	long get_width();
+	void set_width(long width);
+
+	// left
+	long get_left();
+	void set_left(long left);
+
+	// top
+	long get_top();
+	void set_top(long top);
+
+	WindowInterface* get_window_interface()
+	{
+		return this ;
+	}
+	/************************************************************************/
+	/* pure virtual methods 
+	/************************************************************************/
 	virtual input_device_ptr get_input_device() = 0 ;
 	virtual output_device_ptr get_output_device() = 0 ;
 

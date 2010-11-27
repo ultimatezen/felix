@@ -222,7 +222,7 @@ BOOST_AUTO_TEST_SUITE(TestApp2GlossaryWindow)
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
 
-		CComPtr<IGlossaryWindow> gloss_window ;
+		CComPtr<IMemoryWindow> gloss_window ;
 		HRESULT hr = application->get_GlossaryWindow(&gloss_window) ;
 		BOOST_CHECK(SUCCEEDED(hr)) ;
 		BOOST_CHECK(gloss_window) ;

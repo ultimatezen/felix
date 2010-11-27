@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Sat Nov 27 12:33:32 2010
+/* at Sat Nov 27 16:41:51 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -1620,6 +1620,30 @@ EXTERN_C const IID IID_IMemoryWindow;
     IMemoryWindow : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Height( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Height( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Width( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Width( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Top( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Top( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Left( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Left( 
+            /* [in] */ LONG newVal) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -1669,6 +1693,38 @@ EXTERN_C const IID IID_IMemoryWindow;
             /* [out] */ EXCEPINFO *pExcepInfo,
             /* [out] */ UINT *puArgErr);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Height )( 
+            IMemoryWindow * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Height )( 
+            IMemoryWindow * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Width )( 
+            IMemoryWindow * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Width )( 
+            IMemoryWindow * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Top )( 
+            IMemoryWindow * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Top )( 
+            IMemoryWindow * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Left )( 
+            IMemoryWindow * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Left )( 
+            IMemoryWindow * This,
+            /* [in] */ LONG newVal);
+        
         END_INTERFACE
     } IMemoryWindowVtbl;
 
@@ -1704,6 +1760,30 @@ EXTERN_C const IID IID_IMemoryWindow;
 #define IMemoryWindow_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
+
+#define IMemoryWindow_get_Height(This,pVal)	\
+    ( (This)->lpVtbl -> get_Height(This,pVal) ) 
+
+#define IMemoryWindow_put_Height(This,newVal)	\
+    ( (This)->lpVtbl -> put_Height(This,newVal) ) 
+
+#define IMemoryWindow_get_Width(This,pVal)	\
+    ( (This)->lpVtbl -> get_Width(This,pVal) ) 
+
+#define IMemoryWindow_put_Width(This,newVal)	\
+    ( (This)->lpVtbl -> put_Width(This,newVal) ) 
+
+#define IMemoryWindow_get_Top(This,pVal)	\
+    ( (This)->lpVtbl -> get_Top(This,pVal) ) 
+
+#define IMemoryWindow_put_Top(This,newVal)	\
+    ( (This)->lpVtbl -> put_Top(This,newVal) ) 
+
+#define IMemoryWindow_get_Left(This,pVal)	\
+    ( (This)->lpVtbl -> get_Left(This,pVal) ) 
+
+#define IMemoryWindow_put_Left(This,newVal)	\
+    ( (This)->lpVtbl -> put_Left(This,newVal) ) 
 
 #endif /* COBJMACROS */
 
@@ -1874,7 +1954,7 @@ EXTERN_C const IID IID_IApp2;
             /* [retval][out] */ IMemoryWindow **pVal) = 0;
         
         virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_GlossaryWindow( 
-            /* [retval][out] */ IGlossaryWindow **pVal) = 0;
+            /* [retval][out] */ IMemoryWindow **pVal) = 0;
         
         virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Memories( 
             /* [retval][out] */ IMemories **pVal) = 0;
@@ -1973,7 +2053,7 @@ EXTERN_C const IID IID_IApp2;
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_GlossaryWindow )( 
             IApp2 * This,
-            /* [retval][out] */ IGlossaryWindow **pVal);
+            /* [retval][out] */ IMemoryWindow **pVal);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Memories )( 
             IApp2 * This,

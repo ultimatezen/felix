@@ -230,6 +230,23 @@ interface IMemories : IDispatch{
 	pointer_default(unique)
 ]
 interface IMemoryWindow : IDispatch{
+		
+	// Height
+	[propget, id(1), helpstring("property Height")] HRESULT Height([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Height")] HRESULT Height([in] LONG newVal);
+		
+	// Width
+	[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] LONG* pVal);
+	[propput, id(2), helpstring("property Width")] HRESULT Width([in] LONG newVal);
+		
+	// Top
+	[propget, id(3), helpstring("property Top")] HRESULT Top([out, retval] LONG* pVal);
+	[propput, id(3), helpstring("property Top")] HRESULT Top([in] LONG newVal);
+		
+	// Left
+	[propget, id(4), helpstring("property Left")] HRESULT Left([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property Left")] HRESULT Left([in] LONG newVal);
+
 };
 [
 	object,
@@ -271,7 +288,7 @@ interface IApp2 : IDispatch{
 	[propget, id(9), helpstring("property MemoryWindow")] 
 		HRESULT MemoryWindow([out, retval] IMemoryWindow** pVal);
 	[propget, id(10), helpstring("property GlossaryWindow")] 
-		HRESULT GlossaryWindow([out, retval] IGlossaryWindow** pVal);
+		HRESULT GlossaryWindow([out, retval] IMemoryWindow** pVal);
 	[propget, id(11), helpstring("property Memories")] 
 		HRESULT Memories([out, retval] IMemories** pVal);
 	[propget, id(12), helpstring("property Glossaries")] 

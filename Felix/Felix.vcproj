@@ -1826,6 +1826,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MemoryWindow_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MinViewDlg_test.cpp"
 					>
 				</File>
@@ -2922,6 +2926,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\window_interface.h"
+				>
+			</File>
+			<File
 				RelativePath=".\window_listener.h"
 				>
 			</File>
@@ -2982,6 +2990,10 @@
 				</File>
 				<File
 					RelativePath=".\view_state_fake.h"
+					>
+				</File>
+				<File
+					RelativePath=".\window_interface_fake.h"
 					>
 				</File>
 				<File

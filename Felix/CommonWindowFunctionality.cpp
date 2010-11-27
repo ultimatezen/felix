@@ -1030,3 +1030,70 @@ void CCommonWindowFunctionality::handle_tooltip( LPNMHDR pnmh, int idCtrl, std::
 		}
 	}
 }
+/************************************************************************/
+/* WindowInterface implementation                                       */
+/************************************************************************/
+
+long CCommonWindowFunctionality::get_height()
+{
+	SENSE("get_height") ;
+	CWindowRect rect(*this) ;
+	return rect.Height() ;
+}
+
+void CCommonWindowFunctionality::set_height( long height )
+{
+	SENSE("set_height") ;
+	CWindowRect rect(*this) ;
+	rect.bottom = rect.top + height ;
+	this->MoveWindow(&rect) ;
+}
+
+long CCommonWindowFunctionality::get_width()
+{
+	SENSE("get_width") ;
+	CWindowRect rect(*this) ;
+	return rect.Width() ;
+}
+
+void CCommonWindowFunctionality::set_width( long width )
+{
+	SENSE("set_width") ;
+	CWindowRect rect(*this) ;
+	rect.right = rect.left + width ;
+	this->MoveWindow(&rect) ;
+}
+
+long CCommonWindowFunctionality::get_left()
+{
+	SENSE("get_left") ;
+	CWindowRect rect(*this) ;
+	return rect.left ;
+}
+
+void CCommonWindowFunctionality::set_left( long left )
+{
+	SENSE("set_left") ;
+	CWindowRect rect(*this) ;
+	long width = rect.Width() ;
+	rect.left = left ;
+	rect.right = left + width ;
+	this->MoveWindow(&rect) ;
+}
+
+long CCommonWindowFunctionality::get_top()
+{
+	SENSE("get_top") ;
+	CWindowRect rect(*this) ;
+	return rect.top ;
+}
+
+void CCommonWindowFunctionality::set_top( long top )
+{
+	SENSE("set_top") ;
+	CWindowRect rect(*this) ;
+	long height = rect.Height() ;
+	rect.top = top ;
+	rect.bottom = top + height ;
+	this->MoveWindow(&rect) ;
+}

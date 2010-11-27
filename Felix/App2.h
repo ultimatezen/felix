@@ -39,7 +39,7 @@ class ATL_NO_VTABLE CApp2 :
 	CComObject<CComMemory> *m_active_memory ;
 	CComObject<CComMemory> *m_active_glossary ;
 
-	CComObject<CGlossaryWindow> *m_glossary_window ;
+	CComObject<CMemoryWindow> *m_glossary_window ;
 	CComObject<CMemoryWindow> *m_memory_window ;
 
 	CComObject<CMemories> *m_glossaries;
@@ -122,7 +122,7 @@ END_CONNECTION_POINT_MAP()
 		}
 		m_memory_window->AddRef() ;
 
-		hr = CComObject<CGlossaryWindow>::CreateInstance(&m_glossary_window) ;
+		hr = CComObject<CMemoryWindow>::CreateInstance(&m_glossary_window) ;
 		if ( FAILED( hr ) )
 		{
 			return hr ;
@@ -172,7 +172,7 @@ END_CONNECTION_POINT_MAP()
 
 public:
 	STDMETHOD(get_MemoryWindow)(IMemoryWindow **pVal);
-	STDMETHOD(get_GlossaryWindow)(IGlossaryWindow **pVal);
+	STDMETHOD(get_GlossaryWindow)(IMemoryWindow **pVal);
 
 	STDMETHOD(get_Memories)(IMemories **pVal);
 	STDMETHOD(get_Glossaries)(IMemories **pVal);
