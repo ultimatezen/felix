@@ -564,8 +564,6 @@ bool CRecord2XmlConverter::convert_from_record( const record_pointer rec )
 		convert_source() ;
 		convert_trans() ;
 		convert_context() ;
-		convert_created() ;
-		convert_modified() ;
 		convert_reliability() ;
 		convert_validated() ;
 		convert_refcount() ;
@@ -583,8 +581,12 @@ bool CRecord2XmlConverter::convert_from_record( const record_pointer rec )
 			string2string(m_record->get_modified_by(), CP_UTF8)  
 			) ;
 
-
 		convert_rest() ;
+
+		// created and modified must be last, so that they aren't
+		// overwritten when the next values are loaded...
+		convert_created() ;
+		convert_modified() ;
 
 		m_file->write( record_tag_end_narrow ) ;
 
@@ -619,11 +621,6 @@ bool CRecord2XmlConverter::convert_trans()
 // Function name	: CRecord2XmlConverter::convert_context
 bool CRecord2XmlConverter::convert_context() 
 {
-	if( m_record->get_context_rich().empty() ) 
-	{
-		return true ;
-	}
-
 	return convert_cdata_node( context_tag_narrow,
 							   context_tag_end_narrow, 
 							    m_record->get_context_rich() ) ;
@@ -693,6 +690,10 @@ bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &
 
 #define BEGIN_CDATA_SECTION "<![CDATA[" 
 #define END_CDATA_SECTION "]]>" 
+	if (text.empty())
+	{
+		return true ;
+	}
 
 	string vertical_tab ;
 
@@ -734,6 +735,10 @@ bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &
 
 bool CRecord2XmlConverter::convert_text_node( const string &tag, const string &end_tag, const string &text )
 {
+	if (text.empty())
+	{
+		return true ;
+	}
 	try
 	{
 		m_file->write( tag ) ;

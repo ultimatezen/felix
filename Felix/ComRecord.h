@@ -91,35 +91,35 @@ public:
 
 	// created-by
 	STDMETHOD(get_CreatedBy)(BSTR* pVal);
-	STDMETHOD(put_CreatedBy)(BSTR created_by);
+	STDMETHOD(put_CreatedBy)(BSTR createdBy);
 
 	// modified-by
 	STDMETHOD(get_ModifiedBy)(BSTR* pVal);
-	STDMETHOD(put_ModifiedBy)(BSTR modified_by);
+	STDMETHOD(put_ModifiedBy)(BSTR modifiedBy);
 
 	// validated
 	STDMETHOD(get_Validated)(VARIANT_BOOL* pVal);
-	STDMETHOD(put_Validated)(VARIANT_BOOL modified_by);
+	STDMETHOD(put_Validated)(VARIANT_BOOL isValidated);
 
 	// reliability
 	STDMETHOD(get_Reliability)(ULONG* pVal);
-	STDMETHOD(put_Reliability)(ULONG modified_by);
+	STDMETHOD(put_Reliability)(ULONG reliability);
 
 	// refcount
 	STDMETHOD(get_RefCount)(ULONG* pVal);
-	STDMETHOD(put_RefCount)(ULONG pVal);
+	STDMETHOD(put_RefCount)(ULONG refCount);
 
 	// created
 	STDMETHOD(get_DateCreated)(DATE* pVal);
-	STDMETHOD(put_DateCreated)(DATE pVal);
+	STDMETHOD(put_DateCreated)(DATE dateCreated);
 
 	// modified
 	STDMETHOD(get_LastModified)(DATE* pVal);
-	STDMETHOD(put_LastModified)(DATE pVal);
+	STDMETHOD(put_LastModified)(DATE lastModified);
 
 	// id
 	STDMETHOD(get_Id)(ULONG* pVal);
-	STDMETHOD(put_Id)(ULONG pVal);
+	STDMETHOD(put_Id)(ULONG recId);
 
 };
 

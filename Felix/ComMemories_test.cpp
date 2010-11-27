@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 		mems->set_model(&model) ;
 
 		long count = 10 ;
-		mems->get_Count(&count) ;
+		BOOST_CHECK(SUCCEEDED(mems->get_Count(&count))) ;
 		BOOST_CHECK_EQUAL(count, 2) ;
 	}
 
@@ -56,11 +56,46 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 		mems->set_model(&model) ;
 
 		CComPtr<IMemory> mem ;
-		mems->Add(&mem) ;
+		BOOST_CHECK(SUCCEEDED(mems->Add(&mem))) ;
 
 		long count = 0 ;
 		mems->get_Count(&count) ;
 		BOOST_CHECK_EQUAL(count, 1) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( test_load )
+	{
+		memories_ptr mems ;
+		memories_obj::CreateInstance( &mems ) ;
+		FelixModelInterfaceFake model ;
+		mems->set_model(&model) ;
+
+		CComPtr<IMemory> mem ;
+		CComBSTR filename = L"C:\\test\\test_memories\\one_record.xml" ;
+		BOOST_CHECK(SUCCEEDED(mems->Load(filename, &mem))) ;
+
+		long count = 0 ;
+		mems->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(count, 1) ;
+
+		ULONG memsize = 10 ;
+		mem->GetSize(&memsize) ;
+		BOOST_CHECK_EQUAL(memsize, 1u) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( test_clear )
+	{
+		memories_ptr mems ;
+		memories_obj::CreateInstance( &mems ) ;
+		FelixModelInterfaceFake model ;
+		model.m_model->add_memory() ;
+		mems->set_model(&model) ;
+
+		BOOST_CHECK(SUCCEEDED(mems->Clear())) ;
+
+		long count = 0 ;
+		mems->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(count, 0) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

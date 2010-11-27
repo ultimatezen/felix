@@ -174,22 +174,19 @@ void felix_query::clear()
 
 void felix_query::set_matches( const search_match_container &matches ) 
 {
-	m_match_list.clear() ;
-	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
+	m_match_list.assign(matches.begin(), matches.end()) ;
 	m_pos = 0 ;
 }
 
 void felix_query::set_matches( const trans_match_container &matches ) 
 {
-	m_match_list.clear() ;
-	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
+	m_match_list.assign(matches.begin(), matches.end()) ;
 	m_pos = 0 ;
 }
 
 void felix_query::set_matches( const match_list &matches ) 
 {
-	m_match_list.clear() ;
-	std::copy( matches.begin(), matches.end(), std::back_inserter( m_match_list ) ) ;
+	m_match_list.assign(matches.begin(), matches.end()) ;
 	m_pos = 0 ;
 }
 

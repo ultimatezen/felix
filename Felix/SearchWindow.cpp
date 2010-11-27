@@ -349,7 +349,7 @@ void CSearchWindow::get_replace_matches( std::vector<mem_engine::search_match_pt
 			get_replace_matches_mem(mem, replace_from, matchset);
 		}
 	}
-	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
+	matches.assign(matchset.begin(), matchset.end()) ;
 }
 
 void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem, 
@@ -383,7 +383,7 @@ void CSearchWindow::get_search_matches( std::vector<mem_engine::search_match_ptr
 			m_search_runner.get_matches(mem, matchset) ;
 		}
 	}
-	std::copy(matchset.begin(), matchset.end(), std::back_inserter(matches)) ;
+	matches.assign(matchset.begin(), matchset.end()) ;
 	m_paginator.set_num_records(matches.size()) ;
 	m_current_match = 0 ;
 }

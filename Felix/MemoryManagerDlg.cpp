@@ -929,8 +929,7 @@ void CMemoryManagerDlg::set_memories( boost::shared_ptr<mem_engine::memory_model
 {
 	memory_list &memories = controller->get_memories() ;
 
-	m_memories.clear() ;
-	std::copy( memories.begin(), memories.end(), std::back_inserter( m_memories ) ) ;
+	m_memories.assign(memories.begin(), memories.end()) ;
 }
 
 void CMemoryManagerDlg::get_memories( boost::shared_ptr<mem_engine::memory_model> memories )

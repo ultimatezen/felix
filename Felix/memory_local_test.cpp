@@ -509,26 +509,16 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( TestDegenerateEmpty )
 	{
-		CMockListener listener ;
 		memory_local mem ;
-		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
-		try
-		{
-			mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyFile.xml") ) ;
-			BOOST_FAIL( "Must throw on malformed memory (empty file)" ) ;
-		}
-		catch (CException &)
-		{
-			BOOST_CHECK(true) ;
-		}
+		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyFile.xml") ;
+		BOOST_CHECK_THROW(mem.load( filename ), CException) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( TestDegenerateBogus )
 	{
-		CMockListener listener ;
 		memory_local mem ;
-		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
-		BOOST_CHECK_THROW(mem.load( _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ), CException) ;
+		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ;
+		BOOST_CHECK_THROW(mem.load( filename ), CException) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

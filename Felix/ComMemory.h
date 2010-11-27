@@ -62,6 +62,8 @@ END_COM_MAP()
 public:
 	STDMETHOD(get_Records)(IRecords **pVal);
 	STDMETHOD(AddRecord)(IRecord *pVal);
+	STDMETHOD(RemoveRecord)(IRecord *pVal);
+	STDMETHOD(GetSize)(ULONG* memSize);
 
 	STDMETHOD(Save)();
 	STDMETHOD(SaveAs)(BSTR location);
@@ -90,6 +92,14 @@ public:
 	// ModifiedOn
 	STDMETHOD(get_ModifiedOn)(DATE* pVal);
 	STDMETHOD(put_ModifiedOn)(DATE pVal);
+
+	// memory
+	STDMETHOD(get_IsMemory)(VARIANT_BOOL* pVal);
+	STDMETHOD(put_IsMemory)(VARIANT_BOOL isMemory);
+
+	// locked
+	STDMETHOD(get_IsLocked)(VARIANT_BOOL* pVal);
+	STDMETHOD(put_IsLocked)(VARIANT_BOOL isLocked);
 
 };
 

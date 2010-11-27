@@ -9,6 +9,18 @@
 using namespace mem_engine;
 using namespace except ;
 
+STDMETHODIMP CMemories::Clear()
+{
+	try
+	{
+		m_mem_model->clear() ;
+		m_coll.clear() ;
+	}
+	FELIX_AUTO_CATCH( "method Clear in class Memories" ) ;
+
+	return S_OK ;
+}
+
 STDMETHODIMP CMemories::Add(IMemory **pVal)
 {
 	CHECK_OUT_PTR( pVal ) ;
@@ -17,10 +29,9 @@ STDMETHODIMP CMemories::Add(IMemory **pVal)
 	{
 		mem_engine::memory_pointer mem = m_mem_model->add_memory() ;
 		COM_ENFORCE(this->add_memory(mem), _T("Failed to add memory")) ;
-		size_t i = m_coll.size() -1 ;
-		this->get_Item(i, pVal); 
+		this->get_Item(m_coll.size(), pVal); 
 	}
-	FELIX_AUTO_CATCH( "Add" ) ;
+	FELIX_AUTO_CATCH( "method Add in class Memories" ) ;
 
 	return S_OK ;
 }
@@ -33,10 +44,9 @@ STDMETHODIMP CMemories::Load(BSTR location, IMemory **pVal)
 		mem_engine::memory_pointer mem = m_mem_model->add_memory() ;
 		COM_ENFORCE(this->add_memory(mem), _T("Failed to add memory")) ;
 		mem->load(CString(location)) ;
-		size_t i = m_coll.size() -1 ;
-		this->get_Item(i, pVal); 
+		this->get_Item(m_coll.size(), pVal); 
 	}
-	FELIX_AUTO_CATCH( "Add" ) ;
+	FELIX_AUTO_CATCH( "method Load in class Memories" ) ;
 
 	return S_OK ;
 }
@@ -70,7 +80,7 @@ HRESULT CMemories::add_memory( memory_pointer mem )
 	if (FAILED(hr))
 	{
 		except::CComException error(_T("Failed to create COM Memory instance"), hr) ;
-		logging::log_error("CMemories::load_records -- Failed to create COM Memory instance") ;
+		logging::log_error("CMemories::add_memory -- Failed to create COM Memory instance") ;
 		logging::log_exception(error) ;
 		return hr ;
 	}
@@ -79,8 +89,8 @@ HRESULT CMemories::add_memory( memory_pointer mem )
 	hr = result_object->QueryInterface(&result_ptr) ;
 	if (FAILED(hr))
 	{
-		except::CComException error(_T("Failed to create COM Memory instance"), hr) ;
-		logging::log_error("CMemories::load_records -- Failed to create COM Memory instance") ;
+		except::CComException error(_T("QueryInterface on COM Memory instance failed"), hr) ;
+		logging::log_error("CMemories::add_memory -- Failed to create COM Memory instance") ;
 		logging::log_exception(error) ;
 		return hr ;
 	}

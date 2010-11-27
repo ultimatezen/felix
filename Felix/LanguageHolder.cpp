@@ -19,8 +19,7 @@ void CLanguageHolder::put_langs_into_combo(CComboBox & combo)
 
 bool CLanguageHolder::set_languages( std::set<tstring> &languages )
 {
-	m_languages.clear() ;
-	std::copy( languages.begin(), languages.end(), std::back_inserter( m_languages ) ) ;
+	m_languages.assign(languages.begin(), languages.end()) ;
 	return true ;
 }
 

@@ -160,7 +160,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 	m_PlacementPositionsTmp.clear() ;
 
 	std::vector< PairingEntity > PairVec ;
-	std::copy( m_Pairs.begin(), m_Pairs.end(), std::back_inserter( PairVec ) ) ;
+	PairVec.assign(m_Pairs.begin(), m_Pairs.end()) ;
 	ATLASSERT( m_Pairs.size() == PairVec.size() ) ;
 
 	bool PairedNums = false ;

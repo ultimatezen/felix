@@ -161,15 +161,29 @@ interface IMemory : IDispatch{
 	// ModifiedOn
 	[propget, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([out, retval] DATE* pVal);
 	[propput, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([in] DATE newVal);
+	
+	// IsMemory
+	[propget, id(10), helpstring("property IsMemory")] HRESULT IsMemory([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(10), helpstring("property IsMemory")] HRESULT IsMemory([in] VARIANT_BOOL newVal);
+	
+	// IsLocked
+	[propget, id(11), helpstring("property IsLocked")] HRESULT IsLocked([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(11), helpstring("property IsLocked")] HRESULT IsLocked([in] VARIANT_BOOL newVal);
 
 	// AddRecord
-	[id(10), helpstring("method AddRecord")] 
+	[id(12), helpstring("method AddRecord")] 
 		HRESULT AddRecord([in] IRecord* newVal) ;
-	// AddRecord
-	[id(11), helpstring("method Save")] 
+	// RemoveRecord
+	[id(13), helpstring("method RemoveRecord")] 
+		HRESULT RemoveRecord([in] IRecord* newVal) ;
+	// Size
+	[id(14), helpstring("method GetSize")] 
+		HRESULT GetSize([out, retval] ULONG* memSize) ;
+	// Save
+	[id(15), helpstring("method Save")] 
 		HRESULT Save() ;
-	// AddRecord
-	[id(12), helpstring("method SaveAs")] 
+	// SaveAs
+	[id(16), helpstring("method SaveAs")] 
 		HRESULT SaveAs([in] BSTR location) ;
 
 };
@@ -199,6 +213,9 @@ interface IMemories : IDispatch{
 	// Load
 	[id(3), helpstring("method Load")] 
 		HRESULT Load([in] BSTR location, [out, retval] IMemory** newVal) ;
+	// Clear
+	[id(4), helpstring("method Clear")] 
+		HRESULT Clear() ;
 };
 
 //////////////////////////////////////////////////////////////////////////

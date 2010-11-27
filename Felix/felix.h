@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Sun Nov 07 16:21:06 2010
+/* at Sat Nov 27 12:33:32 2010
  */
 /* Compiler settings for Felix.idl:
     Oicf, W1, Zp8, env=Win32 (32b run)
@@ -1129,8 +1129,31 @@ EXTERN_C const IID IID_IMemory;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ModifiedOn( 
             /* [in] */ DATE newVal) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_IsMemory( 
+            /* [retval][out] */ VARIANT_BOOL *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_IsMemory( 
+            /* [in] */ VARIANT_BOOL newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_IsLocked( 
+            /* [retval][out] */ VARIANT_BOOL *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_IsLocked( 
+            /* [in] */ VARIANT_BOOL newVal) = 0;
+        
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE AddRecord( 
             /* [in] */ IRecord *newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE RemoveRecord( 
+            /* [in] */ IRecord *newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE GetSize( 
+            /* [retval][out] */ ULONG *memSize) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Save( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SaveAs( 
+            /* [in] */ BSTR location) = 0;
         
     };
     
@@ -1249,9 +1272,40 @@ EXTERN_C const IID IID_IMemory;
             IMemory * This,
             /* [in] */ DATE newVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IsMemory )( 
+            IMemory * This,
+            /* [retval][out] */ VARIANT_BOOL *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_IsMemory )( 
+            IMemory * This,
+            /* [in] */ VARIANT_BOOL newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IsLocked )( 
+            IMemory * This,
+            /* [retval][out] */ VARIANT_BOOL *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_IsLocked )( 
+            IMemory * This,
+            /* [in] */ VARIANT_BOOL newVal);
+        
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *AddRecord )( 
             IMemory * This,
             /* [in] */ IRecord *newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *RemoveRecord )( 
+            IMemory * This,
+            /* [in] */ IRecord *newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *GetSize )( 
+            IMemory * This,
+            /* [retval][out] */ ULONG *memSize);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Save )( 
+            IMemory * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SaveAs )( 
+            IMemory * This,
+            /* [in] */ BSTR location);
         
         END_INTERFACE
     } IMemoryVtbl;
@@ -1340,8 +1394,32 @@ EXTERN_C const IID IID_IMemory;
 #define IMemory_put_ModifiedOn(This,newVal)	\
     ( (This)->lpVtbl -> put_ModifiedOn(This,newVal) ) 
 
+#define IMemory_get_IsMemory(This,pVal)	\
+    ( (This)->lpVtbl -> get_IsMemory(This,pVal) ) 
+
+#define IMemory_put_IsMemory(This,newVal)	\
+    ( (This)->lpVtbl -> put_IsMemory(This,newVal) ) 
+
+#define IMemory_get_IsLocked(This,pVal)	\
+    ( (This)->lpVtbl -> get_IsLocked(This,pVal) ) 
+
+#define IMemory_put_IsLocked(This,newVal)	\
+    ( (This)->lpVtbl -> put_IsLocked(This,newVal) ) 
+
 #define IMemory_AddRecord(This,newVal)	\
     ( (This)->lpVtbl -> AddRecord(This,newVal) ) 
+
+#define IMemory_RemoveRecord(This,newVal)	\
+    ( (This)->lpVtbl -> RemoveRecord(This,newVal) ) 
+
+#define IMemory_GetSize(This,memSize)	\
+    ( (This)->lpVtbl -> GetSize(This,memSize) ) 
+
+#define IMemory_Save(This)	\
+    ( (This)->lpVtbl -> Save(This) ) 
+
+#define IMemory_SaveAs(This,location)	\
+    ( (This)->lpVtbl -> SaveAs(This,location) ) 
 
 #endif /* COBJMACROS */
 
@@ -1381,6 +1459,12 @@ EXTERN_C const IID IID_IMemories;
         
         virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add( 
             /* [retval][out] */ IMemory **newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Load( 
+            /* [in] */ BSTR location,
+            /* [retval][out] */ IMemory **newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Clear( void) = 0;
         
     };
     
@@ -1448,6 +1532,14 @@ EXTERN_C const IID IID_IMemories;
             IMemories * This,
             /* [retval][out] */ IMemory **newVal);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Load )( 
+            IMemories * This,
+            /* [in] */ BSTR location,
+            /* [retval][out] */ IMemory **newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Clear )( 
+            IMemories * This);
+        
         END_INTERFACE
     } IMemoriesVtbl;
 
@@ -1495,6 +1587,12 @@ EXTERN_C const IID IID_IMemories;
 
 #define IMemories_Add(This,newVal)	\
     ( (This)->lpVtbl -> Add(This,newVal) ) 
+
+#define IMemories_Load(This,location,newVal)	\
+    ( (This)->lpVtbl -> Load(This,location,newVal) ) 
+
+#define IMemories_Clear(This)	\
+    ( (This)->lpVtbl -> Clear(This) ) 
 
 #endif /* COBJMACROS */
 

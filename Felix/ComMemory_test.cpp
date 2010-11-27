@@ -99,9 +99,6 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
 
-		memory_pointer memory(new memory_local) ;
-		mem->set_memory(memory) ;
-
 		ComRec rec ;
 		rec.rec->put_Source(CComBSTR(L"source")) ;
 		rec.rec->put_Trans(CComBSTR(L"trans")) ;
@@ -114,6 +111,48 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		long count = 0 ;
 		records->get_Count(&count) ;
 		BOOST_CHECK_EQUAL(count, 1) ;
+	}	
+
+	// size
+	BOOST_AUTO_TEST_CASE(test_size)
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+
+		ULONG memsize(10) ;
+		mem->GetSize(&memsize) ;
+		BOOST_CHECK_EQUAL(memsize, 0u) ;
+
+		ComRec rec ;
+		rec.rec->put_Source(CComBSTR(L"source")) ;
+		rec.rec->put_Trans(CComBSTR(L"trans")) ;
+
+		BOOST_CHECK(SUCCEEDED(mem->AddRecord(rec.rec))) ;
+
+		ULONG count = 0 ;
+		mem->GetSize(&count) ;
+		BOOST_CHECK_EQUAL(count, 1u) ;
+	}	
+
+	// remove record
+	BOOST_AUTO_TEST_CASE(test_remove_com_record)
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+
+		ComRec rec ;
+		rec.rec->put_Source(CComBSTR(L"source")) ;
+		rec.rec->put_Trans(CComBSTR(L"trans")) ;
+
+		BOOST_CHECK(SUCCEEDED(mem->AddRecord(rec.rec))) ;
+		BOOST_CHECK(SUCCEEDED(mem->RemoveRecord(rec.rec))) ;
+
+		records_ptr records ;
+		mem->get_Records(&records) ;
+
+		long count = 0 ;
+		records->get_Count(&count) ;
+		BOOST_CHECK_EQUAL(count, 0) ;
 	}	
 	//////////////////////////////////////////////////////////////////////////
 	// MemoryInfo
@@ -238,6 +277,68 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		BOOST_CHECK_EQUAL("Bob", string(CW2A(result))) ;
 	}
 
+	// IsMemory
+	BOOST_AUTO_TEST_CASE( get_IsMemory )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		memory->set_is_memory(false) ;
+		mem->set_memory(memory) ;
+
+		VARIANT_BOOL result ;
+		mem->get_IsMemory(&result) ;
+		BOOST_CHECK_EQUAL(VARIANT_FALSE, result) ;
+	}
+	BOOST_AUTO_TEST_CASE( set_IsMemory )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		mem->set_memory(memory) ;
+
+		// default...
+		VARIANT_BOOL result ;
+		mem->get_IsMemory(&result) ;
+		BOOST_CHECK_EQUAL(VARIANT_TRUE, result) ;
+
+		// change it...
+		mem->put_IsMemory(VARIANT_FALSE) ;
+		BOOST_CHECK_EQUAL(false, memory->get_is_memory()) ;
+	}
+
+
+	// IsLocked
+	BOOST_AUTO_TEST_CASE( get_IsLocked )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		memory->set_locked_on() ;
+		mem->set_memory(memory) ;
+
+		VARIANT_BOOL result ;
+		mem->get_IsLocked(&result) ;
+		BOOST_CHECK_EQUAL(VARIANT_TRUE, result) ;
+	}
+	BOOST_AUTO_TEST_CASE( set_IsLocked )
+	{
+		mem_ptr mem ;
+		mem_obj::CreateInstance( &mem ) ;
+		memory_pointer memory(new memory_local) ;
+		mem->set_memory(memory) ;
+
+		// default...
+		VARIANT_BOOL result ;
+		mem->get_IsLocked(&result) ;
+		BOOST_CHECK_EQUAL(VARIANT_FALSE, result) ;
+
+		// change it...
+		mem->put_IsLocked(VARIANT_TRUE) ;
+		BOOST_CHECK_EQUAL(true, memory->is_locked()) ;
+	}
+
+
 	// source_lang
 	BOOST_AUTO_TEST_CASE( get_source_language )
 	{
@@ -340,7 +441,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		BOOST_CHECK_EQUAL(10, result.wDay) ;
 	}
 
-	// created_on
+	// ModifiedOn
 	BOOST_AUTO_TEST_CASE( get_ModifiedOn )
 	{
 		mem_ptr mem ;

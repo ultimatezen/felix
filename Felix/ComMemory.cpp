@@ -18,7 +18,7 @@ STDMETHODIMP CComMemory::get_Records(IRecords **pVal)
 			return m_records->QueryInterface(pVal) ;
 		}
 	}
-	FELIX_AUTO_CATCH("get_Records")
+	FELIX_AUTO_CATCH("get_Records method in ComMemory class")
 
 	return S_OK ;
 }
@@ -28,17 +28,41 @@ STDMETHODIMP CComMemory::AddRecord(IRecord *pVal)
 	{
 		m_memory->add_record(comrec2rec(pVal)) ;
 	}
-	FELIX_AUTO_CATCH("AddRecord")
+	FELIX_AUTO_CATCH("AddRecord method in ComMemory class")
 
 	return S_OK ;
 }
+
+STDMETHODIMP CComMemory::RemoveRecord(IRecord *pVal)
+{
+	try
+	{
+		m_memory->erase(comrec2rec(pVal)) ;
+	}
+	FELIX_AUTO_CATCH("RemoveRecord method in ComMemory class")
+
+	return S_OK ;
+}
+
+STDMETHODIMP CComMemory::GetSize(ULONG* memSize)
+{
+	try
+	{
+		*memSize = m_memory->size() ;
+	}
+	FELIX_AUTO_CATCH("GetSize method in ComMemory class")
+
+	return S_OK ;
+}
+
+
 STDMETHODIMP CComMemory::Save()
 {
 	try
 	{
 		m_memory->save_memory() ;
 	}
-	FELIX_AUTO_CATCH("Save")
+	FELIX_AUTO_CATCH("Save method in ComMemory class")
 
 	return S_OK ;
 }
@@ -49,7 +73,7 @@ STDMETHODIMP CComMemory::SaveAs(BSTR location)
 		m_memory->set_location(CString(location)) ;
 		m_memory->save_memory() ;
 	}
-	FELIX_AUTO_CATCH("SaveAs")
+	FELIX_AUTO_CATCH("SaveAs method in ComMemory class")
 
 	return S_OK ;
 }
@@ -70,7 +94,7 @@ STDMETHODIMP CComMemory::get_Creator(BSTR* creator)
 		wstring wcreator = info->get_creator() ;
 		*creator = ::SysAllocStringLen( wcreator.c_str(), wcreator.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_Creator" ) ;
+	FELIX_AUTO_CATCH( "get_Creator method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -81,7 +105,7 @@ STDMETHODIMP CComMemory::put_Creator(BSTR creator)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_creator(BSTR2wstring( creator )) ;
 	}
-	FELIX_AUTO_CATCH( "put_Creator" ) ;
+	FELIX_AUTO_CATCH( "put_Creator method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -96,7 +120,7 @@ STDMETHODIMP CComMemory::get_ModifiedBy(BSTR* modified_by)
 		wstring val = info->get_modified_by() ;
 		*modified_by = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_ModifiedBy" ) ;
+	FELIX_AUTO_CATCH( "get_ModifiedBy method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -107,7 +131,7 @@ STDMETHODIMP CComMemory::put_ModifiedBy(BSTR modified_by)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_modified_by(BSTR2wstring( modified_by )) ;
 	}
-	FELIX_AUTO_CATCH( "put_ModifiedBy" ) ;
+	FELIX_AUTO_CATCH( "put_ModifiedBy method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -122,7 +146,7 @@ STDMETHODIMP CComMemory::get_Field(BSTR* creator)
 		wstring val = info->get_field() ;
 		*creator = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_Field" ) ;
+	FELIX_AUTO_CATCH( "get_Field method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -133,7 +157,7 @@ STDMETHODIMP CComMemory::put_Field(BSTR modified_by)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_field(BSTR2wstring( modified_by )) ;
 	}
-	FELIX_AUTO_CATCH( "put_Field" ) ;
+	FELIX_AUTO_CATCH( "put_Field method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -148,7 +172,7 @@ STDMETHODIMP CComMemory::get_Client(BSTR* client)
 		wstring val = info->get_client() ;
 		*client = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_Client" ) ;
+	FELIX_AUTO_CATCH( "get_Client method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -159,7 +183,7 @@ STDMETHODIMP CComMemory::put_Client(BSTR client)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_client(BSTR2wstring( client )) ;
 	}
-	FELIX_AUTO_CATCH( "put_Client" ) ;
+	FELIX_AUTO_CATCH( "put_Client method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -174,7 +198,7 @@ STDMETHODIMP CComMemory::get_SourceLanguage(BSTR* language)
 		wstring val = info->get_source_language() ;
 		*language = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_SourceLanguage" ) ;
+	FELIX_AUTO_CATCH( "get_SourceLanguage method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -185,7 +209,7 @@ STDMETHODIMP CComMemory::put_SourceLanguage(BSTR language)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_source_language(BSTR2wstring( language )) ;
 	}
-	FELIX_AUTO_CATCH( "put_SourceLanguage" ) ;
+	FELIX_AUTO_CATCH( "put_SourceLanguage method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -200,7 +224,7 @@ STDMETHODIMP CComMemory::get_TargetLanguage(BSTR* language)
 		wstring val = info->get_target_language() ;
 		*language = ::SysAllocStringLen( val.c_str(), val.size() ) ;
 	}
-	FELIX_AUTO_CATCH( "get_TargetLanguage" ) ;
+	FELIX_AUTO_CATCH( "get_TargetLanguage method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -211,7 +235,7 @@ STDMETHODIMP CComMemory::put_TargetLanguage(BSTR language)
 		MemoryInfo *info = m_memory->get_memory_info() ;
 		info->set_target_language(BSTR2wstring( language )) ;
 	}
-	FELIX_AUTO_CATCH( "put_TargetLanguage" ) ;
+	FELIX_AUTO_CATCH( "put_TargetLanguage method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -225,7 +249,7 @@ STDMETHODIMP CComMemory::get_CreatedOn(DATE* date_created)
 		misc_wrappers::date created(info->get_created_on()) ;
 		::SystemTimeToVariantTime(&created, date_created) ;
 	}
-	FELIX_AUTO_CATCH( "get_CreatedOn" ) ;
+	FELIX_AUTO_CATCH( "get_CreatedOn method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -238,7 +262,7 @@ STDMETHODIMP CComMemory::put_CreatedOn(DATE date_created)
 		::VariantTimeToSystemTime(date_created, &created) ;
 		info->set_created_on(created.get_date_time_string()) ;
 	}
-	FELIX_AUTO_CATCH( "put_CreatedOn" ) ;
+	FELIX_AUTO_CATCH( "put_CreatedOn method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -253,7 +277,7 @@ STDMETHODIMP CComMemory::get_ModifiedOn(DATE* date_modified)
 		misc_wrappers::date modified(info->get_modified_on()) ;
 		::SystemTimeToVariantTime(&modified, date_modified) ;
 	}
-	FELIX_AUTO_CATCH( "get_ModifiedOn" ) ;
+	FELIX_AUTO_CATCH( "get_ModifiedOn method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -266,7 +290,7 @@ STDMETHODIMP CComMemory::put_ModifiedOn(DATE date_modified)
 		::VariantTimeToSystemTime(date_modified, &modified) ;
 		info->set_modified_on(modified.get_date_time_string()) ;
 	}
-	FELIX_AUTO_CATCH( "put_ModifiedOn" ) ;
+	FELIX_AUTO_CATCH( "put_ModifiedOn method in ComMemory class" ) ;
 
 	return S_OK ;
 }
@@ -277,5 +301,83 @@ CComMemory::CComMemory() :
 {
 
 }
+
+
+	// memory
+STDMETHODIMP CComMemory::get_IsMemory(VARIANT_BOOL* pVal)
+{
+	CHECK_OUT_PTR( pVal ) ;
+
+	try
+	{
+		if (m_memory->get_is_memory())
+		{
+			*pVal = VARIANT_TRUE ;
+		}
+		else
+		{
+			*pVal = VARIANT_FALSE ;
+		}
+	}
+	FELIX_AUTO_CATCH( "get_IsMemory method in ComMemory class" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CComMemory::put_IsMemory(VARIANT_BOOL isMemory)
+{
+	try
+	{
+		if (isMemory)
+		{
+			m_memory->set_is_memory(true) ;
+		}
+		else
+		{
+			m_memory->set_is_memory(false) ;
+		}
+	}
+	FELIX_AUTO_CATCH( "put_IsMemory method in ComMemory class" ) ;
+
+	return S_OK ;
+}
+
+	// locked
+STDMETHODIMP CComMemory::get_IsLocked(VARIANT_BOOL* pVal)
+{
+	CHECK_OUT_PTR( pVal ) ;
+
+	try
+	{
+		if (m_memory->is_locked())
+		{
+			*pVal = VARIANT_TRUE ;
+		}
+		else
+		{
+			*pVal = VARIANT_FALSE ;
+		}
+	}
+	FELIX_AUTO_CATCH( "get_IsLocked method in ComMemory class" ) ;
+
+	return S_OK ;
+}
+STDMETHODIMP CComMemory::put_IsLocked(VARIANT_BOOL isLocked)
+{
+	try
+	{
+		if (isLocked)
+		{
+			m_memory->set_locked_on() ;
+		}
+		else
+		{
+			m_memory->set_locked_off() ;
+		}
+	}
+	FELIX_AUTO_CATCH( "put_IsLocked method in ComMemory class" ) ;
+
+	return S_OK ;
+}
+
 // CComMemory
 

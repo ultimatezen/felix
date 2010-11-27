@@ -85,6 +85,7 @@ END_COM_MAP()
 public:
 	STDMETHOD(Add)(IMemory **pVal);
 	STDMETHOD(Load)(BSTR location, IMemory **pVal);
+	STDMETHOD(Clear)();
 
 };
 
