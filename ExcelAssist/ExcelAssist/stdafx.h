@@ -108,37 +108,22 @@ using namespace ATL;
 
 #include "resource_string.h"
 
-/*!
- * \brief
+/*
  * Application module
  */
 class CAddInModule : public CAtlDllModuleT< CAddInModule >
 {
 public:
-	/*!
-	 * \brief
-	 * Default constructor -- initializes the instance to NULL
-	 */
-	CAddInModule()
+	CAddInModule() : m_hInstance(NULL)
 	{
-		m_hInstance = NULL;
 	}
 
 	DECLARE_LIBID(__uuidof(ExcelAssistLib))
 
-	/*!
-	 * \brief
-	 * Retrieves the module resource instance
-	 */
 	inline HINSTANCE GetResourceInstance()
 	{
 		return m_hInstance;
 	}
-
-	/*!
-	 * \brief
-	 * Stores our resource instance.
-	 */
 	inline void SetResourceInstance(HINSTANCE hInstance)
 	{
 		m_hInstance = hInstance;

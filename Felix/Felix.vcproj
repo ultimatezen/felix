@@ -555,6 +555,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\MyLibrary\ConvertUTF.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\copydata.bat"
 				>
 			</File>
@@ -1603,6 +1607,10 @@
 				</File>
 				<File
 					RelativePath=".\ContentPresenterAddedTrans_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ConvertUTF_test.cpp"
 					>
 				</File>
 				<File

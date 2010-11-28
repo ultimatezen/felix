@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "tag_stripper.h"
 
+#ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( test_symbol_map )
@@ -37,6 +38,24 @@ BOOST_AUTO_TEST_SUITE( test_tag_stripper )
 		wstring rich = L"<b>foo</b><font size=3><i>bar</i></font> " ;
 		wstring stripped = strip_tags( rich ) ;
 		BOOST_CHECK_EQUAL( stripped, L"foobar " ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_hex_numerical_entity )
+	{
+		wstring rich = L"&#x20;" ;
+		wstring stripped = strip_tags( rich ) ;
+		BOOST_CHECK_EQUAL( stripped, L" " ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_bare_amersand )
+	{
+		wstring rich = L" & " ;
+		wstring stripped = strip_tags( rich ) ;
+		BOOST_CHECK_EQUAL( stripped, rich ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_nonexistent_symbol )
+	{
+		wstring rich = L"&blarg;" ;
+		wstring stripped = strip_tags( rich ) ;
+		BOOST_CHECK_EQUAL( stripped, rich ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_complex)
 	{
@@ -91,3 +110,5 @@ BOOST_AUTO_TEST_SUITE( test_strip_tags_only )
 		BOOST_CHECK_EQUAL( stripped, wstring(L"&amp;") ) ; 
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif
