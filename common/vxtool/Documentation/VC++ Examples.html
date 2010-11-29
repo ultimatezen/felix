@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>VC++ Examples</title>
+<style type="text/css">
+.download{
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 12px;
+	line-height : 23px;
+	text-decoration : none;
+	color:#3333FF;
+	font-weight:bold;
+}
+.body 	{
+		font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+		font-size : 12px;
+		line-height : 23px;
+	}
+
+        .tabletitle  {
+        	color : #000000;
+        	font-style : normal;
+		font-style:italic;
+		font-size:10pt;
+        }
+     
+        </style>
+
+</head>
+
+<body bgcolor=white topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 class="body">
+
+<table width=100% height=100% cellpadding="0" cellspacing="0" class="body">
+
+<tr bgcolor=LightSkyBlue class=tabletitle><td height=10>
+VXPLib Code Samples
+</td></tr>
+
+<tr valign=top><td>
+
+<font size=+2><br>Code Samples for Microsoft Visual C++ 6 and .NET</font><br><br>
+
+<dl><dd>
+
+All code examples presented here were originally designed to run under <i>Microsoft Visual C++ 6</i>.
+<br>However, they are all portable automatically into <i>Microsoft Visual C++ .NET</i>
+<br><br>
+
+<table border=1 width=100% class="body"><tr bgcolor=lightgrey><td>
+<b>Sample</b></td><td><b>Purpose</b></td></tr>
+
+<tr valign=middle><td><a href='../examples/CustomTooltips' class="download">Custom Tooltips</a></td>
+<td>
+
+Shows how to attach tooltips to objects that do not have an ID or Window Handle. For instance,
+how to attach tooltps to items in a List Control or Tree Control.
+
+</td></tr>
+
+<tr valign=middle><td><a href='../examples/Embedded Controls/Static Controls' class="download">Static Controls</a></td>
+<td>
+Example of embedding controls in <b>QHTML</b> when <b>WIDTH</b> and <b>HEIGHT</b> of all controls can be set within <b>QHTML</b>
+</td></tr>
+
+<tr valign=middle><td><a href='../examples/Embedded Controls/Dynamic Controls' class="download">Dynamic&nbsp;Controls</a></td>
+<td>
+Example of embedding controls in <b>QHTML</b> when <b>WIDTH</b> and <b>HEIGHT</b> of some controls must be calculated dynamically.
+</td></tr>
+
+<tr valign=middle><td><a href='../examples/Static Text/' class="download">Static Text</a></td>
+<td>
+A simple class <font color=darkred><b>CVXPStatic</b></font> derived from <font color=darkred><b>CStatic</b></font> to draw its contents
+using <b>QHTML</b>. This class supports all the standard properties of the STATIC control, such as alignments and disable state.
+Additionally, it allows to draw sunken QHTML using method <b>DrawState</b> of the <b>IVXPQuickHTML</b> interface.
+</td></tr>
+
+
+<tr valign=middle><td><a href='../examples/Simple Tooltip/' class="download">Simple Tooltip</a></td>
+<td>
+<table class="body"><tr><td>
+<img src='img/SimpleTooltip.gif'></td><td>
+
+Would you spend just 10 seconds to think of how large on your opinion could be a pure Windows API application
+written in C++ that would be creating a window, attaching a fancy tooltip to it, and displaying this all?<br>
+One hundred or more?<br>
+If you use <b>VXPLib</b> the answer is <b>10 lines!</b><br>
+Run the example, then freeze the mouse cursor over the window for just a moment to cause the toolip to appear.
+</td></tr></table>
+
+</td></tr>
+
+
+<tr valign=top><td width=100><a href='../examples/HyperLinks/' class="download">HyperLinks</a></td><td>
+
+<table class="body"><tr><td>
+<img src='img/HyperLinks.gif'></td><td>
+
+This example is for VC++ developers only. It features class <b>CHyperLink</b> when it can be used on its own to support
+standard hyperlinks, and when it is overriden to draw hyperlinks using Quick HTML.
+
+</td></tr>
+</table>
+
+</td></tr>
+
+
+
+
+<tr valign=top><td><a href='../examples/XP Menus/' class="download">XP Menus</a></td><td>
+
+<table class="body"><tr><td>
+<img src='img/menu.gif'></td><td>
+See how easily you can use <b>IVXPQuickHTML</b> to draw menu items the
+same way as in <i>Windows XP</i>.
+<br>Additionally, the example shows how to attach tooltips to menu items, and how to draw in the main window using Quick HTML parser.
+</td></tr>
+</table>
+                                                   
+
+</td></tr>
+
+<tr valign=top><td><a href='../examples/Parser Test/' class="download">Parser Test</a></td><td>
+
+<table class="body"><tr><td>
+<img src='img/parsertest.gif'></td><td>
+
+This program is an ultimate tool to work and experiment with the <b>IVXPQuickHTML</b> parser. It allows the following:
+<ul>
+<li>Enter any QHTML text in any format; The project can be compiled in both ASCII and Unicode modes.
+<li>Set all parameters of the parser such as <b>default resource file</b>,
+<b>list of search directories</b> and <b>default code page</b> for tag
+<font class=property>&lt;TXT&gt</font>
+<li>See the output result with such information as <b>output size</b>, <b>recalculation</b> and <b>displaying time</b>, and <b>list of all events</b> fired by the parser
+while processing the document.
+<li>Saving and loading QHTML documents using format UTF8 in the  Unicode mode, and using format ASCII in the ASCII mode.
+</ul>
+
+<b>Note:</b> Avoid running this example from VC++ environment, because it happens to have some mystique problems with Common Dialogs on W2K: FileOpen and FileSave,
+they can work just way too slowly. Whoever <a href="mailto:vitaly@cylon.ie" class="download">tells me</a> what's wrong there - thank you in advance.
+
+</td></tr>
+</table>
+                                                   
+
+</td></tr>
+
+
+</table>
+
+</dl>
+
+<dl><dd>
+
+<br>All examples for C++ were implemented using a header file <a href='../vxplib.h' class="download">VXPLib.h</a> for easier access to methods and
+properties of the COM library.
+Each interface implemented in the <b>VXPLib</b> component has a C++ class in <a href='../vxplib.h' class="download">VXPLib.h</a> with the same name.<br><br>
+<font size=+2 color=darkblue>10 Interfaces:</font><br><br>
+
+<ul type=square>
+<li><img src='img/class.gif'> <b>CVXPQuickHTML</b> - represents interface <b>IVXPQuickHTML</b> and its events.
+<li><img src='img/class.gif'> <b>CVXPTooltip</b> - represents interface <b>IVXPTooltip</b> and its events.
+<li><img src='img/class.gif'> <b>CVXPTooltipManager</b> - represents interface <b>IVXPTooltipManager</b> and its events.
+<li><img src='img/class.gif'> <b>CVXPFont</b> - represents interface <b>IVXPFont</b>
+<li><img src='img/class.gif'> <b>CVXPMargins</b> - represents interface <b>IVXPMargins</b>
+<li><img src='img/class.gif'> <b>CVXPSound</b> - represents interface <b>IVXPSound</b>
+<li><img src='img/class.gif'> <b>CVXPSettings</b> - represents interface <b>IVXPSettings</b>
+<li><img src='img/class.gif'> <b>CVXPCmdToolList</b> - represents interface <b>IVXPCmdToolList</b>
+<li><img src='img/class.gif'> <b>CVXPWndToolList</b> - represents interface <b>IVXPWndToolList</b>
+<li><img src='img/class.gif'> <b>CVXPMenuHook</b> - represents interface <b>IVXPMenuHook</b> and its events.
+
+</ul>
+
+<br>The main advantage of using this header file is that it allows to handle all COM events supported by <b>VXPLib</b>
+using <a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vcmfc98/html/atl.asp' class="download">Active Template Library</a>.
+
+</dl>
+
+</td></tr>
+<tr align=center valign=bottom><td>
+<font size=-1 color=green><br>This document was last updated on 01/06/2003</font>
+
+</td></tr>
+
+</table>
+
+</body>
+</html>

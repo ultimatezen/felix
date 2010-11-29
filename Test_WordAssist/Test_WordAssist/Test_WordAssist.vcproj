@@ -182,7 +182,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				RelativePath="..\..\common\abbreviations.cpp"
 				>
 			</File>
 			<File
@@ -190,15 +190,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.cpp"
+				RelativePath="..\..\common\config_file.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Exceptions_test.cpp"
+				RelativePath="..\..\common\Exceptions_test.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\font_properties_test.cpp"
+				RelativePath="..\..\common\font_properties_test.cpp"
 				>
 			</File>
 			<File
@@ -222,7 +222,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				RelativePath="..\..\common\keyboard_shortcuts.cpp"
 				>
 			</File>
 			<File
@@ -238,11 +238,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
@@ -281,15 +281,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\ColorRef.cpp"
+					RelativePath="..\..\common\ColorRef.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\Exceptions.cpp"
+					RelativePath="..\..\common\Exceptions.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\font_properties.cpp"
+					RelativePath="..\..\common\font_properties.cpp"
 					>
 				</File>
 				<File
@@ -297,27 +297,27 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\html_formatter.cpp"
+					RelativePath="..\..\common\html_formatter.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\html_processing.cpp"
+					RelativePath="..\..\common\html_processing.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\html_writer.cpp"
+					RelativePath="..\..\common\html_writer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\logging.cpp"
+					RelativePath="..\..\common\logging.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\MiniVersion.cpp"
+					RelativePath="..\..\common\MiniVersion.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\Parser.cpp"
+					RelativePath="..\..\common\Parser.cpp"
 					>
 				</File>
 				<File
@@ -325,7 +325,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\resource_string.cpp"
+					RelativePath="..\..\common\resource_string.cpp"
 					>
 				</File>
 				<File
@@ -349,11 +349,11 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\word_writer.cpp"
+					RelativePath="..\..\common\word_writer.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\MyLibrary\WordAutomationObject.cpp"
+					RelativePath="..\..\common\WordAutomationObject.cpp"
 					>
 				</File>
 				<File
@@ -372,7 +372,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				RelativePath="..\..\common\abbreviations.h"
 				>
 			</File>
 			<File
@@ -392,19 +392,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\ColorRef.h"
+				RelativePath="..\..\common\ColorRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.h"
+				RelativePath="..\..\common\config_file.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Exceptions.h"
+				RelativePath="..\..\common\Exceptions.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\font_properties.h"
+				RelativePath="..\..\common\font_properties.h"
 				>
 			</File>
 			<File
@@ -412,15 +412,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_formatter.h"
+				RelativePath="..\..\common\html_formatter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_processing.h"
+				RelativePath="..\..\common\html_processing.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_writer.h"
+				RelativePath="..\..\common\html_writer.h"
 				>
 			</File>
 			<File
@@ -440,11 +440,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				RelativePath="..\..\common\key_mapper.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_mapper_fake.h"
+				RelativePath="..\..\common\key_mapper_fake.h"
 				>
 			</File>
 			<File
@@ -456,7 +456,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				RelativePath="..\..\common\keyboard_shortcuts.h"
 				>
 			</File>
 			<File
@@ -468,11 +468,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\logging.h"
+				RelativePath="..\..\common\logging.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\MiniVersion.h"
+				RelativePath="..\..\common\MiniVersion.h"
 				>
 			</File>
 			<File
@@ -480,7 +480,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Parser.h"
+				RelativePath="..\..\common\Parser.h"
 				>
 			</File>
 			<File
@@ -488,11 +488,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				RelativePath="..\..\common\pugxml\src\pugiconfig.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.hpp"
 				>
 			</File>
 			<File
@@ -500,7 +500,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\common\resource_string.h"
 				>
 			</File>
 			<File
@@ -520,11 +520,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\word_writer.h"
+				RelativePath="..\..\common\word_writer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\WordAutomationObject.h"
+				RelativePath="..\..\common\WordAutomationObject.h"
 				>
 			</File>
 			<File

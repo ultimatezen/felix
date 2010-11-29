@@ -1,0 +1,25 @@
+<body bgcolor=gray gfc=white grad=vert>
+<font color=darkgreen weight=700>// This document demonstrates all events supported by the parser:</font><br><br>
+
+<table><tr><td>
+<font color=blue>void</font><b> OnRecalculate(</b><font color=blue>bool</font> Begin<b>,</b><font color=blue> bool</font> SourceChanged<b>)</b>;
+</td></tr><tr><td>
+<font color=blue>void</font><b> OnSetDefaults();</b>
+</td></tr><tr><td>
+<font color=blue>void</font><b> OnSourceChanged(</b><font color=blue>bool</font> IsEmpty<b>);</b>
+</td></tr><tr><td>
+<font color=blue>void</font><b> OnDocumentGetSize(</b><font color=brown>LPCTSTR</font> DocumentPath<b>,</b><font color=brown> LPCTSTR</font> Param<b>,</b><font color=blue> short</font> & Width<b>,</b><font color=blue> short</font> & Height<b>);</b>
+</td></tr><tr><td>
+<font color=blue>void</font><b> OnDocumentDraw(</b><font color=brown>LPCTSTR</font> DocumentPath<b>,</b><font color=brown> LPCTSTR</font> Param<b>,</b><font color=brown> HDC</font> DC<b>,</b><font color=blue> short</font> x<b>,</b><font color=blue> short</font> y<b>,</b><font color=blue> short</font> Width<b>,</b><font color=blue> short</font> Height<b>);</b>
+</td></tr>
+<tr><td>
+<font color=blue>void</font><b> OnControlGetSize(</b><font color=blue>long</font> ID<b>,</b><font color=brown> LPCTSTR</font> Name<b>,</b><font color=blue> short &</font> Width<b>,</b><font color=blue> short & </font> Height<b>, </b><font color=brown>LPCTSTR</font> Param<b>);</b>
+</td></tr>
+<tr><td>
+<font color=brown>LPCTSTR</font><b> OnGetText(</b><font color=brown>LPCTSTR</font> FilePath<b>,</b><font color=brown> LPCTSTR</font> Res<b>,</b><font color=blue> long</font> Size<b>,</b><font color=blue> long</font> ID<b>);</b>
+</td></tr>
+</table><br>
+
+<control ID=101 name='mycontrol' width=10 height=4 param='Hello!'>
+<doc file='parser test.exe' param='some information' width=1 height=1>
+<txt id=10 size=88 res='nothing' file='parser test.exe'>

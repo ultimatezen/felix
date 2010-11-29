@@ -216,11 +216,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\array.cpp"
+				RelativePath="..\common\array.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\array_test.cpp"
+				RelativePath="..\common\array_test.cpp"
 				>
 			</File>
 			<File
@@ -236,7 +236,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\ColorRef.cpp"
+				RelativePath="..\common\ColorRef.cpp"
 				>
 			</File>
 			<File
@@ -328,7 +328,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\distance.cpp"
+				RelativePath="..\common\distance.cpp"
 				>
 			</File>
 			<File
@@ -336,7 +336,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\Draw.cpp"
+				RelativePath="..\common\xpmenu\Draw.cpp"
 				>
 			</File>
 			<File
@@ -392,7 +392,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Exceptions.cpp"
+				RelativePath="..\common\Exceptions.cpp"
 				>
 			</File>
 			<File
@@ -504,7 +504,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\HtmlDocument.cpp"
+				RelativePath="..\common\HtmlDocument.cpp"
 				>
 			</File>
 			<File
@@ -512,7 +512,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\HtmlView.cpp"
+				RelativePath="..\common\HtmlView.cpp"
 				>
 			</File>
 			<File
@@ -552,7 +552,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\logging.cpp"
+				RelativePath="..\common\logging.cpp"
 				>
 			</File>
 			<File
@@ -664,7 +664,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\MiniVersion.cpp"
+				RelativePath="..\common\MiniVersion.cpp"
 				>
 			</File>
 			<File
@@ -684,7 +684,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\MultiLanguage.cpp"
+				RelativePath="..\common\MultiLanguage.cpp"
 				>
 			</File>
 			<File
@@ -780,7 +780,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\RegSettings.cpp"
+				RelativePath="..\common\RegSettings.cpp"
 				>
 			</File>
 			<File
@@ -796,11 +796,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\resource_string.cpp"
+				RelativePath="..\common\resource_string.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\rtf.cpp"
+				RelativePath="..\common\rtf.cpp"
 				>
 			</File>
 			<File
@@ -808,11 +808,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Scintilla_encodings.cpp"
+				RelativePath="..\common\Scintilla_encodings.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\ScintillaEdit.cpp"
+				RelativePath="..\common\ScintillaEdit.cpp"
 				>
 			</File>
 			<File
@@ -896,7 +896,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\system_message.cpp"
+				RelativePath="..\common\system_message.cpp"
 				>
 			</File>
 			<File
@@ -928,11 +928,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\TextTemplate.cpp"
+				RelativePath="..\common\TextTemplate.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\TextTemplate_test.cpp"
+				RelativePath="..\common\TextTemplate_test.cpp"
 				>
 			</File>
 			<File
@@ -964,7 +964,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.cpp"
+				RelativePath="..\common\xpmenu\ToolBarXP.cpp"
 				>
 			</File>
 			<File
@@ -1056,7 +1056,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\WideRichEdit.cpp"
+				RelativePath="..\common\WideRichEdit.cpp"
 				>
 			</File>
 			<File
@@ -1068,7 +1068,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\WindowExceptionHandler.cpp"
+				RelativePath="..\common\WindowExceptionHandler.cpp"
 				>
 			</File>
 			<File
@@ -1106,7 +1106,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\array.h"
+				RelativePath="..\common\array.h"
 				>
 			</File>
 			<File
@@ -1118,7 +1118,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\ColorRef.h"
+				RelativePath="..\common\ColorRef.h"
 				>
 			</File>
 			<File
@@ -1166,7 +1166,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\distance.h"
+				RelativePath="..\common\distance.h"
 				>
 			</File>
 			<File
@@ -1178,7 +1178,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\Draw.h"
+				RelativePath="..\common\xpmenu\Draw.h"
 				>
 			</File>
 			<File
@@ -1218,7 +1218,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Exceptions.h"
+				RelativePath="..\common\Exceptions.h"
 				>
 			</File>
 			<File
@@ -1290,11 +1290,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\HtmlDocument.h"
+				RelativePath="..\common\HtmlDocument.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\HtmlView.h"
+				RelativePath="..\common\HtmlView.h"
 				>
 			</File>
 			<File
@@ -1322,7 +1322,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\logging.h"
+				RelativePath="..\common\logging.h"
 				>
 			</File>
 			<File
@@ -1382,11 +1382,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\MenuXP.h"
+				RelativePath="..\common\xpmenu\MenuXP.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\MiniVersion.h"
+				RelativePath="..\common\MiniVersion.h"
 				>
 			</File>
 			<File
@@ -1394,7 +1394,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\MultiLanguage.h"
+				RelativePath="..\common\MultiLanguage.h"
 				>
 			</File>
 			<File
@@ -1462,7 +1462,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\RegSettings.h"
+				RelativePath="..\common\RegSettings.h"
 				>
 			</File>
 			<File
@@ -1478,19 +1478,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\resource_string.h"
+				RelativePath="..\common\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\rtf.h"
+				RelativePath="..\common\rtf.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Scintilla_encodings.h"
+				RelativePath="..\common\Scintilla_encodings.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\ScintillaEdit.h"
+				RelativePath="..\common\ScintillaEdit.h"
 				>
 			</File>
 			<File
@@ -1518,11 +1518,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\stringex.h"
+				RelativePath="..\common\stringex.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\system_message.h"
+				RelativePath="..\common\system_message.h"
 				>
 			</File>
 			<File
@@ -1538,7 +1538,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\TextTemplate.h"
+				RelativePath="..\common\TextTemplate.h"
 				>
 			</File>
 			<File
@@ -1562,11 +1562,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\ToolBarXP.h"
+				RelativePath="..\common\xpmenu\ToolBarXP.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\xpmenu\Tools.h"
+				RelativePath="..\common\xpmenu\Tools.h"
 				>
 			</File>
 			<File
@@ -1630,7 +1630,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\WideRichEdit.h"
+				RelativePath="..\common\WideRichEdit.h"
 				>
 			</File>
 			<File
@@ -1642,7 +1642,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\WindowExceptionHandler.h"
+				RelativePath="..\common\WindowExceptionHandler.h"
 				>
 			</File>
 			<File

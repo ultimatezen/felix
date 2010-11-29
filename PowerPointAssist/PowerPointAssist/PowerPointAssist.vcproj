@@ -233,7 +233,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				RelativePath="..\..\common\abbreviations.cpp"
 				>
 			</File>
 			<File
@@ -257,11 +257,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\ColorRef.cpp"
+				RelativePath="..\..\common\ColorRef.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.cpp"
+				RelativePath="..\..\common\config_file.cpp"
 				>
 			</File>
 			<File
@@ -273,11 +273,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Exceptions.cpp"
+				RelativePath="..\..\common\Exceptions.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\GetWinVer.cpp"
+				RelativePath="..\..\common\GetWinVer.cpp"
 				>
 			</File>
 			<File
@@ -293,15 +293,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_formatter.cpp"
+				RelativePath="..\..\common\html_formatter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_processing.cpp"
+				RelativePath="..\..\common\html_processing.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_writer.cpp"
+				RelativePath="..\..\common\html_writer.cpp"
 				>
 			</File>
 			<File
@@ -309,7 +309,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				RelativePath="..\..\common\keyboard_shortcuts.cpp"
 				>
 			</File>
 			<File
@@ -321,7 +321,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\logging.cpp"
+				RelativePath="..\..\common\logging.cpp"
 				>
 			</File>
 			<File
@@ -333,7 +333,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Picture.cpp"
+				RelativePath="..\..\common\Picture.cpp"
 				>
 			</File>
 			<File
@@ -357,15 +357,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.cpp"
+				RelativePath="..\..\common\resource_string.cpp"
 				>
 			</File>
 			<File
@@ -434,7 +434,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				RelativePath="..\..\common\abbreviations.h"
 				>
 			</File>
 			<File
@@ -454,7 +454,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.h"
+				RelativePath="..\..\common\config_file.h"
 				>
 			</File>
 			<File
@@ -462,7 +462,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\DispatchWrapper.h"
+				RelativePath="..\..\..\common\DispatchWrapper.h"
 				>
 			</File>
 			<File
@@ -502,19 +502,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				RelativePath="..\..\common\key_mapper.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_mapper_ppt.h"
+				RelativePath="..\..\common\key_mapper_ppt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_target_ppt.h"
+				RelativePath="..\..\common\key_target_ppt.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				RelativePath="..\..\common\keyboard_shortcuts.h"
 				>
 			</File>
 			<File
@@ -530,7 +530,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\logging.h"
+				RelativePath="..\..\common\logging.h"
 				>
 			</File>
 			<File
@@ -586,27 +586,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				RelativePath="..\..\common\pugxml\src\pugiconfig.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml.hpp"
+				RelativePath="..\..\common\rapidxml\rapidxml.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_iterators.hpp"
+				RelativePath="..\..\common\rapidxml\rapidxml_iterators.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_print.hpp"
+				RelativePath="..\..\common\rapidxml\rapidxml_print.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\rapidxml\rapidxml_utils.hpp"
+				RelativePath="..\..\common\rapidxml\rapidxml_utils.hpp"
 				>
 			</File>
 			<File
@@ -614,7 +614,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\common\resource_string.h"
 				>
 			</File>
 			<File

@@ -1,0 +1,18 @@
+syntax: glob
+
+*~
+*.dat
+*.tlh
+*.tli
+*.ncb
+*.tlb
+*.aps
+*.suo
+*.dll
+*.exe
+*.lib
+
+glob:MurasakiProject/*
+glob:Felix/RDb02196
+glob:Felix/RDa14356
+glob:Felix/view_state_new_test.cp
