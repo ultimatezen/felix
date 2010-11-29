@@ -1333,6 +1333,7 @@ BEGIN
     IDS_ACTION_STRIP_TAGS   "Strip Tags"
     IDS_ACTION_UNDO_MSG   "Performed action [%1]. <a href=%2>Undo</a>"
     IDS_ACTION_REDO_MSG   "Undid action [%1]. <a href=%2>Redo</a>"
+	IDS_ACTION_DELETE_ENTRY	"Delete Entry"
 END
 
 STRINGTABLE 

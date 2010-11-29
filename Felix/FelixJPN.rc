@@ -1098,6 +1098,7 @@ BEGIN
     IDS_ACTION_STRIP_TAGS   "タグの削除"
     IDS_ACTION_UNDO_MSG   "アクション[%1]が完了しました。<a href=%2>元に戻す</a>"
     IDS_ACTION_REDO_MSG   "アクション[%1]が取り消されました。<a href=%2>やり直す</a>"
+	IDS_ACTION_DELETE_ENTRY	"訳文・訳語の削除"
 END
 
 STRINGTABLE 

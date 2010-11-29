@@ -589,6 +589,7 @@
 #define IDS_ACTION_STRIP_TAGS           584
 #define IDS_ACTION_UNDO_MSG             585
 #define IDS_ACTION_REDO_MSG             586
+#define IDS_ACTION_DELETE_ENTRY         587
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772

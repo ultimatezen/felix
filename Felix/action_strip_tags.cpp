@@ -34,4 +34,9 @@ namespace action
 			m_new->add_record(rec) ;
 		}
 	}
+
+	wstring StripTagsAction::name()
+	{
+		return R2WSTR(IDS_ACTION_STRIP_TAGS) ;
+	}
 }

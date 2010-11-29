@@ -10,6 +10,7 @@
 #include "pagination.h"
 #include "Exceptions.h"
 #include "FrameListener.h"
+#include "undoable_action.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
@@ -49,7 +50,7 @@ public:
 	Paginator m_paginator ;
 
 	// holds pointer to deleted match (to enable undo)
-	mem_engine::search_match_ptr m_deleted_match ;
+	action::undo_action_ptr m_undo ;
 
 	match_vec	m_matches ;
 	match_vec	m_replace_matches ;

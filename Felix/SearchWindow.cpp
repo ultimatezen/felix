@@ -11,6 +11,8 @@
 #include "system_message.h"
 #include "memory_local.h"
 
+#include "action_delete_entry.h"
+
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
@@ -535,11 +537,9 @@ void CSearchWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 		m_message = L"Deletion parameter is out of bounds: " + ulong2wstring(pos) ;
 		return ;
 	}
-	m_deleted_match = m_matches[pos] ;
-	m_matches.erase(m_matches.begin() + pos) ;
+	delete_record(m_matches[pos]);
 	// set the number of records, but don't reset the current page
 	m_paginator.set_num_records(m_matches.size(), false) ;
-	delete_record(m_deleted_match);
 	show_search_results(doc, m_matches) ;
 	if (m_current_match)
 	{
@@ -553,18 +553,8 @@ void CSearchWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 void CSearchWindow::handle_undodelete( doc3_wrapper_ptr doc )
 {
 	SENSE("handle_undodelete") ;
-	const int memid = m_deleted_match->get_memory_id() ;
-	record_pointer record = m_deleted_match->get_record() ;
-
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
-	{
-		if (mem->get_id() == memid)
-		{
-			mem->add_record(record) ;
-			retrieve_and_show_matches(doc);
-			return ;
-		}
-	}
+	m_undo->undo() ;
+	retrieve_and_show_matches(doc);
 }
 
 /*
@@ -614,14 +604,19 @@ doc3_wrapper_ptr CSearchWindow::get_doc3()
 void CSearchWindow::delete_record( search_match_ptr match )
 {
 	memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
+	m_undo = action::undo_action_ptr(new action::DeleteEntryAction(mem, match->get_record())) ;
 
-	if (mem->erase(match->get_record()))
-	{
-		m_message = R2WSTR(IDS_DELETED_RECORD_MSG) ;
-	}
-	else if (mem->is_locked())
+	m_matches.erase( std::remove(m_matches.begin(), m_matches.end(), match), // the erase-remove idiom
+		m_matches.end());
+
+	if (mem->is_locked())
 	{
 		m_message = R2WSTR(IDS_DELETE_FAILED_MEM_LOCKED_MSG) ;
+	}
+	else
+	{
+		m_undo->redo() ;
+		m_message = R2WSTR(IDS_DELETED_RECORD_MSG) ;
 	}
 }
 

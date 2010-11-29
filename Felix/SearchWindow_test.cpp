@@ -5,11 +5,16 @@
 #include "record_local.h"
 #include "memory_local.h"
 
-#include <boost/test/unit_test.hpp>
+#include "action_delete_entry.h"
+
 #ifdef UNIT_TEST
+
+#include <boost/test/unit_test.hpp>
+
 BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 	using namespace mem_engine ;
+	using namespace action;
 
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
@@ -25,6 +30,15 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		window.set_mem_controller(model) ;
 
 		return mem1 ;
+	}
+
+	record_pointer add_record(memory_pointer &mem, string source, string trans)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(string2wstring(source)) ;
+		rec->set_trans(string2wstring(trans)) ;
+		mem->add_record(rec) ;
+		return rec ;
 	}
 
 	// get_pos_arg
@@ -86,13 +100,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
-		window.m_deleted_match = search_match_ptr(new search_match);
-		window.m_deleted_match->set_memory_id(mem->get_id()) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"foo") ;
-		rec->set_trans(L"bar") ;
-		mem->add_record(rec) ;
-		window.m_deleted_match->set_record(rec) ;
+		record_pointer rec = add_record(mem, "foo", "bar") ;
+		window.m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
 
 		_bstr_t url = L"/undodelete" ;
 		window.OnBeforeNavigate2(url) ;
@@ -127,7 +136,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		_bstr_t url = L"/0/deleterecord" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(0u, mem->size()) ;
-		BOOST_CHECK_EQUAL(L"foo", window.m_deleted_match->get_record()->get_source_rich()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_deleterecord_page_stays_same)
@@ -163,13 +171,9 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
-		window.m_deleted_match = search_match_ptr(new search_match);
-		window.m_deleted_match->set_memory_id(mem->get_id()) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"foo") ;
-		rec->set_trans(L"bar") ;
-		mem->add_record(rec) ;
-		window.m_deleted_match->set_record(rec) ;
+		record_pointer rec = add_record(mem, "foo", "bar") ;
+		window.m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
+		mem->erase(rec) ;
 
 		_bstr_t url = L"/undodelete" ;
 		window.OnBeforeNavigate2(url) ;
@@ -205,13 +209,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
-		window.m_deleted_match = search_match_ptr(new search_match);
-		window.m_deleted_match->set_memory_id(mem->get_id()) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"foo") ;
-		rec->set_trans(L"bar") ;
-		mem->add_record(rec) ;
-		window.m_deleted_match->set_record(rec) ;
 
 		_bstr_t url = L"/replace_find" ;
 		window.OnBeforeNavigate2(url) ;
@@ -224,13 +221,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
-		window.m_deleted_match = search_match_ptr(new search_match);
-		window.m_deleted_match->set_memory_id(mem->get_id()) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"foo") ;
-		rec->set_trans(L"bar") ;
-		mem->add_record(rec) ;
-		window.m_deleted_match->set_record(rec) ;
 
 		_bstr_t url = L"/replace_replace" ;
 		window.OnBeforeNavigate2(url) ;
@@ -243,13 +233,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
-		window.m_deleted_match = search_match_ptr(new search_match);
-		window.m_deleted_match->set_memory_id(mem->get_id()) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"foo") ;
-		rec->set_trans(L"bar") ;
-		mem->add_record(rec) ;
-		window.m_deleted_match->set_record(rec) ;
 
 		_bstr_t url = L"/replace_all" ;
 		window.OnBeforeNavigate2(url) ;
@@ -302,7 +285,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 		BOOST_CHECK_EQUAL(0u, matches.size()) ;
 		BOOST_CHECK_EQUAL(0u, mem->size()) ;
-		BOOST_CHECK_EQUAL(L"foo", window.m_deleted_match->get_record()->get_source_rich()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( handle_editrecord_page_stays_same)
