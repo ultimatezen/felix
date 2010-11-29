@@ -3,9 +3,12 @@
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
 
+#ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
-#ifdef UNIT_TEST
+#include "felix_model_fake.h"
+FelixModelInterfaceFake model ;
+
 BOOST_AUTO_TEST_SUITE( TestSearchWindow_perform_search )
 
 
@@ -36,8 +39,8 @@ BOOST_AUTO_TEST_SUITE( TestSearchWindow_perform_search )
 		doc3_wrapper_ptr doc(wrapper) ;
 
 		CSearchWindow window ;
-		boost::shared_ptr<memory_model> controller(new memory_model_mem) ;
-		window.set_mem_controller(controller) ;
+		model.clear() ;
+		window.set_mem_controller(&model) ;
 		window.perform_search(doc) ;
 
 		BOOST_CHECK_EQUAL(searchbox->get_attribute(L"value"), L"") ;
@@ -57,8 +60,8 @@ BOOST_AUTO_TEST_SUITE( TestSearchWindow_perform_search )
 		doc3_wrapper_ptr doc(wrapper) ;
 
 		CSearchWindow window ;
-		boost::shared_ptr<memory_model> controller(new memory_model_mem) ;
-		window.set_mem_controller(controller) ;
+		model.clear() ;
+		window.set_mem_controller(&model) ;
 		window.perform_search(doc) ;
 		wstring text = filterbox->get_inner_text() ;
 		BOOST_CHECK(text.find(L"spambot") == wstring::npos) ;

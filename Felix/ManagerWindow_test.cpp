@@ -1,33 +1,21 @@
 #include "StdAfx.h"
 #include "ManagerWindow.h"
-#include "element_wrapper_fake.h"
-#include "document_wrapper_fake.h"
 #include "record_local.h"
 #include "memory_local.h"
-#include "felix_model_fake.h"
-#include "ManagerViewFake.h"
 #include "EditFormParser.h"
 #include "document_wrapper_fake.h"
-#include "fake_undoable_action.h"
-#include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
 
-class FrameListenerFake : public FrameListener
-{
-public:
-	DECLARE_SENSING_VAR ;
-	bool set_window_title()
-	{
-		SENSE("set_window_title") ;
-		return true ;
-	}
-	void save_memory_as(mem_engine::memory_pointer mem)
-	{
-		mem ;
-		SENSE("save_memory_as") ;
-	}
-};
+#include <boost/test/unit_test.hpp>
+
+#include "element_wrapper_fake.h"
+#include "document_wrapper_fake.h"
+#include "felix_model_fake.h"
+#include "ManagerViewFake.h"
+#include "fake_undoable_action.h"
+#include "frame_listener_fake.h"
+
 struct ManagerWindowTestSetup
 {
 	FelixModelInterfaceFake mem_model ;

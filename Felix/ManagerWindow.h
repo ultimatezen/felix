@@ -14,6 +14,7 @@
 
 #include "ManagerView.h"
 #include "undoable_action.h"
+#include "FelixModelInterface.h"
 
 const static string ACTION_NAME_TRIM = "trim" ;
 const static string ACTION_NAME_STRIP = "strip" ;
@@ -36,8 +37,6 @@ class CManagerWindow :
 
 	typedef boost::shared_ptr<mgrview::ManagerView> mgr_state_ptr ;
 public:
-	// the mainframe/glossary window passes in a list of memories
-	memory_controller m_mem_controller ;
 
 	FelixModelInterface *m_mem_model ;
 	FelixModelInterface *m_gloss_model ;

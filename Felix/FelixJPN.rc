@@ -1087,18 +1087,19 @@ BEGIN
     IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
     IDS_CLOSED_MEMORY       "メモリを閉じました：[%1]"
     IDS_CLOSED_GLOSSARY     "用語集を閉じました：[%1]"
+    IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
+    IDS_SAVE_GLOSSARY       "現在の用語集を保存します\n現在の用語集を保存します"
+    IDS_SAVE_MEMORY         "現在のメモリを保存します\n現在のメモリを保存します"
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
-    IDS_SAVE_GLOSSARY       "現在の用語集を保存します\n現在の用語集を保存します"
-    IDS_SAVE_MEMORY         "現在のメモリを保存します\n現在のメモリを保存します"
-    IDS_ACTION_TRIM_SPACES   "空白の削除"
-    IDS_ACTION_STRIP_TAGS   "タグの削除"
     IDS_ACTION_UNDO_MSG   "アクション[%1]が完了しました。<a href=%2>元に戻す</a>"
     IDS_ACTION_REDO_MSG   "アクション[%1]が取り消されました。<a href=%2>やり直す</a>"
+    IDS_ACTION_TRIM_SPACES   "空白の削除"
+    IDS_ACTION_STRIP_TAGS   "タグの削除"
 	IDS_ACTION_DELETE_ENTRY	"訳文・訳語の削除"
+	IDS_ACTION_DELETE_MATCHES "一致した訳語・訳文の削除"
 END
 
 STRINGTABLE 

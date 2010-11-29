@@ -1323,17 +1323,18 @@ BEGIN
     IDS_POST_EDIT_ALL_DELETED 
                             "Editing complete. All entries have been deleted."
     IDS_NO_TRANS_SELECTED   "No translation selected"
+    IDS_EDIT_RECORD_TITLE   "Edit Record"
+    IDS_MSG_NO_EMPTY_S_OR_T "The entry must not have an empty source or translation.\r\rPlease try again."
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_EDIT_RECORD_TITLE   "Edit Record"
-    IDS_MSG_NO_EMPTY_S_OR_T "The entry must not have an empty source or translation.\r\rPlease try again."
-    IDS_ACTION_TRIM_SPACES   "Trim Spaces"
-    IDS_ACTION_STRIP_TAGS   "Strip Tags"
     IDS_ACTION_UNDO_MSG   "Performed action [%1]. <a href=%2>Undo</a>"
     IDS_ACTION_REDO_MSG   "Undid action [%1]. <a href=%2>Redo</a>"
+    IDS_ACTION_TRIM_SPACES   "Trim Spaces"
+    IDS_ACTION_STRIP_TAGS   "Strip Tags"
 	IDS_ACTION_DELETE_ENTRY	"Delete Entry"
+	IDS_ACTION_DELETE_MATCHES "Delete Matches"
 END
 
 STRINGTABLE 

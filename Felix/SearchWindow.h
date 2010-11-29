@@ -11,6 +11,7 @@
 #include "Exceptions.h"
 #include "FrameListener.h"
 #include "undoable_action.h"
+#include "FelixModelInterface.h"
 
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
@@ -29,12 +30,12 @@ class CSearchWindow :
 	, public CMessageFilter
 
 {
-	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
 	typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 	typedef mem_engine::search_match_ptr search_match_ptr ;
 public:
-	// the mainframe/glossary window passes in a list of memories
-	memory_controller m_controller ;
+
+	FelixModelInterface *m_controller ;
+
 	// location of window settings
 	CString m_settings_key ;
 	// window title
@@ -80,7 +81,7 @@ public:
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
-	void set_mem_controller(memory_controller controller);
+	void set_mem_controller(FelixModelInterface * controller);
 
 	// ========================
 	// URL navigation
@@ -91,6 +92,8 @@ public:
 
 	// save results
 	void save_results(match_vec &matches);
+	// delete results
+	void delete_results(match_vec &matches);
 	// navigation handlers
 	void handle_deletefilter(doc3_wrapper_ptr doc, wstring url);
 	void handle_editrecord(doc3_wrapper_ptr doc, wstring url);

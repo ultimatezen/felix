@@ -12,6 +12,7 @@
 #include "memory_local.h"
 
 #include "action_delete_entry.h"
+#include "action_delete_matches.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -242,6 +243,11 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		save_results(m_matches);
 		return true ;
 	}
+	if (boost::ends_with(url, L"delete_results"))
+	{
+		delete_results(m_matches);
+		return true ;
+	}
 	if (boost::ends_with(url, L"deletefilter"))
 	{
 		handle_deletefilter(get_doc3(), url) ;
@@ -329,7 +335,7 @@ void CSearchWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::v
  The memory window or glossary window will set this.
  It contains the list of memories/glossaries that we'll be searching.
  */
-void CSearchWindow::set_mem_controller( memory_controller controller )
+void CSearchWindow::set_mem_controller( FelixModelInterface * controller )
 {
 	m_controller = controller ;
 }
@@ -344,8 +350,9 @@ void CSearchWindow::get_replace_matches( std::vector<mem_engine::search_match_pt
 {
 	matches.clear() ;
 	mem_engine::search_match_container matchset ;
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
+	for (size_t i = 0 ; i < m_controller->size() ; ++i)
 	{
+		mem_engine::memory_pointer mem = m_controller->memory_at(i) ;
 		if (mem->is_local())
 		{
 			get_replace_matches_mem(mem, replace_from, matchset);
@@ -378,8 +385,9 @@ void CSearchWindow::get_search_matches( std::vector<mem_engine::search_match_ptr
 {
 	matches.clear() ;
 	mem_engine::search_match_container matchset ;
-	foreach(mem_engine::memory_pointer mem, m_controller->get_memories())
+	for (size_t i = 0 ; i < m_controller->size() ; ++i)
 	{
+		mem_engine::memory_pointer mem = m_controller->memory_at(i) ;
 		if (mem->is_local())
 		{
 			m_search_runner.get_matches(mem, matchset) ;
@@ -547,6 +555,20 @@ void CSearchWindow::handle_deleterecord( doc3_wrapper_ptr doc, wstring url )
 	}
 }
 
+void CSearchWindow::delete_results( match_vec &matches )
+{
+	SENSE("delete_results") ;
+
+	m_undo = action::undo_action_ptr(new action::DeleteMatchesAction(m_controller, matches)) ;
+	m_undo->redo() ;
+	matches.clear() ;
+
+	string link = "\"/start/undo\"" ;
+	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+
+	show_search_page() ;
+}
 /*
  Undo the deleted record and recover it.
  */
@@ -858,6 +880,7 @@ LRESULT CSearchWindow::OnToggleHelp()
 
 void CSearchWindow::save_results( match_vec &matches )
 {
+	SENSE("save_results") ;
 	mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
 
 	foreach(mem_engine::search_match_ptr match, matches)
@@ -869,6 +892,7 @@ void CSearchWindow::save_results( match_vec &matches )
 
 	show_search_results(get_doc3(), matches) ;
 }
+
 /*
  Get the value of the specified input box, and clear that value
  afterward.

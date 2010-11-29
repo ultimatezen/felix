@@ -2043,7 +2043,7 @@ LRESULT CGlossaryDialog::on_new_search()
 		m_search_window.Create(NULL) ;
 	}
 
-	m_search_window.set_mem_controller( this->get_memory_model() ) ;
+	m_search_window.set_mem_controller( this->get_model() ) ;
 	m_search_window.ShowWindow(SW_SHOW) ;
 	m_search_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
 
