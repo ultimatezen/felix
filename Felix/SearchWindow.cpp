@@ -199,6 +199,11 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	SENSE("CSearchWindow::OnBeforeNavigate2") ;
 	const wstring url = BSTR2wstring(burl) ;
 
+	std::vector<wstring> tokens ;
+	boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
+	std::reverse(tokens.begin(), tokens.end()) ;
+
+
 	// "#" is used for JavaScript links.
 	if(boost::ends_with(url, L"#"))
 	{
@@ -231,9 +236,6 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 	// page navigation
 	if (boost::ends_with(url, L"goto_page"))
 	{
-		std::vector<wstring> tokens ;
-		boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
-		std::reverse(tokens.begin(), tokens.end()) ;
 		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[1])-1) ;
 		show_search_results(get_doc3(), m_matches) ;
 		return true ;
@@ -268,8 +270,28 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 		handle_undodelete(get_doc3()) ;
 		return true ;
 	}
+	if (tokens[0] == L"undo")
+	{
+		m_undo->undo() ;
 
+		string link = "\"/start/redo\"" ;
+		CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+		m_message = wstring(static_cast<LPCWSTR>(msg)) ;
 
+		show_search_page() ;
+		return true ;
+	}
+	if (tokens[0] == L"redo")
+	{
+		m_undo->redo() ;
+
+		string link = "\"/start/undo\"" ;
+		CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+		m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+
+		show_search_page() ;
+		return true ;
+	}
 	// replace page links
 	if (boost::ends_with(url, L"replace_find"))
 	{

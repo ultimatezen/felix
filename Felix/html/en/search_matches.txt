@@ -88,6 +88,10 @@
     </table>
 
 {$pagination}
+<h3>Actions</h3>
+<ul>
+<li><a href="/save_results">Save Search Results to File</a></li>
+<li><a href="/delete_results">Delete Search Results</a></li>
+</ul>
 
-<p><a href="/save_results">Save Search Results to File</a></p>
 {% endif %}

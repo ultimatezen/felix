@@ -88,8 +88,12 @@
     </table>
 
 {$pagination}
+<h3>操作</h3>
+<ul>
+<li><a href="/save_results">検索結果をファイルに保存する</a></li>
+<li><a href="/delete_results">検索結果を削除する</a></li>
+</ul>
 
-
-<p><a href="/save_results">検索結果をファイルに保存する</a></p>
+<p><a href="/save_results"></a></p>
 
 {% endif %}
