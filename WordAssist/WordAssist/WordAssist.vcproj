@@ -233,7 +233,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.cpp"
+				RelativePath="..\..\common\abbreviations.cpp"
 				>
 			</File>
 			<File
@@ -277,11 +277,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\ColorRef.cpp"
+				RelativePath="..\..\common\ColorRef.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.cpp"
+				RelativePath="..\..\common\config_file.cpp"
 				>
 			</File>
 			<File
@@ -289,15 +289,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Exceptions.cpp"
+				RelativePath="..\..\common\Exceptions.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\font_properties.cpp"
+				RelativePath="..\..\common\font_properties.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\GetWinVer.cpp"
+				RelativePath="..\..\common\GetWinVer.cpp"
 				>
 			</File>
 			<File
@@ -305,15 +305,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_formatter.cpp"
+				RelativePath="..\..\common\html_formatter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_processing.cpp"
+				RelativePath="..\..\common\html_processing.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_writer.cpp"
+				RelativePath="..\..\common\html_writer.cpp"
 				>
 			</File>
 			<File
@@ -321,7 +321,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.cpp"
+				RelativePath="..\..\common\keyboard_shortcuts.cpp"
 				>
 			</File>
 			<File
@@ -329,11 +329,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\logging.cpp"
+				RelativePath="..\..\common\logging.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\Parser.cpp"
+				RelativePath="..\..\common\Parser.cpp"
 				>
 			</File>
 			<File
@@ -341,15 +341,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixpath.cpp"
+				RelativePath="..\..\common\pugxml\src\pugixpath.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.cpp"
+				RelativePath="..\..\common\resource_string.cpp"
 				>
 			</File>
 			<File
@@ -377,7 +377,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\word_writer.cpp"
+				RelativePath="..\..\common\word_writer.cpp"
 				>
 			</File>
 			<File
@@ -385,7 +385,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\WordAutomationObject.cpp"
+				RelativePath="..\..\common\WordAutomationObject.cpp"
 				>
 			</File>
 			<File
@@ -418,7 +418,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="..\..\..\MyLibrary\abbreviations.h"
+				RelativePath="..\..\common\abbreviations.h"
 				>
 			</File>
 			<File
@@ -434,11 +434,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Broadcaster.h"
+				RelativePath="..\common\Broadcaster.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\Broker.h"
+				RelativePath="..\common\Broker.h"
 				>
 			</File>
 			<File
@@ -446,11 +446,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\ColorRef.h"
+				RelativePath="..\..\..\common\ColorRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\config_file.h"
+				RelativePath="..\..\common\config_file.h"
 				>
 			</File>
 			<File
@@ -458,15 +458,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\DispatchWrapper.h"
+				RelativePath="..\..\..\common\DispatchWrapper.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\font_properties.h"
+				RelativePath="C:\dev\cpp\Assistant Suite\common\font_properties.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h"
+				RelativePath="C:\dev\cpp\Assistant Suite\common\GetWinVer.h"
 				>
 			</File>
 			<File
@@ -474,15 +474,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_formatter.h"
+				RelativePath="..\..\common\html_formatter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_processing.h"
+				RelativePath="..\..\common\html_processing.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\html_writer.h"
+				RelativePath="..\..\common\html_writer.h"
 				>
 			</File>
 			<File
@@ -502,7 +502,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\key_mapper.h"
+				RelativePath="..\..\common\key_mapper.h"
 				>
 			</File>
 			<File
@@ -514,7 +514,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\keyboard_shortcuts.h"
+				RelativePath="..\..\common\keyboard_shortcuts.h"
 				>
 			</File>
 			<File
@@ -526,15 +526,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\logging.h"
+				RelativePath="..\..\..\common\logging.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\logical.h"
+				RelativePath="..\..\..\common\logical.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h"
+				RelativePath="C:\dev\cpp\Assistant Suite\common\numberfmt.h"
 				>
 			</File>
 			<File
@@ -542,7 +542,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\Parser.h"
+				RelativePath="..\..\..\common\Parser.h"
 				>
 			</File>
 			<File
@@ -550,11 +550,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugiconfig.hpp"
+				RelativePath="..\..\common\pugxml\src\pugiconfig.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\pugxml\src\pugixml.hpp"
+				RelativePath="..\..\common\pugxml\src\pugixml.hpp"
 				>
 			</File>
 			<File
@@ -562,11 +562,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\resource_string.h"
+				RelativePath="..\..\common\resource_string.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\resource_string.h"
+				RelativePath="C:\dev\cpp\Assistant Suite\common\resource_string.h"
 				>
 			</File>
 			<File
@@ -574,15 +574,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\stringex.h"
+				RelativePath="..\..\common\stringex.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\MyLibrary\textstream_reader.h"
+				RelativePath="..\..\..\common\textstream_reader.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\MyLibrary\TextTemplate.h"
+				RelativePath="..\common\TextTemplate.h"
 				>
 			</File>
 			<File
@@ -590,7 +590,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\MyLibrary\word_writer.h"
+				RelativePath="..\..\common\word_writer.h"
 				>
 			</File>
 			<File
@@ -788,7 +788,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\DumpExceptionInfo.h"
+			RelativePath="C:\dev\cpp\Assistant Suite\common\DumpExceptionInfo.h"
 			>
 		</File>
 	</Files>

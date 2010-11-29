@@ -33,3 +33,4 @@ glob:Felix/Testing.obj
 glob:Felix/felix_tm.h
 glob:Felix/RD*
 glob:*.tmp
+glob:*.obj

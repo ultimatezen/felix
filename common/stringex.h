@@ -4,7 +4,6 @@
 	@date 2004/12/16
 	@time 1:54:07
 	@author Ryan Ginstrom
-	file path: C:\Programming\MyLibrary
 
  #define DO_EFFICIENT_STRING_CONVERSIONS 
  to keep string <-> wstring conversion buffers in a static variable

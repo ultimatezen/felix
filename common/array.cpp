@@ -4,7 +4,6 @@
 	@date 2004/12/30
 	Time: 14:54:11
 	@author Ryan Ginstrom
-	@dir c:\Programming\MyLibrary
  */
 
 

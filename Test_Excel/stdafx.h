@@ -69,7 +69,7 @@
 using namespace ATL ;
 
 #ifdef UNIT_TEST
-#include "c:\dev\cpp\MyLibrary\fakewindow.h"
+#include "fakewindow.h"
 #define TWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(string(x))

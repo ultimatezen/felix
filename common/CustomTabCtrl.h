@@ -4,7 +4,6 @@
 	@date 2005/06/25
 	Time: 15:14:34
 	@author Ryan Ginstrom
-	@dir c:\Programming\MyLibrary
 
    Original work by Bjarke Viksoe (bjarke@viksoe.dk)
    Revised version by Daniel Bowen (dbowen@es.com).

@@ -450,7 +450,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\ColorRef.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\ColorRef.h"
 				>
 			</File>
 			<File
@@ -466,7 +466,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\GetWinVer.h"
 				>
 			</File>
 			<File
@@ -478,11 +478,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\html_formatter.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\html_formatter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\html_processing.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\html_processing.h"
 				>
 			</File>
 			<File
@@ -526,7 +526,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\label_name.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\label_name.h"
 				>
 			</File>
 			<File
@@ -538,7 +538,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\MiniVersion.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\MiniVersion.h"
 				>
 			</File>
 			<File
@@ -546,7 +546,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\numberfmt.h"
 				>
 			</File>
 			<File
@@ -558,7 +558,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Development\C++\MyLibrary\Picture.h"
+				RelativePath="..\..\C:\dev\cpp\Assistant Suite\common\Picture.h"
 				>
 			</File>
 			<File

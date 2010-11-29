@@ -265,8 +265,8 @@
     <ClInclude Include="..\..\..\common\ColorRef.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="..\..\..\common\DispatchWrapper.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\font_properties.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\font_properties.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\GetWinVer.h" />
     <ClInclude Include="hooker.h" />
     <ClInclude Include="..\..\common\html_formatter.h" />
     <ClInclude Include="..\..\common\html_processing.h" />
@@ -275,11 +275,11 @@
     <ClInclude Include="KeyboardListener.h" />
     <ClInclude Include="..\..\..\common\logging.h" />
     <ClInclude Include="..\..\..\common\logical.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\numberfmt.h" />
     <ClInclude Include="..\..\..\common\Parser.h" />
     <ClInclude Include="Properties.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\resource_string.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\resource_string.h" />
     <ClInclude Include="..\..\common\resource_string.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\..\common\stringex.h" />
@@ -292,7 +292,7 @@
     <ClInclude Include="WordControllerWord.h" />
     <ClInclude Include="WordParser.h" />
     <ClInclude Include="WordScreenUpdateLock.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\DumpExceptionInfo.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\DumpExceptionInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc" />

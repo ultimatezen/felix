@@ -4,7 +4,6 @@
 	@date 2004/12/29
 	Time: 23:22:06
 	@author Ryan Ginstrom
-	@dir C:\Programming\MyLibrary
  */
 #include "array_tester.h"
 

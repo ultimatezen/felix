@@ -4,7 +4,6 @@
 	@date 2005/06/02
 	Time: 10:16:23
 	@author Ryan Ginstrom
-	@dir C:\Programming\MyLibrary
  */
 
 #include "FixedMatrix.h"

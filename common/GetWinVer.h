@@ -4,7 +4,6 @@
 	@date 2005/06/25
 	Time: 15:20:21
 	@author Ryan Ginstrom
-	@dir c:\Programming\MyLibrary
 
     GetWinVer.h  Version 1.1
 

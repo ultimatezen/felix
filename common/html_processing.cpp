@@ -1,10 +1,6 @@
 /********************************************************************
 	Date:	    2004/11/11
 	Time:   	12:11:50
-	filename: 	C:\Programming\MyLibrary\html_processing.cpp
-	file path:	C:\Programming\MyLibrary
-	file base:	html_processing
-	file ext:	cpp
 	author:		Ryan Ginstrom
 	
 	purpose:	implementation of the html_formatter class.

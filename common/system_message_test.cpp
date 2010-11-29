@@ -4,7 +4,6 @@
 	@date 2004/12/28
 	Time: 4:16:53
 	@author Ryan Ginstrom
-	@dir c:\programming\mylibrary
  */
 
 #include "stdafx.h"

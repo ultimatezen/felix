@@ -4,7 +4,6 @@
 	@date 2004/12/30
 	Time: 8:15:18
 	@author Ryan Ginstrom
-	@dir c:\Programming\MyLibrary
  */
 
 #pragma once
