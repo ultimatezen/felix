@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		return rec ;
 	}
 
-	BOOST_AUTO_TEST_CASE( add_term)
+	BOOST_AUTO_TEST_CASE(add_term)
 	{
 		search_runner searcher ;
 		searcher.add_term(L"source") ;
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(searcher.get_terms().size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( remove_term)
+	BOOST_AUTO_TEST_CASE(remove_term)
 	{
 		search_runner searcher ;
 		searcher.add_term(L"source") ;
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 
 
-	BOOST_AUTO_TEST_CASE( empty_memory_no_terms)
+	BOOST_AUTO_TEST_CASE(empty_memory_no_terms)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( one_record_no_terms)
+	BOOST_AUTO_TEST_CASE(one_record_no_terms)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( one_record_one_term_match)
+	BOOST_AUTO_TEST_CASE(one_record_one_term_match)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( one_record_one_term_nomatch)
+	BOOST_AUTO_TEST_CASE(one_record_one_term_nomatch)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( one_record_one_term_nomatch_erased)
+	BOOST_AUTO_TEST_CASE(one_record_one_term_nomatch_erased)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( one_record_two_terms_match)
+	BOOST_AUTO_TEST_CASE(one_record_two_terms_match)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	// Text Fields
 	// source: 	Search in source field
-	BOOST_AUTO_TEST_CASE( source_true)
+	BOOST_AUTO_TEST_CASE(source_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( source_two_of_three)
+	BOOST_AUTO_TEST_CASE(source_two_of_three)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(2, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( source_false)
+	BOOST_AUTO_TEST_CASE(source_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( source_empty)
+	BOOST_AUTO_TEST_CASE(source_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 	// trans: 	Search in translation field
-	BOOST_AUTO_TEST_CASE( trans_true)
+	BOOST_AUTO_TEST_CASE(trans_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( trans_empty)
+	BOOST_AUTO_TEST_CASE(trans_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( trans_false)
+	BOOST_AUTO_TEST_CASE(trans_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -222,7 +222,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// context: 	Search in context field
-	BOOST_AUTO_TEST_CASE( context_true)
+	BOOST_AUTO_TEST_CASE(context_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( context_empty)
+	BOOST_AUTO_TEST_CASE(context_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( context_false)
+	BOOST_AUTO_TEST_CASE(context_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	// Created
 	// created-by: 	Search in creator field
-	BOOST_AUTO_TEST_CASE( created_by_false)
+	BOOST_AUTO_TEST_CASE(created_by_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -273,7 +273,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by_empty)
+	BOOST_AUTO_TEST_CASE(created_by_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -286,7 +286,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by_true)
+	BOOST_AUTO_TEST_CASE(created_by_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by_partial)
+	BOOST_AUTO_TEST_CASE(created_by_partial)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 	// created: 	Search for records created on date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( created_true)
+	BOOST_AUTO_TEST_CASE(created_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -325,7 +325,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_empty)
+	BOOST_AUTO_TEST_CASE(created_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -339,7 +339,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_false)
+	BOOST_AUTO_TEST_CASE(created_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -354,7 +354,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// created-before: 	Search for records created before date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( created_before_true)
+	BOOST_AUTO_TEST_CASE(created_before_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -362,13 +362,12 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		search_runner searcher ;
 		searcher.add_term(L"created-before:2000-10-10") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
-		misc_wrappers::date thedate(1999, 10, 10) ;
-		rec->set_created(thedate) ;
+		rec->set_created(L"1999/10/10") ;
 
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_before_false)
+	BOOST_AUTO_TEST_CASE(created_before_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -376,14 +375,13 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		search_runner searcher ;
 		searcher.add_term(L"created-before:1999-10-11") ;
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
-		misc_wrappers::date thedate(2000, 10, 10) ;
-		rec->set_created(thedate) ;
+		rec->set_created(L"2000/10/10") ;
 
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// created-after: 	Search for records created after date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( created_after_true)
+	BOOST_AUTO_TEST_CASE(created_after_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -397,7 +395,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_after_false)
+	BOOST_AUTO_TEST_CASE(created_after_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -413,7 +411,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	// Modified
 	// modified-by: 	Search in modifier field
-	BOOST_AUTO_TEST_CASE( modified_by_true)
+	BOOST_AUTO_TEST_CASE(modified_by_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -427,7 +425,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_by_empty)
+	BOOST_AUTO_TEST_CASE(modified_by_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -441,7 +439,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_by_false)
+	BOOST_AUTO_TEST_CASE(modified_by_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -456,7 +454,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified: 	Search for records modified on date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( modified_true)
+	BOOST_AUTO_TEST_CASE(modified_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -470,7 +468,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_empty)
+	BOOST_AUTO_TEST_CASE(modified_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -484,7 +482,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_false)
+	BOOST_AUTO_TEST_CASE(modified_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -499,7 +497,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified-before: 	Search for records modified before date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( modified_before_true)
+	BOOST_AUTO_TEST_CASE(modified_before_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -513,7 +511,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_before_false)
+	BOOST_AUTO_TEST_CASE(modified_before_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -528,7 +526,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// modified-after: 	Search for records modified after date (YYYY-MM-DD format)
-	BOOST_AUTO_TEST_CASE( modified_after_true)
+	BOOST_AUTO_TEST_CASE(modified_after_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -542,7 +540,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified_after_false)
+	BOOST_AUTO_TEST_CASE(modified_after_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -558,7 +556,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	// Reliability
 	// reliability: 	Search for records with the specified reliability
-	BOOST_AUTO_TEST_CASE( reliability_true)
+	BOOST_AUTO_TEST_CASE(reliability_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -572,7 +570,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_empty)
+	BOOST_AUTO_TEST_CASE(reliability_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -586,7 +584,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_false)
+	BOOST_AUTO_TEST_CASE(reliability_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -602,7 +600,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 
 	// reliability-gt: 	Search for records with greater than the specified reliability
-	BOOST_AUTO_TEST_CASE( reliability_gt_true)
+	BOOST_AUTO_TEST_CASE(reliability_gt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -616,7 +614,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_gt_false)
+	BOOST_AUTO_TEST_CASE(reliability_gt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -631,7 +629,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-gte: 	Search for records with at least the specified reliability
-	BOOST_AUTO_TEST_CASE( reliability_gte_true)
+	BOOST_AUTO_TEST_CASE(reliability_gte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -645,7 +643,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_gte_false)
+	BOOST_AUTO_TEST_CASE(reliability_gte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -660,7 +658,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-lt: 	Search for records with less than the specified reliability
-	BOOST_AUTO_TEST_CASE( reliability_lt_true)
+	BOOST_AUTO_TEST_CASE(reliability_lt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -674,7 +672,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_lt_false)
+	BOOST_AUTO_TEST_CASE(reliability_lt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -689,7 +687,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// reliability-lte: 	Search for records with no more than than the specified reliability
-	BOOST_AUTO_TEST_CASE( reliability_lte_true)
+	BOOST_AUTO_TEST_CASE(reliability_lte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -703,7 +701,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability_lte_false)
+	BOOST_AUTO_TEST_CASE(reliability_lte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -719,7 +717,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	// Validated
 	// validated: 	Search for records that are validated ("true") or not validated ("false")
-	BOOST_AUTO_TEST_CASE( validated_true)
+	BOOST_AUTO_TEST_CASE(validated_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -730,7 +728,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_empty)
+	BOOST_AUTO_TEST_CASE(validated_empty)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -741,7 +739,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_false)
+	BOOST_AUTO_TEST_CASE(validated_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -754,7 +752,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	// Reference Count
 	// refcount: 	Search for records with the specified refcount
-	BOOST_AUTO_TEST_CASE( refcount_true)
+	BOOST_AUTO_TEST_CASE(refcount_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -768,7 +766,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_emtpy)
+	BOOST_AUTO_TEST_CASE(refcount_emtpy)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -782,7 +780,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_false)
+	BOOST_AUTO_TEST_CASE(refcount_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -798,7 +796,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 
 	// refcount-gt: 	Search for records with greater than the specified refcount
-	BOOST_AUTO_TEST_CASE( refcount_gt_true)
+	BOOST_AUTO_TEST_CASE(refcount_gt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -812,7 +810,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_gt_false)
+	BOOST_AUTO_TEST_CASE(refcount_gt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -827,7 +825,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-gte: 	Search for records with at least the specified refcount
-	BOOST_AUTO_TEST_CASE( refcount_gte_true)
+	BOOST_AUTO_TEST_CASE(refcount_gte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -841,7 +839,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_gte_false)
+	BOOST_AUTO_TEST_CASE(refcount_gte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -856,7 +854,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-lt: 	Search for records with less than the specified refcount
-	BOOST_AUTO_TEST_CASE( refcount_lt_true)
+	BOOST_AUTO_TEST_CASE(refcount_lt_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -870,7 +868,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_lt_false)
+	BOOST_AUTO_TEST_CASE(refcount_lt_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -885,7 +883,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
 	}
 	// refcount-lte: 	Search for records with no more than than the specified refcount
-	BOOST_AUTO_TEST_CASE( refcount_lte_true)
+	BOOST_AUTO_TEST_CASE(refcount_lte_true)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -894,12 +892,26 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.add_term(L"refcount-lte:3") ;
 
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
-		rec->set_refcount(5) ;
+		rec->set_refcount(2) ;
 
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount_lte_false)
+	BOOST_AUTO_TEST_CASE(refcount_lte_equal_true)
+	{
+		memory_pointer mem(new memory_local(0.0f)) ;
+
+		search_match_container matches ;
+		search_runner searcher ;
+		searcher.add_term(L"refcount-lte:3") ;
+
+		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
+		rec->set_refcount(3) ;
+
+		searcher.get_matches(mem, matches) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
+	}
+	BOOST_AUTO_TEST_CASE(refcount_lte_false)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
 
@@ -908,7 +920,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		searcher.add_term(L"refcount-lte:6") ;
 
 		record_pointer rec = add_record_searcher(mem, "source", "egg", "context") ;
-		rec->set_refcount(5) ;
+		rec->set_refcount(7) ;
 
 		searcher.get_matches(mem, matches) ;
 		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;

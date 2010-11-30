@@ -955,6 +955,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\matcher.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MatchStringPairing.cpp"
 				>
 			</File>
@@ -1783,6 +1787,10 @@
 				</File>
 				<File
 					RelativePath=".\ManagerWindow_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_filters_matcher_test.cpp"
 					>
 				</File>
 				<File
@@ -2639,6 +2647,10 @@
 			</File>
 			<File
 				RelativePath=".\match_tester.h"
+				>
+			</File>
+			<File
+				RelativePath=".\matcher.h"
 				>
 			</File>
 			<File

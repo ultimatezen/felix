@@ -10,11 +10,12 @@ namespace replacer
 	}
 	wstring getrest(wstring from, wstring tag)
 	{
-		return from.substr(tag.size()) ;
+		return boost::trim_copy(from.substr(tag.size())) ;
 	}
 	void mod_date(misc_wrappers::date &thedate, wstring datestring)
 	{
 		textstream_reader<wchar_t> reader ;
+		boost::trim(datestring) ;
 		reader.set_buffer(datestring.c_str()) ;
 		std::vector<wstring> bits ;
 		reader.split(bits, L"-/") ;
@@ -32,7 +33,46 @@ namespace replacer
 		}
 
 	}
+	bool dates_match(const misc_wrappers::date rec_date,
+		const misc_wrappers::date query)
+	{
+		// year
+		if (rec_date.wYear != query.wYear)
+		{
+			return false ;
+		}
+		// month
+		ATLASSERT(rec_date.wYear == query.wYear) ;
+		if (! query.wMonth)
+		{
+			return true ;
+		}
+		if (rec_date.wMonth != query.wMonth)
+		{
+			return false ;
+		}
+		// day
+		ATLASSERT(rec_date.wMonth == query.wMonth) ;
+		if (! query.wDay)
+		{
+			return true ;
+		}
+		if (rec_date.wDay != query.wDay)
+		{
+			return false ;
+		}
+		return true ;
+	}
+	bool date_after(const misc_wrappers::date rec_date,
+		const misc_wrappers::date query)
+	{
+		if (dates_match(rec_date, query))
+		{
+			return false ;
+		}
+		return rec_date > query ;
 
+	}
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to)
 	{
 		wstring tag ;

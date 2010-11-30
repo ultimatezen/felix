@@ -9,6 +9,23 @@ namespace replacer
 
 	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
 	wstring getrest(wstring from, wstring tag) ;
+	/* Do the dates match?
+	   Allows year or year/month matching. For example:
+	    2010 == 2010-10-10
+		2010-10 == 2010-10-10
+	*/
+	bool dates_match(const misc_wrappers::date query,
+		const misc_wrappers::date entry) ;
+
+	/* Is the query before the record date?
+	   Allows year or year/month matching. For example:
+	    2010 < 2010-10-10
+		2010-10 < 2010-11-10
+		BUT:
+		! 2010-02 < 2010-02-01 (they are equal)
+	*/
+	bool date_after(const misc_wrappers::date query,
+		const misc_wrappers::date entry) ;
 
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to) ;
 

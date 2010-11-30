@@ -151,7 +151,9 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		local_time.set_to_local_time() ;
 		record_local rec ;
 
-		BOOST_CHECK_EQUAL((int)misc_wrappers::Delta(rec.get_modified(), local_time), 0) ;
+		BOOST_CHECK_EQUAL(rec.get_modified().wYear, local_time.wYear) ;
+		BOOST_CHECK_EQUAL(rec.get_modified().wMonth, local_time.wMonth) ;
+		BOOST_CHECK_EQUAL(rec.get_modified().wDay, local_time.wDay) ;
 	}
 	BOOST_AUTO_TEST_CASE( init_creator) 
 	{

@@ -3,70 +3,14 @@
 #include <boost/regex.hpp>
 #include "logging.h"
 #include "replacer.h"
+#include "matcher.h"
 
 namespace mem_search
 {
 
-	void mod_date( misc_wrappers::date &query_date, const wstring datestring )
-	{
-		textstream_reader<wchar_t> reader ;
-		reader.set_buffer(datestring.c_str()) ;
-		std::vector<wstring> bits ;
-		reader.split(bits, L"-/") ;
-		if (bits.size() >= 1)
-		{
-			query_date.set_year(boost::trim_copy(bits[0])) ;
-		}
-		if (bits.size() >= 2)
-		{
-			query_date.set_month(boost::trim_copy(bits[1])) ;
-		}
-		if (bits.size() >= 3)
-		{
-			query_date.set_day(boost::trim_copy(bits[2])) ;
-		}
-	}
+	using namespace replacer ;
 
-	bool dates_match(const misc_wrappers::date &query,
-					 const misc_wrappers::date &entry)
-	{
-		// year
-		if (query.wYear != entry.wYear)
-		{
-			return false ;
-		}
-		// month
-		ATLASSERT(query.wYear == entry.wYear) ;
-		if (! query.wMonth)
-		{
-			return true ;
-		}
-		if (query.wMonth != entry.wMonth)
-		{
-			return false ;
-		}
-		// day
-		ATLASSERT(query.wMonth == entry.wMonth) ;
-		if (! query.wDay)
-		{
-			return true ;
-		}
-		if (query.wDay != entry.wDay)
-		{
-			return false ;
-		}
-		return true ;
-	}
-	bool date_after(const misc_wrappers::date &query,
-		const misc_wrappers::date &entry)
-	{
-		if (dates_match(query, entry))
-		{
-			return false ;
-		}
-		return query < entry ;
 
-	}
 
 	void search_runner::add_term( const wstring term )
 	{
@@ -82,6 +26,8 @@ namespace mem_search
 
 	void search_runner::get_matches( memory_pointer mem, search_match_container& matches )
 	{
+		set_matchers();
+
 		foreach(record_pointer rec, mem->get_records())
 		{
 			if (is_match(rec))
@@ -108,9 +54,10 @@ namespace mem_search
 
 	bool search_runner::is_match( const record_pointer rec ) const
 	{
-		foreach(wstring term, m_terms)
+
+		foreach(matcher_ptr matcher, m_matchers)
 		{
-			if (! term_matches(rec, term))
+			if (! matcher->is_match(rec))
 			{
 				return false ;
 			}
@@ -334,7 +281,15 @@ namespace mem_search
 		return textfield_match(needle, haystack);
 	}
 
-	bool search_runner::textfield_match( const wstring needle, const wstring haystack ) const
+	void search_runner::set_matchers()
+	{
+		m_matchers.clear() ;
+		foreach(wstring term, m_terms)
+		{
+			m_matchers.push_back(get_matcher(term)) ;
+		}
+	}
+	bool textfield_match( const wstring needle, const wstring haystack )
 	{
 		if (boost::trim_copy(needle).empty())
 		{

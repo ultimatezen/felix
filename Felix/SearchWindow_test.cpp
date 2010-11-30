@@ -46,19 +46,19 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 	// get_pos_arg
-	BOOST_AUTO_TEST_CASE( get_pos_arg_back_1)
+	BOOST_AUTO_TEST_CASE(get_pos_arg_back_1)
 	{
 		CSearchWindow window ;
 		wstring url = L"c:\\foo\\bar\\1\\deletefilter" ;
 		BOOST_CHECK_EQUAL(1u, window.get_pos_arg(url)) ;
 	}
-	BOOST_AUTO_TEST_CASE( get_pos_arg_forward_1)
+	BOOST_AUTO_TEST_CASE(get_pos_arg_forward_1)
 	{
 		CSearchWindow window ;
 		wstring url = L"c:\\foo/bar/1/deletefilter" ;
 		BOOST_CHECK_EQUAL(1u, window.get_pos_arg(url)) ;
 	}
-	BOOST_AUTO_TEST_CASE( get_pos_arg_forward_15)
+	BOOST_AUTO_TEST_CASE(get_pos_arg_forward_15)
 	{
 		CSearchWindow window ;
 		wstring url = L"c:\\foo/bar/15/deletefilter" ;
@@ -66,9 +66,31 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 
+	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_0)
+	{
+		CSearchWindow window ;
+		memory_pointer mem(new memory_local) ;
+		add_record(mem, "aaa", "bbb") ;
+		wstring replace_from = L"source:xxx" ;
+		search_match_container matches ;
+		window.get_replace_matches_mem(mem, replace_from, matches) ;
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_1)
+	{
+		CSearchWindow window ;
+		memory_pointer mem(new memory_local) ;
+		add_record(mem, "aaa", "bbb") ;
+		add_record(mem, "xxx", "yyy") ;
+		wstring replace_from = L"source:xxx" ;
+		search_match_container matches ;
+		window.get_replace_matches_mem(mem, replace_from, matches) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+
 
 	// url navigation
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense)
 	{
 		CSearchWindow window ;
 		_bstr_t url = L"foo" ;
@@ -76,7 +98,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(1u, window.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "CSearchWindow::OnBeforeNavigate2"); 
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_deleterecord)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_deleterecord)
 	{
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -99,7 +121,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_undodelete)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_undodelete)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -116,13 +138,13 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 	
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_foo)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_foo)
 	{
 		CSearchWindow window ;
 		_bstr_t url = L"foo" ;
 		BOOST_CHECK(window.OnBeforeNavigate2(url)) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_deleterecord)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_deleterecord)
 	{
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -142,7 +164,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(0u, mem->size()) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_deleterecord_page_stays_same)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_deleterecord_page_stays_same)
 	{
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -170,7 +192,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_undodelete)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_undodelete)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -185,13 +207,13 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(L"foo", mem->get_record_at(0)->get_source_rich()) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_pound)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_pound)
 	{
 		CSearchWindow window ;
 		_bstr_t url = L"foo#" ;
 		BOOST_CHECK(! window.OnBeforeNavigate2(url)) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_save_results)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_save_results)
 	{
 		FrameListenerFake listener ;
 		CSearchWindow window(&listener) ;
@@ -208,7 +230,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 	}
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_delete_results)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_delete_results)
 	{
 		FrameListenerFake listener ;
 		CSearchWindow window(&listener) ;
@@ -221,7 +243,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "delete_results"); 
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "CSearchWindow::show_search_page"); 
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_delete_results_message)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_delete_results_message)
 	{
 		FrameListenerFake listener ;
 		CSearchWindow window(&listener) ;
@@ -234,7 +256,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	//////////////////////////////////////////////////////////////////////////
 	// Sense url nav for replace window
 	//////////////////////////////////////////////////////////////////////////
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_gotoreplace)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_gotoreplace)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -247,7 +269,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "CSearchWindow::set_filterbox_text"); 
 	}
 
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_replace_find)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_replace_find)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -259,7 +281,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "CSearchWindow::OnBeforeNavigate2"); 
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "handle_replace_find"); 
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_replace_replace)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_replace_replace)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -271,7 +293,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "CSearchWindow::OnBeforeNavigate2"); 
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "handle_replace_replace"); 
 	}
-	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_replace_all)
+	BOOST_AUTO_TEST_CASE(test_OnBeforeNavigate2_sense_replace_all)
 	{
 		CSearchWindow window ;
 		add_controller(window, L"foo", L"bar") ;
@@ -285,7 +307,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 
 	// handlers
-	BOOST_AUTO_TEST_CASE( get_search_matches)
+	BOOST_AUTO_TEST_CASE(get_search_matches)
 	{
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
@@ -304,7 +326,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		search_match_ptr match = matches[0] ;
 		BOOST_CHECK_EQUAL(L"foo", match->get_record()->get_source_rich()) ;
 	}
-	BOOST_AUTO_TEST_CASE( handle_deleterecord)
+	BOOST_AUTO_TEST_CASE(handle_deleterecord)
 	{
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
@@ -330,7 +352,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(0u, mem->size()) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( handle_editrecord_page_stays_same)
+	BOOST_AUTO_TEST_CASE(handle_editrecord_page_stays_same)
 	{
 		CSearchWindow window ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
@@ -358,7 +380,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 
-	BOOST_AUTO_TEST_CASE( delete_record)
+	BOOST_AUTO_TEST_CASE(delete_record)
 	{
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
@@ -407,7 +429,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 
 	// message processing
-	BOOST_AUTO_TEST_CASE( test_message_WM_CREATE)
+	BOOST_AUTO_TEST_CASE(test_message_WM_CREATE)
 	{
 		CSearchWindow window ;
 		LRESULT lResult = 1 ;
@@ -416,7 +438,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "OnCreate"); 
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_DESTROY)
+	BOOST_AUTO_TEST_CASE(test_message_WM_DESTROY)
 	{
 		CSearchWindow window ;
 		LRESULT lResult = 1 ;
@@ -425,7 +447,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL( window.m_sensing_variable[0], "OnDestroy"); 
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_SIZE)
+	BOOST_AUTO_TEST_CASE(test_message_WM_SIZE)
 	{
 		CSearchWindow window ;
 		LRESULT lResult = 1 ;
@@ -440,7 +462,7 @@ BOOST_AUTO_TEST_SUITE( test_perform_replace )
 
 	using namespace mem_engine ;
 		// perform_replace
-	BOOST_AUTO_TEST_CASE( source_spam_to_ham)
+	BOOST_AUTO_TEST_CASE(source_spam_to_ham)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;
@@ -462,7 +484,7 @@ BOOST_AUTO_TEST_SUITE( test_perform_replace )
 		BOOST_CHECK_EQUAL(L"ham", rec->get_source_rich()) ;
 		BOOST_CHECK_EQUAL(L"spam", rec->get_trans_rich()) ;
 	}
-	BOOST_AUTO_TEST_CASE( trans_spam_to_ham)
+	BOOST_AUTO_TEST_CASE(trans_spam_to_ham)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;
@@ -484,7 +506,7 @@ BOOST_AUTO_TEST_SUITE( test_perform_replace )
 		BOOST_CHECK_EQUAL(L"spam", rec->get_source_rich()) ;
 		BOOST_CHECK_EQUAL(L"ham", rec->get_trans_rich()) ;
 	}
-	BOOST_AUTO_TEST_CASE( both_spam_to_ham)
+	BOOST_AUTO_TEST_CASE(both_spam_to_ham)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;

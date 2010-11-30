@@ -10,7 +10,7 @@
 #include "numberfmt.h"
 #include "system_message.h"
 #include "memory_local.h"
-
+#include "matcher.h"
 #include "action_delete_entry.h"
 #include "action_delete_matches.h"
 
@@ -20,7 +20,7 @@
 #endif
 
 using namespace mem_engine ;
-
+using namespace mem_search ;
 
 // for displaying search results in HTML view
 wstring escape_entities(const wstring text)
@@ -387,10 +387,12 @@ void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem,
 											 const wstring replace_from, 
 											 mem_engine::search_match_container &matchset )
 {
+	matcher_ptr matcher = get_matcher(replace_from) ;
+	m_search_runner.set_matchers() ;
 	foreach(record_pointer rec, mem->get_records())
 	{
 		if (m_search_runner.is_match(rec) 
-			&& m_search_runner.term_matches(rec, replace_from))
+			&& matcher->is_match(rec))
 		{
 			search_match_ptr match(mem->make_match()) ;
 			match->set_record(rec) ;

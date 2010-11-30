@@ -4,16 +4,13 @@
 #include "MemoryManagerDlg.h"
 #include "numberfmt.h"
 #include "SearchWindow.h"
-
+#include "query.h"
 namespace mgrview
 {
 
 	wstring get_memname(mem_engine::memory_pointer mem)
 	{
-		file::CPath path(mem->get_location()) ;
-		path.StripPath() ;
-		path.RemoveExtension() ;
-		return wstring((LPCWSTR)path.Path()) ;
+		return mem_engine::get_fname_from_loc(static_cast<const wchar_t *>(mem->get_location())) ;
 	}
 
 	void mgrview::ManagerView::set_view( view_interface *view )
