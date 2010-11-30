@@ -3,6 +3,8 @@
 #include "record_local.h"
 #include "replacer.h"
 #include "matcher.h"
+#include "memory_local.h"
+
 #ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
@@ -922,8 +924,8 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( match_filters_test )
 
-using namespace mem_search ;
-using namespace mem_engine ;
+	using namespace mem_search ;
+	using namespace mem_engine ;
 
 	//////////////////////////////////////////////////////////////////////////
 	// match_filters
@@ -983,6 +985,38 @@ using namespace mem_engine ;
 
 		runner.set_matchers(); 
 		BOOST_CHECK(!runner.is_match(rec)) ;
+	}
+	// is_wanted_mem
+	BOOST_AUTO_TEST_CASE(is_wanted_mem_both_empty)
+	{
+		search_runner runner ;
+		memory_pointer mem(new memory_local) ;
+		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
+	}
+	BOOST_AUTO_TEST_CASE(is_wanted_mem_required_empty)
+	{
+		search_runner runner ;
+		memory_pointer mem(new memory_local) ;
+		mem->set_location(L"spam.ftm") ;
+		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
+	}
+	BOOST_AUTO_TEST_CASE(is_wanted_true)
+	{
+		search_runner runner ;
+		runner.add_term(L"mem:spam") ;
+		memory_pointer mem(new memory_local) ;
+		mem->set_location(L"spam.ftm") ;
+		runner.set_matchers() ;
+		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
+	}
+	BOOST_AUTO_TEST_CASE(is_wanted_false)
+	{
+		search_runner runner ;
+		runner.add_term(L"mem:spam") ;
+		memory_pointer mem(new memory_local) ;
+		mem->set_location(L"ham.ftm") ;
+		runner.set_matchers() ;
+		BOOST_CHECK(!runner.is_wanted_mem(mem)) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

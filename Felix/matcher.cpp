@@ -280,155 +280,163 @@ namespace mem_search
 			return matcher_ptr(new matcher_nullop) ;
 		}
 
-		if (boost::starts_with(query, CREATED_TAG)
-			|| boost::starts_with(query, CREATED_ON_TAG)
-			|| boost::starts_with(query, CREATED_LT_TAG)
-			|| boost::starts_with(query, CREATED_GT_TAG))
+		try
 		{
-			size_t pos = query.find(L':') ;
-			date_compare comparator = get_date_compare(query.substr(0, pos)) ;
-			date compare_date ;
-			try
+			if (boost::starts_with(query, CREATED_TAG)
+				|| boost::starts_with(query, CREATED_ON_TAG)
+				|| boost::starts_with(query, CREATED_LT_TAG)
+				|| boost::starts_with(query, CREATED_GT_TAG))
 			{
-				mod_date(compare_date, query.substr(pos+1)) ;
+				size_t pos = query.find(L':') ;
+				date_compare comparator = get_date_compare(query.substr(0, pos)) ;
+				date compare_date ;
+				try
+				{
+					mod_date(compare_date, query.substr(pos+1)) ;
+				}
+				catch (std::exception& e)
+				{
+					logging::log_warn("error parsing date: " + string2string(query)) ;
+					logging::log_warn(e.what()) ;
+					return matcher_ptr(new matcher_nullop(false)) ;
+				}
+				if (! compare_date.wYear)
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				return matcher_ptr(new matcher_created(compare_date, comparator)) ;
 			}
-			catch (std::exception& e)
+			if (boost::starts_with(query, MODIFIED_TAG)
+				|| boost::starts_with(query, MODIFIED_ON_TAG)
+				|| boost::starts_with(query, MODIFIED_LT_TAG)
+				|| boost::starts_with(query, MODIFIED_GT_TAG))
 			{
-				logging::log_warn("error parsing date: " + string2string(query)) ;
-				logging::log_warn(e.what()) ;
-				return matcher_ptr(new matcher_nullop(false)) ;
+				size_t pos = query.find(L':') ;
+				date_compare comparator = get_date_compare(query.substr(0, pos)) ;
+				date compare_date ;
+				try
+				{
+					mod_date(compare_date, query.substr(pos+1)) ;
+				}
+				catch (std::exception& e)
+				{
+					logging::log_warn("error parsing date: " + string2string(query)) ;
+					logging::log_warn(e.what()) ;
+					return matcher_ptr(new matcher_nullop(false)) ;
+				}
+				if (! compare_date.wYear)
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}			
+				return matcher_ptr(new matcher_modified(compare_date, comparator)) ;
 			}
-			if (! compare_date.wYear)
-			{
-				return matcher_ptr(new matcher_nullop) ;
-			}
-			return matcher_ptr(new matcher_created(compare_date, comparator)) ;
-		}
-		if (boost::starts_with(query, MODIFIED_TAG)
-			|| boost::starts_with(query, MODIFIED_ON_TAG)
-			|| boost::starts_with(query, MODIFIED_LT_TAG)
-			|| boost::starts_with(query, MODIFIED_GT_TAG))
-		{
-			size_t pos = query.find(L':') ;
-			date_compare comparator = get_date_compare(query.substr(0, pos)) ;
-			date compare_date ;
-			try
-			{
-				mod_date(compare_date, query.substr(pos+1)) ;
-			}
-			catch (std::exception& e)
-			{
-				logging::log_warn("error parsing date: " + string2string(query)) ;
-				logging::log_warn(e.what()) ;
-				return matcher_ptr(new matcher_nullop(false)) ;
-			}
-			if (! compare_date.wYear)
-			{
-				return matcher_ptr(new matcher_nullop) ;
-			}			
-			return matcher_ptr(new matcher_modified(compare_date, comparator)) ;
-		}
 
-		if (boost::starts_with(query, VALIDATED_TAG))
-		{
-			wstring rhs = replacer::getrest(query, VALIDATED_TAG) ;
-			boost::trim(rhs) ;
-			if (rhs.empty())
+			if (boost::starts_with(query, VALIDATED_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				wstring rhs = replacer::getrest(query, VALIDATED_TAG) ;
+				boost::trim(rhs) ;
+				if (rhs.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				bool val = string2bool(rhs) ;
+				return matcher_ptr(new matcher_validated(val)) ;
 			}
-			bool val = string2bool(rhs) ;
-			return matcher_ptr(new matcher_validated(val)) ;
-		}
 
-		if (boost::starts_with(query, RELIABILITY_TAG)
-			|| boost::starts_with(query, RELIABILITY_LT_TAG)
-			|| boost::starts_with(query, RELIABILITY_LTE_TAG)
-			|| boost::starts_with(query, RELIABILITY_GT_TAG)
-			|| boost::starts_with(query, RELIABILITY_GTE_TAG))
-		{
-			size_t pos = query.find(L':') ;
-			num_compare comparator = get_num_compare(query.substr(0, pos)) ;
-			wstring rhs = query.substr(pos+1) ;
-			if (rhs.empty())
+			if (boost::starts_with(query, RELIABILITY_TAG)
+				|| boost::starts_with(query, RELIABILITY_LT_TAG)
+				|| boost::starts_with(query, RELIABILITY_LTE_TAG)
+				|| boost::starts_with(query, RELIABILITY_GT_TAG)
+				|| boost::starts_with(query, RELIABILITY_GTE_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				size_t pos = query.find(L':') ;
+				num_compare comparator = get_num_compare(query.substr(0, pos)) ;
+				wstring rhs = query.substr(pos+1) ;
+				if (rhs.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				size_t num = parse_num(rhs) ;
+				return matcher_ptr(new matcher_reliability(num, comparator)) ;
 			}
-			size_t num = parse_num(rhs) ;
-			return matcher_ptr(new matcher_reliability(num, comparator)) ;
-		}
-		if (boost::starts_with(query, REFCOUNT_TAG)
-			|| boost::starts_with(query, REFCOUNT_LT_TAG)
-			|| boost::starts_with(query, REFCOUNT_LTE_TAG)
-			|| boost::starts_with(query, REFCOUNT_GT_TAG)
-			|| boost::starts_with(query, REFCOUNT_GTE_TAG))
-		{
-			size_t pos = query.find(L':') ;
-			num_compare comparator = get_num_compare(query.substr(0, pos)) ;
-			wstring rhs = query.substr(pos+1) ;
-			if (rhs.empty())
+			if (boost::starts_with(query, REFCOUNT_TAG)
+				|| boost::starts_with(query, REFCOUNT_LT_TAG)
+				|| boost::starts_with(query, REFCOUNT_LTE_TAG)
+				|| boost::starts_with(query, REFCOUNT_GT_TAG)
+				|| boost::starts_with(query, REFCOUNT_GTE_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				size_t pos = query.find(L':') ;
+				num_compare comparator = get_num_compare(query.substr(0, pos)) ;
+				wstring rhs = query.substr(pos+1) ;
+				if (rhs.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				size_t num = parse_num(rhs) ;
+				return matcher_ptr(new matcher_refcount(num, comparator)) ;
 			}
-			size_t num = parse_num(rhs) ;
-			return matcher_ptr(new matcher_refcount(num, comparator)) ;
-		}
-		// text tags
-		if (boost::starts_with(query, SOURCE_TAG))
-		{
-			wstring rest = replacer::getrest(query, SOURCE_TAG) ;
-			if (rest.empty())
+			// text tags
+			if (boost::starts_with(query, SOURCE_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				wstring rest = replacer::getrest(query, SOURCE_TAG) ;
+				if (rest.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				text_cmp_result result = get_text_compare(rest) ;
+				return matcher_ptr(new matcher_source(result.first, result.second)) ;
 			}
-			text_cmp_result result = get_text_compare(rest) ;
-			return matcher_ptr(new matcher_source(result.first, result.second)) ;
-		}
-		if (boost::starts_with(query, TRANS_TAG))
-		{
-			wstring rest = replacer::getrest(query, TRANS_TAG) ;
-			if (rest.empty())
+			if (boost::starts_with(query, TRANS_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				wstring rest = replacer::getrest(query, TRANS_TAG) ;
+				if (rest.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				text_cmp_result result = get_text_compare(rest) ;
+				return matcher_ptr(new matcher_trans(result.first, result.second)) ;
 			}
-			text_cmp_result result = get_text_compare(rest) ;
-			return matcher_ptr(new matcher_trans(result.first, result.second)) ;
-		}
-		if (boost::starts_with(query, CONTEXT_TAG))
-		{
-			wstring rest = replacer::getrest(query, CONTEXT_TAG) ;
-			if (rest.empty())
+			if (boost::starts_with(query, CONTEXT_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				wstring rest = replacer::getrest(query, CONTEXT_TAG) ;
+				if (rest.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				text_cmp_result result = get_text_compare(rest) ;
+				return matcher_ptr(new matcher_context(result.first, result.second)) ;
 			}
-			text_cmp_result result = get_text_compare(rest) ;
-			return matcher_ptr(new matcher_context(result.first, result.second)) ;
-		}
-		if (boost::starts_with(query, CREATED_BY_TAG))
-		{
-			wstring rest = replacer::getrest(query, CREATED_BY_TAG) ;
-			if (rest.empty())
+			if (boost::starts_with(query, CREATED_BY_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
-			}
-			text_cmp_result result = get_text_compare(rest) ;
-			return matcher_ptr(new matcher_created_by(result.first, result.second)) ;
-		}		
-		if (boost::starts_with(query, MODIFIED_BY_TAG))
-		{
-			wstring rest = replacer::getrest(query, MODIFIED_BY_TAG) ;
-			if (rest.empty())
+				wstring rest = replacer::getrest(query, CREATED_BY_TAG) ;
+				if (rest.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				text_cmp_result result = get_text_compare(rest) ;
+				return matcher_ptr(new matcher_created_by(result.first, result.second)) ;
+			}		
+			if (boost::starts_with(query, MODIFIED_BY_TAG))
 			{
-				return matcher_ptr(new matcher_nullop) ;
+				wstring rest = replacer::getrest(query, MODIFIED_BY_TAG) ;
+				if (rest.empty())
+				{
+					return matcher_ptr(new matcher_nullop) ;
+				}
+				text_cmp_result result = get_text_compare(rest) ;
+				return matcher_ptr(new matcher_modified_by(result.first, result.second)) ;
 			}
-			text_cmp_result result = get_text_compare(rest) ;
-			return matcher_ptr(new matcher_modified_by(result.first, result.second)) ;
-		}
-		// search in source, trans, and context fields
+			// search in source, trans, and context fields
 
-		text_cmp_result result = get_text_compare(query) ;
-		return matcher_ptr(new matcher_generic(result.first, result.second)) ;
+			text_cmp_result result = get_text_compare(query) ;
+			return matcher_ptr(new matcher_generic(result.first, result.second)) ;
 
+		}
+		catch (std::exception& e)
+		{
+			logging::log_warn("Failed to parse search term") ;
+			logging::log_warn(e.what()) ;
+			return matcher_ptr(new matcher_nullop(false)) ;
+		}
 	}
-
 }

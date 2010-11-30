@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(15, (int)window.get_pos_arg(url)) ;
 	}
 
-
+	// get_replace_matches_mem
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_0)
 	{
 		CSearchWindow window ;

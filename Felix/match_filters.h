@@ -9,14 +9,12 @@ namespace mem_search
 {
 	using namespace mem_engine ;
 
-
-	bool textfield_match( const wstring needle, const wstring haystack ) ;
-
 	// This class runs searches using the search terms provided.
 	class search_runner
 	{
 		std::vector<wstring> m_terms ;
 		std::vector<matcher_ptr> m_matchers ;
+		wstring m_required_name ;
 
 	public:
 		// term management...
@@ -29,12 +27,9 @@ namespace mem_search
 		void get_matches(memory_pointer mem, search_match_container& matches);
 
 		void set_matchers();
+		bool is_wanted_mem(memory_pointer mem);
 		// Does the record match our terms?
 		bool is_match(const record_pointer rec) const;
-		// Does the record match a given search term?
-		bool term_matches(const record_pointer rec, const wstring term) const;
-
-		bool textfield_name_match( const wstring &term, const wstring &tag, const wstring haystack ) const;
 
 	};
 

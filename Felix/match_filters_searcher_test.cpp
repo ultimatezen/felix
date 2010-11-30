@@ -91,6 +91,35 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
 	}
 
+	BOOST_AUTO_TEST_CASE(one_record_match_term_plus_mem_name)
+	{
+		memory_pointer mem(new memory_local(0.0f)) ;
+		mem->set_location(L"spam.ftm") ;
+
+		search_match_container matches ;
+		search_runner searcher ;
+		searcher.add_term(L"source") ;
+		searcher.add_term(L"mem:spam") ;
+
+		add_record_searcher(mem, "source", "trans", "context") ;
+		searcher.get_matches(mem, matches) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(one_record_match_term_plus_gloss_name)
+	{
+		memory_pointer mem(new memory_local(0.0f)) ;
+		mem->set_location(L"spam.ftm") ;
+
+		search_match_container matches ;
+		search_runner searcher ;
+		searcher.add_term(L"source") ;
+		searcher.add_term(L"gloss:spam") ;
+
+		add_record_searcher(mem, "source", "trans", "context") ;
+		searcher.get_matches(mem, matches) ;
+		BOOST_CHECK_EQUAL(1, static_cast<int>(matches.size())) ;
+	}
 	BOOST_AUTO_TEST_CASE(one_record_one_term_nomatch)
 	{
 		memory_pointer mem(new memory_local(0.0f)) ;
@@ -98,6 +127,21 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 		search_match_container matches ;
 		search_runner searcher ;
 		searcher.add_term(L"eggs") ;
+
+		add_record_searcher(mem, "source", "trans", "context") ;
+		searcher.get_matches(mem, matches) ;
+		BOOST_CHECK_EQUAL(0, static_cast<int>(matches.size())) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(one_record_nomatch_term_plus_mem_name)
+	{
+		memory_pointer mem(new memory_local(0.0f)) ;
+		mem->set_location(L"spam.ftm") ;
+
+		search_match_container matches ;
+		search_runner searcher ;
+		searcher.add_term(L"source") ;
+		searcher.add_term(L"mem:ham") ;
 
 		add_record_searcher(mem, "source", "trans", "context") ;
 		searcher.get_matches(mem, matches) ;
