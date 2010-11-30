@@ -207,6 +207,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(listener.m_sensing_variable[0], "save_memory_as"); 
 
 	}
+
 	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_sense_delete_results)
 	{
 		FrameListenerFake listener ;
@@ -219,6 +220,16 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "CSearchWindow::OnBeforeNavigate2"); 
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "delete_results"); 
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[2], "CSearchWindow::show_search_page"); 
+	}
+	BOOST_AUTO_TEST_CASE( test_OnBeforeNavigate2_delete_results_message)
+	{
+		FrameListenerFake listener ;
+		CSearchWindow window(&listener) ;
+		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+
+		_bstr_t url = L"/delete_results" ;
+		window.OnBeforeNavigate2(url) ;
+		BOOST_CHECK_EQUAL(window.m_message, L"Performed action [Delete Matches]. <a href=\"/start/undo\">Undo</a>"); 
 	}
 	//////////////////////////////////////////////////////////////////////////
 	// Sense url nav for replace window
@@ -372,8 +383,27 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		BOOST_CHECK_EQUAL(0u, matches.size()) ;
 		BOOST_CHECK_EQUAL(0u, mem->size()) ;
 	}
+	BOOST_AUTO_TEST_CASE(delete_record_message)
+	{
+		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 
+		CSearchWindow window ;
+		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"foo") ;
+		rec->set_trans(L"bar") ;
+		mem->add_record(rec) ;
+		window.m_search_runner.add_term(L"foo") ;
 
+		match_vec matches_before ;
+		window.get_search_matches(matches_before) ;
+		BOOST_CHECK_EQUAL(1u, matches_before.size()) ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+
+		window.delete_record(matches_before[0]) ;
+
+		BOOST_CHECK_EQUAL(window.m_message, L"Deleted record (<a href=\"/undodelete\">Undo</a>)"); 
+	}
 
 
 	// message processing
