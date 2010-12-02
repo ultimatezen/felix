@@ -110,7 +110,7 @@ namespace mem_engine
 		record->set_cmp_maker(m_cmp_maker) ;
 
 		// returns iterator for next pos, and whether record was inserted.
-		const std::pair< iterator_type, bool > res = m_records.insert( record ) ;
+		const std::pair< record_iterator, bool > res = m_records.insert( record ) ;
 
 		const bool was_added = res.second ;
 		if ( was_added ) 

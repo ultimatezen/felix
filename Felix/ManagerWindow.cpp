@@ -28,6 +28,7 @@
 // undoable actions
 #include "action_strip_tags.h"
 #include "action_trim_spaces.h"
+#include "action_delete_entry.h"
 
 #include "input_device_file.h"
 
@@ -37,6 +38,7 @@
 #endif
 
 using namespace mem_engine ;
+using namespace action ;
 
 CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, FrameListener *listener) : 
 	m_listener(listener),
@@ -259,7 +261,16 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return edit_record(tokens) ;
 		}
-
+		if (tokens[0] == "undo_delete")
+		{
+			undo_delete_record();
+			return true ;
+		}
+		if (tokens[0] == "redo_delete")
+		{
+			redo_delete_record();
+			return true ;
+		}
 		// navigate to url (quick and dirty...)
 		if (boost::ends_with(url, L".html"))
 		{
@@ -308,15 +319,6 @@ void CManagerWindow::set_gloss_model(FelixModelInterface *model)
 	m_gloss_model = model ;
 }
 
-
-/*
- Undo the deleted record and recover it.
- */
-void CManagerWindow::handle_undodelete( doc3_wrapper_ptr doc )
-{
-	SENSE("handle_undodelete") ;
-	doc ;
-}
 
 
 /*
@@ -485,19 +487,27 @@ bool CManagerWindow::nav_browse_page(const std::vector<string> &tokens)
 	return true ;
 }
 
+// href="/{$index}/{$memtype}/{$record.num0}/deleterecord" (reversed)
 bool CManagerWindow::delete_record( const std::vector<string> &tokens )
 {
 	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
 
-	mem_engine::memory_pointer mem = get_mem(tokens[2],
-											 boost::lexical_cast<size_t>(tokens[3]));
+	memory_pointer mem = get_mem(tokens[2],
+								 boost::lexical_cast<size_t>(tokens[3]));
 
-	mem->erase(mem->get_record_at(record_number)) ;
+	record_pointer rec = mem->get_record_at(record_number) ;
+	m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
+	m_undo->redo() ;
+	string link = "\"/browse/undo_delete\"" ;
+	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
+									CString(m_undo->name().c_str()), 
+									CString(link.c_str()));
+	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
 	m_current_state->show_content() ;
 	return true ;
 }
 
-// href="/{$index}/{$memtype}/{$record.num0}/editrecord"
+// href="/{$index}/{$memtype}/{$record.num0}/editrecord" (reversed)
 bool CManagerWindow::edit_record( const std::vector<string> &tokens )
 {
 	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
@@ -1050,11 +1060,11 @@ void CManagerWindow::set_undo_action(const string &action, const string &memtype
 
 	if (action == ACTION_NAME_TRIM)
 	{
-		this->m_undo = action::undo_action_ptr(new action::TrimSpacesAction(mem)) ;
+		this->m_undo = undo_action_ptr(new TrimSpacesAction(mem)) ;
 	}
 	else if (action == ACTION_NAME_STRIP)
 	{
-		this->m_undo = action::undo_action_ptr(new action::StripTagsAction(mem)) ;
+		this->m_undo = undo_action_ptr(new StripTagsAction(mem)) ;
 	}
 }
 
@@ -1063,4 +1073,26 @@ wstring CManagerWindow::get_message()
 	wstring message = m_message ;
 	m_message.clear() ;
 	return message ;
+}
+
+void CManagerWindow::undo_delete_record()
+{
+	m_undo->undo() ;
+	string link = "\"/browse/redo_delete\"" ;
+	CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, 
+		CString(m_undo->name().c_str()), 
+		CString(link.c_str()));
+	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+	m_current_state->show_content() ;
+}
+
+void CManagerWindow::redo_delete_record()
+{
+	m_undo->redo() ;
+	string link = "\"/browse/undo_delete\"" ;
+	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
+		CString(m_undo->name().c_str()), 
+		CString(link.c_str()));
+	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+	m_current_state->show_content() ;
 }

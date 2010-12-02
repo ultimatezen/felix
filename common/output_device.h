@@ -5,6 +5,7 @@
 class OutputDevice
 {
 public:
+	virtual ~OutputDevice(){}
 	virtual void write(const char* text, size_t len) = 0 ;
 	virtual void write(const string &text) = 0 ;
 	virtual void write(const wstring text) = 0 ;

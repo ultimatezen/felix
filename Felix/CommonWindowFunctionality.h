@@ -256,6 +256,8 @@ public:
 	CString get_save_destination();
 
 	void save_all_memories();
+	void export_tabbed_text( CString file_name, mem_engine::memory_pointer mem );
+	void export_excel( CString file_name, mem_engine::memory_pointer mem );
 
 	void save_window_settings( LPCTSTR key_name );
 	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg ) ;

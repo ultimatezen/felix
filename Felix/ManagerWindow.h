@@ -99,6 +99,8 @@ public:
 	// return true to cancel!
 	bool OnBeforeNavigate2(_bstr_t url);
 
+	void redo_delete_record();
+	void undo_delete_record();
 	void handle_undodelete(doc3_wrapper_ptr doc);
 
 

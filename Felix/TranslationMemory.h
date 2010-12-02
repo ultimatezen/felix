@@ -58,7 +58,7 @@ struct translation_record_compare
 
 
 typedef std::set < record_pointer, translation_record_compare > trans_set ;
-typedef std::set < record_pointer, translation_record_compare >:: iterator record_iterator ;
+typedef std::set < record_pointer, translation_record_compare >::iterator record_iterator ;
 
 static const int ALL_MEMORIES = 1 ;
 
@@ -103,6 +103,7 @@ VISIBLE_TO_TESTS
 	CmpMaker			m_cmp_maker ;
 
 public:
+
 #ifdef UNIT_TEST
 	bool m_throw_exception ;
 #endif
@@ -146,7 +147,6 @@ public:
 
 	bool is_demo() const;
 	void refresh_status();
-	typedef trans_set::iterator	iterator_type ;
 
 	void set_minimum_score(const size_t score);
 

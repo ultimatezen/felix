@@ -43,8 +43,8 @@ namespace mem_engine
 
 		  bool should_check_for_demo() const ;
 		  trans_set& get_records() {return m_records ; }
-		  iterator_type begin( ) { return m_records.begin() ; }
-		  iterator_type end( ) { return m_records.end() ; }
+		  record_iterator begin( ) { return m_records.begin() ; }
+		  record_iterator end( ) { return m_records.end() ; }
 
 		  size_t get_next_id();
 		  size_t size() ;

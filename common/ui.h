@@ -51,14 +51,16 @@ inline LPCTSTR get_gloss_save_filter()
 		_T("XML File (*.xml)\0*.xml\0")
 		_T("Multiterm 5.5 (*.txt)\0*.txt\0")
 		_T("Multiterm 6.0 (*.txt)\0*.txt\0")
-		_T("Excel File (*.xls)\0*.xls\0") ;
+		_T("Excel File (*.xls)\0*.xls\0") 
+		_T("Tab-separated Text File (*.txt)\0*.txt\0") ;
 
 	static LPCTSTR glossary_file_filter_japanese = 
 		_T("Felix 用語集 (*.fgloss)\0*.fgloss\0")
 		_T("XML ファイル (*.xml)\0*.xml\0")
 		_T("マルチターム(Multiterm) 5.5 (*.txt)\0*.txt\0")
 		_T("マルチターム(Multiterm) 6.0 (*.txt)\0*.txt\0")
-		_T("エクセルファイル (*.xls)\0*.xls\0") ;
+		_T("エクセルファイル (*.xls)\0*.xls\0") 
+		_T("タブ区切りテキスト (*.txt)\0*.txt\0") ;
 
 	if (boost::icontains(_Module.get_library(), _T("j")))
 	{
@@ -93,14 +95,16 @@ inline LPCTSTR get_mem_save_filter()
 		_T("XML File (*.xml)\0*.xml\0")
 		_T("TMX File (*.tmx)\0*.tmx\0")
 		_T("Trados Text File (*.txt)\0*.txt\0") 
-		_T("Excel File (*.xls)\0*.xls\0") ;
+		_T("Excel File (*.xls)\0*.xls\0") 
+		_T("Tab-separated Text File (*.txt)\0*.txt\0") ;
 
 	static LPCTSTR memory_file_save_filter_japanese = 
 		_T("Felix TMファイル (*.ftm)\0*.ftm\0")
 		_T("XML ファイル (*.xml)\0*.xml\0")
 		_T("TMX ファイル (*.tmx)\0*.tmx\0")
 		_T("トラドス(Trados)テキストファイル (*.txt)\0*.txt\0") 
-		_T("エクセルファイル (*.xls)\0*.xls\0") ;
+		_T("エクセルファイル (*.xls)\0*.xls\0") 
+		_T("タブ区切りテキスト (*.txt)\0*.txt\0") ;
 
 	if (boost::icontains(_Module.get_library(), _T("j")))
 	{

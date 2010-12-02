@@ -38,8 +38,6 @@ CExcelExporter::~CExcelExporter(void)
 void CExcelExporter::export_excel(memory_pointer mem, const CString mem_name, input_device_ptr input)
 {
 	m_listener->OnProgressInit( mem_name, 1, mem->size() ) ;
-
-	CTranslationMemory::iterator_type pos ;
 	
 	write_header() ;
 

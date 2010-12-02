@@ -1694,6 +1694,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\export_tabbed_text_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\extrastringsview_test.cpp"
 					>
 				</File>
@@ -2258,6 +2262,10 @@
 							BrowseInformation="1"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\export_tabbed_text.cpp"
+					>
 				</File>
 				<File
 					RelativePath=".\TmxImportLangsDlg.cpp"
@@ -3090,6 +3098,10 @@
 				</File>
 				<File
 					RelativePath=".\ExcelExporter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\export_tabbed_text.h"
 					>
 				</File>
 				<File

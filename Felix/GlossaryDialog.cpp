@@ -23,7 +23,6 @@
 #include "NumberFmt.h"
 #include "xpmenu/Tools.h"		// CWindowRect
 
-#include "ExcelExporter.h"
 #include "stringconversions.h"
 #include "text_templates.h"
 #include "ConnectionDlg.h"
@@ -34,8 +33,8 @@
 #include "record_local.h"
 #include "ConcordanceDialog.h"
 #include "TabbedTextImporter.h"
-#include "ExcelInterfaceReal.h"
 #include "input_device_file.h"
+#include "output_device.h"
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 
@@ -376,9 +375,7 @@ void CGlossaryDialog::do_save( memory_pointer mem )
 			{
 				if ( ext.equals( _T(".xls" ) ) ) 
 				{
-					CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
-						ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-					exporter.export_excel( mem, mem->get_location(), get_input_device() ) ; 
+					export_excel(mem->get_location(), mem) ;
 				}
 				else
 				{
@@ -2249,17 +2246,17 @@ void CGlossaryDialog::set_menu_checkmark( int item_id, bool is_checked )
 
 void CGlossaryDialog::save_memory_as( memory_pointer mem )
 {
-	CString file_name ;
+	CString original_file_name ;
 	if ( mem->is_new() == false )
 	{
-		file_name = mem->get_location() ;
+		original_file_name = mem->get_location() ;
 	}
 
 	save_file_dlg dialog ;
 
-	if ( ! file_name.IsEmpty() ) 
+	if ( ! original_file_name.IsEmpty() ) 
 	{
-		file::CPath path( file_name ) ;
+		file::CPath path( original_file_name ) ;
 		path.RemoveExtension() ;
 		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
 	}
@@ -2281,7 +2278,7 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 
 	switch( selected_index ) 
 	{
-	case 1: case 6:
+	case 1: case 7:
 		logging::log_debug("Saving glossary as fgloss file") ;
 		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		break;
@@ -2305,11 +2302,13 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 
 	case 5:
 		{
-			logging::log_debug("Exporting glossary as Excel workbook") ;
-			fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter( static_cast< CProgressListener* >( this ),
-				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_memories->get_first_memory(), save_as_file_name, get_input_device() ) ;
+			export_excel(save_as_file_name, mem);
+			return ;
+		}
+
+	case 6:
+		{
+			export_tabbed_text(save_as_file_name, mem);
 			return ;
 		}
 
@@ -2361,3 +2360,4 @@ void CGlossaryDialog::open_mru_file( WORD wID, input_device_ptr input )
 		throw ;
 	}
 }
+

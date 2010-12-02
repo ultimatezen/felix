@@ -6,6 +6,10 @@
 #include "DemoException.h"
 #include "xpmenu/Tools.h"		// CWindowRect
 #include "record_local.h"
+#include "FileOpHandler.h"
+#include "export_tabbed_text.h"
+#include "ExcelExporter.h"
+#include "ExcelInterfaceReal.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -1106,4 +1110,34 @@ void CCommonWindowFunctionality::raise()
 	// that it's not pegged to the top
 	this->SetWindowPos(HWND_TOPMOST, &rect, flags) ;
 	this->SetWindowPos(HWND_NOTOPMOST, &rect, flags) ;
+}
+
+
+void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::memory_pointer mem )
+{
+	logging::log_debug("Saving memory as Excel file") ;
+	fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
+	CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
+		ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
+	exporter.export_excel( mem, file_name, get_input_device() ) ;
+}
+
+void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, mem_engine::memory_pointer mem )
+{
+	logging::log_debug("Saving memory as tab-separated text file") ;
+	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
+	fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+	output_device_ptr output(new OutputDeviceFile) ;
+	output->open(save_as_file_name) ;
+	tabbed_export::TabbedTextExporter exporter(output) ;
+	exporter.write_memory(mem->get_records().begin(), mem->get_records().end()) ;
+	output->close() ;
+	CNumberFmt nf ;
+	CString feedback ;
+	file::CPath path(save_as_file_name) ;
+	path.StripPath() ;
+	feedback.FormatMessage( IDS_EXPORTED_RECORDS, 
+		nf.Format( mem->size() ), 
+		path.Path() ) ;
+	user_feedback( feedback ) ;
 }

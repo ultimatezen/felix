@@ -286,6 +286,7 @@ public:
 	LRESULT on_file_save_as(  ) ;
 
 	void save_memory_as( mem_engine::memory_pointer mem );
+
 	LRESULT on_memory_close();
 
 

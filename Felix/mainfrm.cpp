@@ -46,7 +46,6 @@
 #include "ContentPresenterSimple.h"
 #include "ContentPresenterAddedTrans.h"
 
-#include "ExcelExporter.h"
 #include "text_templates.h"
 #include "ConnectionDlg.h"
 #include "DemoException.h"
@@ -55,11 +54,11 @@
 #include "text_templates.h"
 #include "FelixMemDocUIHandler.h"
 #include "memory_local.h"
-#include "ExcelInterfaceReal.h"
 
 #include "cpptempl.h"
 #include <shellapi.h>
 #include "input_device_file.h"
+#include "output_device.h"
 
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
@@ -5067,7 +5066,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 
 	switch( selected_index ) 
 	{
-	case 1: case 6:
+	case 1: case 7:
 		logging::log_debug("Saving memory as ftm file") ;
 		fileops::addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
 		break;
@@ -5091,11 +5090,13 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 
 	case 5:
 		{
-			logging::log_debug("Saving memory as Excel file") ;
-			fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
-			CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
-				ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
-			exporter.export_excel( m_model->get_first_memory(), file_name, get_input_device() ) ;
+			export_excel(file_name, mem);
+			return ;
+		}
+
+	case 6:
+		{
+			export_tabbed_text(file_name, mem);
 			return ;
 		}
 
