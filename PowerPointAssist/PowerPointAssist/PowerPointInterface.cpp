@@ -595,7 +595,7 @@ HRESULT CPowerPointInterface::lookupNext()
 {
 	if (m_app->Active != Office::msoTrue )
 	{
-		return E_FAIL ;
+		return S_FALSE ;
 	}
 
 	if ( m_textRangeParser.selectNext() )
@@ -611,6 +611,10 @@ HRESULT CPowerPointInterface::lookupNext()
 	PowerPoint::TextRangePtr next_range = m_shapeParser.nextTextRange() ;
 	if (! next_range)
 	{
+		if (m_shapeParser.m_canceled_nav)
+		{
+			return S_FALSE ;
+		}
 		m_shapeParser.nextShape() ;
 		next_range = m_shapeParser.nextTextRange() ;
 	}

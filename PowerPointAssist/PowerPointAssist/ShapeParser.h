@@ -7,7 +7,9 @@
 
 class CShapeParser
 {
+
 public:
+	bool m_canceled_nav ;
 	CShapeParser(void);
 	~CShapeParser(void);
 

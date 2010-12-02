@@ -4,7 +4,7 @@
 #include "nav_query_dlg.h"
 
 CShapeNavigator::CShapeNavigator( )
-: m_lastWasNotesPage(false)
+: m_lastWasNotesPage(false), m_canceled_nav(false)
 {
 	m_properties.read_from_registry() ;
 	if (m_properties.m_data.m_navigation_type == NAV_TYPE_SLIDE_TOP)
@@ -25,7 +25,6 @@ CShapeNavigator::~CShapeNavigator(void)
 parsingStrategy CShapeNavigator::nextStrategy( )
 {
 	m_app = globalApp::get() ;
-
 	PowerPoint::SelectionPtr selection = getSelection() ;
 	TRACE(selection->Type) ;
 	switch( selection->Type )
@@ -61,6 +60,7 @@ parsingStrategy CShapeNavigator::nextStrategy( )
 
 parsingStrategy CShapeNavigator::getStrategyFromNextPane()
 {
+	m_canceled_nav = false ;
 	m_properties.read_from_registry() ;
 	int nav_pref = m_properties.get_navigation_type() ;
 
@@ -89,6 +89,7 @@ parsingStrategy CShapeNavigator::getStrategyFromNextPane()
 			}
 			else
 			{
+				m_canceled_nav = true ;
 				return NULL ;
 			}
 		} 
@@ -115,6 +116,7 @@ parsingStrategy CShapeNavigator::getStrategyFromNextPane()
 			}
 			else
 			{
+				m_canceled_nav = true ;
 				return NULL ;
 			}
 		}

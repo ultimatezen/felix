@@ -3,7 +3,7 @@
 #include "ShapeNavigator.h"
 
 CShapeParser::CShapeParser(void)
-: m_strategy(NULL)
+: m_strategy(NULL), m_canceled_nav(false)
 {
 }
 
@@ -70,6 +70,7 @@ bool CShapeParser::nextShape(void)
 	// navigate to the next shape
 	// get a new strategy based on the shape
 	m_strategy = m_navigator.nextStrategy() ;
+	m_canceled_nav = m_navigator.m_canceled_nav ;
 
 	return ! noStrategy() ;
 }

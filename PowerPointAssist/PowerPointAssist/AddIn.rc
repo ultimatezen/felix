@@ -164,6 +164,34 @@ BEGIN
 END
 
 
+IDD_NAV_QUERY_DLG DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "スライドの終わり"
+FONT 10, "ＭＳ Ｐゴシック", 400, 0, 0x80
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,122,135,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,178,135,50,14
+    LTEXT           "スライドの終わり",IDC_STATIC,21,17,205,13
+    CONTROL         "次のスライドに進む(&N)",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,49,110,14
+    CONTROL         "スライドの上部に戻る(&T)",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,66,122,14
+    GROUPBOX        "次のアクション",IDC_STATIC,21,40,139,46
+    CONTROL         "次回からこのダイアログを表示しない(&D)",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,98,155,15
+END
+
+IDD_NAV_QUERY_DLG_E DIALOGEX 0, 0, 223, 127
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "End of Slide Reached"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,113,106,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,167,106,50,14
+    LTEXT           "End of slide",IDC_STATIC,11,17,205,13
+    CONTROL         "&Next slide",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,43,76,14
+    CONTROL         "&Top of this slide",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,60,76,14
+    GROUPBOX        "Go To:",IDC_STATIC,21,34,117,46
+    CONTROL         "&Don't ask me again",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,86,155,15
+END
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -367,40 +395,6 @@ END
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(932)
 #endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_NAV_QUERY_DLG DIALOGEX 0, 0, 235, 156
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "スライドの終わり"
-FONT 10, "ＭＳ Ｐゴシック", 400, 0, 0x80
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,122,135,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,178,135,50,14
-    LTEXT           "スライドの終わり",IDC_STATIC,21,17,205,13
-    CONTROL         "次のスライドに進む(&N)",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,49,110,14
-    CONTROL         "スライドの上部に戻る(&T)",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,66,122,14
-    GROUPBOX        "次のアクション",IDC_STATIC,21,40,139,46
-    CONTROL         "次回からこのダイアログを表示しない(&D)",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,98,155,15
-END
-
-IDD_NAV_QUERY_DLG_E DIALOGEX 0, 0, 223, 127
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "End of Slide Reached"
-FONT 10, "Tahoma", 400, 0, 0x0
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,113,106,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,167,106,50,14
-    LTEXT           "End of slide",IDC_STATIC,11,17,205,13
-    CONTROL         "&Next slide",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,43,76,14
-    CONTROL         "&Top of this slide",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,60,76,14
-    GROUPBOX        "Go To:",IDC_STATIC,21,34,117,46
-    CONTROL         "&Don't ask me again",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,86,155,15
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

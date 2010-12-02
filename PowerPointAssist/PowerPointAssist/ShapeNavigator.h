@@ -19,6 +19,7 @@ class CShapeNavigator
 	int m_last_nav_choice ;
 
 public:
+	bool m_canceled_nav ;
 	CShapeNavigator( );
 	~CShapeNavigator(void);
 
