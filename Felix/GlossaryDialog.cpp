@@ -1255,6 +1255,14 @@ bool CGlossaryDialog::OnBeforeNavigate2( _bstr_t url )
 {
 	try
 	{
+
+		// "#" is used for JavaScript links.
+		wstring _url = BSTR2wstring(url) ;
+		if(boost::ends_with(_url, L"#"))
+		{
+			return false ; // don't cancel
+		}
+
 		const CString possible_xml_file(static_cast< LPCWSTR >( url )) ;
 		const file::CFileExtension ext(possible_xml_file) ;
 		if (ext.is_xml() || ext.equals(_T(".fgloss")))

@@ -39,6 +39,12 @@ BOOST_AUTO_TEST_SUITE( test_tag_stripper )
 		wstring stripped = strip_tags( rich ) ;
 		BOOST_CHECK_EQUAL( stripped, L"foobar " ) ;
 	}
+	BOOST_AUTO_TEST_CASE( test_br_tag )
+	{
+		wstring rich = L"foo<br />bar" ;
+		wstring stripped = strip_tags( rich ) ;
+		BOOST_CHECK_EQUAL( stripped, L"foo\nbar" ) ;
+	}
 	BOOST_AUTO_TEST_CASE( test_hex_numerical_entity )
 	{
 		wstring rich = L"&#x20;" ;

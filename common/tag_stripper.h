@@ -459,8 +459,12 @@ struct symbol_map
 
 inline wstring strip_tags_only(const wstring &text)
 {
+	wstring stripped(text) ;
+	boost::replace_all(stripped, L"<BR>", L"\n") ;
+	boost::replace_all(stripped, L"<br />", L"\n") ;
+
 	static boost::wregex stripper( L"<[!\\w/][\\s\\S]*?>") ;
-	return boost::regex_replace(text, stripper, L"") ;
+	return boost::regex_replace(stripped, stripper, L"") ;
 }
 
 inline wstring convert_entities(const wstring &text)

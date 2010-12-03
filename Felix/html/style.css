@@ -53,9 +53,12 @@ table{
 	border-collapse: collapse;
 }
 td{
-	/*font-size: 100%;*/
 	border: 1px solid #000;
 }
+table.base{
+	border: 1px solid #000;
+}
+
 table.datalist td
 {
 	padding-left: 3px;

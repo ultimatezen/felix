@@ -584,6 +584,9 @@ wstring search_query_glossary::get_html_short()
 		record_pointer current_rec = match->get_record() ;
 		data_map item ;
 
+		item[L"num0"] = cpptempl::make_data(boost::lexical_cast<wstring>(i)) ;
+		item[L"num"] = cpptempl::make_data(boost::lexical_cast<wstring>(i+1)) ;
+
 		// match text
 		markup_ptr markup = match->get_markup() ;
 		item[L"source"] = make_data(markup->GetSource()) ;

@@ -16,14 +16,61 @@
 	<tr>
 		<td>
 			<a title="翻訳対の編集" href="100:edit:0">編集</a>
-			 | 
+			 |
 			<a title="翻訳対の削除" href="100:delete:0">削除</a>
-		</td>
+			|
+		<a href="#" id="view_0" onclick="toggleDetails(0);">詳細 &gt;&gt;</a>
+                <div id="item_0" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>原文</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>訳文</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>コンテキスト（文脈）</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>信頼度</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>確定</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>参照カウント</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>作成日時</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>作成者</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>更新日時</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>変更者</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+                </div>
+	</td>
 	</tr>
 </table>
 <hr />
 <div>
 	<a title="用語候補を選択登録" href="100:add_gloss:0">用語候補を選択登録</a>
-	 | 
+	 |
 	<a title="用語集へコピー" href="100:add_to_gloss:0">用語集へコピー</a>
 </div>

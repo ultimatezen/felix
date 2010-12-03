@@ -26,4 +26,51 @@
 	<a title="Register glossary entries" href="100:add_gloss:0">Register Glossary Entries</a>
 	 |
 	<a title="Add entry to glossary" href="100:add_to_gloss:0">Add to Glossary</a>
+	|
+	<a href="#" id="view_0" onclick="toggleDetails(0);">Details &gt;&gt;</a>
+                <div id="item_0" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+                </div>
 </div>

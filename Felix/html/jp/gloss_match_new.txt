@@ -15,8 +15,55 @@
 </table>
 <p>
 <hr />
-<a href="142:0" title="用語を編集">編集</a> | 
-<a href="122:0" title="用語を削除">削除</a> | 
+<a href="142:0" title="用語を編集">編集</a> |
+<a href="122:0" title="用語を削除">削除</a> |
 <a href="158:0" title="用語を訳文としてメモリへコピー">メモリへコピー</a>
+			|
+		<a href="#" id="view_0" onclick="toggleDetails(0);">詳細 &gt;&gt;</a>
+                <div id="item_0" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>原文</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>訳文</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>コンテキスト（文脈）</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>信頼度</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>確定</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>参照カウント</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>作成日時</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>作成者</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>更新日時</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>変更者</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+                </div>
 </p>
 <p> <a href="153:0">前に戻る</a></p>

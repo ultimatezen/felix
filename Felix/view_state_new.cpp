@@ -109,6 +109,25 @@ void ViewStateNewMain::show_content()
 	data[L"source"] = cpptempl::make_data(new_rec->get_source_rich()) ;
 	data[L"trans"] = cpptempl::make_data(new_rec->get_trans_rich()) ;
 
+	cpptempl::data_map record ;
+
+	record[L"num0"] = cpptempl::make_data(ulong2wstring(0u)) ;
+	record[L"num"] = cpptempl::make_data(ulong2wstring(1u)) ;
+	record[L"source"] = cpptempl::make_data(new_rec->get_source_rich()) ;
+	record[L"trans"] = cpptempl::make_data(new_rec->get_trans_rich()) ;
+	record[L"context"] = cpptempl::make_data(new_rec->get_context_rich()) ;
+	record[L"created"] = cpptempl::make_data(new_rec->get_created().get_date_time_string()) ;
+	record[L"modified"] = cpptempl::make_data(new_rec->get_modified().get_date_time_string()) ;
+	record[L"reliability"] = cpptempl::make_data(ulong2wstring(new_rec->get_reliability())) ;
+	record[L"validated"] = cpptempl::make_data(bool2wstring(new_rec->is_validated())) ;
+
+	record[L"creator"] = cpptempl::make_data(new_rec->get_creator()) ;
+	record[L"modified_by"] = cpptempl::make_data(new_rec->get_modified_by()) ;
+	record[L"refcount"] = cpptempl::make_data(ulong2wstring(new_rec->get_refcount())) ;
+	record[L"ref_count"] = cpptempl::make_data(ulong2wstring(new_rec->get_refcount())) ;
+
+	data[L"record"] = cpptempl::make_data(record) ;
+
 	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;
 	m_window_listener->check_mousewheel() ;
 
@@ -216,6 +235,24 @@ void ViewStateNewGloss::show_content()
 		data[L"context_id"] = cpptempl::make_data(R2W( IDS_CONTEXT_ID )) ;
 	}
 
+	cpptempl::data_map record ;
+
+	record[L"num0"] = cpptempl::make_data(ulong2wstring(0u)) ;
+	record[L"num"] = cpptempl::make_data(ulong2wstring(1u)) ;
+	record[L"source"] = cpptempl::make_data(new_rec->get_source_rich()) ;
+	record[L"trans"] = cpptempl::make_data(new_rec->get_trans_rich()) ;
+	record[L"context"] = cpptempl::make_data(new_rec->get_context_rich()) ;
+	record[L"created"] = cpptempl::make_data(new_rec->get_created().get_date_time_string()) ;
+	record[L"modified"] = cpptempl::make_data(new_rec->get_modified().get_date_time_string()) ;
+	record[L"reliability"] = cpptempl::make_data(ulong2wstring(new_rec->get_reliability())) ;
+	record[L"validated"] = cpptempl::make_data(bool2wstring(new_rec->is_validated())) ;
+
+	record[L"creator"] = cpptempl::make_data(new_rec->get_creator()) ;
+	record[L"modified_by"] = cpptempl::make_data(new_rec->get_modified_by()) ;
+	record[L"refcount"] = cpptempl::make_data(ulong2wstring(new_rec->get_refcount())) ;
+	record[L"ref_count"] = cpptempl::make_data(ulong2wstring(new_rec->get_refcount())) ;
+
+	data[L"record"] = cpptempl::make_data(record) ;
 
 	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;
 

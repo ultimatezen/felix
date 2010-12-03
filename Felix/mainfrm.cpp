@@ -903,6 +903,13 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 
 	try
 	{
+		// "#" is used for JavaScript links.
+		wstring _url = BSTR2wstring(url) ;
+		if(boost::ends_with(_url, L"#"))
+		{
+			return false ; // don't cancel
+		}
+
 		const CString filename(static_cast< LPCWSTR >( url )) ;
 		const file::CFileExtension ext(filename) ;
 		if (ext.is_xml() || ext.equals(_T(".ftm")) || ext.equals(_T(".tmx")) || ext.is_txt())

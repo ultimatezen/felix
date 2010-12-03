@@ -459,6 +459,7 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 
 		item[L"num0"] = cpptempl::make_data(tows(i)) ;
 		item[L"num"] = cpptempl::make_data(tows(i+1)) ;
+
 		item[L"source"] = cpptempl::make_data(record->get_source_rich()) ;
 		item[L"trans"] = cpptempl::make_data(record->get_trans_rich()) ;
 		item[L"context"] = cpptempl::make_data(record->get_context_rich()) ;
@@ -469,6 +470,7 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 
 		item[L"creator"] = cpptempl::make_data(record->get_creator()) ;
 		item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
+
 		// other info
 		const wstring filename = match->get_memory_location() ;
 		wstring loc ;

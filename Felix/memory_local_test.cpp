@@ -560,6 +560,20 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
+	BOOST_AUTO_TEST_CASE( GetMatchesSize1_br_tag)
+	{
+		memory_local mem ;
+		add_record(mem, "foo<br />bar and more stuff", "Yes I do") ;
+
+		trans_match_container matches ;
+		search_query_params params ;
+		params.m_rich_source = L"foo bar and more stuff" ;
+		params.m_source = strip_tags(params.m_rich_source) ;
+
+		mem.find_matches(matches, params) ;
+
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1_not_active)
 	{
 		memory_local mem ;
