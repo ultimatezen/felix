@@ -55,6 +55,10 @@
 		<td><b>ロック</b></td>
 		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked == "true" %}checked="checked" {% endif %}/></td>
 	</tr>
+	<tr>
+		<td><b>既定の文脈</b></td>
+		<td><textarea name="default_context" id="default_context">{$default_context}</textarea></td>
+	</tr>
 </table>
                     <!-- submit button -->
                     <p>

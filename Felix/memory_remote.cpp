@@ -173,6 +173,11 @@ namespace mem_engine
 	{
 		try
 		{
+
+			if (record->get_context_rich().empty() && ! m_default_context.empty())
+			{
+				record->set_context(m_default_context) ;
+			}
 			record_remote rec(record) ;
 			this->m_engine.method(L"AddRecord", rec.get_engine()) ;
 			record->set_id(rec.get_id()) ;
@@ -416,6 +421,9 @@ namespace mem_engine
 	/************************************************************************/
 	/* MemoryInfo                                                           */
 	/************************************************************************/
+
+	// None of these are implemented yet...
+
 	void memory_remote::set_locked_off()
 	{
 		logging::log_warn("set_locked_off not implemented for remote memories/glossaries.") ;
@@ -435,6 +443,14 @@ namespace mem_engine
 	{
 		logging::log_warn("is_locked not implemented for remote memories/glossaries.") ;
 		return false;
+	}
+	void memory_remote::set_is_memory(bool)
+	{
+		logging::log_warn("set_is_memory not implemented for remote memories/glossaries.") ;
+	}
+	void memory_remote::set_is_locked(bool)
+	{
+		logging::log_warn("set_is_locked not implemented for remote memories/glossaries.") ;
 	}
 
 	wstring memory_remote::get_current_user()

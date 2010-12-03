@@ -82,6 +82,8 @@ namespace mem_engine
 		void set_locked_off( ) ;
 		void set_is_memory_on() ;
 		void set_is_memory_off() ;
+		void set_is_memory(bool setting);
+		void set_is_locked(bool setting);
 		void set_creation_tool( const wstring setting );
 		void set_creation_tool_version( const wstring setting );
 

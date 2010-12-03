@@ -62,7 +62,9 @@ public:
 
 	bool m_is_trans_mode ;
 
+	LPDISPATCH		m_app ;
 	CDispatchWrapper *m_trans_history ;
+	wstring m_trans_hist_servername ;
 	/*!
 	 * \brief
 	 * A map of the cells we have colored.
@@ -103,6 +105,7 @@ public:
 	excel::sheet_ptr GetActiveSheet();
 	void OnLookup ( )  ;
 
+	void ensure_trans_history();
 	void remember_active_sheet(excel::sheet_ptr activeSheet);
 	_bstr_t get_selection_text( excel::app_ptr application );
 	void set_active_cell_text(_bstr_t text );

@@ -35,6 +35,7 @@ public:
 	wstring source_language();
 	wstring target_language();
 	wstring client();
+	wstring default_context() ;
 	bool is_memory();
 	bool locked();
 };

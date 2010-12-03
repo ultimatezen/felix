@@ -66,6 +66,10 @@
 		<td><b>ロック</b></td>
 		<td id="locked">{$locked}</td>
 	</tr>
+	<tr>
+		<td><b>既定の文脈</b></td>
+		<td id="locked">{$default_context}</td>
+	</tr>
 </table>
 
 <h3>操作</h3>

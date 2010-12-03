@@ -89,6 +89,11 @@ namespace mem_engine
 			throw except::CBadRecordException( IDS_TRANS_OR_SOURCE_EMPTY ) ;
 		}
 
+		if (record->get_context_rich().empty() && ! m_default_context.empty())
+		{
+			record->set_context(m_default_context) ;
+		}
+
 
 		// Only check when conditions are right
 		if (should_check_for_demo())

@@ -55,6 +55,13 @@
 		<td><b>Locked:</b></td>
 		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked == "true" %}checked="checked" {% endif %}/></td>
 	</tr>
+
+	<tr>
+		<td><b>Default Context:</b></td>
+		<td><textarea name="default_context" id="default_context">{$default_context}</textarea></td>
+	</tr>
+
+
 </table>
                     <!-- submit button -->
                     <p>

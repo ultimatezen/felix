@@ -61,5 +61,6 @@ namespace mgrview
 		data[L"reliability"] = cpptempl::make_data(dlg.get_reliability_range(mem)) ;
 		data[L"validated"] = cpptempl::make_data(mem->get_validated_percent()) ;
 		data[L"locked"] = cpptempl::make_data(bool2wstring( mem->is_locked() )) ;
+		data[L"default_context"] = cpptempl::make_data(mem->get_default_context()) ;
 	}
 }

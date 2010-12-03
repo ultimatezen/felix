@@ -127,6 +127,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 				_T("The Excel interface may not function properly.\r\nOnConnection"), _T("Initialization Error"), MB_OK ) ;
 		}
 		m_properties.read_from_registry() ;
+		m_excelIF.setProperties(&m_properties) ;
 		// pass IDispatch pointer to interface
 		try
 		{
@@ -169,7 +170,6 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 			logging::log_error("Error setting application") ;
 			logging::log_exception(ce) ;
 		}
-		m_excelIF.setProperties(&m_properties) ;
 
 		MSOffice::_CommandBarsPtr spCmdBars = m_pApplication->GetCommandBars( ) ;
 		ATLASSERT(spCmdBars);

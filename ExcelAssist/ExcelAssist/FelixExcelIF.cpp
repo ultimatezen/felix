@@ -76,17 +76,27 @@ CFelixExcelIF::CFelixExcelIF(LPCWSTR trans_hist_servername) :
 	 numTransBook(0),
 	 numNotTransBook(0),
 	 m_is_trans_mode(true),
-	 m_trans_history(new CDispatchWrapper(trans_hist_servername))
+	 m_trans_history(NULL),
+	 m_trans_hist_servername(trans_hist_servername),
+	 m_app(NULL),
+	 m_properties(NULL)
 {
 	this->getAssistant = boost::bind( &CFelixExcelIF::realGetAssistant, this ) ;
 	this->restore_cell_color = boost::bind( &CFelixExcelIF::real_restore_cell_color, this ) ;
 }
  CFelixExcelIF::~CFelixExcelIF()
  {
-	 if (m_trans_history)
+	 try
 	 {
-		 delete m_trans_history ;
-		 m_trans_history = NULL ;
+		 if (m_trans_history)
+		 {
+			 delete m_trans_history ;
+			 m_trans_history = NULL ;
+		 }
+	 }
+	 catch(...)
+	 {
+		 logging::log_error("Error destroying translation history component") ;
 	 }
  }
 /*!
@@ -266,6 +276,7 @@ void CFelixExcelIF::OnLookup( )
 		{
 			if (m_properties->m_use_trans_hist)
 			{
+				ensure_trans_history();
 				m_trans_history->method(L"LookupTrans") ;
 			}
 			else
@@ -388,6 +399,7 @@ void CFelixExcelIF::OnSet( )
 			assistant->SetTrans(this->get_selection_text(m_excel_app)) ;
 			if (m_properties->m_use_trans_hist)
 			{
+				ensure_trans_history() ;
 				m_trans_history->method(L"RecordTrans") ;
 			}
 		}
@@ -395,6 +407,7 @@ void CFelixExcelIF::OnSet( )
 		{
 			if (m_properties->m_use_trans_hist)
 			{
+				ensure_trans_history() ;
 				m_trans_history->method(L"CorrectTrans") ;
 			}
 			else
@@ -899,6 +912,7 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 		}
 		else if (this->m_properties->m_use_trans_hist)
 		{
+			ensure_trans_history() ;
 			m_trans_history->method(L"ReflectChanges") ;
 		}
 	}
@@ -1065,10 +1079,11 @@ bool CFelixExcelIF::is_trans_mode()
 
 void CFelixExcelIF::set_app_ptr( LPDISPATCH app )
 {
-	VARIANT var ;
-	var.vt = VT_DISPATCH ;
-	var.pdispVal = app ;
-	m_trans_history->prop_put(L"App", var) ;
+	m_app = app ;
+	if (m_properties->m_use_trans_hist)
+	{
+		ensure_trans_history() ;
+	}
 }
 
 void CFelixExcelIF::shut_down()
@@ -1082,10 +1097,14 @@ void CFelixExcelIF::shut_down()
 
 void CFelixExcelIF::close_workbook( IDispatch* workbook )
 {
-	VARIANT var ;
-	var.vt = VT_DISPATCH ;
-	var.pdispVal = workbook ;
-	m_trans_history->method(L"ShutDown", var) ;
+	if (m_properties && m_properties->m_use_trans_hist)
+	{
+		ensure_trans_history() ;
+		VARIANT var ;
+		var.vt = VT_DISPATCH ;
+		var.pdispVal = workbook ;
+		m_trans_history->method(L"ShutDown", var) ;
+	}
 }
 
 void CFelixExcelIF::select_final_cell( excel::sheet_ptr activeSheet, long current_row, const long start_col )
@@ -1099,20 +1118,16 @@ bool CFelixExcelIF::escape_is_pressed()
 	SHORT val = ::GetAsyncKeyState(VK_ESCAPE) & 0x8000 ;
 	return !! (val) ;
 }
-/************************************************************************/
-/* Unit tests
-/************************************************************************/
 
-#ifdef UNIT_TEST
-
-namespace easyunit
+void CFelixExcelIF::ensure_trans_history()
 {
-	TEST( double_equalsTest, basic)
+	if (! m_trans_history && m_app)
 	{
-		ASSERT_TRUE(double_equals( 1.0, 0.2*5.0 ) ) ;
-		ASSERT_TRUE(double_equals( 0.5, 0.1 * 5.0 ) ) ;
-		ASSERT_TRUE( ! double_equals( 1.0, 0.99 ) ) ;
+		logging::log_debug("Instantiating translation history component") ;
+		m_trans_history = new CDispatchWrapper(m_trans_hist_servername.c_str()) ;
+		VARIANT var ;
+		var.vt = VT_DISPATCH ;
+		var.pdispVal = m_app ;
+		m_trans_history->prop_put(L"App", var) ;
 	}
 }
-
-#endif

@@ -184,3 +184,10 @@ color:#FFF;
 background:#5b80b2;
 border-color:#036;
 }
+/* forms */
+textarea
+{
+    width: 30em;
+    height: 10em;
+    margin-bottom: 10px;
+}

@@ -448,22 +448,9 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 	header->set_source_language(parser.source_language()) ;
 	header->set_target_language(parser.target_language()) ;
 	header->set_client(parser.client()) ;
-	if (parser.is_memory())
-	{
-		header->set_is_memory_on() ;
-	}
-	else
-	{
-		header->set_is_memory_off() ;
-	}
-	if (parser.locked())
-	{
-		header->set_locked_on();
-	}
-	else
-	{
-		header->set_locked_off();
-	}
+	header->set_is_memory(parser.is_memory()) ;
+	header->set_is_locked(parser.locked()) ;
+	mem->set_default_context(parser.default_context()) ;
 	m_message = L"Edited details for " + mgrview::get_memname(mem) ;
 	return nav_view(tokens) ;
 

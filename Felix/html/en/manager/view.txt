@@ -66,6 +66,10 @@
 		<td><b>Locked:</b></td>
 		<td id="locked">{$locked}</td>
 	</tr>
+	<tr>
+		<td><b>Default Context:</b></td>
+		<td id="locked">{$default_context}</td>
+	</tr>
 </table>
 
 <h3>Actions</h3>

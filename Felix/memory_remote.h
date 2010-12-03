@@ -82,6 +82,8 @@ namespace mem_engine
 		void set_locked_off();
 		void set_locked_on();
 		void set_creator_to_current_user();
+		void set_is_memory(bool setting);
+		void set_is_locked(bool setting);
 
 		/************************************************************************/
 		/* TranslationMemory implementation                                     */

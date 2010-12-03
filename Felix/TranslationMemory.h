@@ -102,6 +102,8 @@ VISIBLE_TO_TESTS
 
 	CmpMaker			m_cmp_maker ;
 
+	wstring m_default_context ;
+
 public:
 
 #ifdef UNIT_TEST
@@ -110,6 +112,15 @@ public:
 	// construction / destruction
 	CTranslationMemory( double min_score = 0.5 )  ;
 	virtual ~CTranslationMemory();
+
+	void set_default_context(wstring context)
+	{
+		m_default_context = context ;
+	}
+	wstring get_default_context()
+	{
+		return m_default_context ;
+	}
 
 	void set_gloss_props(app_props::properties_glossary &props);
 	int	get_id() 

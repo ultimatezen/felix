@@ -29,6 +29,8 @@ public:
 	virtual bool is_locked() const = 0 ;
 	virtual bool is_memory() const = 0 ;
 
+	virtual void set_is_memory(bool) = 0 ;
+	virtual void set_is_locked(bool) = 0 ;
 	virtual void set_creator( const wstring setting ) = 0 ;
 	virtual void set_field( const wstring setting ) = 0 ;
 	virtual void set_created_on( const wstring setting ) = 0 ;

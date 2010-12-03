@@ -13,6 +13,12 @@ namespace mgrview
 	{
 		return m_doc->get_element_by_id(L"creator")->get_attribute(L"value") ;
 	}
+
+	wstring EditFormParser::default_context()
+	{
+		return m_doc->get_element_by_id(L"default_context")->get_attribute(L"value") ;
+	}
+
 	wstring EditFormParser::field()
 	{
 		return m_doc->get_element_by_id(L"field")->get_attribute(L"value") ;
