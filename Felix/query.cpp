@@ -24,7 +24,7 @@ namespace mem_engine
 		return wstring((LPCWSTR)path.Path()) ;
 	}
 
-felix_query::felix_query( const size_t pos /* =0 */ ) : m_pos( pos ) 
+felix_query::felix_query( const size_t pos /* =0 */ ) : m_pos( pos ) , m_simple_view(false)
 {}
 
 // destruction
@@ -615,11 +615,25 @@ wstring search_query_glossary::get_html_short()
 	wstring tpl_text ;
 	if (this->m_start_numbering)
 	{
-		tpl_text = get_template_text(_T("gloss_matches.txt")) ;
+		if (this->m_simple_view)
+		{
+			tpl_text = get_template_text(_T("gloss_matches_simple.txt")) ;
+		}
+		else
+		{
+			tpl_text = get_template_text(_T("gloss_matches.txt")) ;
+		}
 	}
 	else
 	{
-		tpl_text = get_template_text(_T("gloss_matches0.txt")) ;
+		if (this->m_simple_view)
+		{
+			tpl_text = get_template_text(_T("gloss_matches0_simple.txt")) ;
+		}
+		else
+		{
+			tpl_text = get_template_text(_T("gloss_matches0.txt")) ;
+		}
 	}
 
 	return cpptempl::parse(tpl_text, data) ;

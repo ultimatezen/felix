@@ -86,6 +86,7 @@ struct felix_query
 	// member variables
 	search_query_params		m_params ;
 	size_t					m_pos ;
+	bool m_simple_view ;
 
 	// member functions
 
@@ -173,7 +174,7 @@ struct search_query
 
 	size_t m_start_numbering ;
 	// construction
-	search_query() : m_start_numbering(1) {}
+	search_query() : m_start_numbering(1), felix_query() {}
 	virtual ~search_query(){}
 
 	void set_start_numbering(size_t start)
@@ -195,7 +196,7 @@ struct search_query
 struct search_query_mainframe : public search_query
 {
 	size_t m_start_numbering ;
-	search_query_mainframe() : m_start_numbering(1) {}
+	search_query_mainframe() : m_start_numbering(1), search_query() {}
 	virtual ~search_query_mainframe() {}
 
 	void set_start_numbering(size_t start)
@@ -210,8 +211,8 @@ struct search_query_mainframe : public search_query
 /** this is used for glossary searches and concordance searches in glossary. */
 struct search_query_glossary : public search_query
 {
-	search_query_glossary(){}
-	virtual ~search_query_glossary(){}
+	search_query_glossary() : search_query() {}
+	~search_query_glossary(){}
 
 	wstring get_html_short() ;
 } ;

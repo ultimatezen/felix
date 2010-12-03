@@ -289,7 +289,6 @@ public:
 
 	LRESULT on_memory_close();
 
-
 	LRESULT on_find( ) ;
 	LRESULT on_new_search( );
 	LRESULT on_edit_replace( ) ;
@@ -307,6 +306,9 @@ public:
 	LRESULT on_view_edit_mode( WindowsMessage &message ) ;
 	LRESULT on_view_status_bar( ) ;
 	LRESULT on_view_toolbar( ) ;
+
+	LRESULT on_view_simple() ;
+
 	LRESULT on_view_match( ) ;
 	LRESULT on_view_search( )	;
 
@@ -397,6 +399,8 @@ public:
 
 			CMD_HANDLER_EX_0(ID_EDIT_DELETE, on_delete )
 			CMD_HANDLER_EX_0(ID_EDIT_REPLACE, on_edit_replace )
+
+			CMD_HANDLER_EX_0(IDC_GLOSS_SIMPLE_VIEW, on_view_simple)
 
 			// view menu
 			else if ( ID_VIEW_EDIT_MODE == LOWORD( wParam ) ) 

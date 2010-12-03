@@ -17,7 +17,7 @@ function toggleDetails(id) {
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == 'Details >>') {
+	if (currentText.indexOf('>>') != -1) {
 		$(link).html('&lt;&lt; Hide') ;
 	}
 	else {

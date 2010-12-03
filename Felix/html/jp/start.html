@@ -17,7 +17,7 @@ function toggleDetails(id) {
 	$(item).toggle("blind");
 
 	var currentText = $(link).text() ;
-	if (currentText == '詳細 >>') {
+	if (currentText.indexOf('>>') != -1) {
 		$(link).html('&lt;&lt; 非表示');
 	}
 	else {

@@ -250,7 +250,8 @@ struct properties_glossary : public props::CRegMap
 		BOOL	m_to_lower ;
 		BOOL	m_ignore_width ;
 		BOOL	m_ignore_hir_kat ;
-		BOOL	m_back_color ;
+		long	m_back_color ;
+		BOOL	m_simple_view ;
 
 		props_data() : 
 			m_min_score( 100u ),
@@ -261,6 +262,7 @@ struct properties_glossary : public props::CRegMap
 			m_to_lower(FALSE),
 			m_ignore_width(FALSE),
 			m_ignore_hir_kat(FALSE),
+			m_simple_view(FALSE),
 			m_back_color ( static_cast< int >( RGB( 255, 255, 255 ) ) )
 		{
 		}
@@ -277,19 +279,23 @@ struct properties_glossary : public props::CRegMap
 
 	props_data m_data ;
 
-	bool get_ignore_case()
+	bool get_simple_view() const
+	{
+		return !! m_data.m_simple_view ;
+	}
+	bool get_ignore_case() const
 	{
 		return !!  m_data.m_ignore_case ;
 	}
-	bool get_ignore_width()
+	bool get_ignore_width() const
 	{
 		return !!  m_data.m_ignore_width ;
 	}
-	bool get_m_ignore_hir_kat()
+	bool get_m_ignore_hir_kat() const
 	{
 		return !!  m_data.m_ignore_hir_kat ;
 	}
-	size_t get_numbering()
+	size_t get_numbering() const
 	{
 		return m_data.m_numbering ;
 	}
@@ -343,6 +349,7 @@ struct properties_glossary : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GLOSS_IGNORE_HIR_KAT"),		m_data.m_ignore_hir_kat ) ;
 		REG_ENTRY_INT( _T("GLOSS_NUMBERING"),			m_data.m_numbering ) ;
 		REG_ENTRY_INT( _T("GLOSS_BACK_COLOR"),			m_data.m_back_color ) ;
+		REG_ENTRY_BOOL( _T("GLOSS_SIMPLE_VIEW"),		m_data.m_simple_view) ;
 
 	END_REGISTRY_MAP	
 

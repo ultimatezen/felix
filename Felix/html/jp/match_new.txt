@@ -18,8 +18,16 @@
 			<a title="翻訳対の編集" href="100:edit:0">編集</a>
 			 |
 			<a title="翻訳対の削除" href="100:delete:0">削除</a>
-			|
-		<a href="#" id="view_0" onclick="toggleDetails(0);">詳細 &gt;&gt;</a>
+	</td>
+	</tr>
+</table>
+<hr />
+<div>
+	<a title="用語候補を選択登録" href="100:add_gloss:0">用語候補を選択登録</a>
+	 |
+	<a title="用語集へコピー" href="100:add_to_gloss:0">用語集へコピー</a>
+	|
+	<a href="#" id="view_0" onclick="toggleDetails(0);">詳細 &gt;&gt;</a>
                 <div id="item_0" style="display:none;">
                     <table class="props">
                         <tr>
@@ -64,13 +72,5 @@
                         </tr>
 
                     </table>
-                </div>
-	</td>
-	</tr>
-</table>
-<hr />
-<div>
-	<a title="用語候補を選択登録" href="100:add_gloss:0">用語候補を選択登録</a>
-	 |
-	<a title="用語集へコピー" href="100:add_to_gloss:0">用語集へコピー</a>
+		</div>
 </div>

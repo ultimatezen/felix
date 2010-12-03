@@ -124,6 +124,7 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 
 	init_status_bar() ;
 	init_toolbar() ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
 
 	wait_until_view_not_busy() ;
 
@@ -955,6 +956,16 @@ LRESULT CGlossaryDialog::on_view_toolbar( )
 
 	return 0L ;
 }
+// toggle simple view
+LRESULT CGlossaryDialog::on_view_simple( )
+{
+	m_properties_gloss.m_data.m_simple_view = ! m_properties_gloss.m_data.m_simple_view ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
+	m_properties_gloss.write_to_registry() ;
+	this->show_view_content() ;
+
+	return 0L ;
+}
 
 // toggle status bar visibility
 LRESULT CGlossaryDialog::on_view_status_bar( )
@@ -1001,6 +1012,7 @@ void CGlossaryDialog::ToggleEditMode()
 void CGlossaryDialog::SetEditModeMenuItems(const bool edit_mode_enabled)
 {
 	CheckMenuItem( GetMenu(), ID_VIEW_EDIT_MODE, ( edit_mode_enabled ? MF_UNCHECKED : MF_CHECKED ) ) ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
 }
 
 // We have two find dialogs: 

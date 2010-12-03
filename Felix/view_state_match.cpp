@@ -268,6 +268,7 @@ void ViewStateMatchGloss::show_content()
 	}
 	else
 	{
+		m_search_matches->m_simple_view = m_properties_gloss->get_simple_view() ;
 		html_content << m_search_matches->get_html_short() ;
 	}
 

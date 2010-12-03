@@ -178,6 +178,7 @@ BEGIN
         MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
         MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
         MENUITEM "ツールバー(&T)",                   59392
+		MENUITEM "簡易表示(&P)"					IDC_GLOSS_SIMPLE_VIEW
         POPUP "現在のビュー(&V)"
         BEGIN
             MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH

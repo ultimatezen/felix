@@ -491,6 +491,11 @@ LRESULT CRegisterGlossDlg::OnFormatBackgroundColor()
 {
 	BANNER("CRegisterGlossDlg::OnFormatBackgroundColor") ;
 
+	if (! this->IsWindowVisible())
+	{
+		return 0L ;
+	}
+
 	CColorDialog dialog(RGB(255,255,255)) ; // current color is default
 
 	if (dialog.DoModal() == IDCANCEL)

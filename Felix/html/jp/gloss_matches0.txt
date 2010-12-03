@@ -2,12 +2,12 @@
 {% for record in records %}
   <tr id="{$loop.index0}">
    <td rowspan="2"><strong>{$loop.index0}.</strong>
-   <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a><br />
+   <br />
 
 	<a title="エントリの編集" href="142:{$loop.index0}">[E]</a>-<a
       title="エントリの削除" href="122:{$loop.index0}">[D]</a>-<a
 	  title="メモリに登録" href="158:{$loop.index0}">[M]</a><br />
-	  [{$record.mem}]</td>
+	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
     <td><strong>原語</strong></td>
     <td id="source">{$record.source}</td></tr>
   <tr>
@@ -56,10 +56,7 @@
                             <th>変更者</th>
                             <td>{$record.modified_by}</td>
                         </tr>
-                        <tr>
-                            <th>メモリ名・用語集名</th>
-                            <td>{$record.memory}</td>
-                        </tr>
+
                     </table>
 		</td>
                 </tr>

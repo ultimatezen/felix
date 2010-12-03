@@ -152,6 +152,7 @@ BEGIN
         MENUITEM "&Edit Mode\tCtrl+E",          ID_VIEW_EDIT_MODE
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+		MENUITEM "Sim&ple View"					IDC_GLOSS_SIMPLE_VIEW
         POPUP "Current &View"
         BEGIN
             MENUITEM "&Match View",                 ID_VIEW_MATCH

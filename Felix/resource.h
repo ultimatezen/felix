@@ -593,6 +593,7 @@
 #define IDS_ACTION_DELETE_MATCHES       588
 #define IDS_MSG_SEARCH					589
 #define IDS_MSG_REPLACE					590
+#define IDC_GLOSS_SIMPLE_VIEW			591
 
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771

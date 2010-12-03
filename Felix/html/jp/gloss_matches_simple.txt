@@ -1,20 +1,19 @@
-﻿<table class="base">
+<table class="base">
 {% for record in records %}
   <tr id="{$loop.index0}">
    <td rowspan="2"><strong>{$loop.index}.</strong>
-
    <br />
-	<a title="用語の編集" href="142:{$loop.index0}">[E]</a>-<a
-      title="用語の削除" href="122:{$loop.index0}">[D]</a>-<a
-	  title="メモリに登録" href="158:{$loop.index0}">[M]</a><br />
-	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
-    <td><strong>原語</strong></td>
-    <td id="source">{$record.source}</td></tr>
+	{$record.mem}　<a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
+    <td id="source">{$record.source}</td>
+  </tr>
   <tr>
-    <td><strong>訳語</strong></td>
-    <td id="trans">{$record.trans}</td></tr>
+    <td id="trans">{$record.trans}</td>
+  </tr>
                 <tr id="item_{$loop.index}" style="display:none;">
 		<td colspan="2">
+		<a title="用語の編集" href="142:{$loop.index0}">[E]</a>
+		<a title="用語の削除" href="122:{$loop.index0}">[D]</a>
+		<a title="メモリに登録" href="158:{$loop.index0}">[M]</a>
                     <table class="props">
                         <tr>
                             <th>原文</th>
@@ -56,7 +55,10 @@
                             <th>変更者</th>
                             <td>{$record.modified_by}</td>
                         </tr>
-
+                        <tr>
+                            <th>用語集名</th>
+                            <td>{$record.mem}</td>
+                        </tr>
                     </table>
 		</td>
                 </tr>
