@@ -33,7 +33,6 @@ public:
 		
 		if ( colon_pos == wstring::npos ) // not found
 		{
-			logging::log_warn( "destination_parser: no colon found -- this is not in a format we can parse." ) ;
 			return NULL ;
 		}
 
@@ -41,7 +40,6 @@ public:
 		const wstring category = destination.substr( 0, colon_pos ) ;
 		if ( false == str::is_uint_rep( category ) ) // is it a number?		 
 		{
-			logging::log_warn( "destination_parser: Category is not a number" ) ;
 			return NULL ;
 		}
 

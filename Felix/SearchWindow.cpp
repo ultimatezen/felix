@@ -51,7 +51,7 @@ LRESULT CSearchWindow::OnCreate( UINT, WPARAM, LPARAM )
 	}
 	m_view.set_listener(static_cast<CHtmlViewListener *>(this)) ;
 
-	SetWindowText( m_title ) ;
+	set_window_title(IDS_MSG_SEARCH);
 
 	m_accelerator.LoadAccelerators(IDR_SEARCH_ACCEL) ;
 
@@ -127,6 +127,8 @@ void CSearchWindow::show_search_page()
 	const wstring filename = (LPCWSTR)cpptempl::get_template_filename(_T("start_search.html")) ;
 	m_view.navigate(filename) ;
 
+	set_window_title(IDS_MSG_SEARCH);
+
 	wait_for_doc_complete() ;
 	if (! m_search_runner.get_terms().empty())
 	{
@@ -140,6 +142,8 @@ void CSearchWindow::handle_gotoreplace()
 	SENSE("handle_gotoreplace") ;
 	const wstring filename = (LPCWSTR)cpptempl::get_template_filename(_T("start_replace.html")) ;
 	m_view.navigate(filename) ;
+
+	set_window_title(IDS_MSG_REPLACE);
 
 	wait_for_doc_complete() ;
 	set_filterbox_text(get_doc3(),
@@ -917,6 +921,14 @@ void CSearchWindow::save_results( match_vec &matches )
 	show_search_results(get_doc3(), matches) ;
 }
 
+void CSearchWindow::set_window_title( UINT pagetype )
+{
+	CString search ;
+	search.LoadString(pagetype) ;
+	CString brackets ;
+	brackets.Format(_T(" [%s]"), search) ;
+	SetWindowText( m_title + brackets) ;
+}
 /*
  Get the value of the specified input box, and clear that value
  afterward.

@@ -1509,6 +1509,8 @@ END
 STRINGTABLE 
 BEGIN
     ID_FORMAT_FONT          "Show the font dialog (Edit mode only)\nFont"
+    IDS_MSG_SEARCH          "Search"
+    IDS_MSG_REPLACE         "Replace"
 END
 
 STRINGTABLE 

@@ -122,9 +122,6 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 	ATLASSERT(m_view_state == &m_view_state_initial) ;
 	m_view_state->show_content() ;
 
-	// check it in the menu
-	EnableMenuItem( GetMenu(), ID_EDIT_REPLACE, TRUE ) ;
-
 	init_status_bar() ;
 	init_toolbar() ;
 
@@ -469,7 +466,8 @@ LRESULT CGlossaryDialog::on_edit_replace( )
 	}
 	else
 	{
-		::MessageBeep( MB_ICONSTOP ) ;
+		on_new_search() ;
+		m_search_window.handle_gotoreplace() ;
 	}
 	return 0 ;
 }
@@ -1003,7 +1001,6 @@ void CGlossaryDialog::ToggleEditMode()
 void CGlossaryDialog::SetEditModeMenuItems(const bool edit_mode_enabled)
 {
 	CheckMenuItem( GetMenu(), ID_VIEW_EDIT_MODE, ( edit_mode_enabled ? MF_UNCHECKED : MF_CHECKED ) ) ;
-	EnableMenuItem( GetMenu(), ID_EDIT_REPLACE, !! edit_mode_enabled ) ;
 }
 
 // We have two find dialogs: 
@@ -1117,7 +1114,9 @@ BOOL CGlossaryDialog::PreTranslateMessage( LPMSG pMsg )
 	}
 
 	if ( IsDialogMessage( pMsg ) )
+	{
 		return TRUE ;
+	}
 
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
 }
@@ -2043,6 +2042,8 @@ LRESULT CGlossaryDialog::on_new_search()
 	m_search_window.set_mem_controller( this->get_model() ) ;
 	m_search_window.ShowWindow(SW_SHOW) ;
 	m_search_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
+
+	m_search_window.show_search_page() ;
 
 	return 0L ;
 }

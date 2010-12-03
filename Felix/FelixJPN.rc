@@ -1159,6 +1159,8 @@ STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "ツール バーの表示/非表示を切り替えます\nツール バー表示切替"
     ID_VIEW_STATUS_BAR      "ステータス バーの表示/非表示を切り替えます\nステータス バー表示切替"
+    IDS_MSG_SEARCH          "検索"
+    IDS_MSG_REPLACE         "置換"
 END
 
 STRINGTABLE 

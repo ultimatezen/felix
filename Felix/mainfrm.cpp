@@ -695,9 +695,8 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 #else
 	if ( m_view_interface.is_edit_mode() == false )
 	{
-		// replace not supported in non-edit mode
-		user_feedback(tstring(_T("Replace not supported unless in edit mode"))) ;
-		this->FlashWindow(TRUE) ;
+		on_new_search(message) ;
+		m_search_window.handle_gotoreplace() ;
 	}
 	else
 	{
@@ -1253,7 +1252,6 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 
 
 	UISetCheck(ID_VIEW_EDIT_MODE, ! edit_mode_enabled );
-	UIEnable( ID_EDIT_REPLACE, ! edit_mode_enabled ) ;
 
 	// swap out the various find dialogs...
 	if ( edit_mode_enabled )
@@ -3421,7 +3419,6 @@ void CMainFrame::set_up_ui_state()
 		rebar.ShowBand(nBandIndex, FALSE ) ;
 	}
 	
-	ATLVERIFY(UIEnable( ID_EDIT_REPLACE, FALSE, TRUE )) ;
 	
 	if( m_appstate.m_is_statusbar_visible )
 	{
@@ -4821,6 +4818,8 @@ LRESULT CMainFrame::on_new_search( WindowsMessage &)
 	m_search_window.set_mem_controller( this->get_model() ) ;
 	m_search_window.ShowWindow(SW_SHOW) ;
 	m_search_window.SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE) ;
+
+	m_search_window.show_search_page() ;
 
 	return 0L ;
 }

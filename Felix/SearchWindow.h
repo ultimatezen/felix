@@ -143,6 +143,8 @@ public:
 
 	// Win32 message handlers
 	LRESULT OnCreate(UINT, WPARAM, LPARAM);
+
+	void set_window_title(UINT pagetype);
 	LRESULT OnDestroy(UINT, WPARAM, LPARAM);
 	LRESULT OnSize(UINT, WPARAM, LPARAM);
 

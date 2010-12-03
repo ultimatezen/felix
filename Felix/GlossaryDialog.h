@@ -399,14 +399,16 @@ public:
 			CMD_HANDLER_EX_0(ID_EDIT_REPLACE, on_edit_replace )
 
 			// view menu
-		else if ( ID_VIEW_EDIT_MODE == LOWORD( wParam ) ) 
-	{ 
-		WindowsMessage message( hWnd, uMsg, wParam, lParam ) ;
-		SetMsgHandled(TRUE); 
-		lResult = (LRESULT)on_view_edit_mode( message); 
-		if(IsMsgHandled()) 
-			return TRUE; 
-		}
+			else if ( ID_VIEW_EDIT_MODE == LOWORD( wParam ) ) 
+			{ 
+				WindowsMessage message( hWnd, uMsg, wParam, lParam ) ;
+				SetMsgHandled(TRUE); 
+				lResult = (LRESULT)on_view_edit_mode( message); 
+				if(IsMsgHandled()) 
+				{
+					return TRUE; 
+				}
+			}
 
 			CMD_HANDLER_EX_0(ID_NEXT_PANE, on_toggle_views)
 
