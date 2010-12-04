@@ -42,15 +42,10 @@ public:
 
 	ViewStateMatchGloss() : m_properties_gloss(NULL){}
 
-	void set_app_props(app_props::properties_glossary *properties)
-	{
-		m_properties_gloss = properties ;
-	}
+	void set_app_props(app_props::properties_glossary *properties);
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
-	void activate()
-	{
-	}
+	void activate();
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
 };

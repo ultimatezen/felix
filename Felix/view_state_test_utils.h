@@ -5,6 +5,7 @@
 #include "felix_model_fake.h"
 #include "view_state.h"
 #include "memory_local.h"
+#include "Felix_properties.h"
 
 #ifdef UNIT_TEST
 

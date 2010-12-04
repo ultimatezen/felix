@@ -1115,7 +1115,7 @@ void CCommonWindowFunctionality::raise()
 
 void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::memory_pointer mem )
 {
-	logging::log_debug("Saving memory as Excel file") ;
+	logging::log_debug("Saving as Excel file") ;
 	fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
 	CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 		ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
@@ -1124,7 +1124,7 @@ void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::me
 
 void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, mem_engine::memory_pointer mem )
 {
-	logging::log_debug("Saving memory as tab-separated text file") ;
+	logging::log_debug("Saving as tab-separated text file") ;
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
 	fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
 	output_device_ptr output(new OutputDeviceFile) ;

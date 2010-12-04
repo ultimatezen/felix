@@ -363,7 +363,7 @@ void CMainFrame::set_exporter_src_and_target_langs(CExportDialog &dialog, CTMXWr
 }
 
 //! Export the top memory as a TMX memory.
-bool CMainFrame::export_tmx( const CString &file_name )
+bool CMainFrame::export_tmx( const CString &file_name, mem_engine::memory_pointer mem )
 {
 	CExportDialog dialog ;
 
@@ -379,7 +379,6 @@ bool CMainFrame::export_tmx( const CString &file_name )
 	path.RemoveExtension() ;
 	path.AddExtension( _T(".tmx" ) ) ;
 
-	memory_pointer mem = m_model->get_first_memory() ;
 	mem->set_location( path.Path() ) ;
 
 	exporter.write_memory( mem ) ;
@@ -388,15 +387,10 @@ bool CMainFrame::export_tmx( const CString &file_name )
 }
 
 //! Exports the current memory as a trados text file
-bool CMainFrame::export_trados( const CString &file_name )
+bool CMainFrame::export_trados( const CString &file_name, mem_engine::memory_pointer mem )
 {
 	ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
 	ATLASSERT ( ! file_name.IsEmpty() ) ; 
-		
-	if ( m_model->get_memories()->empty() )
-	{
-		return false ;
-	}
 
 	CExportDialog dialog ;
 	
@@ -404,8 +398,6 @@ bool CMainFrame::export_trados( const CString &file_name )
 	{
 		return false ;
 	}
-
-	memory_pointer mem = m_model->get_first_memory() ;
 	
 	// get a set of the fonts used in our current memory
 	font_tabulator tabulator ;
@@ -1041,7 +1033,7 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 	case IDYES:
 		if ( ext.equals( _T(".txt") ) )
 		{
-			export_trados( mem->get_location() ) ;
+			export_trados( mem->get_location(), mem ) ;
 		}
 		else if ( ext.equals( _T(".xls") ) )
 		{
@@ -1049,7 +1041,7 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 		}
 		else
 		{
-			export_tmx( mem->get_location() ) ;
+			export_tmx( mem->get_location(), mem ) ;
 		}
 		break ;
 	case IDNO:
@@ -5083,13 +5075,13 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 	case 3:
 		logging::log_debug("Saving memory as tmx file") ;
 		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name ) ;
+		export_tmx( file_name, mem ) ;
 		return ;
 
 	case 4:
 		logging::log_debug("Saving memory as Trados text file") ;
 		fileops::addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
-		export_trados( file_name ) ;
+		export_trados( file_name, mem ) ;
 		return ;
 
 	case 5:
@@ -5109,7 +5101,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving memory as tmx file") ;
 		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name ) ;
+		export_tmx( file_name, mem ) ;
 		break;
 	}
 

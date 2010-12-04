@@ -2334,25 +2334,26 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 		}
 
 	default:
-		logging::log_warn("Unknown case is switch statement") ;
+		logging::log_warn("Unknown file type selected for Glossary - Save As") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
-		logging::log_debug("Saving glossary as fgloss file") ;
+		logging::log_debug("Falling back to save glossary as fgloss file") ;
 		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
 		return ;
 	}
 
-	// If the name changes, then we make the current user into the creator
 	CString old_location = mem->get_location() ;
-
 	mem->set_location( save_as_file_name ) ;
 
-	save_memory( mem ) ;
-
+	// If we're saving to a different file name, change the memory's creator
+	// to the current user
 	if ( 0 != old_location.CompareNoCase( save_as_file_name ) )
 	{
 		mem->set_creator_to_current_user( ) ;
 	}
 
+	save_memory( mem ) ;
+
+	// the title of the window will change to reflect the new memory name
 	set_window_title() ;
 }
 

@@ -299,3 +299,13 @@ mem_engine::search_match_ptr ViewStateMatchGloss::get_current_match()
 	}
 	return m_search_matches->current( ) ;
 }
+
+void ViewStateMatchGloss::set_app_props( app_props::properties_glossary *properties )
+{
+	m_properties_gloss = properties ;
+}
+
+void ViewStateMatchGloss::activate()
+{
+
+}

@@ -760,6 +760,8 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 		ViewStateMatchGloss state ;
 		view_state_obj vso(&state) ;
 		vso.listener.m_should_delete = true ;
+		app_props::properties_glossary props ;
+		state.set_app_props(&props) ;
 
 		search_match_ptr m1 = make_match("source 1", "trans 1", vso.mem->get_id()) ;
 		search_match_ptr m2 = make_match("source 2", "trans 2", vso.mem->get_id()) ;

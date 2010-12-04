@@ -433,8 +433,8 @@ private:
 
 	bool has_more_memory_history( mem_engine::memory_iterator pos, size_t mem_num );
 	BOOL should_save_memory_history( );
-	bool export_trados( const CString &file_name ) ;
-	bool export_tmx( const CString &file_name );
+	bool export_trados( const CString &file_name, mem_engine::memory_pointer mem ) ;
+	bool export_tmx(const CString &file_name, mem_engine::memory_pointer mem);
 	void set_exporter_src_and_target_langs(CExportDialog &dialog, CTMXWriter &exporter);
 
 	void do_save( memory_type mem ) ;
