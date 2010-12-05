@@ -534,6 +534,19 @@ void CHtmlView::put_edit_mode(const bool mode)
 	mode; 
 	return ;
 #else
+	 
+	if (mode)
+	{
+		command_target_ptr command_target = get_command_target() ;
+		CComVariant var(VARIANT_TRUE);
+		var.vt = VT_BOOL; // Set the type to BOOL
+
+		HRESULT hr = command_target->Exec(&CGID_MSHTML, IDM_RESPECTVISIBILITY_INDESIGN, OLECMDEXECOPT_DONTPROMPTUSER, &var, NULL) ;
+		if (FAILED(hr))
+		{
+			logging::log_debug("Setting 'Respect visibility in design' option returned " + int2string(hr, 16)) ;
+		}
+	}
 
 	document_ptr doc = get_document() ;
 	ATLASSERT(doc) ;

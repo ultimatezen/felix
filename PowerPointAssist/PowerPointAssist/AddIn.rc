@@ -467,8 +467,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,2,0
- PRODUCTVERSION 1,4,2,0
+ FILEVERSION 1,6,4,1
+ PRODUCTVERSION 1,6,4,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -486,12 +486,12 @@ BEGIN
             VALUE "Comments", "Part of the Assistant Suite"
             VALUE "CompanyName", "GITS"
             VALUE "FileDescription", "Felix Interface for MS PowerPoint"
-            VALUE "FileVersion", "1.4.2.0"
+            VALUE "FileVersion", "1.6.4.1"
             VALUE "InternalName", "PowerPointAssist.dll"
             VALUE "LegalCopyright", "(c) GITS.  All rights reserved."
             VALUE "OriginalFilename", "PowerPointAssist.dll"
             VALUE "ProductName", "PowerPoint Assist"
-            VALUE "ProductVersion", "1.4.2.0"
+            VALUE "ProductVersion", "1.6.4.1"
         END
     END
     BLOCK "VarFileInfo"

@@ -130,7 +130,7 @@ public:
 
 	void set_active_on() { m_is_active = true ; }
 	void set_active_off() { m_is_active = false ; }
-	bool is_active() { return m_is_active ; }
+	bool is_active() const { return m_is_active ; }
 
 	void set_creator_to_current_user();
 	void do_demo_check( int *cookie );

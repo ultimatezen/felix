@@ -538,10 +538,9 @@ wstring Utf82Utf16Converter::convert( const char* begin, const char *end )
 	}
 	const UTF8* from_begin = reinterpret_cast<const UTF8*>(begin) ;
 	UTF16* to_begin = static_cast<UTF16*>(m_out.get()) ;
-	ConversionResult result = ConvertUTF8toUTF16(&from_begin, 
+	ATLVERIFY(conversionOK == ConvertUTF8toUTF16(&from_begin, 
 		from_begin + from_size, 
 		&to_begin, 
-		to_begin + from_size) ;
-	ATLASSERT(result == conversionOK) ;
+		to_begin + from_size)) ;
 	return wstring(m_out.get()) ;
 }
