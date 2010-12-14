@@ -162,6 +162,8 @@ class Utf82Utf16Converter
 public:
 	Utf82Utf16Converter();
 	wstring convert(const char* begin, const char *end);
+
+	void ensure_arr_size( size_t from_size );
 };
 
 

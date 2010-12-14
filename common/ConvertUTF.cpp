@@ -531,11 +531,7 @@ Utf82Utf16Converter::Utf82Utf16Converter() :
 wstring Utf82Utf16Converter::convert( const char* begin, const char *end )
 {
 	size_t from_size = str::generic_strdist(begin, end) ;
-	if (from_size > m_arr_size)
-	{
-		m_arr_size = from_size ;
-		m_out = boost::shared_array<wchar_t>(new wchar_t[m_arr_size+1]) ;
-	}
+	ensure_arr_size(from_size);
 	const UTF8* from_begin = reinterpret_cast<const UTF8*>(begin) ;
 	UTF16* to_begin = static_cast<UTF16*>(m_out.get()) ;
 	ATLVERIFY(conversionOK == ConvertUTF8toUTF16(&from_begin, 
@@ -543,4 +539,13 @@ wstring Utf82Utf16Converter::convert( const char* begin, const char *end )
 		&to_begin, 
 		to_begin + from_size)) ;
 	return wstring(m_out.get()) ;
+}
+
+void Utf82Utf16Converter::ensure_arr_size( size_t from_size )
+{
+	if (from_size > m_arr_size)
+	{
+		m_arr_size = from_size ;
+		m_out = boost::shared_array<wchar_t>(new wchar_t[m_arr_size+1]) ;
+	}
 }

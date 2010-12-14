@@ -192,7 +192,7 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-#define VERSION "1.6.4.1"
+#define VERSION "1.6.5"
 #define LOGGING_SERVER L"FelixHelpers.FelixLogger"
 #define LOGFILE_NAME _T("felix.log")
  

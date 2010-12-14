@@ -90,7 +90,7 @@ STDMETHODIMP CApp2::get_ActiveMemory(IMemory **pVal)
 {
 	try
 	{
-		if ( m_active_memory)
+		if (m_active_memory)
 		{
 			return m_active_memory->QueryInterface(pVal) ;
 		}

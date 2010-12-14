@@ -308,7 +308,6 @@ namespace mem_engine
 
 			// create the xml document
 			const string rec_start =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
-				"<!DOCTYPE memory >\r\n"
 				"<!-- Created by Felix v " VERSION " -->\r\n"
 				"<memory>\r\n";
 			output_device.write( rec_start ) ;
