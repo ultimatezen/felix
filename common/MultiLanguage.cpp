@@ -40,8 +40,9 @@ DetectEncodingInfo CMultiLanguage::detect_encoding( LPCSTR text, const int str_s
 	if( in_size == -1 )
 		in_size = static_cast< int >( strlen( text ) ) ;
 
-	DetectEncodingInfo info[1] ;
-	int num_structs = 1 ;
+	const int INFO_SIZE = 2 ;
+	DetectEncodingInfo info[INFO_SIZE] ;
+	int num_structs = INFO_SIZE ;
 	HRESULT hr = m_multi->DetectInputCodepage( flags, pref_codepage, const_cast<LPSTR>(text), &in_size, info, &num_structs ) ;
 
 	if ( FAILED( hr ) )

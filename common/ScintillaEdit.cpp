@@ -76,6 +76,7 @@ UINT get_textfile_encoding( const file::file::BYTE_ORDER_MARK bom, LPSTR ftext, 
 	default:
 		try
 		{
+
 			CMultiLanguage multi ;
 
 			DWORD flag = 0 ;
@@ -87,7 +88,24 @@ UINT get_textfile_encoding( const file::file::BYTE_ORDER_MARK bom, LPSTR ftext, 
 
 			DetectEncodingInfo detect = multi.detect_encoding( ftext, fsize, flag ) ;
 
+			// catch spurious utf-16 as 1252
+			if (detect.nCodePage != CP_UNICODE && detect.nCodePage != CP_UNICODE_BE)
+			{
+				size_t count=0 ;
+				for (size_t i=0 ; i < 100 && i < fsize ; ++i)
+				{
+					if (ftext[i] == 0)
+					{
+						++count ;
+					}
+				}
+				if (count > 30)
+				{
+					return CP_UNICODE ;
+				}
+			}
 			return detect.nCodePage ;
+
 
 		}
 		catch ( CComException &e ) 

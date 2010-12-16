@@ -63,18 +63,25 @@ void CTabbedTextImporter::load_file( const CString filename )
 	LPSTR raw_text = (LPSTR)input->create_view_char(filename) ;
 	UINT encoding = get_textfile_encoding(bom, raw_text, fsize) ;
 
-	CStringW wide_buffer ;
-	const UINT len_needed = ::MultiByteToWideChar( encoding, NULL, raw_text, fsize, NULL, 0 ) ;
+	if (encoding == CP_UNICODE)
+	{
+		add_records(wstring(reinterpret_cast<wchar_t*>(raw_text), fsize/2)) ;
+	}
+	else
+	{
+		CStringW wide_buffer ;
+		const UINT len_needed = ::MultiByteToWideChar( encoding, NULL, raw_text, fsize, NULL, 0 ) ;
 
-	// we need to create a new buffer here, because we may be loading
-	// more than one memory at the same time.
-	// If we do that, then we will wreck our current buffer, causing all kinds of havoc!!!
-	LPWSTR dest = wide_buffer.GetBufferSetLength( len_needed+1 ) ;
-	::MultiByteToWideChar( encoding, NULL, raw_text, fsize, dest, len_needed+1 ) ;
+		// we need to create a new buffer here, because we may be loading
+		// more than one memory at the same time.
+		// If we do that, then we will wreck our current buffer, causing all kinds of havoc!!!
+		LPWSTR dest = wide_buffer.GetBufferSetLength( len_needed+1 ) ;
+		::MultiByteToWideChar( encoding, NULL, raw_text, fsize, dest, len_needed+1 ) ;
 
-	// MultiByteToWideChar doesn't null-terminate the string
-	wide_buffer.GetBuffer()[len_needed] = 0 ;
-	wide_buffer.ReleaseBuffer(len_needed) ;
+		// MultiByteToWideChar doesn't null-terminate the string
+		wide_buffer.GetBuffer()[len_needed] = 0 ;
+		wide_buffer.ReleaseBuffer(len_needed) ;
 
-	add_records(wstring(dest)) ;
+		add_records(wstring(dest)) ;
+	}
 }
