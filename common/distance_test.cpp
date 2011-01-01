@@ -21,6 +21,22 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 		BOOST_CHECK_EQUAL( d.min3(2, 5, 10), 2u) ;
 		BOOST_CHECK_EQUAL( d.min3(5, 5, 5), 5u) ;
 	}
+	BOOST_AUTO_TEST_CASE( test_edist_aaaa_aaba )
+	{
+		Distance d ;
+		wstring spam = L"aaaa" ;
+		wstring ham = L"aaba" ;
+		BOOST_CHECK_EQUAL(d.edist(spam, ham), 1u) ;
+		BOOST_CHECK_EQUAL(d.edist(ham, spam), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_edist_aaba_aaaa )
+	{
+		Distance d ;
+		wstring spam = L"aaba" ;
+		wstring ham = L"aaaa" ;
+		BOOST_CHECK_EQUAL(d.edist(spam, ham), 1u) ;
+		BOOST_CHECK_EQUAL(d.edist(ham, spam), 1u) ;
+	}
 	BOOST_AUTO_TEST_CASE( test_edist_spam_ham )
 	{
 		Distance d ;

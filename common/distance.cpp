@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "distance.h"
 
+using namespace std; 
 
 size_t Distance::edist(const wstring &a, const wstring &b)
 {
@@ -45,21 +46,34 @@ size_t Distance::edist(const wstring &a, const wstring &b)
 	if (!a_len || !b_len)
 	{
 		// Since one of them is 0, just add them to get the nonzero value
-		return (long)a_len + b_len;
+		return (size_t)a_len + b_len;
 	}
 
 	// check a_len == 1
 	if (a_len == 1)
 	{
 		wchar_t c = *a_str;
-		while (*b_str)
+		for (size_t i = 0 ; i < b_len ; ++i)
 		{
-			if (*(b_str++) == c)
+			if (b_str[i] == c)
 			{
-				return (long)b_len - 1;
+				return (size_t)b_len - 1;
 			}
 		}
-		return (long)b_len;
+		return (size_t)b_len;
+	}
+	// check b_len == 1
+	if (b_len == 1)
+	{
+		wchar_t c = *b_str;
+		for (size_t i = 0 ; i < a_len ; ++i)
+		{
+			if (a_str[i] == c)
+			{
+				return (size_t)a_len - 1;
+			}
+		}
+		return (size_t)a_len;
 	}
 	a_len++;
 	b_len++;
@@ -229,4 +243,43 @@ size_t Distance::min2( size_t a, size_t b ) const
 size_t Distance::min3( size_t a, size_t b, size_t c ) const 
 {
 	return min2(a, min2(b, c) ) ;
+}
+
+double Distance::edist_score( const wstring &a, const wstring &b )
+{
+	size_t a_len = a.size() ;
+	size_t b_len = b.size() ;
+
+	size_t minlen, maxlen ;
+	if ( a_len > b_len )
+	{
+		minlen = b_len ;
+		maxlen = a_len ;
+	}
+	else
+	{
+		minlen = a_len ;
+		maxlen = b_len ;
+	}
+
+	// Avoid divide by zero errors
+	if (maxlen == 0) 
+	{
+		return 0.0 ;
+	}
+
+	// Make sure difference in lengths is not too great
+	size_t diff = maxlen - minlen ;
+	size_t maxdiff = maxlen - (size_t)((float)maxlen * minscore) ;
+	if ( diff > maxdiff)
+	{
+		return 0.0 ;
+	}
+
+	size_t distance = this->edist(a, b) ;
+
+	// calculate the score
+	// score = (maxlen - distance) / maxlen
+
+	return ((double)maxlen - (double)distance) / (double)maxlen ;
 }

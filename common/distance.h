@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class Distance
 {
 	size_t *row1 ;
@@ -24,48 +26,11 @@ public:
 	{
 		minscore = score ;
 	}
-	size_t edist(const wstring &a, const wstring &b);
-	size_t subdist(const wstring &needle, const wstring &haystack);
+	size_t edist(const std::wstring &a, const std::wstring &b);
+	size_t subdist(const std::wstring &needle, const std::wstring &haystack);
 
-	double edist_score(const wstring &a, const wstring &b)
-	{
-		size_t a_len = a.size() ;
-		size_t b_len = b.size() ;
-
-		size_t minlen, maxlen ;
-		if ( a_len > b_len )
-		{
-			minlen = b_len ;
-			maxlen = a_len ;
-		}
-		else
-		{
-			minlen = a_len ;
-			maxlen = b_len ;
-		}
-
-		// Avoid divide by zero errors
-		if (maxlen == 0) 
-		{
-			return 0.0 ;
-		}
-
-		// Make sure difference in lengths is not too great
-		size_t diff = maxlen - minlen ;
-		size_t maxdiff = maxlen - (size_t)((float)maxlen * minscore) ;
-		if ( diff > maxdiff)
-		{
-			return 0.0 ;
-		}
-
-		size_t distance = this->edist(a, b) ;
-
-		// calculate the score
-		// score = (maxlen - distance) / maxlen
-
-		return ((double)maxlen - (double)distance) / (double)maxlen ;
-	}
-	double subdist_score(const wstring &needle, const wstring &haystack)
+	double edist_score(const std::wstring &a, const std::wstring &b);
+	double subdist_score(const std::wstring &needle, const std::wstring &haystack)
 	{
 		size_t needle_len = needle.size() ; 
 

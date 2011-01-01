@@ -463,6 +463,7 @@ BOOST_AUTO_TEST_SUITE( test_mem_search_matcher )
 
 		record_pointer rec = make_record("xxx", "bar", "zzz") ;
 		rec->set_created(L"2010/08/10") ;
+		rec->set_modified(L"2010/08/10") ;
 
 		BOOST_CHECK(matcher.is_match(rec)) ;
 	}

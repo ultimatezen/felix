@@ -2,7 +2,7 @@
 
 #pragma message( "   Processing StringConversions.h...")
 
-#include "StringEx.h"	// string extensions
+#include "StringEx.h"	// std::string extensions
 #include "winnls.h" // unicode-multibyte conversion
 #include "errno.h"
 #include "textstream_reader.h"
@@ -19,22 +19,22 @@ static const size_t ONEM = (ONEK*ONEK) ;
 static const size_t ONEG = (ONEM*ONEK) ;
 
 // forward declarations
-wstring resource2wstring( const UINT uid, const HINSTANCE instance ) ;
-string string2string( const wstring &str, UINT code_page = _getmbcp() ) ;
-wstring string2wstring( const wstring &str, UINT code_page = _getmbcp() ) ;
+std::wstring resource2wstring( const UINT uid, const HINSTANCE instance ) ;
+std::string string2string( const std::wstring &str, UINT code_page = _getmbcp() ) ;
+std::wstring string2wstring( const std::wstring &str, UINT code_page = _getmbcp() ) ;
 
 
 /***************************
  *
- * string conversion routines
+ * std::string conversion routines
  *
  ***************************/
 
-inline string string2string( const wstring &str, const UINT code_page )
+inline std::string string2string( const std::wstring &str, const UINT code_page )
 {
 	if ( str.empty() ) 
 	{
-		return string() ;
+		return std::string() ;
 	}
 
 	// Calculate the required length of the buffer
@@ -43,7 +43,7 @@ inline string string2string( const wstring &str, const UINT code_page )
 	_ASSERTE(len_needed > 0) ;
 	if ( len_needed == 0 ) 
 	{
-		return string() ;
+		return std::string() ;
 	}
 
     // Create the buffer
@@ -63,25 +63,25 @@ inline string string2string( const wstring &str, const UINT code_page )
 	_ASSERTE(num_copied > 0) ;
 	_ASSERTE(! str.empty()) ;
 
-	if (0 == num_copied) return string() ;
+	if (0 == num_copied) return std::string() ;
 
 	buff[num_copied] = 0 ;
 
-	return string(buff.get(), num_copied) ;
+	return std::string(buff.get(), num_copied) ;
 }
 
 
-// convert to wstring
+// convert to std::wstring
 
-inline wstring string2wstring( const wstring &str, const UINT)
+inline std::wstring string2wstring( const std::wstring &str, const UINT)
 {
-	return wstring( str ) ;
+	return std::wstring( str ) ;
 }
-inline wstring string2wstring( const string &str, const UINT code_page = _getmbcp() )
+inline std::wstring string2wstring( const std::string &str, const UINT code_page = _getmbcp() )
 {
 	if ( str.empty() ) 
 	{
-		return wstring() ;
+		return std::wstring() ;
 	}
 	
 	// Calculate the required length of the buffer
@@ -90,7 +90,7 @@ inline wstring string2wstring( const string &str, const UINT code_page = _getmbc
 	_ASSERTE(len_needed > 0) ;
 	if (0 == len_needed) 
 	{
-		return wstring() ;
+		return std::wstring() ;
 	}
 	
 	// Create the buffer
@@ -109,58 +109,58 @@ inline wstring string2wstring( const string &str, const UINT code_page = _getmbc
 
 	if (0 == num_copied) 
 	{
-		return wstring() ;
+		return std::wstring() ;
 	}
 
 	buff[num_copied] = 0 ;
 	
-	return wstring(buff.get(), num_copied) ;
+	return std::wstring(buff.get(), num_copied) ;
 }
 
-/* Converts the string into a wstring using the system's multibyte
-   code page, then converts that into a string using the supplied
+/* Converts the std::string into a std::wstring using the system's multibyte
+   code page, then converts that into a std::string using the supplied
    code page. It's a way to convert e.g. SJIS to UTF-8 in one go.
-   If the original string isn't in the system code page, then you
+   If the original std::string isn't in the system code page, then you
    should do this manually:
-   const wstring tmp = string2wstring(s, CP_XX) ;
+   const std::wstring tmp = string2wstring(s, CP_XX) ;
    return string2wstring(tmp, CP_UTF8) ;
  */
-inline string string2string( const string &str, UINT code_page = CP_ACP  )
+inline std::string string2string( const std::string &str, UINT code_page = CP_ACP  )
 {
 	if ( _getmbcp() == static_cast<int>(code_page) )
-		return string(str) ;
+		return std::string(str) ;
 
-	const wstring w = string2wstring( str, _getmbcp() ) ;
+	const std::wstring w = string2wstring( str, _getmbcp() ) ;
 	return string2string( w, code_page ) ;
 }
 
 // convert from BSTR
 
-inline wstring BSTR2wstring( const BSTR &bstr )
+inline std::wstring BSTR2wstring( const BSTR &bstr )
 {
 	if (! bstr)
 	{
-		return wstring() ;
+		return std::wstring() ;
 	}
 	const int len = ::SysStringLen(bstr) ;
 	if ( len == 0 )
 	{
-		return wstring() ;
+		return std::wstring() ;
 	}
 
-	// the string may have embedded nulls...
-	return wstring( (const OLECHAR*)bstr, len ) ;
+	// the std::string may have embedded nulls...
+	return std::wstring( (const OLECHAR*)bstr, len ) ;
 }
 
-inline string BSTR2string( const BSTR &bstr, UINT code_page = _getmbcp() )
+inline std::string BSTR2string( const BSTR &bstr, UINT code_page = _getmbcp() )
 {
-	const wstring tmp = BSTR2wstring( bstr ) ;
+	const std::wstring tmp = BSTR2wstring( bstr ) ;
 	return string2string( tmp, code_page ) ;
 }
 
 
 
-inline _bstr_t string2BSTR( const wstring str )
+inline _bstr_t string2BSTR( const std::wstring str )
 {
 	if (str.empty())
 	{
@@ -169,15 +169,15 @@ inline _bstr_t string2BSTR( const wstring str )
 	_ASSERTE(str.size() > 0) ;
 	return _bstr_t(::SysAllocStringLen(str.c_str(), static_cast<UINT>(str.size())), false) ;
 }
-inline _bstr_t string2BSTR( const string str, UINT cp = CP_ACP )
+inline _bstr_t string2BSTR( const std::string str, UINT cp = CP_ACP )
 {
-	const wstring tmp = string2wstring( str, cp ) ;
+	const std::wstring tmp = string2wstring( str, cp ) ;
 	return string2BSTR(tmp) ;
 }
 
 // conversion to tstring
 
-inline tstring string2tstring( const string &str, UINT code_page = _getmbcp()  )
+inline tstring string2tstring( const std::string &str, UINT code_page = _getmbcp()  )
 {
 #ifdef _UNICODE
 	return string2wstring( str, code_page ) ;
@@ -186,7 +186,7 @@ inline tstring string2tstring( const string &str, UINT code_page = _getmbcp()  )
 #endif
 }
 
-inline tstring string2tstring( const wstring &str, UINT code_page = _getmbcp()  )
+inline tstring string2tstring( const std::wstring &str, UINT code_page = _getmbcp()  )
 {
 #ifdef _UNICODE
 	return string2wstring( str, code_page ) ;
@@ -198,11 +198,11 @@ inline tstring string2tstring( const wstring &str, UINT code_page = _getmbcp()  
 
 inline tstring BSTR2tstring( const BSTR &bstr, UINT code_page = _getmbcp()  )
 {
-	const wstring rhs = BSTR2wstring( bstr ) ;
+	const std::wstring rhs = BSTR2wstring( bstr ) ;
 	return string2tstring( rhs, code_page ) ;
 }
 
-inline tstring utf82tstring( const string &str )
+inline tstring utf82tstring( const std::string &str )
 {
 	return string2tstring( str, CP_UTF8 ) ;
 }
@@ -211,7 +211,7 @@ inline tstring utf82tstring( const string &str )
 //* data type conversions
 //***************************
 
-inline double string2double( const wstring &str )
+inline double string2double( const std::wstring &str )
 {
 	try
 	{
@@ -219,20 +219,20 @@ inline double string2double( const wstring &str )
 	}
 	catch (boost::bad_lexical_cast& e)
 	{
-		std::string message ("Failed to convert string to double: ") ;
+		std::string message ("Failed to convert std::string to double: ") ;
 		message += e.what();
 		throw std::exception(message.c_str()) ;
 	}
 }
 
-inline double string2double( const string &str )
+inline double string2double( const std::string &str )
 {
-	const wstring wstr = string2wstring( str ) ;
+	const std::wstring wstr = string2wstring( str ) ;
 
 	return string2double( wstr ) ;
 }
 
-inline long string2long( const string &str, int base=10 )
+inline long string2long( const std::string &str, int base=10 )
 {
 	// global value...
 	errno = 0 ;
@@ -242,19 +242,19 @@ inline long string2long( const string &str, int base=10 )
 	_ASSERTE( errno != ERANGE ) ;
 	if( errno == ERANGE ) 
 	{
-		std::string message ("Failed to convert string to double ") ;
+		std::string message ("Failed to convert std::string to double ") ;
 		message += str + " to long";
 		throw std::exception(message.c_str()) ;
 	}
 	return val ;
 }
 
-inline long string2long( const wstring &str, int base=10 )
+inline long string2long( const std::wstring &str, int base=10 )
 {
 	return string2long(string2string(str), base) ;
 }
 
-inline unsigned long string2ulong( const string &str, int base=10 )
+inline unsigned long string2ulong( const std::string &str, int base=10 )
 {
 	errno = 0 ;
 	const unsigned long val = strtoul( str.c_str(), NULL, base ) ;
@@ -263,7 +263,7 @@ inline unsigned long string2ulong( const string &str, int base=10 )
 	_ASSERTE( errno != ERANGE ) ;
 	if( errno == ERANGE ) 
 	{
-		std::string message = std::string("Failed to convert string to string ") +
+		std::string message = std::string("Failed to convert std::string to std::string ") +
 			str +
 			" to ulong";
 		throw std::exception(message.c_str()) ;
@@ -271,26 +271,26 @@ inline unsigned long string2ulong( const string &str, int base=10 )
 	return val ;
 }
 
-inline unsigned long string2ulong( const wstring &str, int base=10 )
+inline unsigned long string2ulong( const std::wstring &str, int base=10 )
 {
 	return string2ulong(string2string(str), base) ;
 }
 
 
-inline bool string2bool( const string &flag )
+inline bool string2bool( const std::string &flag )
 {
 	return ( 0 == _stricmp(flag.c_str(), "true" ) ) ;
 }
-inline bool string2bool( const wstring &flag )
+inline bool string2bool( const std::wstring &flag )
 {
 	return ( 0 == _wcsicmp(flag.c_str(), L"true" ) ) ;
 }
 
-inline string bool2string( const bool flag )
+inline std::string bool2string( const bool flag )
 {
-	if ( flag ) return string( "true" ) ;
+	if ( flag ) return std::string( "true" ) ;
 
-	return string( "false" ) ;
+	return std::string( "false" ) ;
 }
 
 inline tstring bool2tstring( const bool flag )
@@ -301,38 +301,38 @@ inline tstring bool2tstring( const bool flag )
 }
 
 
-inline wstring bool2wstring( const bool flag )
+inline std::wstring bool2wstring( const bool flag )
 {
-	if ( flag ) return wstring( L"true" ) ;
+	if ( flag ) return std::wstring( L"true" ) ;
 
-	return wstring( L"false" ) ;
+	return std::wstring( L"false" ) ;
 }
 
-inline string int2string( const int i, const int radix = 10 )
+inline std::string int2string( const int i, const int radix = 10 )
 {
 	char buf[35] = { 0 } ;
 
 	if (EINVAL == _itoa_s( i, buf, 35, radix ))
 	{
-		std::string message("Failed to convert int to string");
+		std::string message("Failed to convert int to std::string");
 		throw std::exception(message.c_str()) ;
 	}
 
-	return string( buf ) ;
+	return std::string( buf ) ;
 }
 
 
-inline wstring int2wstring( const int i, const int radix = 10 )
+inline std::wstring int2wstring( const int i, const int radix = 10 )
 {
 	wchar_t buf[35] = { 0 } ;
 
 	if (EINVAL == _itow_s( i, buf, 35, radix ))
 	{
-		std::string message ("Failed to convert int to wstring");
+		std::string message ("Failed to convert int to std::wstring");
 		throw std::exception(message.c_str()) ;
 	}
 
-	return wstring( buf ) ;
+	return std::wstring( buf ) ;
 }
 
 
@@ -346,25 +346,25 @@ inline tstring int2tstring( const int i, const int radix = 10 )
 }
 
 
-inline wstring ulong2wstring( const unsigned long i, const int radix = 10 )
+inline std::wstring ulong2wstring( const unsigned long i, const int radix = 10 )
 {
 	wchar_t buff[MAX_NUM_STRLEN] ;
 
 	if (EINVAL == _ultow_s( i, buff, MAX_NUM_STRLEN, radix ))
 	{
-		std::string message ("Failed to convert ulong to string");
+		std::string message ("Failed to convert ulong to std::string");
 		throw std::exception(message.c_str()) ;
 	}
 
-	return wstring(buff) ;
+	return std::wstring(buff) ;
 }
 
-inline string ulong2string( const unsigned long i, const int radix = 10 )
+inline std::string ulong2string( const unsigned long i, const int radix = 10 )
 {
 	return string2string(ulong2wstring(i, radix)) ;
 }
 
-inline wstring ulong2formatted_wstring( const unsigned long i )
+inline std::wstring ulong2formatted_wstring( const unsigned long i )
 {
 	wchar_t out_buffer[MAX_NUM_STRLEN] = {0} ;
 
@@ -375,27 +375,27 @@ inline wstring ulong2formatted_wstring( const unsigned long i )
 										 out_buffer, 
 										 MAX_NUM_STRLEN) ;
 	
-	const wstring output_str(out_buffer, len) ;
+	const std::wstring output_str(out_buffer, len) ;
 	size_t decimal_pos = output_str.find_first_of( L'.' ) ;
 	return output_str.substr( 0, decimal_pos ) ;
 }
 
 
-inline wstring double2wstring( const double d, const size_t precision = 5 )
+inline std::wstring double2wstring( const double d, const size_t precision = 5 )
 {
 	try
 	{
-		const wstring fmt_string = (wformat(L"%%1$.%1%lf") % precision).str() ;
-		return (wformat(fmt_string) % d).str() ;
+		const std::wstring fmt_string = (boost::wformat(L"%%1$.%1%lf") % precision).str() ;
+		return (boost::wformat(fmt_string) % d).str() ;
 	}
 	catch (std::exception &e)
 	{
-		std::string message = std::string("Failed to convert double to wstring: ") + e.what();
+		std::string message = std::string("Failed to convert double to std::wstring: ") + e.what();
 		throw std::exception(message.c_str()) ;
 	}
 }
 
-inline string double2string( const double d, const size_t precision=5 )
+inline std::string double2string( const double d, const size_t precision=5 )
 {
 	return string2string(double2wstring( d, precision )) ;
 }
@@ -411,16 +411,16 @@ inline tstring double2tstring( const double d  )
 }
 
 /*!
- * Convert a file size into a wstring, with correct unit.
+ * Convert a file size into a std::wstring, with correct unit.
  */
-inline wstring file_size2wstring( const size_t file_size )
+inline std::wstring file_size2wstring( const size_t file_size )
 {
 	if( file_size < ONEK )
 	{
 		return ulong2formatted_wstring( static_cast< unsigned long >( file_size )  ) + L" Bytes" ;
 	}
 
-	wstring desc ;
+	std::wstring desc ;
 	_variant_t var ;
 
 	if ( file_size < ONEM )
@@ -462,12 +462,12 @@ inline wstring file_size2wstring( const size_t file_size )
 			out_buffer[i] = 0 ;
 		// fall through...
 		default:
-			return wstring((LPCWSTR)ATL::CT2W(out_buffer)) + desc ;
+			return std::wstring((LPCWSTR)ATL::CT2W(out_buffer)) + desc ;
 		}
 	}
-	return wstring((LPCWSTR)ATL::CT2W(out_buffer)) + desc ;
+	return std::wstring((LPCWSTR)ATL::CT2W(out_buffer)) + desc ;
 }
-inline string file_size2string( const size_t file_size )
+inline std::string file_size2string( const size_t file_size )
 {
 	return string2string(file_size2wstring(file_size)) ;
 }
@@ -487,7 +487,7 @@ inline tstring ulong2tstring( const unsigned long i, const int radix = 10 )
  * 1.0 = 100%
  * etc.
  */
-inline string double2percent_string( const double value, bool round = true )
+inline std::string double2percent_string( const double value, bool round = true )
 {
 	const double hundred_percent = 100.0 ;
 	int percent_num = static_cast< int >( value * hundred_percent ) ;
@@ -500,13 +500,13 @@ inline string double2percent_string( const double value, bool round = true )
 			percent_num++ ;
 		}
 	}
-	string percent ;
+	std::string percent ;
 	percent += int2string( percent_num ) ;
 	percent += "%" ;
 	return percent ;
 }
 
-inline wstring double2percent_wstring( const double val, bool round = true )
+inline std::wstring double2percent_wstring( const double val, bool round = true )
 {
 	return string2wstring( double2percent_string( val, round ) ) ;
 }
@@ -533,7 +533,7 @@ inline tstring resource2tstring( const UINT uid, HINSTANCE resource_inst )
 #endif
 }
 
-inline wstring resource2wstring( const UINT uid, const HINSTANCE instance )
+inline std::wstring resource2wstring( const UINT uid, const HINSTANCE instance )
 {
 	const UINT block = (uid >> 4) + 1;   // Compute block number.
 	const UINT num = uid & 0xf;      // Compute offset into block.
@@ -545,29 +545,29 @@ inline wstring resource2wstring( const UINT uid, const HINSTANCE instance )
 
 	_ASSERTE( hRC != NULL ) ;
 	if ( hRC == NULL )
-		return wstring() ;
+		return std::wstring() ;
 
 	HGLOBAL hgl = LoadResource(instance, hRC);
 
 	_ASSERTE( hgl != NULL ) ;
 	if ( hgl == NULL )
-		return wstring() ;
+		return std::wstring() ;
 
 	LPWSTR res_str = (LPWSTR)LockResource(hgl);
 
 	_ASSERTE( res_str != NULL ) ;
 	if ( res_str == NULL )
-		return wstring() ;
+		return std::wstring() ;
 
 	for ( UINT i = 0; i < num; i++)
 	{
 		res_str += *res_str + 1;
 	}
 
-	return wstring( res_str + 1,  *res_str );
+	return std::wstring( res_str + 1,  *res_str );
 }
 
-inline string resource2string( const UINT uid, HINSTANCE resource_inst )
+inline std::string resource2string( const UINT uid, HINSTANCE resource_inst )
 {
 	const tstring tres = resource2tstring( uid, resource_inst ) ;
 
@@ -582,12 +582,12 @@ inline string resource2string( const UINT uid, HINSTANCE resource_inst )
 
 #endif // #if _WIN32_IE > 0
 
-inline string escape_char( BYTE the_char )
+inline std::string escape_char( BYTE the_char )
 {
 	const int hex_radint = 16 ;
 	// 0x1A -> \'1A
-	string escaped_char = "\\'" ;
-	const string hex_rep = int2string( the_char, hex_radint ) ;
+	std::string escaped_char = "\\'" ;
+	const std::string hex_rep = int2string( the_char, hex_radint ) ;
 	if ( hex_rep.empty() )
 		escaped_char += "0" ;
 	if ( hex_rep.length() < 2 )
@@ -598,9 +598,9 @@ inline string escape_char( BYTE the_char )
 	return escaped_char ;
 }
 
-inline string escape_string( const string &str )
+inline std::string escape_string( const std::string &str )
 {
-	string out ;
+	std::string out ;
 
 	foreach( char c, str )
 	{
@@ -624,18 +624,18 @@ inline string escape_string( const string &str )
 	return out ;
 }
 
-inline string escape_string( const wstring &str )
+inline std::string escape_string( const std::wstring &str )
 {
 	return escape_string( string2string( str ) ) ;
 }
 
-inline string unescape_string( const string &str )
+inline std::string unescape_string( const std::string &str )
 {
 	textstream_reader< char > reader ;
 	reader.set_buffer( str.c_str() ) ;
 
-	string output ;
-	string chunk ;
+	std::string output ;
+	std::string chunk ;
 
 	while( reader.peek() != char(0) )
 	{

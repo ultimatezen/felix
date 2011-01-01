@@ -9,6 +9,7 @@
 #pragma once
 
 #include "textstream_reader.h"
+#include "stringconversions.h"
 #include <boost/regex.hpp>
 
 #pragma message( "   Processing tag_stripper.h...")
