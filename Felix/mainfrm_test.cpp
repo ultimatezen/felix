@@ -137,6 +137,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		rec->set_source(wstring(source)) ;
 		rec->set_trans(wstring(trans)) ;
 		mainframe.add_record(rec) ;
+		mainframe.get_memory_model()->get_first_memory()->set_minimum_score(50) ;
 	}
 
 	search_match_ptr get_first_match(CMainFrame &mainframe, search_query_params &params)

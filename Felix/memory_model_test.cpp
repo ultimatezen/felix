@@ -224,13 +224,16 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		BOOST_CHECK_EQUAL(50, (int)mem1->m_properties.m_data.m_min_score) ;
-		BOOST_CHECK_EQUAL(50, (int)mem2->m_properties.m_data.m_min_score) ;
-		app_props::properties_memory properties ;
-		properties.m_data.m_min_score = 0 ;
-		mm.set_properties_memory(properties) ;
+		app_props::properties_memory props ;
+		props.m_data.m_min_score = 0 ;
+		mm.set_properties_memory(props) ;
 		BOOST_CHECK_EQUAL(0u, mem1->m_properties.m_data.m_min_score) ;
 		BOOST_CHECK_EQUAL(0u, mem2->m_properties.m_data.m_min_score) ;
+
+		props.m_data.m_min_score = 50 ;
+		mm.set_properties_memory(props) ;
+		BOOST_CHECK_EQUAL(50u, mem1->m_properties.m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(50u, mem2->m_properties.m_data.m_min_score) ;
 	}
 	// finding matches
 	BOOST_AUTO_TEST_CASE( find_trans_matches )

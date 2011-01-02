@@ -54,7 +54,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
 			record_pointer record = add_record(mem, "dummy", "dummy") ;
@@ -83,7 +83,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
 			add_record(mem, "dummy", "dummy") ;
@@ -107,7 +107,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 			add_record(mem, "dummy", "dummy") ;
 
@@ -135,7 +135,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 
 			add_hit(mem, "I luv spam", "Yes I do") ;
 
@@ -163,7 +163,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
 			add_hit(mem, "I luv spam", "Yes I do") ;
@@ -202,7 +202,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(0.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
 			add_hit(mem, L"baab", L"baab") ;
@@ -242,7 +242,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 
 			add_hit(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
@@ -282,7 +282,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 			mem.m_engine.method(L"Create", L"spam", L"m") ;
 
 			add_hit(mem, L"aaaa", L"aaaa") ;
@@ -310,7 +310,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	{
 		try
 		{
-			memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+			memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 
 			add_hit(mem, L"eggs", L"trans") ;
 
@@ -348,7 +348,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 	BOOST_AUTO_TEST_CASE( is_local)
 	{
-		memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+		memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 		BOOST_CHECK(! mem.is_local()) ;
 	}
 
@@ -357,7 +357,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	// get matches
 	BOOST_AUTO_TEST_CASE(make_match)
 	{
-		memory_remote mem(5.0, L"Felix.RemoteMemoryFake") ;
+		memory_remote mem(.5, L"Felix.RemoteMemoryFake") ;
 
 		search_match_ptr match = mem.make_match() ;
 		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;

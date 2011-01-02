@@ -19,6 +19,7 @@ namespace mem_engine
 		memory_remote(double min_score=0.5f, LPCWSTR server_name = L"Felix.RemoteMemory") : 
 		  CTranslationMemory(min_score), m_engine(server_name)
 		{
+			m_match_maker.set_minimum_score(min_score) ;
 			m_is_saved = true ;
 		}
 	

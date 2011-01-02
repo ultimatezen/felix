@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "distance.h"
+#include <map>
 
 using namespace std; 
 
@@ -62,19 +63,7 @@ size_t Distance::edist(const wstring &a, const wstring &b)
 		}
 		return (size_t)b_len;
 	}
-	// check b_len == 1
-	if (b_len == 1)
-	{
-		wchar_t c = *b_str;
-		for (size_t i = 0 ; i < a_len ; ++i)
-		{
-			if (a_str[i] == c)
-			{
-				return (size_t)a_len - 1;
-			}
-		}
-		return (size_t)a_len;
-	}
+
 	a_len++;
 	b_len++;
 
@@ -247,8 +236,9 @@ size_t Distance::min3( size_t a, size_t b, size_t c ) const
 
 double Distance::edist_score( const wstring &a, const wstring &b )
 {
-	size_t a_len = a.size() ;
-	size_t b_len = b.size() ;
+	// set maxlen and minlen
+	const size_t a_len = a.size() ;
+	const size_t b_len = b.size() ;
 
 	size_t minlen, maxlen ;
 	if ( a_len > b_len )
@@ -269,14 +259,46 @@ double Distance::edist_score( const wstring &a, const wstring &b )
 	}
 
 	// Make sure difference in lengths is not too great
-	size_t diff = maxlen - minlen ;
-	size_t maxdiff = maxlen - (size_t)((float)maxlen * minscore) ;
-	if ( diff > maxdiff)
+	const size_t lendiff = maxlen - minlen ;
+	const size_t maxdiff = maxlen - (size_t)((float)maxlen * minscore) ;
+	if ( lendiff > maxdiff)
 	{
 		return 0.0 ;
 	}
 
-	size_t distance = this->edist(a, b) ;
+	// screen using multiset intersection for best possible matchup
+	std::map<wchar_t, size_t> bmap ;
+	foreach(wchar_t element, b)
+	{
+		if (bmap.find(element) == bmap.end())
+		{
+			bmap[element] = 1 ;
+		}
+		else
+		{
+			bmap[element]++ ;
+		}
+	}
+	size_t maxalike = 0 ;
+	foreach(wchar_t element, a)
+	{
+		if (bmap.find(element) != bmap.end())
+		{
+			if (bmap[element])
+			{
+				maxalike++ ;
+				bmap[element]-- ;
+			}
+		}
+	}
+
+	const size_t mindiff = maxlen - maxalike ;
+	if ( mindiff > maxdiff)
+	{
+		return 0.0 ;
+	}
+
+	const size_t distance = this->edist(a, b) ;
 
 	// calculate the score
 	// score = (maxlen - distance) / maxlen
