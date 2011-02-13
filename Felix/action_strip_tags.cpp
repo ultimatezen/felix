@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "action_strip_tags.h"
 #include "tag_stripper.h"
+#include "logging.h"
 
 namespace action
 {
@@ -28,10 +29,27 @@ namespace action
 			records.insert(rec) ;
 		}
 		m_new->clear_memory() ;
-		mem_engine::copy_mem_info(m_old, m_new) ;
-		foreach(mem_engine::record_pointer rec, records)
+		try
 		{
-			m_new->add_record(rec) ;
+			mem_engine::copy_mem_info(m_old, m_new) ;
+			foreach(mem_engine::record_pointer rec, records)
+			{
+				try
+				{
+					m_new->add_record(rec) ;
+				}
+				catch (except::CBadRecordException& e)
+				{
+					string msg(CT2A(e.what())) ;
+					logging::log_warn(string("Failed to save stripped record: ") + msg) ;
+				}
+			}
+		}
+		catch (...)
+		{
+			// restore memory
+			m_new = m_old ;
+			throw ;
 		}
 	}
 

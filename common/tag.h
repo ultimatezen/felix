@@ -41,6 +41,10 @@ public:
 		delims += CHAR_T('\t') ;
 		delims += CHAR_T('>') ;
 
+		str_type quotes ;
+		quotes += CHAR_T('"') ;
+		quotes += CHAR_T('\'') ;
+
 		ATLVERIFY(reader.getline( m_tag_name, delims.c_str(), true )) ;
 		ATLASSERT ( m_tag_name.empty() == false ) ; 
 
@@ -49,8 +53,9 @@ public:
 		while ( ! reader.empty() && ! reader.current_is( CHAR_T('>') ) ) 
 		{
 			const str_type key = reader.getline(CHAR_T('=')) ;
-			reader.jump_to_first_of(CHAR_T('"'), true) ;
-			const str_type val = reader.getline(CHAR_T('"'), true) ;
+			reader.jump_to_first_of(quotes.c_str(), true) ;
+			str_type val ;
+			reader.getline(val, quotes.c_str(), true) ;
 			if ( ! key.empty() && ! val.empty() ) 
 			{
 				m_attributes[key] = val ;

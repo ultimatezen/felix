@@ -1414,10 +1414,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\tag_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\text_templates.cpp"
 				>
 			</File>
@@ -1971,6 +1967,10 @@
 				</File>
 				<File
 					RelativePath=".\tag_stripper_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\tag_test.cpp"
 					>
 				</File>
 				<File

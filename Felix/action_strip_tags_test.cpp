@@ -35,6 +35,17 @@ BOOST_AUTO_TEST_CASE(strip_one_record)
 	wstring expected = L"foo" ;
 	BOOST_CHECK_EQUAL(expected, after->get_source_rich()) ;
 }
+BOOST_AUTO_TEST_CASE(strip_makes_empty)
+{
+	me::memory_pointer mem(new me::memory_local) ;
+	add_record(mem, "<b></b>", "blarg") ;
+	add_record(mem, "bip", "blarg") ;
+
+	action::StripTagsAction stripper(mem) ;
+	stripper.redo() ;
+	BOOST_CHECK_EQUAL(1u, stripper.m_new->size()) ;
+}
+
 BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 {
 	me::memory_pointer mem(new me::memory_local) ;
