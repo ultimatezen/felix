@@ -1345,6 +1345,51 @@ BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
 		match = *(matches.begin()) ;
 		BOOST_CHECK(match->get_record()->get_trans_rich() == L"Nailed to the perch.") ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// test_validated_percent
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_validated_percent )
+	using namespace mem_engine ;
+	using namespace except ;
+
+	// make_match
+	BOOST_AUTO_TEST_CASE(empty_mem)
+	{
+		memory_local mem(0.0f) ;
+		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"0%") ;
+	}
+
+	BOOST_AUTO_TEST_CASE(none_validated)
+	{
+		memory_local mem(0.0f) ;
+
+		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
+		rec1->set_validated(false) ;
+		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"0%") ;
+	}
+	BOOST_AUTO_TEST_CASE(all_validated)
+	{
+		memory_local mem(0.0f) ;
+
+		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
+		record_pointer rec2 = add_record(mem, "bbb", "bbb") ;
+		rec1->set_validated(true) ;
+		rec2->set_validated(true) ;
+		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"100%") ;
+	}
+	BOOST_AUTO_TEST_CASE(half_validated)
+	{
+		memory_local mem(0.0f) ;
+
+		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
+		record_pointer rec2 = add_record(mem, "bbb", "bbb") ;
+		rec1->set_validated(true) ;
+		rec2->set_validated(false) ;
+		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"50%") ;
+	}
 
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -252,16 +252,13 @@ namespace mem_engine
 			return false ;
 		}
 
-		size_t num_erased = m_records.erase( record ) ;
-
 		// if we didn't erase anything, then don't mark
 		// the memory as dirty. 
-		if ( num_erased == 0 )
+		if ( m_records.erase( record ) == 0 )
 		{
 			return false ;	// didn't erase anything.
 		}
 
-		// mark memory as dirty
 		make_dirty() ;
 
 		return true ;
@@ -604,23 +601,21 @@ namespace mem_engine
 
 	}
 
+	bool is_validated(const record_pointer rec)
+	{
+		return rec->is_validated() ;
+	}
+
 	wstring memory_local::get_validated_percent()
 	{
 		if ( m_records.empty() )
 		{
 			return L"0%" ;
 		}
-		size_t num_validated = 0 ;
-
-		foreach ( record_pointer record, m_records )
-		{
-			if ( record->is_validated() )
-			{
-				++num_validated ;
-			}
-		}
-
-		return double2percent_wstring( (double)num_validated / (double)m_records.size()  ) ;
+		const double num_validated = (double)std::count_if(m_records.begin(),
+												   m_records.end(),
+												   is_validated) ;
+		return double2percent_wstring( num_validated / (double)m_records.size()  ) ;
 
 	}
 
@@ -838,8 +833,8 @@ namespace mem_engine
 		if ( code_page == CP_UNICODE ) // our work is done for us!
 		{
 			ATLASSERT( file_len % 2 == 0 && "File length must not be odd" ) ;
-			size_t destSize = static_cast< size_t >( file_len / 2 + 1 ) ;
-			size_t srcSize = static_cast< size_t >( file_len / 2 ) ;
+			const size_t destSize = static_cast< size_t >( file_len / 2 + 1 ) ;
+			const size_t srcSize = static_cast< size_t >( file_len / 2 ) ;
 			LPCWSTR src = (LPCWSTR)( raw_text ) ;
 			LPWSTR dest = wide_buffer.GetBufferSetLength( destSize+1 ) ;
 
@@ -960,6 +955,13 @@ namespace mem_engine
 		return this->get_location() ;
 	}
 
+	/* We call this after an action on the memory that
+	   will change the saved file:
+
+			- Adding a record
+			- Removing a record
+			- Changing memory properties
+	*/
 	void memory_local::make_dirty()
 	{
 		if (m_is_loading)

@@ -1022,6 +1022,11 @@ _bstr_t CFelixExcelIF::get_selection_text( excel::app_ptr application )
  */
 void CFelixExcelIF::set_active_cell_text( _bstr_t text )
 {
+	if (text.length() == 0)
+	{
+		logging::log_warn("Translation text is empty; ignoring Get action") ;
+		return ;
+	}
 	CFelixString felix_text(text) ;
 
 	// First we try writing to the Selection.
