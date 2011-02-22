@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "number_check.h"
 
+#include <boost/algorithm/string.hpp>
 
 namespace qc
 {

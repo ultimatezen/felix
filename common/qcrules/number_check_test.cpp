@@ -7,6 +7,7 @@
 #include "qcrules/number_check.h"
 
 #include <boost/test/unit_test.hpp>
+#include <boost/algorithm/string.hpp>
 
 #ifdef UNIT_TEST
 
