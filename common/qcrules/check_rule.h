@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace qc
 {
@@ -18,5 +19,7 @@ namespace qc
 			messages.swap(temp) ;
 		}
 	};
+
+	typedef boost::shared_ptr<CheckRule> rule_ptr ;
 
 }

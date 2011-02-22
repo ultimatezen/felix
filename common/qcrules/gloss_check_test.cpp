@@ -17,14 +17,16 @@ BOOST_AUTO_TEST_SUITE( GlossCheckRuleTests )
 
 	BOOST_AUTO_TEST_CASE( ensure_init )
 	{
-		GlossCheckRule rule ;
+		std::vector<gloss_pair> matches ;
+		GlossCheckRule rule(matches) ;
 		vector<wstring> messages ;
 		rule.get_error_msgs(messages) ;
 		BOOST_CHECK_EQUAL( 0u, messages.size() ) ;
 	}
 	BOOST_AUTO_TEST_CASE( empty_source_and_target )
 	{
-		GlossCheckRule rule ;
+		std::vector<gloss_pair> matches ;
+		GlossCheckRule rule(matches) ;
 		wstring source = L"" ;
 		wstring target = L"" ;
 		BOOST_CHECK( rule.check(source, target) ) ;
@@ -32,24 +34,30 @@ BOOST_AUTO_TEST_SUITE( GlossCheckRuleTests )
 
 	BOOST_AUTO_TEST_CASE( gloss_match )
 	{
-		GlossCheckRule rule ;
-		rule.add_gloss_match(L"foo", L"bar") ;
+		std::vector<gloss_pair> matches ;
+		matches.push_back(gloss_pair(L"foo", L"bar")) ;
+		GlossCheckRule rule(matches) ;
+
 		wstring source = L"I have foo." ;
 		wstring target = L"I have bar." ;
 		BOOST_CHECK( rule.check(source, target) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( non_gloss_match )
 	{
-		GlossCheckRule rule ;
-		rule.add_gloss_match(L"foo", L"bar") ;
+		std::vector<gloss_pair> matches ;
+		matches.push_back(gloss_pair(L"foo", L"bar")) ;
+		GlossCheckRule rule(matches) ;
+
 		wstring source = L"I have foo." ;
 		wstring target = L"I have foo." ;
 		BOOST_CHECK( ! rule.check(source, target) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( non_gloss_match_messages )
 	{
-		GlossCheckRule rule ;
-		rule.add_gloss_match(L"foo", L"bar") ;
+		std::vector<gloss_pair> matches ;
+		matches.push_back(gloss_pair(L"foo", L"bar")) ;
+		GlossCheckRule rule(matches) ;
+
 		wstring source = L"I have foo." ;
 		wstring target = L"I have foo." ;
 		rule.check(source, target) ;
