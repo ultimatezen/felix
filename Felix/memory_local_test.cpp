@@ -1390,8 +1390,6 @@ BOOST_AUTO_TEST_SUITE( test_validated_percent )
 		rec2->set_validated(false) ;
 		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"50%") ;
 	}
-
-
 BOOST_AUTO_TEST_SUITE_END()
 
 //////////////////////////////////////////////////////////////////////////

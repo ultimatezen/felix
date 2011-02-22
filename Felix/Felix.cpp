@@ -49,12 +49,6 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/timer.hpp>
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 
 template <class CharT, class TraitsT = std::char_traits<CharT> >
 class basic_debugbuf : 

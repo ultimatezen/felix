@@ -1412,12 +1412,26 @@ HRESULT CPowerPointInterface::select_next_cell()
 // getAssistant
 Felix::IAppPtr CPowerPointInterface::getAssistant(void)
 {
-	Felix::IAppPtr assistant ;
-	assistant.CreateInstance( L"Felix.App" ) ;
+	try
+	{
+		Felix::IAppPtr assistant ;
+		COM_ENFORCE(assistant.CreateInstance( L"Felix.App" ), _T("Failed to connect to Felix window") ) ;
 
-	assistant->Visible = VARIANT_TRUE ;
+		assistant->Visible = VARIANT_TRUE ;
+		assistant->App2->MemoryWindow->Raise() ;
+		return assistant ;
+	}
+	catch (_com_error& e)
+	{
+		CComException com_exept(e) ;
 
-	return assistant ;
+		logging::log_error("Failed to connect to Felix window") ;
+		logging::log_exception(com_exept) ;
+
+		CString message(_T("Failed to connect to Felix window")) ;
+		com_exept.add_to_message(message) ;
+		throw CComException(com_exept) ;
+	}
 }
 
 // has_grouped_shapes

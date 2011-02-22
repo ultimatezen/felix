@@ -2194,6 +2194,7 @@ Felix::IAppPtr WordController::getAssistant(void)
 		COM_ENFORCE(assistant.CreateInstance( L"Felix.App" ), _T("Failed to connect to Felix window") ) ;
 
 		assistant->Visible = VARIANT_TRUE ;
+		assistant->App2->MemoryWindow->Raise() ;
 		return assistant ;
 	}
 	catch (_com_error& e)

@@ -547,6 +547,7 @@ ta_ptr CFelixExcelIF::realGetAssistant(void)
 		m_Assistant.CreateInstance( L"Felix.App" ) ;
 		m_Assistant->Visible = VARIANT_TRUE ;
 	}
+	m_Assistant->App2->MemoryWindow->Raise() ;
 	
 	ta_ptr ta = ta_ptr( new FelixApp ) ;
 	ta->set_app(m_Assistant) ;
