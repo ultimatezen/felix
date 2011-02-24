@@ -1,0 +1,38 @@
+<p><a href="/start" title="管理ＴＯＰへ">トップ</a>
+	&gt;&gt;
+        QCチェックの設定
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>QCチェックの設定</h2>
+
+<form method="post" action="/submit_qc" name="qc_check_form">
+
+<table width="100%" class="info">
+	<tr>
+		<td><input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers == "true" %}checked="checked" {% endif %}/></td>
+		<td><b>数字</b>　:　数字の整合性をチェックします</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps == "true" %}checked="checked" {% endif %}/></td>
+		<td><b>ALL CAPS</b>　:　大文字のみの単語をちぇっくします</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss == "true" %}checked="checked" {% endif %}/></td>
+		<td><b>用語</b>　：　用語集のマッチをチェックします</td>
+	</tr>
+</table>
+                    <!-- submit button -->
+                    <p>
+                    <input type="submit" name="submit" value="設定を変更する" />
+                    </p>
+
+</form>

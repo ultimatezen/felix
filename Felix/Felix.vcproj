@@ -2142,6 +2142,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewQCSettings.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewStart.cpp"
 					>
 				</File>
@@ -3121,6 +3125,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewQCSettings.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewStart.h"
 					>
 				</File>
@@ -3130,6 +3138,10 @@
 				</File>
 				<File
 					RelativePath=".\ManagerWindowFactoryConcrete.h"
+					>
+				</File>
+				<File
+					RelativePath=".\QCFormParser.h"
 					>
 				</File>
 			</Filter>

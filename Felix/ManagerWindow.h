@@ -145,6 +145,7 @@ public:
 	// crud
 	bool nav_view(const std::vector<string> &tokens) ;
 	bool nav_edit(const std::vector<string> &tokens) ;
+	bool nav_qc(const std::vector<string> &tokens) ;
 	bool nav_browse(const std::vector<string> &tokens) ;
 	bool nav_browse_page(const std::vector<string> &tokens) ;
 	bool nav_remove(const std::vector<string> &tokens) ;
@@ -155,6 +156,7 @@ public:
 	bool edit_record(const std::vector<string> &tokens);
 
 	bool handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc);
+	bool handle_qc_settings(doc3_wrapper_ptr doc);
 
 	bool import_tmx( const file::OpenDlgList &files );
 

@@ -14,9 +14,11 @@
 #include "ManagerViewBrowse.h"
 #include "ManagerViewDetails.h"
 #include "ManagerViewEdit.h"
+#include "ManagerViewQCSettings.h"
 #include "ManagerViewStart.h"
 #include "ManagerViewActions.h"
 #include "EditFormParser.h"
+#include "QCFormParser.h"
 #include "ui.h"
 
 #include "TMXReader.h"		// CTMXReader
@@ -231,6 +233,14 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return handle_edit_memory(tokens, this->get_doc3()) ;
 		}
+		if (tokens[0] == "qc_settings")
+		{
+			return nav_qc(tokens) ;
+		}
+		if (tokens[0] == "submit_qc")
+		{
+			return handle_qc_settings(this->get_doc3()) ;
+		}
 		if (tokens[0] == "browse")
 		{
 			return nav_browse(tokens) ;
@@ -432,7 +442,13 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
-
+bool CManagerWindow::nav_qc(const std::vector<string> &)
+{
+	SENSE("nav_qc"); 
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCSettings())) ;
+	m_current_state->show_content() ;
+	return true ;
+}
 bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc)
 {
 	mem_engine::memory_pointer mem = get_mem(tokens[1],
@@ -455,6 +471,20 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 	return nav_view(tokens) ;
 
 }
+bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
+{
+	mgrview::QCFormParser parser(doc) ;
+
+	const bool check_numbers = parser.check_numbers() ;
+	const bool check_all_caps = parser.check_all_caps() ;
+	const bool check_gloss = parser.check_gloss() ;
+
+	m_message = L"Configured QC Settings" ;
+	std::vector<string> tokens ;
+	return nav_start(tokens) ;
+}
+
+
 bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
 {
 	SENSE("nav_browse"); 

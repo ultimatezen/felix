@@ -16,3 +16,5 @@
 <div id="glossaries">
 {$glosslist}
 </div>
+
+<p><a href="/qc_settings">QC Settings</a></p>

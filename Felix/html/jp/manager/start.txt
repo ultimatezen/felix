@@ -16,3 +16,5 @@
 <div id="glossaries">
 {$glosslist}
 </div>
+
+<p><a href="/qc_settings">QCチェックの設定</a></p>
