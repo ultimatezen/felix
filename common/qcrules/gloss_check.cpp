@@ -2,6 +2,8 @@
 #include "gloss_check.h"
 
 
+#include <boost/foreach.hpp>
+
 namespace qc
 {
 	bool GlossCheckRule::check( const std::wstring source, const std::wstring target )

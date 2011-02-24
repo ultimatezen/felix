@@ -2,10 +2,6 @@
 #include "check_rule.h"
 
 #include <vector>
-#include <string>
-
-#include <boost/foreach.hpp>
-using namespace boost::foreach ;
 
 namespace qc
 {

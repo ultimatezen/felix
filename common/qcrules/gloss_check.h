@@ -7,9 +7,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include <boost/foreach.hpp>
-using namespace boost::foreach ;
-
 namespace qc
 {
 	typedef std::pair<std::wstring, std::wstring> gloss_pair ;

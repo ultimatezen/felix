@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "qc_checker.h"
 
+#include <string>
+
+#include <boost/foreach.hpp>
 
 namespace qc
 {

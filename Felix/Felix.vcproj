@@ -430,6 +430,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\common\qcrules\allcaps_check.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\allcaps_check_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\App.cpp"
 				>
 			</File>
@@ -765,6 +773,14 @@
 			</File>
 			<File
 				RelativePath=".\font_tabulator.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\gloss_check.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\gloss_check_test.cpp"
 				>
 			</File>
 			<File
@@ -1176,6 +1192,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\qcrules\number_check.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\number_check_test.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\common\numberfmt.cpp"
 				>
 			</File>
@@ -1219,6 +1243,14 @@
 						BrowseInformation="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\qc_checker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\qc_checker_test.cpp"
+				>
 			</File>
 			<File
 				RelativePath="query.cpp"
@@ -2326,6 +2358,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\qcrules\allcaps_check.h"
+				>
+			</File>
+			<File
 				RelativePath=".\App.h"
 				>
 			</File>
@@ -2355,6 +2391,10 @@
 			</File>
 			<File
 				RelativePath="charset_info.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\check_rule.h"
 				>
 			</File>
 			<File
@@ -2543,6 +2583,10 @@
 			</File>
 			<File
 				RelativePath=".\FrameListener.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\gloss_check.h"
 				>
 			</File>
 			<File
@@ -2754,6 +2798,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\qcrules\number_check.h"
+				>
+			</File>
+			<File
 				RelativePath="..\common\numberfmt.h"
 				>
 			</File>
@@ -2783,6 +2831,10 @@
 			</File>
 			<File
 				RelativePath="PropertiesDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\qcrules\qc_checker.h"
 				>
 			</File>
 			<File
