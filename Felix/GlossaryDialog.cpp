@@ -43,12 +43,13 @@ using namespace except ;
 using namespace html ;
 
 // CTOR
-CGlossaryDialog::CGlossaryDialog( ) : 
+CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) : 
+	m_props(props),
 	m_is_main(false),
 	m_listener(NULL),
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
-	m_manager_window(IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
+	m_manager_window(props, IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
 	m_output_device(new OutputDeviceFile)

@@ -71,6 +71,7 @@ class CGlossaryDialog :
 	mem_engine::search_query_glossary		m_search_matches ;
 	mem_engine::search_query_glossary		m_concordance_matches ;
 
+	app_props::props_ptr m_props ;
 	// various user preferences
 	app_props::properties_glossary		m_properties_gloss ;
 	app_props::properties_algorithm		m_properties_algo ;
@@ -102,6 +103,10 @@ class CGlossaryDialog :
 	output_device_ptr	m_output_device ;
 
 public:
+
+	CGlossaryDialog(app_props::props_ptr props) ;
+	~CGlossaryDialog( ) ;
+
 	mem_engine::felix_query *get_current_matches()
 	{
 		return &m_search_matches ;
@@ -246,9 +251,6 @@ public:
 
 		return memory_file_ext ;
 	}
-
-	CGlossaryDialog( ) ;
-	~CGlossaryDialog( ) ;
 
 	bool exit_silently() ;
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;

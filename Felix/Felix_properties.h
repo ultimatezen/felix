@@ -477,6 +477,54 @@ struct properties_view : public props::CRegMap
 
 } ;
 
+
+struct properties_qc : public props::CRegMap
+{
+	struct props_data
+	{
+		BOOL	m_check_numbers ;
+		BOOL	m_check_all_caps ;
+		BOOL	m_check_gloss ;
+
+		props_data() : 
+		m_check_numbers(FALSE),
+			m_check_all_caps(FALSE),
+			m_check_gloss(FALSE)
+		{
+		}
+		props_data( const props_data &rhs )
+		{
+			memcpy( this, &rhs, sizeof( props_data ) ) ;
+		}
+		props_data& operator= ( const props_data &rhs )
+		{
+			memcpy( this, &rhs, sizeof( props_data ) ) ;
+			return *this ;
+		}
+	} ;
+
+	props_data m_data ;
+
+	properties_qc() 
+	{	}
+
+	properties_qc( const properties_qc &rhs ) :
+	m_data( rhs.m_data )
+	{
+	}
+	properties_qc &operator=( const properties_qc &rhs )
+	{
+		m_data = rhs.m_data ;
+		return *this ;
+	}
+
+	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
+		REG_ENTRY_BOOL( _T("qc_check_numbers"),		m_data.m_check_numbers );
+		REG_ENTRY_BOOL( _T("qc_check_all_caps"),	m_data.m_check_all_caps );
+		REG_ENTRY_BOOL( _T("qc_check_gloss"),		m_data.m_check_gloss );
+	END_REGISTRY_MAP
+
+} ;
 /**
 	@	struct properties_general 
 	@brief general properties.
@@ -562,6 +610,7 @@ struct properties
 	properties_general		m_gen_props ;
 	properties_algorithm	m_alg_props ;
 	properties_view			m_view_props ;
+	properties_qc			m_qc_props; 
 
 	properties& operator=( const properties &rhs )
 	{
@@ -570,6 +619,7 @@ struct properties
 		m_gen_props		= rhs.m_gen_props ;
 		m_alg_props		= rhs.m_alg_props ;
 		m_view_props	= rhs.m_view_props;
+		m_qc_props		= rhs.m_qc_props;
 
 		return *this ;
 	}
@@ -597,6 +647,10 @@ struct properties
 		{
 			retval = false ;
 		}
+		if ( ! m_qc_props.read_from_registry() )
+		{
+			retval = false ;
+		}
 
 		return retval ;
 	}
@@ -621,6 +675,10 @@ struct properties
 			retval = false ;
 		}
 		if ( ! m_view_props.write_to_registry() )
+		{
+			retval = false ;
+		}
+		if ( ! m_qc_props.write_to_registry() )
 		{
 			retval = false ;
 		}

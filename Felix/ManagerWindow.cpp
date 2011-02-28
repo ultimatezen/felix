@@ -10,7 +10,6 @@
 #include "numberfmt.h"
 #include "system_message.h"
 
-
 #include "ManagerViewBrowse.h"
 #include "ManagerViewDetails.h"
 #include "ManagerViewEdit.h"
@@ -42,14 +41,18 @@
 using namespace mem_engine ;
 using namespace action ;
 
-CManagerWindow::CManagerWindow(int title_id, LPCTSTR key, FrameListener *listener) : 
+CManagerWindow::CManagerWindow(app_props::props_ptr props,
+							   int title_id, 
+							   LPCTSTR key, 
+							   FrameListener *listener) : 
 	m_listener(listener),
 	m_title_id(title_id),
 	m_settings_key(key),
 	m_mem_model(NULL),
 	m_gloss_model(NULL),
 	m_current_item(0),
-	m_is_memory(true)
+	m_is_memory(true),
+	m_props(props)
 {
 
 }
@@ -445,7 +448,8 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 bool CManagerWindow::nav_qc(const std::vector<string> &)
 {
 	SENSE("nav_qc"); 
-	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCSettings())) ;
+	m_props->m_qc_props.read_from_registry() ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCSettings(m_props))) ;
 	m_current_state->show_content() ;
 	return true ;
 }
@@ -474,10 +478,15 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 {
 	mgrview::QCFormParser parser(doc) ;
-
 	const bool check_numbers = parser.check_numbers() ;
 	const bool check_all_caps = parser.check_all_caps() ;
 	const bool check_gloss = parser.check_gloss() ;
+
+	m_props->m_qc_props.m_data.m_check_numbers = check_numbers ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_check_all_caps = check_all_caps ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_check_gloss = check_gloss ? TRUE : FALSE ;
+
+	m_props->m_qc_props.write_to_registry() ;
 
 	m_message = L"Configured QC Settings" ;
 	std::vector<string> tokens ;

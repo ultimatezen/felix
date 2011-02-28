@@ -53,7 +53,8 @@ using namespace mem_engine ;
 
 	BOOST_AUTO_TEST_CASE(ends_with_pound)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"/foo#" ;
@@ -62,7 +63,8 @@ using namespace mem_engine ;
 	// empty
 	BOOST_AUTO_TEST_CASE( test_nav_empty)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"" ;
@@ -72,7 +74,8 @@ using namespace mem_engine ;
 	// moving items in list
 	BOOST_AUTO_TEST_CASE(get_mem_iter_at_1)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 		memory_pointer mem1 = setup.mem_model.memory_at(1) ;
@@ -83,7 +86,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(get_mem_iter_at_0)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 		memory_pointer mem0 = setup.mem_model.memory_at(0) ;
@@ -94,7 +98,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(swap_memories)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 		memory_pointer mem1 = setup.mem_model.memory_at(1) ;
@@ -106,7 +111,8 @@ using namespace mem_engine ;
 
 	BOOST_AUTO_TEST_CASE( test_nav_moveup)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 		memory_pointer mem0 = setup.mem_model.memory_at(0) ;
@@ -128,7 +134,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE( test_nav_movedown)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_glosses(2) ;
 
@@ -152,7 +159,8 @@ using namespace mem_engine ;
 	// actions
 	BOOST_AUTO_TEST_CASE(test_actions)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 
@@ -164,7 +172,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_perform_action)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 
@@ -182,7 +191,8 @@ using namespace mem_engine ;
 	// undo/redo
 	BOOST_AUTO_TEST_CASE(test_undo)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 
@@ -197,7 +207,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_redo)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
 
@@ -212,7 +223,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_undo_msg)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
@@ -227,7 +239,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_redo_msg)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		action::FakeUndoableAction *fake = new action::FakeUndoableAction ;
@@ -244,7 +257,8 @@ using namespace mem_engine ;
 	// navigation to various category pages
 	BOOST_AUTO_TEST_CASE(test_nav_start)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/1/start" ;
@@ -253,7 +267,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE( test_nav_memories)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/1/memories" ;
@@ -262,7 +277,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE( test_nav_glossaries)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/1/glossaries" ;
@@ -272,7 +288,8 @@ using namespace mem_engine ;
 	// crud
 	BOOST_AUTO_TEST_CASE(test_nav_view)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -282,7 +299,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_edit)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -295,7 +313,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_submit_edit)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -332,7 +351,8 @@ using namespace mem_engine ;
 
 	BOOST_AUTO_TEST_CASE(test_nav_browse)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -343,7 +363,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_browse_page)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -354,7 +375,8 @@ using namespace mem_engine ;
 	}	
 	BOOST_AUTO_TEST_CASE(test_nav_remove)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(1) ;
 
@@ -365,7 +387,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_addnew_mem)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/mem/addnew" ;
@@ -375,7 +398,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_addnew_gloss)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/gloss/addnew" ;
@@ -385,7 +409,8 @@ using namespace mem_engine ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_load)
 	{
-		CManagerWindow window ;
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 
 		_bstr_t url = L"c:\\foo/bar/mem/load" ;

@@ -107,7 +107,7 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	m_model( model ),
 	m_properties(new app_props::properties()),
 	m_editor(new CEditTransRecordDialog),
-	m_manager_window(IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
+	m_manager_window(m_properties, IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
 	m_output_device(new OutputDeviceFile)
@@ -476,7 +476,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		// the glossary window
 		logging::log_debug("Setting up the glossary window") ;
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_properties))) ;
 
 		// set the title
 		set_window_title() ;
@@ -742,7 +742,7 @@ LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
+	add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_properties))) ;
 	return 0L ;
 #endif
 }
@@ -1893,7 +1893,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 	if ( m_glossary_windows.empty() ) 
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_properties))) ;
 	}
 
 	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
@@ -1951,7 +1951,7 @@ gloss_window_pointer CMainFrame::get_glossary_window()
 {
 	if ( m_glossary_windows.empty() )
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog)) ;
+		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_properties))) ;
 	}
 	return m_glossary_windows[0] ;
 }

@@ -16,6 +16,8 @@
 #include "undoable_action.h"
 #include "FelixModelInterface.h"
 
+#include "Felix_properties.h"
+
 const static string ACTION_NAME_TRIM = "trim" ;
 const static string ACTION_NAME_STRIP = "strip" ;
 
@@ -58,6 +60,8 @@ public:
 
 	FrameListener	*m_listener ;
 
+	app_props::props_ptr m_props ;
+
 	action::undo_action_ptr m_undo ;
 
 public:
@@ -69,9 +73,10 @@ public:
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
-	CManagerWindow(int title_id=IDS_SEARCH_MANAGER_TITLE, 
-				   LPCTSTR key=_T("MemoryMangerWindow"),
-				   FrameListener *listener=NULL);
+	CManagerWindow(app_props::props_ptr props,
+					int title_id=IDS_SEARCH_MANAGER_TITLE, 
+					LPCTSTR key=_T("MemoryMangerWindow"),
+					FrameListener *listener=NULL);
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
