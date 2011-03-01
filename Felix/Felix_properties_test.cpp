@@ -319,6 +319,28 @@ BOOST_AUTO_TEST_SUITE( properties_qc_TestCase )
 		BOOST_CHECK_EQUAL ( old_props.m_data.m_check_gloss,		new_props.m_data.m_check_gloss ) ; 
 
 	}
+	BOOST_AUTO_TEST_CASE( qc_enabled_numbers )
+	{
+		app_props::properties_qc props ;
+
+		BOOST_CHECK(! props.qc_enabled()) ;
+
+		props.m_data.m_check_numbers = TRUE ;
+		BOOST_CHECK(props.qc_enabled()) ;
+	}
+	BOOST_AUTO_TEST_CASE( qc_enabled_all_caps )
+	{
+		app_props::properties_qc props ;
+		props.m_data.m_check_all_caps = TRUE ;
+		BOOST_CHECK(props.qc_enabled()) ;
+	}
+	BOOST_AUTO_TEST_CASE( qc_enabled_gloss )
+	{
+		app_props::properties_qc props ;
+		props.m_data.m_check_gloss = TRUE ;
+		BOOST_CHECK(props.qc_enabled()) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

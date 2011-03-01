@@ -517,6 +517,22 @@ struct properties_qc : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
+	bool qc_enabled()
+	{
+		return check_numbers() || check_gloss() || check_all_caps() ;
+	}
+	bool check_numbers()
+	{
+		return !! m_data.m_check_numbers ;
+	}
+	bool check_all_caps()
+	{
+		return !! m_data.m_check_all_caps ;
+	}
+	bool check_gloss()
+	{
+		return !! m_data.m_check_gloss ;
+	}
 
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 		REG_ENTRY_BOOL( _T("qc_check_numbers"),		m_data.m_check_numbers );
