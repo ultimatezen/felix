@@ -73,7 +73,7 @@ BEGIN
     GROUPBOX        "Ｉ／Ｆ言語",IDC_STATIC,9,5,106,44
     CONTROL         "英語(&E)",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
     CONTROL         "日本語(&J)",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
-    CONTROL         "従来のＩ／Ｆ(&C)",IDC_CLASSIC_INTERFACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,60,140,17
+    CONTROL         "Felixコマンドの際、Felix画面を表示する(&R)",IDC_RAISE_FELIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,60,199,17
     PUSHBUTTON      "ショートカット(&K)...",IDC_KEYBOARD_SHORTCUTS,13,92,111,22
 END
 
@@ -85,7 +85,8 @@ BEGIN
     GROUPBOX        "Interface Language",IDC_STATIC,9,5,106,44
     CONTROL         "&English",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
     CONTROL         "&Japanese",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
-    CONTROL         "&Classic Interface",IDC_CLASSIC_INTERFACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,60,140,17
+    CONTROL         "&Raise Felix window on Felix command",IDC_RAISE_FELIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,60,140,17
     PUSHBUTTON      "&Keyboard Shortcuts...",IDC_KEYBOARD_SHORTCUTS,11,84,107,18
 END
 

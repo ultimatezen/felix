@@ -47,6 +47,7 @@
 #define IDC_BUTTON1                     210
 #define IDC_KEYBOARD_SHORTCUTS          210
 #define IDB_SAVE                        211
+#define IDC_RAISE_FELIX                 211
 #define IDS_REG_KEY                     212
 #define IDB_CORRECT_AND_NEXT            213
 #define IDB_LOOKUP_TRANS                214

@@ -89,6 +89,7 @@ void app_state::setDefaults()
 	m_data.m_select_spaces = TRUE ;
 	m_data.m_navigation_type = NAV_TYPE_ASK ;
 	m_data.m_shortcuts_active = TRUE ;
+	m_data.m_raise_felix = FALSE ;
 }
 
 

@@ -38,6 +38,7 @@ app_state::app_state() :
 
 		m_freshInstall = TRUE ;
 		m_shortcuts_active = TRUE ;
+		m_raise_felix = FALSE ;
 
 	}
 
@@ -51,6 +52,7 @@ app_state::app_state() :
 		m_skipJ = rhs.m_skipJ ;
 		m_freshInstall = rhs.m_freshInstall; // is this useful?
 		m_use_trans_hist = rhs.m_use_trans_hist;
+		m_raise_felix = rhs.m_raise_felix ;
 	}
 
 	/*! Assignment operator.
@@ -65,6 +67,7 @@ app_state::app_state() :
 		m_skipJ = rhs.m_skipJ ;
 		m_freshInstall = rhs.m_freshInstall; // is this useful?
 		m_use_trans_hist = rhs.m_use_trans_hist;
+		m_raise_felix = rhs.m_raise_felix ;
 
 		return *this ;
 	}

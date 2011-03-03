@@ -79,6 +79,7 @@ public:
 
 	BEGIN_DDX_MAP(CPageView)
 		DDX_RADIO(IDC_LANG_ENG, m_properties->m_preferred_gui_lang )
+		DDX_CHECK(IDC_RAISE_FELIX, m_properties->m_raise_felix )
 	END_DDX_MAP()
 
 };

@@ -43,6 +43,7 @@ public:
 
 	BOOL	m_freshInstall ; // is this useful?
 	BOOL	m_shortcuts_active ;
+	BOOL	m_raise_felix ;
 
 	BOOL get_toolbar_visible( ) { return m_toolbar_visible  ; }
 	int get_preferred_gui_lang( ) { return m_preferred_gui_lang ; }
@@ -82,6 +83,7 @@ public:
 
 		REG_ENTRY_BOOL( _T("FRESH_INSTALL"),	m_freshInstall )
 		REG_ENTRY_BOOL(_T("SHORTCUTS_ACTIVE"), m_shortcuts_active)
+		REG_ENTRY_BOOL( _T("RAISE_FELIX"), m_raise_felix )
 		ensure_valid() ;
 
 	END_REGISTRY_MAP

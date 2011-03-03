@@ -52,6 +52,7 @@
 #define IDB_LOOKUP_NEXT                 209
 #define IDC_RADIO_CUSTOM_RULES          209
 #define IDC_FONT_UNDERLINE              209
+#define IDC_RAISE_FELIX                 209
 #define IDB_CORRECT_AND_NEXT            210
 #define IDC_FONT_SUPER_SUB              210
 #define IDC_KEYBOARD_SHORTCUTS          210
@@ -428,7 +429,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        205
 #define _APS_NEXT_COMMAND_VALUE         32768
-#define _APS_NEXT_CONTROL_VALUE         209
+#define _APS_NEXT_CONTROL_VALUE         210
 #define _APS_NEXT_SYMED_VALUE           106
 #endif
 #endif

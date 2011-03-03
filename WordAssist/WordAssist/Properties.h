@@ -145,8 +145,8 @@ public:
 	END_MSG_MAP()
 		
 	BEGIN_DDX_MAP(CPageView)
-		DDX_CHECK( IDC_CLASSIC_INTERFACE, m_properties->m_classic_if )
-		DDX_RADIO(IDC_LANG_ENG,m_properties->m_preferred_gui_lang )
+		DDX_CHECK(IDC_RAISE_FELIX, m_properties->m_raise_felix )
+		DDX_RADIO(IDC_LANG_ENG,m_properties->m_preferred_gui_lang)
 	END_DDX_MAP()
 
 };

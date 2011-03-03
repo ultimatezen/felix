@@ -79,7 +79,8 @@ public:
 // ======================
 template< int id_type >
 class CPageView :	
-	public CPropertyPageImpl< CPageView<id_type>  >
+	public CPropertyPageImpl< CPageView<id_type>  >,
+	public CWinDataExchange< CPageView<id_type> >
 {
 	
 	// prop values
@@ -100,13 +101,16 @@ public:
 	{
 		SendDlgItemMessage( m_properties->m_data.m_preferred_gui_lang, BM_SETCHECK, TRUE, 0 ) ;
 		SendDlgItemMessage( m_properties->m_data.m_navigation_type, BM_SETCHECK, TRUE, 0 ) ;
+		DoDataExchange(FALSE); // FALSE means copy TO the dialog
 
 		return TRUE;
 	}
 	int OnApply()
 	{
 		BANNER("CPageView::OnApply") ;
-
+		DoDataExchange(TRUE);
+		// FALSE = allow deactivate
+		// TRUE = prevent deactivation
 		return PSNRET_NOERROR  ;
 	}
 
@@ -170,6 +174,11 @@ public:
 		MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
 		CHAIN_MSG_MAP( CPropertyPageImpl<CPageView> )
 	END_MSG_MAP()
+
+	BEGIN_DDX_MAP(CPageView)
+		DDX_CHECK(IDC_RAISE_FELIX, m_properties->m_data.m_raise_felix )
+	END_DDX_MAP()
+
 };
 
 

@@ -108,6 +108,8 @@ void app_state::setDefaults()
 	m_select_spaces = TRUE ;
 	m_use_trans_hist = FALSE ;
 	m_shortcuts_active = TRUE ;
+
+	m_raise_felix = FALSE ;
 }
 
 /*!
