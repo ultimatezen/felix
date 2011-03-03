@@ -4,6 +4,7 @@
 #include "record.h"
 #include "TranslationMemory.h"
 #include "query.h"
+#include "Felix_properties.h"
 
 class ViewStateMatch : public ViewState
 {
@@ -26,7 +27,19 @@ public:
 
 class ViewStateMatchMain : public ViewStateMatch
 {
+	app_props::props_ptr m_props ;
+	mem_engine::felix_query *m_gloss_matches; 
+
 public:
+	ViewStateMatchMain() : m_gloss_matches(NULL), ViewStateMatch() {}
+	void set_props(app_props::props_ptr props)
+	{
+	  m_props = props ;
+	}
+	void set_gloss_matches(mem_engine::felix_query *matches)
+	{
+		m_gloss_matches = matches ;
+	}
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
 	void activate();

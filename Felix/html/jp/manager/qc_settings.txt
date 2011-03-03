@@ -16,20 +16,23 @@
 
 <form method="post" action="/submit_qc" name="qc_check_form">
 
-<table width="100%" class="info">
-	<tr>
-		<td><input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers == "true" %}checked="checked" {% endif %}/></td>
-		<td><b>数字</b>　:　数字の整合性をチェックします</td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps == "true" %}checked="checked" {% endif %}/></td>
-		<td><b>ALL CAPS</b>　:　大文字のみの単語をちぇっくします</td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss == "true" %}checked="checked" {% endif %}/></td>
-		<td><b>用語</b>　：　用語集のマッチをチェックします</td>
-	</tr>
-</table>
+<fieldset>
+	<input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers == "true" %}checked="checked" {% endif %}/>
+	<b>数字</b>　:　数字の整合性をチェックします
+<br /><br />
+	<input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps == "true" %}checked="checked" {% endif %}/>
+	<b>ALL CAPS</b>　:　大文字のみの単語をちぇっくします
+<br /><br />
+	<input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss == "true" %}checked="checked" {% endif %}/>
+	<b>用語</b>　：　用語集のマッチをチェックします
+</fieldset>
+
+<div style="margin-top:10px;">
+	<input type="checkbox" name="live" id="live" value="live" {% if live == "true" %}checked="checked" {% endif %}/>
+	<b>リアルタイム</b>　:　リアルタイムにてチェックをします
+</div>
+
+
                     <!-- submit button -->
                     <p>
                     <input type="submit" name="submit" value="設定を変更する" />

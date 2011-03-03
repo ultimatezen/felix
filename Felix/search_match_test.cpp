@@ -214,4 +214,24 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(  L"trans", match2->get_markup()->GetTrans() ) ;
 		BOOST_CHECK_EQUAL(  L"context", match2->get_markup()->GetContext() ) ;
 	}
+
+	BOOST_AUTO_TEST_CASE( qc_messages )
+	{
+		search_match_ptr match(new search_match) ;
+
+		std::vector<wstring> messages ;
+		match->get_qc_messages(messages) ;
+		BOOST_CHECK_EQUAL(0u, messages.size()) ;
+
+		messages.push_back(L"Message 1") ;
+		messages.push_back(L"Message 2") ;
+
+		match->set_qc_messages(messages) ;
+
+		std::vector<wstring> result ;
+		match->get_qc_messages(result) ;
+		BOOST_CHECK_EQUAL(2u, messages.size()) ;
+		BOOST_CHECK_EQUAL(L"Message 1", result[0]) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

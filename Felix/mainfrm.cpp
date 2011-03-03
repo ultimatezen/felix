@@ -125,8 +125,10 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_search_matches) ;
 
+	// match state
 	this->init_state(&m_view_state_match) ;
 	m_view_state_match.set_search_matches(&m_trans_matches) ;
+	m_view_state_match.set_props(m_properties) ;
 
 	this->init_state(&m_view_state_review) ;
 	m_view_state_review.set_search_matches(&m_trans_matches) ;
@@ -1981,7 +1983,6 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
 	return -1 ;
 }
 
-
 /** Show the view content.
  */
 void CMainFrame::show_view_content()
@@ -1997,6 +1998,7 @@ void CMainFrame::show_view_content()
 		return ;
 	}
 
+	m_view_state_match.set_gloss_matches(get_glossary_window()->get_current_matches()) ;
 	m_view_state->show_content() ;
 }
 

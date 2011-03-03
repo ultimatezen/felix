@@ -485,11 +485,13 @@ struct properties_qc : public props::CRegMap
 		BOOL	m_check_numbers ;
 		BOOL	m_check_all_caps ;
 		BOOL	m_check_gloss ;
+		BOOL	m_live_checking ;
 
 		props_data() : 
 		m_check_numbers(FALSE),
 			m_check_all_caps(FALSE),
-			m_check_gloss(FALSE)
+			m_check_gloss(FALSE),
+			m_live_checking(FALSE)
 		{
 		}
 		props_data( const props_data &rhs )
@@ -533,11 +535,15 @@ struct properties_qc : public props::CRegMap
 	{
 		return !! m_data.m_check_gloss ;
 	}
-
+	bool live_checking()
+	{
+		return !! m_data.m_live_checking ;
+	}
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 		REG_ENTRY_BOOL( _T("qc_check_numbers"),		m_data.m_check_numbers );
 		REG_ENTRY_BOOL( _T("qc_check_all_caps"),	m_data.m_check_all_caps );
 		REG_ENTRY_BOOL( _T("qc_check_gloss"),		m_data.m_check_gloss );
+		REG_ENTRY_BOOL( _T("qc_live_checking"),		m_data.m_live_checking );
 	END_REGISTRY_MAP
 
 } ;

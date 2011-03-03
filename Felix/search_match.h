@@ -27,6 +27,8 @@ class search_match
 	CMatchStringPairing	m_MatchPairing ;
 
 	bool				m_HasPlacement ;
+
+	std::vector<wstring> m_qc_messages ;
 public:
 	search_match( );
 	search_match(record_pointer record) : 
@@ -35,6 +37,17 @@ public:
 		, m_record(record)
 		, m_markup(new markup_strings)
 	{
+	}
+
+	void set_qc_messages(const std::vector<wstring> &qc_messages)
+	{
+		std::vector<wstring> temp(qc_messages) ;
+		m_qc_messages.swap(temp) ;
+	}
+	void get_qc_messages(std::vector<wstring> &qc_messages)
+	{
+		std::vector<wstring> temp(m_qc_messages) ;
+		qc_messages.swap(temp) ;
 	}
 
 	search_match( const search_match &cpy );

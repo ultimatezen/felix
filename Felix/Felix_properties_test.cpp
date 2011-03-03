@@ -340,6 +340,13 @@ BOOST_AUTO_TEST_SUITE( properties_qc_TestCase )
 		props.m_data.m_check_gloss = TRUE ;
 		BOOST_CHECK(props.qc_enabled()) ;
 	}
+	BOOST_AUTO_TEST_CASE( live_checking )
+	{
+		app_props::properties_qc props ;
+		BOOST_CHECK(!props.live_checking()) ;
+		props.m_data.m_live_checking = TRUE ;
+		BOOST_CHECK(props.live_checking()) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 

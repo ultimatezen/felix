@@ -390,28 +390,13 @@ wstring translation_match_query::get_html_long()
 }
 void translation_match_query::fill_match_template_params(cpptempl::data_map &data, match_ptr match)
 {
+	set_match_data(match, data);
+
 	// colors
 	data[L"query_color"] = cpptempl::make_data( m_query_color.as_wstring()) ;
 	data[L"source_color"] = cpptempl::make_data( m_source_color.as_wstring()) ;
 	data[L"trans_color"] = cpptempl::make_data( m_trans_color.as_wstring()) ;
 	data[L"index"] = cpptempl::make_data( ulong2wstring(this->current_pos())) ;
-	// match text
-	if ( m_params.m_show_marking ) 
-	{
-		markup_ptr markup = match->get_markup() ;
-		data[L"query"] = cpptempl::make_data( markup->GetQuery()) ;
-		data[L"source"] = cpptempl::make_data( markup->GetSource()) ;
-		data[L"trans"] = cpptempl::make_data( markup->GetTrans()) ;
-	}
-	else
-	{
-		data[L"query"] = cpptempl::make_data( get_query_rich()) ;
-		data[L"source"] = cpptempl::make_data( match->get_record()->get_source_rich()) ;
-		data[L"trans"] = cpptempl::make_data( match->get_record()->get_trans_rich()) ;
-	}
-
-	// score
-	data[L"score"] = cpptempl::make_data( get_score_text( match )) ;
 
 	// num / total
 	data[L"num"] = cpptempl::make_data( ulong2wstring( m_pos+1 )) ;
@@ -433,19 +418,6 @@ void translation_match_query::fill_match_template_params(cpptempl::data_map &dat
 
 	record_pointer current_rec = match->get_record() ;
 
-	data[L"context"] = cpptempl::make_data( current_rec->get_context_rich()) ;
-	data[L"created"] = cpptempl::make_data( current_rec->get_created().get_date_time_string()) ;
-	data[L"modified"] = cpptempl::make_data( current_rec->get_modified().get_date_time_string()) ;
-	data[L"reliability"] = cpptempl::make_data( boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
-	data[L"validated"] = cpptempl::make_data( bool2wstring(current_rec->is_validated())) ;
-
-	data[L"creator"] = cpptempl::make_data( current_rec->get_creator()) ;
-	data[L"modified_by"] = cpptempl::make_data( current_rec->get_modified_by()) ;
-	// other info
-	data[L"mem"] = cpptempl::make_data( get_mem_name(match->get_memory_location())) ;
-	wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-	data[L"refcount"] = cpptempl::make_data( refcount) ;
-	data[L"ref_count"] = cpptempl::make_data( refcount) ;
 }
 
 bool translation_match_query::is_perfect_match( match_ptr match )
@@ -473,7 +445,6 @@ wstring translation_match_query::get_html_all()
 	for( size_t i = 0 ; i < size() ; ++i )
 	{
 		match_ptr match = this->at(i) ;
-		record_pointer current_rec = match->get_record() ;
 		cpptempl::data_map item ;
 
 
@@ -486,36 +457,7 @@ wstring translation_match_query::get_html_all()
 			item[L"active"] = make_data(L"") ;
 		}
 
-		// match text
-		if ( m_params.m_show_marking ) 
-		{
-			markup_ptr markup = match->get_markup() ;
-			item[L"query"] = make_data(markup->GetQuery()) ;
-			item[L"source"] = make_data(markup->GetSource()) ;
-			item[L"trans"] = make_data(markup->GetTrans()) ;
-		}
-		else
-		{
-			item[L"query"] = make_data(get_query_rich()) ;
-			item[L"source"] = make_data(current_rec->get_source_rich()) ;
-			item[L"trans"] = make_data(current_rec->get_trans_rich()) ;
-		}
-		// score
-		item[L"score"] = make_data(get_score_text(match)) ;
-
-		item[L"context"] = make_data(current_rec->get_context_rich()) ;
-		item[L"created"] = make_data(current_rec->get_created().get_date_time_string()) ;
-		item[L"modified"] = make_data(current_rec->get_modified().get_date_time_string()) ;
-		item[L"reliability"] = make_data(boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
-		item[L"validated"] = make_data(bool2wstring(current_rec->is_validated())) ;
-
-		item[L"creator"] = make_data(current_rec->get_creator()) ;
-		item[L"modified_by"] = make_data(current_rec->get_modified_by()) ;
-		// other info
-		item[L"mem"] = make_data(get_mem_name(match->get_memory_location())) ;
-		wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
-		item[L"refcount"] = make_data(refcount) ;
-		item[L"ref_count"] = make_data(refcount) ;
+		set_match_data(match, item);
 
 		items.push_back(cpptempl::make_data(item)) ;
 	}
@@ -558,6 +500,40 @@ wstring translation_match_query::get_score_text( match_ptr match )
 	return score_text ;
 }
 
+void translation_match_query::set_match_data( match_ptr match, cpptempl::data_map &item )
+{
+	record_pointer current_rec = match->get_record() ;
+	// match text
+	if ( m_params.m_show_marking ) 
+	{
+		markup_ptr markup = match->get_markup() ;
+		item[L"query"] = make_data(markup->GetQuery()) ;
+		item[L"source"] = make_data(markup->GetSource()) ;
+		item[L"trans"] = make_data(markup->GetTrans()) ;
+	}
+	else
+	{
+		item[L"query"] = make_data(get_query_rich()) ;
+		item[L"source"] = make_data(current_rec->get_source_rich()) ;
+		item[L"trans"] = make_data(current_rec->get_trans_rich()) ;
+	}
+	// score
+	item[L"score"] = make_data(get_score_text(match)) ;
+
+	item[L"context"] = make_data(current_rec->get_context_rich()) ;
+	item[L"created"] = make_data(current_rec->get_created().get_date_time_string()) ;
+	item[L"modified"] = make_data(current_rec->get_modified().get_date_time_string()) ;
+	item[L"reliability"] = make_data(boost::lexical_cast<wstring>(current_rec->get_reliability())) ;
+	item[L"validated"] = make_data(bool2wstring(current_rec->is_validated())) ;
+
+	item[L"creator"] = make_data(current_rec->get_creator()) ;
+	item[L"modified_by"] = make_data(current_rec->get_modified_by()) ;
+	// other info
+	item[L"mem"] = make_data(get_mem_name(match->get_memory_location())) ;
+	wstring refcount = boost::lexical_cast<wstring>(match->get_record()->get_refcount()) ;
+	item[L"refcount"] = make_data(refcount) ;
+	item[L"ref_count"] = make_data(refcount) ;
+}
 
 /************************************************************************/
 /* search_query_mainframe                                               */

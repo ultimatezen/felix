@@ -246,6 +246,7 @@ struct translation_match_query : public felix_query
 	
 	wstring get_html_all();
 
+	void set_match_data( match_ptr match, cpptempl::data_map &item );
 	wstring get_html_short()  ;
 
 	wstring get_mem_name( wstring loc );

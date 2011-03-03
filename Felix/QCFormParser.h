@@ -34,6 +34,11 @@ namespace mgrview
 			wstring ischecked = m_doc->get_element_by_id(L"gloss")->get_attribute(L"checked") ;
 			return (ischecked == L"true") ;
 		}
+		bool live_check()
+		{
+			wstring ischecked = m_doc->get_element_by_id(L"live")->get_attribute(L"checked") ;
+			return (ischecked == L"true") ;
+		}
 	};
 
 }

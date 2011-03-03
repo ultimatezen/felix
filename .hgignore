@@ -34,3 +34,5 @@ glob:Felix/felix_tm.h
 glob:Felix/RD*
 glob:*.tmp
 glob:*.obj
+Felix/html/*
+Felix/html/*/*

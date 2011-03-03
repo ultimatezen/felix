@@ -2,49 +2,49 @@
 <head>
 <META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
 <title>
-	Search Page
+	Opening Page
 </title>
-	<link href="../../style.css" rel="stylesheet" type="text/css" />
-	<link href="../../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
-	<script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript" src="../../js/utils.js"></script>
-	<script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.7.2.custom.min.js"></script>
-
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+    <link href="../jquery-ui-1.8.10.custom.css" rel="Stylesheet" type="text/css" />
+	<script type="text/javascript" language="javascript" src="../js/jquery-1.4.4.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui-1.8.10.custom.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js">
+	</script>
 <script type="text/javascript">
-	// Toggle help on and off
-	function toggleHelp(){
-		var item = "#help_details" ;
-		var link = "#showhelp" ;
-		$(item).toggle("blind");
+// Toggle details for record on and off
+function toggleDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
 
-		var currentText = $(link).text() ;
-		if (currentText == 'Search Help >>') {
-			$(link).html('&lt;&lt; Hide <b>H</b>elp');
-		}
-		else {
-			$(link).html('Search <b>H</b>elp &gt;&gt;');
-		}
-	    return false;
+	var currentText = $(link).text() ;
+	if (currentText.indexOf('>>') != -1) {
+		$(link).html('&lt;&lt; Hide') ;
 	}
-	// Toggle details for record on and off
-	function toggleDetails(id){
-		var item = "#item_" + id ;
-		var link = "#view_" + id ;
-		$(item).toggle("blind");
-
-		var currentText = $(link).text() ;
-		if (currentText == '詳細 >>'){
-			$(link).html('&lt;&lt; 非表示');
-		}
-		else {
-			$(link).html('詳細 &gt;&gt;');
-		}
-	    return false;
+	else {
+		$(link).html('Details &gt;&gt;') ;
 	}
-	function focusItem(item) {
-		$("#" + item).focus() ;
-	}
-
+    return false;
+}
+function showMessageDlg(item)
+{
+	$(item).dialog({
+			bgiframe: true,
+			resizable: true,
+			modal: true,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'OK': function() {
+					$(this).dialog('close');
+				}
+			}
+		}); ;
+}
 </script>
 
 </head>
