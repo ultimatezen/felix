@@ -1,20 +1,10 @@
-<div id="qc_warning" title="QC Check Warning" style="display:none;">
-	<p>
-	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-	<ul>
-{% for message in qc_messages %}
-	<li>{$message}</li>
-{% endfor %}
-	</ul>
-	</p>
-</div>
 <table class="added" ID="table1">
 	<tr>
 		<th class="header" colspan="2">
 		{% if qc_messages %}
 			<img src="../images/error.png"
 			alt="QC Check Warning"
-			onclick="showMessageDlg('#qc_warning');"
+			onclick="showQCMessages('#qc_warning');"
 			/>
 		{% endif %}
 			Added New Entry
@@ -28,6 +18,18 @@
 		<td class="match_content" id="trans">{$trans}</td>
 	</tr>
 </table>
+
+<div id="qc_warning" style="display:none;">
+<h3>QC Check Warnings</h3>
+<ul>
+	{% for message in qc_messages %}
+	<li>{$message}</li>
+	{% endfor %}
+</ul>
+<p><a href="#" onclick="showQCMessages('#qc_warning');">&lt;&lt; Hide Warnings</a></p>
+</div>
+
+
 <table class="actions" ID="table2">
 	<tr>
 		<td>

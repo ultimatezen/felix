@@ -21,73 +21,114 @@ function toggleDetails(id) {
 
 	var currentText = $(link).text() ;
 	if (currentText.indexOf('>>') != -1) {
-		$(link).html('&lt;&lt; 非表示');
+		$(link).html('&lt;&lt; Hide');
 	}
 	else {
-		$(link).html('詳細 &gt;&gt;') ;
+		$(link).html('Details &gt;&gt;') ;
 	}
     return false;
 }
-function showMessageDlg(item)
+function showQCMessages(item)
 {
-	$(item).dialog({
-			bgiframe: true,
-			resizable: true,
-			modal: true,
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
-			buttons: {
-				'OK': function() {
-					$(this).dialog('close');
-				}
-			}
-		}); ;
+	$(item).toggle("blind");
 }
 </script>
 </head>
 <body>
-<p><a href="/start" title="Go to Manager Home">Home</a>
-	&gt;&gt;
-        QC Settings
-</p>
+<table class="added" ID="table1">
+	<tr>
+		<th class="header" colspan="2">
+		{% if qc_messages %}
+			<img src="../images/error.png"
+			alt="QC Check Warning"
+			onclick="showQCMessages('#qc_warning');"
+			/>
+		{% endif %}
+			Added New Entry
+		</th>
+	</tr>
+	<tr id="0">
+		<th class="perfect" title="The source segment">Source</th>
+		<td class="match_content" id="source">{$source}</td>
+	<tr id="0">
+		<th class="perfect" title="The translation segment">Trans</th>
+		<td class="match_content" id="trans">{$trans}</td>
+	</tr>
+</table>
 
-{% if message %}
-	<div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
-			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			{$message}</p>
-		</div>
-	</div>
-{% endif %}
-
-<h2>QC Settings</h2>
-
-<form method="post" action="/submit_qc" name="qc_check_form">
-
-<fieldset>
-	<input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers == "true" %}checked="checked" {% endif %}/>
-	<b>Numbers:</b> Match numbers in source and target
-<br /><br />
-	<input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps == "true" %}checked="checked" {% endif %}/>
-	<b>ALL CAPS:</b> Match ALL CAPS words in source and target
-<br /><br />
-	<input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss == "true" %}checked="checked" {% endif %}/>
-	<b>Glossary:</b> Match glossary terms in source to translations in Target
-</fieldset>
-
-
-<div style="margin-top:10px;">
-	<input type="checkbox" name="live" id="live" value="live" {% if live == "true" %}checked="checked" {% endif %}/>
-	<b>Live:</b>　Perform live checking
+<div id="qc_warning" style="display:none;">
+<h3>QC Check Warnings</h3>
+<ul>
+	{% for message in qc_messages %}
+	<li>{$message}</li>
+	{% endfor %}
+</ul>
+<p><a href="#" onclick="showQCMessages('#qc_warning');">&lt;&lt; Hide</a></p>
 </div>
-                    <!-- submit button -->
-                    <p>
-                    <input type="submit" name="submit" value="Submit" />
-                    </p>
 
-</form>
+
+<table class="actions" ID="table2">
+	<tr>
+		<td>
+			<a title="Edit the entry" href="100:edit:0">Edit</a>
+			 |
+			<a title="Delete the entry" href="100:delete:0">Delete</a>
+		</td>
+	</tr>
+</table>
+<hr />
+<div>
+	<a title="Register glossary entries" href="100:add_gloss:0">Register Glossary Entries</a>
+	 |
+	<a title="Add entry to glossary" href="100:add_to_gloss:0">Add to Glossary</a>
+	|
+	<a href="#" id="view_0" onclick="toggleDetails(0);">Details &gt;&gt;</a>
+                <div id="item_0" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+                </div>
+</div>
 
 </body>
 </html>

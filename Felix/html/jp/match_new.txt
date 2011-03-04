@@ -1,20 +1,10 @@
-<div id="qc_warning" title="QCチェックの警告" style="display:none;">
-	<p>
-	<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-	<ul>
-{% for message in qc_messages %}
-	<li>{$message}</li>
-{% endfor %}
-	</ul>
-	</p>
-</div>
 <table class="added" ID="table1">
 	<tr>
 		<th class="header" colspan="2">
 		{% if qc_messages %}
 			<img src="../images/error.png"
 			alt="QCチェックの警告"
-			onclick="showMessageDlg('#qc_warning');"
+			onclick="showQCMessages('#qc_warning');"
 			/>
 		{% endif %}
 			翻訳対を追加しました
@@ -28,6 +18,18 @@
 		<td class="match_content" id="trans">{$trans}</td>
 	</tr>
 </table>
+
+
+<div id="qc_warning" style="display:none;">
+<h3>QCチェックの警告</h3>
+<ul>
+	{% for message in qc_messages %}
+	<li>{$message}</li>
+	{% endfor %}
+</ul>
+<p><a href="#" onclick="showQCMessages('#qc_warning');">&lt;&lt; 警告の非表示</a></p>
+</div>
+
 <table class="actions" ID="table2">
 	<tr>
 		<td>

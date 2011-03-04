@@ -28,22 +28,9 @@ function toggleDetails(id) {
 	}
     return false;
 }
-function showMessageDlg(item)
+function showQCMessages(item)
 {
-	$(item).dialog({
-			bgiframe: true,
-			resizable: true,
-			modal: true,
-			overlay: {
-				backgroundColor: '#000',
-				opacity: 0.5
-			},
-			buttons: {
-				'OK': function() {
-					$(this).dialog('close');
-				}
-			}
-		}); ;
+	$(item).toggle("blind");
 }
 </script>
 </head>

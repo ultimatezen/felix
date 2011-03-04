@@ -5133,7 +5133,6 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 		return ;
 	}
 
-
 	std::vector<qc::rule_ptr> rules ;
 	if (props->check_all_caps())
 	{
@@ -5155,7 +5154,7 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model() ;
 
 		search_match_container matches ;
-		memories->perform_search(matches, params) ;
+		memories->get_glossary_matches(matches, params) ;
 
 		std::vector<qc::gloss_pair> gloss_matches ;
 		foreach(match_ptr match, matches)
