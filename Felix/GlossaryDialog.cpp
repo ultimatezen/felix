@@ -16,8 +16,6 @@
 
 #include "HtmlDocColorSetter.h"
 
-#include "ContentPresenterSimple.h"
-
 #include <atlframe.h>
 
 #include "NumberFmt.h"

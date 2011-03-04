@@ -33,6 +33,8 @@ public:
 	virtual mem_engine::record_pointer get_new_record() = 0 ;
 	virtual mem_engine::record_pointer get_review_record() = 0 ;
 
+	virtual void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages) = 0 ;
+
 	virtual mem_engine::search_match_ptr get_item_under_edit() = 0 ;
 	virtual void set_item_under_edit(mem_engine::search_match_ptr match) = 0 ;
 

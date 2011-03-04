@@ -130,6 +130,15 @@ void ViewStateNewMain::show_content()
 
 
 	cpptempl::data_list qc_messages ;
+	if (m_props && m_props->live_checking())
+	{
+		std::vector<wstring> messages ;
+		m_window_listener->get_qc_messages(new_rec, messages) ;
+		foreach(wstring message, messages)
+		{
+			qc_messages.push_back(cpptempl::make_data(message)) ;
+		}
+	}
 	data[L"qc_messages"] = cpptempl::make_data(qc_messages) ;
 
 	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;

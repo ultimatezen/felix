@@ -96,6 +96,12 @@ public:
 		do_gloss ;
 		SENSE("redo_lookup") ;
 	}
+	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages) 
+	{
+		SENSE("get_qc_messages") ;
+		record ;
+		messages ;
+	}
 
 	bool is_short_format()
 	{

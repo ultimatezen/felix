@@ -3,6 +3,7 @@
 #include "view_state.h"
 #include "record.h"
 #include "TranslationMemory.h"
+#include "Felix_properties.h"
 
 class ViewStateNew : public ViewState
 {
@@ -16,7 +17,13 @@ public:
 
 class ViewStateNewMain : public ViewStateNew
 {
+	app_props::properties_qc *m_props ;
 public:
+	ViewStateNewMain() : m_props(NULL) {}
+	void set_qc_props(app_props::properties_qc *props)
+	{
+		m_props = props ;
+	}
 	void handle_toggle_edit_mode();
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();

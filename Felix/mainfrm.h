@@ -139,6 +139,7 @@ public:
 		return m_output_device ;
 	}
 
+	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages);
 
 	FelixModelInterface* get_model()
 	{

@@ -119,6 +119,11 @@ public:
 	{
 		return m_output_device ;
 	}
+	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages) 
+	{
+		record ;
+		messages ;
+	}
 
 	void set_zoom_level(int zoom_level);
 	void set_bg_color_if_needed();

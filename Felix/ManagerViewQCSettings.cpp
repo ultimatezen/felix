@@ -39,5 +39,6 @@ namespace mgrview
 		data[L"numbers"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_numbers ? L"true" : L"") ;
 		data[L"allcaps"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_all_caps ? L"true" : L"") ;
 		data[L"gloss"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_gloss ? L"true" : L"") ;
+		data[L"live"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_live_checking ? L"true" : L"") ;
 	}
 }

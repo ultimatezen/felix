@@ -43,9 +43,6 @@
 
 #include "NumberFmt.h"
 
-#include "ContentPresenterSimple.h"
-#include "ContentPresenterAddedTrans.h"
-
 #include "text_templates.h"
 #include "ConnectionDlg.h"
 #include "DemoException.h"
@@ -60,6 +57,10 @@
 #include "input_device_file.h"
 #include "output_device.h"
 
+#include "qcrules/qc_checker.h"
+#include "qcrules/allcaps_check.h"
+#include "qcrules/number_check.h"
+#include "qcrules/gloss_check.h"
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
@@ -121,6 +122,7 @@ CMainFrame::CMainFrame( FelixModelInterface *model ) :
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
 	this->init_state(&m_view_state_new) ;
+	m_view_state_new.set_qc_props(&(m_properties->m_qc_props)) ;
 
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_search_matches) ;
@@ -5120,4 +5122,52 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 	}
 
 	set_window_title() ;
+}
+
+void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector<wstring> &messages )
+{
+	app_props::properties_qc *props = &(m_properties->m_qc_props) ;
+
+	if (! props->qc_enabled())
+	{
+		return ;
+	}
+
+
+	std::vector<qc::rule_ptr> rules ;
+	if (props->check_all_caps())
+	{
+		rules.push_back(qc::rule_ptr(new qc::AllCapsCheckRule)) ;
+	}
+	if (props->check_numbers())
+	{
+		rules.push_back(qc::rule_ptr(new qc::NumberCheckRule)) ;
+	}
+	if (props->check_gloss())
+	{
+		search_query_params params ;
+		params.m_ignore_case = !! m_properties->m_gloss_props.m_data.m_ignore_case ;
+		params.m_ignore_width = !! m_properties->m_gloss_props.m_data.m_ignore_width ;
+		params.m_ignore_hira_kata = !! m_properties->m_gloss_props.m_data.m_ignore_hir_kat ;
+		params.m_rich_source = record->get_source_rich() ;
+		params.m_source = record->get_source_plain() ;
+		
+		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model() ;
+
+		search_match_container matches ;
+		memories->perform_search(matches, params) ;
+
+		std::vector<qc::gloss_pair> gloss_matches ;
+		foreach(match_ptr match, matches)
+		{
+			record_pointer rec = match->get_record() ;
+			gloss_matches.push_back(qc::gloss_pair(rec->get_source_plain(), rec->get_trans_plain())) ;
+		}
+
+		rules.push_back(qc::rule_ptr(new qc::GlossCheckRule(gloss_matches))) ;
+	}
+
+	qc::QcChecker checker(rules) ;
+	checker.check(record->get_source_plain(), record->get_trans_plain()) ;
+	checker.get_error_msgs(messages) ;
 }
