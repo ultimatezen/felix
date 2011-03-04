@@ -128,6 +128,10 @@ void ViewStateNewMain::show_content()
 
 	data[L"record"] = cpptempl::make_data(record) ;
 
+
+	cpptempl::data_list qc_messages ;
+	data[L"qc_messages"] = cpptempl::make_data(qc_messages) ;
+
 	m_view->set_text( cpptempl::parse(tpl_text, data) ) ;
 	m_window_listener->check_mousewheel() ;
 

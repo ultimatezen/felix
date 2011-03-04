@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_SUITE( view_state_new_test )
 		BOOST_CHECK_EQUAL(4, (int)vso.view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0].c_str()), "ensure_document_complete") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1].c_str()), "set_text") ;
-		BOOST_CHECK(boost::starts_with(string2wstring(vso.view.m_sensing_variable[2]), L"<table class=\"added\" ID=\"table1\">")) ;
+		BOOST_CHECK(boost::contains(string2wstring(vso.view.m_sensing_variable[2]), L"<table class=\"added\" ID=\"table1\">")) ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 	}
 

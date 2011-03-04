@@ -547,14 +547,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ContentPresenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ContentPresenterAddedTrans.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\common\ConvertUTF.cpp"
 				>
 			</File>
@@ -1630,14 +1622,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ContentPresenter_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ContentPresenterAddedTrans_test.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\ConvertUTF_test.cpp"
 					>
 				</File>
@@ -2435,14 +2419,6 @@
 			</File>
 			<File
 				RelativePath=".\ConnectionDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ContentPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ContentPresenterAddedTrans.h"
 				>
 			</File>
 			<File
