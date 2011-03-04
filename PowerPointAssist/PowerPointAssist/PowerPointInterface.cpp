@@ -1418,7 +1418,10 @@ Felix::IAppPtr CPowerPointInterface::getAssistant(void)
 		COM_ENFORCE(assistant.CreateInstance( L"Felix.App" ), _T("Failed to connect to Felix window") ) ;
 
 		assistant->Visible = VARIANT_TRUE ;
-		assistant->App2->MemoryWindow->Raise() ;
+		if (m_properties->m_data.m_raise_felix)
+		{
+			assistant->App2->MemoryWindow->Raise() ;
+		}
 		return assistant ;
 	}
 	catch (_com_error& e)

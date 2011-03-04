@@ -481,10 +481,12 @@ bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 	const bool check_numbers = parser.check_numbers() ;
 	const bool check_all_caps = parser.check_all_caps() ;
 	const bool check_gloss = parser.check_gloss() ;
+	const bool live_check = parser.live_check() ;
 
 	m_props->m_qc_props.m_data.m_check_numbers = check_numbers ? TRUE : FALSE ;
 	m_props->m_qc_props.m_data.m_check_all_caps = check_all_caps ? TRUE : FALSE ;
 	m_props->m_qc_props.m_data.m_check_gloss = check_gloss ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_live_checking = live_check ? TRUE : FALSE ; 
 
 	m_props->m_qc_props.write_to_registry() ;
 
