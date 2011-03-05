@@ -1,0 +1,22 @@
+<p class="paginator">
+{% if has_prev %}
+	<a href="/1/browse_qc_page" title="Go to first page">&lt;&lt;</a>
+	<a href="/{$prev_page}/browse_qc_page" title="Go to previous page">&lt;</a>
+{% endif %}
+
+{% for num in pages %}
+	{% if num == current_page %}
+	<span class="this-page" title="Current page">{$num}</span>
+	{% endif %}
+	{% if num != current_page %}
+	<a href="/{$num}/browse_qc_page" title="Go to page {$num}">{$num}</a>
+	{% endif %}
+{% endfor %}
+
+{% if has_next %}
+	<a href="/{$next_page}/browse_qc_page" title="Go to next page">&gt;</a>
+	<a href="/{$last_page}/browse_qc_page" title="Go to last page">&gt;&gt;</a>
+{% endif %}
+
+&nbsp;&nbsp;&nbsp;&nbsp;{$matches_start} to {$matches_end} of {$num_matches}.
+</p>

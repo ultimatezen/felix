@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FelixModelInterface.h"
+#include "search_match.h"
 
 class FelixModelInterfaceFake : public FelixModelInterface
 {
@@ -18,6 +19,7 @@ public:
 		m_is_reverse_lookup(false)
 	{
 	}
+	
 
 	model_ptr get_memories()
 	{

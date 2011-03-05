@@ -2126,6 +2126,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewQCBrowse.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewQCBrowse_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewQCSettings.cpp"
 					>
 				</File>
@@ -3098,6 +3106,10 @@
 				</File>
 				<File
 					RelativePath=".\ManagerViewEdit.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ManagerViewQCBrowse.h"
 					>
 				</File>
 				<File

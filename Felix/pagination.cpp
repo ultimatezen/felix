@@ -127,7 +127,7 @@ window_range make_window(size_t current, size_t num, size_t window_size)
 	return std::make_pair(current - half, current + half) ;
 }
 
-wstring get_pagination_text(Paginator &paginator)
+wstring get_pagination_text(Paginator &paginator, CString tmpl_name)
 {
 	data_map data ;
 
@@ -179,6 +179,6 @@ wstring get_pagination_text(Paginator &paginator)
 
 	data[L"pages"] = cpptempl::make_data(pages) ;
 
-	wstring text = get_template_text(_T("pagination.txt")) ;
+	wstring text = get_template_text(tmpl_name) ;
 	return cpptempl::parse(text, data) ;
 }

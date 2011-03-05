@@ -11,11 +11,10 @@
 #include "Exceptions.h"
 #include "SearchWindow.h"
 #include "ProgressListener.h"
-
 #include "ManagerView.h"
 #include "undoable_action.h"
 #include "FelixModelInterface.h"
-
+#include "search_match.h"
 #include "Felix_properties.h"
 
 const static string ACTION_NAME_TRIM = "trim" ;
@@ -64,12 +63,18 @@ public:
 
 	action::undo_action_ptr m_undo ;
 
+	std::vector<mem_engine::search_match_ptr> m_qc_matches; 
+
 public:
 	// sensing stuff for unit testing
 	DECLARE_WND_CLASS(_T("ManagerWindowClass"))
 	DECLARE_SENSING_VAR ;
 
 	wstring get_message();
+	std::vector<mem_engine::search_match_ptr> & get_qc_matches()
+	{
+		return m_qc_matches; 
+	}
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);
@@ -153,12 +158,18 @@ public:
 	bool nav_qc(const std::vector<string> &tokens) ;
 	bool nav_browse(const std::vector<string> &tokens) ;
 	bool nav_browse_page(const std::vector<string> &tokens) ;
+	bool nav_qc_browse(const std::vector<string> &tokens) ;
+	bool nav_qc_browse_page(const std::vector<string> &tokens) ;
 	bool nav_remove(const std::vector<string> &tokens) ;
 	bool nav_addnew(const std::vector<string> &tokens) ;
 	bool nav_load(const std::vector<string> &tokens) ;
 
 	bool delete_record(const std::vector<string> &tokens);
 	bool edit_record(const std::vector<string> &tokens);
+
+	bool delete_record_qc(const std::vector<string> &tokens);
+	bool edit_record_qc(const std::vector<string> &tokens);
+
 
 	bool handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc);
 	bool handle_qc_settings(doc3_wrapper_ptr doc);

@@ -32,4 +32,4 @@ typedef std::pair<size_t, size_t> window_range ;
 
 window_range make_window(size_t current, size_t num, size_t window_size) ;
 
-wstring get_pagination_text(Paginator &paginator) ;
+wstring get_pagination_text(Paginator &paginator, CString tmpl_name = _T("pagination.txt")) ;

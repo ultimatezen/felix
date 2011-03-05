@@ -16,6 +16,7 @@
                         <a href="/{$loop.index0}/{$memtype}/view">表示</a> |
                         <a href="/{$loop.index0}/{$memtype}/edit">編集</a> |
                         <a href="/{$loop.index0}/1/{$memtype}/browse">一覧表</a> |
+                        {% if memtype == "mem" %}<a href="/{$loop.index0}/1/{$memtype}/browse_qc">QC</a> |{% endif %}
                         <a href="/{$loop.index0}/{$memtype}/remove">退避</a>
                 </td>
                 <td>

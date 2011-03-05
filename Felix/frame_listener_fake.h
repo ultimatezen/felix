@@ -16,4 +16,5 @@ public:
 	{
 		SENSE("save_memory_as") ;
 	}
+	void get_qc_messages(mem_engine::record_pointer, std::vector<wstring> &){}
 };

@@ -4,6 +4,7 @@
 #include "FelixModelInterface.h"
 #include "TranslationMemory.h"
 #include "cpptempl.h"
+#include "search_match.h"
 
 namespace mgrview
 {
@@ -11,6 +12,7 @@ namespace mgrview
 	{
 	public:
 		virtual wstring get_message() = 0 ;
+		virtual std::vector<mem_engine::search_match_ptr> & get_qc_matches() = 0 ;
 	};
 
 	class ManagerView

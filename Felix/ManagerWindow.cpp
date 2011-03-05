@@ -14,6 +14,7 @@
 #include "ManagerViewDetails.h"
 #include "ManagerViewEdit.h"
 #include "ManagerViewQCSettings.h"
+#include "ManagerViewQCBrowse.h"
 #include "ManagerViewStart.h"
 #include "ManagerViewActions.h"
 #include "EditFormParser.h"
@@ -248,6 +249,14 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return nav_browse(tokens) ;
 		}
+		if (tokens[0] == "browse_qc")
+		{
+			return nav_qc_browse(tokens) ;
+		}
+		if (tokens[0] == "browse_qc_page")
+		{
+			return nav_qc_browse_page(tokens) ;
+		}
 		if (tokens[0] == "remove")
 		{
 			return nav_remove(tokens) ;
@@ -284,6 +293,17 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 			redo_delete_record();
 			return true ;
 		}
+
+		// qc record crud
+		if (tokens[0] == "qcdeleterecord")
+		{
+			return delete_record_qc(tokens) ;
+		}
+		if (tokens[0] == "qceditrecord")
+		{
+			return edit_record_qc(tokens) ;
+		}
+
 		// navigate to url (quick and dirty...)
 		if (boost::ends_with(url, L".html"))
 		{
@@ -501,7 +521,7 @@ bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
 	SENSE("nav_browse"); 
 	m_is_memory = tokens[1] == "mem" ;
 	size_t page = boost::lexical_cast<int>(tokens[2]) ;
-	size_t m_current_item = boost::lexical_cast<size_t>(tokens[3]) ;
+	m_current_item = boost::lexical_cast<size_t>(tokens[3]) ;
 	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewBrowse(m_current_item, m_is_memory, page))) ;
 	m_current_state->show_content() ;
 	return true ;
@@ -515,16 +535,54 @@ bool CManagerWindow::nav_browse_page(const std::vector<string> &tokens)
 	return true ;
 }
 
+
+bool CManagerWindow::nav_qc_browse(const std::vector<string> &tokens)
+{
+	SENSE("nav_qc_browse"); 
+	m_qc_matches.clear() ;
+	const bool is_memory = tokens[1] == "mem" ;
+	if (! is_memory)
+	{
+		return false ;
+	}
+	size_t page = boost::lexical_cast<int>(tokens[2]) ;
+	m_current_item = boost::lexical_cast<size_t>(tokens[3]) ;
+	mem_engine::memory_pointer mem = m_mem_model->memory_at(m_current_item) ;
+	foreach(record_pointer rec, mem->get_records())
+	{
+		std::vector<wstring> messages ;
+		m_listener->get_qc_messages(rec, messages) ;
+		if (! messages.empty())
+		{
+			mem_engine::search_match_ptr match(new mem_engine::search_match(rec)) ;
+			match->set_qc_messages(messages) ;
+			match->set_memory_id(mem->get_id()) ;
+			m_qc_matches.push_back(match) ;
+			messages.clear() ;
+		}
+	}
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCBrowse(m_current_item, page))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+bool CManagerWindow::nav_qc_browse_page(const std::vector<string> &tokens) 
+{
+	SENSE("nav_qc_browse_page"); 
+	size_t page = boost::lexical_cast<int>(tokens[1]) ;
+	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCBrowse(m_current_item, page))) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+
 // href="/{$index}/{$memtype}/{$record.num0}/deleterecord" (reversed)
 bool CManagerWindow::delete_record( const std::vector<string> &tokens )
 {
-	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+	const size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
 
 	memory_pointer mem = get_mem(tokens[2],
 								 boost::lexical_cast<size_t>(tokens[3]));
 
-	record_pointer rec = mem->get_record_at(record_number) ;
-	m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
+	m_undo = undo_action_ptr(new DeleteEntryAction(mem, mem->get_record_at(record_number))) ;
 	m_undo->redo() ;
 	string link = "\"/browse/undo_delete\"" ;
 	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
@@ -538,7 +596,7 @@ bool CManagerWindow::delete_record( const std::vector<string> &tokens )
 // href="/{$index}/{$memtype}/{$record.num0}/editrecord" (reversed)
 bool CManagerWindow::edit_record( const std::vector<string> &tokens )
 {
-	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+	const size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
 
 	mem_engine::memory_pointer mem = get_mem(tokens[2],
 											 boost::lexical_cast<size_t>(tokens[3]));
@@ -552,6 +610,51 @@ bool CManagerWindow::edit_record( const std::vector<string> &tokens )
 	if (editdlg.DoModal(*this) == IDOK)
 	{
 #endif		
+		m_current_state->show_content() ;
+#ifndef UNIT_TEST
+	}
+#endif	
+
+	return true ;
+}
+
+// href="/{$index}/{$memtype}/{$record.num0}/deleterecord" (reversed)
+bool CManagerWindow::delete_record_qc( const std::vector<string> &tokens )
+{
+	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+
+	mem_engine::search_match_ptr match = m_qc_matches[record_number] ;
+	mem_engine::memory_pointer mem = m_mem_model->get_memory_by_id(match->get_memory_id()) ;
+	m_undo = undo_action_ptr(new DeleteEntryAction(mem, match->get_record())) ;
+	m_undo->redo() ;
+	string link = "\"/browse/undo_delete\"" ;
+	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
+		CString(m_undo->name().c_str()), 
+		CString(link.c_str()));
+	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+	m_current_state->show_content() ;
+	return true ;
+}
+
+// href="/{$index}/{$memtype}/{$record.num0}/editrecord" (reversed)
+bool CManagerWindow::edit_record_qc( const std::vector<string> &tokens )
+{
+	size_t record_number = boost::lexical_cast<size_t>(tokens[1]) ;
+
+	CEditTransRecordDialogModal editdlg ;
+
+	mem_engine::search_match_ptr match = m_qc_matches[record_number] ;
+	editdlg.set_record(match->get_record()) ;
+	editdlg.set_memory_id(match->get_memory_id()) ;
+
+#ifndef UNIT_TEST
+	if (editdlg.DoModal(*this) == IDOK)
+	{
+#endif		
+		mem_engine::record_pointer rec = match->get_record() ;
+		std::vector<wstring> messages ;
+		m_listener->get_qc_messages(rec, messages) ;
+		match->set_qc_messages(messages) ;
 		m_current_state->show_content() ;
 #ifndef UNIT_TEST
 	}
