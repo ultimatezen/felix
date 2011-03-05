@@ -571,8 +571,11 @@ bool CManagerWindow::nav_qc_browse(const std::vector<string> &tokens)
 	size_t page = boost::lexical_cast<int>(tokens[2]) ;
 	m_current_item = boost::lexical_cast<size_t>(tokens[3]) ;
 	mem_engine::memory_pointer mem = m_mem_model->memory_at(m_current_item) ;
-	foreach(record_pointer rec, mem->get_records())
+	m_statusbar.set_up_prog_bar(mem->size()) ;
+	for(size_t i = 0; i < mem->size() ; ++i )
 	{
+		m_statusbar.set_pos(i) ;
+		mem_engine::record_pointer rec = mem->get_record_at(i) ;
 		std::vector<wstring> messages ;
 		m_listener->get_qc_messages(rec, messages) ;
 		if (! messages.empty())
@@ -584,6 +587,7 @@ bool CManagerWindow::nav_qc_browse(const std::vector<string> &tokens)
 			messages.clear() ;
 		}
 	}
+	m_statusbar.m_mp_sbar.ProgDestroyWindow() ;
 	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCBrowse(m_current_item, page))) ;
 	m_current_state->show_content() ;
 	return true ;
