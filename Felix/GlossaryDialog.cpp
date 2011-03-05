@@ -196,7 +196,7 @@ LRESULT CGlossaryDialog::on_close_command( )
  * First resize toolbar and status bar, then resize client to
  * fit in rest.
  */
-LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SetMsgHandled( FALSE ) ;
 

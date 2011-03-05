@@ -16,6 +16,7 @@
 #include "FelixModelInterface.h"
 #include "search_match.h"
 #include "Felix_properties.h"
+#include "FelixStatusBar.h"
 
 const static string ACTION_NAME_TRIM = "trim" ;
 const static string ACTION_NAME_STRIP = "strip" ;
@@ -41,6 +42,7 @@ public:
 
 	FelixModelInterface *m_mem_model ;
 	FelixModelInterface *m_gloss_model ;
+	HWND						m_hWndStatusBar ;
 
 	// location of window settings
 	CString m_settings_key ;
@@ -58,6 +60,7 @@ public:
 	bool			m_is_memory ;
 
 	FrameListener	*m_listener ;
+	CFelixStatusBar m_statusbar ;
 
 	app_props::props_ptr m_props ;
 
@@ -75,6 +78,8 @@ public:
 	{
 		return m_qc_matches; 
 	}
+
+	bool init_status_bar();
 
 	doc3_wrapper_ptr get_doc3();
 	BOOL PreTranslateMessage(LPMSG pMsg);

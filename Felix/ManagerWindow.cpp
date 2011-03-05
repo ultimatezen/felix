@@ -86,6 +86,8 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	m_accelerator.LoadAccelerators(IDR_SEARCH_ACCEL) ;
 	::PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_CHECK_DEMO, 100 ), 0) ;
 
+	init_status_bar() ;
+
 #ifndef UNIT_TEST
 	_Module.GetMessageLoop()->AddMessageFilter(this) ;
 #endif
@@ -112,16 +114,37 @@ LRESULT CManagerWindow::OnDestroy( UINT, WPARAM, LPARAM )
 	return 0L ;
 }
 
-LRESULT CManagerWindow::OnSize(UINT, WPARAM, LPARAM)
+LRESULT CManagerWindow::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	SENSE("OnSize") ;
 	// get the client rect
-	CRect ClientRect ;
-	ClientRect.SetRectEmpty() ;
-	GetClientRect( &ClientRect ) ;
+
+	static const int SB_WIDTH_THRESHOLD = 400 ;
+	static const int SB_PANE2_WIDTH = 100 ;
+	static const int SB_PANE2_PROPORTION = 4 ;
+
+	CClientRect client_rect(*this) ;
+
+	if (m_statusbar.m_mp_sbar.IsWindow())
+	{
+		m_statusbar.m_mp_sbar.SendMessage( uMsg, wParam, lParam ) ;
+		const CWindowRect statusbar_rect(m_statusbar.m_mp_sbar.m_hWnd) ;
+		client_rect.bottom -= statusbar_rect.Height() ;
+
+		const int width = statusbar_rect.Width() ;
+
+		if ( width > SB_WIDTH_THRESHOLD )
+		{
+			m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, SB_PANE2_WIDTH ) ;
+		}
+		else
+		{
+			m_statusbar.m_mp_sbar.SetPaneWidth( ID_PANE_2, ( width / SB_PANE2_PROPORTION )  ) ;
+		}
+	}
 
 	// resize edit window
-	m_view.Move( &ClientRect ) ;
+	m_view.Move( &client_rect ) ;
 	return 0L ;
 }
 
@@ -825,27 +848,23 @@ bool CManagerWindow::getMemName( mem_engine::memory_pointer mem ) const
 // ========================
 void CManagerWindow::OnProgressInit( const CString &file_name, size_t min_val, size_t max_val )
 {
-	file_name ;
-	min_val ;
-	max_val ;
+	m_statusbar.OnProgressInit(file_name, min_val, max_val) ;
 }
 bool CManagerWindow::OnProgressLoadUpdate( size_t current_val ) // true to continue
 {
-	current_val ;
-	return true ;
+	return m_statusbar.OnProgressLoadUpdate(current_val) ;
 }
 bool CManagerWindow::OnProgressWriteUpdate( size_t current_val )  // true to continue
 {
-	current_val ;
-	return true ;
+	return m_statusbar.OnProgressWriteUpdate(current_val) ;
 }
 void CManagerWindow::OnProgressDoneWrite( size_t final_val ) 
 {
-	final_val ;
+	m_statusbar.OnProgressDoneWrite(final_val) ;
 }
 void CManagerWindow::OnProgressDoneLoad( size_t final_val ) 
 {
-	final_val ;
+	m_statusbar.OnProgressDoneLoad(final_val) ;
 }
 
 // command handlers
@@ -1226,4 +1245,38 @@ void CManagerWindow::redo_delete_record()
 		CString(link.c_str()));
 	m_message = wstring(static_cast<LPCWSTR>(msg)) ;
 	m_current_state->show_content() ;
+}
+
+bool CManagerWindow::init_status_bar()
+{
+	const int PANE_WIDTH = 100 ;
+
+	// create status bar
+	DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SBARS_SIZEGRIP ;
+	m_hWndStatusBar = ::CreateStatusWindow( dwStyle, R2T( ATL_IDS_IDLEMESSAGE ), m_hWnd, ATL_IDW_STATUS_BAR ) ;
+
+	ATLASSERT( TWindow( m_hWndStatusBar ).IsWindow() ) ;
+
+#ifdef UNIT_TEST
+	PANE_WIDTH ;
+	return true ;
+#else
+
+	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
+	ATLASSERT( m_statusbar.m_mp_sbar.IsWindow() ) ;
+	int arrParts[] = 
+	{ 
+		ID_DEFAULT_PANE, 
+		ID_PANE_2
+	};
+
+	const int num_array_parts = sizeof(arrParts) / sizeof(arrParts[0]) ;
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPanes(arrParts, num_array_parts, false));
+
+	ATLVERIFY(m_statusbar.m_mp_sbar.SetPaneWidth( arrParts[1], PANE_WIDTH )) ;
+
+	m_statusbar.m_mp_sbar.UpdatePanesLayout() ;
+	m_statusbar.m_mp_sbar.ShowWindow( SW_SHOWNOACTIVATE ) ;
+	return !! m_statusbar.m_mp_sbar.IsWindow() ;
+#endif
 }
