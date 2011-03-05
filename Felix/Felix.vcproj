@@ -430,14 +430,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\allcaps_check.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\allcaps_check_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\App.cpp"
 				>
 			</File>
@@ -768,14 +760,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\gloss_check.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\gloss_check_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="GlossaryDialog.cpp"
 				>
 				<FileConfiguration
@@ -918,48 +902,7 @@
 				>
 			</File>
 			<File
-				RelativePath="match_maker.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\match_score.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\match_tester.cpp"
 				>
 			</File>
 			<File
@@ -972,55 +915,6 @@
 			</File>
 			<File
 				RelativePath=".\Memories.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_header.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_local.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_model.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\memory_remote.cpp"
 				>
 			</File>
 			<File
@@ -1184,14 +1078,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\number_check.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\number_check_test.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\common\numberfmt.cpp"
 				>
 			</File>
@@ -1237,100 +1123,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\qc_checker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\qc_checker_test.cpp"
-				>
-			</File>
-			<File
-				RelativePath="query.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\QueryMergeDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath="record.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\record_local.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\record_remote.cpp"
 				>
 			</File>
 			<File
@@ -1363,10 +1156,6 @@
 			</File>
 			<File
 				RelativePath="..\common\ScintillaEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\search_match.cpp"
 				>
 			</File>
 			<File
@@ -1444,46 +1233,6 @@
 			<File
 				RelativePath="..\common\xpmenu\ToolBarXP.cpp"
 				>
-			</File>
-			<File
-				RelativePath="TranslationMemory.cpp"
-				>
-				<FileConfiguration
-					Name="Unicode_Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Unicode_Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="0"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Testing|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						UsePrecompiledHeader="2"
-						BrowseInformation="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="UserStringDlg.cpp"
@@ -1818,35 +1567,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\match_maker_test.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\match_score_test.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\match_tester_test.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MatchStringPairing_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\memory_header_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\memory_local_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\memory_model_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\memory_remote_test.cpp"
 					>
 				</File>
 				<File
@@ -1894,23 +1619,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\query_test.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\QueryMergeDlg_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\record_local_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\record_remote_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\record_test.cpp"
 					>
 				</File>
 				<File
@@ -1931,10 +1640,6 @@
 				</File>
 				<File
 					RelativePath=".\ScintillaEdit_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\search_match_test.cpp"
 					>
 				</File>
 				<File
@@ -2015,10 +1720,6 @@
 				</File>
 				<File
 					RelativePath=".\translation_match_query_test.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\TranslationMemory_test.cpp"
 					>
 				</File>
 				<File
@@ -2332,6 +2033,313 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="qcrules"
+				>
+				<File
+					RelativePath="..\common\qcrules\allcaps_check.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\allcaps_check_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\gloss_check.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\gloss_check_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\number_check.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\number_check_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\qc_checker.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\qc_checker_test.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="mem_engine"
+				>
+				<File
+					RelativePath="match_maker.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\match_maker_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_tester.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\match_tester_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_header.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_header_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_local.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_local_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_model.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\memory_model_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_remote.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_remote_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="query.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\query_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="record.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\record_local.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_local_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_remote.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_remote_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\record_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\search_match.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\search_match_test.cpp"
+					>
+				</File>
+				<File
+					RelativePath="TranslationMemory.cpp"
+					>
+					<FileConfiguration
+						Name="Unicode_Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Unicode_Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="3"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="0"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Testing|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							UsePrecompiledHeader="2"
+							BrowseInformation="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\TranslationMemory_test.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -2351,10 +2359,6 @@
 			</File>
 			<File
 				RelativePath="AdvancedMemMgrDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\allcaps_check.h"
 				>
 			</File>
 			<File
@@ -2387,10 +2391,6 @@
 			</File>
 			<File
 				RelativePath="charset_info.h"
-				>
-			</File>
-			<File
-				RelativePath="..\common\qcrules\check_rule.h"
 				>
 			</File>
 			<File
@@ -2574,10 +2574,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\gloss_check.h"
-				>
-			</File>
-			<File
 				RelativePath="GlossaryDialog.h"
 				>
 			</File>
@@ -2670,23 +2666,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\markup_strings.h"
-				>
-			</File>
-			<File
 				RelativePath=".\match_filters.h"
 				>
 			</File>
 			<File
-				RelativePath=".\match_maker.h"
-				>
-			</File>
-			<File
 				RelativePath=".\match_score.h"
-				>
-			</File>
-			<File
-				RelativePath=".\match_tester.h"
 				>
 			</File>
 			<File
@@ -2703,26 +2687,6 @@
 			</File>
 			<File
 				RelativePath=".\Memories.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_header.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_info.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_local.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_model.h"
-				>
-			</File>
-			<File
-				RelativePath=".\memory_remote.h"
 				>
 			</File>
 			<File
@@ -2786,10 +2750,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\number_check.h"
-				>
-			</File>
-			<File
 				RelativePath="..\common\numberfmt.h"
 				>
 			</File>
@@ -2822,27 +2782,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\common\qcrules\qc_checker.h"
-				>
-			</File>
-			<File
-				RelativePath="query.h"
-				>
-			</File>
-			<File
 				RelativePath=".\QueryMergeDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="record.h"
-				>
-			</File>
-			<File
-				RelativePath=".\record_local.h"
-				>
-			</File>
-			<File
-				RelativePath=".\record_remote.h"
 				>
 			</File>
 			<File
@@ -2883,10 +2823,6 @@
 			</File>
 			<File
 				RelativePath="..\common\ScintillaEdit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\search_match.h"
 				>
 			</File>
 			<File
@@ -2955,10 +2891,6 @@
 			</File>
 			<File
 				RelativePath="..\common\xpmenu\Tools.h"
-				>
-			</File>
-			<File
-				RelativePath="TranslationMemory.h"
 				>
 			</File>
 			<File
@@ -3230,6 +3162,90 @@
 				</File>
 				<File
 					RelativePath=".\undoable_action.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="qcrules"
+				>
+				<File
+					RelativePath="..\common\qcrules\allcaps_check.h"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\check_rule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\gloss_check.h"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\number_check.h"
+					>
+				</File>
+				<File
+					RelativePath="..\common\qcrules\qc_checker.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="mem_engine"
+				>
+				<File
+					RelativePath=".\markup_strings.h"
+					>
+				</File>
+				<File
+					RelativePath=".\match_maker.h"
+					>
+				</File>
+				<File
+					RelativePath=".\match_tester.h"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_header.h"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_info.h"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_local.h"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_model.h"
+					>
+				</File>
+				<File
+					RelativePath=".\memory_remote.h"
+					>
+				</File>
+				<File
+					RelativePath="query.h"
+					>
+				</File>
+				<File
+					RelativePath="record.h"
+					>
+				</File>
+				<File
+					RelativePath=".\record_local.h"
+					>
+				</File>
+				<File
+					RelativePath=".\record_remote.h"
+					>
+				</File>
+				<File
+					RelativePath=".\search_match.h"
+					>
+				</File>
+				<File
+					RelativePath="TranslationMemory.h"
 					>
 				</File>
 			</Filter>
