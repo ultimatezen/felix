@@ -1,6 +1,7 @@
 #pragma once
 
 #include "record.h"
+#include "search_match.h"
 
 class WindowListener
 {
@@ -29,9 +30,9 @@ public:
 								   const int memory_id, 
 								   UINT title_id ) = 0 ;
 	virtual void set_new_record(mem_engine::record_pointer rec) = 0 ;
-	virtual void set_review_record(mem_engine::record_pointer rec) = 0 ;
+	virtual void set_review_match(mem_engine::record_pointer rec, int mem_id) = 0 ;
 	virtual mem_engine::record_pointer get_new_record() = 0 ;
-	virtual mem_engine::record_pointer get_review_record() = 0 ;
+	virtual mem_engine::search_match_ptr get_review_match() = 0 ;
 
 	virtual void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages) = 0 ;
 

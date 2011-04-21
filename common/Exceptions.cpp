@@ -18,7 +18,8 @@ typedef boost::basic_format< TCHAR > tformat;
 CString GenerateDump(EXCEPTION_POINTERS* pExceptionPointers)
 {
 	WCHAR* szAppName = L"Felix";
-	WCHAR* szVersion = _T(VERSION);
+	wstring version = string2wstring(VERSION) ;
+	const wchar_t* szVersion = version.c_str();
 	const DWORD dwBufferSize = MAX_PATH;
 	WCHAR szPath[dwBufferSize] ;
 	HANDLE hDumpFile;

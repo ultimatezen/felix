@@ -6,6 +6,11 @@
 #include "RegistryStuff.h"		// CRegMap
 #include "resource_string.h"	// R2T
 
+#include "pugxml/src/pugixml.hpp"
+
+#include <vector>
+#include "output_device.h"
+
 /**
 	@namespace app_props
 	@brief Application properties (persisted to registry).
@@ -20,6 +25,11 @@ namespace app_props
  */
 struct properties_loaded_history : public props::CRegMap
 {
+	std::vector<wstring> m_loaded_mems ;
+	std::vector<wstring> m_loaded_gloss ;
+	std::vector<wstring> m_loaded_remote_mems ;
+	std::vector<wstring> m_loaded_remote_gloss ;
+
 	struct props_data
 	{
 		int m_num_mems ;
@@ -70,6 +80,15 @@ struct properties_loaded_history : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
+	void load_xml_props_type(pugi::xml_document &doc, std::vector<wstring> &items, string node_name) ;
+	bool load_xml_props();
+
+	void parse_xml_doc( pugi::xml_document &doc );
+	bool write_xml_props();
+
+	void write_xml_file( output_device_ptr output );
+	string get_xml_doc();
+	bool copy_reg_props();
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("LOAD_HISTORY") ) ;
 
 		REG_ENTRY_INT( _T("NUM_MEMS"), m_data.m_num_mems ) ;
@@ -141,6 +160,24 @@ struct properties_loaded_history : public props::CRegMap
 		REG_ENTRY_STRING( _T("REMOTE_GLOSS13"),	m_data.m_remote_glosses[12], MAX_PATH )
 		REG_ENTRY_STRING( _T("REMOTE_GLOSS14"),	m_data.m_remote_glosses[13], MAX_PATH )
 		REG_ENTRY_STRING( _T("REMOTE_GLOSS15"),	m_data.m_remote_glosses[14], MAX_PATH )
+
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
 
 	END_REGISTRY_MAP		
 } ;
@@ -550,6 +587,7 @@ struct properties_qc : public props::CRegMap
 /**
 	@	struct properties_general 
 	@brief general properties.
+
 */
 struct properties_general : public props::CRegMap
 {
@@ -564,6 +602,7 @@ struct properties_general : public props::CRegMap
 
 		int		m_merge_choice ;
 		BOOL	m_query_merge ;
+		BOOL	m_old_mem_mgr ;
 
 		TCHAR	m_user_name[MAX_PATH] ;
 
@@ -575,7 +614,8 @@ struct properties_general : public props::CRegMap
 			m_show_markup(TRUE),
 			m_first_launch(TRUE),
 			m_merge_choice(IDC_MERGE),
-			m_query_merge(TRUE)
+			m_query_merge(TRUE),
+			m_old_mem_mgr(FALSE)
 		{
 			DWORD path_len(MAX_PATH) ;
 			::GetUserName( m_user_name, &path_len ) ;
@@ -615,6 +655,7 @@ struct properties_general : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GENERAL_FIRST_LAUNCH"),		m_data.m_first_launch)
 		REG_ENTRY_INT( _T("GENERAL_MERGE_CHOICE"),		m_data.m_merge_choice)
 		REG_ENTRY_BOOL( _T("GENERAL_QUERY_MERGE"),		m_data.m_query_merge)
+		REG_ENTRY_BOOL( _T("GENERAL_OLD_MEM_MGR"),		m_data.m_old_mem_mgr)
 		REG_ENTRY_STRING( _T("GENERAL_USER_NAME"),		m_data.m_user_name, MAX_PATH )
 
 	END_REGISTRY_MAP		

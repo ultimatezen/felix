@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"get_current_match_review_non_empty") ;
 
-		main_frame.set_review_record(newrec) ;
+		main_frame.set_review_match(newrec, 0) ;
 
 		search_match_ptr current_match = main_frame.get_current_match() ;
 

@@ -20,6 +20,10 @@ public:
 	{
 	}
 	
+	void get_memories_needing_saving( memory_list &memories )
+	{
+		m_model->get_memories_needing_saving(memories) ;
+	}
 
 	model_ptr get_memories()
 	{

@@ -437,6 +437,8 @@ void CTMXReader::load_tu(const wstring  tu_text)
 	tu.set_attributes(attributes) ;
 	tu.reflect_attributes(m_record) ;
 
+	wstring leftover_text ; 
+
 	while ( tu_reader.find(L"<tuv", false) ) 
 	{
 		wc_reader::bookmark_type tuv_tag_start = tu_reader.get_current_pos() ;
@@ -471,8 +473,16 @@ void CTMXReader::load_tu(const wstring  tu_text)
 		{
 			m_record->set_trans(seg_text) ;
 		}
+		else
+		{
+			leftover_text = seg_text ;
+		}
 	}
 
+	if (m_record->get_source_plain().empty())
+	{
+		m_record->set_source(leftover_text) ;
+	}
 	if ( m_record->is_valid_record() ) 
 	{
 		m_memory->add_record(m_record) ;

@@ -58,7 +58,7 @@ BEGIN
     BEGIN
         POPUP "新規(&N)"
         BEGIN
-            MENUITEM "用語集の作成(&G)",                 ID_GLOSSARY_NEW
+            MENUITEM "用語集の作成(&G)",                  ID_GLOSSARY_NEW
             MENUITEM "メモリの作成(&M)\tCtrl+N",          ID_FILE_NEW
         END
         MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
@@ -178,7 +178,7 @@ BEGIN
         MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
         MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
         MENUITEM "ツールバー(&T)",                   59392
-		MENUITEM "簡易表示(&P)"					IDC_GLOSS_SIMPLE_VIEW
+        MENUITEM "簡易表示(&P)",                    IDC_GLOSS_SIMPLE_VIEW
         POPUP "現在のビュー(&V)"
         BEGIN
             MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH
@@ -194,7 +194,7 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "用語集の管理(&M)...",              ID_TOOLS_MEMORY_MGR
+        MENUITEM "用語集の管理(&M)...",               ID_TOOLS_MEMORY_MGR
     END
 END
 
@@ -542,6 +542,7 @@ BEGIN
     LTEXT           "ユーザ名",IDC_STATIC,9,97,66,12
     EDITTEXT        IDC_USER_NAME,9,112,187,14,ES_AUTOHSCROLL
     GROUPBOX        "",IDC_STATIC,4,80,234,59
+    CONTROL         "TM管理画面の古いバージョンを使用する(&O)",IDC_OLD_MEM_MGR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,191,185,12
 END
 
 IDD_ADD_GLOSS DIALOGEX 0, 0, 523, 314
@@ -1088,6 +1089,10 @@ BEGIN
     IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
     IDS_CLOSED_MEMORY       "メモリを閉じました：[%1]"
     IDS_CLOSED_GLOSSARY     "用語集を閉じました：[%1]"
+END
+
+STRINGTABLE 
+BEGIN
     IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
     IDS_SAVE_GLOSSARY       "現在の用語集を保存します\n現在の用語集を保存します"
     IDS_SAVE_MEMORY         "現在のメモリを保存します\n現在のメモリを保存します"
@@ -1095,18 +1100,20 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ACTION_UNDO_MSG   "アクション[%1]が完了しました。<a href=%2>元に戻す</a>"
-    IDS_ACTION_REDO_MSG   "アクション[%1]が取り消されました。<a href=%2>やり直す</a>"
-    IDS_ACTION_TRIM_SPACES   "空白の削除"
-    IDS_ACTION_STRIP_TAGS   "タグの削除"
-	IDS_ACTION_DELETE_ENTRY	"訳文・訳語の削除"
-	IDS_ACTION_DELETE_MATCHES "一致した訳語・訳文の削除"
-END
-
-STRINGTABLE 
-BEGIN
     IDS_SAVE_ALL_GLOSSARIES "すべての用語集を保存します\nすべての用語集を保存します"
     IDS_SAVE_ALL_MEMORIES   "すべてのメモリを保存します\nすべてのメモリを保存します"
+    IDS_SEARCH_MANAGER_TITLE "TM・用語集の管理"
+    IDS_SOURCE_CONCORDANCE  "原文一致の検索(&S)"
+    IDS_TRANS_CONCORDANCE   "訳文一致の検索(&T)"
+    IDS_SAVED_RESULTS       "検索結果を保存しました"
+    IDS_ACTION_TRIM_SPACES  "空白の削除"
+    IDS_ACTION_STRIP_TAGS   "タグの削除"
+    IDS_ACTION_UNDO_MSG     "アクション[%1]が完了しました。<a href=%2>元に戻す</a>"
+    IDS_ACTION_REDO_MSG     "アクション[%1]が取り消されました。<a href=%2>やり直す</a>"
+    IDS_ACTION_DELETE_ENTRY "訳文・訳語の削除"
+    IDS_ACTION_DELETE_MATCHES "一致した訳語・訳文の削除"
+    IDS_MSG_SEARCH          "検索"
+    IDS_MSG_REPLACE         "置換"
 END
 
 STRINGTABLE 
@@ -1160,8 +1167,6 @@ STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "ツール バーの表示/非表示を切り替えます\nツール バー表示切替"
     ID_VIEW_STATUS_BAR      "ステータス バーの表示/非表示を切り替えます\nステータス バー表示切替"
-    IDS_MSG_SEARCH          "検索"
-    IDS_MSG_REPLACE         "置換"
 END
 
 STRINGTABLE 
@@ -1210,8 +1215,6 @@ BEGIN
     IDS_SEND_BTN            "送信(&S)"
     IDS_DONT_SEND_BTN       "送信しない(&S)"
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
-	IDS_SOURCE_CONCORDANCE	"原文一致の検索(&S)"
-	IDS_TRANS_CONCORDANCE	"訳文一致の検索(&T)"
 END
 
 STRINGTABLE 
@@ -1297,7 +1300,6 @@ BEGIN
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "削除できません(メモリがロック状態)"
     IDS_REPLACE_COMPLETE_MSG "%1個のエントリを置換しました"
     IDS_SEARCHWIN_TITLE_MEM "メモリの検索"
-    IDS_SEARCH_MANAGER_TITLE "TM・用語集の管理"
     IDS_SEARCHWIN_TITLE_GLOSS "用語の検索"
     IDS_POPUP_COPY          "コピー(&C)"
     IDS_RETRIEVING_LANG_CODES "言語コードを取得中..."
@@ -1599,7 +1601,6 @@ END
 STRINGTABLE 
 BEGIN
     IDC_SOURCE_LANG_STATIC  "原言語を指定してください"
-	IDS_SAVED_RESULTS		"検索結果を保存しました"
 END
 
 #endif    // Japanese resources

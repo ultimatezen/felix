@@ -31,7 +31,7 @@ namespace mem_engine
 		m_is_locked( false ),
 		m_is_memory( true ),
 		m_creation_tool(L"Felix"),
-		m_creation_tool_version(_T(VERSION)),
+		m_creation_tool_version(string2wstring(VERSION)),
 		m_creator( CUserName().as_wstring() )
 	{
 		set_created_on_to_local_time() ;
@@ -416,7 +416,7 @@ namespace mem_engine
 			m_is_locked( false ),
 			m_is_memory( true ),
 			m_creation_tool(L"Felix"),
-			m_creation_tool_version(_T(VERSION))
+			m_creation_tool_version(string2wstring(VERSION))
 	{
 		set_created_on_to_local_time() ;
 		m_modified_on = m_created_on ;

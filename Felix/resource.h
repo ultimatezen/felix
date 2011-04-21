@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixJPN.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -591,10 +591,11 @@
 #define IDS_ACTION_REDO_MSG             586
 #define IDS_ACTION_DELETE_ENTRY         587
 #define IDS_ACTION_DELETE_MATCHES       588
-#define IDS_MSG_SEARCH					589
-#define IDS_MSG_REPLACE					590
-#define IDC_GLOSS_SIMPLE_VIEW			591
-
+#define IDS_MSG_SEARCH                  589
+#define IDS_MSG_REPLACE                 590
+#define IDC_GLOSS_SIMPLE_VIEW           591
+#define IDC_CHECK1                      1000
+#define IDC_OLD_MEM_MGR                 1000
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -662,7 +663,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40003
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           239
 #endif
 #endif

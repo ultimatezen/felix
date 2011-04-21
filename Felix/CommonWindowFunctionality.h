@@ -75,7 +75,7 @@ public:
 	
 
 	record_type		m_new_record ;	  // last added record
-	record_type		m_review_record ; // review mode
+	match_ptr		m_review_match ; // review mode
 	match_ptr		m_item_under_edit ;
 
 	// Save the last deleted match, so we can undo...
@@ -162,17 +162,19 @@ public:
 	{
 		return m_new_record ;
 	}
-	record_type get_review_record()
+	match_ptr get_review_match()
 	{
-		return m_review_record ;
+		return m_review_match ;
 	}
 	void set_new_record(record_type rec)
 	{
 		m_new_record = rec ;
 	}
-	void set_review_record(record_type rec)
+	void set_review_match(record_type rec, int mem_id)
 	{
-		m_review_record = rec ;
+		m_review_match->set_record(rec) ;
+		m_review_match->set_values_to_record() ;
+		m_review_match->set_memory_id(mem_id) ;
 	}
 	match_ptr get_item_under_edit()
 	{
@@ -211,7 +213,7 @@ public:
 	INT_PTR user_wants_to_save( const CString &f_name ) ;
 	INT_PTR check_save() ;
 
-	INT_PTR check_save_memory(mem_engine::memory_pointer mem);
+	virtual INT_PTR check_save_memory(mem_engine::memory_pointer mem) = 0;
 
 	void initialize_values(void);
 	void remove_memory(mem_engine::memory_pointer mem, int msgid);

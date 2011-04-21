@@ -4,6 +4,7 @@
 #include "memory_local.h"
 #include "record_local.h"
 #include "felix_model_fake.h"
+#include "Felix_properties.h"
 
 #ifdef UNIT_TEST
 
@@ -15,6 +16,7 @@ public:
 	INT_PTR check_save_retval ;
 	mem_engine::memory_pointer check_save_mem ;
 	mem_engine::record_pointer added_rec ;
+	app_props::properties_general m_props_general ;;
 
 	FelixModelInterfaceFake m_model ;
 
@@ -48,6 +50,10 @@ public:
 	{
 		hwnd ;
 		SENSE("gloss_view_switch") ;
+	}
+	app_props::properties_general* get_props_general()
+	{
+		return &m_props_general ;
 	}
 };
 

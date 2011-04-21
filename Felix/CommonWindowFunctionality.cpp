@@ -141,35 +141,7 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	return IDYES ;
 }
 
-INT_PTR CCommonWindowFunctionality::check_save_memory( mem_engine::memory_pointer mem )
-{
-	switch( user_wants_to_save( mem->get_location() ) ) 
-	{
-	case IDNO :
 
-		mem->set_saved_flag( true ) ;
-		return IDNO;
-
-	case IDYES :
-
-		if ( IDCANCEL == LetUserSaveMemory(mem) )
-		{
-			return IDCANCEL ;
-		}
-		return IDYES ;
-
-	case IDCANCEL :
-
-		return IDCANCEL ;
-
-	default :
-
-		ATLASSERT( "Unknown response!" && FALSE ) ;
-		return IDCANCEL ;
-
-	}
-	return IDYES ;
-}
 
 INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer& mem)
 {
@@ -986,7 +958,7 @@ void CCommonWindowFunctionality::initialize_values( void )
 	m_silent_mode = false ;
 	m_mousewheel_count = 0;
 	m_new_record = record_type(new mem_engine::record_local);
-	m_review_record = record_type(new mem_engine::record_local);
+	m_review_match = match_ptr(new match_type(record_type(new mem_engine::record_local)));
 	m_item_under_edit = match_ptr(new match_type(record_type(new mem_engine::record_local)));
 }
 

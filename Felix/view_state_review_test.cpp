@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		state.show_content() ;
 
 		BOOST_CHECK_EQUAL(3, (int)vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_review_match") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "is_short_format") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "set_bg_color_if_needed") ;
 	}
@@ -153,12 +153,12 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		BOOST_CHECK_EQUAL(6, (int)vso.listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_item_under_edit") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "set_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "set_review_match") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "redo_lookup") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3]), "user_feedback") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4]), "425") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[5]), "0") ;
-		BOOST_CHECK(vso.listener.review_rec->is_valid_record()) ;
+		BOOST_CHECK(vso.listener.review_match->get_record()->is_valid_record()) ;
 	}
 
 	// get_current_match
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"review_state") ;
 
-		vso.listener.set_review_record(newrec) ;
+		vso.listener.set_review_match(newrec, 0) ;
 
 		search_match_ptr current_match = state.get_current_match() ;
 
@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"on_user_edit") ;
 
-		vso.listener.set_review_record(newrec) ;
+		vso.listener.set_review_match(newrec, 0) ;
 
 		state.on_user_edit() ;
 		search_match_ptr current_match = vso.listener.item_under_edit ;
@@ -275,7 +275,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		rec->set_trans(L"trans") ;
 
 		vso.mem->add_record(rec) ;
-		vso.listener.review_rec = rec ;
+		vso.listener.review_match->set_record(rec) ;
 
 		state.delete_match(0) ;
 
@@ -296,7 +296,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		rec->set_trans(L"trans") ;
 
 		vso.mem->add_record(rec) ;
-		vso.listener.review_rec = rec ;
+		vso.listener.review_match->set_record(rec) ;
 
 		state.delete_match(0) ;
 
@@ -306,7 +306,7 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3]), "0") ;
 		BOOST_CHECK_EQUAL(4, (int)vso.view.m_sensing_variable.size()) ;
 
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "get_review_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1]), "get_review_match") ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2]), "user_feedback") ;
 
 		BOOST_CHECK_EQUAL(0u, vso.mem->size()) ;

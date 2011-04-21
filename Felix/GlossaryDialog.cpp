@@ -1555,6 +1555,15 @@ LRESULT CGlossaryDialog::OnDrop(HDROP dropped)
 // change the window title.
 LRESULT CGlossaryDialog::on_tools_memory_manager()
 {
+	SENSE("on_tools_memory_manager") ;
+
+	if (m_listener->get_props_general()->m_data.m_old_mem_mgr)
+	{
+		m_old_manager_window.set_memories(this->get_model()->get_memories()) ;
+		m_old_manager_window.DoModal() ;
+		return 0L ;
+	}
+
 	m_manager_window.set_mem_model(m_listener->get_model()) ;
 	m_manager_window.set_gloss_model(get_model()) ;
 
@@ -1778,35 +1787,62 @@ void CGlossaryDialog::check_save_history()
 	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
 	history_props->read_from_registry() ;
 
+	history_props->m_loaded_remote_gloss.clear() ;
+	history_props->m_loaded_gloss.clear() ;
+	for ( memory_iterator pos = m_memories->begin() ; 
+			pos != m_memories->end() ; 
+			++pos )
+	{
+		memory_pointer mem = *pos ;
+		tstring location = (LPCTSTR)mem->get_fullpath();
+		if (! mem->is_local())
+		{
+			history_props->m_loaded_remote_gloss.push_back(location) ;
+		}
+		else if (::PathFileExists(location.c_str()))
+		{
+			history_props->m_loaded_gloss.push_back(location) ;
+		}
+	}
+
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
 	for ( memory_iterator pos = m_memories->begin() ; 
-		pos != m_memories->end() && mem_num < app_props::NumMems ; 
-		++pos )
+		pos != m_memories->end() ; ++pos )
 	{
 		memory_pointer mem = *pos ;
 		const CString location = mem->get_fullpath() ;
-		if ( ::PathFileExists(location) && mem->is_local() ) 
+		if ( ::PathFileExists(location) && mem->is_local()) 
 		{
-			tstring gloss_title = (LPCTSTR)location;
+			if (mem_num >= app_props::NumMems)
+			{
+				continue;
+			}
+			tstring mem_title = (LPCTSTR)location;
 			_tcsncpy_s(history_props->m_data.m_glosses[mem_num], 
-							MAX_PATH, 
-							(LPCTSTR)gloss_title.c_str(), 
-							gloss_title.size() ) ;
-			ATLASSERT ( remote_num + mem_num < m_memories->size() ) ;
+				MAX_PATH, 
+				(LPCTSTR)mem_title.c_str(), 
+				mem_title.size() ) ;
+
+			ATLASSERT ( mem_num + remote_num < m_memories->size() ) ;
 			mem_num++ ;
 		}
 		else if (! mem->is_local())
 		{
-			tstring gloss_title = (LPCTSTR)location;
+			if (remote_num >= app_props::NumMems)
+			{
+				continue;
+			}
+			tstring mem_title = (LPCTSTR)location;
 			_tcsncpy_s(history_props->m_data.m_remote_glosses[remote_num], 
 				MAX_PATH, 
-				(LPCTSTR)gloss_title.c_str(), 
-				gloss_title.size() ) ;
+				(LPCTSTR)mem_title.c_str(), 
+				mem_title.size() ) ;
 			ATLASSERT ( remote_num + mem_num < m_memories->size() ) ;
 			remote_num++ ;
 		}
 	}
+
 	history_props->m_data.m_num_gloss = mem_num ;
 	history_props->m_data.m_num_remote_gloss = remote_num ;
 	history_props->write_to_registry() ;
@@ -1979,27 +2015,39 @@ void CGlossaryDialog::set_zoom_level( int zoom_level )
 
 void CGlossaryDialog::load_history()
 {
-	m_memories->clear() ;
+	ATLTRACE("Loading glossary history\n") ;
 	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
 	history_props->read_from_registry() ;
-	for ( int i = history_props->m_data.m_num_gloss ; 0 < i  ; --i )
+
+	m_memories->clear() ;
+
+	std::vector<wstring> items ;
+	std::copy(history_props->m_loaded_gloss.begin(), history_props->m_loaded_gloss.end(), std::back_inserter(items)) ;
+	std::reverse(items.begin(), items.end()) ;
+
+	foreach(wstring filename, items)
 	{
-		load( history_props->m_data.m_glosses[i-1], false ) ;
+		TRACE(filename) ;
+		load(filename.c_str(), false) ;
 	}
-	for ( int i = history_props->m_data.m_num_remote_gloss ; 0 < i  ; --i )
+
+	items.clear() ;
+	std::copy(history_props->m_loaded_remote_gloss.begin(), history_props->m_loaded_remote_gloss.end(), std::back_inserter(items)) ;
+	std::reverse(items.begin(), items.end()) ;
+
+	foreach(wstring filename, items)
 	{
 		try
 		{
 			memory_remote *mem = new memory_remote() ;
 			memory_pointer pmem(mem) ;
-			mem->connect(history_props->m_data.m_remote_glosses[i-1]) ;
+			mem->connect(filename.c_str()) ;
 			this->add_glossary(pmem) ;
 		}
 		catch (CException& e)
 		{
-			history_props->m_data.m_num_remote_gloss = i-1 ;
 			logging::log_error("Failed to load remote glossary") ;
-			logging::log_error(string2string(history_props->m_data.m_remote_glosses[i-1])) ;
+			logging::log_error(string2string(filename)) ;
 			logging::log_exception(e) ;
 			this->FlashWindow(FALSE) ;
 		}
@@ -2382,3 +2430,32 @@ void CGlossaryDialog::open_mru_file( WORD wID, input_device_ptr input )
 	}
 }
 
+INT_PTR CGlossaryDialog::check_save_memory( mem_engine::memory_pointer mem )
+{
+	switch( user_wants_to_save( mem->get_location() ) ) 
+	{
+	case IDNO :
+
+		mem->set_saved_flag( true ) ;
+		return IDNO;
+
+	case IDYES :
+
+		if ( IDCANCEL == LetUserSaveMemory(mem) )
+		{
+			return IDCANCEL ;
+		}
+		return IDYES ;
+
+	case IDCANCEL :
+
+		return IDCANCEL ;
+
+	default :
+
+		ATLASSERT( "Unknown response!" && FALSE ) ;
+		return IDCANCEL ;
+
+	}
+	return IDYES ;
+}

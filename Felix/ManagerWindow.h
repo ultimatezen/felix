@@ -168,6 +168,7 @@ public:
 	bool nav_remove(const std::vector<string> &tokens) ;
 	bool nav_addnew(const std::vector<string> &tokens) ;
 	bool nav_load(const std::vector<string> &tokens) ;
+	bool remove_all(const std::vector<string> &tokens);
 
 	bool delete_record(const std::vector<string> &tokens);
 	bool edit_record(const std::vector<string> &tokens);

@@ -75,7 +75,7 @@ void ViewStateReview::retrieve_edit_record( int mem_id, mem_engine::record_point
 	}
 	current_match->set_record(new_rec) ;
 	current_match->set_values_to_record() ;
-	m_window_listener->set_review_record(new_rec) ;
+	m_window_listener->set_review_match(new_rec, mem_id) ;
 	m_window_listener->redo_lookup(current_match, true) ;
 	m_window_listener->user_feedback( IDS_CORRECTED_TRANS ) ;
 }
@@ -85,7 +85,7 @@ void ViewStateReview::show_content()
 	memory_pointer mem = m_model->get_first_memory() ;
 
 	mem_engine::search_match_ptr match(mem->make_match()) ;
-	match->set_record(m_window_listener->get_review_record()) ;
+	match->set_record(m_window_listener->get_review_match()->get_record()) ;
 	match->set_values_to_record() ;
 
 	cpptempl::data_map data ;
@@ -109,7 +109,7 @@ void ViewStateReview::show_content()
 mem_engine::search_match_ptr ViewStateReview::get_current_match()
 {
 	search_match_ptr match = this->m_model->get_first_memory()->make_match() ;
-	match->set_record(this->m_window_listener->get_review_record()) ;
+	match->set_record(this->m_window_listener->get_review_match()->get_record()) ;
 	match->set_values_to_record() ;
 	return match ;
 }
@@ -140,7 +140,7 @@ void ViewStateReview::delete_match( size_t index )
 	{
 		return ;
 	}
-	mem->erase(m_window_listener->get_review_record()) ;
+	mem->erase(m_window_listener->get_review_match()->get_record()) ;
 
 	const wstring feedback = L"<center><h1>" + resource_string_w( IDS_DELETED_ENTRY ) + L"</h1></center>" ;
 	m_view->set_text(feedback) ;

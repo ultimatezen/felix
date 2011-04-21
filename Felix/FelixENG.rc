@@ -152,7 +152,7 @@ BEGIN
         MENUITEM "&Edit Mode\tCtrl+E",          ID_VIEW_EDIT_MODE
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-		MENUITEM "Sim&ple View"					IDC_GLOSS_SIMPLE_VIEW
+        MENUITEM "Sim&ple View",                IDC_GLOSS_SIMPLE_VIEW
         POPUP "Current &View"
         BEGIN
             MENUITEM "&Match View",                 ID_VIEW_MATCH
@@ -345,7 +345,7 @@ BEGIN
     CONTROL         "Start at &1",IDC_GLOSS_NUM_1,"Button",BS_AUTORADIOBUTTON,17,205,133,13
 END
 
-IDD_PROPPAGE_GENERAL DIALOGEX 0, 0, 193, 179
+IDD_PROPPAGE_GENERAL DIALOGEX 0, 0, 199, 207
 STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
 CAPTION "General"
 FONT 10, "Tahoma", 400, 0, 0x0
@@ -360,6 +360,7 @@ BEGIN
     LTEXT           "User Name",IDC_STATIC,10,83,66,10
     EDITTEXT        IDC_USER_NAME,10,95,142,13,ES_AUTOHSCROLL
     GROUPBOX        "",IDC_STATIC,4,75,185,43
+    CONTROL         "Use &old Memory Manager",IDC_OLD_MEM_MGR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,155,159,10
 END
 
 IDD_PROPPAGE_VIEW DIALOGEX 0, 0, 193, 179
@@ -887,7 +888,8 @@ BEGIN
 
     IDD_PROPPAGE_GENERAL, DIALOG
     BEGIN
-        BOTTOMMARGIN, 154
+        RIGHTMARGIN, 193
+        BOTTOMMARGIN, 182
     END
 
     IDD_PROPPAGE_VIEW, DIALOG
@@ -1053,6 +1055,17 @@ BEGIN
     IDS_SAVE_ALL_GLOSSARIES "Save all glossaries\nSave all glossaries"
     IDS_SAVE_ALL_MEMORIES   "Save all memories\nSave all memories"
     IDS_SEARCH_MANAGER_TITLE "Manage TMs and Glossaries"
+    IDS_SOURCE_CONCORDANCE  "Concordance for &Source"
+    IDS_TRANS_CONCORDANCE   "Concordance for &Trans"
+    IDS_SAVED_RESULTS       "Saved search results"
+    IDS_ACTION_TRIM_SPACES  "Trim Spaces"
+    IDS_ACTION_STRIP_TAGS   "Strip Tags"
+    IDS_ACTION_UNDO_MSG     "Performed action [%1]. <a href=%2>Undo</a>"
+    IDS_ACTION_REDO_MSG     "Undid action [%1]. <a href=%2>Redo</a>"
+    IDS_ACTION_DELETE_ENTRY "Delete Entry"
+    IDS_ACTION_DELETE_MATCHES "Delete Matches"
+    IDS_MSG_SEARCH          "Search"
+    IDS_MSG_REPLACE         "Replace"
 END
 
 STRINGTABLE 
@@ -1202,8 +1215,6 @@ BEGIN
     IDS_SEND_BTN            "&Send"
     IDS_DONT_SEND_BTN       "Do &Not Send"
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
-	IDS_SOURCE_CONCORDANCE	"Concordance for &Source"
-	IDS_TRANS_CONCORDANCE	"Concordance for &Trans"
 END
 
 STRINGTABLE 
@@ -1324,18 +1335,12 @@ BEGIN
     IDS_POST_EDIT_ALL_DELETED 
                             "Editing complete. All entries have been deleted."
     IDS_NO_TRANS_SELECTED   "No translation selected"
-    IDS_EDIT_RECORD_TITLE   "Edit Record"
-    IDS_MSG_NO_EMPTY_S_OR_T "The entry must not have an empty source or translation.\r\rPlease try again."
 END
 
 STRINGTABLE 
 BEGIN
-    IDS_ACTION_UNDO_MSG   "Performed action [%1]. <a href=%2>Undo</a>"
-    IDS_ACTION_REDO_MSG   "Undid action [%1]. <a href=%2>Redo</a>"
-    IDS_ACTION_TRIM_SPACES   "Trim Spaces"
-    IDS_ACTION_STRIP_TAGS   "Strip Tags"
-	IDS_ACTION_DELETE_ENTRY	"Delete Entry"
-	IDS_ACTION_DELETE_MATCHES "Delete Matches"
+    IDS_EDIT_RECORD_TITLE   "Edit Record"
+    IDS_MSG_NO_EMPTY_S_OR_T "The entry must not have an empty source or translation.\r\rPlease try again."
 END
 
 STRINGTABLE 
@@ -1510,8 +1515,6 @@ END
 STRINGTABLE 
 BEGIN
     ID_FORMAT_FONT          "Show the font dialog (Edit mode only)\nFont"
-    IDS_MSG_SEARCH          "Search"
-    IDS_MSG_REPLACE         "Replace"
 END
 
 STRINGTABLE 
@@ -1557,7 +1560,6 @@ END
 STRINGTABLE 
 BEGIN
     IDC_SOURCE_LANG_STATIC  "Connect\nConnect to a memory on a local server."
-	IDS_SAVED_RESULTS		"Saved search results"
 END
 
 #endif    // Japanese resources

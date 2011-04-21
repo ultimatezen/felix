@@ -17,6 +17,7 @@
 #include "xpmenu/ToolBarXP.h"
 #include "SearchWindow.h"
 #include "ManagerWindow.h"		// CManagerWindow
+#include "MemoryManagerDlg.h"	// CMemoryManagerDlg
 
 //#include "HtmlView.h"				// CHtmlView
 //#include "FindDlg.h"										// CFindDlg
@@ -90,6 +91,7 @@ class CGlossaryDialog :
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
+	CMemoryManagerDlg	m_old_manager_window ;
 
 	ViewStateInitialGloss		m_view_state_initial ;
 	ViewStateNewGloss			m_view_state_new;
@@ -140,7 +142,7 @@ public:
 	{
 		return &m_model ;
 	}
-
+	INT_PTR check_save_memory( mem_engine::memory_pointer mem );
 
 	// importing/exporting multiterm files
 	void import_tabbed_text( const CString &file_name );

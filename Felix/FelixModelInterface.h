@@ -7,6 +7,7 @@ class FelixModelInterface
 public:
 	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
 	typedef mem_engine::memory_pointer memory_type ;
+	typedef std::list< memory_type > memory_list ;
 
 	virtual ~FelixModelInterface(){}
 
@@ -54,6 +55,7 @@ public:
 	virtual bool is_reverse_lookup() = 0 ;
 	virtual int get_first_mem_id() = 0 ;
 	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
+	virtual void get_memories_needing_saving( memory_list &memories ) = 0 ;
 };
 
 
@@ -101,6 +103,10 @@ public:
 	mem_engine::memory_pointer get_memory_by_id(int id)
 	{
 		return m_memories->get_memory_by_id(id) ;
+	}
+	void get_memories_needing_saving( memory_list &memories )
+	{
+		m_memories->get_memories_needing_saving(memories) ;
 	}
 
 };

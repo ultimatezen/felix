@@ -1123,6 +1123,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\common\pugxml\src\pugixml.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\pugxml\src\pugixpath.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\QueryMergeDlg.cpp"
 				>
 			</File>
@@ -2779,6 +2787,14 @@
 			</File>
 			<File
 				RelativePath="PropertiesDlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\pugxml\src\pugiconfig.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\common\pugxml\src\pugixml.hpp"
 				>
 			</File>
 			<File

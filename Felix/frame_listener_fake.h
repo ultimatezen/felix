@@ -17,4 +17,8 @@ public:
 		SENSE("save_memory_as") ;
 	}
 	void get_qc_messages(mem_engine::record_pointer, std::vector<wstring> &){}
+	INT_PTR check_save_memory(mem_engine::memory_pointer )
+	{
+		return IDOK ;
+	}
 };

@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		WindowsMessage message ;
 		main_frame.on_create(message) ;
 
-		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
 	}
 	BOOST_AUTO_TEST_CASE(starts_with_one_gloss_window)
@@ -227,7 +227,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		CMainFrame main_frame( &model ) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(3u, main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "window_listener.h"
 #include "record_local.h"
+#include "search_match.h"
 
 #ifdef UNIT_TEST
 class WindowListenerFake : public WindowListener
@@ -13,7 +14,7 @@ class WindowListenerFake : public WindowListener
 public:
 	DECLARE_SENSING_VAR ;
 	rec_ptr new_rec ;
-	rec_ptr review_rec ;
+	match_ptr review_match ;
 	match_ptr current_match ;
 	match_ptr item_under_edit ;
 	std::vector<int> m_feedback_int ;
@@ -23,7 +24,7 @@ public:
 
 	WindowListenerFake() : 
 		new_rec(new rec_type)
-		, review_rec(new rec_type)
+		, review_match(new match_type(rec_ptr(new rec_type)))
 		, current_match(new match_type(rec_ptr(new rec_type)))
 		, item_under_edit(new match_type(rec_ptr(new rec_type)))
 		, m_is_short_format(false)
@@ -56,15 +57,15 @@ public:
 		SENSE("get_new_record") ;
 		return new_rec ;
 	}
-	void set_review_record(rec_ptr rec)
+	void set_review_match(rec_ptr rec, int)
 	{
-		review_rec = rec ;
-		SENSE("set_review_record") ;
+		review_match->set_record(rec) ;
+		SENSE("set_review_match") ;
 	}
-	rec_ptr get_review_record()
+	match_ptr get_review_match()
 	{
-		SENSE("get_review_record") ;
-		return review_rec ;
+		SENSE("get_review_match") ;
+		return review_match ;
 	}
 	match_ptr get_item_under_edit()
 	{

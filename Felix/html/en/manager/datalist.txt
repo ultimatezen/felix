@@ -37,5 +37,6 @@
 
 <div style="margin-left:40px;">
     <a href="/{$memtype}/load" title="Load File" >Load File</a> |
-    <a href="/{$memtype}/addnew" title="Add New" >Add New</a>
+    <a href="/{$memtype}/addnew" title="Add a New {% if memtype == "mem" %}Memory{% endif %}{% if memtype == "gloss" %}Glosary{% endif %}" >Add New</a> |
+    <a href="/{$memtype}/removeall" title="Removal All" >Remove All</a>
 </div>

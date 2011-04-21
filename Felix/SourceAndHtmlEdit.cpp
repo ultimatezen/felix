@@ -202,7 +202,10 @@ _bstr_t CSourceAndHtmlEdit::GetText()
 
 	if ( active_window == m_html_edit )
 	{
-		return get_html_text();
+		wstring text(BSTR2wstring(get_html_text()));
+		std::vector<wstring> words ;
+		boost::split(words, text, boost::is_any_of(L" \r\n\t"), boost::token_compress_on) ;
+		return string2BSTR(boost::join(words, L" ")) ;
 	}
 	else
 	{

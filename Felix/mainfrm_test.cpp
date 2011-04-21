@@ -693,10 +693,74 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		model.m_is_reverse_lookup = true ;
 		mainframe.recalculate_match(match, params) ;
 
-		string expected = "11<span class=\"nomatch\">aa</span>33" ;
-		string actual = CStringA(match->get_markup()->GetQuery().c_str()) ;
+		wstring expected = L"11<span class=\"nomatch\">aa</span>33" ;
+		wstring actual = match->get_markup()->GetQuery() ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+//////////////////////////////////////////////////////////////////////////
+// concordance
+//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
+
+	using namespace mem_engine;
+
+	// review match
+	BOOST_AUTO_TEST_CASE(from_top_memory)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+
+		memory_pointer mem2 = model.add_memory() ;
+		memory_pointer mem1 = model.add_memory() ;
+
+		record_pointer record(new record_local) ;
+		search_match_ptr match = search_match_ptr(new search_match(record)) ;
+		record->set_source(L"foo") ;
+		record->set_trans(L"bar") ;
+		mem1->add_record(record) ;
+		match->set_memory_id(mem1->get_id()) ;
+		mainframe.m_review_match = match ;
+		mainframe.m_display_state = WindowListener::TRANS_REVIEW_STATE ;
+
+		mainframe.correct_trans(L"corrected") ;
+
+		wstring expected_trans = L"corrected" ;
+
+		BOOST_CHECK_EQUAL(expected_trans, record->get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(0u, mem2->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem1->size()) ;
+
+	}
+
+	// review match
+	BOOST_AUTO_TEST_CASE(from_bottom_memory)
+	{
+		MainFrameModel model ;
+		CMainFrame mainframe(&model) ;
+
+		memory_pointer mem2 = model.add_memory() ;
+		memory_pointer mem1 = model.add_memory() ;
+
+		record_pointer record(new record_local) ;
+		search_match_ptr match = search_match_ptr(new search_match(record)) ;
+		record->set_source(L"foo") ;
+		record->set_trans(L"bar") ;
+		mem2->add_record(record) ;
+		match->set_memory_id(mem2->get_id()) ;
+		mainframe.m_review_match = match ;
+		mainframe.m_display_state = WindowListener::TRANS_REVIEW_STATE ;
+
+		mainframe.correct_trans(L"corrected") ;
+
+		wstring expected_trans = L"corrected" ;
+
+		BOOST_CHECK_EQUAL(expected_trans, record->get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(0u, mem1->size()) ;
+		BOOST_CHECK_EQUAL(1u, mem2->size()) ;
+
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -849,9 +913,10 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		MainFrameModel model ;
 		CMainFrame mainframe(&model) ;
 
-		mainframe.m_review_record = record_pointer(new record_local) ;
-		mainframe.m_review_record->set_source(L"foo") ;
-		mainframe.m_review_record->set_trans(L"bar") ;
+		record_pointer record(new record_local) ;
+		mainframe.m_review_match = search_match_ptr(new search_match(record)) ;
+		record->set_source(L"foo") ;
+		record->set_trans(L"bar") ;
 
 		memory_pointer mem(new memory_local) ;
 
@@ -1056,7 +1121,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"review_state") ;
 
-		main_frame.set_review_record(newrec) ;
+		main_frame.set_review_match(newrec, 0) ;
 
 		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
 		match->get_record()->set_source(L"match_state_0") ;

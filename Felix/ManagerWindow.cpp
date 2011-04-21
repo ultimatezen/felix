@@ -292,6 +292,11 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 		{
 			return nav_load(tokens) ;
 		}
+		if (tokens[0] == "removeall")
+		{
+			return remove_all(tokens) ;
+		}
+		
 		// page navigation
 		if (tokens[0] == "goto_page")
 		{
@@ -891,14 +896,40 @@ LRESULT CManagerWindow::OnInitView()
 }
 
 
+// remove all memories                                                 
+bool CManagerWindow::remove_all( const std::vector<string> &tokens )
+{
+	const bool is_memory = tokens[1] == "mem" ;
+	FelixModelInterface *controller = NULL ;
+	if (is_memory)
+	{
+		controller = m_mem_model ;
+	}
+	else
+	{
+		controller = m_gloss_model ;
+	}
+	memory_list memories_needing_saving ;
+	controller->get_memories_needing_saving( memories_needing_saving ) ;
+	foreach (memory_pointer mem, memories_needing_saving)
+	{
+		if (m_listener->check_save_memory(mem) == IDCANCEL)
+		{
+			return false	;
+		}
+
+	}
+	controller->clear() ;
+	m_current_state->show_content() ;
+	return true ;
+}
 /************************************************************************/
 /* loading memories                                                     */
 /************************************************************************/
 bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 {
 	SENSE("nav_load"); 
-	bool is_memory = tokens[1] == "mem" ;
-	is_memory ;
+	const bool is_memory = tokens[1] == "mem" ;
 	m_current_state->show_content() ;
 
 	open_file_dlg dialog ;

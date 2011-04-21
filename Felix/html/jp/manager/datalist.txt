@@ -37,5 +37,6 @@
 
 <div style="margin-left:40px;">
     <a href="/{$memtype}/load" title="{% if memtype == "mem" %}TM{% endif %}{% if memtype == "gloss" %}用語集{% endif %}の取り込み" >取り込み</a> |
-    <a href="/{$memtype}/addnew" title="新規作成" >新規作成</a>
+    <a href="/{$memtype}/addnew" title="新規作成" >新規作成</a> |
+    <a href="/{$memtype}/removeall" title="すべてを削除" >すべてを削除</a>
 </div>

@@ -69,7 +69,7 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 
 // stl libraries we are using
 #include <map>							// for record data
-#include <set>							// multisets of tags
+#include <set>							
 #include <list>
 #include <vector>
 
@@ -192,8 +192,8 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-#define VERSION "1.6.5"
-#define LOGGING_SERVER L"FelixHelpers.FelixLogger"
+static const char* VERSION = "1.6.6.2" ;
+static const wchar_t* LOGGING_SERVER = L"FelixHelpers.FelixLogger" ;
 #define LOGFILE_NAME _T("felix.log")
  
 

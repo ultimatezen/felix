@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 		CMainFrame main_frame(&model) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(3u, main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key");
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create( message ) ;
-		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
 	}
 	// user messages
@@ -418,12 +418,11 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 		LRESULT lResult = 1 ;
 
 		main_frame.ProcessWindowMessage(NULL, WM_COMMAND, ID_FILE_MRU_FIRST, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(5, (int)main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(4, (int)main_frame.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_mru_file_open" ) ;
 		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "Loading file [sample.tmx]..." ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[3].c_str()), "Failed to load file [sample.tmx]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[4].c_str()), "Failed to load file [sample.tmx]" ) ;
+		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[3].c_str()), "...Done! Loaded 2 records from file [sample.tmx]." ) ;
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
 	BOOST_AUTO_TEST_CASE( on_mru_file_open_direct_call)

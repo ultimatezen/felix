@@ -75,6 +75,7 @@ public:
 		DDX_CHECK( IDC_LOAD_MEMS,		m_properties->m_data.m_load_prev_mem_on_startup)
 		DDX_CHECK( IDC_LOAD_GLOSS,		m_properties->m_data.m_load_prev_gloss_on_startup)
 		DDX_CHECK( IDC_ASK_MERGE,		m_properties->m_data.m_query_merge)
+		DDX_CHECK( IDC_OLD_MEM_MGR,		m_properties->m_data.m_old_mem_mgr)
 		DDX_TEXT_LEN( IDC_USER_NAME,	m_properties->m_data.m_user_name, MAX_PATH)
 	END_DDX_MAP()
 };

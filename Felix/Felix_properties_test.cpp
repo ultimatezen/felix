@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_SUITE( test_properties_general )
 		BOOST_CHECK(props.m_data.m_first_launch) ;
 		BOOST_CHECK_EQUAL((int)IDC_MERGE, props.m_data.m_merge_choice) ;
 		BOOST_CHECK(props.m_data.m_query_merge) ;
+		BOOST_CHECK(! props.m_data.m_old_mem_mgr) ;
 		BOOST_CHECK_EQUAL(L"Ryan", wstring(props.m_data.m_user_name)) ;
 	}
 
@@ -81,11 +82,15 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_historyTestCase )
 		{
 			BOOST_CHECK_EQUAL ( props.m_data.m_glosses[i][0], _T('\0') ) ; 
 			BOOST_CHECK_EQUAL ( props.m_data.m_mems[i][0], _T('\0') ) ; 
+			BOOST_CHECK_EQUAL ( props.m_data.m_remote_mems[i][0], _T('\0') ) ; 
+			BOOST_CHECK_EQUAL ( props.m_data.m_remote_glosses[i][0], _T('\0') ) ; 
 		}
 
 
 		BOOST_CHECK_EQUAL ( props.m_data.m_num_gloss, 0 ) ;
 		BOOST_CHECK_EQUAL ( props.m_data.m_num_mems, 0 ) ;
+		BOOST_CHECK_EQUAL ( props.m_data.m_num_remote_mems, 0 ) ;
+		BOOST_CHECK_EQUAL ( props.m_data.m_num_remote_gloss, 0 ) ;
 
 		props.read_from_registry() ;
 
@@ -165,8 +170,203 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_historyTestCase )
 		BOOST_CHECK_EQUAL ( 0, _tcscmp( old_props.m_data.m_glosses[4], props2.m_data.m_glosses[4] ) ) ; 
 
 	}
+
+	BOOST_AUTO_TEST_CASE( copy_reg_props_empty )
+	{
+		app_props::properties_loaded_history props ;
+		props.copy_reg_props() ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 0u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 0u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 0u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 0u ) ; 
+	}
+	BOOST_AUTO_TEST_CASE( copy_reg_props_1_mem )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_data.m_num_mems = 1 ;
+		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\test.txt") ) ;
+
+		props.copy_reg_props() ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 1u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"C:\\test.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 0u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 0u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 0u ) ; 
+	}
+	BOOST_AUTO_TEST_CASE( copy_reg_props_1_each )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_data.m_num_mems = 1 ;
+		props.m_data.m_num_gloss = 1 ;
+		props.m_data.m_num_remote_mems = 1 ;
+		props.m_data.m_num_remote_gloss = 1 ;
+		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\m_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_glosses[0], 260, _T("C:\\m_glosses.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_mems[0], 260, _T("C:\\m_remote_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_glosses[0], 260, _T("C:\\m_remote_glosses.txt") ) ;
+
+		props.copy_reg_props() ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"C:\\m_mems.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[0], L"C:\\m_glosses.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[0], L"C:\\m_remote_mems.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[0], L"C:\\m_remote_glosses.txt" ) ; 
+	}
+	BOOST_AUTO_TEST_CASE( copy_reg_props_2_mems )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_data.m_num_mems = 2 ;
+		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\mem1.txt") ) ;
+		_tcscpy_s( props.m_data.m_mems[1], 260, _T("C:\\mem2.txt") ) ;
+
+		props.copy_reg_props() ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"C:\\mem1.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[1], L"C:\\mem2.txt" ) ; 
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
+
+BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history )
+	{
+		string text = "<loaded_history>\n"
+		"<loaded_mems>\n"
+		"<filename>foo.txt</filename>\n"
+		"<filename>bar.txt</filename>\n"
+		"</loaded_mems>\n"
+		"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		std::vector<wstring> items ;
+		props.load_xml_props_type(doc, items, "loaded_mems") ;
+
+		wstring expected1 = L"foo.txt" ;
+		wstring expected2 = L"bar.txt" ;
+		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
+		BOOST_CHECK_EQUAL (items[0], expected1) ; 
+		BOOST_CHECK_EQUAL (items[1], expected2) ; 
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_two_nodes )
+	{
+		string text = "<loaded_history>\n"
+			"<loaded_gloss>\n"
+			"<filename>gfoo.txt</filename>\n"
+			"<filename>gbar.txt</filename>\n"
+			"</loaded_gloss>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		std::vector<wstring> items ;
+		props.load_xml_props_type(doc, items, "loaded_mems") ;
+
+		wstring expected1 = L"foo.txt" ;
+		wstring expected2 = L"bar.txt" ;
+		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
+		BOOST_CHECK_EQUAL (items[0], expected1) ; 
+		BOOST_CHECK_EQUAL (items[1], expected2) ; 
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_doc )
+	{
+		string text = "<loaded_history>\n"
+			"<loaded_gloss>\n"
+			"<filename>gfoo.txt</filename>\n"
+			"<filename>gbar.txt</filename>\n"
+			"</loaded_gloss>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"<loaded_remote_mems>\n"
+			"<filename>rmfoo.txt</filename>\n"
+			"<filename>rmbar.txt</filename>\n"
+			"</loaded_remote_mems>\n"
+			"<loaded_remote_gloss>\n"
+			"<filename>rgfoo.txt</filename>\n"
+			"<filename>rgbar.txt</filename>\n"
+			"</loaded_remote_gloss>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 2u ) ; 
+
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"foo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[0], L"gfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[0], L"rmfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[0], L"rgfoo.txt" ) ; 
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[1], L"bar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[1], L"gbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[1], L"rmbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[1], L"rgbar.txt" ) ; 
+
+	}
+	BOOST_AUTO_TEST_CASE(write_xml_text)
+	{
+		app_props::properties_loaded_history props ;
+		props.m_data.m_num_mems = 1 ;
+		props.m_data.m_num_gloss = 1 ;
+		props.m_data.m_num_remote_mems = 1 ;
+		props.m_data.m_num_remote_gloss = 1 ;
+		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\m_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_glosses[0], 260, _T("C:\\m_glosses.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_mems[0], 260, _T("C:\\m_remote_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_glosses[0], 260, _T("C:\\m_remote_glosses.txt") ) ;
+
+		props.copy_reg_props() ;
+
+		string text = props.get_xml_doc() ;
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<loaded_history>\n"
+			"	<loaded_mems>\n"
+			"		<filename>C:\\m_mems.txt</filename>\n"
+			"	</loaded_mems>\n"
+			"	<loaded_gloss>\n"
+			"		<filename>C:\\m_glosses.txt</filename>\n"
+			"	</loaded_gloss>\n"
+			"	<loaded_remote_mems>\n"
+			"		<filename>C:\\m_remote_mems.txt</filename>\n"
+			"	</loaded_remote_mems>\n"
+			"	<loaded_remote_gloss>\n"
+			"		<filename>C:\\m_remote_glosses.txt</filename>\n"
+			"	</loaded_remote_gloss>\n"
+			"</loaded_history>\n" ;
+
+		BOOST_CHECK_EQUAL(text, expected) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_memory
 BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
 
 	BOOST_AUTO_TEST_CASE( Constructor )

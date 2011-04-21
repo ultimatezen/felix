@@ -9,6 +9,7 @@
 #include "GlossaryDialog.h"		// CGlossaryDialog
 #include "SearchWindow.h"
 #include "ManagerWindow.h"		// CManagerWindow
+#include "MemoryManagerDlg.h"	// CMemoryManagerDlg
 
 #include "TranslationMemory.h"		// memory
 #include "background_processor.h"
@@ -111,7 +112,7 @@ VISIBLE_TO_TESTS
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
-
+	CMemoryManagerDlg	m_old_manager_window ;
 
 	input_device_ptr	m_input_device ;
 	output_device_ptr	m_output_device ;
@@ -144,6 +145,10 @@ public:
 	FelixModelInterface* get_model()
 	{
 		return m_model ;
+	}
+	app_props::properties_general* get_props_general()
+	{
+		return &(m_properties->m_gen_props) ;
 	}
 
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;
@@ -258,7 +263,7 @@ public:
 	wstring get_current_translation( );
 
 	wstring get_record_translation(record_type record);
-
+	INT_PTR check_save_memory( mem_engine::memory_pointer mem );
 	// =================
 	// ui stuff
 	// =================
