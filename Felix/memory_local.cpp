@@ -887,6 +887,7 @@ namespace mem_engine
 			if ( size() >= MAX_MEMORY_SIZE_FOR_DEMO )
 			{
 				set_saved_flag( was_saved ) ;
+				SENSE("CDemoException") ;
 				throw CDemoException() ;
 			}
 		}

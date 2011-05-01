@@ -292,6 +292,7 @@ namespace mem_engine
 				{
 					m_listener->OnProgressDoneLoad( 0 ) ;
 				}
+				SENSE("CDemoException") ;
 				throw CDemoException() ;
 			}
 		}

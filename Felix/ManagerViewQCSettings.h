@@ -9,6 +9,7 @@ namespace mgrview
 		app_props::props_ptr m_props ;
 	public:
 		DECLARE_SENSING_VAR ;
+
 		ManagerViewQCSettings(app_props::props_ptr props) :
 			m_props(props),
 			ManagerView()

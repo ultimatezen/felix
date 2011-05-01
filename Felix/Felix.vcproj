@@ -1847,6 +1847,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ManagerViewQCSettings_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ManagerViewStart.cpp"
 					>
 				</File>

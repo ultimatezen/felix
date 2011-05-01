@@ -47,8 +47,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		WindowsMessage message ;
 		main_frame.on_create(message) ;
 
-		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(main_frame.m_sensing_variable[0], "on_create" ) ;
 	}
 	BOOST_AUTO_TEST_CASE(starts_with_one_gloss_window)
 	{
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		WindowsMessage message ;
 		main_frame.on_close(message) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_close" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "on_close" ) ;
 		BOOST_CHECK( !message.isHandled()) ;
 	}
 
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		WindowsMessage message ;
 		main_frame.on_destroy(message) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "on_destroy" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "on_destroy" ) ;
 		BOOST_CHECK( !message.isHandled()) ;
 	}
 
@@ -126,8 +126,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 		main_frame.on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "[Other display state]" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_register" ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_NEW_RECORD_DISPLAY_STATE )
@@ -146,8 +146,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		main_frame.set_display_state( CMainFrame::NEW_RECORD_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[NEW_RECORD_DISPLAY_STATE]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "[NEW_RECORD_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_register" ) ;
 
 
 	}
@@ -167,8 +167,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		main_frame.set_display_state( CMainFrame::MATCH_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[MATCH_DISPLAY_STATE]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "[MATCH_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_register" ) ;
 
 
 	}
@@ -188,8 +188,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		main_frame.set_display_state( CMainFrame::CONCORDANCE_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[CONCORDANCE_DISPLAY_STATE]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "[CONCORDANCE_DISPLAY_STATE]" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_register" ) ;
 
 
 	}
@@ -209,8 +209,8 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		main_frame.set_display_state( CMainFrame::INIT_DISPLAY_STATE ) ;
 		main_frame.on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "[Other display state]" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_register" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "[Other display state]" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_register" ) ;
 
 
 	}
@@ -227,9 +227,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		CMainFrame main_frame( &model ) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(3u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "Found message key"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_create" ) ;
+		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "Found message key"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_create" ) ;
 
 		BOOST_CHECK( 0 == lResult ) ;
 	}
@@ -241,8 +241,8 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 		main_frame.OnNavEdit(0) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavEdit"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_edit" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "OnNavEdit"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_edit" ) ;
 	}
 	BOOST_AUTO_TEST_CASE( OnBeforeNavigateNavEdit )
 	{
@@ -251,9 +251,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 		main_frame.OnBeforeNavigate2( _bstr_t(L"100:edit:0") ) ;
 		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnBeforeNavigate2"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "OnNavEdit"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "on_user_edit" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "OnBeforeNavigate2"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "OnNavEdit"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[2], "on_user_edit" ) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( OnNavDelete)
@@ -262,9 +262,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavDelete(0) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavDelete"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_delete" ) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[2].c_str()), "No Matches" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "OnNavDelete"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_delete" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[2], "No Matches" ) ;
 		BOOST_CHECK_EQUAL(3, (int)main_frame.m_sensing_variable.size()) ;
 	}
 
@@ -276,8 +276,8 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		// Will throw because record is invalid.
 		BOOST_CHECK_THROW(main_frame.OnNavAddToGloss(0), except::CException) ;
 		BOOST_CHECK_EQUAL(2u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[0].c_str()), "OnNavAddToGloss"); 
-		BOOST_CHECK_EQUAL( string(main_frame.m_sensing_variable[1].c_str()), "on_user_add_to_glossary" ) ;
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[0], "OnNavAddToGloss"); 
+		BOOST_CHECK_EQUAL( main_frame.m_sensing_variable[1], "on_user_add_to_glossary" ) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

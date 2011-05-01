@@ -254,11 +254,11 @@ using namespace mem_engine ;
 		state.show_content() ;
 
 		BOOST_CHECK_EQUAL(5, (int)view.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(view.m_sensing_variable[0].c_str()), "is_edit_mode") ;
-		BOOST_CHECK_EQUAL(string(view.m_sensing_variable[1].c_str()), "ensure_document_complete") ;
-		BOOST_CHECK_EQUAL(string(view.m_sensing_variable[2].c_str()), "navigate") ;
-		BOOST_CHECK_EQUAL(string(view.m_sensing_variable[3].c_str()), "C:/Users/Ryan/AppData/Local/Felix/html/en/start_gloss.html") ;
-		BOOST_CHECK_EQUAL(string(view.m_sensing_variable[4].c_str()), "ensure_document_complete") ;
+		BOOST_CHECK_EQUAL(view.m_sensing_variable[0], "is_edit_mode") ;
+		BOOST_CHECK_EQUAL(view.m_sensing_variable[1], "ensure_document_complete") ;
+		BOOST_CHECK_EQUAL(view.m_sensing_variable[2], "navigate") ;
+		BOOST_CHECK_EQUAL(view.m_sensing_variable[3], "C:/Users/Ryan/AppData/Local/Felix/html/en/start_gloss.html") ;
+		BOOST_CHECK_EQUAL(view.m_sensing_variable[4], "ensure_document_complete") ;
 	}
 	// get_current_match
 	BOOST_AUTO_TEST_CASE( get_current_match )

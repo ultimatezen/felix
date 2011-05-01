@@ -22,7 +22,11 @@ CDemoException::~CDemoException(void)
  */
 int CDemoException::notify_user( const CString & /*top_message*/,  UINT /*flags*/ /*= MB_OK*/,  const CString & /*title*/ /*= _T("ERROR")*/, HWND parent_hwnd /*= ::GetActiveWindow()  */ ) 
 {
+	parent_hwnd ;
 	// nag him!
 	CNagDialog nagger( _T("NAGPAGE_SIZE.HTML") ) ;
+#ifndef UNIT_TEST
 	return  nagger.DoModal( parent_hwnd ) ;
+#endif
+	return IDCANCEL ;
 }

@@ -1006,7 +1006,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 1 match." ) ;
+		BOOST_CHECK_EQUAL(main_frame.m_sensing_variable[0], "Found 1 match." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_0 )
 	{
@@ -1014,7 +1014,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(0) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 0 matches." ) ;
+		BOOST_CHECK_EQUAL(main_frame.m_sensing_variable[0], "Found 0 matches." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_10 )
 	{
@@ -1022,7 +1022,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(10) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 10 matches." ) ;
+		BOOST_CHECK_EQUAL(main_frame.m_sensing_variable[0], "Found 10 matches." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1001 )
 	{
@@ -1030,7 +1030,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1001) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(main_frame.m_sensing_variable[0].c_str()), "Found 1,001 matches." ) ;
+		BOOST_CHECK_EQUAL(main_frame.m_sensing_variable[0], "Found 1,001 matches." ) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

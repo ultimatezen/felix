@@ -560,6 +560,7 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 		
 		this->get_memory_model()->reduce_size_to( ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) ) ;
 			
+		SENSE("CDemoException") ;
 		throw CDemoException() ;
 	}
 	

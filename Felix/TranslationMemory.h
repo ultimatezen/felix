@@ -106,6 +106,8 @@ VISIBLE_TO_TESTS
 
 public:
 
+	DECLARE_SENSING_VAR ;
+
 #ifdef UNIT_TEST
 	bool m_throw_exception ;
 #endif
