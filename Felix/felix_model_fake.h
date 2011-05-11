@@ -11,13 +11,19 @@ public:
 	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
 	typedef mem_engine::memory_pointer memory_type ;
 
+	app_props::properties_memory mem_props ;
+	app_props::properties_glossary gloss_props ;
+	app_props::properties_algorithm algo_props ;
+
 	model_ptr m_model ;
 	bool m_is_reverse_lookup ;
 
 	FelixModelInterfaceFake() :
-		m_model(model_ptr(new mem_engine::memory_model_mem)),
 		m_is_reverse_lookup(false)
 	{
+		m_model = model_ptr(new mem_engine::memory_model_mem(&mem_props,
+			&gloss_props,
+			&algo_props)) ;
 	}
 	
 	void get_memories_needing_saving( memory_list &memories )

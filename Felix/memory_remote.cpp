@@ -70,15 +70,15 @@ namespace mem_engine
 
 		set_cmp_params(params);
 
-		const double min_score = static_cast< double >( m_gloss_properties.get_min_score() ) / 100.0f ;
+		const double min_score = static_cast< double >( m_gloss_properties->get_min_score() ) / 100.0f ;
 
 		CComVariant com_matches = this->m_engine.method(L"Gloss", params.m_rich_source.c_str(), min_score) ;
 		trans_set candidates ;
 		this->convert_candidates(candidates, com_matches) ;
 
-		if ( m_gloss_properties.get_min_score() < 100 )
+		if ( m_gloss_properties->get_min_score() < 100 )
 		{
-			set_minimum_score( m_gloss_properties.get_min_score() ) ;
+			set_minimum_score( m_gloss_properties->get_min_score() ) ;
 			const Segment haystack(m_cmp_maker, params.m_rich_source) ;
 
 			search_match_ptr match(this->make_match()) ;
@@ -93,7 +93,7 @@ namespace mem_engine
 				}
 			}
 
-			set_minimum_score( m_properties.get_min_score() ) ;
+			set_minimum_score( m_properties->get_min_score() ) ;
 		}
 		else
 		{

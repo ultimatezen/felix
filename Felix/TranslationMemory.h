@@ -91,9 +91,9 @@ VISIBLE_TO_TESTS
 	extra_strings_type		m_extra_strings ;
 	CProgressListener		*m_listener ;
 
-	app_props::properties_memory		m_properties ;
-	app_props::properties_glossary		m_gloss_properties ;
-	app_props::properties_algorithm		m_algo_properties ;
+	app_props::properties_memory		*m_properties ;
+	app_props::properties_glossary		*m_gloss_properties ;
+	app_props::properties_algorithm		*m_algo_properties ;
 
 	match_maker			m_match_maker ;
 	bool				m_is_saved;
@@ -112,7 +112,8 @@ public:
 	bool m_throw_exception ;
 #endif
 	// construction / destruction
-	CTranslationMemory( double min_score = 0.5 )  ;
+	CTranslationMemory(app_props::properties_memory *props,
+						double min_score = 0.5)  ;
 	virtual ~CTranslationMemory();
 
 	void set_default_context(wstring context)
@@ -124,7 +125,6 @@ public:
 		return m_default_context ;
 	}
 
-	void set_gloss_props(app_props::properties_glossary &props);
 	int	get_id() 
 	{ 
 		return m_id ;
@@ -138,10 +138,9 @@ public:
 	void do_demo_check( int *cookie );
 	long get_number_of_glossary_matches( const wstring query );
 
-	void set_properties_memory( const app_props::properties_memory &props ) ;
-	void set_properties_glossary( const app_props::properties_glossary &props ) ;
-	void set_properties_algo( const app_props::properties_algorithm &props ) ;
-	void refresh_properties() ;
+	void set_properties_memory( app_props::properties_memory *props ) ;
+	void set_properties_glossary( app_props::properties_glossary *props ) ;
+	void set_properties_algo( app_props::properties_algorithm *props ) ;
 
 	bool remove_extra_string(const wstring key) ;
 	void set_extra_string( const wstring key, const wstring value ) ;

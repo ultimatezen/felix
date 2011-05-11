@@ -13,17 +13,16 @@
 #include "TmxSymbolMapper.h"
 #include "Felix_properties.h"
 
-CTMXWriter::CTMXWriter(CProgressListener *listener) :
+CTMXWriter::CTMXWriter(CProgressListener *listener, 
+					   app_props::properties_memory *props,
+					   wstring username) :
 	m_listener(listener)
 	, m_iLevel(0)
 	, m_tuid(1)
-	, m_user_name( CUserName().as_wstring() )
-	, m_memory(new mem_engine::memory_local())
+	, m_memory(new mem_engine::memory_local(props))
 	, m_file(new OutputDeviceFile)
+	, m_user_name(username)
 {
-	app_props::properties_general props ;
-	props.read_from_registry() ;
-	m_user_name =  CT2W(props.m_data.m_user_name) ;
 }
 
 CTMXWriter::~CTMXWriter(void)

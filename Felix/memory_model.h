@@ -21,14 +21,15 @@ class memory_model
 	memory_list				m_memories ;
 
 public:
+	app_props::properties_memory *m_mem_props; 
+	app_props::properties_glossary *m_gloss_props; 
+	app_props::properties_algorithm *m_algo_props; 
+
+public:
 	void add_record( const record_pointer &record, const int memory_id );
 	void swap_memories( memory_list &memories );
 	void remove_record( record_pointer record, const int id );
 	void remove_record( record_pointer record );
-
-	void set_properties_memory( const app_props::properties_memory &props ) ;
-	void set_properties_gloss( const app_props::properties_glossary &props ) ;
-	void set_properties_algo( const app_props::properties_algorithm &props ) ;
 
 	void clear(){m_memories.clear();}
 	bool empty();
@@ -63,7 +64,9 @@ public:
 	memory_pointer get_first_memory();
 	size_t total_memory_size() ;
 
-	memory_model( );
+	memory_model(app_props::properties_memory *mem_props,
+				app_props::properties_glossary *gloss_props,
+				app_props::properties_algorithm *algo_props);
 	virtual ~memory_model();
 
 	/************************************************************************/
@@ -80,6 +83,13 @@ public:
 class memory_model_mem : public memory_model
 {
 public:
+	memory_model_mem(app_props::properties_memory *mem_props,
+		app_props::properties_glossary *gloss_props,
+		app_props::properties_algorithm *algo_props):
+	memory_model(mem_props, gloss_props, algo_props)
+	{
+
+	}
 	memory_pointer create_memory() ;
 };
 
@@ -90,6 +100,13 @@ public:
 class memory_model_gloss : public memory_model
 {
 public:
+	memory_model_gloss(app_props::properties_memory *mem_props,
+		app_props::properties_glossary *gloss_props,
+		app_props::properties_algorithm *algo_props):
+	memory_model(mem_props, gloss_props, algo_props)
+	{
+
+	}
 	memory_pointer create_memory() ;
 };
 

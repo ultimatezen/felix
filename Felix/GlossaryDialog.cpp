@@ -52,6 +52,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_input_device(new InputDeviceFile),
 	m_output_device(new OutputDeviceFile)
 { 
+	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
 
 	// initialize states
@@ -59,11 +60,11 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	this->init_state(&m_view_state_new) ;
 	this->init_state(&m_view_state_concordance) ;
 	m_view_state_concordance.set_search_matches(&m_concordance_matches) ;
-	m_view_state_concordance.set_app_props(&this->m_properties_gloss) ;
+	m_view_state_concordance.set_app_props(this->m_properties_gloss) ;
 
 	this->init_state(&m_view_state_match) ;
 	m_view_state_match.set_search_matches(&m_search_matches) ;
-	m_view_state_match.set_app_props(&this->m_properties_gloss) ;
+	m_view_state_match.set_app_props(this->m_properties_gloss) ;
 
 	// display state
 	set_display_state( INIT_DISPLAY_STATE ) ;
@@ -123,7 +124,7 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 
 	init_status_bar() ;
 	init_toolbar() ;
-	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss->get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
 
 	wait_until_view_not_busy() ;
 
@@ -325,8 +326,8 @@ LRESULT CGlossaryDialog::OnFormatBackgroundColor()
 	
 	CHtmlDocColorSetter setter ;
 
-	m_properties_gloss.m_data.m_back_color = setter.SetDocBGColor( doc ) ;
-	m_properties_gloss.write_to_registry() ;
+	m_properties_gloss->m_data.m_back_color = setter.SetDocBGColor( doc ) ;
+	m_properties_gloss->write_to_registry() ;
 	
 	return 0 ;
 }
@@ -621,7 +622,7 @@ wstring CGlossaryDialog::build_glossary_list(search_query_glossary &search_match
 		return html_content ;
 	}
 
-	search_matches.m_start_numbering = m_properties_gloss.m_data.m_numbering ;
+	search_matches.m_start_numbering = m_properties_gloss->m_data.m_numbering ;
 	html_content << search_matches.get_html_short() ;
 
 	return html_content  ;
@@ -640,7 +641,7 @@ void CGlossaryDialog::prep_for_gloss_lookup(const std::wstring& query_text)
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
 
-	m_search_matches.set_start_numbering(m_properties_gloss.get_numbering()) ;
+	m_search_matches.set_start_numbering(m_properties_gloss->get_numbering()) ;
 	set_display_state( MATCH_DISPLAY_STATE ) ;
 	config_matches_for_gloss_lookup(query_text);
 }
@@ -662,9 +663,9 @@ void CGlossaryDialog::perform_gloss_lookup()
 void CGlossaryDialog::config_matches_for_gloss_lookup(const std::wstring& query_text)
 {
 	// our various parameters
-	m_search_matches.m_params.m_ignore_case =		m_properties_gloss.get_ignore_case() ;
-	m_search_matches.m_params.m_ignore_width =		m_properties_gloss.get_ignore_width() ;
-	m_search_matches.m_params.m_ignore_hira_kata =	m_properties_gloss.get_m_ignore_hir_kat() ;
+	m_search_matches.m_params.m_ignore_case =		m_properties_gloss->get_ignore_case() ;
+	m_search_matches.m_params.m_ignore_width =		m_properties_gloss->get_ignore_width() ;
+	m_search_matches.m_params.m_ignore_hira_kata =	m_properties_gloss->get_m_ignore_hir_kat() ;
 
 	// source
 	m_search_matches.set_query_rich(query_text) ;
@@ -675,7 +676,7 @@ void CGlossaryDialog::config_matches_for_gloss_lookup(const std::wstring& query_
 
 wstring CGlossaryDialog::get_glossary_entry(const int index)
 {
-	int localIndex = index - m_properties_gloss.m_data.m_numbering ;
+	int localIndex = index - m_properties_gloss->m_data.m_numbering ;
 
 	if ( localIndex == -1 )
 	{
@@ -691,8 +692,8 @@ wstring CGlossaryDialog::get_glossary_entry(const int index)
 std::wstring CGlossaryDialog::get_record_translation(record_pointer entry)
 {
 	return m_view_state->retrieve_record_trans(entry,
-						record_string_prefs(m_properties_gloss.is_plaintext(),
-										     m_properties_gloss.is_to_lower())) ;
+						record_string_prefs(m_properties_gloss->is_plaintext(),
+										     m_properties_gloss->is_to_lower())) ;
 }
 
 
@@ -700,7 +701,7 @@ std::wstring CGlossaryDialog::get_record_translation(record_pointer entry)
 bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name )
 {
 	// Add record
-	memory_pointer mem(new mem_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
 	if ( gloss_name.IsEmpty() ) 
 	{
 		mem = m_memories->get_first_memory() ;
@@ -958,9 +959,9 @@ LRESULT CGlossaryDialog::on_view_toolbar( )
 // toggle simple view
 LRESULT CGlossaryDialog::on_view_simple( )
 {
-	m_properties_gloss.m_data.m_simple_view = ! m_properties_gloss.m_data.m_simple_view ;
-	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
-	m_properties_gloss.write_to_registry() ;
+	m_properties_gloss->m_data.m_simple_view = ! m_properties_gloss->m_data.m_simple_view ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss->get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
+	m_properties_gloss->write_to_registry() ;
 	this->show_view_content() ;
 
 	return 0L ;
@@ -1011,7 +1012,7 @@ void CGlossaryDialog::ToggleEditMode()
 void CGlossaryDialog::SetEditModeMenuItems(const bool edit_mode_enabled)
 {
 	CheckMenuItem( GetMenu(), ID_VIEW_EDIT_MODE, ( edit_mode_enabled ? MF_UNCHECKED : MF_CHECKED ) ) ;
-	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss.get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
+	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss->get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
 }
 
 // We have two find dialogs: 
@@ -1147,27 +1148,6 @@ bool CGlossaryDialog::clear_memory()
 	user_feedback( system_message( IDS_CLEARED_MEMORY, get_window_type_string() ) ) ;
 	m_view_interface.set_scroll_pos(0) ;
 	return true ;
-}
-
-void CGlossaryDialog::set_properties_gloss( const app_props::properties_glossary &props )
-{
-	m_properties_gloss = props ;
-
-	m_memories->set_properties_gloss( props ) ;
-
-	show_view_content() ;
-
-	wait_until_view_not_busy() ;
-
-	// query user for color
-	set_bg_color((COLORREF)m_properties_gloss.m_data.m_back_color);
-
-}
-void CGlossaryDialog::set_properties_algo( const app_props::properties_algorithm &props )
-{
-	m_properties_algo = props ;
-
-	m_memories->set_properties_algo( props ) ;
 }
 
 
@@ -1386,7 +1366,7 @@ void CGlossaryDialog::set_ui_language()
 
 	wait_until_view_not_busy() ;
 	// query user for color
-	set_bg_color((COLORREF)m_properties_gloss.m_data.m_back_color);
+	set_bg_color((COLORREF)m_properties_gloss->m_data.m_back_color);
 
 	user_feedback( IDS_CHANGED_LANGUAGES ) ;
 }
@@ -1477,8 +1457,8 @@ void CGlossaryDialog::perform_concordance_search()
 void CGlossaryDialog::config_concordance_search_settings()
 {
 	m_concordance_matches.m_params.m_ignore_case = true ;
-	m_concordance_matches.m_params.m_ignore_width =		!! m_properties_gloss.m_data.m_ignore_width ;
-	m_concordance_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss.m_data.m_ignore_hir_kat ;
+	m_concordance_matches.m_params.m_ignore_width =		!! m_properties_gloss->m_data.m_ignore_width ;
+	m_concordance_matches.m_params.m_ignore_hira_kata =	!! m_properties_gloss->m_data.m_ignore_hir_kat ;
 }
 
 void CGlossaryDialog::prep_concordance_search(const std::wstring& query_string)
@@ -1784,7 +1764,7 @@ void CGlossaryDialog::check_save_history()
 		return ;
 	}
 
-	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 	history_props->read_from_registry() ;
 
 	history_props->m_loaded_remote_gloss.clear() ;
@@ -2016,7 +1996,7 @@ void CGlossaryDialog::set_zoom_level( int zoom_level )
 void CGlossaryDialog::load_history()
 {
 	ATLTRACE("Loading glossary history\n") ;
-	boost::shared_ptr<app_props::properties_loaded_history> history_props(new app_props::properties_loaded_history) ;
+	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 	history_props->read_from_registry() ;
 
 	m_memories->clear() ;
@@ -2039,7 +2019,7 @@ void CGlossaryDialog::load_history()
 	{
 		try
 		{
-			memory_remote *mem = new memory_remote() ;
+			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
 			memory_pointer pmem(mem) ;
 			mem->connect(filename.c_str()) ;
 			this->add_glossary(pmem) ;
@@ -2069,13 +2049,11 @@ void CGlossaryDialog::save_prefs()
 void CGlossaryDialog::load_reg_settings()
 {
 	m_appstate.read_from_registry() ;
-	m_properties_gloss.read_from_registry() ;
-	m_properties_algo.read_from_registry() ;
 }
 
 void CGlossaryDialog::apply_reg_bg_color()
 {
-	set_bg_color((COLORREF)m_properties_gloss.m_data.m_back_color);
+	set_bg_color((COLORREF)m_properties_gloss->m_data.m_back_color);
 }
 
 void CGlossaryDialog::apply_mousewheel_setting()
@@ -2251,7 +2229,7 @@ LRESULT CGlossaryDialog::on_edit_delete()
 
 void CGlossaryDialog::set_bg_color_if_needed()
 {
-	const CColorRef color((COLORREF)m_properties_gloss.m_data.m_back_color) ;
+	const CColorRef color((COLORREF)m_properties_gloss->m_data.m_back_color) ;
 	if (! color.is_white())
 	{
 		m_view_interface.set_bg_color(color.as_wstring()) ;

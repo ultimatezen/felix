@@ -16,10 +16,11 @@ struct view_state_obj
 	FelixModelInterfaceFake model ;
 
 	mem_engine::memory_pointer mem  ;
+	app_props::properties_memory mem_props; 
 
-	view_state_obj(ViewState *state) :
-		mem(new mem_engine::memory_local)
+	view_state_obj(ViewState *state)
 	{
+		mem = memory_pointer(new mem_engine::memory_local(&mem_props)) ;
 		state->set_view(&view) ;
 		state->set_window_listener(&listener) ;
 		state->set_model(&model) ;

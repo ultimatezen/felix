@@ -309,7 +309,6 @@
 #define IDC_ALGO_CHAR                   261
 #define IDC_ALGO_WORD                   262
 #define IDC_EDIT_BOX                    263
-#define IDC_ALGO_CHAR2                  263
 #define IDC_ALGO_AUTO                   263
 #define IDC_LOCKED                      264
 #define IDB_CUT                         264

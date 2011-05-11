@@ -11,12 +11,20 @@
 #include <vector>
 #include "output_device.h"
 
+
+
 /**
 	@namespace app_props
 	@brief Application properties (persisted to registry).
  */
 namespace app_props
 {
+	BOOL read_xml_bool(pugi::xml_node &node, string name) ;
+	long read_xml_long(pugi::xml_node &node, string name) ;
+	unsigned long read_xml_ulong(pugi::xml_node &node, string name) ;
+	void write_xml_bool(pugi::xml_node &node, string name, BOOL val) ;
+	void write_xml_long(pugi::xml_node &node, string name, long val) ;
+	void write_xml_ulong(pugi::xml_node &node, string name, unsigned long val) ;
 
 	static const int NumMems = 15 ;
 /**
@@ -80,14 +88,18 @@ struct properties_loaded_history : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
-	void load_xml_props_type(pugi::xml_document &doc, std::vector<wstring> &items, string node_name) ;
+	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name) ;
 	bool load_xml_props();
 
-	void parse_xml_doc( pugi::xml_document &doc );
 	bool write_xml_props();
 
 	void write_xml_file( output_device_ptr output );
-	string get_xml_doc();
+	string make_xml_doc();
+
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
+
 	bool copy_reg_props();
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("LOAD_HISTORY") ) ;
 
@@ -265,7 +277,37 @@ struct properties_memory : public props::CRegMap
 		REG_ENTRY_BOOL( _T("MEM_PLACE_NUM"),	m_data.m_place_numbers );
 		REG_ENTRY_BOOL( _T("MEM_PLACE_GLOSS"),	m_data.m_place_gloss );
 
+
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
 	END_REGISTRY_MAP
+
+	bool load_xml_props();
+	bool write_xml_props();
+
+	bool copy_reg_props();
+
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
+
 
 } ;
 
@@ -285,10 +327,12 @@ struct properties_glossary : public props::CRegMap
 		BOOL	m_ignore_case ;
 		BOOL	m_plaintext ;
 		BOOL	m_to_lower ;
+
 		BOOL	m_ignore_width ;
 		BOOL	m_ignore_hir_kat ;
-		long	m_back_color ;
 		BOOL	m_simple_view ;
+
+		long	m_back_color ;
 
 		props_data() : 
 			m_min_score( 100u ),
@@ -385,11 +429,38 @@ struct properties_glossary : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GLOSS_IGNORE_WIDTH"),		m_data.m_ignore_width ) ;
 		REG_ENTRY_BOOL( _T("GLOSS_IGNORE_HIR_KAT"),		m_data.m_ignore_hir_kat ) ;
 		REG_ENTRY_INT( _T("GLOSS_NUMBERING"),			m_data.m_numbering ) ;
-		REG_ENTRY_INT( _T("GLOSS_BACK_COLOR"),			m_data.m_back_color ) ;
 		REG_ENTRY_BOOL( _T("GLOSS_SIMPLE_VIEW"),		m_data.m_simple_view) ;
+		REG_ENTRY_INT( _T("GLOSS_BACK_COLOR"),			m_data.m_back_color ) ;
 
-	END_REGISTRY_MAP	
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
 
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
+	END_REGISTRY_MAP
+
+	bool load_xml_props();
+	bool write_xml_props();
+
+	bool copy_reg_props();
+
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -440,7 +511,34 @@ struct properties_algorithm : public props::CRegMap
 
 		validate() ;
 
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
 	END_REGISTRY_MAP
+
+	bool load_xml_props();
+	bool write_xml_props();
+
+	bool copy_reg_props();
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
 
 private:
 
@@ -510,7 +608,34 @@ struct properties_view : public props::CRegMap
 		REG_ENTRY_INT( _T("VIEW_SOURCE_COLOR"),	m_data.m_source_color );
 		REG_ENTRY_INT( _T("VIEW_TRANS_COLOR"),		m_data.m_trans_color );
 
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
 	END_REGISTRY_MAP
+
+	bool load_xml_props();
+	bool write_xml_props();
+
+	bool copy_reg_props();
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -581,8 +706,33 @@ struct properties_qc : public props::CRegMap
 		REG_ENTRY_BOOL( _T("qc_check_all_caps"),	m_data.m_check_all_caps );
 		REG_ENTRY_BOOL( _T("qc_check_gloss"),		m_data.m_check_gloss );
 		REG_ENTRY_BOOL( _T("qc_live_checking"),		m_data.m_live_checking );
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
 	END_REGISTRY_MAP
 
+	bool load_xml_props();
+	bool write_xml_props();
+	bool copy_reg_props();
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
 } ;
 /**
 	@	struct properties_general 
@@ -595,12 +745,14 @@ struct properties_general : public props::CRegMap
 	{
 		int		m_window_size ;
 		int		m_preferred_gui_lang ;
+
 		BOOL	m_load_prev_mem_on_startup ;
 		BOOL	m_load_prev_gloss_on_startup ;
 		BOOL	m_show_markup ;
 		BOOL	m_first_launch ;
 
 		int		m_merge_choice ;
+
 		BOOL	m_query_merge ;
 		BOOL	m_old_mem_mgr ;
 
@@ -658,7 +810,34 @@ struct properties_general : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GENERAL_OLD_MEM_MGR"),		m_data.m_old_mem_mgr)
 		REG_ENTRY_STRING( _T("GENERAL_USER_NAME"),		m_data.m_user_name, MAX_PATH )
 
-	END_REGISTRY_MAP		
+		if (! is_read)
+		{
+			if (write_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+
+		}		
+		if (is_read)
+		{
+			if (load_xml_props())
+			{
+				return true ;
+			}
+			copy_reg_props() ;
+		}
+
+
+	END_REGISTRY_MAP
+
+	bool load_xml_props();
+	bool write_xml_props();
+
+	bool copy_reg_props();
+	// dealing with the actual XML doc objects
+	void build_xml_doc( pugi::xml_node &prefs );
+	void parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -674,6 +853,7 @@ struct properties
 	properties_algorithm	m_alg_props ;
 	properties_view			m_view_props ;
 	properties_qc			m_qc_props; 
+	properties_loaded_history	m_history_props ;
 
 	properties& operator=( const properties &rhs )
 	{
@@ -683,71 +863,12 @@ struct properties
 		m_alg_props		= rhs.m_alg_props ;
 		m_view_props	= rhs.m_view_props;
 		m_qc_props		= rhs.m_qc_props;
+		m_history_props		= rhs.m_history_props;
 
 		return *this ;
 	}
-	bool read_from_registry()
-	{
-		bool retval = true ;
-
-		if ( ! m_mem_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_gloss_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_gen_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_alg_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_view_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_qc_props.read_from_registry() )
-		{
-			retval = false ;
-		}
-
-		return retval ;
-	}
-	bool write_to_registry()
-	{
-		bool retval = true ;
-
-		if ( ! m_mem_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_gloss_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_gen_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_alg_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_view_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-		if ( ! m_qc_props.write_to_registry() )
-		{
-			retval = false ;
-		}
-
-		return retval ;
-	}
+	bool read_from_registry();
+	bool write_to_registry();
 } ;
 
 typedef boost::shared_ptr<properties> props_ptr ;

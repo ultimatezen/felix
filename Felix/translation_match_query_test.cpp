@@ -32,7 +32,8 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 
 	BOOST_AUTO_TEST_CASE( get_html_short_twice )
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory mem_props; 
+		memory_local mem(&mem_props, 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;
@@ -46,7 +47,8 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( get_html_short_word )
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory mem_props; 
+		memory_local mem(&mem_props, 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;
@@ -63,7 +65,8 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( get_html_short_word_twice )
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory mem_props; 
+		memory_local mem(&mem_props, 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;

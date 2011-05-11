@@ -15,8 +15,9 @@ namespace mem_engine
 		CString				m_file_location ;
 		bool				m_is_loading ;
 	public:
-		memory_local(double min_score=0.5f) : 
-		  CTranslationMemory(min_score),
+		memory_local(app_props::properties_memory *props,
+			double min_score=0.5f) : 
+			  CTranslationMemory(props, min_score),
 			  m_next_id(1),
 			  m_is_loading(false)
 		  {}

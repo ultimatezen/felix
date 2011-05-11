@@ -46,13 +46,15 @@ BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 	BOOST_AUTO_TEST_CASE(get_correct_encoding_xml_utf8_sq)
 	{
 		string text = "<?xml version='1.0' encoding='utf-8'?>" ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK_EQUAL((UINT)CP_UTF8, (UINT)mem.get_correct_encoding(text.c_str(), text.size())) ;
 	}
 	BOOST_AUTO_TEST_CASE(get_correct_encoding_xml_utf8_dq)
 	{
 		string text = "<?xml version='1.0' encoding=\"utf-8\"?>" ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK_EQUAL((UINT)CP_UTF8, (UINT)mem.get_correct_encoding(text.c_str(), text.size())) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()

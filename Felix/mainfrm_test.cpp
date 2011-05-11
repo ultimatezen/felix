@@ -40,9 +40,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
-		mainframe.m_properties->m_mem_props.m_data.m_plaintext = FALSE ;
+		mainframe.m_props->m_mem_props.m_data.m_plaintext = FALSE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"spam") ;
@@ -57,9 +57,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	}
 	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
-		mainframe.m_properties->m_mem_props.m_data.m_plaintext = TRUE ;
+		mainframe.m_props->m_mem_props.m_data.m_plaintext = TRUE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"<bold>spam &lt; &amp; &gt; eggs</bold>") ;
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( AddMessageFilter)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		try
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 		BOOL old_markup = props.m_data.m_show_markup ;
 
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		WindowsMessage dummy ;
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 		BOOL old_markup = props.m_data.m_show_markup ;
 
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		WindowsMessage dummy ;
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_brackets)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"&lt;spam&gt;", L"foo") ;
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_trans_brackets)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"source", L"&lt;trans&gt;") ;
 
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// MON[0]Å`MON[6] of ScheduleNo1Å`7
 	BOOST_AUTO_TEST_CASE(lookup_naishi)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"MON[0]Å`MON[6] of ScheduleNo1Å`7", L"MON[0]Å`MON[6] of ScheduleNo1Å`7") ;
 
@@ -222,7 +222,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// match lookup stuff
 	BOOST_AUTO_TEST_CASE( get_matches_size_0)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		search_query_params params ;
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans_bold)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely <b>plumage</b>") ;
@@ -284,7 +284,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_2)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_placement_size_1)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_size_2)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans and 2 eggs", L"beans and 2 eggs") ;
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"5. bar", L"5. bar") ;
@@ -362,7 +362,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_trans)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
@@ -384,7 +384,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_source)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_marked_source)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
@@ -420,7 +420,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_score)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_markup)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -460,7 +460,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_query)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_twice)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -496,7 +496,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_query_twice)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -514,7 +514,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -533,7 +533,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -552,7 +552,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_twice)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -571,7 +571,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query_twice)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"beans beans spam and egg", L"lovely plumage") ;
@@ -592,7 +592,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// recalculate_match
 	BOOST_AUTO_TEST_CASE( recalculate_source)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aabbcc", L"112233") ;
@@ -613,7 +613,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_query)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aabbcc", L"112233") ;
@@ -634,7 +634,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_source_trans_lookup)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aabbcc", L"112233") ;
@@ -656,7 +656,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_trans_trans_lookup)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aabbcc", L"112233") ;
@@ -678,7 +678,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_query_trans_lookup)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aabbcc", L"112233") ;
@@ -710,7 +710,7 @@ BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
 	// review match
 	BOOST_AUTO_TEST_CASE(from_top_memory)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		memory_pointer mem2 = model.add_memory() ;
@@ -738,7 +738,7 @@ BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
 	// review match
 	BOOST_AUTO_TEST_CASE(from_bottom_memory)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		memory_pointer mem2 = model.add_memory() ;
@@ -783,7 +783,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameConcordance )
 
 	BOOST_AUTO_TEST_CASE(get_concordance_size_1)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		add_record(mainframe, L"aaa BBB ccc", L"get_concordance_size_1") ;
@@ -806,7 +806,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 	// init_lookup_properties
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_on)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
@@ -836,7 +836,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_off)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		search_query_params dest ;
@@ -886,7 +886,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 
 	BOOST_AUTO_TEST_CASE( get_window_type_string)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		CStringA typestring = mainframe.get_window_type_string() ;
@@ -895,7 +895,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( put_show_marking)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		VARIANT_BOOL old_markup = mainframe.get_show_marking() ;
@@ -910,7 +910,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( get_review_content)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 
 		record_pointer record(new record_local) ;
@@ -970,7 +970,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( clear_memory)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"foo", L"bar") ;
 		BOOST_CHECK_EQUAL(1u, mainframe.get_memory_model()->get_first_memory()->size()) ;
@@ -981,7 +981,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	// get_active_mem_name
 	BOOST_AUTO_TEST_CASE( get_active_mem_name_new)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		string actual = (LPCSTR)CStringA(mainframe.get_active_mem_name()) ;
 		string expected = "New" ;
@@ -989,7 +989,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( get_active_mem_name_spam)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		add_record(mainframe, L"aabbcc", L"112233") ;
 
@@ -1002,7 +1002,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	// match_count_feedback
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
@@ -1010,7 +1010,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_0 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(0) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
@@ -1018,7 +1018,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_10 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(10) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
@@ -1026,7 +1026,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1001 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		main_frame.match_count_feedback(1001) ;
 		BOOST_CHECK_EQUAL(1u, main_frame.m_sensing_variable.size()) ;
@@ -1045,7 +1045,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( concordance_state_0 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 
 		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
@@ -1060,7 +1060,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( initial_state )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 
 		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
@@ -1075,7 +1075,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( match_state_0 )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 
 		search_match_ptr match = main_frame.get_model()->get_first_memory()->make_match() ;
@@ -1094,7 +1094,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( new_state )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 
 		record_pointer newrec(new record_local) ;
@@ -1115,7 +1115,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( review_state )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 
 		record_pointer newrec(new record_local) ;

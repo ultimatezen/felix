@@ -2546,6 +2546,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\felix_factory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Felix_properties.h"
 				>
 			</File>

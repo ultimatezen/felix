@@ -26,13 +26,13 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE( TestMessageMap )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( TestMessageMapAddFunction )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		BOOST_CHECK_EQUAL( 4, (int)main_frame.m_message_map.size()) ;
 		main_frame.register_event_listener( WM_CREATE, FakeFreeFunction ) ;
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	// on_create
 	BOOST_AUTO_TEST_CASE( Teston_create )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_create(message) ;
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	}
 	BOOST_AUTO_TEST_CASE(starts_with_one_gloss_window)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame mainframe(&model) ;
 		WindowsMessage message ;
 		mainframe.on_create(message) ;
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	// on_close
 	BOOST_AUTO_TEST_CASE( Teston_close )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame(&model) ;
 		WindowsMessage message ;
 		main_frame.on_close(message) ;
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 	BOOST_AUTO_TEST_CASE( Teston_destroy )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 		main_frame.on_destroy(message) ;
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 	BOOST_AUTO_TEST_CASE( Test_get_message_map )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		CMainFrame::messageMapType *mmap = main_frame.get_message_map( WM_CREATE ) ;
 		BOOST_CHECK( mmap == &main_frame.m_message_map) ;
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 	BOOST_AUTO_TEST_CASE( Test_get_message_key )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		UINT key = main_frame.get_message_key( WM_CREATE, 7 ) ;
 		BOOST_CHECK( key == WM_CREATE ) ;
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_no_display_state )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 
@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_NEW_RECORD_DISPLAY_STATE )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_MATCH_DISPLAY_STATE )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_CONCORDANCE_DISPLAY_STATE )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_INIT_DISPLAY_STATE )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		WindowsMessage message ;
 
@@ -223,7 +223,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 	BOOST_AUTO_TEST_CASE( on_create )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 		LRESULT lResult = 1 ;
 		main_frame.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 	BOOST_AUTO_TEST_CASE( OnNavEdit )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavEdit(0) ;
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 	}
 	BOOST_AUTO_TEST_CASE( OnBeforeNavigateNavEdit )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnBeforeNavigate2( _bstr_t(L"100:edit:0") ) ;
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 	BOOST_AUTO_TEST_CASE( OnNavDelete)
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		main_frame.OnNavDelete(0) ;
@@ -270,7 +270,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 
 	BOOST_AUTO_TEST_CASE( TestOnNavAddToGloss )
 	{
-		MainFrameModel model ;
+		FelixModel model ;
 		CMainFrame main_frame( &model ) ;
 
 		// Will throw because record is invalid.

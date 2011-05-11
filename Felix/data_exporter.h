@@ -79,7 +79,8 @@ public:
 	bool write_key_value_pair( wstring key, wstring value ) ;
 	string get_color( const wstring value ) ;
 	void write_string( const string &str ) ;
-	TradosDataExporter( font_set &fonts, CProgressListener *listener );
+	TradosDataExporter( font_set &fonts, CProgressListener *listener,
+		app_props::properties_memory *props );
 	virtual ~TradosDataExporter();
 
 };

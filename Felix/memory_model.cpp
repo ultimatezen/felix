@@ -20,7 +20,12 @@ namespace mem_engine
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-memory_model::memory_model( )
+memory_model::memory_model(app_props::properties_memory *mem_props,
+		app_props::properties_glossary *gloss_props,
+		app_props::properties_algorithm *algo_props) :
+	m_mem_props(mem_props),
+	m_gloss_props(gloss_props),
+	m_algo_props(algo_props)
 {
 
 }
@@ -207,33 +212,6 @@ bool memory_model::find_matches( trans_match_container &matches, const search_qu
 	return search_success ;
 }
 
-
-// setting properties
-
-void memory_model::set_properties_memory(const app_props::properties_memory &props)
-{
-	foreach(memory_pointer mem, m_memories)
-	{
-		mem->set_properties_memory(  props ) ;
-	}
-}
-
-void memory_model::set_properties_gloss(const app_props::properties_glossary &props)
-{
-	foreach(memory_pointer mem, m_memories)
-	{
-		mem->set_properties_glossary(  props ) ;
-	}
-}
-
-void memory_model::set_properties_algo( const app_props::properties_algorithm &props )
-{
-	foreach(memory_pointer mem, m_memories)
-	{
-		mem->set_properties_algo(  props ) ;
-	}
-}
-
 // operations on records
 
 void memory_model::remove_record( record_pointer record, const int id )
@@ -288,15 +266,19 @@ mem_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
 }
 memory_pointer memory_model_mem::create_memory()
 {
-	memory_pointer mem(new mem_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local(m_mem_props)) ;
 	mem->set_is_memory( true ) ;
+	mem->set_properties_glossary(m_gloss_props) ;
+	mem->set_properties_algo(m_algo_props) ;
 	return mem ;
 }
 
 memory_pointer memory_model_gloss::create_memory()
 {
-	memory_pointer mem(new mem_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local(m_mem_props)) ;
 	mem->set_is_memory( false ) ;
+	mem->set_properties_glossary(m_gloss_props) ;
+	mem->set_properties_algo(m_algo_props) ;
 	return mem ;
 }
 }

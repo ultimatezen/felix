@@ -57,7 +57,11 @@ namespace mem_engine
 	// Construction/Destruction
 	//////////////////////////////////////////////////////////////////////
 
-	CTranslationMemory::CTranslationMemory( double min_score ) : 
+	CTranslationMemory::CTranslationMemory(app_props::properties_memory *props,
+										double min_score) : 
+		m_properties(props),
+		m_gloss_properties(NULL),
+		m_algo_properties(NULL),
 		m_is_saved( true ),
 		m_match_maker( min_score ),
 		m_is_active( true ),
@@ -69,14 +73,11 @@ namespace mem_engine
 		{
 		refresh_status() ;
 
-		m_properties.read_from_registry() ;
-		m_gloss_properties.read_from_registry() ;
+		m_cmp_maker.m_ignore_case = !! m_properties->m_data.m_ignore_case ;
+		m_cmp_maker.m_ignore_hira_kata = !! m_properties->m_data.m_ignore_hir_kat ;
+		m_cmp_maker.m_ignore_width = !! m_properties->m_data.m_ignore_width ;
 
-		m_cmp_maker.m_ignore_case = !! m_properties.m_data.m_ignore_case ;
-		m_cmp_maker.m_ignore_hira_kata = !! m_properties.m_data.m_ignore_hir_kat ;
-		m_cmp_maker.m_ignore_width = !! m_properties.m_data.m_ignore_width ;
-
-		this->set_minimum_score( m_properties.m_data.m_min_score ) ;
+		this->set_minimum_score( m_properties->m_data.m_min_score ) ;
 
 	}
 
@@ -216,26 +217,19 @@ namespace mem_engine
 	/*
 	*	get/set properties
 	*/
-	void CTranslationMemory::set_properties_memory( const app_props::properties_memory &props)
+	void CTranslationMemory::set_properties_memory( app_props::properties_memory *props)
 	{
 		m_properties = props ;
-		set_minimum_score( m_properties.get_min_score() ) ;
+		set_minimum_score( m_properties->get_min_score() ) ;
 	}
-	void CTranslationMemory::set_properties_glossary( const app_props::properties_glossary &props )
+	void CTranslationMemory::set_properties_glossary( app_props::properties_glossary *props )
 	{
 		m_gloss_properties = props ;
 	}
-	void CTranslationMemory::set_properties_algo( const app_props::properties_algorithm &props )
+	void CTranslationMemory::set_properties_algo( app_props::properties_algorithm *props )
 	{
 		m_algo_properties = props ;
 	}
-	void CTranslationMemory::refresh_properties()
-	{
-		m_algo_properties.read_from_registry() ;
-		m_gloss_properties.read_from_registry() ;
-		m_properties.read_from_registry() ;
-	}
-
 	const size_t CTranslationMemory::get_num_records( LPCSTR file_text )
 	{
 		ATLASSERT( file_text != NULL ) ;
@@ -264,13 +258,13 @@ namespace mem_engine
 		search_query_params params ;
 
 		Segment query_seg(m_cmp_maker, query) ;
-		params.m_ignore_case = !! m_gloss_properties.m_data.m_ignore_case ;
+		params.m_ignore_case = !! m_gloss_properties->m_data.m_ignore_case ;
 		params.m_assess_format_penalty = false ;
-		//		params.m_match_algo =  m_gloss_properties.m_data.m_match_algo ;
+		//		params.m_match_algo =  m_gloss_properties->m_data.m_match_algo ;
 		params.m_rich_source = query ;
 		params.m_source = query_seg.cmp() ;
-		params.m_ignore_width = !! m_gloss_properties.m_data.m_ignore_width ;
-		params.m_ignore_hira_kata = !! m_gloss_properties.m_data.m_ignore_hir_kat ;
+		params.m_ignore_width = !! m_gloss_properties->m_data.m_ignore_width ;
+		params.m_ignore_hira_kata = !! m_gloss_properties->m_data.m_ignore_hir_kat ;
 
 		search_match_container matches ;
 
@@ -461,11 +455,6 @@ namespace mem_engine
 	bool CTranslationMemory::ListenerSaysBail()
 	{
 		return m_listener != NULL && m_listener->ShouldBailFromException();
-	}
-
-	void CTranslationMemory::set_gloss_props( app_props::properties_glossary &props )
-	{
-		m_gloss_properties = props ;
 	}
 
 	void CTranslationMemory::check_progress_update( int progress_interval )

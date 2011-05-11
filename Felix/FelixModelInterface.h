@@ -66,8 +66,18 @@ public:
 
 	model_ptr m_memories ;
 
-	FelixModel(void) :
-		m_is_reverse_lookup(false)
+	app_props::properties_memory *m_mem_props; 
+	app_props::properties_glossary *m_gloss_props; 
+	app_props::properties_algorithm *m_algo_props; 
+
+
+	FelixModel(app_props::properties_memory *mem_props,
+		app_props::properties_glossary *gloss_props,
+		app_props::properties_algorithm *algo_props) :
+		m_is_reverse_lookup(false),
+		m_mem_props(mem_props),
+		m_gloss_props(gloss_props),
+		m_algo_props(algo_props)
 	{
 		m_memories = create_memory_model() ;
 	}
@@ -78,7 +88,9 @@ public:
 
 	model_ptr create_memory_model()
 	{
-		return model_ptr(new mem_engine::memory_model_mem()) ;
+		return model_ptr(new mem_engine::memory_model_mem(m_mem_props,
+													m_gloss_props,
+													m_algo_props)) ;
 	}
 
 	int get_first_mem_id()
@@ -110,3 +122,6 @@ public:
 	}
 
 };
+
+typedef boost::shared_ptr<FelixModelInterface> model_iface_ptr ;
+

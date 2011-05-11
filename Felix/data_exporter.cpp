@@ -20,7 +20,9 @@ using namespace except ;
 using namespace mem_engine ;
 
 // TradosDataExporter::TradosDataExporter
-TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressListener *listener  )
+TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, 
+									   CProgressListener *listener,
+									   app_props::properties_memory *props)
 	: m_p_depth( 0 ), 
 	m_fonts( false ), // no default entry
 	m_listener(listener),
@@ -47,7 +49,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, CProgressLis
 		"</RTF Preamble>"
 	),
 	m_old_codepage( CP_ACP ),
-	m_memory(new mem_engine::memory_local()),
+	m_memory(new mem_engine::memory_local(props)),
 	m_file(new OutputDeviceFile)
 {
 

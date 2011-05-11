@@ -16,15 +16,15 @@ public:
 	INT_PTR check_save_retval ;
 	mem_engine::memory_pointer check_save_mem ;
 	mem_engine::record_pointer added_rec ;
-	app_props::properties_general m_props_general ;;
-
+	app_props::properties_general m_props_general ;
+	app_props::properties_memory m_mem_props ;
 	FelixModelInterfaceFake m_model ;
 
 	CGlossaryWinListenerFake() : 
 		check_save_retval(IDCANCEL), 
-		check_save_mem(new mem_engine::memory_local),
 		added_rec(new mem_engine::record_local)
 	{
+		check_save_mem = mem_engine::memory_pointer(new mem_engine::memory_local(&m_mem_props)) ;
 
 	}	
 		

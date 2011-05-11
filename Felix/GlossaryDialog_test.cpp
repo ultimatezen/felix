@@ -38,9 +38,9 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		gloss.m_search_matches.m_params.m_ignore_width = false ;
 		gloss.m_search_matches.m_params.m_ignore_hira_kata = false ;
 
-		gloss.m_properties_gloss.m_data.m_ignore_case = TRUE ;
-		gloss.m_properties_gloss.m_data.m_ignore_width = TRUE ;
-		gloss.m_properties_gloss.m_data.m_ignore_hir_kat = TRUE ;
+		gloss.m_properties_gloss->m_data.m_ignore_case = TRUE ;
+		gloss.m_properties_gloss->m_data.m_ignore_width = TRUE ;
+		gloss.m_properties_gloss->m_data.m_ignore_hir_kat = TRUE ;
 
 		wstring query = L"gloss query" ;
 
@@ -93,8 +93,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
-		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
-		gloss.m_properties_gloss.m_data.m_plaintext = FALSE ;
+		gloss.m_properties_gloss->m_data.m_to_lower = FALSE ;
+		gloss.m_properties_gloss->m_data.m_plaintext = FALSE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"spam") ;
@@ -111,8 +111,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
-		gloss.m_properties_gloss.m_data.m_to_lower = TRUE ;
-		gloss.m_properties_gloss.m_data.m_plaintext = FALSE ;
+		gloss.m_properties_gloss->m_data.m_to_lower = TRUE ;
+		gloss.m_properties_gloss->m_data.m_plaintext = FALSE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"SpaM") ;
@@ -128,8 +128,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
-		gloss.m_properties_gloss.m_data.m_to_lower = FALSE ;
-		gloss.m_properties_gloss.m_data.m_plaintext = TRUE ;
+		gloss.m_properties_gloss->m_data.m_to_lower = FALSE ;
+		gloss.m_properties_gloss->m_data.m_plaintext = TRUE ;
 
 		record_pointer record(new record_local) ;
 		record->set_trans(L"<bold>spam &lt; &amp; &gt; eggs</bold>") ;

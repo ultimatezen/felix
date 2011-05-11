@@ -27,7 +27,7 @@
 #include "FileOpHandler.h"
 
 #include "WindowsMessage.h"
-#include "MainFrameModel.h"
+#include "FelixModelInterface.h"
 
 #include "TMXWriter.h"		// CTMXWriter
 #include "zoom_dialog.h"
@@ -106,7 +106,7 @@ VISIBLE_TO_TESTS
 	// ====================
 
 	// various user preferences
-	app_props::props_ptr m_properties ;
+	app_props::props_ptr m_props ;
 	// the memory controller
 	mem_engine::memory_model_mem	m_silent_memories ;
 
@@ -126,10 +126,10 @@ public:
 	messageMapType m_message_map ;
 	messageMapType m_user_message_map ;
 	messageMapType m_command_message_map ;
-	FelixModelInterface *m_model ;
+	model_iface_ptr m_model ;
 
 	~CMainFrame() ;
-	CMainFrame( FelixModelInterface *model ) ;
+	CMainFrame( model_iface_ptr model, app_props::props_ptr props ) ;
 
 	input_device_ptr get_input_device()
 	{
@@ -148,7 +148,7 @@ public:
 	}
 	app_props::properties_general* get_props_general()
 	{
-		return &(m_properties->m_gen_props) ;
+		return &(m_props->m_gen_props) ;
 	}
 
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;

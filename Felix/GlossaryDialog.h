@@ -74,9 +74,7 @@ class CGlossaryDialog :
 
 	app_props::props_ptr m_props ;
 	// various user preferences
-	app_props::properties_glossary		m_properties_gloss ;
-	app_props::properties_algorithm		m_properties_algo ;
-
+	app_props::properties_glossary		*m_properties_gloss ;
 	// flag to tell us whether this is the main glossary dialog (for creating title)
 	bool							m_is_main ;
 	HWND							m_hWndClient ;
@@ -224,9 +222,6 @@ public:
 	void set_ui_language();
 
 	bool clear_memory() ;
-
-	void set_properties_gloss( const app_props::properties_glossary &props ) ;
-	void set_properties_algo( const app_props::properties_algorithm &props ) ;
 
 	LRESULT handle_find() ;
 	
@@ -521,7 +516,11 @@ public:
 
 	boost::shared_ptr<mem_engine::memory_model> create_memory_model()
 	{
-		return boost::shared_ptr<mem_engine::memory_model>(new mem_engine::memory_model_gloss()) ;
+		using namespace mem_engine ;
+		typedef boost::shared_ptr<memory_model> mdl_ptr ;
+		return mdl_ptr(new memory_model_gloss(&m_props->m_mem_props,
+											  &m_props->m_gloss_props,
+											  &m_props->m_alg_props)) ;
 	}
 	boost::shared_ptr<mem_engine::memory_model> get_memory_model() 
 	{

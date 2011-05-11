@@ -231,140 +231,6 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_historyTestCase )
 BOOST_AUTO_TEST_SUITE_END()
 
 
-BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
-
-	BOOST_AUTO_TEST_CASE( load_xml_loaded_history )
-	{
-		string text = "<loaded_history>\n"
-		"<loaded_mems>\n"
-		"<filename>foo.txt</filename>\n"
-		"<filename>bar.txt</filename>\n"
-		"</loaded_mems>\n"
-		"</loaded_history>\n" ;
-
-		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(text.c_str());
-		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
-
-		app_props::properties_loaded_history props ;
-		std::vector<wstring> items ;
-		props.load_xml_props_type(doc, items, "loaded_mems") ;
-
-		wstring expected1 = L"foo.txt" ;
-		wstring expected2 = L"bar.txt" ;
-		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
-		BOOST_CHECK_EQUAL (items[0], expected1) ; 
-		BOOST_CHECK_EQUAL (items[1], expected2) ; 
-	}
-
-	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_two_nodes )
-	{
-		string text = "<loaded_history>\n"
-			"<loaded_gloss>\n"
-			"<filename>gfoo.txt</filename>\n"
-			"<filename>gbar.txt</filename>\n"
-			"</loaded_gloss>\n"
-			"<loaded_mems>\n"
-			"<filename>foo.txt</filename>\n"
-			"<filename>bar.txt</filename>\n"
-			"</loaded_mems>\n"
-			"</loaded_history>\n" ;
-
-		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(text.c_str());
-		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
-
-		app_props::properties_loaded_history props ;
-		std::vector<wstring> items ;
-		props.load_xml_props_type(doc, items, "loaded_mems") ;
-
-		wstring expected1 = L"foo.txt" ;
-		wstring expected2 = L"bar.txt" ;
-		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
-		BOOST_CHECK_EQUAL (items[0], expected1) ; 
-		BOOST_CHECK_EQUAL (items[1], expected2) ; 
-	}
-
-	BOOST_AUTO_TEST_CASE( load_xml_doc )
-	{
-		string text = "<loaded_history>\n"
-			"<loaded_gloss>\n"
-			"<filename>gfoo.txt</filename>\n"
-			"<filename>gbar.txt</filename>\n"
-			"</loaded_gloss>\n"
-			"<loaded_mems>\n"
-			"<filename>foo.txt</filename>\n"
-			"<filename>bar.txt</filename>\n"
-			"</loaded_mems>\n"
-			"<loaded_remote_mems>\n"
-			"<filename>rmfoo.txt</filename>\n"
-			"<filename>rmbar.txt</filename>\n"
-			"</loaded_remote_mems>\n"
-			"<loaded_remote_gloss>\n"
-			"<filename>rgfoo.txt</filename>\n"
-			"<filename>rgbar.txt</filename>\n"
-			"</loaded_remote_gloss>\n"
-			"</loaded_history>\n" ;
-
-		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(text.c_str());
-		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
-
-		app_props::properties_loaded_history props ;
-		props.parse_xml_doc(doc) ;
-
-		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 2u ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 2u ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 2u ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 2u ) ; 
-
-
-		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"foo.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[0], L"gfoo.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[0], L"rmfoo.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[0], L"rgfoo.txt" ) ; 
-
-		BOOST_CHECK_EQUAL ( props.m_loaded_mems[1], L"bar.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[1], L"gbar.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[1], L"rmbar.txt" ) ; 
-		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[1], L"rgbar.txt" ) ; 
-
-	}
-	BOOST_AUTO_TEST_CASE(write_xml_text)
-	{
-		app_props::properties_loaded_history props ;
-		props.m_data.m_num_mems = 1 ;
-		props.m_data.m_num_gloss = 1 ;
-		props.m_data.m_num_remote_mems = 1 ;
-		props.m_data.m_num_remote_gloss = 1 ;
-		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\m_mems.txt") ) ;
-		_tcscpy_s( props.m_data.m_glosses[0], 260, _T("C:\\m_glosses.txt") ) ;
-		_tcscpy_s( props.m_data.m_remote_mems[0], 260, _T("C:\\m_remote_mems.txt") ) ;
-		_tcscpy_s( props.m_data.m_remote_glosses[0], 260, _T("C:\\m_remote_glosses.txt") ) ;
-
-		props.copy_reg_props() ;
-
-		string text = props.get_xml_doc() ;
-		string expected = "<?xml version=\"1.0\"?>\n"
-			"<loaded_history>\n"
-			"	<loaded_mems>\n"
-			"		<filename>C:\\m_mems.txt</filename>\n"
-			"	</loaded_mems>\n"
-			"	<loaded_gloss>\n"
-			"		<filename>C:\\m_glosses.txt</filename>\n"
-			"	</loaded_gloss>\n"
-			"	<loaded_remote_mems>\n"
-			"		<filename>C:\\m_remote_mems.txt</filename>\n"
-			"	</loaded_remote_mems>\n"
-			"	<loaded_remote_gloss>\n"
-			"		<filename>C:\\m_remote_glosses.txt</filename>\n"
-			"	</loaded_remote_gloss>\n"
-			"</loaded_history>\n" ;
-
-		BOOST_CHECK_EQUAL(text, expected) ;
-	}
-
-BOOST_AUTO_TEST_SUITE_END()
 
 // properties_memory
 BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
@@ -392,6 +258,7 @@ BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
+// properties_glossary
 BOOST_AUTO_TEST_SUITE( properties_glossaryTestCase )
 
 	BOOST_AUTO_TEST_CASE( Constructor )
@@ -550,5 +417,426 @@ BOOST_AUTO_TEST_SUITE( properties_qc_TestCase )
 
 BOOST_AUTO_TEST_SUITE_END()
 
+/************************************************************************/
+/* XML TESTS                                                            */
+/************************************************************************/
 
+// properties_loaded_history
+
+BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history )
+	{
+		string text = "<loaded_history>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		std::vector<wstring> items ;
+		pugi::xml_node child = doc.child("loaded_history") ;
+		props.load_xml_props_type(child, items, "loaded_mems") ;
+
+		wstring expected1 = L"foo.txt" ;
+		wstring expected2 = L"bar.txt" ;
+		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
+		BOOST_CHECK_EQUAL (items[0], expected1) ; 
+		BOOST_CHECK_EQUAL (items[1], expected2) ; 
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_two_nodes )
+	{
+		string text = "<loaded_history>\n"
+			"<loaded_gloss>\n"
+			"<filename>gfoo.txt</filename>\n"
+			"<filename>gbar.txt</filename>\n"
+			"</loaded_gloss>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		std::vector<wstring> items ;
+		pugi::xml_node child = doc.child("loaded_history") ;
+		props.load_xml_props_type(child, items, "loaded_mems") ;
+
+		wstring expected1 = L"foo.txt" ;
+		wstring expected2 = L"bar.txt" ;
+		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
+		BOOST_CHECK_EQUAL (items[0], expected1) ; 
+		BOOST_CHECK_EQUAL (items[1], expected2) ; 
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_doc )
+	{
+		string text = "<loaded_history>\n"
+			"<loaded_gloss>\n"
+			"<filename>gfoo.txt</filename>\n"
+			"<filename>gbar.txt</filename>\n"
+			"</loaded_gloss>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"<loaded_remote_mems>\n"
+			"<filename>rmfoo.txt</filename>\n"
+			"<filename>rmbar.txt</filename>\n"
+			"</loaded_remote_mems>\n"
+			"<loaded_remote_gloss>\n"
+			"<filename>rgfoo.txt</filename>\n"
+			"<filename>rgbar.txt</filename>\n"
+			"</loaded_remote_gloss>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 2u ) ; 
+
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"foo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[0], L"gfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[0], L"rmfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[0], L"rgfoo.txt" ) ; 
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[1], L"bar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[1], L"gbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[1], L"rmbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[1], L"rgbar.txt" ) ; 
+
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_doc_full )
+	{
+		string text = "<properties>\n"
+			"<loaded_history>\n"
+			"<loaded_gloss>\n"
+			"<filename>gfoo.txt</filename>\n"
+			"<filename>gbar.txt</filename>\n"
+			"</loaded_gloss>\n"
+			"<loaded_mems>\n"
+			"<filename>foo.txt</filename>\n"
+			"<filename>bar.txt</filename>\n"
+			"</loaded_mems>\n"
+			"<loaded_remote_mems>\n"
+			"<filename>rmfoo.txt</filename>\n"
+			"<filename>rmbar.txt</filename>\n"
+			"</loaded_remote_mems>\n"
+			"<loaded_remote_gloss>\n"
+			"<filename>rgfoo.txt</filename>\n"
+			"<filename>rgbar.txt</filename>\n"
+			"</loaded_remote_gloss>\n"
+			"</loaded_history>\n"
+			"</properties>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems.size(), 2u ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss.size(), 2u ) ; 
+
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[0], L"foo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[0], L"gfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[0], L"rmfoo.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[0], L"rgfoo.txt" ) ; 
+
+		BOOST_CHECK_EQUAL ( props.m_loaded_mems[1], L"bar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_gloss[1], L"gbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_mems[1], L"rmbar.txt" ) ; 
+		BOOST_CHECK_EQUAL ( props.m_loaded_remote_gloss[1], L"rgbar.txt" ) ; 
+
+	}
+	BOOST_AUTO_TEST_CASE(write_xml_text)
+	{
+		app_props::properties_loaded_history props ;
+		props.m_data.m_num_mems = 1 ;
+		props.m_data.m_num_gloss = 1 ;
+		props.m_data.m_num_remote_mems = 1 ;
+		props.m_data.m_num_remote_gloss = 1 ;
+		_tcscpy_s( props.m_data.m_mems[0], 260, _T("C:\\m_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_glosses[0], 260, _T("C:\\m_glosses.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_mems[0], 260, _T("C:\\m_remote_mems.txt") ) ;
+		_tcscpy_s( props.m_data.m_remote_glosses[0], 260, _T("C:\\m_remote_glosses.txt") ) ;
+
+		props.copy_reg_props() ;
+
+		string text = props.make_xml_doc() ;
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<loaded_history>\n"
+			"		<loaded_mems>\n"
+			"			<filename>C:\\m_mems.txt</filename>\n"
+			"		</loaded_mems>\n"
+			"		<loaded_gloss>\n"
+			"			<filename>C:\\m_glosses.txt</filename>\n"
+			"		</loaded_gloss>\n"
+			"		<loaded_remote_mems>\n"
+			"			<filename>C:\\m_remote_mems.txt</filename>\n"
+			"		</loaded_remote_mems>\n"
+			"		<loaded_remote_gloss>\n"
+			"			<filename>C:\\m_remote_glosses.txt</filename>\n"
+			"		</loaded_remote_gloss>\n"
+			"	</loaded_history>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(text, expected) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_memory
+BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_memory>\n"
+			"<min_score>42</min_score>\n"
+			// normalize
+			"<ignore_case>false</ignore_case>\n"
+			"<ignore_width>true</ignore_width>\n"
+			"<ignore_hir_kat>true</ignore_hir_kat>\n"
+			// formatting
+			"<plaintext>true</plaintext>\n"
+			"<assess_format_penalty>true</assess_format_penalty>\n"
+			// placements
+			"<place_numbers>false</place_numbers>\n"
+			"<place_gloss>true</place_gloss>\n"
+			"</properties_memory>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_memory props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_min_score, 42u) ; 
+
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_case, FALSE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_width, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_hir_kat, TRUE) ; 
+
+		BOOST_CHECK_EQUAL (props.m_data.m_plaintext, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_assess_format_penalty, TRUE) ; 
+
+		BOOST_CHECK_EQUAL (props.m_data.m_place_numbers, FALSE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_place_gloss, TRUE) ; 
+
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( properties_glossary_xml_tests )
+
+// properties_glossary
+BOOST_AUTO_TEST_CASE( load_xml )
+{
+	string text = "<properties>\n"
+		"<properties_glossary>\n"
+
+		"<min_score>24</min_score>\n"
+		"<max_add>31</max_add>\n"
+
+		"<numbering>0</numbering>\n"
+
+		"<ignore_case>false</ignore_case>\n"
+		"<plaintext>true</plaintext>\n"
+		"<to_lower>true</to_lower>\n"
+
+		"<ignore_width>true</ignore_width>\n"
+		"<ignore_hir_kat>true</ignore_hir_kat>\n"
+		"<simple_view>true</simple_view>\n"
+
+		"<back_color>66</back_color>\n"
+
+		"</properties_glossary>\n" 
+		"</properties>";
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load(text.c_str());
+	BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+	app_props::properties_glossary props ;
+	props.parse_xml_doc(doc) ;
+
+	BOOST_CHECK_EQUAL (props.m_data.m_min_score, 24u) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_max_add, 31u) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_numbering, 0u) ; 
+
+	BOOST_CHECK_EQUAL (props.m_data.m_ignore_case, FALSE) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_plaintext, TRUE) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_to_lower, TRUE) ; 
+
+	BOOST_CHECK_EQUAL (props.m_data.m_ignore_width, TRUE) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_ignore_hir_kat, TRUE) ; 
+	BOOST_CHECK_EQUAL (props.m_data.m_simple_view, TRUE) ; 
+
+
+	BOOST_CHECK_EQUAL (props.m_data.m_back_color, 66) ; 
+
+}
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_algorithm
+BOOST_AUTO_TEST_SUITE( properties_algorithm_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_algorithm>\n"
+			"<match_algo>262</match_algo>\n" // IDC_ALGO_WORD
+			"</properties_algorithm>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_algorithm props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_match_algo, 262) ; 
+
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_view
+BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_view>\n"
+			"<single_screen_matches>true</single_screen_matches>\n" 
+
+			"<back_color>11</back_color>\n" 
+			"<query_color>12</query_color>\n" 
+			"<source_color>13</source_color>\n" 
+			"<trans_color>14</trans_color>\n" 
+
+			"</properties_view>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_view props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_back_color, 11) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_query_color, 12) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_source_color, 13) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_trans_color, 14) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_single_screen_matches, TRUE) ; 
+
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_qc
+BOOST_AUTO_TEST_SUITE( properties_qc_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_qc>\n"
+			"<check_numbers>true</check_numbers>\n" 
+			"<check_all_caps>true</check_all_caps>\n" 
+			"<check_gloss>true</check_gloss>\n" 
+			"<live_checking>true</live_checking>\n" 
+			"</properties_qc>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_qc props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_check_numbers, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_check_all_caps, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_check_gloss, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_live_checking, TRUE) ; 
+
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+// properties_general
+BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
+
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_general>\n"
+			"<window_size>200</window_size>\n" 
+			"<preferred_gui_lang>444</preferred_gui_lang>\n" 
+
+			"<load_prev_mem_on_startup>true</load_prev_mem_on_startup>\n" 
+			"<load_prev_gloss_on_startup>true</load_prev_gloss_on_startup>\n" 
+			"<show_markup>false</show_markup>\n" 
+			"<first_launch>false</first_launch>\n" 
+
+			"<merge_choice>475</merge_choice>\n" 
+
+			"<query_merge>false</query_merge>\n" 
+			"<old_mem_mgr>true</old_mem_mgr>\n" 
+
+			"<user_name>jerry</user_name>\n" 
+			"</properties_general>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_general props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_window_size, 200) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_preferred_gui_lang, 444) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_load_prev_mem_on_startup, TRUE) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_load_prev_gloss_on_startup, TRUE) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_show_markup, FALSE) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_first_launch, FALSE) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_merge_choice, 475) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_query_merge, FALSE) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_old_mem_mgr, TRUE) ;
+
+
+		BOOST_CHECK_EQUAL (wstring(props.m_data.m_user_name), L"jerry") ;
+
+	}
+BOOST_AUTO_TEST_SUITE_END()
 #endif

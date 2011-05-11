@@ -23,9 +23,10 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
 		sw_model.clear() ;
-		memory_pointer mem1(new memory_local) ;
+		app_props::properties_memory props; 
+		memory_pointer mem1(new memory_local(&props)) ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local) ;
+		memory_pointer mem2(new memory_local(&props)) ;
 		mem2->set_location(name2) ;
 
 		sw_model.m_model->insert_memory(mem1) ;
@@ -69,7 +70,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_0)
 	{
 		CSearchWindow window ;
-		memory_pointer mem(new memory_local) ;
+		app_props::properties_memory props; 
+		memory_pointer mem(new memory_local(&props)) ;
 		add_record(mem, "aaa", "bbb") ;
 		wstring replace_from = L"source:xxx" ;
 		search_match_container matches ;
@@ -79,7 +81,8 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_1)
 	{
 		CSearchWindow window ;
-		memory_pointer mem(new memory_local) ;
+		app_props::properties_memory props; 
+		memory_pointer mem(new memory_local(&props)) ;
 		add_record(mem, "aaa", "bbb") ;
 		add_record(mem, "xxx", "yyy") ;
 		wstring replace_from = L"source:xxx" ;
@@ -542,9 +545,10 @@ BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
 		sw_model.clear() ;
-		memory_pointer mem1(new memory_local) ;
+		app_props::properties_memory props; 
+		memory_pointer mem1(new memory_local(&props)) ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local) ;
+		memory_pointer mem2(new memory_local(&props)) ;
 		mem2->set_location(name2) ;
 
 		sw_model.m_model->insert_memory(mem1) ;

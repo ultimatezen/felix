@@ -43,13 +43,15 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// should_check_for_demo
 	BOOST_AUTO_TEST_CASE( should_check_for_demo_false_empty )
 	{
-		const memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK(! mem.should_check_for_demo()) ;
 	}
 	BOOST_AUTO_TEST_CASE( should_check_for_demo_false )
 	{
 		BOOST_STATIC_ASSERT(MAX_MEMORY_SIZE_FOR_DEMO == 10) ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		const wstring dummy(L"a") ;
 		for (size_t i=0 ; i<MAX_MEMORY_SIZE_FOR_DEMO+1 ; ++i)
 		{
@@ -60,7 +62,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( should_check_for_demo_true )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		const wstring dummy(L"a") ;
 		for (size_t i=0 ; i< 100 ; ++i)
 		{
@@ -73,7 +76,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// get_id
 	BOOST_AUTO_TEST_CASE( MemoryId )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		BOOST_CHECK(mem.get_id() > 0) ;
 	}
@@ -81,13 +85,15 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// is_new
 	BOOST_AUTO_TEST_CASE( is_new )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		BOOST_CHECK(mem.is_new()) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_local)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK( mem.is_local()) ;
 	}
 
@@ -95,7 +101,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// add_record
 	BOOST_AUTO_TEST_CASE( AddRecord )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK_EQUAL( 0u, mem.size() ) ;
 		BOOST_CHECK_EQUAL( true, mem.empty() ) ;
 
@@ -107,7 +114,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( add_record_same_ids )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		record_pointer r1 = make_record("r1", "t1") ;
 		record_pointer r2 = make_record("r2", "t2") ;
@@ -124,7 +132,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( add_record_same_diff_ids )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		record_pointer r1 = make_record("s", "t") ;
 		record_pointer r2 = make_record("s", "t") ;
@@ -141,7 +150,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// batch_set_reliability
 	BOOST_AUTO_TEST_CASE( batch_set_reliability_5)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
@@ -155,7 +165,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( batch_set_reliability_15_plus)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec1 = add_record(mem, "dummy1", "dummy1") ;
 		record_pointer rec2 = add_record(mem, "dummy2", "dummy2") ;
 
@@ -172,7 +183,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// id
 	BOOST_AUTO_TEST_CASE( add_record_id_set )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 
 		BOOST_CHECK_EQUAL(0u, rec->get_id()) ;
@@ -181,7 +193,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( add_record_diff_ids_set )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec1 = make_record("spam1", "spam2") ;
 		record_pointer rec2 = make_record("egg1", "egg2") ;
 		BOOST_CHECK_EQUAL((int)rec1->get_id(), (int)rec2->get_id()) ;
@@ -192,7 +205,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 
 	BOOST_AUTO_TEST_CASE( id_of_record_not_changed_if_nonzero )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 		rec->set_id(57) ;
 		mem.add_record(rec) ;
@@ -201,7 +215,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// add by id
 	BOOST_AUTO_TEST_CASE( add_by_id_new )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec = mem.add_by_id(10, L"spam", L"egg") ;
 		BOOST_CHECK_EQUAL(10, (int)rec->get_id()) ;
 		CStringA actual = rec->get_source_plain().c_str() ;
@@ -210,7 +225,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( add_by_id_dup )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		record_pointer rec = make_record("spam1", "spam2") ;
 		mem.add_record(rec) ;
 		mem.add_by_id(rec->get_id(), L"added source", L"added trans") ;
@@ -220,7 +236,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( add_by_id_non_empty )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "dummy", "dummy") ;
 		record_pointer rec = mem.add_by_id(10, L"spam", L"egg") ;
 		BOOST_CHECK_EQUAL(10, (int)rec->get_id()) ;
@@ -232,7 +249,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// clear_memory
 	BOOST_AUTO_TEST_CASE( clear_memory_empty )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		mem.clear_memory() ;
 		BOOST_CHECK_EQUAL(0u, mem.size()) ;
@@ -241,7 +259,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( clear_memory_nonempty )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_location(_T("C:\\test\\memory_serves\\aga.xml")) ;
 
 		record_pointer rec(new record_local()) ;
@@ -257,7 +276,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// remove_extra_string
 	BOOST_AUTO_TEST_CASE( remove_extra_string )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		mem.m_extra_strings[L"foo"] = L"bar" ;
 		BOOST_CHECK(! mem.m_extra_strings.empty()) ;
@@ -270,7 +290,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// erase
 	BOOST_AUTO_TEST_CASE( erase )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		record_pointer rec(new record_local()) ;
 		rec->set_source(L"spam") ;
@@ -288,7 +309,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// set_extra_string
 	BOOST_AUTO_TEST_CASE( set_extra_string_add )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
@@ -297,7 +319,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( set_extra_string_erase )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		BOOST_CHECK( L"" == mem.get_extra_string(L"foo") ) ;
 
 		mem.set_extra_string( L"foo", L"bar" ) ;
@@ -314,7 +337,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( GetFileEncodingXmlUtf8 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		// xml file
 		path.Append( _T("TestMem.xml") ) ;
@@ -329,7 +353,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf8 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		// utf-8 text file
 		path.ReplaceFileSpec( _T("UTF8.txt") ) ;
@@ -345,7 +370,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextSjis )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		// sjis text file
 
 		path.ReplaceFileSpec( _T("SJIS.txt") ) ;
@@ -361,7 +387,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf16 )
 	{
 		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		// utf-16 text file
 
 		path.ReplaceFileSpec( _T("UTF16.txt") ) ;
@@ -378,7 +405,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( load_header_raw_text)
 	{
 		CMockListener listener ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 		LPSTR text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			"<!DOCTYPE memory >\n"
@@ -407,7 +435,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( TestZeroEntries )
 	{
 		CMockListener listener ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 		LPSTR text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			"<!DOCTYPE memory >\n"
@@ -434,7 +463,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( test_one_entry )
 	{
 		CMockListener listener ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 		CString filename = _T("C:\\test\\test_memories\\one_record.xml") ;
 		LPSTR text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -479,7 +509,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	BOOST_AUTO_TEST_CASE( test_big_memory )
 	{
 		CMockListener listener ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 		// this will throw an AllocException on load. Make sure our backup
 		// function works...
@@ -507,14 +538,16 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( TestDegenerateEmpty )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyFile.xml") ;
 		BOOST_CHECK_THROW(mem.load( filename ), CException) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( TestDegenerateBogus )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\ReallyTmx.xml") ;
 		BOOST_CHECK_THROW(mem.load( filename ), CException) ;
 	}
@@ -532,7 +565,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "I luv spam", "Yes I do") ;
 
 		trans_match_container matches ;
@@ -546,7 +580,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1_brackets)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "&lt;I luv spam&gt;", "Yes I do") ;
 
 		trans_match_container matches ;
@@ -560,7 +595,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1_br_tag)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "foo<br />bar and more stuff", "Yes I do") ;
 
 		trans_match_container matches ;
@@ -574,7 +610,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize1_not_active)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_active_off() ;
 		add_record(mem, "I luv spam", "Yes I do") ;
 
@@ -589,7 +626,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesSize2)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "I luv spam", "Yes I do") ;
 		add_record(mem, "I love spam", "Yes I do") ;
 
@@ -604,7 +642,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "baab", "baab") ;
 
 		trans_match_container matches ;
@@ -626,7 +665,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupIgnoreCaseQuery)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "baab", "baab") ;
 
 		trans_match_container matches ;
@@ -649,7 +689,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupIgnoreCaseSource)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "BAAB", "BAAB") ;
 
 		trans_match_container matches ;
@@ -671,7 +712,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupWordAlgo)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -694,7 +736,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupWordAlgoIgnoreCase)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -718,7 +761,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCaseQuery)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -742,7 +786,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCaseSource)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -766,7 +811,8 @@ BOOST_AUTO_TEST_SUITE( test_find_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetMatchesMarkupAutoAlgoIgnoreCasePerfect)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love Ham and Eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -802,7 +848,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 
 	BOOST_AUTO_TEST_CASE(GetMatchesSize1)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "I luv spam", "I luv spam") ;
 
 		trans_match_container matches ;
@@ -816,7 +863,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 	}	
 	BOOST_AUTO_TEST_CASE(GetMatchesSize1_brackets)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		add_record(mem, "A random source string", "&lt;I luv spam trans&gt;") ;
 
 		trans_match_container matches ;
@@ -830,7 +878,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 	}
 	BOOST_AUTO_TEST_CASE(GetMatchesSize1_not_active)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_active_off() ;
 		add_record(mem, "I luv spam", "I luv spam") ;
 
@@ -846,7 +895,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -871,7 +921,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseTrans)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		trans_match_container matches ;
@@ -895,7 +946,8 @@ BOOST_AUTO_TEST_SUITE( test_find_trans_matches )
 	}
 	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupCharAlgoIgnoreCaseTrans)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the porch.") ;
 
 		trans_match_container matches ;
@@ -931,7 +983,8 @@ BOOST_AUTO_TEST_SUITE( test_get_best_match_score )
 
 	BOOST_AUTO_TEST_CASE( test_get_best_match_score_1_0)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "spam", "spam") ;
 		add_record(mem, "eggs", "eggs") ;
 		add_record(mem, "sausage", "sausage") ;
@@ -941,7 +994,8 @@ BOOST_AUTO_TEST_SUITE( test_get_best_match_score )
 	}
 	BOOST_AUTO_TEST_CASE( test_get_best_match_score_0_5)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "aaaa", "aaaa") ;
 		add_record(mem, "bbbb", "bbbb") ;
 		add_record(mem, "cccc", "cccc") ;
@@ -963,7 +1017,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_100_char)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "egg", "trans") ;
 
 		search_match_container matches ;
@@ -973,9 +1028,9 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"spam, egg, sausage and spam" ;
 		params.m_ignore_case = true ;
 
-		app_props::properties_glossary props ;
+		app_props::properties_glossary glossprops ;
 		props.m_data.m_min_score = 100 ;
-		mem.set_gloss_props(props) ;
+		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -987,7 +1042,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 	}
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_100_word)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "egg", "trans") ;
 		add_record(mem, "spam", "tasty pork") ;
 
@@ -998,9 +1054,9 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"spam, egg, sausage and spam" ;
 		params.m_ignore_case = true ;
 
-		app_props::properties_glossary props ;
+		app_props::properties_glossary glossprops ;
 		props.m_data.m_min_score = 100 ;
-		mem.set_gloss_props(props) ;
+		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
 		BOOST_CHECK_EQUAL(2u, matches.size()) ;
@@ -1012,7 +1068,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 	}
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50_char)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "eggs", "trans") ;
 
 		search_match_container matches ;
@@ -1022,9 +1079,9 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"spam, egg, sausage and spam" ;
 		params.m_ignore_case = true ;
 
-		app_props::properties_glossary props ;
+		app_props::properties_glossary glossprops ;
 		props.m_data.m_min_score = 50 ;
-		mem.set_gloss_props(props) ;
+		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1038,7 +1095,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 	}
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50_word)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "eggs", "trans") ;
 
 		search_match_container matches ;
@@ -1048,9 +1106,9 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"spam, egg, sausage and spam" ;
 		params.m_ignore_case = true ;
 
-		app_props::properties_glossary props ;
+		app_props::properties_glossary glossprops ;
 		props.m_data.m_min_score = 50 ;
-		mem.set_gloss_props(props) ;
+		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1064,7 +1122,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 	}
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_ignore_case_query_char)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "spam", "spam") ;
 		add_record(mem, "egg", "egg") ;
 		add_record(mem, "sausage", "sausage") ;
@@ -1083,7 +1142,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 
 	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_ignore_case_source)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "SPAM", "SPAM") ;
 		add_record(mem, "EGG", "EGG") ;
 		add_record(mem, "SAUSAGE", "SAUSAGE") ;
@@ -1112,7 +1172,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_100)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
@@ -1131,7 +1192,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kanji_100)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
@@ -1150,7 +1212,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_hira_100)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
 		add_record(mem, L"豚肉", L"豚肉") ;
 		add_record(mem, L"りんご", L"りんご") ;
@@ -1169,7 +1232,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_exact)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, L"ビニロン", L"ビニロン") ;
 
 		search_match_container matches ;
@@ -1189,7 +1253,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 
 	BOOST_AUTO_TEST_CASE( get_gloss_fuzzy_kata_50)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, L"スパム", L"スパム") ;
 		add_record(mem, L"ベーコン", L"ベーコン") ;
 		add_record(mem, L"りんご", L"りんご") ;
@@ -1201,7 +1266,7 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"私はベーが大好きだ。" ;
 		params.m_ignore_case = true ;
 
-		mem.m_gloss_properties.set_min_score(10) ;
+		mem.m_gloss_properties->set_min_score(10) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1222,7 +1287,8 @@ BOOST_AUTO_TEST_SUITE( test_tabulate_fonts )
 
 	BOOST_AUTO_TEST_CASE( test_tabulate_fonts_size_2)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "<font face=\"Helvetica\">spam</font>", "spam") ;
 		add_record(mem, "<font face=\"Times\">spam</font>", "spam") ;
 
@@ -1251,7 +1317,8 @@ BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
 
 	BOOST_AUTO_TEST_CASE( concordance_0)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		search_match_container matches ;
@@ -1269,7 +1336,8 @@ BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
 	}
 	BOOST_AUTO_TEST_CASE( concordance_1)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		add_record(mem, "I love ham and eggs.", "Nailed to the perch.") ;
 
 		search_match_container matches ;
@@ -1294,7 +1362,8 @@ BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
 
 	BOOST_AUTO_TEST_CASE( rconcordance)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		search_match_container matches ;
 		search_query_params params ;
@@ -1358,13 +1427,15 @@ BOOST_AUTO_TEST_SUITE( test_validated_percent )
 	// make_match
 	BOOST_AUTO_TEST_CASE(empty_mem)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		BOOST_CHECK_EQUAL(mem.get_validated_percent(), L"0%") ;
 	}
 
 	BOOST_AUTO_TEST_CASE(none_validated)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
 		rec1->set_validated(false) ;
@@ -1372,7 +1443,8 @@ BOOST_AUTO_TEST_SUITE( test_validated_percent )
 	}
 	BOOST_AUTO_TEST_CASE(all_validated)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
 		record_pointer rec2 = add_record(mem, "bbb", "bbb") ;
@@ -1382,7 +1454,8 @@ BOOST_AUTO_TEST_SUITE( test_validated_percent )
 	}
 	BOOST_AUTO_TEST_CASE(half_validated)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		record_pointer rec1 = add_record(mem, "aaa", "aaa") ;
 		record_pointer rec2 = add_record(mem, "bbb", "bbb") ;
@@ -1404,7 +1477,8 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	// make_match
 	BOOST_AUTO_TEST_CASE(make_match)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 		mem.m_file_location = _T("c:\\foo.ftm") ;
 
 		search_match_ptr match = mem.make_match() ;
@@ -1415,7 +1489,8 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	// adding records
 	BOOST_AUTO_TEST_CASE(cant_add_record_to_locked_mem)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		mem.set_locked_on() ;
 
@@ -1423,7 +1498,8 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	}
 	BOOST_AUTO_TEST_CASE(cant_add_invalid_record)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		BOOST_CHECK_THROW(mem.add_record(make_record("foo", "")), CException) ;
 	}
@@ -1431,19 +1507,22 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	// get_progress_interval
 	BOOST_AUTO_TEST_CASE(get_progress_interval_4000)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		BOOST_CHECK_EQUAL(4000 / 200, mem.get_progress_interval(4000)) ;
 	}
 	BOOST_AUTO_TEST_CASE(get_progress_interval_10)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		BOOST_CHECK_EQUAL(10, mem.get_progress_interval(10)) ;
 	}
 	BOOST_AUTO_TEST_CASE(get_progress_interval_0)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		BOOST_CHECK_EQUAL(10, mem.get_progress_interval(0)) ;
 	}
@@ -1452,7 +1531,8 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	BOOST_AUTO_TEST_CASE(exception_size_over_max_demo)
 	{
 		CMockListener listener ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 
 		mem.m_is_demo = true ;
@@ -1471,7 +1551,8 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 	{
 		CMockListener listener ;
 		listener.m_should_bail = true ;
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
 
 		CString filename("c:\\foo.ftm") ;
@@ -1492,7 +1573,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 	// header info
 	BOOST_AUTO_TEST_CASE(init)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		MemoryInfo *info = mem.get_memory_info() ;
 
@@ -1502,7 +1584,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 	}
 	BOOST_AUTO_TEST_CASE(set_locked_on)
 	{
-		memory_local mem(0.0f) ;
+		app_props::properties_memory props ;
+		memory_local mem(&props, 0.0f) ;
 
 		MemoryInfo *info = mem.get_memory_info() ;
 
@@ -1513,15 +1596,16 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 
 	BOOST_AUTO_TEST_CASE( RefreshUserName )
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 
 		MemoryInfo *mem_info = mem.get_memory_info() ;
 		mem_info->set_creator( L"FooBar" ) ;
 		BOOST_CHECK_EQUAL( L"FooBar", mem.get_memory_info()->get_creator() ) ;
 
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-		_tcscpy_s(props.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
+		app_props::properties_general genprops ;
+		genprops.read_from_registry() ;
+		_tcscpy_s(genprops.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
 		props.write_to_registry() ;
 
 		BOOST_CHECK_EQUAL( L"Ryan",  mem_info->get_current_user()) ;
@@ -1529,7 +1613,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 
 	BOOST_AUTO_TEST_CASE(get_creation_date)
 	{
-		memory_local mem ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
 		InputDeviceFake *fake = new InputDeviceFake ;
 		fake->m_filetime = L"2001/11/12 11:12:13" ;
 		input_device_ptr input(fake) ;
@@ -1547,8 +1632,9 @@ using namespace except ;
 	// header info
 	BOOST_AUTO_TEST_CASE(new_mem)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		copy_mem_info(from, to) ;
 		wstring actual = static_cast<LPCWSTR>(to->get_location()) ;
@@ -1559,8 +1645,9 @@ using namespace except ;
 	}
 	BOOST_AUTO_TEST_CASE(has_loc)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 		from->set_location("C:\\foo\\bar.ftm") ;
 
 		copy_mem_info(from, to) ;
@@ -1572,8 +1659,9 @@ using namespace except ;
 	}
 	BOOST_AUTO_TEST_CASE(set_creator)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_creator(L"Barbie") ;
@@ -1587,8 +1675,9 @@ using namespace except ;
 	}
 	BOOST_AUTO_TEST_CASE(set_field)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_field(L"Electronics") ;
@@ -1602,8 +1691,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_created_on)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_created_on(L"2005/10/05 10:11:12") ;
@@ -1617,8 +1707,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_source_language)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_source_language(L"Pargunese") ;
@@ -1632,8 +1723,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_target_language)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_target_language(L"Wookie") ;
@@ -1647,8 +1739,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_client)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_client(L"Elmo") ;
@@ -1662,8 +1755,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_count)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 		from->add_record(make_record("foo", "bar")) ;
 
 		MemoryInfo *to_info = to->get_memory_info() ;
@@ -1674,8 +1768,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_locked_on)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_locked_on() ;
@@ -1687,8 +1782,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_locked_off)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_locked_off() ;
@@ -1700,8 +1796,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_is_memory_on)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_is_memory_on() ;
@@ -1713,8 +1810,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_is_memory_off)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_is_memory_off() ;
@@ -1726,8 +1824,9 @@ using namespace except ;
 	}	
 	BOOST_AUTO_TEST_CASE(set_creation_tool)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_creation_tool(L"Felix") ;
@@ -1741,8 +1840,9 @@ using namespace except ;
 	}
 	BOOST_AUTO_TEST_CASE(set_creation_tool_version)
 	{
-		memory_pointer from(new memory_local(0.0f)) ;
-		memory_pointer to(new memory_local(0.0f)) ;
+		app_props::properties_memory props ;
+		memory_pointer from(new memory_local(&props, 0.0f)) ;
+		memory_pointer to(new memory_local(&props, 0.0f)) ;
 
 		MemoryInfo *from_info = from->get_memory_info() ;
 		from_info->set_creation_tool_version(L"1.6.1") ;

@@ -55,7 +55,9 @@ VISIBLE_TO_TESTS
 	wstring	m_user_name ;
 
 public:
-	CTMXWriter(CProgressListener *listener);
+	CTMXWriter(CProgressListener *listener, 
+		app_props::properties_memory *props,
+		wstring username);
 	~CTMXWriter(void);
 
 	void write_memory(mem_engine::memory_pointer mem);

@@ -198,7 +198,7 @@ namespace mem_engine
 
 		set_cmp_params(params);
 		const size_t max_score = 100 ;
-		if ( m_gloss_properties.get_min_score() < max_score )
+		if ( m_gloss_properties->get_min_score() < max_score )
 		{
 			get_gloss_fuzzy(matches, params) ;
 		}
@@ -461,7 +461,7 @@ namespace mem_engine
 	void memory_local::get_gloss_fuzzy(search_match_container& matches, 
 		const search_query_params& params)
 	{
-		set_minimum_score( m_gloss_properties.get_min_score() ) ;
+		set_minimum_score( m_gloss_properties->get_min_score() ) ;
 		Distance distance ;
 		const double min_score = m_match_maker.get_minimum_score() ;
 		distance.set_minscore(min_score) ;
@@ -482,7 +482,7 @@ namespace mem_engine
 			}
 		}
 
-		set_minimum_score( m_properties.get_min_score() ) ;
+		set_minimum_score( m_properties->get_min_score() ) ;
 	}
 	bool memory_local::load( const CString& file_name )
 	{
