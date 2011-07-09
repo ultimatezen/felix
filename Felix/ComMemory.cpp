@@ -78,7 +78,7 @@ STDMETHODIMP CComMemory::SaveAs(BSTR location)
 	return S_OK ;
 }
 
-void CComMemory::set_memory( mem_engine::memory_pointer mem )
+void CComMemory::set_memory( memory_pointer mem )
 {
 	m_memory = mem ;
 }
@@ -297,9 +297,11 @@ STDMETHODIMP CComMemory::put_ModifiedOn(DATE date_modified)
 
 CComMemory::CComMemory() :
 	m_records(NULL),
-	m_memory(new mem_engine::memory_local)
+	m_props(new app_props::properties)
 {
+	m_memory = memory_pointer(new memory_local(&m_props->m_mem_props)) ;
 
+	m_props->read_from_registry() ;
 }
 
 

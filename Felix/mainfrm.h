@@ -142,13 +142,17 @@ public:
 
 	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages);
 
-	FelixModelInterface* get_model()
+	model_iface_ptr get_model()
 	{
 		return m_model ;
 	}
 	app_props::properties_general* get_props_general()
 	{
 		return &(m_props->m_gen_props) ;
+	}
+	app_props::props_ptr get_properties() 
+	{
+		return m_props ;
 	}
 
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;

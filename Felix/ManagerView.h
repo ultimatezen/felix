@@ -23,14 +23,12 @@ namespace mgrview
 			typedef mem_engine::record_pointer record_pointer ;
 
 			view_interface *m_view ;
-			FelixModelInterface *m_mem_model ;
-			FelixModelInterface *m_gloss_model ;
+			model_iface_ptr m_mem_model ;
+			model_iface_ptr m_gloss_model ;
 			FelixManagerWindowListener *m_window_listener ;
 
 			ManagerView():
 				m_view(NULL),
-				m_mem_model(NULL),
-				m_gloss_model(NULL),
 				m_window_listener(NULL)
 			{
 			}
@@ -38,8 +36,8 @@ namespace mgrview
 			virtual ~ManagerView(){}
 
 			void set_view(view_interface *view);
-			void set_mem_model(FelixModelInterface *model);
-			void set_gloss_model(FelixModelInterface *model);
+			void set_mem_model(model_iface_ptr model);
+			void set_gloss_model(model_iface_ptr model);
 			void set_listener(FelixManagerWindowListener *listener);
 
 			// pure virtual

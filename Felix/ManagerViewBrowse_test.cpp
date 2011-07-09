@@ -18,21 +18,22 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewBrowse )
 	struct browse_view_setup
 	{
 		ManagerViewBrowse view; 
-		FelixModelInterfaceFake model ;
+		model_iface_ptr model ;
 		ManagerWindowListenerFake listener ;
 		view_interface_fake interface_view ;
 
-		browse_view_setup(size_t num=0u) : view(num)
+		browse_view_setup(size_t num=0u) : view(num),
+			model(new FelixModelInterfaceFake)
 		{
 			for (size_t i=0 ; i<=num ; ++i)
 			{
-				model.add_memory() ;
+				model->add_memory() ;
 			}
 			listener.m_message = L"foo" ;
 
 			view.set_view(&interface_view) ;
-			view.set_mem_model(&model) ;
-			view.set_gloss_model(&model) ;
+			view.set_mem_model(model) ;
+			view.set_gloss_model(model) ;
 			view.set_listener(&listener) ;
 		}
 	};

@@ -18,17 +18,19 @@ using namespace cpptempl ;
 struct qcsettings_view_setup
 {
 	ManagerViewQCSettings view; 
-	FelixModelInterfaceFake model ;
+	model_iface_ptr model ;
 	ManagerWindowListenerFake listener ;
 	view_interface_fake interface_view ;
 
-	qcsettings_view_setup(app_props::props_ptr props) : view(props)
+	qcsettings_view_setup(app_props::props_ptr props) : 
+		view(props),
+		model(new FelixModelInterfaceFake)
 	{
 		listener.m_message = L"foo" ;
 
 		view.set_view(&interface_view) ;
-		view.set_mem_model(&model) ;
-		view.set_gloss_model(&model) ;
+		view.set_mem_model(model) ;
+		view.set_gloss_model(model) ;
 		view.set_listener(&listener) ;
 	}
 };

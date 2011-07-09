@@ -361,7 +361,7 @@ void CSearchWindow::set_filterbox_text( const doc3_wrapper_ptr doc, const std::v
  The memory window or glossary window will set this.
  It contains the list of memories/glossaries that we'll be searching.
  */
-void CSearchWindow::set_mem_controller( FelixModelInterface * controller )
+void CSearchWindow::set_mem_controller( model_iface_ptr  controller )
 {
 	m_controller = controller ;
 }
@@ -911,7 +911,7 @@ LRESULT CSearchWindow::OnToggleHelp()
 void CSearchWindow::save_results( match_vec &matches )
 {
 	SENSE("save_results") ;
-	mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
+	memory_pointer mem(new memory_local(&m_listener->get_properties()->m_mem_props)) ;
 
 	foreach(mem_engine::search_match_ptr match, matches)
 	{

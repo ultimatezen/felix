@@ -13,7 +13,6 @@
 #include "felix_model_fake.h"
 #include "frame_listener_fake.h"
 
-FelixModelInterfaceFake sw_model ;
 
 BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
@@ -22,17 +21,14 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
-		sw_model.clear() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
 		app_props::properties_memory props; 
-		memory_pointer mem1(new memory_local(&props)) ;
+		memory_pointer mem1 = model->add_memory() ;
+		memory_pointer mem2 = model->add_memory() ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local(&props)) ;
 		mem2->set_location(name2) ;
 
-		sw_model.m_model->insert_memory(mem1) ;
-		sw_model.m_model->insert_memory(mem2) ;
-
-		window.set_mem_controller(&sw_model) ;
+		window.set_mem_controller(model) ;
 
 		return mem1 ;
 	}
@@ -544,19 +540,17 @@ BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
 
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
-		sw_model.clear() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
 		app_props::properties_memory props; 
-		memory_pointer mem1(new memory_local(&props)) ;
+		memory_pointer mem1 = model->add_memory() ;
+		memory_pointer mem2 = model->add_memory() ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local(&props)) ;
 		mem2->set_location(name2) ;
 
-		sw_model.m_model->insert_memory(mem1) ;
-		sw_model.m_model->insert_memory(mem2) ;
-
-		window.set_mem_controller(&sw_model) ;
+		window.set_mem_controller(model) ;
 
 		return mem1 ;
+
 	}
 
 	BOOST_AUTO_TEST_CASE(result_none)

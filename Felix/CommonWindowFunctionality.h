@@ -268,7 +268,7 @@ public:
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
 /************************************************************************/
 
-	virtual FelixModelInterface* get_model() = 0 ;
+	virtual model_iface_ptr get_model() = 0 ;
 	virtual	void set_display_state( DISPLAY_STATE new_state ) = 0 ;
 	virtual LRESULT on_view_edit_mode(WindowsMessage &message) = 0 ;
 	virtual LPCTSTR get_save_ext() = 0 ;

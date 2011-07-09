@@ -56,8 +56,8 @@ public:
 	virtual int get_first_mem_id() = 0 ;
 	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
 	virtual void get_memories_needing_saving( memory_list &memories ) = 0 ;
+	virtual model_ptr create_memory_model() = 0 ;
 };
-
 
 class FelixModel : public FelixModelInterface
 {

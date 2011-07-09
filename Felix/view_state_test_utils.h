@@ -13,18 +13,18 @@ struct view_state_obj
 {
 	view_interface_fake view ;
 	WindowListenerFake listener; 
-	FelixModelInterfaceFake model ;
+	model_iface_ptr model ;
 
 	mem_engine::memory_pointer mem  ;
 	app_props::properties_memory mem_props; 
 
-	view_state_obj(ViewState *state)
+	view_state_obj(ViewState *state) : 		
+		model(new FelixModelInterfaceFake)
 	{
-		mem = memory_pointer(new mem_engine::memory_local(&mem_props)) ;
 		state->set_view(&view) ;
 		state->set_window_listener(&listener) ;
-		state->set_model(&model) ;
-		model.get_memories()->insert_memory(mem) ;
+		state->set_model(model) ;
+		mem = model->add_memory() ;
 	}
 
 };

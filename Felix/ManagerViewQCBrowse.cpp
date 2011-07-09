@@ -29,7 +29,6 @@ namespace mgrview
 		size_t page/*=1*/) : 
 		m_item(item),
 		m_page(page),
-		m_model(NULL),
 		m_paginator(10u),
 		ManagerView()
 	{

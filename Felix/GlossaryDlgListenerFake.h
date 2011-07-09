@@ -18,19 +18,20 @@ public:
 	mem_engine::record_pointer added_rec ;
 	app_props::properties_general m_props_general ;
 	app_props::properties_memory m_mem_props ;
-	FelixModelInterfaceFake m_model ;
+	model_iface_ptr m_model ;
 
 	CGlossaryWinListenerFake() : 
 		check_save_retval(IDCANCEL), 
-		added_rec(new mem_engine::record_local)
+		added_rec(new mem_engine::record_local),
+		m_model(new FelixModelInterfaceFake)
 	{
 		check_save_mem = mem_engine::memory_pointer(new mem_engine::memory_local(&m_mem_props)) ;
 
 	}	
 		
-	FelixModelInterface* get_model()
+	model_iface_ptr get_model()
 	{
-		return &m_model ;
+		return m_model ;
 	}
 
 

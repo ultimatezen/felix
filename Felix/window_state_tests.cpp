@@ -8,7 +8,7 @@
 #include "mainfrm.h"
 #include "GlossaryDialog.h"
 #include "GlossaryDlgListenerFake.h"
-
+#include "FelixApp.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST

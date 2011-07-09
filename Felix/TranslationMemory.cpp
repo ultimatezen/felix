@@ -77,7 +77,7 @@ namespace mem_engine
 		m_cmp_maker.m_ignore_hira_kata = !! m_properties->m_data.m_ignore_hir_kat ;
 		m_cmp_maker.m_ignore_width = !! m_properties->m_data.m_ignore_width ;
 
-		this->set_minimum_score( m_properties->m_data.m_min_score ) ;
+		this->set_minimum_score( m_properties->get_min_score() ) ;
 
 	}
 

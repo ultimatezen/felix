@@ -38,10 +38,10 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 	{
 		memories_ptr mems ;
 		memories_obj::CreateInstance( &mems ) ;
-		FelixModelInterfaceFake model ;
-		model.m_model->add_memory() ;
-		model.m_model->add_memory() ;
-		mems->set_model(&model) ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		model->add_memory() ;
+		model->add_memory() ;
+		mems->set_model(model) ;
 
 		long count = 10 ;
 		BOOST_CHECK(SUCCEEDED(mems->get_Count(&count))) ;
@@ -52,8 +52,8 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 	{
 		memories_ptr mems ;
 		memories_obj::CreateInstance( &mems ) ;
-		FelixModelInterfaceFake model ;
-		mems->set_model(&model) ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		mems->set_model(model) ;
 
 		CComPtr<IMemory> mem ;
 		BOOST_CHECK(SUCCEEDED(mems->Add(&mem))) ;
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 	{
 		memories_ptr mems ;
 		memories_obj::CreateInstance( &mems ) ;
-		FelixModelInterfaceFake model ;
-		mems->set_model(&model) ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		mems->set_model(model) ;
 
 		CComPtr<IMemory> mem ;
 		CComBSTR filename = L"C:\\test\\test_memories\\one_record.xml" ;
@@ -87,9 +87,9 @@ BOOST_AUTO_TEST_SUITE( TestComMemories )
 	{
 		memories_ptr mems ;
 		memories_obj::CreateInstance( &mems ) ;
-		FelixModelInterfaceFake model ;
-		model.m_model->add_memory() ;
-		mems->set_model(&model) ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		model->add_memory() ;
+		mems->set_model(model) ;
 
 		BOOST_CHECK(SUCCEEDED(mems->Clear())) ;
 

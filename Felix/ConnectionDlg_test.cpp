@@ -9,13 +9,15 @@ BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 
 	BOOST_AUTO_TEST_CASE( instantiate)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		BOOST_CHECK_EQUAL(IDD_CONNECTION_DLG, CConnectionDlg::IDD) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( IDOK_Message)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
@@ -23,7 +25,8 @@ BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 	// message processing
 	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -32,7 +35,8 @@ BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
@@ -42,7 +46,8 @@ BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
@@ -52,7 +57,8 @@ BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
-		CConnectionDlg dialog ;
+		app_props::properties_memory props ;
+		CConnectionDlg dialog(&props) ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(0u, dialog.m_sensing_variable.size()) ;

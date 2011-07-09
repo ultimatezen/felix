@@ -5,6 +5,12 @@
 
 using namespace except ;
 
+CConnectionDlg::CConnectionDlg(app_props::properties_memory *props) : 
+	m_props(props),
+	m_memory( new mem_engine::memory_remote(props))
+{
+
+}
 LRESULT CConnectionDlg::OnInitDialog()
 {
 	SENSE("OnInitDialog") ;
@@ -41,7 +47,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	CString conn_str ;
 	m_edit.GetWindowText( conn_str ) ;
 
-	memory_remote *mem = new memory_remote() ;
+	memory_remote *mem = new memory_remote(m_props) ;
 	memory_pointer pmem(mem) ;
 	try
 	{
@@ -107,7 +113,3 @@ LRESULT CConnectionDlg::OnCloseCommand( WORD wID )
 	return 0L;
 }
 
-CConnectionDlg::CConnectionDlg() : m_memory( new mem_engine::memory_remote())
-{
-
-}

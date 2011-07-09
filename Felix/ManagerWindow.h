@@ -40,9 +40,9 @@ class CManagerWindow :
 	typedef boost::shared_ptr<mgrview::ManagerView> mgr_state_ptr ;
 public:
 
-	FelixModelInterface *m_mem_model ;
-	FelixModelInterface *m_gloss_model ;
-	HWND						m_hWndStatusBar ;
+	model_iface_ptr m_mem_model ;
+	model_iface_ptr m_gloss_model ;
+	HWND			m_hWndStatusBar ;
 
 	// location of window settings
 	CString m_settings_key ;
@@ -90,23 +90,23 @@ public:
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
-	void set_mem_model(FelixModelInterface *model);
-	void set_gloss_model(FelixModelInterface *model);
+	void set_mem_model(model_iface_ptr model);
+	void set_gloss_model(model_iface_ptr model);
 
 	void set_active_state(mgr_state_ptr mgr_state);
 
-	void swap_memories( FelixModelInterface *model,
+	void swap_memories( model_iface_ptr model,
 											const int index );
 
-	mem_engine::memory_iterator get_mem_iter_at(FelixModelInterface *model,
+	mem_engine::memory_iterator get_mem_iter_at(model_iface_ptr model,
 											int sel );
 	CString get_save_prompt( mem_engine::memory_pointer mem );
 	bool getMemName(mem_engine::memory_pointer mem) const;
 
-	void add_memory_files(FelixModelInterface *model,
+	void add_memory_files(model_iface_ptr model,
 		file::OpenDlgList &import_files) ;
 
-	void add_memory_file( FelixModelInterface * model, CString filename );
+	void add_memory_file( model_iface_ptr model, CString filename );
 	// ========================
 	// URL navigation
 	// ========================

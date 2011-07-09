@@ -14,6 +14,102 @@
 
 #ifdef UNIT_TEST
 
+struct xml_string_writer_test: pugi::xml_writer
+{
+	std::string result;
+
+	virtual void write(const void* data, size_t size)
+	{
+		result += std::string(static_cast<const char*>(data), size);
+	}
+};
+BOOST_AUTO_TEST_SUITE( test_properties )
+
+	using namespace app_props ;
+
+	BOOST_AUTO_TEST_CASE(assignment_memory)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_mem_props.set_min_score(13u) ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(13u, props1->m_mem_props.get_min_score()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(assignment_loaded_history_mems)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_history_props.m_loaded_mems.push_back(L"foo") ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(1u, props1->m_history_props.m_loaded_mems.size()) ;
+		BOOST_CHECK_EQUAL(L"foo", props1->m_history_props.m_loaded_mems[0]) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(assignment_loaded_history_gloss)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_history_props.m_loaded_gloss.push_back(L"foo") ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(1u, props1->m_history_props.m_loaded_gloss.size()) ;
+		BOOST_CHECK_EQUAL(L"foo", props1->m_history_props.m_loaded_gloss[0]) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(assignment_loaded_history_remote_mems)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_history_props.m_loaded_remote_mems.push_back(L"foo") ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(1u, props1->m_history_props.m_loaded_remote_mems.size()) ;
+		BOOST_CHECK_EQUAL(L"foo", props1->m_history_props.m_loaded_remote_mems[0]) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(assignment_loaded_history_remote_gloss)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_history_props.m_loaded_remote_gloss.push_back(L"foo") ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(1u, props1->m_history_props.m_loaded_remote_gloss.size()) ;
+		BOOST_CHECK_EQUAL(L"foo", props1->m_history_props.m_loaded_remote_gloss[0]) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE(assignment__glossary)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_gloss_props.set_min_score(37u) ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(37u, props1->m_gloss_props.get_min_score()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(assignment_algorithm)
+	{
+		props_ptr props1(new properties) ;
+		props_ptr props2(new properties) ;
+
+		props2->m_alg_props.m_data.m_match_algo = 101 ;
+
+		*props1 = *props2 ;
+		BOOST_CHECK_EQUAL(101, props1->m_alg_props.m_data.m_match_algo) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
 // test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( test_properties_loaded_history )
 
@@ -651,58 +747,143 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 		BOOST_CHECK_EQUAL (props.m_data.m_place_gloss, TRUE) ; 
 
 	}
+
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_memory props ;
+		app_props::properties_memory::props_data *data = &props.m_data ;
+
+		data->m_min_score = 10 ;
+		data->m_ignore_case = FALSE ;
+		data->m_ignore_width = TRUE ;
+		data->m_ignore_hir_kat = TRUE ;
+		data->m_plaintext = TRUE ;
+		data->m_assess_format_penalty = TRUE ;
+		data->m_place_numbers = FALSE ;
+		data->m_place_gloss = TRUE ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_memory>\n"
+			"		<min_score>10</min_score>\n"
+			"		<ignore_case>false</ignore_case>\n"
+			"		<ignore_width>true</ignore_width>\n"
+			"		<ignore_hir_kat>true</ignore_hir_kat>\n"
+			"		<plaintext>true</plaintext>\n"
+			"		<assess_format_penalty>true</assess_format_penalty>\n"
+			"		<place_numbers>false</place_numbers>\n"
+			"		<place_gloss>true</place_gloss>\n"
+			"	</properties_memory>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 
 BOOST_AUTO_TEST_SUITE( properties_glossary_xml_tests )
 
-// properties_glossary
-BOOST_AUTO_TEST_CASE( load_xml )
-{
-	string text = "<properties>\n"
-		"<properties_glossary>\n"
+	// properties_glossary
+	BOOST_AUTO_TEST_CASE( load_xml )
+	{
+		string text = "<properties>\n"
+			"<properties_glossary>\n"
 
-		"<min_score>24</min_score>\n"
-		"<max_add>31</max_add>\n"
+			"<min_score>24</min_score>\n"
+			"<max_add>31</max_add>\n"
 
-		"<numbering>0</numbering>\n"
+			"<numbering>0</numbering>\n"
 
-		"<ignore_case>false</ignore_case>\n"
-		"<plaintext>true</plaintext>\n"
-		"<to_lower>true</to_lower>\n"
+			"<ignore_case>false</ignore_case>\n"
+			"<plaintext>true</plaintext>\n"
+			"<to_lower>true</to_lower>\n"
 
-		"<ignore_width>true</ignore_width>\n"
-		"<ignore_hir_kat>true</ignore_hir_kat>\n"
-		"<simple_view>true</simple_view>\n"
+			"<ignore_width>true</ignore_width>\n"
+			"<ignore_hir_kat>true</ignore_hir_kat>\n"
+			"<simple_view>true</simple_view>\n"
 
-		"<back_color>66</back_color>\n"
+			"<back_color>66</back_color>\n"
 
-		"</properties_glossary>\n" 
-		"</properties>";
+			"</properties_glossary>\n" 
+			"</properties>";
 
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load(text.c_str());
-	BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
 
-	app_props::properties_glossary props ;
-	props.parse_xml_doc(doc) ;
+		app_props::properties_glossary props ;
+		props.parse_xml_doc(doc) ;
 
-	BOOST_CHECK_EQUAL (props.m_data.m_min_score, 24u) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_max_add, 31u) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_numbering, 0u) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_min_score, 24u) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_max_add, 31u) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_numbering, 0u) ; 
 
-	BOOST_CHECK_EQUAL (props.m_data.m_ignore_case, FALSE) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_plaintext, TRUE) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_to_lower, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_case, FALSE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_plaintext, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_to_lower, TRUE) ; 
 
-	BOOST_CHECK_EQUAL (props.m_data.m_ignore_width, TRUE) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_ignore_hir_kat, TRUE) ; 
-	BOOST_CHECK_EQUAL (props.m_data.m_simple_view, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_width, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_ignore_hir_kat, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_simple_view, TRUE) ; 
 
+		BOOST_CHECK_EQUAL (props.m_data.m_back_color, 66) ; 
+	}
 
-	BOOST_CHECK_EQUAL (props.m_data.m_back_color, 66) ; 
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_glossary props ;
+		app_props::properties_glossary::props_data *data = &props.m_data ;
 
-}
+		data->m_min_score = 44u ;
+		data->m_max_add = 62u ;
+		data->m_numbering = 0u ;
+		data->m_back_color = 55 ;
+
+		data->m_ignore_case = FALSE ;
+		data->m_plaintext = TRUE ;
+		data->m_to_lower = TRUE ;
+
+		data->m_ignore_width = TRUE ;
+		data->m_ignore_hir_kat = TRUE ;
+		data->m_simple_view = TRUE ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_glossary>\n"
+			"		<min_score>44</min_score>\n"
+			"		<max_add>62</max_add>\n"
+			"		<numbering>0</numbering>\n"
+			"		<back_color>55</back_color>\n"
+			// case/formatting
+			"		<ignore_case>false</ignore_case>\n"
+			"		<plaintext>true</plaintext>\n"
+			"		<to_lower>true</to_lower>\n"
+			// normalization
+			"		<ignore_width>true</ignore_width>\n"
+			"		<ignore_hir_kat>true</ignore_hir_kat>\n"
+			"		<simple_view>true</simple_view>\n"
+
+			"	</properties_glossary>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 // properties_algorithm
@@ -725,6 +906,30 @@ BOOST_AUTO_TEST_SUITE( properties_algorithm_xml_tests )
 
 		BOOST_CHECK_EQUAL (props.m_data.m_match_algo, 262) ; 
 
+	}
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_algorithm props ;
+		app_props::properties_algorithm::props_data *data = &props.m_data ;
+
+		data->m_match_algo = 262 ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_algorithm>\n"
+			"		<match_algo>262</match_algo>\n"
+			"	</properties_algorithm>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -759,6 +964,40 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 		BOOST_CHECK_EQUAL (props.m_data.m_single_screen_matches, TRUE) ; 
 
 	}
+
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_view props ;
+		app_props::properties_view::props_data *data = &props.m_data ;
+
+		data->m_back_color = 44 ;
+		data->m_query_color = 62 ;
+		data->m_source_color = 0 ;
+		data->m_trans_color = 55 ;
+
+		data->m_single_screen_matches = FALSE ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_view>\n"
+			"		<back_color>44</back_color>\n"
+			"		<query_color>62</query_color>\n"
+			"		<source_color>0</source_color>\n"
+			"		<trans_color>55</trans_color>\n"
+			"		<single_screen_matches>false</single_screen_matches>\n"
+			"	</properties_view>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 // properties_qc
@@ -787,6 +1026,37 @@ BOOST_AUTO_TEST_SUITE( properties_qc_xml_tests )
 		BOOST_CHECK_EQUAL (props.m_data.m_check_gloss, TRUE) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_live_checking, TRUE) ; 
 
+	}
+
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_qc props ;
+		app_props::properties_qc::props_data *data = &props.m_data ;
+
+		data->m_check_numbers = TRUE ;
+		data->m_check_all_caps = TRUE ;
+		data->m_check_gloss = TRUE ;
+		data->m_live_checking = TRUE ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_qc>\n"
+			"		<check_numbers>true</check_numbers>\n"
+			"		<check_all_caps>true</check_all_caps>\n"
+			"		<check_gloss>true</check_gloss>\n"
+			"		<live_checking>true</live_checking>\n"
+			"	</properties_qc>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -838,5 +1108,58 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 		BOOST_CHECK_EQUAL (wstring(props.m_data.m_user_name), L"jerry") ;
 
 	}
+
+
+	BOOST_AUTO_TEST_CASE(build_xml_doc)
+	{
+		app_props::properties_general props ;
+		app_props::properties_general::props_data *data = &props.m_data ;
+
+		data->m_window_size = 1 ;
+		data->m_preferred_gui_lang = 2 ;
+		data->m_merge_choice = 4 ;
+
+		data->m_load_prev_mem_on_startup = TRUE ;
+		data->m_load_prev_gloss_on_startup =TRUE ;
+		data->m_show_markup = TRUE ;
+		data->m_first_launch = TRUE ;
+
+		data->m_query_merge = TRUE ;
+		data->m_old_mem_mgr = TRUE ;
+
+		_tcscpy_s( data->m_user_name, MAX_PATH, L"Bozo The Clown") ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<preferences>\n"
+			"	<properties_general>\n"
+			"		<window_size>1</window_size>\n"
+			"		<preferred_gui_lang>2</preferred_gui_lang>\n"
+			"		<merge_choice>4</merge_choice>\n"
+
+			"		<load_prev_mem_on_startup>true</load_prev_mem_on_startup>\n"
+			"		<load_prev_gloss_on_startup>true</load_prev_gloss_on_startup>\n"
+			"		<show_markup>true</show_markup>\n"
+			"		<first_launch>true</first_launch>\n"
+
+			"		<query_merge>true</query_merge>\n"
+			"		<old_mem_mgr>true</old_mem_mgr>\n"
+
+			"		<user_name>Bozo The Clown</user_name>\n"
+
+			"	</properties_general>\n"
+			"</preferences>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 #endif

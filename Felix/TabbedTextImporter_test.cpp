@@ -8,14 +8,16 @@
 BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 
 	using namespace mem_engine ;
+	app_props::properties_memory props ;
 	BOOST_AUTO_TEST_CASE( intialize )
 	{
-		BOOST_CHECK_NO_THROW( CTabbedTextImporter(NULL) ) ;
+		BOOST_CHECK_NO_THROW( CTabbedTextImporter(NULL, &props) ) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( add_line_no_context )
 	{
-		CTabbedTextImporter importer(NULL) ;
+		app_props::properties_memory props ;
+		CTabbedTextImporter importer(NULL, &props) ;
 		wstring line = L"source\ttrans" ;
 		importer.add_record(line) ;
 
@@ -24,7 +26,8 @@ BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 
 	BOOST_AUTO_TEST_CASE( add_line_with_context )
 	{
-		CTabbedTextImporter importer(NULL) ;
+		app_props::properties_memory props ;
+		CTabbedTextImporter importer(NULL, &props) ;
 		wstring line = L"source\ttrans\tcontext" ;
 		importer.add_record(line) ;
 
@@ -36,7 +39,8 @@ BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 	BOOST_AUTO_TEST_CASE( add_records )
 	{
 		CMockListener listener ;
-		CTabbedTextImporter importer(&listener) ;
+		app_props::properties_memory props ;
+		CTabbedTextImporter importer(&listener, &props) ;
 		wstring text = L"source 1\ttrans 1\r\nsource 2\ttrans 2" ;
 		importer.add_records(text) ;
 
@@ -46,7 +50,8 @@ BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 	BOOST_AUTO_TEST_CASE( add_file )
 	{
 		CMockListener listener ;
-		CTabbedTextImporter importer(&listener) ;
+		app_props::properties_memory props ;
+		CTabbedTextImporter importer(&listener, &props) ;
 		CString filename = _T("C:\\test\\tab_delim_gloss.txt") ;
 		importer.load_file(filename) ;
 

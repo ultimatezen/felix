@@ -52,14 +52,14 @@ class ATL_NO_VTABLE CMemories :
 	public CAutomationExceptionHandler<CMemories, &CLSID_Memories>,
 	public IDispatchImpl<MemoryCollectionType, &IID_IMemories, &LIBID_Felix, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
-	FelixModelInterface *m_mem_model ;
+	model_iface_ptr m_mem_model ;
 
 public:
-	CMemories() : m_mem_model(NULL)
+	CMemories() 
 	{
 	}
-	HRESULT set_model(FelixModelInterface *model);
-	HRESULT load_memories(FelixModelInterface *model);
+	HRESULT set_model(model_iface_ptr model);
+	HRESULT load_memories(model_iface_ptr model);
 
 	HRESULT add_memory( mem_engine::memory_pointer mem );
 DECLARE_REGISTRY_RESOURCEID(IDR_MEMORIES)

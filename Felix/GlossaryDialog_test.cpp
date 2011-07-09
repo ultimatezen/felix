@@ -2,6 +2,7 @@
 #include "GlossaryDialog.h"
 #include "record_local.h"
 #include "memory_local.h"
+#include "felix_factory.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -166,7 +167,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		string source("Japanese") ;
 		string target("English") ;
 
-		memory_pointer mem(new memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
 		rec1->set_source(L"‚è‚ñ‚²") ;
@@ -210,7 +211,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		wstring source(L"Japanese") ;
 		wstring target(L"English") ;
 
-		memory_pointer mem(new memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
 		rec1->set_source(L"‚è‚ñ‚²") ;

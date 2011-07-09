@@ -4,7 +4,7 @@
 
 namespace mgrview
 {
-	wstring make_mem_list(FelixModelInterface *mems, 
+	wstring make_mem_list(model_iface_ptr mems, 
 		const wstring memtype);
 
 	class ManagerViewStart : public ManagerView

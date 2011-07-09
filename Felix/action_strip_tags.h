@@ -13,7 +13,7 @@ namespace action
 
 		StripTagsAction(mem_engine::memory_pointer mem) : 
 			m_new(mem),
-			m_old(new mem_engine::memory_local(mem->m_properties))
+			m_old(new mem_engine::memory_local(mem->get_mem_properties()))
 		{}
 
 		void undo();

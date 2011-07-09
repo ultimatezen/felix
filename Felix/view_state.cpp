@@ -7,7 +7,7 @@ void ViewState::set_view( view_interface *view )
 	m_view = view ;
 }
 
-void ViewState::set_model( FelixModelInterface *model )
+void ViewState::set_model( model_iface_ptr model )
 {
 	m_model = model ;
 }

@@ -16,7 +16,7 @@ namespace mgrview
 
 		// for paginating browse list
 		Paginator m_paginator ;
-		FelixModelInterface *m_model ;
+		model_iface_ptr m_model ;
 
 
 		ManagerViewBrowse(size_t item, 

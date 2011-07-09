@@ -11,10 +11,10 @@ namespace action
 	{
 	public:
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
-		FelixModelInterface *m_controller ;
+		model_iface_ptr m_controller ;
 		match_vec	m_matches ;
 
-		DeleteMatchesAction(FelixModelInterface *controller,
+		DeleteMatchesAction(model_iface_ptr controller,
 							match_vec &matches);
 
 		void undo();

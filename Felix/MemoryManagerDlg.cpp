@@ -842,8 +842,9 @@ void CMemoryManagerDlg::reflect_checkstate()
 void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
 {
 	m_list_box.InsertItem( m_list_box.GetItemCount(), mem_file ) ;
-	
-	memory_pointer mem(new mem_engine::memory_local()) ;
+
+	app_props::properties_memory props ;
+	memory_pointer mem(new mem_engine::memory_local(&props)) ;
 
 	m_info_view.set_body_text(get_loading_message(mem_file)) ;
 

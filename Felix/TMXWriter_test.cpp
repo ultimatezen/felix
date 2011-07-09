@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >(&dummy), &props, CUserName().as_wstring() ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		tmx_writer.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 
 		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
 		rec->set_source(L"spam") ;
@@ -154,19 +154,19 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
-		writer.set_src_lang( L"jp" ) ;
-		BOOST_CHECK_EQUAL ( L"JP", writer.m_src_lang ) ; 
-		writer.set_target_lang( L"eN-US" ) ;
-		BOOST_CHECK_EQUAL( L"EN-US", writer.m_target_lang) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
+		tmx_writer.set_src_lang( L"jp" ) ;
+		BOOST_CHECK_EQUAL ( L"JP", tmx_writer.m_src_lang ) ; 
+		tmx_writer.set_target_lang( L"eN-US" ) ;
+		BOOST_CHECK_EQUAL( L"EN-US", tmx_writer.m_target_lang) ;
 	}
 	BOOST_AUTO_TEST_CASE( cleanUpForTmx )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"f\too hi!" ;
-		wstring outStr = writer.cleanUpForTMX( inStr ) ;
+		wstring outStr = tmx_writer.cleanUpForTMX( inStr ) ;
 		wstring expected = L"foo hi!" ;
 		BOOST_CHECK_EQUAL( outStr, expected) ;
 	}
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"foo" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		BOOST_CHECK_EQUAL( inStr, outStr ) ;
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"foo<br />" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"foo<it pos=\"begin\" x=\"1\">&lt;br /&gt;</it>" ;
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"<p>foo</p>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"<bpt i=\"1\" x=\"1\">&lt;p&gt;</bpt>foo<ept i=\"1\">&lt;/p&gt;</ept>" ;
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"<bpt i=\"1\" x=\"1\">&lt;div style=\"float:left;\"&gt;</bpt><bpt i=\"2\" x=\"2\">&lt;span style=\"color:blue;\"&gt;</bpt>foo<ept i=\"2\">&lt;/span&gt;</ept><ept i=\"1\">&lt;/div&gt;</ept>" ;
@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"This is < & > not cool..." ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"This is &lt; &amp; &gt; not cool..." ;
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_SUITE( CTmxWriterTestCase )
 	{
 		CMockListener dummy ;
 		app_props::properties_memory props; 
-		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), props, CUserName().as_wstring() ) ;
+		CTMXWriter writer(static_cast< CProgressListener* >( &dummy), &props, CUserName().as_wstring() ) ;
 		wstring inStr = L"This is < & > not cool...<div style=\"float:left;\"><span style=\"color:blue;\">foo</span></div>" ;
 		wstring outStr = writer.get_segment( inStr ) ;
 		wstring expected = L"This is &lt; &amp; &gt; not cool...<bpt i=\"1\" x=\"1\">&lt;div style=\"float:left;\"&gt;</bpt><bpt i=\"2\" x=\"2\">&lt;span style=\"color:blue;\"&gt;</bpt>foo<ept i=\"2\">&lt;/span&gt;</ept><ept i=\"1\">&lt;/div&gt;</ept>" ;

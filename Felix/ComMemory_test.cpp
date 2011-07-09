@@ -4,6 +4,7 @@
 #include "query.h"
 #include "memory_local.h"
 #include "miscwrappers.h"
+#include "felix_factory.h"
 
 #ifdef UNIT_TEST
 
@@ -63,7 +64,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
 
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		records_ptr records ;
@@ -79,7 +80,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
 
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->add_record(make_record("source a", "source a")) ;
 		memory->add_record(make_record("source b", "source b")) ;
 
@@ -163,7 +164,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_creator(L"Charlie Chaplin") ;
 		mem->set_memory(memory) ;
 
@@ -175,7 +176,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"Mr. Splashypants";
@@ -190,7 +191,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_modified_by(L"Charlie Chaplin") ;
 		mem->set_memory(memory) ;
 
@@ -202,7 +203,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"Mr. Splashypants";
@@ -217,7 +218,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR result ;
@@ -228,7 +229,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_field(L"Electronics") ;
 		mem->set_memory(memory) ;
 
@@ -240,7 +241,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"IT";
@@ -255,7 +256,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_client(L"Charlie Chaplin") ;
 		mem->set_memory(memory) ;
 
@@ -267,7 +268,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"Bob";
@@ -282,7 +283,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->set_is_memory(false) ;
 		mem->set_memory(memory) ;
 
@@ -294,7 +295,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		// default...
@@ -313,7 +314,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->set_locked_on() ;
 		mem->set_memory(memory) ;
 
@@ -325,7 +326,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		// default...
@@ -344,7 +345,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_source_language(L"German") ;
 		mem->set_memory(memory) ;
 
@@ -356,7 +357,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"French";
@@ -371,7 +372,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		memory->get_memory_info()->set_target_language(L"Spanish") ;
 		mem->set_memory(memory) ;
 
@@ -383,7 +384,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		CComBSTR creator = L"Chinese";
@@ -398,7 +399,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		misc_wrappers::date created ;
 		created.set_to_local_time() ;
 		created.wYear = 1988 ;
@@ -420,7 +421,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		misc_wrappers::date created ;
@@ -446,7 +447,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		misc_wrappers::date modified ;
 		modified.set_to_local_time() ;
 		modified.wYear = 1988 ;
@@ -468,7 +469,7 @@ BOOST_AUTO_TEST_SUITE( TestComMemory)
 	{
 		mem_ptr mem ;
 		mem_obj::CreateInstance( &mem ) ;
-		memory_pointer memory(new memory_local) ;
+		mem_engine::memory_pointer memory = FelixFactory().make_memory() ;
 		mem->set_memory(memory) ;
 
 		misc_wrappers::date modified ;

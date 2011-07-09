@@ -7,9 +7,11 @@
 #include "input_device_file.h"
 
 
-CImportMultitermFile::CImportMultitermFile(CProgressListener *listener) :
+CImportMultitermFile::CImportMultitermFile(CProgressListener *listener,
+										   app_props::properties_memory	*mem_props) :
 	m_listener(listener),
-	m_memory(new mem_engine::memory_local())
+	m_mem_props(mem_props),
+	m_memory(new mem_engine::memory_local(mem_props))
 {
 }
 

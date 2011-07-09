@@ -134,7 +134,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	}
 
 
-	BOOST_AUTO_TEST_CASE( GetMatchesSize1)
+	BOOST_AUTO_TEST_CASE(GetMatchesSize1)
 	{
 		try
 		{
@@ -163,7 +163,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	}
 
 	// from bug found with increment_refcount
-	BOOST_AUTO_TEST_CASE( increment_refcount)
+	BOOST_AUTO_TEST_CASE(increment_refcount)
 	{
 		try
 		{
@@ -203,7 +203,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 
 
-	BOOST_AUTO_TEST_CASE( GetMatchesMarkup)
+	BOOST_AUTO_TEST_CASE(GetMatchesMarkup)
 	{
 		try
 		{
@@ -244,7 +244,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 
 	// trans lookup
-	BOOST_AUTO_TEST_CASE( GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
+	BOOST_AUTO_TEST_CASE(GetTransMatchesMarkupWordAlgoIgnoreCaseQuery)
 	{
 		try
 		{
@@ -285,7 +285,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 	// get_best_match_score
 
-	BOOST_AUTO_TEST_CASE( test_get_best_match_score_0_5)
+	BOOST_AUTO_TEST_CASE(test_get_best_match_score_0_5)
 	{
 		try
 		{
@@ -314,7 +314,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	// get_glossary_matches
 
 
-	BOOST_AUTO_TEST_CASE( test_get_glossary_matches_50)
+	BOOST_AUTO_TEST_CASE(test_get_glossary_matches_50)
 	{
 		try
 		{
@@ -331,7 +331,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 			params.m_ignore_case = true ;
 
 			app_props::properties_glossary glossprops ;
-			props.m_data.m_min_score = 50 ;
+			glossprops.m_data.m_min_score = 50 ;
 			mem.set_properties_glossary(&glossprops) ;
 
 			mem.get_glossary_matches(matches, params) ;
@@ -355,7 +355,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 
 	}
 
-	BOOST_AUTO_TEST_CASE( is_local)
+	BOOST_AUTO_TEST_CASE(is_local)
 	{
 		app_props::properties_memory props ;
 		memory_remote mem(&props, .5, L"Felix.RemoteMemoryFake") ;

@@ -5,9 +5,10 @@
 #include "record_local.h"
 #include "input_device_file.h"
 
-CTabbedTextImporter::CTabbedTextImporter(CProgressListener *listener) :
+CTabbedTextImporter::CTabbedTextImporter(CProgressListener *listener,
+										 app_props::properties_memory *props) :
 m_listener(listener),
-m_memory(new mem_engine::memory_local())
+m_memory(new mem_engine::memory_local(props))
 {
 }
 

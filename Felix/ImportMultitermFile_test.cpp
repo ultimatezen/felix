@@ -2,6 +2,7 @@
 #include "ImportMultitermFile.h"
 #include "MockListener.h"
 #include "memory_local.h"
+#include "felix_factory.h"
 
 #ifdef UNIT_TEST
 
@@ -15,14 +16,16 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 	BOOST_AUTO_TEST_CASE( instantiate )
 	{
 		CMockListener listener ;
-		CImportMultitermFile importer(&listener) ;
+		app_props::properties_memory props ;
+		CImportMultitermFile importer(&listener, &props) ;
 		BOOST_CHECK(true) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_multiterm55_line)
 	{
 		CMockListener listener ;
-		CImportMultitermFile importer(&listener) ;
+		app_props::properties_memory props ;
+		CImportMultitermFile importer(&listener, &props) ;
 		string text = "<English>Foo\r\n" ;
 		c_reader reader ;
 		reader.set_buffer(text.c_str()) ;
@@ -33,7 +36,8 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 	BOOST_AUTO_TEST_CASE( import_multiterm_55_text)
 	{
 		CMockListener listener ;
-		CImportMultitermFile importer(&listener) ;
+		app_props::properties_memory props ;
+		CImportMultitermFile importer(&listener, &props) ;
 		string text = "<English>Foo\r\n" ;
 		text += "<Japanese>Japanese\r\n" ;
 		text += "<Notes>Context\r\n" ;
@@ -46,7 +50,7 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 		reader.set_buffer(text.c_str()) ;
 		string source_lang = "English" ;
 		string trans_lang = "Japanese" ;
-		mem_engine::memory_pointer mem(new memory_local()) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 
 		importer.import_multiterm_55_text(reader, source_lang, trans_lang, mem) ;
 		BOOST_CHECK_EQUAL(2u, mem->size()) ;
@@ -55,7 +59,8 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 	BOOST_AUTO_TEST_CASE( import_multiterm_6_text)
 	{
 		CMockListener listener ;
-		CImportMultitermFile importer(&listener) ;
+		app_props::properties_memory props ;
+		CImportMultitermFile importer(&listener, &props) ;
 		wstring text = L"Japanese\tEnglish\tNotes\r\n" ;
 		text += L"適用\tApply\tsyngo Basic\r\n" ;
 		text += L"スキャン数\tNumber of Scans\tsyngo Basic\r\n" ;
@@ -67,7 +72,8 @@ BOOST_AUTO_TEST_SUITE( TestCImportMultitermFile )
 	BOOST_AUTO_TEST_CASE( get_multiterm6_line)
 	{
 		CMockListener listener ;
-		CImportMultitermFile importer(&listener) ;
+		app_props::properties_memory props ;
+		CImportMultitermFile importer(&listener, &props) ;
 		wstring text = L"spam\teggs\tcontext\r\n" ;
 		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(text.c_str()) ;

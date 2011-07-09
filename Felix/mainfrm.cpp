@@ -111,7 +111,8 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_manager_window(m_props, IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
-m_output_device(new OutputDeviceFile)
+	m_output_device(new OutputDeviceFile),
+	m_silent_memories(&props->m_mem_props, &props->m_gloss_props, &props->m_alg_props)
 {
 	initialize_values() ;
 
@@ -376,7 +377,9 @@ bool CMainFrame::export_tmx( const CString &file_name, mem_engine::memory_pointe
 		return false ;
 	}
 
-	CTMXWriter exporter( static_cast< CProgressListener* >( this ) ) ;
+	CTMXWriter exporter( static_cast< CProgressListener* >( this ),
+						&m_props->m_mem_props,
+						m_props->m_gen_props.get_user_name()) ;
 
 	set_exporter_src_and_target_langs(dialog, exporter);
 	file::CPath path(file_name) ;
@@ -413,7 +416,9 @@ bool CMainFrame::export_trados( const CString &file_name, mem_engine::memory_poi
 
 	mem->set_location( path.Path() ) ;
 	// create the exporter
-	TradosDataExporter exporter( tabulator.get_font_set( ), static_cast< CProgressListener* >( this ) ) ;
+	TradosDataExporter exporter( tabulator.get_font_set( ), 
+								static_cast< CProgressListener* >( this ),
+								&this->m_props->m_mem_props) ;
 	if ( ! exporter.open_destination( path.Path() ) )
 	{
 		user_feedback( IDS_MSG_EXPORT_FAILED ) ;
@@ -546,21 +551,21 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	}
 	foreach(tstring filename, options.m_tm_files)
 	{
-		memory_local *rawmem = new memory_local() ;
+		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
 		this->add_memory(mem) ;
 	}
 	foreach(tstring filename, options.m_glossary_files)
 	{
-		memory_local *rawmem = new memory_local() ;
+		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
 		this->get_glossary_window()->add_glossary(mem) ;
 	}
 	foreach(tstring filename, options.m_xml_files)
 	{
-		memory_local *rawmem = new memory_local() ;
+		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
 		if (mem->get_memory_info()->is_memory())
@@ -818,7 +823,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	memory_pointer mem(new mem_engine::memory_local()) ;
+	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
 
 	mem->set_is_memory( true ) ;
 
@@ -2238,7 +2243,7 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 		return 0L ;
 	}
 
-	m_props = props.get_properties() ;
+	*m_props = *props.get_properties() ;
 
 	m_props->write_to_registry() ;
 
@@ -3149,10 +3154,6 @@ WORD CMainFrame::get_current_gui_language()
 void CMainFrame::reflect_preferences()
 {
 	m_props->read_from_registry() ;
-
-	m_model->get_memories()->set_properties_memory( &m_props->m_mem_props ) ;
-	m_model->get_memories()->set_properties_gloss( &m_props->m_gloss_props ) ;
-	m_model->get_memories()->set_properties_algo( &m_props->m_alg_props ) ;
 
 	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
@@ -4083,7 +4084,7 @@ void CMainFrame::recalculate_match( search_match_ptr match, search_query_params 
 //! File -> Connect
 LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 {
-	CConnectionDlg dlg ;
+	CConnectionDlg dlg(&m_props->m_mem_props) ;
 	if (IDCANCEL == dlg.DoModal(*this))
 	{
 		return 0L ;
@@ -4521,7 +4522,7 @@ void CMainFrame::load_history()
 	{
 		try
 		{
-			memory_remote *mem = new memory_remote() ;
+			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
 			memory_pointer pmem(mem) ;
 			mem->connect(filename.c_str()) ;
 			this->add_memory(pmem) ;

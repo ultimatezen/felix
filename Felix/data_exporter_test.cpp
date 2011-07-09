@@ -5,13 +5,14 @@
 #include "ProgressListener.h"
 #include "output_device_fake.h"
 #include "MockListener.h"
+#include "felix_factory.h"
 
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
 
 	using namespace mem_engine ;
-
+	using namespace app_props ;
 	//////////////////////////////////////////////////////////////////////////
 	// TradosDataExporter
 	//////////////////////////////////////////////////////////////////////////
@@ -21,7 +22,8 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	{
 		std::set< wstring > fonts ;
 		CMockListener listener ;
-		TradosDataExporter exporter(fonts, &listener) ;
+		properties_memory mem_props ;
+		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = output_device_ptr (device) ;
 
@@ -42,7 +44,8 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	{
 		std::set< wstring > fonts ;
 		CMockListener listener ;
-		TradosDataExporter exporter(fonts, &listener) ;
+		properties_memory mem_props ;
+		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = output_device_ptr (device) ;
 
@@ -55,7 +58,8 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	{
 		std::set< wstring > fonts ;
 		CMockListener listener ;
-		TradosDataExporter exporter(fonts, &listener) ;
+		properties_memory mem_props ;
+		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = output_device_ptr (device) ;
 
@@ -69,7 +73,8 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 	{
 		std::set< wstring > fonts ;
 		CMockListener listener ;
-		TradosDataExporter exporter(fonts, &listener) ;
+		properties_memory mem_props ;
+		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
 
 		string escape = exporter.create_unicode_escape(L't', 't') ;
 		string actual = escape ;
@@ -93,7 +98,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
-		memory_pointer mem(new memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
 		rec1->set_source(L"‚è‚ñ‚²") ;
@@ -142,7 +147,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 		OutputDeviceFake *device = new OutputDeviceFake ;
 		exporter.m_file = boost::shared_ptr<OutputDevice>(device) ;
 
-		memory_pointer mem(new memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
 		rec1->set_source(L"‚è‚ñ‚²") ;

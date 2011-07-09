@@ -84,7 +84,7 @@ class CGlossaryDialog :
 
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
-	FelixModel					m_model ;
+	model_iface_ptr					m_model ;
 	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
 
 	CSearchWindow		m_search_window ;
@@ -124,7 +124,10 @@ public:
 		record ;
 		messages ;
 	}
-
+	app_props::props_ptr get_properties() 
+	{
+		return m_props ;
+	}
 	void set_zoom_level(int zoom_level);
 	void set_bg_color_if_needed();
 
@@ -136,9 +139,9 @@ public:
 	void check_save_history() ;
 	MERGE_CHOICE check_empty_on_load() ;
 
-	FelixModelInterface* get_model()
+	model_iface_ptr get_model()
 	{
-		return &m_model ;
+		return m_model ;
 	}
 	INT_PTR check_save_memory( mem_engine::memory_pointer mem );
 

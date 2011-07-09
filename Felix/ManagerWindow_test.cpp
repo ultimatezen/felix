@@ -18,16 +18,18 @@
 
 struct ManagerWindowTestSetup
 {
-	FelixModelInterfaceFake mem_model ;
-	FelixModelInterfaceFake gloss_model ;
+	model_iface_ptr mem_model ;
+	model_iface_ptr gloss_model ;
 	mgrview::ManagerViewFake *view ;
 	FrameListenerFake listener ;
 
-	ManagerWindowTestSetup(CManagerWindow *window)
+	ManagerWindowTestSetup(CManagerWindow *window) :
+		mem_model(new FelixModelInterfaceFake),
+		gloss_model(new FelixModelInterfaceFake)
 	{
 		window->m_listener = &listener ;
-		window->set_mem_model(&mem_model) ;
-		window->set_gloss_model(&gloss_model) ;
+		window->set_mem_model(mem_model) ;
+		window->set_gloss_model(gloss_model) ;
 		view = new mgrview::ManagerViewFake ;
 		window->m_current_state = mgrview::mgr_ptr(view) ;
 	}
@@ -35,21 +37,21 @@ struct ManagerWindowTestSetup
 	{
 		for (size_t i = 0 ; i < num ; ++i)
 		{
-			mem_model.add_memory() ;
+			mem_model->add_memory() ;
 		}
 	}
 	void add_glosses(size_t num)
 	{
 		for (size_t i = 0 ; i < num ; ++i)
 		{
-			gloss_model.add_memory() ;
+			gloss_model->add_memory() ;
 		}
 	}
 };
 
 BOOST_AUTO_TEST_SUITE( TestCManagerWindowNavTests )
 
-using namespace mem_engine ;
+	using namespace mem_engine ;
 
 	BOOST_AUTO_TEST_CASE(ends_with_pound)
 	{
@@ -78,9 +80,9 @@ using namespace mem_engine ;
 		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
-		memory_pointer mem1 = setup.mem_model.memory_at(1) ;
+		memory_pointer mem1 = setup.mem_model->memory_at(1) ;
 
-		memory_pointer retrieved = *window.get_mem_iter_at(&setup.mem_model, 1) ;
+		memory_pointer retrieved = *window.get_mem_iter_at(setup.mem_model, 1) ;
 
 		BOOST_CHECK_EQUAL( mem1->get_id(), retrieved->get_id()) ;
 	}
@@ -90,9 +92,9 @@ using namespace mem_engine ;
 		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
-		memory_pointer mem0 = setup.mem_model.memory_at(0) ;
+		memory_pointer mem0 = setup.mem_model->memory_at(0) ;
 
-		memory_pointer retrieved = *window.get_mem_iter_at(&setup.mem_model, 0) ;
+		memory_pointer retrieved = *window.get_mem_iter_at(setup.mem_model, 0) ;
 
 		BOOST_CHECK_EQUAL(mem0->get_id(), retrieved->get_id()) ;
 	}
@@ -102,11 +104,11 @@ using namespace mem_engine ;
 		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
-		memory_pointer mem1 = setup.mem_model.memory_at(1) ;
+		memory_pointer mem1 = setup.mem_model->memory_at(1) ;
 
-		window.swap_memories(&setup.mem_model, 0) ;
+		window.swap_memories(setup.mem_model, 0) ;
 
-		BOOST_CHECK_EQUAL( mem1->get_id(), setup.mem_model.memory_at(0)->get_id()) ;
+		BOOST_CHECK_EQUAL( mem1->get_id(), setup.mem_model->memory_at(0)->get_id()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( test_nav_moveup)
@@ -115,8 +117,8 @@ using namespace mem_engine ;
 		CManagerWindow window(props) ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_mems(2) ;
-		memory_pointer mem0 = setup.mem_model.memory_at(0) ;
-		memory_pointer mem1 = setup.mem_model.memory_at(1) ;
+		memory_pointer mem0 = setup.mem_model->memory_at(0) ;
+		memory_pointer mem1 = setup.mem_model->memory_at(1) ;
 		int id0 = mem0->get_id() ;
 		int id1 = mem1->get_id() ;
 		BOOST_CHECK(mem0->get_id() != mem1->get_id()) ;
@@ -125,8 +127,8 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_moveup") ;
 
-		mem0 = setup.mem_model.memory_at(0) ;
-		mem1 = setup.mem_model.memory_at(1) ;
+		mem0 = setup.mem_model->memory_at(0) ;
+		mem1 = setup.mem_model->memory_at(1) ;
 		BOOST_CHECK_EQUAL(id0, mem1->get_id()) ;
 		BOOST_CHECK_EQUAL(id1, mem0->get_id()) ;
 
@@ -139,8 +141,8 @@ using namespace mem_engine ;
 		ManagerWindowTestSetup setup(&window) ;
 		setup.add_glosses(2) ;
 
-		memory_pointer mem0 = setup.gloss_model.memory_at(0) ;
-		memory_pointer mem1 = setup.gloss_model.memory_at(1) ;
+		memory_pointer mem0 = setup.gloss_model->memory_at(0) ;
+		memory_pointer mem1 = setup.gloss_model->memory_at(1) ;
 		int id0 = mem0->get_id() ;
 		int id1 = mem1->get_id() ;
 		BOOST_CHECK(id0 != id1) ;
@@ -149,8 +151,8 @@ using namespace mem_engine ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_movedown") ;
 
-		mem0 = setup.gloss_model.memory_at(0) ;
-		mem1 = setup.gloss_model.memory_at(1) ;
+		mem0 = setup.gloss_model->memory_at(0) ;
+		mem1 = setup.gloss_model->memory_at(1) ;
 		BOOST_CHECK_EQUAL(id0, mem1->get_id()) ;
 		BOOST_CHECK_EQUAL(id1, mem0->get_id()) ;
 
@@ -338,7 +340,7 @@ using namespace mem_engine ;
 		tokens += "submit_edit", "mem", "0" ;
 
 		window.handle_edit_memory(tokens, doc) ;
-		mem_engine::MemoryInfo *header = setup.mem_model.memory_at(0)->get_memory_info() ;
+		mem_engine::MemoryInfo *header = setup.mem_model->memory_at(0)->get_memory_info() ;
 		BOOST_CHECK_EQUAL(header->get_creator(), L"Bozo") ;
 		BOOST_CHECK_EQUAL(header->get_field(), L"Ships") ;
 		BOOST_CHECK_EQUAL(header->get_created_on(), L"2010/08/01 11:11:11") ;
@@ -383,7 +385,7 @@ using namespace mem_engine ;
 		_bstr_t url = L"c:\\foo/0/mem/remove" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_remove") ;
-		BOOST_CHECK_EQUAL(0u, setup.mem_model.size()) ;
+		BOOST_CHECK_EQUAL(0u, setup.mem_model->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_addnew_mem)
 	{
@@ -394,7 +396,7 @@ using namespace mem_engine ;
 		_bstr_t url = L"c:\\foo/bar/mem/addnew" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_addnew") ;
-		BOOST_CHECK_EQUAL(1u, setup.mem_model.size()) ;
+		BOOST_CHECK_EQUAL(1u, setup.mem_model->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_addnew_gloss)
 	{
@@ -405,7 +407,7 @@ using namespace mem_engine ;
 		_bstr_t url = L"c:\\foo/bar/gloss/addnew" ;
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_addnew") ;
-		BOOST_CHECK_EQUAL(1u, setup.gloss_model.size()) ;
+		BOOST_CHECK_EQUAL(1u, setup.gloss_model->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_nav_load)
 	{

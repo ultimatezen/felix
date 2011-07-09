@@ -14,8 +14,10 @@ class CImportMultitermFile
 
 public:
 	mem_engine::memory_pointer	   m_memory ;
+	app_props::properties_memory	*m_mem_props ;
 
-	CImportMultitermFile(CProgressListener *listener);
+	CImportMultitermFile(CProgressListener *listener,
+						app_props::properties_memory *mem_props);
 	~CImportMultitermFile(void);
 
 	void import( const CString &file_name, input_device_ptr input );

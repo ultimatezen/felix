@@ -121,9 +121,6 @@ BOOST_AUTO_TEST_SUITE( view_state_review_test )
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
-		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
 
 		string expected("source") ;
 		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;

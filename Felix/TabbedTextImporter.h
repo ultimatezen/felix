@@ -13,7 +13,8 @@ class CTabbedTextImporter
 public:
 	mem_engine::memory_pointer	   m_memory ;
 
-	CTabbedTextImporter(CProgressListener *listener);
+	CTabbedTextImporter(CProgressListener *listener,
+						app_props::properties_memory *props);
 	~CTabbedTextImporter(void);
 
 	void add_record(const wstring line);

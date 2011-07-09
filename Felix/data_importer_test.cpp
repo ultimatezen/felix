@@ -3,6 +3,7 @@
 #include "memory_local.h"
 #include "ProgressListener.h"
 #include "MockListener.h"
+#include "felix_factory.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -23,7 +24,7 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 		importer.set_source_language( _T("JA") ) ;
 		importer.set_target_language( _T("EN-US") ) ;
 
-		mem_engine::memory_pointer mem(new mem_engine::memory_local());
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		bool LoadSuccess = importer.load(_T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt"), mem ) ;
 
 		BOOST_CHECK( LoadSuccess ) ;

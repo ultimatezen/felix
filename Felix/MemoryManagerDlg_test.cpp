@@ -2,8 +2,9 @@
 #include "MemoryManagerDlg.h"
 #include "record_local.h"
 #include "memory_local.h"
-
+#include "FelixModelInterface.h"
 #include <boost/test/unit_test.hpp>
+#include "felix_factory.h"
 
 #ifdef UNIT_TEST
 
@@ -12,12 +13,24 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 	using namespace mem_engine ;
 
+	typedef boost::shared_ptr<memory_model> model_ptr ;
+
+	model_ptr get_model()
+	{
+		app_props::props_ptr props = FelixFactory().make_props() ;
+
+		return model_ptr(new memory_model_mem(&props->m_mem_props,
+			&props->m_gloss_props,
+			&props->m_alg_props)) ;
+
+	}
+
 	void add_mems(CMemoryManagerDlg &dialog, CString name1, CString name2)
 	{
-		boost::shared_ptr<memory_model> model(new memory_model_mem) ;
-		memory_pointer mem1(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem1 = model->create_memory() ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local) ;
+		memory_pointer mem2 = model->create_memory() ;
 		mem2->set_location(name2) ;
 
 		model->insert_memory(mem1) ;
@@ -30,12 +43,12 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		CString name2,
 		CString name3)
 	{
-		boost::shared_ptr<memory_model> model(new memory_model_mem) ;
-		memory_pointer mem1(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem1 = model->create_memory() ;
 		mem1->set_location(name1) ;
-		memory_pointer mem2(new memory_local) ;
+		memory_pointer mem2 = model->create_memory() ;
 		mem2->set_location(name2) ;
-		memory_pointer mem3(new memory_local) ;
+		memory_pointer mem3 = model->create_memory() ;
 		mem3->set_location(name3) ;
 
 		model->insert_memory(mem1) ;
@@ -59,7 +72,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_memories)
 	{
-		boost::shared_ptr<mem_engine::memory_model> model(new mem_engine::memory_model_mem); 
+		model_ptr model = get_model() ;
 		CMemoryManagerDlg dialog ;
 		dialog.get_memories(model) ;
 		BOOST_CHECK_EQUAL(0u, model->get_memories().size()) ;
@@ -200,7 +213,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		props.read_from_registry() ;
 
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam") ;
 		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
 		wstring text = dialog.get_info_for_item(mem) ;
@@ -227,7 +241,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_saving_feedback)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam") ;
 		wstring text = dialog.get_saving_feedback(mem) ;
 		CStringA actual = text.c_str() ;
@@ -237,7 +252,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_save_prompt)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam.xml") ;
 		wstring text = dialog.get_save_prompt(mem) ;
 		CStringA actual = text.c_str() ;
@@ -259,7 +275,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_memory_name_new)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_memory_name(mem) ;
 		CStringA actual = text.c_str() ;
 		string expected = "New" ;
@@ -268,7 +285,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_memory_name_bill)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->set_location("c:\\foo\\bill.xml") ;
 		wstring text = dialog.get_memory_name(mem) ;
 		CStringA actual = text.c_str() ;
@@ -281,7 +299,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		props.read_from_registry() ;
 
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		string expected = (LPCSTR)(CT2A(props.m_data.m_user_name)) ;
@@ -290,7 +309,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_creator_name_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_creator(L"") ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
@@ -300,7 +320,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_creator_name_bill)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_creator(L"Bill") ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
@@ -311,7 +332,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_field_name_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_field_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		string expected = "Default" ;
@@ -320,7 +342,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_field_name_bill)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_field(L"Bill") ;
 		wstring text = dialog.get_field_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
@@ -332,7 +355,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_created_on_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring actual = dialog.get_created_on(mem->get_memory_info()) ;
 		misc_wrappers::date nowdate ;
 		nowdate.set_to_local_time() ;
@@ -342,7 +366,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_created_on_date)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
 		wstring text = dialog.get_created_on(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
@@ -354,7 +379,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_source_lang_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_source_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		string expected = "Default" ;
@@ -363,7 +389,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_source_lang_English)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_source_language(L"English") ;
 		wstring text = dialog.get_source_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
@@ -375,7 +402,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_target_lang_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_target_lang(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		string expected = "Default" ;
@@ -384,7 +412,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_target_lang_nihongo)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_target_language(L"日本語") ;
 		wstring actual = dialog.get_target_lang(mem->get_memory_info()) ;
 		wstring expected = L"日本語" ;
@@ -395,7 +424,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_client_name_empty)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_client_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
 		string expected = "Default" ;
@@ -404,7 +434,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_client_name_nihongo)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_client(L"日本語") ;
 		wstring actual = dialog.get_client_name(mem->get_memory_info()) ;
 		wstring expected = L"日本語" ;
@@ -415,7 +446,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_mem_size_0)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_mem_size(mem) ;
 		CStringA actual = text.c_str() ;
 		string expected = "0" ;
@@ -424,7 +456,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_mem_size_1)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"foo") ;
 		rec->set_trans(L"bar") ;
@@ -438,7 +471,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_file_size_0)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_file_size(mem) ;
 		CStringA actual = text.c_str() ;
 		string expected = "0" ;
@@ -447,7 +481,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_file_size_1)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		mem->set_location("c:\\test\\bigmem.xml") ;
 		wstring text = dialog.get_file_size(mem) ;
 		CStringA actual = text.c_str() ;
@@ -459,7 +494,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_reliability_range_0)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_reliability_range(mem) ;
 		CStringA actual = text.c_str() ;
 		string expected = "0 &ndash; 0 (Ave: 0.0)" ;
@@ -468,7 +504,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_reliability_range_2_9)
 	{
 		CMemoryManagerDlg dialog ;
-		memory_pointer mem(new memory_local) ;
+		model_ptr model = get_model() ;
+		memory_pointer mem = model->create_memory() ;
 
 		record_pointer rec1(new record_local) ;
 		rec1->set_reliability(2) ;

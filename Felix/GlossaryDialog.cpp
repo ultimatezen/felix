@@ -50,7 +50,10 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_manager_window(props, IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
-	m_output_device(new OutputDeviceFile)
+	m_output_device(new OutputDeviceFile),
+	m_model(new FelixModel(&props->m_mem_props,
+							&props->m_gloss_props,
+							&props->m_alg_props))
 { 
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
@@ -72,7 +75,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 
 	seed_random_numbers();
 
-	m_memories = m_model.get_memories() ; 
+	m_memories = m_model->get_memories() ; 
 	m_editor->m_is_glossary = true ;
 }
 
@@ -214,7 +217,7 @@ LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 {
-	CTabbedTextImporter importer(this) ;
+	CTabbedTextImporter importer(this, &m_props->m_mem_props) ;
 	importer.load_file(file_name) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
@@ -223,7 +226,7 @@ void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 //! Import a multiterm file
 void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
-	CImportMultitermFile importer(this) ;
+	CImportMultitermFile importer(this, &m_props->m_mem_props) ;
 	importer.import(file_name, get_input_device()) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
@@ -1888,7 +1891,7 @@ void CGlossaryDialog::edit_record( record_pointer rec )
 
 LRESULT CGlossaryDialog::on_file_connect()
 {
-	CConnectionDlg dlg ;
+	CConnectionDlg dlg(&m_props->m_mem_props) ;
 	if (IDCANCEL == dlg.DoModal(*this))
 	{
 		return 0L ;

@@ -50,14 +50,14 @@ STDMETHODIMP CMemories::Load(BSTR location, IMemory **pVal)
 
 	return S_OK ;
 }
-HRESULT CMemories::set_model( FelixModelInterface *model )
+HRESULT CMemories::set_model( model_iface_ptr model )
 {
 	m_mem_model = model ;
 
 	return load_memories(m_mem_model) ;
 }
 
-HRESULT CMemories::load_memories( FelixModelInterface *model )
+HRESULT CMemories::load_memories( model_iface_ptr model )
 {
 	m_coll.clear() ;
 

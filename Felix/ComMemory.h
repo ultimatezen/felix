@@ -24,6 +24,7 @@ class ATL_NO_VTABLE CComMemory :
 	typedef CComObject< CRecords > RecordsObject ;
 
 	RecordsObject *m_records ;
+	app_props::props_ptr m_props ;
 	mem_engine::memory_pointer m_memory ;
 
 public:

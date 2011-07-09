@@ -129,6 +129,10 @@ public:
 	{ 
 		return m_id ;
 	}
+	app_props::properties_memory *get_mem_properties()
+	{
+		return m_properties ;
+	}
 
 	void set_active_on() { m_is_active = true ; }
 	void set_active_off() { m_is_active = false ; }

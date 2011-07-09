@@ -106,31 +106,6 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4]), "set_bg_color_if_needed") ;
 	}
 
-	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
-	{
-		ViewStateMatchMain state ;
-		view_state_obj vso(&state) ;
-
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"before") ;
-		rec->set_trans(L"before") ;
-		vso.mem->add_record(rec) ;
-
-		// current match
-		vso.listener.item_under_edit->set_record(rec) ;
-		vso.listener.item_under_edit->set_memory_id(vso.mem->get_id()) ;
-
-
-		record_pointer new_rec(new record_local) ;
-		new_rec->set_source(L"source") ;
-		new_rec->set_trans(L"trans") ;
-
-		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
-
-		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
-	}
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_replace)
 	{
 		ViewStateMatchMain state ;
@@ -510,10 +485,6 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 		new_rec->set_trans(L"trans") ;
 
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
-
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
-		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
 
 		string expected("source") ;
 		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;

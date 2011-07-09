@@ -53,6 +53,9 @@ class TradosDataExporter
 
 public:
 	int m_p_depth;
+	TradosDataExporter( font_set &fonts, CProgressListener *listener,
+		app_props::properties_memory *props );
+	virtual ~TradosDataExporter();
 
 	void export_trados( mem_engine::memory_pointer mem ) ;
 	bool does_char_roundtrip(const wchar_t *c);
@@ -79,9 +82,6 @@ public:
 	bool write_key_value_pair( wstring key, wstring value ) ;
 	string get_color( const wstring value ) ;
 	void write_string( const string &str ) ;
-	TradosDataExporter( font_set &fonts, CProgressListener *listener,
-		app_props::properties_memory *props );
-	virtual ~TradosDataExporter();
 
 };
 

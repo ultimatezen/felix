@@ -18,12 +18,12 @@ namespace mgrview
 		m_view = view ;
 	}
 
-	void mgrview::ManagerView::set_mem_model( FelixModelInterface *model )
+	void mgrview::ManagerView::set_mem_model( model_iface_ptr model )
 	{
 		m_mem_model = model ;
 	}
 
-	void mgrview::ManagerView::set_gloss_model( FelixModelInterface *model )
+	void mgrview::ManagerView::set_gloss_model( model_iface_ptr model )
 	{
 		m_gloss_model = model ;
 	}

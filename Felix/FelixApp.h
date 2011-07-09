@@ -21,9 +21,9 @@ public:
 	static model_iface_ptr get_model_interface()
 	{
 		app_props::props_ptr props = get_props(); 
-		return model_iface_ptr(new FelixModelInterface(&props->m_mem_props,
+		return model_iface_ptr(new FelixModel(&props->m_mem_props,
 			&props->m_gloss_props,
-			&props->m_alg_props) ;
+			&props->m_alg_props)) ;
 	}
 	/** Get the MainFrame.
 	*/

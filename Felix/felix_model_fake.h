@@ -2,6 +2,7 @@
 
 #include "FelixModelInterface.h"
 #include "search_match.h"
+#include "felix_factory.h"
 
 class FelixModelInterfaceFake : public FelixModelInterface
 {
@@ -11,19 +12,16 @@ public:
 	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
 	typedef mem_engine::memory_pointer memory_type ;
 
-	app_props::properties_memory mem_props ;
-	app_props::properties_glossary gloss_props ;
-	app_props::properties_algorithm algo_props ;
-
 	model_ptr m_model ;
 	bool m_is_reverse_lookup ;
 
 	FelixModelInterfaceFake() :
 		m_is_reverse_lookup(false)
 	{
-		m_model = model_ptr(new mem_engine::memory_model_mem(&mem_props,
-			&gloss_props,
-			&algo_props)) ;
+		app_props::props_ptr props = FelixFactory().make_props() ;
+		m_model = model_ptr(new mem_engine::memory_model_mem(&props->m_mem_props,
+			&props->m_gloss_props,
+			&props->m_alg_props)) ;
 	}
 	
 	void get_memories_needing_saving( memory_list &memories )
@@ -56,5 +54,11 @@ public:
 		SENSE("get_memory_by_id") ;
 		return m_model->get_memory_by_id(id) ;
 	}
-
+	model_ptr create_memory_model()
+	{
+		app_props::props_ptr props = FelixFactory().make_props() ;
+		return model_ptr(new mem_engine::memory_model_mem(&props->m_mem_props,
+			&props->m_gloss_props,
+			&props->m_alg_props)) ;
+	}
 };

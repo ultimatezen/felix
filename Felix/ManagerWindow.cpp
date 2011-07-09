@@ -49,8 +49,6 @@ CManagerWindow::CManagerWindow(app_props::props_ptr props,
 	m_listener(listener),
 	m_title_id(title_id),
 	m_settings_key(key),
-	m_mem_model(NULL),
-	m_gloss_model(NULL),
 	m_current_item(0),
 	m_is_memory(true),
 	m_props(props)
@@ -371,11 +369,11 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
  The memory window will set this.
  It contains the list of memories/glossaries that we'll be searching.
  */
-void CManagerWindow::set_mem_model(FelixModelInterface *model)
+void CManagerWindow::set_mem_model(model_iface_ptr model)
 {
 	m_mem_model = model ;
 }
-void CManagerWindow::set_gloss_model(FelixModelInterface *model)
+void CManagerWindow::set_gloss_model(model_iface_ptr model)
 {
 	m_gloss_model = model ;
 }
@@ -787,14 +785,14 @@ bool CManagerWindow::nav_addnew(const std::vector<string> &tokens)
  swaps the memory at `index` with the one below it.
  i.e. if you specify index=0, it will swap the memories at indices 0 and 1
  */
-void CManagerWindow::swap_memories( FelixModelInterface *model, const int index )
+void CManagerWindow::swap_memories( model_iface_ptr model, const int index )
 {
 	memory_iterator pos1 = get_mem_iter_at(model, index) ;
 	memory_iterator pos2 = pos1 ; 
 	std::advance(pos2, 1) ;
 	std::swap(*pos1, *pos2) ;
 }
-mem_engine::memory_iterator CManagerWindow::get_mem_iter_at( FelixModelInterface *model,
+mem_engine::memory_iterator CManagerWindow::get_mem_iter_at( model_iface_ptr model,
 									   int sel )
 {
 	memory_iterator pos = model->begin() ;
@@ -900,7 +898,7 @@ LRESULT CManagerWindow::OnInitView()
 bool CManagerWindow::remove_all( const std::vector<string> &tokens )
 {
 	const bool is_memory = tokens[1] == "mem" ;
-	FelixModelInterface *controller = NULL ;
+	model_iface_ptr controller ;
 	if (is_memory)
 	{
 		controller = m_mem_model ;
@@ -1007,7 +1005,7 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 }
 
 
-void CManagerWindow::add_memory_files(FelixModelInterface *model,
+void CManagerWindow::add_memory_files(model_iface_ptr model,
 									  file::OpenDlgList &import_files)
 {
 	foreach(CString filename, import_files.m_filenames)
@@ -1016,7 +1014,7 @@ void CManagerWindow::add_memory_files(FelixModelInterface *model,
 	}
 }
 
-void CManagerWindow::add_memory_file( FelixModelInterface *model, CString filename )
+void CManagerWindow::add_memory_file( model_iface_ptr model, CString filename )
 {
 	const file::CPath path(filename) ;
 	if ( ! path.FileExists() ) // whoops -- file not there
@@ -1159,7 +1157,7 @@ void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
 
 void CManagerWindow::import_multiterm( const CString &file_name )
 {
-	CImportMultitermFile importer(this) ;
+	CImportMultitermFile importer(this, &m_props->m_mem_props) ;
 	input_device_ptr input(new InputDeviceFile) ;
 	importer.import(file_name, input) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
@@ -1168,7 +1166,7 @@ void CManagerWindow::import_multiterm( const CString &file_name )
 
 void CManagerWindow::import_tabbed_text( const CString &file_name )
 {
-	CTabbedTextImporter importer(this) ;
+	CTabbedTextImporter importer(this, &m_props->m_mem_props) ;
 	importer.load_file(file_name) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;

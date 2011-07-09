@@ -28,12 +28,11 @@ public:
 	DECLARE_SENSING_VAR ;
 
 	view_interface *m_view ;
-	FelixModelInterface *m_model ;
+	model_iface_ptr m_model ;
 	WindowListener *m_window_listener ;
 
 	ViewState():
 		m_view(NULL),
-		m_model(NULL),
 		m_window_listener(NULL)
 	{
 	}
@@ -41,7 +40,7 @@ public:
 	virtual ~ViewState(){}
 
 	void set_view(view_interface *view);
-	void set_model(FelixModelInterface *model);
+	void set_model(model_iface_ptr model);
 	void set_window_listener(WindowListener *listener);
 
 	void on_user_edit();

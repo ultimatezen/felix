@@ -5,7 +5,7 @@ namespace action
 {
 	using namespace mem_engine ;
 
-	DeleteMatchesAction::DeleteMatchesAction(FelixModelInterface *controller,
+	DeleteMatchesAction::DeleteMatchesAction(model_iface_ptr controller,
 		match_vec &matches) : 
 		m_controller(controller),
 		m_matches(matches)

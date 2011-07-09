@@ -117,20 +117,7 @@ using namespace mem_engine ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 	}
 
-	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
-	{
-		ViewStateInitialMain state ;
-		view_state_obj vso(&state) ;
 
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"source") ;
-		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
-
-		BOOST_CHECK_EQUAL(2u, vso.model.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[0], "get_memories") ;
-		BOOST_CHECK_EQUAL(vso.model.m_sensing_variable[1], "get_memory_by_id") ;
-	}
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_listener )
 	{
 		ViewStateInitialMain state ;

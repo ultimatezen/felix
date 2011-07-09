@@ -2,7 +2,7 @@
 #include "excelexporter.h"
 #include "memory_local.h"
 #include "record_local.h"
-
+#include "felix_factory.h"
 #ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 		CMockListener listener ;
 		CExcelExporter exporter(&listener, excelptr) ;
 
-		mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 
 		input_device_ptr input(new InputDeviceFake) ;
 		exporter.export_excel(mem, _T("foo.xls"), input) ;
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 		CMockListener listener ;
 		CExcelExporter exporter(&listener, excelptr) ;
 
-		mem_engine::memory_pointer mem(new mem_engine::memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"<bold>trans</bold>") ;

@@ -9,6 +9,8 @@
 const wchar_t* LOADED_HISTORY_FILENAME = L"felix_load_history.xml" ;
 const wchar_t* PREFS_FILENAME = L"felix_prefs.xml" ;
 
+string get_file_text(wstring filename, input_device_ptr input) ;
+
 struct xml_string_writer: pugi::xml_writer
 {
 	std::string result;
@@ -44,13 +46,17 @@ wstring get_config_filename(wstring filename, output_device_ptr output)
 string get_config_text(wstring filename, output_device_ptr output, input_device_ptr input)
 {
 	wstring config_filename = get_config_filename(filename, output) ;
-	if (! input->exists(config_filename.c_str()))
+	return get_file_text(config_filename, input) ;
+}
+string get_file_text(wstring filename, input_device_ptr input)
+{
+	if (! input->exists(filename.c_str()))
 	{
 		return string() ;
 	}
 	try
 	{
-		return string(input->create_view_const_char(config_filename.c_str())) ;
+		return string(input->create_view_const_char(filename.c_str())) ;
 	}
 	catch (except::CException& e)
 	{
@@ -86,6 +92,20 @@ namespace app_props
 		const string val = node.child(name.c_str()).child_value() ;
 		return string2ulong(val) ;
 	}
+	wstring read_xml_string(pugi::xml_node &node, string name)
+	{
+		const string val = node.child(name.c_str()).child_value() ;
+		return string2wstring(val) ;
+	}
+	pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) 
+	{
+		pugi::xml_node child = doc.child(node_name.c_str()) ;
+		if (! child )
+		{
+			child = doc.child("properties").child(node_name.c_str()) ;
+		}
+		return child ;
+	}
 
 	// write xml nodes
 	void write_xml_bool(pugi::xml_node &node, string name, BOOL val)
@@ -106,7 +126,10 @@ namespace app_props
 		child_node.set_name(name.c_str()) ;
 		child_node.append_child(pugi::node_pcdata).set_value(ulong2string(val).c_str());
 	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// properties_loaded_history
+	//////////////////////////////////////////////////////////////////////////
 	bool properties_loaded_history::write_xml_props()
 	{
 		output_device_ptr output(new OutputDeviceFile) ;
@@ -170,11 +193,7 @@ namespace app_props
 
 	void properties_loaded_history::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node child = doc.child("loaded_history") ;
-		if (! child )
-		{
-			child = doc.child("properties").child("loaded_history") ;
-		}
+		pugi::xml_node child = get_prop_node(doc, "loaded_history");
 		load_xml_props_type(child, m_loaded_mems, "loaded_mems") ;
 		load_xml_props_type(child, m_loaded_gloss, "loaded_gloss") ;
 		load_xml_props_type(child, m_loaded_remote_mems, "loaded_remote_mems") ;
@@ -239,6 +258,24 @@ namespace app_props
 		}
 	}
 
+	properties_loaded_history & properties_loaded_history::operator=( const properties_loaded_history &rhs )
+	{
+		m_data = rhs.m_data ;
+
+		std::vector<wstring> mem_tmp(rhs.m_loaded_mems) ;
+		m_loaded_mems.swap(mem_tmp) ;
+
+		std::vector<wstring> gloss_tmp(rhs.m_loaded_gloss) ;
+		m_loaded_gloss.swap(gloss_tmp) ;
+
+		std::vector<wstring> remote_mem_tmp(rhs.m_loaded_remote_mems) ;
+		m_loaded_remote_mems.swap(remote_mem_tmp) ;
+
+		std::vector<wstring> remote_gloss_tmp(rhs.m_loaded_remote_gloss) ;
+		m_loaded_remote_gloss.swap(remote_gloss_tmp) ;
+
+		return *this ;
+	}
 	// properties_memory
 
 	bool properties_memory::write_xml_props()
@@ -258,9 +295,17 @@ namespace app_props
 
 	void properties_memory::build_xml_doc( pugi::xml_node &prefs )
 	{
-		pugi::xml_node parent = prefs.append_child();
-		parent.set_name("properties_memory") ;
+		pugi::xml_node memory_node = prefs.append_child();
+		memory_node.set_name("properties_memory") ;
 
+		add_child(memory_node, "min_score", ulong2string(this->m_data.m_min_score)) ;
+		add_child(memory_node, "ignore_case", bool2string(!! this->m_data.m_ignore_case)) ;
+		add_child(memory_node, "ignore_width", bool2string(!! this->m_data.m_ignore_width)) ;
+		add_child(memory_node, "ignore_hir_kat", bool2string(!! this->m_data.m_ignore_hir_kat)) ;
+		add_child(memory_node, "plaintext", bool2string(!! this->m_data.m_plaintext)) ;
+		add_child(memory_node, "assess_format_penalty", bool2string(!! this->m_data.m_assess_format_penalty)) ;
+		add_child(memory_node, "place_numbers", bool2string(!! this->m_data.m_place_numbers)) ;
+		add_child(memory_node, "place_gloss", bool2string(!! this->m_data.m_place_gloss)) ;
 	}
 
 	void properties_memory::parse_xml_doc( pugi::xml_document &doc )
@@ -304,6 +349,18 @@ namespace app_props
 		pugi::xml_node parent = prefs.append_child();
 		parent.set_name("properties_glossary") ;
 
+		add_child(parent, "min_score", ulong2string(this->m_data.m_min_score)) ;
+		add_child(parent, "max_add", ulong2string(this->m_data.m_max_add)) ;
+		add_child(parent, "numbering", ulong2string(this->m_data.m_numbering)) ;
+		add_child(parent, "back_color", ulong2string(this->m_data.m_back_color)) ;
+
+		add_child(parent, "ignore_case", bool2string(!! this->m_data.m_ignore_case)) ;
+		add_child(parent, "plaintext", bool2string(!! this->m_data.m_plaintext)) ;
+		add_child(parent, "to_lower", bool2string(!! this->m_data.m_to_lower)) ;
+
+		add_child(parent, "ignore_width", bool2string(!! this->m_data.m_ignore_width)) ;
+		add_child(parent, "ignore_hir_kat", bool2string(!! this->m_data.m_ignore_hir_kat)) ;
+		add_child(parent, "simple_view", bool2string(!! this->m_data.m_simple_view)) ;
 	}
 
 	void properties_glossary::parse_xml_doc( pugi::xml_document &doc )
@@ -352,6 +409,7 @@ namespace app_props
 		pugi::xml_node parent = prefs.append_child();
 		parent.set_name("properties_algorithm") ;
 
+		add_child(parent, "match_algo", int2string(this->m_data.m_match_algo)) ;
 	}
 
 	void properties_algorithm::parse_xml_doc( pugi::xml_document &doc )
@@ -382,6 +440,12 @@ namespace app_props
 		pugi::xml_node parent = prefs.append_child();
 		parent.set_name("properties_view") ;
 
+		add_child(parent, "back_color", int2string(this->m_data.m_back_color)) ;
+		add_child(parent, "query_color", int2string(this->m_data.m_query_color)) ;
+		add_child(parent, "source_color", int2string(this->m_data.m_source_color)) ;
+		add_child(parent, "trans_color", int2string(this->m_data.m_trans_color)) ;
+
+		add_child(parent, "single_screen_matches", bool2string(!! this->m_data.m_single_screen_matches)) ;
 	}
 
 	void properties_view::parse_xml_doc( pugi::xml_document &doc )
@@ -416,6 +480,10 @@ namespace app_props
 		pugi::xml_node parent = prefs.append_child();
 		parent.set_name("properties_qc") ;
 
+		add_child(parent, "check_numbers", bool2string(!! this->m_data.m_check_numbers)) ;
+		add_child(parent, "check_all_caps", bool2string(!! this->m_data.m_check_all_caps)) ;
+		add_child(parent, "check_gloss", bool2string(!! this->m_data.m_check_gloss)) ;
+		add_child(parent, "live_checking", bool2string(!! this->m_data.m_live_checking)) ;
 	}
 
 	void properties_qc::parse_xml_doc( pugi::xml_document &doc )
@@ -448,6 +516,21 @@ namespace app_props
 		pugi::xml_node parent = prefs.append_child();
 		parent.set_name("properties_general") ;
 
+		add_child(parent, "window_size", int2string(this->m_data.m_window_size)) ;
+		add_child(parent, "preferred_gui_lang", int2string(this->m_data.m_preferred_gui_lang)) ;
+		add_child(parent, "merge_choice", int2string(this->m_data.m_merge_choice)) ;
+
+		add_child(parent, "load_prev_mem_on_startup", bool2string(!! this->m_data.m_load_prev_gloss_on_startup)) ;
+		add_child(parent, "load_prev_gloss_on_startup", bool2string(!! this->m_data.m_load_prev_gloss_on_startup)) ;
+		add_child(parent, "show_markup", bool2string(!! this->m_data.m_show_markup)) ;
+		add_child(parent, "first_launch", bool2string(!! this->m_data.m_first_launch)) ;
+
+		add_child(parent, "query_merge", bool2string(!! this->m_data.m_query_merge)) ;
+		add_child(parent, "old_mem_mgr", bool2string(!! this->m_data.m_old_mem_mgr)) ;
+
+
+		add_child(parent, "user_name", static_cast<const char*>(CW2A(this->m_data.m_user_name))) ;
+
 	}
 
 	void properties_general::parse_xml_doc( pugi::xml_document &doc )
@@ -466,13 +549,21 @@ namespace app_props
 		this->m_data.m_query_merge = read_xml_bool(parent, "query_merge") ;
 		this->m_data.m_old_mem_mgr = read_xml_bool(parent, "old_mem_mgr") ;
 
-		const string user_name = parent.child("user_name").child_value() ;
-		_tcscpy_s( m_data.m_user_name, MAX_PATH, string2wstring(user_name).c_str()) ;
+		const wstring user_name = read_xml_string(parent, "user_name") ;
+		_tcscpy_s( m_data.m_user_name, MAX_PATH, user_name.c_str()) ;
 	}
 
 	// properties
 	bool properties::read_from_registry()
 	{
+		output_device_ptr output(new OutputDeviceFile) ;
+		wstring filename = get_config_filename(PREFS_FILENAME, output) ;
+		if (this->load_file(filename))
+		{
+			return true ;
+		}
+
+
 		bool retval = true ;
 
 		if ( ! m_mem_props.read_from_registry() )
@@ -508,6 +599,31 @@ namespace app_props
 
 	bool properties::write_to_registry()
 	{
+		output_device_ptr output(new OutputDeviceFile) ;
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+
+		m_mem_props.build_xml_doc(preferences) ;
+		m_gloss_props.build_xml_doc(preferences) ;
+		m_gen_props.build_xml_doc(preferences) ;
+		m_alg_props.build_xml_doc(preferences) ;
+		m_view_props.build_xml_doc(preferences) ;
+		m_qc_props.build_xml_doc(preferences) ;
+		m_history_props.build_xml_doc(preferences) ; 
+
+		wstring config_filename = get_config_filename(PREFS_FILENAME, output) ;
+
+		xml_string_writer writer ;
+		doc.save(writer) ;
+		string text = writer.result ;
+		output->open(config_filename.c_str()) ;
+		output->write(text) ;
+		output->close() ;
+
+
+		return true ;
+
 		bool retval = true ;
 
 		if ( ! m_mem_props.write_to_registry() )
@@ -539,5 +655,37 @@ namespace app_props
 			retval = false ;
 		}
 		return retval ;
+	}
+
+	void properties::parse_xml_doc( pugi::xml_document &doc )
+	{
+		m_mem_props.parse_xml_doc(doc) ;
+		m_gloss_props.parse_xml_doc(doc) ;
+		m_gen_props.parse_xml_doc(doc) ;
+		m_alg_props.parse_xml_doc(doc) ;
+		m_view_props.parse_xml_doc(doc) ;
+		m_qc_props.parse_xml_doc(doc) ;
+		m_history_props.parse_xml_doc(doc) ;
+	}
+
+	bool properties::load_file( wstring filename )
+	{
+		input_device_ptr input(new InputDeviceFile) ;
+		string text = get_file_text(filename, input) ;
+		if (text.empty())
+		{
+			return false ;
+		}
+		pugi::xml_document doc;
+
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		if (result.status != pugi::status_ok)
+		{
+			logging::log_error("Failed to parse felix preferences file: " + string2string(filename)) ;
+			return false ;
+		}
+		this->parse_xml_doc(doc) ;
+
+		return true ;
 	}
 }

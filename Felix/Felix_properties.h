@@ -19,19 +19,28 @@
  */
 namespace app_props
 {
+	// read/write xml
+
+	// read xml values
 	BOOL read_xml_bool(pugi::xml_node &node, string name) ;
 	long read_xml_long(pugi::xml_node &node, string name) ;
 	unsigned long read_xml_ulong(pugi::xml_node &node, string name) ;
+	wstring read_xml_string(pugi::xml_node &node, string name) ;
+	// write xml values
 	void write_xml_bool(pugi::xml_node &node, string name, BOOL val) ;
 	void write_xml_long(pugi::xml_node &node, string name, long val) ;
 	void write_xml_ulong(pugi::xml_node &node, string name, unsigned long val) ;
 
-	static const int NumMems = 15 ;
+	pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
+
 /**
 	@struct properties_loaded_history 
 	@brief remembers what memories/glossaries we had loaded.
  */
-struct properties_loaded_history : public props::CRegMap
+	// constant for old registry verison
+	static const int NumMems = 15 ;
+
+	struct properties_loaded_history : public props::CRegMap
 {
 	std::vector<wstring> m_loaded_mems ;
 	std::vector<wstring> m_loaded_gloss ;
@@ -83,11 +92,7 @@ struct properties_loaded_history : public props::CRegMap
 		m_data( rhs.m_data )
 	{
 	}
-	properties_loaded_history &operator=( const properties_loaded_history &rhs )
-	{
-		m_data = rhs.m_data ;
-		return *this ;
-	}
+	properties_loaded_history &operator=( const properties_loaded_history &rhs );
 	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name) ;
 	bool load_xml_props();
 
@@ -734,10 +739,9 @@ struct properties_qc : public props::CRegMap
 	void build_xml_doc( pugi::xml_node &prefs );
 	void parse_xml_doc( pugi::xml_document &doc );
 } ;
-/**
-	@	struct properties_general 
-	@brief general properties.
 
+/**
+properties_general
 */
 struct properties_general : public props::CRegMap
 {
@@ -796,6 +800,10 @@ struct properties_general : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
+	wstring get_user_name()
+	{
+		return wstring(m_data.m_user_name) ;
+	}
 
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 
@@ -842,8 +850,7 @@ struct properties_general : public props::CRegMap
 } ;
 
 /**
-@	struct properties
-@brief application properties holder.
+struct properties
 */
 struct properties
 {
@@ -867,7 +874,10 @@ struct properties
 
 		return *this ;
 	}
+	bool load_file(wstring filename);
 	bool read_from_registry();
+
+	void parse_xml_doc( pugi::xml_document &doc );
 	bool write_to_registry();
 } ;
 

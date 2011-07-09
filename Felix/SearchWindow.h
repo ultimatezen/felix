@@ -34,7 +34,7 @@ class CSearchWindow :
 	typedef mem_engine::search_match_ptr search_match_ptr ;
 public:
 
-	FelixModelInterface *m_controller ;
+	model_iface_ptr m_controller ;
 
 	// location of window settings
 	CString m_settings_key ;
@@ -81,7 +81,7 @@ public:
 	void set_mem_window(bool is_mem);
 	void save_window_settings();
 
-	void set_mem_controller(FelixModelInterface * controller);
+	void set_mem_controller(model_iface_ptr  controller);
 
 	// ========================
 	// URL navigation

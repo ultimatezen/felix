@@ -3,6 +3,7 @@
 #include "memory_local.h"
 #include "record_local.h"
 #include "search_match.h"
+#include "felix_factory.h"
 
 #ifdef UNIT_TEST
 
@@ -23,14 +24,14 @@ BOOST_AUTO_TEST_SUITE(TestDeleteEntryAction)
 
 	BOOST_AUTO_TEST_CASE(instantiate)
 	{
-		me::memory_pointer mem(new me::memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
 		action::DeleteEntryAction deleter(mem, rec) ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 1u) ;
 	}
 	BOOST_AUTO_TEST_CASE(add_and_delete_one_record)
 	{
-		me::memory_pointer mem(new me::memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
 
 		action::DeleteEntryAction deleter(mem, rec) ;
@@ -40,7 +41,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteEntryAction)
 	}
 	BOOST_AUTO_TEST_CASE(delete_and_undelete_one_record)
 	{
-		me::memory_pointer mem(new me::memory_local) ;
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
 
 		action::DeleteEntryAction deleter(mem, rec) ;

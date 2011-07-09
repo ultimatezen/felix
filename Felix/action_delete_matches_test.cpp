@@ -34,17 +34,17 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 	BOOST_AUTO_TEST_CASE(instantiate)
 	{
-		FelixModelInterfaceFake model ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
 		match_vec matches ;
 
-		DeleteMatchesAction deleter(&model, matches) ;
+		DeleteMatchesAction deleter(model, matches) ;
 		BOOST_CHECK_EQUAL(deleter.m_controller->size(), 0u) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(delete_one)
 	{
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = model.add_memory() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		memory_pointer mem = model->add_memory() ;
 
 		record_pointer rec = make_record("foo", "bar") ;
 
@@ -53,15 +53,15 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
 
-		DeleteMatchesAction deleter(&model, matches) ;
+		DeleteMatchesAction deleter(model, matches) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 0u) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(delete_two)
 	{
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = model.add_memory() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		memory_pointer mem = model->add_memory() ;
 
 		record_pointer rec1 = make_record("foo1", "bar") ;
 		record_pointer rec2 = make_record("foo2", "bar") ;
@@ -72,15 +72,15 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;
 
-		DeleteMatchesAction deleter(&model, matches) ;
+		DeleteMatchesAction deleter(model, matches) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 0u) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(undo_delete_one)
 	{
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = model.add_memory() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		memory_pointer mem = model->add_memory() ;
 		record_pointer rec = make_record("foo", "bar") ;
 
 		match_vec matches ;
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
 
-		DeleteMatchesAction deleter(&model, matches) ;
+		DeleteMatchesAction deleter(model, matches) ;
 		deleter.redo() ;
 		deleter.undo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
@@ -96,8 +96,8 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 	BOOST_AUTO_TEST_CASE(undo_delete_two)
 	{
-		FelixModelInterfaceFake model ;
-		memory_pointer mem = model.add_memory() ;
+		model_iface_ptr model(new FelixModelInterfaceFake) ;
+		memory_pointer mem = model->add_memory() ;
 		record_pointer rec1 = make_record("foo1", "bar") ;
 		record_pointer rec2 = make_record("foo2", "bar") ;
 
@@ -107,19 +107,12 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;
 
-		DeleteMatchesAction deleter(&model, matches) ;
+		DeleteMatchesAction deleter(model, matches) ;
 		deleter.redo() ;
 		deleter.undo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;
 	}
-	//BOOST_AUTO_TEST_CASE(test_name)
-	//{
-	//	FelixModelInterfaceFake model ;
-	//	match_vec matches ;
 
-	//	DeleteMatchesAction deleter(&model, matches) ;
-	//	BOOST_CHECK_EQUAL(deleter.name(), L"Delete Matches") ;
-	//}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -1080,7 +1080,7 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_ignore_case = true ;
 
 		app_props::properties_glossary glossprops ;
-		props.m_data.m_min_score = 50 ;
+		glossprops.m_data.m_min_score = 50 ;
 		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
@@ -1107,7 +1107,7 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_ignore_case = true ;
 
 		app_props::properties_glossary glossprops ;
-		props.m_data.m_min_score = 50 ;
+		glossprops.m_data.m_min_score = 50 ;
 		mem.set_properties_glossary(&glossprops) ;
 
 		mem.get_glossary_matches(matches, params) ;
@@ -1135,6 +1135,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"I'll HAVE SPAM, EGG, SAUSAGE AND SPAM." ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_glossary_matches(matches, params) ;
 
 		BOOST_CHECK_EQUAL(3, (int)matches.size()) ;
@@ -1155,6 +1157,8 @@ BOOST_AUTO_TEST_SUITE( test_get_glossary_matches )
 		params.m_source = L"i'll have spam, egg, sausage and spam." ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_glossary_matches(matches, params) ;
 
 		BOOST_CHECK_EQUAL(3, (int)matches.size()) ;
@@ -1185,6 +1189,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"私はスパムが大好きだ。" ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1205,6 +1211,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"私は豚肉が大好きだ。" ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1225,6 +1233,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"私はりんごが大好きだ。" ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1243,6 +1253,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"ビニロン" ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
@@ -1266,6 +1278,8 @@ BOOST_AUTO_TEST_SUITE( test_get_gloss_fuzzy )
 		params.m_source = L"私はベーが大好きだ。" ;
 		params.m_ignore_case = true ;
 
+		app_props::properties_glossary glossprops ;
+		mem.set_properties_glossary(&glossprops) ;
 		mem.m_gloss_properties->set_min_score(10) ;
 		mem.get_gloss_fuzzy(matches, params) ;
 

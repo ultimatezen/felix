@@ -24,7 +24,8 @@ public:
 	DECLARE_SENSING_VAR ;
 
 	mem_engine::memory_pointer m_memory ;
-	CConnectionDlg();
+	app_props::properties_memory *m_props ;
+	CConnectionDlg(app_props::properties_memory *props);
 
 	LRESULT OnInitDialog( );
 	LRESULT OnOK(  WORD wID );
