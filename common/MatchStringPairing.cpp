@@ -6,7 +6,7 @@
 #include "StdAfx.h"
 #include "MatchStringPairing.h"
 #include "EASYSTL/algorithmx.h"
-#include "match_maker.h"
+#include "stringex.h"
 
 /**
 * Changes numbers to their narrow versions.
@@ -179,7 +179,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 			// is the num in the translation? (but only once...)
 			size_t TransPos = trans.first.find( SourceNum ) ;
-			if (TransPos == wstring::npos && mem_engine::has_asian(SourceNum))
+			if (TransPos == wstring::npos && has_asian(SourceNum))
 			{
 				wstring newsource ;
 				foreach(wchar_t c, SourceNum)
@@ -193,7 +193,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 			if( IsSubstitution(trans, SourceNum, TransPos, QueryNum) ) 
 			{
 				PairedNums = true ;
-				if (! mem_engine::has_asian(SourceNum) && mem_engine::has_asian(QueryNum))
+				if (! has_asian(SourceNum) && has_asian(QueryNum))
 				{
 					wstring newsource ;
 					foreach(wchar_t c, QueryNum)

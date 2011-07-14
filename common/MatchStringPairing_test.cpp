@@ -219,12 +219,12 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		std::pair< wstring, wstring > trans( L"<a> & <b>1", L"<a> & <b>1" ) ;
 
 		BOOST_CHECK(pairing.PlaceNumbers( trans )) ;
-		string expected = "&lt;a&gt; &amp; &lt;b&gt;2" ;
-		string actual = (LPCSTR)CStringA(trans.first.c_str()) ;
+		wstring expected = L"&lt;a&gt; &amp; &lt;b&gt;2" ;
+		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
-		expected = "&lt;a&gt; &amp; &lt;b&gt;<span class=\"placement\">2</span>" ;
-		actual = (LPCSTR)CStringA(trans.second.c_str()) ;
+		expected = L"&lt;a&gt; &amp; &lt;b&gt;<span class=\"placement\">2</span>" ;
+		actual = trans.second ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
 	}
@@ -431,8 +431,8 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 			L"<a>", 
 			L"<a>") ;
 
-		string markup = string2string(pairing.MarkupSource()) ;
-		BOOST_CHECK_EQUAL("&lt;a&gt;", markup) ;
+		wstring markup = pairing.MarkupSource() ;
+		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
@@ -443,8 +443,8 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 			L"<a>", 
 			L"<a>") ;
 
-		string markup = string2string(pairing.MarkupQuery()) ;
-		BOOST_CHECK_EQUAL("&lt;a&gt;", markup) ;
+		wstring markup = pairing.MarkupQuery() ;
+		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
 		BOOST_CHECK_CLOSE( (double)1.0f, pairing.CalcScore(), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialNoMatch )
@@ -453,12 +453,12 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 
 		pairing.NoMatch( L'a', L'a' ) ;
 
-		CStringA expected = "<span class=\"nomatch\">a</span>" ;
+		wstring expected = L"<span class=\"nomatch\">a</span>" ;
 
-		CStringA actual = pairing.MarkupSource().c_str() ;
+		wstring actual = pairing.MarkupSource() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		actual = pairing.MarkupQuery().c_str() ;
+		actual = pairing.MarkupQuery() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 		BOOST_CHECK_CLOSE( (double)0.0f, pairing.CalcScore(), 0.00001 ) ;
