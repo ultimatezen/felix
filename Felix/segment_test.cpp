@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	BOOST_AUTO_TEST_CASE( test_instantiate)
 	{
 		CmpMaker maker ;
-		Segment segment(maker) ;
+		Segment segment(&maker) ;
 		BOOST_CHECK_EQUAL(segment.rich(), L"") ;
 		BOOST_CHECK_EQUAL(segment.plain(), L"") ;
 		BOOST_CHECK_EQUAL(segment.cmp(), L"") ;
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	{
 		CmpMaker maker ;
 		wstring value = L"<b>spam</b>" ;
-		Segment segment(maker, value) ;
+		Segment segment(&maker, value) ;
 		BOOST_CHECK_EQUAL(segment.rich(), L"<b>spam</b>") ;
 		BOOST_CHECK_EQUAL(segment.plain(), L"spam") ;
 		BOOST_CHECK_EQUAL(segment.cmp(), L"spam") ;
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	{
 		CmpMaker maker ;
 		wstring value = L"<b>spam</b>" ;
-		Segment segment(maker, value) ;
+		Segment segment(&maker, value) ;
 		Segment segment2(segment) ;
 		BOOST_CHECK_EQUAL(segment2.rich(), L"<b>spam</b>") ;
 		BOOST_CHECK_EQUAL(segment2.plain(), L"spam") ;
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	{
 		CmpMaker maker ;
 		wstring value = L"<b>spam</b>" ;
-		Segment segment(maker, value) ;
+		Segment segment(&maker, value) ;
 		Segment segment2 ;
 		segment2 = segment ;
 		BOOST_CHECK_EQUAL(segment2.rich(), L"<b>spam</b>") ;
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 		CmpMaker maker ;
 		maker.m_ignore_case = true ;
 		wstring value = L"<b>SPAM</b>" ;
-		Segment segment(maker, value) ;
+		Segment segment(&maker, value) ;
 		BOOST_CHECK_EQUAL(segment.rich(), L"<b>SPAM</b>") ;
 		BOOST_CHECK_EQUAL(segment.plain(), L"SPAM") ;
 		BOOST_CHECK_EQUAL(segment.cmp(), L"spam") ;
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	{
 		CmpMaker maker ;
 		maker.m_ignore_case = true ;
-		Segment segment(maker) ;
+		Segment segment(&maker) ;
 		wstring value = L"<b>SPAM</b>" ;
 		segment.set_value(value) ;
 		BOOST_CHECK_EQUAL(segment.rich(), L"<b>SPAM</b>") ;
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_SUITE( TestSegment )
 	BOOST_AUTO_TEST_CASE( test_set_value_twice)
 	{
 		CmpMaker maker ;
-		Segment segment(maker) ;
+		Segment segment(&maker) ;
 		wstring value = L"<b>eggs</b>" ;
 		segment.set_value(value) ;
 		wstring value2 = L"<span class='notmuch'><b>spam</b></span>" ;

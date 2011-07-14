@@ -3,6 +3,7 @@
 
 // shell API support
 #include <shlobj.h>
+#include "Path.h"
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations
@@ -154,7 +155,7 @@ file_logger::file_logger()
 	return ;
 #else
 
-	TCHAR szPath[MAX_PATH];
+	TCHAR szPath[MAX_PATH] = {0};
 	COM_ENFORCE(SHGetFolderPath(NULL, // hwndOwner
 		CSIDL_LOCAL_APPDATA,		  // nFolder
 		(HANDLE)NULL,				  // hToken (-1 means "default user")
@@ -162,11 +163,12 @@ file_logger::file_logger()
 		szPath
 		), _T("Failed to retrieve local app data folder") ) ; 
 
-	fs::wpath pathname = fs::wpath(szPath) 
-		/ _T("Felix") 
-		/ _T("logs") 
-		/ LOGFILE_NAME ;
-	m_logfile_name = CString(pathname.string().c_str()) ;
+	CString basepath(szPath) ;
+	file::CPath pathname(basepath) ;
+	pathname.Append(CString(_T("Felix"))) ;
+	pathname.Append(CString(_T("logs"))) ;
+	pathname.Append(CString(LOGFILE_NAME)) ;
+	m_logfile_name = pathname.Path() ;
 #endif
 }
 

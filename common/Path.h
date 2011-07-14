@@ -109,7 +109,7 @@ namespace file
 		* This function automatically inserts a backslash between the two 
 		* strings, if one is not already present.
 		*/
-		BOOL Append( const CString &appended_path )
+		BOOL Append( const CString appended_path )
 		{
 			int len_needed = m_path.GetLength() + appended_path.GetLength() + 2 ;
 			BOOL res = PathAppend( m_path.GetBuffer( len_needed ), appended_path ) ;

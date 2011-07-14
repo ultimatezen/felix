@@ -472,15 +472,15 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 		item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
 
 		// other info
-		const wstring filename = match->get_memory_location() ;
+		const CString filename = match->get_memory_location().c_str() ;
 		wstring loc ;
-		if ( filename.empty() )
+		if ( filename.IsEmpty() )
 		{
 			loc = R2WSTR( IDS_NEW ) ;
 		}
 		else
 		{
-			loc = fs::wpath(filename).leaf();		
+			loc = (LPCTSTR)file::CPath(filename).FindFileName() ;		
 		}
 
 		item[L"mem"] = cpptempl::make_data(loc) ;

@@ -2047,7 +2047,7 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
 
 	CQueryMergeDlg dlg(IDS_MERGE_MEM_TITLE, 
 		IDS_MERGE_MEM_TEXT, 
-		fs::wpath( mem->get_location() ).leaf()) ;
+		file::CPath(mem->get_location()).Path()) ;
 
 	return get_merge_choice(dlg);
 }
@@ -3559,14 +3559,13 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 {
 	match_maker matcher( 0.0 ) ; // show score no matter what
 
-	CmpMaker maker ;
-	maker.m_ignore_case = m_trans_matches.m_params.m_ignore_case ;
-	maker.m_ignore_hira_kata = m_trans_matches.m_params.m_ignore_hira_kata ;
-	maker.m_ignore_width = m_trans_matches.m_params.m_ignore_width ;
+	g_cmp_maker.m_ignore_case = m_trans_matches.m_params.m_ignore_case ;
+	g_cmp_maker.m_ignore_hira_kata = m_trans_matches.m_params.m_ignore_hira_kata ;
+	g_cmp_maker.m_ignore_width = m_trans_matches.m_params.m_ignore_width ;
 
 	const wstring search_segment = m_trans_matches.get_query_rich();
 
-	const Segment query(maker, search_segment) ;
+	const Segment query(&g_cmp_maker, search_segment) ;
 	record_pointer rec = match->get_record() ;
 
 	int match_algo = m_trans_matches.m_params.m_match_algo ;
@@ -3578,7 +3577,7 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 	if ( m_model->is_reverse_lookup() )
 	{
 		// look up based on translation
-		const Segment source(maker, rec->get_trans_rich()) ;
+		const Segment source(&g_cmp_maker, rec->get_trans_rich()) ;
 		matcher.get_trans_score(query, 
 			source, 
 			match_algo,
@@ -3587,7 +3586,7 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 	else
 	{
 		// look up normally (using source)
-		const Segment source(maker, rec->get_source_rich()) ;
+		const Segment source(&g_cmp_maker, rec->get_source_rich()) ;
 		matcher.get_score(query, 
 			source, 
 			match_algo,

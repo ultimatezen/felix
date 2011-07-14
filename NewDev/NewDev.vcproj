@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common\MatchStringPairing.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NewDev.cpp"
 				>
 			</File>
@@ -222,6 +226,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\common\MatchStringPairing_test.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\common\qcrules\number_check_test.cpp"
 					>
 				</File>
@@ -246,6 +254,10 @@
 			</File>
 			<File
 				RelativePath="..\common\qcrules\gloss_check.h"
+				>
+			</File>
+			<File
+				RelativePath="..\common\MatchStringPairing.h"
 				>
 			</File>
 			<File

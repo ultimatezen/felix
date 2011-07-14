@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "QueryMergeDlg.h"
 
-CQueryMergeDlg::CQueryMergeDlg(int title_res_id, int text_res_id, const tstring mem_name)
+CQueryMergeDlg::CQueryMergeDlg(int title_res_id, int text_res_id, const CString mem_name)
 : m_bDontAsk(FALSE), 
 	m_iMerge(IDC_MERGE)
 {
 	ATLVERIFY(m_title.LoadString(title_res_id)) ;
-	m_merge_message.Format(resource_string(text_res_id), mem_name.c_str()) ;
+	m_merge_message.Format(resource_string(text_res_id), mem_name) ;
 }
 
 LRESULT CQueryMergeDlg::OnDupMsgStnDblClk(int, UINT, HWND)

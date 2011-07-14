@@ -83,15 +83,15 @@ namespace mgrview
 			item[L"creator"] = cpptempl::make_data(record->get_creator()) ;
 			item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
 			// other info
-			const wstring filename = (LPCWSTR)mem->get_location() ;
+			file::CPath filename(mem->get_location()) ;
 			wstring loc ;
-			if ( filename.empty() )
+			if ( filename.Path().IsEmpty() )
 			{
 				loc = R2WSTR( IDS_NEW ) ;
 			}
 			else
 			{
-				loc = fs::wpath(filename).leaf();		
+				loc = filename.FindFileName() ;		
 			}
 
 			item[L"mem"] = cpptempl::make_data(loc) ;

@@ -27,7 +27,7 @@ public:
 	static const int IDD = IDD_QUERY_MERGE_DLG ;
 	DECLARE_SENSING_VAR ;
 
-	CQueryMergeDlg(int title_res_id, int text_res_id, const tstring mem_name);
+	CQueryMergeDlg(int title_res_id, int text_res_id, const CString mem_name);
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnRadioMerge(WORD, WORD, HWND, BOOL& );

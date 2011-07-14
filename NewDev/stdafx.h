@@ -13,6 +13,12 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <atlstr.h>
+#include <atltypes.h>
+#define _WTL_NO_CSTRING
+#define _WTL_NO_WTYPES
+#define _WTL_NO_UNION_CLASSES
+
 // C RunTime Header Files
 #include <stdlib.h>
 #include <malloc.h>
@@ -24,6 +30,9 @@ using boost::format;
 using boost::wformat ;
 typedef boost::basic_format< TCHAR > tformat;
 
+#include <boost/foreach.hpp>
+using namespace boost::foreach ;
+#define foreach BOOST_FOREACH
 
 #include <iostream>
 #include <ostream>

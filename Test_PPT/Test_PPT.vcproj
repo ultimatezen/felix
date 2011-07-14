@@ -41,6 +41,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;C:\dev\cpp\Assistant Suite\PowerPointAssist\PowerPointAssist&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;UNIT_TEST"
@@ -118,6 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"

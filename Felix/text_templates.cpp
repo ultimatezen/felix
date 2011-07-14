@@ -12,22 +12,21 @@ namespace cpptempl
 
 	CString calculate_template_filename(const CString filename)
 	{
-		const fs::wpath pathname = fs::wpath(static_cast<LPCTSTR>(fileops::get_local_appdata_folder())) 
-			/ _T("Felix") 
-			/ _T("html")
-			/ R2T(IDS_LANG_CODE)
-			/ filename ;
-		return CString(pathname.string().c_str()) ;
+		file::CPath modpath(fileops::get_local_appdata_folder()) ;
+		modpath.Append(_T("Felix")) ;
+		modpath.Append(_T("html")) ;
+		modpath.Append(R2T(IDS_LANG_CODE)) ;
+		modpath.Append(filename) ;
+		return modpath.Path() ;
 	}
 	CString calculate_module_template_filename(const CString filename)
 	{
 		file::CPath modpath ;
 		modpath.GetModulePath(_Module.GetModuleInstance()) ;
-		const fs::wpath fullpathname = fs::wpath((LPCTSTR)modpath.Path()) 
-			/ _T("html")
-			/ R2T(IDS_LANG_CODE)
-			/ filename ;
-		return CString(fullpathname.string().c_str()) ;
+		modpath.Append(_T("html")) ;
+		modpath.Append(R2T(IDS_LANG_CODE)) ;
+		modpath.Append(filename) ;
+		return modpath.Path() ;
 	}
 	CString get_module_template_filename(const CString filename, const CString tpl_filename)
 	{

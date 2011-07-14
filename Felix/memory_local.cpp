@@ -112,7 +112,7 @@ namespace mem_engine
 			}
 		}
 
-		record->set_cmp_maker(m_cmp_maker) ;
+		record->set_cmp_maker(&m_cmp_maker) ;
 
 		// returns iterator for next pos, and whether record was inserted.
 		const std::pair< record_iterator, bool > res = m_records.insert( record ) ;
@@ -142,7 +142,7 @@ namespace mem_engine
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
-		Segment segment(m_cmp_maker, query) ;
+		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
 		foreach ( record_pointer record, m_records )
@@ -158,7 +158,7 @@ namespace mem_engine
 	{
 		Distance distance ;
 		distance.set_minscore(min_score) ;
-		Segment segment(m_cmp_maker, query) ;
+		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
 		foreach ( record_pointer record, m_records )
@@ -400,7 +400,7 @@ namespace mem_engine
 		new_rec->get_creator() ;
 		new_rec->get_modified_by() ;
 
-		new_rec->set_cmp_maker(m_cmp_maker) ;
+		new_rec->set_cmp_maker(&m_cmp_maker) ;
 		m_records.insert(new_rec) ;
 
 		// memory is now dirty
@@ -438,13 +438,13 @@ namespace mem_engine
 		{
 			foreach(record_pointer record, m_records)
 			{
-				record->set_cmp_maker(m_cmp_maker) ;
+				record->set_cmp_maker(&m_cmp_maker) ;
 			}
 		}
 	}
 	void memory_local::get_gloss_100(search_match_container& matches, const search_query_params& params)
 	{
-		Segment query(m_cmp_maker, params.m_source) ;
+		Segment query(&m_cmp_maker, params.m_source) ;
 		gloss_match_tester tester(query.cmp()) ;
 		tester.set_search_match(this->make_match()) ;
 
@@ -465,14 +465,14 @@ namespace mem_engine
 		Distance distance ;
 		const double min_score = m_match_maker.get_minimum_score() ;
 		distance.set_minscore(min_score) ;
-		Segment haystack(m_cmp_maker, params.m_rich_source) ;
+		Segment haystack(&m_cmp_maker, params.m_rich_source) ;
 
 		search_match_ptr match(this->make_match()) ;
 		foreach(record_pointer record, m_records)
 		{
 			if (distance.subdist_score(record->get_source_cmp(), haystack.cmp()) >= min_score)
 			{
-				Segment needle(m_cmp_maker, record->get_source_rich()) ;
+				Segment needle(&m_cmp_maker, record->get_source_rich()) ;
 				match->set_record(record) ;
 				if(m_match_maker.fuzzy_gloss_score(needle, haystack, match))
 				{

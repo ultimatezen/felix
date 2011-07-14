@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_SUITE( runner_term_matches_test )
 		record_pointer rec(new record_local) ;
 		CmpMaker maker ;
 		maker.m_ignore_hira_kata = true ;
-		rec->set_cmp_maker(maker) ;
+		rec->set_cmp_maker(&maker) ;
 		rec->set_source(L"ひらがなカタカナ") ;
 		rec->set_trans(L"egg") ;
 		rec->set_context(L"egg") ;

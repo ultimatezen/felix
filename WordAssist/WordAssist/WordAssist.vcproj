@@ -53,6 +53,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
@@ -156,6 +157,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				InlineFunctionExpansion="1"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;UNICODE;STRICT"
 				StringPooling="true"

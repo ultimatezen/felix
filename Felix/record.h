@@ -99,7 +99,7 @@ namespace mem_engine
 		virtual void clear_user_strings() = 0;
 
 		// CmpMaker
-		virtual void set_cmp_maker(const CmpMaker maker) = 0;
+		virtual void set_cmp_maker(CmpMaker *maker) = 0;
 
 		virtual boost::shared_ptr< translation_record > clone() = 0;
 		virtual record_data_map& get_data_map() = 0 ;

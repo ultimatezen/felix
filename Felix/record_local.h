@@ -1,9 +1,12 @@
 #pragma once
 
 #include "record.h"
+#include <boost/flyweight.hpp>
 
 namespace mem_engine
 {
+	namespace fw = boost::flyweights ;
+
 		/** class record_local
 	* local version of translation record.
 	*/
@@ -36,7 +39,7 @@ namespace mem_engine
 		const wstring get_item( const wstring key ) const ;
 
 		// CmpMaker
-		void set_cmp_maker(const CmpMaker maker);
+		void set_cmp_maker(CmpMaker *maker);
 
 		// source
 		const wstring get_source_rich() const;
@@ -116,8 +119,8 @@ namespace mem_engine
 		Segment m_trans ;
 		Segment m_context ;
 
-		wstring m_creator ;
-		wstring m_modified_by ;
+		fw::flyweight<wstring> m_creator ;
+		fw::flyweight<wstring> m_modified_by ;
 
 		// other data that may or may not be present
 		record_data_map		m_record_data ;

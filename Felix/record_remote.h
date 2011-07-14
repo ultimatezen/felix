@@ -82,7 +82,7 @@ namespace mem_engine
 		virtual void set_id(size_t id);
 
 		// CmpMaker
-		void set_cmp_maker( const CmpMaker maker );
+		void set_cmp_maker( CmpMaker *maker );
 
 		record_pointer clone();
 

@@ -24,33 +24,33 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 	BOOST_AUTO_TEST_CASE( test_has_asian_yes )
 	{
-		BOOST_CHECK(mem_engine::has_asian(L"é©ìÆé‘Ç…èÊÇÈ")) ;
-		BOOST_CHECK(mem_engine::has_asian(L"This has àÍÇ¬ j-word")) ;
+		BOOST_CHECK(has_asian(L"é©ìÆé‘Ç…èÊÇÈ")) ;
+		BOOST_CHECK(has_asian(L"This has àÍÇ¬ j-word")) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_has_asian_no )
 	{
-		BOOST_CHECK(! mem_engine::has_asian(L"This has no j-words?")) ;
-		BOOST_CHECK(! mem_engine::has_asian(L"")) ;
+		BOOST_CHECK(! has_asian(L"This has no j-words?")) ;
+		BOOST_CHECK(! has_asian(L"")) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_has_spaces_yes )
 	{
-		BOOST_CHECK(mem_engine::has_spaces(L"Gits in the car!")) ;
-		BOOST_CHECK(mem_engine::has_spaces(L"This has no j-words")) ;
+		BOOST_CHECK(has_spaces(L"Gits in the car!")) ;
+		BOOST_CHECK(has_spaces(L"This has no j-words")) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_has_spaces_no )
 	{
-		BOOST_CHECK(! mem_engine::has_spaces(L"snurfle")) ;
-		BOOST_CHECK(! mem_engine::has_spaces(L"")) ;
+		BOOST_CHECK(! has_spaces(L"snurfle")) ;
+		BOOST_CHECK(! has_spaces(L"")) ;
 	}
 	BOOST_AUTO_TEST_CASE( detect_match_algo_char_algo )
 	{
-		BOOST_CHECK(IDC_ALGO_CHAR == mem_engine::detect_match_algo(L"snurfle")) ;
-		BOOST_CHECK(IDC_ALGO_CHAR == mem_engine::detect_match_algo(L"é©ìÆé‘Ç…èÊÇÈ")) ;
+		BOOST_CHECK(IDC_ALGO_CHAR == detect_match_algo(L"snurfle")) ;
+		BOOST_CHECK(IDC_ALGO_CHAR == detect_match_algo(L"é©ìÆé‘Ç…èÊÇÈ")) ;
 	}
 	BOOST_AUTO_TEST_CASE( detect_match_algo_word_algo )
 	{
-		BOOST_CHECK(IDC_ALGO_WORD == mem_engine::detect_match_algo(L"Gits in the car!")) ;
-		BOOST_CHECK(IDC_ALGO_WORD == mem_engine::detect_match_algo(L"foo (bar)")) ;
+		BOOST_CHECK(IDC_ALGO_WORD == detect_match_algo(L"Gits in the car!")) ;
+		BOOST_CHECK(IDC_ALGO_WORD == detect_match_algo(L"foo (bar)")) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( Trivial )

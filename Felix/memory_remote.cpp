@@ -28,7 +28,7 @@ namespace mem_engine
 		{
 			CComVariant match = matches.method(L"Item", i) ;
 			record_pointer record(new record_remote(CDispatchWrapper(match.pdispVal))) ;
-			record->set_cmp_maker(m_cmp_maker) ;
+			record->set_cmp_maker(&m_cmp_maker) ;
 			candidates.insert(record) ;
 		}
 	}
@@ -42,7 +42,7 @@ namespace mem_engine
 		Distance distance ;
 		double best_score = 0.0f ;
 		// check each of the records for a match
-		Segment segment(m_cmp_maker, query) ;
+		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 		foreach ( record_pointer record, candidates )
 		{
@@ -79,12 +79,12 @@ namespace mem_engine
 		if ( m_gloss_properties->get_min_score() < 100 )
 		{
 			set_minimum_score( m_gloss_properties->get_min_score() ) ;
-			const Segment haystack(m_cmp_maker, params.m_rich_source) ;
+			const Segment haystack(&m_cmp_maker, params.m_rich_source) ;
 
 			search_match_ptr match(this->make_match()) ;
 			foreach(record_pointer record, candidates)
 			{
-				const Segment needle(m_cmp_maker, record->get_source_rich()) ;
+				const Segment needle(&m_cmp_maker, record->get_source_rich()) ;
 				match->set_record(record) ;
 				if(m_match_maker.fuzzy_gloss_score(needle, haystack, match))
 				{
@@ -97,7 +97,7 @@ namespace mem_engine
 		}
 		else
 		{
-			const Segment segment(m_cmp_maker, params.m_rich_source) ;
+			const Segment segment(&m_cmp_maker, params.m_rich_source) ;
 			const wstring query_cmp = segment.cmp() ;
 			gloss_match_tester tester(query_cmp) ;
 

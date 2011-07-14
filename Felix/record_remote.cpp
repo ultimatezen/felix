@@ -207,7 +207,7 @@ namespace mem_engine
 	}
 
 
-	void record_remote::set_cmp_maker( const CmpMaker maker )
+	void record_remote::set_cmp_maker( CmpMaker *maker )
 	{
 		m_source.set_cmp_maker(maker) ;
 		m_trans.set_cmp_maker(maker) ;

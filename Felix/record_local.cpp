@@ -211,7 +211,7 @@ void record_local::set_trans( const wstring trans  )
 // void record_local::set_context( const wstring context ) 
 void record_local::set_context( const wstring context ) 
 {
-	m_context.set_value(context) ;
+	static_cast<Segment>(m_context).set_value(context) ;
 	modify() ;
 }
 
@@ -393,7 +393,7 @@ const wstring  record_local::get_context_cmp() const
 	return m_context.cmp() ;
 }
 
-void record_local::set_cmp_maker( const CmpMaker maker )
+void record_local::set_cmp_maker( CmpMaker *maker )
 {
 	m_source.set_cmp_maker(maker) ;
 	m_trans.set_cmp_maker(maker) ;
@@ -412,7 +412,7 @@ void record_local::set_modified_by( const wstring modified )
 
 wstring record_local::get_creator()
 {
-	if (m_creator.empty())
+	if (m_creator.get().empty())
 	{
 		m_creator = get_record_username() ;
 	}
@@ -421,7 +421,7 @@ wstring record_local::get_creator()
 
 wstring record_local::get_modified_by()
 {
-	if (m_modified_by.empty())
+	if (m_modified_by.get().empty())
 	{
 		m_modified_by = get_record_username() ;
 	}

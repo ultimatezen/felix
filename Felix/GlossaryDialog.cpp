@@ -532,7 +532,7 @@ CGlossaryDialog::MERGE_CHOICE CGlossaryDialog::check_empty_on_load()
 
 	CQueryMergeDlg dlg(IDS_MERGE_GLOSS_TITLE, 
 		IDS_MERGE_GLOSS_TEXT, 
-		fs::wpath(first_mem->get_location()).leaf());
+		file::CPath(first_mem->get_location()).FindFileName());
 
 	return get_merge_choice(dlg);
 

@@ -18,28 +18,7 @@
 
 namespace mem_engine
 {
-	inline bool has_asian(const wstring s)
-	{
-		foreach(wchar_t c, s)
-		{
-			if (str::is_asian(c))
-			{
-				return true ;
-			}
-		}
-		return false ;
-	}
-	inline bool has_spaces(const wstring s)
-	{
-		foreach(wchar_t c, s)
-		{
-			if (iswspace(c))
-			{
-				return true ;
-			}
-		}
-		return false ;
-	}
+
 	inline int detect_match_algo(const wstring s)
 	{
 		if (has_asian(s))

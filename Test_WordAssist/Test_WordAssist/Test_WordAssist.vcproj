@@ -41,6 +41,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;C:\dev\cpp\Assistant Suite\WordAssist\WordAssist&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;UNIT_TEST"
@@ -120,6 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm500"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;C:\dev\cpp\Assistant Suite\WordAssist\WordAssist&quot;"
@@ -508,11 +510,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath="..\..\WordAssist\WordAssist\stdafx.h"
 				>
 			</File>
 			<File
