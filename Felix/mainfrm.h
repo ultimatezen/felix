@@ -363,9 +363,10 @@ public:
 
 	LRESULT on_tools_load_preferences(WindowsMessage &message);
 
-	void load_preferences( const CString filename );
+	void load_old_preferences( const CString filename );
 	LRESULT on_tools_save_preferences(WindowsMessage &message);
 
+	void save_old_prefs_file( CString filename );
 	void create_process( CString &command, CString error_message );
 
 	LRESULT on_check_demo(WindowsMessage &message);

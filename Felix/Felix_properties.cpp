@@ -688,4 +688,36 @@ namespace app_props
 
 		return true ;
 	}
+
+	void properties::save_file( CString filename )
+	{
+		output_device_ptr output(new OutputDeviceFile) ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("preferences") ;
+
+		m_mem_props.build_xml_doc(preferences) ;
+		m_gloss_props.build_xml_doc(preferences) ;
+		m_gen_props.build_xml_doc(preferences) ;
+		m_alg_props.build_xml_doc(preferences) ;
+		m_view_props.build_xml_doc(preferences) ;
+		m_qc_props.build_xml_doc(preferences) ;
+		m_history_props.build_xml_doc(preferences) ;
+
+		xml_string_writer writer ;
+		doc.save(writer) ;
+		string text = writer.result ;
+		output->open(filename) ;
+		output->write(text) ;
+		output->close() ;
+	}
+
+	void properties::write_prefs()
+	{
+		output_device_ptr output(new OutputDeviceFile) ;
+		wstring config_filename = get_config_filename(PREFS_FILENAME, output) ;
+
+		this->save_file(config_filename.c_str()) ;
+	}
 }

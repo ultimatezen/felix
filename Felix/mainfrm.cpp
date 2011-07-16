@@ -546,7 +546,7 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 {
 	if (! options.m_prefs_file.empty())
 	{
-		this->load_preferences(options.m_prefs_file.c_str()) ;
+		this->load_old_preferences(options.m_prefs_file.c_str()) ;
 		return ;
 	}
 	foreach(tstring filename, options.m_tm_files)
@@ -920,7 +920,7 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 		}
 		if (ext.equals(".fprefs"))
 		{
-			this->load_preferences(filename) ;
+			this->load_old_preferences(filename) ;
 			return true ;
 		}
 
@@ -2921,7 +2921,7 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 		const file::CFileExtension ext = filename ;
 		if (ext.equals(".fprefs"))
 		{
-			this->load_preferences(filename) ;
+			this->load_old_preferences(filename) ;
 			return 0L ;
 		}
 		load(filename) ;
@@ -4546,8 +4546,7 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 
 	dialog.set_prompt( R2T( IDS_LOAD_PREFS_TITLE ) ) ;
 
-	LPCTSTR prefs_filter = 
-		_T("Felix Preference Files (*.fprefs)\0*.fprefs\0") ;
+	LPCTSTR prefs_filter = get_prefs_filter() ;
 	dialog.set_filter( prefs_filter ) ;
 
 	user_feedback( IDS_LOAD_PREFS_TITLE ) ;
@@ -4559,25 +4558,22 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 		return 0L ;
 	}
 
-	// if the user cancels during the save query, then take no action.
-	if ( IDCANCEL == check_save() ) 
-	{
-		SetMsgHandled( TRUE ) ;
-		return 1L ;
-	}
+	const int selected_index = dialog.get_selected_index() ;
 
-	if ( false == gloss_win_shutdown_check() )
+	switch( selected_index ) 
 	{
-		return 1L ;
-	}
+	case 1:
+		ATLTRACE( "Load new preferences format\n" ) ;
+		m_props->load_file(static_cast<LPCTSTR>(filename)) ;
+		break;
 
-	// do it twice, in case we chose a location that clashes after the check...
-	if ( false == gloss_win_shutdown_check() )
-	{
-		return 1L ;
-	}
+	case 2:
+		load_old_preferences(filename);
+		break;
 
-	load_preferences(filename);
+	default:
+		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+	}
 
 	return 0L ;
 }
@@ -4587,8 +4583,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	save_file_dlg dialog ;
 	dialog.set_prompt( R2T( IDS_SAVE_PREFS_TITLE ) ) ;
 
-	LPCTSTR prefs_filter = 
-		_T("Felix Preference Files (*.fprefs)\0*.fprefs\0") ;
+	LPCTSTR prefs_filter = get_prefs_filter() ;
 	dialog.set_filter( prefs_filter ) ;
 
 	user_feedback( IDS_SAVE_PREFS_TITLE ) ;
@@ -4603,25 +4598,24 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
 	logging::log_debug("Saving preferences") ;
 
-	if (! m_glossary_windows.empty())
+	const int selected_index = dialog.get_selected_index() ;
+
+	switch( selected_index ) 
 	{
-		gloss_window_pointer gloss = get_glossary_window();
-		gloss->save_prefs() ;
+	case 1:
+		m_props->save_file(filename) ;
+		ATLTRACE( "Save new preferences format\n" ) ;
+		break;
+
+	case 2:
+		save_old_prefs_file(filename);
+		break;
+
+	default:
+		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 	}
-	save_settings_close() ;
-	save_settings_destroy() ;
 
-	CString command ;
-	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), static_cast<LPCTSTR>(filename)) ;
 
-	if(is_vista_or_later())
-	{
-		command += _T(" /y") ;
-	}
-
-	CString error_message = _T("Failed to save preferences") ;
-	// create the process
-	create_process(command, error_message);
 
 	user_feedback( IDS_PREFS_SAVED ) ;
 
@@ -4774,7 +4768,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 	}
 }
 
-void CMainFrame::load_preferences( const CString filename )
+void CMainFrame::load_old_preferences( const CString filename )
 {
 	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
@@ -5237,4 +5231,27 @@ INT_PTR CMainFrame::check_save_memory( mem_engine::memory_pointer mem )
 
 	}
 	return IDYES ;
+}
+
+void CMainFrame::save_old_prefs_file( CString filename )
+{
+	if (! m_glossary_windows.empty())
+	{
+		gloss_window_pointer gloss = get_glossary_window();
+		gloss->save_prefs() ;
+	}
+	save_settings_close() ;
+	save_settings_destroy() ;
+
+	CString command ;
+	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), static_cast<LPCTSTR>(filename)) ;
+
+	if(is_vista_or_later())
+	{
+		command += _T(" /y") ;
+	}
+
+	CString error_message = _T("Failed to save preferences") ;
+	// create the process
+	create_process(command, error_message);
 }

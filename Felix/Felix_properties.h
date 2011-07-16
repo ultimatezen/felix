@@ -875,6 +875,8 @@ struct properties
 		return *this ;
 	}
 	bool load_file(wstring filename);
+	void write_prefs();
+	void save_file(CString filename);
 	bool read_from_registry();
 
 	void parse_xml_doc( pugi::xml_document &doc );
