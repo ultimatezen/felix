@@ -211,7 +211,7 @@ void record_local::set_trans( const wstring trans  )
 // void record_local::set_context( const wstring context ) 
 void record_local::set_context( const wstring context ) 
 {
-	static_cast<Segment>(m_context).set_value(context) ;
+	m_context.set_value(context) ;
 	modify() ;
 }
 

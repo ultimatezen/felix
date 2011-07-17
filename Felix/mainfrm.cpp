@@ -4595,27 +4595,35 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 		user_feedback( IDS_CANCELLED_ACTION ) ;
 		return 0L ;
 	}
-	fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
 	logging::log_debug("Saving preferences") ;
+
+	if (! m_glossary_windows.empty())
+	{
+		gloss_window_pointer gloss = get_glossary_window();
+		gloss->save_prefs() ;
+	}
+	save_settings_close() ;
+	save_settings_destroy() ;
+
 
 	const int selected_index = dialog.get_selected_index() ;
 
 	switch( selected_index ) 
 	{
 	case 1:
+		fileops::addExtensionAsNeeded( filename,  _T( ".fprefx" ) ) ;
 		m_props->save_file(filename) ;
 		ATLTRACE( "Save new preferences format\n" ) ;
 		break;
 
 	case 2:
+		fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
 		save_old_prefs_file(filename);
 		break;
 
 	default:
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 	}
-
-
 
 	user_feedback( IDS_PREFS_SAVED ) ;
 
@@ -5235,13 +5243,6 @@ INT_PTR CMainFrame::check_save_memory( mem_engine::memory_pointer mem )
 
 void CMainFrame::save_old_prefs_file( CString filename )
 {
-	if (! m_glossary_windows.empty())
-	{
-		gloss_window_pointer gloss = get_glossary_window();
-		gloss->save_prefs() ;
-	}
-	save_settings_close() ;
-	save_settings_destroy() ;
 
 	CString command ;
 	command.Format(_T("REG EXPORT hkcu\\software\\assistantsuite\\felix \"%s\""), static_cast<LPCTSTR>(filename)) ;

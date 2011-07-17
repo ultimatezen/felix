@@ -103,7 +103,7 @@ namespace app_props
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 	bool copy_reg_props();
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("LOAD_HISTORY") ) ;
@@ -311,7 +311,7 @@ struct properties_memory : public props::CRegMap
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 
 } ;
@@ -465,7 +465,7 @@ struct properties_glossary : public props::CRegMap
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -543,7 +543,7 @@ struct properties_algorithm : public props::CRegMap
 	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 private:
 
@@ -640,7 +640,7 @@ struct properties_view : public props::CRegMap
 	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -737,7 +737,7 @@ struct properties_qc : public props::CRegMap
 	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 } ;
 
 /**
@@ -845,7 +845,7 @@ struct properties_general : public props::CRegMap
 	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 
 } ;
 
@@ -879,7 +879,7 @@ struct properties
 	void save_file(CString filename);
 	bool read_from_registry();
 
-	void parse_xml_doc( pugi::xml_document &doc );
+	bool parse_xml_doc( pugi::xml_document &doc );
 	bool write_to_registry();
 } ;
 

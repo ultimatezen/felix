@@ -151,7 +151,7 @@ namespace app_props
 	{
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		build_xml_doc(preferences);
 		xml_string_writer writer ;
 		doc.save(writer) ;
@@ -186,18 +186,32 @@ namespace app_props
 			logging::log_error("Failed to parse felix_load_history.xml") ;
 			return false ;
 		}
-		parse_xml_doc(doc);
-
-		return true ;
+		return parse_xml_doc(doc);
 	}
 
-	void properties_loaded_history::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_loaded_history::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node child = get_prop_node(doc, "loaded_history");
-		load_xml_props_type(child, m_loaded_mems, "loaded_mems") ;
-		load_xml_props_type(child, m_loaded_gloss, "loaded_gloss") ;
-		load_xml_props_type(child, m_loaded_remote_mems, "loaded_remote_mems") ;
-		load_xml_props_type(child, m_loaded_remote_gloss, "loaded_remote_gloss") ;
+		try
+		{
+			pugi::xml_node child = get_prop_node(doc, "loaded_history");
+			load_xml_props_type(child, m_loaded_mems, "loaded_mems") ;
+			load_xml_props_type(child, m_loaded_gloss, "loaded_gloss") ;
+			load_xml_props_type(child, m_loaded_remote_mems, "loaded_remote_mems") ;
+			load_xml_props_type(child, m_loaded_remote_gloss, "loaded_remote_gloss") ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 	}
 
 
@@ -308,25 +322,40 @@ namespace app_props
 		add_child(memory_node, "place_gloss", bool2string(!! this->m_data.m_place_gloss)) ;
 	}
 
-	void properties_memory::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_memory::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_memory") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_memory") ;
 
-		const string  min_score = parent.child("min_score").child_value() ;
-		this->m_data.m_min_score = string2ulong(min_score) ;
+			this->m_data.m_min_score = read_xml_ulong(parent, "min_score") ;
 
-		// normalize
-		this->m_data.m_ignore_case = read_xml_bool(parent, "ignore_case") ;
-		this->m_data.m_ignore_width = read_xml_bool(parent, "ignore_width") ;
-		this->m_data.m_ignore_hir_kat = read_xml_bool(parent, "ignore_hir_kat") ;
+			// normalize
+			this->m_data.m_ignore_case = read_xml_bool(parent, "ignore_case") ;
+			this->m_data.m_ignore_width = read_xml_bool(parent, "ignore_width") ;
+			this->m_data.m_ignore_hir_kat = read_xml_bool(parent, "ignore_hir_kat") ;
 
-		// formatting
-		this->m_data.m_plaintext = read_xml_bool(parent, "plaintext") ;
-		this->m_data.m_assess_format_penalty = read_xml_bool(parent, "assess_format_penalty") ;
+			// formatting
+			this->m_data.m_plaintext = read_xml_bool(parent, "plaintext") ;
+			this->m_data.m_assess_format_penalty = read_xml_bool(parent, "assess_format_penalty") ;
 
-		// placements
-		this->m_data.m_place_numbers = read_xml_bool(parent, "place_numbers") ;
-		this->m_data.m_place_gloss = read_xml_bool(parent, "place_gloss") ;
+			// placements
+			this->m_data.m_place_numbers = read_xml_bool(parent, "place_numbers") ;
+			this->m_data.m_place_gloss = read_xml_bool(parent, "place_gloss") ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 	}
 	// properties_glossary
 	bool properties_glossary::load_xml_props()
@@ -363,29 +392,45 @@ namespace app_props
 		add_child(parent, "simple_view", bool2string(!! this->m_data.m_simple_view)) ;
 	}
 
-	void properties_glossary::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_glossary::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_glossary") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_glossary") ;
 
-		const string  min_score = parent.child("min_score").child_value() ;
-		this->m_data.m_min_score = string2ulong(min_score) ;
+			const string  min_score = parent.child("min_score").child_value() ;
+			this->m_data.m_min_score = string2ulong(min_score) ;
 
-		const string  max_add = parent.child("max_add").child_value() ;
-		this->m_data.m_max_add = string2ulong(max_add) ;
+			const string  max_add = parent.child("max_add").child_value() ;
+			this->m_data.m_max_add = string2ulong(max_add) ;
 
-		const string  back_color = parent.child("back_color").child_value() ;
-		this->m_data.m_back_color = string2long(back_color) ;
+			const string  back_color = parent.child("back_color").child_value() ;
+			this->m_data.m_back_color = string2long(back_color) ;
 
-		const string  numbering = parent.child("numbering").child_value() ;
-		this->m_data.m_numbering = string2ulong(numbering) ;
+			const string  numbering = parent.child("numbering").child_value() ;
+			this->m_data.m_numbering = string2ulong(numbering) ;
 
-		this->m_data.m_ignore_case = read_xml_bool(parent, "ignore_case") ;
-		this->m_data.m_plaintext = read_xml_bool(parent, "plaintext") ;
-		this->m_data.m_to_lower = read_xml_bool(parent, "to_lower") ;
+			this->m_data.m_ignore_case = read_xml_bool(parent, "ignore_case") ;
+			this->m_data.m_plaintext = read_xml_bool(parent, "plaintext") ;
+			this->m_data.m_to_lower = read_xml_bool(parent, "to_lower") ;
 
-		this->m_data.m_ignore_width = read_xml_bool(parent, "ignore_width") ;
-		this->m_data.m_ignore_hir_kat = read_xml_bool(parent, "ignore_hir_kat") ;
-		this->m_data.m_simple_view = read_xml_bool(parent, "simple_view") ;
+			this->m_data.m_ignore_width = read_xml_bool(parent, "ignore_width") ;
+			this->m_data.m_ignore_hir_kat = read_xml_bool(parent, "ignore_hir_kat") ;
+			this->m_data.m_simple_view = read_xml_bool(parent, "simple_view") ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception parsing XML prefs") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception parsing XML prefs") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 	}
 	// properties_algorithm
 
@@ -412,12 +457,28 @@ namespace app_props
 		add_child(parent, "match_algo", int2string(this->m_data.m_match_algo)) ;
 	}
 
-	void properties_algorithm::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_algorithm::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_algorithm") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_algorithm") ;
 
-		const string  match_algo = parent.child("match_algo").child_value() ;
-		this->m_data.m_match_algo = string2long(match_algo) ;
+			const string  match_algo = parent.child("match_algo").child_value() ;
+			this->m_data.m_match_algo = string2long(match_algo) ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception parsing XML prefs") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception parsing XML prefs") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 	}
 	// properties_view
 	bool properties_view::write_xml_props()
@@ -448,16 +509,32 @@ namespace app_props
 		add_child(parent, "single_screen_matches", bool2string(!! this->m_data.m_single_screen_matches)) ;
 	}
 
-	void properties_view::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_view::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_view") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_view") ;
 
-		this->m_data.m_back_color = read_xml_long(parent, "back_color") ;
-		this->m_data.m_query_color = read_xml_long(parent, "query_color") ;
-		this->m_data.m_source_color = read_xml_long(parent, "source_color") ;
-		this->m_data.m_trans_color = read_xml_long(parent, "trans_color") ;
+			this->m_data.m_back_color = read_xml_long(parent, "back_color") ;
+			this->m_data.m_query_color = read_xml_long(parent, "query_color") ;
+			this->m_data.m_source_color = read_xml_long(parent, "source_color") ;
+			this->m_data.m_trans_color = read_xml_long(parent, "trans_color") ;
 
-		this->m_data.m_single_screen_matches = read_xml_bool(parent, "single_screen_matches") ;
+			this->m_data.m_single_screen_matches = read_xml_bool(parent, "single_screen_matches") ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception parsing XML prefs") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception parsing XML prefs") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 
 	}
 	// properties_qc
@@ -486,14 +563,30 @@ namespace app_props
 		add_child(parent, "live_checking", bool2string(!! this->m_data.m_live_checking)) ;
 	}
 
-	void properties_qc::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_qc::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_qc") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_qc") ;
 
-		this->m_data.m_check_numbers = read_xml_bool(parent, "check_numbers") ;
-		this->m_data.m_check_all_caps = read_xml_bool(parent, "check_all_caps") ;
-		this->m_data.m_check_gloss = read_xml_bool(parent, "check_gloss") ;
-		this->m_data.m_live_checking = read_xml_bool(parent, "live_checking") ;
+			this->m_data.m_check_numbers = read_xml_bool(parent, "check_numbers") ;
+			this->m_data.m_check_all_caps = read_xml_bool(parent, "check_all_caps") ;
+			this->m_data.m_check_gloss = read_xml_bool(parent, "check_gloss") ;
+			this->m_data.m_live_checking = read_xml_bool(parent, "live_checking") ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception parsing XML prefs") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception parsing XML prefs") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 
 	}
 	// properties_general
@@ -533,24 +626,40 @@ namespace app_props
 
 	}
 
-	void properties_general::parse_xml_doc( pugi::xml_document &doc )
+	bool properties_general::parse_xml_doc( pugi::xml_document &doc )
 	{
-		pugi::xml_node parent = doc.child("properties").child("properties_general") ;
+		try
+		{
+			pugi::xml_node parent = doc.child("properties").child("properties_general") ;
 
-		this->m_data.m_window_size = read_xml_long(parent, "window_size") ;
-		this->m_data.m_preferred_gui_lang = read_xml_long(parent, "preferred_gui_lang") ;
-		this->m_data.m_merge_choice = read_xml_long(parent, "merge_choice") ;
+			this->m_data.m_window_size = read_xml_long(parent, "window_size") ;
+			this->m_data.m_preferred_gui_lang = read_xml_long(parent, "preferred_gui_lang") ;
+			this->m_data.m_merge_choice = read_xml_long(parent, "merge_choice") ;
 
-		this->m_data.m_load_prev_mem_on_startup = read_xml_bool(parent, "load_prev_mem_on_startup") ;
-		this->m_data.m_load_prev_gloss_on_startup = read_xml_bool(parent, "load_prev_gloss_on_startup") ;
-		this->m_data.m_show_markup = read_xml_bool(parent, "show_markup") ;
-		this->m_data.m_first_launch = read_xml_bool(parent, "first_launch") ;
+			this->m_data.m_load_prev_mem_on_startup = read_xml_bool(parent, "load_prev_mem_on_startup") ;
+			this->m_data.m_load_prev_gloss_on_startup = read_xml_bool(parent, "load_prev_gloss_on_startup") ;
+			this->m_data.m_show_markup = read_xml_bool(parent, "show_markup") ;
+			this->m_data.m_first_launch = read_xml_bool(parent, "first_launch") ;
 
-		this->m_data.m_query_merge = read_xml_bool(parent, "query_merge") ;
-		this->m_data.m_old_mem_mgr = read_xml_bool(parent, "old_mem_mgr") ;
+			this->m_data.m_query_merge = read_xml_bool(parent, "query_merge") ;
+			this->m_data.m_old_mem_mgr = read_xml_bool(parent, "old_mem_mgr") ;
 
-		const wstring user_name = read_xml_string(parent, "user_name") ;
-		_tcscpy_s( m_data.m_user_name, MAX_PATH, user_name.c_str()) ;
+			const wstring user_name = read_xml_string(parent, "user_name") ;
+			_tcscpy_s( m_data.m_user_name, MAX_PATH, user_name.c_str()) ;
+		}
+		catch (except::CException& e)
+		{
+			logging::log_error("Program exception parsing XML prefs") ;
+			logging::log_exception(e) ;
+			return false ;
+		}
+		catch (std::exception& e)
+		{
+			logging::log_error("COM exception parsing XML prefs") ;
+			logging::log_error(e.what()) ;
+			return false ;
+		}
+		return true ;
 	}
 
 	// properties
@@ -602,7 +711,7 @@ namespace app_props
 		output_device_ptr output(new OutputDeviceFile) ;
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 
 		m_mem_props.build_xml_doc(preferences) ;
 		m_gloss_props.build_xml_doc(preferences) ;
@@ -657,18 +766,44 @@ namespace app_props
 		return retval ;
 	}
 
-	void properties::parse_xml_doc( pugi::xml_document &doc )
+	bool properties::parse_xml_doc( pugi::xml_document &doc )
 	{
-		m_mem_props.parse_xml_doc(doc) ;
-		m_gloss_props.parse_xml_doc(doc) ;
-		m_gen_props.parse_xml_doc(doc) ;
-		m_alg_props.parse_xml_doc(doc) ;
-		m_view_props.parse_xml_doc(doc) ;
-		m_qc_props.parse_xml_doc(doc) ;
-		m_history_props.parse_xml_doc(doc) ;
+		bool result = true ;
+
+		result = m_mem_props.parse_xml_doc(doc) ;
+
+		if (!m_gloss_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+
+		if (!m_gen_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+
+		if (!m_alg_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+
+		if (!m_view_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+		if (!m_qc_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+		if (!m_history_props.parse_xml_doc(doc))
+		{
+			result = false ;
+		}
+
+		return result ;
 	}
 
-	bool properties::load_file( wstring filename )
+	bool properties::load_file(wstring filename )
 	{
 		input_device_ptr input(new InputDeviceFile) ;
 		string text = get_file_text(filename, input) ;
@@ -684,9 +819,7 @@ namespace app_props
 			logging::log_error("Failed to parse felix preferences file: " + string2string(filename)) ;
 			return false ;
 		}
-		this->parse_xml_doc(doc) ;
-
-		return true ;
+		return this->parse_xml_doc(doc) ;
 	}
 
 	void properties::save_file( CString filename )
@@ -695,7 +828,7 @@ namespace app_props
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 
 		m_mem_props.build_xml_doc(preferences) ;
 		m_gloss_props.build_xml_doc(preferences) ;

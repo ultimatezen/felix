@@ -44,22 +44,31 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 	BOOST_AUTO_TEST_CASE( get_active_memory )
 	{
 		app2_ptr app ;
-		app2_obj::CreateInstance( &app ) ;
+		HRESULT create_success = app2_obj::CreateInstance( &app ) ;
+		BOOST_CHECK( SUCCEEDED( create_success ) ) ;
+		BOOST_CHECK( app ) ;
 
-		com_mem_ptr mem ;
-		HRESULT hr = app->get_ActiveMemory(&mem) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-		BOOST_CHECK( mem ) ;
+		if (app)
+		{
+			com_mem_ptr mem ;
+			HRESULT hr = app->get_ActiveMemory(&mem) ;
+			BOOST_CHECK( SUCCEEDED( hr ) ) ;
+			BOOST_CHECK( mem ) ;
+		}
 	}
 	BOOST_AUTO_TEST_CASE( get_active_glossary )
 	{
 		app2_ptr app ;
 		app2_obj::CreateInstance( &app ) ;
+		BOOST_CHECK( app ) ;
 
-		com_mem_ptr mem ;
-		HRESULT hr = app->get_ActiveGlossary(&mem) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-		BOOST_CHECK( mem ) ;
+		if (app)
+		{
+			com_mem_ptr mem ;
+			HRESULT hr = app->get_ActiveGlossary(&mem) ;
+			BOOST_CHECK( SUCCEEDED( hr ) ) ;
+			BOOST_CHECK( mem ) ;
+		}
 	}
 
 	BOOST_AUTO_TEST_CASE( Instantiate )
@@ -73,15 +82,19 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 	{
 		app2_ptr app ;
 		app2_obj::CreateInstance( &app ) ;
-		app::get_app().add_record(make_record("spam", "egg")) ;
-		app::get_app().lookup(L"spam") ;
-		result_ptr result ;
-		HRESULT hr = app->get_CurrentMatch(&result) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-		BOOST_CHECK( result ) ;
-		double score(5.0) ;
-		result->get_Score(&score) ;
-		BOOST_CHECK_CLOSE(1.0, score, 0.00001) ;
+		BOOST_CHECK( app ) ;
+		if (app)
+		{
+			app::get_app().add_record(make_record("spam", "egg")) ;
+			app::get_app().lookup(L"spam") ;
+			result_ptr result ;
+			HRESULT hr = app->get_CurrentMatch(&result) ;
+			BOOST_CHECK( SUCCEEDED( hr ) ) ;
+			BOOST_CHECK( result ) ;
+			double score(5.0) ;
+			result->get_Score(&score) ;
+			BOOST_CHECK_CLOSE(1.0, score, 0.00001) ;
+		}
 	}
 	BOOST_AUTO_TEST_CASE( get_record )
 	{
@@ -90,57 +103,72 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 
 		app2_ptr app2 ;
 		app2_obj::CreateInstance( &app2 ) ;
+		BOOST_CHECK( app2 ) ;
 
-		result_ptr result ;
-		app2->get_CurrentMatch(&result) ;
-		
-		CComPtr<IRecord> record ;
-		HRESULT hr = result->get_Record(&record) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-		BOOST_CHECK( record ) ;
-		CComBSTR source ;
-		record->get_Source(&source) ;
-		string actual = CStringA(source) ;
-		string expected = "foo" ;
-		BOOST_CHECK_EQUAL(expected, actual) ;
+		if (app2)
+		{
+			result_ptr result ;
+			app2->get_CurrentMatch(&result) ;
+
+			CComPtr<IRecord> record ;
+			HRESULT hr = result->get_Record(&record) ;
+			BOOST_CHECK( SUCCEEDED( hr ) ) ;
+			BOOST_CHECK( record ) ;
+			CComBSTR source ;
+			record->get_Source(&source) ;
+			string actual = CStringA(source) ;
+			string expected = "foo" ;
+			BOOST_CHECK_EQUAL(expected, actual) ;
+		}
 	}
 	BOOST_AUTO_TEST_CASE( ReflectChanges )
 	{
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
-		record_pointer rec = make_record("spam", "egg") ;
-		app::get_app().add_record(rec) ;
-		result_ptr result ;
-		application->ReflectChanges(rec->get_id(),
-			CComBSTR(L"changed"),
-			CComBSTR(L"different")) ;
+		BOOST_CHECK(application) ;
 
-		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-		record_pointer firstrec = *mem->get_records().begin() ;
+		if (application)
+		{
+			record_pointer rec = make_record("spam", "egg") ;
+			app::get_app().add_record(rec) ;
 
-		string expected = "changed" ;
-		string actual = CStringA(firstrec->get_source_plain().c_str()) ;
-		BOOST_CHECK_EQUAL(expected, actual) ;
+			application->ReflectChanges(rec->get_id(),
+				CComBSTR(L"changed"),
+				CComBSTR(L"different")) ;
+
+			memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
+			record_pointer firstrec = *mem->get_records().begin() ;
+
+			string expected = "changed" ;
+			string actual = CStringA(firstrec->get_source_plain().c_str()) ;
+			BOOST_CHECK_EQUAL(expected, actual) ;
+		}
 	}
 	BOOST_AUTO_TEST_CASE( ReviewTranslation )
 	{
 		app::get_app().clear_memory() ;
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
-		record_pointer rec = make_record("spam", "egg") ;
-		app::get_app().add_record(rec) ;
-		result_ptr result ;
-		application->ReviewTranslation(rec->get_id(),
-			CComBSTR(L"changed"),
-			CComBSTR(L"different")) ;
 
-		memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-		record_pointer firstrec = *mem->get_records().begin() ;
+		BOOST_CHECK(application) ;
 
-		string expected = "changed" ;
-		string actual = CStringA(firstrec->get_source_plain().c_str()) ;
-		BOOST_CHECK_EQUAL(expected, actual) ;
+		if (application)
+		{
+			record_pointer rec = make_record("spam", "egg") ;
+			app::get_app().add_record(rec) ;
+			result_ptr result ;
+			application->ReviewTranslation(rec->get_id(),
+				CComBSTR(L"changed"),
+				CComBSTR(L"different")) ;
+
+			memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
+			record_pointer firstrec = *mem->get_records().begin() ;
+
+			string expected = "changed" ;
+			string actual = CStringA(firstrec->get_source_plain().c_str()) ;
+			BOOST_CHECK_EQUAL(expected, actual) ;
+		}
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -156,14 +184,18 @@ BOOST_AUTO_TEST_SUITE(TestApp2CurrentMatches)
 	{
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
+		BOOST_CHECK(application) ;
 
-		CComPtr<ISearchResults> matches ;
-		HRESULT hr = application->get_CurrentMatches(&matches) ;
-		BOOST_CHECK(SUCCEEDED(hr)) ;
+		if (application)
+		{
+			CComPtr<ISearchResults> matches ;
+			HRESULT hr = application->get_CurrentMatches(&matches) ;
+			BOOST_CHECK(SUCCEEDED(hr)) ;
 
-		long count(0) ;
-		matches->get_Count(&count) ;
-		BOOST_CHECK_EQUAL(0, count) ;
+			long count(0) ;
+			matches->get_Count(&count) ;
+			BOOST_CHECK_EQUAL(0, count) ;
+		}
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -178,15 +210,19 @@ BOOST_AUTO_TEST_SUITE(TestApp2CurrentGlossMatches)
 	{
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
+		BOOST_CHECK(application) ;
 
-		CComPtr<ISearchResults> matches ;
-		app::get_app().clear_memory() ;
-		HRESULT hr = application->get_CurrentGlossMatches(&matches) ;
-		BOOST_CHECK(SUCCEEDED(hr)) ;
+		if (application)
+		{
+			CComPtr<ISearchResults> matches ;
+			app::get_app().clear_memory() ;
+			HRESULT hr = application->get_CurrentGlossMatches(&matches) ;
+			BOOST_CHECK(SUCCEEDED(hr)) ;
 
-		long count(0) ;
-		matches->get_Count(&count) ;
-		BOOST_CHECK_EQUAL(0, count) ;
+			long count(0) ;
+			matches->get_Count(&count) ;
+			BOOST_CHECK_EQUAL(0, count) ;
+		}
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

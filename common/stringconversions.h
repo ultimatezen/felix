@@ -238,8 +238,6 @@ inline long string2long( const std::string &str, int base=10 )
 	errno = 0 ;
 	const long val = strtol( str.c_str(), NULL, base ) ;
 
-	_ASSERTE( base != 10 || val == boost::lexical_cast< long >( str ) ) ;
-	_ASSERTE( errno != ERANGE ) ;
 	if( errno == ERANGE ) 
 	{
 		std::string message ("Failed to convert std::string to double ") ;
@@ -259,8 +257,6 @@ inline unsigned long string2ulong( const std::string &str, int base=10 )
 	errno = 0 ;
 	const unsigned long val = strtoul( str.c_str(), NULL, base ) ;
 
-	_ASSERTE( base != 10 || val == boost::lexical_cast< unsigned long >( str ) ) ;
-	_ASSERTE( errno != ERANGE ) ;
 	if( errno == ERANGE ) 
 	{
 		std::string message = std::string("Failed to convert std::string to std::string ") +

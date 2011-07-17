@@ -684,7 +684,7 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 
 		string text = props.make_xml_doc() ;
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<loaded_history>\n"
 			"		<loaded_mems>\n"
 			"			<filename>C:\\m_mems.txt</filename>\n"
@@ -699,7 +699,7 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 			"			<filename>C:\\m_remote_glosses.txt</filename>\n"
 			"		</loaded_remote_gloss>\n"
 			"	</loaded_history>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(text, expected) ;
 	}
@@ -764,14 +764,14 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_memory>\n"
 			"		<min_score>10</min_score>\n"
 			"		<ignore_case>false</ignore_case>\n"
@@ -782,7 +782,7 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 			"		<place_numbers>false</place_numbers>\n"
 			"		<place_gloss>true</place_gloss>\n"
 			"	</properties_memory>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
@@ -857,14 +857,14 @@ BOOST_AUTO_TEST_SUITE( properties_glossary_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_glossary>\n"
 			"		<min_score>44</min_score>\n"
 			"		<max_add>62</max_add>\n"
@@ -880,7 +880,7 @@ BOOST_AUTO_TEST_SUITE( properties_glossary_xml_tests )
 			"		<simple_view>true</simple_view>\n"
 
 			"	</properties_glossary>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
@@ -916,18 +916,18 @@ BOOST_AUTO_TEST_SUITE( properties_algorithm_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_algorithm>\n"
 			"		<match_algo>262</match_algo>\n"
 			"	</properties_algorithm>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
@@ -979,14 +979,14 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_view>\n"
 			"		<back_color>44</back_color>\n"
 			"		<query_color>62</query_color>\n"
@@ -994,7 +994,7 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 			"		<trans_color>55</trans_color>\n"
 			"		<single_screen_matches>false</single_screen_matches>\n"
 			"	</properties_view>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
@@ -1040,21 +1040,21 @@ BOOST_AUTO_TEST_SUITE( properties_qc_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_qc>\n"
 			"		<check_numbers>true</check_numbers>\n"
 			"		<check_all_caps>true</check_all_caps>\n"
 			"		<check_gloss>true</check_gloss>\n"
 			"		<live_checking>true</live_checking>\n"
 			"	</properties_qc>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
@@ -1131,14 +1131,14 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("preferences") ;
+		preferences.set_name("properties") ;
 		props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;
 
 		string expected = "<?xml version=\"1.0\"?>\n"
-			"<preferences>\n"
+			"<properties>\n"
 			"	<properties_general>\n"
 			"		<window_size>1</window_size>\n"
 			"		<preferred_gui_lang>2</preferred_gui_lang>\n"
@@ -1155,7 +1155,7 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 			"		<user_name>Bozo The Clown</user_name>\n"
 
 			"	</properties_general>\n"
-			"</preferences>\n" ;
+			"</properties>\n" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
