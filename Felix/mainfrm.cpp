@@ -923,6 +923,11 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 			this->load_old_preferences(filename) ;
 			return true ;
 		}
+		if (ext.equals(".fprefx"))
+		{
+			this->m_props->load_file(filename) ;
+			return true ;
+		}
 
 		wstring raw_command = BSTR2wstring( url );
 
