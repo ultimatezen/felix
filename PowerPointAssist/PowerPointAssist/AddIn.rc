@@ -299,7 +299,11 @@ BEGIN
     IDS_PROJNAME            "AddIn"
     IDS_USER_PREFERENCES    "User Preferences"
     IDS_USER_PREFERENCES_J  "ユーザ設定"
+    IDS_TO_REVIEW_MODE_E    "To Review Mode"
+    IDS_TO_REVIEW_MODE_J    "校正モードへ"
     IDS_LANG_CODE           "en"
+    IDS_TO_TRANS_MODE_E     "To Translation Mode"
+    IDS_TO_TRANS_MODE_J     "翻訳モードへ"
 END
 
 STRINGTABLE 

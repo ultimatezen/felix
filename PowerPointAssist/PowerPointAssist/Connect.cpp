@@ -97,19 +97,7 @@ void CConnect::load_keyboard_shortcuts()
 	output_device_ptr output(new OutputDeviceFile) ;
 	m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input, output)) ;
 }
-void CConnect::add_toolbar_items( Office::CommandBarControlsPtr spBarControls )
-{
-	// add buttons
 
-	add_toolbar_item( spBarControls, IDB_LOOKUP ) ;
-	add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT ) ;
-	add_toolbar_item( spBarControls, IDB_GET ) ;
-	add_toolbar_item( spBarControls, IDB_GET_AND_NEXT ) ;
-	add_toolbar_item( spBarControls, IDB_SET ) ;
-	add_toolbar_item( spBarControls, IDB_SET_AND_NEXT ) ;
-	add_toolbar_item( spBarControls, IDB_GLOSS_N ) ;
-	add_toolbar_item( spBarControls, IDB_HELP ) ;
-}
 void CConnect::init_properties()
 {
 	logging::log_debug("initializing properties") ;
@@ -174,6 +162,9 @@ void CConnect::init_toolbar( Office::_CommandBarsPtr spCmdBars )
 		"Failed to configure button (gloss)");
 	COM_ENFORCE(ButtonHelpEventImpl::DispEventAdvise ( (IUnknown*)m_button_help ),
 		"Failed to configure button (help)");
+
+	switch_to_translation_toolbar() ;
+
 
 	logging::log_debug("Completed toolbar setup") ;
 
@@ -273,6 +264,7 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 		MenuHelpEventImpl::DispEventUnadvise( (IUnknown*)m_menu_help );
 		MenuGuiEventImpl::DispEventUnadvise( (IUnknown*)m_menu_gui ) ;
 		MenuPreferencesEventImpl::DispEventUnadvise( (IUnknown*)m_menu_preferences ) ;
+		MenuSwitchModeEventImpl::DispEventUnadvise( (IUnknown*)m_menu_switch ) ;
 
 		logging::log_debug("PowerPoint Assist :: OnBeginShutdown complete") ;
 	}
@@ -621,6 +613,10 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_menu_preferences = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
 		MenuPreferencesEventImpl::DispEventAdvise( (IUnknown*)m_menu_preferences ) ;
 
+		caption.LoadString( IDS_TO_REVIEW_MODE_E ) ;
+		tooltip.LoadString( IDS_TO_REVIEW_MODE_E ) ;
+		m_menu_switch = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
+		MenuSwitchModeEventImpl::DispEventAdvise( (IUnknown*)m_menu_switch ) ;
 
 	}
 	catch (_com_error& e)
@@ -729,43 +725,51 @@ Office::_CommandBarButtonPtr CConnect::add_menu_item( Office::CommandBarControls
 }
 
 
-// Function name	: CConnect::add_toolbar
-// Description	    : 
-// Return type		: void 
-// Argument         : Office::_CommandBars> &spCmdBars
+/*!
+* Adds our toolbar.
+*/
 HRESULT CConnect::add_toolbar( Office::_CommandBarsPtr &spCmdBars )
 {
 	logging::log_debug( "CConnect::add_toolbar" ) ;
 
 	// now we add a new toolband to PowerPoint
 	// to which we'll add our buttons
-	CComVariant vName("Felix Interface");
-
+	CComVariant vName(L"Felix Interface");
 	// position it below all toolbands
-	//MsoBarPosition::msoBarTop = 1
-	CComVariant vPos(1); 
+	CComVariant vPos(1); //MsoBarPosition::msoBarTop = 1
 
 	CComVariant vTemp(VARIANT_FALSE); // menu is not temporary        
 	//Add a new toolband through Add method
 	// vMenuTemp holds an unspecified parameter
 	m_toolbar = spCmdBars->Add( vName, vPos, vtMissing, vTemp) ;
 
-	m_toolbar->Visible = VARIANT_TRUE ;
-
 	//now get the toolband's CommandBarControls
 	Office::CommandBarControlsPtr spBarControls = m_toolbar->Controls;
 
 	add_toolbar_items(spBarControls);
 
+	m_toolbar->Visible = VARIANT_TRUE ;
 	return S_OK ;
 }
 
+// Add the buttons to the toolbar
+void CConnect::add_toolbar_items( Office::CommandBarControlsPtr spBarControls )
+{
+	// add buttons
 
-// Function name	: CConnect::add_toolbar_item
-// Description	    : 
-// Return type		: command_button_ptr 
-// Argument         : Office::CommandBarControlsPtr &controls
-// Argument         : int button_id
+	add_toolbar_item( spBarControls, IDB_LOOKUP ) ;
+	add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_GET ) ;
+	add_toolbar_item( spBarControls, IDB_GET_AND_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_SET ) ;
+	add_toolbar_item( spBarControls, IDB_SET_AND_NEXT ) ;
+	add_toolbar_item( spBarControls, IDB_GLOSS_N ) ;
+	add_toolbar_item( spBarControls, IDB_HELP ) ;
+}
+
+/*!
+* Adds an individual toolbar item.
+*/
 Office::_CommandBarButtonPtr CConnect::add_toolbar_item(Office::CommandBarControlsPtr &controls, int button_id )
 {
 
@@ -1413,6 +1417,14 @@ void __stdcall CConnect::OnGlossN( IDispatch *, VARIANT_BOOL * )
 	}
 	CATCH_ALL(_T("OnGlossN")) ;
 }
+void __stdcall CConnect::OnButtonGlossN( IDispatch *Ctrl, VARIANT_BOOL *CancelDefault )
+{
+	try
+	{
+		OnMenuSwitchMode( Ctrl, CancelDefault ) ;
+	}
+	CATCH_ALL(_T("OnButtonGlossN")) ;
+}
 
 void __stdcall CConnect::OnLookupNext( IDispatch *, VARIANT_BOOL * )
 {
@@ -1764,4 +1776,71 @@ void __stdcall CConnect::OnAutoTrans( IDispatch *, VARIANT_BOOL * )
 		m_interface.OnAutoTransAction() ;
 	}
 	CATCH_ALL(_T("OnAutoTrans")) ;
+}
+void __stdcall CConnect::OnMenuSwitchMode( IDispatch *, VARIANT_BOOL * )
+{
+	try
+	{
+		logging::log_debug("CConnect::OnMenuSwitchMode") ;
+		CClipboardBackup cbb ;
+
+		m_interface.OnSwitchModeAction() ;
+
+		if ( m_interface.is_translation_mode() ) 
+		{
+			switch_to_translation_toolbar() ;
+			switch_to_translation_menu() ;
+			m_menu_auto_trans->Enabled = VARIANT_TRUE ;
+		}
+		else 
+		{
+			switch_to_review_toolbar() ;
+			switch_to_review_menu() ;
+			m_menu_auto_trans->Enabled = VARIANT_FALSE ;
+		}
+	}
+
+	CATCH_ALL(_T("Switching menu modes")) ;
+}
+void CConnect::switch_to_review_toolbar()
+{
+	logging::log_debug("switch_to_review_toolbar") ;
+
+	// add buttons
+	set_button_image( m_button_lookup, IDB_LOOKUP_TRANS ) ;
+	set_button_image( m_button_lookup_next, IDB_LOOKUP_NEXT_TRANS ) ;
+	set_button_image( m_button_get, IDB_RESTORE ) ;
+	set_button_image( m_button_get_and_next, IDB_RESTORE_AND_NEXT ) ;
+	set_button_image( m_button_set, IDB_CORRECT ) ;
+	set_button_image( m_button_set_and_next, IDB_CORRECT_AND_NEXT ) ;
+	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_TRANS ) ;
+}
+void CConnect::switch_to_translation_toolbar()
+{
+	logging::log_debug("switch_to_translation_toolbar") ;
+
+	// add buttons
+	set_button_image( m_button_lookup, IDB_LOOKUP ) ;
+	set_button_image( m_button_lookup_next, IDB_LOOKUP_NEXT ) ;
+	set_button_image( m_button_get, IDB_GET ) ;
+	set_button_image( m_button_get_and_next, IDB_GET_AND_NEXT ) ;
+	set_button_image( m_button_set, IDB_SET ) ;
+	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
+	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_REVIEW ) ;
+}
+void CConnect::switch_to_review_menu()
+{
+
+}
+void CConnect::switch_to_translation_menu()
+{
+
+}
+void CConnect::set_button_image(Office::_CommandBarButtonPtr& button, const int image_id)
+{
+	if ( ! load_picture(button, image_id + 100 ) ) 
+	{
+		logging::log_debug("  -- Failed to load picture; pasting") ;
+		pastePicture(image_id, button);
+	}
 }

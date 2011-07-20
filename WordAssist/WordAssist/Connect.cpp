@@ -214,6 +214,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 	return S_OK;
 }
 
+
 void CConnect::load_keyboard_shortcuts()
 {
 	input_device_ptr input(new InputDeviceFile) ;
@@ -699,23 +700,31 @@ command_button_ptr CConnect::add_menu_item(office_cmd_bar_ctls &controls, int bu
 */
 HRESULT CConnect::add_toolbar( office_cmd_bars &spCmdBars )
 {
-	logging::log_debug("add_toolbar") ;
+	logging::log_debug("CConnect::add_toolbar") ;
 
 	//Add a new toolband through Add method
 	//m_toolbar points to the newly created toolband
-	_variant_t vName("Felix Interface");
-	_variant_t vPos(1); 
+	_variant_t vName(L"Felix Interface");
+	// position it below all toolbands
+	CComVariant vPos(1); //MsoBarPosition::msoBarTop = 1
+
 	_variant_t vTemp(VARIANT_FALSE); // menu IS NOT temporary        
-	_HR_RET( spCmdBars->raw_Add( vName, vPos, vtMissing, vTemp, &m_toolbar ) ) ;
+	//Add a new toolband through Add method
+	// vMenuTemp holds an unspecified parameter
+	m_toolbar = spCmdBars->Add( vName, vPos, vtMissing, vTemp) ;
 
 	//now get the toolband's CommandBarControls
-
-	// connect to event source in OnConnection
-	// m_spButton member variable is a smart pointer to _CommandBarButton
-	// that is used to cache the pointer to the first toolbar button.
-
 	office_cmd_bar_ctls spBarControls = m_toolbar->Controls ;
 
+	add_toolbar_items(spBarControls);
+
+	m_toolbar->Visible = VARIANT_TRUE ;
+	return S_OK ;
+}
+
+// Add the buttons to the toolbar
+void CConnect::add_toolbar_items( office_cmd_bar_ctls spBarControls )
+{
 	int string_offset = 0 ;
 
 	m_properties.read_from_registry();
@@ -733,11 +742,6 @@ HRESULT CConnect::add_toolbar( office_cmd_bars &spCmdBars )
 	add_toolbar_item( spBarControls, IDB_SET_AND_NEXT, IDS_MENU_SET_AND_NEXT + string_offset ) ;
 	add_toolbar_item( spBarControls, IDB_GLOSS_N, IDS_MENU_GLOSS_N + string_offset ) ;
 	add_toolbar_item( spBarControls, IDB_HELP, IDS_MENU_HELP + string_offset ) ;
-
-	_HR_RET( m_toolbar->put_Visible( VARIANT_TRUE ) ) ;
-
-
-	return S_OK ;
 }
 
 /*!

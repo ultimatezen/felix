@@ -39,10 +39,11 @@ if ( FAILED( x ) ) \
 CPowerPointInterface::CPowerPointInterface() : 
 	m_queryStart( 0 ),
 	m_is_auto(false),
-	m_textRangeParser(m_properties, &m_abbreviations)
+	m_textRangeParser(m_properties, &m_abbreviations),
+	m_is_trans_mode(true)
 {
 	load_abbreviations();
-	}
+}
 
 CPowerPointInterface::~CPowerPointInterface()
 {

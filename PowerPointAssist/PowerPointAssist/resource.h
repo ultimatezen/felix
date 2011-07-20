@@ -7,7 +7,11 @@
 #define IDS_USER_PREFERENCES            101
 #define IDR_CONNECT                     102
 #define IDS_USER_PREFERENCES_J          102
+#define IDS_TO_REVIEW_MODE_E            103
+#define IDS_TO_REVIEW_MODE_J            104
 #define IDS_LANG_CODE                   105
+#define IDS_TO_TRANS_MODE_E             106
+#define IDS_TO_TRANS_MODE_J             107
 #define IDC_INPUT_EDIT                  201
 #define IDC_SEG_END_EDIT                201
 #define IDC_GUI_LANG_BOX                201

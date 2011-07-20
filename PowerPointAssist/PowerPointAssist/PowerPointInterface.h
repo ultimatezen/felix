@@ -19,13 +19,23 @@ class CPowerPointInterface : public KeyTargetPpt
 	CTextRangeParser			m_textRangeParser ;
 	app_state					*m_properties ;
 	Abbreviations				m_abbreviations ;
+
 public:
 	bool m_is_auto ;
+	bool m_is_trans_mode ;
 
 	CPowerPointInterface();
 
 	void load_abbreviations();
 	virtual ~CPowerPointInterface();
+	void OnSwitchModeAction()
+	{
+		m_is_trans_mode = !! m_is_trans_mode ;
+	}
+	bool is_translation_mode()
+	{
+		return m_is_trans_mode ;
+	}
 
 	bool IsActive()
 	{

@@ -69,7 +69,8 @@ class ATL_NO_VTABLE CConnect :
 	public MenuRestoreAndNextTransEventImpl,
 	public MenuExtendTransLookupEventImpl,
 	public MenuGuiEventImpl,
-	public MenuPreferencesEventImpl
+	public MenuPreferencesEventImpl,
+	public MenuSwitchModeEventImpl
 {
 
 	Office::CommandBarControlPtr m_gloss_menu_popup ;
@@ -98,6 +99,7 @@ class ATL_NO_VTABLE CConnect :
 	//Office::_CommandBarButtonPtr	m_menu_align ;
 	Office::_CommandBarButtonPtr	m_menu_help ;
 	Office::_CommandBarButtonPtr	m_menu_preferences ;
+	Office::_CommandBarButtonPtr	m_menu_switch ;
 
 	Office::_CommandBarButtonPtr	m_menu_auto_trans ;
 	Office::_CommandBarButtonPtr	m_menu_auto_trans_fuzzy ;
@@ -248,8 +250,11 @@ END_COM_MAP()
 	void __stdcall OnLookupNext	( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 
 	void __stdcall OnGlossN		( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
+	void __stdcall OnButtonGlossN( IDispatch *Ctrl, VARIANT_BOOL *CancelDefault );
+
 	void __stdcall OnSave		( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 	void __stdcall OnHelp		( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
+	void __stdcall OnMenuSwitchMode( IDispatch *, VARIANT_BOOL * );
 	void __stdcall OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  );
 	BEGIN_SINK_MAP(CConnect)
 		// button events
@@ -259,7 +264,7 @@ END_COM_MAP()
 		SINK_ENTRY_INFO(BUTTON_ID_SET_AND_NEXT, __uuidof(button_events), /*dispid*/ 0x01, OnSetAndNext, &OnClickButtonInfo )
 		SINK_ENTRY_INFO(BUTTON_ID_LOOKUP,		__uuidof(button_events), /*dispid*/ 0x01, OnLookup,		&OnClickButtonInfo )
 		SINK_ENTRY_INFO(BUTTON_ID_LOOKUP_NEXT,	__uuidof(button_events), /*dispid*/	0x01, OnLookupNext,	&OnClickButtonInfo )
-		SINK_ENTRY_INFO(BUTTON_ID_GLOSS_N,		__uuidof(button_events), /*dispid*/ 0x01, OnGlossN,		&OnClickButtonInfo )
+		SINK_ENTRY_INFO(BUTTON_ID_GLOSS_N,		__uuidof(button_events), /*dispid*/ 0x01, OnButtonGlossN,		&OnClickButtonInfo )
 		SINK_ENTRY_INFO(BUTTON_ID_HELP,		    __uuidof(button_events), /*dispid*/ 0x01, OnHelp,		&OnClickButtonInfo )
 		// menu events
 		SINK_ENTRY_INFO(MENU_ID_GET,			__uuidof(button_events), /*dispid*/ 0x01, OnGet,		&OnClickButtonInfo )
@@ -300,6 +305,7 @@ END_COM_MAP()
 		SINK_ENTRY_INFO(MENU_ID_EXTEND_LOOKUP_TRANS,	__uuidof(button_events), /*dispid*/ 0x01, OnExtendTransLookup ,	&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_MENU_GUI,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuGui,			&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_PREFERENCES,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuPreferences,			&OnClickButtonInfo )
+		SINK_ENTRY_INFO(MENU_ID_SWITCH,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuSwitchMode,			&OnClickButtonInfo )
 
 	END_SINK_MAP()
 
@@ -319,7 +325,14 @@ END_COM_MAP()
 	// error handling
 	// =======================
 
+	void switch_to_translation_toolbar();
+	void switch_to_review_toolbar( );
 
+	void switch_to_translation_menu();
+	void switch_to_review_menu( );
+
+
+	void set_button_image(Office::_CommandBarButtonPtr& button, const int image_id) ;
 
 private:
 	void putImageInClipboard(HBITMAP hBmp);
