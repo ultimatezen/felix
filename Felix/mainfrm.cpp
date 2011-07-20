@@ -925,7 +925,7 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 		}
 		if (ext.equals(".fprefx"))
 		{
-			this->m_props->load_file(filename) ;
+			this->m_props->load_file((LPCWSTR)filename) ;
 			return true ;
 		}
 
