@@ -572,10 +572,8 @@ HRESULT CConnect::add_menu( office_cmd_bars &spCmdBars )
 		_("Failed to get controls for menu item") 
 		) ;
 
-	CStringW caption ; caption.LoadString( IDS_MENU_GET_GLOSS + string_offset ) ;
-	CStringW tooltip ; tooltip.LoadString( IDS_MENU_GET_GLOSS_TT + string_offset ) ;
-	m_gloss_menu_popup->Caption = (LPCWSTR)caption ;
-	m_gloss_menu_popup->DescriptionText = (LPCWSTR)tooltip ; 
+	m_gloss_menu_popup->Caption = R2W(IDS_MENU_GET_GLOSS + string_offset) ;
+	m_gloss_menu_popup->DescriptionText = R2W(IDS_MENU_GET_GLOSS_TT + string_offset) ; 
 	m_gloss_menu_popup->BeginGroup = VARIANT_TRUE ;
 
 	CComPtr< IDispatch > spGlossDispatch ;

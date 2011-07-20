@@ -255,11 +255,7 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 		MenuEntry8EventImpl::DispEventUnadvise( (IUnknown*)m_menu_entry_8 ) ;
 		MenuEntry9EventImpl::DispEventUnadvise( (IUnknown*)m_menu_entry_9 ) ;
 		MenuGlossNEventImpl::DispEventUnadvise( (IUnknown*)m_menu_gloss_n );
-		MenuLookupTransEventImpl::DispEventUnadvise( (IUnknown*)m_menu_lookup_trans ) ;
-		MenuLookupNextTransEventImpl::DispEventUnadvise( (IUnknown*)m_menu_lookup_next_trans ) ;
-		MenuTransConcordanceEventImpl::DispEventUnadvise( (IUnknown*)m_menu_trans_concordance ) ;
-		MenuCorrectTransEventImpl::DispEventUnadvise( (IUnknown*)m_menu_correct_trans ) ;
-		MenuExtendTransLookupEventImpl::DispEventUnadvise( (IUnknown*)m_menu_extend_trans_lookup ) ;
+
 		MenuSaveEventImpl::DispEventUnadvise( (IUnknown*)m_menu_save );
 		MenuHelpEventImpl::DispEventUnadvise( (IUnknown*)m_menu_help );
 		MenuGuiEventImpl::DispEventUnadvise( (IUnknown*)m_menu_gui ) ;
@@ -426,16 +422,16 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		//	m_menu_get->put_BeginGroup( VARIANT_TRUE ) ;
 		MenuGetEventImpl::DispEventAdvise( (IUnknown*)m_menu_get );
 
-		caption.LoadString( IDB_SET ) ;
-		tooltip.LoadString( IDB_SET ) ;
-		m_menu_set= add_menu_item( ta_menu_controls, IDB_SET, caption, tooltip  ) ;
-		MenuSetEventImpl::DispEventAdvise( (IUnknown*)m_menu_set );
-
 		caption.LoadString( IDB_GET_AND_NEXT ) ;
 		tooltip.LoadString( IDB_GET_AND_NEXT ) ;
 		m_menu_get_and_next= add_menu_item( ta_menu_controls, IDB_GET_AND_NEXT, caption, tooltip  ) ;
-		m_menu_set->put_BeginGroup( VARIANT_TRUE ) ;
 		MenuGetAndNextEventImpl::DispEventAdvise( (IUnknown*)m_menu_get_and_next );
+
+		caption.LoadString( IDB_SET ) ;
+		tooltip.LoadString( IDB_SET ) ;
+		m_menu_set= add_menu_item( ta_menu_controls, IDB_SET, caption, tooltip  ) ;
+		m_menu_set->put_BeginGroup( VARIANT_TRUE ) ;
+		MenuSetEventImpl::DispEventAdvise( (IUnknown*)m_menu_set );
 
 		caption.LoadString( IDB_SET_AND_NEXT ) ;
 		tooltip.LoadString( IDB_SET_AND_NEXT ) ;
@@ -500,7 +496,6 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_gloss_menu_popup->put_BeginGroup( VARIANT_TRUE ) ;
 
 		Office::CommandBarPopupPtr spGlossPopup = m_gloss_menu_popup->Control ;
-
 		spGlossPopup->Visible = VARIANT_TRUE  ;
 
 		Office::CommandBarControlsPtr spGlossMenuControls;
@@ -561,31 +556,6 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_menu_gloss_n = add_menu_item( spGlossMenuControls, IDB_GLOSS_N, caption, tooltip  ) ;
 		MenuGlossNEventImpl::DispEventAdvise( (IUnknown*)m_menu_gloss_n );
 
-		caption = L"&Find Current Translation (CTL + ALT + L)" ;
-		tooltip = L"Look up current translation" ;
-		m_menu_lookup_trans = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		m_menu_lookup_trans->put_BeginGroup( VARIANT_TRUE ) ;
-		MenuLookupTransEventImpl::DispEventAdvise( (IUnknown*)m_menu_lookup_trans ) ;
-
-		caption = L"Look up Ne&xt Translation (CTL + ALT + R ARR)" ;
-		tooltip = L"Select and look up next translation" ;
-		m_menu_lookup_next_trans = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		MenuLookupNextTransEventImpl::DispEventAdvise( (IUnknown*)m_menu_lookup_next_trans ) ;
-
-		caption = L"Translat&ion Concordance (CTL + ALT + C)" ;
-		tooltip = L"Find concordance in translations for current selection" ;
-		m_menu_trans_concordance = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		MenuTransConcordanceEventImpl::DispEventAdvise( (IUnknown*)m_menu_trans_concordance ) ;
-
-		caption = L"Correct Translation (&B) (CTL + ALT + UP ARR)" ;
-		tooltip = L"Correct current translation" ;
-		m_menu_correct_trans = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		MenuCorrectTransEventImpl::DispEventAdvise( (IUnknown*)m_menu_correct_trans ) ;
-
-		caption = L"Extend Translation Loo&kup Sentence (CTL + ALT + E)" ;
-		tooltip = L"Extend the translation lookup sentence" ;
-		m_menu_extend_trans_lookup = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		MenuExtendTransLookupEventImpl::DispEventAdvise( (IUnknown*)m_menu_extend_trans_lookup ) ;
 
 		caption.LoadString( IDB_SAVE ) ;
 		tooltip.LoadString( IDB_SAVE ) ;
@@ -608,16 +578,15 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_menu_gui = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
 		MenuGuiEventImpl				::DispEventAdvise( (IUnknown*)m_menu_gui ) ;
 
+		caption.LoadString( IDS_TO_REVIEW_MODE_E ) ;
+		tooltip.LoadString( IDS_TO_REVIEW_MODE_E ) ;
+		m_menu_switch = add_menu_item( ta_menu_controls, IDB_SWITCH_TO_TRANS, caption, tooltip  ) ;
+		MenuSwitchModeEventImpl::DispEventAdvise( (IUnknown*)m_menu_switch ) ;
+
 		caption.LoadString( IDS_USER_PREFERENCES ) ;
 		tooltip.LoadString( IDS_USER_PREFERENCES ) ;
 		m_menu_preferences = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
 		MenuPreferencesEventImpl::DispEventAdvise( (IUnknown*)m_menu_preferences ) ;
-
-		caption.LoadString( IDS_TO_REVIEW_MODE_E ) ;
-		tooltip.LoadString( IDS_TO_REVIEW_MODE_E ) ;
-		m_menu_switch = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
-		MenuSwitchModeEventImpl::DispEventAdvise( (IUnknown*)m_menu_switch ) ;
-
 	}
 	catch (_com_error& e)
 	{
@@ -1790,13 +1759,13 @@ void __stdcall CConnect::OnMenuSwitchMode( IDispatch *, VARIANT_BOOL * )
 		{
 			switch_to_translation_toolbar() ;
 			switch_to_translation_menu() ;
-			m_menu_auto_trans->Enabled = VARIANT_TRUE ;
+			m_menu_auto_trans_fuzzy->Enabled = VARIANT_TRUE ;
 		}
 		else 
 		{
 			switch_to_review_toolbar() ;
 			switch_to_review_menu() ;
-			m_menu_auto_trans->Enabled = VARIANT_FALSE ;
+			m_menu_auto_trans_fuzzy->Enabled = VARIANT_FALSE ;
 		}
 	}
 

@@ -30,7 +30,7 @@ public:
 	virtual ~CPowerPointInterface();
 	void OnSwitchModeAction()
 	{
-		m_is_trans_mode = !! m_is_trans_mode ;
+		m_is_trans_mode = ! m_is_trans_mode ;
 	}
 	bool is_translation_mode()
 	{
