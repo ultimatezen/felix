@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{01F3D59E-2116-468D-9176-112DA8D18191}</ProjectGuid>
+    <RootNamespace>Test_Excel</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\dev\cpp\Assistant Suite\ExcelAssist\ExcelAssist;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(IntDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>"$(IntDir)$(TargetName).exe" --result_code=no --report_level=no </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\app_state.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\app_state_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringEntry.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringEntry_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringRecordParser.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringRecordParser_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\appstrings.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\appstrings_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringTextNodeParser.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringTextNodeParser_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\ClipboardBackup.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\ClipboardBackup_test.cpp" />
+    <ClCompile Include="..\common\config_file.cpp" />
+    <ClCompile Include="config_file_test.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\DispatchWrapper_test.cpp" />
+    <ClCompile Include="..\common\Exceptions.cpp" />
+    <ClCompile Include="..\common\Exceptions_test.cpp" />
+    <ClCompile Include="..\common\input_device_file.cpp" />
+    <ClCompile Include="key_mapper_excel_test.cpp" />
+    <ClCompile Include="..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="..\ExcelAssist\ExcelAssist\keyboard_shortcuts_excel.cpp" />
+    <ClCompile Include="keyboard_shortcuts_excel_test.cpp" />
+    <ClCompile Include="..\common\logging.cpp" />
+    <ClCompile Include="..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\common\pugxml\src\pugixpath.cpp" />
+    <ClCompile Include="..\common\resource_string.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Test_Excel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\app_state.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\AppStringEntry.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\AppStringRecordParser.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\appstrings.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\AppStringTextNodeParser.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\ClipboardBackup.h" />
+    <ClInclude Include="..\common\config_file.h" />
+    <ClInclude Include="..\common\Exceptions.h" />
+    <ClInclude Include="..\common\input_device.h" />
+    <ClInclude Include="..\common\input_device_fake.h" />
+    <ClInclude Include="..\common\input_device_file.h" />
+    <ClInclude Include="..\common\key_mapper.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\key_mapper_excel.h" />
+    <ClInclude Include="..\common\key_mapper_fake.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\key_target_excel.h" />
+    <ClInclude Include="key_target_excel_fake.h" />
+    <ClInclude Include="..\common\keyboard_shortcuts.h" />
+    <ClInclude Include="..\ExcelAssist\ExcelAssist\keyboard_shortcuts_excel.h" />
+    <ClInclude Include="..\common\logging.h" />
+    <ClInclude Include="..\common\output_device.h" />
+    <ClInclude Include="..\common\pugxml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\common\pugxml\src\pugixml.hpp" />
+    <ClInclude Include="..\common\resource_string.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
