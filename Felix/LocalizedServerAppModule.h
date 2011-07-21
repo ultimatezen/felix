@@ -274,7 +274,6 @@ inline bool CLocalizedServerAppModule::set_library(const tstring &lib_name)
 	// Be defensive...
 	if ( m_hInstResource  != NULL )
 		::FreeLibrary( m_hInstResource  ) ;
-	m_hInstResource = NULL ;
 
 	// Finally, we set the instance of the new resource library
 	m_hInstResource  = localized_instance ;

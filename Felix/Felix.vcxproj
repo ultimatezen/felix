@@ -248,10 +248,12 @@ echo Protection complete!
       </Command>
     </PreBuildEvent>
     <CustomBuildStep>
-      <Message>Performing registration</Message>
-      <Command>echo Nothing to see here, folks...
+      <Message>
+      </Message>
+      <Command>
 </Command>
-      <Outputs>$(OutDir)regsvr32.trg;%(Outputs)</Outputs>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -1055,7 +1057,6 @@ echo Protection complete!
     <ClInclude Include="..\common\logging.h" />
     <ClInclude Include="..\common\logical.h" />
     <ClInclude Include="longest_common_substring.h" />
-    <ClInclude Include="MainFrameModel.h" />
     <ClInclude Include="mainfrm.h" />
     <ClInclude Include="ManagerWindow.h" />
     <ClInclude Include="match_filters.h" />
@@ -1123,7 +1124,6 @@ echo Protection complete!
     <ClInclude Include="UserStringDlg.h" />
     <ClInclude Include="view_interface.h" />
     <ClInclude Include="ViewCollectionWalker.h" />
-    <ClInclude Include="..\common\WebBrowser.h" />
     <ClInclude Include="WebPage.h" />
     <ClInclude Include="..\common\WideRichEdit.h" />
     <ClInclude Include="window_interface.h" />

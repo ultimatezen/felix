@@ -1244,9 +1244,6 @@
     <ClInclude Include="longest_common_substring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainFrameModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mainfrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1446,9 +1443,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewCollectionWalker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\WebBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebPage.h">
