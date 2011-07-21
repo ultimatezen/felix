@@ -1,24 +1,24 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix English", "EngResource\Felix English.vcproj", "{EC4FCBB9-D124-47F7-9ED1-90EB7DA49ADB}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix English", "EngResource\Felix English.vcxproj", "{EC4FCBB9-D124-47F7-9ED1-90EB7DA49ADB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PowerPointAssist", "..\PowerPointAssist\PowerPointAssist\PowerPointAssist.vcproj", "{57907A8C-C01C-4327-AFED-38A859425977}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PowerPointAssist", "..\PowerPointAssist\PowerPointAssist\PowerPointAssist.vcxproj", "{57907A8C-C01C-4327-AFED-38A859425977}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordAssist", "..\WordAssist\WordAssist\WordAssist.vcproj", "{C6F58301-0D06-4702-8C61-DEF6BD725438}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordAssist", "..\WordAssist\WordAssist\WordAssist.vcxproj", "{C6F58301-0D06-4702-8C61-DEF6BD725438}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExcelAssist", "..\ExcelAssist\ExcelAssist\ExcelAssist.vcproj", "{BA2D853D-4090-4CA0-9F77-D7D402937A40}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExcelAssist", "..\ExcelAssist\ExcelAssist\ExcelAssist.vcxproj", "{BA2D853D-4090-4CA0-9F77-D7D402937A40}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix", "Felix.vcproj", "{00E59612-791D-4E84-929A-7E77171FF913}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix", "Felix.vcxproj", "{00E59612-791D-4E84-929A-7E77171FF913}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix Japanese", "JpnResource\Felix Japanese.vcproj", "{AC239BA1-74BD-42F5-8347-434F9D7D597C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Felix Japanese", "JpnResource\Felix Japanese.vcxproj", "{AC239BA1-74BD-42F5-8347-434F9D7D597C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_WordAssist", "..\Test_WordAssist\Test_WordAssist\Test_WordAssist.vcproj", "{F5DB2C48-A3FC-487F-AFB2-83F4040870A3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_WordAssist", "..\Test_WordAssist\Test_WordAssist\Test_WordAssist.vcxproj", "{F5DB2C48-A3FC-487F-AFB2-83F4040870A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_PPT", "..\Test_PPT\Test_PPT.vcproj", "{F610A582-705E-4751-BE4D-3A6785B60B40}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_PPT", "..\Test_PPT\Test_PPT.vcxproj", "{F610A582-705E-4751-BE4D-3A6785B60B40}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_Excel", "..\Test_Excel\Test_Excel.vcproj", "{01F3D59E-2116-468D-9176-112DA8D18191}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_Excel", "..\Test_Excel\Test_Excel.vcxproj", "{01F3D59E-2116-468D-9176-112DA8D18191}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewDev", "..\NewDev\NewDev.vcproj", "{660F77D3-CBFE-4830-84EB-F3BF148729FE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewDev", "..\NewDev\NewDev.vcxproj", "{660F77D3-CBFE-4830-84EB-F3BF148729FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

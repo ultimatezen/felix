@@ -2,21 +2,57 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{cc294249-5967-4573-af71-9d571d7b0b3c}</UniqueIdentifier>
+      <UniqueIdentifier>{547f546c-621c-421d-bc8f-e282680dc553}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Source Files\tests">
-      <UniqueIdentifier>{6d3a042d-93e3-4e49-8caf-9a81803d3a04}</UniqueIdentifier>
+      <UniqueIdentifier>{703c6be5-4934-4745-b479-1e4559c26bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ManagerView">
+      <UniqueIdentifier>{63ad6c79-3f98-438a-8fb0-f7694cbebeac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\view_state">
+      <UniqueIdentifier>{1dc3a817-0277-4982-873f-7a6aaf0f53bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\import_export">
+      <UniqueIdentifier>{ebb83ef0-2b0f-4a72-8157-228c557b93f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\undoable_actions">
+      <UniqueIdentifier>{46391a30-6a4e-4fe0-88d6-626583ea6942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\qcrules">
+      <UniqueIdentifier>{5d0b882d-cf5c-4881-9e81-0fb1b54534d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mem_engine">
+      <UniqueIdentifier>{cb1685bb-731a-4773-80ee-e75bce3bf0bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{05860899-d949-4df1-a676-45e3988d04ad}</UniqueIdentifier>
+      <UniqueIdentifier>{faf38619-7340-4ba1-8ea7-fc9fc29c642e}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Header Files\fake">
-      <UniqueIdentifier>{75997ef0-2259-4dab-a73e-aa996f0b849c}</UniqueIdentifier>
+      <UniqueIdentifier>{93a09c09-be2a-4a7a-bb93-2ebd11f897ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ManagerView">
+      <UniqueIdentifier>{da9d4032-5247-45a8-9661-b91117c361a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\import_export">
+      <UniqueIdentifier>{a03b5614-edf6-47ab-bb47-60294b05c1f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\view_state">
+      <UniqueIdentifier>{6d91edef-68a2-4ff4-90f4-2000cb453646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\undoable_actions">
+      <UniqueIdentifier>{e58f4c8a-5521-4238-b27c-c9d65f8a136e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\qcrules">
+      <UniqueIdentifier>{adfebae3-b8ec-46f1-83ef-a283ce5eef1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mem_engine">
+      <UniqueIdentifier>{b976f4ff-1e08-4bff-b319-34f49e68d6d4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{d0419d31-8578-476a-8bbe-1d04d53505df}</UniqueIdentifier>
+      <UniqueIdentifier>{feef7741-eea5-4627-8821-81bf69d4544f}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -33,7 +69,10 @@
     <ClCompile Include="charset_info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\ColorRef.cpp">
+    <ClCompile Include="..\common\ColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommonWindowFunctionality.cpp">
@@ -42,37 +81,31 @@
     <ClCompile Include="ComRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ComRecords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ConcordanceDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ConnectionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContentPresenter.cpp">
+    <ClCompile Include="..\common\ConvertUTF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContentPresenterAddedTrans.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="data_converter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="data_exporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="data_importer.cpp">
+    <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DemoException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\distance.cpp">
+    <ClCompile Include="..\common\distance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="document_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\xpmenu\Draw.cpp">
+    <ClCompile Include="..\common\xpmenu\Draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Drop.cpp">
@@ -96,7 +129,10 @@
     <ClCompile Include="ExcelExporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\Exceptions.cpp">
+    <ClCompile Include="..\common\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Exceptions_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExtraStringsView.cpp">
@@ -126,22 +162,28 @@
     <ClCompile Include="GlossaryDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GlossaryWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="HrefTags.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HtmlDocColorSetter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\HtmlDocument.cpp">
+    <ClCompile Include="..\common\HtmlDocument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\HtmlView.cpp">
+    <ClCompile Include="..\common\HtmlView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImportDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImportMultitermFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\input_device_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputKeyDlg.cpp">
@@ -153,13 +195,19 @@
     <ClCompile Include="LanguageHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\Library.cpp">
+    <ClCompile Include="..\common\Library.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\logging.cpp">
+    <ClCompile Include="..\common\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="longest_common_substring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mainfrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="markup_strings.cpp">
@@ -168,37 +216,31 @@
     <ClCompile Include="match_filters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="match_maker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="match_score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="match_tester.cpp">
+    <ClCompile Include="matcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MatchStringPairing.cpp">
+    <ClCompile Include="..\common\MatchStringPairing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="memory_header.cpp">
+    <ClCompile Include="..\common\MatchStringPairing_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="memory_local.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_remote.cpp">
+    <ClCompile Include="Memories.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MemoryManagerDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MinViewDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\MultiLanguage.cpp">
+    <ClCompile Include="..\common\MultiLanguage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MultitermConversionDlg.cpp">
@@ -210,31 +252,28 @@
     <ClCompile Include="NavUrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\numberfmt.cpp">
+    <ClCompile Include="..\common\numberfmt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pagination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropertiesDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="query.cpp">
+    <ClCompile Include="..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\pugxml\src\pugixpath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QueryMergeDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="record_local.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="record_remote.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RegisterGlossDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\RegSettings.cpp">
+    <ClCompile Include="..\common\RegSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="replacer.cpp">
@@ -243,22 +282,22 @@
     <ClCompile Include="ResHtmlFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\resource_string.cpp">
+    <ClCompile Include="..\common\resource_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\rtf.cpp">
+    <ClCompile Include="..\common\rtf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\Scintilla_encodings.cpp">
+    <ClCompile Include="..\common\Scintilla_encodings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\ScintillaEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="search_match.cpp">
+    <ClCompile Include="..\common\ScintillaEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SearchResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SearchWindow.cpp">
@@ -270,37 +309,19 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\system_message.cpp">
+    <ClCompile Include="..\common\system_message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedTextImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tag_name_holder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tag_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="text_templates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\TextTemplate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TmxImportLangsDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TmxSymbolMapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMXWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\xpmenu\ToolBarXP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TranslationMemory.cpp">
+    <ClCompile Include="..\common\xpmenu\ToolBarXP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UserStringDlg.cpp">
@@ -309,37 +330,25 @@
     <ClCompile Include="view_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="view_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_concordance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_initial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_new.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_review.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ViewCollectionWalker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WebPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\WideRichEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="zoom_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="aboutdlg_test.cpp">
+    <ClCompile Include="action_delete_entry_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_matches_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="action_strip_tags_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="action_trim_spaces_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="AdvancedMemMgrDlg_test.cpp">
@@ -354,7 +363,7 @@
     <ClCompile Include="AppTemplateTests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\array_test.cpp">
+    <ClCompile Include="..\common\array_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="AutomationExceptionHandler_test.cpp">
@@ -369,10 +378,19 @@
     <ClCompile Include="com_utilities_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="ComMemories_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemory_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="CommonWindowFunctionality_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="ComRecord_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecords_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="ConcordanceDialog_test.cpp">
@@ -381,10 +399,10 @@
     <ClCompile Include="ConnectionDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="ContentPresenter_test.cpp">
+    <ClCompile Include="ConvertUTF_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="ContentPresenterAddedTrans_test.cpp">
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="data_converter_test.cpp">
@@ -399,7 +417,13 @@
     <ClCompile Include="demo_exception_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\distance_test.cpp">
+    <ClCompile Include="destination_parser_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\distance_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="EditFormParser_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="EditModeFindDlg_test.cpp">
@@ -420,7 +444,7 @@
     <ClCompile Include="excelexporter_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions_test.cpp">
+    <ClCompile Include="export_tabbed_text_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="extrastringsview_test.cpp">
@@ -435,7 +459,7 @@
     <ClCompile Include="FelixMemDocUIHandler_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\File_test.cpp">
+    <ClCompile Include="..\common\File_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="FindDlg_test.cpp">
@@ -480,6 +504,9 @@
     <ClCompile Include="logical_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="longest_common_substring_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="mainframe_messaging_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -489,37 +516,25 @@
     <ClCompile Include="mainfrm_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="ManagerWindow_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="match_filters_matcher_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="match_filters_searcher_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="match_filters_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="match_maker_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="match_score_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="match_tester_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="MatchStringPairing_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_header_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_local_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_model_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_remote_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryManagerDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindow_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="MinViewDlg_test.cpp">
@@ -543,22 +558,13 @@
     <ClCompile Include="oleautowrapper_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="pagination_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="PropertiesDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="query_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="QueryMergeDlg_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="record_local_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="record_remote_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="record_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="RegisterGlossDlg_test.cpp">
@@ -576,10 +582,10 @@
     <ClCompile Include="ScintillaEdit_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="search_match_test.cpp">
+    <ClCompile Include="SearchResult_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="SearchResult_test.cpp">
+    <ClCompile Include="SearchResults_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="SearchWindow_browser_test.cpp">
@@ -606,16 +612,22 @@
     <ClCompile Include="system_message_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="TabbedTextImporter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="tag_stripper_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tag_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="text_templates_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\textstream_reader_test.cpp">
+    <ClCompile Include="..\common\textstream_reader_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MyLibrary\TextTemplate_test.cpp">
+    <ClCompile Include="TmxImportLangsDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="TMXReader_test.cpp">
@@ -628,9 +640,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="translation_match_query_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="TranslationMemory_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="ui_test.cpp">
@@ -660,6 +669,9 @@
     <ClCompile Include="ViewCollectionWalker_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="WebPage_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
     <ClCompile Include="WideRichEdit_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -675,10 +687,205 @@
     <ClCompile Include="zoom_dialog_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="pagination.cpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="EditFormParser.cpp">
+      <Filter>Source Files\ManagerView</Filter>
     </ClCompile>
-    <ClCompile Include="pagination_test.cpp">
+    <ClCompile Include="ManagerView.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewActions.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewActions_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewBrowse.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewBrowse_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewDetails.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewDetails_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewEdit.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewEdit_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCBrowse.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCBrowse_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCSettings.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCSettings_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewStart.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewStart_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_concordance.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="data_converter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="data_exporter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="data_importer.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="export_tabbed_text.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxImportLangsDlg.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXReader.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxSymbolMapper.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXWriter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_entry.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_matches.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_strip_tags.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_trim_spaces.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\allcaps_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\allcaps_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\gloss_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\gloss_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\number_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\number_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\qc_checker.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\qc_checker_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="match_maker.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_maker_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_tester.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_tester_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_header.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_header_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_local.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_local_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_model.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_model_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_remote.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_remote_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="query.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="query_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_local.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_local_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_remote.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_remote_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="search_match.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="search_match_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationMemory.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationMemory_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\WideRichEdit.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="TMXImportDlg.cpp">
@@ -716,6 +923,12 @@
     <None Include="bmp00007.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ComMemory.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ComRecords.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="correct_.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -740,6 +953,9 @@
     <None Include="gloss_n.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="GlossaryWindow.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="help1.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -755,6 +971,12 @@
     <None Include="lookup_t.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Memories.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MemoryWindow.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Parameters.rgs">
       <Filter>Resource Files</Filter>
     </None>
@@ -768,6 +990,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="SearchResult.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SearchResults.rgs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="set.bmp">
@@ -794,7 +1019,7 @@
     <ClInclude Include="_IRecordEvents_CP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\aboutdlg.h">
+    <ClInclude Include="..\common\aboutdlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AdvancedMemMgrDlg.h">
@@ -809,22 +1034,28 @@
     <ClInclude Include="ArmadilloStuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\array.h">
+    <ClInclude Include="..\common\array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\atlgdix.h">
+    <ClInclude Include="..\common\atlgdix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\AutomationExceptionHandler.h">
+    <ClInclude Include="..\common\AutomationExceptionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\background_processor.h">
+    <ClInclude Include="..\common\background_processor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="charset_info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ColorRef.h">
+    <ClInclude Include="..\common\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com2stl_coll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommonWindowFunctionality.h">
@@ -833,7 +1064,10 @@
     <ClInclude Include="ComRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ComUtilities.h">
+    <ClInclude Include="ComRecords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ComUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConcordanceDialog.h">
@@ -842,49 +1076,34 @@
     <ClInclude Include="ConnectionDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ContentPresenter.h">
+    <ClInclude Include="..\common\ConvertUTF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ContentPresenterAddedTrans.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ConvertUTF.h">
+    <ClInclude Include="..\..\cpptempl\cpptempl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CRecordLabelPickerDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\CStringInterface.h">
+    <ClInclude Include="..\common\CStringInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\CustomTabCtrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="data_converter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="data_exporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="data_importer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\debugutilities.h">
+    <ClInclude Include="..\common\CustomTabCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DemoException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\dispatchwrapper.h">
+    <ClInclude Include="..\common\dispatchwrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\distance.h">
+    <ClInclude Include="..\common\distance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="document_wrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\xpmenu\Draw.h">
+    <ClInclude Include="..\common\xpmenu\Draw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Drop.h">
@@ -908,22 +1127,31 @@
     <ClInclude Include="element_wrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\errortranslator.h">
+    <ClInclude Include="..\common\errortranslator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExcelExporter.h">
+    <ClInclude Include="ExcelInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Exceptions.h">
+    <ClInclude Include="ExcelInterfaceFake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelInterfaceReal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ExtraStringsView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\fakewindow.h">
+    <ClInclude Include="..\common\fakewindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="felix_cl_options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="felix_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Felix_properties.h">
@@ -941,7 +1169,7 @@
     <ClInclude Include="FelixStatusBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\file.h">
+    <ClInclude Include="..\common\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileOpHandler.h">
@@ -953,6 +1181,9 @@
     <ClInclude Include="font_tabulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FrameListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GlossaryDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -962,22 +1193,31 @@
     <ClInclude Include="GlossaryDlgListenerFake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlossaryWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="HrefTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HtmlDocColorSetter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\HtmlDocument.h">
+    <ClInclude Include="..\common\HtmlDocument.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\HtmlView.h">
+    <ClInclude Include="..\common\HtmlView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImportDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImportMultitermFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InputKeyDlg.h">
@@ -989,16 +1229,19 @@
     <ClInclude Include="LanguageHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Library.h">
+    <ClInclude Include="..\common\Library.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LocalizedServerAppModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\logging.h">
+    <ClInclude Include="..\common\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\logical.h">
+    <ClInclude Include="..\common\logical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="longest_common_substring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainFrameModel.h">
@@ -1007,61 +1250,49 @@
     <ClInclude Include="mainfrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="markup_strings.h">
+    <ClInclude Include="ManagerWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="match_filters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="match_maker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="match_score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="match_tester.h">
+    <ClInclude Include="matcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MatchStringPairing.h">
+    <ClInclude Include="..\common\MatchStringPairing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Matrix.h">
+    <ClInclude Include="..\common\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="memory_header.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory_info.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory_local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory_model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory_remote.h">
+    <ClInclude Include="Memories.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MemoryManagerDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\xpmenu\MenuXP.h">
+    <ClInclude Include="MemoryWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\messagemapdefines.h">
+    <ClInclude Include="..\common\xpmenu\MenuXP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\messagemapdefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MinViewDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\miscwrappers.h">
+    <ClInclude Include="..\common\miscwrappers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MockListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\MultiLanguage.h">
+    <ClInclude Include="..\common\MultiLanguage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MultitermConversionDlg.h">
@@ -1070,7 +1301,7 @@
     <ClInclude Include="MyPaneContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\MyRecentDocumentList.h">
+    <ClInclude Include="..\common\MyRecentDocumentList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MySplitterWindow.h">
@@ -1085,22 +1316,22 @@
     <ClInclude Include="NavUrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\numberfmt.h">
+    <ClInclude Include="..\common\numberfmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\oleautowrapper.h">
+    <ClInclude Include="..\common\oleautowrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="output_device.h">
+    <ClInclude Include="..\common\output_device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pagination.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Path.h">
+    <ClInclude Include="..\common\Path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ProgressBarTestRunner.h">
+    <ClInclude Include="..\common\ProgressBarTestRunner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ProgressListener.h">
@@ -1109,31 +1340,25 @@
     <ClInclude Include="PropertiesDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="query.h">
+    <ClInclude Include="..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\pugxml\src\pugixml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QueryMergeDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="record.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="record_local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="record_remote.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\RegEx.h">
+    <ClInclude Include="..\common\RegEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegisterGlossDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\RegistryStuff.h">
+    <ClInclude Include="..\common\RegistryStuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\RegSettings.h">
+    <ClInclude Include="..\common\RegSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="replacer.h">
@@ -1145,19 +1370,19 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\resource_string.h">
+    <ClInclude Include="..\common\resource_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\rtf.h">
+    <ClInclude Include="..\common\rtf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ScintillaEdit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="search_match.h">
+    <ClInclude Include="..\common\ScintillaEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SearchResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchResults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SearchWindow.h">
@@ -1172,61 +1397,46 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\stringconversions.h">
+    <ClInclude Include="..\common\stringconversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\stringex.h">
+    <ClInclude Include="..\common\stringex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\system_message.h">
+    <ClInclude Include="..\common\system_message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\tag.h">
+    <ClInclude Include="TabbedTextImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\tag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tag_name_holder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\tag_stripper.h">
+    <ClInclude Include="..\common\tag_stripper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="text_templates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\textstream_reader.h">
+    <ClInclude Include="..\common\textstream_reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\TextTemplate.h">
+    <ClInclude Include="..\common\xpmenu\ToolBarXP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TMXImportDlg.h">
+    <ClInclude Include="..\common\xpmenu\Tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TmxImportLangsDlg.h">
+    <ClInclude Include="..\common\ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TMXReader.h">
+    <ClInclude Include="unit_testing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TmxSymbolMapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMXWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\xpmenu\ToolBarXP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\xpmenu\Tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TranslationMemory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\UserName.h">
+    <ClInclude Include="..\common\UserName.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UserStringDlg.h">
@@ -1235,46 +1445,25 @@
     <ClInclude Include="view_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="view_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_concordance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_fake.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_initial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_match.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_new.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_review.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="view_state_test_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ViewCollectionWalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\WebBrowser.h">
+    <ClInclude Include="..\common\WebBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\WideRichEdit.h">
+    <ClInclude Include="..\common\WideRichEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window_listener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\WindowExceptionHandler.h">
+    <ClInclude Include="..\common\WindowExceptionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowsMessage.h">
@@ -1289,7 +1478,25 @@
     <ClInclude Include="element_wrapper_fake.h">
       <Filter>Header Files\fake</Filter>
     </ClInclude>
+    <ClInclude Include="fake_undoable_action.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
     <ClInclude Include="felix_model_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="frame_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="manager_window_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewFake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactoryFake.h">
       <Filter>Header Files\fake</Filter>
     </ClInclude>
     <ClInclude Include="output_device_fake.h">
@@ -1298,12 +1505,180 @@
     <ClInclude Include="view_interface_fake.h">
       <Filter>Header Files\fake</Filter>
     </ClInclude>
+    <ClInclude Include="view_state_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="window_interface_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
     <ClInclude Include="window_listener_fake.h">
       <Filter>Header Files\fake</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\easyunit\defaulttestprinter.h">
+    <ClInclude Include="EditFormParser.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerView.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewActions.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewBrowse.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewDetails.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewEdit.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewQCBrowse.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewQCSettings.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewStart.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactory.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactoryConcrete.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="QCFormParser.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="data_converter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="data_exporter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="data_importer.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelExporter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="export_tabbed_text.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXImportDlg.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TmxImportLangsDlg.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXReader.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TmxSymbolMapper.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXWriter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_concordance.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_initial.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_match.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_new.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_review.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_test_utils.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="action_delete_entry.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_delete_matches.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_strip_tags.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_trim_spaces.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="undoable_action.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\allcaps_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\check_rule.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\gloss_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\number_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\qc_checker.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="markup_strings.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="match_maker.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="match_tester.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_header.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_info.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_local.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_model.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_remote.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="query.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record_local.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record_remote.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="search_match.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TranslationMemory.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\debugutilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="felix_tm.xsd" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\Felix.exe.manifest">

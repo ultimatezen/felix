@@ -708,30 +708,37 @@ namespace app_props
 
 	bool properties::write_to_registry()
 	{
-		output_device_ptr output(new OutputDeviceFile) ;
-		pugi::xml_document doc;
-		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("properties") ;
+		try
+		{
+			output_device_ptr output(new OutputDeviceFile) ;
+			pugi::xml_document doc;
+			pugi::xml_node preferences = doc.append_child() ;
+			preferences.set_name("properties") ;
 
-		m_mem_props.build_xml_doc(preferences) ;
-		m_gloss_props.build_xml_doc(preferences) ;
-		m_gen_props.build_xml_doc(preferences) ;
-		m_alg_props.build_xml_doc(preferences) ;
-		m_view_props.build_xml_doc(preferences) ;
-		m_qc_props.build_xml_doc(preferences) ;
-		m_history_props.build_xml_doc(preferences) ; 
+			m_mem_props.build_xml_doc(preferences) ;
+			m_gloss_props.build_xml_doc(preferences) ;
+			m_gen_props.build_xml_doc(preferences) ;
+			m_alg_props.build_xml_doc(preferences) ;
+			m_view_props.build_xml_doc(preferences) ;
+			m_qc_props.build_xml_doc(preferences) ;
+			m_history_props.build_xml_doc(preferences) ; 
 
-		wstring config_filename = get_config_filename(PREFS_FILENAME, output) ;
+			wstring config_filename = get_config_filename(PREFS_FILENAME, output) ;
 
-		xml_string_writer writer ;
-		doc.save(writer) ;
-		string text = writer.result ;
-		output->open(config_filename.c_str()) ;
-		output->write(text) ;
-		output->close() ;
+			xml_string_writer writer ;
+			doc.save(writer) ;
+			string text = writer.result ;
+			output->open(config_filename.c_str()) ;
+			output->write(text) ;
+			output->close() ;
 
 
-		return true ;
+			return true ;
+		}
+		catch (...)
+		{
+			logging::log_error("Exception reading prefs from file") ;
+		}
 
 		bool retval = true ;
 

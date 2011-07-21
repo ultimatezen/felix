@@ -97,9 +97,6 @@ using namespace ATL ;
 #include <list>
 #include <vector>
 
-// Loki
-#include "loki/AssocVector.h"
-
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 using namespace boost::assign; // bring 'operator+=()' into scope

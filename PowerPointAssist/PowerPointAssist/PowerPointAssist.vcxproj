@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
@@ -49,12 +49,6 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -70,8 +64,8 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -80,7 +74,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -100,7 +93,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -121,6 +113,7 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -136,7 +129,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -158,7 +150,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -166,31 +157,38 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="app_state.cpp" />
     <ClCompile Include="ClipboardBackup.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp" />
+    <ClCompile Include="..\..\common\ColorRef.cpp" />
+    <ClCompile Include="..\..\common\config_file.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="Connect_test.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp" />
+    <ClCompile Include="..\..\common\Exceptions.cpp" />
+    <ClCompile Include="..\..\common\GetWinVer.cpp" />
     <ClCompile Include="globalApp.cpp" />
     <ClCompile Include="Hooker.cpp" />
     <ClCompile Include="hooker_test.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp" />
+    <ClCompile Include="..\..\common\html_formatter.cpp" />
+    <ClCompile Include="..\..\common\html_processing.cpp" />
+    <ClCompile Include="..\..\common\html_writer.cpp" />
+    <ClCompile Include="..\..\common\input_device_file.cpp" />
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="keyboard_shortcuts_ppt.cpp" />
     <ClCompile Include="KeyboardDriver.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp" />
+    <ClCompile Include="..\..\common\logging.cpp" />
     <ClCompile Include="menu_manip.cpp" />
     <ClCompile Include="menu_manip_test.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\Picture.cpp" />
+    <ClCompile Include="..\..\common\Picture.cpp" />
     <ClCompile Include="PowerPointInterface.cpp" />
     <ClCompile Include="PowerPointInterface_test.cpp" />
     <ClCompile Include="PPTFormatter.cpp" />
     <ClCompile Include="PPTWriter.cpp" />
     <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp" />
+    <ClCompile Include="..\..\common\resource_string.cpp" />
     <ClCompile Include="ShapeHolder.cpp" />
     <ClCompile Include="ShapeNavigator.cpp" />
     <ClCompile Include="ShapeParser.cpp" />
@@ -252,46 +250,11 @@
     <Midl Include="AddIn.idl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h" />
     <ClInclude Include="AddGlossDialog.h" />
     <ClInclude Include="app_state.h" />
     <ClInclude Include="ClipboardBackup.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\ColorRef.h" />
-    <ClInclude Include="Connect.h" />
-    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h" />
-    <ClInclude Include="globalApp.h" />
-    <ClInclude Include="Hooker.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_formatter.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_processing.h" />
-    <ClInclude Include="InputDlg.h" />
-    <ClInclude Include="KeyboardDriver.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\label_name.h" />
-    <ClInclude Include="..\..\..\..\MyLibrary\logging.h" />
-    <ClInclude Include="menu_manip.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\MiniVersion.h" />
-    <ClInclude Include="nav_query_dlg.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h" />
-    <ClInclude Include="OfficeImports.h" />
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\Picture.h" />
-    <ClInclude Include="PowerPointEventDefs.h" />
-    <ClInclude Include="PowerPointImports.h" />
-    <ClInclude Include="PowerPointInterface.h" />
-    <ClInclude Include="PPTFormatter.h" />
-    <ClInclude Include="PPTWriter.h" />
-    <ClInclude Include="Properties.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h" />
-    <ClInclude Include="ShapeHolder.h" />
-    <ClInclude Include="ShapeNavigator.h" />
-    <ClInclude Include="ShapeParser.h" />
-    <ClInclude Include="ShapeParsingStrategy.h" />
-    <ClInclude Include="ShapeParsingStrategyAuto.h" />
-    <ClInclude Include="ShapeParsingStrategyPlaceholder.h" />
-    <ClInclude Include="ShapeParsingStrategyTable.h" />
-    <ClInclude Include="ShapeParsingStrategyTextbox.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StrategyFactory.h" />
-    <ClInclude Include="TextRangeParser.h" />
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\ColorRef.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc" />

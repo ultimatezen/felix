@@ -455,7 +455,7 @@ public:
 	void look_up_in_glossaries( const wstring query );
 	void set_up_window_size();
 	void set_up_ui_state();
-	void set_up_status_bar();
+	void init_status_bar();
 	void set_up_recent_docs_list();
 	void set_up_command_bars();
 	void set_up_default_initial_size();

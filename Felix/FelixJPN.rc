@@ -1269,7 +1269,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_PANE_1               "                    "
+    ID_PANE_1               "                         "
     ID_PANE_2               "          "
     ID_VIEW_GLOSSARY        "用語集ウィンドウを表示します\n用語集ウィンドウ表示"
     ID_VIEW_MEMORY          "現在の翻訳メモリを表示します\nメモリの表示"

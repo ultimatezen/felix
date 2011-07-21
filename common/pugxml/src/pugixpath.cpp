@@ -850,7 +850,11 @@ namespace pugi
 			while (capacity < size + count) capacity += capacity / 2;
 			
 			xpath_node* storage = new xpath_node[capacity];
-			std::copy(m_begin, m_end, storage);
+			for (size_t i = 0 ; i < capacity  ; ++i)
+			{
+				storage[i] = m_begin[i] ;
+			}
+
 			
 			if (m_begin != &m_storage) delete[] m_begin;
 			
@@ -859,7 +863,10 @@ namespace pugi
 			m_eos = storage + capacity;
 		}
 		
-		std::copy(begin, end, m_end);
+		for (size_t i = 0 ; i < count  ; ++i)
+		{
+			m_end[i] = begin[i] ;
+		}
 		m_end += count;
 	}
 

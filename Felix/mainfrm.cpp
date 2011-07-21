@@ -238,7 +238,9 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 //! DTOR
 CMainFrame::~CMainFrame()
 {
+#ifndef UNIT_TEST
 	ATLASSERT( FALSE == m_CmdBar.IsWindow() ) ;
+#endif
 	if ( m_CmdBar.m_hWnd )
 	{
 		m_CmdBar.m_hWnd = NULL ;
@@ -470,7 +472,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		set_up_recent_docs_list() ;
 		set_up_command_bars() ;
-		set_up_status_bar() ;
+		init_status_bar() ;
 		set_up_ui_state() ;
 
 		// register object for message filtering and idle updates
@@ -3413,7 +3415,7 @@ void CMainFrame::set_up_recent_docs_list()
 
 /** Create the status bar.
 */
-void CMainFrame::set_up_status_bar()
+void CMainFrame::init_status_bar()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -4107,12 +4109,13 @@ void CMainFrame::set_bg_color_if_needed()
 {
 #ifdef UNIT_TEST
 	return ;
-#endif
+#else
 	const CColorRef color((COLORREF)m_props->m_view_props.m_data.m_back_color) ;
 	if (! color.is_white())
 	{
 		m_view_interface.set_bg_color(color.as_wstring()) ;
 	}
+#endif
 }
 
 /** handle tooltip text ourselves to enable dynamic switching.
@@ -5243,7 +5246,6 @@ INT_PTR CMainFrame::check_save_memory( mem_engine::memory_pointer mem )
 		return IDCANCEL ;
 
 	}
-	return IDYES ;
 }
 
 void CMainFrame::save_old_prefs_file( CString filename )

@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{60120062-4386-4e3c-afd4-de353a919bc3}</UniqueIdentifier>
+      <UniqueIdentifier>{e96bc16b-f11b-4557-9ace-24589298b6b0}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{66358799-7f9c-4257-9fce-2d20eec019da}</UniqueIdentifier>
+      <UniqueIdentifier>{5865e74e-fe0f-4f58-afd9-5dd016b292f3}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{021ff2f5-034c-4525-85eb-c1faf9bd1f59}</UniqueIdentifier>
+      <UniqueIdentifier>{810d60f3-2c45-426b-b3e4-02fbc1ed9343}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
@@ -54,6 +54,9 @@
     <ClCompile Include="ClipboardBackup_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Connect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,7 +66,7 @@
     <ClCompile Include="ConnectEvents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp">
+    <ClCompile Include="..\..\common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FelixExcelIF.cpp">
@@ -72,10 +75,19 @@
     <ClCompile Include="FelixExcelIF_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp">
+    <ClCompile Include="..\..\common\GetWinVer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hooker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input_device_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_shortcuts_excel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyPresser.cpp">
@@ -87,13 +99,19 @@
     <ClCompile Include="Properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp">
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp">
+    <ClCompile Include="..\..\common\logging.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -250,13 +268,16 @@
     <ClInclude Include="ClipboardBackup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\config_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Connect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConnectEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h">
+    <ClInclude Include="..\..\..\common\DispatchWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="excel_application.h">
@@ -277,7 +298,7 @@
     <ClInclude Include="ExcelString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\Exceptions.h">
+    <ClInclude Include="..\..\common\Exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fake_excel.h">
@@ -292,10 +313,34 @@
     <ClInclude Include="FelixString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\file.h">
+    <ClInclude Include="..\..\..\common\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hooker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\key_mapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_mapper_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_target_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard_shortcuts_excel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyPresser.h">
@@ -304,16 +349,25 @@
     <ClInclude Include="MenuAdder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\numberfmt.h">
+    <ClInclude Include="..\common\numberfmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\output_device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h">
+    <ClInclude Include="..\..\common\resource_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">

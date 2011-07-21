@@ -2438,5 +2438,4 @@ INT_PTR CGlossaryDialog::check_save_memory( mem_engine::memory_pointer mem )
 		return IDCANCEL ;
 
 	}
-	return IDYES ;
 }

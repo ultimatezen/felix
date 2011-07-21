@@ -1,6 +1,5 @@
 #pragma once
 
-#include "loki/AssocVector.h"
 #include <string>
 #include "boost/signals.hpp"
 #include "boost/any.hpp"
@@ -43,7 +42,7 @@ public:
 	typedef boost::signals::connect_position PosType ;
 
 private:
-	typedef Loki::AssocVector< KeyType, SignalPtrType > VectorType ;
+	typedef std::map< KeyType, SignalPtrType > VectorType ;
 	VectorType m_SignalMap ;
 
 public:

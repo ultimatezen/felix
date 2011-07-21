@@ -153,7 +153,10 @@ const
 		BYTE * pbNew = static_cast< BYTE * > (::GlobalLock( hg ));
 		if (pbNew)
 		{
-			std::copy( pb, pb + len, pbNew );
+			for (size_t i=0 ; i < len ; ++i)
+			{
+				pbNew[i] = pb[i] ;
+			}
 
 			::SetLastError( NO_ERROR );
 			if (::GlobalUnlock( hg ) == 0 && NO_ERROR ==

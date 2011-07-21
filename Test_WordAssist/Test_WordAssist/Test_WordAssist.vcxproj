@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
@@ -54,9 +54,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;C:\dev\cpp\Assistant Suite\WordAssist\WordAssist;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\dev\cpp\Assistant Suite\WordAssist\WordAssist;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;UNIT_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,18 +72,18 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Auto Run Tests</Message>
-      <Command>"C:\dev\cpp\Assistant Suite\Test_WordAssist\Test_WordAssist\Debug\Test_WordAssist.exe" --result_code=no --report_level=no </Command>
+      <Command>"$(IntDir)$(TargetName).exe" --result_code=no --report_level=no </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;C:\dev\cpp\Assistant Suite\WordAssist\WordAssist;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\cpp\Assistant Suite\WordAssist\WordAssist;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,70 +99,95 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\app_state_test.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\font_properties_test.cpp" />
+    <ClCompile Include="..\..\common\config_file.cpp" />
+    <ClCompile Include="..\..\common\Exceptions_test.cpp" />
+    <ClCompile Include="..\..\common\font_properties_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\html_formatter_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\html_processing_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\html_writer_test.cpp" />
+    <ClCompile Include="..\..\common\input_device_file.cpp" />
+    <ClCompile Include="keyboard_mapper_word_test.cpp" />
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.cpp" />
+    <ClCompile Include="keyboard_shortcuts_word_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\logging_test.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp" />
     <ClCompile Include="test_CColorRef.cpp" />
+    <ClCompile Include="Test_WordAssist.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\word_writer_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\WordAutomationObject_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\WordParser_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\AddIn.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\app_state.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\ClipboardBackup.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\font_properties.cpp" />
+    <ClCompile Include="..\..\common\ColorRef.cpp" />
+    <ClCompile Include="..\..\common\Exceptions.cpp" />
+    <ClCompile Include="..\..\common\font_properties.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\hooker.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\MiniVersion.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\Parser.cpp" />
+    <ClCompile Include="..\..\common\html_formatter.cpp" />
+    <ClCompile Include="..\..\common\html_processing.cpp" />
+    <ClCompile Include="..\..\common\html_writer.cpp" />
+    <ClCompile Include="..\..\common\logging.cpp" />
+    <ClCompile Include="..\..\common\MiniVersion.cpp" />
+    <ClCompile Include="..\..\common\Parser.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\Properties.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="..\..\common\resource_string.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Test_WordAssist.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\WordAutomationObject.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\WordParser.cpp" />
+    <ClCompile Include="..\..\common\word_writer.cpp" />
+    <ClCompile Include="..\..\common\WordAutomationObject.cpp" />
+    <ClCompile Include="..\..\WordAssist\WordAssist\WordParser.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\AddGlossDialog.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\AddIn.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\app_state.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\ClipboardBackup.h" />
-    <ClInclude Include="..\..\..\MyLibrary\ColorRef.h" />
-    <ClInclude Include="..\..\..\MyLibrary\Exceptions.h" />
-    <ClInclude Include="..\..\..\MyLibrary\font_properties.h" />
+    <ClInclude Include="..\..\common\ColorRef.h" />
+    <ClInclude Include="..\..\common\config_file.h" />
+    <ClInclude Include="..\..\common\Exceptions.h" />
+    <ClInclude Include="..\..\common\font_properties.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\hooker.h" />
-    <ClInclude Include="..\..\..\MyLibrary\html_formatter.h" />
-    <ClInclude Include="..\..\..\MyLibrary\html_processing.h" />
-    <ClInclude Include="..\..\..\MyLibrary\html_writer.h" />
+    <ClInclude Include="..\..\common\html_formatter.h" />
+    <ClInclude Include="..\..\common\html_processing.h" />
+    <ClInclude Include="..\..\common\html_writer.h" />
+    <ClInclude Include="..\..\common\input_device.h" />
+    <ClInclude Include="..\..\common\input_device_fake.h" />
+    <ClInclude Include="..\..\common\input_device_file.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\InputNumDlg.h" />
+    <ClInclude Include="..\..\common\key_mapper.h" />
+    <ClInclude Include="..\..\common\key_mapper_fake.h" />
+    <ClInclude Include="..\..\WordAssist\WordAssist\key_mapper_word.h" />
+    <ClInclude Include="key_target_word_fake.h" />
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h" />
+    <ClInclude Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\KeyboardListener.h" />
-    <ClInclude Include="..\..\..\MyLibrary\logging.h" />
-    <ClInclude Include="..\..\..\MyLibrary\MiniVersion.h" />
-    <ClInclude Include="..\..\..\MyLibrary\Parser.h" />
+    <ClInclude Include="..\..\common\logging.h" />
+    <ClInclude Include="..\..\common\MiniVersion.h" />
+    <ClInclude Include="..\..\common\output_device.h" />
+    <ClInclude Include="..\..\common\Parser.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\Properties.h" />
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp" />
     <ClInclude Include="..\..\WordAssist\WordAssist\resource.h" />
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h" />
+    <ClInclude Include="..\..\common\resource_string.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\Segmentation.h" />
-    <ClInclude Include="..\..\WordAssist\WordAssist\stdafx.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="..\..\WordAssist\WordAssist\stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="..\..\..\MyLibrary\WordAutomationObject.h" />
-    <ClInclude Include="..\..\..\MyLibrary\WordParser.h" />
+    <ClInclude Include="..\..\common\word_writer.h" />
+    <ClInclude Include="..\..\common\WordAutomationObject.h" />
+    <ClInclude Include="..\..\WordAssist\WordAssist\WordParser.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.h" />
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
@@ -84,7 +84,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -105,7 +104,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -145,7 +143,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -167,7 +164,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -188,23 +184,29 @@
     <ClCompile Include="AppStringTextNodeParser_test.cpp" />
     <ClCompile Include="ClipboardBackup.cpp" />
     <ClCompile Include="ClipboardBackup_test.cpp" />
+    <ClCompile Include="..\..\common\config_file.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="Connect_test.cpp" />
     <ClCompile Include="ConnectEvents.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp" />
+    <ClCompile Include="..\..\common\Exceptions.cpp" />
     <ClCompile Include="FelixExcelIF.cpp" />
     <ClCompile Include="FelixExcelIF_test.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp" />
+    <ClCompile Include="..\..\common\GetWinVer.cpp" />
     <ClCompile Include="Hooker.cpp" />
+    <ClCompile Include="..\..\common\input_device_file.cpp" />
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="keyboard_shortcuts_excel.cpp" />
     <ClCompile Include="KeyPresser.cpp" />
     <ClCompile Include="MenuAdder.cpp" />
     <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp" />
+    <ClCompile Include="..\..\common\resource_string.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp" />
+    <ClCompile Include="..\..\common\logging.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AddIn.def" />
@@ -273,28 +275,40 @@
     <ClInclude Include="appstrings.h" />
     <ClInclude Include="AppStringTextNodeParser.h" />
     <ClInclude Include="ClipboardBackup.h" />
+    <ClInclude Include="..\..\common\config_file.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="ConnectEvents.h" />
-    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h" />
+    <ClInclude Include="..\..\..\common\DispatchWrapper.h" />
     <ClInclude Include="excel_application.h" />
     <ClInclude Include="excel_characters.h" />
     <ClInclude Include="excel_range.h" />
     <ClInclude Include="excel_worksheet.h" />
     <ClInclude Include="ExcelImport.h" />
     <ClInclude Include="ExcelString.h" />
-    <ClInclude Include="..\..\..\MyLibrary\Exceptions.h" />
+    <ClInclude Include="..\..\common\Exceptions.h" />
     <ClInclude Include="fake_excel.h" />
     <ClInclude Include="fake_ta.h" />
     <ClInclude Include="FelixExcelIF.h" />
     <ClInclude Include="FelixString.h" />
-    <ClInclude Include="..\..\..\..\MyLibrary\file.h" />
+    <ClInclude Include="..\..\..\common\file.h" />
     <ClInclude Include="Hooker.h" />
+    <ClInclude Include="..\..\common\input_device.h" />
+    <ClInclude Include="..\..\common\input_device_fake.h" />
+    <ClInclude Include="..\..\common\input_device_file.h" />
+    <ClInclude Include="..\..\common\key_mapper.h" />
+    <ClInclude Include="key_mapper_excel.h" />
+    <ClInclude Include="key_target_excel.h" />
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h" />
+    <ClInclude Include="keyboard_shortcuts_excel.h" />
     <ClInclude Include="KeyPresser.h" />
     <ClInclude Include="MenuAdder.h" />
-    <ClInclude Include="..\..\MyLibrary\numberfmt.h" />
+    <ClInclude Include="..\common\numberfmt.h" />
+    <ClInclude Include="..\..\common\output_device.h" />
     <ClInclude Include="properties.h" />
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h" />
+    <ClInclude Include="..\..\common\resource_string.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ta_application.h" />
   </ItemGroup>

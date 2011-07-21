@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C6F58301-0D06-4702-8C61-DEF6BD725438}</ProjectGuid>
@@ -41,7 +45,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
@@ -56,6 +60,9 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -71,6 +78,7 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -81,7 +89,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -103,7 +110,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -124,6 +130,7 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
+      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
@@ -135,7 +142,6 @@
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\dev\cpp\boost_1_42_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -158,7 +164,6 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\dev\cpp\boost_1_42_0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -166,6 +171,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="AddIn_i.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -176,8 +182,8 @@
     <ClCompile Include="app_state.cpp" />
     <ClCompile Include="ClipboardBackup.cpp" />
     <ClCompile Include="..\..\common\ColorRef.cpp" />
+    <ClCompile Include="..\..\common\config_file.cpp" />
     <ClCompile Include="Connect.cpp" />
-    <ClCompile Include="Connect_test.cpp" />
     <ClCompile Include="..\..\common\Exceptions.cpp" />
     <ClCompile Include="..\..\common\font_properties.cpp" />
     <ClCompile Include="..\..\common\GetWinVer.cpp" />
@@ -185,11 +191,14 @@
     <ClCompile Include="..\..\common\html_formatter.cpp" />
     <ClCompile Include="..\..\common\html_processing.cpp" />
     <ClCompile Include="..\..\common\html_writer.cpp" />
-    <ClCompile Include="html_writer_test.cpp" />
+    <ClCompile Include="..\..\common\input_device_file.cpp" />
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="keyboard_shortcuts_word.cpp" />
     <ClCompile Include="..\..\common\logging.cpp" />
-    <ClCompile Include="logging_test.cpp" />
     <ClCompile Include="..\..\common\Parser.cpp" />
     <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp" />
     <ClCompile Include="..\..\common\resource_string.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -199,13 +208,11 @@
     <ClCompile Include="..\..\common\word_writer.cpp" />
     <ClCompile Include="word_writer_test.cpp" />
     <ClCompile Include="..\..\common\WordAutomationObject.cpp" />
-    <ClCompile Include="WordAutomationObject_test.cpp" />
     <ClCompile Include="WordController.cpp" />
     <ClCompile Include="WordController_test.cpp" />
     <ClCompile Include="WordControllerHtml.cpp" />
     <ClCompile Include="WordControllerWord.cpp" />
     <ClCompile Include="WordParser.cpp" />
-    <ClCompile Include="WordParser_test.cpp" />
     <ClCompile Include="WordScreenUpdateLock.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +263,7 @@
     <Midl Include="AddIn.idl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h" />
     <ClInclude Include="AddGlossDialog.h" />
     <ClInclude Include="AddIn.h" />
     <ClInclude Include="app_state.h" />
@@ -263,23 +271,34 @@
     <ClInclude Include="..\common\Broker.h" />
     <ClInclude Include="ClipboardBackup.h" />
     <ClInclude Include="..\..\..\common\ColorRef.h" />
+    <ClInclude Include="..\..\common\config_file.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="..\..\..\common\DispatchWrapper.h" />
-    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\font_properties.h" />
-    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\GetWinVer.h" />
+    <ClInclude Include="..\..\common\font_properties.h" />
+    <ClInclude Include="..\..\common\GetWinVer.h" />
     <ClInclude Include="hooker.h" />
     <ClInclude Include="..\..\common\html_formatter.h" />
     <ClInclude Include="..\..\common\html_processing.h" />
     <ClInclude Include="..\..\common\html_writer.h" />
+    <ClInclude Include="..\..\common\input_device.h" />
+    <ClInclude Include="..\..\common\input_device_fake.h" />
+    <ClInclude Include="..\..\common\input_device_file.h" />
     <ClInclude Include="InputNumDlg.h" />
+    <ClInclude Include="..\..\common\key_mapper.h" />
+    <ClInclude Include="key_mapper_word.h" />
+    <ClInclude Include="key_target_word.h" />
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h" />
+    <ClInclude Include="keyboard_shortcuts_word.h" />
     <ClInclude Include="KeyboardListener.h" />
     <ClInclude Include="..\..\..\common\logging.h" />
     <ClInclude Include="..\..\..\common\logical.h" />
-    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\numberfmt.h" />
+    <ClInclude Include="..\..\common\numberfmt.h" />
+    <ClInclude Include="..\..\common\output_device.h" />
     <ClInclude Include="..\..\..\common\Parser.h" />
     <ClInclude Include="Properties.h" />
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\resource_string.h" />
     <ClInclude Include="..\..\common\resource_string.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\..\common\stringex.h" />
@@ -292,7 +311,7 @@
     <ClInclude Include="WordControllerWord.h" />
     <ClInclude Include="WordParser.h" />
     <ClInclude Include="WordScreenUpdateLock.h" />
-    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\DumpExceptionInfo.h" />
+    <ClInclude Include="..\..\common\DumpExceptionInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc" />
@@ -300,4 +319,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="AddIn.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

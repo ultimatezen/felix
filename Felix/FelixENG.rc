@@ -1269,7 +1269,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    ID_PANE_1               "                    "
+    ID_PANE_1               "                         "
     ID_PANE_2               "          "
     ID_VIEW_GLOSSARY        "Show the glossary window\nShow Glossary Window"
     ID_VIEW_MEMORY          "View the currently loaded translation memory\nView Memory"

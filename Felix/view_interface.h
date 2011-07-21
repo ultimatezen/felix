@@ -121,10 +121,11 @@ public:
 #ifdef UNIT_TEST
 		script ;
 		return ;
-#endif		
+#else
 		html::CWebPage page ;
 		page.SetDocument(m_view.get_document()) ;
 		page.CallJScript(script) ;
+#endif		
 	}
 	void run_script(CString script, CString arg1)
 	{
@@ -132,10 +133,11 @@ public:
 		script ;
 		arg1 ;
 		return ;
-#endif		
+#else
 		html::CWebPage page ;
 		page.SetDocument(m_view.get_document()) ;
 		page.CallJScript(script, arg1) ;
+#endif		
 	}	
 	
 	// edit stuff

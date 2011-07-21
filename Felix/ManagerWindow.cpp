@@ -1236,8 +1236,11 @@ wstring CManagerWindow::create_redo_msg(const std::vector<string> &tokens) const
 void CManagerWindow::set_undo_action(const string &action, const string &memtype, const string &item)
 {
 #ifdef UNIT_TEST
+	action ;
+	memtype ;
+	item ;
 	return ;
-#endif
+#else
 	mem_engine::memory_pointer mem = this->get_mem(memtype, 
 						boost::lexical_cast<size_t>(item)) ;
 
@@ -1249,6 +1252,7 @@ void CManagerWindow::set_undo_action(const string &action, const string &memtype
 	{
 		this->m_undo = undo_action_ptr(new StripTagsAction(mem)) ;
 	}
+#endif
 }
 
 wstring CManagerWindow::get_message()

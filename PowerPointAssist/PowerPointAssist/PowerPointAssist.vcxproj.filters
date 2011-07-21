@@ -2,19 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{53eb9d8e-80da-4ec3-9c95-f47340b0c892}</UniqueIdentifier>
+      <UniqueIdentifier>{3c98fa02-3aa3-4163-94d8-f90a5a35ea12}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{85dd4ece-959d-4a14-83bd-9bf635190510}</UniqueIdentifier>
+      <UniqueIdentifier>{ea22585d-3434-4e61-858a-a814e304ef4c}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{cff9254c-0988-4907-ad7d-a8da15623a2c}</UniqueIdentifier>
+      <UniqueIdentifier>{ec52adb8-77b5-4154-aa16-25f9c63a707d}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\abbreviations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="AddIn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -24,7 +27,10 @@
     <ClCompile Include="ClipboardBackup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp">
+    <ClCompile Include="..\..\common\ColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Connect.cpp">
@@ -33,10 +39,10 @@
     <ClCompile Include="Connect_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp">
+    <ClCompile Include="..\..\common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp">
+    <ClCompile Include="..\..\common\GetWinVer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="globalApp.cpp">
@@ -48,19 +54,28 @@
     <ClCompile Include="hooker_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp">
+    <ClCompile Include="..\..\common\html_formatter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp">
+    <ClCompile Include="..\..\common\html_processing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp">
+    <ClCompile Include="..\..\common\html_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input_device_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_shortcuts_ppt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp">
+    <ClCompile Include="..\..\common\logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="menu_manip.cpp">
@@ -69,7 +84,7 @@
     <ClCompile Include="menu_manip_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\Picture.cpp">
+    <ClCompile Include="..\..\common\Picture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PowerPointInterface.cpp">
@@ -87,7 +102,13 @@
     <ClCompile Include="Properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp">
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShapeHolder.cpp">
@@ -248,6 +269,9 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="AddGlossDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -255,117 +279,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClipboardBackup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\ColorRef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Connect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="globalApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hooker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_formatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\html_processing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\label_name.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\logging.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="menu_manip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\MiniVersion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="nav_query_dlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OfficeImports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\Picture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerPointEventDefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerPointImports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerPointInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPTFormatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPTWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Properties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeNavigator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParsingStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParsingStrategyAuto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParsingStrategyPlaceholder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParsingStrategyTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeParsingStrategyTextbox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StrategyFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRangeParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

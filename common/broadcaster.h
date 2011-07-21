@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/signal.hpp>
-#include <loki/AssocVector.h>
+
 class CBroadcaster
 {
 	struct dispatch_accumulator
@@ -39,7 +39,7 @@ public:
 
 private:
 	typedef std::pair< std::string, std::string > KeyType ;
-	typedef Loki::AssocVector< KeyType, SignalPtrType > VectorType ;
+	typedef std::map< KeyType, SignalPtrType > VectorType ;
 	VectorType m_SignalMap ;
 
 	typedef boost::signals::connect_position conn_pos ;

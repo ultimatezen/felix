@@ -2,19 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{6652b5ff-b8fc-4ea0-9011-b993c029391d}</UniqueIdentifier>
+      <UniqueIdentifier>{f313ef97-4522-4cfe-973f-b6dedfaa16ac}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{e27a54ba-02a1-4e8e-9b9a-42fd88a427f5}</UniqueIdentifier>
+      <UniqueIdentifier>{14391236-4faa-4695-ab9c-d6ffebd36bad}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{9e800d5f-9a31-458d-aea8-0bdd9a09e4eb}</UniqueIdentifier>
+      <UniqueIdentifier>{76ebaaad-fc68-4758-bf01-727ca0b5d923}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\abbreviations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="AddIn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,52 +30,61 @@
     <ClCompile Include="ClipboardBackup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp">
+    <ClCompile Include="..\..\common\ColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Connect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Connect_test.cpp">
+    <ClCompile Include="..\..\common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp">
+    <ClCompile Include="..\..\common\font_properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\font_properties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp">
+    <ClCompile Include="..\..\common\GetWinVer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hooker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp">
+    <ClCompile Include="..\..\common\html_formatter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp">
+    <ClCompile Include="..\..\common\html_processing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp">
+    <ClCompile Include="..\..\common\html_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="html_writer_test.cpp">
+    <ClCompile Include="..\..\common\input_device_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\logging.cpp">
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="logging_test.cpp">
+    <ClCompile Include="keyboard_shortcuts_word.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\Parser.cpp">
+    <ClCompile Include="..\..\common\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp">
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
@@ -81,16 +93,13 @@
     <ClCompile Include="Word2HtmlParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\word_writer.cpp">
+    <ClCompile Include="..\..\common\word_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="word_writer_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MyLibrary\WordAutomationObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WordAutomationObject_test.cpp">
+    <ClCompile Include="..\..\common\WordAutomationObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WordController.cpp">
@@ -106,9 +115,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WordParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WordParser_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WordScreenUpdateLock.cpp">
@@ -247,6 +253,9 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="AddGlossDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -256,88 +265,121 @@
     <ClInclude Include="app_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Broadcaster.h">
+    <ClInclude Include="..\common\Broadcaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\Broker.h">
+    <ClInclude Include="..\common\Broker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClipboardBackup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\ColorRef.h">
+    <ClInclude Include="..\..\..\common\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\config_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Connect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h">
+    <ClInclude Include="..\..\..\common\DispatchWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\font_properties.h">
+    <ClInclude Include="..\..\common\font_properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h">
+    <ClInclude Include="..\..\common\GetWinVer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hooker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\html_formatter.h">
+    <ClInclude Include="..\..\common\html_formatter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\html_processing.h">
+    <ClInclude Include="..\..\common\html_processing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\html_writer.h">
+    <ClInclude Include="..\..\common\html_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InputNumDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\key_mapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_mapper_word.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_target_word.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard_shortcuts_word.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="KeyboardListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\logging.h">
+    <ClInclude Include="..\..\..\common\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\logical.h">
+    <ClInclude Include="..\..\..\common\logical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h">
+    <ClInclude Include="..\..\common\numberfmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\Parser.h">
+    <ClInclude Include="..\..\common\output_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\common\Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\resource_string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\resource_string.h">
+    <ClInclude Include="..\..\common\resource_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\stringex.h">
+    <ClInclude Include="..\..\common\stringex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\MyLibrary\textstream_reader.h">
+    <ClInclude Include="..\..\..\common\textstream_reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MyLibrary\TextTemplate.h">
+    <ClInclude Include="..\common\TextTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Word2HtmlParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\MyLibrary\word_writer.h">
+    <ClInclude Include="..\..\common\word_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WordController.h">
@@ -355,7 +397,7 @@
     <ClInclude Include="WordScreenUpdateLock.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\DumpExceptionInfo.h">
+    <ClInclude Include="..\..\common\DumpExceptionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
