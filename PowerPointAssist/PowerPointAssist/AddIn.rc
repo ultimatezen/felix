@@ -13,20 +13,18 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Japanese resources
+// Japanese (Japan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_INPUT_BOX DIALOG  0, 0, 117, 45
+IDD_INPUT_BOX DIALOG 0, 0, 117, 45
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Enter Glossary Entry"
 FONT 9, "MS UI Gothic"
@@ -201,7 +199,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_INPUT_BOX, DIALOG
     BEGIN
@@ -294,7 +292,7 @@ IDB_CORRECT             BITMAP                  "bmp00007.bmp"
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PROJNAME            "AddIn"
     IDS_USER_PREFERENCES    "User Preferences"
@@ -304,9 +302,13 @@ BEGIN
     IDS_LANG_CODE           "en"
     IDS_TO_TRANS_MODE_E     "To Translation Mode"
     IDS_TO_TRANS_MODE_J     "翻訳モードへ"
+    IDS_LOOKUP_REVIEW_TB_E  "Review"
+    IDS_LOOKUP_NEXT_REVIEW_TB_E "Review Next"
+    IDS_GET_REVIEW_TB_E     "Restore"
+    IDS_GET_AND_NEXT_REVIEW_TB_E "Restore And Next"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDB_LOOKUP_NEXT         "Lookup &Next (Alt + RARR)"
     IDB_LOOKUP              "&Lookup (Alt + L)"
@@ -315,20 +317,26 @@ BEGIN
     IDB_SET                 "S&et (Alt + UARR)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDB_SET_AND_NEXT        "&Set and Next (Alt + S)"
     IDB_GLOSS_N             "Get Glossar&y Entry..."
     IDS_DELIMITERS          "!?。。！？．"
     IDB_SAVE                "Save &Memory"
     IDS_REG_KEY             "Software\\AssistantSuite\\PowerPoint"
+    IDB_LOOKUP2             "&Lookup (Alt + L)"
     IDB_WORD                "Export to Word"
     IDB_HELP                "View &Help File"
     IDB_ALIGN               "&Align"
+    IDS_LOOKUP_TB_E         "Look Up"
+    IDS_LOOKUP_TB_J         "選択範囲検索"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
+    IDS_LOOKUP_NEXT_TB_E    "Look Up Next"
+    IDS_LOOKUP_NEXT_TB_J    "次の文の検索"
+    IDS_GET_TB_E            "Get Translation"
     IDS_AUTO_TRANS_SEL_J    "選択範囲の自動翻訳(&A) "
     IDS_AUTO_TRANS_FUZZY_J  "ファジーマッチまで自動翻訳(&Z) (ALT + Z)"
     IDS_LOOKUP_J            "選択範囲の検索(&C) (ALT + L)"
@@ -344,11 +352,18 @@ BEGIN
     IDS_NEXT_J              "次の訳文へ(&N) (ALT + N)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PREV_J              "前の訳文へ(&P) (ALT + P)"
     IDS_ENTRY_0_J           "エントリ &0 (ALT + 0)"
     IDS_ENTRY_1_J           "エントリ &1 (ALT + 1)"
+    IDS_GET_TB_J            "訳文の取得"
+    IDS_GET_AND_NEXT_TB_E   "Get And Next"
+    IDS_GET_AND_NEXT_TB_J   "取得して次を検索"
+    IDS_SET_TB_J            "訳文の登録"
+    IDS_SET_AND_NEXT_TB_J   "登録して次を検索"
+    IDS_SWITCH_TO_REVIEW_TB_J "構成モードへ"
+    IDS_SET_TB_E            "Set"
     IDS_ENTRY_2_J           "エントリ &2 (ALT + 2)"
     IDS_ENTRY_3_J           "エントリ &3 (ALT + 3)"
     IDS_ENTRY_4_J           "エントリ &4 (ALT + 4)"
@@ -357,18 +372,20 @@ BEGIN
     IDS_ENTRY_7_J           "エントリ &7 (ALT + 7)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ENTRY_8_J           "エントリ &8 (ALT + 8)"
     IDS_ENTRY_9_J           "エントリ &9 (ALT + 9)"
     IDS_GLOSS_N_J           "エントリ番号の指定...(&M) (ALT + G)"
     IDS_LOOKUP_TRANS_J      "訳文の検索(&F) (CTL + ALT + L)"
     IDS_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (CTL + ALT + →)"
+    IDS_SET_AND_NEXT_TB_E   "Set And Next"
+    IDS_SWITCH_TO_REVIEW_TB_E "To Review Mode"
     IDS_TRANS_CONCORDANCE_J "訳文のコンコーダンス(一致)検索(&I) (CTL + ALT + C)"
     IDS_CORRECT_TRANS_J     "訳文の訂正(&B) (CTL + ALT + ↑)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_EXTEND_LOOKUP_TRANS_J "訳文の検索対象範囲の拡張(&K) (CTL + ALT + E)"
     IDS_SAVE_J              "メモリと用語集を保存します。"
@@ -381,27 +398,36 @@ BEGIN
     IDS_OPEN_TRANS_E        "Selection Translation PowerPoint File"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_OPEN_TRANS_J        "ＰＰＴの訳文を指定してください"
     IDS_UNKNOWN_SHAPE_TYPE_E 
                             "Cannot complete action. Unsupported shape type.\rTry ungrouping the shapes, or selecting the text manually."
-    IDS_UNKNOWN_SHAPE_TYPE_J 
-                            "指定されたアクションができませんでした。非対応シェープ類です。\rグループを解除するか、テキスト範囲を手動で選択してください。"
+    IDS_UNKNOWN_SHAPE_TYPE_J "訂正して次へ"
 END
 
-#endif    // Japanese resources
+STRINGTABLE
+BEGIN
+    IDS_SET_REVIEW_TB_E     "Correct"
+    IDS_SET_AND_NEXT_REVIEW_TB_E "Correct And Next"
+    IDS_LOOKUP_REVIEW_TB_J  "訳文の検索"
+    IDS_LOOKUP_NEXT_REVIEW_TB_J "検索して次へ"
+    IDS_GET_REVIEW_TB_J     "元の訳文に戻す"
+    IDS_GET_AND_NEXT_REVIEW_TB_J "元に戻して次へ"
+    IDS_SET_REVIEW_TB_J     "訳文の訂正"
+    IDS_SET_AND_NEXT_REVIEW_TB_J "訂正して次へ"
+END
+
+#endif    // Japanese (Japan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -475,7 +501,7 @@ END
 //
 
 IDR_ADDIN               REGISTRY                "AddIn.rgs"
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

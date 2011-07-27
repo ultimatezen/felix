@@ -281,6 +281,12 @@
     <ClInclude Include="ClipboardBackup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\dev\cpp\Assistant Suite\common\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc">

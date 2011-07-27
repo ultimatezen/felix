@@ -255,6 +255,7 @@
     <ClInclude Include="app_state.h" />
     <ClInclude Include="ClipboardBackup.h" />
     <ClInclude Include="C:\dev\cpp\Assistant Suite\common\ColorRef.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc" />

@@ -343,7 +343,7 @@ private:
 
 	void pastePicture(int button_id, Office::_CommandBarButtonPtr& toolbar_item);
 
-	void setToolbarItemText(int button_id, Office::_CommandBarButtonPtr& toolbarItem);
+	void set_toolbar_item_text(int button_id, Office::_CommandBarButtonPtr& toolbarItem);
 
 	void add_toolbar_items( Office::CommandBarControlsPtr spBarControls );
 	void load_keyboard_shortcuts();

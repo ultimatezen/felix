@@ -753,7 +753,7 @@ Office::_CommandBarButtonPtr CConnect::add_toolbar_item(Office::CommandBarContro
 	// set style before setting bitmap
 	toolbarItem->Style = ( Office::msoButtonIcon );
 
-	setToolbarItemText(button_id, toolbarItem);
+	set_toolbar_item_text(button_id, toolbarItem);
 
 	toolbarItem->put_Enabled(VARIANT_TRUE);
 	toolbarItem->put_Visible(VARIANT_TRUE); 
@@ -761,7 +761,7 @@ Office::_CommandBarButtonPtr CConnect::add_toolbar_item(Office::CommandBarContro
 	return toolbarItem ;
 }
 
-void CConnect::setToolbarItemText(int button_id, Office::_CommandBarButtonPtr& toolbarItem)
+void CConnect::set_toolbar_item_text(int button_id, Office::_CommandBarButtonPtr& toolbarItem)
 {
 	CComBSTR caption ;
 	caption.LoadString( button_id ) ;
@@ -1783,6 +1783,27 @@ void CConnect::switch_to_review_toolbar()
 	set_button_image( m_button_set, IDB_CORRECT ) ;
 	set_button_image( m_button_set_and_next, IDB_CORRECT_AND_NEXT ) ;
 	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_TRANS ) ;
+
+	if (m_properties.get_preferred_gui_lang() == LANG_JAPANESE)
+	{
+		set_toolbar_item_text(IDS_LOOKUP_REVIEW_TB_J, m_button_lookup ) ;
+		set_toolbar_item_text(IDS_LOOKUP_NEXT_REVIEW_TB_J, m_button_lookup_next ) ;
+		set_toolbar_item_text(IDS_GET_REVIEW_TB_J, m_button_get ) ;
+		set_toolbar_item_text(IDS_GET_AND_NEXT_REVIEW_TB_J, m_button_get_and_next ) ;
+		set_toolbar_item_text(IDS_SET_REVIEW_TB_J, m_button_set ) ;
+		set_toolbar_item_text(IDS_SET_AND_NEXT_REVIEW_TB_J, m_button_set_and_next ) ;
+		set_toolbar_item_text(IDS_TO_TRANS_MODE_J, m_button_gloss_n ) ;
+	}
+	else
+	{
+		set_toolbar_item_text(IDS_LOOKUP_REVIEW_TB_E, m_button_lookup ) ;
+		set_toolbar_item_text(IDS_LOOKUP_NEXT_REVIEW_TB_E, m_button_lookup_next ) ;
+		set_toolbar_item_text(IDS_GET_REVIEW_TB_E, m_button_get ) ;
+		set_toolbar_item_text(IDS_GET_AND_NEXT_REVIEW_TB_E, m_button_get_and_next ) ;
+		set_toolbar_item_text(IDS_SET_REVIEW_TB_E, m_button_set ) ;
+		set_toolbar_item_text(IDS_SET_AND_NEXT_REVIEW_TB_E, m_button_set_and_next ) ;
+		set_toolbar_item_text(IDS_TO_TRANS_MODE_E, m_button_gloss_n ) ;
+	}
 }
 void CConnect::switch_to_translation_toolbar()
 {
@@ -1796,6 +1817,27 @@ void CConnect::switch_to_translation_toolbar()
 	set_button_image( m_button_set, IDB_SET ) ;
 	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
 	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_REVIEW ) ;
+
+	if (m_properties.get_preferred_gui_lang() == LANG_JAPANESE)
+	{
+		set_toolbar_item_text(IDS_LOOKUP_TB_J, m_button_lookup ) ;
+		set_toolbar_item_text(IDS_LOOKUP_NEXT_TB_J, m_button_lookup_next ) ;
+		set_toolbar_item_text(IDS_GET_TB_J, m_button_get ) ;
+		set_toolbar_item_text(IDS_GET_AND_NEXT_TB_J, m_button_get_and_next ) ;
+		set_toolbar_item_text(IDS_SET_TB_J, m_button_set ) ;
+		set_toolbar_item_text(IDS_SET_AND_NEXT_TB_J, m_button_set_and_next ) ;
+		set_toolbar_item_text(IDS_SWITCH_TO_REVIEW_TB_J, m_button_gloss_n ) ;
+	}
+	else
+	{
+		set_toolbar_item_text(IDS_LOOKUP_TB_E, m_button_lookup) ;
+		set_toolbar_item_text(IDS_LOOKUP_NEXT_TB_E, m_button_lookup_next ) ;
+		set_toolbar_item_text(IDS_GET_TB_E, m_button_get ) ;
+		set_toolbar_item_text(IDS_GET_AND_NEXT_TB_E, m_button_get_and_next ) ;
+		set_toolbar_item_text(IDS_SET_TB_E, m_button_set ) ;
+		set_toolbar_item_text(IDS_SET_AND_NEXT_TB_E, m_button_set_and_next ) ;
+		set_toolbar_item_text(IDS_SWITCH_TO_REVIEW_TB_E, m_button_gloss_n ) ;
+	}
 }
 void CConnect::switch_to_review_menu()
 {
