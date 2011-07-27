@@ -168,7 +168,7 @@ public:
 
 	void set_tb_img_and_text( MSOffice::_CommandBarButtonPtr toolbarItem, int button_id );
 	MSOffice::_CommandBarButtonPtr addControl(MSOffice::CommandBarControlsPtr& controls);	
-	void setToolbarItemText(int button_id, MSOffice::_CommandBarButtonPtr& toolbarItem);
+	void set_toolbar_item_text(int button_id, MSOffice::_CommandBarButtonPtr& toolbarItem);
 	void pastePicture(int button_id, MSOffice::_CommandBarButtonPtr& toolbarItem);	
 	bool load_picture(MSOffice::_CommandBarButtonPtr &button, int button_id);
 	void purgeClipboard();

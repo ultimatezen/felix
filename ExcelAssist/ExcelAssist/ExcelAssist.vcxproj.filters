@@ -112,7 +112,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\logging.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,30 +120,6 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="AddIn.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00001.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00002.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00003.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00004.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00005.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00006.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00007.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bin00008.bin">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="bmp00002.bmp">
@@ -182,39 +158,6 @@
     <None Include="help1.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="idb_corr.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_get_.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_glos.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_help.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_look.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_rest.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_save.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_set_.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="idb_swit.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="image1.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="image2.bin">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="lookup.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -238,10 +181,8 @@
     </None>
     <None Include="app_strings.xml" />
     <None Include="app_strings_j.xml" />
-    <None Include="default.doxygen" />
     <None Include="english_strings.htm" />
     <None Include="html1.htm" />
-    <None Include="html2.htm" />
     <None Include="japanese_strings.htm" />
   </ItemGroup>
   <ItemGroup>
@@ -277,9 +218,6 @@
     <ClInclude Include="ConnectEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\common\DispatchWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="excel_application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -311,9 +249,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FelixString.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\common\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hooker.h">
@@ -349,16 +284,10 @@
     <ClInclude Include="MenuAdder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\numberfmt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\output_device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="properties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp">
@@ -374,6 +303,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ta_application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

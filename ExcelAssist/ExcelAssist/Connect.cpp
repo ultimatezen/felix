@@ -890,7 +890,7 @@ void CConnect::set_tb_img_and_text( MSOffice::_CommandBarButtonPtr toolbarItem, 
 		pastePicture(button_id, toolbarItem);
 	}
 
-	setToolbarItemText(button_id, toolbarItem);
+	set_toolbar_item_text(button_id, toolbarItem);
 }
 /*!
 * Auto-adds a memory.
@@ -1263,7 +1263,7 @@ MSOffice::_CommandBarButtonPtr CConnect::addControl( MSOffice::CommandBarControl
 	return toolbarItem;
 }
 
-void CConnect::setToolbarItemText( int button_id, MSOffice::_CommandBarButtonPtr& toolbarItem )
+void CConnect::set_toolbar_item_text( int button_id, MSOffice::_CommandBarButtonPtr& toolbarItem )
 {
 	CComBSTR caption ;
 	caption.LoadString( button_id ) ;

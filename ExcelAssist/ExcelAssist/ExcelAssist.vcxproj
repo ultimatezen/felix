@@ -211,14 +211,6 @@
   <ItemGroup>
     <None Include="AddIn.def" />
     <None Include="AddIn.rgs" />
-    <None Include="bin00001.bin" />
-    <None Include="bin00002.bin" />
-    <None Include="bin00003.bin" />
-    <None Include="bin00004.bin" />
-    <None Include="bin00005.bin" />
-    <None Include="bin00006.bin" />
-    <None Include="bin00007.bin" />
-    <None Include="bin00008.bin" />
     <None Include="bmp00002.bmp" />
     <None Include="bmp00003.bmp" />
     <None Include="bmp00004.bmp" />
@@ -231,17 +223,6 @@
     <None Include="get_and_.bmp" />
     <None Include="gloss_n.bmp" />
     <None Include="help1.bmp" />
-    <None Include="idb_corr.bin" />
-    <None Include="idb_get_.bin" />
-    <None Include="idb_glos.bin" />
-    <None Include="idb_help.bin" />
-    <None Include="idb_look.bin" />
-    <None Include="idb_rest.bin" />
-    <None Include="idb_save.bin" />
-    <None Include="idb_set_.bin" />
-    <None Include="idb_swit.bin" />
-    <None Include="image1.bin" />
-    <None Include="image2.bin" />
     <None Include="lookup.bmp" />
     <None Include="lookup_n.bmp" />
     <None Include="lookup_t.bmp" />
@@ -251,14 +232,10 @@
     <None Include="set_and_.bmp" />
     <None Include="app_strings.xml" />
     <None Include="app_strings_j.xml" />
-    <None Include="default.doxygen" />
     <None Include="english_strings.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="html1.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="html2.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="japanese_strings.htm">
@@ -278,7 +255,6 @@
     <ClInclude Include="..\..\common\config_file.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="ConnectEvents.h" />
-    <ClInclude Include="..\..\..\common\DispatchWrapper.h" />
     <ClInclude Include="excel_application.h" />
     <ClInclude Include="excel_characters.h" />
     <ClInclude Include="excel_range.h" />
@@ -290,7 +266,6 @@
     <ClInclude Include="fake_ta.h" />
     <ClInclude Include="FelixExcelIF.h" />
     <ClInclude Include="FelixString.h" />
-    <ClInclude Include="..\..\..\common\file.h" />
     <ClInclude Include="Hooker.h" />
     <ClInclude Include="..\..\common\input_device.h" />
     <ClInclude Include="..\..\common\input_device_fake.h" />
@@ -302,7 +277,6 @@
     <ClInclude Include="keyboard_shortcuts_excel.h" />
     <ClInclude Include="KeyPresser.h" />
     <ClInclude Include="MenuAdder.h" />
-    <ClInclude Include="..\common\numberfmt.h" />
     <ClInclude Include="..\..\common\output_device.h" />
     <ClInclude Include="properties.h" />
     <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
