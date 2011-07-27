@@ -152,11 +152,11 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
-		CString filename = _T("c:\\test\\Multiterm.6.0.sample.txt") ;
+		CString filename = _T("c:\\test\\Multiterm.6.0.sample_small.txt") ;
 		gloss.import_multiterm(filename) ;
 		BOOST_CHECK_EQUAL(1u, gloss.m_memories->size()) ;
 		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
-		BOOST_CHECK_EQUAL(50, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(5, (int)mem->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( export_gloss_mt55)
 	{

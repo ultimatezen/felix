@@ -43,24 +43,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL( 4, (int)frame->m_message_map.size()) ;
 	}
 
-	// on_create
-	BOOST_AUTO_TEST_CASE( Teston_create )
-	{
-		frame_ptr frame = make_fake_frame() ;
-		WindowsMessage message ;
-		frame->on_create(message) ;
 
-		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "on_create" ) ;
-	}
-	BOOST_AUTO_TEST_CASE(starts_with_one_gloss_window)
-	{
-		frame_ptr frame = make_fake_frame() ;
-		WindowsMessage message ;
-		frame->on_create(message) ;
-
-		BOOST_CHECK_EQUAL(1u, frame->m_glossary_windows.size()) ;
-	}
 
 	// on_close
 	BOOST_AUTO_TEST_CASE( Teston_close )

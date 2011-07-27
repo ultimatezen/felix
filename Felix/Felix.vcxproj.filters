@@ -889,10 +889,10 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="TMXImportDlg.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TMXImportDlg_test.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -908,28 +908,10 @@
     <None Include="res\bitmap3.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bmp00003.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp00004.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp00005.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp00006.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp00007.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="ComMemory.rgs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ComRecords.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="correct_.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="DELETE.BMP">
@@ -944,31 +926,10 @@
     <None Include="FelixMemDocUIHandler.rgs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="get.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="get_and_.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="gloss_n.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="GlossaryWindow.rgs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="help1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\idr_icon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lookup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lookup_n.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lookup_t.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Memories.rgs">
@@ -980,25 +941,13 @@
     <None Include="Parameters.rgs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="PROP.BMP">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Record.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="restore_.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="SearchResult.rgs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="SearchResults.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="set.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="set_and_.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -1328,9 +1277,6 @@
     <ClInclude Include="..\common\Path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\ProgressBarTestRunner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ProgressListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1491,9 +1437,6 @@
       <Filter>Header Files\fake</Filter>
     </ClInclude>
     <ClInclude Include="ManagerWindowFactoryFake.h">
-      <Filter>Header Files\fake</Filter>
-    </ClInclude>
-    <ClInclude Include="output_device_fake.h">
       <Filter>Header Files\fake</Filter>
     </ClInclude>
     <ClInclude Include="view_interface_fake.h">

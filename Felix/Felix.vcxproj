@@ -117,7 +117,7 @@ echo Server registration done!
       <ErrorCheckStubData>true</ErrorCheckStubData>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm500  /Zc:auto %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>C:\dev\cpp\poco\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -189,7 +189,7 @@ echo Protection complete!
       <ProxyFileName>Felix_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm500  /Zc:auto %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -251,7 +251,7 @@ echo Protection complete!
       <Message>
       </Message>
       <Command>
-</Command>
+      </Command>
       <Outputs>
       </Outputs>
     </CustomBuildStep>
@@ -272,7 +272,7 @@ echo Protection complete!
       <ErrorCheckStubData>true</ErrorCheckStubData>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm500  /Zc:auto %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>C:\dev\cpp\poco\Foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>POCO_DLL;WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;UNIT_TEST;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -933,37 +933,20 @@ echo Protection complete!
     <None Include="App.rgs" />
     <None Include="App2.rgs" />
     <None Include="res\bitmap3.bmp" />
-    <None Include="bmp00003.bmp" />
-    <None Include="bmp00004.bmp" />
-    <None Include="bmp00005.bmp" />
-    <None Include="bmp00006.bmp" />
-    <None Include="bmp00007.bmp" />
     <None Include="ComMemory.rgs" />
     <None Include="ComRecords.rgs" />
-    <None Include="correct_.bmp" />
     <None Include="DELETE.BMP" />
     <None Include="res\Felix.ico" />
     <None Include="Felix.rgs" />
     <None Include="FelixMemDocUIHandler.rgs" />
-    <None Include="get.bmp" />
-    <None Include="get_and_.bmp" />
-    <None Include="gloss_n.bmp" />
     <None Include="GlossaryWindow.rgs" />
     <None Include="help1.bmp" />
-    <None Include="res\idr_icon.ico" />
-    <None Include="lookup.bmp" />
-    <None Include="lookup_n.bmp" />
-    <None Include="lookup_t.bmp" />
     <None Include="Memories.rgs" />
     <None Include="MemoryWindow.rgs" />
     <None Include="Parameters.rgs" />
-    <None Include="PROP.BMP" />
     <None Include="Record.rgs" />
-    <None Include="restore_.bmp" />
     <None Include="SearchResult.rgs" />
     <None Include="SearchResults.rgs" />
-    <None Include="set.bmp" />
-    <None Include="set_and_.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Felix.idl" />
@@ -1085,7 +1068,6 @@ echo Protection complete!
     <ClInclude Include="..\common\output_device.h" />
     <ClInclude Include="pagination.h" />
     <ClInclude Include="..\common\Path.h" />
-    <ClInclude Include="..\common\ProgressBarTestRunner.h" />
     <ClInclude Include="ProgressListener.h" />
     <ClInclude Include="PropertiesDlg.h" />
     <ClInclude Include="..\common\pugxml\src\pugiconfig.hpp" />
@@ -1140,7 +1122,6 @@ echo Protection complete!
     <ClInclude Include="manager_window_listener_fake.h" />
     <ClInclude Include="ManagerViewFake.h" />
     <ClInclude Include="ManagerWindowFactoryFake.h" />
-    <ClInclude Include="output_device_fake.h" />
     <ClInclude Include="view_interface_fake.h" />
     <ClInclude Include="view_state_fake.h" />
     <ClInclude Include="window_interface_fake.h" />
@@ -1204,6 +1185,7 @@ echo Protection complete!
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">true</ExcludedFromBuild>
+      <SubType>Designer</SubType>
     </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>

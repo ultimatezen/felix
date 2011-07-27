@@ -6,8 +6,7 @@
 using namespace except ;
 
 CConnectionDlg::CConnectionDlg(app_props::properties_memory *props) : 
-	m_props(props),
-	m_memory( new mem_engine::memory_remote(props))
+	m_props(props)
 {
 
 }

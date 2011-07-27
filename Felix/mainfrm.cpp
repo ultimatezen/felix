@@ -274,8 +274,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 
 	// Go through our glossary windows, and see if we need to pass on 
 	// this message to them...
-	gloss_window_list::iterator pos ;
-	for( pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; )
+	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; )
 	{
 		if ( ! (*pos)->IsWindow() )
 		{

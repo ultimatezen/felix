@@ -18,7 +18,6 @@ class CConnectionDlg :
 	CEdit	m_edit ;
 	CStatic m_err_box ;
 
-
 public:
 	static const int IDD = IDD_CONNECTION_DLG ;
 	DECLARE_SENSING_VAR ;

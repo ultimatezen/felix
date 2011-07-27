@@ -1772,11 +1772,11 @@ void CGlossaryDialog::check_save_history()
 
 	history_props->m_loaded_remote_gloss.clear() ;
 	history_props->m_loaded_gloss.clear() ;
-	for ( memory_iterator pos = m_memories->begin() ; 
+	for ( auto pos = m_memories->begin() ; 
 			pos != m_memories->end() ; 
 			++pos )
 	{
-		memory_pointer mem = *pos ;
+		auto mem = *pos ;
 		tstring location = (LPCTSTR)mem->get_fullpath();
 		if (! mem->is_local())
 		{
@@ -1790,7 +1790,7 @@ void CGlossaryDialog::check_save_history()
 
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
-	for ( memory_iterator pos = m_memories->begin() ; 
+	for ( auto pos = m_memories->begin() ; 
 		pos != m_memories->end() ; ++pos )
 	{
 		memory_pointer mem = *pos ;

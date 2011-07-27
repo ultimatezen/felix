@@ -64,14 +64,7 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_drop" ) ;
 		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
 	}
-	BOOST_AUTO_TEST_CASE( Teston_create)
-	{
-		frame_ptr frame = make_fake_frame() ;
-		WindowsMessage message ;
-		frame->on_create( message ) ;
-		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "on_create" ) ;
-	}
+
 	// user messages
 	BOOST_AUTO_TEST_CASE( Teston_user_save )
 	{

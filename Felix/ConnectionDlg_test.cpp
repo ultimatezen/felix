@@ -7,12 +7,6 @@
 
 BOOST_AUTO_TEST_SUITE( TestCConnectionDlg )
 
-	BOOST_AUTO_TEST_CASE( instantiate)
-	{
-		app_props::properties_memory props ;
-		CConnectionDlg dialog(&props) ;
-		BOOST_CHECK_EQUAL(IDD_CONNECTION_DLG, CConnectionDlg::IDD) ;
-	}
 
 	BOOST_AUTO_TEST_CASE( IDOK_Message)
 	{

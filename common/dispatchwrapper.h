@@ -262,10 +262,10 @@ protected:
 
 	void create( CLSID clsid )
 	{
-		HRESULT hr = ::CoCreateInstance(clsid, 
-						NULL, CLSCTX_LOCAL_SERVER|CLSCTX_INPROC_SERVER, 
-						IID_IDispatch, 
-						CDispatchWrapper::out_ptr( &m_app ) ) ;
+		const HRESULT hr = ::CoCreateInstance(clsid, 
+			NULL, CLSCTX_LOCAL_SERVER|CLSCTX_INPROC_SERVER, 
+			IID_IDispatch, 
+			CDispatchWrapper::out_ptr( &m_app ) ) ;
 
 		if ( FAILED(hr))
 		{

@@ -845,8 +845,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 
 		record_pointer rec(new record_local()) ;
 
-		string actual = (LPCSTR)CStringA(rec->get_creator().c_str()) ;
-		string expected = "creator_init" ;
+		wstring actual = rec->get_creator() ;
+		wstring expected = L"creator_init" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_modified_by_init)
@@ -855,8 +855,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 
 		record_pointer rec(new record_local()) ;
 
-		string actual = (LPCSTR)CStringA(rec->get_modified_by().c_str()) ;
-		string expected = "modified_by_init" ;
+		wstring actual = rec->get_modified_by() ;
+		wstring expected = L"modified_by_init" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
@@ -865,15 +865,15 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 
 		record_pointer rec(new record_local()) ;
 		rec->set_creator(L"spam") ;
-		string actual = (LPCSTR)CStringA(rec->get_creator().c_str()) ;
-		string expected = "spam" ;
+		wstring actual = rec->get_creator() ;
+		wstring expected = L"spam" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		set_record_username(L"create") ;
 		rec->create() ;
 
-		actual = (LPCSTR)CStringA(rec->get_creator().c_str()) ;
-		expected = "create" ;
+		actual = rec->get_creator() ;
+		expected = L"create" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
@@ -881,15 +881,15 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 	{
 		record_pointer rec(new record_local()) ;
 		rec->set_modified_by(L"spam") ;
-		string actual = (LPCSTR)CStringA(rec->get_modified_by().c_str()) ;
-		string expected = "spam" ;
+		wstring actual = rec->get_modified_by() ;
+		wstring expected = L"spam" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 
 		set_record_username(L"modify") ;
 		rec->modify() ;
 
-		expected = "modify" ;
-		BOOST_CHECK_EQUAL(expected, ws2ss(rec->get_modified_by())) ;
+		expected = L"modify" ;
+		BOOST_CHECK_EQUAL(expected, rec->get_modified_by()) ;
 	}
 
 	// copy_from_self
@@ -899,8 +899,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec->set_source(L"spam") ;
 		record_pointer other(new record_local()) ;
 		rec->copy_from_self(other) ;
-		string actual = (LPCSTR)CStringA(other->get_source_rich().c_str()) ;
-		string expected = "spam" ;
+		wstring actual = other->get_source_rich() ;
+		wstring expected = L"spam" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( copy_from_self_creator)
@@ -909,8 +909,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec->set_creator(L"spam") ;
 		record_pointer other(new record_local()) ;
 		rec->copy_from_self(other) ;
-		string actual = (LPCSTR)CStringA(other->get_creator().c_str()) ;
-		string expected = "spam" ;
+		wstring actual = other->get_creator() ;
+		wstring expected = L"spam" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( copy_from_self_modified_by)
@@ -919,8 +919,8 @@ BOOST_AUTO_TEST_SUITE( test_record_local )
 		rec->set_modified_by(L"spam") ;
 		record_pointer other(new record_local()) ;
 		rec->copy_from_self(other) ;
-		string actual = (LPCSTR)CStringA(other->get_modified_by().c_str()) ;
-		string expected = "spam" ;
+		wstring actual = other->get_modified_by() ;
+		wstring expected = L"spam" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 		BOOST_CHECK(other->get_source_rich().empty()) ;
 	}
