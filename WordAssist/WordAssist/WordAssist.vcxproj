@@ -78,7 +78,7 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zc:auto </AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -130,7 +130,7 @@
       <ProxyFileName>AddIn_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> /Zc:auto </AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
@@ -169,6 +169,11 @@
       <Message>Performing registration</Message>
       <Command>regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <ClCompile>
+      <AdditionalOptions> /Zc:auto </AdditionalOptions>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\abbreviations.cpp" />
@@ -267,13 +272,9 @@
     <ClInclude Include="AddGlossDialog.h" />
     <ClInclude Include="AddIn.h" />
     <ClInclude Include="app_state.h" />
-    <ClInclude Include="..\common\Broadcaster.h" />
-    <ClInclude Include="..\common\Broker.h" />
     <ClInclude Include="ClipboardBackup.h" />
-    <ClInclude Include="..\..\..\common\ColorRef.h" />
     <ClInclude Include="..\..\common\config_file.h" />
     <ClInclude Include="Connect.h" />
-    <ClInclude Include="..\..\..\common\DispatchWrapper.h" />
     <ClInclude Include="..\..\common\font_properties.h" />
     <ClInclude Include="..\..\common\GetWinVer.h" />
     <ClInclude Include="hooker.h" />
@@ -290,11 +291,8 @@
     <ClInclude Include="..\..\common\keyboard_shortcuts.h" />
     <ClInclude Include="keyboard_shortcuts_word.h" />
     <ClInclude Include="KeyboardListener.h" />
-    <ClInclude Include="..\..\..\common\logging.h" />
-    <ClInclude Include="..\..\..\common\logical.h" />
     <ClInclude Include="..\..\common\numberfmt.h" />
     <ClInclude Include="..\..\common\output_device.h" />
-    <ClInclude Include="..\..\..\common\Parser.h" />
     <ClInclude Include="Properties.h" />
     <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
     <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp" />
@@ -302,8 +300,6 @@
     <ClInclude Include="..\..\common\resource_string.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\..\common\stringex.h" />
-    <ClInclude Include="..\..\..\common\textstream_reader.h" />
-    <ClInclude Include="..\common\TextTemplate.h" />
     <ClInclude Include="Word2HtmlParser.h" />
     <ClInclude Include="..\..\common\word_writer.h" />
     <ClInclude Include="WordController.h" />
