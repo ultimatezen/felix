@@ -20,9 +20,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Application.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\res\bitmap3.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -30,9 +27,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Copy.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\cursor1.cur">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Cut.bmp">
@@ -47,16 +41,7 @@
     <None Include="..\Felix.rgs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\res\Felix_48px.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\Felix_800px.gif">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\res\FillColor.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\FIND.BMP">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Font.bmp">
@@ -71,12 +56,6 @@
     <None Include="..\res\Help.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\res\icon3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\idr_icon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\res\information.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -87,9 +66,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\LOGO640.GIF">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\logo800.gif">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\mem_mgr.bmp">
@@ -108,9 +84,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Paste.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\res\PROP.BMP">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\res\Properties.bmp">

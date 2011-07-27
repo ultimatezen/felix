@@ -145,37 +145,28 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Application.rgs" />
     <None Include="..\res\bitmap3.bmp" />
     <None Include="..\res\close.bmp" />
     <None Include="..\res\Copy.bmp" />
-    <None Include="..\res\cursor1.cur" />
     <None Include="..\res\Cut.bmp" />
     <None Include="..\res\Delete.bmp" />
     <None Include="..\res\Felix.ico" />
     <None Include="..\Felix.rgs" />
-    <None Include="..\res\Felix_48px.ico" />
-    <None Include="..\res\Felix_800px.gif" />
     <None Include="..\res\FillColor.bmp" />
-    <None Include="..\res\FIND.BMP" />
     <None Include="..\res\Font.bmp" />
     <None Include="..\res\Format.bmp" />
     <None Include="..\res\gloss_to.bmp" />
     <None Include="..\res\Help.bmp" />
-    <None Include="..\res\icon3.ico" />
-    <None Include="..\res\idr_icon.ico" />
     <None Include="..\res\information.bmp" />
     <None Include="..\res\logo.jpeg" />
     <None Include="..\res\LOGO320.GIF" />
     <None Include="..\res\LOGO640.GIF" />
-    <None Include="..\res\logo800.gif" />
     <None Include="..\res\mem_mgr.bmp" />
     <None Include="..\res\network.bmp" />
     <None Include="..\res\NewDocument.bmp" />
     <None Include="..\res\Open.bmp" />
     <None Include="..\res\openprefs.bmp" />
     <None Include="..\res\Paste.bmp" />
-    <None Include="..\res\PROP.BMP" />
     <None Include="..\res\Properties.bmp" />
     <None Include="..\res\Save.bmp" />
     <None Include="..\res\SaveAll.bmp" />
