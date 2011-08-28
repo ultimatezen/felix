@@ -35,3 +35,4 @@ glob:Felix/RD*
 glob:*.tmp
 glob:*.obj
 ExcelAssist/ExcelAssist/RDa06652
+*.ipch
