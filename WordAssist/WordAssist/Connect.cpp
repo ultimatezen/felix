@@ -1404,9 +1404,6 @@ void CConnect::switch_to_translation_toolbar()
 		string_offset += JAPANESE_OFFSET ;
 	}
 
-	this->unadvise_button_items() ;
-	load_toolbar(m_app->GetCommandBars( )) ;
-
 	// add buttons
 	set_button_image( m_button_lookup, IDB_LOOKUP ) ;
 	set_button_text( m_button_lookup, IDS_MENU_LOOKUP + string_offset ) ;
@@ -1441,8 +1438,6 @@ void CConnect::switch_to_review_toolbar( )
 		string_offset = IDS_MENU_JAPANESE_FIRST - IDS_MENU_ENGLISH_FIRST ;
 	}
 
-	this->unadvise_button_items() ;
-	load_toolbar(m_app->GetCommandBars( )) ;
 
 	// add buttons
 	set_button_image( m_button_lookup, IDB_LOOKUP_TRANS ) ;
@@ -2677,3 +2672,4 @@ void CConnect::load_button_controls()
 	COM_ENFORCE( ButtonHelpEventImpl::DispEventAdvise( (IUnknown*)m_button_help ), 
 		"Failed to configure menu button (help)" ) ;
 }
+

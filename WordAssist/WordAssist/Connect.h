@@ -498,6 +498,8 @@ public:
 	void persist_app_state();
 	void kill_old_menu( office_cmd_bar_ctls controls );
 	void gui_to_japanese();
+
+
 	void gui_to_english();
 
 	void setup_stuff() ;
