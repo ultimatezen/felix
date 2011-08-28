@@ -4,6 +4,7 @@
 #include "key_target_excel.h"
 #include "keyboard_shortcuts.h"
 
+const static string CmdCorrectAction = "Correct Translation" ;
 const static string CmdLookupNext  = "Look up Next" ;
 const static string CmdSet  = "Set" ;
 const static string CmdGet  = "Get" ;
@@ -82,6 +83,12 @@ public:
 			m_target->OnAutoTransSel() ;
 			return true ;
 		}
+		if (boost::iequals(command, CmdCorrectAction))
+		{
+			m_target->OnCorrect() ;
+			return true ;
+		}
+		
 		// get glossary entries
 		if (boost::iequals(command, CmdEntry0Action ))
 		{

@@ -42,6 +42,7 @@ public:
 	{
 		try
 		{
+
 			CDispatchWrapper wrapper(L"Felix.Preferences"); 
 			CComVariant language = L"English";
 			CComVariant prog = L"excel" ;

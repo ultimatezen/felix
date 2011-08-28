@@ -123,6 +123,7 @@ public:
 	void OnEntry( int num );
 
 	void OnAutoTransSheet();
+	void OnCorrect();
 
 	void PerformSheetAutoTrans();
 

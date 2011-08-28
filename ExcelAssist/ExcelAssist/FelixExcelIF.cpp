@@ -405,15 +405,7 @@ void CFelixExcelIF::OnSet( )
 		}
 		else
 		{
-			if (m_properties->m_use_trans_hist)
-			{
-				ensure_trans_history() ;
-				m_trans_history->method(L"CorrectTrans") ;
-			}
-			else
-			{
-				assistant->CorrectTrans(this->get_selection_text(m_excel_app)) ;
-			}
+			this->OnCorrect() ;
 		}
 
 
@@ -428,6 +420,22 @@ void CFelixExcelIF::OnSet( )
 		e.notify_user( _T("Error adding translation text") ) ;
 	}
 }
+
+void CFelixExcelIF::OnCorrect()
+{
+	if (m_properties->m_use_trans_hist)
+	{
+		ensure_trans_history() ;
+		m_trans_history->method(L"CorrectTrans") ;
+	}
+	else
+	{
+		ta_ptr assistant = getAssistant() ;
+		assistant->CorrectTrans(this->get_selection_text(m_excel_app)) ;
+	}
+
+}
+
 
 /*!
  * Shortcut for OnSet(); OnLookupNext()

@@ -14,4 +14,5 @@ public:
 	virtual void OnLookup() = 0 ;
 	virtual void OnAutoTransSel() = 0 ;
 	virtual void OnEntry( int ) = 0 ;
+	virtual void OnCorrect() = 0 ;
 };

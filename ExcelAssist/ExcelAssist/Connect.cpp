@@ -734,6 +734,7 @@ void CConnect::load_keyboard_shortcuts()
 {
 	input_device_ptr input(new InputDeviceFile) ;
 	output_device_ptr output(new OutputDeviceFile) ;
+	m_keyboard_shortcuts.load(get_default_file_text()) ;
 	m_keyboard_shortcuts.load(get_shortcuts_text(SHORTCUTS_FILE, input, output)) ;
 }
 void __stdcall CConnect::OnWorkbookBeforeClose( IDispatch * workbook, VARIANT_BOOL * )
