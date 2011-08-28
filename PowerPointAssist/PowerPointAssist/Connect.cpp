@@ -449,8 +449,8 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_menu_lookup_next = add_menu_item( ta_menu_controls, IDB_LOOKUP_NEXT, caption, tooltip  ) ;
 		MenuLookupNextEventImpl::DispEventAdvise( (IUnknown*)m_menu_lookup_next );
 
-		caption = L"&Extend Lookup Sentence (CTL + R ARR)" ;
-		tooltip = L"Extend the current translation lookup" ;
+		caption.LoadString(IDS_EXTEND_LOOKUP)  ;
+		caption.LoadString(IDS_EXTEND_LOOKUP_TT)  ;
 		m_menu_extend_lookup = add_menu_item( ta_menu_controls, 0, caption, tooltip  ) ;
 		MenuExtendLookupEventImpl	::DispEventAdvise( (IUnknown*)m_menu_extend_lookup ) ;
 
@@ -562,11 +562,6 @@ HRESULT CConnect::add_menu(Office::_CommandBarsPtr &spCmdBars)
 		m_menu_save = add_menu_item( ta_menu_controls, IDB_SAVE, caption, tooltip  )	;
 		m_menu_save->put_BeginGroup( VARIANT_TRUE ) ;
 		MenuSaveEventImpl::DispEventAdvise( (IUnknown*)m_menu_save );
-
-		//	caption.LoadString( IDB_ALIGN ) ;
-		//	tooltip.LoadString( IDB_ALIGN ) ;
-		//	m_menu_align = add_menu_item( ta_menu_controls, IDB_ALIGN, caption, tooltip  )	;
-		//	MenuAlignEventImpl::DispEventAdvise( (IUnknown*)m_menu_align );
 
 		caption.LoadString( IDB_HELP ) ;
 		tooltip.LoadString( IDB_HELP ) ;
@@ -831,219 +826,9 @@ void CConnect::putImageInClipboard(HBITMAP hBmp)
 void CConnect::gui_to_english()
 {
 	logging::log_debug("CConnect::gui_to_english") ;
-	//	caption = L"&Auto Translate Selection" ;
-	//	tooltip =  L"Auto translate current selection" ;
-	//	m_menu_auto_trans->put_Caption( caption ) ;
-	//	m_menu_auto_trans->put_TooltipText( tooltip ) ;
-	CComBSTR caption, tooltip ;
 
-	caption = L"Translate to Fu&zzy (ALT + Z)" ;
-	tooltip = L"Auto translate until a fuzzy match is reached" ;
-	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
-	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_GET ) ;
-	tooltip.LoadString( IDB_GET ) ;
-	m_menu_get->put_Caption( caption ) ;
-	m_menu_get->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_SET ) ;
-	tooltip.LoadString( IDB_SET ) ;
-	m_menu_get_and_next->put_Caption( caption ) ;
-	m_menu_get_and_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_GET_AND_NEXT ) ;
-	tooltip.LoadString( IDB_GET_AND_NEXT ) ;
-	m_menu_set->put_Caption( caption ) ;
-	m_menu_set->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_SET_AND_NEXT ) ;
-	tooltip.LoadString( IDB_SET_AND_NEXT ) ;
-	m_menu_set_and_next->put_Caption( caption ) ;
-	m_menu_set_and_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_LOOKUP ) ;
-	tooltip.LoadString( IDB_LOOKUP ) ;
-	m_menu_lookup->put_Caption( caption ) ;
-	m_menu_lookup->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_LOOKUP_NEXT ) ;
-	tooltip.LoadString( IDB_LOOKUP_NEXT ) ;
-	m_menu_lookup_next->put_Caption( caption ) ;
-	m_menu_lookup_next->put_TooltipText( tooltip ) ;
-
-	caption = L"&Extend Lookup Sentence (CTL + R ARR)" ;
-	tooltip = L"Extend the current translation lookup" ;
-	m_menu_extend_lookup->put_Caption( caption ) ;
-	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
-
-	caption = L"Find C&oncordance (ALT + C)" ;
-	tooltip = L"Find concordance for the current selection in the memory" ;
-	m_menu_concordance->put_Caption( caption ) ;
-	m_menu_concordance->put_TooltipText( tooltip ) ;
-
-	caption = L"Add Glossary En&try" ;
-	tooltip = L"Add a glossary entry with the selection as the source" ;
-	m_menu_register_gloss->put_Caption( caption ) ;
-	m_menu_register_gloss->put_TooltipText( tooltip ) ;
-
-	caption = L"&Delete Translation (ALT + D)" ;
-	tooltip = L"Delete the currently displayed translation" ;
-	m_menu_delete->put_Caption( caption ) ;
-	m_menu_delete->put_TooltipText( tooltip ) ;
-
-	caption = L"&Next Translation (ALT + N)" ;
-	tooltip = L"Show the next translation in memory, if any" ;
-	m_menu_next->put_Caption( caption ) ;
-	m_menu_next->put_TooltipText( tooltip ) ;
-
-	caption = L"&Previous Translation (ALT + P)" ;
-	tooltip = L"Show the previous translation in memory, if any" ;
-	m_menu_prev->put_Caption( caption ) ;
-	m_menu_prev->put_TooltipText( tooltip ) ;
-
-	m_gloss_menu_popup->put_Caption( CComBSTR( L"Glossar&y..." ) ) ;
-
-	caption = L"Entry &0 (ALT + 0)" ;
-	tooltip = L"Get entry 0" ;
-	m_menu_entry_0->put_Caption( caption ) ;
-	m_menu_entry_0->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &1 (ALT + 1)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_1->put_Caption( caption ) ;
-	m_menu_entry_1->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &2 (ALT + 2)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_2->put_Caption( caption ) ;
-	m_menu_entry_2->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &3 (ALT + 3)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_3->put_Caption( caption ) ;
-	m_menu_entry_3->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &4 (ALT + 4)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_4->put_Caption( caption ) ;
-	m_menu_entry_4->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &5 (ALT + 5)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_5->put_Caption( caption ) ;
-	m_menu_entry_5->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &6 (ALT + 6)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_6->put_Caption( caption ) ;
-	m_menu_entry_6->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &7 (ALT + 7)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_7->put_Caption( caption ) ;
-	m_menu_entry_7->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &8 (ALT + 8)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_8->put_Caption( caption ) ;
-	m_menu_entry_8->put_TooltipText( tooltip ) ;
-
-	caption = L"Entry &9 (ALT + 9)" ;
-	tooltip = L"Get entry " ;
-	m_menu_entry_9->put_Caption( caption ) ;
-	m_menu_entry_9->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_GLOSS_N ) ;
-	tooltip.LoadString( IDB_GLOSS_N ) ;
-	m_menu_gloss_n->put_Caption( caption ) ;
-	m_menu_gloss_n->put_TooltipText( tooltip ) ;
-
-	caption = L"&Find Current Translation (CTL + ALT + L)" ;
-	tooltip = L"Look up current translation" ;
-	m_menu_lookup_trans->put_Caption( caption ) ;
-	m_menu_lookup_trans->put_TooltipText( tooltip ) ;
-
-	caption = L"Lookkup Ne&xt Translation (CTL + ALT + R ARR)" ;
-	tooltip = L"Select and look up next translation" ;
-	m_menu_lookup_next_trans->put_Caption( caption ) ;
-	m_menu_lookup_next_trans->put_TooltipText( tooltip ) ;
-
-	caption = L"Translat&ion Concordance (CTL + ALT + C)" ;
-	tooltip = L"Find concordance in translations for current selection" ;
-	m_menu_trans_concordance->put_Caption( caption ) ;
-	m_menu_trans_concordance->put_TooltipText( tooltip ) ;
-
-	caption = L"Correct Translation (&B) (CTL + ALT + UP ARR)" ;
-	tooltip = L"Correct current translation" ;
-	m_menu_correct_trans->put_Caption( caption ) ;
-	m_menu_correct_trans->put_TooltipText( tooltip ) ;
-
-	caption = L"Extend Translation Loo&kup Sentence (CTL + ALT + E)" ;
-	tooltip = L"Extend the translation lookup sentence" ;
-	m_menu_extend_trans_lookup->put_Caption( caption ) ;
-	m_menu_extend_trans_lookup->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_SAVE ) ;
-	tooltip.LoadString( IDB_SAVE ) ;
-	m_menu_save->put_Caption( caption ) ;
-	m_menu_save->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_HELP ) ;
-	tooltip.LoadString( IDB_HELP ) ;
-	m_menu_help->put_Caption( caption ) ;
-	m_menu_help->put_TooltipText( tooltip ) ;
-
-	caption = L"S&with Menu to Japanese" ;
-	tooltip = L"Show Japanese GUI" ;
-	m_menu_gui->put_Caption( caption ) ;
-	m_menu_gui->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDB_GET ) ;
-	tooltip.LoadString( IDB_GET ) ;
-	m_button_get->put_Caption( caption ) ;
-	m_button_get->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_USER_PREFERENCES ) ;
-	tooltip.LoadString( IDS_USER_PREFERENCES ) ;
-	m_menu_preferences->put_Caption( caption ) ;
-	m_menu_preferences->put_TooltipText( tooltip ) ;
-
-
-	caption.LoadString( IDB_SET ) ;
-	tooltip.LoadString( IDB_SET ) ;
-	m_button_set->put_TooltipText( tooltip ) ;
-	m_button_set->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_GET_AND_NEXT ) ;
-	tooltip.LoadString( IDB_GET_AND_NEXT ) ;
-	m_button_get_and_next->put_TooltipText( tooltip ) ;
-	m_button_get_and_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_SET_AND_NEXT ) ;
-	tooltip.LoadString( IDB_SET_AND_NEXT ) ;
-	m_button_set_and_next->put_TooltipText( tooltip ) ;
-	m_button_set_and_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_LOOKUP ) ;
-	tooltip.LoadString( IDB_LOOKUP ) ;
-	m_button_lookup->put_TooltipText( tooltip ) ;
-	m_button_lookup->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_LOOKUP_NEXT ) ;
-	tooltip.LoadString( IDB_LOOKUP_NEXT ) ;
-	m_button_lookup_next->put_TooltipText( tooltip ) ;
-	m_button_lookup_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_GLOSS_N ) ;
-	tooltip.LoadString( IDB_GLOSS_N ) ;
-	m_button_gloss_n->put_TooltipText( tooltip ) ;
-	m_button_gloss_n->put_Tag( caption ) ;
-
-	caption.LoadString( IDB_HELP ) ;
-	tooltip.LoadString( IDB_HELP ) ;
-	m_button_help->put_TooltipText( tooltip ) ;
-	m_button_help->put_Tag( caption ) ;
+	set_english_trans_menu_text();
+	set_english_trans_toolbar_text();
 
 	m_properties.set_preferred_gui_lang(PREF_LANG_ENGLISH) ;
 	m_properties.write_to_registry() ;
@@ -1053,220 +838,9 @@ void CConnect::gui_to_english()
 void CConnect::gui_to_japanese()
 {
 	logging::log_debug("CConnect::gui_to_japanese") ;
-	CComBSTR caption, tooltip ;
+	set_japanese_trans_toolbar_text();
 
-	//	caption.LoadString( IDS_AUTO_TRANS_SEL_J ) ;
-	//	tooltip.LoadString( IDS_AUTO_TRANS_SEL_J ) ;
-	//	m_menu_auto_trans->put_Caption( caption ) ;
-	//	m_menu_auto_trans->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
-	tooltip.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
-	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
-	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_GET_J ) ;
-	tooltip.LoadString( IDS_GET_J ) ;
-	m_menu_get->put_Caption( caption ) ;
-	m_menu_get->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_GET_AND_NEXT_J ) ;
-	tooltip.LoadString( IDS_GET_AND_NEXT_J ) ;
-	m_menu_get_and_next->put_Caption( caption ) ;
-	m_menu_get_and_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_SET_J ) ;
-	tooltip.LoadString( IDS_SET_J ) ;
-	m_menu_set->put_Caption( caption ) ;
-	m_menu_set->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_SET_AND_NEXT_J ) ;
-	tooltip.LoadString( IDS_SET_AND_NEXT_J ) ;
-	m_menu_set_and_next->put_Caption( caption ) ;
-	m_menu_set_and_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_LOOKUP_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_J ) ;
-	m_menu_lookup->put_Caption( caption ) ;
-	m_menu_lookup->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_LOOKUP_NEXT_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_NEXT_J ) ;
-	m_menu_lookup_next->put_Caption( caption ) ;
-	m_menu_lookup_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_EXTEND_LOOKUP_J ) ;
-	tooltip.LoadString( IDS_EXTEND_LOOKUP_J ) ;
-	m_menu_extend_lookup->put_Caption( caption ) ;
-	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_CONCORDANCE_J ) ;
-	tooltip.LoadString( IDS_CONCORDANCE_J ) ;
-	m_menu_concordance->put_Caption( caption ) ;
-	m_menu_concordance->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_REGISTER_GLOSS_J ) ;
-	tooltip.LoadString( IDS_REGISTER_GLOSS_J ) ;
-	m_menu_register_gloss->put_Caption( caption ) ;
-	m_menu_register_gloss->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_DELETE_J ) ;
-	tooltip.LoadString( IDS_DELETE_J ) ;
-	m_menu_delete->put_Caption( caption ) ;
-	m_menu_delete->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_NEXT_J ) ;
-	tooltip.LoadString( IDS_NEXT_J ) ;
-	m_menu_next->put_Caption( caption ) ;
-	m_menu_next->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_PREV_J ) ;
-	tooltip.LoadString( IDS_PREV_J ) ;
-	m_menu_prev->put_Caption( caption ) ;
-	m_menu_prev->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_GLOSS_POPUP_J ) ;
-	m_gloss_menu_popup->put_Caption( caption ) ;
-
-	caption.LoadString( IDS_ENTRY_0_J ) ;
-	tooltip.LoadString( IDS_ENTRY_0_J ) ;
-	m_menu_entry_0->put_Caption( caption ) ;
-	m_menu_entry_0->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_1_J ) ;
-	tooltip.LoadString( IDS_ENTRY_1_J ) ;
-	m_menu_entry_1->put_Caption( caption ) ;
-	m_menu_entry_1->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_2_J ) ;
-	tooltip.LoadString( IDS_ENTRY_2_J ) ;
-	m_menu_entry_2->put_Caption( caption ) ;
-	m_menu_entry_2->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_3_J ) ;
-	tooltip.LoadString( IDS_ENTRY_3_J ) ;
-	m_menu_entry_3->put_Caption( caption ) ;
-	m_menu_entry_3->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_4_J ) ;
-	tooltip.LoadString( IDS_ENTRY_4_J ) ;
-	m_menu_entry_4->put_Caption( caption ) ;
-	m_menu_entry_4->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_5_J ) ;
-	tooltip.LoadString( IDS_ENTRY_5_J ) ;
-	m_menu_entry_5->put_Caption( caption ) ;
-	m_menu_entry_5->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_6_J ) ;
-	tooltip.LoadString( IDS_ENTRY_6_J ) ;
-	m_menu_entry_6->put_Caption( caption ) ;
-	m_menu_entry_6->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_7_J ) ;
-	tooltip.LoadString( IDS_ENTRY_7_J ) ;
-	m_menu_entry_7->put_Caption( caption ) ;
-	m_menu_entry_7->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_8_J ) ;
-	tooltip.LoadString( IDS_ENTRY_8_J ) ;
-	m_menu_entry_8->put_Caption( caption ) ;
-	m_menu_entry_8->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_ENTRY_9_J ) ;
-	tooltip.LoadString( IDS_ENTRY_9_J ) ;
-	m_menu_entry_9->put_Caption( caption ) ;
-	m_menu_entry_9->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_GLOSS_N_J ) ;
-	tooltip.LoadString( IDS_GLOSS_N_J ) ;
-	m_menu_gloss_n->put_Caption( caption ) ;
-	m_menu_gloss_n->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_LOOKUP_TRANS_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_TRANS_J ) ;
-	m_menu_lookup_trans->put_Caption( caption ) ;
-	m_menu_lookup_trans->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_LOOKUP_NEXT_TRANS_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_NEXT_TRANS_J ) ;
-	m_menu_lookup_next_trans->put_Caption( caption ) ;
-	m_menu_lookup_next_trans->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_TRANS_CONCORDANCE_J ) ;
-	tooltip.LoadString( IDS_TRANS_CONCORDANCE_J ) ;
-	m_menu_trans_concordance->put_Caption( caption ) ;
-	m_menu_trans_concordance->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_CORRECT_TRANS_J ) ;
-	tooltip.LoadString( IDS_CORRECT_TRANS_J ) ;
-	m_menu_correct_trans->put_Caption( caption ) ;
-	m_menu_correct_trans->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_EXTEND_LOOKUP_TRANS_J ) ;
-	tooltip.LoadString( IDS_EXTEND_LOOKUP_TRANS_J ) ;
-	m_menu_extend_trans_lookup->put_Caption( caption ) ;
-	m_menu_extend_trans_lookup->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_SAVE_J ) ;
-	tooltip.LoadString( IDS_SAVE_J ) ;
-	m_menu_save->put_Caption( caption ) ;
-	m_menu_save->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_HELP_J ) ;
-	tooltip.LoadString( IDS_HELP_J ) ;
-	m_menu_help->put_Caption( caption ) ;
-	m_menu_help->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_MENU_GUI_J ) ;
-	tooltip.LoadString( IDS_MENU_GUI_J ) ;
-	m_menu_gui->put_Caption( caption ) ;
-	m_menu_gui->put_TooltipText( tooltip ) ;
-
-	caption.LoadString( IDS_USER_PREFERENCES_J ) ;
-	tooltip.LoadString( IDS_USER_PREFERENCES_J ) ;
-	m_menu_preferences->put_TooltipText( tooltip ) ;
-	m_menu_preferences->put_Caption( caption ) ;
-
-	caption.LoadString( IDS_GET_J ) ;
-	tooltip.LoadString( IDS_GET_J ) ;
-	m_button_get->put_TooltipText( tooltip ) ;
-	m_button_get->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_SET_J ) ;
-	tooltip.LoadString( IDS_SET_J ) ;
-	m_button_set->put_TooltipText( tooltip ) ;
-	m_button_set->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_GET_AND_NEXT_J ) ;
-	tooltip.LoadString( IDS_GET_AND_NEXT_J ) ;
-	m_button_get_and_next->put_TooltipText( tooltip ) ;
-	m_button_get_and_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_SET_AND_NEXT_J ) ;
-	tooltip.LoadString( IDS_SET_AND_NEXT_J ) ;
-	m_button_set_and_next->put_TooltipText( tooltip ) ;
-	m_button_set_and_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_LOOKUP_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_J ) ;
-	m_button_lookup->put_TooltipText( tooltip ) ;
-	m_button_lookup->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_LOOKUP_NEXT_J ) ;
-	tooltip.LoadString( IDS_LOOKUP_NEXT_J ) ;
-	m_button_lookup_next->put_TooltipText( tooltip ) ;
-	m_button_lookup_next->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_GLOSS_N_J ) ;
-	tooltip.LoadString( IDS_GLOSS_N_J ) ;
-	m_button_gloss_n->put_TooltipText( tooltip ) ;
-	m_button_gloss_n->put_Tag( caption ) ;
-
-	caption.LoadString( IDS_HELP_J ) ;
-	tooltip.LoadString( IDS_HELP_J ) ;
-	m_button_help->put_TooltipText( tooltip ) ;
-	m_button_help->put_Tag( caption ) ;
+	set_japanese_trans_menu_text();
 
 	m_properties.set_preferred_gui_lang(PREF_LANG_JAPANESE) ;
 	m_properties.write_to_registry() ;
@@ -1395,59 +969,8 @@ void __stdcall CConnect::OnButtonGlossN( IDispatch *Ctrl, VARIANT_BOOL *CancelDe
 	CATCH_ALL(_T("OnButtonGlossN")) ;
 }
 
-void __stdcall CConnect::OnLookupNext( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		logging::log_debug("CConnect::OnLookupNext") ;
-		m_interface.OnLookupNextAction() ;
-	}
-	CATCH_ALL(_T("OnLookupNext")) ;
-}
 
-void __stdcall CConnect::OnLookup( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnLookup") ;
-		m_interface.OnLookupAction() ;
-	}
-	CATCH_ALL(_T("OnLookup")) ;
-}
 
-void __stdcall CConnect::OnSetAndNext( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnSetAndNext") ;
-		m_interface.OnSetAndNextAction() ;
-	}
-	CATCH_ALL(_T("OnSetAndNext")) ;
-}
-
-void __stdcall CConnect::OnGetAndNext( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnGetAndNext") ;
-		m_interface.OnGetAndNextAction() ;
-	}
-	CATCH_ALL(_T("OnGetAndNext")) ;
-}
-
-void __stdcall CConnect::OnSet( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnSet") ;
-		m_interface.OnSetAction() ;
-	}
-	CATCH_ALL(_T("OnSet")) ;
-}
 
 void __stdcall CConnect::OnMenuGui( IDispatch *, VARIANT_BOOL * )
 {
@@ -1467,6 +990,7 @@ void __stdcall CConnect::OnMenuGui( IDispatch *, VARIANT_BOOL * )
 	CATCH_ALL( _T("Error switching GUI language") ) ;
 }
 
+// get
 void __stdcall CConnect::OnGet( IDispatch *, VARIANT_BOOL * )
 {
 	try
@@ -1478,94 +1002,89 @@ void __stdcall CConnect::OnGet( IDispatch *, VARIANT_BOOL * )
 	CATCH_ALL(_T("OnGet")) ;
 }
 
-void __stdcall CConnect::OnRestoreAndNextTrans( IDispatch *, VARIANT_BOOL * )
+void __stdcall CConnect::OnGetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnRestoreAndNextTrans") ;
-		m_interface.OnRestoreAndNextTransAction() ;
+		logging::log_debug("CConnect::OnGetAndNext") ;
+		m_interface.OnGetAndNextAction() ;
 	}
-	CATCH_ALL(_T("OnRestoreAndNextTrans")) ;
+	CATCH_ALL(_T("OnGetAndNext")) ;
 }
 
-void __stdcall CConnect::OnRestoreTrans( IDispatch *, VARIANT_BOOL * )
+// set
+void __stdcall CConnect::OnSet( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnRestoreTrans") ;
-		m_interface.OnRestoreTransAction() ;
+		logging::log_debug("CConnect::OnSet") ;
+		m_interface.OnSetAction() ;
 	}
-	CATCH_ALL(_T("OnRestoreTrans")) ;
+	CATCH_ALL(_T("OnSet")) ;
 }
 
-void __stdcall CConnect::OnCorrectAndNextTrans( IDispatch *, VARIANT_BOOL * )
+void __stdcall CConnect::OnSetAndNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnCorrectAndNextTrans") ;
-		m_interface.OnCorrectAndNextTransAction() ;
+		logging::log_debug("CConnect::OnSetAndNext") ;
+		m_interface.OnSetAndNextAction() ;
 	}
-	CATCH_ALL(_T("OnCorrectAndNextTrans")) ;
+	CATCH_ALL(_T("OnSetAndNext")) ;
 }
 
-void __stdcall CConnect::OnCorrectTrans( IDispatch *, VARIANT_BOOL * )
+// lookup 
+void __stdcall CConnect::OnLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnCorrectTrans") ;
-		m_interface.OnCorrectTransAction() ;
+		logging::log_debug("CConnect::OnLookup") ;
+		m_interface.OnLookupAction() ;
 	}
-	CATCH_ALL(_T("OnCorrectTrans")) ;
+	CATCH_ALL(_T("OnLookup")) ;
 }
 
-void __stdcall CConnect::OnExtendTransLookup( IDispatch *, VARIANT_BOOL * )
+void __stdcall CConnect::OnLookupNext( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnExtendTransLookup") ;
-		m_interface.OnExtendTransLookupAction() ;
+		logging::log_debug("CConnect::OnLookupNext") ;
+		m_interface.OnLookupNextAction() ;
 	}
-	CATCH_ALL(_T("OnExtendTransLookup")) ;
+	CATCH_ALL(_T("OnLookupNext")) ;
 }
 
-void __stdcall CConnect::OnTransConcordance( IDispatch *, VARIANT_BOOL * )
+// extend
+
+void __stdcall CConnect::OnExtendLookup( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnTransConcordance") ;
-		m_interface.OnTransConcordanceAction() ;
+		logging::log_debug("CConnect::OnExtendLookup") ;
+		m_interface.OnExtendLookupAction() ;
 	}
-	CATCH_ALL(_T("OnTransConcordance")) ;
+	CATCH_ALL(_T("OnExtendLookup")) ;
 }
 
-void __stdcall CConnect::OnLookupNextTrans( IDispatch *, VARIANT_BOOL * )
+// concordance
+void __stdcall CConnect::OnConcordance( IDispatch *, VARIANT_BOOL * )
 {
 	try
 	{
 		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnLookupNextTrans") ;
-		m_interface.OnLookupNextTransAction() ;
+		logging::log_debug("CConnect::OnConcordance") ;
+		m_interface.OnConcordanceAction() ;
 	}
-	CATCH_ALL(_T("OnLookupNextTrans")) ;
+	CATCH_ALL(_T("OnConcordance")) ;
 }
 
-void __stdcall CConnect::OnLookupTrans( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnLookupTrans") ;
-		m_interface.OnLookupTransAction() ;
-	}
-	CATCH_ALL(_T("OnLookupTrans")) ;
-}
-
+// glossary entries
 void __stdcall CConnect::OnEntry9( IDispatch *, VARIANT_BOOL * )
 {
 	try
@@ -1706,26 +1225,6 @@ void __stdcall CConnect::OnRegisterGloss( IDispatch *, VARIANT_BOOL * )
 	CATCH_ALL(_T("OnRegisterGloss")) ;
 }
 
-void __stdcall CConnect::OnExtendLookup( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		m_interface.m_is_auto = false ;
-		logging::log_debug("CConnect::OnExtendLookup") ;
-		m_interface.OnExtendLookupAction() ;
-	}
-	CATCH_ALL(_T("OnExtendLookup")) ;
-}
-
-void __stdcall CConnect::OnConcordance( IDispatch *, VARIANT_BOOL * )
-{
-	try
-	{
-		logging::log_debug("CConnect::OnConcordance") ;
-		m_interface.OnConcordanceAction() ;
-	}
-	CATCH_ALL(_T("OnConcordance")) ;
-}
 
 void __stdcall CConnect::OnAutoTransFuzzy( IDispatch *, VARIANT_BOOL * )
 {
@@ -1751,7 +1250,7 @@ void __stdcall CConnect::OnMenuSwitchMode( IDispatch *, VARIANT_BOOL * )
 	try
 	{
 		logging::log_debug("CConnect::OnMenuSwitchMode") ;
-		CClipboardBackup cbb ;
+		const CClipboardBackup backup ;
 
 		m_interface.OnSwitchModeAction() ;
 
@@ -1805,6 +1304,26 @@ void CConnect::switch_to_review_toolbar()
 		set_toolbar_item_text(IDS_TO_TRANS_MODE_E, m_button_gloss_n ) ;
 	}
 }
+
+void CConnect::switch_to_review_menu()
+{
+	set_button_image( m_menu_get, IDB_RESTORE) ;
+	set_button_image( m_menu_get_and_next, IDB_RESTORE_AND_NEXT) ;
+	set_button_image( m_menu_set, IDB_CORRECT) ;
+	set_button_image( m_menu_set_and_next, IDB_CORRECT_AND_NEXT) ;
+	set_button_image( m_menu_lookup, IDB_LOOKUP_TRANS) ;
+	set_button_image( m_menu_lookup_next, IDB_LOOKUP_NEXT_TRANS) ;
+	set_button_image( m_menu_switch, IDB_SWITCH_TO_TRANS) ;
+
+	if (m_properties.get_preferred_gui_lang() == LANG_JAPANESE)
+	{
+		set_japanese_trans_menu_text();
+	}
+	else
+	{
+		set_english_trans_menu_text();
+	}
+}
 void CConnect::switch_to_translation_toolbar()
 {
 	logging::log_debug("switch_to_translation_toolbar") ;
@@ -1820,31 +1339,33 @@ void CConnect::switch_to_translation_toolbar()
 
 	if (m_properties.get_preferred_gui_lang() == LANG_JAPANESE)
 	{
-		set_toolbar_item_text(IDS_LOOKUP_TB_J, m_button_lookup ) ;
-		set_toolbar_item_text(IDS_LOOKUP_NEXT_TB_J, m_button_lookup_next ) ;
-		set_toolbar_item_text(IDS_GET_TB_J, m_button_get ) ;
-		set_toolbar_item_text(IDS_GET_AND_NEXT_TB_J, m_button_get_and_next ) ;
-		set_toolbar_item_text(IDS_SET_TB_J, m_button_set ) ;
-		set_toolbar_item_text(IDS_SET_AND_NEXT_TB_J, m_button_set_and_next ) ;
-		set_toolbar_item_text(IDS_SWITCH_TO_REVIEW_TB_J, m_button_gloss_n ) ;
+		set_japanese_trans_toolbar_text();
 	}
 	else
 	{
-		set_toolbar_item_text(IDS_LOOKUP_TB_E, m_button_lookup) ;
-		set_toolbar_item_text(IDS_LOOKUP_NEXT_TB_E, m_button_lookup_next ) ;
-		set_toolbar_item_text(IDS_GET_TB_E, m_button_get ) ;
-		set_toolbar_item_text(IDS_GET_AND_NEXT_TB_E, m_button_get_and_next ) ;
-		set_toolbar_item_text(IDS_SET_TB_E, m_button_set ) ;
-		set_toolbar_item_text(IDS_SET_AND_NEXT_TB_E, m_button_set_and_next ) ;
-		set_toolbar_item_text(IDS_SWITCH_TO_REVIEW_TB_E, m_button_gloss_n ) ;
+		set_english_trans_toolbar_text();
 	}
 }
-void CConnect::switch_to_review_menu()
-{
 
-}
 void CConnect::switch_to_translation_menu()
 {
+	set_button_image( m_menu_get, IDB_GET) ;
+	set_button_image( m_menu_get_and_next, IDB_GET_AND_NEXT) ;
+	set_button_image( m_menu_set, IDB_SET) ;
+	set_button_image( m_menu_set_and_next, IDB_SET_AND_NEXT) ;
+	set_button_image( m_menu_lookup, IDB_LOOKUP) ;
+	set_button_image( m_menu_lookup_next, IDB_LOOKUP_NEXT) ;
+	set_button_image( m_menu_switch, IDB_SWITCH_TO_REVIEW) ;
+
+
+	if (m_properties.get_preferred_gui_lang() == LANG_JAPANESE)
+	{
+		set_japanese_trans_menu_text();
+	}
+	else
+	{
+		set_english_trans_menu_text();
+	}
 
 }
 void CConnect::set_button_image(Office::_CommandBarButtonPtr& button, const int image_id)
@@ -1854,4 +1375,694 @@ void CConnect::set_button_image(Office::_CommandBarButtonPtr& button, const int 
 		logging::log_debug("  -- Failed to load picture; pasting") ;
 		pastePicture(image_id, button);
 	}
+}
+
+
+void CConnect::set_english_trans_toolbar_text()
+{
+	CComBSTR caption, tooltip ;
+
+	caption.LoadString( IDB_SET ) ;
+	tooltip.LoadString( IDB_SET ) ;
+	m_button_set->put_TooltipText( tooltip ) ;
+	m_button_set->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_GET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_GET_AND_NEXT ) ;
+	m_button_get_and_next->put_TooltipText( tooltip ) ;
+	m_button_get_and_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_SET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_SET_AND_NEXT ) ;
+	m_button_set_and_next->put_TooltipText( tooltip ) ;
+	m_button_set_and_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_LOOKUP ) ;
+	tooltip.LoadString( IDB_LOOKUP ) ;
+	m_button_lookup->put_TooltipText( tooltip ) ;
+	m_button_lookup->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_LOOKUP_NEXT ) ;
+	tooltip.LoadString( IDB_LOOKUP_NEXT ) ;
+	m_button_lookup_next->put_TooltipText( tooltip ) ;
+	m_button_lookup_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_GLOSS_N ) ;
+	tooltip.LoadString( IDB_GLOSS_N ) ;
+	m_button_gloss_n->put_TooltipText( tooltip ) ;
+	m_button_gloss_n->put_Tag( caption ) ;
+
+	caption.LoadString( IDB_HELP ) ;
+	tooltip.LoadString( IDB_HELP ) ;
+	m_button_help->put_TooltipText( tooltip ) ;
+	m_button_help->put_Tag( caption ) ;
+}
+
+
+void CConnect::set_english_trans_menu_text()
+{
+	CComBSTR caption, tooltip ;
+
+	caption = L"Translate to Fu&zzy (ALT + Z)" ;
+	tooltip = L"Auto translate until a fuzzy match is reached" ;
+	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
+	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET ) ;
+	tooltip.LoadString( IDB_GET ) ;
+	m_menu_get->put_Caption( caption ) ;
+	m_menu_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SET ) ;
+	tooltip.LoadString( IDB_SET ) ;
+	m_menu_get_and_next->put_Caption( caption ) ;
+	m_menu_get_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_GET_AND_NEXT ) ;
+	m_menu_set->put_Caption( caption ) ;
+	m_menu_set->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_SET_AND_NEXT ) ;
+	m_menu_set_and_next->put_Caption( caption ) ;
+	m_menu_set_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_LOOKUP ) ;
+	tooltip.LoadString( IDB_LOOKUP ) ;
+	m_menu_lookup->put_Caption( caption ) ;
+	m_menu_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_LOOKUP_NEXT ) ;
+	tooltip.LoadString( IDB_LOOKUP_NEXT ) ;
+	m_menu_lookup_next->put_Caption( caption ) ;
+	m_menu_lookup_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString(IDS_EXTEND_LOOKUP)  ;
+	caption.LoadString(IDS_EXTEND_LOOKUP_TT)  ;
+	m_menu_extend_lookup->put_Caption( caption ) ;
+	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
+
+	caption = L"Find C&oncordance (ALT + C)" ;
+	tooltip = L"Find concordance for the current selection in the memory" ;
+	m_menu_concordance->put_Caption( caption ) ;
+	m_menu_concordance->put_TooltipText( tooltip ) ;
+
+	caption = L"Add Glossary En&try" ;
+	tooltip = L"Add a glossary entry with the selection as the source" ;
+	m_menu_register_gloss->put_Caption( caption ) ;
+	m_menu_register_gloss->put_TooltipText( tooltip ) ;
+
+	caption = L"&Delete Translation (ALT + D)" ;
+	tooltip = L"Delete the currently displayed translation" ;
+	m_menu_delete->put_Caption( caption ) ;
+	m_menu_delete->put_TooltipText( tooltip ) ;
+
+	caption = L"&Next Translation (ALT + N)" ;
+	tooltip = L"Show the next translation in memory, if any" ;
+	m_menu_next->put_Caption( caption ) ;
+	m_menu_next->put_TooltipText( tooltip ) ;
+
+	caption = L"&Previous Translation (ALT + P)" ;
+	tooltip = L"Show the previous translation in memory, if any" ;
+	m_menu_prev->put_Caption( caption ) ;
+	m_menu_prev->put_TooltipText( tooltip ) ;
+
+	m_gloss_menu_popup->put_Caption( CComBSTR( L"Glossar&y..." ) ) ;
+
+	caption = L"Entry &0 (ALT + 0)" ;
+	tooltip = L"Get entry 0" ;
+	m_menu_entry_0->put_Caption( caption ) ;
+	m_menu_entry_0->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &1 (ALT + 1)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_1->put_Caption( caption ) ;
+	m_menu_entry_1->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &2 (ALT + 2)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_2->put_Caption( caption ) ;
+	m_menu_entry_2->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &3 (ALT + 3)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_3->put_Caption( caption ) ;
+	m_menu_entry_3->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &4 (ALT + 4)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_4->put_Caption( caption ) ;
+	m_menu_entry_4->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &5 (ALT + 5)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_5->put_Caption( caption ) ;
+	m_menu_entry_5->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &6 (ALT + 6)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_6->put_Caption( caption ) ;
+	m_menu_entry_6->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &7 (ALT + 7)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_7->put_Caption( caption ) ;
+	m_menu_entry_7->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &8 (ALT + 8)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_8->put_Caption( caption ) ;
+	m_menu_entry_8->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &9 (ALT + 9)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_9->put_Caption( caption ) ;
+	m_menu_entry_9->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GLOSS_N ) ;
+	tooltip.LoadString( IDB_GLOSS_N ) ;
+	m_menu_gloss_n->put_Caption( caption ) ;
+	m_menu_gloss_n->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SAVE ) ;
+	tooltip.LoadString( IDB_SAVE ) ;
+	m_menu_save->put_Caption( caption ) ;
+	m_menu_save->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_HELP ) ;
+	tooltip.LoadString( IDB_HELP ) ;
+	m_menu_help->put_Caption( caption ) ;
+	m_menu_help->put_TooltipText( tooltip ) ;
+
+	caption = L"S&with Menu to Japanese" ;
+	tooltip = L"Show Japanese GUI" ;
+	m_menu_gui->put_Caption( caption ) ;
+	m_menu_gui->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET ) ;
+	tooltip.LoadString( IDB_GET ) ;
+	m_button_get->put_Caption( caption ) ;
+	m_button_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_USER_PREFERENCES ) ;
+	tooltip.LoadString( IDS_USER_PREFERENCES ) ;
+	m_menu_preferences->put_Caption( caption ) ;
+	m_menu_preferences->put_TooltipText( tooltip ) ;
+}
+
+
+void CConnect::set_english_review_menu_text()
+{
+	CComBSTR caption, tooltip ;
+
+	caption = L"Translate to Fu&zzy (ALT + Z)" ;
+	tooltip = L"Auto translate until a fuzzy match is reached" ;
+	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
+	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET ) ;
+	tooltip.LoadString( IDB_GET ) ;
+	m_menu_get->put_Caption( caption ) ;
+	m_menu_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SET ) ;
+	tooltip.LoadString( IDB_SET ) ;
+	m_menu_get_and_next->put_Caption( caption ) ;
+	m_menu_get_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_GET_AND_NEXT ) ;
+	m_menu_set->put_Caption( caption ) ;
+	m_menu_set->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SET_AND_NEXT ) ;
+	tooltip.LoadString( IDB_SET_AND_NEXT ) ;
+	m_menu_set_and_next->put_Caption( caption ) ;
+	m_menu_set_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_LOOKUP ) ;
+	tooltip.LoadString( IDB_LOOKUP ) ;
+	m_menu_lookup->put_Caption( caption ) ;
+	m_menu_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_LOOKUP_NEXT ) ;
+	tooltip.LoadString( IDB_LOOKUP_NEXT ) ;
+	m_menu_lookup_next->put_Caption( caption ) ;
+	m_menu_lookup_next->put_TooltipText( tooltip ) ;
+
+	caption = L"&Extend Lookup Sentence (CTL + R ARR)" ;
+	tooltip = L"Extend the current translation lookup" ;
+	m_menu_extend_lookup->put_Caption( caption ) ;
+	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
+
+	caption = L"Find C&oncordance (ALT + C)" ;
+	tooltip = L"Find concordance for the current selection in the memory" ;
+	m_menu_concordance->put_Caption( caption ) ;
+	m_menu_concordance->put_TooltipText( tooltip ) ;
+
+	caption = L"Add Glossary En&try" ;
+	tooltip = L"Add a glossary entry with the selection as the source" ;
+	m_menu_register_gloss->put_Caption( caption ) ;
+	m_menu_register_gloss->put_TooltipText( tooltip ) ;
+
+	caption = L"&Delete Translation (ALT + D)" ;
+	tooltip = L"Delete the currently displayed translation" ;
+	m_menu_delete->put_Caption( caption ) ;
+	m_menu_delete->put_TooltipText( tooltip ) ;
+
+	caption = L"&Next Translation (ALT + N)" ;
+	tooltip = L"Show the next translation in memory, if any" ;
+	m_menu_next->put_Caption( caption ) ;
+	m_menu_next->put_TooltipText( tooltip ) ;
+
+	caption = L"&Previous Translation (ALT + P)" ;
+	tooltip = L"Show the previous translation in memory, if any" ;
+	m_menu_prev->put_Caption( caption ) ;
+	m_menu_prev->put_TooltipText( tooltip ) ;
+
+	m_gloss_menu_popup->put_Caption( CComBSTR( L"Glossar&y..." ) ) ;
+
+	caption = L"Entry &0 (ALT + 0)" ;
+	tooltip = L"Get entry 0" ;
+	m_menu_entry_0->put_Caption( caption ) ;
+	m_menu_entry_0->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &1 (ALT + 1)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_1->put_Caption( caption ) ;
+	m_menu_entry_1->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &2 (ALT + 2)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_2->put_Caption( caption ) ;
+	m_menu_entry_2->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &3 (ALT + 3)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_3->put_Caption( caption ) ;
+	m_menu_entry_3->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &4 (ALT + 4)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_4->put_Caption( caption ) ;
+	m_menu_entry_4->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &5 (ALT + 5)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_5->put_Caption( caption ) ;
+	m_menu_entry_5->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &6 (ALT + 6)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_6->put_Caption( caption ) ;
+	m_menu_entry_6->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &7 (ALT + 7)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_7->put_Caption( caption ) ;
+	m_menu_entry_7->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &8 (ALT + 8)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_8->put_Caption( caption ) ;
+	m_menu_entry_8->put_TooltipText( tooltip ) ;
+
+	caption = L"Entry &9 (ALT + 9)" ;
+	tooltip = L"Get entry " ;
+	m_menu_entry_9->put_Caption( caption ) ;
+	m_menu_entry_9->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GLOSS_N ) ;
+	tooltip.LoadString( IDB_GLOSS_N ) ;
+	m_menu_gloss_n->put_Caption( caption ) ;
+	m_menu_gloss_n->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_SAVE ) ;
+	tooltip.LoadString( IDB_SAVE ) ;
+	m_menu_save->put_Caption( caption ) ;
+	m_menu_save->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_HELP ) ;
+	tooltip.LoadString( IDB_HELP ) ;
+	m_menu_help->put_Caption( caption ) ;
+	m_menu_help->put_TooltipText( tooltip ) ;
+
+	caption = L"S&with Menu to Japanese" ;
+	tooltip = L"Show Japanese GUI" ;
+	m_menu_gui->put_Caption( caption ) ;
+	m_menu_gui->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDB_GET ) ;
+	tooltip.LoadString( IDB_GET ) ;
+	m_button_get->put_Caption( caption ) ;
+	m_button_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_USER_PREFERENCES ) ;
+	tooltip.LoadString( IDS_USER_PREFERENCES ) ;
+	m_menu_preferences->put_Caption( caption ) ;
+	m_menu_preferences->put_TooltipText( tooltip ) ;
+}
+
+
+void CConnect::set_japanese_trans_toolbar_text()
+{
+	CComBSTR caption, tooltip ;
+	caption.LoadString( IDS_GET_J ) ;
+	tooltip.LoadString( IDS_GET_J ) ;
+	m_button_get->put_TooltipText( tooltip ) ;
+	m_button_get->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_SET_J ) ;
+	tooltip.LoadString( IDS_SET_J ) ;
+	m_button_set->put_TooltipText( tooltip ) ;
+	m_button_set->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_GET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_GET_AND_NEXT_J ) ;
+	m_button_get_and_next->put_TooltipText( tooltip ) ;
+	m_button_get_and_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_SET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_SET_AND_NEXT_J ) ;
+	m_button_set_and_next->put_TooltipText( tooltip ) ;
+	m_button_set_and_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_LOOKUP_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_J ) ;
+	m_button_lookup->put_TooltipText( tooltip ) ;
+	m_button_lookup->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	m_button_lookup_next->put_TooltipText( tooltip ) ;
+	m_button_lookup_next->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_GLOSS_N_J ) ;
+	tooltip.LoadString( IDS_GLOSS_N_J ) ;
+	m_button_gloss_n->put_TooltipText( tooltip ) ;
+	m_button_gloss_n->put_Tag( caption ) ;
+
+	caption.LoadString( IDS_HELP_J ) ;
+	tooltip.LoadString( IDS_HELP_J ) ;
+	m_button_help->put_TooltipText( tooltip ) ;
+	m_button_help->put_Tag( caption ) ;
+}
+
+
+void CConnect::set_japanese_trans_menu_text()
+{
+	CComBSTR caption, tooltip ;
+
+	caption.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
+	tooltip.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
+	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
+	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GET_J ) ;
+	tooltip.LoadString( IDS_GET_J ) ;
+	m_menu_get->put_Caption( caption ) ;
+	m_menu_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_GET_AND_NEXT_J ) ;
+	m_menu_get_and_next->put_Caption( caption ) ;
+	m_menu_get_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SET_J ) ;
+	tooltip.LoadString( IDS_SET_J ) ;
+	m_menu_set->put_Caption( caption ) ;
+	m_menu_set->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_SET_AND_NEXT_J ) ;
+	m_menu_set_and_next->put_Caption( caption ) ;
+	m_menu_set_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_LOOKUP_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_J ) ;
+	m_menu_lookup->put_Caption( caption ) ;
+	m_menu_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	m_menu_lookup_next->put_Caption( caption ) ;
+	m_menu_lookup_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_EXTEND_LOOKUP_J ) ;
+	tooltip.LoadString( IDS_EXTEND_LOOKUP_J ) ;
+	m_menu_extend_lookup->put_Caption( caption ) ;
+	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_CONCORDANCE_J ) ;
+	tooltip.LoadString( IDS_CONCORDANCE_J ) ;
+	m_menu_concordance->put_Caption( caption ) ;
+	m_menu_concordance->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_REGISTER_GLOSS_J ) ;
+	tooltip.LoadString( IDS_REGISTER_GLOSS_J ) ;
+	m_menu_register_gloss->put_Caption( caption ) ;
+	m_menu_register_gloss->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_DELETE_J ) ;
+	tooltip.LoadString( IDS_DELETE_J ) ;
+	m_menu_delete->put_Caption( caption ) ;
+	m_menu_delete->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_NEXT_J ) ;
+	tooltip.LoadString( IDS_NEXT_J ) ;
+	m_menu_next->put_Caption( caption ) ;
+	m_menu_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_PREV_J ) ;
+	tooltip.LoadString( IDS_PREV_J ) ;
+	m_menu_prev->put_Caption( caption ) ;
+	m_menu_prev->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GLOSS_POPUP_J ) ;
+	m_gloss_menu_popup->put_Caption( caption ) ;
+
+	caption.LoadString( IDS_ENTRY_0_J ) ;
+	tooltip.LoadString( IDS_ENTRY_0_J ) ;
+	m_menu_entry_0->put_Caption( caption ) ;
+	m_menu_entry_0->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_1_J ) ;
+	tooltip.LoadString( IDS_ENTRY_1_J ) ;
+	m_menu_entry_1->put_Caption( caption ) ;
+	m_menu_entry_1->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_2_J ) ;
+	tooltip.LoadString( IDS_ENTRY_2_J ) ;
+	m_menu_entry_2->put_Caption( caption ) ;
+	m_menu_entry_2->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_3_J ) ;
+	tooltip.LoadString( IDS_ENTRY_3_J ) ;
+	m_menu_entry_3->put_Caption( caption ) ;
+	m_menu_entry_3->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_4_J ) ;
+	tooltip.LoadString( IDS_ENTRY_4_J ) ;
+	m_menu_entry_4->put_Caption( caption ) ;
+	m_menu_entry_4->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_5_J ) ;
+	tooltip.LoadString( IDS_ENTRY_5_J ) ;
+	m_menu_entry_5->put_Caption( caption ) ;
+	m_menu_entry_5->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_6_J ) ;
+	tooltip.LoadString( IDS_ENTRY_6_J ) ;
+	m_menu_entry_6->put_Caption( caption ) ;
+	m_menu_entry_6->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_7_J ) ;
+	tooltip.LoadString( IDS_ENTRY_7_J ) ;
+	m_menu_entry_7->put_Caption( caption ) ;
+	m_menu_entry_7->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_8_J ) ;
+	tooltip.LoadString( IDS_ENTRY_8_J ) ;
+	m_menu_entry_8->put_Caption( caption ) ;
+	m_menu_entry_8->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_9_J ) ;
+	tooltip.LoadString( IDS_ENTRY_9_J ) ;
+	m_menu_entry_9->put_Caption( caption ) ;
+	m_menu_entry_9->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GLOSS_N_J ) ;
+	tooltip.LoadString( IDS_GLOSS_N_J ) ;
+	m_menu_gloss_n->put_Caption( caption ) ;
+	m_menu_gloss_n->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SAVE_J ) ;
+	tooltip.LoadString( IDS_SAVE_J ) ;
+	m_menu_save->put_Caption( caption ) ;
+	m_menu_save->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_HELP_J ) ;
+	tooltip.LoadString( IDS_HELP_J ) ;
+	m_menu_help->put_Caption( caption ) ;
+	m_menu_help->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_MENU_GUI_J ) ;
+	tooltip.LoadString( IDS_MENU_GUI_J ) ;
+	m_menu_gui->put_Caption( caption ) ;
+	m_menu_gui->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_USER_PREFERENCES_J ) ;
+	tooltip.LoadString( IDS_USER_PREFERENCES_J ) ;
+	m_menu_preferences->put_TooltipText( tooltip ) ;
+	m_menu_preferences->put_Caption( caption ) ;
+}
+
+
+void CConnect::set_japanese_review_menu_text()
+{
+	CComBSTR caption, tooltip ;
+
+	caption.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
+	tooltip.LoadString( IDS_AUTO_TRANS_FUZZY_J ) ;
+	m_menu_auto_trans_fuzzy->put_Caption( caption ) ;
+	m_menu_auto_trans_fuzzy->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_CORRECT_TRANS_J ) ;
+	tooltip.LoadString( IDS_CORRECT_TRANS_J ) ;
+	m_menu_get->put_Caption( caption ) ;
+	m_menu_get->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_GET_AND_NEXT_J ) ;
+	m_menu_get_and_next->put_Caption( caption ) ;
+	m_menu_get_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SET_J ) ;
+	tooltip.LoadString( IDS_SET_J ) ;
+	m_menu_set->put_Caption( caption ) ;
+	m_menu_set->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SET_AND_NEXT_J ) ;
+	tooltip.LoadString( IDS_SET_AND_NEXT_J ) ;
+	m_menu_set_and_next->put_Caption( caption ) ;
+	m_menu_set_and_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_LOOKUP_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_J ) ;
+	m_menu_lookup->put_Caption( caption ) ;
+	m_menu_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	tooltip.LoadString( IDS_LOOKUP_NEXT_J ) ;
+	m_menu_lookup_next->put_Caption( caption ) ;
+	m_menu_lookup_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_EXTEND_LOOKUP_J ) ;
+	tooltip.LoadString( IDS_EXTEND_LOOKUP_J ) ;
+	m_menu_extend_lookup->put_Caption( caption ) ;
+	m_menu_extend_lookup->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_CONCORDANCE_J ) ;
+	tooltip.LoadString( IDS_CONCORDANCE_J ) ;
+	m_menu_concordance->put_Caption( caption ) ;
+	m_menu_concordance->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_REGISTER_GLOSS_J ) ;
+	tooltip.LoadString( IDS_REGISTER_GLOSS_J ) ;
+	m_menu_register_gloss->put_Caption( caption ) ;
+	m_menu_register_gloss->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_DELETE_J ) ;
+	tooltip.LoadString( IDS_DELETE_J ) ;
+	m_menu_delete->put_Caption( caption ) ;
+	m_menu_delete->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_NEXT_J ) ;
+	tooltip.LoadString( IDS_NEXT_J ) ;
+	m_menu_next->put_Caption( caption ) ;
+	m_menu_next->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_PREV_J ) ;
+	tooltip.LoadString( IDS_PREV_J ) ;
+	m_menu_prev->put_Caption( caption ) ;
+	m_menu_prev->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GLOSS_POPUP_J ) ;
+	m_gloss_menu_popup->put_Caption( caption ) ;
+
+	caption.LoadString( IDS_ENTRY_0_J ) ;
+	tooltip.LoadString( IDS_ENTRY_0_J ) ;
+	m_menu_entry_0->put_Caption( caption ) ;
+	m_menu_entry_0->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_1_J ) ;
+	tooltip.LoadString( IDS_ENTRY_1_J ) ;
+	m_menu_entry_1->put_Caption( caption ) ;
+	m_menu_entry_1->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_2_J ) ;
+	tooltip.LoadString( IDS_ENTRY_2_J ) ;
+	m_menu_entry_2->put_Caption( caption ) ;
+	m_menu_entry_2->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_3_J ) ;
+	tooltip.LoadString( IDS_ENTRY_3_J ) ;
+	m_menu_entry_3->put_Caption( caption ) ;
+	m_menu_entry_3->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_4_J ) ;
+	tooltip.LoadString( IDS_ENTRY_4_J ) ;
+	m_menu_entry_4->put_Caption( caption ) ;
+	m_menu_entry_4->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_5_J ) ;
+	tooltip.LoadString( IDS_ENTRY_5_J ) ;
+	m_menu_entry_5->put_Caption( caption ) ;
+	m_menu_entry_5->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_6_J ) ;
+	tooltip.LoadString( IDS_ENTRY_6_J ) ;
+	m_menu_entry_6->put_Caption( caption ) ;
+	m_menu_entry_6->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_7_J ) ;
+	tooltip.LoadString( IDS_ENTRY_7_J ) ;
+	m_menu_entry_7->put_Caption( caption ) ;
+	m_menu_entry_7->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_8_J ) ;
+	tooltip.LoadString( IDS_ENTRY_8_J ) ;
+	m_menu_entry_8->put_Caption( caption ) ;
+	m_menu_entry_8->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_ENTRY_9_J ) ;
+	tooltip.LoadString( IDS_ENTRY_9_J ) ;
+	m_menu_entry_9->put_Caption( caption ) ;
+	m_menu_entry_9->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_GLOSS_N_J ) ;
+	tooltip.LoadString( IDS_GLOSS_N_J ) ;
+	m_menu_gloss_n->put_Caption( caption ) ;
+	m_menu_gloss_n->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_SAVE_J ) ;
+	tooltip.LoadString( IDS_SAVE_J ) ;
+	m_menu_save->put_Caption( caption ) ;
+	m_menu_save->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_HELP_J ) ;
+	tooltip.LoadString( IDS_HELP_J ) ;
+	m_menu_help->put_Caption( caption ) ;
+	m_menu_help->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_MENU_GUI_J ) ;
+	tooltip.LoadString( IDS_MENU_GUI_J ) ;
+	m_menu_gui->put_Caption( caption ) ;
+	m_menu_gui->put_TooltipText( tooltip ) ;
+
+	caption.LoadString( IDS_USER_PREFERENCES_J ) ;
+	tooltip.LoadString( IDS_USER_PREFERENCES_J ) ;
+	m_menu_preferences->put_TooltipText( tooltip ) ;
+	m_menu_preferences->put_Caption( caption ) ;
 }

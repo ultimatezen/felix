@@ -310,7 +310,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDB_LOOKUP_NEXT         "Lookup &Next (Alt + RARR)"
+    IDB_LOOKUP_NEXT         "Lookup &Next (Alt + →)"
     IDB_LOOKUP              "&Lookup (Alt + L)"
     IDB_GET                 "Ge&t (Alt + DARR)"
     IDB_GET_AND_NEXT        "&Get and Next (Alt + G)"
@@ -324,7 +324,6 @@ BEGIN
     IDS_DELIMITERS          "!?。。！？．"
     IDB_SAVE                "Save &Memory"
     IDS_REG_KEY             "Software\\AssistantSuite\\PowerPoint"
-    IDB_LOOKUP2             "&Lookup (Alt + L)"
     IDB_WORD                "Export to Word"
     IDB_HELP                "View &Help File"
     IDB_ALIGN               "&Align"
@@ -377,17 +376,17 @@ BEGIN
     IDS_ENTRY_8_J           "エントリ &8 (ALT + 8)"
     IDS_ENTRY_9_J           "エントリ &9 (ALT + 9)"
     IDS_GLOSS_N_J           "エントリ番号の指定...(&M) (ALT + G)"
-    IDS_LOOKUP_TRANS_J      "訳文の検索(&F) (CTL + ALT + L)"
-    IDS_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (CTL + ALT + →)"
+    IDS_LOOKUP_TRANS_J      "訳文の検索(&F) ( ALT + L)"
+    IDS_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (ALT + →)"
     IDS_SET_AND_NEXT_TB_E   "Set And Next"
     IDS_SWITCH_TO_REVIEW_TB_E "To Review Mode"
-    IDS_TRANS_CONCORDANCE_J "訳文のコンコーダンス(一致)検索(&I) (CTL + ALT + C)"
-    IDS_CORRECT_TRANS_J     "訳文の訂正(&B) (CTL + ALT + ↑)"
+    IDS_TRANS_CONCORDANCE_J "訳文のコンコーダンス(一致)検索(&I) (ALT + C)"
+    IDS_CORRECT_TRANS_J     "訳文の訂正(&B) (ALT + ↑)"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_EXTEND_LOOKUP_TRANS_J "訳文の検索対象範囲の拡張(&K) (CTL + ALT + E)"
+    IDS_EXTEND_LOOKUP_TRANS_J "訳文の検索対象範囲の拡張(&K) (CTRL + →)"
     IDS_SAVE_J              "メモリと用語集を保存します。"
     IDS_ALIGN_J             "レガシー訳文から翻訳メモリを作成します。"
     IDS_HELP_J              "ヘルプの表示(&H)"
@@ -416,6 +415,8 @@ BEGIN
     IDS_GET_AND_NEXT_REVIEW_TB_J "元に戻して次へ"
     IDS_SET_REVIEW_TB_J     "訳文の訂正"
     IDS_SET_AND_NEXT_REVIEW_TB_J "訂正して次へ"
+    IDS_EXTEND_LOOKUP       "&Extend Lookup Sentence (CTL + R ARR)"
+    IDS_EXTEND_LOOKUP_TT    "Extend the current lookup segment"
 END
 
 #endif    // Japanese (Japan) resources

@@ -50,6 +50,8 @@ class ATL_NO_VTABLE CConnect :
 	public MenuDeleteEventImpl,
 	public MenuNextEventImpl,
 	public MenuPrevEventImpl,
+
+	// glossary entries
 	public MenuEntry0EventImpl,
 	public MenuEntry1EventImpl,
 	public MenuEntry2EventImpl,
@@ -60,14 +62,7 @@ class ATL_NO_VTABLE CConnect :
 	public MenuEntry7EventImpl,
 	public MenuEntry8EventImpl,
 	public MenuEntry9EventImpl,
-	public MenuLookupTransEventImpl,
-	public MenuLookupNextTransEventImpl,
-	public MenuTransConcordanceEventImpl,
-	public MenuCorrectTransEventImpl,
-	public MenuCorrectAndNextTransEventImpl,
-	public MenuRestoreTransEventImpl,
-	public MenuRestoreAndNextTransEventImpl,
-	public MenuExtendTransLookupEventImpl,
+
 	public MenuGuiEventImpl,
 	public MenuPreferencesEventImpl,
 	public MenuSwitchModeEventImpl
@@ -119,14 +114,6 @@ class ATL_NO_VTABLE CConnect :
 	Office::_CommandBarButtonPtr	m_menu_entry_7 ;
 	Office::_CommandBarButtonPtr	m_menu_entry_8 ;
 	Office::_CommandBarButtonPtr	m_menu_entry_9 ;
-	Office::_CommandBarButtonPtr	m_menu_lookup_trans ;
-	Office::_CommandBarButtonPtr	m_menu_lookup_next_trans ;
-	Office::_CommandBarButtonPtr	m_menu_trans_concordance ;
-	Office::_CommandBarButtonPtr	m_menu_correct_trans ;
-	Office::_CommandBarButtonPtr	m_menu_correct_and_next_trans ;
-	Office::_CommandBarButtonPtr	m_menu_restore_trans ;
-	Office::_CommandBarButtonPtr	m_menu_restore_and_next_trans ;
-	Office::_CommandBarButtonPtr	m_menu_extend_trans_lookup ;
 	Office::_CommandBarButtonPtr	m_menu_gui ;
 
 	Office::CommandBarControlPtr m_glossMenuPopup ;
@@ -200,6 +187,7 @@ END_COM_MAP()
 	void gui_to_english();
 	void gui_to_japanese();
 
+	void set_japanese_trans_toolbar_text();
 	void __stdcall  OnAutoTrans( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 	void __stdcall  OnAutoTransFuzzy( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 	void __stdcall OnConcordance( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
@@ -218,23 +206,6 @@ END_COM_MAP()
 	void __stdcall OnEntry7( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 	void __stdcall OnEntry8 ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 	void __stdcall OnEntry9 ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnLookupTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnLookupNextTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnTransConcordance ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnExtendTransLookup ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnCorrectTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
-
-	void __stdcall OnCorrectAndNextTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault ); 
-	void __stdcall OnRestoreTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault ); 
-	void __stdcall OnRestoreAndNextTrans ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault ); 
-
-
-
 
 	void __stdcall OnMenuGui ( IDispatch *Ctrl, VARIANT_BOOL * CancelDefault );
 
@@ -295,14 +266,6 @@ END_COM_MAP()
 		SINK_ENTRY_INFO(MENU_ID_ENTRY_7,			__uuidof(button_events), /*dispid*/ 0x01, OnEntry7 ,			&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_ENTRY_8,			__uuidof(button_events), /*dispid*/ 0x01, OnEntry8 ,			&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_ENTRY_9,			__uuidof(button_events), /*dispid*/ 0x01, OnEntry9 ,			&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_LOOKUP_TRANS,			__uuidof(button_events), /*dispid*/ 0x01, OnLookupTrans ,		&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_LOOKUP_NEXT_TRANS,		__uuidof(button_events), /*dispid*/ 0x01, OnLookupNextTrans ,	&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_TRANS_CONCORDANCE,		__uuidof(button_events), /*dispid*/ 0x01, OnTransConcordance, 	&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_CORRECT_TRANS,			__uuidof(button_events), /*dispid*/ 0x01, OnCorrectTrans ,		&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_CORRECT_AND_NEXT_TRANS,			__uuidof(button_events), /*dispid*/ 0x01, OnCorrectAndNextTrans ,		&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_RESTORE_TRANS,			__uuidof(button_events),         /*dispid*/ 0x01, OnRestoreTrans ,		&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_RESTORE_AND_NEXT_TRANS,			__uuidof(button_events), /*dispid*/ 0x01, OnRestoreAndNextTrans ,		&OnClickButtonInfo )
-		SINK_ENTRY_INFO(MENU_ID_EXTEND_LOOKUP_TRANS,	__uuidof(button_events), /*dispid*/ 0x01, OnExtendTransLookup ,	&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_MENU_GUI,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuGui,			&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_PREFERENCES,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuPreferences,			&OnClickButtonInfo )
 		SINK_ENTRY_INFO(MENU_ID_SWITCH,			__uuidof(button_events),     /*dispid*/ 0x01, OnMenuSwitchMode,			&OnClickButtonInfo )
@@ -330,6 +293,12 @@ END_COM_MAP()
 
 	void switch_to_translation_menu();
 	void switch_to_review_menu( );
+	void set_english_trans_toolbar_text();
+	void set_english_trans_menu_text();
+	void set_japanese_trans_menu_text();
+
+	void set_english_review_menu_text();
+	void set_japanese_review_menu_text();
 
 
 	void set_button_image(Office::_CommandBarButtonPtr& button, const int image_id) ;

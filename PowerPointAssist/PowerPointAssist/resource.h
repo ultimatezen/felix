@@ -24,6 +24,8 @@
 #define IDS_GET_AND_NEXT_REVIEW_TB_J    117
 #define IDS_SET_REVIEW_TB_J             118
 #define IDS_SET_AND_NEXT_REVIEW_TB_J    119
+#define IDS_EXTEND_LOOKUP               120
+#define IDS_EXTEND_LOOKUP_TT            121
 #define IDC_INPUT_EDIT                  201
 #define IDC_SEG_END_EDIT                201
 #define IDC_GUI_LANG_BOX                201
@@ -66,7 +68,6 @@
 #define IDC_RAISE_FELIX                 211
 #define IDS_REG_KEY                     212
 #define IDB_CORRECT_AND_NEXT            213
-#define IDB_LOOKUP2                     213
 #define IDB_LOOKUP_TRANS                214
 #define IDB_CORRECT                     215
 #define IDB_WORD                        216

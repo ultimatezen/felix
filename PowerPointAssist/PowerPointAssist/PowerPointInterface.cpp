@@ -74,6 +74,11 @@ HRESULT CPowerPointInterface::OnGetAction(bool plaintext)
 			return E_FAIL ;
 		}
 
+		if (! this->is_translation_mode())
+		{
+			return this->OnRestoreTransAction() ;
+		}
+
 		PowerPoint::TextRangePtr selectionTextRange = getSelectionTextRange() ;
 		ATLASSERT( selectionTextRange ) ;
 
@@ -117,6 +122,11 @@ HRESULT CPowerPointInterface::OnSetAction( bool )
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
+		}
+
+		if (! this->is_translation_mode())
+		{
+			return this->OnCorrectTransAction() ;
 		}
 
 		if ( setSelTextRange() ) 
@@ -216,6 +226,10 @@ HRESULT CPowerPointInterface::OnLookupAction( bool plaintext )
 			return E_FAIL ;
 		}
 
+		if (! this->is_translation_mode())
+		{
+			return this->OnLookupTransAction() ;
+		}
 
 		PowerPoint::TextRangePtr selectionTextRange = getSelectionTextRange() ;
 		m_queryStart = selectionTextRange->Start ;
@@ -342,6 +356,12 @@ HRESULT CPowerPointInterface::OnConcordanceAction( bool )
 			return E_FAIL ;
 		}
 
+		if (! this->is_translation_mode())
+		{
+			return this->OnTransConcordanceAction() ;
+		}
+
+
 		PowerPoint::TextRangePtr textRange = getSelectionTextRange() ;
 
 		if ( textRange->Text.length() > 0 )
@@ -363,6 +383,11 @@ HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 		if (m_app->Active != Office::msoTrue )
 		{
 			return E_FAIL ;
+		}
+
+		if (! this->is_translation_mode())
+		{
+			return this->OnExtendTransLookupAction() ;
 		}
 
 		// If there is no text selected, we should not call extend selection.
