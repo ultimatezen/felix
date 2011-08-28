@@ -223,6 +223,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	::SetLastError( 0 ) ; // clear the error caused by calling defwindowproc with NULL
 	
 	// add flags to support other controls
+	logging::log_debug("Loading Windows libraries") ;
 	ATLVERIFY(AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS)) ;
 	CLibrary riched_lib( CWideRichEdit::GetLibraryName() ) ;
 
@@ -230,9 +231,11 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 
 	if ( ! riched_lib.is_loaded() )
 	{
+		logging::log_debug("Loading RTF library") ;
 		riched_lib.load( CRichEditCtrl::GetLibraryName() ) ;
 	}
 
+	logging::log_debug("Opening main Felix window") ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	TRUE_ENFORCE( FALSE != AtlAxWinInit(), _T("Call to AtlAxWinInit() failed!") ) ;
 
@@ -270,6 +273,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	
 	if (bRegister)
 	{
+		logging::log_debug("Registering Felix COM server") ;
 		COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
 		::MessageBeep( MB_ICONINFORMATION ) ;
 	}
@@ -281,6 +285,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 
 		try
 		{
+			logging::log_debug("Ensuring HTML files") ;
 			CDispatchWrapper utils(L"Felix.Utilities") ;
 			utils.method(L"EnsureHtml") ;
 		}
@@ -354,6 +359,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	}
 
 
+	logging::log_debug("Loading Scintilla library") ;
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
 	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;

@@ -370,6 +370,8 @@ public:
 	void create_process( CString &command, CString error_message );
 
 	LRESULT on_check_demo(WindowsMessage &message);
+
+	void check_mousewheel_count();
 	LRESULT on_trans_concordance(WindowsMessage &message);
 	LRESULT on_source_concordance(WindowsMessage &message);
 	LRESULT OnFormatBackgroundColor(WindowsMessage &message) ;

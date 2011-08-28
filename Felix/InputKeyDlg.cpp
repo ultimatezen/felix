@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "InputKeyDlg.h"
 #include "ArmadilloStuff.h"
+#include "logging.h"
 
 // CInputKeyDlg
 
@@ -23,6 +24,7 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
 	wID ;
+	logging::log_debug("Registering Key") ;
 
 	CString text ;
 #ifndef UNIT_TEST

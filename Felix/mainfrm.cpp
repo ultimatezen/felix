@@ -2466,6 +2466,7 @@ bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
 	// give feedback
 	feedback_loaded_mem( mem );
 	m_mru.AddToList( file_name ) ;
+	mem->set_is_memory(true) ;
 
 	set_window_title() ;
 	return true ;
@@ -2570,6 +2571,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 		msg.FormatMessage( IDS_DONE_LOADING, int_arg, file::name( trados_file_name ).file_name() ) ;
 		user_feedback( msg ) ;
 		mem->set_location( trados_file_name ) ;
+		mem->set_is_memory(true) ;
 		set_window_title() ;
 	}
 
@@ -3178,23 +3180,13 @@ void CMainFrame::reflect_preferences()
 LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 {
 	SENSE("on_check_demo") ;
+	logging::log_debug("Doing post-launch checks") ;
 
 #ifdef UNIT_TEST
 	return 0L ;
 #else
 
-	if (m_mousewheel_count)
-	{
-		CString command = _T("decreaseFont") ;
-		if (m_mousewheel_count > 0)
-		{
-			command = _T("increaseFont") ;
-		}
-		for (int i = 0 ; i < abs(m_mousewheel_count); ++i)
-		{
-			m_view_interface.run_script(command) ;
-		}
-	}
+	check_mousewheel_count();
 
 	if ( ! IsWindowVisible())
 	{
@@ -3202,12 +3194,11 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 	}
 
 	// only do this if it is not the first launch
-	app_props::properties_general gen_props ;
-	gen_props.read_from_registry() ;
-	if (! gen_props.m_data.m_first_launch)
+	if (! m_props->m_gen_props.m_data.m_first_launch)
 	{
 		try
 		{
+			logging::log_debug("Checking for updates") ;
 			CDispatchWrapper utilities(L"Felix.Utilities") ;
 			CComBSTR langcode ;
 			langcode.LoadStringW(IDS_LANG_CODE) ;
@@ -3223,7 +3214,8 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 	}
 
 	// We should have returned if it's not the first launch.
-	ATLASSERT(gen_props.m_data.m_first_launch) ;
+	ATLASSERT(m_props->m_gen_props.m_data.m_first_launch) ;
+	logging::log_debug("Doing first-launch checks") ;
 	SetFocus() ;
 	if ( ! ::GetFocus())
 	{
@@ -4176,13 +4168,14 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 		ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
 		mem = m_model->get_first_memory() ;
 	}
-	// get the file spec
 
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 
 	try
 	{
-		return mem->load( file_name )  ;
+		const bool success = mem->load( file_name )  ;
+		mem->set_is_memory(true) ;
+		return success ;
 	}
 	catch ( ... ) 
 	{
@@ -4880,6 +4873,7 @@ void CMainFrame::set_doc_ui_handler()
 #ifdef UNIT_TEST
 	return ;
 #else
+	logging::log_debug("Setting the doc UI handler") ;
 	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
@@ -4888,6 +4882,12 @@ void CMainFrame::set_doc_ui_handler()
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
+	}
+	else
+	{
+		CComException com_exception(hr) ;
+		logging::log_error("Failed to set doc UI handler") ;
+		logging::log_exception(com_exception) ;
 	}
 	ATLASSERT(SUCCEEDED(hr)) ;
 #endif
@@ -5261,4 +5261,21 @@ void CMainFrame::save_old_prefs_file( CString filename )
 	CString error_message = _T("Failed to save preferences") ;
 	// create the process
 	create_process(command, error_message);
+}
+
+void CMainFrame::check_mousewheel_count()
+{
+	if (m_mousewheel_count)
+	{
+		CString command = _T("decreaseFont") ;
+		if (m_mousewheel_count > 0)
+		{
+			command = _T("increaseFont") ;
+		}
+		logging::log_debug("Mousewheel command: " + string((LPCSTR)CT2A(command))) ;
+		for (int i = 0 ; i < abs(m_mousewheel_count); ++i)
+		{
+			m_view_interface.run_script(command) ;
+		}
+	}
 }

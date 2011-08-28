@@ -219,6 +219,7 @@ void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 {
 	CTabbedTextImporter importer(this, &m_props->m_mem_props) ;
 	importer.load_file(file_name) ;
+	importer.m_memory->set_is_memory(false) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
@@ -228,6 +229,7 @@ void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
 	CImportMultitermFile importer(this, &m_props->m_mem_props) ;
 	importer.import(file_name, get_input_device()) ;
+	importer.m_memory->set_is_memory(false) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
@@ -593,6 +595,7 @@ bool CGlossaryDialog::load(const CString file_name, const bool check_empty /*= t
 	if ( success )
 	{ 
 		// success
+		mem->set_is_memory(false) ;
 		::PostMessage( m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_DEMO_CHECK_EXCESS, 100 ), 0 ) ;
 		
 		m_mru.AddToList(  file_name ) ;

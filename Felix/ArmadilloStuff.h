@@ -11,6 +11,7 @@
 
 #include <string>	// string functions
 #include "DebugUtilities.h"
+#include "logging.h"
 
 // #define's for secured sections/nanomites
 
@@ -203,8 +204,11 @@ inline bool install_key(const std::string &name, const std::string &key)
 { 
 	CArmadilloFunction arm_lib( "InstallKey" ) ;
 
-	if ( arm_lib.is_loaded( ) == false ) return false ;
-
+	if ( arm_lib.is_loaded( ) == false ) 
+	{
+		logging::log_warn("Failed to load protection library") ;
+		return false ;
+	}
 	InstallKeyFn arm_fun = (InstallKeyFn)arm_lib.get_function() ;
 
 	LPCSTR raw_name = name.c_str() ;
@@ -510,6 +514,7 @@ inline bool call_buy_now_url( HWND parent  )
 */
 inline std::string get_environment_var( const std::string &val )
 { 
+
 	char buff[256] = "" ;
 	int len = ::GetEnvironmentVariableA( val.c_str(), buff, 256 ) ;
 
