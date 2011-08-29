@@ -2448,6 +2448,7 @@ bool CMainFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr in
 bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
 {
 	memory_pointer mem = m_model->get_memories()->add_memory() ;
+	mem->set_is_memory(true) ;
 
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
 
@@ -2548,6 +2549,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 	importer.set_target_language( import_dialog.get_trans_plain() ) ;
 
 	memory_pointer mem = m_model->get_memories()->add_memory() ;
+	mem->set_is_memory(true) ;
 
 	MemoryInfo *mem_info = mem->get_memory_info() ;
 	mem_info->set_creation_tool( L"TradosText" ) ;
@@ -4147,6 +4149,7 @@ void CMainFrame::loading_file_feedback( const CString & file_name )
 */
 bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
+	memory_pointer mem ;
 	MERGE_CHOICE should_merge = MERGE_CHOICE_SEPARATE ;
 	if ( check_empty )
 	{
@@ -4155,19 +4158,19 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 		{
 			return true ;
 		}
+		if (should_merge == MERGE_CHOICE_SEPARATE)
+		{
+			mem = m_model->get_memories()->add_memory() ;
+		}
+		else
+		{
+			ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
+			mem = m_model->get_first_memory() ;
+		}
 	}
 
 	// merge or add?
-	memory_pointer mem ;
-	if (should_merge == MERGE_CHOICE_SEPARATE)
-	{
-		mem = m_model->get_memories()->add_memory() ;
-	}
-	else
-	{
-		ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
-		mem = m_model->get_first_memory() ;
-	}
+	mem->set_is_memory(true) ;
 
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 

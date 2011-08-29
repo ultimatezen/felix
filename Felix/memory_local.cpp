@@ -114,10 +114,19 @@ namespace mem_engine
 
 		record->set_cmp_maker(&m_cmp_maker) ;
 
+		bool was_added = false ;
 		// returns iterator for next pos, and whether record was inserted.
-		const std::pair< record_iterator, bool > res = m_records.insert( record ) ;
+		if (this->get_is_memory() && this->m_properties->m_data.m_one_trans_per_source)
+		{
+			// code for one trans per source
+			was_added = false ;
+		}
+		else
+		{
+			const std::pair< record_iterator, bool > res = m_records.insert( record ) ;
+			was_added = res.second ;
+		}
 
-		const bool was_added = res.second ;
 		if ( was_added ) 
 		{
 			// ensure creator and modified-by are set...

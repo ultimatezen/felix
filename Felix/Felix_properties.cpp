@@ -320,6 +320,7 @@ namespace app_props
 		add_child(memory_node, "assess_format_penalty", bool2string(!! this->m_data.m_assess_format_penalty)) ;
 		add_child(memory_node, "place_numbers", bool2string(!! this->m_data.m_place_numbers)) ;
 		add_child(memory_node, "place_gloss", bool2string(!! this->m_data.m_place_gloss)) ;
+		add_child(memory_node, "one_trans_per_source", bool2string(!! this->m_data.m_one_trans_per_source)) ;
 	}
 
 	bool properties_memory::parse_xml_doc( pugi::xml_document &doc )
@@ -342,6 +343,9 @@ namespace app_props
 			// placements
 			this->m_data.m_place_numbers = read_xml_bool(parent, "place_numbers") ;
 			this->m_data.m_place_gloss = read_xml_bool(parent, "place_gloss") ;
+
+			// one trans per source
+			this->m_data.m_one_trans_per_source = read_xml_bool(parent, "one_trans_per_source") ;
 		}
 		catch (except::CException& e)
 		{

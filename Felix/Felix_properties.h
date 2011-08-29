@@ -220,6 +220,8 @@ struct properties_memory : public props::CRegMap
 		BOOL	m_place_numbers ;
 		BOOL	m_place_gloss ;
 
+		BOOL	m_one_trans_per_source ;
+
 		props_data() : 
 			m_min_score( 50u ),
 			m_ignore_case(TRUE),
@@ -228,6 +230,7 @@ struct properties_memory : public props::CRegMap
 			m_plaintext(FALSE),
 			m_assess_format_penalty(FALSE),
 			m_place_numbers(TRUE),
+			m_one_trans_per_source(FALSE),
 			m_place_gloss(FALSE)
 		{
 		}
