@@ -28,15 +28,23 @@
 #include "match_tester.h"
 #include "segment.h"
 #include "input_device.h"
+#include <boost/range/adaptor/map.hpp>
 
 bool is_vista_or_later() ;
 const CString get_load_failure_msg( const CString & file_name ) ;
 
 namespace mem_engine
 {
+	namespace ad = boost::adaptors ;
 
 	const static int CP_UNICODE = 1200 ;
 	const static int CP_UNICODE_BE = 1201 ;
+
+
+	typedef std::pair<wstring, wstring> key_type ;
+	typedef std::map<key_type, record_pointer> map_type ;
+
+	typedef map_type record_collection_type ;
 
 	typedef boost::tuple<size_t, size_t, double> rel_tuple ;
 /**
@@ -217,36 +225,36 @@ public:
 	// statistical info
 	virtual void batch_set_reliability( size_t rel ) = 0;
 	virtual void batch_set_validation( bool val ) = 0 ;
-	virtual wstring get_validated_percent() =  0 ;
-	virtual rel_tuple get_reliability_stats() = 0 ;
+	virtual wstring get_validated_percent(void) =  0 ;
+	virtual rel_tuple get_reliability_stats(void) = 0 ;
 
 	// memory info
-	virtual MemoryInfo* get_memory_info() = 0 ;
-	virtual const MemoryInfo* get_memory_info_const() const = 0 ;
-	virtual void set_locked_off() = 0 ;
-	virtual void set_locked_on() = 0 ;
-	virtual bool is_locked() = 0 ;
+	virtual MemoryInfo* get_memory_info(void) = 0 ;
+	virtual const MemoryInfo* get_memory_info_const(void) const = 0 ;
+	virtual void set_locked_off(void) = 0 ;
+	virtual void set_locked_on(void) = 0 ;
+	virtual bool is_locked(void) = 0 ;
 
 	// load
 	virtual bool load( const CString &file_name ) = 0 ;
 
 	// memory methods
-	virtual bool is_local() = 0 ;
-	virtual trans_set& get_records() = 0 ;
+	virtual bool is_local(void) = 0 ;
+	virtual record_collection_type& get_records(void) = 0 ;
 
 	virtual void tabulate_fonts( font_tabulator &tabulator ) = 0;
 	virtual record_pointer get_record_at( const size_t index ) = 0;
 	virtual void set_cmp_params( const search_query_params &params ) = 0 ;
 	virtual bool record_exists( record_pointer rec ) = 0 ;
-	virtual  bool clear_memory() = 0;
+	virtual  bool clear_memory(void) = 0;
 
 	virtual bool add_record(record_pointer record) = 0;
 	virtual record_pointer add_by_id(size_t recid, const wstring source, const wstring trans) = 0 ;
-	virtual size_t size() = 0; // Can't make it const because the remote memory makes a COM call.
-	virtual bool empty() = 0;
-	virtual CString get_fullpath() = 0 ;
-	virtual bool is_new() = 0;
-	virtual bool save_memory( ) = 0;
+	virtual size_t size(void) = 0; // Can't make it const because the remote memory makes a COM call.
+	virtual bool empty(void) = 0;
+	virtual CString get_fullpath(void) = 0 ;
+	virtual bool is_new(void) = 0;
+	virtual bool save_memory(void) = 0;
 
 	virtual bool erase( const record_pointer record ) = 0;
 
@@ -263,7 +271,7 @@ public:
 						const search_query_params &params ) = 0;
 
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;
-	virtual CString get_location( ) = 0 ;
+	virtual CString get_location(void) = 0 ;
 	virtual void set_location( CString location ) = 0 ;
 
 } ;

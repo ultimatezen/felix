@@ -14,7 +14,7 @@ STDMETHODIMP CComMemory::get_Records(IRecords **pVal)
 	{
 		if ( m_records )
 		{
-			m_records->set_records(this->m_memory->get_records()) ;
+			m_records->set_records(m_memory->get_records()) ;
 			return m_records->QueryInterface(pVal) ;
 		}
 	}

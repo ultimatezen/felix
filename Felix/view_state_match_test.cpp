@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
 
 		BOOST_CHECK_EQUAL(1u, vso.mem->size()) ;
-		record_pointer first = *vso.mem->get_records().begin() ;
+		record_pointer first = vso.mem->get_records().begin()->second ;
 		string actual = string2string(first->get_source_rich()) ;
 		BOOST_CHECK_EQUAL(string("source"), string(actual)) ;
 

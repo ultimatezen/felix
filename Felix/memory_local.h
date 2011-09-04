@@ -1,9 +1,15 @@
 #pragma once
 #include "TranslationMemory.h"
 #include "memory_header.h"
+#include <boost/range/adaptor/map.hpp>
 
 namespace mem_engine
 {
+	typedef std::pair<wstring, wstring> key_type ;
+	typedef std::map<key_type, record_pointer> map_type ;
+
+	typedef map_type record_collection_type ;
+
 	class memory_local : public CTranslationMemory
 	{
 		VISIBLE_TO_TESTS
@@ -11,7 +17,7 @@ namespace mem_engine
 		memory_header		m_header ;
 		size_t				m_next_id ;
 		std::set<size_t>	m_ids ;
-		trans_set			m_records ;
+		record_collection_type			m_records ;
 		CString				m_file_location ;
 		bool				m_is_loading ;
 	public:
@@ -29,6 +35,17 @@ namespace mem_engine
 		  void set_locked_on( );
 		  bool is_locked();
 
+		  // map stuff
+		  key_type get_key(record_pointer rec)
+		  {
+			  if (this->get_is_memory() && this->m_properties->is_one_trans_per_source())
+			  {
+				  return std::make_pair(rec->get_source_rich(), wstring()) ;
+			  }
+			  return std::make_pair(rec->get_source_rich(), rec->get_trans_rich()) ;
+		  }
+
+
 			// loading
 		  void load_header_raw_text(const char *raw_text, size_t file_len);
 		  bool load_text( char * raw_text, const CString& file_name, unsigned int file_len );
@@ -43,9 +60,7 @@ namespace mem_engine
 		  bool add_record(record_pointer record) ;
 
 		  bool should_check_for_demo() const ;
-		  trans_set& get_records() {return m_records ; }
-		  record_iterator begin( ) { return m_records.begin() ; }
-		  record_iterator end( ) { return m_records.end() ; }
+		  record_collection_type& get_records() {return m_records ; }
 
 		  size_t get_next_id();
 		  size_t size() ;

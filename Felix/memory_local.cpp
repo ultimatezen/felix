@@ -114,21 +114,12 @@ namespace mem_engine
 
 		record->set_cmp_maker(&m_cmp_maker) ;
 
-		bool was_added = false ;
-		// returns iterator for next pos, and whether record was inserted.
-		if (this->get_is_memory() && this->m_properties->m_data.m_one_trans_per_source)
+		const bool was_added = ! this->record_exists(record) ;
+		if (was_added)
 		{
-			// code for one trans per source
-			was_added = false ;
-		}
-		else
-		{
-			const std::pair< record_iterator, bool > res = m_records.insert( record ) ;
-			was_added = res.second ;
-		}
+			key_type key = this->get_key(record) ;
+			m_records[key] = record ;
 
-		if ( was_added ) 
-		{
 			// ensure creator and modified-by are set...
 			record->get_creator() ;
 			record->get_modified_by() ;
@@ -154,7 +145,7 @@ namespace mem_engine
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
-		foreach ( record_pointer record, m_records )
+		foreach ( record_pointer record, m_records | ad::map_values )
 		{
 			if ( distance.edist_score(query_cmp, record->get_source_cmp()) >= min_score)
 			{
@@ -170,7 +161,7 @@ namespace mem_engine
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
-		foreach ( record_pointer record, m_records )
+		foreach ( record_pointer record, m_records | ad::map_values )
 		{
 			if ( distance.edist_score(query_cmp, record->get_trans_cmp()) >= min_score)
 			{
@@ -185,7 +176,7 @@ namespace mem_engine
 
 		double best_score = 0.0f ;
 		// check each of the records for a match
-		foreach ( record_pointer record, m_records )
+		foreach ( record_pointer record, m_records | ad::map_values )
 		{
 			const double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
 			best_score = max(score, best_score) ;
@@ -237,7 +228,7 @@ namespace mem_engine
 		// we are using regular expressions
 		search_match_tester_regex tester( params ) ;
 		tester.set_search_match(this->make_match()) ;
-		foreach( record_pointer record, m_records)
+		foreach(record_pointer record, m_records | ad::map_values)
 		{
 			if ( tester.is_match( record ) )
 			{
@@ -263,14 +254,16 @@ namespace mem_engine
 
 		// if we didn't erase anything, then don't mark
 		// the memory as dirty. 
-		if ( m_records.erase( record ) == 0 )
+
+		const bool was_erased = record_exists(record) ;
+		if ( was_erased )
 		{
-			return false ;	// didn't erase anything.
+			key_type key = this->get_key(record) ;
+			m_records.erase(key) ;
+			make_dirty() ;
 		}
 
-		make_dirty() ;
-
-		return true ;
+		return was_erased ;	// didn't erase anything.
 	}
 
 	// Function name	: memory::get_location
@@ -329,7 +322,7 @@ namespace mem_engine
 
 			int current_record = 0 ;
 			// loop through each of the records
-			foreach(record_pointer record, m_records)
+			foreach(record_pointer record, m_records | ad::map_values)
 			{
 				try // Failing to save a single record should not make
 					// the entire save fail!
@@ -383,7 +376,7 @@ namespace mem_engine
 
 	mem_engine::record_pointer memory_local::add_by_id( size_t recid, const wstring source, const wstring trans )
 	{
-		foreach(record_pointer rec, m_records)
+		foreach(record_pointer rec, m_records | ad::map_values)
 		{
 			if (recid == rec->get_id())
 			{
@@ -410,7 +403,7 @@ namespace mem_engine
 		new_rec->get_modified_by() ;
 
 		new_rec->set_cmp_maker(&m_cmp_maker) ;
-		m_records.insert(new_rec) ;
+		m_records[get_key(new_rec)] = new_rec ;
 
 		// memory is now dirty
 		make_dirty();
@@ -445,7 +438,7 @@ namespace mem_engine
 		}
 		if (params_changed)
 		{
-			foreach(record_pointer record, m_records)
+			foreach(record_pointer record, m_records | ad::map_values)
 			{
 				record->set_cmp_maker(&m_cmp_maker) ;
 			}
@@ -457,7 +450,7 @@ namespace mem_engine
 		gloss_match_tester tester(query.cmp()) ;
 		tester.set_search_match(this->make_match()) ;
 
-		foreach( record_pointer record, m_records)
+		foreach( record_pointer record, m_records | ad::map_values)
 		{
 			if ( tester.test_source( record ) )
 			{
@@ -477,7 +470,7 @@ namespace mem_engine
 		Segment haystack(&m_cmp_maker, params.m_rich_source) ;
 
 		search_match_ptr match(this->make_match()) ;
-		foreach(record_pointer record, m_records)
+		foreach(record_pointer record, m_records | ad::map_values)
 		{
 			if (distance.subdist_score(record->get_source_cmp(), haystack.cmp()) >= min_score)
 			{
@@ -556,7 +549,7 @@ namespace mem_engine
 	}
 	bool memory_local::record_exists(record_pointer rec)
 	{
-		return ( m_records.find( rec ) != m_records.end() ) ;
+		return ( m_records.find( get_key(rec) ) != m_records.end() ) ;
 	}
 	record_pointer memory_local::get_record_at(const size_t index)
 	{
@@ -565,14 +558,14 @@ namespace mem_engine
 			throw CProgramException(_T("Requested record index is out of bounds")) ;
 		}
 
-		trans_set::iterator pos = m_records.begin() ;
+		record_collection_type::iterator pos = m_records.begin() ;
 		std::advance( pos, index ) ;
-		return *pos ;
+		return pos->second ;
 	}
 	// tabulate_fonts
 	void memory_local::tabulate_fonts(font_tabulator &tabulator)
 	{
-		foreach(record_pointer record, m_records)
+		foreach(record_pointer record, m_records | ad::map_values)
 		{
 			// clear doc text
 
@@ -591,7 +584,7 @@ namespace mem_engine
 		size_t high = 0 ;
 		double ave = 0 ;
 
-		foreach ( record_pointer record, m_records )
+		foreach ( record_pointer record, m_records | ad::map_values )
 		{
 			const size_t rel = record->get_reliability() ;
 			low = min(low, rel) ;
@@ -610,20 +603,17 @@ namespace mem_engine
 
 	}
 
-	bool is_validated(const record_pointer rec)
-	{
-		return rec->is_validated() ;
-	}
-
 	wstring memory_local::get_validated_percent()
 	{
 		if ( m_records.empty() )
 		{
 			return L"0%" ;
 		}
-		const double num_validated = (double)std::count_if(m_records.begin(),
-												   m_records.end(),
-												   is_validated) ;
+		const double num_validated = 
+			(double)std::count_if(m_records.begin(),
+							  m_records.end(),
+							  [](record_collection_type::value_type const & r){ return r.second->is_validated(); }
+							 ) ;
 		return double2percent_wstring( num_validated / (double)m_records.size()  ) ;
 
 	}
@@ -632,7 +622,7 @@ namespace mem_engine
 	{
 		search_match_tester tester( params ) ;
 		tester.set_search_match(this->make_match()) ;
-		foreach( record_pointer record, m_records )
+		foreach( record_pointer record, m_records | ad::map_values )
 		{
 			if ( tester.is_match( record ) )
 			{
@@ -654,7 +644,7 @@ namespace mem_engine
 			return ;
 		}
 		const size_t setting = min(rel, MAX_RELIABILITY) ;
-		foreach(record_pointer record, m_records)
+		foreach(record_pointer record, m_records | ad::map_values)
 		{
 			record->set_reliability(setting) ;
 		}
@@ -666,7 +656,7 @@ namespace mem_engine
 		{
 			return ;
 		}
-		foreach( record_pointer record, m_records )
+		foreach( record_pointer record, m_records | ad::map_values )
 		{
 			if ( val ) 
 			{

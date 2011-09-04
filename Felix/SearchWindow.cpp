@@ -393,7 +393,7 @@ void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem,
 {
 	matcher_ptr matcher = get_matcher(replace_from) ;
 	m_search_runner.set_matchers() ;
-	foreach(record_pointer rec, mem->get_records())
+	foreach(record_pointer rec, mem->get_records() | boost::adaptors::map_values)
 	{
 		if (m_search_runner.is_match(rec) 
 			&& matcher->is_match(rec))

@@ -228,7 +228,7 @@ void TradosDataExporter::export_trados( memory_pointer mem )
 	int num_missed = 0 ;
 	size_t count = 0 ;
 
-	foreach(record_pointer rec, mem->get_records())
+	foreach(record_pointer rec, mem->get_records() | ad::map_values)
 	{
 		try
 		{
@@ -1076,7 +1076,7 @@ void multiterm_data_exporter_55::export_gloss( mem_engine::memory_pointer &mem )
 	m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
 
 	long i = 0 ;
-	foreach(record_pointer record, mem->get_records())
+	foreach(record_pointer record, mem->get_records() | ad::map_values)
 	{
 		write_record( record ) ;
 		++i ;
@@ -1127,4 +1127,22 @@ wstring multiterm_data_exporter_6::prep_string( wstring line )
 #pragma warning( default:4239 ) // A reference that is not to 'const' cannot be bound to a non-lvalue
 
 	return line ;
+}
+
+void multiterm_data_exporter_6::export_gloss( mem_engine::memory_pointer mem )
+{
+	using namespace mem_engine ;
+	m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
+	wstring notes = L"Notes" ;
+	write_line( m_source_lang, m_target_lang, notes ) ;
+
+	int i = 0 ;
+	foreach(record_pointer record, mem->get_records() | ad::map_values)
+	{
+		write_record(record) ;
+
+		m_listener->OnProgressWriteUpdate( ++i ) ;
+	}
+
+	m_listener->OnProgressDoneWrite( i ) ;
 }

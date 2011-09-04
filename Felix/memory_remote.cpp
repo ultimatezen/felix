@@ -407,7 +407,7 @@ namespace mem_engine
 		return false ;
 	}
 
-	trans_set& memory_remote::get_records()
+	record_collection_type& memory_remote::get_records()
 	{
 		throw CProgramException("get_records not implemented for remote memories") ;
 	}

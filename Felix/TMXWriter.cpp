@@ -137,7 +137,7 @@ void CTMXWriter::write_tus(void)
 
 	ATLASSERT( m_tuid == 1 ) ;
 	m_tuid = 1 ;
-	foreach( mem_engine::record_pointer rec, m_memory->get_records())
+	foreach( mem_engine::record_pointer rec, m_memory->get_records() | boost::adaptors::map_values)
 	{
 		write_tu( rec ) ;
 		m_listener->OnProgressWriteUpdate( m_tuid ) ;

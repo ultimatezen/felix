@@ -38,6 +38,19 @@ record_pointer add_record(memory_local &mem, string source, string trans)
 {
 	return add_record(mem, string2wstring(source), string2wstring(trans)) ;
 }
+
+BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
+	BOOST_AUTO_TEST_CASE( create_key_both )
+	{
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		key_type expected(L"foo", L"bar") ;
+		record_pointer rec = make_record(expected.first, expected.second) ;
+		key_type actual = mem.get_key(rec) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE( TestMemory )
 
 	// should_check_for_demo
@@ -493,7 +506,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		mem.load_text(text, filename, strlen(text)) ;
 		BOOST_CHECK_EQUAL((int)mem.size(), 1) ;
 
-		record_pointer rec = *(mem.begin()) ;
+		record_pointer rec = mem.get_record_at(0) ;
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;
@@ -528,7 +541,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		<ref_count>0</ref_count>
 		*/
 
-		record_pointer rec = *(mem.begin()) ;
+		record_pointer rec = mem.get_record_at(0) ;
 
 		BOOST_CHECK(L"foo" == rec->get_source_rich()) ;
 		BOOST_CHECK(L"bar" == rec->get_trans_rich()) ;

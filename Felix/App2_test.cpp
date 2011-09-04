@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 				CComBSTR(L"different")) ;
 
 			memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-			record_pointer firstrec = *mem->get_records().begin() ;
+			record_pointer firstrec = mem->get_records().begin()->second ;
 
 			string expected = "changed" ;
 			string actual = CStringA(firstrec->get_source_plain().c_str()) ;
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_SUITE( TestApp2 )
 				CComBSTR(L"different")) ;
 
 			memory_pointer mem = app::get_app().get_memory_model()->get_first_memory() ;
-			record_pointer firstrec = *mem->get_records().begin() ;
+			record_pointer firstrec = mem->get_records().begin()->second ;
 
 			string expected = "changed" ;
 			string actual = CStringA(firstrec->get_source_plain().c_str()) ;

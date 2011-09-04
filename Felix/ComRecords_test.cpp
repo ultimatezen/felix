@@ -2,6 +2,7 @@
 #include "App2.h"
 #include "ComRecords.h"
 #include "query.h"
+#include "memory_local.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -48,9 +49,13 @@ BOOST_AUTO_TEST_SUITE( TestComRecords )
 		records_ptr recs ;
 		records_obj::CreateInstance( &recs ) ;
 
-		trans_set records ;
-		records.insert(make_record("source 1", "trans 1")) ;
-		records.insert(make_record("source 2", "trans 2")) ;
+		record_collection_type records ;
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("source 1", "trans 1") ;
+		records[mem.get_key(rec1)] = rec1 ;
+		record_pointer rec2 = make_record("source 2", "trans 2") ;
+		records[mem.get_key(rec2)] = rec2 ;
 		long count = 10 ;
 		recs->set_records(records) ;
 		recs->get_Count(&count) ;

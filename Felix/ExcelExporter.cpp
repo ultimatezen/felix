@@ -43,7 +43,8 @@ void CExcelExporter::export_excel(memory_pointer mem, const CString mem_name, in
 
 	int row_count = 1 ;
 
-	foreach(record_pointer rec, mem->get_records()) 
+	using namespace mem_engine;
+	foreach(record_pointer rec, mem->get_records() | ad::map_values) 
 	{
 		try
 		{

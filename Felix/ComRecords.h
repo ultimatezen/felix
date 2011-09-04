@@ -65,7 +65,7 @@ BEGIN_COM_MAP(CRecords)
 	COM_INTERFACE_ENTRY(IDispatch)
 END_COM_MAP()
 
-	HRESULT set_records(mem_engine::trans_set& records);
+	HRESULT set_records(mem_engine::record_collection_type& records);
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 

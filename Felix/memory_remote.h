@@ -106,7 +106,7 @@ namespace mem_engine
 		wstring get_validated_percent();
 		rel_tuple get_reliability_stats();
 
-		trans_set& get_records();
+		record_collection_type& get_records();
 		bool add_record ( record_pointer record );
 		void replace(const record_pointer old_rec, record_pointer new_rec);
 		size_t size();

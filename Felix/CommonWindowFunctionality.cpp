@@ -1097,13 +1097,21 @@ void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::me
 
 void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, mem_engine::memory_pointer mem )
 {
+	using namespace mem_engine;
+
 	logging::log_debug("Saving as tab-separated text file") ;
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
 	fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
 	output_device_ptr output(new OutputDeviceFile) ;
 	output->open(save_as_file_name) ;
 	tabbed_export::TabbedTextExporter exporter(output) ;
-	exporter.write_memory(mem->get_records().begin(), mem->get_records().end()) ;
+	
+	trans_set records ;
+	foreach(record_pointer record, mem->get_records() | ad::map_values)
+	{
+		records.insert(record) ;
+	}
+	exporter.write_memory(records.begin(), records.end()) ;
 	output->close() ;
 	CNumberFmt nf ;
 	CString feedback ;

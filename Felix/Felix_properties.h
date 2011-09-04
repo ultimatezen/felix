@@ -247,6 +247,10 @@ struct properties_memory : public props::CRegMap
 
 	props_data m_data ;
 
+	bool is_one_trans_per_source(void)
+	{
+		return !! m_data.m_one_trans_per_source ;
+	}
 	size_t get_min_score()
 	{
 		return m_data.m_min_score ;

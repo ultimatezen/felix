@@ -30,7 +30,7 @@ namespace mem_search
 
 		if (is_wanted_mem(mem))
 		{
-			foreach(record_pointer rec, mem->get_records())
+			foreach(record_pointer rec, mem->get_records() | ad::map_values)
 			{
 				if (is_match(rec))
 				{

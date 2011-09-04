@@ -7,11 +7,11 @@
 // CRecords
 
 
-HRESULT CRecords::set_records( mem_engine::trans_set& records )
+HRESULT CRecords::set_records( mem_engine::record_collection_type& records )
 {
 	m_coll.clear() ;
 
-	foreach (mem_engine::record_pointer record, records)
+	foreach (mem_engine::record_pointer record, records | boost::adaptors::map_values)
 	{
 		CComObject< CRecord > *result_object ;
 		HRESULT hr = CComObject< CRecord >::CreateInstance( &result_object ) ;

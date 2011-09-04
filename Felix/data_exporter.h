@@ -131,22 +131,7 @@ public:
 	{}
 	~multiterm_data_exporter_6()
 	{ m_file->close() ; }
-	void export_gloss(mem_engine::memory_pointer mem)
-	{
-		m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
-		wstring notes = L"Notes" ;
-		write_line( m_source_lang, m_target_lang, notes ) ;
-
-		int i = 0 ;
-		foreach(mem_engine::record_pointer record, mem->get_records())
-		{
-			write_record(record) ;
-
-			m_listener->OnProgressWriteUpdate( ++i ) ;
-		}
-
-		m_listener->OnProgressDoneWrite( i ) ;
-	}
+	void export_gloss(mem_engine::memory_pointer mem);
 	void set_source( wstring source ) { m_source_lang = source ; }
 	void set_target( wstring target ) { m_target_lang = target ; }
 	void open_destination( const CString destination );

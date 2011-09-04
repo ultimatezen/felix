@@ -51,4 +51,8 @@ public:
 		SENSE("OnEntry") ; 
 		SENSE(int2string(n)) ;
 	}
+	void OnCorrect()
+	{
+		SENSE("OnCorrect") ; 
+	}
 };
