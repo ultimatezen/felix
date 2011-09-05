@@ -13,20 +13,18 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Japanese resources
+// Japanese (Japan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -110,7 +108,7 @@ BEGIN
     END
 END
 
-IDR_GLOSSARYMENU MENU 
+IDR_GLOSSARYMENU MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -172,7 +170,7 @@ BEGIN
     END
 END
 
-IDR_REGISTERMENU MENU 
+IDR_REGISTERMENU MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -311,12 +309,14 @@ BEGIN
     CONTROL         "&Case",IDC_IGNORE_CASE_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,36,61,14
     CONTROL         "&Width",IDC_IGNORE_WIDTH_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,57,69,15
     CONTROL         "&Hiragana && Katakana",IDC_IGNORE_HIR_KAT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,77,115,15
-    GROUPBOX        "Formatting",IDC_STATIC,5,105,175,45
+    GROUPBOX        "Formatting",IDC_STATIC,6,105,175,45
     CONTROL         "Get entries as &plain text",IDC_PLAINTEXT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,114,115,16
     CONTROL         "Assess penalty for &formatting mismatches",IDC_FORMATTING_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,133,152,13
-    GROUPBOX        "Placements",IDC_STATIC,7,159,175,31
+    GROUPBOX        "Placements",IDC_STATIC,6,159,175,31
     CONTROL         "&Numbers",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,169,138,13
+    CONTROL         "&One translation per source segment",IDC_ONE_TRANS_PER_SOURCE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,200,164,10
 END
 
 IDD_PROPPAGE_GLOSSARY DIALOGEX 0, 0, 240, 264
@@ -627,7 +627,7 @@ IDR_MAINFRAME           ICON                    "res\\Felix.ico"
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     VK_DELETE,      ID_EDIT_CLEAR,          VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
@@ -668,7 +668,7 @@ BEGIN
     VK_F3,          ID_EDIT_REGISTER,       VIRTKEY, NOINVERT
 END
 
-IDC_EDIT_ACCELERATORS ACCELERATORS 
+IDC_EDIT_ACCELERATORS ACCELERATORS
 BEGIN
     VK_DELETE,      ID_EDIT_CLEAR,          VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
@@ -688,7 +688,7 @@ BEGIN
     VK_DELETE,      ID_EDIT_DELETE,         VIRTKEY, NOINVERT
 END
 
-IDR_SEARCH_ACCEL ACCELERATORS 
+IDR_SEARCH_ACCEL ACCELERATORS
 BEGIN
     "N",            ID_NEW_SEARCH,          VIRTKEY, ALT, NOINVERT
     "R",            ID_REPLACE,             VIRTKEY, ALT, NOINVERT
@@ -741,7 +741,7 @@ END
 // Toolbar
 //
 
-IDR_GLOSS_TOOLBAR TOOLBAR  16, 16
+IDR_GLOSS_TOOLBAR TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -759,7 +759,7 @@ BEGIN
     BUTTON      ID_EDIT_FIND
 END
 
-IDR_MAINFRAME TOOLBAR  16, 16
+IDR_MAINFRAME TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -781,7 +781,7 @@ BEGIN
     BUTTON      ID_APP_ABOUT
 END
 
-IDR_FORMAT_TOOLBAR TOOLBAR  16, 15
+IDR_FORMAT_TOOLBAR TOOLBAR 16, 15
 BEGIN
     BUTTON      1
     SEPARATOR
@@ -854,7 +854,7 @@ LOGO.PNG                HTML                    "res\\felix_logo.png"
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -876,8 +876,8 @@ BEGIN
 
     IDD_PROPPAGE_MEMORY, DIALOG
     BEGIN
-        RIGHTMARGIN, 192
-        BOTTOMMARGIN, 210
+        RIGHTMARGIN, 201
+        BOTTOMMARGIN, 227
     END
 
     IDD_PROPPAGE_GLOSSARY, DIALOG
@@ -956,7 +956,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Felix"
     IDC_ADD_TO_GLOSSARY     "add"
@@ -978,7 +978,7 @@ BEGIN
     IDS_SELECT_VAL_AND_REL  "Set the validation, reliability, and other details"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PREFS_SAVED         "Saved user preferences"
     IDS_PREFS_LOADED        "Loaded user preferences"
@@ -998,7 +998,7 @@ BEGIN
     IDS_CONNECTED_MEMORY    "Connected to [%1]"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ADD_TO_GLOSS_ACTIVE "<a href=""100:reg_gloss_add"" title=""Add a new entry to the glossary with the specified source and translation"">Add to Glossary</a>"
     IDC_DELETE_SOURCE       "deletesource"
@@ -1015,7 +1015,7 @@ BEGIN
     IDC_MORE                "more"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "New\nCreate a new glossary file"
     ID_FILE_OPEN            "Open\nOpen an existing glossary file"
@@ -1028,7 +1028,7 @@ BEGIN
     ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MEMORY_CLOSE        "Close\nClose the active memory"
     IDS_GLOSSARY_CLOSE      "Close\nClose the active glossary"
@@ -1036,21 +1036,21 @@ BEGIN
     IDS_CLOSED_GLOSSARY     "Closed glossary [%1]"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
     ID_HELP                 "View the help file\nHelp"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_POPUP_ADD_TO_MEMORY "&Add to Memory"
     IDS_SAVE_GLOSSARY       "Save active glossary\nSave active glossary"
     IDS_SAVE_MEMORY         "Save active memory\nSave active memory"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SAVE_ALL_GLOSSARIES "Save all glossaries\nSave all glossaries"
     IDS_SAVE_ALL_MEMORIES   "Save all memories\nSave all memories"
@@ -1068,7 +1068,7 @@ BEGIN
     IDS_MSG_REPLACE         "Replace"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SET_TRANS           "Set Trans"
     IDS_SET_GLOSS           "Add to Glossary"
@@ -1088,7 +1088,7 @@ BEGIN
     IDS_MODIFIED_ID         "modified"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_SET_SOURCE          "setsource"
     IDC_SET_TRANS           "settrans"
@@ -1100,7 +1100,7 @@ BEGIN
     IDS_OPEN_GLOSS_FILE     "Open glossary file"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DELETED_RECORD_MSG  "Deleted record (<a href=""/undodelete"">Undo</a>)"
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "Could not delete record (memory locked)"
@@ -1120,7 +1120,7 @@ BEGIN
     IDS_SET_SOURCE          "Set Source"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_WHOLE_WORDS_CHECK   "Search for whole words only. For example, [car] matches [car] but not [card]."
     IDS_DELETE_RECORD       "Delete Record"
@@ -1135,7 +1135,7 @@ BEGIN
     IDS_IMPORTING_FILE      "Importing file [%1]"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FORMAT_BGCOLOR       "Set the browser background color\nBackground Color"
     ID_HELP_REGISTER        "Register Felix\nRegister"
@@ -1143,12 +1143,12 @@ BEGIN
     ID_FILE_CONNECT         "Connect\nConnect to a memory on a local server."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch views\nSwitch views"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -1163,13 +1163,13 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCSIZE          "Change the window size"
     ATL_IDS_SCMOVE          "Change the window position"
@@ -1180,24 +1180,24 @@ BEGIN
     ATL_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCRESTORE       "Restore the window to normal size"
     ATL_IDS_SCTASKLIST      "Activate Task List"
     ATL_IDS_MDICHILD        "Activate this window"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_MRU_FILE        "Open this document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SHOW_TRANS          "Review translation"
     IDS_DELETE_TITLE        "Delete entry"
@@ -1217,7 +1217,7 @@ BEGIN
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_POPUP_ADD_TO_GLOSS  "&Add to Glossary"
     IDS_NO_SOURCE_SELECTED  "No source selected"
@@ -1238,7 +1238,7 @@ BEGIN
     IDC_REGISTER            "register"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDOK                    "Perform the operation"
     IDCANCEL                "Cancel the operation"
@@ -1257,7 +1257,7 @@ BEGIN
     IDS_REFLECTED_TRANS     "Reflected edits to translation."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_LOCKED              "It is not possible to add to, edit, or delete entries from a locked memory. Only the user who locked a memory can unlock it."
     IDS_SEARCH_TOOLBAR_GLOSS "Search glossaries"
@@ -1267,7 +1267,7 @@ BEGIN
     IDS_MSG_LOADING         "Loading file [%1]..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PANE_1               "                         "
     ID_PANE_2               "          "
@@ -1275,12 +1275,12 @@ BEGIN
     ID_VIEW_MEMORY          "View the currently loaded translation memory\nView Memory"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_KEY_EDIT            "Enter the key here. You may copy and paste it from an email message."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NEW_TOOLBAR         "Create a new memory"
     ID_EDIT_DELETE          "Delete current memory entry\nDelete entry"
@@ -1295,7 +1295,7 @@ BEGIN
     ID_TOOLS_LANGUAGE       "Switch UI to Japanese\nJapanese UI"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_QUERY_ID            "query"
     IDS_DUMMY_QUERY_ID      "dummy_query"
@@ -1315,7 +1315,7 @@ BEGIN
     IDS_MSG_EXPORTING_RECORDS "Exporting records (%1 of %2)..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_IMPORTING_GLOSSARY "Importing glossary file [%1]"
     IDS_MSG_ACTION_CANCELLED "Action cancelled by user"
@@ -1337,13 +1337,13 @@ BEGIN
     IDS_NO_TRANS_SELECTED   "No translation selected"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_EDIT_RECORD_TITLE   "Edit Record"
     IDS_MSG_NO_EMPTY_S_OR_T "The entry must not have an empty source or translation.\r\rPlease try again."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_EDIT_REC_FAILED "Failed to edit record."
     IDS_MODIFIED            "MODIFIED: "
@@ -1351,7 +1351,7 @@ BEGIN
     IDS_MSG_NO_FILE         "The file [%1] does not exist."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_VALIDITY            "Mark all records in the memory as validated"
     IDS_PROMPT_RESCUE_ENTRIES 
@@ -1360,7 +1360,7 @@ BEGIN
     IDC_MIN_BUTTON          "Restore Full View"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_ADDED_RECORDS   "Added %1 records from file [%2]"
     IDS_MSG_ADDED_GLOSS_ENTRY_TITLE "Added Glossary Entry"
@@ -1375,7 +1375,7 @@ BEGIN
     IDS_MSG_LOADED_RECORDS  "Loaded a total of %1 records"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MAIN                "MAIN"
     IDS_OUT_OF_RANGE        "Index out of range"
@@ -1388,7 +1388,7 @@ BEGIN
     IDC_LANG_STATIC_TRANS   "Select the target language"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_IMPORT_FAILED       "Failed to import file [%1]"
     IDS_IMPORT_ABORTED      "Import aborted!"
@@ -1408,7 +1408,7 @@ BEGIN
     IDS_SCORE               "Score"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_RICH_QUERY_TITLE    "Query (No Markup)"
     IDS_RICH_SOURCE_TITLE   "Source (No Markup)"
@@ -1430,7 +1430,7 @@ BEGIN
                             "Would you like to try to purge non-printing characters from the file, and load it again?"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_XML_LOAD_FAILED "Failed to load XML file."
     IDS_PROMPT_SKIP_CURRENT "Would you like to skip this record, and continue saving entries?"
@@ -1454,7 +1454,7 @@ BEGIN
                             "No font table was found. Would you like to use the default font table?"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NO_FONT_TABLE       "No Font Table"
     IDS_ENTRY_EXISTED       "Entry already exists. Updated with any new information."
@@ -1475,7 +1475,7 @@ BEGIN
     IDS_PREFS_REGISTERED    "Set preferences."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ADD_ENTRY           "Add Entry"
     IDS_GLOSSARY_PAGE       "GLOSSPAGE.HTML"
@@ -1495,7 +1495,7 @@ BEGIN
     IDS_HELPFILE_NAME       "Felix Help.chm"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SEARCH_ALL          "All Fields"
     IDS_SEARCH_SOURCE       "Source Fields"
@@ -1512,12 +1512,12 @@ BEGIN
     IDS_REFCOUNT_TITLE      "Reference Count"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FORMAT_FONT          "Show the font dialog (Edit mode only)\nFont"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_REFCOUNT_ID         "ref_count"
     IDS_GLOSSARY_OPEN       "There is already a glossary open."
@@ -1539,7 +1539,7 @@ BEGIN
     IDS_ADVANCED            "Advanced"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_EDITOR_TAB          "Editor"
     IDS_SOURCE_TAB          "Source"
@@ -1557,12 +1557,12 @@ BEGIN
     IDS_DONE_WRITING        "...Done! Saved %1 records to file [%2]."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_SOURCE_LANG_STATIC  "Connect\nConnect to a memory on a local server."
 END
 
-#endif    // Japanese resources
+#endif    // Japanese (Japan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -1570,10 +1570,8 @@ END
 // Neutral (Sys. Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1606,7 +1604,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ZOOM_DLG, DIALOG
     BEGIN
@@ -1623,13 +1621,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1683,7 +1679,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ADVANCED_MEM_MGR_DLG, DIALOG
     BEGIN
@@ -1709,7 +1705,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

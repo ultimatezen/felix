@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Japanese resources
+// Japanese (Japan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -52,7 +50,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -136,7 +134,7 @@ BEGIN
     END
 END
 
-IDR_GLOSSARYMENU MENU 
+IDR_GLOSSARYMENU MENU
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -198,7 +196,7 @@ BEGIN
     END
 END
 
-IDR_REGISTERMENU MENU 
+IDR_REGISTERMENU MENU
 BEGIN
     POPUP "ファイル(&F)"
     BEGIN
@@ -346,6 +344,7 @@ BEGIN
     CONTROL         "書式が一致しない場合ペナルティを採点する(&F)",IDC_FORMATTING_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,186,13
     GROUPBOX        "自動置換え",IDC_STATIC,7,159,201,26
     CONTROL         "数字(&N)",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,169,138,13
+    CONTROL         "原文あたり一つの訳文に制限する(&O)",IDC_ONE_TRANS_PER_SOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,198,164,12
 END
 
 IDD_PROPPAGE_ALGORITHM DIALOGEX 0, 0, 179, 148
@@ -626,7 +625,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -789,7 +788,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
     "B",            IDC_BOLD,               VIRTKEY, CONTROL, NOINVERT
@@ -830,7 +829,7 @@ BEGIN
     VK_F3,          ID_EDIT_REGISTER,       VIRTKEY, NOINVERT
 END
 
-IDC_EDIT_ACCELERATORS ACCELERATORS 
+IDC_EDIT_ACCELERATORS ACCELERATORS
 BEGIN
     "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
     "B",            IDC_BOLD,               VIRTKEY, CONTROL, NOINVERT
@@ -850,7 +849,7 @@ BEGIN
     VK_DELETE,      ID_EDIT_DELETE,         VIRTKEY, NOINVERT
 END
 
-IDR_SEARCH_ACCEL ACCELERATORS 
+IDR_SEARCH_ACCEL ACCELERATORS
 BEGIN
     "N",            ID_NEW_SEARCH,          VIRTKEY, ALT, NOINVERT
     "R",            ID_REPLACE,             VIRTKEY, ALT, NOINVERT
@@ -903,7 +902,7 @@ END
 // Toolbar
 //
 
-IDR_GLOSS_TOOLBAR TOOLBAR  16, 16
+IDR_GLOSS_TOOLBAR TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -921,7 +920,7 @@ BEGIN
     BUTTON      ID_EDIT_FIND
 END
 
-IDR_MAINFRAME TOOLBAR  16, 16
+IDR_MAINFRAME TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -943,7 +942,7 @@ BEGIN
     BUTTON      ID_APP_ABOUT
 END
 
-IDR_FORMAT_TOOLBAR TOOLBAR  16, 15
+IDR_FORMAT_TOOLBAR TOOLBAR 16, 15
 BEGIN
     BUTTON      1
     SEPARATOR
@@ -1015,7 +1014,7 @@ LOGO.PNG                HTML                    "res\\felix_logo.png"
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Felix"
     IDC_ADD_TO_GLOSSARY     "add"
@@ -1035,7 +1034,7 @@ BEGIN
     IDS_SELECT_VAL_AND_REL  "確認の有為、信頼度などエントリ詳細の指定"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PREFS_SAVED         "ユーザ設定の保存が完了しました。"
     IDS_PREFS_LOADED        "ユーザ設定の取り込みが完了しました。"
@@ -1054,7 +1053,7 @@ BEGIN
     IDS_CONNECTED_MEMORY    "「%1」に接続しました"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ADD_TO_GLOSS_ACTIVE "<a href=""100:reg_gloss_add"" title=""用語を指定した原語と訳語として登録します"">用語集に登録</a>"
     IDC_DELETE_SOURCE       "deletesource"
@@ -1071,7 +1070,7 @@ BEGIN
     IDC_MORE                "more"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "新しいメモリを作成します\n作成"
     ID_FILE_OPEN            "既存のドキュメントを開く\n開く"
@@ -1083,7 +1082,7 @@ BEGIN
     ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MEMORY_CLOSE        "閉じる\n現在のメモリを閉じます"
     IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
@@ -1091,14 +1090,14 @@ BEGIN
     IDS_CLOSED_GLOSSARY     "用語集を閉じました：[%1]"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_POPUP_ADD_TO_MEMORY "メモリに追加(&A)"
     IDS_SAVE_GLOSSARY       "現在の用語集を保存します\n現在の用語集を保存します"
     IDS_SAVE_MEMORY         "現在のメモリを保存します\n現在のメモリを保存します"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SAVE_ALL_GLOSSARIES "すべての用語集を保存します\nすべての用語集を保存します"
     IDS_SAVE_ALL_MEMORIES   "すべてのメモリを保存します\nすべてのメモリを保存します"
@@ -1116,14 +1115,14 @@ BEGIN
     IDS_MSG_REPLACE         "置換"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "プログラム情報、バージョン、および著作権を表示します。\nバージョン情報"
     ID_APP_EXIT             "プルグラムの終了。ドキュメントの保存ダイアログが表示されます。\n終了"
     ID_HELP                 "ヘルプファイルを表示します。\nヘルプ"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SET_TRANS           "訳語の設定"
     IDS_SET_GLOSS           "用語集に登録"
@@ -1143,12 +1142,12 @@ BEGIN
     IDS_MODIFIED_ID         "modified"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_KEY_EDIT            "開錠キーを入力してください。メールからコピーして、貼り付けることもできます。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "選択範囲を削除します。\n削除"
     ID_EDIT_CLEAR_ALL       "すべてを削除します。\nすべて削除"
@@ -1163,13 +1162,13 @@ BEGIN
     ID_EDIT_REDO            "取り消した操作をやり直します\n繰り返し"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "ツール バーの表示/非表示を切り替えます\nツール バー表示切替"
     ID_VIEW_STATUS_BAR      "ステータス バーの表示/非表示を切り替えます\nステータス バー表示切替"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCSIZE          "ウィンドウサイズを変更します"
     ATL_IDS_SCMOVE          "ウィンドウ位置を変更します"
@@ -1180,24 +1179,24 @@ BEGIN
     ATL_IDS_SCCLOSE         "現在のウィンドウを閉じて、ドキュメントの保存ダイアログを表示します"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_SCRESTORE       "ウィンドウを普通のサイズに戻します"
     ATL_IDS_SCTASKLIST      "タスクリストを始動します"
     ATL_IDS_MDICHILD        "現在のウィンドウを始動します"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ATL_IDS_MRU_FILE        "このドキュメントを開く"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SHOW_TRANS          "訳文の確認"
     IDS_DELETE_TITLE        "エントリの削除"
@@ -1217,7 +1216,7 @@ BEGIN
     IDS_CRASH_PAGE          "CRASHPAGE.HTML"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_POPUP_ADD_TO_GLOSS  "用語集に追加(&A)"
     IDS_NO_SOURCE_SELECTED  "原語が指定されていません"
@@ -1239,7 +1238,7 @@ BEGIN
     IDC_REGISTER            "register"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDOK                    "操作を実行します。"
     IDCANCEL                "操作を取り消します。"
@@ -1258,7 +1257,7 @@ BEGIN
     IDS_REFLECTED_TRANS     "訳文の変更が反映されました。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_LOCKED              "ロックされたメモリは、エントリの追加、編集、削除などが不可能となります。ロックをかけたユーザしかロックを解除できません。"
     IDS_SEARCH_TOOLBAR_GLOSS "用語集を検索します"
@@ -1267,7 +1266,7 @@ BEGIN
     IDS_MSG_LOADING         "ファイル[%1]を取り込み中..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_PANE_1               "                         "
     ID_PANE_2               "          "
@@ -1275,12 +1274,12 @@ BEGIN
     ID_VIEW_MEMORY          "現在の翻訳メモリを表示します\nメモリの表示"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "表示の切り替え\n表示の切り替え"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NEW_TOOLBAR         "新しいメモリを作成します"
     ID_EDIT_DELETE          "現在のエントリをメモリから削除します\nエントリの削除"
@@ -1294,7 +1293,7 @@ BEGIN
     ID_TOOLS_LANGUAGE       "ＵＩを英語に切り替えます。\n英語に切替"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DELETED_RECORD_MSG  "翻訳エントリを削除しました。(<a href=""/undodelete"">やり直し</a>)"
     IDS_DELETE_FAILED_MEM_LOCKED_MSG "削除できません(メモリがロック状態)"
@@ -1314,7 +1313,7 @@ BEGIN
     IDS_SET_SOURCE          "原語の設定"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_SET_SOURCE          "setsource"
     IDC_SET_TRANS           "settrans"
@@ -1326,7 +1325,7 @@ BEGIN
     IDS_OPEN_GLOSS_FILE     "用語集ファイルを開きます"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_WHOLE_WORDS_CHECK   "単語単位で検索します。例えば、「car」という文字列は、「car」と一致しますが「card」と一致しません。"
     IDS_DELETE_RECORD       "エントリの削除"
@@ -1341,14 +1340,14 @@ BEGIN
     IDS_IMPORTING_FILE      "ファイル[%1]をインポート中"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FORMAT_BGCOLOR       "ブラウザの背景色を設定します。\n背景色"
     ID_FILE_SAVE_ALL        "すべてのメモリまたは用語集を保存します。\nすべてを保存"
     ID_FILE_CONNECT         "接続\nアドレスを指定してサーバーにあるメモリに接続します。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_QUERY_ID            "query"
     IDS_DUMMY_QUERY_ID      "dummy_query"
@@ -1368,7 +1367,7 @@ BEGIN
     IDS_MSG_EXPORTING_RECORDS "エントリのエクスポート中(%1 / %2)..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_IMPORTING_GLOSSARY "[%1]の用語集をインポート中"
     IDS_MSG_ACTION_CANCELLED "取り消されたアクション"
@@ -1388,13 +1387,13 @@ BEGIN
     IDS_NO_TRANS_SELECTED   "訳語が指定されていません"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_EDIT_RECORD_TITLE   "エントリの編集"
     IDS_MSG_NO_EMPTY_S_OR_T "訳文または原文に文字が指定されていません。\r\rもう一度試行してください"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_EDIT_REC_FAILED "エントリを編集できませんでした。"
     IDS_MODIFIED            "更新日時 :"
@@ -1402,7 +1401,7 @@ BEGIN
     IDS_MSG_NO_FILE         "ファイル [%1] は存在しません。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_VALIDITY            "このメモリ・用語集のすべてのエントリを確認済みにします"
     IDS_PROMPT_RESCUE_ENTRIES "出来る限り多くのエントリを取り出しますか。"
@@ -1410,7 +1409,7 @@ BEGIN
     IDC_MIN_BUTTON          "Felixウインドウの復元"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_ADDED_RECORDS   "ファイル[%2]から%1個のエントリを追加しました。"
     IDS_MSG_ADDED_GLOSS_ENTRY_TITLE "用語を追加しました。"
@@ -1425,7 +1424,7 @@ BEGIN
     IDS_MSG_LOADED_RECORDS  "合計 %1 個のエントリを取り込みました。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MAIN                "メイン"
     IDS_OUT_OF_RANGE        "指数が範囲外"
@@ -1436,7 +1435,7 @@ BEGIN
     IDC_LANG_COMBO_TRANS    "目的言語を指定してください"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_IMPORT_FAILED       "ファイル[%1]をインポートできませんでした。"
     IDS_IMPORT_ABORTED      "インポートがキャンセルされました！"
@@ -1456,7 +1455,7 @@ BEGIN
     IDS_SCORE               "スコア"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_RICH_QUERY_TITLE    "照会（マークアップ無し）"
     IDS_RICH_SOURCE_TITLE   "原文（マークアップ無し）"
@@ -1476,7 +1475,7 @@ BEGIN
     IDS_PROMPT_PURGE_NONPRINT "印刷できない文字を削除して、もう一度取り込みますか?"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_MSG_XML_LOAD_FAILED "XML ファイルを取り込めませんでした。"
     IDS_PROMPT_SKIP_CURRENT "このエントリを破棄して、他のエントリの保存に続行しますか?"
@@ -1497,7 +1496,7 @@ BEGIN
     IDS_PROMPT_DEFAULT_FONT_TABLE "フォントテーブルが見つかりません。デフォルトのフォントテーブルを使用しますか?"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NO_FONT_TABLE       "フォントテーブルがありません"
     IDS_ENTRY_EXISTED       "既存エントリ。エントリ情報を更新しました。"
@@ -1518,7 +1517,7 @@ BEGIN
     IDS_PREFS_REGISTERED    "プロパティを設定しました。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ADD_ENTRY           "エントリの追加"
     IDS_GLOSSARY_PAGE       "GLOSSPAGEJ.HTML"
@@ -1538,7 +1537,7 @@ BEGIN
     IDS_HELPFILE_NAME       "Felix Help.chm"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SEARCH_ALL          "すべてのフィールド"
     IDS_SEARCH_SOURCE       "原文のフィールド"
@@ -1555,12 +1554,12 @@ BEGIN
     IDS_REFCOUNT_TITLE      "採用カウント"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FORMAT_FONT          "フォントダイアログを表示します（編集モードのみ）\nフォント"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_REFCOUNT_ID         "ref_count"
     IDS_GLOSSARY_OPEN       "既に開いている用語集があります。"
@@ -1581,7 +1580,7 @@ BEGIN
     IDS_ADVANCED            "詳細設定"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_EDITOR_TAB          "エディタ"
     IDS_SOURCE_TAB          "ソース"
@@ -1598,12 +1597,12 @@ BEGIN
     IDS_DONE_WRITING        "...完了。 %1 エントリをファイル[%2]に保存しました。"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_SOURCE_LANG_STATIC  "原言語を指定してください"
 END
 
-#endif    // Japanese resources
+#endif    // Japanese (Japan) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -1611,10 +1610,8 @@ END
 // Neutral (Sys. Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1670,7 +1667,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_CONNECTION_DLG, DIALOG
     BEGIN
@@ -1703,13 +1700,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1719,7 +1714,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\Felix.ico"
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
