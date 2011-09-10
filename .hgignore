@@ -36,3 +36,6 @@ glob:*.tmp
 glob:*.obj
 ExcelAssist/ExcelAssist/RDa06652
 *.ipch
+WordAssist/WordAssist/AddIn.h
+WordAssist/WordAssist/AddIn_i.c
+WordAssist/WordAssist/AddIn_p.c
