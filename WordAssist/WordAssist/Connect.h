@@ -260,7 +260,7 @@ class ATL_NO_VTABLE CConnect :
 	command_button_ptr	m_button_set_and_next ;
 	command_button_ptr	m_button_lookup ;
 	command_button_ptr	m_button_lookup_next ;
-	command_button_ptr	m_button_gloss_n ;
+	command_button_ptr	m_button_switch_modes ;
 	command_button_ptr	m_button_help ;
 
 	// menu items
@@ -518,8 +518,10 @@ private:
 
 	void setUpCommandBars();
 
-	void load_button_controls();
+	void advise_toolbar_events();
 	void load_toolbar( office_cmd_bars spCmdBars );
+
+	void set_buttons_from_toolbar();
 	void addCorrectMenu(office_cmd_bars& spCmdBars);
 
 	/*! 

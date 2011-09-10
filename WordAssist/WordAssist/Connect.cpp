@@ -256,7 +256,7 @@ We save and then restore the clipboard state
 */
 void CConnect::setUpCommandBars()
 {
-	logging::log_debug("Initializing Felix toolar") ;
+	logging::log_debug("Initializing Felix toolbar") ;
 	// Get the CommandBars interface that represents Word's
 	//toolbars & menu items    
 
@@ -732,14 +732,14 @@ void CConnect::add_toolbar_items( office_cmd_bar_ctls spBarControls )
 	}
 
 	// add buttons
-	add_toolbar_item( spBarControls, IDB_LOOKUP, IDS_MENU_LOOKUP + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_GET, IDS_MENU_GET + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_GET_AND_NEXT, IDS_MENU_GET_AND_NEXT + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_SET, IDS_MENU_REGISTER + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_SET_AND_NEXT, IDS_MENU_SET_AND_NEXT + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_GLOSS_N, IDS_MENU_GLOSS_N + string_offset ) ;
-	add_toolbar_item( spBarControls, IDB_HELP, IDS_MENU_HELP + string_offset ) ;
+	m_button_lookup = add_toolbar_item( spBarControls, IDB_LOOKUP, IDS_MENU_LOOKUP + string_offset ) ;
+	m_button_lookup_next = add_toolbar_item( spBarControls, IDB_LOOKUP_NEXT, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
+	m_button_get = add_toolbar_item( spBarControls, IDB_GET, IDS_MENU_GET + string_offset ) ;
+	m_button_get_and_next = add_toolbar_item( spBarControls, IDB_GET_AND_NEXT, IDS_MENU_GET_AND_NEXT + string_offset ) ;
+	m_button_set = add_toolbar_item( spBarControls, IDB_SET, IDS_MENU_REGISTER + string_offset ) ;
+	m_button_set_and_next = add_toolbar_item( spBarControls, IDB_SET_AND_NEXT, IDS_MENU_SET_AND_NEXT + string_offset ) ;
+	m_button_switch_modes = add_toolbar_item( spBarControls, IDB_SWITCH_TO_REVIEW, IDS_MENU_TO_REVIEW_MODE + string_offset ) ;
+	m_button_help = add_toolbar_item( spBarControls, IDB_HELP, IDS_MENU_HELP + string_offset ) ;
 }
 
 /*!
@@ -1176,11 +1176,11 @@ void CConnect::gui_to_language(int lang_offset)
 
 	if ( m_properties.get_classic_if() ) 
 	{
-		set_button_text( m_button_gloss_n, string_id ) ;
+		set_button_text( m_button_switch_modes, string_id ) ;
 	}
 	else
 	{
-		set_button_text( m_button_gloss_n, IDS_MENU_TO_REVIEW_MODE + lang_offset ) ;
+		set_button_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + lang_offset ) ;
 	}
 
 	if ( m_menu_lookup_trans && m_properties.get_classic_if() ) 
@@ -1236,26 +1236,14 @@ bool CConnect::load_picture(command_button_ptr &button, int button_id)
 	{
 		HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
 
-		HRSRC hrsrc = FindResource(hInst,MAKEINTRESOURCE(button_id),_T("IMAGE")) ;;	// リソースに組み込んだ時の名前が「jpg」の場合
-		DWORD dwFileSize = SizeofResource(hInst, hrsrc);
-
-		HANDLE hres = LoadResource(hInst,hrsrc);
-		char* pcPos = (char*)LockResource(hres);
-
-		HANDLE hGlobal = GlobalAlloc(GPTR, dwFileSize);	// グローバルに取り直さないと以下が行えない
-		memcpy(hGlobal,pcPos,dwFileSize);
-
-		HRESULT hr = S_OK ;
-
-		CComPtr< IStream >  iStream ;
-		hr = CreateStreamOnHGlobal(hGlobal, TRUE, &iStream);
-		if ( FAILED( hr ) ) 
-		{
-			return false ;
-		}
-
 		CComPtr< IPicture > iPicture ;
-		hr = OleLoadPicture(iStream, dwFileSize, TRUE, IID_IPicture, (LPVOID*)&iPicture);
+		PICTDESC *pd = new PICTDESC;
+		pd->cbSizeofstruct = sizeof(PICTDESC);
+		pd->picType = PICTYPE_BITMAP;
+		pd->bmp.hbitmap = LoadBitmap( hInst, MAKEINTRESOURCE(button_id));
+		pd->bmp.hpal = 0;
+		HRESULT hr = OleCreatePictureIndirect( pd, IID_IPictureDisp, FALSE, (void**)(&iPicture));
+		delete pd;
 		if ( FAILED( hr ) ) 
 		{
 			if ( hr == CTL_E_INVALIDPICTURE ) 
@@ -1276,7 +1264,6 @@ bool CConnect::load_picture(command_button_ptr &button, int button_id)
 	}
 	catch( CComException &e )
 	{
-		e ;
 		TRACE( e.what() ) ;
 		TRACE( e.description() ) ;
 		logging::log_error("Failed to load picture") ;
@@ -1286,12 +1273,10 @@ bool CConnect::load_picture(command_button_ptr &button, int button_id)
 	}
 	catch ( _com_error &e ) 
 	{
-		e ;
 		TRACE( e.ErrorMessage() ) ;
 		TRACE_HRESULT( e.Error() ) ;
-		CComException ce(e) ;
 		logging::log_error("Failed to load picture") ;
-		logging::log_exception(ce) ;
+		logging::log_exception(e) ;
 		return false ;
 	}
 
@@ -1310,7 +1295,7 @@ bool CConnect::set_button_image(command_button_ptr &button, const int image_id)
 	HRESULT hr = S_OK ;
 	try
 	{
-		if ( load_picture( button, image_id + 300 ) ) 
+		if ( load_picture( button, image_id ) ) 
 		{
 			return true ;
 		}
@@ -1328,7 +1313,14 @@ bool CConnect::set_button_image(command_button_ptr &button, const int image_id)
 
 		hr = button->PasteFace() ;
 		ATLASSERT( SUCCEEDED( hr ) && "Failed to paste image into command button object" )  ;
+		if (! SUCCEEDED(hr))
+		{
+			CComException e(hr) ;
+			logging::log_error("Failed to set image for button id " + int2string(image_id)) ;
+			logging::log_exception(e) ;
+		}
 
+		// clear clipboard
 		::OpenClipboard(NULL) ;
 		::EmptyClipboard() ;
 		::CloseClipboard() ;
@@ -1388,8 +1380,8 @@ void CConnect::switch_to_classic_toolbar()
 	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
 	set_button_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
 
-	set_button_image( m_button_gloss_n, IDB_GLOSS_N ) ;
-	set_button_text( m_button_gloss_n, IDS_MENU_GLOSS_N + string_offset ) ;
+	set_button_image( m_button_switch_modes, IDB_GLOSS_N ) ;
+	set_button_text( m_button_switch_modes, IDS_MENU_GLOSS_N + string_offset ) ;
 
 }
 
@@ -1423,8 +1415,8 @@ void CConnect::switch_to_translation_toolbar()
 	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
 	set_button_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
 
-	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_REVIEW ) ;
-	set_button_text( m_button_gloss_n, IDS_MENU_TO_REVIEW_MODE + string_offset ) ;
+	set_button_image( m_button_switch_modes, IDB_SWITCH_TO_REVIEW ) ;
+	set_button_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + string_offset ) ;
 }
 
 
@@ -1458,8 +1450,8 @@ void CConnect::switch_to_review_toolbar( )
 	set_button_image( m_button_set_and_next, IDB_CORRECT_AND_NEXT ) ;
 	set_button_text( m_button_set_and_next, IDS_MENU_CORRECT_AND_NEXT + string_offset ) ;
 
-	set_button_image( m_button_gloss_n, IDB_SWITCH_TO_TRANS ) ;
-	set_button_text( m_button_gloss_n, IDS_MENU_TO_TRANS_MODE + string_offset ) ;
+	set_button_image( m_button_switch_modes, IDB_SWITCH_TO_TRANS ) ;
+	set_button_text( m_button_switch_modes, IDS_MENU_TO_TRANS_MODE + string_offset ) ;
 }
 
 
@@ -1739,7 +1731,7 @@ void CConnect::unadvise_button_items()
 	ASSERT_HRESULT( hr ) ;
 	hr = ButtonLookupNextEventImpl::DispEventUnadvise( (IUnknown*)m_button_lookup_next  ) ;
 	ASSERT_HRESULT( hr ) ;
-	hr = ButtonGlossNEventImpl::DispEventUnadvise( (IUnknown*)m_button_gloss_n  ) ;
+	hr = ButtonGlossNEventImpl::DispEventUnadvise( (IUnknown*)m_button_switch_modes  ) ;
 	ASSERT_HRESULT( hr ) ;
 	hr = ButtonHelpEventImpl::DispEventUnadvise( (IUnknown*)m_button_help  ) ;
 	ASSERT_HRESULT( hr ) ;
@@ -2633,16 +2625,18 @@ void CConnect::load_toolbar( office_cmd_bars spCmdBars )
 
 	if ( FAILED(hr) || ! toolbar)
 	{
+		logging::log_debug("Adding Felix toolbar") ;
 		add_toolbar( spCmdBars ) ;
 	}
 	else
 	{
 		m_toolbar = toolbar ;
+		set_buttons_from_toolbar();
 	}
-	load_button_controls() ;
+	advise_toolbar_events() ;
 }
 
-void CConnect::load_button_controls()
+void CConnect::set_buttons_from_toolbar()
 {
 	// add buttons
 	int i = 0 ;
@@ -2652,9 +2646,12 @@ void CConnect::load_button_controls()
 	m_button_get_and_next = m_toolbar->Controls->Item[++i] ;
 	m_button_set = m_toolbar->Controls->Item[++i] ;
 	m_button_set_and_next = m_toolbar->Controls->Item[++i] ;
-	m_button_gloss_n = m_toolbar->Controls->Item[++i] ;
+	m_button_switch_modes = m_toolbar->Controls->Item[++i] ;
 	m_button_help = m_toolbar->Controls->Item[++i] ;
-
+}
+void CConnect::advise_toolbar_events()
+{
+	// advise toolbar button events
 	COM_ENFORCE( ButtonLookupEventImpl::DispEventAdvise( (IUnknown*)m_button_lookup ), 
 		"Failed to configure menu button (lookup)" ) ;
 	COM_ENFORCE( ButtonLookupNextEventImpl::DispEventAdvise( (IUnknown*)m_button_lookup_next ), 
@@ -2667,7 +2664,7 @@ void CConnect::load_button_controls()
 		"Failed to configure menu button (set)" ) ;
 	COM_ENFORCE( ButtonSetAndNextEventImpl::DispEventAdvise( (IUnknown*)m_button_set_and_next ), 
 		"Failed to configure menu button (set and next)" ) ;
-	COM_ENFORCE( ButtonGlossNEventImpl::DispEventAdvise( (IUnknown*)m_button_gloss_n ), 
+	COM_ENFORCE( ButtonGlossNEventImpl::DispEventAdvise( (IUnknown*)m_button_switch_modes ), 
 		"Failed to configure menu button (gloss)" ) ;
 	COM_ENFORCE( ButtonHelpEventImpl::DispEventAdvise( (IUnknown*)m_button_help ), 
 		"Failed to configure menu button (help)" ) ;
