@@ -886,7 +886,7 @@ void __stdcall CConnect::OnSwitchModes( IDispatch * /*Ctrl*/, VARIANT_BOOL * /*C
 }
 void CConnect::set_tb_img_and_text( MSOffice::_CommandBarButtonPtr toolbarItem, int button_id )
 {
-	if ( ! load_picture( toolbarItem, button_id + 100 ) ) 
+	if ( ! load_picture( toolbarItem, button_id ) ) 
 	{
 		pastePicture(button_id, toolbarItem);
 	}
@@ -1304,26 +1304,14 @@ bool CConnect::load_picture( MSOffice::_CommandBarButtonPtr &button, int button_
 	{
 		HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
 
-		HRSRC hrsrc = FindResource(hInst,MAKEINTRESOURCE(button_id),_T("IMAGE"));	// リソースに組み込んだ時の名前が「jpg」の場合
-		DWORD dwFileSize = SizeofResource(hInst, hrsrc);
-
-		HANDLE hres = LoadResource(hInst,hrsrc);
-		char* pcPos = (char*)LockResource(hres);
-
-		HANDLE hGlobal = GlobalAlloc(GPTR, dwFileSize);	// グローバルに取り直さないと以下が行えない
-		memcpy(hGlobal,pcPos,dwFileSize);
-
-		HRESULT hr = S_OK ;
-
-		CComPtr< IStream >  iStream ;
-		hr = CreateStreamOnHGlobal(hGlobal, TRUE, &iStream);
-		if ( FAILED( hr ) ) 
-		{
-			return false ;
-		}
-
 		CComPtr< IPicture > iPicture ;
-		hr = OleLoadPicture(iStream, dwFileSize, TRUE, IID_IPicture, (LPVOID*)&iPicture);
+		PICTDESC *pd = new PICTDESC;
+		pd->cbSizeofstruct = sizeof(PICTDESC);
+		pd->picType = PICTYPE_BITMAP;
+		pd->bmp.hbitmap = LoadBitmap( hInst, MAKEINTRESOURCE(button_id));
+		pd->bmp.hpal = 0;
+		HRESULT hr = OleCreatePictureIndirect( pd, IID_IPictureDisp, FALSE, (void**)(&iPicture));
+		delete pd;
 		if ( FAILED( hr ) ) 
 		{
 			if ( hr == CTL_E_INVALIDPICTURE ) 
