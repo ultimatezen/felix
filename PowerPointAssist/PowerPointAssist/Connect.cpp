@@ -621,7 +621,7 @@ Office::_CommandBarButtonPtr CConnect::add_menu_item( Office::CommandBarControls
 	{
 		try
 		{
-			if ( ! load_picture( menu_item, button_id + 100 ) ) 
+			if ( ! load_picture( menu_item, button_id ) ) 
 			{
 				HBITMAP hBmp  =(HBITMAP)::LoadImage(_AtlModule.GetResourceInstance(),
 					MAKEINTRESOURCE(button_id),IMAGE_BITMAP,0,0,LR_LOADMAP3DCOLORS);
@@ -740,7 +740,7 @@ Office::_CommandBarButtonPtr CConnect::add_toolbar_item(Office::CommandBarContro
 	// add button
 	Office::_CommandBarButtonPtr toolbarItem = addControl(controls) ;
 
-	if ( ! load_picture( toolbarItem, button_id + 100 ) ) 
+	if ( ! load_picture( toolbarItem, button_id ) ) 
 	{
 		pastePicture(button_id, toolbarItem);
 	}
@@ -1370,7 +1370,7 @@ void CConnect::switch_to_translation_menu()
 }
 void CConnect::set_button_image(Office::_CommandBarButtonPtr& button, const int image_id)
 {
-	if ( ! load_picture(button, image_id + 100 ) ) 
+	if ( ! load_picture(button, image_id ) ) 
 	{
 		logging::log_debug("  -- Failed to load picture; pasting") ;
 		pastePicture(image_id, button);

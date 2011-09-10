@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Thu Sep 08 00:49:31 2011
+/* at Thu Sep 08 00:48:20 2011
  */
 /* Compiler settings for AddIn.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -63,23 +63,23 @@ extern "C"{
 
 
 
-#ifndef __PowerPointAssistLib_LIBRARY_DEFINED__
-#define __PowerPointAssistLib_LIBRARY_DEFINED__
+#ifndef __ExcelAssistLib_LIBRARY_DEFINED__
+#define __ExcelAssistLib_LIBRARY_DEFINED__
 
-/* library PowerPointAssistLib */
+/* library ExcelAssistLib */
 /* [helpstring][version][uuid] */ 
 
 
-EXTERN_C const IID LIBID_PowerPointAssistLib;
+EXTERN_C const IID LIBID_ExcelAssistLib;
 
 EXTERN_C const CLSID CLSID_Connect;
 
 #ifdef __cplusplus
 
-class DECLSPEC_UUID("04C37B4E-06B9-4EE0-9167-DDC7734ED336")
+class DECLSPEC_UUID("7C581B3C-C8F2-42D7-B12F-93484F14CF04")
 Connect;
 #endif
-#endif /* __PowerPointAssistLib_LIBRARY_DEFINED__ */
+#endif /* __ExcelAssistLib_LIBRARY_DEFINED__ */
 
 /* Additional Prototypes for ALL interfaces */
 

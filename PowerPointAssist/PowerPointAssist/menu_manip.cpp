@@ -10,27 +10,53 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 {
 	try
 	{
-		CPicture pic ;
-		BOOL success = pic.Load( button_id ) ;
-		if ( ! success ) 
+		HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
+
+		CComPtr< IPicture > iPicture ;
+		PICTDESC *pd = new PICTDESC;
+		pd->cbSizeofstruct = sizeof(PICTDESC);
+		pd->picType = PICTYPE_BITMAP;
+		pd->bmp.hbitmap = LoadBitmap( hInst, MAKEINTRESOURCE(button_id));
+		pd->bmp.hpal = 0;
+		HRESULT hr = OleCreatePictureIndirect( pd, IID_IPictureDisp, FALSE, (void**)(&iPicture));
+		delete pd;
+		if ( FAILED( hr ) ) 
 		{
-			logging::log_warn("Failed to load picture; pasting instead") ;
+			if ( hr == CTL_E_INVALIDPICTURE ) 
+			{
+				ATLTRACE( "%s(%d): 0x%0X Invalid picture\n", __FILE__, __LINE__, hr ) ;
+				TRACE( button_id ) ;
+			}
+			else
+			{
+				TRACE_HRESULT( hr ) ;
+			}
 			return false ;
 		}
-		_variant_t vPicture ( static_cast< IUnknown* >( pic ) ) ;
-		CDispatchWrapper wrapper( CComPtr< IDispatch >(static_cast< IDispatch* >( button ) ) );
-		wrapper.prop_put( L"Picture", vPicture ) ;
-	}
-	catch( CException &e )
-	{
-		logging::log_error("Error loading picture; pasting instead") ;
-		logging::log_exception(e) ;
 
+		CDispatchWrapper but( CComPtr<IDispatch>( (IDispatch*)button ) ) ;
+		_variant_t vPicture ( (IUnknown*)iPicture ) ;
+		but.prop_put( L"Picture", vPicture ) ;
+	}
+	catch( CComException &e )
+	{
+		TRACE( e.what() ) ;
+		TRACE( e.description() ) ;
+		logging::log_error("Failed to load picture") ;
+		logging::log_exception(e) ;
+		return false ;
+
+	}
+	catch ( _com_error &e ) 
+	{
+		TRACE( e.ErrorMessage() ) ;
+		TRACE_HRESULT( e.Error() ) ;
+		logging::log_error("Failed to load picture") ;
+		logging::log_exception(e) ;
 		return false ;
 	}
 
 	return true ;
-
 }
 
 

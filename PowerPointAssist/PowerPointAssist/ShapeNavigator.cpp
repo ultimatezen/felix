@@ -292,7 +292,7 @@ parsingStrategy CShapeNavigator::nextShape(ShapePtr shape)
 	// WE NEED THIS -- because the currently selected shape may not have
 	// a text range
 	m_holders.insert( holder ) ;
-	holderSet::iterator pos = m_holders.find( holder ) ;
+	auto pos = m_holders.find( holder ) ;
 	ATLASSERT( pos != m_holders.end() ) ;
 	++pos ;
 	if ( pos == m_holders.end() )

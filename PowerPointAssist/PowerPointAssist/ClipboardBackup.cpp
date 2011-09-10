@@ -100,7 +100,7 @@ BOOL CClipboardBackup::Restore()
 
 	::EmptyClipboard();
 
-	for ( ClipListType::iterator pos = m_lstData.begin() ; pos != m_lstData.end() ; ++pos )
+	for ( auto pos = m_lstData.begin() ; pos != m_lstData.end() ; ++pos )
 	{
 		ClipboardData & data = *pos ;
 
