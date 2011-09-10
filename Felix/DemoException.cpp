@@ -27,6 +27,7 @@ int CDemoException::notify_user( const CString & /*top_message*/,  UINT /*flags*
 	CNagDialog nagger( _T("NAGPAGE_SIZE.HTML") ) ;
 #ifndef UNIT_TEST
 	return  nagger.DoModal( parent_hwnd ) ;
-#endif
+#else
 	return IDCANCEL ;
+#endif
 }

@@ -760,7 +760,7 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 
 bool CGlossaryDialog::add_record( record_pointer record, const size_t i )
 {
-	memory_iterator mempos = this->get_memories().begin() ;
+	auto mempos = this->get_memories().begin() ;
 	std::advance(mempos, i) ;
 	memory_pointer mem = *mempos ;
 
@@ -1070,8 +1070,14 @@ bool CGlossaryDialog::set_window_title()
 	CString title ;
 	if ( m_is_main )
 	{
-		ATLVERIFY(title.LoadString( IDS_MAIN )) ;
-		title += _T(" ") ;
+		if(title.LoadString( IDS_MAIN )) 
+		{
+			title += _T(" ") ;
+		}
+		else
+		{
+			title = _T("Main ") ;
+		}
 	}
 	title += R2TS( IDS_GLOSSARY ) ;
 	title += _T(" [") ;
@@ -1105,12 +1111,9 @@ bool CGlossaryDialog::exit_silently()
 {
 	memory_list memories ;
 	m_memories->get_memories_needing_saving( memories ) ;
-
-	memory_iterator mem_pos ;
 	
-	for( mem_pos = memories.begin() ; mem_pos != memories.end() ; ++mem_pos ) 
+	foreach( memory_pointer mem, memories) 
 	{
-		memory_pointer mem = *mem_pos ;
 		mem->set_saved_flag( true ) ;
 	}
 

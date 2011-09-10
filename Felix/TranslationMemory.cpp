@@ -272,14 +272,11 @@ namespace mem_engine
 		return static_cast<long>(matches.size()) ;
 	}
 
-	void CTranslationMemory::do_demo_check( int *cookie )
+	void CTranslationMemory::do_demo_check()
 	{
-		*cookie = 0 ;
-
 		refresh_status() ;
 		if ( this->is_demo() )
 		{
-			*cookie = 0xC0DEBEEF ;
 			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
 			{
 				if ( m_listener )
@@ -289,10 +286,6 @@ namespace mem_engine
 				SENSE("CDemoException") ;
 				throw CDemoException() ;
 			}
-		}
-		else
-		{
-			*cookie = 0xDEADC0DE ;
 		}
 
 	}

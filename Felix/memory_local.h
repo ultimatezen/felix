@@ -59,6 +59,8 @@ namespace mem_engine
 		  // TranslationMemory
 		  bool add_record(record_pointer record) ;
 
+		  void perform_add( key_type &key, record_pointer record );
+		  bool should_add(key_type &key, record_pointer record);
 		  bool should_check_for_demo() const ;
 		  record_collection_type& get_records() {return m_records ; }
 

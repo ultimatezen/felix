@@ -539,7 +539,7 @@ void html_formatter::flush_tag_buffer()
 void html_formatter::add_tag( const tag_type tag )
 {
 	
-	tag_buffer::iterator pos = 
+	auto pos = 
 		std::find( m_tag_buffer.begin(), m_tag_buffer.end(), tag ) ;
 
 	if( pos == m_tag_buffer.end() )
@@ -567,8 +567,7 @@ void html_formatter::clear_fore_color()
 
 void html_formatter::remove_from_tag_buffer(const tag_type tag)
 {
-	tag_buffer::iterator pos ;
-	for( pos = m_tag_buffer.begin() ; pos != m_tag_buffer.end() ; ++pos )
+	for( auto pos = m_tag_buffer.begin() ; pos != m_tag_buffer.end() ; ++pos )
 	{
 		if ( *pos == tag )
 		{
@@ -581,8 +580,7 @@ void html_formatter::remove_from_tag_buffer(const tag_type tag)
 
 bool html_formatter::tag_needs_closing(const tag_type tag)
 {
-	tag_buffer::iterator close_tags_pos ;
-	for( close_tags_pos = m_tags_to_close.begin() ; close_tags_pos != m_tags_to_close.end() ; ++close_tags_pos )
+	for( auto close_tags_pos = m_tags_to_close.begin() ; close_tags_pos != m_tags_to_close.end() ; ++close_tags_pos )
 	{
 		if ( *close_tags_pos == tag )
 		{

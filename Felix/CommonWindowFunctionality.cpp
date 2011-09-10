@@ -352,21 +352,24 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 	{
 		HGLOBAL hResource = LoadResource(hInstance, hDlg);
 		ATLASSERT(hResource) ;
-		DLGTEMPLATE* pDlg = (DLGTEMPLATE*) LockResource(hResource);
-		LPCDLGTEMPLATE lpDialogTemplate;
-		lpDialogTemplate = _DialogSplitHelper::SplitDialogTemplate(pDlg, pInitData);
-		hWnd = ::CreateDialogIndirectParamA(hInstance, lpDialogTemplate, hWndParent, lpDialogProc, dwInitParam);
-		if (lpDialogTemplate != pDlg)
+		if (hResource)
 		{
-			GlobalFree(GlobalHandle(lpDialogTemplate));
+			DLGTEMPLATE* pDlg = (DLGTEMPLATE*) LockResource(hResource);
+			LPCDLGTEMPLATE lpDialogTemplate;
+			lpDialogTemplate = _DialogSplitHelper::SplitDialogTemplate(pDlg, pInitData);
+			hWnd = ::CreateDialogIndirectParamA(hInstance, lpDialogTemplate, hWndParent, lpDialogProc, dwInitParam);
+			if (lpDialogTemplate != pDlg)
+			{
+				GlobalFree(GlobalHandle(lpDialogTemplate));
+			}
+			UnlockResource(hResource);
 		}
-		UnlockResource(hResource);
 		if (hResource)
 		{
 			FreeResource(hResource);
 		}
 	}
-	if (pInitData && hDlgInit)
+	if (pInitData && hDlgInit && hData)
 	{
 		UnlockResource(hData);
 		FreeResource(hData);

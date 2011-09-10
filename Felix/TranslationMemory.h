@@ -147,7 +147,7 @@ public:
 	bool is_active() const { return m_is_active ; }
 
 	void set_creator_to_current_user();
-	void do_demo_check( int *cookie );
+	void do_demo_check(void);
 	long get_number_of_glossary_matches( const wstring query );
 
 	void set_properties_memory( app_props::properties_memory *props ) ;

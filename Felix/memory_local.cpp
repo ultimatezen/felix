@@ -78,6 +78,39 @@ namespace mem_engine
 		return m_header.is_locked() ;
 	}
 	// TranslationMemory
+	void memory_local::perform_add( key_type &key, record_pointer record  )
+	{
+		record->set_cmp_maker(&m_cmp_maker) ;
+		m_records[key] = record ;
+
+		// ensure creator and modified-by are set...
+		record->get_creator() ;
+		record->get_modified_by() ;
+
+		const size_t recid = record->get_id() ;
+		if (! recid || m_ids.find(recid) != m_ids.end())
+		{
+			record->set_id(get_next_id()) ;
+		}
+		m_ids.insert(record->get_id()) ;
+
+		// memory is now dirty
+		make_dirty() ;
+	}
+	bool memory_local::should_add(key_type &key, record_pointer record)
+	{
+		if (m_records.find(key) == m_records.end())
+		{
+			return true ;
+		}
+
+		if (record->get_modified() > m_records[key]->get_modified())
+		{
+			return true ;
+		}
+		return false;
+	}
+
 	bool memory_local::add_record(record_pointer record)
 	{
 		if ( m_header.is_locked() )
@@ -98,41 +131,15 @@ namespace mem_engine
 		// Only check when conditions are right
 		if (should_check_for_demo())
 		{
-		// check for demo status
-			int cookie = 0xDECAFBAD ;
-			try
-			{
-				do_demo_check( &cookie ) ;
-			}
-			catch( ... )
-			{
-				TRACE( cookie ) ;
-				cookie = 0 ;
-				throw ;
-			}
+			do_demo_check() ;
 		}
 
-		record->set_cmp_maker(&m_cmp_maker) ;
+		key_type key = this->get_key(record) ;
+		const bool was_added = this->should_add(key, record);
 
-		const bool was_added = ! this->record_exists(record) ;
 		if (was_added)
 		{
-			key_type key = this->get_key(record) ;
-			m_records[key] = record ;
-
-			// ensure creator and modified-by are set...
-			record->get_creator() ;
-			record->get_modified_by() ;
-
-			const size_t recid = record->get_id() ;
-			if (! recid || m_ids.find(recid) != m_ids.end())
-			{
-				record->set_id(get_next_id()) ;
-			}
-			m_ids.insert(record->get_id()) ;
-
-			// memory is now dirty
-			make_dirty() ;
+			perform_add(key, record);
 		}
 
 		return was_added ;
@@ -558,7 +565,7 @@ namespace mem_engine
 			throw CProgramException(_T("Requested record index is out of bounds")) ;
 		}
 
-		record_collection_type::iterator pos = m_records.begin() ;
+		auto pos = m_records.begin() ;
 		std::advance( pos, index ) ;
 		return pos->second ;
 	}
@@ -972,4 +979,6 @@ namespace mem_engine
 		m_header.set_modified_now() ;
 		m_header.modified_by_current_user() ;
 	}
+
+
 }

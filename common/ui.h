@@ -282,7 +282,8 @@ inline bool windows_ui::get_folder( CString &folder, LPCTSTR title, DWORD flags,
 	{
 		// get the desktop folder. We need this to get the pidl of our root directory
 		CComPtr< IShellFolder > pShell ;
-		ATLVERIFY(SUCCEEDED(SHGetDesktopFolder( &pShell ))) ;
+		HRESULT hr = SHGetDesktopFolder( &pShell ) ;
+		COM_ENFORCE(hr, _T("Failed to get desktop folder")) ;
 
 		// now get the pidl for it
 		LPITEMIDLIST ppidl ;

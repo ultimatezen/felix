@@ -49,6 +49,90 @@ BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
 		key_type actual = mem.get_key(rec) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
+	BOOST_AUTO_TEST_CASE( create_key_single )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		key_type expected(L"foo", L"") ;
+		record_pointer rec = make_record("foo", "bar") ;
+		key_type actual = mem.get_key(rec) ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE( should_add_true )
+	{
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		record_pointer rec2 = make_record("bbb", "bbb") ;
+		mem.add_record(rec1) ;
+		key_type key = mem.get_key(rec2) ;
+		BOOST_CHECK(mem.should_add(key, rec2)) ;
+	}
+	BOOST_AUTO_TEST_CASE( should_add_false )
+	{
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		record_pointer rec2 = make_record("aaa", "aaa") ;
+		rec2->set_modified(rec1->get_modified()) ;
+		mem.add_record(rec1) ;
+		key_type key = mem.get_key(rec2) ;
+		BOOST_CHECK(! mem.should_add(key, rec2)) ;
+	}
+	BOOST_AUTO_TEST_CASE( should_add_unique_false )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		record_pointer rec2 = make_record("aaa", "bbb") ;
+		rec2->set_modified(rec1->get_modified()) ;
+		mem.add_record(rec1) ;
+		key_type key = mem.get_key(rec2) ;
+		BOOST_CHECK(! mem.should_add(key, rec2)) ;
+	}
+	BOOST_AUTO_TEST_CASE( should_add_unique_true )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		record_pointer rec2 = make_record("aaa", "aaa") ;
+		rec2->set_modified(rec1->get_modified()) ;
+		mem.add_record(rec1) ;
+		key_type key = mem.get_key(rec2) ;
+		BOOST_CHECK(! mem.should_add(key, rec2)) ;
+	}
+	BOOST_AUTO_TEST_CASE( add_unique_size_1 )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		record_pointer rec2 = make_record("aaa", "bbb") ;
+		mem.add_record(rec1) ;
+		mem.add_record(rec2) ;
+		BOOST_CHECK_EQUAL(1u, mem.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE( add_unique_newer_added )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec1 = make_record("aaa", "aaa") ;
+		rec1->set_modified(L"2011/09/07") ;
+		record_pointer rec2 = make_record("aaa", "bbb") ;
+		rec2->set_modified(L"2011/09/08") ;
+		mem.add_record(rec1) ;
+		mem.add_record(rec2) ;
+		record_pointer added = mem.get_record_at(0) ;
+		misc_wrappers::date modified = added->get_modified() ;
+		wstring modstring = modified.get_date_string() ;
+		wstring expected = L"2011/09/08" ;
+		BOOST_CHECK_EQUAL(modstring, expected) ;
+		BOOST_CHECK_EQUAL(added->get_trans_rich(), L"bbb") ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( TestMemory )

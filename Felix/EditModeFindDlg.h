@@ -275,15 +275,27 @@ public:
 		switch( m_params.m_search_type )
 		{
 		case IDS_SEARCH_SOURCE:
-			ATLVERIFY(id.LoadString( IDS_SOURCE_ID )) ;
+			if(! id.LoadString( IDS_SOURCE_ID ))
+			{
+				ATLASSERT("Failed to load string ID IDS_SOURCE_ID" && FALSE) ;
+				id = L"source" ;
+			}
 			ATLASSERT( id == ( L"source" ) ) ;
 			break ;
 		case IDS_SEARCH_TRANS:
-			ATLVERIFY(id.LoadString( IDS_TRANS_ID )) ;
+			if(! id.LoadString( IDS_TRANS_ID ))
+			{
+				ATLASSERT("Failed to load string ID IDS_TRANS_ID" && FALSE) ;
+				id = L"trans" ;
+			}
 			ATLASSERT( id == (L"trans") ) ;
 			break ;
 		case IDS_SEARCH_CONTEXT:
-			ATLVERIFY(id.LoadString( IDS_CONTEXT_ID )) ;
+			if(! id.LoadString( IDS_CONTEXT_ID ))
+			{
+				ATLASSERT("Failed to load string ID IDS_CONTEXT_ID" && FALSE) ;
+				id = L"context" ;
+			}
 			ATLASSERT( id == ( L"context" ) ) ;
 			break ;
 		default:

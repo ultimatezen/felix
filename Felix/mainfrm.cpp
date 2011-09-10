@@ -1195,9 +1195,9 @@ void CMainFrame::check_save_history()
 	history_props->m_loaded_mems.clear() ;
 	history_props->m_loaded_remote_mems.clear() ;
 	
-	for ( memory_iterator pos = m_model->get_memories()->begin() ; 
-		pos != m_model->get_memories()->end() ; 
-		++pos )
+	for ( auto pos = m_model->get_memories()->begin() ;
+		pos != m_model->get_memories()->end() ;
+		++pos)
 	{
 		memory_pointer mem = *pos ;
 		tstring location = (LPCTSTR)mem->get_fullpath();
@@ -1213,7 +1213,7 @@ void CMainFrame::check_save_history()
 
 	size_t mem_num = 0 ;
 	size_t remote_num = 0 ;
-	for ( memory_iterator pos = m_model->get_memories()->begin() ; 
+	for ( auto pos = m_model->get_memories()->begin() ; 
 		has_more_memory_history(pos, mem_num) ; ++pos )
 	{
 		memory_pointer mem = *pos ;
@@ -1838,14 +1838,12 @@ bool CMainFrame::gloss_add_record( record_pointer rec )
 */
 INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 {
-	memory_iterator pos ;
 
 	const CString mem_loc = mem->get_location() ;
 
 	memory_list &memories = m_model->get_memories()->get_memories() ;
-	for ( pos = memories.begin() ; pos != memories.end() ; ++pos )
+	foreach (memory_pointer my_mem, memories)
 	{
-		memory_pointer my_mem = *pos ;
 		if ( 0 == mem_loc.CompareNoCase( my_mem->get_location() ) && mem->get_id() != my_mem->get_id() )
 		{
 			// Todo: make this a custom dialog
@@ -3024,8 +3022,7 @@ LRESULT CMainFrame::on_view_switch(WindowsMessage &)
 */
 void CMainFrame::gloss_view_switch(HWND child)
 {
-	gloss_window_iterator pos ;
-	for ( pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
+	for ( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
 	{
 		gloss_window_pointer gloss = *pos ;
 		if ( gloss->m_hWnd == child )
