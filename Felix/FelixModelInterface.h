@@ -56,7 +56,7 @@ public:
 	virtual int get_first_mem_id() = 0 ;
 	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
 	virtual void get_memories_needing_saving( memory_list &memories ) = 0 ;
-	virtual model_ptr create_memory_model() = 0 ;
+	virtual model_ptr create_memory_model(bool is_memory) = 0 ;
 };
 
 class FelixModel : public FelixModelInterface
@@ -73,24 +73,34 @@ public:
 
 	FelixModel(app_props::properties_memory *mem_props,
 		app_props::properties_glossary *gloss_props,
-		app_props::properties_algorithm *algo_props) :
+		app_props::properties_algorithm *algo_props,
+		bool is_memory=false) :
 		m_is_reverse_lookup(false),
 		m_mem_props(mem_props),
 		m_gloss_props(gloss_props),
 		m_algo_props(algo_props)
 	{
-		m_memories = create_memory_model() ;
+		m_memories = create_memory_model(is_memory) ;
 	}
 
 	virtual ~FelixModel(void)
 	{
 	}	
 
-	model_ptr create_memory_model()
+	model_ptr create_memory_model(bool is_memory=false)
 	{
-		return model_ptr(new mem_engine::memory_model_mem(m_mem_props,
-													m_gloss_props,
-													m_algo_props)) ;
+		if (is_memory)
+		{
+			return model_ptr(new mem_engine::memory_model_mem(m_mem_props,
+				m_gloss_props,
+				m_algo_props)) ;
+		}
+		else
+		{
+			return model_ptr(new mem_engine::memory_model_gloss(m_mem_props,
+				m_gloss_props,
+				m_algo_props)) ;
+		}
 	}
 
 	int get_first_mem_id()

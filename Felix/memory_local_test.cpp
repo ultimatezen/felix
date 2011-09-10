@@ -59,6 +59,38 @@ BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
 		key_type actual = mem.get_key(rec) ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
+	BOOST_AUTO_TEST_CASE( record_exists_false )
+	{
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		record_pointer rec = make_record("foo", "bar") ;
+		BOOST_CHECK(! mem.record_exists(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE( record_exists_true )
+	{
+		app_props::properties_memory props ;
+		memory_local mem(&props) ;
+		record_pointer rec = make_record("foo", "bar") ;
+		mem.add_record(rec) ;
+		BOOST_CHECK(mem.record_exists(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE( record_exists_unique_false )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec = make_record("foo", "bar") ;
+		BOOST_CHECK(! mem.record_exists(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE( record_exists_unique_true )
+	{
+		app_props::properties_memory props ;
+		props.m_data.m_one_trans_per_source = TRUE ;
+		memory_local mem(&props) ;
+		record_pointer rec = make_record("foo", "bar") ;
+		mem.add_record(rec) ;
+		BOOST_CHECK(mem.record_exists(rec)) ;
+	}
 	BOOST_AUTO_TEST_CASE( should_add_true )
 	{
 		app_props::properties_memory props ;

@@ -61,7 +61,6 @@ class CGlossaryDialog :
 {
 	VISIBLE_TO_TESTS
 
-
 	appstate_glossary			m_appstate ;
 
 	// the status bar
@@ -98,11 +97,11 @@ class CGlossaryDialog :
 
 	bool m_is_trans_concordance ;
 
-
 	input_device_ptr	m_input_device ;
 	output_device_ptr	m_output_device ;
 
 public:
+	static const int IDD = IDD_GLOSSARYVIEW ;
 
 	CGlossaryDialog(app_props::props_ptr props) ;
 	~CGlossaryDialog( ) ;
@@ -206,9 +205,6 @@ public:
 
 	void HandleEditModeFind() ;
 
-public:
-	static const int IDD = IDD_GLOSSARYVIEW ;
-
 	bool OnBeforeNavigate2( _bstr_t url ) ;
 	void set_listener( CGlossaryWinListener *listener) ;
 	void get_gloss_names( std::list< CString > &names ) ;
@@ -238,6 +234,8 @@ public:
 	wstring get_glossary_entry(const int index) ;
 	bool add_record(mem_engine::record_pointer record, const CString gloss_name = CString() ) ;
 	bool add_record(mem_engine::record_pointer record, const size_t i );
+
+	bool add_record(mem_engine::memory_pointer mem, mem_engine::record_pointer record );
 	bool show_new_record() ;
 	bool handle_open() ;
 	mem_engine::record_pointer get_record( size_t pos ) ; 

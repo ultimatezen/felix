@@ -61,7 +61,7 @@ public:
 	}
 	void get_memories_needing_saving( memory_list &memories );
 	
-	memory_pointer get_first_memory();
+	memory_pointer get_first_memory(bool is_mem=false);
 	size_t total_memory_size() ;
 
 	memory_model(app_props::properties_memory *mem_props,

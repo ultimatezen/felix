@@ -53,7 +53,8 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_output_device(new OutputDeviceFile),
 	m_model(new FelixModel(&props->m_mem_props,
 							&props->m_gloss_props,
-							&props->m_alg_props))
+							&props->m_alg_props,
+							false))
 { 
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
@@ -138,7 +139,6 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 	
 	set_window_title() ;
 
-	// query user for color
 	apply_reg_bg_color();
 
 	// set focus back to parent
@@ -710,7 +710,7 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
 	if ( gloss_name.IsEmpty() ) 
 	{
-		mem = m_memories->get_first_memory() ;
+		mem = m_memories->get_first_memory(false) ;
 	}
 	else
 	{
@@ -718,6 +718,20 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 		mem = m_memories->get_memory_by_name( gloss_name ) ;
 	}
 	
+	return add_record(mem, record);
+}
+
+bool CGlossaryDialog::add_record( record_pointer record, const size_t i )
+{
+	auto mempos = this->get_memories().begin() ;
+	std::advance(mempos, i) ;
+
+	return add_record(*mempos, record);
+
+}
+
+bool CGlossaryDialog::add_record( memory_pointer mem, record_pointer record )
+{
 	if ( !  mem->add_record( record ) )
 	{
 		if ( mem->is_locked() )
@@ -735,7 +749,7 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 	{
 		give_added_record_feedback(mem);	
 	}
-	
+
 	wstring query = m_search_matches.get_query_rich( ) ;
 
 	if ( get_display_state() == MATCH_DISPLAY_STATE )
@@ -755,63 +769,8 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 
 	show_view_content() ;
 	check_mousewheel() ;
+
 	return true ;
-}
-
-bool CGlossaryDialog::add_record( record_pointer record, const size_t i )
-{
-	auto mempos = this->get_memories().begin() ;
-	std::advance(mempos, i) ;
-	memory_pointer mem = *mempos ;
-
-	if ( ! mem->add_record( record ) )
-	{
-		if ( mem->is_locked() )
-		{
-			user_feedback( IDS_GLOSSARY_LOCKED ) ;
-			return false ;
-		}
-		else
-		{
-			ATLASSERT( mem->record_exists( record ) ) ;
-			user_feedback( IDS_ENTRY_EXISTED ) ; // Entry already existed. Updated with any new information. 
-		}
-	}
-	else
-	{
-		CString content = _T("[");
-		content += get_memory_name(mem) ;
-		content += _T("] ");
-		content	+= resource_string(IDS_ADDED_TRANSLATION) ;
-		content += _T(" ") ;
-		content	+=  system_message( IDS_CURRENT_SIZE, get_window_type_string(), int_arg( mem->size() ) ) ;
-		user_feedback( content ) ;
-	}
-
-	prep_for_gloss_lookup(m_search_matches.get_query_rich( ));
-	perform_gloss_lookup();
-
-	if (!m_is_trans_concordance)
-	{
-		prep_concordance_search(m_concordance_matches.get_query_rich( ));
-		perform_concordance_search();
-	}
-	else
-	{
-		get_translation_concordances(m_concordance_matches.get_trans_plain()) ;
-	}
-
-	// this is to allow the entry to be edited or deleted
-	m_new_record = record ;
-
-	// remember where we were, we may want to navigate back
-	// remember where we are, makes a difference how we respond to user input
-	set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
-
-	show_view_content() ;
-	check_mousewheel() ;
-	return true ;
-
 }
 void CGlossaryDialog::give_added_record_feedback(memory_pointer& mem)
 {
