@@ -35,12 +35,11 @@ memory_model::~memory_model()
 
 }
 
-memory_pointer memory_model::get_first_memory(bool is_mem)
+memory_pointer memory_model::get_first_memory()
 {
 	if ( m_memories.empty() )
 	{
 		memory_pointer mem = add_memory() ;
-		mem->set_is_memory(is_mem) ;
 	}
 
 	return *(m_memories.begin()) ;

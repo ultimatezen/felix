@@ -74,7 +74,7 @@ public:
 	FelixModel(app_props::properties_memory *mem_props,
 		app_props::properties_glossary *gloss_props,
 		app_props::properties_algorithm *algo_props,
-		bool is_memory=false) :
+		bool is_memory=true) :
 		m_is_reverse_lookup(false),
 		m_mem_props(mem_props),
 		m_gloss_props(gloss_props),

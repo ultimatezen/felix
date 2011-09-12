@@ -710,7 +710,7 @@ bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name
 	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
 	if ( gloss_name.IsEmpty() ) 
 	{
-		mem = m_memories->get_first_memory(false) ;
+		mem = m_memories->get_first_memory() ;
 	}
 	else
 	{
