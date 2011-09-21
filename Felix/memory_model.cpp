@@ -264,6 +264,18 @@ mem_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
 	msg.Format(_T("Memory not found with id %d"), cmp_id) ;
 	throw CProgramException(msg) ;
 }
+
+mem_engine::memory_pointer memory_model::get_memory_at( const size_t i )
+{
+	memory_iterator pos = this->begin() ;
+	std::advance(pos, i) ;
+	return *pos ;
+}
+
+memory_list& memory_model::get_memories()
+{
+	return m_memories ;
+}
 memory_pointer memory_model_mem::create_memory()
 {
 	memory_pointer mem(new mem_engine::memory_local(m_mem_props)) ;

@@ -552,6 +552,7 @@ namespace mem_engine
 		m_is_saved = m_records.empty() ;
 		m_file_location.Empty() ;
 		m_records.clear() ;
+		m_ids.clear() ;
 		return true ;
 	}
 	bool memory_local::record_exists(record_pointer rec)

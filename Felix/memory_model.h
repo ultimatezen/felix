@@ -42,10 +42,7 @@ public:
 	bool find_trans_matches ( trans_match_container &matches, const search_query_params &params ) ;
 	bool find_matches ( trans_match_container &matches, const search_query_params &params ) ;
 	
-	memory_list& get_memories()
-	{
-		return m_memories ;
-	}
+	memory_list& get_memories();
 	void insert_memory( memory_pointer mem );
 	memory_pointer add_memory( );
 	void reduce_size_to( const int max_size );
@@ -53,12 +50,7 @@ public:
 	bool remove_memory_by_id( const int id ) ;
 	memory_pointer get_memory_by_name( const CString mem_name ) ;
 	memory_pointer get_memory_by_id( const int id );
-	memory_pointer get_memory_at(const size_t i)
-	{
-		memory_iterator pos = this->begin() ;
-		std::advance(pos, i) ;
-		return *pos ;
-	}
+	memory_pointer get_memory_at(const size_t i);
 	void get_memories_needing_saving( memory_list &memories );
 	
 	memory_pointer get_first_memory();
