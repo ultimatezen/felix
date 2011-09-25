@@ -1161,7 +1161,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	app_props::properties_general gen_props ;
 	gen_props.read_from_registry() ;
 	gen_props.m_data.m_first_launch = FALSE ;
-	gen_props.write_to_registry() ;
+	m_props->write_to_registry() ;
 
 	m_statusbar.release() ;
 
