@@ -54,7 +54,7 @@ public:
 		SENSE("get_memory_by_id") ;
 		return m_model->get_memory_by_id(id) ;
 	}
-	model_ptr create_memory_model()
+	model_ptr create_memory_model(bool)
 	{
 		app_props::props_ptr props = FelixFactory().make_props() ;
 		return model_ptr(new mem_engine::memory_model_mem(&props->m_mem_props,
