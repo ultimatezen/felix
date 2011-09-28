@@ -207,7 +207,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		frame_ptr frame = make_fake_frame() ;
 		LRESULT lResult = 1 ;
 		frame->ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(3u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "Found message key"); 
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_create" ) ;
 

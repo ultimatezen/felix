@@ -169,9 +169,7 @@ void CGlossaryDialog::check_load_history()
 		return ;
 	}
 
-	boost::shared_ptr<app_props::properties_general> gen_props(new app_props::properties_general) ;
-	gen_props->read_from_registry() ;
-	if ( ! gen_props->m_data.m_load_prev_gloss_on_startup ) 
+	if ( ! m_props->m_gen_props.load_prev_gloss_on_startup() ) 
 	{
 		return ;
 	}
@@ -1733,7 +1731,6 @@ void CGlossaryDialog::check_save_history()
 	}
 
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
-	history_props->read_from_registry() ;
 
 	history_props->m_loaded_remote_gloss.clear() ;
 	history_props->m_loaded_gloss.clear() ;
@@ -1965,7 +1962,6 @@ void CGlossaryDialog::load_history()
 {
 	ATLTRACE("Loading glossary history\n") ;
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
-	history_props->read_from_registry() ;
 
 	m_memories->clear() ;
 

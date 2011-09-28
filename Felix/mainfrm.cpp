@@ -140,7 +140,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	ATLASSERT(m_view_state == &m_view_state_initial) ;
 
-	m_props->m_gen_props.read_from_registry() ;
+	m_props->read_from_registry() ;
 	const BOOL show_markup = m_props->m_gen_props.m_data.m_show_markup ;
 	this->m_trans_matches.m_params.m_show_marking = !! show_markup ;
 	// make sure that the username is reflected!
@@ -534,7 +534,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 //! memories, and load them if so.
 void CMainFrame::check_load_history( )
 {
-	if ( ! m_props->m_gen_props.m_data.m_load_prev_mem_on_startup ) 
+	if ( ! m_props->m_gen_props.load_prev_mem_on_startup() ) 
 	{
 		return ;
 	}
@@ -1158,9 +1158,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	save_settings_destroy();
 
 	// no longer the first launch
-	app_props::properties_general gen_props ;
-	gen_props.read_from_registry() ;
-	gen_props.m_data.m_first_launch = FALSE ;
+	m_props->m_gen_props.m_data.m_first_launch = FALSE ;
 	m_props->write_to_registry() ;
 
 	m_statusbar.release() ;
@@ -1190,7 +1188,6 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 void CMainFrame::check_save_history()
 {
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
-	history_props->read_from_registry() ;
 
 	history_props->m_loaded_mems.clear() ;
 	history_props->m_loaded_remote_mems.clear() ;
@@ -2862,8 +2859,6 @@ LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 {
 	SENSE("on_user_toggle_markup") ;
 
-	m_props->m_gen_props.read_from_registry() ;
-
 	const BOOL show_markup = m_props->m_gen_props.m_data.m_show_markup ;
 	if (show_markup)
 	{
@@ -2875,7 +2870,7 @@ LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 	}
 	m_props->m_gen_props.m_data.m_show_markup = ! show_markup ;
 
-	m_props->m_gen_props.write_to_registry() ;
+	m_props->write_to_registry() ;
 
 	return 0L ;
 }
@@ -3819,10 +3814,7 @@ void CMainFrame::init_item_colors()
 //! See if we want to save our memory/glossary loaded history.
 BOOL CMainFrame::should_save_memory_history()
 {
-	app_props::properties_general gen_props ;
-	gen_props.read_from_registry() ;
-
-	return gen_props.m_data.m_load_prev_mem_on_startup;
+	return m_props->m_gen_props.load_prev_mem_on_startup();
 }
 
 //! Respond to italic command.
@@ -4165,6 +4157,10 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 			mem = m_model->get_first_memory() ;
 		}
 	}
+	else
+	{
+		mem = m_model->get_memories()->add_memory() ;
+	}
 
 	// merge or add?
 	mem->set_is_memory(true) ;
@@ -4502,7 +4498,6 @@ void CMainFrame::set_zoom_level( int zoom_level )
 void CMainFrame::load_history()
 {
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
-	history_props->read_from_registry() ;
 
 	std::vector<wstring> items ;
 	std::copy(history_props->m_loaded_mems.begin(), history_props->m_loaded_mems.end(), std::back_inserter(items)) ;
@@ -4673,7 +4668,6 @@ void CMainFrame::save_settings_close()
 	m_appstate.m_rebar_has_linebreak = ReBar.GetRowCount() > 1 ;
 
 	m_appstate.write_to_registry() ;
-	m_props->m_gloss_props.read_from_registry() ;
 	m_props->write_to_registry() ;
 }
 

@@ -96,24 +96,19 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	BOOST_AUTO_TEST_CASE( toggle_markup)
 	{
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-
-		BOOL old_markup = props.m_data.m_show_markup ;
 
 		frame_ptr frame = make_frame() ;
+		BOOL old_markup = frame->m_props->m_gen_props.m_data.m_show_markup ;
 
 		WindowsMessage dummy ;
 
 		frame->on_user_toggle_markup(dummy) ;
 
-		props.read_from_registry() ;
-		BOOST_CHECK(old_markup != props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup != frame->m_props->m_gen_props.m_data.m_show_markup) ;
 
 		frame->on_user_toggle_markup(dummy) ;
 
-		props.read_from_registry() ;
-		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup == frame->m_props->m_gen_props.m_data.m_show_markup) ;
 	}
 
 
@@ -151,12 +146,8 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 	BOOST_AUTO_TEST_CASE( lookup_does_not_change_markup)
 	{
-		app_props::properties_general props ;
-		props.read_from_registry() ;
-
-		BOOL old_markup = props.m_data.m_show_markup ;
-
 		frame_ptr frame = make_frame() ;
+		BOOL old_markup = frame->m_props->m_gen_props.m_data.m_show_markup ;
 
 		WindowsMessage dummy ;
 
@@ -167,8 +158,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 			!! old_markup) ;
 
 		frame->on_user_toggle_markup(dummy) ;
-		props.read_from_registry() ;
-		BOOST_CHECK(old_markup != props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup != frame->m_props->m_gen_props.m_data.m_show_markup) ;
 
 		frame->lookup(query) ;
 		BOOST_CHECK_EQUAL(frame->m_trans_matches.m_params.m_show_marking,
@@ -176,8 +166,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 		frame->on_user_toggle_markup(dummy) ;
 
-		props.read_from_registry() ;
-		BOOST_CHECK(old_markup == props.m_data.m_show_markup) ;
+		BOOST_CHECK(old_markup == 	frame->m_props->m_gen_props.m_data.m_show_markup) ;
 	}
 	BOOST_AUTO_TEST_CASE(lookup_brackets)
 	{

@@ -802,6 +802,18 @@ struct properties_general : public props::CRegMap
 		m_data( rhs.m_data )
 	{
 	}
+
+	// getters/setters
+	bool load_prev_mem_on_startup(void)
+	{
+		return !! m_data.m_load_prev_mem_on_startup ;
+	}
+	bool load_prev_gloss_on_startup(void)
+	{
+		return !! m_data.m_load_prev_gloss_on_startup ;
+	}
+
+
 	properties_general &operator=( const properties_general &rhs )
 	{
 		m_data = rhs.m_data ;
