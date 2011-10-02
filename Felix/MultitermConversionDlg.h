@@ -47,7 +47,7 @@ public:
 			CMD_HANDLER_EX(IDC_MULTI6, BN_CLICKED, OnMulti66)
 		END_CMD_HANDLER_EX
 	
-	END_MAP_EX( _T("Action Failed") )
+	END_MAP_EX( R2T( IDS_MSG_ACTION_FAILED ) )
 
 };
 

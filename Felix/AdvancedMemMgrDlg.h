@@ -65,7 +65,7 @@ public:
 			CMD_HANDLER_EX_ID(IDOK, OnIdok)
 		END_CMD_HANDLER_EX
 
-	END_MAP_EX( _T("Action Failed") )
+	END_MAP_EX( R2T( IDS_MSG_ACTION_FAILED ) )
 
 	LRESULT OnInitDialog( );
 	LRESULT OnCancel(WORD wID) ;

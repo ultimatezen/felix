@@ -15,7 +15,38 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 
 	using namespace mem_engine ;
 
-	// search_match_tester_regex
+	// validity
+	BOOST_AUTO_TEST_CASE(test_validated_false_false)
+	{
+		search_query_params params ;
+		params.m_only_validated = false ;
+		search_match_tester_regex tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		BOOST_CHECK(! rec->is_validated()) ;
+		BOOST_CHECK(tester.test_validity(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_validated_true_false)
+	{
+		search_query_params params ;
+		params.m_only_validated = true ;
+		search_match_tester_regex tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		BOOST_CHECK(! rec->is_validated()) ;
+		BOOST_CHECK(! tester.test_validity(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_validated_true)
+	{
+		search_query_params params ;
+		params.m_only_validated = true ;
+		search_match_tester_regex tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_validated_on() ;
+		BOOST_CHECK(rec->is_validated()) ;
+		BOOST_CHECK(tester.test_validity(rec)) ;
+	}
 
 	BOOST_AUTO_TEST_CASE( basic_match)
 	{
@@ -219,6 +250,63 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 
 	using namespace mem_engine ;
 
+	// context
+	BOOST_AUTO_TEST_CASE(test_context_false)
+	{
+		search_query_params params ;
+		search_match_tester tester(params) ;
+		tester.m_context_pattern = L"abc" ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_context(L"XXX") ;
+
+		BOOST_CHECK(! tester.test_context(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_context_true)
+	{
+		search_query_params params ;
+		search_match_tester tester(params) ;
+		tester.m_context_pattern = L"abc" ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_context(L"XXX abc XXX") ;
+
+		BOOST_CHECK(tester.test_context(rec)) ;
+	}
+	// validity
+	BOOST_AUTO_TEST_CASE(test_validated_false_false)
+	{
+		search_query_params params ;
+		params.m_only_validated = false ;
+		search_match_tester tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		BOOST_CHECK(! rec->is_validated()) ;
+		BOOST_CHECK(tester.test_validity(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_validated_true_false)
+	{
+		search_query_params params ;
+		params.m_only_validated = true ;
+		search_match_tester tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		BOOST_CHECK(! rec->is_validated()) ;
+		BOOST_CHECK(! tester.test_validity(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_validated_true)
+	{
+		search_query_params params ;
+		params.m_only_validated = true ;
+		search_match_tester tester(params) ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_validated_on() ;
+		BOOST_CHECK(rec->is_validated()) ;
+		BOOST_CHECK(tester.test_validity(rec)) ;
+	}
+
+	// normalize
 	BOOST_AUTO_TEST_CASE(test_normalize_case)
 	{
 		search_query_params params ;

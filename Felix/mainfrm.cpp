@@ -140,7 +140,9 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	set_display_state( INIT_DISPLAY_STATE ) ;
 	ATLASSERT(m_view_state == &m_view_state_initial) ;
 
+#ifndef UNIT_TEST
 	m_props->read_from_registry() ;
+#endif
 	const BOOL show_markup = m_props->m_gen_props.m_data.m_show_markup ;
 	this->m_trans_matches.m_params.m_show_marking = !! show_markup ;
 	// make sure that the username is reflected!
@@ -452,9 +454,6 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		// read our properties from the registry
 		m_appstate.read_from_registry() ;
 		load_util_settings();
-
-		// get our default properties
-		m_props->read_from_registry() ;
 
 		// the view
 		logging::log_debug("Initializing mainframe view") ;

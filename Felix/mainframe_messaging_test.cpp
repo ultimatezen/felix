@@ -108,7 +108,6 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[Other display state]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
-
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_NEW_RECORD_DISPLAY_STATE )
 	{
@@ -127,8 +126,6 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[NEW_RECORD_DISPLAY_STATE]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
-
-
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_MATCH_DISPLAY_STATE )
 	{
@@ -147,8 +144,6 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[MATCH_DISPLAY_STATE]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
-
-
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_CONCORDANCE_DISPLAY_STATE )
 	{
@@ -167,8 +162,6 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[CONCORDANCE_DISPLAY_STATE]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
-
-
 	}
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_INIT_DISPLAY_STATE )
 	{
@@ -187,8 +180,6 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[Other display state]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
-
-
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -207,9 +198,9 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		frame_ptr frame = make_fake_frame() ;
 		LRESULT lResult = 1 ;
 		frame->ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(3u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "Found message key"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_create" ) ;
+		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found message key"); 
+		BOOST_CHECK_EQUAL(frame->m_sensing_variable[1], "on_create" ) ;
 
 		BOOST_CHECK( 0 == lResult ) ;
 	}

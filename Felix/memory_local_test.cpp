@@ -1746,12 +1746,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 		mem_info->set_creator( L"FooBar" ) ;
 		BOOST_CHECK_EQUAL( L"FooBar", mem.get_memory_info()->get_creator() ) ;
 
-		app_props::properties_general genprops ;
-		genprops.read_from_registry() ;
-		_tcscpy_s(genprops.m_data.m_user_name, MAX_PATH, _T("Ryan")) ;
-		props.write_to_registry() ;
-
-		BOOST_CHECK_EQUAL( L"Ryan",  mem_info->get_current_user()) ;
+		BOOST_CHECK_EQUAL( L"Ryan Ginstrom",  mem_info->get_current_user()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(get_creation_date)

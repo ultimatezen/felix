@@ -117,6 +117,10 @@ namespace mem_engine
 	// Function name	: search_match_tester::test_validity
 	bool search_match_tester::test_validity( const record_pointer rec ) const
 	{
+		if (! m_only_validated)
+		{
+			return true ;
+		}
 		return rec->is_validated() ;
 	}
 
@@ -130,12 +134,9 @@ namespace mem_engine
 	bool search_match_tester::is_match( record_pointer rec )
 	{
 
-		if ( m_only_validated )
+		if ( ! test_validity( rec ) )
 		{
-			if ( ! test_validity( rec ) )
-			{
-				return false ;
-			}
+			return false ;
 		}
 		if ( ! test_reliability( rec ) )
 		{
@@ -282,6 +283,10 @@ namespace mem_engine
 	// Function name	: search_match_tester_regex::test_validity
 	bool search_match_tester_regex::test_validity( const record_pointer rec ) const
 	{
+		if (! m_params.m_only_validated)
+		{
+			return true ;
+		}
 		return rec->is_validated() ;
 	}
 
@@ -294,9 +299,8 @@ namespace mem_engine
 	// Function name	: search_match_tester_regex::is_match
 	bool search_match_tester_regex::is_match( record_pointer rec )
 	{
-		if ( m_params.m_only_validated )
+		if ( ! test_validity( rec ) )
 		{
-			if ( ! test_validity( rec ) )
 				return false ;
 		}
 		if ( ! test_reliability( rec ) )

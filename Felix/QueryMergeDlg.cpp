@@ -9,11 +9,6 @@ CQueryMergeDlg::CQueryMergeDlg(int title_res_id, int text_res_id, const CString 
 	m_merge_message.Format(resource_string(text_res_id), mem_name) ;
 }
 
-LRESULT CQueryMergeDlg::OnDupMsgStnDblClk(int, UINT, HWND)
-{
-
-	return 0;
-}
 
 LRESULT CQueryMergeDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/ )
 {
@@ -34,14 +29,14 @@ LRESULT CQueryMergeDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
 LRESULT CQueryMergeDlg::OnCloseCmd( WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/ )
 {
 	SENSE("OnCloseCmd");
+#ifndef UNIT_TEST
 	if (wID == IDOK)
 	{
-#ifndef UNIT_TEST
 		DoDataExchange(TRUE) ;
-#endif	
 	}
-#ifndef UNIT_TEST
 	EndDialog(wID);
+#else
+	wID ;
 #endif
 	return 0;
 }

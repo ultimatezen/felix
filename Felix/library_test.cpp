@@ -7,10 +7,15 @@
 BOOST_AUTO_TEST_SUITE( test_library )
 
 
-	BOOST_AUTO_TEST_CASE( null_arg)
+	BOOST_AUTO_TEST_CASE(null_arg_ctor)
 	{
 		CLibrary library(NULL) ;
 		BOOST_CHECK(! library.is_loaded()) ;
+	}
+	BOOST_AUTO_TEST_CASE(null_arg_load)
+	{
+		CLibrary library(NULL) ;
+		BOOST_CHECK(! library.load(NULL)) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_edit)
 	{

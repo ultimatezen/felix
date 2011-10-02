@@ -31,14 +31,13 @@ CLibrary::~CLibrary()
 */
 bool CLibrary::load(const TCHAR *lib_name)
 {
-	ATLASSERT( lib_name != NULL ) ;
-
-	dispose() ;
-
 	if (!lib_name)
 	{
 		return is_loaded() ;
 	}
+
+	dispose() ;
+
 	m_library_instance = ::LoadLibrary( lib_name ) ;
 
 	return is_loaded() ;
