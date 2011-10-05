@@ -120,6 +120,7 @@ namespace mem_engine
 			return true ;
 		}
 
+
 		// No support for regular expressions...
 		if ( params.m_use_regex )
 		{

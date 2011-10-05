@@ -555,7 +555,7 @@ bool CGlossaryDialog::load(const CString file_name, const bool check_empty /*= t
 	user_feedback( system_message( IDS_MSG_LOADING, file::name( file_name ).file_name() ) ) ;
 
 	// merge or add?
-	memory_pointer mem ;
+	memory_pointer mem = m_model->get_memories()->create_memory() ;
 	if (should_merge == MERGE_CHOICE_SEPARATE)
 	{
 		mem = m_memories->add_memory() ;
@@ -705,7 +705,7 @@ std::wstring CGlossaryDialog::get_record_translation(record_pointer entry)
 bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name )
 {
 	// Add record
-	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
+	memory_pointer mem = m_model->get_memories()->create_memory() ;
 	if ( gloss_name.IsEmpty() ) 
 	{
 		mem = m_memories->get_first_memory() ;
@@ -1853,7 +1853,7 @@ void CGlossaryDialog::edit_record( record_pointer rec )
 
 LRESULT CGlossaryDialog::on_file_connect()
 {
-	CConnectionDlg dlg(&m_props->m_mem_props) ;
+	CConnectionDlg dlg(m_props) ;
 	if (IDCANCEL == dlg.DoModal(*this))
 	{
 		return 0L ;
@@ -1985,6 +1985,8 @@ void CGlossaryDialog::load_history()
 		{
 			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
 			memory_pointer pmem(mem) ;
+			pmem->set_properties_algo(&m_props->m_alg_props) ;
+			pmem->set_properties_glossary(&m_props->m_gloss_props) ;
 			mem->connect(filename.c_str()) ;
 			this->add_glossary(pmem) ;
 		}

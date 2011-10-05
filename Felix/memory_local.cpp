@@ -502,6 +502,8 @@ namespace mem_engine
 				logging::log_debug("Memory is locked; cannot load") ;
 				return false ;
 			}
+			LOG_VERBOSE(string("Loading memory") + string((LPCSTR)CStringA(file_name))) ;
+
 			m_is_loading = true ;
 			// input assumptions
 			ATLASSERT( file_name.IsEmpty() == false ) ;

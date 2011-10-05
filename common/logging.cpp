@@ -15,7 +15,7 @@ using namespace except ;
 logger_ptr m_logger ;
 bool initialized = false ;
 
-LOGGING_LEVEL logging_level = LOGGING_ALL ;
+static LOGGING_LEVEL logging_level = LOGGING_DEBUG ;
 
 void set_logging_level(LOGGING_LEVEL level)
 {
@@ -47,7 +47,7 @@ void logging::log_debug( const string msg )
 	try
 	{
 		ATLTRACE("INFO - %s\n", msg.c_str()) ;
-		if (logging_level > LOGGING_ALL)
+		if (logging_level > LOGGING_DEBUG)
 		{
 			return ;
 		}
@@ -211,6 +211,7 @@ void file_logger::write_entry( const string level, const string msg )
 
 	outfile.Seek(0, FILE_END) ;
 	outfile.Write(outstring.c_str(), static_cast< DWORD >( outstring.size() )) ;
+	outfile.Flush() ;
 #endif
 }
 
@@ -273,7 +274,8 @@ void file_logger::send_report( const CString language, const CString filename )
 	{
 		ATLASSERT(FALSE && "Raised exception in file_logger") ;
 		CComException ce(err) ;
-		ce ;
+		logging::log_error("Failed to send error report") ;
+		logging::log_exception(ce) ;
 	}
 #endif
 }

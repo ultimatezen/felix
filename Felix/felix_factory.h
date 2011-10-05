@@ -37,6 +37,8 @@ public:
 	{
 		app_props::props_ptr props = make_props(); 
 		mem_engine::memory_pointer mem(new mem_engine::memory_local(&props->m_mem_props)) ;
+		mem->set_properties_glossary(&props->m_gloss_props) ;
+		mem->set_properties_algo(&props->m_alg_props) ;
 		return mem ;
 	}
 };

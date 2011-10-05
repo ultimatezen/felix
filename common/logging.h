@@ -7,10 +7,13 @@
 
 typedef enum
 {
-	LOGGING_ALL,
+	LOGGING_VERBOSE,
+	LOGGING_DEBUG,
 	LOGGING_WARN,
 	LOGGING_ERROR
 } LOGGING_LEVEL ;
+
+#define LOG_LEVEL LOGGING_VERBOSE
 
 void set_logging_level(LOGGING_LEVEL level) ;
 
@@ -70,3 +73,14 @@ public:
 	static void set_logger(logger_ptr logger);
 	static void send_report(const CString language, const CString filename);
 };
+
+#if LOG_LEVEL <= LOGGING_VERBOSE
+#define LOG_VERBOSE(x) logging::log_debug(x)
+#else
+#define LOG_VERBOSE(x) (void)(x)
+#endif
+#if LOG_LEVEL <= LOGGING_DEBUG
+#define LOG_DEBUG(x) logging::log_debug(x)
+#else
+#define LOG_DEBUG(x) (void)(x)
+#endif

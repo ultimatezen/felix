@@ -271,7 +271,7 @@ BOOST_AUTO_TEST_SUITE( test_commandline_options )
 		LPCTSTR command_line_text = _T("-logging all") ;
 		commandline_options options(command_line_text) ;
 
-		BOOST_CHECK_EQUAL(options.m_logging_level, LOGGING_ALL) ;
+		BOOST_CHECK_EQUAL(options.m_logging_level, LOGGING_DEBUG) ;
 	}
 	BOOST_AUTO_TEST_CASE(logging_warn)
 	{

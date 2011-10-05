@@ -39,7 +39,7 @@ memory_pointer memory_model::get_first_memory()
 {
 	if ( m_memories.empty() )
 	{
-		memory_pointer mem = add_memory() ;
+		return add_memory() ;
 	}
 
 	return *(m_memories.begin()) ;

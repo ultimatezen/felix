@@ -81,9 +81,17 @@ commandline_options::commandline_options( LPCTSTR text, WORD language/*=LANG_ENG
 			{
 				m_logging_level = LOGGING_WARN ;
 			}
+			else if (boost::to_lower_copy(level) == _T("debug"))
+			{
+				m_logging_level = LOGGING_DEBUG ;
+			}
+			else if (boost::to_lower_copy(level) == _T("verbose"))
+			{
+				m_logging_level = LOGGING_VERBOSE ;
+			}
 			else
 			{
-				m_logging_level = LOGGING_ALL ;
+				m_logging_level = LOGGING_DEBUG ;
 			}
 		}
 	}

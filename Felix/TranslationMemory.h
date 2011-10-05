@@ -141,6 +141,14 @@ public:
 	{
 		return m_properties ;
 	}
+	app_props::properties_glossary *get_gloss_properties()
+	{
+		return m_gloss_properties ;
+	}
+	app_props::properties_algorithm *get_algo_properties()
+	{
+		return m_algo_properties ;
+	}
 
 	void set_active_on() { m_is_active = true ; }
 	void set_active_off() { m_is_active = false ; }

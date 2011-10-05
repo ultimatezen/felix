@@ -5,7 +5,7 @@
 
 using namespace except ;
 
-CConnectionDlg::CConnectionDlg(app_props::properties_memory *props) : 
+CConnectionDlg::CConnectionDlg(app_props::props_ptr props) : 
 	m_props(props)
 {
 
@@ -46,8 +46,10 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	CString conn_str ;
 	m_edit.GetWindowText( conn_str ) ;
 
-	memory_remote *mem = new memory_remote(m_props) ;
+	memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
 	memory_pointer pmem(mem) ;
+	pmem->set_properties_algo(&m_props->m_alg_props) ;
+	pmem->set_properties_glossary(&m_props->m_gloss_props) ;
 	try
 	{
 		mem->connect(conn_str) ;

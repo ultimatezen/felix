@@ -65,6 +65,11 @@ void ViewStateMatch::delete_match( size_t index )
 		logging::log_exception(e) ;
 		mem = m_model->get_first_memory() ;
 	}
+	if (! mem)
+	{
+		logging::log_error("Failed to retrieve memory") ;
+		return ;
+	}
 	mem->erase(match->get_record()) ;
 
 	m_search_matches->erase_at(index) ;

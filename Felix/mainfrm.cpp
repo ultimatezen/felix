@@ -553,6 +553,8 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	{
 		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
+		mem->set_properties_glossary(&m_props->m_gloss_props) ;
+		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		this->add_memory(mem) ;
 	}
@@ -560,6 +562,8 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	{
 		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
+		mem->set_properties_glossary(&m_props->m_gloss_props) ;
+		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		this->get_glossary_window()->add_glossary(mem) ;
 	}
@@ -567,6 +571,8 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	{
 		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
 		memory_pointer mem(rawmem) ;
+		mem->set_properties_glossary(&m_props->m_gloss_props) ;
+		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		if (mem->get_memory_info()->is_memory())
 		{
@@ -823,9 +829,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	memory_pointer mem(new mem_engine::memory_local(&m_props->m_mem_props)) ;
-
-	mem->set_is_memory( true ) ;
+	memory_pointer mem = m_model->get_memories()->create_memory() ;
 
 	add_memory( mem ) ;
 
@@ -4071,12 +4075,13 @@ void CMainFrame::recalculate_match( search_match_ptr match, search_query_params 
 //! File -> Connect
 LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 {
-	CConnectionDlg dlg(&m_props->m_mem_props) ;
+	CConnectionDlg dlg(m_props) ;
 	if (IDCANCEL == dlg.DoModal(*this))
 	{
 		return 0L ;
 	}
 	memory_pointer mem = dlg.m_memory ;
+	LOG_VERBOSE(string("Connected: ") + string((LPCSTR)CStringA(mem->get_location()))) ;
 	m_model->get_memories()->insert_memory(mem) ;
 
 	user_feedback(system_message(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location())) ;
@@ -4137,7 +4142,7 @@ void CMainFrame::loading_file_feedback( const CString & file_name )
 */
 bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
-	memory_pointer mem ;
+	memory_pointer mem = m_model->get_memories()->create_memory() ;
 	MERGE_CHOICE should_merge = MERGE_CHOICE_SEPARATE ;
 	if ( check_empty )
 	{
@@ -4368,7 +4373,7 @@ void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
 		return ;
 	}
 
-	memory_pointer mem ;
+	memory_pointer mem = m_model->get_memories()->create_memory() ;
 
 	try
 	{
@@ -4517,6 +4522,8 @@ void CMainFrame::load_history()
 		{
 			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
 			memory_pointer pmem(mem) ;
+			pmem->set_properties_algo(&m_props->m_alg_props) ;
+			pmem->set_properties_glossary(&m_props->m_gloss_props) ;
 			mem->connect(filename.c_str()) ;
 			this->add_memory(pmem) ;
 		}

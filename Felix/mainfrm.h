@@ -69,11 +69,9 @@ VISIBLE_TO_TESTS
 	typedef mem_engine::record_pointer record_type ;
 	typedef mem_engine::memory_pointer memory_type ;
 
-	// ====================
-	// various records
-	// ====================
-
 	appstate_mainframe		m_appstate ;
+	// various user preferences
+	app_props::props_ptr m_props ;
 
 	CMinViewDlg				m_min_view ;
 
@@ -105,8 +103,6 @@ VISIBLE_TO_TESTS
 	// misc internal stuff
 	// ====================
 
-	// various user preferences
-	app_props::props_ptr m_props ;
 	// the memory controller
 	mem_engine::memory_model_mem	m_silent_memories ;
 
