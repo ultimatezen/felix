@@ -13,10 +13,8 @@ namespace action
 
 		StripTagsAction(mem_engine::memory_pointer mem) : 
 			m_new(mem),
-			m_old(new mem_engine::memory_local(mem->get_mem_properties()))
+			m_old(new mem_engine::memory_local(mem->get_properties()))
 		{
-			m_old->set_properties_glossary(mem->get_gloss_properties()) ;
-			m_old->set_properties_algo(mem->get_algo_properties()) ;
 		}
 
 		void undo();

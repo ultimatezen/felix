@@ -68,39 +68,22 @@ namespace mgrview
 		for (size_t i = m_paginator.get_start() ; i < m_paginator.get_end() ; ++i)
 		{
 			cpptempl::data_map item ;
-			mem_engine::record_pointer record = mem->get_record_at(i) ;
 
-			item[L"num0"] = cpptempl::make_data(tows(i)) ;
-			item[L"num"] = cpptempl::make_data(tows(i+1)) ;
-			item[L"source"] = cpptempl::make_data(record->get_source_rich()) ;
-			item[L"trans"] = cpptempl::make_data(record->get_trans_rich()) ;
-			item[L"context"] = cpptempl::make_data(record->get_context_rich()) ;
-			item[L"created"] = cpptempl::make_data(record->get_created().get_date_time_string()) ;
-			item[L"modified"] = cpptempl::make_data(record->get_modified().get_date_time_string()) ;
-			item[L"reliability"] = cpptempl::make_data(tows(record->get_reliability())) ;
-			item[L"validated"] = cpptempl::make_data(bool2wstring(record->is_validated())) ;
-
-			item[L"creator"] = cpptempl::make_data(record->get_creator()) ;
-			item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
-			// other info
-			file::CPath filename(mem->get_location()) ;
-			wstring loc ;
-			if ( filename.Path().IsEmpty() )
-			{
-				loc = R2WSTR( IDS_NEW ) ;
-			}
-			else
-			{
-				loc = filename.FindFileName() ;		
-			}
-
-			item[L"mem"] = cpptempl::make_data(loc) ;
-			item[L"memory"] = cpptempl::make_data(loc) ;
-			item[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
-			item[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
+			populate_item(item, i, mem);
 
 			items.push_back(cpptempl::make_data(item)) ;
 		}
 		data[L"records"] = cpptempl::make_data(items) ;
+	}
+
+	void ManagerViewBrowse::populate_item( cpptempl::data_map &item, size_t i, mem_engine::memory_pointer mem )
+	{
+		set_index_info(item, i);
+
+		mem_engine::record_pointer record = mem->get_record_at(i) ;
+		set_record_info(item, record);
+
+		// location
+		set_memory_info(mem, item);
 	}
 }

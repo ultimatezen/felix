@@ -13,6 +13,8 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 
 
 	using namespace mem_engine ;
+	using namespace app_props ;
+	
 	#define ADD_RECORD(mem, source, trans) \
 	{\
 	record_pointer rec(new record_local()) ;\
@@ -32,8 +34,7 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 
 	BOOST_AUTO_TEST_CASE( get_html_short_twice )
 	{
-		app_props::properties_memory mem_props; 
-		memory_local mem(&mem_props, 0.0f) ;
+		memory_local mem(get_props(), 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;
@@ -47,8 +48,7 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( get_html_short_word )
 	{
-		app_props::properties_memory mem_props; 
-		memory_local mem(&mem_props, 0.0f) ;
+		memory_local mem(get_props(), 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;
@@ -65,8 +65,7 @@ BOOST_AUTO_TEST_SUITE( translation_match_queryTestCase )
 	}
 	BOOST_AUTO_TEST_CASE( get_html_short_word_twice )
 	{
-		app_props::properties_memory mem_props; 
-		memory_local mem(&mem_props, 0.0f) ;
+		memory_local mem(get_props(), 0.0f) ;
 		ADD_RECORD(mem, L"I love ham and eggs.", L"Nailed to the perch.") ;
 
 		translation_match_query match_query ;

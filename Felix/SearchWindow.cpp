@@ -911,7 +911,7 @@ LRESULT CSearchWindow::OnToggleHelp()
 void CSearchWindow::save_results( match_vec &matches )
 {
 	SENSE("save_results") ;
-	memory_pointer mem(new memory_local(&m_listener->get_properties()->m_mem_props)) ;
+	memory_pointer mem(new memory_local(m_listener->get_properties())) ;
 
 	foreach(mem_engine::search_match_ptr match, matches)
 	{

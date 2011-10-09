@@ -63,34 +63,11 @@ namespace mgrview
 			mem_engine::search_match_ptr match = matches[i] ;
 			mem_engine::record_pointer record = match->get_record() ;
 
-			item[L"num0"] = cpptempl::make_data(tows(i)) ;
-			item[L"num"] = cpptempl::make_data(tows(i+1)) ;
-			item[L"source"] = cpptempl::make_data(record->get_source_rich()) ;
-			item[L"trans"] = cpptempl::make_data(record->get_trans_rich()) ;
-			item[L"context"] = cpptempl::make_data(record->get_context_rich()) ;
-			item[L"created"] = cpptempl::make_data(record->get_created().get_date_time_string()) ;
-			item[L"modified"] = cpptempl::make_data(record->get_modified().get_date_time_string()) ;
-			item[L"reliability"] = cpptempl::make_data(tows(record->get_reliability())) ;
-			item[L"validated"] = cpptempl::make_data(bool2wstring(record->is_validated())) ;
+			set_index_info(item, i);
 
-			item[L"creator"] = cpptempl::make_data(record->get_creator()) ;
-			item[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
-			// other info
-			const CString filename = (LPCWSTR)mem->get_location() ;
-			wstring loc ;
-			if ( filename.IsEmpty() )
-			{
-				loc = R2WSTR( IDS_NEW ) ;
-			}
-			else
-			{
-				loc = (LPCTSTR)file::CPath(filename).FindFileName() ;		
-			}
-
-			item[L"mem"] = cpptempl::make_data(loc) ;
-			item[L"memory"] = cpptempl::make_data(loc) ;
-			item[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
-			item[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
+			set_record_info(item, record);
+			// memory info
+			set_memory_info(mem, item);
 
 			cpptempl::data_list qc_messages ;
 			std::vector<wstring> messages ;

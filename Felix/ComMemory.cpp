@@ -299,7 +299,7 @@ CComMemory::CComMemory() :
 	m_records(NULL),
 	m_props(new app_props::properties)
 {
-	m_memory = memory_pointer(new memory_local(&m_props->m_mem_props)) ;
+	m_memory = memory_pointer(new memory_local(m_props)) ;
 
 	m_props->read_from_registry() ;
 }

@@ -48,12 +48,11 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
 	m_manager_window(props, IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
+	m_old_manager_window(props),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
 	m_output_device(new OutputDeviceFile),
-	m_model(new FelixModel(&props->m_mem_props,
-							&props->m_gloss_props,
-							&props->m_alg_props,
+	m_model(new FelixModel(props,
 							false))
 { 
 	m_properties_gloss = &m_props->m_gloss_props ;
@@ -215,7 +214,7 @@ LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 {
-	CTabbedTextImporter importer(this, &m_props->m_mem_props) ;
+	CTabbedTextImporter importer(this, m_props) ;
 	importer.load_file(file_name) ;
 	importer.m_memory->set_is_memory(false) ;
 	m_memories->insert_memory(importer.m_memory) ;
@@ -225,7 +224,7 @@ void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 //! Import a multiterm file
 void CGlossaryDialog::import_multiterm( const CString &file_name )
 {
-	CImportMultitermFile importer(this, &m_props->m_mem_props) ;
+	CImportMultitermFile importer(this, m_props) ;
 	importer.import(file_name, get_input_device()) ;
 	importer.m_memory->set_is_memory(false) ;
 	m_memories->insert_memory(importer.m_memory) ;
@@ -1983,10 +1982,8 @@ void CGlossaryDialog::load_history()
 	{
 		try
 		{
-			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
+			memory_remote *mem = new memory_remote(m_props) ;
 			memory_pointer pmem(mem) ;
-			pmem->set_properties_algo(&m_props->m_alg_props) ;
-			pmem->set_properties_glossary(&m_props->m_gloss_props) ;
 			mem->connect(filename.c_str()) ;
 			this->add_glossary(pmem) ;
 		}

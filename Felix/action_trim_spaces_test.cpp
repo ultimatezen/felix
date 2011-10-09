@@ -8,7 +8,8 @@
 
 BOOST_AUTO_TEST_SUITE( TestTrimSpacesAction)
 
-namespace me = mem_engine ;
+	namespace me = mem_engine ;
+	using namespace app_props ;
 
 me::record_pointer add_record(me::memory_pointer &mem, string source, string trans)
 {
@@ -21,16 +22,14 @@ me::record_pointer add_record(me::memory_pointer &mem, string source, string tra
 
 BOOST_AUTO_TEST_CASE(instantiate)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	action::TrimSpacesAction trimmer(mem) ;
 	BOOST_CHECK_EQUAL(trimmer.m_new->size(), 0u) ;
 }
 
 BOOST_AUTO_TEST_CASE(strip_one_record)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 
 	action::TrimSpacesAction trimmer(mem) ;
@@ -41,8 +40,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record)
 }
 BOOST_AUTO_TEST_CASE(strip_one_record_old_has_info)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 	mem->get_memory_info()->set_field(L"PB Gargling") ;
 
@@ -54,8 +52,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_old_has_info)
 }
 BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " poop ", " <b> foo </b> ") ;
 
 	action::TrimSpacesAction trimmer(mem) ;
@@ -66,8 +63,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 
 	action::TrimSpacesAction trimmer(mem) ;
@@ -79,8 +75,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 }
 BOOST_AUTO_TEST_CASE(undo_trim_one_record_location)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->set_location("c:\\foo\\bar.ftm") ;
 
@@ -93,8 +88,7 @@ BOOST_AUTO_TEST_CASE(undo_trim_one_record_location)
 }
 BOOST_AUTO_TEST_CASE(undo_trim_one_record_location_new)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
 	action::TrimSpacesAction stripper(mem) ;
@@ -106,8 +100,7 @@ BOOST_AUTO_TEST_CASE(undo_trim_one_record_location_new)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_field)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->get_memory_info()->set_field(L"PB Gargling") ;
 

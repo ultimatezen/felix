@@ -21,7 +21,7 @@ namespace mem_engine
 		CString				m_file_location ;
 		bool				m_is_loading ;
 	public:
-		memory_local(app_props::properties_memory *props,
+		memory_local(app_props::props_ptr props,
 			double min_score=0.5f) : 
 			  CTranslationMemory(props, min_score),
 			  m_next_id(1),
@@ -38,7 +38,7 @@ namespace mem_engine
 		  // map stuff
 		  key_type get_key(record_pointer rec)
 		  {
-			  if (this->get_is_memory() && this->m_properties->is_one_trans_per_source())
+			  if (this->get_is_memory() && this->m_mem_properties->is_one_trans_per_source())
 			  {
 				  return std::make_pair(rec->get_source_rich(), wstring()) ;
 			  }

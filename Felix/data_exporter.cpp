@@ -22,7 +22,7 @@ using namespace mem_engine ;
 // TradosDataExporter::TradosDataExporter
 TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts, 
 									   CProgressListener *listener,
-									   app_props::properties_memory *props)
+									   app_props::props_ptr props)
 	: m_p_depth( 0 ), 
 	m_fonts( false ), // no default entry
 	m_listener(listener),

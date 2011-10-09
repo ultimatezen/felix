@@ -8,10 +8,10 @@
 
 
 CImportMultitermFile::CImportMultitermFile(CProgressListener *listener,
-										   app_props::properties_memory	*mem_props) :
+										   app_props::props_ptr props) :
 	m_listener(listener),
-	m_mem_props(mem_props),
-	m_memory(new mem_engine::memory_local(mem_props))
+	m_props(props),
+	m_memory(new mem_engine::memory_local(props))
 {
 }
 

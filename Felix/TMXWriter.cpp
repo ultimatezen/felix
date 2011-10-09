@@ -14,7 +14,7 @@
 #include "Felix_properties.h"
 
 CTMXWriter::CTMXWriter(CProgressListener *listener, 
-					   app_props::properties_memory *props,
+					   app_props::props_ptr props,
 					   wstring username) :
 	m_listener(listener)
 	, m_iLevel(0)

@@ -109,10 +109,11 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_props(props),
 	m_editor(new CEditTransRecordDialog),
 	m_manager_window(m_props, IDS_SEARCH_MANAGER_TITLE, _T("MemoryMangerWindow"), this),
+	m_old_manager_window(props),
 	m_search_window(this),
 	m_input_device(new InputDeviceFile),
 	m_output_device(new OutputDeviceFile),
-	m_silent_memories(&props->m_mem_props, &props->m_gloss_props, &props->m_alg_props)
+	m_silent_memories(props)
 {
 	initialize_values() ;
 
@@ -381,7 +382,7 @@ bool CMainFrame::export_tmx( const CString &file_name, mem_engine::memory_pointe
 	}
 
 	CTMXWriter exporter( static_cast< CProgressListener* >( this ),
-						&m_props->m_mem_props,
+						m_props,
 						m_props->m_gen_props.get_user_name()) ;
 
 	set_exporter_src_and_target_langs(dialog, exporter);
@@ -421,7 +422,7 @@ bool CMainFrame::export_trados( const CString &file_name, mem_engine::memory_poi
 	// create the exporter
 	TradosDataExporter exporter( tabulator.get_font_set( ), 
 								static_cast< CProgressListener* >( this ),
-								&this->m_props->m_mem_props) ;
+								this->m_props) ;
 	if ( ! exporter.open_destination( path.Path() ) )
 	{
 		user_feedback( IDS_MSG_EXPORT_FAILED ) ;
@@ -551,28 +552,22 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	}
 	foreach(tstring filename, options.m_tm_files)
 	{
-		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
+		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
-		mem->set_properties_glossary(&m_props->m_gloss_props) ;
-		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		this->add_memory(mem) ;
 	}
 	foreach(tstring filename, options.m_glossary_files)
 	{
-		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
+		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
-		mem->set_properties_glossary(&m_props->m_gloss_props) ;
-		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		this->get_glossary_window()->add_glossary(mem) ;
 	}
 	foreach(tstring filename, options.m_xml_files)
 	{
-		memory_local *rawmem = new memory_local(&m_props->m_mem_props) ;
+		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
-		mem->set_properties_glossary(&m_props->m_gloss_props) ;
-		mem->set_properties_algo(&m_props->m_alg_props) ;
 		rawmem->load(filename.c_str()) ;
 		if (mem->get_memory_info()->is_memory())
 		{
@@ -4503,27 +4498,27 @@ void CMainFrame::load_history()
 {
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
+	std::vector<wstring> &loaded_mems = history_props->m_loaded_mems ;
+
 	std::vector<wstring> items ;
-	std::copy(history_props->m_loaded_mems.begin(), history_props->m_loaded_mems.end(), std::back_inserter(items)) ;
-	std::reverse(items.begin(), items.end()) ;
+	std::copy(loaded_mems.rbegin(), loaded_mems.rend(), std::back_inserter(items)) ;
 
 	foreach(wstring filename, items)
 	{
+		LOG_VERBOSE(string("Loading from history: ") + string2string(filename)) ;
 		load( filename.c_str(), false) ;
 	}
 
-	items.clear() ;
-	std::copy(history_props->m_loaded_remote_mems.begin(), history_props->m_loaded_remote_mems.end(), std::back_inserter(items)) ;
-	std::reverse(items.begin(), items.end()) ;
+	std::vector<wstring> remote_items ;
+	std::copy(history_props->m_loaded_remote_mems.rbegin(), history_props->m_loaded_remote_mems.rend(), std::back_inserter(remote_items)) ;
 
-	foreach(wstring filename, items)
+	foreach(wstring filename, remote_items)
 	{
 		try
 		{
-			memory_remote *mem = new memory_remote(&m_props->m_mem_props) ;
+			LOG_VERBOSE(string("Loading remote from history: ") + string2string(filename)) ;
+			memory_remote *mem = new memory_remote(m_props) ;
 			memory_pointer pmem(mem) ;
-			pmem->set_properties_algo(&m_props->m_alg_props) ;
-			pmem->set_properties_glossary(&m_props->m_gloss_props) ;
 			mem->connect(filename.c_str()) ;
 			this->add_memory(pmem) ;
 		}

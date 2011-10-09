@@ -491,7 +491,7 @@ namespace mem_engine
 			}
 		}
 
-		set_minimum_score( m_properties->get_min_score() ) ;
+		set_minimum_score( m_mem_properties->get_min_score() ) ;
 	}
 	bool memory_local::load( const CString& file_name )
 	{

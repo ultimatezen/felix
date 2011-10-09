@@ -346,10 +346,10 @@ BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
 		app_props::properties_memory props2(props) ;
 
 		BOOST_CHECK_EQUAL ( props.m_data.m_min_score,		props2.m_data.m_min_score ) ; 
-		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_case,	props2.m_data.m_ignore_case ) ; 
-		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_width, props2.m_data.m_ignore_width ) ; 
-		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_hir_kat,			props2.m_data.m_ignore_hir_kat ) ; 
-		BOOST_CHECK_EQUAL ( props.m_data.m_plaintext,					props2.m_data.m_plaintext ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_case,		props2.m_data.m_ignore_case ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_width,	props2.m_data.m_ignore_width ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_hir_kat,	props2.m_data.m_ignore_hir_kat ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_plaintext,		props2.m_data.m_plaintext ) ; 
 		BOOST_CHECK_EQUAL ( props.m_data.m_assess_format_penalty, props2.m_data.m_assess_format_penalty ) ; 
 	}
 BOOST_AUTO_TEST_SUITE_END()
@@ -751,8 +751,7 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 
 	BOOST_AUTO_TEST_CASE(build_xml_doc)
 	{
-		app_props::properties_memory props ;
-		app_props::properties_memory::props_data *data = &props.m_data ;
+		app_props::properties_memory::props_data *data = &(app_props::get_props()->m_mem_props.m_data) ;
 
 		data->m_min_score = 10 ;
 		data->m_ignore_case = FALSE ;
@@ -766,7 +765,8 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
 		preferences.set_name("properties") ;
-		props.build_xml_doc(preferences);
+
+		app_props::get_props()->m_mem_props.build_xml_doc(preferences);
 		xml_string_writer_test writer ;
 		doc.save(writer) ;
 		string actual = writer.result ;

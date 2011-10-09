@@ -926,6 +926,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_test )
 
 	using namespace mem_search ;
 	using namespace mem_engine ;
+	using namespace app_props ;
 
 	//////////////////////////////////////////////////////////////////////////
 	// match_filters
@@ -990,15 +991,13 @@ BOOST_AUTO_TEST_SUITE( match_filters_test )
 	BOOST_AUTO_TEST_CASE(is_wanted_mem_both_empty)
 	{
 		search_runner runner ;
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
 	}
 	BOOST_AUTO_TEST_CASE(is_wanted_mem_required_empty)
 	{
 		search_runner runner ;
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"spam.ftm") ;
 		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
 	}
@@ -1006,8 +1005,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_test )
 	{
 		search_runner runner ;
 		runner.add_term(L"mem:spam") ;
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"spam.ftm") ;
 		runner.set_matchers() ;
 		BOOST_CHECK(runner.is_wanted_mem(mem)) ;
@@ -1016,8 +1014,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_test )
 	{
 		search_runner runner ;
 		runner.add_term(L"mem:spam") ;
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"ham.ftm") ;
 		runner.set_matchers() ;
 		BOOST_CHECK(!runner.is_wanted_mem(mem)) ;

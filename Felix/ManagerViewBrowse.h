@@ -27,5 +27,9 @@ namespace mgrview
 		void show_content();
 
 		void set_template_data( cpptempl::data_map &data );
+
+		void populate_item( cpptempl::data_map &item, size_t i, mem_engine::memory_pointer mem );
+
+
 	};
 }

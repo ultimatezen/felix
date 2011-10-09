@@ -54,7 +54,7 @@ class TradosDataExporter
 public:
 	int m_p_depth;
 	TradosDataExporter( font_set &fonts, CProgressListener *listener,
-		app_props::properties_memory *props );
+		app_props::props_ptr props );
 	virtual ~TradosDataExporter();
 
 	void export_trados( mem_engine::memory_pointer mem ) ;

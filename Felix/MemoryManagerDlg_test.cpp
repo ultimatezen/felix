@@ -12,6 +12,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 
 	using namespace mem_engine ;
+	using namespace app_props ;
 
 	typedef boost::shared_ptr<memory_model> model_ptr ;
 
@@ -19,9 +20,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	{
 		app_props::props_ptr props = FelixFactory().make_props() ;
 
-		return model_ptr(new memory_model_mem(&props->m_mem_props,
-			&props->m_gloss_props,
-			&props->m_alg_props)) ;
+		return model_ptr(new memory_model_mem(props)) ;
 
 	}
 
@@ -62,7 +61,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	{
 		try
 		{
-			CMemoryManagerDlg dialog ;
+			CMemoryManagerDlg dialog (get_props()) ;
 			BOOST_CHECK_EQUAL(IDD_MEM_MGR_DLG, CMemoryManagerDlg::IDD) ;
 		}
 		catch (...)
@@ -73,7 +72,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	BOOST_AUTO_TEST_CASE( get_memories)
 	{
 		model_ptr model = get_model() ;
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		dialog.get_memories(model) ;
 		BOOST_CHECK_EQUAL(0u, model->get_memories().size()) ;
 	}
@@ -90,7 +89,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// message processing
 	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
@@ -99,7 +98,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
@@ -109,7 +108,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		dialog.m_bModal = TRUE ;
 		LRESULT lResult = 1 ;
 		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
@@ -119,7 +118,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		LRESULT lResult = 1 ;
 		BOOL result = dialog.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(0u, dialog.m_sensing_variable.size()) ;
@@ -130,7 +129,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// post-refactoring tests
 	BOOST_AUTO_TEST_CASE( get_memory_at_0)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		add_mems(dialog, "c:\\location_0.xml", "c:\\location_1.xml", "c:\\location_2.xml") ;
 
 		memory_pointer mem_at_0 = dialog.get_memory_at(0) ;
@@ -140,7 +139,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_at_1)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		add_mems(dialog, "c:\\location_0.xml", "c:\\location_1.xml", "c:\\location_2.xml") ;
 
 		memory_pointer mem_at_1 = dialog.get_memory_at(1) ;
@@ -150,7 +149,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_at_2)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		add_mems(dialog, "c:\\location_0.xml", "c:\\location_1.xml", "c:\\location_2.xml") ;
 
 		memory_pointer mem_at_1 = dialog.get_memory_at(2) ;
@@ -160,7 +159,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_oob_throws)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		try
 		{
 			dialog.get_memory_at(1) ;
@@ -173,7 +172,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( swap_memories_0)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		add_mems(dialog, "c:\\location_1.xml", "c:\\location_2.xml") ;
 
 		memory_pointer mem = dialog.get_memory_at(0) ;
@@ -190,7 +189,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( swap_memories_1)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		add_mems(dialog, "c:\\location_1.xml", "c:\\location_2.xml") ;
 
 		memory_pointer mem = dialog.get_memory_at(1) ;
@@ -212,7 +211,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		app_props::properties_general props; 
 		props.read_from_registry() ;
 
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam") ;
@@ -240,7 +239,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 	BOOST_AUTO_TEST_CASE( get_saving_feedback)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam") ;
@@ -251,7 +250,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_save_prompt)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->set_location("spam.xml") ;
@@ -264,7 +263,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 	BOOST_AUTO_TEST_CASE( get_loading_message)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		wstring text = dialog.get_loading_message("c:\\foo\\bill.xml") ;
 		CStringA actual = text.c_str() ;
 		string expected = "<b>Loading file [c:\\foo\\bill.xml]...</b>" ;
@@ -274,7 +273,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 	BOOST_AUTO_TEST_CASE( get_memory_name_new)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_memory_name(mem) ;
@@ -284,7 +283,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_name_bill)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->set_location("c:\\foo\\bill.xml") ;
@@ -295,20 +294,18 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_new)
 	{
-		app_props::properties_general props; 
-		props.read_from_registry() ;
+		CMemoryManagerDlg dialog (get_props()) ;
 
-		CMemoryManagerDlg dialog ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
-		string expected = (LPCSTR)(CT2A(props.m_data.m_user_name)) ;
+		string expected = (LPCSTR)(CT2A(get_props()->m_gen_props.m_data.m_user_name)) ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_creator(L"") ;
@@ -319,7 +316,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_bill)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_creator(L"Bill") ;
@@ -331,7 +328,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_field_name
 	BOOST_AUTO_TEST_CASE( get_field_name_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_field_name(mem->get_memory_info()) ;
@@ -341,7 +338,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_field_name_bill)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_field(L"Bill") ;
@@ -354,7 +351,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_created_on
 	BOOST_AUTO_TEST_CASE( get_created_on_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring actual = dialog.get_created_on(mem->get_memory_info()) ;
@@ -365,7 +362,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_created_on_date)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
@@ -378,7 +375,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_source_lang
 	BOOST_AUTO_TEST_CASE( get_source_lang_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_source_lang(mem->get_memory_info()) ;
@@ -388,7 +385,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_source_lang_English)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_source_language(L"English") ;
@@ -401,7 +398,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_target_lang
 	BOOST_AUTO_TEST_CASE( get_target_lang_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_target_lang(mem->get_memory_info()) ;
@@ -411,7 +408,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_target_lang_nihongo)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_target_language(L"“ú–{Œê") ;
@@ -423,7 +420,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_client_name
 	BOOST_AUTO_TEST_CASE( get_client_name_empty)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_client_name(mem->get_memory_info()) ;
@@ -433,7 +430,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_client_name_nihongo)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->get_memory_info()->set_client(L"“ú–{Œê") ;
@@ -445,7 +442,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_mem_size
 	BOOST_AUTO_TEST_CASE( get_mem_size_0)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_mem_size(mem) ;
@@ -455,7 +452,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_mem_size_1)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		record_pointer rec(new record_local) ;
@@ -470,7 +467,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_file_size
 	BOOST_AUTO_TEST_CASE( get_file_size_0)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_file_size(mem) ;
@@ -480,7 +477,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_file_size_1)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		mem->set_location("c:\\test\\bigmem.xml") ;
@@ -493,7 +490,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	// get_reliability_range
 	BOOST_AUTO_TEST_CASE( get_reliability_range_0)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_reliability_range(mem) ;
@@ -503,7 +500,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	}
 	BOOST_AUTO_TEST_CASE( get_reliability_range_2_9)
 	{
-		CMemoryManagerDlg dialog ;
+		CMemoryManagerDlg dialog (get_props()) ;
 		model_ptr model = get_model() ;
 		memory_pointer mem = model->create_memory() ;
 

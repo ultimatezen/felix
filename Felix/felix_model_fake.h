@@ -18,10 +18,8 @@ public:
 	FelixModelInterfaceFake() :
 		m_is_reverse_lookup(false)
 	{
-		app_props::props_ptr props = FelixFactory().make_props() ;
-		m_model = model_ptr(new mem_engine::memory_model_mem(&props->m_mem_props,
-			&props->m_gloss_props,
-			&props->m_alg_props)) ;
+		app_props::props_ptr props = app_props::get_props() ;
+		m_model = model_ptr(new mem_engine::memory_model_mem(props)) ;
 	}
 	
 	void get_memories_needing_saving( memory_list &memories )
@@ -56,9 +54,7 @@ public:
 	}
 	model_ptr create_memory_model(bool)
 	{
-		app_props::props_ptr props = FelixFactory().make_props() ;
-		return model_ptr(new mem_engine::memory_model_mem(&props->m_mem_props,
-			&props->m_gloss_props,
-			&props->m_alg_props)) ;
+		app_props::props_ptr props = app_props::get_props() ;
+		return model_ptr(new mem_engine::memory_model_mem(props)) ;
 	}
 };

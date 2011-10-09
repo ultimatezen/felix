@@ -22,12 +22,7 @@ BOOST_AUTO_TEST_SUITE( TestViewCollectionWalker )
 	BOOST_AUTO_TEST_CASE( EraseCurrentMatch)
 	{
 		// memories
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		boost::shared_ptr<mem_engine::memory_model> memories(new mem_engine::memory_model_mem(&mem_props,
-									&gloss_props,
-									&algo_props)) ;
+		boost::shared_ptr<mem_engine::memory_model> memories(new mem_engine::memory_model_mem(app_props::get_props())) ;
 
 		// memory
 		mem_engine::memory_pointer mem = memories->create_memory() ;

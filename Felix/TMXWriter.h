@@ -56,7 +56,7 @@ VISIBLE_TO_TESTS
 
 public:
 	CTMXWriter(CProgressListener *listener, 
-		app_props::properties_memory *props,
+		app_props::props_ptr props,
 		wstring username);
 	~CTMXWriter(void);
 

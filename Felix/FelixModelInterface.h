@@ -66,19 +66,13 @@ public:
 
 	model_ptr m_memories ;
 
-	app_props::properties_memory *m_mem_props; 
-	app_props::properties_glossary *m_gloss_props; 
-	app_props::properties_algorithm *m_algo_props; 
+	app_props::props_ptr m_props; 
 
 
-	FelixModel(app_props::properties_memory *mem_props,
-		app_props::properties_glossary *gloss_props,
-		app_props::properties_algorithm *algo_props,
+	FelixModel(app_props::props_ptr props,
 		bool is_memory=true) :
 		m_is_reverse_lookup(false),
-		m_mem_props(mem_props),
-		m_gloss_props(gloss_props),
-		m_algo_props(algo_props)
+		m_props(props)
 	{
 		m_memories = create_memory_model(is_memory) ;
 	}
@@ -91,15 +85,11 @@ public:
 	{
 		if (is_memory)
 		{
-			return model_ptr(new mem_engine::memory_model_mem(m_mem_props,
-				m_gloss_props,
-				m_algo_props)) ;
+			return model_ptr(new mem_engine::memory_model_mem(m_props)) ;
 		}
 		else
 		{
-			return model_ptr(new mem_engine::memory_model_gloss(m_mem_props,
-				m_gloss_props,
-				m_algo_props)) ;
+			return model_ptr(new mem_engine::memory_model_gloss(m_props)) ;
 		}
 	}
 

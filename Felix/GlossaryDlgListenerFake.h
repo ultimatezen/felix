@@ -25,7 +25,7 @@ public:
 		added_rec(new mem_engine::record_local),
 		m_model(new FelixModelInterfaceFake)
 	{
-		check_save_mem = mem_engine::memory_pointer(new mem_engine::memory_local(&m_mem_props)) ;
+		check_save_mem = mem_engine::memory_pointer(new mem_engine::memory_local(app_props::get_props())) ;
 
 	}	
 		

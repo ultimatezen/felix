@@ -99,7 +99,8 @@ VISIBLE_TO_TESTS
 	extra_strings_type		m_extra_strings ;
 	CProgressListener		*m_listener ;
 
-	app_props::properties_memory		*m_properties ;
+	app_props::props_ptr				m_props ;
+	app_props::properties_memory		*m_mem_properties ;
 	app_props::properties_glossary		*m_gloss_properties ;
 	app_props::properties_algorithm		*m_algo_properties ;
 
@@ -120,7 +121,7 @@ public:
 	bool m_throw_exception ;
 #endif
 	// construction / destruction
-	CTranslationMemory(app_props::properties_memory *props,
+	CTranslationMemory(app_props::props_ptr props,
 						double min_score = 0.5)  ;
 	virtual ~CTranslationMemory();
 
@@ -137,9 +138,14 @@ public:
 	{ 
 		return m_id ;
 	}
+
+	app_props::props_ptr get_properties()
+	{
+		return m_props ;
+	}
 	app_props::properties_memory *get_mem_properties()
 	{
-		return m_properties ;
+		return m_mem_properties ;
 	}
 	app_props::properties_glossary *get_gloss_properties()
 	{

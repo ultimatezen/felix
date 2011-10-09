@@ -786,7 +786,7 @@ void CCommonWindowFunctionality::save_window_settings( LPCTSTR key_name )
 // Show the Memory Manager dialog
 bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 {
-	CMemoryManagerDlg dlg(title_id) ;
+	CMemoryManagerDlg dlg(app_props::get_props(), title_id) ;
 
 	dlg.set_memories( this->get_memory_model() ) ;
 #ifdef UNIT_TEST

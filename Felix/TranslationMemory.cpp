@@ -57,11 +57,12 @@ namespace mem_engine
 	// Construction/Destruction
 	//////////////////////////////////////////////////////////////////////
 
-	CTranslationMemory::CTranslationMemory(app_props::properties_memory *props,
+	CTranslationMemory::CTranslationMemory(app_props::props_ptr props,
 										double min_score) : 
-		m_properties(props),
-		m_gloss_properties(NULL),
-		m_algo_properties(NULL),
+		m_props(props),
+		m_mem_properties(&props->m_mem_props),
+		m_gloss_properties(&props->m_gloss_props),
+		m_algo_properties(&props->m_alg_props),
 		m_is_saved( true ),
 		m_match_maker( min_score ),
 		m_is_active( true ),
@@ -73,11 +74,11 @@ namespace mem_engine
 		{
 		refresh_status() ;
 
-		m_cmp_maker.m_ignore_case = !! m_properties->m_data.m_ignore_case ;
-		m_cmp_maker.m_ignore_hira_kata = !! m_properties->m_data.m_ignore_hir_kat ;
-		m_cmp_maker.m_ignore_width = !! m_properties->m_data.m_ignore_width ;
+		m_cmp_maker.m_ignore_case = !! m_mem_properties->m_data.m_ignore_case ;
+		m_cmp_maker.m_ignore_hira_kata = !! m_mem_properties->m_data.m_ignore_hir_kat ;
+		m_cmp_maker.m_ignore_width = !! m_mem_properties->m_data.m_ignore_width ;
 
-		this->set_minimum_score( m_properties->get_min_score() ) ;
+		this->set_minimum_score( m_mem_properties->get_min_score() ) ;
 
 	}
 
@@ -219,8 +220,8 @@ namespace mem_engine
 	*/
 	void CTranslationMemory::set_properties_memory( app_props::properties_memory *props)
 	{
-		m_properties = props ;
-		set_minimum_score( m_properties->get_min_score() ) ;
+		m_mem_properties = props ;
+		set_minimum_score( m_mem_properties->get_min_score() ) ;
 	}
 	void CTranslationMemory::set_properties_glossary( app_props::properties_glossary *props )
 	{

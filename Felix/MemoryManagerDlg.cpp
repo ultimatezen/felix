@@ -104,7 +104,9 @@ bool CMemoryManagerDlg::OnProgressWriteUpdate( size_t current_val ) // true to c
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CMemoryManagerDlg::CMemoryManagerDlg(int title_id) : m_title_id(title_id)
+CMemoryManagerDlg::CMemoryManagerDlg(app_props::props_ptr props, int title_id) : 
+	m_props(props),
+	m_title_id(title_id)
 {
 
 }
@@ -843,8 +845,7 @@ void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
 {
 	m_list_box.InsertItem( m_list_box.GetItemCount(), mem_file ) ;
 
-	app_props::properties_memory props ;
-	memory_pointer mem(new mem_engine::memory_local(&props)) ;
+	memory_pointer mem(new mem_engine::memory_local(m_props)) ;
 
 	m_info_view.set_body_text(get_loading_message(mem_file)) ;
 

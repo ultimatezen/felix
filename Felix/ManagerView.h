@@ -49,8 +49,11 @@ namespace mgrview
 							cpptempl::data_map &data, 
 							bool is_memory,
 							size_t index ) ;
-
+	void set_record_info( cpptempl::data_map &item, mem_engine::record_pointer record ) ;
+	void set_memory_info( mem_engine::memory_pointer mem, cpptempl::data_map &item ) ;
 	wstring get_memname(mem_engine::memory_pointer mem) ;
+	void set_index_info( cpptempl::data_map &item, size_t i ) ;
 
 	typedef boost::shared_ptr<ManagerView> mgr_ptr ;
+
 }

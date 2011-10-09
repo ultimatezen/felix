@@ -1157,7 +1157,7 @@ void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
 
 void CManagerWindow::import_multiterm( const CString &file_name )
 {
-	CImportMultitermFile importer(this, &m_props->m_mem_props) ;
+	CImportMultitermFile importer(this, m_props) ;
 	input_device_ptr input(new InputDeviceFile) ;
 	importer.import(file_name, input) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
@@ -1166,7 +1166,7 @@ void CManagerWindow::import_multiterm( const CString &file_name )
 
 void CManagerWindow::import_tabbed_text( const CString &file_name )
 {
-	CTabbedTextImporter importer(this, &m_props->m_mem_props) ;
+	CTabbedTextImporter importer(this, m_props) ;
 	importer.load_file(file_name) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;

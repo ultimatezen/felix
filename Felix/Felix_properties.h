@@ -904,4 +904,14 @@ struct properties
 
 typedef boost::shared_ptr<properties> props_ptr ;
 
+inline props_ptr get_props()
+{
+	static props_ptr props;
+	if(! props)
+	{
+		props = props_ptr(new properties) ;
+	}
+	return props ;
+}
+
 } ;

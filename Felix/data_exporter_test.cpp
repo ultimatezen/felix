@@ -16,17 +16,28 @@
 	//////////////////////////////////////////////////////////////////////////
 	// TradosDataExporter
 	//////////////////////////////////////////////////////////////////////////
+
+
+struct CTradosDataExporterFixture
+{
+	std::set< wstring > fonts ;
+	CMockListener listener ;
+
+	TradosDataExporter exporter ;
+	OutputDeviceFake *device ;
+
+	CTradosDataExporterFixture():
+		exporter(fonts, &listener, get_props()),
+		device (new OutputDeviceFake)
+	{
+		exporter.m_file = output_device_ptr (device) ;
+	}
+};
+
 BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 
-	BOOST_AUTO_TEST_CASE( internal_date_to_trados_date )
+	BOOST_FIXTURE_TEST_CASE( internal_date_to_trados_date, CTradosDataExporterFixture )
 	{
-		std::set< wstring > fonts ;
-		CMockListener listener ;
-		properties_memory mem_props ;
-		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
-		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = output_device_ptr (device) ;
-
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
 		thedate.wMonth = 1 ;
@@ -40,41 +51,23 @@ BOOST_AUTO_TEST_SUITE( test_TestTradosDataExporter )
 		string expected = "17012000, 12:00:00" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
-	BOOST_AUTO_TEST_CASE( open_destination )
+	BOOST_FIXTURE_TEST_CASE( open_destination, CTradosDataExporterFixture )
 	{
-		std::set< wstring > fonts ;
-		CMockListener listener ;
-		properties_memory mem_props ;
-		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
-		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = output_device_ptr (device) ;
-
 		exporter.open_destination(_T("foo.txt")) ;
 		BOOST_CHECK_EQUAL(2u, device->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string("open"), device->m_sensing_variable[0]) ;
 		BOOST_CHECK_EQUAL(string("foo.txt"), device->m_sensing_variable[1]) ;
 	}
-	BOOST_AUTO_TEST_CASE( write_preamble )
+	BOOST_FIXTURE_TEST_CASE( write_preamble, CTradosDataExporterFixture )
 	{
-		std::set< wstring > fonts ;
-		CMockListener listener ;
-		properties_memory mem_props ;
-		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
-		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = output_device_ptr (device) ;
-
 		exporter.write_preamble() ;
 		BOOST_CHECK_EQUAL(3, (int)device->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[0]) ;
 		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[1]) ;
 		BOOST_CHECK_EQUAL(string("write_string"), device->m_sensing_variable[2]) ;
 	}
-	BOOST_AUTO_TEST_CASE( create_unicode_escape )
+	BOOST_FIXTURE_TEST_CASE( create_unicode_escape, CTradosDataExporterFixture )
 	{
-		std::set< wstring > fonts ;
-		CMockListener listener ;
-		properties_memory mem_props ;
-		TradosDataExporter exporter(fonts, &listener, &mem_props) ;
 
 		string escape = exporter.create_unicode_escape(L't', 't') ;
 		string actual = escape ;

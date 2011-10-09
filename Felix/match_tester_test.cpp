@@ -212,8 +212,8 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester_regex )
 
 	BOOST_AUTO_TEST_CASE( is_match_two)
 	{
-		app_props::properties_memory props ;
-		memory_local mem(&props) ;
+		// create a local memory
+		memory_local mem(app_props::get_props()) ;
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
 
@@ -387,8 +387,8 @@ BOOST_AUTO_TEST_SUITE( test_search_match_tester )
 	}
 	BOOST_AUTO_TEST_CASE(is_match_two)
 	{
-		app_props::properties_memory props ;
-		memory_local mem(&props) ;
+		// create a local memory
+		memory_local mem(app_props::get_props()) ;
 
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"egg 1") ;
@@ -443,8 +443,8 @@ BOOST_AUTO_TEST_SUITE( test_gloss_match_tester )
 	}
 	BOOST_AUTO_TEST_CASE( is_match_two)
 	{
-		app_props::properties_memory props ;
-		memory_local mem(&props) ;
+		// create a local memory
+		memory_local mem(app_props::get_props()) ;
 
 		record_pointer rec1(new record_local) ;
 		rec1->set_source(L"spam") ;

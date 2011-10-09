@@ -519,9 +519,7 @@ public:
 	{
 		using namespace mem_engine ;
 		typedef boost::shared_ptr<memory_model> mdl_ptr ;
-		return mdl_ptr(new memory_model_gloss(&m_props->m_mem_props,
-											  &m_props->m_gloss_props,
-											  &m_props->m_alg_props)) ;
+		return mdl_ptr(new memory_model_gloss(m_props)) ;
 	}
 	boost::shared_ptr<mem_engine::memory_model> get_memory_model() 
 	{

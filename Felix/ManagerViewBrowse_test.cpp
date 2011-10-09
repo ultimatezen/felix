@@ -7,12 +7,14 @@
 #include "felix_model_fake.h"
 #include "manager_window_listener_fake.h"
 #include "view_interface_fake.h"
+#include "Felix_properties.h"
 
 BOOST_AUTO_TEST_SUITE( TestManagerViewBrowse )
 
 	using namespace mem_engine ;
 	using namespace mgrview ;
 	using namespace cpptempl ;
+	using namespace app_props ;
 
 	// This sets up and initializes the view class
 	struct browse_view_setup
@@ -52,6 +54,26 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewBrowse )
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data) ;
 		BOOST_CHECK(data.find(L"message") != data.end()) ;
+	}
+	BOOST_AUTO_TEST_CASE(populate_item)
+	{
+		browse_view_setup setup(0u) ;
+
+		cpptempl::data_map item ;
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"aaa") ;
+		rec->set_trans(L"bbb") ;
+		app_props::props_ptr prop(new properties) ;
+		memory_pointer mem(new memory_local(prop)) ;
+		mem->add_record(rec) ;
+
+		setup.view.populate_item(item, 0u, mem) ;
+
+		BOOST_CHECK_EQUAL(item[L"num"]->getvalue(), L"1") ;
+		BOOST_CHECK_EQUAL(item[L"num0"]->getvalue(), L"0") ;
+		BOOST_CHECK_EQUAL(item[L"source"]->getvalue(), L"aaa") ;
+		BOOST_CHECK_EQUAL(item[L"trans"]->getvalue(), L"bbb") ;
+		BOOST_CHECK_EQUAL(item[L"mem"]->getvalue(), L"New") ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

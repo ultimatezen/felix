@@ -14,6 +14,7 @@
 BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	using namespace mem_engine ;
 	using namespace except ;
+	using namespace app_props ;
 
 	record_pointer make_rec(string source, string trans)
 	{
@@ -30,20 +31,14 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 
 	BOOST_AUTO_TEST_CASE( create_memory )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem = mm.create_memory() ;
 		BOOST_CHECK(mem) ;
 	}
 	// getting memories
 	BOOST_AUTO_TEST_CASE( get_memory_by_name )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->set_location("first memory") ;
 		memory_pointer mem2 = mm.create_memory() ;
@@ -63,10 +58,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_by_id )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		int first_id = mem1->get_id() ;
 		memory_pointer mem2 = mm.create_memory() ;
@@ -82,10 +74,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( get_memory_by_id_not_found )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		int first_id = mem1->get_id() ;
 		memory_pointer mem2 = mm.create_memory() ;
@@ -113,10 +102,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	// removing memories
 	BOOST_AUTO_TEST_CASE( remove_memory_by_name )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->set_location("first memory") ;
 		memory_pointer mem2 = mm.create_memory() ;
@@ -132,10 +118,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( reduce_size_to )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("spam 1", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -153,10 +136,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	// adding and removing records
 	BOOST_AUTO_TEST_CASE( add_record_to_first )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -168,10 +148,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( add_record_to_second )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -183,10 +160,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( remove_record )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem = mm.create_memory() ;
 		mm.insert_memory(mem) ;
 
@@ -198,10 +172,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( remove_record_by_id )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -218,10 +189,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	// setting properties
 	BOOST_AUTO_TEST_CASE( set_properties_algo )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -230,55 +198,46 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		BOOST_CHECK_EQUAL(IDC_ALGO_AUTO, mem1->m_algo_properties->m_data.m_match_algo) ;
 		BOOST_CHECK_EQUAL(IDC_ALGO_AUTO, mem2->m_algo_properties->m_data.m_match_algo) ;
 
-		algo_props.m_data.m_match_algo = IDC_ALGO_WORD ;
+		get_props()->m_alg_props.m_data.m_match_algo = IDC_ALGO_WORD ;
 
 		BOOST_CHECK_EQUAL(IDC_ALGO_WORD, mem1->m_algo_properties->m_data.m_match_algo) ;
 		BOOST_CHECK_EQUAL(IDC_ALGO_WORD, mem2->m_algo_properties->m_data.m_match_algo) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_properties_gloss )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		gloss_props.m_data.m_min_score = 50 ;
+		get_props()->m_gloss_props.m_data.m_min_score = 50 ;
 
 		BOOST_CHECK_EQUAL(50, (int)mem1->m_gloss_properties->m_data.m_min_score) ;
 		BOOST_CHECK_EQUAL(50, (int)mem2->m_gloss_properties->m_data.m_min_score) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_properties_memory )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		mem_props.m_data.m_min_score = 0 ;
+		get_props()->m_mem_props.m_data.m_min_score = 0 ;
 
-		BOOST_CHECK_EQUAL(0u, mem1->m_properties->m_data.m_min_score) ;
-		BOOST_CHECK_EQUAL(0u, mem2->m_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(0u, mem1->m_mem_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(0u, mem2->m_mem_properties->m_data.m_min_score) ;
 
-		mem_props.m_data.m_min_score = 50 ;
+		get_props()->m_mem_props.m_data.m_min_score = 50 ;
 
-		BOOST_CHECK_EQUAL(50u, mem1->m_properties->m_data.m_min_score) ;
-		BOOST_CHECK_EQUAL(50u, mem2->m_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(50u, mem1->m_mem_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(50u, mem2->m_mem_properties->m_data.m_min_score) ;
 	}
 	// finding matches
 	BOOST_AUTO_TEST_CASE( find_trans_matches )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("spam 1", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -295,10 +254,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( find_matches )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("spam 1", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -315,10 +271,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( get_glossary_matches )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("Spam", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -341,10 +294,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( perform_search )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("lovely spam", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -363,10 +313,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	// memory info
 	BOOST_AUTO_TEST_CASE( total_memory_size_0 )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -376,10 +323,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( total_memory_size_3 )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->add_record(make_rec("spam 1", "egg 1")) ;
 		mem1->add_record(make_rec("bogus record source", "bogus record trans")) ;
@@ -392,19 +336,13 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( empty_true )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 
 		BOOST_CHECK(mm.empty()) ;
 	}
 	BOOST_AUTO_TEST_CASE( empty_false )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -414,19 +352,13 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( size_0 )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 
 		BOOST_CHECK_EQUAL(0u, mm.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( size_2 )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		memory_pointer mem2 = mm.create_memory() ;
 		mm.insert_memory(mem1) ;
@@ -436,10 +368,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	}
 	BOOST_AUTO_TEST_CASE( get_memories_needing_saving )
 	{
-		app_props::properties_memory mem_props; 
-		app_props::properties_glossary gloss_props; 
-		app_props::properties_algorithm algo_props; 
-		memory_model_gloss mm(&mem_props, &gloss_props, &algo_props) ;
+		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
 		mem1->set_location("first memory") ;
 		memory_pointer mem2 = mm.create_memory() ;

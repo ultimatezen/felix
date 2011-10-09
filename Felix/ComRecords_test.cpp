@@ -50,9 +50,8 @@ BOOST_AUTO_TEST_SUITE( TestComRecords )
 		records_obj::CreateInstance( &recs ) ;
 
 		record_collection_type records ;
-		app_props::properties_memory props ;
-		memory_local mem(&props) ;
 		record_pointer rec1 = make_record("source 1", "trans 1") ;
+		mem_engine::memory_local mem(app_props::get_props()) ;
 		records[mem.get_key(rec1)] = rec1 ;
 		record_pointer rec2 = make_record("source 2", "trans 2") ;
 		records[mem.get_key(rec2)] = rec2 ;

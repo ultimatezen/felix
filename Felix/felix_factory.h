@@ -10,19 +10,12 @@ class FelixFactory
 public:
 	app_props::props_ptr make_props()
 	{
-		static app_props::props_ptr props ;
-		if (! props)
-		{
-			props = app_props::props_ptr(new app_props::properties) ;
-		}
-		return props ;
+		return app_props::get_props() ;
 	}
 
 	static model_iface_ptr make_model_interface(app_props::props_ptr props)
 	{
-		return model_iface_ptr(new FelixModel(&props->m_mem_props,
-			&props->m_gloss_props,
-			&props->m_alg_props)) ;
+		return model_iface_ptr(new FelixModel(props)) ;
 	}
 	/** Get the MainFrame.
 	*/
@@ -36,7 +29,7 @@ public:
 	mem_engine::memory_pointer make_memory()
 	{
 		app_props::props_ptr props = make_props(); 
-		mem_engine::memory_pointer mem(new mem_engine::memory_local(&props->m_mem_props)) ;
+		mem_engine::memory_pointer mem(new mem_engine::memory_local(props)) ;
 		mem->set_properties_glossary(&props->m_gloss_props) ;
 		mem->set_properties_algo(&props->m_alg_props) ;
 		return mem ;

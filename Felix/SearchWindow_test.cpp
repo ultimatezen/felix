@@ -18,6 +18,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 
 	using namespace mem_engine ;
 	using namespace action;
+	using namespace app_props ;
 
 	memory_pointer add_controller(CSearchWindow &window, CString name1, CString name2)
 	{
@@ -66,8 +67,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_0)
 	{
 		CSearchWindow window ;
-		app_props::properties_memory props; 
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props())) ;
 		add_record(mem, "aaa", "bbb") ;
 		wstring replace_from = L"source:xxx" ;
 		search_match_container matches ;
@@ -77,8 +77,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_1)
 	{
 		CSearchWindow window ;
-		app_props::properties_memory props; 
-		memory_pointer mem(new memory_local(&props)) ;
+		memory_pointer mem(new memory_local(get_props())) ;
 		add_record(mem, "aaa", "bbb") ;
 		add_record(mem, "xxx", "yyy") ;
 		wstring replace_from = L"source:xxx" ;

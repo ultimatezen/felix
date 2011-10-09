@@ -9,6 +9,7 @@
 BOOST_AUTO_TEST_SUITE( TestStripTagsAction)
 
 namespace me = mem_engine ;
+using namespace app_props ;
 
 me::record_pointer add_record(me::memory_pointer &mem, string source, string trans)
 {
@@ -21,15 +22,13 @@ me::record_pointer add_record(me::memory_pointer &mem, string source, string tra
 
 BOOST_AUTO_TEST_CASE(instantiate)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	action::StripTagsAction stripper(mem) ;
 	BOOST_CHECK_EQUAL(stripper.m_new->size(), 0u) ;
 }
 BOOST_AUTO_TEST_CASE(strip_one_record)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
 	action::StripTagsAction stripper(mem) ;
@@ -40,8 +39,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record)
 }
 BOOST_AUTO_TEST_CASE(strip_makes_empty)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b></b>", "blarg") ;
 	add_record(mem, "bip", "blarg") ;
 
@@ -52,8 +50,7 @@ BOOST_AUTO_TEST_CASE(strip_makes_empty)
 
 BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "<i>i <foo>have</foo> <font name=\"blarg\">10 dollars!</font>") ;
 
 	action::StripTagsAction stripper(mem) ;
@@ -64,8 +61,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
 	action::StripTagsAction stripper(mem) ;
@@ -77,8 +73,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_one_record_location)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->set_location("c:\\foo\\bar.ftm") ;
 
@@ -91,8 +86,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record_location)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_one_record_location_new)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
 	action::StripTagsAction stripper(mem) ;
@@ -104,8 +98,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record_location_new)
 }
 BOOST_AUTO_TEST_CASE(undo_strip_creator)
 {
-	app_props::properties_memory props ;
-	mem_engine::memory_pointer mem(new me::memory_local(&props)) ;
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->get_memory_info()->set_creator(L"Barney") ;
 

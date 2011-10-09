@@ -6,9 +6,9 @@
 #include "input_device_file.h"
 
 CTabbedTextImporter::CTabbedTextImporter(CProgressListener *listener,
-										 app_props::properties_memory *props) :
-m_listener(listener),
-m_memory(new mem_engine::memory_local(props))
+										 app_props::props_ptr props) :
+	m_listener(listener),
+	m_memory(new mem_engine::memory_local(props))
 {
 }
 

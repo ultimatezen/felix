@@ -67,12 +67,13 @@ class CMemoryManagerDlg:
 	CProgressBarCtrl			m_progress_bar ;
 
 	int	m_title_id ;
+	app_props::props_ptr		m_props ;
 
 public:
 	static const int IDD = IDD_MEM_MGR_DLG ;
 	DECLARE_SENSING_VAR ;
 
-	CMemoryManagerDlg(int title_id = 0);
+	CMemoryManagerDlg(app_props::props_ptr props, int title_id = 0);
 	virtual ~CMemoryManagerDlg();
 
 	// progress listener implementation

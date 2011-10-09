@@ -13,17 +13,13 @@ class app
 public:
 	static app_props::props_ptr get_props()
 	{
-		static app_props::props_ptr m_props(new app_props::properties) ;
-
-		return m_props ;
+		return app_props::get_props() ;
 	}
 
 	static model_iface_ptr get_model_interface()
 	{
 		app_props::props_ptr props = get_props(); 
-		return model_iface_ptr(new FelixModel(&props->m_mem_props,
-			&props->m_gloss_props,
-			&props->m_alg_props)) ;
+		return model_iface_ptr(new FelixModel(props)) ;
 	}
 	/** Get the MainFrame.
 	*/

@@ -9,6 +9,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	using namespace mem_search ;
 	using namespace mem_engine ;
+	using namespace app_props ;
 
 	record_pointer make_record_searcher(wstring source, 
 										wstring trans,
@@ -58,8 +59,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(empty_memory_no_terms)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -69,8 +69,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_no_terms)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -82,8 +81,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_one_term_match)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -96,8 +94,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_match_term_plus_mem_name)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"spam.ftm") ;
 
 		search_match_container matches ;
@@ -112,8 +109,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_match_term_plus_gloss_name)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"spam.ftm") ;
 
 		search_match_container matches ;
@@ -127,8 +123,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(one_record_one_term_nomatch)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -141,8 +136,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_nomatch_term_plus_mem_name)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 		mem->set_location(L"spam.ftm") ;
 
 		search_match_container matches ;
@@ -157,8 +151,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_one_term_nomatch_erased)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -172,8 +165,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 
 	BOOST_AUTO_TEST_CASE(one_record_two_terms_match)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -189,8 +181,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// source: 	Search in source field
 	BOOST_AUTO_TEST_CASE(source_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -202,8 +193,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(source_two_of_three)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -217,8 +207,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(source_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -230,8 +219,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(source_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -244,8 +232,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// trans: 	Search in translation field
 	BOOST_AUTO_TEST_CASE(trans_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -257,8 +244,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(trans_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -270,8 +256,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(trans_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -284,8 +269,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// context: 	Search in context field
 	BOOST_AUTO_TEST_CASE(context_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -297,8 +281,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(context_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -310,8 +293,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(context_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -325,8 +307,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// created-by: 	Search in creator field
 	BOOST_AUTO_TEST_CASE(created_by_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -339,8 +320,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_by_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -353,8 +333,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_by_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -366,8 +345,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_by_partial)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -380,8 +358,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// created: 	Search for records created on date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(created_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -395,8 +372,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -410,8 +386,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -426,8 +401,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// created-before: 	Search for records created before date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(created_before_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -440,8 +414,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_before_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -455,8 +428,8 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// created-after: 	Search for records created after date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(created_after_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		app_props::props_ptr prop(new properties) ;
+		memory_pointer mem(new memory_local(prop, 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -470,8 +443,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(created_after_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -487,8 +459,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// modified-by: 	Search in modifier field
 	BOOST_AUTO_TEST_CASE(modified_by_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -502,8 +473,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_by_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -517,8 +487,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_by_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -533,8 +502,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// modified: 	Search for records modified on date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(modified_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -548,8 +516,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -563,8 +530,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -579,8 +545,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// modified-before: 	Search for records modified before date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(modified_before_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -594,8 +559,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_before_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -610,8 +574,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// modified-after: 	Search for records modified after date (YYYY-MM-DD format)
 	BOOST_AUTO_TEST_CASE(modified_after_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -625,8 +588,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(modified_after_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -642,8 +604,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// reliability: 	Search for records with the specified reliability
 	BOOST_AUTO_TEST_CASE(reliability_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -657,8 +618,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -672,8 +632,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -689,8 +648,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// reliability-gt: 	Search for records with greater than the specified reliability
 	BOOST_AUTO_TEST_CASE(reliability_gt_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -704,8 +662,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_gt_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -720,8 +677,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// reliability-gte: 	Search for records with at least the specified reliability
 	BOOST_AUTO_TEST_CASE(reliability_gte_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -735,8 +691,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_gte_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -751,8 +706,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// reliability-lt: 	Search for records with less than the specified reliability
 	BOOST_AUTO_TEST_CASE(reliability_lt_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -766,8 +720,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_lt_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -782,8 +735,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// reliability-lte: 	Search for records with no more than than the specified reliability
 	BOOST_AUTO_TEST_CASE(reliability_lte_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -797,8 +749,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(reliability_lte_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -814,8 +765,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// validated: 	Search for records that are validated ("true") or not validated ("false")
 	BOOST_AUTO_TEST_CASE(validated_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -826,8 +776,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(validated_empty)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -838,8 +787,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(validated_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -852,8 +800,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// refcount: 	Search for records with the specified refcount
 	BOOST_AUTO_TEST_CASE(refcount_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -867,8 +814,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_emtpy)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -882,8 +828,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -899,8 +844,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// refcount-gt: 	Search for records with greater than the specified refcount
 	BOOST_AUTO_TEST_CASE(refcount_gt_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -914,8 +858,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_gt_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -930,8 +873,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// refcount-gte: 	Search for records with at least the specified refcount
 	BOOST_AUTO_TEST_CASE(refcount_gte_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -945,8 +887,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_gte_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -961,8 +902,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// refcount-lt: 	Search for records with less than the specified refcount
 	BOOST_AUTO_TEST_CASE(refcount_lt_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -976,8 +916,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_lt_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -992,8 +931,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	// refcount-lte: 	Search for records with no more than than the specified refcount
 	BOOST_AUTO_TEST_CASE(refcount_lte_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -1007,8 +945,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_lte_equal_true)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;
@@ -1022,8 +959,7 @@ BOOST_AUTO_TEST_SUITE( searcher_test )
 	}
 	BOOST_AUTO_TEST_CASE(refcount_lte_false)
 	{
-		app_props::properties_memory props ;
-		memory_pointer mem(new memory_local(&props, 0.0f)) ;
+		memory_pointer mem(new memory_local(get_props(), 0.0f)) ;
 
 		search_match_container matches ;
 		search_runner searcher ;

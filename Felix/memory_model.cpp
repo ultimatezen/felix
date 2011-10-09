@@ -20,12 +20,8 @@ namespace mem_engine
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-memory_model::memory_model(app_props::properties_memory *mem_props,
-		app_props::properties_glossary *gloss_props,
-		app_props::properties_algorithm *algo_props) :
-	m_mem_props(mem_props),
-	m_gloss_props(gloss_props),
-	m_algo_props(algo_props)
+memory_model::memory_model(app_props::props_ptr props) :
+	m_props(props)
 {
 
 }
@@ -278,19 +274,15 @@ memory_list& memory_model::get_memories()
 }
 memory_pointer memory_model_mem::create_memory()
 {
-	memory_pointer mem(new mem_engine::memory_local(m_mem_props)) ;
+	memory_pointer mem(new mem_engine::memory_local(m_props)) ;
 	mem->set_is_memory( true ) ;
-	mem->set_properties_glossary(m_gloss_props) ;
-	mem->set_properties_algo(m_algo_props) ;
 	return mem ;
 }
 
 memory_pointer memory_model_gloss::create_memory()
 {
-	memory_pointer mem(new mem_engine::memory_local(m_mem_props)) ;
+	memory_pointer mem(new mem_engine::memory_local(m_props)) ;
 	mem->set_is_memory( false ) ;
-	mem->set_properties_glossary(m_gloss_props) ;
-	mem->set_properties_algo(m_algo_props) ;
 	return mem ;
 }
 }
