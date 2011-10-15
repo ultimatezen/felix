@@ -63,4 +63,8 @@ refcount_tag_end_narrow			( "</ref_count>" )
 {
 }
 
+bool tag_name_holder::is_query_tag( const wstring &tagname )
+{
+	return tagname == this->query_tag ;
+}
 

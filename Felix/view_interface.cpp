@@ -412,6 +412,9 @@ void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches 
 	CViewCollectionWalker walker ;
 	tag_name_holder &tags = tag_name_holder::instance() ;
 
+	app_props::props_ptr props = app_props::get_props() ;
+	const bool single_screen_matches = !! props->m_view_props.m_data.m_single_screen_matches ;
+
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
@@ -421,7 +424,13 @@ void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches 
 
 		if ( id.empty() == false )
 		{
-			if ( id == tags.query_tag )	
+			// this is in case we're showing all matches on one screen
+			if ( single_screen_matches && str::is_int_rep( id ) )
+			{
+				mem_engine::search_match_ptr match = matches->at( boost::lexical_cast< long >( id ) ) ;
+				rec = match->get_record() ;
+			}
+			else if ( tags.is_query_tag(id) )	
 			{
 				element->innerHTML = ( matches->get_query_rich() ).c_str() ;
 				// we need to re-calculate the length, because we've been mucking with the html
@@ -512,6 +521,8 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories,
 	tag_name_holder &tags = tag_name_holder::instance() ;
 
 	CViewCollectionWalker walker ;
+	app_props::props_ptr props = app_props::get_props() ;
+	const bool single_screen_matches = !! props->m_view_props.m_data.m_single_screen_matches ;
 
 	// loop through each of the elements
 	for ( int i=0 ; i < collection->length ; ++i )
@@ -524,6 +535,12 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories,
 		{
 			if ( str::is_int_rep( id ) )
 			{
+				// this is in case we're showing all matches on one screen
+				if ( single_screen_matches )
+				{
+					mem_engine::search_match_ptr match = matches->at( boost::lexical_cast< long >( id ) ) ;
+					rec = match->get_record() ;
+				}
 				int pos = boost::lexical_cast< long >( id ) ;
 				if ( false == rec->is_valid_record() ) 
 				{
@@ -533,7 +550,7 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories,
 				// set to current record
 				rec = matches->at(pos)->get_record() ;
 			}
-			else if ( id == tags.query_tag )	
+			else if ( tags.is_query_tag(id) )	
 			{
 				matches->set_query_rich( BSTR2wstring(element->innerHTML) ) ;
 			}

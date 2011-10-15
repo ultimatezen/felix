@@ -71,6 +71,7 @@ struct tag_name_holder
 		static tag_name_holder holder ;
 		return holder ;
 	}
+	bool is_query_tag(const wstring &tagname);
 private:
 	tag_name_holder() ;
 } ;
