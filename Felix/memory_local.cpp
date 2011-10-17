@@ -518,7 +518,7 @@ namespace mem_engine
 			// and refresh it whenever the preferences are changed.
 			refresh_user_name() ;
 
-			get_date_created(file_name, input) ;
+			detect_date_created(file_name, input) ;
 
 			const unsigned int file_len = input->get_size(file_name) ;
 

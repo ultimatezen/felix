@@ -90,6 +90,52 @@ namespace mem_engine
 	// Finding matches
 	//////////////////////////////////////////////////////////////////////
 
+	// find_matches
+	bool CTranslationMemory::find_matches( trans_match_container &matches, const search_query_params &params )
+	{
+		if ( ! m_is_active )
+		{
+			return true ;
+		}
+
+		// set the plain text query
+		m_match_maker.set_minimum_score((double)m_props->m_mem_props.get_min_score() / 100.0) ;
+		m_match_maker.set_assess_format_penalty(params.m_assess_format_penalty) ;
+
+		set_cmp_params(params);
+		search_match_ptr match_test(this->make_match()) ;
+		const double min_score = m_match_maker.get_minimum_score() ;
+		Segment query(&m_cmp_maker, params.m_rich_source) ;
+
+		int match_algo = params.m_match_algo ;
+		if ( match_algo == IDC_ALGO_AUTO )
+		{
+			match_algo = detect_match_algo(query.cmp()) ;
+		}
+
+		trans_set candidates ;
+		this->get_match_candidates(candidates, params.m_rich_source, min_score) ;
+
+		// check each of the records for a match
+		foreach ( record_pointer record, candidates )
+		{
+			match_test->set_record( record ) ;
+			Segment source(&m_cmp_maker, record->get_source_rich()) ;
+
+			if ( m_match_maker.get_score( query,
+				source,
+				match_algo,
+				match_test ) )
+			{
+				matches.insert( match_test ) ;
+				match_test = this->make_match() ;
+			}
+		}
+
+		return true ;
+	}
+
+
 
 	// Function name	: memory::find_trans_matches
 	// Description	    : 
@@ -106,6 +152,7 @@ namespace mem_engine
 		try
 		{
 			// we allow the same minimum score as with source searches
+			m_match_maker.set_minimum_score((double)m_props->m_mem_props.get_min_score() / 100.0) ;
 			m_match_maker.set_assess_format_penalty(params.m_assess_format_penalty) ;
 
 			set_cmp_params(params);
@@ -296,6 +343,16 @@ namespace mem_engine
 		this->get_memory_info()->set_creator_to_current_user() ;
 	}
 
+	// Get the current user name from the memory info
+	void CTranslationMemory::refresh_user_name(void)
+	{
+		// refresh user name 
+		this->get_memory_info()->get_current_user() ;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// extra strings interface
+	//////////////////////////////////////////////////////////////////////////
 	bool CTranslationMemory::remove_extra_string(const wstring key)
 	{
 		extra_strings_type::iterator pos = m_extra_strings.find( key ) ;
@@ -332,13 +389,7 @@ namespace mem_engine
 		return wstring() ;
 	}
 
-	void CTranslationMemory::refresh_user_name(void)
-	{
-		// refresh user name 
-		this->get_memory_info()->get_current_user() ;
-	}
-
-	void CTranslationMemory::get_date_created( const CString &location, input_device_ptr input )
+	void CTranslationMemory::detect_date_created( const CString &location, input_device_ptr input )
 	{
 		// get the size of the file and date created
 		input->ensure_file_exists(location);
@@ -367,6 +418,7 @@ namespace mem_engine
 		return encoding_from_multi_lang( text, text_size ) ;
 	}
 
+	// Get the encoding from the XML encoding declaration
 	UINT CTranslationMemory::encoding_from_encoding_string(textstream_reader< char > & xml_reader)
 	{
 		xml_reader.jump_to_first_of( "\"'", true ) ;
@@ -377,6 +429,7 @@ namespace mem_engine
 		return sci_encoding_from_encoding_string( charset_str ) ;
 	}
 
+	// Use the CMultiLanguage class to guess the text encoding
 	UINT CTranslationMemory::encoding_from_multi_lang(const char* text, UINT text_size)
 	{
 		CMultiLanguage multi ;
@@ -387,6 +440,8 @@ namespace mem_engine
 		return detect.nCodePage ;
 	}
 
+	// translate a std::exception into an except::CException if we are going
+	// to rethrow
 	void CTranslationMemory::handle_stdexception_on_load(   bool was_saved, const CString& file_name, std::exception &e  ) 
 	{
 		if ( UserSaysBail() )
@@ -404,6 +459,7 @@ namespace mem_engine
 		}
 	}
 
+	// set memory type: true (TM) or false (glossary)
 	void CTranslationMemory::set_is_memory( const bool setting )
 	{
 		if ( setting ) 
@@ -416,11 +472,15 @@ namespace mem_engine
 		}
 	}
 
+	// is it a TM or glossary?
 	bool CTranslationMemory::get_is_memory() const 
 	{
 		return this->get_memory_info_const()->is_memory() ;
 	}
 
+	// If we have a listener, get UI interaction from there.
+	// Otherwise, prompt the user ourselves.
+	// ** We want to get rid of this! **
 	bool CTranslationMemory::UserSaysBail()
 	{
 		if (m_listener)
@@ -433,6 +493,8 @@ namespace mem_engine
 			MB_YESNO | MB_SETFOREGROUND | MB_ICONHAND );
 	}
 
+	// continue_or_throw
+	// find out whether to continue processing, or rethrow the exception
 	void CTranslationMemory::continue_or_throw( CException &e )
 	{
 		// see if the user wants to continue saving
@@ -446,11 +508,14 @@ namespace mem_engine
 		}
 	}
 
+	// ListenerSaysBail
+	// Check with the listener (which can prompt user) whether to bail on action
 	bool CTranslationMemory::ListenerSaysBail()
 	{
 		return m_listener != NULL && m_listener->ShouldBailFromException();
 	}
 
+	// check_progress_update
 	void CTranslationMemory::check_progress_update( int progress_interval )
 	{
 		if( 0 == ( size() % progress_interval ) )
@@ -460,50 +525,6 @@ namespace mem_engine
 				m_listener->OnProgressLoadUpdate( static_cast< int >( size() ) ) ;
 			}
 		}
-	}
-
-	// find_matches
-	bool CTranslationMemory::find_matches( trans_match_container &matches, const search_query_params &params )
-	{
-		if ( ! m_is_active )
-		{
-			return true ;
-		}
-
-		// set the plain text query
-		m_match_maker.set_assess_format_penalty(params.m_assess_format_penalty) ;
-
-		set_cmp_params(params);
-		search_match_ptr match_test(this->make_match()) ;
-		const double min_score = m_match_maker.get_minimum_score() ;
-		Segment query(&m_cmp_maker, params.m_rich_source) ;
-
-		int match_algo = params.m_match_algo ;
-		if ( match_algo == IDC_ALGO_AUTO )
-		{
-			match_algo = detect_match_algo(query.cmp()) ;
-		}
-
-		trans_set candidates ;
-		this->get_match_candidates(candidates, params.m_rich_source, min_score) ;
-
-		// check each of the records for a match
-		foreach ( record_pointer record, candidates )
-		{
-			match_test->set_record( record ) ;
-			Segment source(&m_cmp_maker, record->get_source_rich()) ;
-
-			if ( m_match_maker.get_score( query,
-				source,
-				match_algo,
-				match_test ) )
-			{
-				matches.insert( match_test ) ;
-				match_test = this->make_match() ;
-			}
-		}
-
-		return true ;
 	}
 
 }
