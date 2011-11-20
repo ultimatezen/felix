@@ -264,11 +264,7 @@ void CMemoryManagerDlg::getAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 		mem->set_locked_off() ;
 	}
 
-	size_t rel = dlg.get_reliability() ;
-	if (rel >= 0)
-	{
-		mem->batch_set_reliability( min( rel, 10 ) ) ;
-	}
+	mem->batch_set_reliability( min( dlg.get_reliability(), 10 ) ) ;
 
 	if ( dlg.get_validation() == BST_CHECKED )
 	{

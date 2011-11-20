@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(validation )
 BOOST_AUTO_TEST_CASE(reliability )
 {
 	CAdvancedMemMgrDlg dlg ;
-	BOOST_CHECK_EQUAL((int)dlg.get_reliability(), -1) ;
+	BOOST_CHECK_EQUAL((int)dlg.get_reliability(), 0) ;
 	dlg.set_reliability(10) ;
 	BOOST_CHECK_EQUAL((int)dlg.get_reliability(), 10) ;
 }

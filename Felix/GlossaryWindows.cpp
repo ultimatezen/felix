@@ -190,12 +190,12 @@ STDMETHODIMP CGlossaryWindows::Remove(VARIANT item)
 
 		wnd.SendMessage( WM_DESTROY, 0, 0 ) ;
 
-		gloss_window_iterator pos ;
-		for ( pos = m_glossary_windows->begin() ; pos != m_glossary_windows->end() ;  )
+		for ( auto pos = m_glossary_windows->begin() ; pos != m_glossary_windows->end() ;  )
 		{
 			if ( ! (*pos)->IsWindow() )
 			{
 				m_glossary_windows->erase(pos) ;	
+				break ;
 			}
 			else ++pos ;
 		}
@@ -211,11 +211,12 @@ STDMETHODIMP CGlossaryWindows::Remove(VARIANT item)
 	
 	(*pos)->OnDestroy() ;
 	
-	for ( pos = m_glossary_windows->begin() ; pos != m_glossary_windows->end() ;  )
+	for ( auto pos = m_glossary_windows->begin() ; pos != m_glossary_windows->end() ;  )
 	{
 		if ( ! (*pos)->IsWindow() )
 		{
-			m_glossary_windows->erase(pos) ;	
+			m_glossary_windows->erase(pos) ;
+			break ;
 		}
 		else ++pos ;
 	}

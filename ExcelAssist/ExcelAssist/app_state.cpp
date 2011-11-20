@@ -16,7 +16,8 @@ app_state::app_state() :
 		m_skipJ(NO_SKIP),
 		m_freshInstall(TRUE),
 		m_use_trans_hist(FALSE),
-		m_shortcuts_active(TRUE)
+		m_shortcuts_active(TRUE),
+		m_raise_felix(FALSE)
 	{
 		set_default_lang() ;
 	}
@@ -46,13 +47,7 @@ app_state::app_state() :
 	*/
 	app_state::app_state( const app_state &rhs )
 	{
-		m_toolbar_visible = rhs.m_toolbar_visible ;
-		m_preferred_gui_lang = rhs.m_preferred_gui_lang ;
-		m_skipNumbers = rhs.m_skipNumbers ;
-		m_skipJ = rhs.m_skipJ ;
-		m_freshInstall = rhs.m_freshInstall; // is this useful?
-		m_use_trans_hist = rhs.m_use_trans_hist;
-		m_raise_felix = rhs.m_raise_felix ;
+		*this = rhs ;
 	}
 
 	/*! Assignment operator.
@@ -67,6 +62,7 @@ app_state::app_state() :
 		m_skipJ = rhs.m_skipJ ;
 		m_freshInstall = rhs.m_freshInstall; // is this useful?
 		m_use_trans_hist = rhs.m_use_trans_hist;
+		m_shortcuts_active = rhs.m_shortcuts_active ;
 		m_raise_felix = rhs.m_raise_felix ;
 
 		return *this ;

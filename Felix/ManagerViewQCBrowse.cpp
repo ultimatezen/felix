@@ -25,11 +25,11 @@ namespace mgrview
 		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 
-	ManagerViewQCBrowse::ManagerViewQCBrowse(size_t item,
-		size_t page/*=1*/) : 
+	ManagerViewQCBrowse::ManagerViewQCBrowse(size_t item, size_t page/*=1*/) : 
 		m_item(item),
 		m_page(page),
 		m_paginator(10u),
+		m_is_memory(true),
 		ManagerView()
 	{
 

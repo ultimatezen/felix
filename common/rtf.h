@@ -406,7 +406,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 
 	/** default constructor. 
 	*/
-		format_package::format_package() : 
+		format_package() : 
 			mFont( L"Arial" )  , 
 			mFontSize( 14 ) ,
 			mIsBold ( 0 ),
@@ -420,7 +420,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 	/** constructor. 
 	@param package parameter. 
 	*/
-		format_package::format_package( const format_package &package ) 
+		format_package( const format_package &package ) 
 			: mFont( package.mFont ) , 
 			mFontSize( package.mFontSize ) ,
 			mIsBold ( package.mIsBold ),
@@ -437,7 +437,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 	@return bool description. 
 	@param void parameter. 
 	*/
-		bool format_package::HasText( void ) 
+		bool HasText( void ) 
 		{ 
 			return ( mText.length() != 0 ) ; 
 		}
@@ -446,7 +446,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 	@return format_package &format_package::operator description. 
 	@param package parameter. 
 	*/
-		format_package &format_package::operator =( const format_package &package )
+		format_package &operator =( const format_package &package )
 		{
 			mFont = package.mFont ;
 			mFontSize = package.mFontSize ;

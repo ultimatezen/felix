@@ -343,7 +343,9 @@ public:
 		tru_end_tag("</TrU>"),
 		tab_str("tab"),
 		line_str("line"),
-		m_old_codepage(_getmbcp())
+		m_old_codepage(_getmbcp()),
+		m_default_codepage(0),
+		m_current_codepage(0)
 	{
 	}
 
@@ -381,8 +383,8 @@ public:
 	bool process_line( const string &line );
 
 	void process_formatted_line_old();
-	void set_source_language( const tstring source_language ) { m_source_language = string2string( source_language ) ; }
-	void set_target_language( const tstring target_language ) { m_target_language = string2string( target_language ) ; }
+	void set_source_language( const tstring &source_language ) { m_source_language = string2string( source_language ) ; }
+	void set_target_language( const tstring &target_language ) { m_target_language = string2string( target_language ) ; }
 	string dump_context( );
 	//void set_codepage( string &lang_tag );
 	wstring get_font_tag( const string_type &code );

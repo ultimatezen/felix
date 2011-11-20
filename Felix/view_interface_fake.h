@@ -85,7 +85,7 @@ public:
 		matches ;
 		SENSE("handle_enter_edit_mode_match") ;
 	}
-	record_pointer get_match_record( mem_engine::felix_query *matches )
+	rec_ptr get_match_record( mem_engine::felix_query *matches )
 	{
 		matches ;
 		SENSE("get_match_record") ;
@@ -100,7 +100,7 @@ public:
 	// =========================
 	// for leaving edit mode
 	// =========================
-	void handle_leave_edit_mode_new( record_pointer &record ) 
+	void handle_leave_edit_mode_new( rec_ptr &record ) 
 	{
 		record ;
 		SENSE("handle_leave_edit_mode_new") ;
@@ -121,7 +121,7 @@ public:
 		return true ;
 	}
 	bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, 
-													 record_pointer &record ) 
+													 rec_ptr &record ) 
 	{
 		memories ;
 		record ;

@@ -14,24 +14,22 @@ namespace mem_engine
 
 	void set_record_username(const wstring username) ;
 	wstring get_record_username() ;
+	
 	/**
-	@class translation_record
-	@brief Represents a memory record.
+	translation_record
+	Represents a memory record.
 	*/
-	class translation_record
+	class __declspec(novtable) translation_record
 	{
 	public:
+
 		typedef std::map< wstring, wstring >	record_data_map ;
 		typedef record_data_map::iterator		record_data_iterator ;
 
-		// construction
-		translation_record( ) {}
-		virtual ~translation_record() {}
-
-		void set_validated(bool setting);
-		void increment_reliability();
-		void increment_refcount();
-		void reset_refcount();
+		virtual void set_validated(bool setting) = 0 ;
+		virtual void increment_reliability() = 0 ;
+		virtual void increment_refcount() = 0 ;
+		virtual void reset_refcount() = 0 ;
 
 		// pure virtual
 

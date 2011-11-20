@@ -543,11 +543,12 @@ void CTMXReader::load_utf16be(const CString & file_name, input_device_ptr input)
 	const size_t file_size = input->get_size(file_name) ;
 	LPCWSTR raw_text = input->create_view_wchar(file_name) ;
 
-	boost::scoped_array<wchar_t> buffer(new wchar_t[(file_size / 2 ) + 1]);
+	const size_t wfile_size = (file_size / 2 ) + 1 ;
+	boost::scoped_array<wchar_t> buffer(new wchar_t[wfile_size]);
 	LPWSTR flipped_text = buffer.get() ;
 
 	cracker crack1, crack2 ;
-	for ( size_t i = 1 ; raw_text[i] && i < ( file_size / 2 ) + 1 ; ++i )
+	for ( size_t i = 1 ; i < wfile_size && raw_text[i] ; ++i )
 	{
 		crack1.w = raw_text[i] ;
 		crack2.c[0] = crack1.c[1] ;

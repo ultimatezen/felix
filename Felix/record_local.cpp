@@ -437,4 +437,34 @@ size_t record_local::get_id() const
 {
 	return m_id;
 }
+
+// set_validated
+void record_local::set_validated( const bool setting )
+{
+	setting ? this->set_validated_on() : this->set_validated_off() ;
+}
+
+// increment_reliability
+void record_local::increment_reliability()
+{
+	this->set_reliability( this->get_reliability() + 1u ) ;
+}
+
+// increment_refcount
+void record_local::increment_refcount()
+{
+	this->set_refcount(this->get_refcount() + 1u) ;
+}
+
+// reset_refcount
+// If we actually change the refcount, then we update
+// the last-modified value.
+void record_local::reset_refcount()
+{
+	if ( 0u < this->get_refcount() ) 
+	{
+		this->modify() ;
+		this->set_refcount(0u) ;
+	}
+}
 }

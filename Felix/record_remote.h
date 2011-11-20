@@ -15,6 +15,11 @@ namespace mem_engine
 		// We really need to plug this leak, but for right now I can't find it!
 		~record_remote();
 
+		void set_validated(bool setting);
+		void increment_reliability();
+		void increment_refcount();
+		void reset_refcount();
+
 		void ensure_source();
 		void ensure_trans();
 		void ensure_context();

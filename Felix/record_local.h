@@ -19,6 +19,12 @@ namespace mem_engine
 			internal_copy( rec ) ; 
 		}
 
+
+		void set_validated(bool setting);
+		void increment_reliability();
+		void increment_refcount();
+		void reset_refcount();
+
 		// assignment
 		record_local &operator =( record_pointer rec ) 
 		{

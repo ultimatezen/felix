@@ -260,7 +260,7 @@ const static int TIME_BUF_SIZE = 50 ;
 		{
 			return get_date_time_string( tstring( date_format ), tstring( time_format ), tstring( separator ) ) ;
 		}
-		const tstring get_date_time_string( const tstring date_format, const tstring time_format, const tstring separator ) const
+		const tstring get_date_time_string( const tstring &date_format, const tstring &time_format, const tstring &separator ) const
 		{
 			return get_date_string( date_format ) + separator + get_time_string( time_format ) ;
 		}

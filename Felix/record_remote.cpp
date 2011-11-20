@@ -373,4 +373,37 @@ namespace mem_engine
 			this->m_context.set_value(BSTR2wstring(m_engine.prop_get(L"Context").bstrVal)) ;
 		}
 	}
+
+
+	// set_validated
+	void record_remote::set_validated( const bool setting )
+	{
+		setting ? this->set_validated_on() : this->set_validated_off() ;
+	}
+
+	// increment_reliability
+	void record_remote::increment_reliability()
+	{
+		this->set_reliability( this->get_reliability() + 1u ) ;
+	}
+
+	// increment_refcount
+	void record_remote::increment_refcount()
+	{
+		this->set_refcount(this->get_refcount() + 1u) ;
+	}
+
+	// reset_refcount
+	// If we actually change the refcount, then we update
+	// the last-modified value.
+	void record_remote::reset_refcount()
+	{
+		if ( 0u < this->get_refcount() ) 
+		{
+			this->modify() ;
+			this->set_refcount(0u) ;
+		}
+	}
+
+
 }

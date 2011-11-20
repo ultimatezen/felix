@@ -2160,9 +2160,15 @@ namespace
 								if (IS_CHARTYPE(*s, ct_start_symbol)) // <... #...
 								{
 									xml_attribute_struct* a = append_attribute_ll(cursor, alloc); // Make space for this attribute.
-									if (!a) THROW_ERROR(status_out_of_memory, 0);
+									if (!a) 
+									{
+										THROW_ERROR(status_out_of_memory, 0);
+									}
+									else
+									{
+										a->name = s; // Save the offset.
+									}
 
-									a->name = s; // Save the offset.
 
 									SCANWHILE(IS_CHARTYPE(*s, ct_symbol)); // Scan for a terminator.
 									CHECK_ERROR(status_bad_attribute, s);

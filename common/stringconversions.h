@@ -160,7 +160,7 @@ inline std::string BSTR2string( const BSTR &bstr, UINT code_page = _getmbcp() )
 
 
 
-inline _bstr_t string2BSTR( const std::wstring str )
+inline _bstr_t string2BSTR( const std::wstring &str )
 {
 	if (str.empty())
 	{
@@ -169,7 +169,7 @@ inline _bstr_t string2BSTR( const std::wstring str )
 	_ASSERTE(str.size() > 0) ;
 	return _bstr_t(::SysAllocStringLen(str.c_str(), static_cast<UINT>(str.size())), false) ;
 }
-inline _bstr_t string2BSTR( const std::string str, UINT cp = CP_ACP )
+inline _bstr_t string2BSTR( const std::string &str, UINT cp = CP_ACP )
 {
 	const std::wstring tmp = string2wstring( str, cp ) ;
 	return string2BSTR(tmp) ;

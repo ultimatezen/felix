@@ -107,7 +107,7 @@ public:
 	@return reader_type& reference to self. 
 	@param reader parameter. 
 	*/
-	reader_type &operator =( const reader_type reader )
+	reader_type &operator =( const reader_type &reader )
 	{
 		m_buffer = reader.m_buffer ;
 		m_pos = reader.m_pos ;

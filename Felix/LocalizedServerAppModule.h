@@ -10,12 +10,9 @@
 #pragma once
 
 #include <string>
-
+#include "stringex.h"
 #include "Shlwapi.h"
 #pragma comment(lib, "shlwapi.lib")
-
-
-typedef std::basic_string< TCHAR > tstring ;
 
 /**
 	@struct appstate_mainframe
@@ -232,6 +229,10 @@ class CLocalizedServerAppModule : public CServerAppModule
 	TCHAR m_lib_name[_MAX_PATH] ; ///< Holds the name of the current resource library (DLL)
 
 public:
+	CLocalizedServerAppModule()
+	{
+		ZeroMemory(m_lib_name, sizeof(m_lib_name)) ;
+	}
 
 	/** Set the name of the resource library (DLL). 
 	@return bool description. 

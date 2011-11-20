@@ -47,7 +47,7 @@ public:
 	{}
 
 	int get_validation() const;
-	int get_reliability() const;
+	size_t get_reliability() const;
 	int get_lock() const;
 
 	void set_validation(int setting);

@@ -46,11 +46,10 @@ LRESULT CMinViewDlg::OnInitDialog( )
 
 	const CWindowRect window_rc(*this) ;
 	
-	const int padding = 4 ;
 #ifdef UNIT_TEST
-	padding ;
 	return TRUE ;
 #else
+	const int padding = 4 ;
 
 	CWindowRect rc(m_idcEditBox) ;
 	ScreenToClient( &rc ) ;
@@ -168,7 +167,9 @@ BOOL CMinViewDlg::PreTranslateMessage( LPMSG pMsg )
 	return m_view.PreTranslateMessage( pMsg ) ;
 }
 
-CMinViewDlg::CMinViewDlg() : m_parent( NULL )
+CMinViewDlg::CMinViewDlg() : m_parent( NULL ), 
+	m_listener(NULL), 
+	m_trans_matches(NULL)
 {
 
 }

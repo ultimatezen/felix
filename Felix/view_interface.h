@@ -20,10 +20,8 @@
 // (Wraps an HTML view)
 class view_interface
 {
-
 public:
 	typedef mem_engine::translation_match_query TransMatchQueryTrans ;
-	typedef mem_engine::record_pointer record_pointer ;
 	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
 	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
 	typedef mem_engine::search_match_ptr SearchMatchType ;
@@ -48,17 +46,17 @@ public:
 
 	virtual void handle_enter_edit_mode_match( mem_engine::felix_query *matches ) = 0  ;
 
-	virtual record_pointer get_match_record( mem_engine::felix_query *matches ) = 0 ;
+	virtual mem_engine::record_pointer get_match_record( mem_engine::felix_query *matches ) = 0 ;
 	virtual void handle_enter_edit_mode_concordance( mem_engine::felix_query *matches ) = 0  ;
 
 	// =========================
 	// for leaving edit mode
 	// =========================
-	virtual void handle_leave_edit_mode_new( record_pointer &record ) = 0 ;
+	virtual void handle_leave_edit_mode_new( mem_engine::record_pointer &record ) = 0 ;
 
 	virtual void handle_leave_edit_mode_match( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
 	virtual bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
-	virtual bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) = 0 ;
+	virtual bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, mem_engine::record_pointer &record ) = 0 ;
 
 	virtual bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches ) = 0 ;
 
@@ -153,17 +151,17 @@ public:
 
 	void handle_enter_edit_mode_match( mem_engine::felix_query *matches ) ;
 
-	record_pointer get_match_record( mem_engine::felix_query *matches );
+	mem_engine::record_pointer get_match_record( mem_engine::felix_query *matches );
 	void handle_enter_edit_mode_concordance( mem_engine::felix_query *matches ) ;
 
 	// =========================
 	// for leaving edit mode
 	// =========================
-	void handle_leave_edit_mode_new( record_pointer &record ) ;
+	void handle_leave_edit_mode_new( mem_engine::record_pointer &record ) ;
 
 	void handle_leave_edit_mode_match( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
 	bool handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
-	bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, record_pointer &record ) ;
+	bool handle_leave_edit_mode_new_record_glossary( MemoryControllerType memories, mem_engine::record_pointer &record ) ;
 
 	bool handle_leave_edit_mode_concordance( MemoryControllerType memories, mem_engine::felix_query *matches ) ;
 

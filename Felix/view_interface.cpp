@@ -741,7 +741,7 @@ wstring frame_view::get_doc_path( const wstring doc_url )
 	return str::left( local_docurl, pos + 1 ) ;
 }
 
-frame_view::record_pointer frame_view::get_match_record( mem_engine::felix_query *matches )
+mem_engine::record_pointer frame_view::get_match_record( mem_engine::felix_query *matches )
 {
 	// The current match...
 	if ( false == matches->empty() ) // If we have some matches->..

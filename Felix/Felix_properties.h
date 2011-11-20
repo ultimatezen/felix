@@ -780,6 +780,7 @@ struct properties_general : public props::CRegMap
 			m_query_merge(TRUE),
 			m_old_mem_mgr(FALSE)
 		{
+			ZeroMemory(m_user_name, sizeof(m_user_name)) ;
 			DWORD path_len(MAX_PATH) ;
 			::GetUserName( m_user_name, &path_len ) ;
 		}

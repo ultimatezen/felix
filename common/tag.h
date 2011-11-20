@@ -8,10 +8,10 @@ template< class CHAR_T >
 class CTag
 {
 	typedef std::basic_string< CHAR_T > str_type ;
-	typedef std::map< str_type, str_type > map_type ;
+	typedef std::map< str_type, str_type > attr_type ;
 
 	str_type m_tag_name ;
-	map_type m_attributes ;
+	attr_type m_attributes ;
 	bool		m_is_end_tag ;
 
 public:
@@ -75,14 +75,14 @@ public:
 	{
 		return m_tag_name ;
 	}
-	void get_attributes( map_type &attributes ) const
+	void get_attributes( attr_type &attributes ) const
 	{
-		map_type tmp( m_attributes ) ;
+		attr_type tmp( m_attributes ) ;
 		tmp.swap( attributes ) ;
 	}
 	const str_type get_attribute( const str_type &key ) const
 	{
-		map_type::const_iterator pos = m_attributes.find(key) ;
+		attr_type::const_iterator pos = m_attributes.find(key) ;
 
 		if ( pos == m_attributes.end() ) 
 		{

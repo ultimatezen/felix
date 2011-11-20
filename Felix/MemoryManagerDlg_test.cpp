@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
-		string expected = (LPCSTR)(CT2A(get_props()->m_gen_props.m_data.m_user_name)) ;
+		string expected = "Ryan Ginstrom" ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_empty)

@@ -39,3 +39,10 @@ ExcelAssist/ExcelAssist/RDa06652
 WordAssist/WordAssist/AddIn.h
 WordAssist/WordAssist/AddIn_i.c
 WordAssist/WordAssist/AddIn_p.c
+*.sbr
+common.txt
+Felix/Felix.opensdf
+*.tlog
+Felix/Testing_64/*
+Felix/Testing_64/*
+felixcheck.txt

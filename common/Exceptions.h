@@ -300,7 +300,8 @@ public:
 	CSWException( const CSWException &rhs ) :
 		CException(rhs), 
 		m_code(rhs.m_code),
-		m_filename(rhs.m_filename)
+		m_filename(rhs.m_filename),
+		m_rec(NULL)
 	{
 		
 	}

@@ -92,9 +92,9 @@ int CAdvancedMemMgrDlg::get_validation() const
 	return m_validation ;
 }
 
-int CAdvancedMemMgrDlg::get_reliability() const
+size_t CAdvancedMemMgrDlg::get_reliability() const
 {
-	return m_reliability ;
+	return static_cast<size_t>(max(m_reliability, 0)) ;
 }
 
 int CAdvancedMemMgrDlg::get_lock() const
