@@ -321,7 +321,6 @@
     <ClCompile Include="..\..\common\logging.cpp" />
     <ClCompile Include="menu_manip.cpp" />
     <ClCompile Include="menu_manip_test.cpp" />
-    <ClCompile Include="..\..\common\Picture.cpp" />
     <ClCompile Include="PowerPointInterface.cpp" />
     <ClCompile Include="PowerPointInterface_test.cpp" />
     <ClCompile Include="PPTFormatter.cpp" />

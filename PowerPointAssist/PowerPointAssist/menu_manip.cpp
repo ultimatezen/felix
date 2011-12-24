@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "menu_manip.h"
-#include "Picture.h"
 #include "DispatchWrapper.h"
 #include "logging.h"
 

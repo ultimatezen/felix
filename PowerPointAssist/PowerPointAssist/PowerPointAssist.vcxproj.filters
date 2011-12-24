@@ -84,9 +84,6 @@
     <ClCompile Include="menu_manip_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\Picture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PowerPointInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
