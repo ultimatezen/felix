@@ -73,7 +73,8 @@ const wstring CColorRef::byte_2_wstring( const BYTE val ) const
 }
 
 
-CColorRef::CColorRef()
+CColorRef::CColorRef() : 
+	m_color()
 {
 
 }

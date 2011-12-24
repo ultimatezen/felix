@@ -132,25 +132,11 @@ wstring TradosDate2FelixDate(const wstring trados_date)
 // CXml2RecordConverter
 // ==============================
 
-// constructors
-CXml2RecordConverter::CXml2RecordConverter( ) 
+// constructor
+CXml2RecordConverter::CXml2RecordConverter( ) :
+	m_parser(),
+	m_record(mem_engine::record_pointer(new record_local()))
 {
-	m_record = mem_engine::record_pointer(new record_local()) ;
-}
-CXml2RecordConverter::CXml2RecordConverter( const CXml2RecordConverter &cpy ) : 
-	m_record( cpy.m_record )
-{
-}
-
-
-// Function name	: CXml2RecordConverter::operator =
-// Description	    : 
-// Return type		: CXml2RecordConverter &CXml2RecordConverter::operator 
-// Argument         : const CXml2RecordConverter &cpy
-CXml2RecordConverter &CXml2RecordConverter::operator =( const CXml2RecordConverter &cpy )
-{
-	m_record	= ( cpy.m_record ) ;
-	return *this ;
 }
 
 
@@ -519,32 +505,13 @@ bool CXml2RecordConverter::get_validated_value()
 // CRecord2XmlConverter methods
 // ========================
 
-// constructors
+// constructor
 CRecord2XmlConverter::CRecord2XmlConverter( OutputDevice *xml_file )
 : m_file( xml_file )
 {
 	m_record = mem_engine::record_pointer(new record_local()) ;
 
 	init_char_conversion();
-}
-CRecord2XmlConverter::CRecord2XmlConverter( const CRecord2XmlConverter &cpy )
-	: m_doc( cpy.m_doc ),
-	m_node( cpy.m_node ),
-	m_record( cpy.m_record ),
-	m_file( cpy.m_file )
-{
-	init_char_conversion();
-}
-
-// assignment operator
-CRecord2XmlConverter &CRecord2XmlConverter::operator =( const CRecord2XmlConverter &cpy )
-{
-	m_doc		= cpy.m_doc ;
-	m_node		= cpy.m_node ;
-	m_record	= cpy.m_record ;
-	m_file      = cpy.m_file ;
-
-	return *this ;
 }
 
 

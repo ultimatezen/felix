@@ -1062,7 +1062,9 @@ echo Protection complete!
     <ClCompile Include="text_templates_test.cpp" />
     <ClCompile Include="..\common\textstream_reader_test.cpp" />
     <ClCompile Include="TmxImportLangsDlg_test.cpp" />
-    <ClCompile Include="TMXReader_test.cpp" />
+    <ClCompile Include="TMXReader_test.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="TmxSymbolMapper_test.cpp" />
     <ClCompile Include="TMXWriter_test.cpp" />
     <ClCompile Include="translation_match_query_test.cpp" />

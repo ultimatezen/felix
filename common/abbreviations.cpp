@@ -20,11 +20,6 @@ void Abbreviations::load(const wstring &text)
 
 Abbreviations::Abbreviations()
 {
-	std::vector<wstring> tokens ;
-	tokens += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
-	foreach(wstring token, tokens)
-	{
-		m_abbreviations.insert(token) ;
-	}
+	m_abbreviations += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
 }
 

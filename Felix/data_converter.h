@@ -38,9 +38,6 @@ public:
 	const wstring strip_cdata( const wstring data ) const;
 	// constructors
 	CXml2RecordConverter( ) ;
-	CXml2RecordConverter( const CXml2RecordConverter &cpy ) ;
-	// assignment
-	CXml2RecordConverter &operator =( const CXml2RecordConverter &cpy ) ;
 
 	// Load the xml values into a translation record
 	mem_engine::record_pointer convert_from_xml_node( LPCWSTR node ) ;
@@ -85,11 +82,8 @@ public:
 	std::vector<string> m_from_strings ;
 	std::vector<string> m_to_strings ;
 
-	// constructors
+	// constructor
 	CRecord2XmlConverter( OutputDevice *xml_file ) ;
-	CRecord2XmlConverter( const CRecord2XmlConverter &cpy ) ;
-	// assignment
-	CRecord2XmlConverter &operator =( const CRecord2XmlConverter &cpy ) ;
 
 	void init_char_conversion();
 	~CRecord2XmlConverter() {}

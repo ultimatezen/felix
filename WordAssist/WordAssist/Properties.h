@@ -30,6 +30,8 @@ class CPageFormat :
 public:
 	enum { IDD = id_type } ;
 
+	CPageFormat() : m_properties(NULL) {}
+
 	void set_props( app_state *props )
 	{
 		m_properties = props ;
@@ -90,7 +92,7 @@ class CPageView :
 
 public:
 	enum { IDD = id_type } ;
-	CPageView()
+	CPageView() : m_properties(NULL)
 	{
 
 	}
@@ -169,7 +171,7 @@ public:
 
 	bool m_wants_to_clear  ;
 
-	CPageSegmentation() : m_wants_to_clear(false)
+	CPageSegmentation() : m_wants_to_clear(false), m_properties(NULL)
 	{
 		ZeroMemory(m_segChars, SEG_CHAR_SIZE*sizeof(TCHAR)) ;
 	}
@@ -330,6 +332,8 @@ class CPageTransHist :
 
 public:
 	enum { IDD = id_type } ;
+
+	CPageTransHist() : m_properties(NULL) {}
 
 	void set_props( app_state *props )
 	{

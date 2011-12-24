@@ -88,7 +88,7 @@ class CPageView :
 
 public:
 	enum { IDD = id_type } ;
-	CPageView()
+	CPageView() : m_properties(NULL)
 	{
 
 	}

@@ -2,7 +2,9 @@
 #include "ShapeParsingStrategyTable.h"
 #include "DispatchWrapper.h"
 
-CShapeParsingStrategyTable::CShapeParsingStrategyTable(void)
+CShapeParsingStrategyTable::CShapeParsingStrategyTable(void) :
+	m_currentRow(0),
+	m_currentCol(0)
 {
 }
 

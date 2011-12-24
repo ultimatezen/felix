@@ -38,6 +38,8 @@ class CColorRef
 	} ;
 
 public:
+	rgb_cracker m_color ;
+
 	BYTE get_red_value() const ;
 	BYTE get_green_value() const ;
 	BYTE get_blue_value() const ;
@@ -62,7 +64,6 @@ public:
 
 	const wstring byte_2_wstring( BYTE val ) const ;
 	void from_string( const wstring &color ) ;
-	rgb_cracker m_color ;
 
 	void set_red_value(BYTE val) ;
 	void set_green_value(BYTE val) ;
