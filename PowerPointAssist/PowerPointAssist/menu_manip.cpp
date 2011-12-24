@@ -5,12 +5,14 @@
 
 using namespace except ;
 
+// Load a picture onto a toolbar/menu button
 bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 {
 	try
 	{
 		HINSTANCE hInst = _AtlModule.GetResourceInstance() ;
 
+		// Load an IPicture COM object from a resource
 		CComPtr< IPicture > iPicture ;
 		PICTDESC *pd = new PICTDESC;
 		pd->cbSizeofstruct = sizeof(PICTDESC);
@@ -19,6 +21,7 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 		pd->bmp.hpal = 0;
 		HRESULT hr = OleCreatePictureIndirect( pd, IID_IPictureDisp, FALSE, (void**)(&iPicture));
 		delete pd;
+		// If this fails, we return false so that we can do the old paste trick
 		if ( FAILED( hr ) ) 
 		{
 			if ( hr == CTL_E_INVALIDPICTURE ) 
@@ -33,6 +36,8 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 			return false ;
 		}
 
+		// Access the Picture property which is not supported by our 
+		// lowest-common-denominator Office 2000 include
 		CDispatchWrapper but( CComPtr<IDispatch>( (IDispatch*)button ) ) ;
 		_variant_t vPicture ( (IUnknown*)iPicture ) ;
 		but.prop_put( L"Picture", vPicture ) ;
@@ -58,13 +63,16 @@ bool load_picture(Office::_CommandBarButtonPtr &button, int button_id)
 	return true ;
 }
 
-
+// The item should be killed if:
+//		it contains the string 'felix' 
+//			- without ampersands, 
+//			- case-insensitive
 bool item_needs_killing( _bstr_t caption )
 {
-	wstring candidate_for_death = (LPCWSTR)caption ;
-	boost::replace_all( candidate_for_death, L"&", L"" ) ;
-	boost::to_lower( candidate_for_death ) ;
+	wstring candidate = BSTR2wstring(caption) ;
+	boost::replace_all( candidate, L"&", L"" ) ;
+	boost::to_lower( candidate) ;
 
 	wstring marked_for_death(L"felix") ;
-	return ( candidate_for_death.find( marked_for_death ) != wstring::npos  ) ;
+	return ( candidate.find( marked_for_death ) != wstring::npos  ) ;
 }
