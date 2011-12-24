@@ -16,6 +16,8 @@ string get_dummy_text()
 	return string(etext.c_str()) ;
 }
 
+bool is_critical( std::logic_error const& ) { return true; }
+
 BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 
 	using namespace mem_engine ;
@@ -27,15 +29,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	BOOST_AUTO_TEST_CASE( get_html_short_throws)
 	{
 		search_query_mainframe query ;
-		try
-		{
-			query.get_html_short() ;
-			BOOST_FAIL("Should have thrown here") ;
-		}
-		catch (std::logic_error&)
-		{
-			BOOST_CHECK(true) ;
-		}
+		BOOST_CHECK_EXCEPTION(query.get_html_short(), std::logic_error, is_critical) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( show_marking)

@@ -129,7 +129,9 @@ int i = matrix(0, 1) ; @endcode
 	*/
 	self& operator =( const self &rhs )
 	{
-		internal_copy( rhs ) ;
+		mTheMatrix = rhs.mTheMatrix ;
+		mNumRows = rhs.mNumRows ;
+		mNumCols = rhs.mNumCols ;
 		return *this ;
 	}
 
@@ -185,21 +187,9 @@ int i = matrix(0, 1) ; @endcode
 		mNumRows(0), 
 		mNumCols(0)
 	{
-		internal_copy( rhs ) ;
+		*this = rhs ;
 	}
-private:
-	/** copies another matrix into this one. 
-	The copy will be exact: number of rows and columns, and contents will all match.
-	@return bool success. 
-	@param &rhs array to receive the copy. 
-	*/
-	bool internal_copy( const self &rhs )
-	{
-		mTheMatrix = rhs.mTheMatrix ;
-		mNumRows = rhs.mNumRows ;
-		mNumCols = rhs.mNumCols ;
-		return true ;
-	}
+
 
 } ;
 

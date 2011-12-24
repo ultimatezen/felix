@@ -58,7 +58,7 @@ m_properties( props )
 }
 
 template< int id_type >
-CPageView<id_type>::CPageView()
+CPageView<id_type>::CPageView() : m_properties(NULL)
 {
 
 }
