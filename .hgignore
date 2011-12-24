@@ -46,3 +46,7 @@ Felix/Felix.opensdf
 Felix/Testing_64/*
 Felix/Testing_64/*
 felixcheck.txt
+ExcelAssist/ExcelAssist/AddIn.h
+ExcelAssist/ExcelAssist/AddIn_i.c
+PowerPointAssist/PowerPointAssist/AddIn.h
+PowerPointAssist/PowerPointAssist/AddIn_i.c
