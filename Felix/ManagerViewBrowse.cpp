@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ManagerViewBrowse.h"
-#include "numberfmt.h"
 #include "SearchWindow.h"
 #include "cpptempl.h"
 
@@ -26,11 +25,8 @@ namespace mgrview
 	}
 
 	ManagerViewBrowse::ManagerViewBrowse( size_t item, bool is_memory/*=true*/, size_t page/*=1*/ ) : 
-	m_item(item),
-		m_page(page),
 		m_is_memory(is_memory),
-		m_paginator(10u),
-		ManagerView()
+		BrowseView(item, page)
 	{
 
 	}
@@ -50,18 +46,8 @@ namespace mgrview
 
 		mem_engine::memory_pointer mem = m_model->memory_at(m_item) ;
 
-		m_paginator.set_num_records(mem->size()) ;
-		m_paginator.set_current_page(m_page-1);
-
-		data[L"message"] = cpptempl::make_data(m_window_listener->get_message()) ;
-		data[L"name"] = cpptempl::make_data(get_memname(mem)) ;
-		// page stuff
-		data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator)) ;
-		data[L"page"] = cpptempl::make_data(ulong2wstring(m_paginator.get_current_page()+1)) ;
-		data[L"index"] = cpptempl::make_data(tows(m_item)) ;
-
-		CNumberFmt number_format ;
-		data[L"num_pages"] = cpptempl::make_data(fmt_num(m_paginator.get_num_pages())) ;
+		config_gen_data(data, mem);
+		config_page_data(data, mem->size());
 
 		cpptempl::data_list items ;
 

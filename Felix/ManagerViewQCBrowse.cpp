@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "ManagerViewQCBrowse.h"
-#include "numberfmt.h"
 #include "SearchWindow.h"
 #include "cpptempl.h"
 
 namespace mgrview
 {
+	ManagerViewQCBrowse::ManagerViewQCBrowse(size_t item, size_t page/*=1*/) : 
+		m_is_memory(true),
+		BrowseView(item, page)
+	{
 
+	}
 
 	void ManagerViewQCBrowse::activate()
 	{
@@ -25,15 +29,7 @@ namespace mgrview
 		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 
-	ManagerViewQCBrowse::ManagerViewQCBrowse(size_t item, size_t page/*=1*/) : 
-		m_item(item),
-		m_page(page),
-		m_paginator(10u),
-		m_is_memory(true),
-		ManagerView()
-	{
 
-	}
 
 	void ManagerViewQCBrowse::set_template_data( cpptempl::data_map &data )
 	{
@@ -41,19 +37,10 @@ namespace mgrview
 
 		std::vector<mem_engine::search_match_ptr> &matches = m_window_listener->get_qc_matches() ;
 
-		m_paginator.set_num_records(matches.size()) ;
-		m_paginator.set_current_page(m_page-1);
 		mem_engine::memory_pointer mem = m_mem_model->memory_at(m_item) ;
 
-		data[L"message"] = cpptempl::make_data(m_window_listener->get_message()) ;
-		data[L"name"] = cpptempl::make_data(get_memname(mem)) ;
-		// page stuff
-		data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator, _T("pagination_qc.txt"))) ;
-		data[L"page"] = cpptempl::make_data(ulong2wstring(m_paginator.get_current_page()+1)) ;
-		data[L"index"] = cpptempl::make_data(tows(m_item)) ;
-
-		CNumberFmt number_format ;
-		data[L"num_pages"] = cpptempl::make_data(fmt_num(m_paginator.get_num_pages())) ;
+		config_gen_data(data, mem);
+		config_page_data(data, matches.size());
 
 		cpptempl::data_list items ;
 

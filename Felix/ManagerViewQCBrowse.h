@@ -1,21 +1,18 @@
 #pragma once
 
 #include "ManagerView.h"
+#include "BrowseView.h"
 #include "pagination.h"
 
 namespace mgrview
 {
-	class ManagerViewQCBrowse : public ManagerView
+	class ManagerViewQCBrowse : public BrowseView
 	{
 	public:
 		DECLARE_SENSING_VAR ;
 
-		size_t m_item ;
-		size_t m_page ;
 		bool m_is_memory ;
 
-		// for paginating browse list
-		Paginator m_paginator ;
 		model_iface_ptr m_model ;
 
 
@@ -26,5 +23,6 @@ namespace mgrview
 		void show_content();
 
 		void set_template_data( cpptempl::data_map &data );
+
 	};
 }
