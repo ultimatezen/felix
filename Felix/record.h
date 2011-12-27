@@ -124,22 +124,5 @@ namespace mem_engine
 		return ( lhs->get_trans_rich() < rhs->get_trans_rich( ) ) ;
 	}
 
-	// bool operator == 
-	// compares two translation_records -- for use in stl containers etc.
-	inline bool operator == ( const record_pointer lhs, const record_pointer rhs )
-	{
-		if ( lhs->get_source_rich() != rhs->get_source_rich() ) 
-			return false ;
-		return ( lhs->get_trans_rich() == rhs->get_trans_rich() ) ;
-	}
-
-	// bool operator != 
-	// compares two translation_records -- for use in stl containers etc.
-	inline bool operator != ( const record_pointer lhs, const record_pointer rhs )
-	{
-		return ! ( lhs == rhs ) ;
-	}
-
-
 
 }

@@ -61,7 +61,6 @@ public:
 	int GetTextLengthW();
 
 	ULONG GetLexer() { return m_lexer ; }
-	void set_correct_lexer( const CString &location );
 
 	// getting text
 	wstring GetText( ) ;
@@ -73,7 +72,6 @@ public:
 	void set_working_encoding( UINT encoding );
 	UINT get_working_encoding();
 	void SetSavePoint();
-	UINT detect_encoding( const CString &location, input_device_ptr input );
 
 	BOOL GetModified();
 	void SelectAll()
