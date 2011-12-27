@@ -6,11 +6,6 @@
 #include "KeyboardListener.h"
 #include "logging.h"
 
-#ifdef _DEBUG
-	#define new DEBUG_NEW
-	#undef THIS_FILE
-	static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
 
 #define ENSURE_ACTIVE if ( ! kb_listener->IsActive() ) return false ; 
 

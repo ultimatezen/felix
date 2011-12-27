@@ -10,12 +10,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__ ;
-#endif
-
 // Function name	: CNagDialog::OnInitDialog
 // Description	    : 
 // Return type		: LRESULT 
@@ -68,12 +62,7 @@ LRESULT CNagDialog::OnInitDialog( )
 LRESULT CNagDialog::OnClose( WORD wID )
 {
 	SENSE( "OnClose" ) ;
-	wID ;
-
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0L ;
+	END_DLG ;
 }
 
 

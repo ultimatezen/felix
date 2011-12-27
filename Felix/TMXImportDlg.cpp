@@ -26,21 +26,13 @@ LRESULT CTMXImportDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 LRESULT CTMXImportDlg::OnCancel( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
 {
 	SENSE("OnCancel") ;
-	wID ;
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 LRESULT CTMXImportDlg::OnOK( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
 {
 	SENSE("OnOK") ;
-	wID ;
 	set_trans( m_trans_combo ) ;
 
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }

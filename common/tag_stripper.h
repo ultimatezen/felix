@@ -11,8 +11,6 @@
 #include "textstream_reader.h"
 #include "stringconversions.h"
 #include <boost/regex.hpp>
-
-#pragma message( "   Processing tag_stripper.h...")
 /**
 	@struct symbol_map
 	@brief Converts HTML symbol tags to Unicode characters.

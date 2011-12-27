@@ -4,12 +4,6 @@
 #include "html_formatter.h"
 #include "html_writer.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 
 CPPTWriter::CPPTWriter( PowerPoint::TextRangePtr range ) : 
 	m_range( range )

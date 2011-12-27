@@ -61,14 +61,12 @@ public:
 	LRESULT OnClickedOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
 		DoDataExchange(TRUE);
-		EndDialog(wID);
-		return 0;
+		END_DLG ;
 	}
 
 	LRESULT OnClickedCancel(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
 	{
-		EndDialog(wID);
-		return 0;
+		END_DLG ;
 	}
 	LRESULT OnRadioHtmlDocBnClicked(WORD wNotifyCode, WORD wID, HWND hWndCtl);
 };

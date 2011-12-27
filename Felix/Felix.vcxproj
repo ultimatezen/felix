@@ -892,6 +892,7 @@ echo Protection complete!
     <ClCompile Include="..\common\rtf.cpp" />
     <ClCompile Include="..\common\Scintilla_encodings.cpp" />
     <ClCompile Include="..\common\ScintillaEdit.cpp" />
+    <ClCompile Include="revertible_action.cpp" />
     <ClCompile Include="SearchResult.cpp" />
     <ClCompile Include="SearchResults.cpp" />
     <ClCompile Include="SearchWindow.cpp" />
@@ -1380,6 +1381,7 @@ echo Protection complete!
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\debugutilities.h" />
+    <ClInclude Include="revertible_action.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />
     <ClInclude Include="..\common\aboutdlg.h" />

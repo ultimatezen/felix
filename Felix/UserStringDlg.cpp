@@ -7,13 +7,6 @@
 #include "resource.h"
 #include "UserStringDlg.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
-
 LRESULT CUserStringDlg::OnInitDialog( )
 {
 	SENSE("OnInitDialog") ;
@@ -47,14 +40,10 @@ LRESULT CUserStringDlg::OnClose( )
 LRESULT CUserStringDlg::OnOK(const WORD wID )
 {
 	SENSE("OnOK") ;
-	wID ;
 	m_key = m_key_edit.GetText() ;
 	m_value = m_value_edit.GetText() ;
 
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0L ;
+	END_DLG ;
 } 
 
 const std::wstring& CUserStringDlg::GetKey() const

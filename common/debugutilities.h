@@ -396,4 +396,10 @@
 #define XCRASHREPORT_ERROR_LOG_FILE		_T("ERRORLOG.TXT")
 
 
+#ifdef UNIT_TEST
+	#define END_DLG  wID ; return 0L ;
+#else
+	#define END_DLG EndDialog(wID);return 0L ;
+#endif
+
 #pragma warning( default:4310 ) // cast truncates constant value

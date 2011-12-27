@@ -894,6 +894,9 @@
     <ClCompile Include="TMXImportDlg_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="revertible_action.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1612,6 +1615,9 @@
     </ClInclude>
     <ClInclude Include="..\common\debugutilities.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="revertible_action.h">
+      <Filter>Header Files\undoable_actions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

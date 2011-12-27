@@ -1611,21 +1611,11 @@ void CGlossaryDialog::reflect_tb_vis()
 // Set up the toolbar buttons.
 void CGlossaryDialog::init_toolbar()
 {
-	// 0 is for separators.
+	// SEP_ID is for separators.
 	std::vector< int > commands ;
-	commands += 
-		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
-		ID_FILE_SAVE,	ID_FILE_SAVE_ALL, SEP_ID,
-		ID_NEXT_PANE,   SEP_ID,
-		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,	SEP_ID,
-		ID_EDIT_FIND ;
+	add_common_tb_commands(commands) ;
 	std::vector< int > StdBitmaps ;
-	StdBitmaps += 
-		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,	
-		IDB_SAVE,	IDB_SAVEMANY,
-		IDB_SWITCH_VIEWS,
-		IDB_CUT,			IDB_COPY,	IDB_PASTE,	
-		IDB_SEARCH ;
+	add_common_std_bitmaps(StdBitmaps) ;
 
 	m_toolbar = CToolBarXP().Create24BitToolBarCtrl(*this, commands, FALSE,
 		ATL_SIMPLE_TOOLBAR_STYLE);
@@ -1636,14 +1626,7 @@ void CGlossaryDialog::init_toolbar()
 	m_toolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
 	// set the system icon list into the tree view
 	CImageList images ;
-	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
-
-	foreach(int img_id, StdBitmaps)
-	{
-		CBitmap bmp ;
-		ATLVERIFY(bmp.LoadBitmap( img_id )) ;
-		images.Add( bmp, MAGENTA ) ;
-	}
+	create_tb_imagelist(images, StdBitmaps) ;
 	m_toolbar.SetImageList( images ) ;
 
 	reflect_tb_vis();

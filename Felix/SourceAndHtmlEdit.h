@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma message( "   Processing SourceAndHtmlEdit.h...")
-
 
 #include "atlgdix.h"				// must be included before CustomTabCtrl.h
 

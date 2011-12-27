@@ -3,11 +3,6 @@
 #include "StringEx.h"
 #include ".\match_maker.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
 
 namespace mem_engine
 {

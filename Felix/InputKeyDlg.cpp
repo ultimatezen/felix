@@ -75,18 +75,13 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 		return 0L ;
 	}
 
-	EndDialog(wID);
 #endif
 
-	return 0L;
+	END_DLG ;
 }
 
 LRESULT CInputKeyDlg::OnCloseCommand( WORD wID )
 {
 	SENSE("OnCloseCommand") ;
-	wID ;
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0L;
+	END_DLG ;
 }

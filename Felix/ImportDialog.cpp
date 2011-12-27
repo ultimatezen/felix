@@ -29,11 +29,7 @@ LRESULT CImportDialog::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 LRESULT CImportDialog::OnCancel( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
 {
 	SENSE("OnCancel"); 
-	wID ;
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 LRESULT CImportDialog::OnOK( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl */, BOOL& /* bHandled */ )
@@ -45,10 +41,7 @@ LRESULT CImportDialog::OnOK( WORD /* wNotifyCode */, WORD wID, HWND /* hWndCtl *
 
 	TRUE_ENFORCE( get_source_plain() != get_trans_plain(), IDS_MSG_S_T_MUST_DIFFER ) ;
 
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 CExportDialog::CExportDialog()
@@ -144,11 +137,7 @@ LRESULT CExportDialog::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 LRESULT CExportDialog::OnCancel( WORD, WORD wID, HWND, BOOL& )
 {
 	SENSE("OnCancel"); 
-	wID ;
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 LRESULT CExportDialog::OnOK(WORD, WORD wID, HWND, BOOL&)
@@ -162,10 +151,7 @@ LRESULT CExportDialog::OnOK(WORD, WORD wID, HWND, BOOL&)
 	m_trans_full = get_combo_sel(m_trans_combo) ;
 	m_trans = m_languages[ m_trans_full ]  ;
 
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 const tstring CExportDialog::get_source_plain() const

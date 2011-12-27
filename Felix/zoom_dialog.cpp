@@ -23,23 +23,13 @@ LRESULT CZoomDlg::OnInitDialog()
 LRESULT CZoomDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
-	wID ;
-
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 LRESULT CZoomDlg::OnCancel( WORD wID )
 {
 	SENSE("OnCloseCommand") ;
-	wID ;
-
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0;
+	END_DLG ;
 }
 
 void CZoomDlg::OnZoomCtrl( int /*iType*/, short /*iTrackPos*/, HWND /*hWndTrackBar*/ )

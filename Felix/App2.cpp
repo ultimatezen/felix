@@ -17,12 +17,7 @@ STDMETHODIMP CApp2::InterfaceSupportsErrorInfo(REFIID riid)
 		&IID_IApp2
 	};
 
-	for (int i=0; i < sizeof(arr) / sizeof(arr[0]); i++)
-	{
-		if (InlineIsEqualGUID(*arr[i],riid))
-			return S_OK;
-	}
-	return S_FALSE;
+	return supports_error_info(arr, riid) ;
 }
 
 // memories/glossaries

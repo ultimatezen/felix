@@ -12,12 +12,6 @@
 #include "xpmenu/Tools.h"
 #include "logging.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 // Serious DRY violation here...
 static const wstring red_match			= L"#f80000" ;
 static const wstring orange_match		= L"#ff8000" ;

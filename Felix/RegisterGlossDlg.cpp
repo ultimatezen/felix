@@ -18,13 +18,6 @@
 #include "xpmenu/Tools.h"
 #include "RegSettings.h"	// CWindowSettings & CReBarSettings
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__ ;
-#endif
-
-
 #define REG_DLG_WINSETTINGS_KEY _T("RegGlossDialog")
 
 using namespace mem_engine ;

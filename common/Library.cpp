@@ -6,13 +6,6 @@
 #include "stdafx.h"
 #include "Library.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
-
 CLibrary::CLibrary(const TCHAR *lib_name)
 	: m_library_instance( NULL )
 {

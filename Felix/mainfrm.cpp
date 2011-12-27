@@ -3292,22 +3292,15 @@ void CMainFrame::set_up_default_initial_size()
 void CMainFrame::set_up_command_bars()
 {
 	// Set the 24-bit color images in the toolbar's image list
+	// SEP_ID is for separators.
 	std::vector< int > commands ;
+	add_common_tb_commands(commands) ;
 	commands += 
-		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
-		ID_FILE_SAVE,	ID_FILE_SAVE_ALL,	SEP_ID,
-		ID_NEXT_PANE,	SEP_ID,
-		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,		SEP_ID,
-		ID_EDIT_FIND,	
 		ID_TOOLS_PREFERENCES,	SEP_ID,
 		ID_HELP,		ID_APP_ABOUT;
 	std::vector< int > StdBitmaps ;
+	add_common_std_bitmaps(StdBitmaps) ;
 	StdBitmaps += 
-		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,
-		IDB_SAVE,	IDB_SAVEMANY,
-		IDB_SWITCH_VIEWS,
-		IDB_CUT,			IDB_COPY,	IDB_PASTE,
-		IDB_SEARCH,			
 		IDB_PROPERTIES,
 		IDB_HELP,			IDB_INFORMATION ;
 
@@ -3321,23 +3314,10 @@ void CMainFrame::set_up_command_bars()
 	m_stdToolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
 
 	CImageList images ;
-	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
-	foreach(int img_id, StdBitmaps)
-	{
-		CBitmap bmp ;
-		bmp.LoadBitmap(img_id) ;
-		images.Add(bmp, MAGENTA) ;
-	}
+	create_tb_imagelist(images, StdBitmaps) ;
 	m_stdToolbar.SetImageList(images) ;
 
-	// create command bar window
-	m_CmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
-	m_CmdBar.RemoveAllImages() ;
-	m_CmdBar.SetImageMaskColor(MAGENTA) ;
-	m_CmdBar.SetImageSize(BM_SIZE, BM_SIZE) ;
-
-	// attach menu
-	ATLVERIFY(m_CmdBar.AttachMenu(GetMenu())) ;
+	create_command_bar();
 
 	// remove old menu
 	SetMenu(NULL);
@@ -3373,7 +3353,17 @@ void CMainFrame::set_up_command_bars()
 	ATLVERIFY(UIAddToolBar(m_stdToolbar)) ;
 #endif
 }
+void CMainFrame::create_command_bar()
+{
+	// create command bar window
+	m_CmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
+	m_CmdBar.RemoveAllImages() ;
+	m_CmdBar.SetImageMaskColor(MAGENTA) ;
+	m_CmdBar.SetImageSize(BM_SIZE, BM_SIZE) ;
 
+	// attach menu
+	ATLVERIFY(m_CmdBar.AttachMenu(GetMenu())) ;
+}
 //! Add a bitmap menu item.
 void CMainFrame::AddMenuBitmap( const int BitmapId, const int CmdId ) 
 {
@@ -5274,3 +5264,4 @@ void CMainFrame::check_mousewheel_count()
 		}
 	}
 }
+

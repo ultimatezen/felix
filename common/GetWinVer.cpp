@@ -18,12 +18,6 @@
 #include "GetWinVer.h"
 #include "stdio.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 
 // from winbase.h
 #ifndef VER_PLATFORM_WIN32s

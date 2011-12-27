@@ -173,7 +173,6 @@
 */
 
 #pragma once
-#pragma message( "   Processing CustomTabCtrl.h...")
 
 #include "atlcoll.h"
 

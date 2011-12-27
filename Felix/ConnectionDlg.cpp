@@ -35,10 +35,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 {
 	SENSE("OnOK") ;
 
-#ifdef UNIT_TEST
-	wID ;
-	return 0L ;
-#else
+#ifndef UNIT_TEST
 
 	using namespace mem_engine ;
 
@@ -76,10 +73,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		}
 		else
 		{
-#ifndef UNIT_TEST
-	EndDialog(IDCANCEL);
-#endif
-			return 0L ;
+		END_DLG ;
 		}
 
 	}
@@ -97,18 +91,14 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 
 	m_memory = pmem ;
 	MessageBeep(MB_ICONINFORMATION) ;
-	EndDialog(wID);
-	return 0L ;
 #endif
+
+	END_DLG ;
 }
 
 LRESULT CConnectionDlg::OnCloseCommand( WORD wID )
 {
 	SENSE("OnClose") ;
-	wID ;
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-	return 0L;
+	END_DLG ;
 }
 

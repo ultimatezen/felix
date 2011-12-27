@@ -14,8 +14,6 @@
 #ifndef _STRINGEX_H
 #define _STRINGEX_H
 
-#pragma message( "   Processing StringEx.h...")
-
 #include <mbstring.h>	// _ismbcspace() et al
 // std string support
 #include <string>  

@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma message( "   Processing StringConversions.h...")
-
 #include "StringEx.h"	// std::string extensions
 #include "winnls.h" // unicode-multibyte conversion
 #include "errno.h"

@@ -133,19 +133,7 @@ public:
 	LRESULT OnCloseCmd( WORD wID )
 	{
 		SENSE( "OnCloseCmd" ) ;
-		if ( wID == IDCANCEL ) 
-		{
-#ifndef UNIT_TEST
-	EndDialog(wID);
-#endif
-		}
-		else
-		{
-#ifndef UNIT_TEST
-	EndDialog(IDOK);
-#endif
-		}
-		return 0;
+		END_DLG ;
 	}
 
     BEGIN_DLGRESIZE_MAP(CAboutDialog< int id_type >)

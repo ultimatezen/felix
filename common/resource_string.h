@@ -8,8 +8,6 @@
 
 #pragma once
 
-#pragma message( "   Processing resource_string.h...")
-
 #include "atlstr.h"
 
 ATL::CStringA resource_string_a( UINT id ) ;

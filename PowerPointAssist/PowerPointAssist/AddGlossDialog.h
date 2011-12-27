@@ -70,8 +70,7 @@ public:
 
 	LRESULT OnIdcancel(WORD wID )
 	{
-		EndDialog(wID) ;
-		return 0L ;
+		END_DLG ;
 
 	} // OnIdcancel
 
@@ -80,8 +79,7 @@ public:
 		m_source_edit.GetWindowText(m_source) ;
 		m_trans_edit.GetWindowText(m_trans) ;
 
-		EndDialog(wID) ;
-		return 0L ;
+		END_DLG ;
 
 	} // OnIdok
 

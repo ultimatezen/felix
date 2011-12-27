@@ -84,6 +84,7 @@
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>

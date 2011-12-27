@@ -6,12 +6,6 @@
 #include "MultitermConversionDlg.h"
 #include "resource_string.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

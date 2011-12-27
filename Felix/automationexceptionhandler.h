@@ -13,6 +13,15 @@
 #include "ComUtilities.h"
 #include "logging.h"
 
+inline HRESULT supports_error_info(const IID* arr[], REFIID riid)
+{
+	for (int i=0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	{
+		if (InlineIsEqualGUID(*arr[i],riid))
+			return S_OK;
+	}
+	return S_FALSE;
+}
 
 template <class T, const CLSID* pclsid = &CLSID_NULL>
 class CAutomationExceptionHandler : public CComCoClass< T, pclsid >

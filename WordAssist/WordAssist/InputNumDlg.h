@@ -74,8 +74,7 @@ class CInputNumDlg:
 
 	LRESULT OnIdcancel(WORD wID )
 	{
-		EndDialog(wID) ;
-		return 0L ;
+		END_DLG ;
 
 	} // OnIdcancel
 
@@ -89,8 +88,7 @@ class CInputNumDlg:
 			m_selection = _ttoi( num_text ) ;
 		}
 
-		EndDialog(wID) ;
-		return 0L ;
+		END_DLG ;
 		
 	} // OnIdok
 

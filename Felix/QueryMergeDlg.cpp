@@ -34,11 +34,9 @@ LRESULT CQueryMergeDlg::OnCloseCmd( WORD /*wNotifyCode*/, WORD wID, HWND /*hWndC
 	{
 		DoDataExchange(TRUE) ;
 	}
-	EndDialog(wID);
-#else
-	wID ;
 #endif
-	return 0;
+
+	END_DLG ;
 }
 
 LRESULT CQueryMergeDlg::OnRadioMerge( WORD, WORD, HWND, BOOL& )

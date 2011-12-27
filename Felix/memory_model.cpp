@@ -6,12 +6,6 @@
 #include "memory_model.h"
 #include "memory_local.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static TCHAR THIS_FILE[] = TEXT(__FILE__) ;
-#endif
-
 namespace mem_engine
 {
 	using namespace except ;

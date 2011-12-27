@@ -456,6 +456,8 @@ public:
 	void init_status_bar();
 	void set_up_recent_docs_list();
 	void set_up_command_bars();
+
+	void create_command_bar();
 	void set_up_default_initial_size();
 	void add_memory( memory_type mem );
 	void reflect_preferences();
