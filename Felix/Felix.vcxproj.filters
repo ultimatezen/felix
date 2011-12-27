@@ -897,6 +897,12 @@
     <ClCompile Include="revertible_action.cpp">
       <Filter>Source Files\undoable_actions</Filter>
     </ClCompile>
+    <ClCompile Include="BrowseView.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindow_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1618,6 +1624,9 @@
     </ClInclude>
     <ClInclude Include="revertible_action.h">
       <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BrowseView.h">
+      <Filter>Header Files\ManagerView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

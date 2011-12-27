@@ -560,6 +560,7 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="App2.cpp" />
+    <ClCompile Include="BrowseView.cpp" />
     <ClCompile Include="charset_info.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Disabled</Optimization>
@@ -723,6 +724,7 @@ echo Protection complete!
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">true</BrowseInformation>
     </ClCompile>
     <ClCompile Include="GlossaryWindow.cpp" />
+    <ClCompile Include="GlossaryWindow_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
     <ClCompile Include="HtmlDocColorSetter.cpp" />
     <ClCompile Include="..\common\HtmlDocument.cpp" />
@@ -1381,6 +1383,7 @@ echo Protection complete!
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\debugutilities.h" />
+    <ClInclude Include="BrowseView.h" />
     <ClInclude Include="revertible_action.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />
