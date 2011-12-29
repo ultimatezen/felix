@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "TmxSymbolMapper.h"
+#include "tag_stripper.h"
 
 CTmxSymbolMapper::CTmxSymbolMapper(void)
 {
@@ -61,16 +62,7 @@ void CTmxSymbolMapper::handleAmp( wc_reader &reader, wstring &stripped_text )
 	{
 		if ( chunk[0] == L'#' )
 		{
-			reader.eat_if( L';' ) ;
-			ATLASSERT ( chunk.size() > 1 ) ; 
-			if ( chunk[1] == L'x' || chunk[1] == L'X' ) 
-			{
-				stripped_text += (wchar_t)string2ulong( chunk.substr(2), 16 ) ;
-			}
-			else
-			{
-				stripped_text += (wchar_t)string2ulong( chunk.substr(1) ) ;
-			}
+			stripped_text += convert_num_entity(reader, chunk);
 		}
 		else
 		{

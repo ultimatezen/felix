@@ -109,37 +109,7 @@ wstring tmx_strip_tags( const wstring raw_string )
 		}
 		else if ( reader.peek() == L'&' )
 		{
-			reader.advance() ;
-			reader.getline( chunk, L"; <", false ) ;
-			if ( chunk.empty() == false )
-			{
-				if ( chunk[0] == L'#' )
-				{
-					reader.eat_if( L';' ) ;
-					ATLASSERT ( chunk.size() > 1 ) ; 
-					if ( chunk[1] == L'x' || chunk[1] == L'X' ) 
-					{
-						stripped_text += (wchar_t)string2ulong( chunk.substr(2), 16 ) ;
-					}
-					else
-					{
-						stripped_text += (wchar_t)string2ulong( chunk.substr(1) ) ;
-					}
-				}
-				else
-				{
-					if ( symbols.exists( chunk ) )
-					{
-						reader.eat_if( L';' ) ;
-						stripped_text += symbols.get_val( chunk ) ;
-					}
-					else // it was not a symbol tag
-					{
-						stripped_text += L"&" ;
-						stripped_text += chunk ;
-					}
-				}
-			}
+			handle_ampersand(reader, chunk, stripped_text, symbols);
 		}
 	}
 
@@ -186,16 +156,7 @@ wstring unknown_strip_tags( const wstring raw_string )
 				// numeric symbol code
 				if ( chunk[0] == L'#' )
 				{
-					reader.eat_if( L';' ) ;
-					ATLASSERT ( chunk.size() > 1 ) ; 
-					if ( chunk[1] == L'x' || chunk[1] == L'X' ) 
-					{
-						stripped_text += (wchar_t)string2ulong( chunk.substr(2), 16 ) ;
-					}
-					else
-					{
-						stripped_text += (wchar_t)string2ulong( chunk.substr(1) ) ;
-					}
+					stripped_text += convert_num_entity(reader, chunk);
 				}
 				// named entity
 				else

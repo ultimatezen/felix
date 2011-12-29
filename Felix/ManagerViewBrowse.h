@@ -6,6 +6,7 @@
 
 namespace mgrview
 {
+	// Used to browse TMs in Manager View
 	class ManagerViewBrowse : public BrowseView
 	{
 	public:
@@ -14,7 +15,6 @@ namespace mgrview
 		bool m_is_memory ;
 
 		model_iface_ptr m_model ;
-
 
 		ManagerViewBrowse(size_t item, 
 							bool is_memory=true,
@@ -26,7 +26,5 @@ namespace mgrview
 		void set_template_data( cpptempl::data_map &data );
 
 		void populate_item( cpptempl::data_map &item, size_t i, mem_engine::memory_pointer mem );
-
-
 	};
 }

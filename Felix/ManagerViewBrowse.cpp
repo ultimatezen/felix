@@ -5,13 +5,21 @@
 
 namespace mgrview
 {
+	// CTOR
+	ManagerViewBrowse::ManagerViewBrowse( size_t item, bool is_memory/*=true*/, size_t page/*=1*/ ) : 
+		m_is_memory(is_memory),
+		BrowseView(item, page)
+	{
 
+	}
 
+	// No-op (some other classes do stuff here)
 	void ManagerViewBrowse::activate()
 	{
 		SENSE("activate") ;
 	}
 
+	// Display a browse page
 	void ManagerViewBrowse::show_content()
 	{
 		SENSE("show_content") ;
@@ -24,13 +32,7 @@ namespace mgrview
 		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
 	}
 
-	ManagerViewBrowse::ManagerViewBrowse( size_t item, bool is_memory/*=true*/, size_t page/*=1*/ ) : 
-		m_is_memory(is_memory),
-		BrowseView(item, page)
-	{
-
-	}
-
+	// Fill in the template data for a browse page
 	void ManagerViewBrowse::set_template_data( cpptempl::data_map &data )
 	{
 		if(m_is_memory)
@@ -62,6 +64,7 @@ namespace mgrview
 		data[L"records"] = cpptempl::make_data(items) ;
 	}
 
+	// Fill in template vars for record
 	void ManagerViewBrowse::populate_item( cpptempl::data_map &item, size_t i, mem_engine::memory_pointer mem )
 	{
 		set_index_info(item, i);

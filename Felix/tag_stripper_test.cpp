@@ -31,8 +31,24 @@ BOOST_AUTO_TEST_SUITE( test_symbol_map )
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE( test_convert_num_entity )
+	// strip_tags
+	BOOST_AUTO_TEST_CASE( test_x41 )
+	{
+		wstring chunk = L"#x41" ;
+		textstream_reader<wchar_t> reader ;
+		BOOST_CHECK_EQUAL( convert_num_entity(reader, chunk), L'A' ) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_97 )
+	{
+		wstring chunk = L"#97" ;
+		textstream_reader<wchar_t> reader ;
+		BOOST_CHECK_EQUAL( convert_num_entity(reader, chunk), L'a' ) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE( test_tag_stripper )
-// strip_tags
+	// strip_tags
 	BOOST_AUTO_TEST_CASE( test_foobar )
 	{
 		wstring rich = L"<b>foo</b><font size=3><i>bar</i></font> " ;

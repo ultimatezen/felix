@@ -6,6 +6,7 @@
 
 namespace mgrview
 {
+	// Used to browse QC results in manager view
 	class ManagerViewQCBrowse : public BrowseView
 	{
 	public:
