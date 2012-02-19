@@ -1167,7 +1167,8 @@ void CManagerWindow::import_multiterm( const CString &file_name )
 void CManagerWindow::import_tabbed_text( const CString &file_name )
 {
 	CTabbedTextImporter importer(this, m_props) ;
-	importer.load_file(file_name) ;
+	input_device_ptr input(new InputDeviceFile) ;
+	importer.load_file(file_name, input) ;
 	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;
 }

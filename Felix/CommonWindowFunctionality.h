@@ -155,6 +155,11 @@ protected:
 
 public:
 
+	CCommonWindowFunctionality( ) ;
+	virtual ~CCommonWindowFunctionality()
+	{
+	}
+
 	/************************************************************************/
 	/* WindowInterface implementation                                       */
 	/************************************************************************/
@@ -220,6 +225,8 @@ public:
 	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message )  ;
 	CString get_swe_error_message(CString const&failure_message);
 
+	void SwapFindDialogs(const bool edit_mode_enabled);
+
 	INT_PTR wants_to_save_in_native_format() ;
 	void OnProgressInit( const CString &file_name, size_t min_val, size_t max_val ) ;
 	void set_up_prog_bar(const int max_size ) ;
@@ -249,11 +256,6 @@ public:
 	bool check_location() ;
 	void init_edit_replace_window( int show_command = SW_HIDE ) ;
 	void init_edit_find_window( int show_command = SW_HIDE ) ;
-
-	CCommonWindowFunctionality( ) ;
-	virtual ~CCommonWindowFunctionality()
-	{
-	}
 	HWND init_view() ;
 
 	/************************************************************************/
@@ -297,6 +299,7 @@ public:
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
 /************************************************************************/
 
+	virtual LPARAM handle_find() = 0 ;
 	virtual model_iface_ptr get_model() = 0 ;
 	virtual	void set_display_state( DISPLAY_STATE new_state ) = 0 ;
 	virtual LRESULT on_view_edit_mode(WindowsMessage &message) = 0 ;

@@ -56,9 +56,8 @@ void CTabbedTextImporter::add_records( const wstring text )
 	m_listener->OnProgressDoneLoad(m_memory->size()) ;
 }
 
-void CTabbedTextImporter::load_file( const CString filename )
+void CTabbedTextImporter::load_file( const CString filename, input_device_ptr input )
 {
-	input_device_ptr input(new InputDeviceFile) ;
 	file::file::BYTE_ORDER_MARK bom = input->get_file_bom(filename) ;
 	const size_t fsize = input->get_size(filename) ;
 	LPSTR raw_text = (LPSTR)input->create_view_char(filename) ;

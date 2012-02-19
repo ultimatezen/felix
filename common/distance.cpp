@@ -1,10 +1,13 @@
 #include "StdAfx.h"
 #include "distance.h"
 #include <map>
+#include <algorithm>
 
-using namespace std; 
+#ifdef min
+#undef min
+#endif
 
-size_t Distance::edist(const wstring &a, const wstring &b)
+size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 {
 	const wchar_t* a_str = a.c_str() ;
 	size_t a_len = a.size() ;
@@ -155,7 +158,7 @@ size_t Distance::edist(const wstring &a, const wstring &b)
 	return *end;
 }
 
-size_t Distance::subdist(const wstring &needle, const wstring &haystack)
+size_t Distance::subdist(const std::wstring &needle, const std::wstring &haystack)
 {
 	const wchar_t* needle_str = needle.c_str() ; 
 	size_t needle_len = needle.size() ; 
@@ -189,9 +192,7 @@ size_t Distance::subdist(const wstring &needle, const wstring &haystack)
 							;
 		}
 		// row1 = row2
-		size_t *tmp = row1 ;
-		row1 = row2 ;
-		row2 = tmp ;
+		std::swap(row1, row2) ;
 	}
 
 	// return min(row1)
@@ -200,7 +201,7 @@ size_t Distance::subdist(const wstring &needle, const wstring &haystack)
 
 void Distance::ensure_size(size_t min_row_size)
 {
-	if (row_size < min_row_size)
+	if (m_row_size < min_row_size)
 	{
 		if (row1)
 		{
@@ -210,9 +211,9 @@ void Distance::ensure_size(size_t min_row_size)
 		{
 			free(row2) ;
 		}
-		row_size = min_row_size;
-		row1 = (size_t*)calloc(row_size, sizeof(size_t));
-		row2 = (size_t*)calloc(row_size, sizeof(size_t));
+		m_row_size = min_row_size;
+		row1 = (size_t*)calloc(m_row_size, sizeof(size_t));
+		row2 = (size_t*)calloc(m_row_size, sizeof(size_t));
 		if (!row1 || !row2) // Allocation failed
 		{
 			throw std::bad_alloc("Failed to allocated memory for Distance test") ;
@@ -220,21 +221,12 @@ void Distance::ensure_size(size_t min_row_size)
 	}
 }
 
-size_t Distance::min2( size_t a, size_t b ) const 
-{
-	if (a < b)
-	{
-		return a;
-	}
-	return b;
-}
-
 size_t Distance::min3( size_t a, size_t b, size_t c ) const 
 {
-	return min2(a, min2(b, c) ) ;
+	return std::min(std::min(a, b), c) ;
 }
 
-double Distance::edist_score( const wstring &a, const wstring &b )
+double Distance::edist_score( const std::wstring &a, const std::wstring &b )
 {
 	// set maxlen and minlen
 	const size_t a_len = a.size() ;

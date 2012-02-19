@@ -7,7 +7,7 @@
 namespace fileops
 {
 
-void addExtensionAsNeeded( CString &fileName, const CString ext )
+void add_extension_as_needed( CString &fileName, const CString ext )
 {
 	ATLASSERT( ext.IsEmpty() == false && fileName.IsEmpty() == false ) ;
 	ATLASSERT( ext.GetAt( 0 ) == _T('.') ) ;
@@ -19,12 +19,6 @@ void addExtensionAsNeeded( CString &fileName, const CString ext )
 	}
 }
 
-unsigned int detect_codepage(LPCSTR text, FileFormat file_format)
-{
-	text ;
-	file_format ;
-	return CP_ACP ;
-}
 
 CString get_local_appdata_folder()
 {

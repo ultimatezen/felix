@@ -199,7 +199,6 @@ public:
 	void show_post_edit_content() ;
 	void route_nav_command(LPMSG pMsg) ;
 
-	void SwapFindDialogs(const bool edit_mode_enabled);
 	void SetEditModeMenuItems(const bool edit_mode_enabled);
 	void ToggleEditMode() ;
 

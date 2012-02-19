@@ -5,6 +5,7 @@
 #include "record_local.h"
 #include "ScintillaEdit.h"
 #include "ImportMultitermFile.h"
+#include "input_device.h"
 
 class CTabbedTextImporter
 {
@@ -20,5 +21,5 @@ public:
 
 	void add_record(const wstring line);
 	void add_records(const wstring text);
-	void load_file(const CString filename);
+	void load_file(const CString filename, input_device_ptr input);
 };

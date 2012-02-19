@@ -1087,7 +1087,7 @@ void CCommonWindowFunctionality::raise()
 void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::memory_pointer mem )
 {
 	logging::log_debug("Saving as Excel file") ;
-	fileops::addExtensionAsNeeded( file_name,  _T( ".xls" ) ) ;
+	fileops::add_extension_as_needed( file_name,  _T( ".xls" ) ) ;
 	CExcelExporter exporter ( static_cast< CProgressListener* >( this ),
 		ExcelInterfacePtr(new ExcelInterfaceReal) ) ;
 	exporter.export_excel( mem, file_name, get_input_device() ) ;
@@ -1099,7 +1099,7 @@ void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, 
 
 	logging::log_debug("Saving as tab-separated text file") ;
 	user_feedback( IDS_MSG_EXPORTING_RECORDS ) ;
-	fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+	fileops::add_extension_as_needed( save_as_file_name,  _T( ".txt" ) ) ;
 	output_device_ptr output(new OutputDeviceFile) ;
 	output->open(save_as_file_name) ;
 	tabbed_export::TabbedTextExporter exporter(output) ;
@@ -1119,4 +1119,30 @@ void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, 
 		nf.Format( mem->size() ), 
 		path.Path() ) ;
 	user_feedback( feedback ) ;
+}
+
+// We have two find dialogs: 
+// * one for edit mode (find in the browser);
+// * and one for non-edit mode (quick search in glossary)
+// Swap them when we change the edit mode.
+void CCommonWindowFunctionality::SwapFindDialogs( const bool edit_mode_enabled )
+{
+	if ( edit_mode_enabled )
+	{
+		if ( m_edit_find.IsWindow() && m_edit_find.IsWindowVisible() )
+		{
+			m_edit_find.ShowWindow( SW_HIDE ) ;
+			handle_find() ;
+		}
+		if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
+			m_edit_replace.ShowWindow( SW_HIDE ) ;
+	}
+	else
+	{
+		if ( m_find.IsWindow() && m_find.IsWindowVisible() )
+		{
+			m_find.ShowWindow( SW_HIDE ) ;
+			m_edit_find.ShowWindow( SW_SHOW ) ;
+		}
+	}
 }

@@ -215,7 +215,7 @@ LRESULT CGlossaryDialog::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam)
 void CGlossaryDialog::import_tabbed_text( const CString &file_name )
 {
 	CTabbedTextImporter importer(this, m_props) ;
-	importer.load_file(file_name) ;
+	importer.load_file(file_name, get_input_device()) ;
 	importer.m_memory->set_is_memory(false) ;
 	m_memories->insert_memory(importer.m_memory) ;
 	set_window_title() ;
@@ -977,32 +977,7 @@ void CGlossaryDialog::SetEditModeMenuItems(const bool edit_mode_enabled)
 	CheckMenuItem( GetMenu(), IDC_GLOSS_SIMPLE_VIEW, ( m_properties_gloss->get_simple_view() ? MF_CHECKED : MF_UNCHECKED) ) ;
 }
 
-// We have two find dialogs: 
-// * one for edit mode (find in the browser);
-// * and one for non-edit mode (quick search in glossary)
-// Swap them when we change the edit mode.
-void CGlossaryDialog::SwapFindDialogs(const bool edit_mode_enabled)
-{
-	if ( edit_mode_enabled )
-	{
-		if ( m_edit_find.IsWindow() && m_edit_find.IsWindowVisible() )
-		{
-			m_edit_find.ShowWindow( SW_HIDE ) ;
-			handle_find() ;
-		}
-		if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
-			m_edit_replace.ShowWindow( SW_HIDE ) ;
-	}
-	else
-	{
-		if ( m_find.IsWindow() && m_find.IsWindowVisible() )
-		{
-			m_find.ShowWindow( SW_HIDE ) ;
-			m_edit_find.ShowWindow( SW_SHOW ) ;
-		}
-	}
 
-}
 
 
 // Make this the main glossary/not the main glossary
@@ -2272,23 +2247,23 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 	{
 	case 1: case 7:
 		logging::log_debug("Saving glossary as fgloss file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		fileops::add_extension_as_needed( save_as_file_name,  _T( ".fgloss" ) ) ;
 		break;
 
 	case 2:
 		logging::log_debug("Saving glossary as xml file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".xml" ) ) ;
+		fileops::add_extension_as_needed( save_as_file_name,  _T( ".xml" ) ) ;
 		break;
 
 	case 3:
 		logging::log_debug("Exporting glossary as Multiterm 5.5 file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		fileops::add_extension_as_needed( save_as_file_name,  _T( ".txt" ) ) ;
 		export_multiterm_55( mem, save_as_file_name ) ;
 		return ;
 
 	case 4:
 		logging::log_debug("Exporting glossary as Multiterm 6.0 file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".txt" ) ) ;
+		fileops::add_extension_as_needed( save_as_file_name,  _T( ".txt" ) ) ;
 		export_multiterm_6( mem, save_as_file_name ) ;
 		return ;
 
@@ -2308,7 +2283,7 @@ void CGlossaryDialog::save_memory_as( memory_pointer mem )
 		logging::log_warn("Unknown file type selected for Glossary - Save As") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Falling back to save glossary as fgloss file") ;
-		fileops::addExtensionAsNeeded( save_as_file_name,  _T( ".fgloss" ) ) ;
+		fileops::add_extension_as_needed( save_as_file_name,  _T( ".fgloss" ) ) ;
 		return ;
 	}
 

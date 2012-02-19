@@ -1282,26 +1282,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 	UISetCheck(ID_VIEW_EDIT_MODE, ! edit_mode_enabled );
 
 	// swap out the various find dialogs...
-	if ( edit_mode_enabled )
-	{
-		if ( m_edit_find.IsWindow() && m_edit_find.IsWindowVisible() )
-		{
-			m_edit_find.ShowWindow( SW_HIDE ) ;
-			handle_find() ;
-		}
-		if ( m_edit_replace.IsWindow() && m_edit_replace.IsWindowVisible() )
-		{
-			m_edit_replace.ShowWindow( SW_HIDE ) ;
-		}
-	}
-	else
-	{
-		if ( m_find.IsWindow() && m_find.IsWindowVisible() )
-		{
-			m_find.ShowWindow( SW_HIDE ) ;
-			m_edit_find.ShowWindow( SW_SHOW ) ;
-		}
-	}
+	SwapFindDialogs(edit_mode_enabled)
 
 	m_view_state->handle_toggle_edit_mode() ;
 	return 0L ;
@@ -4597,13 +4578,13 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	switch( selected_index ) 
 	{
 	case 1:
-		fileops::addExtensionAsNeeded( filename,  _T( ".fprefx" ) ) ;
+		fileops::add_extension_as_needed( filename,  _T( ".fprefx" ) ) ;
 		m_props->save_file(filename) ;
 		ATLTRACE( "Save new preferences format\n" ) ;
 		break;
 
 	case 2:
-		fileops::addExtensionAsNeeded( filename,  _T( ".fprefs" ) ) ;
+		fileops::add_extension_as_needed( filename,  _T( ".fprefs" ) ) ;
 		save_old_prefs_file(filename);
 		break;
 
@@ -5100,23 +5081,23 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 	{
 	case 1: case 7:
 		logging::log_debug("Saving memory as ftm file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".ftm" ) ) ;
+		fileops::add_extension_as_needed( file_name,  _T( ".ftm" ) ) ;
 		break;
 
 	case 2:
 		logging::log_debug("Saving memory as xml file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".xml" ) ) ;
+		fileops::add_extension_as_needed( file_name,  _T( ".xml" ) ) ;
 		break;
 
 	case 3:
 		logging::log_debug("Saving memory as tmx file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		fileops::add_extension_as_needed( file_name,  _T( ".tmx" ) ) ;
 		export_tmx( file_name, mem ) ;
 		return ;
 
 	case 4:
 		logging::log_debug("Saving memory as Trados text file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".txt" ) ) ;
+		fileops::add_extension_as_needed( file_name,  _T( ".txt" ) ) ;
 		export_trados( file_name, mem ) ;
 		return ;
 
@@ -5136,7 +5117,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 		logging::log_warn("Unknown case in switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving memory as tmx file") ;
-		fileops::addExtensionAsNeeded( file_name,  _T( ".tmx" ) ) ;
+		fileops::add_extension_as_needed( file_name,  _T( ".tmx" ) ) ;
 		export_tmx( file_name, mem ) ;
 		break;
 	}

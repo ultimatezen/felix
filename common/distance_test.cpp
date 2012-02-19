@@ -6,14 +6,8 @@
 #ifdef UNIT_TEST
 BOOST_AUTO_TEST_SUITE( TestDistance )
 
+	using namespace std ;
 
-	BOOST_AUTO_TEST_CASE( test_min2 )
-	{
-		Distance d ;
-		BOOST_CHECK_EQUAL( d.min2(10, 0), 0u) ;
-		BOOST_CHECK_EQUAL( d.min2(1, 10), 1u) ;
-		BOOST_CHECK_EQUAL( d.min2(5, 5), 5u) ;
-	}
 	BOOST_AUTO_TEST_CASE( test_min3 )
 	{
 		Distance d ;

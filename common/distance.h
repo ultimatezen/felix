@@ -6,13 +6,13 @@ class Distance
 {
 	size_t *row1 ;
 	size_t *row2 ;
-	size_t row_size ;
+	size_t m_row_size ;
 	double minscore ;
 public:
 	Distance() :
 	  row1(NULL),
 	  row2(NULL),
-	  row_size(0),
+	  m_row_size(0),
 	  minscore(0.5f)
 	{
 
@@ -45,8 +45,6 @@ public:
 	}
 
 	void ensure_size(size_t min_row_size) ;
-	// minimum of two values
-	size_t min2(size_t a, size_t b) const ;
 	// minimum of three values
 	size_t min3(size_t a, size_t b, size_t c) const ;
 

@@ -699,6 +699,7 @@ echo Protection complete!
     <ClCompile Include="Felix_properties.cpp" />
     <ClCompile Include="FelixMemDocUIHandler.cpp" />
     <ClCompile Include="FileOpHandler.cpp" />
+    <ClCompile Include="FileOpHandler_test.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="font_tabulator.cpp" />
     <ClCompile Include="GlossaryDialog.cpp">

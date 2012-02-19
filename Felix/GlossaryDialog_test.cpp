@@ -3,6 +3,7 @@
 #include "record_local.h"
 #include "memory_local.h"
 #include "felix_factory.h"
+#include "input_device_fake.h"
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
@@ -144,11 +145,27 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
+	/*********************************************************************/
+	/* tabbed text stuff                                                 */
+	/*********************************************************************/
+	BOOST_AUTO_TEST_CASE( load_tabbed_text )
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		CGlossaryDialog gloss(props) ;
+		InputDeviceFake *device = new InputDeviceFake ;
+		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"), CP_UTF8)) ;
+		gloss.m_input_device = input_device_ptr(device) ;
+		CString filename = _T("c:\\test\\tabbed-text.txt") ;
+		gloss.import_tabbed_text(filename) ;
+		BOOST_CHECK_EQUAL(1u, gloss.m_memories->size()) ;
+		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
+		BOOST_CHECK_EQUAL(2u, mem->size()) ;
+	}
 
 	/*********************************************************************/
 	/* multiterm stuff                                                   */
 	/*********************************************************************/
-	BOOST_AUTO_TEST_CASE( load_multiterm6)
+	BOOST_AUTO_TEST_CASE( load_multiterm6 )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
@@ -156,9 +173,9 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		gloss.import_multiterm(filename) ;
 		BOOST_CHECK_EQUAL(1u, gloss.m_memories->size()) ;
 		mem_engine::memory_pointer mem = gloss.m_memories->get_first_memory() ;
-		BOOST_CHECK_EQUAL(5, (int)mem->size()) ;
+		BOOST_CHECK_EQUAL(5u, mem->size()) ;
 	}
-	BOOST_AUTO_TEST_CASE( export_gloss_mt55)
+	BOOST_AUTO_TEST_CASE( export_gloss_mt55 )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
 		CGlossaryDialog gloss(props) ;
@@ -189,13 +206,13 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		fmt += "<%2%>%6%\r\n" ;
 		fmt += "<Notes>-\r\n" ;
 		fmt += "***\r\n" ;
-		string expected = (format(fmt.c_str())
+		string expected = (format(fmt)
 			% "Japanese" % "English"
 			% string2string(rec1->get_source_plain())
 			% string2string(rec1->get_trans_plain())
 			% string2string(rec2->get_source_plain())
 			% string2string(rec2->get_trans_plain())
-			).str().c_str() ;
+			).str() ;
 
 		file::view fview ;
 		string actual = (LPSTR)fview.create_view(filename) ;
@@ -228,11 +245,11 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
 		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
 		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		string expected = string2string(fmt, CP_UTF8).c_str() ;
+		string expected = string2string(fmt, CP_UTF8) ;
 
 		file::view fview ;
 		LPWSTR raw_text = (LPWSTR)fview.create_view(filename) ;
-		string actual = string2string(wstring(raw_text+1), CP_UTF8).c_str() ;
+		string actual = string2string(wstring(raw_text+1), CP_UTF8) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
