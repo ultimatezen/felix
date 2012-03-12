@@ -30,6 +30,9 @@ namespace mem_engine
 		{
 		}
 
+		bool connect(CString conn_str);
+		bool login(CString username, CString password);
+
 		/************************************************************************/
 		/* MemoryInfo implementation                                            */
 		/************************************************************************/
@@ -99,7 +102,6 @@ namespace mem_engine
 		CString get_fullpath();
 		bool is_new();
 
-		bool connect(CString conn_str);
 		// batch/stats ops
 		void batch_set_reliability( size_t rel );
 		void batch_set_validation( bool val );

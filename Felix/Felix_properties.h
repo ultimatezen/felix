@@ -767,6 +767,8 @@ struct properties_general : public props::CRegMap
 		BOOL	m_query_merge ;
 		BOOL	m_old_mem_mgr ;
 
+		BOOL	m_must_login ;
+
 		TCHAR	m_user_name[MAX_PATH] ;
 
 		props_data() : 
@@ -778,7 +780,8 @@ struct properties_general : public props::CRegMap
 			m_first_launch(TRUE),
 			m_merge_choice(IDC_MERGE),
 			m_query_merge(TRUE),
-			m_old_mem_mgr(FALSE)
+			m_old_mem_mgr(FALSE),
+			m_must_login(FALSE)
 		{
 			ZeroMemory(m_user_name, sizeof(m_user_name)) ;
 			DWORD path_len(MAX_PATH) ;
@@ -813,6 +816,14 @@ struct properties_general : public props::CRegMap
 	{
 		return !! m_data.m_load_prev_gloss_on_startup ;
 	}
+	bool must_log_in(void)
+	{
+		return !! m_data.m_must_login ;
+	}
+	void set_must_log_in(BOOL value)
+	{
+		m_data.m_must_login = value;
+	}
 
 
 	properties_general &operator=( const properties_general &rhs )
@@ -837,6 +848,7 @@ struct properties_general : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GENERAL_QUERY_MERGE"),		m_data.m_query_merge)
 		REG_ENTRY_BOOL( _T("GENERAL_OLD_MEM_MGR"),		m_data.m_old_mem_mgr)
 		REG_ENTRY_STRING( _T("GENERAL_USER_NAME"),		m_data.m_user_name, MAX_PATH )
+		REG_ENTRY_BOOL( _T("GENERAL_MUST_LOGIN"),		m_data.m_must_login)
 
 		if (! is_read)
 		{

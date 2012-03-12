@@ -1282,7 +1282,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 	UISetCheck(ID_VIEW_EDIT_MODE, ! edit_mode_enabled );
 
 	// swap out the various find dialogs...
-	SwapFindDialogs(edit_mode_enabled)
+	SwapFindDialogs(edit_mode_enabled) ;
 
 	m_view_state->handle_toggle_edit_mode() ;
 	return 0L ;

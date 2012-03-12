@@ -13,6 +13,59 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+LANGUAGE LANG_JAPANESE, SUBLANG_NEUTRAL
+#pragma code_page(932)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONNECTION_DLG DIALOGEX 0, 0, 250, 182
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "MSサーバに接続"
+FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
+BEGIN
+    LTEXT           "接続のアドレス(&C)",IDC_STATIC,7,9,136,13
+    EDITTEXT        IDC_CONN_EDIT,7,28,200,12,ES_AUTOHSCROLL
+    CONTROL         "ログインする(&L)",IDC_CONN_LOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,56,84,12
+    GROUPBOX        "",IDC_STATIC,13,70,215,78
+    LTEXT           "ユーザ名(&U):",IDC_STATIC1,23,89,63,10
+    EDITTEXT        IDC_USERNAME,98,89,122,12,ES_AUTOHSCROLL
+    LTEXT           "パスワード(&P):",IDC_STATIC2,23,119,63,10
+    EDITTEXT        IDC_PASSWORD,98,119,122,12,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,147,162,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,199,162,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CONNECTION_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 237
+        RIGHTMARGIN, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
 // Japanese (Japan) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
@@ -1618,18 +1671,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 // Dialog
 //
 
-IDD_CONNECTION_DLG DIALOGEX 0, 0, 211, 84
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "サーバに接続"
-FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
-BEGIN
-    LTEXT           "接続のアドレス(&C)",IDC_STATIC,7,7,136,13
-    EDITTEXT        IDC_CONN_EDIT,7,22,197,13,ES_AUTOHSCROLL
-    LTEXT           "",IDC_MSG_BOX,7,37,132,21
-    DEFPUSHBUTTON   "OK",IDOK,102,63,50,14
-    PUSHBUTTON      "キャンセル",IDCANCEL,154,62,50,14
-END
-
 IDD_QUERY_MERGE_DLG DIALOGEX 0, 0, 233, 148
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "メモリの統合"
@@ -1669,14 +1710,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_CONNECTION_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 204
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 77
-    END
-
     IDD_QUERY_MERGE_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7

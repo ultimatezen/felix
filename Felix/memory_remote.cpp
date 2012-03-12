@@ -7,6 +7,39 @@ namespace mem_engine
 {
 	using namespace except ;
 
+
+	bool memory_remote::connect( CString conn_str )
+	{
+		m_conn_str = conn_str ;
+		bool success = (VARIANT_FALSE != m_engine.method(L"Connect", static_cast< LPCWSTR >( CT2W(conn_str) )).boolVal) ;
+		if (! success)
+		{
+			throw except::CException(CString(_T("Failed to connect to memory: ")) + conn_str) ;
+		}
+		// check for demo status
+		refresh_status() ;
+		if ( this->is_demo() )
+		{
+			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
+			{
+				throw CDemoException() ;
+			}
+		}
+		return success ;
+	}
+	bool memory_remote::login(CString username, CString password)
+	{
+		CComVariant vuser(username) ;
+		CComVariant vpass(password) ;
+		bool success = (VARIANT_FALSE != m_engine.method(L"Login", vuser, vpass).boolVal) ;
+		if (! success)
+		{
+			throw except::CException(CString(_T("Failed to log in"))) ;
+		}
+		return success ;
+	}
+
+
 	void memory_remote::get_match_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), min_score) ;
@@ -220,25 +253,6 @@ namespace mem_engine
 		}
 	}
 
-	bool memory_remote::connect( CString conn_str )
-	{
-		m_conn_str = conn_str ;
-		bool success = (VARIANT_FALSE != m_engine.method(L"Connect", static_cast< LPCWSTR >( CT2W(conn_str) )).boolVal) ;
-		if (! success)
-		{
-			throw except::CException(CString(_T("Failed to connect to memory: ")) + conn_str) ;
-		}
-		// check for demo status
-		refresh_status() ;
-		if ( this->is_demo() )
-		{
-			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
-			{
-				throw CDemoException() ;
-			}
-		}
-		return success ;
-	}
 
 	mem_engine::record_pointer memory_remote::add_by_id( size_t recid, const wstring source, const wstring trans )
 	{

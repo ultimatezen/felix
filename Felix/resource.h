@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixJPN.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -552,7 +552,10 @@
 #define IDC_MSG_BOX                     473
 #define IDC_MERGE                       473
 #define IDD_QUERY_MERGE_DLG             473
+#define IDC_CONN_EDIT2                  473
+#define IDC_USERNAME                    473
 #define IDC_SEPARATE                    474
+#define IDC_PASSWORD                    474
 #define IDC_DONT_ASK                    475
 #define IDD_ZOOM_DLG                    475
 #define IDR_SEARCH_ACCEL                475
@@ -596,6 +599,9 @@
 #define IDC_GLOSS_SIMPLE_VIEW           591
 #define IDC_CHECK1                      1000
 #define IDC_OLD_MEM_MGR                 1000
+#define IDC_CONN_LOGIN                  1000
+#define IDC_STATIC1                     1001
+#define IDC_STATIC2                     1002
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -663,7 +669,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40003
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           239
 #endif
 #endif

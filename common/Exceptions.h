@@ -124,9 +124,14 @@ public:
 	) ;
 	ATL::CString format_message_for_message_box() ;
 
+	// ---------
 	// get
+	// ---------
+	// top
 	ATL::CString what() const ;
+	// middle
 	ATL::CString description() const ;
+	// bottom
 	ATL::CString bottom_message() const ;
 
 	/** CTOR.

@@ -18,6 +18,9 @@ class CConnectionDlg :
 	CEdit	m_edit ;
 	CStatic m_err_box ;
 
+	CEdit	m_username ;
+	CEdit	m_password ;
+
 public:
 	static const int IDD = IDD_CONNECTION_DLG ;
 	DECLARE_SENSING_VAR ;
@@ -30,9 +33,14 @@ public:
 	LRESULT OnOK(  WORD wID );
 	LRESULT OnCloseCommand(WORD wID);
 
+	LRESULT OnLoginChecked(WORD, WORD, HWND, BOOL& );
+
+
 	BEGIN_MSG_MAP_EX(CConnectionDlg)
 	MSG_TRY	
 		MSG_HANDLER_0 ( WM_INITDIALOG, OnInitDialog )
+
+		COMMAND_HANDLER(IDC_CONN_LOGIN, BN_CLICKED, OnLoginChecked)
 
 		BEGIN_CMD_HANDLER_EX
 			CMD_HANDLER_EX_ID ( IDCANCEL, OnCloseCommand )

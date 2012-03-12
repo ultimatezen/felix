@@ -1081,7 +1081,7 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 
 			"<query_merge>false</query_merge>\n" 
 			"<old_mem_mgr>true</old_mem_mgr>\n" 
-
+			"<must_login>true</must_login>\n"
 			"<user_name>jerry</user_name>\n" 
 			"</properties_general>\n" 
 			"</properties>";
@@ -1105,6 +1105,7 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 
 		BOOST_CHECK_EQUAL (props.m_data.m_query_merge, FALSE) ;
 		BOOST_CHECK_EQUAL (props.m_data.m_old_mem_mgr, TRUE) ;
+		BOOST_CHECK_EQUAL (props.m_data.m_must_login, TRUE) ;
 
 
 		BOOST_CHECK_EQUAL (wstring(props.m_data.m_user_name), L"jerry") ;
@@ -1153,6 +1154,7 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 
 			"		<query_merge>true</query_merge>\n"
 			"		<old_mem_mgr>true</old_mem_mgr>\n"
+			"		<must_login>false</must_login>\n"
 
 			"		<user_name>Bozo The Clown</user_name>\n"
 

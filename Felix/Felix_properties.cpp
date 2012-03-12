@@ -626,7 +626,7 @@ namespace app_props
 
 		add_child(parent, "query_merge", bool2string(!! this->m_data.m_query_merge)) ;
 		add_child(parent, "old_mem_mgr", bool2string(!! this->m_data.m_old_mem_mgr)) ;
-
+		add_child(parent, "must_login", bool2string(!! this->m_data.m_must_login)) ;
 
 		add_child(parent, "user_name", static_cast<const char*>(CW2A(this->m_data.m_user_name))) ;
 
@@ -649,6 +649,7 @@ namespace app_props
 
 			this->m_data.m_query_merge = read_xml_bool(parent, "query_merge") ;
 			this->m_data.m_old_mem_mgr = read_xml_bool(parent, "old_mem_mgr") ;
+			this->m_data.m_must_login = read_xml_bool(parent, "must_login") ;
 
 			const wstring user_name = read_xml_string(parent, "user_name") ;
 			_tcscpy_s( m_data.m_user_name, MAX_PATH, user_name.c_str()) ;

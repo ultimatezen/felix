@@ -20,6 +20,20 @@ LRESULT CConnectionDlg::OnInitDialog()
 	m_edit.Attach( GetDlgItem( IDC_CONN_EDIT ) ) ;
 	m_err_box.Attach( GetDlgItem( IDC_MSG_BOX ) ) ;
 
+	m_username.Attach( GetDlgItem( IDC_USERNAME ) ) ;
+	m_password.Attach( GetDlgItem( IDC_PASSWORD ) ) ;
+
+	if (m_props->m_gen_props.must_log_in())
+	{
+		CheckDlgButton(IDC_CONN_LOGIN, TRUE) ;
+	}
+	else
+	{
+		m_username.EnableWindow(FALSE); 
+		m_password.EnableWindow(FALSE); 
+	}
+
+
 #ifdef UNIT_TEST
 	return TRUE ;
 #else
@@ -48,6 +62,17 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	try
 	{
 		mem->connect(conn_str) ;
+
+		// If we also need to log in...
+		if (IsDlgButtonChecked(IDC_CONN_LOGIN))
+		{
+			CString username ;
+			m_username.GetWindowText( username ) ;
+			CString password ;
+			m_password.GetWindowText( password ) ;
+
+			mem->login(username, password) ;
+		}
 	}
 	catch( CDemoException &e)
 	{
@@ -79,8 +104,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 	}
 	catch (CException& e)
 	{
-		e ;
-		MessageBeep(MB_ICONSTOP) ;
+		e.notify_user(_T("Failed to connect to Memory Serves")) ;
 		this->FlashWindow(FALSE) ;
 		this->SetMsgHandled(FALSE) ;
 		// set the focus to the edit box
@@ -88,6 +112,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		m_edit.SetFocus() ;
 		return 1L ;
 	}
+
 
 	m_memory = pmem ;
 	MessageBeep(MB_ICONINFORMATION) ;
@@ -102,3 +127,15 @@ LRESULT CConnectionDlg::OnCloseCommand( WORD wID )
 	END_DLG ;
 }
 
+LRESULT CConnectionDlg::OnLoginChecked( WORD, WORD, HWND, BOOL& )
+{
+	const BOOL enable_login = IsDlgButtonChecked(IDC_CONN_LOGIN) ;
+	m_username.EnableWindow(enable_login); 
+	m_password.EnableWindow(enable_login); 
+
+	m_props->m_gen_props.set_must_log_in(enable_login) ;
+	m_props->write_prefs();
+
+	ATLTRACE("OnLoginChecked\n") ;
+	return 0L ;
+}
