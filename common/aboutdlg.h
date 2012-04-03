@@ -1,8 +1,3 @@
-/*!
-	@file aboutdlg.h
-	@brief interface of the CAboutDialog class.
- */
-
 #pragma once
 
 #include "HtmlView.h"			// CHtmlView
@@ -12,8 +7,6 @@
 #include <atlapp.h>				// must be included before altmisc.h
 #include "wingdi.h"
 #include "atlmisc.h"			// CSize
-#include "Exceptions.h"			// CException
-#include "WindowExceptionHandler.h"
 #include "resource.h"
 
 /**
@@ -43,98 +36,20 @@ public:
 	// Return type		: LRESULT 
 	// Argument         :  UINT type
 	// Argument         : CSize size
-	LRESULT OnSize( UINT type, CSize size )
-	{
-		SENSE( "OnSize" ) ;
-		
-		SetMsgHandled( FALSE ) ;
-		
-		if(m_bGripper)
-		{
-			TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
-			if(type == SIZE_MAXIMIZED)
-				wndGripper.ShowWindow(SW_HIDE);
-			else if(type == SIZE_RESTORED)
-				wndGripper.ShowWindow(SW_SHOW);
-		}
-		if(type != SIZE_MINIMIZED)
-		{
-			DlgResize_UpdateLayout(size.cx , size.cy );
-		}
-		
-		if ( type == SIZE_MINIMIZED )
-			return 0L ;
-		
-		// set up static where html view will go
-		TWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
-		// get its position
-		RECT rc ;
-		msg_box.GetWindowRect( &rc ) ;
-		ScreenToClient( &rc ) ;
-		msg_box.ShowWindow( SW_HIDE ) ;
-		
-		// move the html view into place
-		m_view.SetWindowPos(NULL, &rc, SWP_NOZORDER | SWP_NOACTIVATE);
-		
-		
-		return 0L ;
-	}
+	LRESULT OnSize( UINT type, CSize size );
 	
 	
 	// Function name	: CAboutDialog::OnInitDialog
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnInitDialog( )
-	{
-		SENSE( "OnInitDialog" ) ;
-		
-		// Init the CDialogResize code
-#ifndef UNIT_TEST
-		DlgResize_Init( true, true ) ;
-#endif		
-		// set icon
-		SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
-		
-		//	SetTextBackGround(0xFFFFFF);   
-		//	SetTextColor(RGB(0x00, 0x00, 0x00));  
-		
-		// set up static where html view will go
-		TWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
-		// get its position
-		RECT rc ;
-		msg_box.GetWindowRect( &rc ) ;
-		ScreenToClient( &rc ) ;
-		
-		// create the html view and move it into place
-		m_view.create( m_hWnd ) ;
-		ATLASSERT( m_view.IsWindow() ) ;
-		m_view.MoveWindow( &rc, TRUE ) ;
-		
-		// load the page
-		if (! m_aboutfile_name.IsEmpty())
-		{
-			m_view.navigate(_bstr_t(m_aboutfile_name)) ;
-		}
-		else
-		{
-			m_view.load_from_resource( _T("ABOUTPAGE.HTML") ) ;
-		}
-		
-		
-		return TRUE ;
-		
-	}
+	LRESULT OnInitDialog( );
 	
 	
 	// Function name	: CAboutDialog::OnCloseCmd
 	// Description	    : 
 	// Return type		: LRESULT 
 	// Argument         : WORD wID
-	LRESULT OnCloseCmd( WORD wID )
-	{
-		SENSE( "OnCloseCmd" ) ;
-		END_DLG ;
-	}
+	LRESULT OnCloseCmd( WORD wID );
 
     BEGIN_DLGRESIZE_MAP(CAboutDialog< int id_type >)
         // buttons

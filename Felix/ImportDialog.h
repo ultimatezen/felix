@@ -1,13 +1,6 @@
-/*!
-@file ImportDialog.h
-@brief Definition of the CImportDialog class.
-@author Ryan Ginstrom
-*/
-
 #pragma once
 
 #include "resource.h"       // main symbols
-#include "Exceptions.h"		// exception support
 #include "WindowExceptionHandler.h"
 
 #include "LanguageHolder.h"

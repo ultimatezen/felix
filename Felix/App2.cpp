@@ -195,3 +195,94 @@ STDMETHODIMP CApp2::ReviewTranslation(ULONG RecId, BSTR Source, BSTR Trans)
 	return S_OK;
 }
 
+HRESULT CApp2::FinalConstruct()
+{
+	HRESULT hr = MatchObject::CreateInstance( &m_current_match ) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_current_match->AddRef() ;
+
+	hr = CComObject<CSearchResults>::CreateInstance(&m_current_matches) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_current_matches->AddRef() ;
+
+	hr = CComObject<CSearchResults>::CreateInstance(&m_current_gloss_matches) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_current_gloss_matches->AddRef() ;
+
+	hr = CComObject<CComMemory>::CreateInstance(&m_active_memory) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_active_memory->AddRef() ;
+
+	hr = CComObject<CComMemory>::CreateInstance(&m_active_glossary) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_active_glossary->AddRef() ;
+
+	hr = CComObject<CMemoryWindow>::CreateInstance(&m_memory_window) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_memory_window->AddRef() ;
+
+	hr = CComObject<CMemoryWindow>::CreateInstance(&m_glossary_window) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_glossary_window->AddRef() ;
+
+	hr = CComObject<CMemories>::CreateInstance(&m_glossaries) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_glossaries->AddRef() ;
+
+	hr = CComObject<CMemories>::CreateInstance(&m_memories) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_memories->AddRef() ;
+
+	return hr ;
+}
+
+void CApp2::FinalRelease()
+{
+	if ( m_current_match )
+	{
+		m_current_match->Release() ;
+	}
+	if ( m_current_matches )
+	{
+		m_current_matches->Release() ;
+	}
+	if ( m_current_gloss_matches )
+	{
+		m_current_gloss_matches->Release() ;
+	}
+	if (m_active_memory)
+	{
+		m_active_memory->Release() ;
+	}
+	if (m_active_glossary)
+	{
+		m_active_glossary->Release() ;
+	}
+}

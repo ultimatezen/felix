@@ -1,7 +1,4 @@
-/*!
-	@brief Dynamic array class 
-	@author Ryan Ginstrom
- */
+
 #pragma once
 
 #include <iterator>

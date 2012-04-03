@@ -560,6 +560,7 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="App2.cpp" />
+    <ClCompile Include="background_processor.cpp" />
     <ClCompile Include="BrowseView.cpp" />
     <ClCompile Include="charset_info.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>

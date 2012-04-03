@@ -6,7 +6,6 @@
 #include "Felix.h"
 #include "ComRecord.h"
 #include "com2stl_coll.h"
-#include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 #include "TranslationMemory.h"
 
 

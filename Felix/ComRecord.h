@@ -31,10 +31,7 @@ class ATL_NO_VTABLE CRecord :
 	mem_engine::record_pointer m_record ;
 public:
 
-	void set_record(mem_engine::record_pointer record)
-	{
-		m_record = record ;
-	}
+	void set_record(mem_engine::record_pointer record);
 	CRecord() : m_record(new mem_engine::record_local)
 	{
 	}
@@ -58,14 +55,9 @@ END_CONNECTION_POINT_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-	HRESULT FinalConstruct()
-	{
-		return S_OK;
-	}
+	HRESULT FinalConstruct();
 
-	void FinalRelease()
-	{
-	}
+	void FinalRelease();
 
 public:
 	// source

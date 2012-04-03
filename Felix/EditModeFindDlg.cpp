@@ -324,3 +324,4 @@ LRESULT CEditModeReplaceDlg::OnDestroy()
 	m_replace_edit.Detach() ;
 	return ParentClass::on_destroy() ;
 }
+

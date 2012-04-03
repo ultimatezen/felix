@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ImportDialog.h"
+#include "Exceptions.h"		// exception support
 
 void CImportDialog::init_combos()
 {

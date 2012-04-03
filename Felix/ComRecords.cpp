@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "ComRecords.h"
+#include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 
 
 // CRecords

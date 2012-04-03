@@ -5,7 +5,6 @@
 
 #include "Felix.h"
 #include "ComRecords.h"
-#include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 #include "TranslationMemory.h"
 
 #if defined(_WIN32_WCE) && !defined(_CE_DCOM) && !defined(_CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA)
@@ -41,24 +40,9 @@ END_COM_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-	HRESULT FinalConstruct()
-	{
-		HRESULT hr = RecordsObject::CreateInstance( &m_records ) ;
-		if ( FAILED( hr ) )
-		{
-			return hr ;
-		}
-		m_records->AddRef() ;
-		return hr;
-	}
+	HRESULT FinalConstruct();
 
-	void FinalRelease()
-	{
-		if ( m_records )
-		{
-			m_records->Release() ;
-		}
-	}
+	void FinalRelease();
 
 public:
 	STDMETHOD(get_Records)(IRecords **pVal);

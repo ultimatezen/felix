@@ -10,11 +10,46 @@
 #include "export_tabbed_text.h"
 #include "ExcelExporter.h"
 #include "ExcelInterfaceReal.h"
-
+#include "input_device.h"
+#include "output_device.h"
 
 using namespace except ;
 using namespace mem_engine ;
 using namespace html ;
+
+// stand-alone functions
+inline void add_common_tb_commands(std::vector< int > &commands)
+{
+	commands += 
+		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
+		ID_FILE_SAVE,	ID_FILE_SAVE_ALL, SEP_ID,
+		ID_NEXT_PANE,   SEP_ID,
+		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,	SEP_ID,
+		ID_EDIT_FIND ;
+}
+inline void add_common_std_bitmaps(std::vector< int > &StdBitmaps)
+{
+	StdBitmaps += 
+		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,	
+		IDB_SAVE,	IDB_SAVEMANY,
+		IDB_SWITCH_VIEWS,
+		IDB_CUT,			IDB_COPY,	IDB_PASTE,	
+		IDB_SEARCH ;
+}
+inline void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
+{
+	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
+	foreach(int img_id, StdBitmaps)
+	{
+		CBitmap bmp ;
+		ATLVERIFY(bmp.LoadBitmap(img_id)) ;
+		images.Add(bmp, MAGENTA) ;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// CCommonWindowFunctionality class
+//////////////////////////////////////////////////////////////////////////
 
 // CTOR
 CCommonWindowFunctionality::CCommonWindowFunctionality( ) 
@@ -1145,4 +1180,14 @@ void CCommonWindowFunctionality::SwapFindDialogs( const bool edit_mode_enabled )
 			m_edit_find.ShowWindow( SW_SHOW ) ;
 		}
 	}
+}
+
+CCommonWindowFunctionality::match_ptr CCommonWindowFunctionality::get_item_under_edit()
+{
+	return m_item_under_edit ;
+}
+
+void CCommonWindowFunctionality::set_item_under_edit( match_ptr match )
+{
+	m_item_under_edit = match ;
 }

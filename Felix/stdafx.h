@@ -66,12 +66,14 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
+#include <atlframe.h>
 
 // stl libraries we are using
 #include <map>							// for record data
 #include <set>							
 #include <list>
 #include <vector>
+#include <string>
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -110,11 +112,12 @@ using namespace boost::foreach ;
 namespace fs = boost::filesystem;
 
 // WTL Headers
-#include <atlbase.h>
+#include <atlbase.h>	// must be included before atlapp.h
 
 #pragma warning( disable : 4996 ) 
-#include "atlapp.h"
+#include <atlapp.h>		// must be included before atlctrls.h
 #pragma warning( default : 4996 ) 
+#include <atlctrls.h>
 
 #include "DebugUtilities.h"
 #include "StringEx.h"

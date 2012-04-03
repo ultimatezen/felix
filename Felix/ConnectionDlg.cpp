@@ -2,6 +2,7 @@
 #include "ConnectionDlg.h"
 #include "DemoException.h"
 #include "InputKeyDlg.h"
+#include "memory_remote.h"
 
 using namespace except ;
 

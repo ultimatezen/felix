@@ -1,19 +1,9 @@
-/*!
-	@file App.h
-	@brief Declaration of the CApp
-	@date 2005/06/23
-	Time: 15:48:40
-	@author Ryan Ginstrom
-	@dir c:\Programming\Programming Projects\Felix 1.5
- */
-
 #pragma once
 #include "resource.h"       // main symbols
 
 #include "Felix.h"
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 #include "app2.h"
-// CApp
 
 /**
 	@class CApp
@@ -39,23 +29,9 @@ END_COM_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-	HRESULT FinalConstruct()
-	{
-		HRESULT hr = CComObject< CApp2 >::CreateInstance( &m_App2 ) ;
-		if ( SUCCEEDED( hr ) )
-		{
-			m_App2->AddRef() ;
-		}
-		return hr ;
-	}
+	HRESULT FinalConstruct();
 
-	void FinalRelease()
-	{
-		if ( m_App2 )
-		{
-			m_App2->Release() ;
-		}
-	}
+	void FinalRelease();
 
 public:
 	void wait_for_query();

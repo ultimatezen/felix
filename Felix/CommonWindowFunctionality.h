@@ -24,15 +24,12 @@
 #include "view_state.h"
 
 #include "ProgressListener.h"
-
 #include "Drop.h"	// CDropHandle
+#include "QueryMergeDlg.h"
 
 #include "NavInterface.h"
 #include "WindowsMessage.h"
-#include "QueryMergeDlg.h"
 #include "window_listener.h"
-#include "input_device.h"
-#include "output_device.h"
 #include "window_interface.h"
 
 void add_popup_item(CMenu &menu, int command_id, int text_id) ;
@@ -46,34 +43,9 @@ static const int SEP_ID = 0 ;
 static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
 
 
-inline void add_common_tb_commands(std::vector< int > &commands)
-{
-	commands += 
-		ID_FILE_NEW,	ID_FILE_OPEN, ID_MEMORY_CLOSE,	SEP_ID,
-		ID_FILE_SAVE,	ID_FILE_SAVE_ALL, SEP_ID,
-		ID_NEXT_PANE,   SEP_ID,
-		ID_EDIT_CUT,	ID_EDIT_COPY,	ID_EDIT_PASTE,	SEP_ID,
-		ID_EDIT_FIND ;
-}
-inline void add_common_std_bitmaps(std::vector< int > &StdBitmaps)
-{
-	StdBitmaps += 
-		IDB_NEW_DOCUMENT,	IDB_OPEN, IDB_MEMORY_CLOSE,	
-		IDB_SAVE,	IDB_SAVEMANY,
-		IDB_SWITCH_VIEWS,
-		IDB_CUT,			IDB_COPY,	IDB_PASTE,	
-		IDB_SEARCH ;
-}
-inline void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
-{
-	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
-	foreach(int img_id, StdBitmaps)
-	{
-		CBitmap bmp ;
-		ATLVERIFY(bmp.LoadBitmap(img_id)) ;
-		images.Add(bmp, MAGENTA) ;
-	}
-}
+void add_common_tb_commands(std::vector< int > &commands) ;
+void add_common_std_bitmaps(std::vector< int > &StdBitmaps) ;
+void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps) ;
 /**
 	@class CCommonWindowFunctionality  
 	@brief Unites functionality common to both CMainFrame and CGlossaryDialog.
@@ -210,14 +182,8 @@ public:
 		m_review_match->set_values_to_record() ;
 		m_review_match->set_memory_id(mem_id) ;
 	}
-	match_ptr get_item_under_edit()
-	{
-		return m_item_under_edit ;
-	}
-	void set_item_under_edit(match_ptr match)
-	{
-		m_item_under_edit = match ;
-	}
+	match_ptr get_item_under_edit();
+	void set_item_under_edit(match_ptr match);
 
 	void set_bg_color(COLORREF c);
 	bool show_mem_mgr_dlg(int title_id = 0) ;

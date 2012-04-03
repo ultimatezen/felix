@@ -9,7 +9,6 @@
 #pragma once
 
 #include "Exceptions.h"
-#include "CrashDlg.h"
 #include "logging.h"
 
 #define CATCH_C_EXCEPTIONS_VOID( msg ) catch ( std::exception &e ) { CString _msg( msg ) ; handle_exception_void( e, _msg, NULL, 0 ) ; return ; }

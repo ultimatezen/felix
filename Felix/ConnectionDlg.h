@@ -5,7 +5,7 @@
 #include "resource.h"
 #include "MessageMapDefines.h"
 #include "WindowExceptionHandler.h"
-#include "memory_remote.h"
+#include "TranslationMemory.h"
 
 /**
 @class CConnectionDlg 

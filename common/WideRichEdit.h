@@ -7,10 +7,7 @@
  */
 
 #pragma once
-
-#include <atlbase.h>			// must be included before atlapp.h
-#include <atlapp.h>				// must be included before atlctrls.h
-#include "atlctrls.h"
+	
 #include "StringEx.h"
 #include "StringConversions.h"
 #include "input_device.h"

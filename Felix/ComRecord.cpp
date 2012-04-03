@@ -416,3 +416,18 @@ STDMETHODIMP CRecord::get_PlainContext(BSTR* pVal)
 
 	return S_OK ;
 }
+
+void CRecord::set_record( mem_engine::record_pointer record )
+{
+	m_record = record ;
+}
+
+HRESULT CRecord::FinalConstruct()
+{
+	return S_OK;
+}
+
+void CRecord::FinalRelease()
+{
+
+}

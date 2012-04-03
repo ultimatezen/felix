@@ -51,6 +51,7 @@
 #include "text_templates.h"
 #include "FelixMemDocUIHandler.h"
 #include "memory_local.h"
+#include "memory_remote.h"
 
 #include "cpptempl.h"
 #include <shellapi.h>

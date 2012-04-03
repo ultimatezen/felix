@@ -16,7 +16,6 @@
 
 #include "HtmlDocColorSetter.h"
 
-#include <atlframe.h>
 
 #include "NumberFmt.h"
 #include "xpmenu/Tools.h"		// CWindowRect
@@ -33,6 +32,7 @@
 #include "TabbedTextImporter.h"
 #include "input_device_file.h"
 #include "output_device.h"
+#include "memory_remote.h"
 
 #define ZOOM_KEY CComVariant(L"GlossWindowZoom")
 

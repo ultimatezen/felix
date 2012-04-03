@@ -885,9 +885,6 @@
     <ClCompile Include="TranslationMemory_test.cpp">
       <Filter>Source Files\mem_engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\WideRichEdit.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="TMXImportDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -905,6 +902,12 @@
     </ClCompile>
     <ClCompile Include="FileOpHandler_test.cpp">
       <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="background_processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\WideRichEdit.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

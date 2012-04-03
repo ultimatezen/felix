@@ -297,3 +297,37 @@ double Distance::edist_score( const std::wstring &a, const std::wstring &b )
 
 	return ((double)maxlen - (double)distance) / (double)maxlen ;
 }
+
+void Distance::set_minscore( double score )
+{
+	minscore = score ;
+}
+
+double Distance::subdist_score( const std::wstring &needle, const std::wstring &haystack )
+{
+	size_t needle_len = needle.size() ; 
+
+	if (needle_len == 0) // avoid divide by zero errors
+	{
+		return 0.0 ;
+	}
+
+	size_t distance = this->subdist(needle, haystack) ;
+
+	return ((double)needle_len - (double)distance) / (double)needle_len ;
+}
+
+Distance::Distance() :
+row1(NULL),
+	row2(NULL),
+	m_row_size(0),
+	minscore(0.5f)
+{
+
+}
+
+Distance::~Distance()
+{
+	if (row1) free(row1) ;
+	if (row2) free(row2) ;
+}

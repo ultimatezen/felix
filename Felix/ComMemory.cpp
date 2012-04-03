@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "ComMemory.h"
 #include "memory_local.h"
+#include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 
 using namespace except ;
 using namespace mem_engine;
@@ -381,5 +382,23 @@ STDMETHODIMP CComMemory::put_IsLocked(VARIANT_BOOL isLocked)
 	return S_OK ;
 }
 
+HRESULT CComMemory::FinalConstruct()
+{
+	HRESULT hr = RecordsObject::CreateInstance( &m_records ) ;
+	if ( FAILED( hr ) )
+	{
+		return hr ;
+	}
+	m_records->AddRef() ;
+	return hr;
+}
+
+void CComMemory::FinalRelease()
+{
+	if ( m_records )
+	{
+		m_records->Release() ;
+	}
+}
 // CComMemory
 

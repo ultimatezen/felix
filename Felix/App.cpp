@@ -494,3 +494,21 @@ void CApp::wait_for_query()
 		}
 	}
 }
+
+HRESULT CApp::FinalConstruct()
+{
+	HRESULT hr = CComObject< CApp2 >::CreateInstance( &m_App2 ) ;
+	if ( SUCCEEDED( hr ) )
+	{
+		m_App2->AddRef() ;
+	}
+	return hr ;
+}
+
+void CApp::FinalRelease()
+{
+	if ( m_App2 )
+	{
+		m_App2->Release() ;
+	}
+}
