@@ -9,10 +9,7 @@
 
 #pragma once
 
-#include <string>
 #include "stringex.h"
-#include "Shlwapi.h"
-#pragma comment(lib, "shlwapi.lib")
 
 /**
 	@struct appstate_mainframe

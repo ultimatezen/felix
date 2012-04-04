@@ -8,9 +8,6 @@
 #pragma once
 
 #include <cstdlib>			// define memory allocation functions
-#include "atlbase.h"
-#include <string>
-#include "atlstr.h"
 
 #ifdef _DEBUG 
 

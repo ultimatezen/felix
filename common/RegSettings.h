@@ -8,12 +8,6 @@
 
 #pragma once
 
-#include <atlbase.h>			// must be included before atlapp.h
-#include <atlapp.h>				// must be included before atlmisc.h
-								// must be included before atlctrls.h
-#include <AtlMisc.h>
-#include <AtlCtrls.h>
-
 /**
 	@class CWindowSettings
 	@brief Wrapper for WINDOWPLACEMENT struct.

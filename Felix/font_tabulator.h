@@ -11,7 +11,6 @@
 
 
 #include "StringEx.h"
-#include <set>
 #include "ArmadilloStuff.h"
 
 /**

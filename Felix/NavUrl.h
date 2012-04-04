@@ -2,9 +2,6 @@
 
 #include "HrefTags.h"
 #include "NavInterface.h"
-#include "comutil.h" // _bstr_t
-
-#include <vector>
 
 /**
 	@class CNavUrl

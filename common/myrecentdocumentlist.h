@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <atlapp.h>				// must be included before atlmisc.h
-#include "atlmisc.h"
 #include "StringEx.h"
 
 /**

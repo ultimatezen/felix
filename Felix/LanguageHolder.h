@@ -10,8 +10,6 @@
 #pragma once
 
 #include "StringEx.h"	// tstring
-#include <set>				// std::set
-#include <vector>
 
 #ifdef UNIT_TEST
 #define CComboBox CComboBoxT<CFakeWindow>

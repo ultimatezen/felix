@@ -66,7 +66,6 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
-#include <atlframe.h>
 
 // stl libraries we are using
 #include <map>							// for record data
@@ -74,6 +73,8 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <list>
 #include <vector>
 #include <string>
+#include <algorithm> 
+#include <iterator>
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -96,6 +97,7 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/tuple/tuple.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
@@ -106,8 +108,9 @@ using namespace boost::foreach ;
 #pragma warning( default : 4701 )
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
-#include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations
+#include <boost/filesystem.hpp>   // includes all needed Boost.Filesystem declarations
 #pragma warning( default : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
+#include <boost/static_assert.hpp>
 
 namespace fs = boost::filesystem;
 
@@ -117,7 +120,13 @@ namespace fs = boost::filesystem;
 #pragma warning( disable : 4996 ) 
 #include <atlapp.h>		// must be included before atlctrls.h
 #pragma warning( default : 4996 ) 
+#include <atlframe.h>
+#include <AtlMisc.h>
 #include <atlctrls.h>
+#include <atlcrack.h>
+#include <ATLCTRLX.H>
+
+#include <Mshtml.h>
 
 #include "DebugUtilities.h"
 #include "StringEx.h"
@@ -150,8 +159,9 @@ extern CLocalizedServerAppModule _Module;
 #define VISIBLE_TO_TESTS
 #endif
 
-#include <atlctrls.h>
+#include <atlgdix.h>				// must be included before CustomTabCtrl.h
 #include <atlddx.h> 
+#include "atlscintilla.h"
 #include <atldlgs.h>
 
 #pragma warning( disable:4995 ) // #pragma deprecated
@@ -171,12 +181,25 @@ CExeModule
 
 #include <commctrl.h> // LPNMREBARCHEVRON
 #include <prsht.h> // PSW_HWNDTOINDEX
+#include "comutil.h"
+
+#include "Shlwapi.h"
+#pragma comment(lib, "shlwapi.lib")
+
 
 #pragma warning( disable:4995 ) // #pragma deprecated
 #include <atlframe.h>
 #pragma warning( default:4995 ) // #pragma deprecated
 
 #include "resource_string.h"
+
+#include "xpmenu/MenuXP.h"
+#include "xpmenu/ToolBarXP.h"
+#include "xpmenu/Tools.h"
+
+#import "mshtml.tlb" no_auto_exclude, named_guids, rename( "TranslateAccelerator", "HtmlTranslateAccelerator" )
+#include "mshtml.h"
+#include "pugxml/src/pugixml.hpp"
 
 #include "unit_testing.h"
 

@@ -6,9 +6,7 @@
 #include "RegistryStuff.h"		// CRegMap
 #include "resource_string.h"	// R2T
 
-#include "pugxml/src/pugixml.hpp"
 
-#include <vector>
 #include "output_device.h"
 
 

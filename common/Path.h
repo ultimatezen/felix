@@ -8,11 +8,6 @@
 
 #pragma once
 
-#include "atlstr.h"
-#include "comutil.h" // _bstr_t
-#include "Shlwapi.h"
-#pragma comment(lib, "shlwapi.lib")
-
 #include "DebugUtilities.h"
 
 namespace file

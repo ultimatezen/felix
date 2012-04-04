@@ -92,6 +92,9 @@ protected:
 
 	// Safe cast of a pointer to type void**
 	template< typename I >
-	static void ** out_ptr( I **ppi );
-
+	static void ** out_ptr( I **ppi )
+	{
+		ATLASSERT( ppi != NULL ) ;
+		return reinterpret_cast< void ** >(ppi) ;
+	}
 };

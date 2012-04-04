@@ -1,12 +1,6 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
-
-#include <boost/assign/std/vector.hpp> // for 'operator+=()'
-using namespace boost::assign; // bring 'operator+=()' into scope
-
 namespace ATL
 {
 	/////////////////////////////////////////////////////////////////////////////

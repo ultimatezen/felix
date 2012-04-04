@@ -1,7 +1,5 @@
 #pragma once
 
-#include "atlstr.h"
-
 class CResHtmlFile
 {
 	CStringW m_file_text ;

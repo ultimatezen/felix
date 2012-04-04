@@ -16,9 +16,6 @@
 #include "CommonWindowFunctionality.h"	// functionality common to mainframe and
 										// glossary dialogs
 
-#include "xpmenu/MenuXP.h"
-#include "xpmenu/ToolBarXP.h"
-
 #include "MinViewDlg.h"
 #include "WindowExceptionHandler.h"
 #include "NavUrl.h"

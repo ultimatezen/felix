@@ -4,9 +4,6 @@
  */
 
 #pragma once
-#include <atlapp.h>			// must be included before atlctrls.h
-							// must be included before atlmisc.h
-#include <atlctrls.h>		// for member controls
 #include "messagemapdefines.h"
 #include "WideRichEdit.h"		// for CWideRichEdit
 #include "Exceptions.h"			// for exception support

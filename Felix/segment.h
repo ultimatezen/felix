@@ -1,7 +1,6 @@
 #pragma once
 
 #include "tag_stripper.h"
-#include <boost/algorithm/string.hpp>
 #include "StringEx.h"
 
 class CmpMaker

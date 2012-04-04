@@ -3,8 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <atlbase.h>
-#include <Mshtml.h>
 #include "HtmlDocument.h"	// wrappers for html doc & others
 
 namespace html

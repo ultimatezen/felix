@@ -9,7 +9,6 @@
 #pragma once
 
 #include "File.h"
-#include "atldlgs.h"
 #include "memory_debugging.h"
 
 #define CPP_FILE_FILTER		TEXT("CPP Files (*.h; *.cpp)\0*.cpp;*.h\0All files (*.*)\0*.*\0")

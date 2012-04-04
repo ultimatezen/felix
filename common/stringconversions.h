@@ -4,13 +4,6 @@
 #include "winnls.h" // unicode-multibyte conversion
 #include "errno.h"
 #include "textstream_reader.h"
-#include "comutil.h" // _bstr_t and _variant_t
-
-#pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
-#include <boost/lexical_cast.hpp>
-#pragma warning( default : 4701 )
-
-#include <boost/scoped_array.hpp>
 
 static const size_t ONEK = 1024 ;
 static const size_t ONEM = (ONEK*ONEK) ;

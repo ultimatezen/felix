@@ -16,20 +16,15 @@
 #pragma once
 
 #include "StringEx.h"			// for string conversion
-#include <vector>				// for vectors of CStrings
 #include "StringConversions.h"	// convert to/from wstrings/strings/CStrings
 
 #include "Exceptions.h"		// exception support
 #include "DebugUtilities.h"	// TRACE et al
 
 #include "MiscWrappers.h"	// misc_wrappers::handle
-#include "atlstr.h"
 
 #include "Path.h"
 
-// shell API support
-#include "shlwapi.h"
-#pragma comment(lib, "shlwapi.lib")
 
 #include "stdio.h"
 #include "stdarg.h"

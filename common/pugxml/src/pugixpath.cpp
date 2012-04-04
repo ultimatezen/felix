@@ -49,9 +49,6 @@ typedef __int32 int32_t;
 #	pragma diag_suppress=237 // controlling expression is constant
 #endif
 
-#include <algorithm>
-#include <string>
-
 // String utilities prototypes
 namespace pugi
 {

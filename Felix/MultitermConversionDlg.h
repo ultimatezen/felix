@@ -1,7 +1,5 @@
 #pragma once
 
-#include "atldlgs.h"
-#include "atlddx.h"
 #include "resource.h"
 #include "StringEx.h"
 #include "ui.h"			// windows_ui

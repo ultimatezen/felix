@@ -1,7 +1,6 @@
 #pragma once
 
 #include "resource_string.h"
-#include "atlstr.h"
 
 CStringA int_arg_a( int arg, bool format=true ) ;
 CStringW int_arg_w( int arg, bool format=true ) ;

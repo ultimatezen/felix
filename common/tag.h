@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <map>
 #include "textstream_reader.h"
 
 template< class CHAR_T >

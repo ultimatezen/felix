@@ -3,10 +3,7 @@
 #include "HtmlView.h"			// CHtmlView
 #include "atlcrack.h"			// message crackers
 #include "MessageMapDefines.h"	// more crackers
-#include <atlbase.h>			// must be included before atlapp.h
-#include <atlapp.h>				// must be included before altmisc.h
 #include "wingdi.h"
-#include "atlmisc.h"			// CSize
 #include "resource.h"
 
 /**

@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "atlstr.h"
-
 ATL::CStringA resource_string_a( UINT id ) ;
 ATL::CStringW resource_string_w( UINT id ) ;
 

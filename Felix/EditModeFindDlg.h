@@ -76,7 +76,7 @@ public:
 	{
 	}
 
-	LRESULT ::on_destroy()
+	LRESULT on_destroy()
 	{
 		SetMsgHandled( FALSE ) ;
 		_Module.GetMessageLoop()->RemoveMessageFilter(this);
@@ -87,10 +87,7 @@ public:
 
 		return 0L ;
 	}
-	// Function name	: on_destroy
-	// Description	    : 
-	// Return type		: LRESULT 
-	LRESULT on_destroy( );
+
 	BOOL PreTranslateMessage( MSG *pMsg )
 	{
 		ENSURE_FOCUS

@@ -17,7 +17,6 @@
 #include "EditModeFindDlg.h"		// CEditModeFindDlg
 #include "EditTransRecordDialog.h"	// CEditTransRecordDialog class
 
-#include <ATLCTRLX.H>
 #include "FelixStatusBar.h"
 
 #include "view_interface.h"

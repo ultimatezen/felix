@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "atlstr.h" // CString
 #include "record.h"	// translation_record
 #include "Felix_properties.h"
 

@@ -3,8 +3,6 @@
 #include "resource.h"
 #include "Exceptions.h"		// exception handling
 #include "logging.h"
-#include "ATLCTRLS.H"
-#include <atlcrack.h>
 
 /**
 @class CQueryMergeDlg

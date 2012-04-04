@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <iterator>
 
 /** A dynamic array class */
 template < class TYPE >

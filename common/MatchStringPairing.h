@@ -5,10 +5,6 @@
  */
 #pragma once
 
-#include <list>
-#include <set>
-#include <string>
-
 using std::wstring ;
 
 wchar_t narrow_num( wchar_t c ) ;

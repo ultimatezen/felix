@@ -18,7 +18,7 @@
 #include "resource_string.h"
 #include "ColorRef.h"
 #include "reg_msg_filter.h"
-#include "xpmenu/Tools.h"
+
 
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 

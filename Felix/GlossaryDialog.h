@@ -12,9 +12,6 @@
 #include "resource.h"
 #include "TranslationMemory.h"			// memory
 										// record_pointer
-										/// ...
-#include "xpmenu/MenuXP.h"
-#include "xpmenu/ToolBarXP.h"
 #include "SearchWindow.h"
 #include "ManagerWindow.h"		// CManagerWindow
 #include "MemoryManagerDlg.h"	// CMemoryManagerDlg
@@ -33,7 +30,6 @@
 
 #include "MultitermConversionDlg.h"		// CMultitermConversionDlg
 
-#include <list>
 #include "WindowExceptionHandler.h"
 
 #include "GlossaryDlgListener.h" // CGlossaryDlgListener

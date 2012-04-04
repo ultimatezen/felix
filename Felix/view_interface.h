@@ -12,7 +12,6 @@
 
 #include "HtmlView.h"
 #include "HtmlDocument.h"
-#include <vector>
 #include "data_converter.h"
 #include "WebPage.h"
 

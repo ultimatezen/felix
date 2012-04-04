@@ -522,6 +522,7 @@ echo Protection complete!
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Disabled</Optimization>
@@ -628,8 +629,7 @@ echo Protection complete!
     <ClCompile Include="ConnectionDlg.cpp" />
     <ClCompile Include="..\common\ConvertUTF.cpp" />
     <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">
-      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">

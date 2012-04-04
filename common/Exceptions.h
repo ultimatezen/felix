@@ -16,13 +16,8 @@
 	#include <eh.h>				// _se_translator_function -- CException handling header file
 	#include <exception>			// for exceptions thrown by STL
 
-#include "atlstr.h"
-
 #include "ComUtilities.h"
-#include "commctrl.h"
 
-#include "ATLCTRLS.H"
-#include "ATLCTRLX.H"
 
 namespace except
 {

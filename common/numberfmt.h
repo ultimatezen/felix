@@ -1,8 +1,5 @@
 #pragma once
 
-#include "atlstr.h"
-#include <string>
-
 /*!
  * Class used to format numbers with commas.
  */

@@ -1,7 +1,6 @@
 #pragma once
 
 
-#include "atlgdix.h"				// must be included before CustomTabCtrl.h
 
 #include "CustomTabCtrl.h"
 #include "DotNetTabCtrl.h"

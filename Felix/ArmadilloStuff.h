@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include <string>	// string functions
 #include "DebugUtilities.h"
 #include "logging.h"
 

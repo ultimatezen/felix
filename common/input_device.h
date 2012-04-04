@@ -1,7 +1,6 @@
 #pragma once
 
 #include "file.h"
-#include <boost/shared_ptr.hpp>
 
 class InputDevice
 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "StringEx.h"
-#include "comutil.h"
 
 /**
 	tag_name_holder

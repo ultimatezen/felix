@@ -2,12 +2,6 @@
 
 #include "resource.h"
 #include "HtmlView.h"			// CHtmlView
-//#include <atlapp.h>				// must be included before atlmisc.h
-//#include "atlmisc.h"			// CSize
-
-#pragma warning( disable:4995 ) // #pragma deprecated
-#include "atlframe.h"			// CDialogResize
-#pragma warning( default:4995 ) // #pragma deprecated
 
 #include "MessageMapDefines.h"	// atlcrack.h + custom message map defines
 

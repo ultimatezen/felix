@@ -15,7 +15,6 @@
 
 #include "StringEx.h"
 #include <iomanip>
-#include <algorithm>
 #include "Exceptions.h"
 #include "textstream_reader.h"
 

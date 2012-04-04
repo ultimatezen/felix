@@ -6,15 +6,10 @@
 #pragma once
 
 #include "HtmlView.h"
-#include <atlapp.h>				// must be included before atlmisc.h
-#include "atlmisc.h"
 
 #include "TranslationMemory.h"
-#include <iterator>
 
 #include "resource.h"
-
-#include "atlctrlx.h"
 
 #include "AdvancedMemMgrDlg.h"
 

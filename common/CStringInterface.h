@@ -6,9 +6,6 @@
 #define _WTL_NO_CSTRING
 #endif
 
-#include <atlstr.h>
-
-#include <string>
 typedef std::basic_string< TCHAR > tstring ;
 
 inline ATL::CString &operator << ( ATL::CString &lhs, const ATL::CString &rhs )

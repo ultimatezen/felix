@@ -1,10 +1,5 @@
 #pragma once
 
-#include <atlapp.h>	// must be included before atldlgs.h
-#include "atldlgs.h"
-#include "atlddx.h"
-#include "atlctrls.h" // CStatic
-
 #include "Felix_properties.h"
 
 

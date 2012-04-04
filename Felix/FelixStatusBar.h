@@ -1,5 +1,4 @@
 #pragma once
-#include <ATLCTRLX.H>
 #include "MultiPaneStatusBarEx.h"
 #include "NumberFmt.h"
 #include "background_processor.h"

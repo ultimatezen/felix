@@ -1,7 +1,5 @@
 #pragma once
 
-#include "atlstr.h"
-
 /**
 	@class CProgressListener
 	@brief Allows various sub-processes tell the interface about progress.

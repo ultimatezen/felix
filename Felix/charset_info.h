@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include <set>
 
 /**
 	@class charset_info  

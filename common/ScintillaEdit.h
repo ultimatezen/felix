@@ -8,15 +8,10 @@
 
 #pragma once
 
-#include "atlbase.h"			// must be included before atlapp.h
-#include "atlapp.h"			// must be included before atlctrls.h
-#include "atlctrls.h"
 #include "Exceptions.h"
-#include <boost/scoped_array.hpp>
 #include "MessageMapDefines.h"
 #include "file.h"
 #include "SciLexer.h"
-#include "atlscintilla.h"
 #include "Scintilla_encodings.h"
 
 #define SCINTILLA_FILE_FILTER	TEXT("HTML Files (*.htm, *.html)\0*.htm;*.html\0") \

@@ -4,9 +4,6 @@
 #pragma once
 
 #include "resource.h"       // main symbols
-#include <atlddx.h>
-#include <atlframe.h>
-#include "atlctrlx.h"		// CCheckListViewCtrl
 
 // CCRecordLabelPickerDlg
 

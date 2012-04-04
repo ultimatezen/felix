@@ -16,14 +16,10 @@
 
 #include <mbstring.h>	// _ismbcspace() et al
 // std string support
-#include <string>  
 
 // other necessary stl stuff
-#include <algorithm> // various algorithms
 
 #include <math.h>	// ERANGE
-#include <boost/algorithm/string.hpp>
-#include <boost/static_assert.hpp>
 
 
 // other libraries

@@ -11,9 +11,6 @@
 #endif
 #pragma warning( disable : 4146 ) // unary minus operator applied to unsigned type, result still unsigned
 
-#import "mshtml.tlb" no_auto_exclude, named_guids, rename( "TranslateAccelerator", "HtmlTranslateAccelerator" )
-#include "mshtml.h"
-
 #pragma warning( default : 4146 )
 #include "ExDisp.h"
 

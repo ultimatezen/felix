@@ -1,7 +1,5 @@
 #include "StdAfx.h"
 #include "distance.h"
-#include <map>
-#include <algorithm>
 
 #ifdef min
 #undef min
