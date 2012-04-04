@@ -18,8 +18,8 @@ public:
 	WINDOWPLACEMENT m_WindowPlacement;
 
 	CWindowSettings();
-	void GetFrom(TWindow& Wnd);
-	void ApplyTo(TWindow& Wnd, int nCmdShow = SW_SHOWNORMAL)const;
+	void GetFrom(CWindow& Wnd);
+	void ApplyTo(CWindow& Wnd, int nCmdShow = SW_SHOWNORMAL)const;
 
 	bool Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER);
 	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER)const;

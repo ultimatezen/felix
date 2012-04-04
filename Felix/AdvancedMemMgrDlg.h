@@ -20,7 +20,7 @@
 
 /** Advanced memory manager settings */
 class CAdvancedMemMgrDlg : 
-	public CDialogImpl<CAdvancedMemMgrDlg, TWindow>
+	public CDialogImpl<CAdvancedMemMgrDlg, CWindow>
 	, public CWindowExceptionHandler< CAdvancedMemMgrDlg >
 {
 	//  CButton                     m_idcancel;

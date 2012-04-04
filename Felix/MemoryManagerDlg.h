@@ -48,14 +48,14 @@ const wstring get_item(const wstring item) ;
 	@brief Dialog to manage memories.
  */
 class CMemoryManagerDlg: 
-	public CDialogImpl< CMemoryManagerDlg, TWindow >
+	public CDialogImpl< CMemoryManagerDlg, CWindow >
 	, public CDialogResize< CMemoryManagerDlg >
 	, public CWindowExceptionHandler< CMemoryManagerDlg >
 	, public CProgressListener
 {
 
 	CDropperCheckListViewCtrl	m_list_box ;
-	CStaticT<TWindow>			m_info_box ;
+	CStaticT<CWindow>			m_info_box ;
 	html::CHtmlView					m_info_view ;
 
 	mem_engine::memory_list					m_memories ;

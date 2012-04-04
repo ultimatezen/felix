@@ -12,7 +12,7 @@
 	@brief Dialog to get user input for import of MultiTerm glossary.
  */
 class CMultitermConversionDlg : 
-	public CDialogImpl< CMultitermConversionDlg, TWindow >
+	public CDialogImpl< CMultitermConversionDlg, CWindow >
 	, public CWinDataExchange< CMultitermConversionDlg >
 	, public CWindowExceptionHandler< CMultitermConversionDlg >
 {

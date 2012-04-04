@@ -655,7 +655,7 @@ typedef CWinTraits<WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | C
 
 #pragma message( "    CCustomTabCtrl")
 
-template <class T, class TItem = CCustomTabItem, class TBase = TWindow, class TWinTraits = CCustomTabCtrlWinTraits>
+template <class T, class TItem = CCustomTabItem, class TBase = CWindow, class TWinTraits = CCustomTabCtrlWinTraits>
 class ATL_NO_VTABLE CCustomTabCtrl : 
 	public CWindowImpl< T, TBase, TWinTraits >,
 	public COffscreenDrawRect< T >

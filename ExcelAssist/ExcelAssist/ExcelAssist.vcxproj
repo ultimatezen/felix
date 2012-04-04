@@ -326,6 +326,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="app_state.cpp" />
     <ClCompile Include="app_state_test.cpp" />

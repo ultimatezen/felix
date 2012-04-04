@@ -29,7 +29,7 @@
  */
 class CFindDlg  : 
 		public CMessageFilter, 
-		public CDialogImpl<CFindDlg, TWindow>,
+		public CDialogImpl<CFindDlg, CWindow>,
 		public CWindowExceptionHandler< CFindDlg >
 {
 	mem_engine::search_query_params	m_params ;
@@ -61,7 +61,7 @@ public:
 
 	bool check_focus( LRESULT &lResult, WPARAM wparam, LPARAM lparam ) ;
 
-	bool has_focus( HWND focus_hwnd, TWindow window );
+	bool has_focus( HWND focus_hwnd, CWindow window );
 	BEGIN_MAP_EX( CFindDlg )
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)

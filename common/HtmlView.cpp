@@ -174,7 +174,7 @@ bool CHtmlView::write(const wstring &content)
 // send_message_to_parent
 bool CHtmlView::send_message_to_parent( LPMSG pMsg )
 {
-	TWindow parent = GetParent() ;
+	CWindow parent = GetParent() ;
 	parent.SendMessage( UWM_USER_MESSAGE, pMsg->wParam, pMsg->lParam ) ;
 	return true ;
 }

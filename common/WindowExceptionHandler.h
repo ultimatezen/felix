@@ -114,7 +114,7 @@ public:
 private:
 	CString build_window_err_msg( HWND hwnd, const CString &failure_message )
 	{
-		TWindow window( hwnd ) ;
+		CWindow window( hwnd ) ;
 
 		CString window_text( _T("Exception") ) ;
 

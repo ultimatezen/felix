@@ -14,7 +14,7 @@
 	@brief Dialog to allow the user to enter a custom key-val pair.
  */
 class CUserStringDlg : 
-	public CDialogImpl<CUserStringDlg, TWindow>, 
+	public CDialogImpl<CUserStringDlg, CWindow>, 
 	public CWindowExceptionHandler< CUserStringDlg >
 {
 

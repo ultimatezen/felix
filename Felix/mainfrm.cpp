@@ -3290,7 +3290,7 @@ void CMainFrame::set_up_command_bars()
 #ifdef UNIT_TEST
 	return ;
 #else
-	TWindow toolbarWnd = m_stdToolbar.Create24BitToolBarCtrl(*this, commands, FALSE );
+	CWindow toolbarWnd = m_stdToolbar.Create24BitToolBarCtrl(*this, commands, FALSE );
 
 	m_stdToolbar.SubclassWindow( toolbarWnd, MAKEINTRESOURCE(IDR_MAINFRAME));
 	m_stdToolbar.SetBitmapSize(BM_SIZE, BM_SIZE) ;
@@ -5036,7 +5036,7 @@ void CMainFrame::perform_concordance_search(mem_engine::search_query_params &par
 
 void CMainFrame::create_reg_gloss_window()
 {
-	_Module.AddCreateWndData( &m_reg_gloss_dlg.m_thunk.cd, (CDialogImplBaseT< TWindow >*)&m_reg_gloss_dlg);
+	_Module.AddCreateWndData( &m_reg_gloss_dlg.m_thunk.cd, (CDialogImplBaseT< CWindow >*)&m_reg_gloss_dlg);
 
 	DLGPROC lpDialogProc = (DLGPROC)m_reg_gloss_dlg.StartDialogProc ;
 

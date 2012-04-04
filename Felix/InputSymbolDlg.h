@@ -17,7 +17,7 @@
 	@brief Input an html entity symbol.
  */
 class CInputSymbolDlg : 
-	public CDialogImpl<CInputSymbolDlg, TWindow>
+	public CDialogImpl<CInputSymbolDlg, CWindow>
 {
 	CEdit	m_edit ;
 public:

@@ -9,7 +9,7 @@
 @brief As the user whether they want to merge memories.
 */
 class CQueryMergeDlg : 
-	public CDialogImpl<CQueryMergeDlg, TWindow>
+	public CDialogImpl<CQueryMergeDlg, CWindow>
 	, public CWinDataExchange< CQueryMergeDlg >
 {
 

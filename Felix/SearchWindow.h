@@ -25,7 +25,7 @@ wstring tows(const size_t i) ;
 // The new search window
 // Uses hosted IE browser control to show content
 class CSearchWindow : 
-	public CWindowImpl<CSearchWindow, TWindow, SearchWindowTraits>
+	public CWindowImpl<CSearchWindow, CWindow, SearchWindowTraits>
 	, public html::CHtmlViewListener
 	, public CMessageFilter
 

@@ -17,7 +17,7 @@ CExtraStringsView::~CExtraStringsView(void)
 {
 }
 
-bool CExtraStringsView::has_focus(TWindow focus_window ) const
+bool CExtraStringsView::has_focus(CWindow focus_window ) const
 {
 	if ( ! m_extra_strings_view->IsWindow() ) 
 	{

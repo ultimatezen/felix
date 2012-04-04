@@ -11,7 +11,7 @@
 	@brief Generic about dialog with HTML content.
  */
 class CAboutDialog : 
-		public CDialogImpl<CAboutDialog, TWindow > 
+		public CDialogImpl<CAboutDialog, CWindow > 
 		, public CDialogResize< CAboutDialog  >
 		, public CWindowExceptionHandler< CAboutDialog  >
 {

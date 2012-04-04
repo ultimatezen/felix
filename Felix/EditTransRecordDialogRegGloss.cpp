@@ -89,7 +89,7 @@ LRESULT CEditTransRecordDialogRegGloss::OnSize( UINT type, CSize size )
 
 	if(m_bGripper)
 	{
-		TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+		CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 		if(type == SIZE_MAXIMIZED)
 			wndGripper.ShowWindow(SW_HIDE);
 		else if(type == SIZE_RESTORED)
@@ -126,10 +126,10 @@ LRESULT CEditTransRecordDialogRegGloss::OnSize( UINT type, CSize size )
 	// =============
 
 	// size defaults checkbox
-	TWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
+	CWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
 	CWindowRect context_rect(context_box) ;
 	ScreenToClient(&context_rect) ;
-	TWindow defaults_check = GetDlgItem(IDC_DEFAULTS_CHECK) ;
+	CWindow defaults_check = GetDlgItem(IDC_DEFAULTS_CHECK) ;
 	CWindowRect defaults_rect(defaults_check) ;
 	ScreenToClient(&defaults_rect) ;
 	const int height = defaults_rect.Height() ;

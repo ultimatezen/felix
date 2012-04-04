@@ -61,11 +61,21 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <comdef.h>
 #include "resource.h"
 
+#include <atlbase.h>
+#include <atlcom.h>
+#include <atlwin.h>
+#include <afxcoll.h>
 #include <atlstr.h>
-#include <atltypes.h>
+
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
 #define _WTL_NO_UNION_CLASSES
+
+#include <atltypes.h>
+#include <atlctl.h>
+#include <atlhost.h>
+
+using namespace ATL;
 
 // stl libraries we are using
 #include <map>							// for record data
@@ -147,13 +157,10 @@ extern CLocalizedServerAppModule _Module;
 #include <atlwin.h>
 
 #ifdef UNIT_TEST
-#include "FakeWindow.h"
-#define TWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(std::string(x))
 #define VISIBLE_TO_TESTS public:
 #else
-#define TWindow CWindow
 #define DECLARE_SENSING_VAR
 #define SENSE(x) (void)0
 #define VISIBLE_TO_TESTS

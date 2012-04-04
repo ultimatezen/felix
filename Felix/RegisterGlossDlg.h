@@ -20,7 +20,7 @@ wstring normalize_spaces(const wstring before) ;
 */
 class CRegisterGlossDlg : 
 	public CMessageFilter
-	, public CAxDialogImpl< CRegisterGlossDlg, TWindow >
+	, public CAxDialogImpl< CRegisterGlossDlg, CWindow >
 	, public CWindowExceptionHandler< CRegisterGlossDlg >
 	//, public CDialogLayout< CRegisterGlossDlg >
 {
@@ -42,26 +42,26 @@ class CRegisterGlossDlg :
 	CSourceAndHtmlEdit m_gloss_trans_edit ;
 
 	// static boxes
-	CStaticT<TWindow> m_SourceBox ;
-	CStaticT<TWindow> m_TransBox ;
-	CStaticT<TWindow> m_GlossSourceBox ;
-	CStaticT<TWindow> m_GlossTransBox ;
+	CStaticT<CWindow> m_SourceBox ;
+	CStaticT<CWindow> m_TransBox ;
+	CStaticT<CWindow> m_GlossSourceBox ;
+	CStaticT<CWindow> m_GlossTransBox ;
 
-	CStaticT<TWindow> m_SourceLabel ;
-	CStaticT<TWindow> m_TransLabel ;
-	CStaticT<TWindow> m_GlossSourceLabel ;
-	CStaticT<TWindow> m_GlossTransLabel ;
+	CStaticT<CWindow> m_SourceLabel ;
+	CStaticT<CWindow> m_TransLabel ;
+	CStaticT<CWindow> m_GlossSourceLabel ;
+	CStaticT<CWindow> m_GlossTransLabel ;
 
-	CButtonT<TWindow> m_AddSourceBtn ;
-	CButtonT<TWindow> m_AddTransBtn ;
-	CButtonT<TWindow> m_AdvancedBtn ;
-	CButtonT<TWindow> m_RegisterBtn ;
-	CButtonT<TWindow> m_CloseBtn ;
+	CButtonT<CWindow> m_AddSourceBtn ;
+	CButtonT<CWindow> m_AddTransBtn ;
+	CButtonT<CWindow> m_AdvancedBtn ;
+	CButtonT<CWindow> m_RegisterBtn ;
+	CButtonT<CWindow> m_CloseBtn ;
 
-	CComboBoxT<TWindow> m_AddCombo ;
-	CStaticT<TWindow> m_AddStatic ;
+	CComboBoxT<CWindow> m_AddCombo ;
+	CStaticT<CWindow> m_AddStatic ;
 
-	TWindow			m_current_view ;
+	CWindow			m_current_view ;
 
 	CAccelerator	m_accel ;
 
@@ -130,7 +130,7 @@ public:
 	void resize_advanced_rect( CRect &NewAdvancedButtonRect, const CRect &AdvancedButtonRect );
 	void resize_close_button(const CRect &ClientRect);
 	void resize_register_button(const CRect &ClientRect);
-	void resize_button(CButtonT<TWindow> &button, const CRect &ClientRect);
+	void resize_button(CButtonT<CWindow> &button, const CRect &ClientRect);
 	void SizeBoxes();
 	void sizeGripper(UINT type);
 

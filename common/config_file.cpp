@@ -2,7 +2,6 @@
 #include "config_file.h"
 
 
-#include <shlobj.h>
 #include "Path.h"
 #include "logging.h"
 #include "Exceptions.h"

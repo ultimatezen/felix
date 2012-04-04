@@ -27,7 +27,7 @@ typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
 // The new search window
 // Uses hosted IE browser control to show content
 class CManagerWindow : 
-	public CWindowImpl<CManagerWindow, TWindow, ManagerWindowTraits>
+	public CWindowImpl<CManagerWindow, CWindow, ManagerWindowTraits>
 	, public html::CHtmlViewListener
 	, public CMessageFilter
 	, public mgrview::FelixManagerWindowListener

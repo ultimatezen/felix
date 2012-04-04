@@ -344,7 +344,7 @@ LRESULT CViewPage::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	return 0L ;
 }
 
-void CViewPage::fill_rect( CDC &dc, CStaticT<TWindow> &static_control, int color )
+void CViewPage::fill_rect( CDC &dc, CStaticT<CWindow> &static_control, int color )
 {
 	RECT rc = {0} ;
 	static_control.GetWindowRect( &rc ) ;

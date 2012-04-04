@@ -325,6 +325,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\abbreviations.cpp" />
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="AddIn_i.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

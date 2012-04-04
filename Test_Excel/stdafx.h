@@ -70,11 +70,11 @@ using namespace ATL ;
 
 #ifdef UNIT_TEST
 #include "fakewindow.h"
-#define TWindow CFakeWindow
+#define CWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(string(x))
 #else
-#define TWindow CWindow
+#define CWindow CWindow
 #define DECLARE_SENSING_VAR
 #define SENSE(x) (void)0
 #endif

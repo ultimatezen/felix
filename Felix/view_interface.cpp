@@ -87,7 +87,7 @@ void frame_view::create( HWND parent, HWND &client, CString filename )
 	{
 		client = m_view.create(parent) ;
 	}
-	ATLASSERT( TWindow( client ).IsWindow() ) ;
+	ATLASSERT( CWindow( client ).IsWindow() ) ;
 }
 void frame_view::set_text( const wstring text )
 {

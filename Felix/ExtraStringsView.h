@@ -7,16 +7,16 @@
 
 class CExtraStringsView
 {
-	CStaticT<TWindow>				m_extra_strings_box ;
+	CStaticT<CWindow>				m_extra_strings_box ;
 
 	boost::shared_ptr< html::CHtmlView > m_extra_strings_view ;
 
-	TWindow				m_parent_dlg ;
+	CWindow				m_parent_dlg ;
 
 public:
 	CExtraStringsView(void);
 	~CExtraStringsView(void);
-	bool has_focus(TWindow focus_window) const;
+	bool has_focus(CWindow focus_window) const;
 	LRESULT send_command(WPARAM wParam, LPARAM lParam);
 	void handle_size(void);
 	void create(HWND box_hwnd, HWND dlg_hwnd );

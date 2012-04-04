@@ -21,13 +21,13 @@ class CSourceAndHtmlEdit
 public:
 	DECLARE_SENSING_VAR ;
 
-	CStaticT<TWindow>		m_box ;
+	CStaticT<CWindow>		m_box ;
 	tab_member				m_tabs ;
 
 	html::CHtmlView		m_html_edit  ;
 	CScintillaEdit		m_text_edit ;
 
-	TWindow				m_parent_dlg ;
+	CWindow				m_parent_dlg ;
 
 	CSourceAndHtmlEdit(void);
 	~CSourceAndHtmlEdit(void);
@@ -35,7 +35,7 @@ public:
 	void SizeBox();
 	bool has_focus(HWND focus_hwnd) const;
 	HWND get_active_view(void) const;
-	HWND create(TWindow box_window, TWindow dlg_window, HWND top_pos );
+	HWND create(CWindow box_window, CWindow dlg_window, HWND top_pos );
 	BOOL pre_translate(MSG* pMsg);
 
 	void ensure_document_complete();
@@ -70,7 +70,7 @@ public:
 	void detach(void);
 	void handle_return_key(void);
 
-	void sendMouseClick(TWindow bottomwin, TWindow topwin);
+	void sendMouseClick(CWindow bottomwin, CWindow topwin);
 	HWND getDocumentHWND();
 	HWND getHwnd() const;
 };

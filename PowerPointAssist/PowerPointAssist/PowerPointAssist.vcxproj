@@ -300,6 +300,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\abbreviations.cpp" />
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="app_state.cpp" />
     <ClCompile Include="ClipboardBackup.cpp" />
@@ -394,11 +395,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\abbreviations.h" />
+    <ClInclude Include="..\..\common\ui.h" />
     <ClInclude Include="AddGlossDialog.h" />
+    <ClInclude Include="AddIn.h" />
+    <ClInclude Include="addinexceptionhandlerdef.h" />
     <ClInclude Include="app_state.h" />
     <ClInclude Include="ClipboardBackup.h" />
     <ClInclude Include="C:\dev\cpp\Assistant Suite\common\ColorRef.h" />
+    <ClInclude Include="Connect.h" />
+    <ClInclude Include="globalApp.h" />
+    <ClInclude Include="Hooker.h" />
+    <ClInclude Include="InputDlg.h" />
+    <ClInclude Include="KeyboardDriver.h" />
+    <ClInclude Include="keyboard_shortcuts_ppt.h" />
+    <ClInclude Include="menu_manip.h" />
+    <ClInclude Include="nav_query_dlg.h" />
+    <ClInclude Include="OfficeImports.h" />
+    <ClInclude Include="PowerPointEventDefs.h" />
+    <ClInclude Include="PowerPointImports.h" />
+    <ClInclude Include="PowerPointInterface.h" />
+    <ClInclude Include="PPTFormatter.h" />
+    <ClInclude Include="PPTWriter.h" />
+    <ClInclude Include="Properties.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ShapeHolder.h" />
+    <ClInclude Include="ShapeNavigator.h" />
+    <ClInclude Include="ShapeParser.h" />
+    <ClInclude Include="ShapeParsingStrategy.h" />
+    <ClInclude Include="ShapeParsingStrategyAuto.h" />
+    <ClInclude Include="ShapeParsingStrategyPlaceholder.h" />
+    <ClInclude Include="ShapeParsingStrategyTable.h" />
+    <ClInclude Include="ShapeParsingStrategyTextbox.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StrategyFactory.h" />
+    <ClInclude Include="TextRangeParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AddIn.rc" />

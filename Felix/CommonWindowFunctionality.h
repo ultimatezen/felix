@@ -45,12 +45,13 @@ static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
 void add_common_tb_commands(std::vector< int > &commands) ;
 void add_common_std_bitmaps(std::vector< int > &StdBitmaps) ;
 void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps) ;
+
 /**
 	@class CCommonWindowFunctionality  
 	@brief Unites functionality common to both CMainFrame and CGlossaryDialog.
  */
 class CCommonWindowFunctionality : 
-	public TWindow
+	public CWindow
 	, public CProgressListener
 	, public html::CHtmlViewListener
 	, public CNavInterface

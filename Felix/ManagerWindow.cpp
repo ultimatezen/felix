@@ -1293,7 +1293,7 @@ bool CManagerWindow::init_status_bar()
 	DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SBARS_SIZEGRIP ;
 	m_hWndStatusBar = ::CreateStatusWindow( dwStyle, R2T( ATL_IDS_IDLEMESSAGE ), m_hWnd, ATL_IDW_STATUS_BAR ) ;
 
-	ATLASSERT( TWindow( m_hWndStatusBar ).IsWindow() ) ;
+	ATLASSERT( CWindow( m_hWndStatusBar ).IsWindow() ) ;
 
 #ifdef UNIT_TEST
 	PANE_WIDTH ;

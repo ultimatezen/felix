@@ -19,7 +19,7 @@ typedef std::map< tstring, tstring >	string_map ;
 
 // CTMXImportDlg
 class CTMXImportDlg : 
-	public CDialogImpl< CTMXImportDlg, TWindow >
+	public CDialogImpl< CTMXImportDlg, CWindow >
 	, public CWindowExceptionHandler< CTMXImportDlg >
 	, public CLanguageHolder
 {

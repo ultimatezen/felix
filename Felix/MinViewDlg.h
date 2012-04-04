@@ -28,7 +28,7 @@
 	@class CMinViewDlg 
 	@brief Minimal view to save screen real estate.
  */
-class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
+class CMinViewDlg: public CDialogImpl<CMinViewDlg, CWindow >
                  , public CDialogResize<CMinViewDlg> 
 				 , public CWindowExceptionHandler< CMinViewDlg >
 {
@@ -36,8 +36,8 @@ class CMinViewDlg: public CDialogImpl<CMinViewDlg, TWindow >
 
 	CToolTipCtrl	m_tooltips ;
 
-	CButtonT<TWindow>     m_idcButton1;
-	CStaticT<TWindow>     m_idcEditBox;
+	CButtonT<CWindow>     m_idcButton1;
+	CStaticT<CWindow>     m_idcEditBox;
 	HWND m_parent ;
 	// view
 	html::CHtmlView m_view ;

@@ -176,7 +176,7 @@ const tstring CExportDialog::get_trans_plain() const
 }
 
 // Get the text for the selected item in the combo box
-const tstring CExportDialog::get_combo_sel( CComboBoxT<TWindow> &combo ) const
+const tstring CExportDialog::get_combo_sel( CComboBoxT<CWindow> &combo ) const
 {
 	CString text ;
 	combo.GetLBText(combo.GetCurSel(), text) ;

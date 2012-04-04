@@ -25,7 +25,7 @@
 template <class TBase, int RES_ID = IDD_EDIT_RECORD>
 class CEditTransRecordDialogCommon : 
 	public CMessageFilter, 
-	public CAxDialogImpl< CEditTransRecordDialogCommon<TBase>, TWindow >, 
+	public CAxDialogImpl< CEditTransRecordDialogCommon<TBase>, CWindow >, 
 	public CDialogResize< CEditTransRecordDialogCommon<TBase> >,
 	public CWindowExceptionHandler< CEditTransRecordDialogCommon<TBase> >
 {
@@ -41,13 +41,13 @@ public:
 	CSourceAndHtmlEdit m_context_edit ;
 
 	// other stuff
-	CStaticT<TWindow>			m_created_box ;
-	CStaticT<TWindow>			m_modified_box ;
+	CStaticT<CWindow>			m_created_box ;
+	CStaticT<CWindow>			m_modified_box ;
 	CCommandEdit	m_reliability_edit ;
 
 	CExtraStringsView m_extra_strings_view ;
 
-	TWindow			m_current_view ;
+	CWindow			m_current_view ;
 
 	CAccelerator	m_accel ;
 
@@ -126,7 +126,7 @@ public:
 		// =========
 
 		m_reliability_edit.Attach(GetDlgItem(IDC_RELIABILITY_EDIT)) ;
-		CUpDownCtrlT<TWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
+		CUpDownCtrlT<CWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
 		reliability_spin.SetRange(0, 9) ;
 		reliability_spin.SetPos(0) ;
 
@@ -169,7 +169,7 @@ public:
 		// =========
 		// trans
 		// =========
-		TWindow trans_window ;
+		CWindow trans_window ;
 		try
 		{
 			trans_window = m_trans_edit.create(GetDlgItem(IDC_TRANS_BOX), 
@@ -196,7 +196,7 @@ public:
 		// =========
 		try
 		{
-			TWindow context_window = m_context_edit.create(GetDlgItem(IDC_CONTEXT_BOX), 
+			CWindow context_window = m_context_edit.create(GetDlgItem(IDC_CONTEXT_BOX), 
 				*this, 
 				trans_window) ;
 			ATLASSERT(context_window.IsWindow()) ;
@@ -267,7 +267,7 @@ public:
 		SENSE("fill_from_record") ;
 
 		// reliability
-		CUpDownCtrlT<TWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
+		CUpDownCtrlT<CWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
 		reliability_spin.SetPos((int) record->get_reliability()) ;
 
 #ifndef UNIT_TEST
@@ -406,7 +406,7 @@ public:
 		if (m_extra_strings_view.has_focus(focus_hwnd))
 		{
 			ATLTRACE("::FOCUS:: extra -> edit\n") ;
-			TWindow edit_strings = GetDlgItem(IDC_EDIT_STRINGS) ;
+			CWindow edit_strings = GetDlgItem(IDC_EDIT_STRINGS) ;
 			ATLASSERT(edit_strings.IsWindow()) ;
 			edit_strings.SetFocus() ;
 
@@ -575,9 +575,9 @@ public:
 
 	void fix_screwy_box_sizes()
 	{
-		TWindow source_box = GetDlgItem(IDC_SOURCE_BOX) ;
-		TWindow trans_box = GetDlgItem(IDC_TRANS_BOX) ;
-		TWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
+		CWindow source_box = GetDlgItem(IDC_SOURCE_BOX) ;
+		CWindow trans_box = GetDlgItem(IDC_TRANS_BOX) ;
+		CWindow context_box = GetDlgItem(IDC_CONTEXT_BOX) ;
 
 		CWindowRect source_rect(source_box) ;
 		ScreenToClient(&source_rect) ;
@@ -604,7 +604,7 @@ public:
 
 		if(m_bGripper)
 		{
-			TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+			CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 			if(type == SIZE_MAXIMIZED)
 				wndGripper.ShowWindow(SW_HIDE);
 			else if(type == SIZE_RESTORED)
@@ -763,7 +763,7 @@ public:
 
 				if (active_edit != NULL) 
 				{
-					TWindow client_window = active_edit->get_active_view() ;
+					CWindow client_window = active_edit->get_active_view() ;
 					lResult = client_window.SendMessage(WM_COMMAND, wParam, lParam) ;
 					return TRUE ;
 				}
@@ -900,7 +900,7 @@ public:
 			return TRUE;
 		}
 
-		if(CAxDialogImpl<TheClass, TWindow>::IsDialogMessage(pMsg))
+		if(CAxDialogImpl<TheClass, CWindow>::IsDialogMessage(pMsg))
 			return TRUE ;
 
 		return FALSE ;

@@ -146,7 +146,7 @@ LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 	listrect.left = clientrect.left + 10 ;
 	listrect.right = clientrect.right - 10 ;
 
-	TWindow upbutton(GetDlgItem(IDC_UP)) ;
+	CWindow upbutton(GetDlgItem(IDC_UP)) ;
 
 	CWindowRect uprect(upbutton) ;
 	ScreenToClient(&uprect);
@@ -160,7 +160,7 @@ LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 
 void CMemoryManagerDlg::sizeGripper(UINT type)
 {
-	TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+	CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 	if(type == SIZE_MAXIMIZED)
 	{
 		wndGripper.ShowWindow(SW_HIDE);
@@ -183,7 +183,7 @@ void CMemoryManagerDlg::sizeInfoBox()
 	infobox_rect.left = clientrect.left + padding ;
 	infobox_rect.right = clientrect.right - padding ;
 
-	CWindowRect editbutton_rect(TWindow(GetDlgItem(IDC_EDIT_MEMORY))) ;
+	CWindowRect editbutton_rect(CWindow(GetDlgItem(IDC_EDIT_MEMORY))) ;
 	ScreenToClient(&editbutton_rect);
 	infobox_rect.bottom = editbutton_rect.top - padding ;
 
@@ -362,7 +362,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 	CRect WindowRect ;
 	GetWindowRect(&WindowRect) ;
 	CRect DesktopRect ;
-	TWindow DesktopWindow = GetDesktopWindow() ;
+	CWindow DesktopWindow = GetDesktopWindow() ;
 	DesktopWindow.GetWindowRect( &DesktopRect ) ;
 
 	if ( WindowRect.Height() >= DesktopRect.Height() )
@@ -422,7 +422,7 @@ LRESULT CMemoryManagerDlg::OnInitDialog()
 void CMemoryManagerDlg::disableListButtons()
 {
 	// remove
-	TWindow but = GetDlgItem( IDC_REMOVE_MEMORY ) ;
+	CWindow but = GetDlgItem( IDC_REMOVE_MEMORY ) ;
 	but.EnableWindow( FALSE ) ;
 	// up
 	but = GetDlgItem( IDC_UP ) ;
@@ -648,7 +648,7 @@ LRESULT CMemoryManagerDlg::OnCmdEditMemory()
 {
 	bool is_edit_mode = ! m_info_view.get_edit_mode() ;
 
-	TWindow button = GetDlgItem( IDC_EDIT_MEMORY ) ;
+	CWindow button = GetDlgItem( IDC_EDIT_MEMORY ) ;
 	if ( is_edit_mode )
 	{
 		button.SetWindowText( resource_string( IDS_END_EDIT  ) )  ;
@@ -761,7 +761,7 @@ LRESULT CMemoryManagerDlg::OnSelChange( )
 {
 	int index = m_list_box.GetSelectedIndex() ;
 
-	TWindow but ;
+	CWindow but ;
 	but = GetDlgItem( IDC_UP ) ;
 	if ( index == 0 || index == LB_ERR )
 	{
@@ -913,12 +913,12 @@ void CMemoryManagerDlg::set_button_focus()
 {
 	if (m_list_box.GetItemCount() > 0)
 	{
-		TWindow but = ( GetDlgItem( IDC_REMOVE_MEMORY ) ) ;
+		CWindow but = ( GetDlgItem( IDC_REMOVE_MEMORY ) ) ;
 		but.SetFocus() ;
 	}
 	else
 	{
-		TWindow but = ( GetDlgItem( IDOK ) ) ;
+		CWindow but = ( GetDlgItem( IDOK ) ) ;
 		but.SetFocus() ;
 	}
 }

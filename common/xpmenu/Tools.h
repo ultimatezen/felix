@@ -17,7 +17,7 @@
 class CClientRect : public CRect
 {
 public:
-	CClientRect (TWindow window)
+	CClientRect (CWindow window)
 	{
 		ATLVERIFY(window.GetClientRect(this)) ;
 	}
@@ -29,7 +29,7 @@ public:
 class CWindowRect : public CRect
 {
 public:
-    CWindowRect (TWindow window)
+    CWindowRect (CWindow window)
     {
 		ATLVERIFY(window.GetWindowRect(this)) ;
     }

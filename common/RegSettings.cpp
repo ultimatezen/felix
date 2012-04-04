@@ -62,13 +62,13 @@ bool CWindowSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* 
 	return err == ERROR_SUCCESS;
 }
 
-void CWindowSettings::GetFrom(TWindow& Wnd)
+void CWindowSettings::GetFrom(CWindow& Wnd)
 {
 	ATLASSERT(Wnd.IsWindow());
 	Wnd.GetWindowPlacement(&m_WindowPlacement);
 }
 
-void CWindowSettings::ApplyTo(TWindow& Wnd, int nCmdShow/* = SW_SHOWNORMAL*/)const
+void CWindowSettings::ApplyTo(CWindow& Wnd, int nCmdShow/* = SW_SHOWNORMAL*/)const
 {
 	ATLASSERT(Wnd.IsWindow());
 

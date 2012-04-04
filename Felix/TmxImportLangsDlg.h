@@ -19,13 +19,13 @@ typedef std::map< tstring, tstring >	string_map ;
 
 // CTMXImportLangsDlg
 class CTMXImportLangsDlg : 
-	public CDialogImpl< CTMXImportLangsDlg, TWindow >
+	public CDialogImpl< CTMXImportLangsDlg, CWindow >
 	, public CWindowExceptionHandler< CTMXImportLangsDlg >
 	, public CLanguageHolder
 {
 
-	CComboBoxT<TWindow>		m_source_combo ;
-	CComboBoxT<TWindow>		m_trans_combo ;
+	CComboBoxT<CWindow>		m_source_combo ;
+	CComboBoxT<CWindow>		m_trans_combo ;
 
 public:
 	static const int IDD = IDD_SELECT_LANGS_DLG ;

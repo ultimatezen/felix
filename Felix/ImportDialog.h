@@ -10,7 +10,7 @@
 @brief Select source/target languages when importing memories.
 */
 class CImportDialog : 
-	public CDialogImpl<CImportDialog, TWindow>
+	public CDialogImpl<CImportDialog, CWindow>
 	, public CWindowExceptionHandler< CImportDialog >
 	, public CLanguageHolder
 {
@@ -48,11 +48,11 @@ public:
 @brief Dialog for selecting languages during export.
 */
 class CExportDialog : 
-	public CDialogImpl<CExportDialog, TWindow>
+	public CDialogImpl<CExportDialog, CWindow>
 	, public CWindowExceptionHandler< CImportDialog >
 {
-	CComboBoxT<TWindow>		m_source_combo ;
-	CComboBoxT<TWindow>		m_trans_combo ;
+	CComboBoxT<CWindow>		m_source_combo ;
+	CComboBoxT<CWindow>		m_trans_combo ;
 
 	typedef std::map< tstring, tstring > string_map ;
 
@@ -73,7 +73,7 @@ public:
 	LRESULT OnCancel(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
 	LRESULT OnOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
 
-	const tstring get_combo_sel(CComboBoxT<TWindow> &combo) const;
+	const tstring get_combo_sel(CComboBoxT<CWindow> &combo) const;
 	const tstring get_source_plain() const;
 	const tstring get_trans_plain() const;
 	const tstring get_source_full() const;

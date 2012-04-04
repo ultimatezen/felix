@@ -19,10 +19,10 @@ public:
 @brief Sets the zoom ratio for the window.
 */
 class CZoomDlg : 
-	public CDialogImpl< CZoomDlg, TWindow >, 
+	public CDialogImpl< CZoomDlg, CWindow >, 
 	public CWindowExceptionHandler< CZoomDlg >
 {
-    CTrackBarCtrlT<TWindow> m_ZoomCtrl; // ZOOM
+    CTrackBarCtrlT<CWindow> m_ZoomCtrl; // ZOOM
 	
 public:
 	static const int IDD = IDD_ZOOM_DLG ;

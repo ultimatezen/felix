@@ -139,7 +139,7 @@ typedef CComPtr< MSHTML::IHTMLBodyElement >		body_ptr ;
 //		view.set_body_text( L"Hello, world!" ) ;
 */
 class CHtmlView 
-	:	public CWindowImpl<CHtmlView, CAxWindowT<TWindow> >,
+	:	public CWindowImpl<CHtmlView, CAxWindowT<CWindow> >,
 		public IDispEventSimpleImpl< ID_HTML_CTL_EVENT_ID, CHtmlView, &DIID_DWebBrowserEvents2 >
 {
 public:

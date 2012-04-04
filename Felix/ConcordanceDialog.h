@@ -21,7 +21,7 @@
 	@brief Dialog to get query for concordance.
  */
 class CConcordanceDialog  : 
-		public CDialogImpl< CConcordanceDialog, TWindow >, 
+		public CDialogImpl< CConcordanceDialog, CWindow >, 
 		public CWindowExceptionHandler< CConcordanceDialog >
 {
 	CEdit		m_edit ;

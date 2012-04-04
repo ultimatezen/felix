@@ -52,7 +52,6 @@
 #include <atlstr.h>
 #include "resource.h"
 
-#include "cstringinterface.h"
 #include <atltypes.h>
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
@@ -64,6 +63,7 @@
 #include <set>							// multisets of tags
 #include <list>
 #include <vector>
+#include <string>
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -165,11 +165,11 @@ namespace std {
 
 #ifdef UNIT_TEST
 #include "FakeWindow.h"
-#define TWindow CFakeWindow
+#define CWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(string(x))
 #else
-#define TWindow CWindow
+#define CWindow CWindow
 #define DECLARE_SENSING_VAR
 #define SENSE(x) (void)0
 #endif

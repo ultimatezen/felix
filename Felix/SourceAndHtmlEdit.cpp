@@ -42,7 +42,7 @@ HWND CSourceAndHtmlEdit::get_active_view(void) const
 	return m_tabs.GetActiveView() ;
 }
 
-HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top_pos )
+HWND CSourceAndHtmlEdit::create(CWindow box_window, CWindow dlg_window, HWND top_pos )
 {
 #ifdef UNIT_TEST
 	box_window ;
@@ -62,7 +62,7 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 
 		m_tabs.SetTabStyles(CTCS_TOOLTIPS);
 		m_tabs.SetForwardNotifications( true ) ;
-		m_tabs.Create(dlg_window, TWindow::rcDefault) ;
+		m_tabs.Create(dlg_window, CWindow::rcDefault) ;
 		m_tabs.MoveWindow( &rc, TRUE ) ;
 
 		ATLASSERT(m_tabs.IsWindow()) ;
@@ -73,7 +73,7 @@ HWND CSourceAndHtmlEdit::create(TWindow box_window, TWindow dlg_window, HWND top
 
 		// we needed to add ES_NOHIDESEL in order to show the selection while doing search & replace
 		const DWORD te_style = WS_TABSTOP | WS_VSCROLL | WS_CHILD | WS_VISIBLE | ES_NOHIDESEL | ES_SAVESEL | ES_MULTILINE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN ;
-		m_text_edit.Create(m_tabs, TWindow::rcDefault, NULL, te_style, WS_EX_CLIENTEDGE ) ;
+		m_text_edit.Create(m_tabs, CWindow::rcDefault, NULL, te_style, WS_EX_CLIENTEDGE ) ;
 		ATLASSERT( m_text_edit.IsWindow() ) ;
 		m_text_edit.set_up_standard_syntax_coloring() ;
 		m_text_edit.SetCodePage( SC_CP_UTF8 ) ;
@@ -166,7 +166,7 @@ void CSourceAndHtmlEdit::insert_symbol(void)
 
 _bstr_t CSourceAndHtmlEdit::GetSelectionText()
 {
-	TWindow active_window = get_active_view() ;
+	CWindow active_window = get_active_view() ;
 
 	if ( active_window == m_html_edit )
 	{
@@ -191,7 +191,7 @@ _bstr_t CSourceAndHtmlEdit::get_selected_text(const bool all_if_none)
 
 _bstr_t CSourceAndHtmlEdit::GetText()
 {
-	TWindow active_window = get_active_view() ;
+	CWindow active_window = get_active_view() ;
 
 	if ( active_window == m_html_edit )
 	{
@@ -478,7 +478,7 @@ _bstr_t CSourceAndHtmlEdit::get_html_text()
 #endif // UNIT_TEST
 }
 
-void CSourceAndHtmlEdit::sendMouseClick(TWindow bottomwin, TWindow topwin)
+void CSourceAndHtmlEdit::sendMouseClick(CWindow bottomwin, CWindow topwin)
 {
 	CWindowRect rc( topwin ) ;
 	POINT pt = {0} ;

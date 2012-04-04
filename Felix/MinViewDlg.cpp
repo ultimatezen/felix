@@ -96,7 +96,7 @@ LRESULT CMinViewDlg::OnSize( UINT type, CSize size )
 	
 	if(m_bGripper)
 	{
-		TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+		CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 		if(type == SIZE_MAXIMIZED)
 			wndGripper.ShowWindow(SW_HIDE);
 		else if(type == SIZE_RESTORED)

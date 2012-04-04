@@ -20,7 +20,7 @@
 	@class CCommandEdit 
 	@brief Edit class handling keyboard shortcuts for cut/paste etc.
  */
-class CCommandEdit : public CWindowImpl<CCommandEdit, CEditT<TWindow> >,
+class CCommandEdit : public CWindowImpl<CCommandEdit, CEditT<CWindow> >,
 					public CEditCommands<CCommandEdit>
 {
 	public:
@@ -35,7 +35,7 @@ class CCommandEdit : public CWindowImpl<CCommandEdit, CEditT<TWindow> >,
 	@brief Wrapper for RichEdit control.
 	Also handles keyboard shortcuts for cut/paste etc.
  */
-class CWideRichEdit : public CWindowImpl<CWideRichEdit, CRichEditCtrlT<TWindow> >,
+class CWideRichEdit : public CWindowImpl<CWideRichEdit, CRichEditCtrlT<CWindow> >,
                       public CRichEditCommands<CWideRichEdit>
 {
 protected:

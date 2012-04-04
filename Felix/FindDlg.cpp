@@ -273,7 +273,7 @@ bool CFindDlg::check_focus( LRESULT &lResult, WPARAM wparam, LPARAM lparam )
 	return false ;
 }
 
-bool CFindDlg::has_focus( HWND focus_hwnd, TWindow window )
+bool CFindDlg::has_focus( HWND focus_hwnd, CWindow window )
 {
 	return window.IsWindow() && ( focus_hwnd == window.m_hWnd || window.IsChild( focus_hwnd ) );
 }

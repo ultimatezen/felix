@@ -55,7 +55,7 @@ struct emode_search_params
 template< class T >
 class CEditModeCommonFunctions : 
 		public CMessageFilter, 
-		public CDialogImpl<T, TWindow>, 
+		public CDialogImpl<T, CWindow>, 
 		public CWindowExceptionHandler< T >
 {
 protected:

@@ -352,7 +352,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 	// =========
 	
 	m_TransBox.Attach(GetDlgItem(IDC_TRANS_BOX)) ;
-	TWindow rec_trans_window = m_rec_trans_edit.create(m_TransBox, 
+	CWindow rec_trans_window = m_rec_trans_edit.create(m_TransBox, 
 														*this, 
 														m_current_view);
 	m_rec_trans_edit.SetText(string2BSTR(m_mem_record->get_trans_rich())) ;
@@ -362,7 +362,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 	// =========
 
 	m_GlossSourceBox.Attach(GetDlgItem(IDC_SOURCE_GLOSS_BOX)) ;
-	TWindow gloss_source_window = m_gloss_source_edit.create(m_GlossSourceBox, 
+	CWindow gloss_source_window = m_gloss_source_edit.create(m_GlossSourceBox, 
 															*this, 
 															rec_trans_window) ;
 	ATLASSERT(gloss_source_window.IsWindow()) ;
@@ -371,7 +371,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 	// =========
 
 	m_GlossTransBox.Attach(GetDlgItem(IDC_TRANS_GLOSS_BOX)) ;
-	TWindow gloss_trans_window = m_gloss_trans_edit.create(m_GlossTransBox, 
+	CWindow gloss_trans_window = m_gloss_trans_edit.create(m_GlossTransBox, 
 															*this, 
 															gloss_source_window) ;
 	ATLASSERT(gloss_trans_window.IsWindow()) ;
@@ -471,7 +471,7 @@ BOOL CRegisterGlossDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 	
-	if(CAxDialogImpl<CRegisterGlossDlg, TWindow>::IsDialogMessage(pMsg))
+	if(CAxDialogImpl<CRegisterGlossDlg, CWindow>::IsDialogMessage(pMsg))
 		return TRUE ;
 
 	return FALSE ;
@@ -607,7 +607,7 @@ bool CRegisterGlossDlg::process_tab_key()
 
 		if (shift_is_pressed) 
 		{
-			TWindow close_button = this->GetDlgItem(IDCLOSE) ;
+			CWindow close_button = this->GetDlgItem(IDCLOSE) ;
 			ATLASSERT (close_button.IsWindow()) ; 
 			close_button.SetFocus() ;
 		}
@@ -631,7 +631,7 @@ bool CRegisterGlossDlg::process_tab_key()
 		}
 		else
 		{
-			TWindow add_source_btn = this->GetDlgItem(IDC_ADD_SOURCE) ;
+			CWindow add_source_btn = this->GetDlgItem(IDC_ADD_SOURCE) ;
 			ATLASSERT (add_source_btn.IsWindow()) ; 
 			add_source_btn.SetFocus() ;
 		}
@@ -658,7 +658,7 @@ bool CRegisterGlossDlg::process_tab_key()
 
 		if (shift_is_pressed) 
 		{
-			TWindow add_trans_btn = this->GetDlgItem(IDC_ADD_TRANS) ;
+			CWindow add_trans_btn = this->GetDlgItem(IDC_ADD_TRANS) ;
 			ATLASSERT (add_trans_btn.IsWindow()) ; 
 			add_trans_btn.SetFocus() ;
 		}
@@ -682,7 +682,7 @@ bool CRegisterGlossDlg::process_tab_key()
 		}
 		else
 		{
-			TWindow advanced_button = this->GetDlgItem(IDC_ADVANCED) ;
+			CWindow advanced_button = this->GetDlgItem(IDC_ADVANCED) ;
 			ATLASSERT (advanced_button.IsWindow()) ; 
 			m_AddCombo.SetFocus() ;
 		}
@@ -893,7 +893,7 @@ void CRegisterGlossDlg::resize_close_button(const CRect &ClientRect)
 	resize_button(m_CloseBtn, ClientRect) ;
 }
 
-void CRegisterGlossDlg::resize_button(CButtonT<TWindow> &button, const CRect &ClientRect)
+void CRegisterGlossDlg::resize_button(CButtonT<CWindow> &button, const CRect &ClientRect)
 {
 	CWindowRect button_rect(button) ;
 

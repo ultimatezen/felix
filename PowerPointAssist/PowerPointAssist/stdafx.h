@@ -42,43 +42,37 @@
 
 #include "resource.h"
 
-
-#include "cstringinterface.h"
-#include <atltypes.h>
-#define _WTL_NO_CSTRING
-#define _WTL_NO_WTYPES
-#define _WTL_NO_UNION_CLASSES
-#include "resource_string.h"
-
-#pragma warning( disable : 4996 ) 
-#include "atlapp.h"
-#pragma warning( default : 4996 ) 
-
-#include <atlwin.h>
-
-
-using namespace ATL ;
-
-#ifdef UNIT_TEST
-#include "fakewindow.h"
-#define TWindow CFakeWindow
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
-#else
-#define TWindow CWindow
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#endif
-
-#define POWERPOINT_ASSIST_APP
-
-#include "atldlgs.h"
-
 // stl libraries we are using
 #include <map>							// for record data
 #include <set>							// multisets of tags
 #include <list>
 #include <vector>
+#include <string>
+
+
+#define _WTL_NO_CSTRING
+#define _WTL_NO_WTYPES
+#define _WTL_NO_UNION_CLASSES
+
+#include <atlbase.h>
+#include <atlwin.h>
+#include <atlcom.h>
+#include <atltypes.h>
+#include <atlstr.h>
+
+#pragma warning( disable : 4996 ) 
+#include "atlapp.h"
+#pragma warning( default : 4996 ) 
+
+#include <atlctrls.h>
+
+using namespace ATL ;
+
+#include <comutil.h>
+#include <atldlgs.h>
+#include <shlobj.h>
+
+#define POWERPOINT_ASSIST_APP
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -101,6 +95,8 @@ typedef boost::basic_format< TCHAR > tformat;
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
@@ -112,17 +108,13 @@ using namespace boost::foreach ;
 
 namespace fs = boost::filesystem;
 
-#include <atlbase.h>
-#include <atlcom.h>
-
-#include "atlapp.h"
 
 #include "stringex.h"
 
 #pragma warning( disable : 4278 )
 #pragma warning( disable : 4146 )
-	//The following #import imports the IDTExtensibility2 interface based on its LIBID
-	#import "libid:AC0714F2-3D04-11D1-AE7D-00A0C90F26F4" version("1.0") lcid("0")  raw_interfaces_only named_guids
+//The following #import imports the IDTExtensibility2 interface based on its LIBID
+#import "libid:AC0714F2-3D04-11D1-AE7D-00A0C90F26F4" version("1.0") lcid("0")  raw_interfaces_only named_guids
 
 #pragma warning( default : 4146 )
 #pragma warning( default : 4278 )
@@ -163,13 +155,21 @@ extern CAddInModule _AtlModule;
 #include "CStringInterface.h"
 #include "resource_string.h"
 
-#include <map>
-
 
 #ifndef FLOAT_EQ
 #define EPSILON 0.00001
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
+
+#ifdef UNIT_TEST
+#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
+#define SENSE(x) m_sensing_variable.push_back(std::string(x))
+#define VISIBLE_TO_TESTS public:
+#else
+#define DECLARE_SENSING_VAR
+#define SENSE(x) (void)0
+#define VISIBLE_TO_TESTS
+#endif
 
 #define VERSION "1.6"
 

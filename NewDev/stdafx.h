@@ -25,6 +25,14 @@
 #include <memory.h>
 #include <tchar.h>
 
+#include <map>							// for record data
+#include <set>							
+#include <list>
+#include <vector>
+#include <string>
+#include <algorithm> 
+#include <iterator>
+
 #include <boost/format.hpp>
 using boost::format;
 using boost::wformat ;

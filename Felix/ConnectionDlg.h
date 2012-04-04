@@ -12,7 +12,7 @@
 @brief Connect to a remote memory
 */
 class CConnectionDlg : 
-	public CDialogImpl<CConnectionDlg, TWindow>, 
+	public CDialogImpl<CConnectionDlg, CWindow>, 
 	public CWindowExceptionHandler< CConnectionDlg >
 {
 	CEdit	m_edit ;

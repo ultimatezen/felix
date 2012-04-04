@@ -8,7 +8,7 @@
 // CCRecordLabelPickerDlg
 
 class CCRecordLabelPickerDlg : 
-	public CDialogImpl<CCRecordLabelPickerDlg, TWindow>,
+	public CDialogImpl<CCRecordLabelPickerDlg, CWindow>,
 	public CWinDataExchange<CCRecordLabelPickerDlg>,
 	public CDialogResize<CCRecordLabelPickerDlg>	
 {

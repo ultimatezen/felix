@@ -15,7 +15,7 @@
  */
 class CNagDialog  
 	: 
-	public CDialogImpl< CNagDialog, TWindow >, 
+	public CDialogImpl< CNagDialog, CWindow >, 
 	public CDialogResize< CNagDialog >, 
 	public CWindowExceptionHandler< CNagDialog >
 {

@@ -8,8 +8,8 @@
 
 #pragma once
 
-ATL::CStringA resource_string_a( UINT id ) ;
-ATL::CStringW resource_string_w( UINT id ) ;
+CStringA resource_string_a( UINT id ) ;
+CStringW resource_string_w( UINT id ) ;
 
 #ifdef _UNICODE
 // return a CStringW

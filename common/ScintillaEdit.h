@@ -29,12 +29,12 @@ UINT get_textfile_encoding( const file::file::BYTE_ORDER_MARK bom, LPSTR ftext, 
 	@brief Wrapper for Scintilla edit control.
  */
 class CScintillaEdit 
-	: public CScintillaWindowImpl< CScintillaEdit, TWindow >,
+	: public CScintillaWindowImpl< CScintillaEdit, CWindow >,
 	public CRichEditCommands<CScintillaEdit>
 {
 	VISIBLE_TO_TESTS
 	
-	typedef CScintillaWindowImpl<CScintillaEdit, TWindow> baseClass;
+	typedef CScintillaWindowImpl<CScintillaEdit, CWindow> baseClass;
 	enum { SCINTILLA_MARGIN_LINENUM, SCINTILLA_MARGIN_SELECTION, SCINTILLA_MARGIN_FOLD };
 
 public:
