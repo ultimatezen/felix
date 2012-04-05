@@ -62,6 +62,7 @@
 #include "qcrules/allcaps_check.h"
 #include "qcrules/number_check.h"
 #include "qcrules/gloss_check.h"
+#include <boost/assign/std/vector.hpp> // for 'operator+=()'
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 

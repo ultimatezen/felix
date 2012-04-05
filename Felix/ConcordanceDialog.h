@@ -11,10 +11,6 @@
 #include "StringConversions.h"	// convert to/from wstrings/strings/tstrings
 #include "WindowExceptionHandler.h"
 
-#ifdef UNIT_TEST
-#define CEdit CEditT<CFakeWindow>
-#endif
-
 
 /**
 	@class CConcordanceDialog  

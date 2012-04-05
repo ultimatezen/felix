@@ -23,7 +23,7 @@ LRESULT CAboutDialog::OnSize( UINT type, CSize size )
 
 	if(m_bGripper)
 	{
-		TWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
+		CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
 		if(type == SIZE_MAXIMIZED)
 			wndGripper.ShowWindow(SW_HIDE);
 		else if(type == SIZE_RESTORED)
@@ -38,7 +38,7 @@ LRESULT CAboutDialog::OnSize( UINT type, CSize size )
 		return 0L ;
 
 	// set up static where html view will go
-	TWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
+	CWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
 	// get its position
 	RECT rc ;
 	msg_box.GetWindowRect( &rc ) ;
@@ -67,7 +67,7 @@ LRESULT CAboutDialog::OnInitDialog()
 	//	SetTextColor(RGB(0x00, 0x00, 0x00));  
 
 	// set up static where html view will go
-	TWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
+	CWindow msg_box = GetDlgItem( IDC_ABOUT_MSG_BOX ) ;
 	// get its position
 	RECT rc ;
 	msg_box.GetWindowRect( &rc ) ;

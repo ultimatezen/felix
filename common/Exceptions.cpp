@@ -8,6 +8,7 @@
 #include <shellapi.h>
 #include <shlobj.h>
 #include "resource_string.h"
+#include "stringconversions.h"
 
 #include <boost/format.hpp>
 using boost::format;

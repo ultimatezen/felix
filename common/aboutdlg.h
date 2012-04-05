@@ -4,7 +4,7 @@
 #include "atlcrack.h"			// message crackers
 #include "MessageMapDefines.h"	// more crackers
 #include "wingdi.h"
-#include "resource.h"
+#include "WindowExceptionHandler.h"
 
 /**
 	@class CAboutDialog

@@ -12,7 +12,11 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <string>
-
+// stl libraries we are using
+#include <map>							// for record data
+#include <set>							// multisets of tags
+#include <list>
+#include <vector>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit
 
@@ -77,25 +81,10 @@
 
 using namespace ATL ;
 
-#ifdef UNIT_TEST
-#include "fakewindow.h"
-#define CWindow CFakeWindow
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
-#else
-#define CWindow CWindow
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#endif
 
 
 #include "atldlgs.h"
-
-// stl libraries we are using
-#include <map>							// for record data
-#include <set>							// multisets of tags
-#include <list>
-#include <vector>
+#include "atlctrls.h"
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -118,7 +107,8 @@ typedef boost::basic_format< TCHAR > tformat;
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
-
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
@@ -188,6 +178,15 @@ namespace std {
 #define EPSILON 0.00001
 #define FLOAT_EQ(x,v) (((v - EPSILON) < x) && (x <( v + EPSILON)))
 #endif 
+
+
+#ifdef UNIT_TEST
+#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
+#define SENSE(x) m_sensing_variable.push_back(string(x))
+#else
+#define DECLARE_SENSING_VAR
+#define SENSE(x) (void)0
+#endif
 
 #define VERSION "1.6"
 

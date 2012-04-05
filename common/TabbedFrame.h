@@ -1457,11 +1457,11 @@ public:
 
 template <class TTabCtrl = CDotNetTabCtrl<CTabViewTabItem> >
 class CTabbedChildWindow :
-public CTabbedFrameImpl<CTabbedChildWindow<TTabCtrl>, TTabCtrl, CTabbedChildWindowBase<CTabbedChildWindow<TTabCtrl>, TWindow, TabbedChildWindowWinTraits> >
+public CTabbedFrameImpl<CTabbedChildWindow<TTabCtrl>, TTabCtrl, CTabbedChildWindowBase<CTabbedChildWindow<TTabCtrl>, CWindow, TabbedChildWindowWinTraits> >
 {
 protected:
 	typedef CTabbedChildWindow<TTabCtrl> thisClass;
-	typedef CTabbedFrameImpl<CTabbedChildWindow<TTabCtrl>, TTabCtrl, CTabbedChildWindowBase<CTabbedChildWindow, TWindow, TabbedChildWindowWinTraits> > baseClass;
+	typedef CTabbedFrameImpl<CTabbedChildWindow<TTabCtrl>, TTabCtrl, CTabbedChildWindowBase<CTabbedChildWindow, CWindow, TabbedChildWindowWinTraits> > baseClass;
 
 // Constructors
 public:

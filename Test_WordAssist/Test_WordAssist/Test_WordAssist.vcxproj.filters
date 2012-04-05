@@ -141,6 +141,9 @@
     <ClCompile Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp">
       <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\abbreviations.h">

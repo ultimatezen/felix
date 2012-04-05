@@ -11,10 +11,6 @@
 
 #include "StringEx.h"	// tstring
 
-#ifdef UNIT_TEST
-#define CComboBox CComboBoxT<CFakeWindow>
-#endif
-
 /**
 	@class CLanguageHolder
 	@brief We hold the language list in here (encapsulation).

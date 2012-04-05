@@ -61,23 +61,11 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <comdef.h>
 #include "resource.h"
 
-#include <atlbase.h>
-#include <atlcom.h>
-#include <atlwin.h>
-#include <afxcoll.h>
-#include <atlstr.h>
 
-#define _WTL_NO_CSTRING
-#define _WTL_NO_WTYPES
-#define _WTL_NO_UNION_CLASSES
-
-#include <atltypes.h>
-#include <atlctl.h>
-#include <atlhost.h>
-
-using namespace ATL;
-
+//////////////////////////////////////////////////////////////////////////
 // stl libraries we are using
+//////////////////////////////////////////////////////////////////////////
+
 #include <map>							// for record data
 #include <set>							
 #include <list>
@@ -86,7 +74,18 @@ using namespace ATL;
 #include <algorithm> 
 #include <iterator>
 
+using std::wstring ;
+using std::string ;
+
+/*
+	We need to disable this warning because boost::assign causes it.
+*/
+#pragma warning( disable : 4512 ) // assignment operator could not be generated
+
+//////////////////////////////////////////////////////////////////////////
 // boost
+//////////////////////////////////////////////////////////////////////////
+
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 #include <boost/assign/std/set.hpp>
 #include <boost/assign/list_of.hpp>
@@ -124,8 +123,19 @@ using namespace boost::foreach ;
 
 namespace fs = boost::filesystem;
 
+//////////////////////////////////////////////////////////////////////////
 // WTL Headers
-#include <atlbase.h>	// must be included before atlapp.h
+//////////////////////////////////////////////////////////////////////////
+
+#define _WTL_NO_CSTRING
+#define _WTL_NO_WTYPES
+#define _WTL_NO_UNION_CLASSES
+
+#include <atlbase.h>
+#include <atlwin.h>
+#include <atlcom.h>
+#include <atltypes.h>
+#include <atlstr.h>
 
 #pragma warning( disable : 4996 ) 
 #include <atlapp.h>		// must be included before atlctrls.h
@@ -154,7 +164,7 @@ extern CLocalizedServerAppModule _Module;
  */
 #define _AtlModule _Module 
 
-#include <atlwin.h>
+
 
 #ifdef UNIT_TEST
 #define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable

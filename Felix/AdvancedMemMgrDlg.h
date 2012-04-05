@@ -13,10 +13,6 @@
 #include "WindowExceptionHandler.h"
 #include "resource.h"
 
-#ifdef UNIT_TEST
-#define CUpDownCtrl CUpDownCtrlT<CFakeWindow>
-#define CButton CButtonT<CFakeWindow>
-#endif
 
 /** Advanced memory manager settings */
 class CAdvancedMemMgrDlg : 

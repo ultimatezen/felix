@@ -89,7 +89,8 @@ typedef boost::basic_format< TCHAR > tformat;
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
-
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
@@ -110,6 +111,8 @@ using namespace boost::foreach ;
 #pragma warning( disable : 4278 )
 #pragma warning( disable : 4146 )
 
+#include "atldlgs.h"
+#include "atlctrls.h"
 
 #pragma warning( default : 4146 )
 #pragma warning( default : 4278 )
@@ -143,7 +146,7 @@ extern CAddInModule _AtlModule;
 
 
 #include "atlconv.h"
-
+#include <comutil.h>
 #include "stringex.h"
 #include "stringconversions.h"
 #include "resource_string.h"
@@ -164,12 +167,9 @@ namespace std {
 #endif 
 
 #ifdef UNIT_TEST
-#include "FakeWindow.h"
-#define CWindow CFakeWindow
 #define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
 #define SENSE(x) m_sensing_variable.push_back(string(x))
 #else
-#define CWindow CWindow
 #define DECLARE_SENSING_VAR
 #define SENSE(x) (void)0
 #endif

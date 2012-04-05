@@ -37,7 +37,8 @@
 using boost::format;
 using boost::wformat ;
 typedef boost::basic_format< TCHAR > tformat;
-
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
 #define foreach BOOST_FOREACH
