@@ -30,7 +30,7 @@ namespace mem_engine
 		{
 		}
 
-		bool connect(CString conn_str);
+		bool connect(CString conn_str, CString username = _T(""), CString password = _T(""));
 		bool login(CString username, CString password);
 
 		/************************************************************************/

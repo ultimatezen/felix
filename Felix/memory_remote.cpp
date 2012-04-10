@@ -8,7 +8,7 @@ namespace mem_engine
 	using namespace except ;
 
 
-	bool memory_remote::connect( CString conn_str )
+	bool memory_remote::connect( CString conn_str, CString username, CString password )
 	{
 		m_conn_str = conn_str ;
 		bool success = (VARIANT_FALSE != m_engine.method(L"Connect", static_cast< LPCWSTR >( CT2W(conn_str) )).boolVal) ;
@@ -16,6 +16,13 @@ namespace mem_engine
 		{
 			throw except::CException(CString(_T("Failed to connect to memory: ")) + conn_str) ;
 		}
+
+		// log in if required
+		if (! username.IsEmpty())
+		{
+			this->login(username, password) ;
+		}
+
 		// check for demo status
 		refresh_status() ;
 		if ( this->is_demo() )
@@ -222,10 +229,9 @@ namespace mem_engine
 			logging::log_error("Failed to add remote record") ;
 			logging::log_exception(e) ;
 
-			ATLASSERT("Failed to add remote record" && FALSE) ;
-
 			CComException com_e(e) ;
 			com_e.add_to_message(_T("Error adding record to remote memory")) ;
+			com_e.add_to_message(R2T(IDS_CHECK_USER_AND_PASS)) ;
 			throw com_e ;
 		}
 		return true ;

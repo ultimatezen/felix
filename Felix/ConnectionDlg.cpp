@@ -60,20 +60,25 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 
 	memory_remote *mem = new memory_remote(m_props) ;
 	memory_pointer pmem(mem) ;
+
+	CString username ;
+	CString password ;
+	
+	// If we also need to log in...
+	if (IsDlgButtonChecked(IDC_CONN_LOGIN))
+	{
+		m_username.GetWindowText( username ) ;
+		m_password.GetWindowText( password ) ;
+	}
+
 	try
 	{
-		mem->connect(conn_str) ;
+		ATLTRACE("Connecting to TM\n") ;
+		TRACE(conn_str) ;
+		TRACE(username) ;
+		TRACE(password) ;
+		mem->connect(conn_str, username, password) ;
 
-		// If we also need to log in...
-		if (IsDlgButtonChecked(IDC_CONN_LOGIN))
-		{
-			CString username ;
-			m_username.GetWindowText( username ) ;
-			CString password ;
-			m_password.GetWindowText( password ) ;
-
-			mem->login(username, password) ;
-		}
 	}
 	catch( CDemoException &e)
 	{
@@ -99,12 +104,20 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		}
 		else
 		{
-		END_DLG ;
+			END_DLG ;
 		}
 
 	}
 	catch (CException& e)
 	{
+		if (! username.IsEmpty())
+		{
+			e.add_to_message(R2T(IDS_CHECK_USER_AND_PASS)) ;
+		}
+		else
+		{
+			e.add_to_message(R2T(IDS_CHECK_LOGIN)) ;
+		}
 		e.notify_user(_T("Failed to connect to Memory Serves")) ;
 		this->FlashWindow(FALSE) ;
 		this->SetMsgHandled(FALSE) ;

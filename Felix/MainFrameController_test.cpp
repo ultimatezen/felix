@@ -613,17 +613,8 @@ BOOST_AUTO_TEST_SUITE( MainFrameControllerTests )
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "Found message key");
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_view_switch" ) ;
 	}
-	BOOST_AUTO_TEST_CASE( Test_IDC_MIN_VIEW_BEGIN)
-	{
-		frame_ptr frame = make_fake_frame() ;
 
 
-		LRESULT lResult = 1 ;
-		frame->ProcessWindowMessage(NULL, WM_COMMAND, IDC_MIN_VIEW_BEGIN, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "Found message key");
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_view_min_begin" ) ;
-	}
 	BOOST_AUTO_TEST_CASE( Test_ID_APP_ABOUT)
 	{
 		frame_ptr frame = make_fake_frame() ;

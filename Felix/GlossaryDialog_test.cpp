@@ -284,16 +284,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	// message processing
 	//////////////////////////////////////////////////////////////////////////
 
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		LRESULT lResult = 1 ;
-		gloss.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, gloss.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(gloss.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
-	}
+
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
 		app_props::props_ptr props(new app_props::properties) ;

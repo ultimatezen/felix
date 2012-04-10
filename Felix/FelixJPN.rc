@@ -1173,6 +1173,8 @@ BEGIN
     ID_APP_ABOUT            "プログラム情報、バージョン、および著作権を表示します。\nバージョン情報"
     ID_APP_EXIT             "プルグラムの終了。ドキュメントの保存ダイアログが表示されます。\n終了"
     ID_HELP                 "ヘルプファイルを表示します。\nヘルプ"
+    IDS_CHECK_USER_AND_PASS "ユーザ名とパスワードを確認してください。"
+    IDS_CHECK_LOGIN         "接続の文字列や接続先の権利を確認してください。"
 END
 
 STRINGTABLE

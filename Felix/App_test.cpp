@@ -18,18 +18,6 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		BOOST_CHECK( app ) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( IsVisible )
-	{
-		appPtr app ;
-		HRESULT hr = CComObject< CApp >::CreateInstance( &app ) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-		
-		VARIANT_BOOL is_visible = VARIANT_FALSE ;
-
-		app->get_Visible( &is_visible ) ;
-
-		BOOST_CHECK(is_visible == VARIANT_TRUE) ;
-	}
 
 	BOOST_AUTO_TEST_CASE( Quit)
 	{
