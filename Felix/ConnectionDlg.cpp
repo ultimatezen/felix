@@ -77,6 +77,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		TRACE(conn_str) ;
 		TRACE(username) ;
 		TRACE(password) ;
+		// will also log in if username and password are not empty.
 		mem->connect(conn_str, username, password) ;
 
 	}

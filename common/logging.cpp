@@ -200,10 +200,16 @@ void file_logger::write_entry( const string level, const string msg )
 #else
 
 	file::CFile outfile ;
-	outfile.Create(this->m_logfile_name, 
+	BOOL success = outfile.Create(this->m_logfile_name, 
 		GENERIC_WRITE, 
 		0, 
 		OPEN_ALWAYS) ;
+
+	if (! success)
+	{
+		ATLTRACE("Failed to open logging file!\n") ;
+		return ;
+	}
 
 	const string outstring = level + "\t" 
 		+ this->get_datestring() + "\t" 
