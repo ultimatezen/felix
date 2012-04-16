@@ -4048,20 +4048,8 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 	{
 		return 0L ;
 	}
-	memory_pointer mem = dlg.m_memory ;
-	if (! mem)
-	{
-		logging::log_warn("Failed to connect to TM"); 
-		user_feedback(CString("Connection failed!")) ;
-		return 0L ;
-	}
-	LOG_VERBOSE(string("Connected: ") + string((LPCSTR)CStringA(mem->get_location()))) ;
-	m_model->get_memories()->insert_memory(mem) ;
 
-	user_feedback(system_message(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location())) ;
-
-	this->set_window_title() ;
-	return 0L ;
+	return add_remote_memory(m_model->get_memories(), dlg.m_memory) ;
 }
 
 //! Set the background color unless it's white (the default)

@@ -1191,3 +1191,21 @@ void CCommonWindowFunctionality::set_item_under_edit( match_ptr match )
 {
 	m_item_under_edit = match ;
 }
+
+LRESULT CCommonWindowFunctionality::add_remote_memory( mem_engine::model_ptr memories, mem_engine::memory_pointer mem )
+{
+	if (! mem)
+	{
+		logging::log_warn("Failed to connect to glossary"); 
+		user_feedback(CString("Connection failed!")) ;
+		return -1L ;
+	}
+	memories->insert_memory(mem) ;
+
+	CString feedback ;
+	feedback.FormatMessage(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location()) ;
+	user_feedback(feedback) ;
+
+	this->set_window_title() ;
+	return 0L ;
+}

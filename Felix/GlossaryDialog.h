@@ -80,7 +80,7 @@ class CGlossaryDialog :
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
 	model_iface_ptr					m_model ;
-	boost::shared_ptr<mem_engine::memory_model>		m_memories ;
+	mem_engine::model_ptr			m_memories ;
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
@@ -101,6 +101,8 @@ public:
 
 	CGlossaryDialog(app_props::props_ptr props) ;
 	~CGlossaryDialog( ) ;
+
+
 
 	mem_engine::felix_query *get_current_matches()
 	{

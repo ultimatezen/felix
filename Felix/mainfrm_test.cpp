@@ -655,7 +655,41 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 BOOST_AUTO_TEST_SUITE_END()
 
 //////////////////////////////////////////////////////////////////////////
-// concordance
+// correct translations
+//////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_SUITE( TestConnect )
+
+	using namespace mem_engine;
+
+	// review match
+	BOOST_AUTO_TEST_CASE(add_null_mem)
+	{
+		frame_ptr frame = make_frame() ;
+
+		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
+											   memory_pointer()) ;
+
+		BOOST_CHECK_EQUAL(-1L, res) ;
+		BOOST_CHECK_EQUAL(0u, frame->m_model->size()) ;
+	}
+
+	// review match
+	BOOST_AUTO_TEST_CASE(add_ok_mem)
+	{
+		frame_ptr frame = make_frame() ;
+
+		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
+												memory_pointer(new memory_local(frame->m_props))) ;
+
+		BOOST_CHECK_EQUAL(0L, res) ;
+		BOOST_CHECK_EQUAL(1u, frame->m_model->size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+//////////////////////////////////////////////////////////////////////////
+// correct translations
 //////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
 

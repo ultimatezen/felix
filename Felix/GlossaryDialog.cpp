@@ -1815,21 +1815,8 @@ LRESULT CGlossaryDialog::on_file_connect()
 	{
 		return 0L ;
 	}
-	memory_pointer mem = dlg.m_memory ;
-	if (! mem)
-	{
-		logging::log_warn("Failed to connect to glossary"); 
-		user_feedback(CString("Connection failed!")) ;
-		return 0L ;
-	}
-	m_memories->insert_memory(mem) ;
 
-	CString feedback ;
-	feedback.FormatMessage(IDS_CONNECTED_MEMORY, (LPCTSTR)mem->get_location()) ;
-	user_feedback(feedback) ;
-
-	this->set_window_title() ;
-	return 0L ;
+	return add_remote_memory(m_memories, dlg.m_memory) ;
 }
 
 LRESULT CGlossaryDialog::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
