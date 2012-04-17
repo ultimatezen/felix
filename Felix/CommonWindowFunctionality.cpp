@@ -297,10 +297,8 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 {
 	init_edit_window() ;
 	
-	// set the record into the edit dialog
-	this->set_new_record(record_pointer(new record_local())) ;
-	get_editor()->set_old_record( get_new_record() ) ;
-
+	// set the records into the edit dialog
+	get_editor()->set_old_record(record_pointer(new record_local())) ;
 	get_editor()->set_new_record(record_pointer(new record_local())) ;
 	
 	// This is the memory that the entry will be added to
