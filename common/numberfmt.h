@@ -7,8 +7,9 @@ class CNumberFmt
 {
 	const static int INBUFSIZE = 35 ;
 	const static int OUTBUFSIZE = 40 ;
-	TCHAR m_DecSep[5];
-	TCHAR m_ThousandsSep[5];
+	const static int SEPSIZE = 5 ;
+	TCHAR m_DecSep[SEPSIZE];
+	TCHAR m_ThousandsSep[SEPSIZE];
 	TCHAR in_buffer[INBUFSIZE] ;
 	TCHAR out_buff[OUTBUFSIZE]  ;
 
@@ -22,14 +23,14 @@ public:
 	CNumberFmt(void)
 	{
 		// initialize arrays
-		ZeroMemory(m_DecSep, sizeof(m_DecSep)) ;
-		ZeroMemory(m_ThousandsSep, sizeof(m_ThousandsSep)) ;
-		ZeroMemory(in_buffer, sizeof(in_buffer)) ;
-		ZeroMemory(out_buff, sizeof(out_buff)) ;
+		ZeroMemory(m_DecSep, SEPSIZE * sizeof( TCHAR )) ;
+		ZeroMemory(m_ThousandsSep, SEPSIZE * sizeof( TCHAR )) ;
+		ZeroMemory(in_buffer, INBUFSIZE * sizeof(TCHAR)) ;
+		ZeroMemory(out_buff, OUTBUFSIZE * sizeof(TCHAR)) ;
 
 		// get our separators
-		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, &m_DecSep[0], sizeof( m_DecSep ) );
-		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STHOUSAND, &m_ThousandsSep[0], sizeof( m_ThousandsSep ));
+		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, &m_DecSep[0], SEPSIZE * sizeof( TCHAR ) );
+		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_STHOUSAND, &m_ThousandsSep[0], SEPSIZE * sizeof( TCHAR ));
 
 		m_nf.lpDecimalSep = m_DecSep;
 		m_nf.lpThousandSep = m_ThousandsSep;
@@ -37,17 +38,17 @@ public:
 		/* I want no fractions */
 		m_nf.NumDigits = 0;
 
-		const size_t BUFF_SIZE = 5 ;
+		const size_t BUFF_SIZE = 10 ;
 		TCHAR buff[BUFF_SIZE];
 
 		/* But all the system defaults for the others */
-		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_ILZERO, &buff[0], sizeof( buff ) );
+		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_ILZERO, &buff[0], BUFF_SIZE * sizeof(TCHAR) );
 		m_nf.LeadingZero = _ttoi( buff );
 
-		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SGROUPING, &buff[0], sizeof( buff ) ) ;
+		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SGROUPING, &buff[0], BUFF_SIZE * sizeof(TCHAR) ) ;
 		m_nf.Grouping = _ttoi( buff );
 
-		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_INEGNUMBER, &buff[0], sizeof( buff ) ) ;
+		GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_INEGNUMBER, &buff[0], BUFF_SIZE * sizeof(TCHAR) ) ;
 		m_nf.NegativeOrder = _ttoi( buff );
 	}
 
@@ -60,9 +61,24 @@ public:
 	 */
 	CString Format(int num)
 	{
-		_itot_s( num, in_buffer, INBUFSIZE, 10 ) ;
+		/*
+		errno_t _itow_s(
+		int value,
+		wchar_t *buffer,
+		size_t sizeInCharacters,
+		int radix 
+		);
+		Returns 0 on success.
+		*/
+		errno_t result = _itot_s( num, in_buffer, INBUFSIZE, 10 ) ;
+		if (result)
+		{
+			ATLTRACE("Number format failed with code %i\n", result) ;
+			ATLASSERT(FALSE && "Failed to convert number into string") ;
+			return CString() ;
+		}
 
-		GetNumberFormat( LOCALE_USER_DEFAULT, 0, in_buffer, &m_nf, out_buff, sizeof( out_buff ) ) ;
+		GetNumberFormat( LOCALE_USER_DEFAULT, 0, in_buffer, &m_nf, out_buff, OUTBUFSIZE * sizeof(TCHAR) ) ;
 
 		return CString(out_buff) ;
 	}

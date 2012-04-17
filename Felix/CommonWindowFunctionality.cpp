@@ -376,7 +376,16 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 	if (hDlgInit)
 	{
 		hData = ::LoadResource(hInstance, hDlgInit);
-		pInitData = (BYTE*) ::LockResource(hData);
+		if (hData)
+		{
+			pInitData = (BYTE*) ::LockResource(hData);
+		}
+		else
+		{
+			logging::log_error("Failed to instantiate dialog") ;
+			this->user_feedback(CString("Failed to instantiate dialog")) ;
+			return ;
+		}
 	}
 	if (hDlg)
 	{
