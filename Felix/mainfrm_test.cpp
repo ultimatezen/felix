@@ -11,6 +11,7 @@
 #include "felix_factory.h"
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	using namespace mem_engine ;
@@ -111,7 +112,32 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		BOOST_CHECK(old_markup == frame->m_props->m_gen_props.m_data.m_show_markup) ;
 	}
 
+	BOOST_AUTO_TEST_CASE(test_check_shell_execute_result_ok)
+	{
 
+		frame_ptr frame = make_frame() ;
+		CString path = L"c:\\foo" ;
+		int result = 40 ;
+		frame->check_shell_execute_result(result, path) ;
+		BOOST_CHECK(true) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_check_shell_execute_result_bad)
+	{
+
+		frame_ptr frame = make_frame() ;
+		CString path = L"c:\\foo" ;
+		int result = 10 ;
+		try
+		{
+			frame->check_shell_execute_result(result, path) ;
+		}
+		catch (except::CWinException&)
+		{
+			BOOST_CHECK(true) ;
+			return ;
+		}
+		BOOST_FAIL("Should have thrown with bad result") ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 //////////////////////////////////////////////////////////////////////////
