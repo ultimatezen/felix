@@ -6,6 +6,7 @@
 
 #include "WordAutomationObject.h"
 #include "html_formatter.h"
+#include "office_seg.h"
 
 #include "font_properties.h"
 
@@ -13,7 +14,7 @@
 #include "Parser.h"
 #include "logging.h"
 
-class CParserBase 
+class CParserBase : public OfficeSeg
 {
 
 public:
@@ -83,6 +84,22 @@ public:
 	void parse_range( WordRange &range, const font_properties &props  );
 
 	bool select_next_sentence( );
+
+	wchar_t get_last_char() 
+	{
+		wstring text = this->get_seg_text() ;
+		if (text.empty())
+		{
+			return wchar_t(0) ;
+		}
+		size_t last = text.size() -1 ;
+		return text[last] ;
+	}
+	wstring get_seg_text() 
+	{
+		return BSTR2wstring(this->segment_as_plaintext()) ;
+	}
+
 
 	bool handle_db_period( WordRange &range, long &old_start, long &old_end );
 	void handle_not_whitespace( WordRange &range, long &old_end, _bstr_t &text );
