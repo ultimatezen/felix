@@ -38,16 +38,40 @@ struct qcsettings_view_setup
 //////////////////////////////////////////////////////////////////////////
 // ViewState functions
 //////////////////////////////////////////////////////////////////////////
-BOOST_AUTO_TEST_CASE(sets_message_on_content)
-{
-	app_props::props_ptr props(new app_props::properties) ;
-	qcsettings_view_setup setup(props) ;
+	BOOST_AUTO_TEST_CASE(test_sets_message_on_content)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		qcsettings_view_setup setup(props) ;
 
-	cpptempl::data_map data ;
-	setup.view.set_template_data(data) ;
-	BOOST_CHECK(data.find(L"message") != data.end()) ;
-}
+		cpptempl::data_map data ;
+		setup.view.set_template_data(data) ;
+		BOOST_CHECK(data.find(L"message") != data.end()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_make_mem_list_empty)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		qcsettings_view_setup setup(props) ;
 
+		cpptempl::data_map data ;
+		setup.view.make_mem_list(setup.model, data) ;
+		BOOST_CHECK(data[L"glosses"]->empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_make_mem_list)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		qcsettings_view_setup setup(props) ;
+
+		memory_pointer mem1 = setup.model->add_memory() ;
+		memory_pointer mem2 = setup.model->add_memory() ;
+
+		mem1->set_location("c:\\first\\location") ;
+		mem2->set_location("c:\\second\\location") ;
+
+		cpptempl::data_map data ;
+		setup.view.make_mem_list(setup.model, data) ;
+		BOOST_CHECK_EQUAL(data[L"glosses"]->getlist().size(), 2u) ;
+		BOOST_CHECK_EQUAL(data[L"glosses"]->getlist()[0]->getmap()[L"name"]->getvalue(), L"c:\\second\\location") ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif // #ifdef UNIT_TEST

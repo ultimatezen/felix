@@ -19,6 +19,6 @@ namespace mgrview
 		void show_content();
 
 		void set_template_data( cpptempl::data_map &data );
-
+		void make_mem_list(model_iface_ptr mems, cpptempl::data_map &data);
 	};
 }

@@ -19,26 +19,12 @@ namespace mgrview
 		{
 			m_doc = doc ;
 		}
-		bool check_numbers()
-		{
-			wstring ischecked = m_doc->get_element_by_id(L"numbers")->get_attribute(L"checked") ;
-			return (ischecked == L"true") ;
-		}
-		bool check_all_caps()
-		{
-			wstring ischecked = m_doc->get_element_by_id(L"allcaps")->get_attribute(L"checked") ;
-			return (ischecked == L"true") ;
-		}
-		bool check_gloss()
-		{
-			wstring ischecked = m_doc->get_element_by_id(L"gloss")->get_attribute(L"checked") ;
-			return (ischecked == L"true") ;
-		}
-		bool live_check()
-		{
-			wstring ischecked = m_doc->get_element_by_id(L"live")->get_attribute(L"checked") ;
-			return (ischecked == L"true") ;
-		}
+		bool check_numbers();
+		bool check_all_caps();
+		bool check_gloss();
+		bool live_check();
+
+		void checked_glosses(const std::vector<size_t> &memids, std::vector<size_t> &existids);
 	};
 
 }

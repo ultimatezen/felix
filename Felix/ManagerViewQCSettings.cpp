@@ -2,6 +2,7 @@
 #include "ManagerViewQCSettings.h"
 #include "SearchWindow.h"
 #include "document_wrapper.h"
+#include "numberfmt.h"
 
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
@@ -40,5 +41,35 @@ namespace mgrview
 		data[L"allcaps"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_all_caps ? L"true" : L"") ;
 		data[L"gloss"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_gloss ? L"true" : L"") ;
 		data[L"live"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_live_checking ? L"true" : L"") ;
+
+		make_mem_list(m_gloss_model, data) ;
+	}
+
+	void ManagerViewQCSettings::make_mem_list( model_iface_ptr mems, cpptempl::data_map &data )
+	{
+		cpptempl::data_list tms ;
+		for(size_t i = 0 ; i < mems->size() ; ++i)
+		{
+			mem_engine::memory_pointer mem = mems->memory_at(i) ;
+			cpptempl::data_map item ;
+
+			wstring name = mem->get_fullpath() ;
+			item[L"name"] = cpptempl::make_data(name) ;
+			item[L"id"] = cpptempl::make_data(fmt_num(mem->get_id())) ;
+
+			std::vector<wstring> &filenames = m_props->m_qc_props.m_qc_glosses ;
+			if (std::find(filenames.begin(), filenames.end(), name) != filenames.end())
+			{
+				item[L"checked"] = cpptempl::make_data(L"true") ;
+			}
+			else
+			{
+				item[L"checked"] = cpptempl::make_data(L"false") ;
+			}
+
+
+			tms.push_back(cpptempl::make_data(item)) ;
+		}
+		data[L"glosses"] = cpptempl::make_data(tms) ;
 	}
 }

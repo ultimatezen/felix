@@ -126,7 +126,26 @@ namespace app_props
 		child_node.set_name(name.c_str()) ;
 		child_node.append_child(pugi::node_pcdata).set_value(ulong2string(val).c_str());
 	}
-
+	void write_filenames( pugi::xml_node &node, const std::vector<wstring> &filenames, string node_name ) 
+	{
+		pugi::xml_node files_node = node.append_child() ;
+		files_node.set_name(node_name.c_str()) ;
+		foreach(wstring filename, filenames)
+		{
+			add_child(files_node, "filename", string2string(filename, CP_UTF8)) ;
+		}
+	}
+	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name)
+	{
+		items.clear() ;
+		pugi::xml_node nodes = parent.child(node_name.c_str()) ;
+		for (pugi::xml_node tm_node = nodes.child("filename"); 
+			tm_node; 
+			tm_node = tm_node.next_sibling("filename"))
+		{
+			items.push_back(string2wstring(tm_node.child_value(), CP_UTF8)) ;
+		}
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// properties_loaded_history
 	//////////////////////////////////////////////////////////////////////////
@@ -157,17 +176,7 @@ namespace app_props
 		doc.save(writer) ;
 		return writer.result ;
 	}
-	void properties_loaded_history::load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name)
-	{
-		items.clear() ;
-		pugi::xml_node nodes = parent.child(node_name.c_str()) ;
-		for (pugi::xml_node tm_node = nodes.child("filename"); 
-			tm_node; 
-			tm_node = tm_node.next_sibling("filename"))
-		{
-			items.push_back(string2wstring(tm_node.child_value(), CP_UTF8)) ;
-		}
-	}
+
 
 	bool properties_loaded_history::load_xml_props()
 	{
@@ -246,31 +255,12 @@ namespace app_props
 		pugi::xml_node loaded_history = prefs.append_child();
 		loaded_history.set_name("loaded_history") ;
 
-		pugi::xml_node mem_node = loaded_history.append_child() ;
-		mem_node.set_name("loaded_mems") ;
-		foreach(wstring filename, m_loaded_mems)
-		{
-			add_child(mem_node, "filename", string2string(filename, CP_UTF8)) ;
-		}
-		pugi::xml_node gloss_node = loaded_history.append_child() ;
-		gloss_node.set_name("loaded_gloss") ;
-		foreach(wstring filename, m_loaded_gloss)
-		{
-			add_child(gloss_node, "filename", string2string(filename, CP_UTF8)) ;
-		}
-		pugi::xml_node rmem_node = loaded_history.append_child() ;
-		rmem_node.set_name("loaded_remote_mems") ;
-		foreach(wstring filename, m_loaded_remote_mems)
-		{
-			add_child(rmem_node, "filename", string2string(filename, CP_UTF8)) ;
-		}
-		pugi::xml_node rgloss_node = loaded_history.append_child() ;
-		rgloss_node.set_name("loaded_remote_gloss") ;
-		foreach(wstring filename, m_loaded_remote_gloss)
-		{
-			add_child(rgloss_node, "filename", string2string(filename, CP_UTF8)) ;
-		}
+		write_filenames(loaded_history, m_loaded_mems, "loaded_mems");
+		write_filenames(loaded_history, m_loaded_gloss, "loaded_gloss");
+		write_filenames(loaded_history, m_loaded_remote_mems, "loaded_remote_mems");
+		write_filenames(loaded_history, m_loaded_remote_gloss, "loaded_remote_gloss");
 	}
+
 
 	properties_loaded_history & properties_loaded_history::operator=( const properties_loaded_history &rhs )
 	{
@@ -565,6 +555,7 @@ namespace app_props
 		add_child(parent, "check_all_caps", bool2string(!! this->m_data.m_check_all_caps)) ;
 		add_child(parent, "check_gloss", bool2string(!! this->m_data.m_check_gloss)) ;
 		add_child(parent, "live_checking", bool2string(!! this->m_data.m_live_checking)) ;
+		write_filenames(parent, m_qc_glosses, "qc_glosses");
 	}
 
 	bool properties_qc::parse_xml_doc( pugi::xml_document &doc )
@@ -577,6 +568,7 @@ namespace app_props
 			this->m_data.m_check_all_caps = read_xml_bool(parent, "check_all_caps") ;
 			this->m_data.m_check_gloss = read_xml_bool(parent, "check_gloss") ;
 			this->m_data.m_live_checking = read_xml_bool(parent, "live_checking") ;
+			load_xml_props_type(parent, m_qc_glosses, "qc_glosses") ;
 		}
 		catch (except::CException& e)
 		{

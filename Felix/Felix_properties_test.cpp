@@ -510,7 +510,62 @@ BOOST_AUTO_TEST_SUITE( properties_qc_TestCase )
 		props.m_data.m_live_checking = TRUE ;
 		BOOST_CHECK(props.live_checking()) ;
 	}
+	BOOST_AUTO_TEST_CASE(test_load_qc_props_no_glossnames)
+	{
+		string text = "<properties>\n"
+			"<properties_qc>\n"
+			"<check_numbers>true</check_numbers>\n"
+			"<check_all_caps>true</check_all_caps>\n"
+			"<check_gloss>true</check_gloss>\n"
+			"<live_checking>true</live_checking>\n"
+			"</properties_qc>\n"
+			"</properties>\n" ;
 
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_qc props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK( props.m_data.m_check_numbers ) ; 
+		BOOST_CHECK( props.m_data.m_check_all_caps ) ; 
+		BOOST_CHECK( props.m_data.m_check_gloss ) ; 
+		BOOST_CHECK( props.m_data.m_live_checking ) ; 
+		BOOST_CHECK_EQUAL( 0u, props.m_qc_glosses.size() ) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_load_qc_props_glossnames)
+	{
+		string text = "<properties>\n"
+			" <properties_qc>\n"
+			"  <check_numbers>true</check_numbers>\n"
+			"  <check_all_caps>true</check_all_caps>\n"
+			"  <check_gloss>true</check_gloss>\n"
+			"  <live_checking>true</live_checking>\n"
+			"  <qc_glosses>\n" 
+			"    <filename>first.fgloss</filename>\n"
+			"    <filename>http://127.0.0.1:8300/mems/2/</filename>\n"
+			"  </qc_glosses>\n" 
+			" </properties_qc>\n"
+		"</properties>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_qc props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK( props.m_data.m_check_numbers ) ; 
+		BOOST_CHECK( props.m_data.m_check_all_caps ) ; 
+		BOOST_CHECK( props.m_data.m_check_gloss ) ; 
+		BOOST_CHECK( props.m_data.m_live_checking ) ;
+		wstring expected1 = L"first.fgloss" ;
+		wstring expected2 = L"http://127.0.0.1:8300/mems/2/" ;
+		BOOST_CHECK_EQUAL( 2u, props.m_qc_glosses.size() ) ;
+		BOOST_CHECK_EQUAL( props.m_qc_glosses[0], expected1 ) ;
+		BOOST_CHECK_EQUAL( props.m_qc_glosses[1], expected2 ) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 /************************************************************************/
@@ -520,6 +575,29 @@ BOOST_AUTO_TEST_SUITE_END()
 // properties_loaded_history
 
 BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
+
+	BOOST_AUTO_TEST_CASE(test_load_xml_props_type)
+	{
+		string text = "<props><filenames>\n"
+			"<filename>first.txt</filename>\n"
+			"<filename>second.txt</filename>\n"
+			"</filenames></props>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+		std::vector<wstring> items ;
+		pugi::xml_node child = doc.child("props") ;
+		app_props::load_xml_props_type(child, items, "filenames") ;
+
+		wstring expected1 = L"first.txt" ;
+		wstring expected2 = L"second.txt" ;
+		BOOST_CHECK_EQUAL (items.size(), 2u) ; 
+		BOOST_CHECK_EQUAL (items[0], expected1) ; 
+		BOOST_CHECK_EQUAL (items[1], expected2) ; 
+	}
 
 	BOOST_AUTO_TEST_CASE( load_xml_loaded_history )
 	{
@@ -537,7 +615,7 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 		app_props::properties_loaded_history props ;
 		std::vector<wstring> items ;
 		pugi::xml_node child = doc.child("loaded_history") ;
-		props.load_xml_props_type(child, items, "loaded_mems") ;
+		app_props::load_xml_props_type(child, items, "loaded_mems") ;
 
 		wstring expected1 = L"foo.txt" ;
 		wstring expected2 = L"bar.txt" ;
@@ -566,7 +644,7 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 		app_props::properties_loaded_history props ;
 		std::vector<wstring> items ;
 		pugi::xml_node child = doc.child("loaded_history") ;
-		props.load_xml_props_type(child, items, "loaded_mems") ;
+		app_props::load_xml_props_type(child, items, "loaded_mems") ;
 
 		wstring expected1 = L"foo.txt" ;
 		wstring expected2 = L"bar.txt" ;
@@ -1055,6 +1133,44 @@ BOOST_AUTO_TEST_SUITE( properties_qc_xml_tests )
 			"		<check_all_caps>true</check_all_caps>\n"
 			"		<check_gloss>true</check_gloss>\n"
 			"		<live_checking>true</live_checking>\n"
+			"		<qc_glosses />\n"
+			"	</properties_qc>\n"
+			"</properties>\n" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(build_xml_doc_glosses)
+	{
+		app_props::properties_qc props ;
+		app_props::properties_qc::props_data *data = &props.m_data ;
+
+		data->m_check_numbers = TRUE ;
+		data->m_check_all_caps = TRUE ;
+		data->m_check_gloss = TRUE ;
+		data->m_live_checking = TRUE ;
+		props.m_qc_glosses.push_back(L"first.fgloss") ;
+		props.m_qc_glosses.push_back(L"http://ms.felix-cat.com/mems/3") ;
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("properties") ;
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer ;
+		doc.save(writer) ;
+		string actual = writer.result ;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<properties>\n"
+			"	<properties_qc>\n"
+			"		<check_numbers>true</check_numbers>\n"
+			"		<check_all_caps>true</check_all_caps>\n"
+			"		<check_gloss>true</check_gloss>\n"
+			"		<live_checking>true</live_checking>\n"
+			"		<qc_glosses>\n"
+			"			<filename>first.fgloss</filename>\n"
+			"			<filename>http://ms.felix-cat.com/mems/3</filename>\n"
+			"		</qc_glosses>\n"
 			"	</properties_qc>\n"
 			"</properties>\n" ;
 
