@@ -17,18 +17,27 @@
 <form method="post" action="/submit_qc" name="qc_check_form">
 
 <fieldset>
-	<input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers == "true" %}checked="checked" {% endif %}/>
+	<input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers %}checked="checked" {% endif %}/>
 	<b>数字</b>　:　数字の整合性をチェックします
 <br /><br />
-	<input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps == "true" %}checked="checked" {% endif %}/>
+	<input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps %}checked="checked" {% endif %}/>
 	<b>ALL CAPS</b>　:　大文字のみの単語をちぇっくします
 <br /><br />
-	<input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss == "true" %}checked="checked" {% endif %}/>
+	<input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss %}checked="checked" {% endif %}/>
 	<b>用語</b>　：　用語集のマッチをチェックします
+		{% if glosses %}
+		<fieldset>
+			<p>チェックに利用する用語集</p>
+		{% for mem in glosses %}
+			<input type="checkbox" name="{$mem.id}" id="{$mem.id}" value="{$mem.id}" {% if mem.checked %}checked="checked" {% endif %}/>
+			{$mem.name}
+	    {% endfor %}
+		</fieldset>
+		{% endif %}
 </fieldset>
 
 <div style="margin-top:10px;">
-	<input type="checkbox" name="live" id="live" value="live" {% if live == "true" %}checked="checked" {% endif %}/>
+	<input type="checkbox" name="live" id="live" value="live" {% if live %}checked="checked" {% endif %}/>
 	<b>リアルタイム</b>　:　リアルタイムにてチェックをします
 </div>
 
