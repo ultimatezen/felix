@@ -151,6 +151,10 @@ bool CTextRangeParser::selectNext(void)
 			}
 			last_char_was_period = false ;
 		}
+		else if (this_char == L')' && last_char_was_period)
+		{
+			break ;
+		}
 		else if (iswspace(this_char))
 		{
 			--i ; // don't select the whitespace char itself
