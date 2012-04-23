@@ -494,7 +494,6 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 bool CManagerWindow::nav_qc(const std::vector<string> &)
 {
 	SENSE("nav_qc"); 
-	m_props->m_qc_props.read_from_registry() ;
 	this->set_active_state(mgr_state_ptr(new mgrview::ManagerViewQCSettings(m_props))) ;
 	m_current_state->show_content() ;
 	return true ;

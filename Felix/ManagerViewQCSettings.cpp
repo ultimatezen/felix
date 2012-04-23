@@ -62,7 +62,7 @@ namespace mgrview
 			}
 			else
 			{
-				item[L"checked"] = cpptempl::make_data(L"false") ;
+				item[L"checked"] = cpptempl::make_data(L"") ;
 			}
 
 			tms.push_back(cpptempl::make_data(item)) ;
