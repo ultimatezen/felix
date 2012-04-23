@@ -5163,7 +5163,15 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model() ;
 
 		search_match_container matches ;
-		memories->get_glossary_matches(matches, params) ;
+
+		for(size_t i = 0 ; i < memories->size() ; ++i)
+		{
+			mem_engine::memory_pointer mem = memories->get_memory_at(i) ;
+			if (props->check_gloss_name(static_cast<LPCWSTR>(mem->get_fullpath())))
+			{
+				mem->get_glossary_matches(matches, params) ;
+			}
+		}
 
 		std::vector<qc::gloss_pair> gloss_matches ;
 		foreach(match_ptr match, matches)

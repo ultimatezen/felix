@@ -30,12 +30,15 @@ void mgrview::QCFormParser::checked_glosses( const std::vector<size_t> &memids, 
 	existids.clear() ;
 	foreach(size_t memid, memids)
 	{
-		wstring idname = boost::lexical_cast<wstring>(memid) ;
-		wstring ischecked = m_doc->get_element_by_id(idname)->get_attribute(L"checked") ;
-		if (ischecked == L"true")
+		if (is_id_checked(memid))
 		{
 			existids.push_back(memid) ;
 		}
-
 	}
+}
+
+bool mgrview::QCFormParser::is_id_checked( size_t memid )
+{
+	wstring idname = boost::lexical_cast<wstring>(memid) ;
+	return (m_doc->get_element_by_id(idname)->get_attribute(L"checked") == L"true" );
 }

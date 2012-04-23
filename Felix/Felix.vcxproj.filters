@@ -207,9 +207,6 @@
     <ClCompile Include="mainfrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagerWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="markup_strings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -423,9 +420,6 @@
     <ClCompile Include="..\common\distance_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="EditFormParser_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="EditModeFindDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -514,9 +508,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="mainfrm_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ManagerWindow_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="match_filters_matcher_test.cpp">
@@ -914,6 +905,21 @@
     </ClCompile>
     <ClCompile Include="..\common\aboutdlg.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QCFormParser.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="QCFormParser_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="EditFormParser_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerWindow_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerWindow.cpp">
+      <Filter>Source Files\ManagerView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

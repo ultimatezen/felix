@@ -24,11 +24,12 @@ namespace app_props
 	long read_xml_long(pugi::xml_node &node, string name) ;
 	unsigned long read_xml_ulong(pugi::xml_node &node, string name) ;
 	wstring read_xml_string(pugi::xml_node &node, string name) ;
+	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name) ;
 	// write xml values
 	void write_xml_bool(pugi::xml_node &node, string name, BOOL val) ;
 	void write_xml_long(pugi::xml_node &node, string name, long val) ;
 	void write_xml_ulong(pugi::xml_node &node, string name, unsigned long val) ;
-
+	void write_filenames( pugi::xml_node &node, const std::vector<wstring> &filenames, string node_name ) ;
 	pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
 
 /**
@@ -91,7 +92,6 @@ namespace app_props
 	{
 	}
 	properties_loaded_history &operator=( const properties_loaded_history &rhs );
-	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name) ;
 	bool load_xml_props();
 
 	bool write_xml_props();
@@ -101,6 +101,8 @@ namespace app_props
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
+
+
 	bool parse_xml_doc( pugi::xml_document &doc );
 
 	bool copy_reg_props();
@@ -567,6 +569,8 @@ private:
  */
 struct properties_view : public props::CRegMap
 {
+	std::vector<wstring> m_qc_glosses;
+
 	struct props_data
 	{
 		BOOL	m_single_screen_matches ;
@@ -652,6 +656,8 @@ struct properties_view : public props::CRegMap
 
 struct properties_qc : public props::CRegMap
 {
+	std::vector<wstring> m_qc_glosses ;
+
 	struct props_data
 	{
 		BOOL	m_check_numbers ;
@@ -691,25 +697,29 @@ struct properties_qc : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
-	bool qc_enabled()
+	bool qc_enabled() const
 	{
 		return check_numbers() || check_gloss() || check_all_caps() ;
 	}
-	bool check_numbers()
+	bool check_numbers() const
 	{
 		return !! m_data.m_check_numbers ;
 	}
-	bool check_all_caps()
+	bool check_all_caps() const
 	{
 		return !! m_data.m_check_all_caps ;
 	}
-	bool check_gloss()
+	bool check_gloss() const
 	{
 		return !! m_data.m_check_gloss ;
 	}
-	bool live_checking()
+	bool live_checking() const
 	{
 		return !! m_data.m_live_checking ;
+	}
+	bool check_gloss_name(const wstring name) const
+	{
+		return std::find(m_qc_glosses.begin(), m_qc_glosses.end(), name) != m_qc_glosses.end() ;
 	}
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 		REG_ENTRY_BOOL( _T("qc_check_numbers"),		m_data.m_check_numbers );

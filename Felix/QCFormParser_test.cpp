@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE( QCFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"numbers")->set_attribute(L"allcaps", L"true") ;
+		wrapper->get_element_by_id(L"allcaps")->set_attribute(L"checked", L"true") ;
 
 		mgrview::QCFormParser parser(doc) ;
 
@@ -33,11 +33,11 @@ BOOST_AUTO_TEST_SUITE( QCFormParserTests )
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		doc3_wrapper_ptr doc(wrapper) ;
 
-		wrapper->get_element_by_id(L"numbers")->set_attribute(L"allcaps", L"false") ;
+		wrapper->get_element_by_id(L"allcaps")->set_attribute(L"checked", L"false") ;
 
 		mgrview::QCFormParser parser(doc) ;
 
-		BOOST_CHECK(parser.check_all_caps());
+		BOOST_CHECK(! parser.check_all_caps());
 	}
 	BOOST_AUTO_TEST_CASE(test_check_gloss)
 	{

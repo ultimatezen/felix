@@ -884,6 +884,8 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="..\common\pugxml\src\pugixml.cpp" />
     <ClCompile Include="..\common\pugxml\src\pugixpath.cpp" />
+    <ClCompile Include="QCFormParser.cpp" />
+    <ClCompile Include="QCFormParser_test.cpp" />
     <ClCompile Include="QueryMergeDlg.cpp" />
     <ClCompile Include="RegisterGlossDlg.cpp" />
     <ClCompile Include="..\common\RegSettings.cpp" />

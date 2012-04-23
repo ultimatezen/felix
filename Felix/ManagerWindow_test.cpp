@@ -419,6 +419,82 @@ BOOST_AUTO_TEST_SUITE( TestCManagerWindowNavTests )
 		window.OnBeforeNavigate2(url) ;
 		BOOST_CHECK_EQUAL(window.m_sensing_variable[1], "nav_load") ;
 	}
+	BOOST_AUTO_TEST_CASE(test_submit_qc_no_glosses)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
+		ManagerWindowTestSetup setup(&window) ;
+
+		app_props::properties_qc *qcprops = &props->m_qc_props ;
+
+		qcprops->m_data.m_check_numbers = TRUE ;
+		qcprops->m_data.m_check_all_caps = TRUE ;
+		qcprops->m_data.m_check_gloss = TRUE ;
+		qcprops->m_data.m_live_checking = TRUE ;
+		qcprops->m_qc_glosses.push_back(L"c:\\first\\location") ;
+		
+		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
+		doc3_wrapper_ptr doc(wrapper) ;
+
+		wrapper->get_element_by_id(L"numbers")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"allcaps")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"gloss")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"live")->set_attribute(L"checked", L"false") ;
+
+		mgrview::ManagerViewFake *view = new mgrview::ManagerViewFake ;
+		window.m_current_state = mgrview::mgr_ptr(view) ;
+
+		std::vector<string> tokens ;
+		tokens += "submit_qc" ;
+
+		window.set_qc_prop_values(doc) ;
+
+		BOOST_CHECK(! qcprops->m_data.m_check_numbers) ;
+		BOOST_CHECK(! qcprops->m_data.m_check_all_caps) ;
+		BOOST_CHECK(! qcprops->m_data.m_check_gloss) ;
+		BOOST_CHECK(! qcprops->m_data.m_live_checking) ;
+		BOOST_CHECK(qcprops->m_qc_glosses.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_submit_qc_glosses)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		CManagerWindow window(props) ;
+		ManagerWindowTestSetup setup(&window) ;
+
+		app_props::properties_qc *qcprops = &props->m_qc_props ;
+
+		qcprops->m_data.m_check_numbers = TRUE ;
+		qcprops->m_data.m_check_all_caps = TRUE ;
+		qcprops->m_data.m_check_gloss = TRUE ;
+		qcprops->m_data.m_live_checking = TRUE ;
+		qcprops->m_qc_glosses.push_back(L"c:\\first\\location") ;
+
+		memory_pointer gloss1 = setup.gloss_model->add_memory() ;
+		gloss1->set_location(L"gloss1") ;
+		memory_pointer gloss2 = setup.gloss_model->add_memory() ;
+		gloss2->set_location(L"gloss2") ;
+
+		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
+		doc3_wrapper_ptr doc(wrapper) ;
+
+		wrapper->get_element_by_id(L"numbers")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"allcaps")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"gloss")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(L"live")->set_attribute(L"checked", L"false") ;
+		wrapper->get_element_by_id(boost::lexical_cast<wstring>(gloss1->get_id()))->set_attribute(L"checked", L"true") ;
+		wrapper->get_element_by_id(boost::lexical_cast<wstring>(gloss2->get_id()))->set_attribute(L"checked", L"false") ;
+
+		mgrview::ManagerViewFake *view = new mgrview::ManagerViewFake ;
+		window.m_current_state = mgrview::mgr_ptr(view) ;
+
+		std::vector<string> tokens ;
+		tokens += "submit_qc" ;
+
+		window.set_qc_prop_values(doc) ;
+
+		BOOST_CHECK_EQUAL(1u, qcprops->m_qc_glosses.size()) ;
+		BOOST_CHECK_EQUAL(qcprops->m_qc_glosses[0], wstring(L"gloss1")) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 

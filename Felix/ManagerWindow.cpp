@@ -523,18 +523,9 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 }
 bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 {
-	mgrview::QCFormParser parser(doc) ;
-	const bool check_numbers = parser.check_numbers() ;
-	const bool check_all_caps = parser.check_all_caps() ;
-	const bool check_gloss = parser.check_gloss() ;
-	const bool live_check = parser.live_check() ;
-
-	m_props->m_qc_props.m_data.m_check_numbers = check_numbers ? TRUE : FALSE ;
-	m_props->m_qc_props.m_data.m_check_all_caps = check_all_caps ? TRUE : FALSE ;
-	m_props->m_qc_props.m_data.m_check_gloss = check_gloss ? TRUE : FALSE ;
-	m_props->m_qc_props.m_data.m_live_checking = live_check ? TRUE : FALSE ; 
-
-	m_props->m_qc_props.write_to_registry() ;
+	set_qc_prop_values(doc);
+	
+	m_props->write_prefs() ;
 
 	m_message = L"Configured QC Settings" ;
 	std::vector<string> tokens ;
@@ -1317,4 +1308,28 @@ bool CManagerWindow::init_status_bar()
 	m_statusbar.m_mp_sbar.ShowWindow( SW_SHOWNOACTIVATE ) ;
 	return !! m_statusbar.m_mp_sbar.IsWindow() ;
 #endif
+}
+
+void CManagerWindow::set_qc_prop_values( doc3_wrapper_ptr doc )
+{
+	mgrview::QCFormParser parser(doc) ;
+	const bool check_numbers = parser.check_numbers() ;
+	const bool check_all_caps = parser.check_all_caps() ;
+	const bool check_gloss = parser.check_gloss() ;
+	const bool live_check = parser.live_check() ;
+
+	m_props->m_qc_props.m_data.m_check_numbers = check_numbers ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_check_all_caps = check_all_caps ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_check_gloss = check_gloss ? TRUE : FALSE ;
+	m_props->m_qc_props.m_data.m_live_checking = live_check ? TRUE : FALSE ; 
+
+	m_props->m_qc_props.m_qc_glosses.clear() ;
+	for(size_t i = 0 ; i < m_gloss_model->size() ; ++i)
+	{
+		mem_engine::memory_pointer mem = m_gloss_model->memory_at(i) ;
+		if (parser.is_id_checked(mem->get_id()))
+		{
+			m_props->m_qc_props.m_qc_glosses.push_back(static_cast<LPCWSTR>(mem->get_fullpath())) ;
+		}
+	}
 }

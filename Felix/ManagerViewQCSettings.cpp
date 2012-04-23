@@ -21,7 +21,6 @@ namespace mgrview
 		SENSE("show_content") ;
 
 		cpptempl::data_map data ;
-
 		set_template_data(data);
 
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/qc_settings.txt")) ;
@@ -57,8 +56,7 @@ namespace mgrview
 			item[L"name"] = cpptempl::make_data(name) ;
 			item[L"id"] = cpptempl::make_data(fmt_num(mem->get_id())) ;
 
-			std::vector<wstring> &filenames = m_props->m_qc_props.m_qc_glosses ;
-			if (std::find(filenames.begin(), filenames.end(), name) != filenames.end())
+			if (m_props->m_qc_props.check_gloss_name(name))
 			{
 				item[L"checked"] = cpptempl::make_data(L"true") ;
 			}
@@ -66,7 +64,6 @@ namespace mgrview
 			{
 				item[L"checked"] = cpptempl::make_data(L"false") ;
 			}
-
 
 			tms.push_back(cpptempl::make_data(item)) ;
 		}

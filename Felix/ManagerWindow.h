@@ -180,6 +180,7 @@ public:
 	bool handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc);
 	bool handle_qc_settings(doc3_wrapper_ptr doc);
 
+	void set_qc_prop_values( doc3_wrapper_ptr doc );
 	bool import_tmx( const file::OpenDlgList &files );
 
 	/** import a single tmx file. */

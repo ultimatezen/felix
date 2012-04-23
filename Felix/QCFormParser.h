@@ -25,6 +25,8 @@ namespace mgrview
 		bool live_check();
 
 		void checked_glosses(const std::vector<size_t> &memids, std::vector<size_t> &existids);
+
+		bool is_id_checked(size_t memid);
 	};
 
 }
