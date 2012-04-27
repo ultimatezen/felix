@@ -10,10 +10,9 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 
 	BOOST_AUTO_TEST_CASE( test_min3 )
 	{
-		Distance d ;
-		BOOST_CHECK_EQUAL( d.min3(10, 0, 5), 0u) ;
-		BOOST_CHECK_EQUAL( d.min3(2, 5, 10), 2u) ;
-		BOOST_CHECK_EQUAL( d.min3(5, 5, 5), 5u) ;
+		BOOST_CHECK_EQUAL( min3(10, 0, 5), 0u) ;
+		BOOST_CHECK_EQUAL( min3(2, 5, 10), 2u) ;
+		BOOST_CHECK_EQUAL( min3(5, 5, 5), 5u) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_edist_aaaa_aaba )
 	{

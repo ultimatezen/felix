@@ -1,5 +1,7 @@
 #pragma once
 
+size_t min3(size_t a, size_t b, size_t c) ;
+
 class Distance
 {
 	size_t *row1 ;
@@ -18,6 +20,5 @@ public:
 
 	void ensure_size(size_t min_row_size) ;
 	// minimum of three values
-	size_t min3(size_t a, size_t b, size_t c) const ;
 
 };

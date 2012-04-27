@@ -2,7 +2,11 @@
 #include "TranslationMemory.h"
 #include "StringEx.h"
 #include ".\match_maker.h"
+#include "distance.h"
 
+#ifdef max
+#undef max
+#endif
 
 namespace mem_engine
 {
@@ -16,6 +20,8 @@ namespace mem_engine
 		@struct cell
 		@brief Represents a cell in the distance matrix.
 	 */
+
+
 	struct cell
 	{
 		size_t m_diag ;
@@ -33,10 +39,9 @@ namespace mem_engine
 			:	m_diag( d), m_left( l ), m_above( a )
 		{}
 		
-		size_t min_val()
+		size_t min_val() const
 		{
-			size_t mval = min( m_diag, m_above ) ;
-			return min( mval, m_left ) ;
+			return min3(m_diag, m_above, m_left) ;
 		}
 	};
 
@@ -135,19 +140,11 @@ namespace mem_engine
 	// Return type		: bool 
 	bool match_maker::populate_matrix_costs( )
 	{
-		// variables for surrounding cells
-		int above, left, diag ;
-
-		int min_cost_cell ;
-
-		wchar_t row_char, col_char ;
-
-		size_t MaxLen = max( m_num_rows, m_num_cols ) ;
+		size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
 		size_t MaxDist = MaxLen - static_cast< size_t >( ( MaxLen * m_minimum_score ) ) ;
 
 		int RowMin = 0 ;
 		// variable for calculating cost
-		int cost ;
 
 		// step through rows
 		LPCWSTR row_cstr = m_row_string.c_str() ;
@@ -159,29 +156,16 @@ namespace mem_engine
 			for ( size_t col_num = 1 ; col_num <= m_num_cols ; col_num++ )
 			{
 				// get values of cells above, to left, and diagonal
-				above = m_matrix( row_num-1, col_num ) ;
-				left = m_matrix( row_num, col_num-1 ) ;
-				diag = m_matrix( row_num-1, col_num-1 ) ;
+				const int above = m_matrix( row_num-1, col_num ) ;
+				const int left = m_matrix( row_num, col_num-1 ) ;
+				const int diag = m_matrix( row_num-1, col_num-1 ) ;
 
 				// Compute cost
-				row_char = row_cstr[row_num-1] ;
-				col_char = col_cstr[col_num-1] ;
-				if ( row_char == col_char )
-				{
-					cost = 0 ;
-				}
-				else
-				{
-					cost = 1 ;
-				}
+				const int cost = compute_cost(row_cstr[row_num-1], col_cstr[col_num-1]);
 
 				// get minimum cost
 				// formula: cell = min( diag + cost, left + 1, above + 1 )
-				min_cost_cell = ( diag + cost ) ;
-				if ( min_cost_cell > ++left  )
-					min_cost_cell = left  ;
-				if ( min_cost_cell > ++above )
-					min_cost_cell = above ;
+				const int min_cost_cell = min3(diag+cost, left+1, above+1) ;
 				
 				m_matrix( row_num, col_num ) = min_cost_cell ;
 				RowMin = min( RowMin, min_cost_cell ) ;
@@ -195,15 +179,29 @@ namespace mem_engine
 		return true ;
 	}
 
+	int match_maker::compute_cost( const wchar_t row_char, const wchar_t col_char ) const
+	{
+		if ( row_char == col_char )
+		{
+			return 0 ;
+		}
+		else
+		{
+			return 1 ;
+		}
+	}
 
-	double match_maker::calculate_score()
+	double match_maker::calculate_score(size_t num_rows, size_t num_cols, int lower_right_corner) const
 	{
 		// Formula for similarity score:
 		// length of longest sentence = L
 		// lower right corner of matrix = distance
 		// score = ( L - distance ) / L 
-		size_t high_len = __max( m_num_rows, m_num_cols ) ;
-		int lower_right_corner = m_matrix( m_num_rows, m_num_cols ) ;
+		const size_t high_len = std::max( num_rows, num_cols ) ;
+		if (! high_len)
+		{
+			return 0.0 ;
+		}
 		return static_cast< double > ( high_len - lower_right_corner ) / static_cast< double >( high_len )  ;
 	}
 
@@ -371,7 +369,7 @@ namespace mem_engine
 		}
 		// calculate score here
 		// make sure we have at least the minimum score
-		m_score = calculate_score() ;
+		m_score = calculate_score(m_num_rows, m_num_cols, m_matrix(m_num_rows, m_num_cols)) ;
 		if ( m_score < m_minimum_score ) 
 		{
 			return false ;

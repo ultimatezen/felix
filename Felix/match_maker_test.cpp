@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_SUITE_END()
 	/* tests for fuzzy glossary matches                                     */
 	/************************************************************************/
 
-	BOOST_AUTO_TEST_SUITE( match_maker_test )
+BOOST_AUTO_TEST_SUITE( match_maker_test )
 
 	using namespace mem_engine ;
 const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
@@ -176,5 +176,29 @@ const static wstring nomatch_tag_close(L"</span>") ;
 		BOOST_CHECK_CLOSE(0.5, match->get_score(), 0.00001) ;
 	}
 
+	// compute cost
+	BOOST_AUTO_TEST_CASE(compute_cost_0)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'a'), 0) ;
+
+	}
+	BOOST_AUTO_TEST_CASE(compute_cost_1)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'z'), 1) ;
+
+	}
+	// calculate score
+	BOOST_AUTO_TEST_CASE(calculate_score_1)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_CLOSE(mm.calculate_score(5u, 5u, 0), 1.0, 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE(calculate_score_0_5)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_CLOSE(mm.calculate_score(10u, 10u, 5), 0.5, 0.001) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()

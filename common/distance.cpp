@@ -5,6 +5,11 @@
 #undef min
 #endif
 
+size_t min3( size_t a, size_t b, size_t c ) 
+{
+	return std::min(std::min(a, b), c) ;
+}
+
 size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 {
 	const wchar_t* a_str = a.c_str() ;
@@ -219,10 +224,7 @@ void Distance::ensure_size(size_t min_row_size)
 	}
 }
 
-size_t Distance::min3( size_t a, size_t b, size_t c ) const 
-{
-	return std::min(std::min(a, b), c) ;
-}
+
 
 double Distance::edist_score( const std::wstring &a, const std::wstring &b )
 {

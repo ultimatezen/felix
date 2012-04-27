@@ -108,10 +108,11 @@ public:
 		m_assess_format_penalty = assess ;
 	}
 	bool get_assess_format_penalty() { return m_assess_format_penalty ; }
+	double calculate_score(size_t num_rows, size_t num_cols, int lower_right_corner) const;
+	int compute_cost( const wchar_t row_char, const wchar_t col_char ) const ;
 private:
 	double m_score;
 
-	double calculate_score( );
 	boost::tuple<size_t, size_t> match_cells(size_t row_num, size_t col_num) const ;
 	bool get_path ( ) ;
 	bool populate_matrix_edges( ) ;
