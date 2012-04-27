@@ -373,12 +373,11 @@ void CManagerWindow::set_mem_model(model_iface_ptr model)
 {
 	m_mem_model = model ;
 }
+
 void CManagerWindow::set_gloss_model(model_iface_ptr model)
 {
 	m_gloss_model = model ;
 }
-
-
 
 /*
  Get the document element from the web browser.
@@ -424,6 +423,7 @@ bool CManagerWindow::nav_empty( const std::vector<string> &tokens )
 	tokens ;
 	return true ;
 }
+
 // moving items in list
 bool CManagerWindow::nav_moveup(const std::vector<string> &tokens)
 {
@@ -436,6 +436,7 @@ bool CManagerWindow::nav_moveup(const std::vector<string> &tokens)
 	m_listener->set_window_title() ;
 	return true ;
 }
+
 bool CManagerWindow::nav_movedown(const std::vector<string> &tokens)
 {
 	SENSE("nav_movedown"); 
@@ -447,6 +448,7 @@ bool CManagerWindow::nav_movedown(const std::vector<string> &tokens)
 	m_listener->set_window_title() ;
 	return true ;
 }
+
 // navigation to various category pages
 bool CManagerWindow::nav_start(const std::vector<string> &tokens)
 {
@@ -456,6 +458,7 @@ bool CManagerWindow::nav_start(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 bool CManagerWindow::nav_memories(const std::vector<string> &tokens)
 {
 	SENSE("nav_memories"); 
@@ -464,6 +467,7 @@ bool CManagerWindow::nav_memories(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 bool CManagerWindow::nav_glossaries(const std::vector<string> &tokens)
 {
 	SENSE("nav_glossaries"); 
@@ -472,6 +476,7 @@ bool CManagerWindow::nav_glossaries(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 // crud
 bool CManagerWindow::nav_view(const std::vector<string> &tokens)
 {
@@ -482,6 +487,7 @@ bool CManagerWindow::nav_view(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 {
 	SENSE("nav_edit"); 
@@ -491,6 +497,7 @@ bool CManagerWindow::nav_edit(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 bool CManagerWindow::nav_qc(const std::vector<string> &)
 {
 	SENSE("nav_qc"); 
@@ -498,6 +505,7 @@ bool CManagerWindow::nav_qc(const std::vector<string> &)
 	m_current_state->show_content() ;
 	return true ;
 }
+
 bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_wrapper_ptr doc)
 {
 	mem_engine::memory_pointer mem = get_mem(tokens[1],
@@ -518,8 +526,8 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 	mem->set_default_context(parser.default_context()) ;
 	m_message = L"Edited details for " + mgrview::get_memname(mem) ;
 	return nav_view(tokens) ;
-
 }
+
 bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 {
 	set_qc_prop_values(doc);
@@ -530,7 +538,6 @@ bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 	std::vector<string> tokens ;
 	return nav_start(tokens) ;
 }
-
 
 bool CManagerWindow::nav_browse(const std::vector<string> &tokens)
 {
