@@ -34,6 +34,35 @@ namespace mem_engine
 		return IDC_ALGO_CHAR ;
 	}
 
+	/**
+		@struct cell
+		@brief Represents a cell in the distance matrix.
+	 */
+
+
+	struct cell
+	{
+		size_t m_diag ;
+		size_t m_left ;
+		size_t m_above ;
+		
+		cell(  )
+			:	m_diag( 0 ), m_left( 0 ), m_above( 0 )
+		{}
+		
+		cell( const cell &cpy )
+			:	m_diag( cpy.m_diag ), m_left( cpy.m_left ), m_above( cpy.m_above )
+		{}
+		cell( size_t diag, size_t left, size_t above )
+			:	m_diag(diag), m_left(left), m_above(above)
+		{}
+		
+		size_t min_val() const
+		{
+			return min3(m_diag, m_above, m_left) ;
+		}
+	};
+
 	/** The Felix matching engine */
 class match_maker
 {
@@ -52,7 +81,7 @@ class match_maker
 	size_t					m_num_rows ;
 	size_t					m_num_cols ;
 	double					m_minimum_score ;
-	Matrix< int >			m_matrix ;
+	Matrix< size_t >		m_matrix ;
 	search_match_ptr		m_match ;
 
 	std::multiset< wstring >		m_col_tags ;
@@ -62,6 +91,7 @@ class match_maker
 	std::vector< wstring >			m_word_tokens ;
 
 	Distance		m_distance ;
+	double			m_score;
 
 public:
 	bool m_assess_format_penalty ;
@@ -72,10 +102,14 @@ public:
 	size_t calc_word_distance( const wstring row_word, const wstring col_word, Matrix< size_t > &matrix );
 	bool tokenize_words( const wstring words, std::vector< wstring > &tokens );
 	bool get_trans_score_word( search_match_ptr &match);
+
+	double compute_score( const size_t high_len, size_t total_cost ) const;
 	bool get_score_character_trans( search_match_ptr &match );
 
 	void source_trans_switcheroo();
 	bool get_score_word( search_match_ptr &match);
+
+	void popuplate_matrix_edges_words( Matrix< cell > &matrix, std::vector< wstring > &row_tokens, std::vector< wstring > &col_tokens ) const;
 	bool get_score_character( search_match_ptr &match );
 
 	bool get_score_character_common( search_match_ptr & match );
@@ -109,14 +143,13 @@ public:
 	}
 	bool get_assess_format_penalty() { return m_assess_format_penalty ; }
 	double calculate_score(size_t num_rows, size_t num_cols, int lower_right_corner) const;
-	int compute_cost( const wchar_t row_char, const wchar_t col_char ) const ;
-private:
-	double m_score;
+	size_t compute_cost( const wchar_t row_char, const wchar_t col_char ) const ;
 
 	boost::tuple<size_t, size_t> match_cells(size_t row_num, size_t col_num) const ;
 	bool get_path ( ) ;
 	bool populate_matrix_edges( ) ;
-	bool populate_matrix_costs( ) ;
+	// Is it possible that this match is within the minimum score?
+	bool is_match_candidate( ) ;
 
 	void create_path_stacks( );
 
@@ -127,8 +160,6 @@ private:
 	bool below_min_distance(int min_dist);
 
 	double calc_gloss_score(int min_dist);
-
-	int get_min_distance( );
 
 	void set_gloss_match_info(double gloss_score);
 

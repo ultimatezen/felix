@@ -180,13 +180,13 @@ const static wstring nomatch_tag_close(L"</span>") ;
 	BOOST_AUTO_TEST_CASE(compute_cost_0)
 	{
 		match_maker mm( 0.1f ) ;
-		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'a'), 0) ;
+		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'a'), 0u) ;
 
 	}
 	BOOST_AUTO_TEST_CASE(compute_cost_1)
 	{
 		match_maker mm( 0.1f ) ;
-		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'z'), 1) ;
+		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'z'), 1u) ;
 
 	}
 	// calculate score

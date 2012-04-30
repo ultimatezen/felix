@@ -10,40 +10,13 @@
 
 namespace mem_engine
 {
-	const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
-	const static wstring nomatch_tag_open2(L"<span class=\"partial_match1\">") ;
-	const static wstring nomatch_tag_open3(L"<span class=\"partial_match2\">") ;
-	const static wstring nomatch_tag_close(L"</span>") ;
+	const static wstring fuzzy_tag_low(L"<span class=\"nomatch\">") ;
+	const static wstring fuzzy_tag_mid(L"<span class=\"partial_match1\">") ;
+	const static wstring fuzzy_tag_high(L"<span class=\"partial_match2\">") ;
+	const static wstring fuzzy_tag_close(L"</span>") ;
 
 
-	/**
-		@struct cell
-		@brief Represents a cell in the distance matrix.
-	 */
 
-
-	struct cell
-	{
-		size_t m_diag ;
-		size_t m_left ;
-		size_t m_above ;
-		
-		cell(  )
-			:	m_diag( 0 ), m_left( 0 ), m_above( 0 )
-		{}
-		
-		cell( const cell &cpy )
-			:	m_diag( cpy.m_diag ), m_left( cpy.m_left ), m_above( cpy.m_above )
-		{}
-		cell( size_t d, size_t l, size_t a )
-			:	m_diag( d), m_left( l ), m_above( a )
-		{}
-		
-		size_t min_val() const
-		{
-			return min3(m_diag, m_above, m_left) ;
-		}
-	};
 
 	// ************************************
 	// *
@@ -120,35 +93,32 @@ namespace mem_engine
 	// Return type		: bool 
 	bool match_maker::populate_matrix_edges( )
 	{
-		size_t num_rows = m_num_rows+1 ;
-		size_t num_cols = m_num_cols+1;
+		const size_t num_rows = m_num_rows+1 ;
+		const size_t num_cols = m_num_cols+1;
 
 		// populate row edges
 		for ( size_t row_num = 0u ; row_num < num_rows ; row_num++ )
-			m_matrix( row_num, 0u ) = static_cast< int >( row_num )  ;
+			m_matrix( row_num, 0u ) = row_num ;
 		// populate column edges
 		for ( size_t col_num = 0u ; col_num < num_cols ; col_num++ )
-			m_matrix( 0u, col_num ) = static_cast< int >( col_num )  ;
+			m_matrix( 0u, col_num ) = col_num  ;
 
 		return true ;
 	}
 
-	// bool populate_matrix_costs
-
-	// Function name	: match_maker::populate_matrix_costs
-	// Description	    : 
-	// Return type		: bool 
-	bool match_maker::populate_matrix_costs( )
+	// bool is_match_candidate
+	// Could this match be within the minimum score?
+	// Check each row, and fail as soon as possible.
+	bool match_maker::is_match_candidate( )
 	{
-		size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
-		size_t MaxDist = MaxLen - static_cast< size_t >( ( MaxLen * m_minimum_score ) ) ;
+		const size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
+		const size_t MaxDist = MaxLen - static_cast< size_t >( ( MaxLen * m_minimum_score ) ) ;
 
-		int RowMin = 0 ;
-		// variable for calculating cost
+		size_t RowMin = 0 ;
 
-		// step through rows
 		LPCWSTR row_cstr = m_row_string.c_str() ;
 		LPCWSTR col_cstr = m_col_string.c_str() ;
+		// step through rows
 		for ( size_t row_num = 1 ; row_num <= m_num_rows ; row_num++ )
 		{
 			RowMin = MaxDist + 1 ;
@@ -156,21 +126,21 @@ namespace mem_engine
 			for ( size_t col_num = 1 ; col_num <= m_num_cols ; col_num++ )
 			{
 				// get values of cells above, to left, and diagonal
-				const int above = m_matrix( row_num-1, col_num ) ;
-				const int left = m_matrix( row_num, col_num-1 ) ;
-				const int diag = m_matrix( row_num-1, col_num-1 ) ;
+				const size_t above = m_matrix( row_num-1, col_num ) ;
+				const size_t left = m_matrix( row_num, col_num-1 ) ;
+				const size_t diag = m_matrix( row_num-1, col_num-1 ) ;
 
 				// Compute cost
-				const int cost = compute_cost(row_cstr[row_num-1], col_cstr[col_num-1]);
+				const size_t cost = compute_cost(row_cstr[row_num-1], col_cstr[col_num-1]);
 
 				// get minimum cost
 				// formula: cell = min( diag + cost, left + 1, above + 1 )
-				const int min_cost_cell = min3(diag+cost, left+1, above+1) ;
+				const size_t min_cost_cell = min3(diag+cost, left+1, above+1) ;
 				
 				m_matrix( row_num, col_num ) = min_cost_cell ;
 				RowMin = min( RowMin, min_cost_cell ) ;
 			}
-			if( RowMin > static_cast< int >( MaxDist ) )
+			if( RowMin >MaxDist )
 			{
 				return false ;
 			}
@@ -179,15 +149,15 @@ namespace mem_engine
 		return true ;
 	}
 
-	int match_maker::compute_cost( const wchar_t row_char, const wchar_t col_char ) const
+	size_t match_maker::compute_cost( const wchar_t row_char, const wchar_t col_char ) const
 	{
 		if ( row_char == col_char )
 		{
-			return 0 ;
+			return 0u ;
 		}
 		else
 		{
-			return 1 ;
+			return 1u ;
 		}
 	}
 
@@ -198,22 +168,18 @@ namespace mem_engine
 		// lower right corner of matrix = distance
 		// score = ( L - distance ) / L 
 		const size_t high_len = std::max( num_rows, num_cols ) ;
-		if (! high_len)
-		{
-			return 0.0 ;
-		}
-		return static_cast< double > ( high_len - lower_right_corner ) / static_cast< double >( high_len )  ;
+		return compute_score(high_len, lower_right_corner) ;
 	}
 
 
 	boost::tuple<size_t, size_t> match_maker::match_cells(const size_t row_num, const size_t col_num) const
 	{
-		const int above = m_matrix( row_num-1, col_num );
-		const int left = m_matrix( row_num, col_num-1 );
-		const int diag = m_matrix( row_num-1, col_num-1 );
+		const size_t above = m_matrix( row_num-1, col_num );
+		const size_t left = m_matrix( row_num, col_num-1 );
+		const size_t diag = m_matrix( row_num-1, col_num-1 );
 		if (diag<=above && diag<=left) // m_match symbols
 		{
-			int matrix_cell = m_matrix( row_num, col_num ) ;					
+			const size_t matrix_cell = m_matrix( row_num, col_num ) ;					
 			if ( matrix_cell == diag )
 			{
 				m_match->MatchPairing().Match( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
@@ -363,7 +329,7 @@ namespace mem_engine
 		populate_matrix_edges( ) ;
 
 		// Populate matrix cells
-		if ( ! populate_matrix_costs( ) )
+		if ( ! is_match_candidate( ) )
 		{
 			return false ;
 		}
@@ -387,27 +353,7 @@ namespace mem_engine
 	}
 
 	/*!
-	 * \brief
-	 * Write brief comment for get_score_word here.
-	 * 
-	 * \param search_match_ptr &match
-	 * \param bool check_char
-	 * Description of parameter search_match_ptr &match.
-	 * Description of parameter bool check_char.
-	 * 
-	 * \returns
-	 * bool
-	 * 
-	 * \throws <exception class>
-	 * Description of criteria for throwing this exception.
-	 * 
-	 * Write detailed description for get_score_word here.
-	 * 
-	 * \remarks
-	 * Write remarks for get_score_word here.
-	 * 
-	 * \see
-	 * Separate items with the '|' character.
+	 * get_score_word here.
 	 */
 	bool match_maker::get_score_word(search_match_ptr &match)
 	{
@@ -424,33 +370,15 @@ namespace mem_engine
 		std::vector< wstring > row_tokens ;
 		tokenize_words( m_row_string, row_tokens ) ;
 
-		// get our sizes
-		size_t num_rows = row_tokens.size() ;
-		size_t num_cols = col_tokens.size() ;
-
-		// our matrix
+		// declare and size our matrix
 		Matrix< cell > matrix ;
-		matrix.resize( num_rows+1, num_cols+1 ) ;
+		matrix.resize( row_tokens.size()+1, col_tokens.size()+1 ) ;
 
 		// ======================
 		// Populate matrix edges
 		// ======================
 
-		matrix(0,0) = cell( 0, 0, 0 ) ;
-		size_t running_cell_cost = 0 ;
-		// populate row edges
-		for ( size_t row_num = 1 ; row_num <= num_rows ; row_num++ )
-		{
-			running_cell_cost += row_tokens[row_num-1].size() ;
-			matrix( row_num, 0 ) = cell( running_cell_cost, running_cell_cost, running_cell_cost) ;
-		}
-		// populate column edges				
-		running_cell_cost = 0 ;
-		for ( size_t col_num = 1 ; col_num <= num_cols ; col_num++ )
-		{
-			running_cell_cost += col_tokens[col_num-1].size() ;
-			matrix( 0, col_num ) = cell( running_cell_cost, running_cell_cost, running_cell_cost)  ;
-		}
+		popuplate_matrix_edges_words(matrix, row_tokens, col_tokens);
 
 		// ======================
 		// Populate matrix cells
@@ -464,9 +392,11 @@ namespace mem_engine
 		cell c;
 
 		wstring row_token_string, col_token_string ;
-		size_t num_token_rows ;
-		size_t num_token_cols ;
 		Matrix< size_t > token_matrix ;
+
+		// get our sizes
+		const size_t num_rows = row_tokens.size() ;
+		const size_t num_cols = col_tokens.size() ;
 
 		// step through rows
 		for ( size_t row_num = 1 ; row_num <= num_rows ; row_num++ )
@@ -476,16 +406,14 @@ namespace mem_engine
 			{
 				// Compute cost
 				const wstring row_token = row_tokens[row_num-1] ;
-				row_token_string = row_token ;
 				const wstring col_token = col_tokens[col_num-1] ;
-				col_token_string = col_token ;
 
-				num_token_rows = row_token_string.size() ;
-				num_token_cols = col_token_string.size();
+				const size_t num_token_rows = row_token.size() ;
+				const size_t num_token_cols = col_token.size();
 
 				// diag
 				diag = matrix( row_num-1, col_num-1 ) ;
-				c.m_diag = diag.min_val() + calc_word_distance( row_token_string, col_token_string, token_matrix ) ;
+				c.m_diag = diag.min_val() + calc_word_distance( row_token, col_token, token_matrix ) ;
 
 				// above
 				above = matrix( row_num-1, col_num ) ;
@@ -532,26 +460,23 @@ namespace mem_engine
 			if(!row_num) // no more source wstring to m_match
 			{
 				// match col wstring with epsilon
-				col_list.push_front( nomatch_tag_open1 + col_tokens[--col_num] + nomatch_tag_close ) ;
+				col_list.push_front( fuzzy_tag_low + col_tokens[--col_num] + fuzzy_tag_close ) ;
 				total_cost += col_tokens[col_num].size() ;
 			}
 			else if (!col_num) // no more translation wstring to m_match
 			{
 				// match row wstring with epsilon
-				row_list.push_front( nomatch_tag_open1 + row_tokens[--row_num] + nomatch_tag_close ) ;
+				row_list.push_front( fuzzy_tag_low + row_tokens[--row_num] + fuzzy_tag_close ) ;
 				total_cost += row_tokens[row_num].size() ;
 			}
 			else
 			{
-				c = 	matrix( row_num, col_num ) ;
+				const cell &c = matrix( row_num, col_num ) ;
 
 				above = matrix( row_num-1, col_num ) ;
 				left = matrix( row_num, col_num-1 ) ;
 				diag = matrix( row_num-1, col_num-1 ) ;
 
-				size_t above_cost = c.m_above - above.min_val() ;
-				size_t left_cost = c.m_left - left.min_val() ;
-				size_t diag_cost = c.m_diag - diag.min_val() ;
 
 				if (c.m_diag<=c.m_above && c.m_diag<=c.m_left) // match symbols
 				{
@@ -571,38 +496,43 @@ namespace mem_engine
 							token_high_len  = row_tokens[row_num].size() ;
 						}
 
+						const size_t diag_cost = c.m_diag - diag.min_val() ;
  						total_cost += diag_cost ;
 
 						double token_score = (double)( token_high_len - diag_cost ) / (double) token_high_len ;
 
+						const double FUZZY_HIGH = 0.8 ;
+						const double FUZZY_MID = 0.6 ;
 						// color code for size of mismatch!!!
-						if ( token_score >= 0.8 )
+						if ( token_score >= FUZZY_HIGH )
 						{
-							col_list.push_front( nomatch_tag_open3 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open3 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_high + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_high + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
-						else if ( token_score >= 0.6 )
+						else if ( token_score >= FUZZY_MID )
 						{
-							col_list.push_front( nomatch_tag_open2 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open2 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_mid + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_mid + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
 						else
 						{
-							col_list.push_front( nomatch_tag_open1 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open1 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_low + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_low + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
 					}
 				}	
 				else if (c.m_above < c.m_left )
 				{	
-					// m_match row with epsilon
-					row_list.push_front( nomatch_tag_open1 + row_tokens[--row_num] + nomatch_tag_close ) ;
+					// match row with epsilon
+					row_list.push_front( fuzzy_tag_low + row_tokens[--row_num] + fuzzy_tag_close ) ;
+					const size_t above_cost = c.m_above - above.min_val() ;
 					total_cost += above_cost ;
 				}
 				else
 				{
-					// m_match column with epsilon
-					col_list.push_front( nomatch_tag_open1 + col_tokens[--col_num] + nomatch_tag_close ) ;
+					// match column with epsilon
+					col_list.push_front( fuzzy_tag_low + col_tokens[--col_num] + fuzzy_tag_close ) ;
+					const size_t left_cost = c.m_left - left.min_val() ;
 					total_cost += left_cost ;
 				}
 			}
@@ -620,7 +550,7 @@ namespace mem_engine
 		}
 		else
 		{
-			m_score = (double)(high_len - total_cost) / (double) high_len ;
+			m_score = this->compute_score(high_len, total_cost) ;
 		}
 
 		// make sure we have at least the minimum score
@@ -682,8 +612,8 @@ namespace mem_engine
 		tokenize_words( m_row_string, row_tokens ) ;
 
 		// get our sizes
-		size_t num_rows = row_tokens.size() ;
-		size_t num_cols = col_tokens.size() ;
+		const size_t num_rows = row_tokens.size() ;
+		const size_t num_cols = col_tokens.size() ;
 
 		// our matrix
 		Matrix< cell > matrix ;
@@ -714,15 +644,7 @@ namespace mem_engine
 		// ======================
 
 		// Populate matrix cells
-		// variables for surrounding cells
-		cell above, diag, left ;
 
-		// variable for calculating cost
-		cell c;
-
-		wstring row_token_string, col_token_string ;
-		size_t num_token_rows ;
-		size_t num_token_cols ;
 		Matrix< size_t > token_matrix ;
 
 		// step through rows
@@ -733,26 +655,24 @@ namespace mem_engine
 			{
 				// Compute cost
 				const wstring row_token = row_tokens[row_num-1] ;
-				row_token_string = row_token ;
 				const wstring col_token = col_tokens[col_num-1] ;
-				col_token_string = col_token ;
 
-				num_token_rows = row_token_string.size() ;
-				num_token_cols = col_token_string.size();
+				const size_t num_token_rows = row_token.size() ;
+				const size_t num_token_cols = col_token.size();
 
 				// diag
-				diag = matrix( row_num-1, col_num-1 ) ;
-				c.m_diag = diag.min_val() + calc_word_distance( row_token_string, col_token_string, token_matrix ) ;
-
-				// above
-				above = matrix( row_num-1, col_num ) ;
-				c.m_above = above.min_val() + num_token_rows ;
+				const cell diag = matrix( row_num-1, col_num-1 ) ;
+				const size_t diag_val = diag.min_val() + calc_word_distance( row_token, col_token, token_matrix ) ;
 
 				// left
-				left = matrix( row_num, col_num-1 ) ;
-				c.m_left = left.min_val() + num_token_cols ;
+				const cell left = matrix( row_num, col_num-1 ) ;
+				const size_t left_val = left.min_val() + num_token_cols ;
 
-				matrix( row_num, col_num ) = c ;
+				// above
+				const cell above = matrix( row_num-1, col_num ) ;
+				const size_t above_val = above.min_val() + num_token_rows ;
+
+				matrix( row_num, col_num ) = cell(diag_val, left_val, above_val) ;
 			}
 		}
 
@@ -777,26 +697,23 @@ namespace mem_engine
 			if(!row_num) // no more source wstring to m_match
 			{
 				// match col wstring with epsilon
-				col_list.push_front( nomatch_tag_open1 + col_tokens[--col_num] + nomatch_tag_close ) ;
+				col_list.push_front( fuzzy_tag_low + col_tokens[--col_num] + fuzzy_tag_close ) ;
 				total_cost += col_tokens[col_num].size() ;
 			}
 			else if (!col_num) // no more translation wstring to m_match
 			{
 				// match row wstring with epsilon
-				row_list.push_front( nomatch_tag_open1 + row_tokens[--row_num] + nomatch_tag_close ) ;
+				row_list.push_front( fuzzy_tag_low + row_tokens[--row_num] + fuzzy_tag_close ) ;
 				total_cost += row_tokens[row_num].size() ;
 			}
 			else
 			{
-				c = 	matrix( row_num, col_num ) ;
+				const cell &c = 	matrix( row_num, col_num ) ;
 
-				above = matrix( row_num-1, col_num ) ;
-				left = matrix( row_num, col_num-1 ) ;
-				diag = matrix( row_num-1, col_num-1 ) ;
+				const cell &above = matrix( row_num-1, col_num ) ;
+				const cell &left = matrix( row_num, col_num-1 ) ;
+				const cell &diag = matrix( row_num-1, col_num-1 ) ;
 
-				size_t above_cost = c.m_above - above.min_val() ;
-				size_t left_cost = c.m_left - left.min_val() ;
-				size_t diag_cost = c.m_diag - diag.min_val() ;
 
 				if (c.m_diag<=c.m_above && c.m_diag<=c.m_left) // match symbols
 				{
@@ -810,54 +727,49 @@ namespace mem_engine
 					}
 					else
 					{
-						size_t token_high_len = col_tokens[col_num].size() ;
-						if ( token_high_len < row_tokens[row_num].size() )
-						{
-							token_high_len  = row_tokens[row_num].size() ;
-						}
+						const size_t token_high_len = std::max(col_tokens[col_num].size(), row_tokens[row_num].size() );
 
+						const size_t diag_cost = c.m_diag - diag.min_val() ;
 						total_cost += diag_cost ;
 
-						double token_score = (double)( token_high_len - diag_cost ) / (double) token_high_len ;
+						const double token_score = (double)( token_high_len - diag_cost ) / (double) token_high_len ;
 
 						// color code for size of mismatch!!!
 						if ( token_score >= 0.8 )
 						{
-							col_list.push_front( nomatch_tag_open3 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open3 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_high + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_high + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
 						else if ( token_score >= 0.6 )
 						{
-							col_list.push_front( nomatch_tag_open2 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open2 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_mid + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_mid + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
 						else
 						{
-							col_list.push_front( nomatch_tag_open1 + col_tokens[col_num] + nomatch_tag_close ) ;
-							row_list.push_front( nomatch_tag_open1 + row_tokens[row_num] + nomatch_tag_close ) ;
+							col_list.push_front( fuzzy_tag_low + col_tokens[col_num] + fuzzy_tag_close ) ;
+							row_list.push_front( fuzzy_tag_low + row_tokens[row_num] + fuzzy_tag_close ) ;
 						}
 					}
 				}	
 				else if (c.m_above < c.m_left )
 				{	
 					// m_match row with epsilon
-					row_list.push_front( nomatch_tag_open1 + row_tokens[--row_num] + nomatch_tag_close ) ;
+					row_list.push_front( fuzzy_tag_low + row_tokens[--row_num] + fuzzy_tag_close ) ;
+					const size_t above_cost = c.m_above - above.min_val() ;
 					total_cost += above_cost ;
 				}
 				else
 				{
 					// m_match column with epsilon
-					col_list.push_front( nomatch_tag_open1 + col_tokens[--col_num] + nomatch_tag_close ) ;
+					col_list.push_front( fuzzy_tag_low + col_tokens[--col_num] + fuzzy_tag_close ) ;
+					const size_t left_cost = c.m_left - left.min_val() ;
 					total_cost += left_cost ;
 				}
 			}
 		}
 
-		size_t high_len = m_match->get_record()->get_trans_plain().size() ;
-		if ( high_len < m_row_string.size() )
-		{
-			high_len = m_row_string.size() ;
-		}
+		const size_t high_len = std::max(m_match->get_record()->get_trans_plain().size(), m_row_string.size()) ;
 
 		if ( high_len <= total_cost )
 		{
@@ -865,7 +777,7 @@ namespace mem_engine
 		}
 		else
 		{
-			m_score = (double)(high_len - total_cost) / (double) high_len ;
+			m_score = compute_score(high_len, total_cost) ;
 		}
 
 		// make sure we have at least the minimum score
@@ -953,8 +865,8 @@ namespace mem_engine
 
 	size_t match_maker::calc_word_distance(const wstring row_word, const wstring col_word, Matrix< size_t > &token_matrix)
 	{
-		size_t num_token_rows = row_word.size() ;
-		size_t num_token_cols = col_word.size() ;
+		const size_t num_token_rows = row_word.size() ;
+		const size_t num_token_cols = col_word.size() ;
 
 		// resize matrix
 		token_matrix.resize( num_token_rows+1, num_token_cols+1 ) ;
@@ -1093,21 +1005,7 @@ namespace mem_engine
 	{
 		return static_cast< double > ( m_num_cols - min_dist ) / static_cast< double >( m_num_cols );
 	}
-	int match_maker::get_min_distance( )
-	{
-		int min_dist = m_matrix( m_num_rows, m_num_cols ) ;
-		int row_dist(0);
-		for ( size_t min_row_num=m_num_rows-1 ; min_row_num ; --min_row_num )
-		{
-			row_dist = m_matrix(min_row_num, m_num_cols) ;
-			if ( row_dist < min_dist )
-			{
-				min_dist = row_dist ;
-			}
-		}
 
-		return min_dist;
-	}
 
 	void match_maker::set_gloss_match_info(double gloss_score)
 	{
@@ -1170,21 +1068,21 @@ namespace mem_engine
 	{
 		if ( gloss_score >= 0.9 )
 		{
-			return nomatch_tag_open1 ;
+			return fuzzy_tag_low ;
 		}
 		else if ( gloss_score >= 0.75 )
 		{
-			return nomatch_tag_open2 ;
+			return fuzzy_tag_mid ;
 		}
 		else
 		{
-			return nomatch_tag_open3 ;
+			return fuzzy_tag_high ;
 		}
 	}
 
 	wstring match_maker::get_gloss_markup_end(void)
 	{
-		return nomatch_tag_close ;
+		return fuzzy_tag_close ;
 	}
 
 	bool match_maker::pass_minimum_tests()
@@ -1210,4 +1108,37 @@ namespace mem_engine
 		m_score = 0.0 ;
 	}
 
+	void match_maker::popuplate_matrix_edges_words( Matrix< cell > &matrix, std::vector< wstring > &row_tokens, std::vector< wstring > &col_tokens ) const
+	{
+		matrix(0,0) = cell( 0, 0, 0 ) ;
+		const size_t num_rows = row_tokens.size() ;
+		const size_t num_cols = col_tokens.size() ;
+		size_t running_cell_cost = 0 ;
+		// populate row edges
+		for ( size_t row_num = 1 ; row_num <= num_rows ; row_num++ )
+		{
+			running_cell_cost += row_tokens[row_num-1].size() ;
+			matrix( row_num, 0 ) = cell( running_cell_cost, running_cell_cost, running_cell_cost) ;
+		}
+		// populate column edges				
+		running_cell_cost = 0 ;
+		for ( size_t col_num = 1 ; col_num <= num_cols ; col_num++ )
+		{
+			running_cell_cost += col_tokens[col_num-1].size() ;
+			matrix( 0, col_num ) = cell( running_cell_cost, running_cell_cost, running_cell_cost)  ;
+		}
+	}
+
+	double match_maker::compute_score( const size_t high_len, size_t total_cost ) const
+	{
+		// protect from divide by 0 error
+		if (! high_len)
+		{
+			logging::log_warn("Divide by zero error: Attempted to compute_score with high len of 0") ;
+			return 0.0 ;
+		}
+		ATLASSERT(high_len >= total_cost) ;
+		const size_t matching_elements = std::max(high_len, total_cost) - total_cost ;
+		return static_cast<double>(matching_elements) / static_cast<double>(high_len) ;
+	}
 }
