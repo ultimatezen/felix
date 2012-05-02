@@ -72,9 +72,6 @@ class match_maker
 	wstring		m_row_string ;
 	wstring		m_col_string ;
 
-	wstring		m_wide_normalized_row_string ;
-	wstring		m_wide_normalized_col_string ;
-
 	wstring		m_col_show_string ;
 	wstring		m_row_show_string ;
 
@@ -84,41 +81,10 @@ class match_maker
 	Matrix< size_t >		m_matrix ;
 	search_match_ptr		m_match ;
 
-	std::multiset< wstring >		m_col_tags ;
-	std::multiset< wstring >		m_row_tags ;
-
-	// get the row tokens
-	std::vector< wstring >			m_word_tokens ;
-
 	Distance		m_distance ;
 	double			m_score;
 
 public:
-	bool m_assess_format_penalty ;
-	bool fuzzy_gloss_score(const Segment needle,
-		const Segment haystack,
-		search_match_ptr &match);
-
-	size_t calc_word_distance( const wstring row_word, const wstring col_word, Matrix< size_t > &matrix );
-	bool tokenize_words( const wstring words, std::vector< wstring > &tokens );
-	bool get_trans_score_word( search_match_ptr &match);
-
-	double compute_score( const size_t high_len, size_t total_cost ) const;
-	bool get_score_character_trans( search_match_ptr &match );
-
-	void source_trans_switcheroo();
-	bool get_score_word( search_match_ptr &match);
-
-	void popuplate_matrix_edges_words( Matrix< cell > &matrix, std::vector< wstring > &row_tokens, std::vector< wstring > &col_tokens ) const;
-	bool get_score_character( search_match_ptr &match );
-
-	bool get_score_character_common( search_match_ptr & match );
-	void get_tags( const wstring raw_string, std::multiset<wstring> &tags );
-	double get_format_penalty();
-	void set_minimum_score( const double &score );
-	double get_minimum_score() { return m_minimum_score ; }
-
-	bool pass_minimum_tests();
 	match_maker( double minimum_score = 0.5 )
 		: m_minimum_score( minimum_score ), 
 		m_num_rows(0), m_num_cols(0), 
@@ -126,11 +92,44 @@ public:
 		m_assess_format_penalty(false),
 		m_match(new search_match)
 	{ }
+
+
+	bool m_assess_format_penalty ;
+	bool fuzzy_gloss_score(const Segment needle,
+		const Segment haystack,
+		search_match_ptr &match);
+
+	size_t calc_word_distance( const wstring row_word, const wstring col_word, Matrix< size_t > &matrix );
+	bool tokenize_words( const wstring words, std::vector< wstring > &tokens ) const;
+	bool get_score_word_trans( search_match_ptr &match);
+
+	double compute_score( const size_t high_len, size_t total_cost ) const;
+	bool get_score_character_trans( search_match_ptr &match );
+
+	void source_trans_switcheroo();
+	bool get_score_word( search_match_ptr &match);
+
+	wstring get_fuzzy_tag_by_score(double score) const;
+
+	void color_tokens_by_score( double token_score, 
+							    std::list< wstring > &cols, const wstring &col, 
+								std::list< wstring > &rows, const wstring &row ) const;
+	void popuplate_matrix_edges_words( Matrix< cell > &matrix, std::vector< wstring > &row_tokens, std::vector< wstring > &col_tokens ) const;
+	bool get_score_character( search_match_ptr &match );
+
+	bool get_score_character_common( search_match_ptr & match );
+	void get_tags( const wstring raw_string, std::multiset<wstring> &tags ) const;
+	double get_format_penalty() const ;
+	void set_minimum_score( const double &score );
+	double get_minimum_score() const { return m_minimum_score ; }
+
+	bool pass_minimum_tests() const ;
+
 	bool get_score(const Segment row,
 		const Segment col,
 		int match_algo,
 		search_match_ptr &match ) ;
-	bool get_trans_score(const Segment row,
+	bool get_score_trans(const Segment row,
 		const Segment col,
 		int match_algo,
 		search_match_ptr &match);
@@ -141,7 +140,7 @@ public:
 	{
 		m_assess_format_penalty = assess ;
 	}
-	bool get_assess_format_penalty() { return m_assess_format_penalty ; }
+	bool get_assess_format_penalty() const { return m_assess_format_penalty ; }
 	double calculate_score(size_t num_rows, size_t num_cols, int lower_right_corner) const;
 	size_t compute_cost( const wchar_t row_char, const wchar_t col_char ) const ;
 
@@ -153,27 +152,20 @@ public:
 
 	void create_path_stacks( );
 
-	double get_best_score(search_match_ptr& match);
-
 	void set_perfect_match();
-
-	bool below_min_distance(int min_dist);
-
-	double calc_gloss_score(int min_dist);
 
 	void set_gloss_match_info(double gloss_score);
 
 	void set_match_score();
 
-	void put_together_markup(std::list< std::wstring >& col_list, std::list< std::wstring >& row_list);
+	void put_together_markup(const std::list< std::wstring >& col_list, const std::list< std::wstring >& row_list);
 
-	void compose_query_string(std::list< std::wstring >& row_list);
+	void compose_query_string(const std::list< std::wstring >& row_list);
+	void compose_source_string(const std::list< std::wstring >& col_list);
 
-	void compose_source_string(std::list< std::wstring >& col_list);
-public:
-	wstring compose_markup_string( std::list< std::wstring >& element_list );
-	wstring get_gloss_markup_start( double gloss_score );
-	wstring get_gloss_markup_end(void);
+	wstring compose_markup_string( const std::list< std::wstring >& element_list ) const;
+	wstring get_gloss_markup_start( double gloss_score ) const ;
+	wstring get_gloss_markup_end(void) const;
 } ;
 
 }

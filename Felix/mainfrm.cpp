@@ -3541,7 +3541,7 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 	{
 		// look up based on translation
 		const Segment source(&g_cmp_maker, rec->get_trans_rich()) ;
-		matcher.get_trans_score(query, 
+		matcher.get_score_trans(query, 
 			source, 
 			match_algo,
 			match) ;

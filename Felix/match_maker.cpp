@@ -3,6 +3,7 @@
 #include "StringEx.h"
 #include ".\match_maker.h"
 #include "distance.h"
+#include <boost/algorithm/string/join.hpp>
 
 #ifdef max
 #undef max
@@ -15,9 +16,6 @@ namespace mem_engine
 	const static wstring fuzzy_tag_high(L"<span class=\"partial_match2\">") ;
 	const static wstring fuzzy_tag_close(L"</span>") ;
 
-
-
-
 	// ************************************
 	// *
 	// * match_maker member functions
@@ -25,15 +23,11 @@ namespace mem_engine
 	// *************************************
 
 	// get_score
-
-	// Function name	: 
-	// Description	    : 
-	// Return type		: bool match_maker::get_score 
-	// Argument         : search_match_ptr &match
+	// Get score for source segment.
 	bool match_maker::get_score (const Segment row,
-		const Segment col,
-		int match_algo,
-		search_match_ptr &match )
+								const Segment col,
+								int match_algo,
+								search_match_ptr &match )
 	{
 		set_row_col_strings(row, col);
 		
@@ -47,12 +41,14 @@ namespace mem_engine
 			ATLASSERT( "Unknown match algorithm!" && FALSE ) ;
 			return false ;
 		}
-
 	}
-	bool match_maker::get_trans_score(const Segment row,
-		const Segment col,
-		int match_algo,
-		search_match_ptr &match )
+	
+	// get_trans_score
+	// Get score for translation segment.
+	bool match_maker::get_score_trans(const Segment row,
+									const Segment col,
+									int match_algo,
+									search_match_ptr &match )
 	{
 		set_row_col_strings(row, col);
 
@@ -61,7 +57,7 @@ namespace mem_engine
 		case IDC_ALGO_CHAR:
 			return get_score_character_trans( match ) ;
 		case IDC_ALGO_WORD:
-			return get_trans_score_word( match ) ;
+			return get_score_word_trans( match ) ;
 		default:
 			ATLASSERT( "Unknown match algorithm!" && FALSE ) ;
 			return false ;
@@ -69,10 +65,6 @@ namespace mem_engine
 	}
 
 	// get_path
-
-	// Function name	: 
-	// Description	    : 
-	// Return type		: bool match_maker::get_path 
 	bool match_maker::get_path ( )
 	{
 		create_path_stacks( ) ;
@@ -87,10 +79,6 @@ namespace mem_engine
 	}
 
 	// bool populate_matrix_edges
-
-	// Function name	: match_maker::populate_matrix_edges
-	// Description	    : 
-	// Return type		: bool 
 	bool match_maker::populate_matrix_edges( )
 	{
 		const size_t num_rows = m_num_rows+1 ;
@@ -114,14 +102,12 @@ namespace mem_engine
 		const size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
 		const size_t MaxDist = MaxLen - static_cast< size_t >( ( MaxLen * m_minimum_score ) ) ;
 
-		size_t RowMin = 0 ;
-
 		LPCWSTR row_cstr = m_row_string.c_str() ;
 		LPCWSTR col_cstr = m_col_string.c_str() ;
 		// step through rows
 		for ( size_t row_num = 1 ; row_num <= m_num_rows ; row_num++ )
 		{
-			RowMin = MaxDist + 1 ;
+			size_t RowMin = MaxDist + 1 ;
 			// step through coloumns
 			for ( size_t col_num = 1 ; col_num <= m_num_cols ; col_num++ )
 			{
@@ -149,6 +135,8 @@ namespace mem_engine
 		return true ;
 	}
 
+	// compute_cost
+	// 0 or 1
 	size_t match_maker::compute_cost( const wchar_t row_char, const wchar_t col_char ) const
 	{
 		if ( row_char == col_char )
@@ -161,6 +149,7 @@ namespace mem_engine
 		}
 	}
 
+	// calculate_score
 	double match_maker::calculate_score(size_t num_rows, size_t num_cols, int lower_right_corner) const
 	{
 		// Formula for similarity score:
@@ -171,7 +160,7 @@ namespace mem_engine
 		return compute_score(high_len, lower_right_corner) ;
 	}
 
-
+	// match_cells
 	boost::tuple<size_t, size_t> match_maker::match_cells(const size_t row_num, const size_t col_num) const
 	{
 		const size_t above = m_matrix( row_num-1, col_num );
@@ -216,40 +205,23 @@ namespace mem_engine
 
 
 
-	double match_maker::get_format_penalty()
+	double match_maker::get_format_penalty() const
 	{
-		m_row_tags.clear() ;
-		m_col_tags.clear() ;
+		std::multiset<wstring> row_tags ;
+		std::multiset<wstring> col_tags ;
 		
-		get_tags( m_row.rich(), m_row_tags ) ;
-		get_tags( m_col.rich(), m_col_tags ) ;
+		get_tags( m_row.rich(), row_tags ) ;
+		get_tags( m_col.rich(), col_tags ) ;
 		
-		std::multiset<wstring>::iterator pos ;
+		std::vector<wstring> diff ;
+		std::set_intersection(row_tags.begin(), row_tags.end(),
+							  col_tags.begin(), col_tags.end(),
+							  std::back_inserter(diff)) ;
 		
-		for ( pos=m_row_tags.begin() ; pos != m_row_tags.end() ; )
-		{
-			std::multiset< wstring >::iterator found_pos = m_col_tags.find(*pos) ;
-			if ( found_pos != m_col_tags.end() ) 
-			{
-				m_col_tags.erase( found_pos ) ;
-				m_row_tags.erase( pos ) ;
-				pos = m_row_tags.begin() ;
-			}
-			else
-			{
-				++pos ;
-			}
-		}
-		
-		if ( m_row_tags.empty() && m_col_tags.empty() ) 
-		{
-			return 0.0 ;
-		}
-		
-		return (double)( m_row_tags.size() + m_col_tags.size() ) / 100.0 ;
+		return static_cast<double>(diff.size()) / 100.0 ;
 	}
 
-	void match_maker::get_tags(const wstring raw_string, std::multiset<wstring> &tags)
+	void match_maker::get_tags(const wstring raw_string, std::multiset<wstring> &tags) const
 	{
 		textstream_reader< wchar_t > reader ;
 		
@@ -328,7 +300,8 @@ namespace mem_engine
 		// Populate matrix edges
 		populate_matrix_edges( ) ;
 
-		// Populate matrix cells
+		// Populate matrix cells.
+		// Fail if the segment is not a match candidate.
 		if ( ! is_match_candidate( ) )
 		{
 			return false ;
@@ -384,13 +357,6 @@ namespace mem_engine
 		// Populate matrix cells
 		// ======================
 		
-		// Populate matrix cells
-		// variables for surrounding cells
-		cell above, diag, left ;
-		
-		// variable for calculating cost
-		cell c;
-
 		wstring row_token_string, col_token_string ;
 		Matrix< size_t > token_matrix ;
 
@@ -412,18 +378,18 @@ namespace mem_engine
 				const size_t num_token_cols = col_token.size();
 
 				// diag
-				diag = matrix( row_num-1, col_num-1 ) ;
-				c.m_diag = diag.min_val() + calc_word_distance( row_token, col_token, token_matrix ) ;
-
-				// above
-				above = matrix( row_num-1, col_num ) ;
-				c.m_above = above.min_val() + num_token_rows ;
+				const cell &diag = matrix( row_num-1, col_num-1 ) ;
+				const size_t diag_val = diag.min_val() + calc_word_distance( row_token, col_token, token_matrix ) ;
 
 				// left
-				left = matrix( row_num, col_num-1 ) ;
-				c.m_left = left.min_val() + num_token_cols ;
+				const cell &left = matrix( row_num, col_num-1 ) ;
+				const size_t left_val = left.min_val() + num_token_cols ;
 
-				matrix( row_num, col_num ) = c ;
+				// above
+				const cell &above = matrix( row_num-1, col_num ) ;
+				const size_t above_val = above.min_val() + num_token_rows ;
+
+				matrix( row_num, col_num ) = cell(diag_val, left_val, above_val) ;
 			}
 		}
 		  
@@ -473,52 +439,33 @@ namespace mem_engine
 			{
 				const cell &c = matrix( row_num, col_num ) ;
 
-				above = matrix( row_num-1, col_num ) ;
-				left = matrix( row_num, col_num-1 ) ;
-				diag = matrix( row_num-1, col_num-1 ) ;
+				const cell &above = matrix( row_num-1, col_num ) ;
+				const cell &left = matrix( row_num, col_num-1 ) ;
+				const cell &diag = matrix( row_num-1, col_num-1 ) ;
 
 
 				if (c.m_diag<=c.m_above && c.m_diag<=c.m_left) // match symbols
 				{
-					--col_num ; --row_num ;
+					wstring col = col_tokens[--col_num] ;
+					wstring row = row_tokens[--row_num] ;
 
 					if ( c.m_diag == diag.min_val() )
 					{
-						// m_match
-						col_list.push_front( col_tokens[col_num] ) ;
-						row_list.push_front( row_tokens[row_num] ) ;
+						// match
+						col_list.push_front( col ) ;
+						row_list.push_front( row ) ;
 					}
 					else
 					{
-						size_t token_high_len = col_tokens[col_num].size() ;
-						if ( token_high_len < row_tokens[row_num].size() )
-						{
-							token_high_len  = row_tokens[row_num].size() ;
-						}
+						size_t token_high_len = std::max(col.size(), row.size()) ;
 
 						const size_t diag_cost = c.m_diag - diag.min_val() ;
  						total_cost += diag_cost ;
 
-						double token_score = (double)( token_high_len - diag_cost ) / (double) token_high_len ;
+						double token_score = compute_score(token_high_len, diag_cost) ;
 
-						const double FUZZY_HIGH = 0.8 ;
-						const double FUZZY_MID = 0.6 ;
-						// color code for size of mismatch!!!
-						if ( token_score >= FUZZY_HIGH )
-						{
-							col_list.push_front( fuzzy_tag_high + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_high + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
-						else if ( token_score >= FUZZY_MID )
-						{
-							col_list.push_front( fuzzy_tag_mid + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_mid + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
-						else
-						{
-							col_list.push_front( fuzzy_tag_low + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_low + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
+						color_tokens_by_score(token_score, col_list, col, row_list, row);
+
 					}
 				}	
 				else if (c.m_above < c.m_left )
@@ -538,11 +485,7 @@ namespace mem_engine
 			}
 		}
 		
-		size_t high_len = m_match->get_record()->get_source_plain().size() ;
-		if ( high_len < m_row_string.size() )
-		{
-			high_len = m_row_string.size() ;
-		}
+		size_t high_len = std::max(m_match->get_record()->get_source_plain().size(), m_row_string.size()) ;
 
 		if ( high_len <= total_cost )
 		{
@@ -564,29 +507,7 @@ namespace mem_engine
 			return true ;
 		}
 		
-
-		wstring marked_up_string ;
-
-		std::list<wstring>::iterator mark_pos ;
-
-		// the query
-		for	( mark_pos = row_list.begin() ; mark_pos != row_list.end() ; ++mark_pos )
-			marked_up_string += *mark_pos ;
-
-		m_match->get_markup()->SetQuery( marked_up_string ) ;
-
-		marked_up_string.erase() ;
-		
-		// the source
-		for	( mark_pos = col_list.begin() ; mark_pos != col_list.end() ; ++mark_pos )
-			marked_up_string += *mark_pos ;
-		
-		m_match->get_markup()->SetSource( marked_up_string );
-
-		// the translation -- unchanged for now, but we may make additions
-		// if we add automatic vocab substitution
-		m_match->get_markup()->SetTrans( m_match->get_record()->get_trans_rich() ) ;
-
+		put_together_markup(col_list, row_list);
 
 		return true ;
 	}
@@ -596,7 +517,7 @@ namespace mem_engine
 	// Description	    : 
 	// Return type		: bool 
 	// Argument         : search_match_ptr &match
-	bool match_maker::get_trans_score_word(search_match_ptr &match)
+	bool match_maker::get_score_word_trans(search_match_ptr &match)
 	{
 		this->get_score_character_trans(match) ;
 		match->set_base_score( 0.0 ) ;
@@ -735,21 +656,9 @@ namespace mem_engine
 						const double token_score = (double)( token_high_len - diag_cost ) / (double) token_high_len ;
 
 						// color code for size of mismatch!!!
-						if ( token_score >= 0.8 )
-						{
-							col_list.push_front( fuzzy_tag_high + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_high + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
-						else if ( token_score >= 0.6 )
-						{
-							col_list.push_front( fuzzy_tag_mid + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_mid + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
-						else
-						{
-							col_list.push_front( fuzzy_tag_low + col_tokens[col_num] + fuzzy_tag_close ) ;
-							row_list.push_front( fuzzy_tag_low + row_tokens[row_num] + fuzzy_tag_close ) ;
-						}
+						wstring col = col_tokens[col_num] ;
+						wstring row = row_tokens[row_num] ;
+						color_tokens_by_score(token_score, col_list, col, row_list, row) ;
 					}
 				}	
 				else if (c.m_above < c.m_left )
@@ -791,38 +700,13 @@ namespace mem_engine
 			return true ;
 		}
 
-		wstring marked_up_string ;
-
-		std::list<wstring>::iterator mark_pos ;
-
-		// the query
-		for	( mark_pos = row_list.begin() ; mark_pos != row_list.end() ; ++mark_pos )
-			marked_up_string += *mark_pos ;
-
-		m_match->get_markup()->SetQuery( marked_up_string ) ;
-
-		marked_up_string.erase() ;
-
-		// the source
-		for	( mark_pos = col_list.begin() ; mark_pos != col_list.end() ; ++mark_pos )
-			marked_up_string += *mark_pos ;
-
-		m_match->get_markup()->SetTrans( marked_up_string );
-
-		// the translation -- unchanged for now, but we may make additions
-		// if we add automatic vocab substitution
-		m_match->get_markup()->SetSource( m_match->get_record()->get_source_rich() ) ;
-
+		put_together_markup(col_list, row_list) ;
 
 		return true ;
 	}
 
 	// Function name	: match_maker::tokenize_words
-	// Description	    : 
-	// Return type		: bool 
-	// Argument         : const wstring words
-	// Argument         : std::vector< wstring > &tokens
-	bool match_maker::tokenize_words(const wstring words, std::vector< wstring > &tokens)
+	bool match_maker::tokenize_words(const wstring words, std::vector< wstring > &tokens) const
 	{
 		textstream_reader< wchar_t > reader ;
 		reader.set_buffer( words.c_str() ) ;
@@ -965,29 +849,8 @@ namespace mem_engine
 			}
 		}
 	}
-	double match_maker::get_best_score(search_match_ptr& match)
-	{
-		double best_score = 0.0f ;
 
-		Segment query(m_row) ;
-		foreach(wstring token, m_word_tokens)
-		{
-			query.set_value(token) ;
-			match->get_markup()->SetQuery( token ) ;
-			double score = m_distance.edist_score(query.cmp(), m_col.cmp()) ;
-
-			if ( FLOAT_EQ( score, 1.0 ) )
-			{
-				return score ;
-			}
-			if (score > best_score)
-			{
-				best_score = score ;
-			}
-		}
-
-		return best_score;
-	}
+	// 100% match, avoid any formatting crap.
 	void match_maker::set_perfect_match()
 	{
 		m_match->set_base_score( 1.0f )  ;
@@ -997,15 +860,6 @@ namespace mem_engine
 		m_match->get_markup()->SetSource( m_match->get_record()->get_source_rich() ) ;
 
 	}
-	bool match_maker::below_min_distance(int min_dist)
-	{
-		return m_num_cols < static_cast< size_t >( min_dist );
-	}
-	double match_maker::calc_gloss_score(int min_dist)
-	{
-		return static_cast< double > ( m_num_cols - min_dist ) / static_cast< double >( m_num_cols );
-	}
-
 
 	void match_maker::set_gloss_match_info(double gloss_score)
 	{
@@ -1031,7 +885,9 @@ namespace mem_engine
 		}
 
 	}
-	void match_maker::put_together_markup(std::list< std::wstring >& col_list, std::list< std::wstring >& row_list)
+
+
+	void match_maker::put_together_markup(const std::list< std::wstring >& col_list, const std::list< std::wstring >& row_list)
 	{
 		compose_query_string(row_list);
 
@@ -1043,34 +899,30 @@ namespace mem_engine
 
 	}
 
-	void match_maker::compose_source_string(std::list< std::wstring >& col_list)
+	void match_maker::compose_source_string(const std::list< std::wstring >& col_list)
 	{
 		m_match->get_markup()->SetSource( compose_markup_string( col_list ) );
 	}
 
-	void match_maker::compose_query_string(std::list< std::wstring >& row_list)
+	void match_maker::compose_query_string(const std::list< std::wstring >& row_list)
 	{
 		m_match->get_markup()->SetQuery( compose_markup_string(row_list ) ) ;
 	}
 
-	wstring match_maker::compose_markup_string( std::list< std::wstring >& element_list )
+	wstring match_maker::compose_markup_string( const std::list< std::wstring >& element_list ) const
 	{
-		wstring marked_up_string ;
-		std::list<wstring>::iterator mark_pos ;
-		for	( mark_pos = element_list.begin() ; mark_pos != element_list.end() ; ++mark_pos )
-		{
-			marked_up_string += *mark_pos ;
-		}
-		return marked_up_string ;
+		return boost::join(element_list, L"") ;
 	}
 
-	wstring match_maker::get_gloss_markup_start( double gloss_score )
+	wstring match_maker::get_gloss_markup_start( double gloss_score ) const
 	{
-		if ( gloss_score >= 0.9 )
+		const double GLOSS_SCORE_LOW = 0.9 ;
+		const double GLOSS_SCORE_MID = 0.7 ;
+		if ( gloss_score >= GLOSS_SCORE_LOW )
 		{
 			return fuzzy_tag_low ;
 		}
-		else if ( gloss_score >= 0.75 )
+		else if ( gloss_score >= GLOSS_SCORE_MID )
 		{
 			return fuzzy_tag_mid ;
 		}
@@ -1080,20 +932,19 @@ namespace mem_engine
 		}
 	}
 
-	wstring match_maker::get_gloss_markup_end(void)
+	wstring match_maker::get_gloss_markup_end(void) const
 	{
 		return fuzzy_tag_close ;
 	}
 
-	bool match_maker::pass_minimum_tests()
+	bool match_maker::pass_minimum_tests() const
 	{
-		double high_len = (double)__max(m_num_cols,m_num_rows) ;
-		double diff = abs(static_cast< double >( m_num_cols ) - static_cast< double >( m_num_rows ) ) ;
-		return ( (high_len - diff) / high_len >= m_minimum_score ) ;
+		const size_t high_len = std::max(m_num_cols, m_num_rows) ;
+		const size_t diff =  high_len - min(m_num_cols, m_num_rows) ;
+		return ( compute_score(high_len, diff) >= m_minimum_score ) ;
 	}
 
-	void match_maker::set_row_col_strings(const Segment &row,
-		const Segment &col)
+	void match_maker::set_row_col_strings(const Segment &row, const Segment &col)
 	{
 		m_row = row ;
 		m_col = col ;
@@ -1129,6 +980,8 @@ namespace mem_engine
 		}
 	}
 
+	// Gets the score, given the highest length and diff (total cost)
+	// side effect: Logs warning on divide by 0 error.
 	double match_maker::compute_score( const size_t high_len, size_t total_cost ) const
 	{
 		// protect from divide by 0 error
@@ -1140,5 +993,32 @@ namespace mem_engine
 		ATLASSERT(high_len >= total_cost) ;
 		const size_t matching_elements = std::max(high_len, total_cost) - total_cost ;
 		return static_cast<double>(matching_elements) / static_cast<double>(high_len) ;
+	}
+
+	void match_maker::color_tokens_by_score( double token_score, std::list< wstring > &cols, const wstring &col, std::list< wstring > &rows, const wstring &row ) const
+	{
+		wstring open_tag = get_fuzzy_tag_by_score(token_score) ;
+
+		cols.push_front( open_tag + col + fuzzy_tag_close ) ;
+		rows.push_front( open_tag + row + fuzzy_tag_close ) ;
+	}
+
+	wstring match_maker::get_fuzzy_tag_by_score( double score ) const
+	{
+		const double FUZZY_HIGH = 0.8 ;
+		const double FUZZY_MID = 0.6 ;
+
+		if ( score >= FUZZY_HIGH )
+		{
+			return fuzzy_tag_high  ;
+		}
+		else if ( score >= FUZZY_MID )
+		{
+			return fuzzy_tag_mid ;
+		}
+		else
+		{
+			return fuzzy_tag_low ;
+		}
 	}
 }

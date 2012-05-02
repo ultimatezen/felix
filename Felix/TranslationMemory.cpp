@@ -168,7 +168,7 @@ namespace mem_engine
 				match_test->set_record( record ) ;
 				Segment source(&m_cmp_maker, record->get_trans_rich()) ;
 
-				if ( m_match_maker.get_trans_score( query,
+				if ( m_match_maker.get_score_trans( query,
 					source,
 					match_algo,
 					match_test ) )

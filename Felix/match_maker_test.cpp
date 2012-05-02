@@ -125,6 +125,18 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 		actual = match->get_markup()->GetQuery().c_str() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
+	BOOST_AUTO_TEST_CASE( SimpleNoMatchFailSoon )
+	{
+		match_maker mm( 0.9f ) ;
+
+		DELCARE_MATCH(match, L"baab", L"baab") ;
+
+		Segment query; query.set_value(L"xxxx") ;
+		Segment source; source.set_value(L"baab") ;
+		BOOST_CHECK( ! mm.get_score( query, source, IDC_ALGO_CHAR, match ) ) ;
+
+		BOOST_CHECK_CLOSE( 0.0, match->get_score(), 0.00001 ) ;
+	}
 	BOOST_AUTO_TEST_CASE( WordAlgoSimple)
 	{
 		match_maker mm( 0.1f ) ;
@@ -175,19 +187,35 @@ const static wstring nomatch_tag_close(L"</span>") ;
 
 		BOOST_CHECK_CLOSE(0.5, match->get_score(), 0.00001) ;
 	}
-
+	// pass_minimum_tests
+	BOOST_AUTO_TEST_CASE(pass_minimum_tests_true)
+	{
+		match_maker mm( 0.5f ) ;
+		Segment col, row ;
+		col.set_value(L"1234567890") ;
+		row.set_value(L"12345678") ;
+		mm.set_row_col_strings(row, col) ;
+		BOOST_CHECK(mm.pass_minimum_tests()) ;
+	}
+	BOOST_AUTO_TEST_CASE(pass_minimum_tests_false)
+	{
+		match_maker mm( 0.5f ) ;
+		Segment col, row ;
+		col.set_value(L"1234567890") ;
+		row.set_value(L"1234") ;
+		mm.set_row_col_strings(row, col) ;
+		BOOST_CHECK(! mm.pass_minimum_tests()) ;
+	}
 	// compute cost
 	BOOST_AUTO_TEST_CASE(compute_cost_0)
 	{
 		match_maker mm( 0.1f ) ;
 		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'a'), 0u) ;
-
 	}
 	BOOST_AUTO_TEST_CASE(compute_cost_1)
 	{
 		match_maker mm( 0.1f ) ;
 		BOOST_CHECK_EQUAL(mm.compute_cost(L'a', L'z'), 1u) ;
-
 	}
 	// calculate score
 	BOOST_AUTO_TEST_CASE(calculate_score_1)
@@ -200,5 +228,20 @@ const static wstring nomatch_tag_close(L"</span>") ;
 		match_maker mm( 0.1f ) ;
 		BOOST_CHECK_CLOSE(mm.calculate_score(10u, 10u, 5), 0.5, 0.001) ;
 	}
-
+	// compute score
+	BOOST_AUTO_TEST_CASE(compute_score_divide_0)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_CLOSE(mm.compute_score(0u, 5u), 0.0, 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE(compute_score_0_5)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_CLOSE(mm.compute_score(10u, 5u), 0.5, 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE(compute_score_1)
+	{
+		match_maker mm( 0.1f ) ;
+		BOOST_CHECK_CLOSE(mm.compute_score(5u, 0u), 1.0, 0.001) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
