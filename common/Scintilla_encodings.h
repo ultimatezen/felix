@@ -15,6 +15,5 @@
 using std::string ;
 
 UINT sci_encoding_from_encoding_string( const string &encoding_str ) ;
-CString sci_description_from_encoding( UINT encoding ) ;
-CString sci_encoding_string_from_encoding( UINT encoding ) ;
+
 
