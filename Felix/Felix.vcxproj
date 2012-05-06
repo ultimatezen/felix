@@ -628,7 +628,6 @@ echo Protection complete!
     <ClCompile Include="ComRecords.cpp" />
     <ClCompile Include="ConcordanceDialog.cpp" />
     <ClCompile Include="ConnectionDlg.cpp" />
-    <ClCompile Include="..\common\ConvertUTF.cpp" />
     <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Use</PrecompiledHeader>
@@ -978,7 +977,6 @@ echo Protection complete!
     <ClCompile Include="ComRecords_test.cpp" />
     <ClCompile Include="ConcordanceDialog_test.cpp" />
     <ClCompile Include="ConnectionDlg_test.cpp" />
-    <ClCompile Include="ConvertUTF_test.cpp" />
     <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">
       </PrecompiledHeader>
@@ -1407,7 +1405,6 @@ echo Protection complete!
     <ClInclude Include="..\common\ComUtilities.h" />
     <ClInclude Include="ConcordanceDialog.h" />
     <ClInclude Include="ConnectionDlg.h" />
-    <ClInclude Include="..\common\ConvertUTF.h" />
     <ClInclude Include="..\..\cpptempl\cpptempl.h" />
     <ClInclude Include="CRecordLabelPickerDlg.h" />
     <ClInclude Include="..\common\CStringInterface.h" />

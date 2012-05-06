@@ -90,9 +90,6 @@
     <ClCompile Include="ConnectionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\ConvertUTF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -394,9 +391,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="ConnectionDlg_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ConvertUTF_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
@@ -1050,9 +1044,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConnectionDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\ConvertUTF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpptempl\cpptempl.h">
