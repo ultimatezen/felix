@@ -39,6 +39,41 @@ namespace file
 
 typedef std::vector< CString > cstring_vector ;
 
+// forward declare
+
+enum BYTE_ORDER_MARK { BOM_UNKNOWN, BOM_LE, BOM_BE, BOM_UTF8, BOM_UTF7 };
+
+
+inline BYTE_ORDER_MARK bytes_to_bom(BYTE *bytes)
+{
+	if ( bytes[0] == 0xFE && bytes[1] == 0xFF)
+	{
+		return BOM_BE ;
+	}
+	if ( bytes[0] == 0xFF && bytes[1] == 0xFE)
+	{
+		return BOM_LE ;
+	}
+	if ( bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+	{
+		return BOM_UTF8 ;
+	}
+	// alternate utf8 bom
+	if ( bytes[0] == 0x3F && bytes[1] == 0xBB && bytes[2] == 0xBF)
+	{
+		return BOM_UTF8 ;
+	}
+	if ( bytes[0] == 0x2B 
+		&& bytes[1] == 0x2F 
+		&& bytes[2] == 0x76 
+		&& bytes[3] == 0x38 
+		&& bytes[4] == 0x2D)
+	{
+		return BOM_UTF7 ;
+	}
+	return BOM_UNKNOWN ;
+}
+
 /////////////////////////////////////////////////////////////////
 // Standard file wrapper
 
@@ -502,8 +537,6 @@ class file
 
 public:
 
-	enum BYTE_ORDER_MARK { LE_BOM, BE_BOM, UTF8_BOM, UTF7_BOM, UNKNOWN_BOM };
-
 
 	/** detach the current file handle from the class. 
 	@return HANDLE description. 
@@ -910,78 +943,19 @@ public:
 		ATLASSERT( is_open() ) ;
 
 		if ( ! is_open() )
-			return UNKNOWN_BOM ;
+			return BOM_UNKNOWN ;
 
-		BYTE b[5] ;
-
-		ZeroMemory( b, sizeof( b ) ) ;
+		const UINT NUM_BYTES = 5 ;
+		BYTE file_bytes[NUM_BYTES] = {0};
 
 		begin() ;
 
-		read( b, 5 ) ;
+		read( file_bytes, NUM_BYTES ) ;
 
-		switch( b[0] )
-		{
-		case 0xFE:
-			if ( b[1] == 0xFF )
-			{
-				set_file_pos( 2 ) ;
-				return BE_BOM ;
-			}
-			begin() ;
-			return UNKNOWN_BOM ;
+		BYTE_ORDER_MARK bom = bytes_to_bom(file_bytes) ;
 
-		case 0xEF:
-			if ( b[1] == 0xBB && b[2] == 0xBF )
-			{
-				set_file_pos( 3 ) ;
-				return UTF8_BOM ;
-			}
-
-			begin() ;
-			return UNKNOWN_BOM ;
-
-		// some apps mistakenly set this BOM.
-		// we will let it slide for now...
-		case 0x3F:
-			if ( b[1] == 0xBB && b[2] == 0xBF )
-			{
-				set_file_pos( 3 ) ;
-				return UTF8_BOM ;
-			}
-
-			begin() ;
-			return UNKNOWN_BOM ;
-
-		case 0x2B:
-			if ( b[1] == 0x2F &&
-				b[2] == 0x76 &&
-				b[3] == 0x38 &&
-				b[4] == 0x2D 
-				)
-			{
-				return UTF7_BOM ;
-			}
-
-			begin() ;
-
-			return UNKNOWN_BOM ;
-
-		case 0xFF:
-			if ( b[1] == 0xFE )
-			{
-				set_file_pos( 2 ) ;
-				return LE_BOM ;
-			}
-
-			begin() ;
-			return UNKNOWN_BOM ;
-
-		default:
-			begin() ;
-			return UNKNOWN_BOM ;
-		}
-
+		this->set_file_pos(bom_size(bom)) ;
+		return bom ;
 	}
 
 	/** brief. 
@@ -1176,13 +1150,13 @@ public:
 	{
 		switch( bom ) 
 		{
-		case BE_BOM:
+		case BOM_BE:
 			return 2u ;
-		case LE_BOM:
+		case BOM_LE:
 			return 2u ;
-		case UTF8_BOM:
+		case BOM_UTF8:
 			return 3u ;
-		case UTF7_BOM:
+		case BOM_UTF7:
 			return 5u ;
 		default:
 			return 0u ;

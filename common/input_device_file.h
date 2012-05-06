@@ -10,7 +10,7 @@ public:
 	file::file m_target ;
 	file::view m_view ;
 
-	file::file::BYTE_ORDER_MARK get_file_bom( const CString filename );
+	file::BYTE_ORDER_MARK get_file_bom( const CString filename );
 	unsigned int get_size(const CString filename);
 	void ensure_file_exists( const CString file_name );
 	wstring get_creation_time(const CString location);

@@ -154,7 +154,7 @@ public:
 	void load_body() ;
 
 	size_t get_file_size(const CString & file_name);
-	file::file::BYTE_ORDER_MARK get_bom(const CString & file_name);
+	file::BYTE_ORDER_MARK get_bom(const CString & file_name);
 	void load_utf16(const CString & file_name, input_device_ptr input);
 	void load_utf16be(const CString & file_name, input_device_ptr input) ;
 	void load_utf8(const CString & file_name, input_device_ptr input);

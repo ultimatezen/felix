@@ -527,6 +527,7 @@ CString except::CSWException::address_as_string( ULONG_PTR num )
 	return CString((format("0x%08X") % num).str().c_str()) ;
 }
 
+// CFloatException
 except::CFloatException::CFloatException( LPCTSTR message, UINT code, PEXCEPTION_POINTERS pep ) : 	
 	CSWException( message, code, pep )
 {

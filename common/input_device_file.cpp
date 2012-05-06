@@ -41,11 +41,11 @@ wstring InputDeviceFile::get_creation_time( const CString location )
 	return string2wstring( created_date.get_date_time_string( ) );
 }
 
-file::file::BYTE_ORDER_MARK InputDeviceFile::get_file_bom( const CString filename )
+file::BYTE_ORDER_MARK InputDeviceFile::get_file_bom( const CString filename )
 {
 	file::file import_file ;
 	import_file.open_read(filename) ;
-	const file::file::BYTE_ORDER_MARK bom = import_file.get_bom() ;
+	const file::BYTE_ORDER_MARK bom = import_file.get_bom() ;
 	import_file.close() ;
 	return bom ;
 }

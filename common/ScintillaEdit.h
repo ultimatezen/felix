@@ -22,7 +22,7 @@
 								TEXT("CSS files (*.css)\0*.css\0")\
 								TEXT("All files (*.*)\0*.*\0")
 
-UINT get_textfile_encoding( const file::file::BYTE_ORDER_MARK bom, LPSTR ftext, const size_t fsize, bool is_tagged = false )  ;
+UINT get_textfile_encoding( const file::BYTE_ORDER_MARK bom, LPSTR ftext, const size_t fsize, bool is_tagged = false )  ;
 
 /**
 	@class CScintillaEdit 

@@ -61,17 +61,17 @@ const char vbsKeyWords[] =
 "boolean byte currency date double integer long object single string type "
 "variant";
 
-UINT get_textfile_encoding( const file::file::BYTE_ORDER_MARK bom, LPSTR ftext, const size_t fsize, bool is_tagged) 
+UINT get_textfile_encoding( const file::BYTE_ORDER_MARK bom, LPSTR ftext, const size_t fsize, bool is_tagged) 
 {
 	switch( bom )
 	{
-	case file::file::LE_BOM:
+	case file::BOM_LE:
 		return CP_UNICODE ;
-	case file::file::BE_BOM:
+	case file::BOM_BE:
 		return CP_UNICODE_BE ;
-	case file::file::UTF8_BOM:
+	case file::BOM_UTF8:
 		return CP_UTF8 ;
-	case file::file::UTF7_BOM:
+	case file::BOM_UTF7:
 		return CP_UTF7 ;
 	default:
 		try

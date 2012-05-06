@@ -26,7 +26,7 @@ void CImportMultitermFile::import( const CString &file_name, input_device_ptr in
 	input->ensure_file_exists(file_name);
 
 	// multiterm 6 file?
-	if ( input->get_file_bom(file_name) == file::file::LE_BOM )
+	if ( input->get_file_bom(file_name) == file::BOM_LE )
 	{
 		import_multiterm6( file_name ) ;
 	}

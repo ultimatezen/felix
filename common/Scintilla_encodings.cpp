@@ -88,28 +88,3 @@ UINT sci_encoding_from_encoding_string( const string &encoding_str )
 	return CP_ACP ;
 }
 
-CString sci_description_from_encoding( UINT encoding ) 
-{
-	for ( int i=0 ; i< sizeof( encodings ) / sizeof( sci_encoding_string_pair )	; ++i )
-	{
-		if ( encodings[i].encoding == encoding ) 
-		{
-			return CString( encodings[i].encoding_description ) ;
-		}
-	}
-
-	return CString( _T("Universal Alphabet (UTF-8)" ) ) ;
-}
-
-CString sci_encoding_string_from_encoding( UINT encoding ) 
-{
-	for ( int i=0 ; i< sizeof( encodings ) / sizeof( sci_encoding_string_pair )	; ++i )
-	{
-		if ( encodings[i].encoding == encoding ) 
-		{
-			return CString( encodings[i].encoding_string ) ;
-		}
-	}
-
-	return CString( _T("utf-8" ) ) ;
-}

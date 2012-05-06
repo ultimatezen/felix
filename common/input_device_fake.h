@@ -9,7 +9,7 @@ public:
 	bool m_file_exists ;
 	wstring m_filetime ;
 	unsigned int m_size ;
-	file::file::BYTE_ORDER_MARK m_bom ;
+	file::BYTE_ORDER_MARK m_bom ;
 	boost::shared_array<char> m_view_char ;
 	boost::shared_array<wchar_t> m_view_wchar ;
 	bool m_is_open ;
@@ -18,12 +18,12 @@ public:
 	InputDeviceFake() : 
 		m_file_exists(true), 
 		m_size(0),
-		m_bom(file::file::UNKNOWN_BOM),
+		m_bom(file::BOM_UNKNOWN),
 		m_is_open(true),
 		m_exists(true)
 		{}
 
-	file::file::BYTE_ORDER_MARK get_file_bom( const CString filename )
+	file::BYTE_ORDER_MARK get_file_bom( const CString filename )
 	{
 		filename ;
 		SENSE("get_file_bom") ;

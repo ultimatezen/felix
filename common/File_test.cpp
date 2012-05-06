@@ -16,10 +16,10 @@
 
 BOOST_AUTO_TEST_CASE( fileTestCase_bom_size )
 {
-	BOOST_CHECK_EQUAL ( 2u, file::file::bom_size( file::file::LE_BOM ) ) ;
-	BOOST_CHECK_EQUAL ( 2u, file::file::bom_size( file::file::BE_BOM ) ) ;
-	BOOST_CHECK_EQUAL ( 3u, file::file::bom_size( file::file::UTF8_BOM ) ) ;
-	BOOST_CHECK_EQUAL ( 5u, file::file::bom_size( file::file::UTF7_BOM ) ) ;
+	BOOST_CHECK_EQUAL ( 2u, file::file::bom_size( file::BOM_LE ) ) ;
+	BOOST_CHECK_EQUAL ( 2u, file::file::bom_size( file::BOM_BE ) ) ;
+	BOOST_CHECK_EQUAL ( 3u, file::file::bom_size( file::BOM_UTF8 ) ) ;
+	BOOST_CHECK_EQUAL ( 5u, file::file::bom_size( file::BOM_UTF7 ) ) ;
 }
 
 
@@ -321,6 +321,39 @@ BOOST_AUTO_TEST_SUITE( TestName )
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
+// OpenDlgList
+BOOST_AUTO_TEST_SUITE(TestBytesToBom)
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_unknown)
+	{
+		BYTE bytes[5] = {0, 0, 0, 0, 0} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_UNKNOWN) ;
+	}
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_be)
+	{
+		BYTE bytes[5] = {0xFE, 0xFF, 0, 0, 0} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_BE) ;
+	}
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_le)
+	{
+		BYTE bytes[5] = {0xFF, 0xFE, 0, 0, 0} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_LE) ;
+	}
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_utf8)
+	{
+		BYTE bytes[5] = {0xEF, 0xBB, 0xBF, 0, 0} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_UTF8) ;
+	}
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_utf8_alternate)
+	{
+		BYTE bytes[5] = {0x3F, 0xBB, 0xBF, 0, 0} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_UTF8) ;
+	}
+	BOOST_AUTO_TEST_CASE(bytes_to_bom_utf7)
+	{
+		BYTE bytes[5] = {0x2B, 0x2F, 0x76, 0x38, 0x2D} ;
+		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_UTF7) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
 // OpenDlgList
 BOOST_AUTO_TEST_SUITE( OpenDlgListTestCases )
 using namespace except;

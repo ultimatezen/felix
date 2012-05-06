@@ -212,16 +212,16 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_devi
 {
 	switch ( get_bom(file_name) )
 	{
-	case file::file::LE_BOM:
+	case file::BOM_LE:
 		load_utf16(file_name, input) ;
 		break ;
-	case file::file::UTF8_BOM: case file::file::UNKNOWN_BOM:
+	case file::BOM_UTF8: case file::BOM_UNKNOWN:
 		load_utf8(file_name, input) ;
 		break ;
-	case file::file::UTF7_BOM: 
+	case file::BOM_UTF7: 
 		load_utf7(file_name, input) ;
 		break ;
-	case file::file::BE_BOM:
+	case file::BOM_BE:
 		load_utf16be(file_name, input) ;
 		break ;
 	default:
@@ -484,7 +484,7 @@ size_t CTMXReader::get_file_size(const CString & file_name)
 	return input->get_size(file_name) ;
 }
 
-file::file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name)
+file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name)
 {
 	input_device_ptr input(new InputDeviceFile) ;
 	return input->get_file_bom(file_name) ;
@@ -533,7 +533,7 @@ void CTMXReader::load_utf8(const CString & file_name, input_device_ptr input)
 void CTMXReader::load_utf7(const CString & file_name, input_device_ptr input)
 {
 	LPCSTR raw_text = input->create_view_char(file_name) ;
-	const UINT bom_size = file::file::bom_size( file::file::UTF7_BOM ) ;
+	const UINT bom_size = file::file::bom_size( file::BOM_UTF7 ) ;
 	raw_text+= bom_size ;
 	const int file_size = input->get_size(file_name) - bom_size ;
 
