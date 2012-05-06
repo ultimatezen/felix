@@ -54,8 +54,6 @@ public:
 
 	const bool operator ==( const COLORREF rhs ) const;
 
-	void invert() ;
-
 	// construction/destruction
 	explicit CColorRef( const wstring &color ) ;
 	explicit CColorRef( COLORREF color );

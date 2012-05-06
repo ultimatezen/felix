@@ -7,7 +7,6 @@
 #include "Exceptions.h"
 #include "StringConversions.h"
 #include "ScintillaEdit.h"
-#include "ConvertUTF.h"
 #include "File.h"
 #include "MultiLanguage.h"
 #include "textstream_reader.h"

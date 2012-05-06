@@ -44,12 +44,6 @@ const wstring CColorRef::as_wstring( ) const
 	
 }
 
-void CColorRef::invert()
-{
-	set_red_value( 0xFF - get_red_value() ) ;
-	set_green_value( 0xFF - get_green_value() ) ;
-	set_blue_value( 0xFF - get_blue_value() ) ;
-}
 
 
 const string CColorRef::as_string( ) const

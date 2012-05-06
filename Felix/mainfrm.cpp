@@ -28,8 +28,6 @@
 #include "RegSettings.h"	// CWindowSettings & CReBarSettings
 #include "ColorRef.h"
 
-#include "ConvertUTF.h"		// ConvertUTF8toUTF16
-
 #include "TMXReader.h"		// CTMXReader
 #include "record_local.h"
 

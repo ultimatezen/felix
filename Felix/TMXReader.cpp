@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include ".\tmxreader.h"
 
-#include "ConvertUTF.h"
-
 #include "Tag.h"
 
 #include "tag_stripper.h"

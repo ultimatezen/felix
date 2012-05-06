@@ -4,8 +4,6 @@
 
 #include "ArmadilloStuff.h"
 
-#include "ConvertUTF.h"
-
 #include "StringConversions.h"
 #include ".\translationmemory.h"
 
