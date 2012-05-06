@@ -151,7 +151,32 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 		string expected = "I love <span class=\"nomatch\">ham</span> and eggs." ;
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
+	BOOST_AUTO_TEST_CASE(WordAlgoSourceLong)
+	{
+		match_maker mm( 0.1f ) ;
+
+		DELCARE_MATCH(match, L"aaa bbb ccc ddd ", L"zzz 111") ;
+
+		Segment query; query.set_value(L"aaa bbb ccc ") ;
+		Segment source; source.set_value(L"aaa bbb ccc ddd ") ;
+		mm.get_score( query, source, IDC_ALGO_WORD, match ) ;
+
+		BOOST_CHECK_CLOSE(match->get_score(), 0.75, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE(WordAlgoQueryLong)
+	{
+		match_maker mm( 0.1f ) ;
+
+		DELCARE_MATCH(match, L"aaa bbb ccc ddd ", L"zzz 111") ;
+
+		Segment query; query.set_value(L"aaa bbb ccc ddd ") ;
+		Segment source; source.set_value(L"aaa bbb ccc ") ;
+		mm.get_score( query, source, IDC_ALGO_WORD, match ) ;
+
+		BOOST_CHECK_CLOSE(match->get_score(), 0.75, 0.0001) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
+
 	/************************************************************************/
 	/* tests for fuzzy glossary matches                                     */
 	/************************************************************************/
@@ -228,20 +253,5 @@ const static wstring nomatch_tag_close(L"</span>") ;
 		match_maker mm( 0.1f ) ;
 		BOOST_CHECK_CLOSE(mm.calculate_score(10u, 10u, 5), 0.5, 0.001) ;
 	}
-	// compute score
-	BOOST_AUTO_TEST_CASE(compute_score_divide_0)
-	{
-		match_maker mm( 0.1f ) ;
-		BOOST_CHECK_CLOSE(mm.compute_score(0u, 5u), 0.0, 0.001) ;
-	}
-	BOOST_AUTO_TEST_CASE(compute_score_0_5)
-	{
-		match_maker mm( 0.1f ) ;
-		BOOST_CHECK_CLOSE(mm.compute_score(10u, 5u), 0.5, 0.001) ;
-	}
-	BOOST_AUTO_TEST_CASE(compute_score_1)
-	{
-		match_maker mm( 0.1f ) ;
-		BOOST_CHECK_CLOSE(mm.compute_score(5u, 0u), 1.0, 0.001) ;
-	}
+
 BOOST_AUTO_TEST_SUITE_END()

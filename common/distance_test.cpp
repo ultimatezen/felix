@@ -8,12 +8,14 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 
 	using namespace std ;
 
+	// min3
 	BOOST_AUTO_TEST_CASE( test_min3 )
 	{
 		BOOST_CHECK_EQUAL( min3(10, 0, 5), 0u) ;
 		BOOST_CHECK_EQUAL( min3(2, 5, 10), 2u) ;
 		BOOST_CHECK_EQUAL( min3(5, 5, 5), 5u) ;
 	}
+	// edist
 	BOOST_AUTO_TEST_CASE( test_edist_aaaa_aaba )
 	{
 		Distance d ;
@@ -47,6 +49,30 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 		BOOST_CHECK_EQUAL(d.edist(nihongo, nihon), 1u) ;
 	}
 
+	// edist_score
+	BOOST_AUTO_TEST_CASE( test_edist_score_1 )
+	{
+		Distance d ;
+		wstring a = L"foo" ;
+		wstring b = L"foo" ;
+		BOOST_CHECK_CLOSE(d.edist_score(a, b), 1.0, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_edist_score_0_5 )
+	{
+		Distance d ;
+		wstring a = L"aaa" ;
+		wstring b = L"aaabbb" ;
+		BOOST_CHECK_CLOSE(d.edist_score(a, b), 0.5, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_edist_score_empty )
+	{
+		Distance d ;
+		wstring a ;
+		wstring b ;
+		BOOST_CHECK_CLOSE(d.edist_score(a, b), 0.0, 0.0001) ;
+	}
+
+	// subdist
 	BOOST_AUTO_TEST_CASE( test_subdist_spam_ham )
 	{
 		Distance d ;
@@ -61,7 +87,57 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 		wstring haystack = L"ñ{ì˙ÇÕê∞ìVÇ»ÇËÅB" ;
 		BOOST_CHECK_EQUAL(d.subdist(needle, haystack), 1u) ;
 	}
+	// subdist_score
+	BOOST_AUTO_TEST_CASE( test_subdist_score_1 )
+	{
+		Distance d ;
+		wstring needle = L"foo" ;
+		wstring haystack = L"a fool and his money" ;
+		BOOST_CHECK_CLOSE(d.subdist_score(needle, haystack), 1.0, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_subdist_score_0 )
+	{
+		Distance d ;
+		wstring needle = L"xxx" ;
+		wstring haystack = L"yyy zzz" ;
+		BOOST_CHECK_CLOSE(d.subdist_score(needle, haystack), 0.0, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_subdist_score_0_empty_needle )
+	{
+		Distance d ;
+		wstring needle ;
+		wstring haystack = L"yyy zzz" ;
+		BOOST_CHECK_CLOSE(d.subdist_score(needle, haystack), 0.0, 0.0001) ;
+	}
+	// len_1_edist
+	BOOST_AUTO_TEST_CASE( test_len_1_edist_found )
+	{
+		Distance d ;
+		wchar_t needle = L'a';
+		wstring haystack = L"bbb a ccc" ;
+		BOOST_CHECK_EQUAL(d.len_1_edist(needle, haystack.size(), haystack.c_str()), haystack.size() - 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_len_1_edist_not_found )
+	{
+		Distance d ;
+		wchar_t needle = L'd';
+		wstring haystack = L"bbb a ccc" ;
+		BOOST_CHECK_EQUAL(d.len_1_edist(needle, haystack.size(), haystack.c_str()), haystack.size()) ;
+	}
 
+	// compute score
+	BOOST_AUTO_TEST_CASE(compute_score_divide_0)
+	{
+		BOOST_CHECK_CLOSE(compute_score(0u, 5u), 0.0, 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE(compute_score_0_5)
+	{
+		BOOST_CHECK_CLOSE(compute_score(10u, 5u), 0.5, 0.001) ;
+	}
+	BOOST_AUTO_TEST_CASE(compute_score_1)
+	{
+		BOOST_CHECK_CLOSE(compute_score(5u, 0u), 1.0, 0.001) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 

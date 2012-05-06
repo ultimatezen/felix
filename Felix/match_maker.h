@@ -103,7 +103,6 @@ public:
 	bool tokenize_words( const wstring words, std::vector< wstring > &tokens ) const;
 	bool get_score_word_trans( search_match_ptr &match);
 
-	double compute_score( const size_t high_len, size_t total_cost ) const;
 	bool get_score_character_trans( search_match_ptr &match );
 
 	void source_trans_switcheroo();

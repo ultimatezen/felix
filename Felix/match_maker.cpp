@@ -330,6 +330,8 @@ namespace mem_engine
 	 */
 	bool match_maker::get_score_word(search_match_ptr &match)
 	{
+		// we need this to populate match stuff...
+		// fix this!
 		this->get_score_character(match) ;
 		match->set_base_score( 0.0 ) ;
 
@@ -357,7 +359,6 @@ namespace mem_engine
 		// Populate matrix cells
 		// ======================
 		
-		wstring row_token_string, col_token_string ;
 		Matrix< size_t > token_matrix ;
 
 		// get our sizes
@@ -487,24 +488,20 @@ namespace mem_engine
 		
 		size_t high_len = std::max(m_match->get_record()->get_source_plain().size(), m_row_string.size()) ;
 
-		if ( high_len <= total_cost )
-		{
-			m_score = 0.0 ;
-		}
-		else
-		{
-			m_score = this->compute_score(high_len, total_cost) ;
-		}
+		m_score = compute_score(high_len, total_cost) ;
 
 		// make sure we have at least the minimum score
 		if( m_score < m_minimum_score ) return false ;
 
-		set_match_score() ;
 
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
 		{
 			set_perfect_match() ;
 			return true ;
+		}
+		else
+		{
+			set_match_score() ;
 		}
 		
 		put_together_markup(col_list, row_list);
@@ -544,21 +541,7 @@ namespace mem_engine
 		// Populate matrix edges
 		// ======================
 
-		matrix(0,0) = cell( 0, 0, 0 ) ;
-		size_t running_cell_cost = 0 ;
-		// populate row edges
-		for ( size_t row_num = 1 ; row_num <= num_rows ; row_num++ )
-		{
-			running_cell_cost += row_tokens[row_num-1].size() ;
-			matrix( row_num, 0 ) = cell( running_cell_cost, running_cell_cost, running_cell_cost) ;
-		}
-		// populate column edges				
-		running_cell_cost = 0 ;
-		for ( size_t col_num = 1 ; col_num <= num_cols ; col_num++ )
-		{
-			running_cell_cost += col_tokens[col_num-1].size() ;
-			matrix( 0, col_num ) = cell( running_cell_cost, running_cell_cost, running_cell_cost)  ;
-		}
+		popuplate_matrix_edges_words(matrix, row_tokens, col_tokens) ;
 
 		// ======================
 		// Populate matrix cells
@@ -567,6 +550,7 @@ namespace mem_engine
 		// Populate matrix cells
 
 		Matrix< size_t > token_matrix ;
+
 
 		// step through rows
 		for ( size_t row_num = 1 ; row_num <= num_rows ; row_num++ )
@@ -980,20 +964,7 @@ namespace mem_engine
 		}
 	}
 
-	// Gets the score, given the highest length and diff (total cost)
-	// side effect: Logs warning on divide by 0 error.
-	double match_maker::compute_score( const size_t high_len, size_t total_cost ) const
-	{
-		// protect from divide by 0 error
-		if (! high_len)
-		{
-			logging::log_warn("Divide by zero error: Attempted to compute_score with high len of 0") ;
-			return 0.0 ;
-		}
-		ATLASSERT(high_len >= total_cost) ;
-		const size_t matching_elements = std::max(high_len, total_cost) - total_cost ;
-		return static_cast<double>(matching_elements) / static_cast<double>(high_len) ;
-	}
+
 
 	void match_maker::color_tokens_by_score( double token_score, std::list< wstring > &cols, const wstring &col, std::list< wstring > &rows, const wstring &row ) const
 	{
