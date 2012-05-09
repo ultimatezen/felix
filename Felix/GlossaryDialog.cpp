@@ -2086,7 +2086,7 @@ LRESULT CGlossaryDialog::on_memory_close()
 {
 	BANNER("CGlossaryDialog::on_memory_close") ;
 	// base case -- there are no memories
-	if (this->get_memory_model()->get_memories().empty())
+	if (this->get_memories().empty())
 	{
 		return 0L ;
 	}

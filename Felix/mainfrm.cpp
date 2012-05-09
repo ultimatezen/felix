@@ -1817,7 +1817,7 @@ INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 
 	const CString mem_loc = mem->get_location() ;
 
-	memory_list &memories = m_model->get_memories()->get_memories() ;
+	memory_list &memories = this->get_memories() ;
 	foreach (memory_pointer my_mem, memories)
 	{
 		if ( 0 == mem_loc.CompareNoCase( my_mem->get_location() ) && mem->get_id() != my_mem->get_id() )

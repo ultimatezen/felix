@@ -69,6 +69,7 @@ namespace mem_engine
 		  bool empty();
 		  bool erase( const record_pointer record ) ;
 		  CString get_location( );
+		  void set_mem_location(CString location);
 		  void set_location( CString location ) ;
 		  CString get_fullpath();
 		  bool is_new();

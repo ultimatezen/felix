@@ -983,5 +983,13 @@ namespace mem_engine
 		m_header.modified_by_current_user() ;
 	}
 
+	void memory_local::set_mem_location( CString location )
+	{
+		this->set_location( location ) ;
+		if ( ! this->empty() )
+		{
+			this->set_saved_flag( false ) ; // new location, so we have not saved to here before
+		}
+	}
 
 }

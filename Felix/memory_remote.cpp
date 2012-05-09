@@ -657,4 +657,9 @@ namespace mem_engine
 	{
 		logging::log_warn("set_creator_to_current_user not implemented for remote memories/glossaries.") ;
 	}
+
+	void memory_remote::set_mem_location( CString location )
+	{
+		this->set_location( location ) ;
+	}
 }

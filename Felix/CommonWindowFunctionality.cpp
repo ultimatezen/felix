@@ -128,7 +128,7 @@ bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pan
 // get a list of memories
 memory_list & CCommonWindowFunctionality::get_memories()
 {
-	boost::shared_ptr<mem_engine::memory_model> model = this->get_memory_model() ;
+	auto model = this->get_memory_model() ;
 	return model->get_memories() ;
 }
 
@@ -225,11 +225,8 @@ bool CCommonWindowFunctionality::check_location()
 			return false ;
 		}
 		
-		mem->set_location( file_name ) ;
-		if ( ! mem->empty() )
-		{
-			mem->set_saved_flag( false ) ; // new location, so we have not saved to here before
-		}
+		// The user chose a location at which to save the memory.
+		mem->set_mem_location( file_name ) ;
 	}
 
 	return true ;
@@ -1216,3 +1213,4 @@ LRESULT CCommonWindowFunctionality::add_remote_memory( mem_engine::model_ptr mem
 	this->set_window_title() ;
 	return 0L ;
 }
+

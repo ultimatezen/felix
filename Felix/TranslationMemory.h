@@ -287,6 +287,7 @@ public:
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;
 	virtual CString get_location(void) = 0 ;
 	virtual void set_location( CString location ) = 0 ;
+	virtual void set_mem_location(CString location) = 0 ;
 
 } ;
 
