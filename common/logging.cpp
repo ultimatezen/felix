@@ -108,6 +108,20 @@ void logging::log_exception( CException &e )
 		ATLASSERT(FALSE && "Logging failed") ;
 	}
 }
+void logging::log_exception( std::exception &e )
+{
+	try
+	{
+		ATLTRACE(_T("EXCEPTION - %ls\n"), e.what()) ;
+		ensure_logger() ;
+		m_logger->log_exception(e) ;
+		dispose_logger() ;
+	}
+	catch (...)
+	{
+		ATLASSERT(FALSE && "Logging failed") ;
+	}
+}
 void logging::log_exception( _com_error &e )
 {
 	try
@@ -245,6 +259,34 @@ void file_logger::log_exception( CException &e )
 
 	this->log_error(string2string(err_msg, CP_UTF8)) ;
 }
+
+void file_logger::log_exception( std::exception &e )
+{
+	const wstring msg(string2wstring(e.what())) ;
+	textstream_reader<wchar_t> reader(msg.c_str()) ;
+
+	wstring err_msg ;
+	while (! reader.empty())
+	{
+		wstring line = boost::trim_copy(reader.getline()) ;
+		if (! err_msg.empty())
+		{
+			err_msg += L"\t\t" ;
+		}
+		err_msg += line ;
+		reader.eat_whitespace() ;
+		if (! reader.empty())
+		{
+			err_msg += L"\n" ;
+		}
+	}
+
+
+	this->log_error(string2string(err_msg, CP_UTF8)) ;
+}
+
+
+
 
 void file_logger::log_exception( _com_error &e )
 {

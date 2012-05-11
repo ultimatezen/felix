@@ -14,8 +14,52 @@ namespace replacer
 	}
 	void mod_date(misc_wrappers::date &thedate, wstring datestring)
 	{
+		if (datestring.empty())
+		{
+			return ;
+		}
 		textstream_reader<wchar_t> reader ;
 		boost::trim(datestring) ;
+
+		std::vector<wstring> date_time ;
+		reader.set_buffer(datestring.c_str()) ;
+		reader.split(date_time, L" ") ;
+
+
+		parse_date(date_time[0], thedate);
+		if (date_time.size() > 1)
+		{
+			parse_time(date_time[1], thedate) ;
+		}
+
+	}
+
+	void parse_time(const wstring &timestring, misc_wrappers::date &thedate ) 
+	{
+		textstream_reader<wchar_t> reader ;
+		reader.set_buffer(timestring.c_str()) ;
+		std::vector<wstring> bits ;
+		reader.split(bits, L":") ;
+		if (bits.size() >= 1)
+		{
+			thedate.set_hour(bits[0]) ;
+		}
+		if (bits.size() >= 2)
+		{
+			thedate.set_minute(bits[1]) ;
+		}
+		if (bits.size() >= 3)
+		{
+			thedate.set_second(bits[2]) ;
+		}
+		if (bits.size() >= 4)
+		{
+			thedate.set_milliseconds(bits[2]) ;
+		}
+	}
+	void parse_date(const wstring &datestring, misc_wrappers::date &thedate ) 
+	{
+		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(datestring.c_str()) ;
 		std::vector<wstring> bits ;
 		reader.split(bits, L"-/") ;
@@ -31,8 +75,8 @@ namespace replacer
 		{
 			thedate.set_day(bits[2]) ;
 		}
-
 	}
+
 	bool dates_match(const misc_wrappers::date rec_date,
 		const misc_wrappers::date query)
 	{

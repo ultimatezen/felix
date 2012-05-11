@@ -25,6 +25,7 @@ public:
 	virtual void log_warn(const string msg) = 0;
 	virtual void log_error(const string msg) = 0;
 	virtual void log_exception(except::CException &e) = 0 ;
+	virtual void log_exception(std::exception &e) = 0 ;
 	virtual void log_exception(_com_error &e) = 0 ;
 	virtual void send_report(const CString language, const CString filename) = 0 ;
 };
@@ -57,6 +58,7 @@ public:
 		this->write_entry("ERROR", msg) ;
 	}
 	void log_exception(except::CException &e);
+	void log_exception(std::exception &e);
 	void log_exception(_com_error &e);
 	void send_report(const CString language, const CString filename);
 };
@@ -70,6 +72,7 @@ public:
 	static void log_error(const string msg);
 	static void log_exception(except::CException &e);
 	static void log_exception( _com_error &e );
+	static void log_exception( std::exception &e );
 	static void set_logger(logger_ptr logger);
 	static void send_report(const CString language, const CString filename);
 };

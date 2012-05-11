@@ -36,6 +36,10 @@ public:
 	{
 		m_exception_calls.push_back((LPCSTR)CStringA(e.format_message_for_message_box())) ;
 	}
+	void log_exception(std::exception &e)
+	{
+		m_exception_calls.push_back((LPCSTR)CStringA(e.what())) ;
+	}
 	void log_exception(_com_error &e)
 	{
 		m_exception_calls.push_back((LPCSTR)CStringA(e.ErrorMessage())) ;

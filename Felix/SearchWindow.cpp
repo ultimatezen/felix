@@ -201,123 +201,143 @@ BOOL CSearchWindow::PreTranslateMessage( LPMSG pMsg )
 bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 {
 	SENSE("CSearchWindow::OnBeforeNavigate2") ;
-	const wstring url = BSTR2wstring(burl) ;
 
-	std::vector<wstring> tokens ;
-	boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
-	std::reverse(tokens.begin(), tokens.end()) ;
+	try
+	{
+		const wstring url = BSTR2wstring(burl) ;
+
+		std::vector<wstring> tokens ;
+		boost::split(tokens, url, boost::is_any_of(L"/\\")) ;
+		std::reverse(tokens.begin(), tokens.end()) ;
 
 
-	// "#" is used for JavaScript links.
-	if(boost::ends_with(url, L"#"))
-	{
-		return false ; // don't cancel
-	}
+		// "#" is used for JavaScript links.
+		if(boost::ends_with(url, L"#"))
+		{
+			return false ; // don't cancel
+		}
 
-	if (boost::ends_with(url, L"gotoreplace"))
-	{
-		handle_gotoreplace() ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"gotosearch"))
-	{
-		show_search_page() ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"newsearch"))
-	{
-		m_search_runner.clear_terms() ;
-		m_paginator.set_num_records(0) ;
-		m_current_match = 0 ;
-		show_search_page() ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"dosearch"))
-	{
-		perform_search(get_doc3());
-		return true ;
-	}
-	// page navigation
-	if (boost::ends_with(url, L"goto_page"))
-	{
-		m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[1])-1) ;
-		show_search_results(get_doc3(), m_matches) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"save_results"))
-	{
-		save_results(m_matches);
-		return true ;
-	}
-	if (boost::ends_with(url, L"delete_results"))
-	{
-		delete_results(m_matches);
-		return true ;
-	}
-	if (boost::ends_with(url, L"deletefilter"))
-	{
-		handle_deletefilter(get_doc3(), url) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"editrecord"))
-	{
-		handle_editrecord(get_doc3(), url) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"deleterecord"))
-	{
-		handle_deleterecord(get_doc3(), url) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"undodelete"))
-	{
-		handle_undodelete(get_doc3()) ;
-		return true ;
-	}
-	if (tokens[0] == L"undo")
-	{
-		m_undo->undo() ;
+		if (boost::ends_with(url, L"gotoreplace"))
+		{
+			handle_gotoreplace() ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"gotosearch"))
+		{
+			show_search_page() ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"newsearch"))
+		{
+			m_search_runner.clear_terms() ;
+			m_paginator.set_num_records(0) ;
+			m_current_match = 0 ;
+			show_search_page() ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"dosearch"))
+		{
+			perform_search(get_doc3());
+			return true ;
+		}
+		// page navigation
+		if (boost::ends_with(url, L"goto_page"))
+		{
+			m_paginator.goto_page(boost::lexical_cast<size_t>(tokens[1])-1) ;
+			show_search_results(get_doc3(), m_matches) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"save_results"))
+		{
+			save_results(m_matches);
+			return true ;
+		}
+		if (boost::ends_with(url, L"delete_results"))
+		{
+			delete_results(m_matches);
+			return true ;
+		}
+		if (boost::ends_with(url, L"deletefilter"))
+		{
+			handle_deletefilter(get_doc3(), url) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"editrecord"))
+		{
+			handle_editrecord(get_doc3(), url) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"deleterecord"))
+		{
+			handle_deleterecord(get_doc3(), url) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"undodelete"))
+		{
+			handle_undodelete(get_doc3()) ;
+			return true ;
+		}
+		if (tokens[0] == L"undo")
+		{
+			m_undo->undo() ;
 
-		string link = "\"/start/redo\"" ;
-		CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
-		m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+			string link = "\"/start/redo\"" ;
+			CStringW msg = system_message_w(IDS_ACTION_REDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+			m_message = wstring(static_cast<LPCWSTR>(msg)) ;
 
-		show_search_page() ;
-		return true ;
-	}
-	if (tokens[0] == L"redo")
-	{
-		m_undo->redo() ;
+			show_search_page() ;
+			return true ;
+		}
+		if (tokens[0] == L"redo")
+		{
+			m_undo->redo() ;
 
-		string link = "\"/start/undo\"" ;
-		CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
-		m_message = wstring(static_cast<LPCWSTR>(msg)) ;
+			string link = "\"/start/undo\"" ;
+			CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, CString(m_undo->name().c_str()), CString(link.c_str()));
+			m_message = wstring(static_cast<LPCWSTR>(msg)) ;
 
-		show_search_page() ;
-		return true ;
-	}
-	// replace page links
-	if (boost::ends_with(url, L"replace_find"))
-	{
-		handle_replace_find(get_doc3()) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"replace_replace"))
-	{
-		handle_replace_replace(get_doc3()) ;
-		return true ;
-	}
-	if (boost::ends_with(url, L"replace_all"))
-	{
-		handle_replace_all(get_doc3(), 
-							cpptempl::get_template_text(_T("replace_match.txt")),
-							cpptempl::get_template_text(_T("replacelinks.txt"))) ;
-		return true ;
-	}
+			show_search_page() ;
+			return true ;
+		}
+		// replace page links
+		if (boost::ends_with(url, L"replace_find"))
+		{
+			handle_replace_find(get_doc3()) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"replace_replace"))
+		{
+			handle_replace_replace(get_doc3()) ;
+			return true ;
+		}
+		if (boost::ends_with(url, L"replace_all"))
+		{
+			handle_replace_all(get_doc3(), 
+				cpptempl::get_template_text(_T("replace_match.txt")),
+				cpptempl::get_template_text(_T("replacelinks.txt"))) ;
+			return true ;
+		}
 
-	if (boost::ends_with(url, L".html"))
+		if (boost::ends_with(url, L".html"))
+		{
+			return false ;
+		}
+		return true ;
+	}
+	catch (except::CException& e)
 	{
-		return false ;
+		logging::log_error("Program exception handling Search window event") ;
+		logging::log_exception(e) ;
+	}
+	catch (_com_error& e)
+	{
+		logging::log_error("COM exception handling Search window event") ;
+		logging::log_exception(e) ;
+	}
+	catch (std::exception& e)
+	{
+		logging::log_error("std library exception handling Search window event") ;
+		logging::log_exception(e) ;
 	}
 	return true ;
 }

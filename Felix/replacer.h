@@ -8,6 +8,10 @@ namespace replacer
 	using mem_engine::record_pointer ;
 
 	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
+
+
+	void parse_time(const wstring &timestring, misc_wrappers::date &thedate ) ;
+	void parse_date(const wstring &datestring, misc_wrappers::date &thedate ) ;
 	wstring getrest(wstring from, wstring tag) ;
 	/* Do the dates match?
 	   Allows year or year/month matching. For example:
