@@ -12,17 +12,19 @@ namespace replacer
 	{
 		return boost::trim_copy(from.substr(tag.size())) ;
 	}
-	void mod_date(misc_wrappers::date &thedate, wstring datestring)
+	void mod_date(misc_wrappers::date &thedate, const wstring datestring)
 	{
 		if (datestring.empty())
 		{
+			// clear the date
+			thedate = misc_wrappers::date() ;
 			return ;
 		}
 		textstream_reader<wchar_t> reader ;
-		boost::trim(datestring) ;
+		const wstring local_datestring = boost::trim_copy(datestring) ;
 
 		std::vector<wstring> date_time ;
-		reader.set_buffer(datestring.c_str()) ;
+		reader.set_buffer(local_datestring.c_str()) ;
 		reader.split(date_time, L" ") ;
 
 
@@ -34,6 +36,7 @@ namespace replacer
 
 	}
 
+	// HH:MM:SS
 	void parse_time(const wstring &timestring, misc_wrappers::date &thedate ) 
 	{
 		textstream_reader<wchar_t> reader ;
@@ -54,9 +57,10 @@ namespace replacer
 		}
 		if (bits.size() >= 4)
 		{
-			thedate.set_milliseconds(bits[2]) ;
+			thedate.set_milliseconds(bits[3]) ;
 		}
 	}
+	// YYYY/MM/DD
 	void parse_date(const wstring &datestring, misc_wrappers::date &thedate ) 
 	{
 		textstream_reader<wchar_t> reader ;

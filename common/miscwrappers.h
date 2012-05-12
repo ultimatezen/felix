@@ -352,11 +352,6 @@ const static int TIME_BUF_SIZE = 50 ;
 		LPSYSTEMTIME operator&() { return (LPSYSTEMTIME)this ; }
 		SYSTEMTIME &as_system_time() { return *this ; }
 
-		LPFILETIME convert_to_file_time( LPFILETIME file_time )
-		{
-			::SystemTimeToFileTime( this, file_time ) ;
-			return file_time ;
-		}
 		// assignment operator
 		template< class CHAR_T >
 		date &operator=( const std::basic_string< CHAR_T > &date_string)

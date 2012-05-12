@@ -95,6 +95,16 @@ BOOST_AUTO_TEST_SUITE( mod_date_tests )
 		BOOST_CHECK_EQUAL(12, thedate.wMinute) ;
 		BOOST_CHECK_EQUAL(1, thedate.wSecond) ;
 	}
+
+	BOOST_AUTO_TEST_CASE(parses_time)
+	{
+		misc_wrappers::date lhs, rhs ;
+		replacer::mod_date(lhs, L"1999/10/10 05:11:12"); 
+		replacer::mod_date(rhs, L"1999/10/10 04:11:12"); 
+
+		BOOST_CHECK(replacer::date_after(lhs, rhs)) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( replacer_tests )

@@ -7,7 +7,7 @@ namespace replacer
 {
 	using mem_engine::record_pointer ;
 
-	void mod_date(misc_wrappers::date &thedate, wstring datestring) ;
+	void mod_date(misc_wrappers::date &thedate, const wstring datestring) ;
 
 
 	void parse_time(const wstring &timestring, misc_wrappers::date &thedate ) ;
