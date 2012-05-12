@@ -6,13 +6,11 @@
 #include "KeyboardListener.h"
 #include "logging.h"
 
-
-#define ENSURE_ACTIVE if ( ! kb_listener->IsActive() ) return false ; 
-
 using namespace except ;
 
 static HHOOK hkb = NULL ;
 shortcuts::KeyboardShortcuts *hook_keys = NULL ;
+static bool shortcuts_enabled = true ;
 
 bool control_key_is_pressed() ;
 
@@ -119,6 +117,17 @@ if ( control_key_pressed && wParam == VK_F3 )
 		return true ;
 	}
 #endif
+
+	if (control_key_pressed && alt_key_pressed && wParam == VK_F9)
+	{
+		::MessageBeep(MB_ICONINFORMATION) ;
+		shortcuts_enabled = ! shortcuts_enabled ;
+		return true ;
+	}
+	else if (! shortcuts_enabled)
+	{
+		return false ;
+	}
 
 	return hook_keys->receive_keypress(control_key_pressed, alt_key_pressed, static_cast<wchar_t>(wParam)) ;
 }
