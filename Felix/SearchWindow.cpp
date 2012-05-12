@@ -609,7 +609,7 @@ void CSearchWindow::delete_results( match_vec &matches )
 {
 	SENSE("delete_results") ;
 
-	m_undo = action::undo_action_ptr(new action::DeleteMatchesAction(m_controller, matches)) ;
+	m_undo = action::undo_action_ptr(new action::ActionDeleteMatches(m_controller, matches)) ;
 	m_undo->redo() ;
 	matches.clear() ;
 
@@ -676,7 +676,7 @@ doc3_wrapper_ptr CSearchWindow::get_doc3()
 void CSearchWindow::delete_record( search_match_ptr match )
 {
 	memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
-	m_undo = action::undo_action_ptr(new action::DeleteEntryAction(mem, match->get_record())) ;
+	m_undo = action::undo_action_ptr(new action::ActionDeleteEntry(mem, match->get_record())) ;
 
 	m_matches.erase( std::remove(m_matches.begin(), m_matches.end(), match), // the erase-remove idiom
 		m_matches.end());

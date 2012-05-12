@@ -988,6 +988,13 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 		logging::log_exception(cx) ;
 		cx.notify_user(_T("Failed to process action\rAn error occurred connecting to a COM server.")) ;
 	}
+	catch (std::exception& e)
+	{
+		logging::log_error("Standard library exception (Main Window)") ;
+		logging::log_exception(e) ;
+		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
+		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error in Main Window"), msg_flags ) ;  
+	}
 	return true ;
 }
 

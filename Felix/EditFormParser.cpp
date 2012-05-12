@@ -11,48 +11,60 @@ namespace mgrview
 
 	wstring EditFormParser::creator()
 	{
-		return m_doc->get_element_by_id(L"creator")->get_attribute(L"value") ;
+		return element_value(L"creator");
 	}
 
 	wstring EditFormParser::default_context()
 	{
-		return m_doc->get_element_by_id(L"default_context")->get_attribute(L"value") ;
+		return element_value(L"default_context");
 	}
 
 	wstring EditFormParser::field()
 	{
-		return m_doc->get_element_by_id(L"field")->get_attribute(L"value") ;
+		return element_value(L"field");
 	}
 
 	wstring EditFormParser::created_on()
 	{
-		return m_doc->get_element_by_id(L"created_on")->get_attribute(L"value") ;
+		return element_value(L"created_on");
 	}
 
 	wstring EditFormParser::source_language()
 	{
-		return m_doc->get_element_by_id(L"source_language")->get_attribute(L"value") ;
+		return element_value(L"source_language");
 	}
 
 	wstring EditFormParser::target_language()
 	{
-		return m_doc->get_element_by_id(L"target_language")->get_attribute(L"value") ;
+		return element_value(L"target_language");
 	}
 
 	wstring EditFormParser::client()
 	{
-		return m_doc->get_element_by_id(L"client")->get_attribute(L"value") ;
+		return element_value(L"client");
 	}
 
 	bool EditFormParser::is_memory()
 	{
-		wstring ischecked = m_doc->get_element_by_id(L"mem_type_tm")->get_attribute(L"checked") ;
-		return (ischecked == L"true") ;
+		return element_checked(L"mem_type_tm");
 	}
-
+	bool EditFormParser::is_active()
+	{
+		return element_checked(L"is_active");
+	}
 	bool EditFormParser::locked()
 	{
-		wstring ischecked = m_doc->get_element_by_id(L"locked")->get_attribute(L"checked") ;
+		return element_checked(L"locked");
+	}
+
+	wstring EditFormParser::element_value( const wstring key )
+	{
+		return m_doc->get_element_by_id(key)->get_attribute(L"value") ;
+	}
+
+	bool EditFormParser::element_checked(const wstring key)
+	{
+		wstring ischecked = m_doc->get_element_by_id(key)->get_attribute(L"checked") ;
 		return (ischecked == L"true") ;
 	}
 }

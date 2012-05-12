@@ -5,7 +5,7 @@ namespace action
 {
 	using namespace mem_engine ;
 
-	DeleteMatchesAction::DeleteMatchesAction(model_iface_ptr controller,
+	ActionDeleteMatches::ActionDeleteMatches(model_iface_ptr controller,
 		match_vec &matches) : 
 		m_controller(controller),
 		m_matches(matches)
@@ -13,7 +13,7 @@ namespace action
 
 	}
 
-	void DeleteMatchesAction::undo()
+	void ActionDeleteMatches::undo()
 	{
 		foreach(search_match_ptr match, m_matches)
 		{
@@ -22,7 +22,7 @@ namespace action
 		}
 	}
 
-	void DeleteMatchesAction::redo()
+	void ActionDeleteMatches::redo()
 	{
 		foreach(search_match_ptr match, m_matches)
 		{
@@ -31,7 +31,7 @@ namespace action
 		}
 	}
 
-	wstring DeleteMatchesAction::name()
+	wstring ActionDeleteMatches::name()
 	{
 		return R2WSTR(IDS_ACTION_DELETE_MATCHES) ;
 	}

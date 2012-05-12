@@ -30,6 +30,7 @@ public:
 	doc3_wrapper_ptr m_doc ;
 	EditFormParser(doc3_wrapper_ptr doc);
 	wstring creator();
+
 	wstring field();
 	wstring created_on();
 	wstring source_language();
@@ -38,6 +39,10 @@ public:
 	wstring default_context() ;
 	bool is_memory();
 	bool locked();
+	bool is_active();
+
+	bool element_checked(const wstring key);
+	wstring element_value(const wstring key);
 };
 
 }

@@ -3,7 +3,7 @@
 
 namespace action
 {
-	DeleteEntryAction::DeleteEntryAction( mem_engine::memory_pointer mem, 
+	ActionDeleteEntry::ActionDeleteEntry( mem_engine::memory_pointer mem, 
 										  mem_engine::record_pointer rec ) : 
 		m_mem(mem),
 		m_rec(rec)
@@ -11,17 +11,17 @@ namespace action
 
 	}
 
-	void DeleteEntryAction::undo()
+	void ActionDeleteEntry::undo()
 	{
 		m_mem->add_record(m_rec) ;
 	}
 
-	void DeleteEntryAction::redo()
+	void ActionDeleteEntry::redo()
 	{
 		m_mem->erase(m_rec) ;
 	}
 
-	wstring DeleteEntryAction::name()
+	wstring ActionDeleteEntry::name()
 	{
 		return R2WSTR(IDS_ACTION_DELETE_ENTRY) ;
 	}

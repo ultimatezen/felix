@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
 		record_pointer rec = add_record(mem, "foo", "bar") ;
-		window.m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
+		window.m_undo = undo_action_ptr(new ActionDeleteEntry(mem, rec)) ;
 
 		_bstr_t url = L"/undodelete" ;
 		window.OnBeforeNavigate2(url) ;
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		add_controller(window, L"foo", L"bar") ;
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
 		record_pointer rec = add_record(mem, "foo", "bar") ;
-		window.m_undo = undo_action_ptr(new DeleteEntryAction(mem, rec)) ;
+		window.m_undo = undo_action_ptr(new ActionDeleteEntry(mem, rec)) ;
 		mem->erase(rec) ;
 
 		_bstr_t url = L"/undodelete" ;

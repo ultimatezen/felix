@@ -23,7 +23,7 @@ me::record_pointer add_record(me::memory_pointer &mem, string source, string tra
 BOOST_AUTO_TEST_CASE(instantiate)
 {
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	BOOST_CHECK_EQUAL(stripper.m_new->size(), 0u) ;
 }
 BOOST_AUTO_TEST_CASE(strip_one_record)
@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	me::record_pointer after = stripper.m_new->get_record_at(0u) ;
 	wstring expected = L"foo" ;
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(strip_makes_empty)
 	add_record(mem, "<b></b>", "blarg") ;
 	add_record(mem, "bip", "blarg") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	BOOST_CHECK_EQUAL(1u, stripper.m_new->size()) ;
 }
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "<i>i <foo>have</foo> <font name=\"blarg\">10 dollars!</font>") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	me::record_pointer after = stripper.m_new->get_record_at(0u) ;
 	wstring expected = L"i have 10 dollars!" ;
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	me::record_pointer after = stripper.m_new->get_record_at(0u) ;
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record_location)
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->set_location("c:\\foo\\bar.ftm") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record_location_new)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
@@ -102,12 +102,19 @@ BOOST_AUTO_TEST_CASE(undo_strip_creator)
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->get_memory_info()->set_creator(L"Barney") ;
 
-	action::StripTagsAction stripper(mem) ;
+	action::ActionStripTags stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	wstring actual = stripper.m_new->get_memory_info()->get_creator() ;
 	wstring expected = L"Barney" ;
 	BOOST_CHECK_EQUAL(expected, actual) ;
+}
+BOOST_AUTO_TEST_CASE(get_name)
+{
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
+
+	action::ActionStripTags stripper(mem) ;
+	BOOST_CHECK_EQUAL(stripper.name(), wstring(L"Strip Tags")) ;
 }
 BOOST_AUTO_TEST_SUITE_END()
 

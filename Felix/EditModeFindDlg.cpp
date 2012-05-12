@@ -34,26 +34,8 @@ void emode_search_params::internal_copy(const emode_search_params &rhs)
 {
 	m_ignore_case		= rhs.m_ignore_case ;
 	m_whole_words		= rhs.m_whole_words ; 
-	try
-	{
-		m_search_string		= rhs.m_search_string ;
-	}
-	catch (std::exception&e)
-	{
-		logging::log_error("Failed to set search string for internal copy.") ;
-		logging::log_error(e.what()) ;
-		m_search_string = _T("") ;
-	}
-	try
-	{
-		m_replace_string	= rhs.m_replace_string ;
-	}
-	catch (std::exception&e)
-	{
-		logging::log_error("Failed to set replace string for internal copy.") ;
-		logging::log_error(e.what()) ;
-		m_replace_string = _T("") ;
-	}
+	m_search_string		= rhs.m_search_string ;
+	m_replace_string	= rhs.m_replace_string ;
 	m_search_type		= rhs.m_search_type ;
 }
 

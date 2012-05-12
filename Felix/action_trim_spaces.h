@@ -5,11 +5,11 @@
 
 namespace action
 {
-	class TrimSpacesAction : public RevertibleAction
+	class ActionTrimSpaces : public ActionRevertible
 	{
 	public:
 
-		TrimSpacesAction(mem_engine::memory_pointer mem) : RevertibleAction(mem) {}
+		ActionTrimSpaces(mem_engine::memory_pointer mem) : ActionRevertible(mem) {}
 
 		void redo();
 		wstring name();

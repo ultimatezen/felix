@@ -23,7 +23,7 @@ me::record_pointer add_record(me::memory_pointer &mem, string source, string tra
 BOOST_AUTO_TEST_CASE(instantiate)
 {
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	BOOST_CHECK_EQUAL(trimmer.m_new->size(), 0u) ;
 }
 
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	trimmer.redo() ;
 	me::record_pointer after = trimmer.m_new->get_record_at(0u) ;
 	wstring expected = L"<b>foo</b>" ;
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_old_has_info)
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 	mem->get_memory_info()->set_field(L"PB Gargling") ;
 
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	trimmer.redo() ;
 	wstring actual = trimmer.m_old->get_memory_info()->get_field() ;
 	wstring expected = L"PB Gargling" ;
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(strip_one_record_trans)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " poop ", " <b> foo </b> ") ;
 
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	trimmer.redo() ;
 	me::record_pointer after = trimmer.m_new->get_record_at(0u) ;
 	wstring expected = L"<b>foo</b>" ;
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(undo_strip_one_record)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, " <b> foo </b> ", "blarg") ;
 
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	trimmer.redo() ;
 	trimmer.undo() ;
 	me::record_pointer after = trimmer.m_new->get_record_at(0u) ;
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(undo_trim_one_record_location)
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->set_location("c:\\foo\\bar.ftm") ;
 
-	action::TrimSpacesAction stripper(mem) ;
+	action::ActionTrimSpaces stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(undo_trim_one_record_location_new)
 	me::memory_pointer mem(new me::memory_local(get_props())) ;
 	add_record(mem, "<b>foo</b>", "blarg") ;
 
-	action::TrimSpacesAction stripper(mem) ;
+	action::ActionTrimSpaces stripper(mem) ;
 	stripper.redo() ;
 	stripper.undo() ;
 	wstring actual = static_cast<LPCWSTR>(stripper.m_new->get_location()) ;
@@ -104,14 +104,19 @@ BOOST_AUTO_TEST_CASE(undo_strip_field)
 	add_record(mem, "<b>foo</b>", "blarg") ;
 	mem->get_memory_info()->set_field(L"PB Gargling") ;
 
-	action::TrimSpacesAction trimmer(mem) ;
+	action::ActionTrimSpaces trimmer(mem) ;
 	trimmer.redo() ;
 	trimmer.undo() ;
 	wstring actual = trimmer.m_new->get_memory_info()->get_field() ;
 	wstring expected = L"PB Gargling" ;
 	BOOST_CHECK_EQUAL(expected, actual) ;
 }
-
+BOOST_AUTO_TEST_CASE(get_name)
+{
+	me::memory_pointer mem(new me::memory_local(get_props())) ;
+	action::ActionTrimSpaces trimmer(mem) ;
+	BOOST_CHECK_EQUAL(trimmer.name(), wstring(L"Trim Spaces")) ;
+}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

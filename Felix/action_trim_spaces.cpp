@@ -4,7 +4,7 @@
 
 namespace action
 {
-	void TrimSpacesAction::redo()
+	void ActionTrimSpaces::redo()
 	{
 		using namespace mem_engine;
 		mem_engine::trans_set records ;
@@ -18,7 +18,7 @@ namespace action
 		}
 	}
 
-	wstring TrimSpacesAction::name()
+	wstring ActionTrimSpaces::name()
 	{
 		return R2WSTR(IDS_ACTION_TRIM_SPACES) ;
 	}

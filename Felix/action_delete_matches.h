@@ -7,14 +7,14 @@
 
 namespace action
 {
-	class DeleteMatchesAction : public UndoableAction
+	class ActionDeleteMatches : public UndoableAction
 	{
 	public:
 		typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 		model_iface_ptr m_controller ;
 		match_vec	m_matches ;
 
-		DeleteMatchesAction(model_iface_ptr controller,
+		ActionDeleteMatches(model_iface_ptr controller,
 							match_vec &matches);
 
 		void undo();

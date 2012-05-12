@@ -1223,14 +1223,25 @@ bool CGlossaryDialog::OnBeforeNavigate2( _bstr_t url )
 	}
 	catch (CException& e)
 	{
-		e.notify_user(_T("Failed to process action")) ;
+		logging::log_error("Program exception (Glossary Window)") ;
+		logging::log_exception(e) ;
+		e.notify_user(_T("Failed to process action (program error)\r\rIf the problem persists, please contact support.")) ;
 		return true ;
 	}
 	catch (_com_error& e)
 	{
+		logging::log_error("COM error (Glossary Window)") ;
+		logging::log_exception(e) ;
 		CComException cx(e) ;
 		cx.notify_user(_T("Failed to process action\rAn error occurred connecting to a COM server.")) ;
 		return true ;
+	}
+	catch (std::exception& e)
+	{
+		logging::log_error("Standard library exception (Glossary Window)") ;
+		logging::log_exception(e) ;
+		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
+		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error\r\rIf the problem persists, please contact support."), msg_flags ) ;  
 	}
 
 	return true ;

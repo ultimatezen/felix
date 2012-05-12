@@ -62,6 +62,7 @@ namespace mgrview
 		data[L"validated"] = cpptempl::make_data(mem->get_validated_percent()) ;
 		data[L"locked"] = cpptempl::make_data(bool2wstring( mem->is_locked() )) ;
 		data[L"default_context"] = cpptempl::make_data(mem->get_default_context()) ;
+		data[L"is_active"] = cpptempl::make_data(bool2wstring(mem->is_active())) ;
 	}
 
 	void set_record_info( cpptempl::data_map &item, mem_engine::record_pointer record ) 

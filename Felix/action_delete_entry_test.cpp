@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteEntryAction)
 	{
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
-		action::DeleteEntryAction deleter(mem, rec) ;
+		action::ActionDeleteEntry deleter(mem, rec) ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 1u) ;
 	}
 	BOOST_AUTO_TEST_CASE(add_and_delete_one_record)
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteEntryAction)
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
 
-		action::DeleteEntryAction deleter(mem, rec) ;
+		action::ActionDeleteEntry deleter(mem, rec) ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 1u) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 0u) ;
@@ -44,11 +44,19 @@ BOOST_AUTO_TEST_SUITE(TestDeleteEntryAction)
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
 
-		action::DeleteEntryAction deleter(mem, rec) ;
+		action::ActionDeleteEntry deleter(mem, rec) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 0u) ;
 		deleter.undo() ;
 		BOOST_CHECK_EQUAL(deleter.m_mem->size(), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_name)
+	{
+		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
+		me::record_pointer rec = add_record(mem, "foo", "blarg") ;
+
+		action::ActionDeleteEntry deleter(mem, rec) ;
+		BOOST_CHECK_EQUAL(deleter.name(), wstring(L"Delete Entry")) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

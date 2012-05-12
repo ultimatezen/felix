@@ -5,11 +5,11 @@
 
 namespace action
 {
-	class StripTagsAction : public RevertibleAction
+	class ActionStripTags : public ActionRevertible
 	{
 	public:
 
-		StripTagsAction(mem_engine::memory_pointer mem) : RevertibleAction(mem) {}
+		ActionStripTags(mem_engine::memory_pointer mem) : ActionRevertible(mem) {}
 
 		void redo();
 		wstring name();

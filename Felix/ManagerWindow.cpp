@@ -356,8 +356,8 @@ bool CManagerWindow::OnBeforeNavigate2( _bstr_t burl )
 	}
 	catch (std::exception& e)
 	{
-		logging::log_error("std::exception (Manager Window)") ;
-		logging::log_error(e.what()) ;
+		logging::log_error("Standard library exception (Manager Window)") ;
+		logging::log_exception(e) ;
 		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND ;
 		::MessageBox( m_hWnd, CA2T(e.what()), _T("C Runtime Error in Manager Window"), msg_flags ) ;  
 	}
@@ -523,6 +523,14 @@ bool CManagerWindow::handle_edit_memory(const std::vector<string> &tokens, doc3_
 	header->set_client(parser.client()) ;
 	header->set_is_memory(parser.is_memory()) ;
 	header->set_is_locked(parser.locked()) ;
+	if (parser.is_active())
+	{
+		mem->set_active_on() ;
+	}
+	else
+	{
+		mem->set_active_off() ;
+	}
 	mem->set_default_context(parser.default_context()) ;
 	m_message = L"Edited details for " + mgrview::get_memname(mem) ;
 	return nav_view(tokens) ;
@@ -609,7 +617,7 @@ bool CManagerWindow::delete_record( const std::vector<string> &tokens )
 	memory_pointer mem = get_mem(tokens[2],
 								 boost::lexical_cast<size_t>(tokens[3]));
 
-	m_undo = undo_action_ptr(new DeleteEntryAction(mem, mem->get_record_at(record_number))) ;
+	m_undo = undo_action_ptr(new ActionDeleteEntry(mem, mem->get_record_at(record_number))) ;
 	m_undo->redo() ;
 	string link = "\"/browse/undo_delete\"" ;
 	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
@@ -652,7 +660,7 @@ bool CManagerWindow::delete_record_qc( const std::vector<string> &tokens )
 
 	mem_engine::search_match_ptr match = m_qc_matches[record_number] ;
 	mem_engine::memory_pointer mem = m_mem_model->get_memory_by_id(match->get_memory_id()) ;
-	m_undo = undo_action_ptr(new DeleteEntryAction(mem, match->get_record())) ;
+	m_undo = undo_action_ptr(new ActionDeleteEntry(mem, match->get_record())) ;
 	m_undo->redo() ;
 	string link = "\"/browse/undo_delete\"" ;
 	CStringW msg = system_message_w(IDS_ACTION_UNDO_MSG, 
@@ -1244,11 +1252,11 @@ void CManagerWindow::set_undo_action(const string &action, const string &memtype
 
 	if (action == ACTION_NAME_TRIM)
 	{
-		this->m_undo = undo_action_ptr(new TrimSpacesAction(mem)) ;
+		this->m_undo = undo_action_ptr(new ActionTrimSpaces(mem)) ;
 	}
 	else if (action == ACTION_NAME_STRIP)
 	{
-		this->m_undo = undo_action_ptr(new StripTagsAction(mem)) ;
+		this->m_undo = undo_action_ptr(new ActionStripTags(mem)) ;
 	}
 #endif
 }

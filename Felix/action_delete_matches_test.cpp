@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 		model_iface_ptr model(new FelixModelInterfaceFake) ;
 		match_vec matches ;
 
-		DeleteMatchesAction deleter(model, matches) ;
+		ActionDeleteMatches deleter(model, matches) ;
 		BOOST_CHECK_EQUAL(deleter.m_controller->size(), 0u) ;
 	}
 
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
 
-		DeleteMatchesAction deleter(model, matches) ;
+		ActionDeleteMatches deleter(model, matches) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 0u) ;
 	}
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;
 
-		DeleteMatchesAction deleter(model, matches) ;
+		ActionDeleteMatches deleter(model, matches) ;
 		deleter.redo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 0u) ;
 	}
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
 
-		DeleteMatchesAction deleter(model, matches) ;
+		ActionDeleteMatches deleter(model, matches) ;
 		deleter.redo() ;
 		deleter.undo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 1u) ;
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_SUITE(TestDeleteMatchesAction)
 
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;
 
-		DeleteMatchesAction deleter(model, matches) ;
+		ActionDeleteMatches deleter(model, matches) ;
 		deleter.redo() ;
 		deleter.undo() ;
 		BOOST_CHECK_EQUAL(mem->size(), 2u) ;

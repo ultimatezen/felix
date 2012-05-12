@@ -204,7 +204,7 @@ size_t Array<TYPE>::max_size( ) const
 template < class TYPE >
 const TYPE& Array<TYPE>::operator[] ( const size_t i ) const 
 { 
-	if ( i >= mArraySize )
+	if ( i >= size() )
 	{
 		throw std::out_of_range( "Index out of bounds" ) ;
 	}
@@ -215,7 +215,7 @@ const TYPE& Array<TYPE>::operator[] ( const size_t i ) const
 template < class TYPE >
 TYPE& Array<TYPE>::operator() ( const size_t i ) 
 {
-	if ( i >= mArraySize )
+	if ( i >= size() )
 	{
 		throw std::out_of_range( "Index out of bounds" ) ;
 	}
@@ -234,7 +234,7 @@ template < class TYPE >
 bool Array<TYPE>::resize( const size_t requested_size )
 { 
 	// only grow it if we have to
-	if ( requested_size <= mMaxSize )
+	if ( requested_size <= max_size() )
 	{
 		mArraySize = requested_size ;
 		return true ;
@@ -307,40 +307,23 @@ bool Array<TYPE>::clone( self &rhs ) const
 template < class TYPE >
 bool Array<TYPE>::val_identity( const self &rhs ) const
 {
-	size_t lhs_len = size() ;
+	const size_t lhs_len = size() ;
 
 	if ( lhs_len != rhs.size() ) 
 	{
 		return false ;
 	}
 
-	for ( size_t i = 0u ; i < lhs_len ; ++i )
-	{
-		if ( mTheArray[i] != rhs[i] ) 
-		{
-			return false ;
-		}
-	}
-	return true ;
+	return std::equal(begin(), end(), rhs.mTheArray) ;
 }
 
 template < class TYPE >
 bool Array<TYPE>::swap( self &rhs )
 {
 	// temp variables to remember our own data
-	size_type tmp_size = mArraySize ;
-	size_type tmp_max_size = mMaxSize ;
-	iterator tmp_array = mTheArray ;
-
-	// set this to rhs
-	mArraySize = rhs.mArraySize ;
-	mMaxSize = rhs.mMaxSize ;
-	mTheArray = rhs.mTheArray ;
-
-	// set rhs to the temp values we saved earlier (weren't we smart to do that?)
-	rhs.mArraySize = tmp_size ;
-	rhs.mMaxSize = tmp_max_size ;
-	rhs.mTheArray = tmp_array ;
+	std::swap(mArraySize, rhs.mArraySize) ;
+	std::swap(mMaxSize, rhs.mMaxSize) ;
+	std::swap(mTheArray, rhs.mTheArray) ;
 
 	return true ;
 }
@@ -408,7 +391,7 @@ bool Array<TYPE>::internal_copy( const self &rhs )
 template < class TYPE >
 void Array<TYPE>::dispose( )
 {
-	if ( mTheArray != NULL ) 
+	if ( mTheArray ) 
 	{
 		delete[] mTheArray ;
 		mArraySize = 0 ;

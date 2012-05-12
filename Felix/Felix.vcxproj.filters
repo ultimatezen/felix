@@ -333,18 +333,6 @@
     <ClCompile Include="zoom_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="action_delete_entry_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="action_delete_matches_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="action_strip_tags_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="action_trim_spaces_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="AdvancedMemMgrDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -914,6 +902,18 @@
     </ClCompile>
     <ClCompile Include="ManagerWindow.cpp">
       <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_entry_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_matches_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_strip_tags_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_trim_spaces_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

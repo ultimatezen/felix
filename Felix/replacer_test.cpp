@@ -77,7 +77,24 @@ BOOST_AUTO_TEST_SUITE( mod_date_tests )
 		BOOST_CHECK_EQUAL(12, thedate.wMinute) ;
 		BOOST_CHECK_EQUAL(13, thedate.wSecond) ;
 	}
+	BOOST_AUTO_TEST_CASE(yyyy_mm_dd_hh_MM)
+	{
+		misc_wrappers::date thedate ;
+		thedate.wYear = 2000 ;
+		thedate.wMonth = 10 ; 
+		thedate.wDay = 1 ;
+		thedate.wHour = 1 ;
+		thedate.wMinute = 1 ;
+		thedate.wSecond = 1 ;
 
+		replacer::mod_date(thedate, L"2010-1-23 11:12") ;
+		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
+		BOOST_CHECK_EQUAL(1, thedate.wMonth) ;
+		BOOST_CHECK_EQUAL(23, thedate.wDay) ;
+		BOOST_CHECK_EQUAL(11, thedate.wHour) ;
+		BOOST_CHECK_EQUAL(12, thedate.wMinute) ;
+		BOOST_CHECK_EQUAL(1, thedate.wSecond) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( replacer_tests )

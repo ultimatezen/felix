@@ -4,7 +4,7 @@
 
 namespace action
 {
-	void RevertibleAction::undo()
+	void ActionRevertible::undo()
 	{
 		using namespace mem_engine;
 		m_new->clear_memory() ;
@@ -15,7 +15,7 @@ namespace action
 		mem_engine::copy_mem_info(m_old, m_new) ;
 	}
 
-	void RevertibleAction::perform_action(mem_engine::trans_set &records,
+	void ActionRevertible::perform_action(mem_engine::trans_set &records,
 											boost::function<wstring (wstring text)> pred )
 	{
 		using namespace mem_engine;

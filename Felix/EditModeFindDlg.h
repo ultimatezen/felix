@@ -88,7 +88,7 @@ public:
 		return 0L ;
 	}
 
-	BOOL PreTranslateMessage( MSG *pMsg )
+	BOOL PreTranslateMessage( MSG *pMsg ) 
 	{
 		ENSURE_FOCUS
 
@@ -114,7 +114,7 @@ public:
 	}
 
 	// Function name	: get_combo_string
-	CString get_combo_string( const int index )
+	CString get_combo_string( const int index ) const
 	{
 		BANNER( "get_combo_string" ) ;
 
@@ -185,7 +185,7 @@ public:
 	// Function name	: get_search_params
 	// Description	    : 
 	// Return type		: emode_search_params& 
-	emode_search_params &get_search_params() 
+	emode_search_params &get_search_params()
 	{ 
 		BANNER( "&get_search_params" ) ;
 
@@ -205,7 +205,7 @@ public:
 	// Function name	: on_close_command
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnCloseCommand( )
+	LRESULT OnCloseCommand( ) 
 	{
 		SENSE( "OnClose" ) ;
 
@@ -333,7 +333,7 @@ public:
 		const long flags = set_up_flags() ;
 		// then we actually look for the text
 		html::CHtmlTextRange range = get_range() ;
-		bool found = range.find_text( search_text, flags ) ;
+		const bool found = range.find_text( search_text, flags ) ;
 
 		// if we found it...
 		if ( found )
@@ -468,7 +468,7 @@ public:
 	// Function name	: OnCopy
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnCopy( )
+	LRESULT OnCopy( ) const
 	{
 		BANNER( "CEditModeFindDlg::OnCopy" ) ;
 		::SendMessage(::GetFocus(), WM_COPY, 0, 0L);
@@ -478,7 +478,7 @@ public:
 	// Function name	: OnPaste
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnPaste( )
+	LRESULT OnPaste( ) const
 	{
 		BANNER( "CEditModeFindDlg::OnPaste" ) ;
 		::SendMessage(::GetFocus(), WM_PASTE, 0, 0L);
@@ -488,7 +488,7 @@ public:
 	// Function name	: OnCut
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnCut( )
+	LRESULT OnCut( ) const
 	{
 		BANNER( "CEditModeFindDlg::OnCut" ) ;
 
@@ -499,7 +499,7 @@ public:
 	// Function name	: OnUndo
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnUndo( )
+	LRESULT OnUndo( ) const
 	{
 		BANNER( "CEditModeFindDlg::OnUndo" ) ;
 
@@ -510,7 +510,7 @@ public:
 	// Function name	: OnRedo
 	// Description	    : 
 	// Return type		: LRESULT 
-	LRESULT OnRedo( )
+	LRESULT OnRedo( ) const
 	{
 		BANNER( "CEditModeFindDlg::OnRedo" ) ;
 
@@ -554,7 +554,7 @@ private:
 		range.select() ;	// select it
 	}
 
-	void check_collapse_direction( html::CHtmlTextRange& range, ATL::CString& range_text, ATL::CString& search_text)
+	void check_collapse_direction( html::CHtmlTextRange& range, ATL::CString& range_text, ATL::CString& search_text) const
 	{
 		// false = collapse to end
 		// true = collapse to start
@@ -563,7 +563,7 @@ private:
 		range.select() ;
 
 	}
-	bool should_collapse_at_start( const CString &lhs, const CString &rhs )
+	bool should_collapse_at_start( const CString &lhs, const CString &rhs ) const
 	{
 		// if we have already selected this one, collapse 
 		// end and look for the next one

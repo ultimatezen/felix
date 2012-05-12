@@ -105,6 +105,22 @@ namespace replacer
 		{
 			return false ;
 		}
+
+		// hour
+		if (rec_date.wHour != query.wHour)
+		{
+			return false ;
+		}
+		// minute
+		if (rec_date.wMinute != query.wMinute)
+		{
+			return false ;
+		}
+		// second
+		if (rec_date.wSecond != query.wSecond)
+		{
+			return false ;
+		}
 		return true ;
 	}
 	bool date_after(const misc_wrappers::date rec_date,
@@ -117,60 +133,49 @@ namespace replacer
 		return rec_date > query ;
 
 	}
+	// replace `from` with `to`
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to)
 	{
-		wstring tag ;
-
-		tag = L"source:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"source:"))
 		{
-			return source(rec, getrest(from, tag), to) ;
+			return source(rec, getrest(from, L"source:"), to) ;
 		}
-		tag = L"trans:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"trans:"))
 		{
-			return trans(rec, getrest(from, tag), to) ;
+			return trans(rec, getrest(from, L"trans:"), to) ;
 		}
-		tag = L"context:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"context:"))
 		{
-			return context(rec, getrest(from, tag), to) ;
+			return context(rec, getrest(from, L"context:"), to) ;
 		}
 
 
-		tag = L"reliability:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"reliability:"))
 		{
 			return reliability(rec, to) ;
 		}
-		tag = L"validated:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"validated:"))
 		{
 			return validated(rec, to) ;
 		}
-		tag = L"created-by:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"created-by:"))
 		{
-			return created_by(rec, getrest(from, tag), to) ;
+			return created_by(rec, getrest(from, L"created-by:"), to) ;
 		}
-		tag = L"modified-by:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"modified-by:"))
 		{
-			return modified_by(rec, getrest(from, tag), to) ;
+			return modified_by(rec, getrest(from, L"modified-by:"), to) ;
 		}
-		tag = L"refcount:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"refcount:"))
 		{
 			return refcount(rec, to) ;
 		}
 
-		tag = L"created:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"created:"))
 		{
 			return date_created(rec, to) ;
 		}
-		tag = L"modified:" ;
-		if (startswith(from, tag))
+		if (startswith(from, L"modified:"))
 		{
 			return date_modified(rec, to) ;
 		}

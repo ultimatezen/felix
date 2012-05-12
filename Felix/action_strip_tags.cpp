@@ -5,7 +5,7 @@
 
 namespace action
 {
-	void StripTagsAction::redo()
+	void ActionStripTags::redo()
 	{
 		using namespace mem_engine;
 
@@ -36,7 +36,7 @@ namespace action
 		}
 	}
 
-	wstring StripTagsAction::name()
+	wstring ActionStripTags::name()
 	{
 		return R2WSTR(IDS_ACTION_STRIP_TAGS) ;
 	}
