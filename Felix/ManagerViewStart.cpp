@@ -6,6 +6,14 @@
 
 namespace mgrview
 {
+	cpptempl::data_ptr item_bool(bool value)
+	{
+		if (value)
+		{
+			return cpptempl::make_data(L"true") ;
+		}
+		return cpptempl::make_data(L"") ;
+	}
 	wstring make_mem_list(model_iface_ptr mems, 
 										const wstring memtype )
 	{
@@ -24,22 +32,9 @@ namespace mgrview
 			item[L"size"] = cpptempl::make_data(memsize) ;
 
 			// up/down arrows
-			if (i > 0 && mems->size() > 1)
-			{
-				item[L"has_up"] = cpptempl::make_data(L"true") ;
-			}
-			else
-			{
-				item[L"has_up"] = cpptempl::make_data(L"") ;
-			}
-			if (i < mems->size() - 1 && mems->size() > 1)
-			{
-				item[L"has_down"] = cpptempl::make_data(L"true") ;
-			}
-			else
-			{
-				item[L"has_down"] = cpptempl::make_data(L"") ;
-			}
+			item[L"has_up"] = item_bool(i > 0 && mems->size() > 1) ;
+			item[L"has_down"] = item_bool(i < mems->size() - 1 && mems->size() > 1) ;
+			item[L"is_active"] = item_bool(mem->is_active()) ;
 
 			item[L"name"] = cpptempl::make_data(get_memname(mem)) ;
 
