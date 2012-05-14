@@ -4,7 +4,6 @@
 
 namespace mgrview
 {
-	cpptempl::data_ptr item_bool(bool value) ;
 	wstring make_mem_list(model_iface_ptr mems, 
 		const wstring memtype);
 

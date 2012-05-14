@@ -21,7 +21,7 @@ namespace mgrview
 		SENSE("show_content") ;
 
 		cpptempl::data_map data ;
-		set_template_data(data);
+		set_template_data(data, & m_props->m_qc_props.m_data);
 
 		wstring tpl_text = cpptempl::get_template_text(_T("manager/qc_settings.txt")) ;
 		m_view->set_text(cpptempl::parse(tpl_text, data)) ;
@@ -33,18 +33,18 @@ namespace mgrview
 
 	}
 
-	void ManagerViewQCSettings::set_template_data( cpptempl::data_map &data )
+	void ManagerViewQCSettings::set_template_data( cpptempl::data_map &data, const qc_data *propdata ) const
 	{
 		data[L"message"] = cpptempl::make_data(m_window_listener->get_message()) ;
-		data[L"numbers"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_numbers ? L"true" : L"") ;
-		data[L"allcaps"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_all_caps ? L"true" : L"") ;
-		data[L"gloss"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_check_gloss ? L"true" : L"") ;
-		data[L"live"] = cpptempl::make_data(m_props->m_qc_props.m_data.m_live_checking ? L"true" : L"") ;
+		data[L"numbers"] = item_bool(!! propdata->m_check_numbers) ;
+		data[L"allcaps"] = item_bool(!! propdata->m_check_all_caps) ;
+		data[L"gloss"] = item_bool(!! propdata->m_check_gloss) ;
+		data[L"live"] = item_bool(!! propdata->m_live_checking) ;
 
 		make_mem_list(m_gloss_model, data) ;
 	}
 
-	void ManagerViewQCSettings::make_mem_list( model_iface_ptr mems, cpptempl::data_map &data )
+	void ManagerViewQCSettings::make_mem_list( model_iface_ptr mems, cpptempl::data_map &data ) const
 	{
 		cpptempl::data_list tms ;
 		for(size_t i = 0 ; i < mems->size() ; ++i)
@@ -52,18 +52,10 @@ namespace mgrview
 			mem_engine::memory_pointer mem = mems->memory_at(i) ;
 			cpptempl::data_map item ;
 
-			wstring name = mem->get_fullpath() ;
+			const wstring name = mem->get_fullpath() ;
 			item[L"name"] = cpptempl::make_data(name) ;
 			item[L"id"] = cpptempl::make_data(fmt_num(mem->get_id())) ;
-
-			if (m_props->m_qc_props.check_gloss_name(name))
-			{
-				item[L"checked"] = cpptempl::make_data(L"true") ;
-			}
-			else
-			{
-				item[L"checked"] = cpptempl::make_data(L"") ;
-			}
+			item[L"checked"] = item_bool(m_props->m_qc_props.check_gloss_name(name)) ;
 
 			tms.push_back(cpptempl::make_data(item)) ;
 		}

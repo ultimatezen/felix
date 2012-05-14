@@ -6,14 +6,7 @@
 
 namespace mgrview
 {
-	cpptempl::data_ptr item_bool(bool value)
-	{
-		if (value)
-		{
-			return cpptempl::make_data(L"true") ;
-		}
-		return cpptempl::make_data(L"") ;
-	}
+
 	wstring make_mem_list(model_iface_ptr mems, 
 										const wstring memtype )
 	{

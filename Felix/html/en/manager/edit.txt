@@ -56,8 +56,8 @@
 		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked == "true" %}checked="checked" {% endif %}/></td>
 	</tr>
 	<tr>
-		<td><b>Active:</b></td>
-		<td><input type="checkbox" name="is_active" id="is_active" value="is_active" {% if is_active == "true" %}checked="checked" {% endif %}/></td>
+		<td bgcolor="#E6FFE6"><b>Active:</b></td>
+		<td bgcolor="#E6FFE6"><input type="checkbox" name="is_active" id="is_active" value="is_active" {% if is_active == "true" %}checked="checked" {% endif %}/></td>
 	</tr>
 	<tr>
 		<td><b>Default Context:</b></td>

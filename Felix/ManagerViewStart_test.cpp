@@ -115,6 +115,14 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewStart )
 		BOOST_CHECK_EQUAL(2u, setup.interface_view.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL("set_text", setup.interface_view.m_sensing_variable[0]) ;
 	}
+	BOOST_AUTO_TEST_CASE(test_item_bool_true)
+	{
+		BOOST_CHECK_EQUAL(item_bool(true)->getvalue(), L"true") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_item_bool_false)
+	{
+		BOOST_CHECK(item_bool(false)->getvalue().empty()) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 

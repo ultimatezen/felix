@@ -4,6 +4,7 @@
 #include "Felix_properties.h"
 namespace mgrview
 {
+	typedef app_props::properties_qc::props_data qc_data ;
 	class ManagerViewQCSettings : public ManagerView
 	{
 		app_props::props_ptr m_props ;
@@ -18,7 +19,7 @@ namespace mgrview
 		void activate();
 		void show_content();
 
-		void set_template_data( cpptempl::data_map &data );
-		void make_mem_list(model_iface_ptr mems, cpptempl::data_map &data);
+		void set_template_data( cpptempl::data_map &data, const qc_data *propdata ) const ;
+		void make_mem_list(model_iface_ptr mems, cpptempl::data_map &data) const;
 	};
 }

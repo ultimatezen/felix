@@ -7,7 +7,14 @@
 #include "query.h"
 namespace mgrview
 {
-
+	cpptempl::data_ptr item_bool(bool value)
+	{
+		if (value)
+		{
+			return cpptempl::make_data(L"true") ;
+		}
+		return cpptempl::make_data(L"") ;
+	}
 	wstring get_memname(mem_engine::memory_pointer mem)
 	{
 		return mem_engine::get_fname_from_loc(static_cast<const wchar_t *>(mem->get_location())) ;

@@ -23,3 +23,14 @@ doc3_wrapper_ptr make_doc3_wrapper( html::document3_ptr doc )
 	wrapper->set_document(doc) ;
 	return doc3_wrapper_ptr(wrapper) ;
 }
+
+wstring doc3_wrapper_html::element_value( const wstring key )
+{
+	return get_element_by_id(key)->get_attribute(L"value") ;
+}
+
+bool doc3_wrapper_html::element_checked(const wstring key)
+{
+	const wstring ischecked = get_element_by_id(key)->get_attribute(L"checked") ;
+	return (ischecked == L"true") ;
+}

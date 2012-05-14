@@ -67,6 +67,10 @@
 		<td id="locked">{$locked}</td>
 	</tr>
 	<tr>
+		<td bgcolor="#E6FFE6"><b>Active:</b></td>
+		<td bgcolor="#E6FFE6" id="is_active">{$is_active}</td>
+	</tr>
+	<tr>
 		<td><b>Default Context:</b></td>
 		<td id="locked">{$default_context}</td>
 	</tr>

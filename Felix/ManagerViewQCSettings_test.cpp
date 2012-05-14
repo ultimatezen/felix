@@ -44,8 +44,24 @@ struct qcsettings_view_setup
 		qcsettings_view_setup setup(props) ;
 
 		cpptempl::data_map data ;
-		setup.view.set_template_data(data) ;
+		setup.view.set_template_data(data, & props->m_qc_props.m_data) ;
 		BOOST_CHECK(data.find(L"message") != data.end()) ;
+		BOOST_CHECK(data[L"numbers"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"allcaps"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"gloss"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"live"]->getvalue().empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_set_template_data_defaults)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		qcsettings_view_setup setup(props) ;
+
+		cpptempl::data_map data ;
+		setup.view.set_template_data(data, & props->m_qc_props.m_data) ;
+		BOOST_CHECK(data[L"numbers"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"allcaps"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"gloss"]->getvalue().empty()) ;
+		BOOST_CHECK(data[L"live"]->getvalue().empty()) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_make_mem_list_empty)
 	{

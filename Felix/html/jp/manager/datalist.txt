@@ -10,7 +10,7 @@
         </tr>
 {% for tm in tms %}
         <tr>
-                <td>{$loop.index}. {$tm.name}</td>
+                <td {% if not tm.is_active %}style="color: #999"{% endif %}>{$loop.index}. {$tm.name}</td>
                 <td>{$tm.size}</td>
                 <td>
                         <a href="/{$loop.index0}/{$memtype}/view">表示</a> |

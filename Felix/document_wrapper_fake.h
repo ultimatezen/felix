@@ -20,6 +20,16 @@ public:
 		}
 		return m_elements[id] ;
 	}
+	wstring element_value( const wstring key )
+	{
+		return get_element_by_id(key)->get_attribute(L"value") ;
+	}
+
+	bool element_checked(const wstring key)
+	{
+		const wstring ischecked = get_element_by_id(key)->get_attribute(L"checked") ;
+		return (ischecked == L"true") ;
+	}
 };
 
 inline doc3_wrapper_ptr get_fake_search_doc()

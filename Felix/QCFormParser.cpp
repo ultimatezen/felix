@@ -3,26 +3,22 @@
 
 bool mgrview::QCFormParser::check_numbers()
 {
-	wstring ischecked = m_doc->get_element_by_id(L"numbers")->get_attribute(L"checked") ;
-	return (ischecked == L"true") ;
+	return m_doc->element_checked(L"numbers") ;
 }
 
 bool mgrview::QCFormParser::check_all_caps()
 {
-	wstring ischecked = m_doc->get_element_by_id(L"allcaps")->get_attribute(L"checked") ;
-	return (ischecked == L"true") ;
+	return m_doc->element_checked(L"allcaps") ;
 }
 
 bool mgrview::QCFormParser::check_gloss()
 {
-	wstring ischecked = m_doc->get_element_by_id(L"gloss")->get_attribute(L"checked") ;
-	return (ischecked == L"true") ;
+	return m_doc->element_checked(L"gloss") ;
 }
 
 bool mgrview::QCFormParser::live_check()
 {
-	wstring ischecked = m_doc->get_element_by_id(L"live")->get_attribute(L"checked") ;
-	return (ischecked == L"true") ;
+	return m_doc->element_checked(L"live") ;
 }
 
 void mgrview::QCFormParser::checked_glosses( const std::vector<size_t> &memids, std::vector<size_t> &existids )
@@ -40,5 +36,5 @@ void mgrview::QCFormParser::checked_glosses( const std::vector<size_t> &memids, 
 bool mgrview::QCFormParser::is_id_checked( size_t memid )
 {
 	wstring idname = boost::lexical_cast<wstring>(memid) ;
-	return (m_doc->get_element_by_id(idname)->get_attribute(L"checked") == L"true" );
+	return m_doc->element_checked(idname);
 }

@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		qcsettings_view_setup setup(props) ;
 
 		cpptempl::data_map data ;
-		setup.view.set_template_data(data) ;
+		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
 		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		size_t id2 = mem2->get_id() ;
 
 		cpptempl::data_map data ;
-		setup.view.set_template_data(data) ;
+		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
 		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		qcsettings_view_setup setup(props) ;
 
 		cpptempl::data_map data ;
-		setup.view.set_template_data(data) ;
+		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
 		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		size_t id2 = mem2->get_id() ;
 
 		cpptempl::data_map data ;
-		setup.view.set_template_data(data) ;
+		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
 		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;

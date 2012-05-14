@@ -8,6 +8,9 @@
 
 namespace mgrview
 {
+	// turns a bool into a true/false string ("true" or empty string)
+	cpptempl::data_ptr item_bool(bool value) ;
+
 	class FelixManagerWindowListener
 	{
 	public:

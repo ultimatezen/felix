@@ -59,12 +59,11 @@ namespace mgrview
 
 	wstring EditFormParser::element_value( const wstring key )
 	{
-		return m_doc->get_element_by_id(key)->get_attribute(L"value") ;
+		return m_doc->element_value(key) ;
 	}
 
 	bool EditFormParser::element_checked(const wstring key)
 	{
-		wstring ischecked = m_doc->get_element_by_id(key)->get_attribute(L"checked") ;
-		return (ischecked == L"true") ;
+		return m_doc->element_checked(key) ;
 	}
 }

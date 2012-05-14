@@ -67,6 +67,10 @@
 		<td id="locked">{$locked}</td>
 	</tr>
 	<tr>
+		<td bgcolor="#E6FFE6"><b>有効</b></td>
+		<td bgcolor="#E6FFE6" id="is_active">{$is_active}</td>
+	</tr>
+	<tr>
 		<td><b>既定の文脈</b></td>
 		<td id="locked">{$default_context}</td>
 	</tr>

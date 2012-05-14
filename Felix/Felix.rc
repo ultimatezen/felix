@@ -79,8 +79,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,6,8,2
- PRODUCTVERSION 1,6,8,2
+ FILEVERSION 1,6,9,0
+ PRODUCTVERSION 1,6,9,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -97,12 +97,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Ginstrom IT Solutions"
             VALUE "FileDescription", "Felix Main Module"
-            VALUE "FileVersion", "1.6.8.2"
+            VALUE "FileVersion", "1.6.9.0"
             VALUE "InternalName", "FelixMain"
             VALUE "LegalCopyright", "Copyright GITS"
             VALUE "OriginalFilename", "Felix.exe"
             VALUE "ProductName", "Felix"
-            VALUE "ProductVersion", "1.6.8.2"
+            VALUE "ProductVersion", "1.6.9.0"
         END
     END
     BLOCK "VarFileInfo"
