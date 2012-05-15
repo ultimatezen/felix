@@ -40,7 +40,7 @@ namespace mgrview
 		mem_engine::memory_pointer mem = m_mem_model->memory_at(m_item) ;
 
 		config_gen_data(data, mem);
-		config_page_data(data, matches.size());
+		config_page_data(data, matches.size(), _T("pagination_qc.txt"));
 
 		cpptempl::data_list items ;
 

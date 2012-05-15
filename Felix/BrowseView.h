@@ -22,7 +22,7 @@ namespace mgrview
 			ManagerView() 
 		{}
 
-		void config_page_data( cpptempl::data_map &data, size_t num_pages );
+		void config_page_data( cpptempl::data_map &data, size_t num_pages, CString page_name );
 		void config_gen_data( cpptempl::data_map &data, mem_engine::memory_pointer mem );
 
 	};
