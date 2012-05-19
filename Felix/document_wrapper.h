@@ -2,7 +2,7 @@
 
 #include "element_wrapper.h"
 
-
+// generic doc3 wrapper interface
 class doc3_wrapper
 {
 public:
@@ -14,6 +14,7 @@ public:
 
 typedef boost::shared_ptr<doc3_wrapper> doc3_wrapper_ptr ;
 
+// real doc3 wrapper
 class doc3_wrapper_html : public doc3_wrapper
 {
 	html::document3_ptr m_document ;
@@ -23,6 +24,5 @@ public:
 	bool element_checked(const wstring key);
 	wstring element_value(const wstring key);
 };
-
 
 doc3_wrapper_ptr make_doc3_wrapper(html::document3_ptr doc);

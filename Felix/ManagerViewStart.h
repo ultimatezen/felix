@@ -12,9 +12,12 @@ namespace mgrview
 	public:
 		DECLARE_SENSING_VAR ;
 
+		// the view has been activated
 		void activate();
+		// show view content
 		void show_content();
 
+		// set the template data
 		void set_template_data( cpptempl::data_map &data );
 	};
 
@@ -23,9 +26,11 @@ namespace mgrview
 	public:
 		DECLARE_SENSING_VAR ;
 
+		// the view has been activated
 		void activate(){}
 		void show_content();
 
+		// set the template data
 		void set_template_data( cpptempl::data_map &data );
 	};
 	class ManagerViewStartGloss : public ManagerView
@@ -33,9 +38,12 @@ namespace mgrview
 	public:
 		DECLARE_SENSING_VAR ;
 
+		// the view has been activated
 		void activate(){}
+		// show view content
 		void show_content();
 
+		// set the template data
 		void set_template_data( cpptempl::data_map &data );
 	};
 

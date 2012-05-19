@@ -7,6 +7,7 @@
 namespace mgrview
 {
 
+	// Get the page data for browsing (basically pagination data)
 	void BrowseView::config_page_data( cpptempl::data_map &data, size_t num_pages, CString page_name )
 	{
 		m_paginator.set_num_records(num_pages) ;
@@ -20,6 +21,7 @@ namespace mgrview
 		data[L"num_pages"] = cpptempl::make_data(fmt_num(m_paginator.get_num_pages())) ;
 	}
 
+	// Get generic data for browse view
 	void BrowseView::config_gen_data( cpptempl::data_map &data, mem_engine::memory_pointer mem )
 	{
 		data[L"message"] = cpptempl::make_data(m_window_listener->get_message()) ;

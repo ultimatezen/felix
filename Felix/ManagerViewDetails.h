@@ -19,9 +19,12 @@ namespace mgrview
 				ManagerView()
 		{}
 
+		// view has been activated
 		void activate();
+		// show the view content
 		void show_content();
 
+		// set the template data
 		void set_template_data( cpptempl::data_map &data );
 	};
 }

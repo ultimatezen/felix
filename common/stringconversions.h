@@ -15,11 +15,9 @@ std::string string2string( const std::wstring &str, UINT code_page = _getmbcp() 
 std::wstring string2wstring( const std::wstring &str, UINT code_page = _getmbcp() ) ;
 
 
-/***************************
- *
- * std::string conversion routines
- *
- ***************************/
+//////////////////////////////////////////////////////////////////////////
+// std::string conversion routines                                       /
+//////////////////////////////////////////////////////////////////////////
 
 inline std::string string2string( const std::wstring &str, const UINT code_page )
 {
@@ -125,7 +123,9 @@ inline std::string string2string( const std::string &str, UINT code_page = CP_AC
 	return string2string( w, code_page ) ;
 }
 
-// convert from BSTR
+//////////////////////////////////////////////////////////////////////////
+// convert from BSTR                                                     /
+//////////////////////////////////////////////////////////////////////////
 
 inline std::wstring BSTR2wstring( const BSTR &bstr )
 {
@@ -148,8 +148,6 @@ inline std::string BSTR2string( const BSTR &bstr, UINT code_page = _getmbcp() )
 	const std::wstring tmp = BSTR2wstring( bstr ) ;
 	return string2string( tmp, code_page ) ;
 }
-
-
 
 inline _bstr_t string2BSTR( const std::wstring &str )
 {

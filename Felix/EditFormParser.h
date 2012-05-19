@@ -24,24 +24,38 @@
 namespace mgrview
 {
 
+// Parse the TM edit form
 class EditFormParser
 {
 public:
 	doc3_wrapper_ptr m_doc ;
 	EditFormParser(doc3_wrapper_ptr doc);
-	wstring creator();
 
+	// the memory creator
+	wstring creator();
+	// the memory field
 	wstring field();
+	// date created
 	wstring created_on();
+	// source language
 	wstring source_language();
+	// target language
 	wstring target_language();
+	// client
 	wstring client();
+	// default context (context added if not supplied)
+	//  -- blank to have no default context
 	wstring default_context() ;
+	// true if TM, false if glossary
 	bool is_memory();
+	// locked? (read only)
 	bool locked();
+	// active?
 	bool is_active();
 
+	// is checkbox checked?
 	bool element_checked(const wstring key);
+	// element value (text boxes)
 	wstring element_value(const wstring key);
 };
 
