@@ -729,9 +729,9 @@ using namespace mem_search ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 
-	//////////////////////////////////////////////////////////////////////////
-	// created-before
-	//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// created-before
+//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( match_filters_created_before_test )
 
 using namespace mem_search ;
@@ -747,7 +747,6 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2009/01/01") ;
 
-		search_runner runner ;
 		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
 	}
 	BOOST_AUTO_TEST_CASE(yyyy_mm_true)
@@ -759,7 +758,6 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2010/04/29") ;
 
-		search_runner runner ;
 		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
 	}
 	BOOST_AUTO_TEST_CASE(yyyy_true)
@@ -771,7 +769,6 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2009/01/01") ;
 
-		search_runner runner ;
 		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
 	}
 	BOOST_AUTO_TEST_CASE(yyyy_space_true)
@@ -783,7 +780,17 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2009/01/01") ;
 
-		search_runner runner ;
+		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(yyyy_mm_dd_hh_mm_ss_true)
+	{
+		wstring term(L"created-before:2010-01-02 10:10:10") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/02 10:10:09") ;
+
 		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
 	}
 	// false
@@ -796,7 +803,17 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2011/01/01") ;
 
-		search_runner runner ;
+		BOOST_CHECK(! get_matcher(term)->is_match(rec)) ;
+	}
+	BOOST_AUTO_TEST_CASE(yyyy_mm_dd_hh_mm_ss_false)
+	{
+		wstring term(L"created-before:2010-01-02 10:10:10") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2011/01/02 10:10:10") ;
+
 		BOOST_CHECK(! get_matcher(term)->is_match(rec)) ;
 	}
 	BOOST_AUTO_TEST_CASE(yyyy_mm_false)
@@ -808,7 +825,6 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2010/02/01") ;
 
-		search_runner runner ;
 		BOOST_CHECK(! get_matcher(term)->is_match(rec)) ;
 	}
 	BOOST_AUTO_TEST_CASE(yyyy_false)
@@ -820,21 +836,33 @@ using namespace mem_engine ;
 		rec->set_trans(L"egg") ;
 		rec->set_created(L"2010/01/01") ;
 
-		search_runner runner ;
 		BOOST_CHECK(! get_matcher(term)->is_match(rec)) ;
 	}
 
-	BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END()
 
-	//////////////////////////////////////////////////////////////////////////
-	// created-after
-	//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// created-after
+//////////////////////////////////////////////////////////////////////////
+
 BOOST_AUTO_TEST_SUITE( match_filters_created_after_test )
 
 using namespace mem_search ;
 	using namespace mem_engine ;
 
 	// true
+	BOOST_AUTO_TEST_CASE(yyyy_mm_dd_hh_mm_ss_true)
+	{
+		wstring term(L"created-after:2010-01-02 08:08:08") ;
+
+		record_pointer rec(new record_local) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg") ;
+		rec->set_created(L"2010/01/03 09:09:09") ;
+
+		search_runner runner ;
+		BOOST_CHECK(get_matcher(term)->is_match(rec)) ;
+	}
 	BOOST_AUTO_TEST_CASE(yyyy_mm_dd_true)
 	{
 		wstring term(L"created-after:2010-01-02") ;

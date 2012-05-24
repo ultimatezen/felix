@@ -23,12 +23,17 @@ namespace replacer
 		textstream_reader<wchar_t> reader ;
 		const wstring local_datestring = boost::trim_copy(datestring) ;
 
+		// split the date string into date and time components
+		// (separated by space)
+		// may only have date, in which case the vector will have
+		// one member
 		std::vector<wstring> date_time ;
 		reader.set_buffer(local_datestring.c_str()) ;
 		reader.split(date_time, L" ") ;
 
-
+		// parse the date portion
 		parse_date(date_time[0], thedate);
+		// parse the time portion, if any
 		if (date_time.size() > 1)
 		{
 			parse_time(date_time[1], thedate) ;
@@ -127,9 +132,12 @@ namespace replacer
 		}
 		return true ;
 	}
+	// is rec_date after the query?
 	bool date_after(const misc_wrappers::date rec_date,
 		const misc_wrappers::date query)
 	{
+		// we need this, because we match on partial info.
+		// e.g., `2000-10` == `2000-10-05`
 		if (dates_match(rec_date, query))
 		{
 			return false ;
@@ -140,6 +148,7 @@ namespace replacer
 	// replace `from` with `to`
 	record_pointer do_replace(record_pointer rec, wstring from, wstring to)
 	{
+		// text fields -- source, trans, context
 		if (startswith(from, L"source:"))
 		{
 			return source(rec, getrest(from, L"source:"), to) ;
@@ -153,7 +162,7 @@ namespace replacer
 			return context(rec, getrest(from, L"context:"), to) ;
 		}
 
-
+		// non-text fields: reliability, validated, etc.
 		if (startswith(from, L"reliability:"))
 		{
 			return reliability(rec, to) ;
@@ -222,6 +231,7 @@ namespace replacer
 		rec->set_context(old_context) ;
 		return rec ;
 	}
+	// if not field is specified, replace in source, trans, and context
 	record_pointer none_specified(record_pointer rec, wstring from, wstring to)
 	{
 		source(rec, from, to) ;
