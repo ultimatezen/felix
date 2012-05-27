@@ -30,7 +30,7 @@ public:
 	void show_content();
 	void activate();
 	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add);
 
 };
 
@@ -47,7 +47,7 @@ public:
 	}
 	void show_content();
 	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec);
+	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add);
 	void activate()
 	{
 

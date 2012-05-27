@@ -5,14 +5,23 @@
 
 #include "EditTransRecordDialogCommon.h"
 
+class EditRecordInterface
+{
+public:
+	virtual void add_edit_record(mem_engine::record_pointer record, LPARAM display_state) = 0 ;
+	virtual void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state) = 0 ;
+};
+
 
 class CEditTransRecordDialog : public CEditTransRecordDialogCommon<CEditTransRecordDialog>
 {
 public:
 	typedef CEditTransRecordDialogCommon<CEditTransRecordDialog> BaseClass ;
 
-	record_type m_new_record ;
+	record_type		m_new_record ;
 	LPARAM			m_display_state ;
+	bool			m_is_add ;
+	EditRecordInterface* m_interface ;
 
 	CEditTransRecordDialog();
 
@@ -29,6 +38,8 @@ public:
 	LRESULT OnInitDialog() ;
 	LRESULT OnCancel() ;
 	LRESULT OnOK() ;
+
+	LRESULT notify_calling_window();
 	LRESULT OnEditStrings() ;
 	LRESULT OnAddString() ;
 

@@ -294,6 +294,7 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 {
 	init_edit_window() ;
 	
+	get_editor()->m_is_add = true ;
 	// set the records into the edit dialog
 	get_editor()->set_old_record(record_pointer(new record_local())) ;
 	get_editor()->set_new_record(record_pointer(new record_local())) ;
@@ -452,6 +453,7 @@ void CCommonWindowFunctionality::show_edit_dialog( record_pointer record, const 
 
 	// make sure the window is created, 
 	// and hide it while we do our magic
+	get_editor()->m_is_add = false ;
 	init_edit_window( SW_HIDE ) ;
 	get_editor()->set_old_record( record ) ;
 	get_editor()->set_new_record( record_pointer((new record_local())) ) ;

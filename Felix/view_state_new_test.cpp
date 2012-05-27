@@ -74,14 +74,13 @@ BOOST_AUTO_TEST_SUITE( view_state_new_test )
 		record_pointer rec = record_pointer(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), rec, true) ;
 
-		BOOST_CHECK_EQUAL(5, (int)vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_item_under_edit") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "user_feedback") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "345") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[4].c_str()), "0") ;
+		BOOST_CHECK_EQUAL(4u, vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "set_new_record") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "user_feedback") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[2].c_str()), "345") ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[3].c_str()), "0") ;
 		BOOST_CHECK(vso.listener.new_rec->is_valid_record()) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match )

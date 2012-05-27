@@ -117,6 +117,8 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 {
 	initialize_values() ;
 
+	m_editor->m_interface = this ;
+
 	// initialize min view
 	m_min_view.set_listener(this) ;
 	m_min_view.set_matches(&m_trans_matches) ;
@@ -163,7 +165,6 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	this->register_user_event_listener( USER_LOOKUP_TRANS, boost::bind(&CMainFrame::on_user_lookup_trans, this, _1 )) ;
 	this->register_user_event_listener( USER_SAVE_MEMORIES, boost::bind(&CMainFrame::on_user_save, this, _1 )) ;
 
-	this->register_user_event_listener( IDC_RETRIEVE_EDIT_RECORD, boost::bind(&CMainFrame::on_user_retrieve_edit_record, this, _1 )) ;
 	this->register_user_event_listener( ID_EDIT_FIND, boost::bind(&CMainFrame::on_user_edit_search, this, _1 )) ;
 	this->register_user_event_listener( ID_USER_SEARCH, boost::bind(&CMainFrame::on_user_search, this, _1 )) ;
 	this->register_user_event_listener( IDC_REPLACE_EDIT_RECORD, boost::bind(&CMainFrame::on_user_replace_edit_record, this, _1 )) ;
@@ -593,28 +594,7 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 }
 
 
-//! Add a record after editing.
-LRESULT CMainFrame::on_user_retrieve_edit_record( WindowsMessage &message)
-{
-	const LPARAM lparam = message.lParam ;
-	set_display_state( static_cast< DISPLAY_STATE >( lparam ) ) ;
-	ATLASSERT( get_display_state() == lparam ) ;
 
-	SENSE("on_user_retrieve_edit_record") ;
-
-	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-		m_editor->get_new_record()) ;
-
-#ifdef UNIT_TEST
-	return 0 ;
-#else
-
-	show_view_content() ;
-	return 0L ;
-#endif
-}
 
 
 //! Handle a user exit command
@@ -1880,6 +1860,7 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 
 	const size_t num = static_cast<size_t>(message.lParam) ;
 	m_view_state->set_current(num) ;
+	m_editor->m_is_add = false ;
 	m_view_state->on_user_edit() ;
 
 	return 0L ;
@@ -2311,6 +2292,7 @@ LRESULT CMainFrame::on_edit_entry(WindowsMessage &)
 LRESULT CMainFrame::on_add(WindowsMessage &)
 {
 	SENSE("on_add") ;
+	m_editor->m_is_add = true ;
 	show_edit_dialog_for_new_entry( IDS_ADD_ENTRY ) ;
 	return 0L ;
 }

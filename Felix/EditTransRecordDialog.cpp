@@ -49,7 +49,7 @@ LRESULT CEditTransRecordDialog::OnOK( )
 			throw except::CException( R2T( m_is_glossary ? IDS_MSG_NO_EMPTY_T_GLOSS : IDS_MSG_NO_EMPTY_T ) ) ;
 		}
 
-		::SendMessage( GetParent(), UWM_USER_MESSAGE, IDC_RETRIEVE_EDIT_RECORD, m_display_state ) ;
+		notify_calling_window() ;
 	}
 	catch( CException &e )
 	{
@@ -64,6 +64,7 @@ LRESULT CEditTransRecordDialog::OnOK( )
 
 void CEditTransRecordDialog::fill_new_record()
 {
+	m_new_record = record_type(new record_local) ;
 	fill_rec_from_gui(m_new_record) ;
 	fill_from_old_record();
 
@@ -80,7 +81,9 @@ void CEditTransRecordDialog::set_old_record( record_type record )
 }
 
 CEditTransRecordDialog::CEditTransRecordDialog(): 
-	m_display_state( 0 )
+	m_display_state( 0 ),
+	m_interface(NULL),
+	m_is_add(false)
 {
 	m_new_record = record_type(new record_local) ;
 }
@@ -118,4 +121,17 @@ LRESULT CEditTransRecordDialog::OnAddString()
 void CEditTransRecordDialog::set_new_record( record_type record )
 {
 	m_new_record = record ;
+}
+
+LRESULT CEditTransRecordDialog::notify_calling_window()
+{
+	if (m_is_add)
+	{
+		m_interface->add_edit_record(get_new_record(), m_display_state) ;
+	}
+	else
+	{
+		m_interface->edit_edit_record(get_new_record(), m_display_state) ;
+	}
+	return 0L ;
 }

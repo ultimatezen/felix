@@ -50,7 +50,7 @@ void ViewStateReview::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateReview::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
+void ViewStateReview::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	memory_pointer mem ;
 	try
@@ -63,16 +63,17 @@ void ViewStateReview::retrieve_edit_record( int mem_id, mem_engine::record_point
 		mem = m_model->get_memories()->get_first_memory() ;
 	}
 	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
-	ATLASSERT( mem_id == current_match->get_memory_id() ) ;
-	const mem_engine::record_pointer old_rec = current_match->get_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
+	if (is_add)
 	{
 		mem->add_record(new_rec) ;
 	}
+	else
+	{
+		ATLASSERT( mem_id == current_match->get_memory_id() ) ;
+		const mem_engine::record_pointer old_rec = current_match->get_record() ;
+		mem->replace(old_rec, new_rec) ;
+	}
+
 	current_match->set_record(new_rec) ;
 	current_match->set_values_to_record() ;
 	m_window_listener->set_review_match(new_rec, mem_id) ;

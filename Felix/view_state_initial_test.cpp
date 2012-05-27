@@ -126,11 +126,10 @@ using namespace mem_engine ;
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
 		rec->set_trans(L"trans") ;
-		state.retrieve_edit_record(vso.mem->get_id(), rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), rec, true) ;
 
-		BOOST_CHECK_EQUAL(2u, vso.listener.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "get_new_record") ;
-		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[1].c_str()), "set_new_record") ;
+		BOOST_CHECK_EQUAL(1u, vso.listener.m_sensing_variable.size()) ;
+		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0].c_str()), "set_new_record") ;
 		BOOST_CHECK(vso.listener.new_rec->is_valid_record()) ;
 	}
 	// get_current_match

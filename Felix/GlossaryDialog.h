@@ -54,6 +54,7 @@ class CGlossaryDialog :
 		, public CWindowExceptionHandler< CGlossaryDialog >
 		, public CZoomInterface
 		, public FrameListener
+		, public EditRecordInterface
 {
 	VISIBLE_TO_TESTS
 
@@ -325,16 +326,55 @@ public:
 	LRESULT on_user_edit_replace( LPARAM lParam ) ;
 	LRESULT OnUserAdd( LPARAM lParam ) ;
 	LRESULT OnUserPrev( LPARAM lParam ) ;
-	LRESULT on_user_retrieve_edit_record( LPARAM lParam ) ;
+
+	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
+	{
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+		ATLASSERT( get_display_state() == display_state ) ;
+
+		SENSE("add_edit_record") ;
+
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+			new_record,
+			true) ;
+
+#ifdef UNIT_TEST
+		return ;
+#else
+		show_view_content() ;
+#endif
+
+	}
+	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
+	{
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+		ATLASSERT( get_display_state() == display_state ) ;
+
+		SENSE("edit_edit_record") ;
+
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+			new_record,
+			false) ;
+
+#ifdef UNIT_TEST
+		return ;
+#else
+		show_view_content() ;
+#endif
+
+	}
 
 	// TOOLS
 	LRESULT on_tools_memory_manager();
 	
-		// helpers
-		LRESULT on_user_retrieve_edit_recordNew() ;
-		LRESULT on_user_retrieve_edit_recordLookup() ;
-		LRESULT on_user_retrieve_edit_recordConcordance() ;
-		LRESULT handle_user_search() ;
+	// helpers
+	LRESULT handle_user_search() ;
 
 	// ===================
 	// Drag and Drop
@@ -356,7 +396,6 @@ public:
 		// ----
 		BEGIN_USER_HANDLER_EX
 			USER_HANDLER_EX(ID_USER_SEARCH, on_user_search )
-			USER_HANDLER_EX(IDC_RETRIEVE_EDIT_RECORD, on_user_retrieve_edit_record )
 			USER_HANDLER_EX_0(IDC_REPLACE_EDIT_RECORD, on_user_replace_edit_record )
 			USER_HANDLER_EX(ID_EDIT_FIND, on_user_edit_search )
 			USER_HANDLER_EX(ID_EDIT_REPLACE, on_user_edit_replace )

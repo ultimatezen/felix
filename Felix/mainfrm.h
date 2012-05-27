@@ -59,6 +59,7 @@ class CMainFrame :
 		, public CGlossaryWinListener
 		, public CZoomInterface
 		, public FrameListener
+		, public EditRecordInterface
 {
 VISIBLE_TO_TESTS
 	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
@@ -403,7 +404,49 @@ public:
 	LRESULT on_underline(WindowsMessage &message);
 	LRESULT on_italic(WindowsMessage &message);
 
-	LRESULT on_user_retrieve_edit_record( WindowsMessage &message ) ;
+
+	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
+	{
+		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+		ATLASSERT( get_display_state() == display_state ) ;
+
+		SENSE("add_edit_record") ;
+
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+			new_record,
+			true) ;
+
+#ifdef UNIT_TEST
+		return ;
+#else
+		show_view_content() ;
+#endif
+
+	}
+	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
+	{
+		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+		ATLASSERT( get_display_state() == display_state ) ;
+
+		SENSE("edit_edit_record") ;
+
+		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+			new_record,
+			false) ;
+
+#ifdef UNIT_TEST
+		return ;
+#else
+		show_view_content() ;
+#endif
+
+	}
+
+	//! Add a record after editing.
 
 	LRESULT on_user_add_to_glossary( LPARAM lParam );
 	LRESULT on_user_nav( LPARAM lParam );

@@ -57,6 +57,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 { 
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
+	m_editor->m_interface = this ;
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -485,6 +486,7 @@ LRESULT CGlossaryDialog::on_delete( )
 
 LRESULT CGlossaryDialog::on_add( )
 {
+	m_editor->m_is_add = false ;
 	show_edit_dialog_for_new_entry( IDS_ADD_GLOSS_ENTRY ) ;
 	return 0;
 }
@@ -1140,22 +1142,6 @@ LRESULT CGlossaryDialog::OnUserPrev( LPARAM /* lParam */ )
 	return 0L ;
 }
 
-LRESULT CGlossaryDialog::on_user_retrieve_edit_record( LPARAM lParam )
-{
-	// This message has been sent to us by the edit dialog.
-	// Since we passed a reference counted record pointer, all
-	// we need to do is refresh the display -- the information is already
-	// updated
-
-	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-	// set the new display_state (we set this when we called up the editor)
-	set_display_state ( static_cast< DISPLAY_STATE >( lParam ) );
-	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-									   m_editor->get_new_record()) ;
-	show_view_content() ;
-	return 0L ;
-}
 
 
 CString CGlossaryDialog::get_window_type_string()

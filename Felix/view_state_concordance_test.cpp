@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec, false) ;
 
 		string expected("source") ;
 		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec, false) ;
 
 		BOOST_CHECK_EQUAL(5, (int)vso.listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_item_under_edit") ;
@@ -463,7 +463,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec, false) ;
 
 		string expected("source") ;
 		string actual(string2string(vso.listener.item_under_edit->get_record()->get_source_rich())) ;
@@ -489,7 +489,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_gloss_test )
 		new_rec->set_source(L"source") ;
 		new_rec->set_trans(L"trans") ;
 
-		state.retrieve_edit_record(vso.mem->get_id(), new_rec) ;
+		state.retrieve_edit_record(vso.mem->get_id(), new_rec, false) ;
 
 		BOOST_CHECK_EQUAL(5, (int)vso.listener.m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(string(vso.listener.m_sensing_variable[0]), "get_item_under_edit") ;

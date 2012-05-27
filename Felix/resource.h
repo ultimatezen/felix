@@ -383,8 +383,7 @@
 #define IDC_ITALIC                      317
 #define IDC_LANG_STATIC_TRANS2          317
 #define IDC_UNDERLINE                   318
-#define IDB_FILL_COLOR                  318
-#define IDC_RETRIEVE_EDIT_RECORD        319
+#define IDB_FILL_COLOR                  319
 #define IDC_WHOLE_WORDS_CHECK           320
 #define IDC_COMBO                       321
 #define IDC_FIND_BOX                    322

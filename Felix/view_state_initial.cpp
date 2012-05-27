@@ -12,18 +12,19 @@ void ViewStateInitial::handle_toggle_edit_mode()
 	m_view->put_edit_mode( ! m_view->is_edit_mode() ) ;
 }
 
-void ViewStateInitial::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec )
+void ViewStateInitial::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
-	const mem_engine::record_pointer old_rec = m_window_listener->get_new_record() ;
-	if (old_rec->is_valid_record())
-	{
-		mem->replace(old_rec, new_rec) ;
-	}
-	else
+	if (is_add)
 	{
 		mem->add_record(new_rec) ;
 	}
+	else
+	{
+		const mem_engine::record_pointer old_rec = m_window_listener->get_new_record() ;
+		mem->replace(old_rec, new_rec) ;
+	}
+
 	m_window_listener->set_new_record(new_rec) ;
 }
 

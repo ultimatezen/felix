@@ -624,21 +624,6 @@
     <ClCompile Include="view_interface_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="view_state_concordance_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_initial_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_match_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_new_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="view_state_review_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="ViewCollectionWalker_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -914,6 +899,21 @@
     </ClCompile>
     <ClCompile Include="action_trim_spaces_test.cpp">
       <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_concordance_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review_test.cpp">
+      <Filter>Source Files\view_state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

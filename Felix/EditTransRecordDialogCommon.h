@@ -22,6 +22,13 @@
 
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 
+class EditRecordGuiInterface
+{
+public:
+	virtual bool is_validated() = 0 ;
+};
+
+
 template <class TBase, int RES_ID = IDD_EDIT_RECORD>
 class CEditTransRecordDialogCommon : 
 	public CMessageFilter, 
@@ -225,7 +232,7 @@ public:
 	void fill_rec_from_gui(record_type &rec)
 	{
 		// validated
-		if (FALSE == IsDlgButtonChecked(IDC_VALIDATED_CHECK))
+		if (FALSE == is_validated())
 		{
 			rec->set_validated_off() ;
 		}
@@ -253,6 +260,12 @@ public:
 
 		m_extra_strings_view.fill_user_strings(rec) ;
 	}
+
+	bool is_validated() 
+	{
+		return !! IsDlgButtonChecked(IDC_VALIDATED_CHECK);
+	}
+
 	void init_dlg_part_two()
 	{
 		fill_from_record( m_old_record ) ;
@@ -267,8 +280,7 @@ public:
 		SENSE("fill_from_record") ;
 
 		// reliability
-		CUpDownCtrlT<CWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
-		reliability_spin.SetPos((int) record->get_reliability()) ;
+		set_reliability(static_cast<int>(record->get_reliability()));
 
 #ifndef UNIT_TEST
 		// validated
@@ -292,6 +304,12 @@ public:
 		m_source_edit.SetText(source_text) ;
 
 		m_extra_strings_view.show_extra_strings(record) ;
+	}
+
+	void set_reliability( int reliability_val ) 
+	{
+		CUpDownCtrlT<CWindow> reliability_spin = GetDlgItem(IDC_RELIABILITY_SPIN) ;
+		reliability_spin.SetPos((int) reliability_val) ;
 	}
 	// Message handlers
 
