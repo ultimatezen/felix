@@ -205,16 +205,16 @@ namespace mem_engine
 
 
 
-	double match_maker::get_format_penalty() const
+	double match_maker::get_format_penalty(wstring row, wstring col) const
 	{
 		std::multiset<wstring> row_tags ;
 		std::multiset<wstring> col_tags ;
 		
-		get_tags( m_row.rich(), row_tags ) ;
-		get_tags( m_col.rich(), col_tags ) ;
+		get_tags( row, row_tags ) ;
+		get_tags( col, col_tags ) ;
 		
 		std::vector<wstring> diff ;
-		std::set_intersection(row_tags.begin(), row_tags.end(),
+		std::set_symmetric_difference(row_tags.begin(), row_tags.end(),
 							  col_tags.begin(), col_tags.end(),
 							  std::back_inserter(diff)) ;
 		
@@ -226,7 +226,11 @@ namespace mem_engine
 		textstream_reader< wchar_t > reader ;
 		
 		reader.set_buffer( raw_string.c_str() ) ;
-		reader.find( L"<", true ) ;
+		// if there are no tags, short circuit
+		if (! reader.find( L"<", true ))
+		{
+			return ;
+		}
 		while ( reader.empty() == false ) 
 		{
 			const wstring tag = reader.getline(L'>', true ) ;
@@ -864,7 +868,7 @@ namespace mem_engine
 
 		if ( get_assess_format_penalty() ) 
 		{
-			double format_penalty = get_format_penalty() ;
+			double format_penalty = get_format_penalty(m_row.rich(), m_col.rich()) ;
 			m_match->set_formatting_penalty( format_penalty ) ;
 		}
 

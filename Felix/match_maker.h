@@ -118,7 +118,7 @@ public:
 
 	bool get_score_character_common( search_match_ptr & match );
 	void get_tags( const wstring raw_string, std::multiset<wstring> &tags ) const;
-	double get_format_penalty() const ;
+	double get_format_penalty(wstring row, wstring col) const ;
 	void set_minimum_score( const double &score );
 	double get_minimum_score() const { return m_minimum_score ; }
 

@@ -175,13 +175,106 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 		BOOST_CHECK_CLOSE(match->get_score(), 0.75, 0.0001) ;
 	}
+
+	// get_tags
+	BOOST_AUTO_TEST_CASE(get_tags_none)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring text = L"aaa" ;
+		std::multiset<wstring> tags ;
+
+		mm.get_tags(text, tags) ;
+
+		BOOST_CHECK_EQUAL(0u, tags.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_tags_one)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring text = L"<b>aaa</b>" ;
+		std::multiset<wstring> tags ;
+
+		mm.get_tags(text, tags) ;
+
+		BOOST_CHECK_EQUAL(1u, tags.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_tags_two)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring text = L"<font color=\"red\"><font face=\"Courier\">aaa</font></font>" ;
+		std::multiset<wstring> tags ;
+
+		mm.get_tags(text, tags) ;
+
+		BOOST_CHECK_EQUAL(2u, tags.size()) ;
+	}
+
+	// get_format_penalty
+	BOOST_AUTO_TEST_CASE(get_format_penalty_none)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring row = L"aaa" ;
+		wstring col = L"bbb" ;
+
+		double actual = mm.get_format_penalty(row, col) ;
+
+		BOOST_CHECK_CLOSE(actual, 0.0, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_format_penalty_one_row)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring row = L"<font face=\"courier\">aaa</font>" ;
+		wstring col = L"bbb" ;
+
+		double actual = mm.get_format_penalty(row, col) ;
+
+		BOOST_CHECK_CLOSE(actual, 0.01, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_format_penalty_one_col)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring row = L"bbb" ;
+		wstring col = L"<font face=\"courier\">aaa</font>" ;
+
+		double actual = mm.get_format_penalty(row, col) ;
+
+		BOOST_CHECK_CLOSE(actual, 0.01, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_format_penalty_one_each)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring row = L"<b>bbb</b>" ;
+		wstring col = L"<font face=\"courier\">aaa</font>" ;
+
+		double actual = mm.get_format_penalty(row, col) ;
+
+		BOOST_CHECK_CLOSE(actual, 0.02, 0.0001) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_format_penalty_one_each_one_match)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring row = L"<i><b>bbb</b></i>" ;
+		wstring col = L"<font face=\"courier\"><i>aaa</i></font>" ;
+
+		double actual = mm.get_format_penalty(row, col) ;
+
+		BOOST_CHECK_CLOSE(actual, 0.02, 0.0001) ;
+	}
+	
 BOOST_AUTO_TEST_SUITE_END()
 
-	/************************************************************************/
-	/* tests for fuzzy glossary matches                                     */
-	/************************************************************************/
+/************************************************************************/
+/* tests for fuzzy glossary matches                                     */
+/************************************************************************/
 
-BOOST_AUTO_TEST_SUITE( match_maker_test )
+BOOST_AUTO_TEST_SUITE( match_maker_fuzzy_gloss_test )
 
 	using namespace mem_engine ;
 const static wstring nomatch_tag_open1(L"<span class=\"nomatch\">") ;
