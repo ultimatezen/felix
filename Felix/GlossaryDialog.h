@@ -396,7 +396,6 @@ public:
 		// ----
 		BEGIN_USER_HANDLER_EX
 			USER_HANDLER_EX(ID_USER_SEARCH, on_user_search )
-			USER_HANDLER_EX_0(IDC_REPLACE_EDIT_RECORD, on_user_replace_edit_record )
 			USER_HANDLER_EX(ID_EDIT_FIND, on_user_edit_search )
 			USER_HANDLER_EX(ID_EDIT_REPLACE, on_user_edit_replace )
 		END_USER_HANDLER_EX

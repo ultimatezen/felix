@@ -175,8 +175,6 @@ public:
 	void set_is_memory( const bool setting );
 	bool get_is_memory() const ;
 
-
-
 	void set_listener( CProgressListener *listener )
 	{
 		m_listener = listener ;

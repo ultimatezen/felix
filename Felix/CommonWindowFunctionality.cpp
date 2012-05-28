@@ -154,7 +154,7 @@ INT_PTR CCommonWindowFunctionality::user_wants_to_save( const CString &f_name )
 }
 
 // Function name	: check_save
-INT_PTR CCommonWindowFunctionality::check_save()
+INT_PTR CCommonWindowFunctionality::check_save() 
 {
 	memory_list memories_needing_saving ;
 	this->get_memory_model()->get_memories_needing_saving( memories_needing_saving ) ;
@@ -230,12 +230,6 @@ bool CCommonWindowFunctionality::check_location()
 	}
 
 	return true ;
-}
-
-// Function name	: on_user_replace_edit_record
-LRESULT CCommonWindowFunctionality::on_user_replace_edit_record( )
-{
-	return 0L ;
 }
 
 // Function name	: init_edit_replace_window

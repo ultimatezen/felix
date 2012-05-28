@@ -3807,7 +3807,7 @@ LRESULT CMainFrame::on_file_save_all(WindowsMessage &)
 LRESULT CMainFrame::on_user_replace_edit_record(WindowsMessage &)
 {
 	SENSE("on_user_replace_edit_record") ;
-	return CCommonWindowFunctionality::on_user_replace_edit_record( ) ;
+	return 0L ;
 }
 
 //! Make sure that we haven't exceeded the demo constraints.

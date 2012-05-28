@@ -229,7 +229,6 @@ public:
 	/************************************************************************/
 	/* Common Message Handlers                                              */
 	/************************************************************************/
-	LRESULT on_user_replace_edit_record( ) ;
 	LRESULT on_file_save_all();
 	LRESULT on_bold( ) ;
 	LRESULT on_underline( ) ;
