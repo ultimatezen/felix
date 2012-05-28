@@ -7,54 +7,54 @@
 
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
-BOOST_AUTO_TEST_SUITE( mod_date_tests )
+BOOST_AUTO_TEST_SUITE( parse_datetime_from_string_tests )
 
 	using namespace mem_engine;
 
-	BOOST_AUTO_TEST_CASE( year_only)
+	BOOST_AUTO_TEST_CASE(year_only)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
 		thedate.wMonth = 10 ; 
 		thedate.wDay = 1 ;
 
-		replacer::mod_date(thedate, L"2010") ;
+		replacer::parse_datetime_from_string(thedate, L"2010") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(10, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(1, thedate.wDay) ;
 	}
-	BOOST_AUTO_TEST_CASE( year_month_slash)
+	BOOST_AUTO_TEST_CASE(year_month_slash)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
 		thedate.wMonth = 10 ; 
 		thedate.wDay = 1 ;
 
-		replacer::mod_date(thedate, L"2010/8") ;
+		replacer::parse_datetime_from_string(thedate, L"2010/8") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(8, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(1, thedate.wDay) ;
 	}
-	BOOST_AUTO_TEST_CASE( year_month_dash)
+	BOOST_AUTO_TEST_CASE(year_month_dash)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
 		thedate.wMonth = 10 ; 
 		thedate.wDay = 1 ;
 
-		replacer::mod_date(thedate, L"2010-12") ;
+		replacer::parse_datetime_from_string(thedate, L"2010-12") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(12, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(1, thedate.wDay) ;
 	}
-	BOOST_AUTO_TEST_CASE( year_month_day)
+	BOOST_AUTO_TEST_CASE(year_month_day)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
 		thedate.wMonth = 10 ; 
 		thedate.wDay = 1 ;
 
-		replacer::mod_date(thedate, L"2010-1-23") ;
+		replacer::parse_datetime_from_string(thedate, L"2010-1-23") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(1, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(23, thedate.wDay) ;
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_SUITE( mod_date_tests )
 		thedate.wMinute = 1 ;
 		thedate.wSecond = 1 ;
 
-		replacer::mod_date(thedate, L"2010-1-23 11:12:13") ;
+		replacer::parse_datetime_from_string(thedate, L"2010-1-23 11:12:13") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(1, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(23, thedate.wDay) ;
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE( mod_date_tests )
 		thedate.wMinute = 1 ;
 		thedate.wSecond = 1 ;
 
-		replacer::mod_date(thedate, L"2010-1-23 11:12") ;
+		replacer::parse_datetime_from_string(thedate, L"2010-1-23 11:12") ;
 		BOOST_CHECK_EQUAL(2010, thedate.wYear) ;
 		BOOST_CHECK_EQUAL(1, thedate.wMonth) ;
 		BOOST_CHECK_EQUAL(23, thedate.wDay) ;
@@ -99,8 +99,8 @@ BOOST_AUTO_TEST_SUITE( mod_date_tests )
 	BOOST_AUTO_TEST_CASE(parses_time)
 	{
 		misc_wrappers::date lhs, rhs ;
-		replacer::mod_date(lhs, L"1999/10/10 05:11:12"); 
-		replacer::mod_date(rhs, L"1999/10/10 04:11:12"); 
+		replacer::parse_datetime_from_string(lhs, L"1999/10/10 05:11:12"); 
+		replacer::parse_datetime_from_string(rhs, L"1999/10/10 04:11:12"); 
 
 		BOOST_CHECK(replacer::date_after(lhs, rhs)) ;
 	}
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 	using namespace mem_engine;
 
-	BOOST_AUTO_TEST_CASE( source)
+	BOOST_AUTO_TEST_CASE(source)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL(expected, rec->get_source_rich()) ;
 	}
 
-	BOOST_AUTO_TEST_CASE( trans)
+	BOOST_AUTO_TEST_CASE(trans)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_trans(L"spam") ;
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL("egg", string2string(rec->get_trans_rich())) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_source_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( context)
+	BOOST_AUTO_TEST_CASE(context)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_context(L"spam") ;
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL("egg", string2string(rec->get_context_rich())) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_source_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( none_specified)
+	BOOST_AUTO_TEST_CASE(none_specified)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"a spam") ;
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL("b egg", string2string(rec->get_trans_rich())) ;
 		BOOST_CHECK_EQUAL("c egg", string2string(rec->get_context_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by)
+	BOOST_AUTO_TEST_CASE(created_by)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_creator(L"Ryan Ginstrom") ;
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK_EQUAL("Reiko Ginstrom", string2string(rec->get_creator())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by_asterisk)
+	BOOST_AUTO_TEST_CASE(created_by_asterisk)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_creator(L"Ryan Ginstrom") ;
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK_EQUAL("Reiko", string2string(rec->get_creator())) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_true)
+	BOOST_AUTO_TEST_CASE(validated_true)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_validated_off() ;
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK(rec->is_validated()) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_false)
+	BOOST_AUTO_TEST_CASE(validated_false)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_validated_on() ;
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK(!rec->is_validated()) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability)
+	BOOST_AUTO_TEST_CASE(reliability)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_reliability(5) ;
@@ -219,7 +219,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK_EQUAL(8, (int)rec->get_reliability()) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount)
+	BOOST_AUTO_TEST_CASE(refcount)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_refcount(0) ;
@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 
 		BOOST_CHECK_EQUAL(100, (int)rec->get_refcount()) ;
 	}
-	BOOST_AUTO_TEST_CASE( created)
+	BOOST_AUTO_TEST_CASE(created)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
@@ -245,7 +245,7 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL(9, newdate.wMonth) ;
 		BOOST_CHECK_EQUAL(9, newdate.wDay) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified)
+	BOOST_AUTO_TEST_CASE(modified)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
@@ -263,14 +263,15 @@ BOOST_AUTO_TEST_SUITE( replacer_tests )
 		BOOST_CHECK_EQUAL(9, newdate.wDay) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
-	//////////////////////////////////////////////////////////////////////////
-	// do_replace
-	//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+// do_replace
+//////////////////////////////////////////////////////////////////////////
 BOOST_AUTO_TEST_SUITE( do_replace_tests )
 
 using namespace mem_engine;
 
-	BOOST_AUTO_TEST_CASE( source)
+	BOOST_AUTO_TEST_CASE(source)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"spam") ;
@@ -280,7 +281,7 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL("egg", string2string(rec->get_source_rich())) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_trans_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( trans)
+	BOOST_AUTO_TEST_CASE(trans)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_trans(L"spam") ;
@@ -290,7 +291,7 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL("egg", string2string(rec->get_trans_rich())) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_source_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( context)
+	BOOST_AUTO_TEST_CASE(context)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_context(L"spam") ;
@@ -300,7 +301,7 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL("egg", string2string(rec->get_context_rich())) ;
 		BOOST_CHECK_EQUAL("", string2string(rec->get_source_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( none_specified)
+	BOOST_AUTO_TEST_CASE(none_specified)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"a spam") ;
@@ -313,7 +314,7 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL("b egg", string2string(rec->get_trans_rich())) ;
 		BOOST_CHECK_EQUAL("c egg", string2string(rec->get_context_rich())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by)
+	BOOST_AUTO_TEST_CASE(created_by)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_creator(L"Ryan Ginstrom") ;
@@ -322,7 +323,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK_EQUAL("Reiko Ginstrom", string2string(rec->get_creator())) ;
 	}
-	BOOST_AUTO_TEST_CASE( created_by_asterisk)
+	BOOST_AUTO_TEST_CASE(created_by_asterisk)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_creator(L"Ryan Ginstrom") ;
@@ -331,7 +332,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK_EQUAL("Reiko", string2string(rec->get_creator())) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_true)
+	BOOST_AUTO_TEST_CASE(validated_true)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_validated_off() ;
@@ -340,7 +341,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK(rec->is_validated()) ;
 	}
-	BOOST_AUTO_TEST_CASE( validated_false)
+	BOOST_AUTO_TEST_CASE(validated_false)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_validated_on() ;
@@ -349,7 +350,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK(!rec->is_validated()) ;
 	}
-	BOOST_AUTO_TEST_CASE( reliability)
+	BOOST_AUTO_TEST_CASE(reliability)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_reliability(5) ;
@@ -358,7 +359,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK_EQUAL(3, (int)rec->get_reliability()) ;
 	}
-	BOOST_AUTO_TEST_CASE( refcount)
+	BOOST_AUTO_TEST_CASE(refcount)
 	{
 		record_pointer rec(new record_local) ;
 		rec->set_refcount(0) ;
@@ -367,7 +368,7 @@ using namespace mem_engine;
 
 		BOOST_CHECK_EQUAL(9, (int)rec->get_refcount()) ;
 	}
-	BOOST_AUTO_TEST_CASE( created)
+	BOOST_AUTO_TEST_CASE(created)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;
@@ -384,7 +385,7 @@ using namespace mem_engine;
 		BOOST_CHECK_EQUAL(9, newdate.wMonth) ;
 		BOOST_CHECK_EQUAL(9, newdate.wDay) ;
 	}
-	BOOST_AUTO_TEST_CASE( modified)
+	BOOST_AUTO_TEST_CASE(modified)
 	{
 		misc_wrappers::date thedate ;
 		thedate.wYear = 2000 ;

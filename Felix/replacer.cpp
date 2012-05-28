@@ -12,7 +12,7 @@ namespace replacer
 	{
 		return boost::trim_copy(from.substr(tag.size())) ;
 	}
-	void mod_date(misc_wrappers::date &thedate, const wstring datestring)
+	void parse_datetime_from_string(misc_wrappers::date &thedate, const wstring datestring)
 	{
 		if (datestring.empty())
 		{
@@ -257,7 +257,7 @@ namespace replacer
 	record_pointer date_created(record_pointer rec, wstring created_on)
 	{
 		misc_wrappers::date old = rec->get_created() ;
-		mod_date(old, created_on) ;
+		parse_datetime_from_string(old, created_on) ;
 		rec->set_created(old) ;
 		return rec ;
 	}
@@ -278,7 +278,7 @@ namespace replacer
 	record_pointer date_modified(record_pointer rec, wstring modified_on)
 	{
 		misc_wrappers::date old = rec->get_modified() ;
-		mod_date(old, modified_on) ;
+		parse_datetime_from_string(old, modified_on) ;
 		rec->set_modified(old) ;
 		return rec ;
 	}

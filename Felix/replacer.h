@@ -8,7 +8,8 @@ namespace replacer
 	using mem_engine::record_pointer ;
 
 	// Parse the date-time from the datestring
-	void mod_date(misc_wrappers::date &thedate, const wstring datestring) ;
+	// This is used by both the search and replace features.
+	void parse_datetime_from_string(misc_wrappers::date &thedate, const wstring datestring) ;
 
 	// parse the time from the timestring
 	void parse_time(const wstring &timestring, misc_wrappers::date &thedate ) ;

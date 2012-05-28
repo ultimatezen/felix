@@ -292,7 +292,7 @@ namespace mem_search
 				date compare_date ;
 				try
 				{
-					mod_date(compare_date, query.substr(pos+1)) ;
+					parse_datetime_from_string(compare_date, query.substr(pos+1)) ;
 				}
 				catch (std::exception& e)
 				{
@@ -316,7 +316,7 @@ namespace mem_search
 				date compare_date ;
 				try
 				{
-					mod_date(compare_date, query.substr(pos+1)) ;
+					parse_datetime_from_string(compare_date, query.substr(pos+1)) ;
 				}
 				catch (std::exception& e)
 				{

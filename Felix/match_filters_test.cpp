@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 10) ;
 
 		BOOST_CHECK(dates_match(rec_date, query)) ;
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-06") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 10) ;
 
 		BOOST_CHECK(! dates_match(rec_date, query)) ;
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-10") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 10) ;
 
 		BOOST_CHECK(dates_match(rec_date, query)) ;
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_dates_match )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-11") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 10) ;
 
 		BOOST_CHECK(! dates_match(rec_date, query)) ;
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_date_after )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 6, 10) ;
 
 		BOOST_CHECK(date_after(rec_date, query)) ;
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_date_after )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-06") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 6, 10) ;
 
 		BOOST_CHECK(! date_after(rec_date, query)) ;
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_date_after )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-10") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 11) ;
 
 		BOOST_CHECK(date_after(rec_date, query)) ;
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_SUITE( match_filters_date_after )
 	{
 		misc_wrappers::date query ;
 		wstring datestr(L"1999-05-11") ;
-		replacer::mod_date(query, datestr) ;
+		replacer::parse_datetime_from_string(query, datestr) ;
 		misc_wrappers::date rec_date(1999, 5, 10) ;
 
 		BOOST_CHECK(! date_after(rec_date, query)) ;

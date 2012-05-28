@@ -549,12 +549,10 @@ BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
 		window.set_mem_controller(model) ;
 
 		return mem1 ;
-
 	}
 
-	BOOST_AUTO_TEST_CASE(result_none)
+	doc3_wrapper_ptr make_doc(wstring from, wstring to)
 	{
-		// replace stuff
 		element_wrapper_ptr filterbox(new element_wrapper_fake()) ;
 		element_wrapper_ptr replacelinks(new element_wrapper_fake()) ;
 		element_wrapper_ptr searchresults(new element_wrapper_fake()) ;
@@ -562,8 +560,8 @@ BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
 		element_wrapper_ptr replacefrom(new element_wrapper_fake()) ;
 		element_wrapper_ptr replaceto(new element_wrapper_fake()) ;
 
-		replacefrom->set_attribute(L"value", L"spam") ;
-		replaceto->set_attribute(L"value", L"ham") ;
+		replacefrom->set_attribute(L"value",from) ;
+		replaceto->set_attribute(L"value", to) ;
 
 		doc3_wrapper_fake *wrapper = new doc3_wrapper_fake() ;
 		wrapper->add_element(L"filterbox", filterbox) ;
@@ -572,21 +570,109 @@ BOOST_AUTO_TEST_SUITE( test_handle_replace_all )
 		wrapper->add_element(L"replacefrom", replacefrom) ;
 		wrapper->add_element(L"replaceto", replaceto) ;
 
+		return doc3_wrapper_ptr(wrapper) ;
+	}
 
+	record_pointer add_rec(memory_pointer mem, wstring source, wstring trans)
+	{
+		record_pointer rec(new record_local) ;
+		rec->set_source(source) ;
+		rec->set_trans(trans) ;
+		mem->add_record(rec) ;
+		return rec ;
+	}
+
+	BOOST_AUTO_TEST_CASE(result_empty_mems)
+	{
+		auto wrapped = make_doc(L"spam", L"ham") ;
 		CSearchWindow window ;
 
 		memory_pointer mem = add_controller(window, L"foo", L"bar") ;
 
 		wstring text = L"{$result}" ;
-		window.handle_replace_all(doc3_wrapper_ptr(wrapper), text, L"") ;
+		window.handle_replace_all(wrapped, text, L"") ;
 
 		wstring expected = L"None" ;
 
-		BOOST_CHECK_EQUAL(searchresults->get_inner_text(), expected) ;
-		BOOST_CHECK_EQUAL(filterbox->get_inner_text(), L"") ;
-
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"searchresults")->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"filterbox")->get_inner_text(), L"") ;
 	}
+	BOOST_AUTO_TEST_CASE(result_none_found)
+	{
+		auto wrapped = make_doc(L"aaa", L"bbb") ;
+		CSearchWindow window ;
 
+		memory_pointer mem = add_controller(window, L"mem1", L"mem2") ;
+		add_rec(mem, L"xxx", L"xxx") ;
+
+		wstring text = L"{$result}" ;
+		window.handle_replace_all(wrapped, text, L"") ;
+
+		wstring expected = L"None" ;
+
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"searchresults")->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"filterbox")->get_inner_text(), L"") ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(one_match_one_record)
+	{
+		auto wrapped = make_doc(L"xxx", L"yyy") ;
+		CSearchWindow window ;
+
+		memory_pointer mem = add_controller(window, L"mem1", L"mem2") ;
+		add_rec(mem, L"xxx", L"xxx") ;
+
+		wstring text = L"{$result}" ;
+		window.handle_replace_all(wrapped, text, L"") ;
+
+		wstring expected = L"None" ;
+
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"searchresults")->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"filterbox")->get_inner_text(), L"") ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+		record_pointer rec = mem->get_record_at(0) ;
+		BOOST_CHECK_EQUAL(rec->get_source_plain(), wstring(L"yyy")) ;
+		BOOST_CHECK_EQUAL(rec->get_trans_rich(), wstring(L"yyy")) ;
+	}
+	BOOST_AUTO_TEST_CASE(one_match_one_record_created)
+	{
+		auto wrapped = make_doc(L"created:", L"1990/11/12 07:10") ;
+		CSearchWindow window ;
+
+		memory_pointer mem = add_controller(window, L"mem1", L"mem2") ;
+		add_rec(mem, L"xxx", L"xxx") ;
+
+		wstring text = L"{$result}" ;
+		window.handle_replace_all(wrapped, text, L"") ;
+
+		wstring expected = L"None" ;
+
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"searchresults")->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"filterbox")->get_inner_text(), L"") ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+		record_pointer rec = mem->get_record_at(0) ;
+		BOOST_CHECK_EQUAL(rec->get_created().wYear, 1990) ;
+	}
+	BOOST_AUTO_TEST_CASE(created_with_filter)
+	{
+		auto wrapped = make_doc(L"created:", L"2000/11/12 07:10") ;
+		CSearchWindow window ;
+		window.m_search_runner.add_term(L"xxx") ;
+
+		memory_pointer mem = add_controller(window, L"mem1", L"mem2") ;
+		add_rec(mem, L"xxx", L"xxx") ;
+
+		wstring text = L"{$result}" ;
+		window.handle_replace_all(wrapped, text, L"") ;
+
+		wstring expected = L"None" ;
+
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"searchresults")->get_inner_text(), expected) ;
+		BOOST_CHECK_EQUAL(wrapped->get_element_by_id(L"filterbox")->get_inner_text(), L"") ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+		record_pointer rec = mem->get_record_at(0) ;
+		BOOST_CHECK_EQUAL(rec->get_created().wYear, 2000) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif
