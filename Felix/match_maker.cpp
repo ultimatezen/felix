@@ -11,10 +11,36 @@
 
 namespace mem_engine
 {
+
 	const static wstring fuzzy_tag_low(L"<span class=\"nomatch\">") ;
 	const static wstring fuzzy_tag_mid(L"<span class=\"partial_match1\">") ;
 	const static wstring fuzzy_tag_high(L"<span class=\"partial_match2\">") ;
 	const static wstring fuzzy_tag_close(L"</span>") ;
+
+	template<typename I1, typename I2>
+	size_t bag_distance(I1 first1, I1 last1, I2 first2, I2 last2)
+	{
+		size_t result = 0 ;
+		while(first1 != last1 && first2 != last2) 
+		{
+			if(*first1 < *first2)
+			{
+				++first1 ;
+				++result ;
+			}
+			else if(*first2 < *first1)
+			{
+				++first2 ;
+				++result ;
+			}
+			else 
+			{
+				++first1;
+				++first2;
+			}
+		}
+		return result;
+	}
 
 	// ************************************
 	// *
@@ -94,6 +120,22 @@ namespace mem_engine
 		return true ;
 	}
 
+
+
+	size_t match_maker::bag_difference( const wstring &row, const wstring &col ) const
+	{
+		std::multiset<wchar_t> rows(row.begin(), row.end()) ;
+		std::multiset<wchar_t> cols(col.begin(), col.end()) ;
+		return bag_distance(rows.begin(), rows.end(),
+			cols.begin(), cols.end()) ;
+	}
+
+
+	bool match_maker::match_candidate_bag( const size_t MaxLen, const wstring row, const wstring col ) const
+	{
+		return (bag_difference(row, col) <= MaxLen) ;
+	}
+
 	// bool is_match_candidate
 	// Could this match be within the minimum score?
 	// Check each row, and fail as soon as possible.
@@ -101,6 +143,11 @@ namespace mem_engine
 	{
 		const size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
 		const size_t MaxDist = MaxLen - static_cast< size_t >( ( MaxLen * m_minimum_score ) ) ;
+
+		if (! match_candidate_bag(MaxLen, m_row_string, m_col_string))
+		{
+			return false ;
+		}
 
 		LPCWSTR row_cstr = m_row_string.c_str() ;
 		LPCWSTR col_cstr = m_col_string.c_str() ;
@@ -126,7 +173,7 @@ namespace mem_engine
 				m_matrix( row_num, col_num ) = min_cost_cell ;
 				RowMin = min( RowMin, min_cost_cell ) ;
 			}
-			if( RowMin >MaxDist )
+			if( RowMin > MaxDist )
 			{
 				return false ;
 			}
@@ -213,12 +260,10 @@ namespace mem_engine
 		get_tags( row, row_tags ) ;
 		get_tags( col, col_tags ) ;
 		
-		std::vector<wstring> diff ;
-		std::set_symmetric_difference(row_tags.begin(), row_tags.end(),
-							  col_tags.begin(), col_tags.end(),
-							  std::back_inserter(diff)) ;
+		const size_t diff = bag_distance(row_tags.begin(), row_tags.end(),
+							  col_tags.begin(), col_tags.end()) ;
 		
-		return static_cast<double>(diff.size()) / 100.0 ;
+		return static_cast<double>(diff) / 100.0 ;
 	}
 
 	void match_maker::get_tags(const wstring raw_string, std::multiset<wstring> &tags) const
@@ -227,18 +272,13 @@ namespace mem_engine
 		
 		reader.set_buffer( raw_string.c_str() ) ;
 		// if there are no tags, short circuit
-		if (! reader.find( L"<", true ))
-		{
-			return ;
-		}
-		while ( reader.empty() == false ) 
+		while ( reader.find( L"<", true ) && ! reader.empty() ) 
 		{
 			const wstring tag = reader.getline(L'>', true ) ;
-			if ( tag.empty() == false && tag[0] != L'/' ) 
+			if ( ! tag.empty() && tag[0] != L'/' ) 
 			{
 				tags.insert( boost::to_lower_copy(tag) ) ;
 			}
-			reader.find( L"<", true ) ;
 		}
 		
 	}
@@ -752,11 +792,6 @@ namespace mem_engine
 			token_matrix( 0, token_col_num ) = token_col_num ;
 		
 		// Populate matrix cells
-		// variables for surrounding cells
-		size_t token_above, token_diag, token_left ;
-		
-		// variable for calculating cost
-		size_t token_cost ;
 		
 		// step through rows
 		for ( size_t token_row_num = 1 ; token_row_num <= num_token_rows ; token_row_num++ )
@@ -765,15 +800,15 @@ namespace mem_engine
 			for (  size_t token_col_num = 1 ; token_col_num <= num_token_cols ; token_col_num++ )
 			{
 				// get values of cells above and diagonal
-				token_above = token_matrix( token_row_num-1, token_col_num ) + 1 ;
-				token_diag = token_matrix( token_row_num-1, token_col_num-1 ) ;
-				token_left = token_matrix( token_row_num, token_col_num-1 ) + 1 ;
+				const size_t token_above = token_matrix( token_row_num-1, token_col_num ) + 1 ;
+				size_t token_diag = token_matrix( token_row_num-1, token_col_num-1 ) ;
+				const size_t token_left = token_matrix( token_row_num, token_col_num-1 ) + 1 ;
 				
 				// Compute cost
 				if ( row_word[token_row_num-1] != col_word[token_col_num-1] )
 					token_diag++ ;
 				
-				token_cost = min( token_diag, token_left );
+				const size_t token_cost = min( token_diag, token_left );
 				
 				// get minimum cost
 				token_matrix( token_row_num, token_col_num ) = min( token_cost, token_above ) ;
@@ -862,6 +897,9 @@ namespace mem_engine
 
 		m_match->get_markup()->SetSource( markup_string ) ;
 	}
+
+	// set_match_score
+	// based on score plus any formatting penalty
 	void match_maker::set_match_score()
 	{
 		m_match->set_base_score( m_score ) ;
@@ -874,7 +912,7 @@ namespace mem_engine
 
 	}
 
-
+	// create markup for showing matches/non-matches
 	void match_maker::put_together_markup(const std::list< std::wstring >& col_list, const std::list< std::wstring >& row_list)
 	{
 		compose_query_string(row_list);
@@ -902,6 +940,7 @@ namespace mem_engine
 		return boost::join(element_list, L"") ;
 	}
 
+	// get the start tag for fuzzy gloss match
 	wstring match_maker::get_gloss_markup_start( double gloss_score ) const
 	{
 		const double GLOSS_SCORE_LOW = 0.9 ;
@@ -920,6 +959,7 @@ namespace mem_engine
 		}
 	}
 
+	// get the closing tag for fuzzy gloss
 	wstring match_maker::get_gloss_markup_end(void) const
 	{
 		return fuzzy_tag_close ;
@@ -959,7 +999,7 @@ namespace mem_engine
 			running_cell_cost += row_tokens[row_num-1].size() ;
 			matrix( row_num, 0 ) = cell( running_cell_cost, running_cell_cost, running_cell_cost) ;
 		}
-		// populate column edges				
+		// populate column edges
 		running_cell_cost = 0 ;
 		for ( size_t col_num = 1 ; col_num <= num_cols ; col_num++ )
 		{

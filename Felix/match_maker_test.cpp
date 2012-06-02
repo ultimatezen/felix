@@ -175,6 +175,19 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 		BOOST_CHECK_CLOSE(match->get_score(), 0.75, 0.0001) ;
 	}
+	// match_candidate_bag
+	BOOST_AUTO_TEST_CASE(match_candidate_bag_true)
+	{
+		match_maker mm( 0.1f ) ;
+
+		BOOST_CHECK(mm.match_candidate_bag(4u, L"1234567890", L"67890123")) ;
+	}
+	BOOST_AUTO_TEST_CASE(match_candidate_bag_false)
+	{
+		match_maker mm( 0.1f ) ;
+
+		BOOST_CHECK(! mm.match_candidate_bag(4u, L"1234567890", L"67890")) ;
+	}
 
 	// get_tags
 	BOOST_AUTO_TEST_CASE(get_tags_none)
@@ -210,7 +223,17 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 		BOOST_CHECK_EQUAL(2u, tags.size()) ;
 	}
+	BOOST_AUTO_TEST_CASE(get_tags_text_after)
+	{
+		match_maker mm( 0.1f ) ;
 
+		wstring text = L"<b>aaa</b>bbb" ;
+		std::multiset<wstring> tags ;
+
+		mm.get_tags(text, tags) ;
+
+		BOOST_CHECK_EQUAL(1u, tags.size()) ;
+	}
 	// get_format_penalty
 	BOOST_AUTO_TEST_CASE(get_format_penalty_none)
 	{
