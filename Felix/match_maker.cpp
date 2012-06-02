@@ -39,7 +39,7 @@ namespace mem_engine
 				++first2;
 			}
 		}
-		return result;
+		return result + std::distance(first1, last1) + std::distance(first2, last2) ;
 	}
 
 	// ************************************
@@ -121,7 +121,7 @@ namespace mem_engine
 	}
 
 
-
+	// Get the differences between two bags of characters
 	size_t match_maker::bag_difference( const wstring &row, const wstring &col ) const
 	{
 		std::multiset<wchar_t> rows(row.begin(), row.end()) ;
@@ -131,7 +131,7 @@ namespace mem_engine
 	}
 
 
-	bool match_maker::match_candidate_bag( const size_t MaxLen, const wstring row, const wstring col ) const
+	bool match_maker::match_candidate_bag( const size_t MaxLen, const wstring &row, const wstring &col ) const
 	{
 		return (bag_difference(row, col) <= MaxLen) ;
 	}
@@ -249,8 +249,6 @@ namespace mem_engine
 	{
 		m_minimum_score = score ;
 	}
-
-
 
 	double match_maker::get_format_penalty(wstring row, wstring col) const
 	{

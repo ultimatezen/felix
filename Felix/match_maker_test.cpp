@@ -175,6 +175,39 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 		BOOST_CHECK_CLOSE(match->get_score(), 0.75, 0.0001) ;
 	}
+	// bag_difference
+	BOOST_AUTO_TEST_CASE(bag_difference_0)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring lhs = L"12345"; 
+		wstring rhs = L"12345"; 
+		BOOST_CHECK_EQUAL(0u, mm.bag_difference(lhs, rhs)) ;
+	}
+	BOOST_AUTO_TEST_CASE(bag_difference_1_left)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring lhs = L"12345"; 
+		wstring rhs = L"1234"; 
+		BOOST_CHECK_EQUAL(1u, mm.bag_difference(lhs, rhs)) ;
+	}
+	BOOST_AUTO_TEST_CASE(bag_difference_1_right)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring lhs = L"1234"; 
+		wstring rhs = L"12345"; 
+		BOOST_CHECK_EQUAL(1u, mm.bag_difference(lhs, rhs)) ;
+	}
+	BOOST_AUTO_TEST_CASE(bag_difference_2_both)
+	{
+		match_maker mm( 0.1f ) ;
+
+		wstring lhs = L"1235"; 
+		wstring rhs = L"1234"; 
+		BOOST_CHECK_EQUAL(2u, mm.bag_difference(lhs, rhs)) ;
+	}
 	// match_candidate_bag
 	BOOST_AUTO_TEST_CASE(match_candidate_bag_true)
 	{
@@ -188,7 +221,6 @@ BOOST_AUTO_TEST_SUITE( match_makerTestCase )
 
 		BOOST_CHECK(! mm.match_candidate_bag(4u, L"1234567890", L"67890")) ;
 	}
-
 	// get_tags
 	BOOST_AUTO_TEST_CASE(get_tags_none)
 	{

@@ -149,7 +149,7 @@ public:
 	// Is it possible that this match is within the minimum score?
 	bool is_match_candidate( ) ;
 
-	bool match_candidate_bag( const size_t MaxLen, const wstring row, const wstring col ) const;
+	bool match_candidate_bag( const size_t MaxLen, const wstring &row, const wstring &col ) const;
 
 	size_t bag_difference( const wstring &row, const wstring &col ) const;
 	void create_path_stacks( );
