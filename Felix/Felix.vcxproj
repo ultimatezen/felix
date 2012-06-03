@@ -723,6 +723,8 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="GlossaryWindow.cpp" />
     <ClCompile Include="GlossaryWindow_test.cpp" />
+    <ClCompile Include="gloss_placement.cpp" />
+    <ClCompile Include="gloss_placement_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
     <ClCompile Include="HtmlDocColorSetter.cpp" />
     <ClCompile Include="..\common\HtmlDocument.cpp" />
@@ -1383,6 +1385,7 @@ echo Protection complete!
   <ItemGroup>
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
+    <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="revertible_action.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />

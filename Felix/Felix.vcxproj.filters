@@ -915,6 +915,12 @@
     <ClCompile Include="view_state_review_test.cpp">
       <Filter>Source Files\view_state</Filter>
     </ClCompile>
+    <ClCompile Include="gloss_placement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_placement_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1636,6 +1642,9 @@
     </ClInclude>
     <ClInclude Include="BrowseView.h">
       <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_placement.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
