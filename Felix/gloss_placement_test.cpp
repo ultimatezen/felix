@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 		BOOST_CHECK_EQUAL(holes.lhs.start, 2u) ;
 		BOOST_CHECK_EQUAL(holes.rhs.start, 2u) ;
 	}
-	// find_hole - end
+	// find_hole - len
 	BOOST_AUTO_TEST_CASE(start_0_len_3)
 	{
 		gloss_placement placement ;
