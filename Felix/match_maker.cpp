@@ -904,7 +904,7 @@ namespace mem_engine
 
 		if ( get_assess_format_penalty() ) 
 		{
-			double format_penalty = get_format_penalty(m_row.rich(), m_col.rich()) ;
+			const double format_penalty = get_format_penalty(m_row.rich(), m_col.rich()) ;
 			m_match->set_formatting_penalty( format_penalty ) ;
 		}
 

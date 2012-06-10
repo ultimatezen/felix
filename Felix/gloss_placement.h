@@ -7,6 +7,9 @@ namespace mem_engine
 #ifdef min
 #undef min
 #endif
+#ifdef max
+#undef max
+#endif
 
 	// Place glossary matches.
 	class gloss_placement
@@ -43,12 +46,8 @@ namespace mem_engine
 				return false ;
 			}
 
-			// Advance over the part at the beginning that matches.
-			size_t start = 0 ;
-			while(start < std::min(lhs.size(), rhs.size()) && lhs[start] == rhs[start])
-			{
-				++start ;
-			}
+			// Get the first place where they don't match.
+			const size_t start = find_start(lhs, rhs);
 
 			// Advance over the part at the end that matches.
 			size_t end1 = lhs.size() ;
@@ -63,13 +62,23 @@ namespace mem_engine
 			holes.lhs.start = start ;
 			holes.rhs.start = start ;
 
-			holes.lhs.len = end1 - start ;
-			holes.rhs.len = end2 - start ;
+			holes.lhs.len = std::max(end1, start) - start ;
+			holes.rhs.len = std::max(end2, start) - start ;
 
 			return true ;
 	
 		}
 
+		// Advance over the part at the beginning that matches.
+		size_t find_start( const wstring &lhs, const wstring &rhs ) const
+		{
+			size_t start = 0 ;
+			while(start < std::min(lhs.size(), rhs.size()) && lhs[start] == rhs[start])
+			{
+				++start ;
+			}
+			return start ;
+		}
 		// Translate a hole into a substring.
 		wstring str_hole(const wstring text, const hole_t h) const
 		{

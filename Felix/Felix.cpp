@@ -1,8 +1,14 @@
-// ***************************************************************
-//  @brief Entry point for Felix app.
-//  -------------------------------------------------------------
-//  Copyright (C) 2006 - All Rights Reserved
-// ***************************************************************
+/***************************************************************
+  @brief Entry point for Felix app.
+
+  Felix could get called as a main application, or as a COM server.
+  - Main application
+	  Launches the mainframe window, starts message loop
+  - COM server
+    Creates Felix::App and starts message loop, without
+	creating main window.
+  
+****************************************************************/
 
 /** @mainpage
 
@@ -49,7 +55,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/timer.hpp>
 
-
+// Setup stuff for unit testing using Boost.Test
 template <class CharT, class TraitsT = std::char_traits<CharT> >
 class basic_debugbuf : 
 	public std::basic_stringbuf<CharT, TraitsT>
@@ -124,7 +130,7 @@ using namespace except ;
 /** memory debugging */
 #ifdef _DEBUG // start memory leak checker
 
-#include < crtdbg.h >
+#include <crtdbg.h>
 
 /*!
 	@class CLeakChecker
@@ -146,9 +152,12 @@ public:
 CLeakChecker	leak_checker ;
 #endif
 
-#endif // #if _DEBUG // start memory leak checker
+#endif // #if _DEBUG // end memory leak checker
 
+/* Handler for invalid parameters.
 
+Function to be called when the CRT detects an invalid argument.
+*/
 void felix_invalid_parameter_handler(
 									 const wchar_t * expression,
 									 const wchar_t * function_name, 
@@ -182,6 +191,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	CMessageLoop theLoop;
 	_Module.AddMessageLoop(&theLoop);
 
+	// singleton ensures we have only one main window.
 	CMainFrame &view = app::get_app() ;
 
 	ATLASSERT( ! view.m_message_map.empty() ) ;
@@ -205,8 +215,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 }
 
 /*!
- * \brief
- * Put it in a subroutine to allow exceptions to be caught.
+ * Put main code into a subroutine to allow exceptions to be caught more easily.
  * 
  * \returns
  * int - success
@@ -222,17 +231,21 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// this resolves ATL window thunking problem when Microsoft Layer for Unicode (MSLU) is used
 	::DefWindowProc(NULL, 0, 0, 0L);
 	ATLVERIFY(AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS)) ;
+
+	// We need the rich edit control
 	CLibrary riched_lib( CWideRichEdit::GetLibraryName() ) ;
-
 	ATLASSERT( riched_lib.is_loaded() ) ;
-
 	if ( ! riched_lib.is_loaded() )
 	{
+		// Loading didn't work, so we try loading it manually.
 		logging::log_debug("Loading RTF library") ;
 		riched_lib.load( CRichEditCtrl::GetLibraryName() ) ;
+		ATLASSERT( riched_lib.is_loaded() ) ;
 	}
 
 	logging::log_debug("Opening main Felix window") ;
+	// Initialize Felix module and ActiveX windowing
+	// We need ActiveX because we embed the IE web browser
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
 	TRUE_ENFORCE( FALSE != AtlAxWinInit(), _T("Call to AtlAxWinInit() failed!") ) ;
 
@@ -243,22 +256,26 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	bRegister = true ;
 #endif
 
+	// Check command line
 	TCHAR szTokens[] = _T("-/");
 	LPCTSTR lpszToken = _Module.FindOneOf(::GetCommandLine(), szTokens);
 	while(lpszToken != NULL)
 	{
+		// unregister COM component
 		if( ! _tcsicmp( lpszToken, _T("UnregServer") ) )
 		{
 			nRet = _Module.UnregisterServer();
 			bRun = false;
 			break;
 		}
+		// register COM component
 		else if( ! _tcsicmp( lpszToken, _T("RegServer") )  )
 		{
 			bRegister = true ;
 			bRun = false;
 			break;
 		}
+		// automation (run as COM server)
 		else if(! _tcsicmp( lpszToken, _T("Automation") ) ||
 			! _tcsicmp( lpszToken, _T("Embedding") ) )
 		{
@@ -268,20 +285,25 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		lpszToken = _Module.FindOneOf(lpszToken, szTokens);
 	}
 	
+	// During debugging, we go ahead and register the COM server every time.
+#ifdef _DEBUG
+	bRegister = true ;
+#endif
+
+	// register
 	if (bRegister)
 	{
 		logging::log_debug("Registering Felix COM server") ;
 		COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
 		::MessageBeep( MB_ICONINFORMATION ) ;
 	}
+	// run as main window
 	if(bRun)
 	{
-#ifdef _DEBUG
-		_Module.RegisterServer(TRUE) ;
-#endif
-
 		try
 		{
+			// Copy over the HTML files if they aren't present. These are the templates
+			// we use in our HTML views.
 			logging::log_debug("Ensuring HTML files") ;
 			CDispatchWrapper utils(L"Felix.Utilities") ;
 			utils.method(L"EnsureHtml") ;
@@ -314,6 +336,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 			
 			_Module.RemoveMessageLoop();
 		}
+		// Create the main window and run the message loop.
 		else
 		{
 			nRet = Run(lpstrCmdLine, nCmdShow);
@@ -323,9 +346,23 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	::Sleep(_Module.m_dwPause);
 	_Module.RevokeClassObjects();
 	_Module.Term();
-	::OleUninitialize() ;
 	return nRet ;
 }
+
+/** Ensures that OLE is initialized and unitialized.
+*/
+class COleManager
+{
+public:
+	COleManager()
+	{
+		ATLVERIFY(SUCCEEDED(::OleInitialize(NULL)));
+	}
+	~COleManager()
+	{
+		::OleUninitialize() ;
+	}
+};
 
 /*!
  * Our program's entry point.
@@ -334,7 +371,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
  */
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int nCmdShow)
 {
-	ATLVERIFY(SUCCEEDED(::OleInitialize(NULL)));
+	COleManager ole_manager ;
 
 	// sets us to convert SEH into C++ exceptions,
 	// and sets up float exceptions as well
@@ -348,6 +385,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	}
 	catch (_com_error& e)
 	{
+		// logging has failed somehow
 		e ;
 	}
 	catch(...)
@@ -361,6 +399,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	scintilla_module ;
 	ATLASSERT(scintilla_module.IsLoaded()) ;
 
+// For unit testing
 #ifdef UNIT_TEST
 	lpstrCmdLine ;
 	nCmdShow ;
@@ -387,6 +426,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	::OleUninitialize() ;
     return EXIT_SUCCESS ;
 
+// otherwise, proceed with program as usual (not unit testing)
 #else
 
 	// going to a subroutine makes it cleaner to separate app code from error handling
