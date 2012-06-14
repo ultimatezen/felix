@@ -1,5 +1,4 @@
-/***************************************************************
-  @brief Entry point for Felix app.
+/** Entry point for Felix app.
 
   Felix could get called as a main application, or as a COM server.
   - Main application
