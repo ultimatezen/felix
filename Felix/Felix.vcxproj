@@ -1387,6 +1387,7 @@ echo Protection complete!
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="revertible_action.h" />
+    <ClInclude Include="unit_test_config.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />
     <ClInclude Include="..\common\aboutdlg.h" />

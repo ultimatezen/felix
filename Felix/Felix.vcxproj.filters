@@ -1646,6 +1646,9 @@
     <ClInclude Include="gloss_placement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="unit_test_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="felix_tm.xsd" />

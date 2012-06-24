@@ -15,6 +15,22 @@
 
 #pragma warning( disable:4310 ) // cast truncates constant value
 
+/*! Checks for memory leaks.
+
+Making it a module-level variable ensures that it sets the leak-check flags 
+before other program code runs.
+ */
+class CLeakChecker
+
+{
+public:
+	CLeakChecker()
+	{	
+		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_LEAK_CHECK_DF );
+	}
+} ;
+
+
 
 #pragma warning( disable:4995 ) // deprecated
 	#include <comdef.h> // _bstr_t

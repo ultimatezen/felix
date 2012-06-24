@@ -3493,13 +3493,11 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 		return ;
 	}
 
-	CString content = resource_string( IDS_ADDED_TRANSLATION ) ;
-	content += _T(" ") ;
-
 	CNumberFmt fm ;
 	CString msg ;
 	msg.FormatMessage( IDS_CURRENT_SIZE, resource_string( IDS_MEMORY ), fm.Format( mem->size() ) ) ;
-	content += msg ;
+
+	const CString content = resource_string( IDS_ADDED_TRANSLATION ) + _T(" ") + msg ;
 	user_feedback( content ) ;
 }
 

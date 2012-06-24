@@ -727,6 +727,8 @@ namespace mem_engine
 		}
 
 		put_together_markup(col_list, row_list) ;
+		// we need a little switcheroo here (because our matcher stupidly thinks the source is the query)
+		source_trans_switcheroo();
 
 		return true ;
 	}
