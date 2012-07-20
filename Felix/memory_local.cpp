@@ -1005,6 +1005,7 @@ namespace mem_engine
 		}
 	}
 
+	// Get records with exact match of query to plain source
 	size_t memory_local::get_perfect_matches( trans_set &records, const wstring &query )
 	{
 		foreach(record_pointer record, m_records | ad::map_values)

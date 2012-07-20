@@ -234,13 +234,17 @@ public:
 	/* pure virtual methods                                                 */
 	/************************************************************************/
 
+	//////////////////////////////////////////////////////////////////////////
 	// statistical info
+	//////////////////////////////////////////////////////////////////////////
 	virtual void batch_set_reliability( size_t rel ) = 0;
 	virtual void batch_set_validation( bool val ) = 0 ;
 	virtual wstring get_validated_percent(void) =  0 ;
 	virtual rel_tuple get_reliability_stats(void) = 0 ;
 
+	//////////////////////////////////////////////////////////////////////////
 	// memory info
+	//////////////////////////////////////////////////////////////////////////
 	virtual MemoryInfo* get_memory_info(void) = 0 ;
 	virtual const MemoryInfo* get_memory_info_const(void) const = 0 ;
 	virtual void set_locked_off(void) = 0 ;
@@ -250,7 +254,9 @@ public:
 	virtual size_t size(void) = 0; // Can't make it const because the remote memory makes a COM call.
 	virtual bool empty(void) = 0;
 
+	//////////////////////////////////////////////////////////////////////////
 	// load/save
+	//////////////////////////////////////////////////////////////////////////
 	virtual bool load( const CString &file_name ) = 0 ;
 	virtual bool save_memory(void) = 0;
 
@@ -259,7 +265,9 @@ public:
 	virtual void set_mem_location(CString location) = 0 ;
 	virtual CString get_fullpath(void) = 0 ;
 
+	//////////////////////////////////////////////////////////////////////////
 	// memory methods
+	//////////////////////////////////////////////////////////////////////////
 	virtual bool is_local(void) = 0 ;
 	virtual record_collection_type& get_records(void) = 0 ;
 
@@ -286,6 +294,7 @@ public:
 	virtual bool perform_search( search_match_container &matches, 
 						const search_query_params &params ) = 0;
 
+	// Get records with exact match of query to plain source
 	virtual size_t get_perfect_matches(trans_set &records, const wstring &query) = 0 ;
 
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;

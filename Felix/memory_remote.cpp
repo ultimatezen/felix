@@ -667,10 +667,11 @@ namespace mem_engine
 	{
 		trans_set candidates ;
 
+		// Get the matches from the remote mem
 		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), 1.0) ;
 		this->convert_candidates(candidates, matches) ;
 
-
+		// Collect the matches with exact match of plain source
 		foreach(record_pointer record, candidates)
 		{
 			if (record->get_source_plain() == query)
