@@ -13,9 +13,9 @@
 #include "ComUtilities.h"
 #include "logging.h"
 
-inline HRESULT supports_error_info(const IID* arr[], REFIID riid)
+inline HRESULT supports_error_info(const IID* arr[], size_t num_elements, REFIID riid)
 {
-	for (int i=0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	for (size_t i=0; i < num_elements; i++)
 	{
 		if (InlineIsEqualGUID(*arr[i],riid))
 			return S_OK;
