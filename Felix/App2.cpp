@@ -17,7 +17,7 @@ STDMETHODIMP CApp2::InterfaceSupportsErrorInfo(REFIID riid)
 		&IID_IApp2
 	};
 
-	return supports_error_info(arr, riid) ;
+	return supports_error_info(arr, 1u, riid) ;
 }
 
 // memories/glossaries

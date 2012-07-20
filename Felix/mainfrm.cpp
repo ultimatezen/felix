@@ -3053,7 +3053,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 	if( ! m_min_view.IsWindow() )
 	{
 		m_min_view.set_parent(*this) ;
-		m_min_view.Create( NULL ) ;
+		m_min_view.Create(*this) ;
 	}
 
 	ATLASSERT( m_min_view.IsWindow() ) ;

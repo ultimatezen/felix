@@ -36,15 +36,7 @@ namespace mem_engine
 		  bool is_locked();
 
 		  // map stuff
-		  key_type get_key(record_pointer rec)
-		  {
-			  if (this->get_is_memory() && this->m_mem_properties->is_one_trans_per_source())
-			  {
-				  return std::make_pair(rec->get_source_rich(), wstring()) ;
-			  }
-			  return std::make_pair(rec->get_source_rich(), rec->get_trans_rich()) ;
-		  }
-
+		  key_type get_key(record_pointer rec);
 
 			// loading
 		  void load_header_raw_text(const char *raw_text, size_t file_len);
@@ -56,6 +48,7 @@ namespace mem_engine
 		  int get_progress_interval(int num_records) ;
 		  void handle_cexception_on_load( const CString& file_name, bool was_saved, except::CException& e ) ;
 
+		  void check_bail_from_load( bool was_saved, except::CException &e, const CString& file_name );
 		  // TranslationMemory
 		  bool add_record(record_pointer record) ;
 
@@ -105,6 +98,9 @@ namespace mem_engine
 		  void search_no_regex(const search_query_params & params, search_match_container &matches);
 		  void batch_set_reliability( size_t rel );
 		  void batch_set_validation( bool val );
+
+		  size_t get_perfect_matches(trans_set &records, const wstring &query);
+
 	};
 
 	void copy_mem_info(memory_pointer from, memory_pointer to) ;

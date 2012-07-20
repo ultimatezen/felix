@@ -77,7 +77,7 @@ STDMETHODIMP CRecord::InterfaceSupportsErrorInfo(REFIID riid)
 		&IID_IRecord
 	};
 
-	return supports_error_info(arr, riid) ;
+	return supports_error_info(arr, 1u, riid) ;
 }
 
 // trans

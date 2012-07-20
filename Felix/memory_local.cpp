@@ -901,32 +901,11 @@ namespace mem_engine
 			}
 		}
 
-		if (m_listener)
-		{
-			if ( UserSaysBail() )
-			{
-				m_listener->OnProgressDoneLoad(0) ;
-				set_saved_flag( was_saved ) ;
-				e.set_bottom_message( get_load_failure_msg(file_name) ) ;
-				throw except::CException( e ) ;
-			}
-		}
-		else
-		{
-			e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
-			if ( IDNO == e.notify_user( IDS_LOAD_RECORD_FAILED, MB_YESNO ) )
-			{
-				set_saved_flag( was_saved ) ;
-				CString exception_message ;
-				exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
-				throw except::CException( exception_message ) ;
-			}
-		}
-
-
+		// Otherwise, see if we should bail from the load
+		check_bail_from_load(was_saved, e, file_name);
 	}
 
-	/*
+	/**
 	Find out if we should check whether this is a demo
 	version while adding a record.
 	*/
@@ -992,4 +971,49 @@ namespace mem_engine
 		}
 	}
 
+	mem_engine::key_type memory_local::get_key( record_pointer rec )
+	{
+		if (this->get_is_memory() && this->m_mem_properties->is_one_trans_per_source())
+		{
+			return std::make_pair(rec->get_source_rich(), wstring()) ;
+		}
+		return std::make_pair(rec->get_source_rich(), rec->get_trans_rich()) ;
+	}
+
+	void memory_local::check_bail_from_load( bool was_saved, CException &e, const CString& file_name )
+	{
+		if (m_listener)
+		{
+			if ( UserSaysBail() )
+			{
+				m_listener->OnProgressDoneLoad(0) ;
+				set_saved_flag( was_saved ) ;
+				e.set_bottom_message( get_load_failure_msg(file_name) ) ;
+				throw except::CException( e ) ;
+			}
+		}
+		else
+		{
+			e.set_bottom_message( IDS_PROMPT_DISCARD_LOAD ) ;
+			if ( IDNO == e.notify_user( IDS_LOAD_RECORD_FAILED, MB_YESNO ) )
+			{
+				set_saved_flag( was_saved ) ;
+				CString exception_message ;
+				exception_message.FormatMessage( IDS_LOAD_FAILED, file_name ) ;
+				throw except::CException( exception_message ) ;
+			}
+		}
+	}
+
+	size_t memory_local::get_perfect_matches( trans_set &records, const wstring &query )
+	{
+		foreach(record_pointer record, m_records | ad::map_values)
+		{
+			if (record->get_source_plain() == query)
+			{
+				records.insert(record) ;
+			}
+		}
+		return records.size() ;
+	}
 }

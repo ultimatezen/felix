@@ -1452,6 +1452,52 @@ BOOST_AUTO_TEST_SUITE( test_tabulate_fonts )
 
 BOOST_AUTO_TEST_SUITE_END()
 
+
+BOOST_AUTO_TEST_SUITE( test_get_perfect_matches)
+
+	using namespace mem_engine ;
+	using namespace except ;
+
+	BOOST_AUTO_TEST_CASE(empty_mem)
+	{
+		// create a local memory
+		memory_local mem(app_props::get_props(), 0.0f) ;
+
+		trans_set records ;
+		wstring query = L"foo" ;
+
+		mem.get_perfect_matches(records, query) ;
+		BOOST_CHECK_EQUAL(0u, records.size()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(no_matches)
+	{
+		// create a local memory
+		memory_local mem(app_props::get_props(), 0.0f) ;
+		add_record(mem, "aaa", "111") ;
+
+		trans_set records ;
+		wstring query = L"bbb" ;
+
+		mem.get_perfect_matches(records, query) ;
+		BOOST_CHECK_EQUAL(0u, records.size()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(two_matches)
+	{
+		// create a local memory
+		memory_local mem(app_props::get_props(), 0.0f) ;
+		add_record(mem, "aaa", "111") ;
+		add_record(mem, "aaa", "222") ;
+
+		trans_set records ;
+		wstring query = L"aaa" ;
+
+		mem.get_perfect_matches(records, query) ;
+		BOOST_CHECK_EQUAL(2u, records.size()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
 //////////////////////////////////////////////////////////////////////////
 // perform_search (concordance)       
 //////////////////////////////////////////////////////////////////////////

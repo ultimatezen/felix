@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 		wstring lhs = L"aaa" ;
 		wstring rhs = L"aaa" ;
 		gloss_placement::hole_pair_t holes ;
-		BOOST_CHECK(placement.find_hole(lhs, rhs, holes)) ;
+		BOOST_CHECK(! placement.find_hole(lhs, rhs, holes)) ;
 		BOOST_CHECK_EQUAL(holes.lhs.start, 3u) ;
 		BOOST_CHECK_EQUAL(holes.rhs.start, 3u) ;
 		BOOST_CHECK_EQUAL(holes.lhs.len, 0u) ;
@@ -122,6 +122,47 @@ BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 		BOOST_CHECK_EQUAL(placement.str_hole(text, h), expected) ;
 	}
 
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_holes )
+
+	using namespace mem_engine ;
+	BOOST_AUTO_TEST_CASE(hole_init_empty)
+	{
+		gloss_placement::hole_t hole ;
+		BOOST_CHECK(hole.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(zero_len_empty)
+	{
+		gloss_placement::hole_t hole(3u, 0u) ;
+		BOOST_CHECK(hole.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(len_2_not_empty)
+	{
+		gloss_placement::hole_t hole(3u, 1u) ;
+		BOOST_CHECK(! hole.empty()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(hole_pair_init_empty)
+	{
+		gloss_placement::hole_pair_t holepair ;
+		BOOST_CHECK(holepair.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(pair_one_empty)
+	{
+		gloss_placement::hole_t hole1(3u, 0u) ;
+		gloss_placement::hole_t hole2(3u, 3u) ;
+		gloss_placement::hole_pair_t holepair(hole1, hole2) ;
+		BOOST_CHECK(holepair.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(pair_neither_empty)
+	{
+		gloss_placement::hole_t hole1(3u, 1u) ;
+		gloss_placement::hole_t hole2(3u, 3u) ;
+		gloss_placement::hole_pair_t holepair(hole1, hole2) ;
+		BOOST_CHECK(! holepair.empty()) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 

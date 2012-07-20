@@ -376,4 +376,31 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 	}
 
 
+	BOOST_AUTO_TEST_CASE(get_perfect_matches_empty_mem)
+	{
+		// create a local memory
+		memory_remote mem(app_props::get_props(), .5, L"Felix.RemoteMemoryFake") ;
+
+		trans_set records ;
+		wstring query = L"foo" ;
+
+		mem.get_perfect_matches(records, query) ;
+		BOOST_CHECK_EQUAL(0u, records.size()) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE(get_perfect_matches_two_matches)
+	{
+		// create a local memory
+		memory_remote mem(app_props::get_props(), .5, L"Felix.RemoteMemoryFake") ;
+		add_hit(mem, "aaa", "111") ;
+		add_hit(mem, "aaa", "222") ;
+
+		trans_set records ;
+		wstring query = L"aaa" ;
+
+		mem.get_perfect_matches(records, query) ;
+		BOOST_CHECK_EQUAL(2u, records.size()) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

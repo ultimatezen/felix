@@ -662,4 +662,24 @@ namespace mem_engine
 	{
 		this->set_location( location ) ;
 	}
+
+	size_t memory_remote::get_perfect_matches( trans_set &records, const wstring &query )
+	{
+		trans_set candidates ;
+
+		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), 1.0) ;
+		this->convert_candidates(candidates, matches) ;
+
+
+		foreach(record_pointer record, candidates)
+		{
+			if (record->get_source_plain() == query)
+			{
+				records.insert(record) ;
+			}
+		}
+		return records.size() ;
+	}
+
+
 }

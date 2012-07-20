@@ -946,7 +946,7 @@ void CSearchWindow::save_results( match_vec &matches )
 void CSearchWindow::set_window_title( UINT pagetype )
 {
 	CString search ;
-	search.LoadString(pagetype) ;
+	ATLVERIFY(search.LoadString(pagetype)) ;
 	CString brackets ;
 	brackets.Format(_T(" [%s]"), search) ;
 	SetWindowText( m_title + brackets) ;

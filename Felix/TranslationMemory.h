@@ -246,9 +246,18 @@ public:
 	virtual void set_locked_off(void) = 0 ;
 	virtual void set_locked_on(void) = 0 ;
 	virtual bool is_locked(void) = 0 ;
+	virtual bool is_new(void) = 0;
+	virtual size_t size(void) = 0; // Can't make it const because the remote memory makes a COM call.
+	virtual bool empty(void) = 0;
 
-	// load
+	// load/save
 	virtual bool load( const CString &file_name ) = 0 ;
+	virtual bool save_memory(void) = 0;
+
+	virtual CString get_location(void) = 0 ;
+	virtual void set_location( CString location ) = 0 ;
+	virtual void set_mem_location(CString location) = 0 ;
+	virtual CString get_fullpath(void) = 0 ;
 
 	// memory methods
 	virtual bool is_local(void) = 0 ;
@@ -262,11 +271,6 @@ public:
 
 	virtual bool add_record(record_pointer record) = 0;
 	virtual record_pointer add_by_id(size_t recid, const wstring source, const wstring trans) = 0 ;
-	virtual size_t size(void) = 0; // Can't make it const because the remote memory makes a COM call.
-	virtual bool empty(void) = 0;
-	virtual CString get_fullpath(void) = 0 ;
-	virtual bool is_new(void) = 0;
-	virtual bool save_memory(void) = 0;
 
 	virtual bool erase( const record_pointer record ) = 0;
 
@@ -282,10 +286,9 @@ public:
 	virtual bool perform_search( search_match_container &matches, 
 						const search_query_params &params ) = 0;
 
+	virtual size_t get_perfect_matches(trans_set &records, const wstring &query) = 0 ;
+
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;
-	virtual CString get_location(void) = 0 ;
-	virtual void set_location( CString location ) = 0 ;
-	virtual void set_mem_location(CString location) = 0 ;
 
 } ;
 
