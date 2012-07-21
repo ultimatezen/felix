@@ -1463,7 +1463,7 @@ BOOST_AUTO_TEST_SUITE( test_get_perfect_matches)
 		// create a local memory
 		memory_local mem(app_props::get_props(), 0.0f) ;
 
-		trans_set records ;
+		search_match_container records ;
 		wstring query = L"foo" ;
 
 		mem.get_perfect_matches(records, query) ;
@@ -1476,7 +1476,7 @@ BOOST_AUTO_TEST_SUITE( test_get_perfect_matches)
 		memory_local mem(app_props::get_props(), 0.0f) ;
 		add_record(mem, "aaa", "111") ;
 
-		trans_set records ;
+		search_match_container records ;
 		wstring query = L"bbb" ;
 
 		mem.get_perfect_matches(records, query) ;
@@ -1490,7 +1490,7 @@ BOOST_AUTO_TEST_SUITE( test_get_perfect_matches)
 		add_record(mem, "aaa", "111") ;
 		add_record(mem, "aaa", "222") ;
 
-		trans_set records ;
+		search_match_container records ;
 		wstring query = L"aaa" ;
 
 		mem.get_perfect_matches(records, query) ;

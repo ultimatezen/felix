@@ -95,7 +95,6 @@ namespace mem_engine
 		m_match_maker.set_assess_format_penalty(params.m_assess_format_penalty) ;
 
 		set_cmp_params(params);
-		search_match_ptr match_test(this->make_match()) ;
 		const double min_score = m_match_maker.get_minimum_score() ;
 		Segment query(&m_cmp_maker, params.m_rich_source) ;
 
@@ -111,7 +110,7 @@ namespace mem_engine
 		// check each of the records for a match
 		foreach ( record_pointer record, candidates )
 		{
-			match_test->set_record( record ) ;
+			search_match_ptr match_test(this->make_match(record)) ;
 			Segment source(&m_cmp_maker, record->get_source_rich()) ;
 
 			if ( m_match_maker.get_score( query,
@@ -120,7 +119,6 @@ namespace mem_engine
 				match_test ) )
 			{
 				matches.insert( match_test ) ;
-				match_test = this->make_match() ;
 			}
 		}
 
@@ -148,7 +146,6 @@ namespace mem_engine
 			m_match_maker.set_assess_format_penalty(params.m_assess_format_penalty) ;
 
 			set_cmp_params(params);
-			search_match_ptr match_test = this->make_match() ;
 			const double min_score = m_match_maker.get_minimum_score() ;
 			Segment query(&m_cmp_maker, params.m_rich_source) ;
 
@@ -163,7 +160,7 @@ namespace mem_engine
 
 			foreach ( record_pointer record, candidates )
 			{
-				match_test->set_record( record ) ;
+				search_match_ptr match_test(this->make_match(record)) ;
 				Segment source(&m_cmp_maker, record->get_trans_rich()) ;
 
 				if ( m_match_maker.get_score_trans( query,
@@ -175,7 +172,6 @@ namespace mem_engine
 					// ok, stick it in the list now
 					matches.insert( match_test ) ;
 					// clear the match...
-					match_test = this->make_match() ;
 				}
 			}
 		}
@@ -519,4 +515,15 @@ namespace mem_engine
 		}
 	}
 
+	mem_engine::search_match_ptr CTranslationMemory::make_match( record_pointer record )
+	{
+		search_match_ptr match(new search_match) ;
+		match->set_memory_id(this->get_id()) ;
+		match->set_memory_location(get_fname_from_loc((LPCWSTR)this->get_location())) ;
+		if (record)
+		{
+			match->set_record(record) ;
+		}
+		return match ;
+	}
 }

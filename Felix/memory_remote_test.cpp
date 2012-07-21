@@ -381,7 +381,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 		// create a local memory
 		memory_remote mem(app_props::get_props(), .5, L"Felix.RemoteMemoryFake") ;
 
-		trans_set records ;
+		search_match_container records ;
 		wstring query = L"foo" ;
 
 		mem.get_perfect_matches(records, query) ;
@@ -396,7 +396,7 @@ void add_hit(memory_remote &mem, const string source, const string trans)
 		add_hit(mem, "aaa", "111") ;
 		add_hit(mem, "aaa", "222") ;
 
-		trans_set records ;
+		search_match_container records ;
 		wstring query = L"aaa" ;
 
 		mem.get_perfect_matches(records, query) ;

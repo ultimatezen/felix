@@ -105,8 +105,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		rec->set_source(L"foo") ;
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
-		search_match_ptr match = mem->make_match() ;
-		match->set_record(rec) ;
+		search_match_ptr match = mem->make_match(rec) ;
 		match->set_values_to_record() ;
 		window.m_matches.push_back(match) ;
 
@@ -151,8 +150,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
 
-		search_match_ptr match = mem->make_match() ;
-		match->set_record(rec) ;
+		search_match_ptr match = mem->make_match(rec) ;
 		match->set_values_to_record() ;
 		window.m_matches.push_back(match) ;
 
@@ -171,8 +169,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
 
-		search_match_ptr match = mem->make_match() ;
-		match->set_record(rec) ;
+		search_match_ptr match = mem->make_match(rec) ;
 		match->set_values_to_record() ;
 		for (int i = 0 ; i < 230 ; ++i)
 		{
@@ -359,8 +356,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 		rec->set_trans(L"bar") ;
 		mem->add_record(rec) ;
 
-		search_match_ptr match = mem->make_match() ;
-		match->set_record(rec) ;
+		search_match_ptr match = mem->make_match(rec) ;
 		match->set_values_to_record() ;
 		for (int i = 0 ; i < 130 ; ++i)
 		{

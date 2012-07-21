@@ -1006,15 +1006,16 @@ namespace mem_engine
 	}
 
 	// Get records with exact match of query to plain source
-	size_t memory_local::get_perfect_matches( trans_set &records, const wstring &query )
+	size_t memory_local::get_perfect_matches( search_match_container &matches, const wstring &query )
 	{
 		foreach(record_pointer record, m_records | ad::map_values)
 		{
 			if (record->get_source_plain() == query)
 			{
-				records.insert(record) ;
+				search_match_ptr match = this->make_match(record) ;
+				matches.insert(match) ;
 			}
 		}
-		return records.size() ;
+		return matches.size() ;
 	}
 }

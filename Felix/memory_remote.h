@@ -140,7 +140,7 @@ namespace mem_engine
 
 		// load
 		bool load( const CString &file_name );
-		size_t get_perfect_matches(trans_set &records, const wstring &query);
+		size_t get_perfect_matches(search_match_container &matches, const wstring &query);
 	};
 
 }

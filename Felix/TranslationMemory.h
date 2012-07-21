@@ -216,13 +216,7 @@ public:
 
 	void check_progress_update( int progress_interval );
 
-	search_match_ptr make_match()
-	{
-		search_match_ptr match(new search_match) ;
-		match->set_memory_id(this->get_id()) ;
-		match->set_memory_location(get_fname_from_loc((LPCWSTR)this->get_location())) ;
-		return match ;
-	}
+	search_match_ptr make_match(record_pointer record = record_pointer());
 	// glossary stuff
 	void set_gloss_fuzzy_match(search_match_container& matches, 
 							const search_query_params& params, 
@@ -295,7 +289,7 @@ public:
 						const search_query_params &params ) = 0;
 
 	// Get records with exact match of query to plain source
-	virtual size_t get_perfect_matches(trans_set &records, const wstring &query) = 0 ;
+	virtual size_t get_perfect_matches(search_match_container &matches, const wstring &query) = 0 ;
 
 	virtual void replace(const record_pointer old_rec, record_pointer new_rec) = 0 ;
 

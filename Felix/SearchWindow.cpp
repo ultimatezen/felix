@@ -418,8 +418,7 @@ void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem,
 		if (m_search_runner.is_match(rec) 
 			&& matcher->is_match(rec))
 		{
-			search_match_ptr match(mem->make_match()) ;
-			match->set_record(rec) ;
+			search_match_ptr match(mem->make_match(rec)) ;
 			match->get_markup()->SetTrans(rec->get_trans_rich()) ;
 			matchset.insert(match) ;
 		}

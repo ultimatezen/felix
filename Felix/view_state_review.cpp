@@ -85,8 +85,7 @@ void ViewStateReview::show_content()
 {
 	memory_pointer mem = m_model->get_first_memory() ;
 
-	mem_engine::search_match_ptr match(mem->make_match()) ;
-	match->set_record(m_window_listener->get_review_match()->get_record()) ;
+	mem_engine::search_match_ptr match(mem->make_match(m_window_listener->get_review_match()->get_record())) ;
 	match->set_values_to_record() ;
 
 	cpptempl::data_map data ;
@@ -109,8 +108,7 @@ void ViewStateReview::show_content()
 
 mem_engine::search_match_ptr ViewStateReview::get_current_match()
 {
-	search_match_ptr match = this->m_model->get_first_memory()->make_match() ;
-	match->set_record(this->m_window_listener->get_review_match()->get_record()) ;
+	search_match_ptr match = this->m_model->get_first_memory()->make_match(this->m_window_listener->get_review_match()->get_record()) ;
 	match->set_values_to_record() ;
 	return match ;
 }

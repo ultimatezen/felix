@@ -143,8 +143,7 @@ namespace mem_engine
 
 			foreach( record_pointer record, candidates)
 			{
-				search_match_ptr match(this->make_match()) ;
-				match->set_record(record) ;
+				search_match_ptr match(this->make_match(record)) ;
 				match->set_values_to_record() ;
 				matches.insert( match ) ;
 			}
@@ -182,8 +181,7 @@ namespace mem_engine
 
 		foreach(record_pointer record, candidates)
 		{
-			search_match_ptr match(this->make_match()) ;
-			match->set_record(record) ;
+			search_match_ptr match(this->make_match(record)) ;
 			match->set_values_to_record() ;
 			matches.insert(match);
 		}
@@ -663,23 +661,24 @@ namespace mem_engine
 		this->set_location( location ) ;
 	}
 
-	size_t memory_remote::get_perfect_matches( trans_set &records, const wstring &query )
+	size_t memory_remote::get_perfect_matches( search_match_container &matches, const wstring &query )
 	{
 		trans_set candidates ;
 
 		// Get the matches from the remote mem
-		CComVariant matches = this->m_engine.method(L"Search", query.c_str(), 1.0) ;
-		this->convert_candidates(candidates, matches) ;
+		CComVariant remote_matches = this->m_engine.method(L"Search", query.c_str(), 1.0) ;
+		this->convert_candidates(candidates, remote_matches) ;
 
 		// Collect the matches with exact match of plain source
 		foreach(record_pointer record, candidates)
 		{
 			if (record->get_source_plain() == query)
 			{
-				records.insert(record) ;
+				search_match_ptr match = this->make_match(record) ;
+				matches.insert(match) ;
 			}
 		}
-		return records.size() ;
+		return matches.size() ;
 	}
 
 

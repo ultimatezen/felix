@@ -297,8 +297,7 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
 	get_editor()->set_memory_id( mem->get_id() ) ;
 
-	search_match_ptr match(mem->make_match()) ;
-	match->set_record(get_new_record()) ;
+	search_match_ptr match(mem->make_match(get_new_record())) ;
 	this->set_item_under_edit(match) ;
 	
 	get_editor()->set_display_state( NEW_RECORD_DISPLAY_STATE ) ;

@@ -298,8 +298,7 @@ mem_engine::search_match_ptr ViewStateMatchGloss::get_current_match()
 	{
 		record_pointer rec(new mem_engine::record_local) ;
 		rec->set_source( m_search_matches->get_query_rich() ) ;
-		search_match_ptr match = this->m_model->get_first_memory()->make_match() ;
-		match->set_record(rec) ;
+		search_match_ptr match = this->m_model->get_first_memory()->make_match(rec) ;
 		match->set_values_to_record() ;
 		return match ;
 	}

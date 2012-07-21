@@ -4353,8 +4353,7 @@ mem_engine::search_match_ptr CMainFrame::get_current_match()
 // Content when using translation history
 wstring CMainFrame::get_review_content( memory_pointer mem )
 {
-	search_match_ptr match(mem->make_match()) ;
-	match->set_record(m_review_match->get_record()) ;
+	search_match_ptr match(mem->make_match(m_review_match->get_record())) ;
 	match->set_values_to_record() ;
 
 	cpptempl::data_map data ;
