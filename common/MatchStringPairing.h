@@ -12,7 +12,7 @@ wchar_t narrow_num( wchar_t c ) ;
 /*!
  * Represents a pairing of match strings.
  */
-class CMatchStringPairing
+class match_string_pairing
 {
 public:
 	enum MatchType { MATCH, NOMATCH, PLACEMENT } ;
@@ -21,12 +21,12 @@ public:
 	/*!
 	 * Internal structure of character pairs
 	 */
-	struct PairingEntity
+	struct pairing_entity
 	{
 		wchar_t m_Chars[2] ;
 		MatchType m_MatchType ;
 
-		PairingEntity(wchar_t s, MatchType mt, wchar_t q ):
+		pairing_entity(wchar_t s, MatchType mt, wchar_t q ):
 			 m_MatchType(mt)
 		{
 			m_Chars[SOURCE] = s ;
@@ -44,11 +44,9 @@ public:
 
 	} ;
 
-	typedef std::list< PairingEntity > PairList ;
-	typedef PairList::iterator PairListIter ;
-	
+	typedef std::list< pairing_entity > pair_list ;
 
-	PairList m_Pairs ;
+	pair_list m_Pairs ;
 
 	wstring MarkedUpString ;
 	wstring TextBuffer ;
@@ -64,8 +62,8 @@ public:
 	 */
 	std::set< size_t > m_PlacementPositionsTmp ;
 
-	CMatchStringPairing(void);
-	~CMatchStringPairing(void);
+	match_string_pairing(void);
+	~match_string_pairing(void);
 	void clear();
 
 	void SourceToEpsilon( wchar_t s );
@@ -85,9 +83,9 @@ public:
 private:
 	wstring MarkupString( CharType ct );
 	void AddBufferToMarkup(MatchType MatchState) ;
-	int IsNumPair(CMatchStringPairing::PairingEntity& pe);
-	std::wstring GetNum(std::vector< CMatchStringPairing::PairingEntity >& PairVec, size_t& CharPos, CharType ct);
+	int IsNumPair(match_string_pairing::pairing_entity& pe);
+	std::wstring GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct);
 	int IsNumOrNull( wchar_t c );
-	void ReAlignPairs(std::vector< CMatchStringPairing::PairingEntity >& PairVec);
+	void ReAlignPairs(std::vector< match_string_pairing::pairing_entity >& PairVec);
 
 };

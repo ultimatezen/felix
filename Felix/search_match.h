@@ -24,7 +24,7 @@ class search_match
 	wstring				m_memory_location ;
 	int					m_memory_id ;
 
-	CMatchStringPairing	m_MatchPairing ;
+	match_string_pairing	m_MatchPairing ;
 
 	bool				m_HasPlacement ;
 
@@ -56,7 +56,7 @@ public:
 	void Placement();
 	bool HasPlacement();
 
-	CMatchStringPairing& MatchPairing();
+	match_string_pairing& MatchPairing();
 
 	void set_memory_id( const int id );
 	const int get_memory_id() const;

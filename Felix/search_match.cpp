@@ -121,7 +121,7 @@ bool search_match::HasPlacement()
 	return m_HasPlacement ;
 }
 
-CMatchStringPairing& search_match::MatchPairing()
+match_string_pairing& search_match::MatchPairing()
 {
 	return m_MatchPairing ;
 }

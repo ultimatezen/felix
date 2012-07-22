@@ -4197,7 +4197,7 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 	mark->SetContext(rec->get_context_plain()) ;
 
 	std::pair< wstring, wstring > Transpair( trans, trans ) ;
-	CMatchStringPairing newPairing( match->MatchPairing() ) ;
+	match_string_pairing newPairing( match->MatchPairing() ) ;
 	if ( newPairing.PlaceNumbers( Transpair ) )
 	{
 		search_match_ptr NewMatch(new search_match) ;

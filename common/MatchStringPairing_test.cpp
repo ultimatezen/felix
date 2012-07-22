@@ -3,7 +3,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-void pair_up(CMatchStringPairing &pairing, wstring source, wstring query)
+void pair_up(match_string_pairing &pairing, wstring source, wstring query)
 {
 	for (int i = source.size() - 1 ; i >= 0 ; --i)
 	{
@@ -33,35 +33,35 @@ BOOST_AUTO_TEST_SUITE( Test_CMatchStringPairing_IsNumRep )
 
 	BOOST_AUTO_TEST_CASE( IsNumRep_tag )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		wstring PotentialNum = L"\\TD00003" ;
 		BOOST_CHECK( ! pairing.IsNumRep( PotentialNum ) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( IsNumRep_dash )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		wstring PotentialNum = L"30-03" ;
 		BOOST_CHECK( pairing.IsNumRep( PotentialNum ) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( IsNumRep_with_letter )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		wstring PotentialNum = L"0003-a-0004" ;
 		BOOST_CHECK( ! pairing.IsNumRep( PotentialNum ) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( IsNumRep_dashes )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		wstring PotentialNum = L"-00990-" ;
 		BOOST_CHECK( pairing.IsNumRep( PotentialNum ) ) ;
 
 	}
 	BOOST_AUTO_TEST_CASE( IsNumRep_paren_with_commas )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		wstring PotentialNum = L"0003(1,7)0004" ;
 		BOOST_CHECK( ! pairing.IsNumRep( PotentialNum ) ) ;
 	}
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_IsSubstitution )
 		std::pair<wstring, wstring> trans(first, second) ;
 		wstring SourceNum = L"cow" ;
 		wstring QueryNum = L"3" ;
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		BOOST_CHECK( ! pairing.IsSubstitution( trans, SourceNum, 0, QueryNum ) ) ;
 	}
 	BOOST_AUTO_TEST_CASE( IsSubstitution_non_num_query )
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_IsSubstitution )
 		std::pair<wstring, wstring> trans(first, second) ;
 		wstring SourceNum = L"3" ;
 		wstring QueryNum = L"moo" ;
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 		BOOST_CHECK( ! pairing.IsSubstitution( trans, SourceNum, 0, QueryNum ) ) ;
 	}
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( DoublePlacement )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 		pairing.Match( L'a', L'a' ) ;
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( TwoBytePlacement )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'a', L'a' ) ;
 		pairing.NoMatch( L'３', L'2' ) ;
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( BothDoubleByte )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'a', L'a' ) ;
 		pairing.NoMatch( L'３', L'２' ) ;
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( TrivialPlacementFalse )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'a', L'a' ) ;
 
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( placement_false_commas )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, L"I have, apples", L"I have 3 apples") ;
 
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( trival_placement_bad_entities )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( TrivialPlacementMatchedNums )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'1', L'1' ) ;
 
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( TrivialPlacementTrue )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 
@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( PlacementNoTransMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'1', L'1' ) ;
 
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( PlacementNoTransNoMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 
@@ -270,7 +270,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumNoMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 		pairing.Match( L'1', L'1' ) ;
@@ -281,7 +281,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'1', L'2' ) ;
 		pairing.Match( L'1', L'1' ) ;
@@ -303,7 +303,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchLonger1 )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
@@ -316,7 +316,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchLonger2 )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
@@ -329,7 +329,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchEpsilons1 )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"aa*11aa", 
@@ -357,7 +357,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchEpsilons2 )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"aa*11aa", 
@@ -375,7 +375,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 	BOOST_AUTO_TEST_CASE( WithPunct )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"a12,3a", 
@@ -392,7 +392,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 	}
 	BOOST_AUTO_TEST_CASE( WithJpn )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"a2か3a", 
@@ -414,7 +414,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 
 	BOOST_AUTO_TEST_CASE( TrivialMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'a', L'a' ) ;
 
@@ -425,7 +425,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_source )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"<a>", 
@@ -437,7 +437,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"<a>", 
@@ -449,7 +449,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( TrivialNoMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'a', L'a' ) ;
 
@@ -465,7 +465,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( LargerMatch )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( LargerNoMatch_source )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -491,7 +491,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( LargerNoMatch_query )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -504,7 +504,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( Mixed_Score )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -515,7 +515,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( Mixed_Source )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -528,7 +528,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( Mixed_Query )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abc", 
@@ -541,7 +541,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( MixedEnds_source )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abba", 
@@ -554,7 +554,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( MixedEnds_query )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abba", 
@@ -567,7 +567,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( MixedMiddle )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.Match( L'a', L'a' ) ;
 		pairing.NoMatch( L'c', L'c' ) ;
@@ -584,7 +584,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( Epsilons )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.QueryToEpsilon( L'c' ) ;
 		pairing.NoMatch( L'b', L'b' ) ;
@@ -601,7 +601,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( EpsilonsMixed )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.QueryToEpsilon( L'c' ) ;
 		pairing.Match( L'b', L'b' ) ;
@@ -618,7 +618,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 	}
 	BOOST_AUTO_TEST_CASE( EpsilonsMixedEnds )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pairing.NoMatch( L'b', L'b' ) ;
 		pairing.QueryToEpsilon( L'c' ) ;
@@ -642,7 +642,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_MarkupString )
 
 BOOST_AUTO_TEST_CASE(test_lt_source)
 {
-	CMatchStringPairing pairing ;
+	match_string_pairing pairing ;
 
 	pair_up(pairing, 
 		L"<", 
@@ -656,7 +656,7 @@ BOOST_AUTO_TEST_CASE(test_lt_source)
 
 BOOST_AUTO_TEST_CASE(test_gt_source)
 {
-	CMatchStringPairing pairing ;
+	match_string_pairing pairing ;
 
 	pair_up(pairing, 
 		L">", 
@@ -669,7 +669,7 @@ BOOST_AUTO_TEST_CASE(test_gt_source)
 }
 BOOST_AUTO_TEST_CASE(test_amp_source)
 {
-	CMatchStringPairing pairing ;
+	match_string_pairing pairing ;
 
 	pair_up(pairing, 
 		L"&", 
@@ -687,7 +687,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_CalcScore )
 
 	BOOST_AUTO_TEST_CASE( MixedEnds_score )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		pair_up(pairing, 
 			L"abba", 
@@ -707,7 +707,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 	//////////////////////////////////////////////////////////////////////////
 	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_trans )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		// source: \850,000 （税込\892,500）
 		// query:  \1,300,000 （税込\1,365,000）
@@ -736,7 +736,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 	}
 	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_source )
 	{
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		// source: \850,000 （税込\892,500）
 		// query:  \1,300,000 （税込\1,365,000）
@@ -760,7 +760,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_query )
 	{
 
-		CMatchStringPairing pairing ;
+		match_string_pairing pairing ;
 
 		// source: \850,000 （税込\892,500）
 		// query:  \1,300,000 （税込\1,365,000）

@@ -24,68 +24,68 @@ wchar_t narrow_num( wchar_t c )
 
 /** Base contructor.
  */
-CMatchStringPairing::CMatchStringPairing(void)
+match_string_pairing::match_string_pairing(void)
 {
 }
 
 /** Destructor.
  */
-CMatchStringPairing::~CMatchStringPairing(void)
+match_string_pairing::~match_string_pairing(void)
 {
 }
 
 /** Match source character against epsilon.
  */
-void CMatchStringPairing::SourceToEpsilon( wchar_t s )
+void match_string_pairing::SourceToEpsilon( wchar_t s )
 {
-	m_Pairs.push_front( PairingEntity( s, NOMATCH, 0 ) ) ;
+	m_Pairs.push_front( pairing_entity( s, NOMATCH, 0 ) ) ;
 }
 
 /** Match query character against epsilon.
  */
-void CMatchStringPairing::QueryToEpsilon( wchar_t q )
+void match_string_pairing::QueryToEpsilon( wchar_t q )
 {
-	m_Pairs.push_front( PairingEntity( 0, NOMATCH, q ) ) ;
+	m_Pairs.push_front( pairing_entity( 0, NOMATCH, q ) ) ;
 }
 
 /** Match source and query characters.
  */
-void CMatchStringPairing::Match( wchar_t s, wchar_t q )
+void match_string_pairing::Match( wchar_t s, wchar_t q )
 {
-	m_Pairs.push_front( PairingEntity( s, MATCH, q ) ) ;
+	m_Pairs.push_front( pairing_entity( s, MATCH, q ) ) ;
 }
 
 /** Pair query and source characters, but they don't match.
  */
-void CMatchStringPairing::NoMatch( wchar_t s, wchar_t q )
+void match_string_pairing::NoMatch( wchar_t s, wchar_t q )
 {
-	m_Pairs.push_front( PairingEntity( s, NOMATCH, q ) ) ;
+	m_Pairs.push_front( pairing_entity( s, NOMATCH, q ) ) ;
 }
 
 /** Returns the marked up source string.
  */
-std::wstring CMatchStringPairing::MarkupSource()
+std::wstring match_string_pairing::MarkupSource()
 {
 	return MarkupString( SOURCE ) ;
 }
 
 /** Returns the marked up query string.
  */
-std::wstring CMatchStringPairing::MarkupQuery()
+std::wstring match_string_pairing::MarkupQuery()
 {
 	return MarkupString( QUERY ) ;
 }
 
 /** Marks up a string.
  */
-std::wstring CMatchStringPairing::MarkupString( CharType ct )
+std::wstring match_string_pairing::MarkupString( CharType ct )
 {
 	MatchType MatchState = m_Pairs.begin()->m_MatchType ;
 
 	MarkedUpString.erase() ;
 	TextBuffer.erase() ;
 
-	for ( PairListIter pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
+	for ( auto pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
 	{
 		wchar_t c = pos->m_Chars[ct] ;
 
@@ -123,7 +123,7 @@ std::wstring CMatchStringPairing::MarkupString( CharType ct )
 
 /** Adds the buffer we have stored to the marked up string.
  */
-void CMatchStringPairing::AddBufferToMarkup(MatchType MatchState)
+void match_string_pairing::AddBufferToMarkup(MatchType MatchState)
 {
 	const static wstring NoMatchFmt( L"<span class=\"nomatch\">%s</span>" ) ;
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
@@ -152,14 +152,14 @@ void CMatchStringPairing::AddBufferToMarkup(MatchType MatchState)
 
 /** Places numbers found in source and trans.
  */
-bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
+bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 {
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
 
 	m_PlacementPositions.clear() ;
 	m_PlacementPositionsTmp.clear() ;
 
-	std::vector< PairingEntity > PairVec ;
+	std::vector< pairing_entity > PairVec ;
 	PairVec.assign(m_Pairs.begin(), m_Pairs.end()) ;
 	ATLASSERT( m_Pairs.size() == PairVec.size() ) ;
 
@@ -167,7 +167,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 	for( size_t i = 0 ; i < PairVec.size() ;)
 	{
-		PairingEntity pe = PairVec[i] ;
+		pairing_entity pe = PairVec[i] ;
 		if( IsNumPair(pe)
 			&& pe.m_MatchType == NOMATCH )
 		{
@@ -246,7 +246,7 @@ bool CMatchStringPairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 /** Finds whether we are looking at a substitution text range.
  */
-bool CMatchStringPairing::IsSubstitution(std::pair< std::wstring, 
+bool match_string_pairing::IsSubstitution(std::pair< std::wstring, 
 										 std::wstring >& trans, 
 										 std::wstring& SourceNum, 
 										 size_t TransPos, 
@@ -266,7 +266,7 @@ bool CMatchStringPairing::IsSubstitution(std::pair< std::wstring,
 
 /** Returns whether we are looking at a number representation.
  */
-bool CMatchStringPairing::IsNumRep(std::wstring& PotentialNum)
+bool match_string_pairing::IsNumRep(std::wstring& PotentialNum)
 {
 	foreach(wchar_t c, PotentialNum)
 	{
@@ -280,13 +280,13 @@ bool CMatchStringPairing::IsNumRep(std::wstring& PotentialNum)
 
 /** Re-aligns the pairs.
  */
-void CMatchStringPairing::ReAlignPairs(std::vector< CMatchStringPairing::PairingEntity >& PairVec)
+void match_string_pairing::ReAlignPairs(std::vector< match_string_pairing::pairing_entity >& PairVec)
 {
 	m_Pairs.clear() ;
 
 	for( size_t i = 0 ; i < PairVec.size() ; ++i )
 	{
-		PairingEntity pe = PairVec[i] ;
+		pairing_entity pe = PairVec[i] ;
 
 		if ( m_PlacementPositions.find( i ) == m_PlacementPositions.end() )
 		{
@@ -307,7 +307,7 @@ void CMatchStringPairing::ReAlignPairs(std::vector< CMatchStringPairing::Pairing
 
 /** Returns a number for placement.
  */
-std::wstring CMatchStringPairing::GetNum(std::vector< CMatchStringPairing::PairingEntity >& PairVec, size_t& CharPos, CharType ct )
+std::wstring match_string_pairing::GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct )
 {
 	while( IsNumOrNull(PairVec[CharPos].m_Chars[ct]) && CharPos > 0 )
 	{
@@ -336,14 +336,14 @@ std::wstring CMatchStringPairing::GetNum(std::vector< CMatchStringPairing::Pairi
 
 /** Returns whether the character is a number character or epsilon.
  */
-int CMatchStringPairing::IsNumOrNull( wchar_t c )
+int match_string_pairing::IsNumOrNull( wchar_t c )
 {
 	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'D' || c == L',') ;
 }
 
 /** Are we looking at a pair of number characters?
  */
-int CMatchStringPairing::IsNumPair(CMatchStringPairing::PairingEntity& pe)
+int match_string_pairing::IsNumPair(match_string_pairing::pairing_entity& pe)
 {
 	return iswdigit( narrow_num( pe.source() ) ) 
 		&& iswdigit( narrow_num( pe.query() ) );
@@ -351,11 +351,11 @@ int CMatchStringPairing::IsNumPair(CMatchStringPairing::PairingEntity& pe)
 
 /** Calculates the score based on our pairings.
  */
-double CMatchStringPairing::CalcScore()
+double match_string_pairing::CalcScore()
 {
 	double SourceLen(0.0f), QueryLen(0.0f), Distance( 0.0f ) ;
 
-	for ( PairListIter pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
+	for ( auto pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
 	{
 		if ( pos->m_Chars[SOURCE] != 0 )
 		{
@@ -384,7 +384,7 @@ double CMatchStringPairing::CalcScore()
 	return ( HighLen - Distance ) / HighLen ;
 }
 
-void CMatchStringPairing::clear()
+void match_string_pairing::clear()
 {
 	m_PlacementPositionsTmp.clear() ;
 	m_PlacementPositions.clear() ;
