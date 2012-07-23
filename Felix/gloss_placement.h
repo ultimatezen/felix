@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TranslationMemory.h"
+#include "MatchStringPairing.h"
 
 namespace mem_engine
 {
@@ -13,6 +14,8 @@ namespace mem_engine
 
 namespace placement
 {
+	typedef match_string_pairing::pair_list pairings_t ;
+	typedef match_string_pairing::pairing_entity pairing_t ;
 
 	// hole defs.
 
@@ -77,6 +80,7 @@ namespace placement
 		Here, the hole is XXX vs YYY.
 		*/
 		bool find_hole(const wstring &lhs, const wstring &rhs, hole_pair_t &holes) const;
+		bool find_hole(const pairings_t &pairings, hole_pair_t &holes) const;
 
 		/// Advance over the part at the beginning that matches.
 		size_t find_start( const wstring &lhs, const wstring &rhs ) const;

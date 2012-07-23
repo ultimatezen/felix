@@ -206,7 +206,7 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 				boost::replace_first( trans.first, SourceNum, QueryNum ) ;
 				boost::replace_first( trans.second, SourceNum, ( boost::wformat( PlacementFmt ) % QueryNum ).str() ) ;
 
-				for ( std::set< size_t >::iterator pos = m_PlacementPositionsTmp.begin() ;
+				for ( auto pos = m_PlacementPositionsTmp.begin() ;
 						pos != m_PlacementPositionsTmp.end() ;
 						++pos )
 				{

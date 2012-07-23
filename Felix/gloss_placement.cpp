@@ -65,6 +65,33 @@ namespace mem_engine
 			return ! holes.empty() ;
 		}
 
+		bool hole_finder::find_hole( const pairings_t &pairings, hole_pair_t &holes ) const
+		{
+			if (pairings.empty())
+			{
+				return false ;
+			}
+			std::vector<pairing_t> pairvec ;
+			pairvec.assign(pairings.begin(), pairings.end()) ;
+
+			size_t start = 0 ;
+			while(start < pairvec.size() && pairvec[start].m_MatchType != match_string_pairing::NOMATCH)
+			{
+								  ++start ;
+			}
+
+			size_t end = pairvec.size() ;
+			while(end && pairvec[end-1].m_MatchType != match_string_pairing::NOMATCH)
+			{
+				--end ;
+			}
+
+			holes.lhs.define(start, end) ;
+			holes.rhs.define(start, end) ;
+
+
+			return ! holes.empty() ;
+		}
 		size_t hole_finder::find_start( const wstring &lhs, const wstring &rhs ) const
 		{
 			size_t start = 0 ;

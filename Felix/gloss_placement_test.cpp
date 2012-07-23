@@ -113,17 +113,148 @@ BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 		BOOST_CHECK_EQUAL(holes.lhs.len, 2u) ;
 		BOOST_CHECK_EQUAL(holes.rhs.len, 2u) ;
 	}
-	// str_hole
-	BOOST_AUTO_TEST_CASE(str_hole)
-	{
-		wstring expected = L"12" ;
-		wstring text = L"xxx12xxx" ;
-		placement::hole_t h(3, 2) ;
-		BOOST_CHECK_EQUAL(h.str_hole(text), expected) ;
-	}
 
 
 BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( gloss_placement_tests_pairing )
+
+	using namespace mem_engine ;
+	namespace gp = placement ;
+
+	// find_hole
+	BOOST_AUTO_TEST_CASE(empty_pairing)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(! finder.find_hole(pairings, holes)) ;
+	}
+	BOOST_AUTO_TEST_CASE(empty_hole)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(! finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK(holes.empty()) ;
+	}
+	// find_hole - start
+	BOOST_AUTO_TEST_CASE(start_0)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.start, 0u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.start, 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_1)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.start, 1u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.start, 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_2)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.start, 2u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.start, 2u) ;
+	}
+	// find_hole - len
+	BOOST_AUTO_TEST_CASE(start_0_len_3)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::NOMATCH, L'x')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.len, 3u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.len, 3u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_3_len_0)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		pairings.push_back(gp::pairing_t(L'c', match_string_pairing::MATCH, L'c')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(! finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.start, 3u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.start, 3u) ;
+		BOOST_CHECK_EQUAL(holes.lhs.len, 0u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.len, 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_0_len_3_end_match)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.len, 3u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.len, 3u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_1_len_1)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.len, 1u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.len, 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(start_2_len_2)
+	{
+		gp::hole_finder finder ;
+		gp::pairings_t pairings ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'a', match_string_pairing::MATCH, L'a')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'y', match_string_pairing::NOMATCH, L'x')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+		pairings.push_back(gp::pairing_t(L'b', match_string_pairing::MATCH, L'b')) ;
+
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+		BOOST_CHECK_EQUAL(holes.lhs.start, 2u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.start, 2u) ;
+		BOOST_CHECK_EQUAL(holes.lhs.len, 2u) ;
+		BOOST_CHECK_EQUAL(holes.rhs.len, 2u) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 
 BOOST_AUTO_TEST_SUITE( test_holes )
 
@@ -163,6 +294,16 @@ BOOST_AUTO_TEST_SUITE( test_holes )
 		placement::hole_pair_t holepair(hole1, hole2) ;
 		BOOST_CHECK(! holepair.empty()) ;
 	}
+
+	// str_hole
+	BOOST_AUTO_TEST_CASE(str_hole)
+	{
+		wstring expected = L"12" ;
+		wstring text = L"xxx12xxx" ;
+		placement::hole_t h(3, 2) ;
+		BOOST_CHECK_EQUAL(h.str_hole(text), expected) ;
+	}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 
