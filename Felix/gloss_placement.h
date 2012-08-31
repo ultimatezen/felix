@@ -29,10 +29,13 @@ namespace placement
 		hole_t(size_t s, size_t l) : start(s), len(l) {}
 		/// Is it an empty hole?
 		bool empty() const ;
-		/// Given the start and end, define the hole start/len
+		//! Given the start and end, define the hole start/len
 		void define(size_t s, size_t end);
-		/// Translate a hole into a substring.
-		wstring str_hole(const wstring text) const;
+		//! Translate a hole into a substring.
+		wstring get_str(const wstring text) const;
+		wstring get_str(const pairings_t &pairings, const CharType &index) const;
+		wstring get_str_source(const pairings_t &pairings) const;
+		wstring get_str_query(const pairings_t &pairings) const;
 	};
 
 	/** A pair of holes
@@ -93,7 +96,37 @@ namespace placement
 	*/
 	class gloss
 	{
+		memory_list &m_memories ;
 	public:
+		gloss(memory_list &memories) : m_memories(memories)
+		{
+		}
+		void get_matches(search_match_container &matches, const wstring text)
+		{
+			foreach(memory_pointer mem, m_memories)
+			{
+				mem->get_perfect_matches(matches, text) ;
+			}
+		}
+		bool place(pairings_t &pairings)
+		{
+			hole_pair_t holes ;
+			hole_finder finder ;
+			if (! finder.find_hole(pairings, holes))
+			{
+				return false ;
+			}
+			wstring source = holes.lhs.get_str_source(pairings); 
+			wstring query = holes.rhs.get_str_query(pairings) ;
+
+			search_match_container s_matches ;
+			search_match_container q_matches ;
+
+			this->get_matches(s_matches, source) ;
+			this->get_matches(q_matches, query) ;
+
+			return ! s_matches.empty() && ! q_matches.empty() ;
+		}
 	};
 
 	/** 

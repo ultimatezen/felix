@@ -20,9 +20,39 @@ namespace mem_engine
 			len = std::max(s, end) - s ;
 		}
 
-		wstring hole_t::str_hole( const wstring text ) const
+		wstring hole_t::get_str( const wstring text ) const
 		{
 			return text.substr(this->start, this->len) ;
+		}
+
+		wstring hole_t::get_str( const pairings_t &pairings, const CharType &index ) const
+		{
+			wstring out ;
+
+			std::vector<pairing_t> pairvec ;
+			auto start = pairings.begin() ;
+			auto end = pairings.begin() ;
+			std::advance(start, this->start) ;
+			std::advance(end, this->start + this->len) ;
+			while(start != end)
+			{
+				const wchar_t &c = start->get_char(index) ;
+				if (c)
+				{
+					out += c ;
+				}
+				++start ;
+			}
+			return out ;
+		}
+
+		wstring hole_t::get_str_source(const pairings_t &pairings) const
+		{
+			return this->get_str(pairings, SOURCE) ;
+		}
+		wstring hole_t::get_str_query(const pairings_t &pairings) const
+		{
+			return this->get_str(pairings, QUERY) ;
 		}
 
 		//////////////////////////////////////////////////////////////////////////
@@ -75,13 +105,13 @@ namespace mem_engine
 			pairvec.assign(pairings.begin(), pairings.end()) ;
 
 			size_t start = 0 ;
-			while(start < pairvec.size() && pairvec[start].m_MatchType != match_string_pairing::NOMATCH)
+			while(start < pairvec.size() && pairvec[start].m_MatchType != NOMATCH)
 			{
-								  ++start ;
+				++start ;
 			}
 
 			size_t end = pairvec.size() ;
-			while(end && pairvec[end-1].m_MatchType != match_string_pairing::NOMATCH)
+			while(end && pairvec[end-1].m_MatchType != NOMATCH)
 			{
 				--end ;
 			}

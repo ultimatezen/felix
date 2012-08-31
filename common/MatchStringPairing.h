@@ -9,17 +9,26 @@ using std::wstring ;
 
 wchar_t narrow_num( wchar_t c ) ;
 
+enum MatchType { MATCH, NOMATCH, PLACEMENT } ;
+enum CharType { SOURCE, QUERY } ;
+
 /*!
  * Represents a pairing of match strings.
  */
 class match_string_pairing
 {
 public:
-	enum MatchType { MATCH, NOMATCH, PLACEMENT } ;
-	enum CharType { SOURCE, QUERY } ;
 
 	/*!
-	 * Internal structure of character pairs
+		Internal structure of character pairs.
+
+		Conceptually, it takes the following form:
+			SOURCE_CHAR	MATCH_TYPE	QUERY_CHAR
+
+			Where:
+			SOURCE_CHAR = source string character (0 for epsilon)
+			MATCH_TYPE = indicator of how chars are matched (match, no match, placement)
+			QUERY_CHAR = query string character (0 for epsilon)
 	 */
 	struct pairing_entity
 	{
@@ -35,13 +44,21 @@ public:
 
 	   wchar_t& source()
 	   {
-		   return m_Chars[SOURCE] ; 
+		   return get_char(SOURCE) ; 
 	   }
 	   wchar_t& query()
 	   {
-		   return m_Chars[QUERY] ; 
+		   return get_char(QUERY) ; 
 	   }
-
+	   wchar_t& get_char(const CharType &index)
+	   {
+		   return m_Chars[index] ;
+	   }
+	   // keep const-correctness
+	   const wchar_t get_char(const CharType &index) const
+	   {
+		   return m_Chars[index] ;
+	   }
 	} ;
 
 	typedef std::list< pairing_entity > pair_list ;
@@ -51,15 +68,7 @@ public:
 	wstring MarkedUpString ;
 	wstring TextBuffer ;
 
-	/*!
-	 * \brief
-	 * Write brief comment for m_PlacementPositions here.
-	 */
 	std::set< size_t > m_PlacementPositions ;
-	/*!
-	 * \brief
-	 * Write brief comment for m_PlacementPositionsTmp here.
-	 */
 	std::set< size_t > m_PlacementPositionsTmp ;
 
 	match_string_pairing(void);
