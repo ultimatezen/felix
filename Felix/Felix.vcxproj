@@ -1386,6 +1386,7 @@ echo Protection complete!
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="gloss_placement.h" />
+    <ClInclude Include="mem_tests.h" />
     <ClInclude Include="revertible_action.h" />
     <ClInclude Include="unit_test_config.h" />
     <ClInclude Include="_IApp2Events_CP.h" />

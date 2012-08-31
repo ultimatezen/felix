@@ -1,6 +1,8 @@
 #pragma once
 #include <boost/shared_array.hpp>
 
+#include "input_device.h"
+
 class InputDeviceFake : public InputDevice
 {
 public:

@@ -1649,6 +1649,9 @@
     <ClInclude Include="unit_test_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mem_tests.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="felix_tm.xsd" />

@@ -3,6 +3,8 @@
 
 #ifdef UNIT_TEST
 
+#include "mem_tests.h"
+
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 
@@ -386,7 +388,32 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		placer.get_matches(matches, text) ;
 		BOOST_CHECK(matches.empty()) ;
 	}
+	BOOST_AUTO_TEST_CASE(get_matches_none)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "bar", "bar") ;
+		gp::gloss placer(memories) ;
 
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		BOOST_CHECK(matches.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_matches_one)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "foo", "bar") ;
+		gp::gloss placer(memories) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

@@ -1,8 +1,5 @@
 #include "stdafx.h"
-#include "memory_local.h"
-
 #include "Path.h"
-#include "record_local.h"
 
 #include "DemoException.h"
 
@@ -12,32 +9,8 @@
 #include <boost/test/unit_test.hpp>
 #include <amop/include/MockObject.h>
 #include "input_device_fake.h"
+#include "mem_tests.h"
 
-using namespace mem_engine ;
-using namespace except ;
-
-record_pointer make_record(wstring source, wstring trans)
-{
-	record_pointer rec(new record_local) ;
-	rec->set_source(source) ;
-	rec->set_trans(trans) ;
-	return rec ;
-}
-record_pointer make_record(string source, string trans)
-{
-	return make_record(string2wstring(source), string2wstring(trans)) ;
-}
-record_pointer add_record(memory_local &mem, wstring source, wstring trans)
-{
-	record_pointer rec = make_record(source, trans) ;
-	mem.add_record(rec) ;
-	mem.set_minimum_score(50) ;
-	return rec ;
-}
-record_pointer add_record(memory_local &mem, string source, string trans)
-{
-	return add_record(mem, string2wstring(source), string2wstring(trans)) ;
-}
 
 BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
 
