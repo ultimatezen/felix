@@ -414,6 +414,98 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		placer.get_matches(matches, text) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
+	BOOST_AUTO_TEST_CASE(get_matches_two)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "foo", "bar") ;
+		add_record(mem, "foo", "gaz") ;
+		gp::gloss placer(memories) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+	}
+	// get_trans_subset
+	BOOST_AUTO_TEST_CASE(get_trans_subset_one_one)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "foo", "bar") ;
+		gp::gloss placer(memories) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"bar") ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_trans_subset_two_one)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "foo", "bar") ;
+		add_record(mem, "foo", "gaz") ;
+		gp::gloss placer(memories) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"bar") ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_trans_subset_two_one_two_hits)
+	{
+		memory_list memories ;
+		memory_pointer mem(new memory_local(app_props::get_props())) ;
+		memories.push_back(mem) ;
+		add_record(mem, "foo", "bar") ;
+		add_record(mem, "foo", "bar bar") ;
+		gp::gloss placer(memories) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		placer.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"bar") ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+	// num_hits
+
+	BOOST_AUTO_TEST_CASE(num_hits_0)
+	{
+		memory_list memories ;
+		gp::gloss placer(memories) ;
+
+		wstring needle = L"aaa" ;
+		wstring haystack = L"bbb" ;
+
+		BOOST_CHECK_EQUAL(0u, placer.num_hits(needle, haystack)) ;
+	}
+	BOOST_AUTO_TEST_CASE(num_hits_1)
+	{
+		memory_list memories ;
+		gp::gloss placer(memories) ;
+
+		wstring needle = L"aaa" ;
+		wstring haystack = L"bbb aaa" ;
+
+		BOOST_CHECK_EQUAL(1u, placer.num_hits(needle, haystack)) ;
+	}
+	BOOST_AUTO_TEST_CASE(num_hits_2)
+	{
+		memory_list memories ;
+		gp::gloss placer(memories) ;
+
+		wstring needle = L"aaa" ;
+		wstring haystack = L"bbb aaa ccc aaa" ;
+
+		BOOST_CHECK_EQUAL(2u, placer.num_hits(needle, haystack)) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

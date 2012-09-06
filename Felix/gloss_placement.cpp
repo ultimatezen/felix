@@ -131,5 +131,38 @@ namespace mem_engine
 			}
 			return start ;
 		}
+
+		size_t gloss::num_hits( const wstring needle, const wstring haystack )
+		{
+			size_t count = 0 ;
+			for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos+1))
+			{
+				++count ;
+			}
+			return count ;
+		}
+
+		void gloss::get_matches( search_match_container &matches, const wstring text )
+		{
+			foreach(memory_pointer mem, m_memories)
+			{
+				mem->get_perfect_matches(matches, text) ;
+			}
+		}
+
+		void gloss::get_trans_subset( search_match_container &matches, const wstring trans )
+		{
+			search_match_container tmp ;
+			foreach(search_match_ptr match, matches)
+			{
+				wstring gloss_hit = match->get_record()->get_trans_plain() ;
+				// IFF it occurs once in trans
+				if (this->num_hits(gloss_hit, trans) == 1)
+				{
+					tmp.insert(match) ;
+				}
+			}
+			std::swap(matches, tmp) ;
+		}
 	}
 }

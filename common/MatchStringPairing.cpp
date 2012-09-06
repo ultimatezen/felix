@@ -157,7 +157,7 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
 
 	m_PlacementPositions.clear() ;
-	m_PlacementPositionsTmp.clear() ;
+	std::set< size_t > positions_tmp ;
 
 	std::vector< pairing_entity > PairVec ;
 	PairVec.assign(m_Pairs.begin(), m_Pairs.end()) ;
@@ -172,10 +172,10 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 			&& pe.m_MatchType == NOMATCH )
 		{
 			size_t SourcePos = i ;
-			std::wstring SourceNum = GetNum(PairVec, SourcePos, SOURCE);
+			std::wstring SourceNum = GetNum(PairVec, SourcePos, SOURCE, positions_tmp);
 
 			size_t QueryPos = i ;
-			std::wstring QueryNum = GetNum(PairVec, QueryPos, QUERY);
+			std::wstring QueryNum = GetNum(PairVec, QueryPos, QUERY, positions_tmp);
 
 			// is the num in the translation? (but only once...)
 			size_t TransPos = trans.first.find( SourceNum ) ;
@@ -206,15 +206,11 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 				boost::replace_first( trans.first, SourceNum, QueryNum ) ;
 				boost::replace_first( trans.second, SourceNum, ( boost::wformat( PlacementFmt ) % QueryNum ).str() ) ;
 
-				for ( auto pos = m_PlacementPositionsTmp.begin() ;
-						pos != m_PlacementPositionsTmp.end() ;
-						++pos )
-				{
-					m_PlacementPositions.insert( *pos ) ;
-				}
+				std::copy(
+					positions_tmp.begin(), positions_tmp.end(),
+					std::inserter( m_PlacementPositions, m_PlacementPositions.begin() ) );
 			}
 
-			m_PlacementPositionsTmp.clear() ;
 
 			// how much to skip
 			i = max( SourcePos, QueryPos ) + 1 ;
@@ -307,26 +303,26 @@ void match_string_pairing::ReAlignPairs(std::vector< match_string_pairing::pairi
 
 /** Returns a number for placement.
  */
-std::wstring match_string_pairing::GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct )
+std::wstring match_string_pairing::GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
 {
-	while( IsNumOrNull(PairVec[CharPos].m_Chars[ct]) && CharPos > 0 )
+	while( IsNumOrNull(PairVec[CharPos].get_char(ct)) && CharPos > 0 )
 	{
 		CharPos-- ;
 	}
 
-	if ( ! IsNumOrNull(PairVec[CharPos].m_Chars[ct]) )
+	if ( ! IsNumOrNull(PairVec[CharPos].get_char(ct)) )
 	{
 		CharPos++ ;
 	}
-	ATLASSERT( IsNumOrNull(PairVec[CharPos].m_Chars[ct]) ) ;
+	ATLASSERT( IsNumOrNull(PairVec[CharPos].get_char(ct)) ) ;
 
 	wstring Num ;
-	while( CharPos < PairVec.size() && IsNumOrNull(PairVec[CharPos].m_Chars[ct]) )
+	while( CharPos < PairVec.size() && IsNumOrNull(PairVec[CharPos].get_char(ct)) )
 	{
-		if( PairVec[CharPos].m_Chars[ct] != 0 )
+		if( PairVec[CharPos].get_char(ct) != 0 )
 		{
-			m_PlacementPositionsTmp.insert( CharPos ) ;
-			Num += PairVec[CharPos].m_Chars[ct] ;
+			positions.insert( CharPos ) ;
+			Num += PairVec[CharPos].get_char(ct) ;
 		}
 		CharPos++ ;
 	}
@@ -357,11 +353,11 @@ double match_string_pairing::CalcScore()
 
 	for ( auto pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
 	{
-		if ( pos->m_Chars[SOURCE] != 0 )
+		if ( pos->source() != 0 )
 		{
 			SourceLen += 1.0f ;
 		}
-		if ( pos->m_Chars[QUERY] != 0 )
+		if ( pos->query() != 0 )
 		{
 			QueryLen += 1.0f ;
 		}
@@ -372,7 +368,7 @@ double match_string_pairing::CalcScore()
 		}
 		else if ( pos->m_MatchType == PLACEMENT )
 		{
-			if ( ! this->IsNumOrNull( pos->m_Chars[SOURCE] ) || ! this->IsNumOrNull( pos->m_Chars[QUERY] ) )
+			if ( ! this->IsNumOrNull( pos->source() ) || ! this->IsNumOrNull( pos->query() ) )
 			{
 				pos->m_MatchType = NOMATCH ;
 				Distance += 1.0f ;
@@ -386,7 +382,6 @@ double match_string_pairing::CalcScore()
 
 void match_string_pairing::clear()
 {
-	m_PlacementPositionsTmp.clear() ;
 	m_PlacementPositions.clear() ;
 	TextBuffer.clear() ;
 	MarkedUpString.clear() ;

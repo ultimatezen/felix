@@ -69,7 +69,6 @@ public:
 	wstring TextBuffer ;
 
 	std::set< size_t > m_PlacementPositions ;
-	std::set< size_t > m_PlacementPositionsTmp ;
 
 	match_string_pairing(void);
 	~match_string_pairing(void);
@@ -79,21 +78,17 @@ public:
 	void QueryToEpsilon( wchar_t q );
 	void Match( wchar_t s, wchar_t q );
 	void NoMatch( wchar_t s, wchar_t q );
-
 	wstring MarkupSource();
 	wstring MarkupQuery();
-
 	bool PlaceNumbers( std::pair< wstring, wstring >& trans ) ;
 	double CalcScore();
-
 	bool IsNumRep(std::wstring& PotentialNum);
-
 	bool IsSubstitution(std::pair< std::wstring, std::wstring >& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
-private:
+
 	wstring MarkupString( CharType ct );
 	void AddBufferToMarkup(MatchType MatchState) ;
 	int IsNumPair(match_string_pairing::pairing_entity& pe);
-	std::wstring GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct);
+	std::wstring GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
 	int IsNumOrNull( wchar_t c );
 	void ReAlignPairs(std::vector< match_string_pairing::pairing_entity >& PairVec);
 
