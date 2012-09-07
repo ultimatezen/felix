@@ -5,7 +5,6 @@
  */
 #include "StdAfx.h"
 #include "MatchStringPairing.h"
-// #include "EASYSTL/algorithmx.h"
 #include "stringex.h"
 
 namespace mem_engine

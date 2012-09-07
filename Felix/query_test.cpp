@@ -5,15 +5,15 @@
 
 #include <boost/test/unit_test.hpp>
 
-string get_dummy_text()
+wstring get_dummy_text()
 {
-	string etext = "	<div class=\"nomatch_query\">\r\n" ;
-	etext += "		<span class=\"match_content\" id=\"query\" style=\"color: #000\"></span>\r\n" ;
-	etext += "    </div>\r\n" ;
-	etext += "	<div class=\"nomatch_box\">\r\n" ;
-	etext += "		No Matches\r\n" ;
-	etext += "	</div>" ;
-	return string(etext.c_str()) ;
+	wstring etext = L"	<div class=\"nomatch_query\">\r\n"
+	L"		<span class=\"match_content\" id=\"query\" style=\"color: #000\"></span>\r\n" 
+	L"    </div>\r\n" 
+	L"	<div class=\"nomatch_box\">\r\n" 
+	L"		No Matches\r\n" 
+	L"	</div>" ;
+	return etext ;
 }
 
 bool is_critical( std::logic_error const& ) { return true; }
@@ -45,26 +45,26 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	BOOST_AUTO_TEST_CASE( plain_query)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_query_plain()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_query_plain()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring text = L"spam" ;
 
 		query.set_query_plain(text) ;
-		actual = string2string(query.get_query_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		actual = query.get_query_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_query)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_query_rich()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_query_rich()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring text = L"<b>spam</b>" ;
 
 		query.set_query_rich(text) ;
-		actual = string2string(query.get_query_rich()).c_str() ;
-		BOOST_CHECK_EQUAL(string("<b>spam</b>"), actual) ;
+		actual = query.get_query_rich() ;
+		BOOST_CHECK_EQUAL(wstring(L"<b>spam</b>"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_to_plain_query)
 	{
@@ -73,8 +73,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring text = L"<b>spam</b>" ;
 
 		query.set_query_rich(text) ;
-		string actual = string2string(query.get_query_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		wstring actual = query.get_query_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( source_is_query)
 	{
@@ -82,33 +82,33 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring source = L"spam" ;
 
 		query.set_source(source) ;
-		string actual(string2string(query.get_query_rich()).c_str()) ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		wstring actual(query.get_query_rich()) ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	// source
 	BOOST_AUTO_TEST_CASE( plain_source)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_source_plain()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_source_plain()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring source = L"spam" ;
 
 		query.set_source(source) ;
-		actual = string2string(query.get_source_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		actual = query.get_source_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_source)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_source_rich()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_source_rich()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring source = L"<b>spam</b>" ;
 
 		query.set_source(source) ;
-		actual = string2string(query.get_source_rich()).c_str() ;
-		BOOST_CHECK_EQUAL(string("<b>spam</b>"), actual) ;
+		actual = query.get_source_rich() ;
+		BOOST_CHECK_EQUAL(wstring(L"<b>spam</b>"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_to_plain_source)
 	{
@@ -117,33 +117,33 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring source = L"<b>spam</b>" ;
 
 		query.set_source(source) ;
-		string actual = string2string(query.get_source_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		wstring actual = query.get_source_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	// trans
 	BOOST_AUTO_TEST_CASE( plain_trans)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_trans_plain()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_trans_plain()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring trans = L"spam" ;
 
 		query.set_trans(trans) ;
-		actual = string2string(query.get_trans_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		actual = query.get_trans_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_trans)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_trans_rich()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_trans_rich()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring trans = L"<b>spam</b>" ;
 
 		query.set_trans(trans) ;
-		actual = string2string(query.get_trans_rich()).c_str() ;
-		BOOST_CHECK_EQUAL(string("<b>spam</b>"), actual) ;
+		actual = query.get_trans_rich() ;
+		BOOST_CHECK_EQUAL(wstring(L"<b>spam</b>"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_to_plain_trans)
 	{
@@ -152,33 +152,33 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring trans = L"<b>spam</b>" ;
 
 		query.set_trans(trans) ;
-		string actual = string2string(query.get_trans_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		wstring actual = query.get_trans_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	// context
 	BOOST_AUTO_TEST_CASE( plain_context)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_context_plain()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_context_plain()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring context = L"spam" ;
 
 		query.set_context(context) ;
-		actual = string2string(query.get_context_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		actual = query.get_context_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_context)
 	{
 		search_query_mainframe query ;
-		string actual(string2string(query.get_context_rich()).c_str()) ;
-		BOOST_CHECK_EQUAL(string(), actual) ;
+		wstring actual(query.get_context_rich()) ;
+		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
 		wstring context = L"<b>spam</b>" ;
 
 		query.set_context(context) ;
-		actual = string2string(query.get_context_rich()).c_str() ;
-		BOOST_CHECK_EQUAL(string("<b>spam</b>"), actual) ;
+		actual = query.get_context_rich() ;
+		BOOST_CHECK_EQUAL(wstring(L"<b>spam</b>"), actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( rich_to_plain_context)
 	{
@@ -187,8 +187,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring context = L"<b>spam</b>" ;
 
 		query.set_context(context) ;
-		string actual = string2string(query.get_context_plain()).c_str() ;
-		BOOST_CHECK_EQUAL(string("spam"), actual) ;
+		wstring actual = query.get_context_plain() ;
+		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
 
 	// others
@@ -338,15 +338,15 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		search_query_mainframe query ;
 		wstring val = L"spam" ;
 		wstring text = query.make_id_cell(IDS_CONTEXT_ID, val) ;
-		string actual = string2string(text).c_str() ;
-		string expected = "<td class=\"match_content\" id=\"context\">spam</td>\n" ;
+		wstring actual = text ;
+		wstring expected = L"<td class=\"match_content\" id=\"context\">spam</td>\n" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( make_table_header)
 	{
 		search_query_mainframe query ;
-		string actual = string2string(query.make_table_header()).c_str() ;
-		string expected = "<table class=\"base\">\n" ;
+		wstring actual = query.make_table_header() ;
+		wstring expected = L"<table class=\"base\">\n" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	// prev_match_pos
@@ -452,9 +452,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		search_match_ptr match(new search_match) ;
 
 		search_query_glossary query ;
-		wstring name = query.get_mem_name(match) ;
-		string actual = string2string(name).c_str() ;
-		string expected = "New" ;
+		wstring actual = query.get_mem_name(match) ;
+		wstring expected = L"New" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
@@ -483,8 +482,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	{
 		translation_match_query query ;
 		wstring text = query.create_dummy_match() ;
-		string actual = string2string(text).c_str() ;
-		string expected = get_dummy_text() ;
+		wstring actual = text ;
+		wstring expected = get_dummy_text() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
@@ -492,16 +491,16 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	{
 		translation_match_query query ;
 		wstring text = query.get_html_short() ;
-		string actual = string2string(text).c_str() ;
-		string expected = get_dummy_text() ;
+		wstring actual = text ;
+		wstring expected = get_dummy_text() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_html_long_dummy)
 	{
 		translation_match_query query ;
 		wstring text = query.get_html_long() ;
-		string actual = string2string(text).c_str() ;
-		string expected = get_dummy_text() ;
+		wstring actual = text ;
+		wstring expected = get_dummy_text() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_html_long_doesnt_blow_up)
@@ -518,8 +517,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	{
 		translation_match_query query ;
 		wstring text = query.get_html_all() ;
-		string actual = string2string(text).c_str() ;
-		string expected = get_dummy_text() ;
+		wstring actual = text ;
+		wstring expected = get_dummy_text() ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_html_all_doesnt_blow_up)
@@ -550,15 +549,15 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m3) ;
 		query.set_matches(matches) ;
 
-		string actual = string2string(query.prev_score()).c_str() ;
-		string expected = "(100%)" ;
+		wstring actual = query.prev_score() ;
+		wstring expected = L"(100%)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( prev_empty)
 	{
 		translation_match_query query ;
-		string actual = string2string(query.prev_score()).c_str() ;
-		string expected = "(0%)" ;
+		wstring actual = query.prev_score() ;
+		wstring expected = L"(0%)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}	
 	BOOST_AUTO_TEST_CASE( next_no_formatting_penalty)
@@ -577,8 +576,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		matches.insert(m3) ;
 		query.set_matches(matches) ;
 
-		string actual = string2string(query.next_score()).c_str() ;
-		string expected = "(75%)" ;
+		wstring actual = query.next_score() ;
+		wstring expected = L"(75%)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( prev_formatting_penalty)
@@ -599,8 +598,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(1) ;
 
-		string actual = string2string(query.prev_score()).c_str() ;
-		string expected = "(40% <span class=\"format_penalty\">[F]</span>)" ;
+		wstring actual = query.prev_score() ;
+		wstring expected = L"(40% <span class=\"format_penalty\">[F]</span>)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( next_formatting_penalty)
@@ -621,15 +620,15 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.set_matches(matches) ;
 		query.set_current(1) ;
 
-		string actual = string2string(query.next_score()).c_str() ;
-		string expected = "(90% <span class=\"format_penalty\">[F]</span>)" ;
+		wstring actual = query.next_score() ;
+		wstring expected = L"(90% <span class=\"format_penalty\">[F]</span>)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( next_empty)
 	{
 		translation_match_query query ;
-		string actual = string2string(query.next_score()).c_str() ;
-		string expected = "(0%)" ;
+		wstring actual = query.next_score() ;
+		wstring expected = L"(0%)" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}	
 
@@ -639,8 +638,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		search_match_ptr match(new search_match) ;
 		match->set_base_score(.75) ;
 
-		string actual = string2string(query.get_score_text(match)).c_str() ;
-		string expected = "75%" ;
+		wstring actual = query.get_score_text(match) ;
+		wstring expected = L"75%" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}	
 	BOOST_AUTO_TEST_CASE( score_text_formatting)
@@ -651,8 +650,8 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		match->set_base_score(1.0) ;
 		match->set_formatting_penalty(.1) ;
 
-		string actual = string2string(query.get_score_text(match)).c_str() ;
-		string expected = "90% <span class=\"format_penalty\">[F]</span>" ;
+		wstring actual = query.get_score_text(match) ;
+		wstring expected = L"90% <span class=\"format_penalty\">[F]</span>" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}	
 	BOOST_AUTO_TEST_CASE( score_text_placement)
@@ -661,10 +660,10 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		query.m_params.m_assess_format_penalty = false; 
 		search_match_ptr match(new search_match) ;
 		match->set_base_score(.75) ;
-		match->Placement() ;
+		match->set_placement_on() ;
 
-		string actual = string2string(query.get_score_text(match)).c_str() ;
-		string expected = "75% <span class=\"format_penalty\">[P]</span>" ;
+		wstring actual = query.get_score_text(match) ;
+		wstring expected = L"75% <span class=\"format_penalty\">[P]</span>" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}	
 
