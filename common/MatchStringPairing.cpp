@@ -5,8 +5,14 @@
  */
 #include "StdAfx.h"
 #include "MatchStringPairing.h"
-#include "EASYSTL/algorithmx.h"
+// #include "EASYSTL/algorithmx.h"
 #include "stringex.h"
+
+namespace mem_engine
+{
+
+namespace placement
+{
 
 /**
 * Changes numbers to their narrow versions.
@@ -20,6 +26,21 @@ wchar_t narrow_num( wchar_t c )
 	}
 	return c ;
 }
+
+void fix_html_entities( wstring &segment )
+{
+	boost::replace_all(segment, L"&", L"&amp;") ;
+	boost::replace_all(segment, L"<", L"&lt;") ;
+	boost::replace_all(segment, L">", L"&gt;") ;
+}
+
+void fix_match_spans( wstring &segment )
+{
+	boost::replace_all(segment, L"&lt;span class=\"nomatch\"&gt;", L"<span class=\"nomatch\">") ;
+	boost::replace_all(segment, L"&lt;span class=\"placement\"&gt;", L"<span class=\"placement\">") ;
+	boost::replace_all(segment, L"&lt;/span&gt;", L"</span>") ;
+}
+
 
 
 /** Base contructor.
@@ -36,56 +57,56 @@ match_string_pairing::~match_string_pairing(void)
 
 /** Match source character against epsilon.
  */
-void match_string_pairing::SourceToEpsilon( wchar_t s )
+void match_string_pairing::source_to_epsilon( wchar_t s )
 {
-	m_Pairs.push_front( pairing_entity( s, NOMATCH, 0 ) ) ;
+	m_pairs.push_front( pairing_entity( s, NOMATCH, 0 ) ) ;
 }
 
 /** Match query character against epsilon.
  */
-void match_string_pairing::QueryToEpsilon( wchar_t q )
+void match_string_pairing::query_to_epsilon( wchar_t q )
 {
-	m_Pairs.push_front( pairing_entity( 0, NOMATCH, q ) ) ;
+	m_pairs.push_front( pairing_entity( 0, NOMATCH, q ) ) ;
 }
 
 /** Match source and query characters.
  */
-void match_string_pairing::Match( wchar_t s, wchar_t q )
+void match_string_pairing::match( wchar_t s, wchar_t q )
 {
-	m_Pairs.push_front( pairing_entity( s, MATCH, q ) ) ;
+	m_pairs.push_front( pairing_entity( s, MATCH, q ) ) ;
 }
 
 /** Pair query and source characters, but they don't match.
  */
-void match_string_pairing::NoMatch( wchar_t s, wchar_t q )
+void match_string_pairing::no_match( wchar_t s, wchar_t q )
 {
-	m_Pairs.push_front( pairing_entity( s, NOMATCH, q ) ) ;
+	m_pairs.push_front( pairing_entity( s, NOMATCH, q ) ) ;
 }
 
 /** Returns the marked up source string.
  */
-std::wstring match_string_pairing::MarkupSource()
+std::wstring match_string_pairing::mark_up_source()
 {
-	return MarkupString( SOURCE ) ;
+	return mark_up( SOURCE ) ;
 }
 
 /** Returns the marked up query string.
  */
-std::wstring match_string_pairing::MarkupQuery()
+std::wstring match_string_pairing::mark_up_query()
 {
-	return MarkupString( QUERY ) ;
+	return mark_up( QUERY ) ;
 }
 
 /** Marks up a string.
  */
-std::wstring match_string_pairing::MarkupString( CharType ct )
+std::wstring match_string_pairing::mark_up( CharType ct )
 {
-	MatchType MatchState = m_Pairs.begin()->m_MatchType ;
+	MatchType MatchState = m_pairs.begin()->m_MatchType ;
 
-	MarkedUpString.erase() ;
-	TextBuffer.erase() ;
+	m_marked_up_string.erase() ;
+	m_text_buffer.erase() ;
 
-	for ( auto pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
+	for ( auto pos = m_pairs.begin() ; pos != m_pairs.end() ; ++pos )
 	{
 		wchar_t c = pos->m_Chars[ct] ;
 
@@ -93,89 +114,89 @@ std::wstring match_string_pairing::MarkupString( CharType ct )
 		{
 			if ( pos->m_MatchType != MatchState )
 			{
-				AddBufferToMarkup( MatchState ) ;
+				add_buffer_to_markup( MatchState ) ;
 				MatchState = pos->m_MatchType ;
 			}
 
 			if ( c == L'<' )	// we need to convert back to &lt; for display purposes
 			{
-				TextBuffer += L"&lt;" ;
+				m_text_buffer += L"&lt;" ;
 			}
 			else if ( c == L'>' )	// we need to convert back to &gt; for display purposes
 			{
-				TextBuffer += L"&gt;" ;
+				m_text_buffer += L"&gt;" ;
 			}
 			else if ( c == L'&' )	// we need to convert back to &amp; for display purposes
 			{
-				TextBuffer += L"&amp;" ;
+				m_text_buffer += L"&amp;" ;
 			}
 			else
 			{
-				TextBuffer += c ;
+				m_text_buffer += c ;
 			}
 		}
 	}
 
-	AddBufferToMarkup( MatchState ) ;
+	add_buffer_to_markup( MatchState ) ;
 
-	return MarkedUpString ;
+	return m_marked_up_string ;
 }
 
 /** Adds the buffer we have stored to the marked up string.
  */
-void match_string_pairing::AddBufferToMarkup(MatchType MatchState)
+void match_string_pairing::add_buffer_to_markup(MatchType MatchState)
 {
 	const static wstring NoMatchFmt( L"<span class=\"nomatch\">%s</span>" ) ;
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
 
 	using boost::wformat ;
 
-	if( TextBuffer.empty() )
+	if( m_text_buffer.empty() )
 	{
 		return ;
 	}
 
 	if ( MatchState == NOMATCH )
 	{
-		MarkedUpString += ( wformat( NoMatchFmt ) % TextBuffer ).str() ;
+		m_marked_up_string += ( wformat( NoMatchFmt ) % m_text_buffer ).str() ;
 	}
 	else if ( MatchState == PLACEMENT )
 	{
-		MarkedUpString += ( wformat( PlacementFmt ) % TextBuffer ).str() ;
+		m_marked_up_string += ( wformat( PlacementFmt ) % m_text_buffer ).str() ;
 	}
 	else
 	{
-		MarkedUpString += TextBuffer ;
+		m_marked_up_string += m_text_buffer ;
 	}
-	TextBuffer.erase() ;
+	m_text_buffer.erase() ;
 }
 
 /** Places numbers found in source and trans.
  */
-bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
+bool match_string_pairing::place_numbers( std::pair< wstring, wstring >& trans )
 {
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
 
-	m_PlacementPositions.clear() ;
+	m_placement_positions.clear() ;
 	std::set< size_t > positions_tmp ;
 
 	std::vector< pairing_entity > PairVec ;
-	PairVec.assign(m_Pairs.begin(), m_Pairs.end()) ;
-	ATLASSERT( m_Pairs.size() == PairVec.size() ) ;
+	PairVec.assign(m_pairs.begin(), m_pairs.end()) ;
+	ATLASSERT( m_pairs.size() == PairVec.size() ) ;
 
 	bool PairedNums = false ;
 
 	for( size_t i = 0 ; i < PairVec.size() ;)
 	{
 		pairing_entity pe = PairVec[i] ;
-		if( IsNumPair(pe)
+		if( is_num_pair(pe)
 			&& pe.m_MatchType == NOMATCH )
 		{
 			size_t SourcePos = i ;
-			std::wstring SourceNum = GetNum(PairVec, SourcePos, SOURCE, positions_tmp);
+			std::wstring SourceNum = get_num(PairVec, SourcePos, SOURCE, positions_tmp);
 
 			size_t QueryPos = i ;
-			std::wstring QueryNum = GetNum(PairVec, QueryPos, QUERY, positions_tmp);
+			std::wstring QueryNum = get_num(PairVec, QueryPos, QUERY, positions_tmp);
 
 			// is the num in the translation? (but only once...)
 			size_t TransPos = trans.first.find( SourceNum ) ;
@@ -190,7 +211,7 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 				TransPos = trans.first.find( SourceNum ) ;
 			}
 
-			if( IsSubstitution(trans, SourceNum, TransPos, QueryNum) ) 
+			if( is_substitution(trans, SourceNum, TransPos, QueryNum) ) 
 			{
 				PairedNums = true ;
 				if (! has_asian(SourceNum) && has_asian(QueryNum))
@@ -208,7 +229,7 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 				std::copy(
 					positions_tmp.begin(), positions_tmp.end(),
-					std::inserter( m_PlacementPositions, m_PlacementPositions.begin() ) );
+					std::inserter( m_placement_positions, m_placement_positions.begin() ) );
 			}
 
 
@@ -223,18 +244,10 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 	if( PairedNums )
 	{
-		ReAlignPairs(PairVec);
-		boost::replace_all(trans.first, L"&", L"&amp;") ;
-		boost::replace_all(trans.first, L"<", L"&lt;") ;
-		boost::replace_all(trans.first, L">", L"&gt;") ;
-
-		boost::replace_all(trans.second, L"&", L"&amp;") ;
-		boost::replace_all(trans.second, L"<", L"&lt;") ;
-		boost::replace_all(trans.second, L">", L"&gt;") ;
-
-		boost::replace_all(trans.second, L"&lt;span class=\"nomatch\"&gt;", L"<span class=\"nomatch\">") ;
-		boost::replace_all(trans.second, L"&lt;span class=\"placement\"&gt;", L"<span class=\"placement\">") ;
-		boost::replace_all(trans.second, L"&lt;/span&gt;", L"</span>") ;
+		re_align_pairs(PairVec);
+		fix_html_entities(trans.first);
+		fix_html_entities(trans.second);
+		fix_match_spans(trans.second);
 	}
 
 	return PairedNums ;
@@ -242,17 +255,17 @@ bool match_string_pairing::PlaceNumbers( std::pair< wstring, wstring >& trans )
 
 /** Finds whether we are looking at a substitution text range.
  */
-bool match_string_pairing::IsSubstitution(std::pair< std::wstring, 
+bool match_string_pairing::is_substitution(std::pair< std::wstring, 
 										 std::wstring >& trans, 
 										 std::wstring& SourceNum, 
 										 size_t TransPos, 
 										 std::wstring& QueryNum)
 {
-	if ( ! IsNumRep(SourceNum) )
+	if ( ! is_num_rep(SourceNum) )
 	{
 		return false ;
 	}
-	if ( ! IsNumRep(QueryNum) )
+	if ( ! is_num_rep(QueryNum) )
 	{
 		return false ;
 	}
@@ -262,11 +275,11 @@ bool match_string_pairing::IsSubstitution(std::pair< std::wstring,
 
 /** Returns whether we are looking at a number representation.
  */
-bool match_string_pairing::IsNumRep(std::wstring& PotentialNum)
+bool match_string_pairing::is_num_rep(std::wstring& PotentialNum)
 {
 	foreach(wchar_t c, PotentialNum)
 	{
-		if (! IsNumOrNull(c))
+		if (! is_num_or_null(c))
 		{
 			return false ;
 		}
@@ -276,17 +289,17 @@ bool match_string_pairing::IsNumRep(std::wstring& PotentialNum)
 
 /** Re-aligns the pairs.
  */
-void match_string_pairing::ReAlignPairs(std::vector< match_string_pairing::pairing_entity >& PairVec)
+void match_string_pairing::re_align_pairs(std::vector< pairing_entity >& PairVec)
 {
-	m_Pairs.clear() ;
+	m_pairs.clear() ;
 
 	for( size_t i = 0 ; i < PairVec.size() ; ++i )
 	{
 		pairing_entity pe = PairVec[i] ;
 
-		if ( m_PlacementPositions.find( i ) == m_PlacementPositions.end() )
+		if ( m_placement_positions.find( i ) == m_placement_positions.end() )
 		{
-			m_Pairs.push_back(pe) ;
+			m_pairs.push_back(pe) ;
 		}
 		else
 		{
@@ -294,7 +307,7 @@ void match_string_pairing::ReAlignPairs(std::vector< match_string_pairing::pairi
 			{
 				pe.source() = pe.query() ;
 				pe.m_MatchType = PLACEMENT ;
-				m_Pairs.push_back(pe) ;
+				m_pairs.push_back(pe) ;
 			}
 		}
 
@@ -303,21 +316,21 @@ void match_string_pairing::ReAlignPairs(std::vector< match_string_pairing::pairi
 
 /** Returns a number for placement.
  */
-std::wstring match_string_pairing::GetNum(std::vector< match_string_pairing::pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
+std::wstring match_string_pairing::get_num(std::vector< pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
 {
-	while( IsNumOrNull(PairVec[CharPos].get_char(ct)) && CharPos > 0 )
+	while( is_num_or_null(PairVec[CharPos].get_char(ct)) && CharPos > 0 )
 	{
 		CharPos-- ;
 	}
 
-	if ( ! IsNumOrNull(PairVec[CharPos].get_char(ct)) )
+	if ( ! is_num_or_null(PairVec[CharPos].get_char(ct)) )
 	{
 		CharPos++ ;
 	}
-	ATLASSERT( IsNumOrNull(PairVec[CharPos].get_char(ct)) ) ;
+	ATLASSERT( is_num_or_null(PairVec[CharPos].get_char(ct)) ) ;
 
 	wstring Num ;
-	while( CharPos < PairVec.size() && IsNumOrNull(PairVec[CharPos].get_char(ct)) )
+	while( CharPos < PairVec.size() && is_num_or_null(PairVec[CharPos].get_char(ct)) )
 	{
 		if( PairVec[CharPos].get_char(ct) != 0 )
 		{
@@ -332,14 +345,14 @@ std::wstring match_string_pairing::GetNum(std::vector< match_string_pairing::pai
 
 /** Returns whether the character is a number character or epsilon.
  */
-int match_string_pairing::IsNumOrNull( wchar_t c )
+int match_string_pairing::is_num_or_null( wchar_t c )
 {
 	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'D' || c == L',') ;
 }
 
 /** Are we looking at a pair of number characters?
  */
-int match_string_pairing::IsNumPair(match_string_pairing::pairing_entity& pe)
+int match_string_pairing::is_num_pair(pairing_entity& pe)
 {
 	return iswdigit( narrow_num( pe.source() ) ) 
 		&& iswdigit( narrow_num( pe.query() ) );
@@ -347,11 +360,11 @@ int match_string_pairing::IsNumPair(match_string_pairing::pairing_entity& pe)
 
 /** Calculates the score based on our pairings.
  */
-double match_string_pairing::CalcScore()
+double match_string_pairing::calc_score()
 {
 	double SourceLen(0.0f), QueryLen(0.0f), Distance( 0.0f ) ;
 
-	for ( auto pos = m_Pairs.begin() ; pos != m_Pairs.end() ; ++pos )
+	for ( auto pos = m_pairs.begin() ; pos != m_pairs.end() ; ++pos )
 	{
 		if ( pos->source() != 0 )
 		{
@@ -368,7 +381,7 @@ double match_string_pairing::CalcScore()
 		}
 		else if ( pos->m_MatchType == PLACEMENT )
 		{
-			if ( ! this->IsNumOrNull( pos->source() ) || ! this->IsNumOrNull( pos->query() ) )
+			if ( ! this->is_num_or_null( pos->source() ) || ! this->is_num_or_null( pos->query() ) )
 			{
 				pos->m_MatchType = NOMATCH ;
 				Distance += 1.0f ;
@@ -382,9 +395,11 @@ double match_string_pairing::CalcScore()
 
 void match_string_pairing::clear()
 {
-	m_PlacementPositions.clear() ;
-	TextBuffer.clear() ;
-	MarkedUpString.clear() ;
-	m_Pairs.clear() ;
+	m_placement_positions.clear() ;
+	m_text_buffer.clear() ;
+	m_marked_up_string.clear() ;
+	m_pairs.clear() ;
 }
 
+}
+}

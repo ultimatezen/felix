@@ -24,16 +24,16 @@ class search_match
 	wstring				m_memory_location ;
 	int					m_memory_id ;
 
-	match_string_pairing	m_MatchPairing ;
+	placement::match_string_pairing	m_match_pairing ;
 
-	bool				m_HasPlacement ;
+	bool				m_has_placement ;
 
 	std::vector<wstring> m_qc_messages ;
 public:
 	search_match( );
 	search_match(record_pointer record) : 
 		m_memory_id(0)
-		, m_HasPlacement(false)
+		, m_has_placement(false)
 		, m_record(record)
 		, m_markup(new markup_strings)
 	{
@@ -53,10 +53,10 @@ public:
 	search_match( const search_match &cpy );
 	search_match& operator= ( const search_match &cpy );
 
-	void Placement();
-	bool HasPlacement();
+	void set_placement_on();
+	bool has_placement();
 
-	match_string_pairing& MatchPairing();
+	placement::match_string_pairing& match_pairing();
 
 	void set_memory_id( const int id );
 	const int get_memory_id() const;

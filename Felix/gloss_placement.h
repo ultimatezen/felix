@@ -14,8 +14,8 @@ namespace mem_engine
 
 namespace placement
 {
-	typedef match_string_pairing::pair_list pairings_t ;
-	typedef match_string_pairing::pairing_entity pairing_t ;
+	typedef pair_list pairings_t ;
+	typedef pairing_entity pairing_t ;
 
 	// hole defs.
 
@@ -103,35 +103,16 @@ namespace placement
 		{
 		}
 		// matches with source containing `text`
-		void get_matches(search_match_container &matches, const wstring text);
+		size_t get_matches(search_match_container &matches, const wstring text);
 
 		// Number of times needle is found in haystack
 		size_t num_hits(const wstring needle, const wstring haystack);
 
 		// Get the source matches that have gloss hits in translation
-		void get_trans_subset(search_match_container &matches, const wstring trans);
+		size_t get_trans_subset(search_match_container &matches, const wstring trans);
 
 		// Get placement candidates
-		bool place(pairings_t &pairings, const wstring trans)
-		{
-			hole_pair_t holes ;
-			hole_finder finder ;
-			if (! finder.find_hole(pairings, holes))
-			{
-				return false ;
-			}
-			wstring source = holes.lhs.get_str_source(pairings); 
-			wstring query = holes.rhs.get_str_query(pairings) ;
-
-			search_match_container s_matches ;
-			search_match_container q_matches ;
-
-			this->get_matches(q_matches, query) ;
-			this->get_matches(s_matches, source) ;
-			this->get_trans_subset(s_matches, trans) ;
-
-			return ! s_matches.empty() && ! q_matches.empty() ;
-		}
+		bool place(pairings_t &pairings, wstring &trans);
 	};
 
 }

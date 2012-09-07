@@ -9,10 +9,11 @@
 
 namespace mem_engine
 {
+	using namespace placement ;
 
 search_match::search_match() : 
 	m_memory_id(0),
-	m_HasPlacement(false),
+	m_has_placement(false),
 	m_markup(new markup_strings),
 	m_record(new record_local)
 {
@@ -101,8 +102,8 @@ void search_match::internal_copy( const search_match &cpy )
 	m_memory_location = cpy.m_memory_location ;
 	m_memory_id = cpy.m_memory_id ;
 
-	m_MatchPairing = cpy.m_MatchPairing ;
-	m_HasPlacement = cpy.m_HasPlacement ;
+	m_match_pairing = cpy.m_match_pairing ;
+	m_has_placement = cpy.m_has_placement ;
 }
 
 search_match& search_match::operator=( const search_match &cpy )
@@ -111,19 +112,19 @@ search_match& search_match::operator=( const search_match &cpy )
 	return *this ;
 }
 
-void search_match::Placement()
+void search_match::set_placement_on()
 {
-	m_HasPlacement = true ;
+	m_has_placement = true ;
 }
 
-bool search_match::HasPlacement()
+bool search_match::has_placement()
 {
-	return m_HasPlacement ;
+	return m_has_placement ;
 }
 
-match_string_pairing& search_match::MatchPairing()
+match_string_pairing& search_match::match_pairing()
 {
-	return m_MatchPairing ;
+	return m_match_pairing ;
 }
 
 void search_match::set_memory_id( const int id )
@@ -213,7 +214,7 @@ bool translation_match_compare::operator()( const search_match_ptr &lhs, const s
 		return false ;
 
 	// placement
-	if ( ! lhs->HasPlacement() && rhs->HasPlacement() )
+	if ( ! lhs->has_placement() && rhs->has_placement() )
 	{
 		return true ;
 	}

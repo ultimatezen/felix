@@ -95,9 +95,9 @@ namespace mem_engine
 	{
 		create_path_stacks( ) ;
 		// the query
-		m_match->get_markup()->SetQuery( m_match->MatchPairing().MarkupQuery() ) ;
+		m_match->get_markup()->SetQuery( m_match->match_pairing().mark_up_query() ) ;
 		// the source
-		m_match->get_markup()->SetSource( m_match->MatchPairing().MarkupSource() ) ;
+		m_match->get_markup()->SetSource( m_match->match_pairing().mark_up_source() ) ;
 		// the translation -- unchanged for now, but we may make additions
 		// if we add automatic vocab substitution
 		m_match->get_markup()->SetTrans( m_match->get_record()->get_trans_rich() ) ;
@@ -207,9 +207,14 @@ namespace mem_engine
 		return compute_score(high_len, lower_right_corner) ;
 	}
 
-	// match_cells
+	/* match_cells
+	 *
+	 * Match up the source and query chars, and return the next position in the matrix
+	 * as we backtrack to find our matchups
+	 */
 	boost::tuple<size_t, size_t> match_maker::match_cells(const size_t row_num, const size_t col_num) const
 	{
+		auto &pairing = m_match->match_pairing() ;
 		const size_t above = m_matrix( row_num-1, col_num );
 		const size_t left = m_matrix( row_num, col_num-1 );
 		const size_t diag = m_matrix( row_num-1, col_num-1 );
@@ -218,24 +223,24 @@ namespace mem_engine
 			const size_t matrix_cell = m_matrix( row_num, col_num ) ;					
 			if ( matrix_cell == diag )
 			{
-				m_match->MatchPairing().Match( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
+				pairing.match( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
 			}
 			else
 			{
-				m_match->MatchPairing().NoMatch( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
+				pairing.no_match( m_col_show_string[col_num-1], m_row_show_string[row_num-1] ) ;
 			}
 			return boost::make_tuple(row_num-1, col_num-1) ;
 		}	
 		else if (above<left)
 		{	
 			// m_match row with epsilon
-			m_match->MatchPairing().QueryToEpsilon( m_row_show_string[row_num-1] ) ;
+			pairing.query_to_epsilon( m_row_show_string[row_num-1] ) ;
 			return boost::make_tuple(row_num-1, col_num) ;
 		}
 		else
 		{
 			// m_match column with epsilon
-			m_match->MatchPairing().SourceToEpsilon( m_col_show_string[col_num-1] ) ;
+			pairing.source_to_epsilon( m_col_show_string[col_num-1] ) ;
 			return boost::make_tuple(row_num, col_num-1) ;
 		}
 	}
@@ -851,7 +856,7 @@ namespace mem_engine
 		size_t col_num = m_num_cols ;
 
 		// make sure that we have a clean slate.
-		m_match->MatchPairing().clear() ;
+		m_match->match_pairing().clear() ;
 
 		// backtrack to find the path we took	
 		while ( row_num || col_num )
@@ -859,12 +864,12 @@ namespace mem_engine
 			if( 0 == row_num) // no more source wstring to match
 			{
 				// m_match col wstring with epsilon
-				m_match->MatchPairing().SourceToEpsilon( m_col_show_string[--col_num] ) ;
+				m_match->match_pairing().source_to_epsilon( m_col_show_string[--col_num] ) ;
 			}
 			else if ( 0 == col_num) // no more translation wstring to match
 			{
 				// m_match row wstring with epsilon
-				m_match->MatchPairing().QueryToEpsilon( m_row_show_string[--row_num] ) ;
+				m_match->match_pairing().query_to_epsilon( m_row_show_string[--row_num] ) ;
 			}
 			else
 			{

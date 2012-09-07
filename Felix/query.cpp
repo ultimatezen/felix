@@ -416,7 +416,7 @@ void translation_match_query::fill_match_template_params(cpptempl::data_map &dat
 
 bool translation_match_query::is_perfect_match( match_ptr match )
 {
-	return FLOAT_EQ(match->get_score(), 1.0) && ! match->HasPlacement();
+	return FLOAT_EQ(match->get_score(), 1.0) && ! match->has_placement();
 }
 wstring translation_match_query::get_html_all()
 {
@@ -487,7 +487,7 @@ wstring translation_match_query::get_score_text( match_ptr match )
 	{
 		score_text << L" <span class=\"format_penalty\">[F]</span>" ;
 	}
-	if ( match->HasPlacement() ) 
+	if ( match->has_placement() ) 
 	{
 		score_text << L" <span class=\"format_penalty\">[P]</span>" ;
 	}

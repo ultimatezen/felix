@@ -67,6 +67,7 @@
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
+using namespace placement ;
 
 CString get_help_file_path( CString path )
 {
@@ -4018,7 +4019,7 @@ std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > * CMainFrame::g
 void CMainFrame::recalculate_match( search_match_ptr match, search_query_params &params )
 {
 	// initialize the match
-	match->MatchPairing().clear() ;
+	match->match_pairing().clear() ;
 	match->set_values_to_record() ;
 
 	m_trans_matches.m_params = params ;
@@ -4191,14 +4192,14 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 	const wstring trans = rec->get_trans_plain() ;
 
 	mem_engine::markup_ptr mark(new markup_strings) ;
-	mark->SetQuery(match->MatchPairing().MarkupQuery()) ;
-	mark->SetSource(match->MatchPairing().MarkupSource()) ;
+	mark->SetQuery(match->match_pairing().mark_up_query()) ;
+	mark->SetSource(match->match_pairing().mark_up_source()) ;
 	mark->SetTrans(trans) ;
 	mark->SetContext(rec->get_context_plain()) ;
 
 	std::pair< wstring, wstring > Transpair( trans, trans ) ;
-	match_string_pairing newPairing( match->MatchPairing() ) ;
-	if ( newPairing.PlaceNumbers( Transpair ) )
+	match_string_pairing newPairing( match->match_pairing() ) ;
+	if ( newPairing.place_numbers( Transpair ) )
 	{
 		search_match_ptr NewMatch(new search_match) ;
 		NewMatch->set_memory_id(match->get_memory_id()) ;
@@ -4214,16 +4215,16 @@ void CMainFrame::check_placement( trans_match_container &PlacedMatches,
 
 		// score
 		// HACK -- to make sure that the placed matches sort below the non-placed ones
-		NewMatch->set_base_score( newPairing.CalcScore() - PLACEMENT_PENALTY) ;
+		NewMatch->set_base_score( newPairing.calc_score() - PLACEMENT_PENALTY) ;
 		NewMatch->set_formatting_penalty( match->get_formatting_penalty() ) ;
 
 		// new query/source
 		mem_engine::markup_ptr Markup = NewMatch->get_markup() ;
-		Markup->SetQuery( newPairing.MarkupQuery() ) ;
-		Markup->SetSource( newPairing.MarkupSource() ) ;
+		Markup->SetQuery( newPairing.mark_up_query() ) ;
+		Markup->SetSource( newPairing.mark_up_source() ) ;
 		Markup->SetTrans( Transpair.second ) ;
 
-		NewMatch->Placement() ;
+		NewMatch->set_placement_on() ;
 
 		PlacedMatches.insert( NewMatch ) ;
 	}

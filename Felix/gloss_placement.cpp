@@ -142,15 +142,16 @@ namespace mem_engine
 			return count ;
 		}
 
-		void gloss::get_matches( search_match_container &matches, const wstring text )
+		size_t gloss::get_matches( search_match_container &matches, const wstring text )
 		{
 			foreach(memory_pointer mem, m_memories)
 			{
 				mem->get_perfect_matches(matches, text) ;
 			}
+			return matches.size() ;
 		}
 
-		void gloss::get_trans_subset( search_match_container &matches, const wstring trans )
+		size_t gloss::get_trans_subset( search_match_container &matches, const wstring trans )
 		{
 			search_match_container tmp ;
 			foreach(search_match_ptr match, matches)
@@ -163,6 +164,59 @@ namespace mem_engine
 				}
 			}
 			std::swap(matches, tmp) ;
+			return matches.size() ;
+		}
+
+		bool gloss::place( pairings_t &pairings, wstring &trans )
+		{
+			hole_pair_t holes ;
+			hole_finder finder ;
+			if (! finder.find_hole(pairings, holes))
+			{
+				return false ;
+			}
+
+			wstring query = holes.rhs.get_str_query(pairings) ;
+			search_match_container q_matches ;
+			if(this->get_matches(q_matches, query) == 0)
+			{
+				return false ;
+			}
+
+			wstring source = holes.lhs.get_str_source(pairings); 
+			search_match_container s_matches ;
+			if(this->get_matches(s_matches, source) == 0)
+			{
+				return false ;
+			}
+			if(this->get_trans_subset(s_matches, trans) == 0)
+			{
+				return false ;
+			}
+			auto qmatch = *q_matches.begin() ;
+			auto smatch = *s_matches.begin() ;
+
+			std::vector<pairing_t> pairvec ;
+			pairvec.assign(pairings.begin(), pairings.end()) ;
+
+
+			std::vector<pairing_t> newpairs ;
+
+			for(size_t i=0 ; i < holes.lhs.start ; ++i)
+			{
+				newpairs.push_back(pairvec[i]) ;
+			}
+
+			for(size_t i=holes.lhs.start + holes.lhs.len ; i < pairvec.size() ; ++i)
+			{
+				newpairs.push_back(pairvec[i]) ;
+			}
+
+
+			pairings.clear() ;
+			pairings.assign(newpairs.begin(), newpairs.end()) ;
+
+			return true ;
 		}
 	}
 }

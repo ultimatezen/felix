@@ -5,11 +5,14 @@
 
 #include "mem_tests.h"
 
+using namespace mem_engine ;
+using namespace placement ;
+namespace gp = placement ;
+
+
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE( gloss_placement_tests )
 
-	using namespace mem_engine ;
-	namespace gp = placement ;
 
 	// find_hole
 	BOOST_AUTO_TEST_CASE(empty_lhs)
@@ -411,7 +414,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
-		placer.get_matches(matches, text) ;
+		BOOST_CHECK_EQUAL(1u, placer.get_matches(matches, text)) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(get_matches_two)
@@ -440,7 +443,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		search_match_container matches ;
 		wstring text = L"foo" ;
 		placer.get_matches(matches, text) ;
-		placer.get_trans_subset(matches, L"bar") ;
+		BOOST_CHECK_EQUAL(1u, placer.get_trans_subset(matches, L"bar")) ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(get_trans_subset_two_one)
@@ -469,7 +472,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
-		placer.get_matches(matches, text) ;
+		BOOST_CHECK_EQUAL(2u, placer.get_matches(matches, text)) ;
 		placer.get_trans_subset(matches, L"bar") ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
