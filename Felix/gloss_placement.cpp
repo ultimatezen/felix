@@ -105,13 +105,13 @@ namespace mem_engine
 			pairvec.assign(pairings.begin(), pairings.end()) ;
 
 			size_t start = 0 ;
-			while(start < pairvec.size() && pairvec[start].m_MatchType != NOMATCH)
+			while(start < pairvec.size() && pairvec[start].match_type() != NOMATCH)
 			{
 				++start ;
 			}
 
 			size_t end = pairvec.size() ;
-			while(end && pairvec[end-1].m_MatchType != NOMATCH)
+			while(end && pairvec[end-1].match_type() != NOMATCH)
 			{
 				--end ;
 			}
@@ -132,14 +132,47 @@ namespace mem_engine
 			return start ;
 		}
 
-		size_t gloss::num_hits( const wstring needle, const wstring haystack )
+		/************************************************************************/
+		/* gloss                                                                */
+		/************************************************************************/
+
+		bool gloss::place( pairings_t &pairings, std::pair< wstring, wstring > &trans )
 		{
-			size_t count = 0 ;
-			for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos+1))
+
+			hole_pair_t holes ;
+			hole_finder finder ;
+			if (! finder.find_hole(pairings, holes))
 			{
-				++count ;
+				return false ;
 			}
-			return count ;
+
+			/* First, see if it's a valid placement.
+			 * Got to:
+			 *	1. Have a gloss match for the query hole.
+			 *	2. Have a gloss match for the source hole.
+			 *	3. Have a match between the gloss trans and the source translation.
+			 */
+
+			search_match_container q_matches ;
+			search_match_container s_matches ;
+			if (! is_valid_placement(holes, pairings, trans.first, q_matches, s_matches))
+			{
+				return false ;
+			}
+
+			// It's a valid placement, so create the new pairings
+			create_new_pairings(pairings, holes);
+
+			// Now, do the replacement in the translation segment.
+			auto qmatch = *q_matches.begin() ;
+			auto qrec = qmatch->get_record() ;
+			auto smatch = *s_matches.begin() ;
+			auto srec = smatch->get_record() ;
+
+			// replace the translation
+			replace_trans_term(qrec->get_trans_plain(), srec->get_trans_plain(), trans);
+
+			return true ;
 		}
 
 		size_t gloss::get_matches( search_match_container &matches, const wstring text )
@@ -151,7 +184,18 @@ namespace mem_engine
 			return matches.size() ;
 		}
 
-		size_t gloss::get_trans_subset( search_match_container &matches, const wstring trans )
+		size_t gloss::num_hits( const wstring needle, const wstring haystack ) const
+		{
+			size_t count = 0 ;
+			for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos+1))
+			{
+				++count ;
+			}
+			return count ;
+		}
+
+
+		size_t gloss::get_trans_subset( search_match_container &matches, const wstring trans ) const
 		{
 			search_match_container tmp ;
 			foreach(search_match_ptr match, matches)
@@ -167,24 +211,55 @@ namespace mem_engine
 			return matches.size() ;
 		}
 
-		bool gloss::place( pairings_t &pairings, wstring &trans )
+
+		void gloss::create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const
 		{
-			hole_pair_t holes ;
-			hole_finder finder ;
-			if (! finder.find_hole(pairings, holes))
+			const wstring query = holes.lhs.get_str_query(pairings) ;
+			std::vector<pairing_t> pairvec ;
+			pairvec.assign(pairings.begin(), pairings.end()) ;
+
+			pairings.clear() ;
+
+			// start
+			for(size_t i=0 ; i < holes.lhs.start ; ++i)
 			{
-				return false ;
+				pairings.push_back(pairvec[i]) ;
 			}
 
-			wstring query = holes.rhs.get_str_query(pairings) ;
-			search_match_container q_matches ;
+			// middle
+			foreach(wchar_t c, query)
+			{
+				pairings.push_back(pairing_entity(c, PLACEMENT, c)) ;
+			}
+
+			// end
+			for(size_t i=holes.lhs.start + holes.lhs.len ; i < pairvec.size() ; ++i)
+			{
+				pairings.push_back(pairvec[i]) ;
+			}
+
+		}
+
+		void gloss::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
+		{
+			const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
+			wstring replacement = ( boost::wformat( placement_fmt ) % qword ).str() ;
+			boost::replace_first(trans.first, trans_plain, qword) ;
+			boost::replace_first(trans.second, trans_plain, replacement) ;
+			fix_html_entities(trans.first) ;
+			fix_html_entities(trans.second) ;
+			fix_match_spans(trans.second) ;
+		}
+
+		bool gloss::is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans, search_match_container &q_matches, search_match_container &s_matches )
+		{
+			const wstring query = holes.rhs.get_str_query(pairings) ;
 			if(this->get_matches(q_matches, query) == 0)
 			{
 				return false ;
 			}
 
-			wstring source = holes.lhs.get_str_source(pairings); 
-			search_match_container s_matches ;
+			const wstring source = holes.lhs.get_str_source(pairings); 
 			if(this->get_matches(s_matches, source) == 0)
 			{
 				return false ;
@@ -193,29 +268,6 @@ namespace mem_engine
 			{
 				return false ;
 			}
-			auto qmatch = *q_matches.begin() ;
-			auto smatch = *s_matches.begin() ;
-
-			std::vector<pairing_t> pairvec ;
-			pairvec.assign(pairings.begin(), pairings.end()) ;
-
-
-			std::vector<pairing_t> newpairs ;
-
-			for(size_t i=0 ; i < holes.lhs.start ; ++i)
-			{
-				newpairs.push_back(pairvec[i]) ;
-			}
-
-			for(size_t i=holes.lhs.start + holes.lhs.len ; i < pairvec.size() ; ++i)
-			{
-				newpairs.push_back(pairvec[i]) ;
-			}
-
-
-			pairings.clear() ;
-			pairings.assign(newpairs.begin(), newpairs.end()) ;
-
 			return true ;
 		}
 	}

@@ -102,17 +102,22 @@ namespace placement
 		gloss(memory_list &memories) : m_memories(memories)
 		{
 		}
+		// Get placement candidates
+		bool place(pairings_t &pairings, std::pair< wstring, wstring > &trans);
+
+		bool is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans,
+			search_match_container &q_matches, search_match_container &s_matches);
 		// matches with source containing `text`
 		size_t get_matches(search_match_container &matches, const wstring text);
 
 		// Number of times needle is found in haystack
-		size_t num_hits(const wstring needle, const wstring haystack);
+		size_t num_hits(const wstring needle, const wstring haystack) const;
 
 		// Get the source matches that have gloss hits in translation
-		size_t get_trans_subset(search_match_container &matches, const wstring trans);
+		size_t get_trans_subset(search_match_container &matches, const wstring trans) const;
 
-		// Get placement candidates
-		bool place(pairings_t &pairings, wstring &trans);
+		void replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const;
+		void create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const;
 	};
 
 }

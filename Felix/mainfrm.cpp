@@ -1462,22 +1462,44 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 
 	m_model->get_memories()->find_matches(matches, params) ;
 
-	if (!params.m_place_numbers)
+	if (!params.m_place_numbers && ! params.m_place_gloss)
 	{
 		return ;
 	}
 
-	trans_match_container PlacedMatches ;
+	trans_match_container placed_numbers ;
+	trans_match_container placed_gloss ;
 
 	foreach(search_match_ptr match, matches)
 	{
 		if ( match->get_score() < MATCH_THRESHOLD )
 		{
-			check_placement(PlacedMatches, match);
+			if (params.m_place_numbers)
+			{
+				check_placement_numbers(placed_numbers, match);
+			}
+			if (params.m_place_gloss)
+			{
+				check_placement_gloss(placed_gloss, match);
+			}
 		}
 	}
+
+	// Now place the gloss in the number matches.
+	// This will get unweildy with too many more types of
+	// placement...
+	// Got to redo this logic!
+	foreach(search_match_ptr match, placed_numbers)
+	{
+		check_placement_gloss(placed_gloss, match);
+	}
+
 	// now add in all our placements
-	foreach(search_match_ptr match, PlacedMatches)
+	foreach(search_match_ptr match, placed_numbers)
+	{
+		matches.insert(match) ;
+	}
+	foreach(search_match_ptr match, placed_gloss)
 	{
 		matches.insert(match) ;
 	}
@@ -4182,52 +4204,93 @@ void CMainFrame::deleted_new_record_feedback()
 	m_view_interface.set_scroll_pos(0) ;
 }
 
+
 //! See if we can create a placement for this match.
-void CMainFrame::check_placement( trans_match_container &PlacedMatches, 
+void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches, 
 								 search_match_ptr match )
 {
-	const double PLACEMENT_PENALTY = 0.00001 ;
 
 	record_pointer rec = match->get_record() ;
 	const wstring trans = rec->get_trans_plain() ;
-
-	mem_engine::markup_ptr mark(new markup_strings) ;
-	mark->SetQuery(match->match_pairing().mark_up_query()) ;
-	mark->SetSource(match->match_pairing().mark_up_source()) ;
-	mark->SetTrans(trans) ;
-	mark->SetContext(rec->get_context_plain()) ;
 
 	std::pair< wstring, wstring > Transpair( trans, trans ) ;
 	match_string_pairing newPairing( match->match_pairing() ) ;
 	if ( newPairing.place_numbers( Transpair ) )
 	{
-		search_match_ptr NewMatch(new search_match) ;
-		NewMatch->set_memory_id(match->get_memory_id()) ;
-		NewMatch->set_memory_location(match->get_memory_location()) ;
-		// record
-		record_pointer NewRec = record_pointer(rec->clone()) ;
-		NewRec->set_validated_off() ;
-		NewRec->reset_refcount() ;
-		NewRec->set_trans( Transpair.first ) ;
+		search_match_ptr new_match = create_placement_match(match, Transpair.first);
 
-		NewMatch->set_record( NewRec ) ;
-		NewMatch->set_values_to_record() ;
-
-		// score
-		// HACK -- to make sure that the placed matches sort below the non-placed ones
-		NewMatch->set_base_score( newPairing.calc_score() - PLACEMENT_PENALTY) ;
-		NewMatch->set_formatting_penalty( match->get_formatting_penalty() ) ;
+		placement_score(new_match, newPairing.m_pairs, match->get_formatting_penalty());
 
 		// new query/source
-		mem_engine::markup_ptr Markup = NewMatch->get_markup() ;
-		Markup->SetQuery( newPairing.mark_up_query() ) ;
-		Markup->SetSource( newPairing.mark_up_source() ) ;
-		Markup->SetTrans( Transpair.second ) ;
+		pairing_query_source(new_match, newPairing.m_pairs, Transpair.second);
 
-		NewMatch->set_placement_on() ;
-
-		PlacedMatches.insert( NewMatch ) ;
+		PlacedMatches.insert( new_match ) ;
 	}
+}
+
+
+void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches, 
+	search_match_ptr match )
+{
+
+	record_pointer rec = match->get_record() ;
+	const wstring trans = rec->get_trans_plain() ;
+	wstring after = rec->get_trans_plain() ;
+
+	pair_list pairings ;
+	pairings.assign(match->match_pairing().m_pairs.begin(), match->match_pairing().m_pairs.end()) ;
+
+	placement::gloss placer(get_glossary_window()->get_memories()) ;
+	std::pair< wstring, wstring > trans_segs( trans, trans ) ;
+	if ( placer.place(pairings, trans_segs) )
+	{
+		search_match_ptr new_match = create_placement_match(match, trans_segs.first);
+
+		placement_score(new_match, pairings, match->get_formatting_penalty());
+
+		// new query/source
+		pairing_query_source(new_match, pairings, trans_segs.second);
+
+		PlacedMatches.insert( new_match ) ;
+	}
+
+	return ;
+}
+
+
+mem_engine::search_match_ptr CMainFrame::create_placement_match( search_match_ptr match, const wstring &trans ) const
+{
+	search_match_ptr new_match(new search_match) ;
+	new_match->set_memory_id(match->get_memory_id()) ;
+	new_match->set_memory_location(match->get_memory_location()) ;
+	// record
+	record_pointer old_rec = match->get_record() ;
+	record_pointer new_rec = record_pointer(old_rec->clone()) ;
+	new_rec->set_validated_off() ;
+	new_rec->reset_refcount() ;
+	new_rec->set_trans( trans ) ;
+
+	new_match->set_record( new_rec ) ;
+	new_match->set_values_to_record() ;
+	return new_match ;
+}
+
+void CMainFrame::pairing_query_source( search_match_ptr new_match, pair_list &pairings, const wstring after ) const
+{
+	mem_engine::markup_ptr Markup = new_match->get_markup() ;
+	Markup->SetQuery(mark_up(pairings, QUERY)) ;
+	Markup->SetSource(mark_up(pairings, SOURCE)) ;
+	Markup->SetTrans( after ) ;
+
+	new_match->set_placement_on() ;
+}
+
+void CMainFrame::placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, double fmt_penalty ) const
+{
+	// HACK -- to make sure that the placed matches sort below the non-placed ones
+	const double PLACEMENT_PENALTY = 0.00001 ;
+	new_match->set_base_score( calc_score(pairings) - PLACEMENT_PENALTY) ;
+	new_match->set_formatting_penalty( fmt_penalty ) ;
 }
 
 
@@ -4383,7 +4446,7 @@ void CMainFrame::load_util_settings()
 		CComVariant val = utils.method(L"LoadProp", ZOOM_KEY) ;
 		if (val.vt != VT_NULL)
 		{
-			m_mousewheel_count = min(max(val.intVal, -10), 10) ;
+			m_mousewheel_count = std::min(std::max(val.intVal, -10), 10) ;
 		}
 	}
 	catch (_com_error& e)

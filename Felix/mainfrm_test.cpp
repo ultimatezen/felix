@@ -166,6 +166,15 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		return *pos ;
 	}
 
+	void add_gloss(frame_ptr frame, LPCWSTR source, LPCWSTR trans)
+	{
+		record_pointer rec(new record_local()) ;
+		rec->set_source(wstring(source)) ;
+		rec->set_trans(wstring(trans)) ;
+
+		frame->get_glossary_window()->add_record(rec) ;
+	}
+
 	/************************************************************************/
 	/* lookup                                                               */
 	/************************************************************************/
@@ -301,7 +310,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 
 	/************************************************************************/
-	/* get_matches with placement                                           */
+	/* get_matches with number placement                                    */
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_placement_size_1)
 	{
@@ -429,6 +438,30 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		double expectedscore = 2.0 / 3.0 ;
 		BOOST_CHECK_CLOSE(expectedscore, actualscore, 0.01) ;
 	}
+
+	/************************************************************************/
+	/* get_matches with gloss placement                                     */
+	/************************************************************************/
+	BOOST_AUTO_TEST_CASE( get_matches_gloss_placement_size_2)
+	{
+		frame_ptr frame = make_frame() ;
+
+		add_record(frame, L"bbb aaa bbb", L"zzz xxx zzz") ;
+		add_gloss(frame, L"aaa", L"xxx") ;
+		add_gloss(frame, L"ccc", L"yyy") ;
+
+		search_query_params params ;
+		params.m_rich_source = L"bbb ccc bbb" ;
+		params.m_source = L"bbb ccc bbb" ;
+		params.m_place_numbers = false ;
+		params.m_place_gloss = true ;
+		frame->get_properties()->m_mem_props.m_data.m_place_gloss = TRUE ;
+
+		trans_match_container matches ;
+		frame->get_matches(matches, params) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+	}
+
 
 	/************************************************************************/
 	/* get_matches with markup                                              */

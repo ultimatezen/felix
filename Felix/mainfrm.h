@@ -30,6 +30,8 @@
 #include "zoom_dialog.h"
 #include "felix_cl_options.h"
 
+#include "gloss_placement.h"
+
 // view states
 #include "view_state_initial.h"
 #include "view_state_new.h"
@@ -601,8 +603,13 @@ public:
     virtual void addToMessageLoop();
 	void get_matches(mem_engine::trans_match_container &matches, mem_engine::search_query_params &params) ;
 
-	void check_placement( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
+	void check_placement_numbers( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
+	void check_placement_gloss( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
 
+	mem_engine::search_match_ptr create_placement_match( mem_engine::search_match_ptr match, const wstring &trans ) const ;
+	void pairing_query_source( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, const wstring after ) const ;
+	// placement score
+	void placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, double fmt_penalty ) const ;
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 
 	// the current match

@@ -16,6 +16,10 @@ wchar_t narrow_num( wchar_t c ) ;
 
 void fix_match_spans( wstring &segment );
 void fix_html_entities( wstring &segment );
+bool is_num_rep(std::wstring& PotentialNum);
+bool is_substitution(std::pair< std::wstring, std::wstring >& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
+int is_num_or_null( wchar_t c );
+
 
 enum MatchType { MATCH, NOMATCH, PLACEMENT } ;
 enum CharType { SOURCE, QUERY } ;
@@ -43,6 +47,10 @@ enum CharType { SOURCE, QUERY } ;
 			m_Chars[QUERY] = q ;
 		}
 
+	   MatchType match_type()
+	   {
+		   return m_MatchType ;
+	   }
 	   wchar_t& source()
 	   {
 		   return get_char(SOURCE) ; 
@@ -63,6 +71,25 @@ enum CharType { SOURCE, QUERY } ;
 	} ;
 	typedef std::list< pairing_entity > pair_list ;
 
+/** Adds the buffer we have stored to the marked up string.
+*/	
+wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer);
+
+/** Marks up a string.
+* 
+* Keep accumulating characters in a buffer until the match type
+* changes, and then dump it into our markup string.
+*/
+wstring mark_up( pair_list &pairs, CharType ct );
+
+/** Are we looking at a pair of number characters?
+*/
+int is_num_pair(pairing_entity& pe);
+	
+/** Calculates the score based on our pairings.
+*/
+double calc_score(pair_list &pairs);
+
 /*!
  * Represents a pairing of match strings.
  */
@@ -72,13 +99,10 @@ public:
 
 	pair_list m_pairs ;
 
-	wstring m_marked_up_string ;
-	wstring m_text_buffer ;
-
 	std::set< size_t > m_placement_positions ;
 
 	match_string_pairing(void);
-	~match_string_pairing(void);
+
 	void clear();
 
 	void source_to_epsilon( wchar_t s );
@@ -87,17 +111,9 @@ public:
 	void no_match( wchar_t s, wchar_t q );
 	wstring mark_up_source();
 	wstring mark_up_query();
-	wstring mark_up( CharType ct );
 	bool place_numbers( std::pair< wstring, wstring >& trans ) ;
 
-	double calc_score();
-	bool is_num_rep(std::wstring& PotentialNum);
-	bool is_substitution(std::pair< std::wstring, std::wstring >& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
-
-	void add_buffer_to_markup(MatchType MatchState) ;
-	int is_num_pair(pairing_entity& pe);
 	std::wstring get_num(std::vector< pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
-	int is_num_or_null( wchar_t c );
 	void re_align_pairs(std::vector< pairing_entity >& PairVec);
 
 };
