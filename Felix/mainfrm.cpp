@@ -4246,7 +4246,20 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 	{
 		search_match_ptr new_match = create_placement_match(match, trans_segs.first);
 
-		placement_score(new_match, pairings, match->get_formatting_penalty());
+		const double PLACEMENT_PENALTY = 0.00001 ;
+		new_match->set_base_score( calc_score_gloss(pairings) - PLACEMENT_PENALTY) ;
+		new_match->set_formatting_penalty( match->get_formatting_penalty() ) ;
+
+		// This hack obliterates our formatting info
+		wstring newsource ;
+		foreach(pairing_entity entity, pairings)
+		{
+			if(entity.source())
+			{
+				newsource += entity.source() ;
+			}
+		}
+		new_match->get_record()->set_source(newsource) ;
 
 		// new query/source
 		pairing_query_source(new_match, pairings, trans_segs.second);

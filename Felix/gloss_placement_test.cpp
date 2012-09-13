@@ -516,14 +516,15 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring qword = L"after" ;
 		const wstring trans_plain = L"before" ;
 		wstring trans = L"before xxx" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 		const wstring expected = L"<span class=\"placement\">after</span> xxx" ;
 
 		memory_list memories ;
 		gp::gloss placer(memories) ;
 
-		placer.replace_trans_term(qword, trans_plain, trans) ;
+		placer.replace_trans_term(qword, trans_plain, segs) ;
 
-		BOOST_CHECK_EQUAL(trans, expected) ;
+		BOOST_CHECK_EQUAL(segs.second, expected) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(replace_trans_term_middle)
@@ -531,14 +532,15 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring qword = L"after" ;
 		const wstring trans_plain = L"before" ;
 		wstring trans = L"yyy before xxx" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 		const wstring expected = L"yyy <span class=\"placement\">after</span> xxx" ;
 
 		memory_list memories ;
 		gp::gloss placer(memories) ;
 
-		placer.replace_trans_term(qword, trans_plain, trans) ;
+		placer.replace_trans_term(qword, trans_plain, segs) ;
 
-		BOOST_CHECK_EQUAL(trans, expected) ;
+		BOOST_CHECK_EQUAL(segs.second, expected) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(replace_trans_term_end)
@@ -546,14 +548,15 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring qword = L"after" ;
 		const wstring trans_plain = L"before" ;
 		wstring trans = L"xxx before" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 		const wstring expected = L"xxx <span class=\"placement\">after</span>" ;
 
 		memory_list memories ;
 		gp::gloss placer(memories) ;
 
-		placer.replace_trans_term(qword, trans_plain, trans) ;
+		placer.replace_trans_term(qword, trans_plain, segs) ;
 
-		BOOST_CHECK_EQUAL(trans, expected) ;
+		BOOST_CHECK_EQUAL(segs.second, expected) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(replace_trans_term_entities)
@@ -561,14 +564,15 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring qword = L"after" ;
 		const wstring trans_plain = L"before" ;
 		wstring trans = L"before x < y" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 		const wstring expected = L"<span class=\"placement\">after</span> x &lt; y" ;
 
 		memory_list memories ;
 		gp::gloss placer(memories) ;
 
-		placer.replace_trans_term(qword, trans_plain, trans) ;
+		placer.replace_trans_term(qword, trans_plain, segs) ;
 
-		BOOST_CHECK_EQUAL(trans, expected) ;
+		BOOST_CHECK_EQUAL(segs.second, expected) ;
 	}
 
 	// create_new_pairings
@@ -739,10 +743,11 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		gp::gloss placer(memories) ;
 
 		wstring trans = L"End up with source" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 
-		BOOST_CHECK(placer.place(pairings, trans)) ;
+		BOOST_CHECK(placer.place(pairings, segs)) ;
 		wstring expected = L"End up with <span class=\"placement\">query</span>" ;
-		BOOST_CHECK_EQUAL(trans, expected) ;
+		BOOST_CHECK_EQUAL(segs.second, expected) ;
 	}
 	BOOST_AUTO_TEST_CASE(place_false_source)
 	{
@@ -761,8 +766,9 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		gp::gloss placer(memories) ;
 
 		wstring trans = L"End up with source" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 
-		BOOST_CHECK(! placer.place(pairings, trans)) ;
+		BOOST_CHECK(! placer.place(pairings, segs)) ;
 	}
 	BOOST_AUTO_TEST_CASE(place_false_query)
 	{
@@ -781,8 +787,9 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		gp::gloss placer(memories) ;
 
 		wstring trans = L"End up with source" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 
-		BOOST_CHECK(! placer.place(pairings, trans)) ;
+		BOOST_CHECK(! placer.place(pairings, segs)) ;
 	}
 	BOOST_AUTO_TEST_CASE(place_false_trans)
 	{
@@ -802,8 +809,9 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		gp::gloss placer(memories) ;
 
 		wstring trans = L"End up with blah" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
 
-		BOOST_CHECK(! placer.place(pairings, trans)) ;
+		BOOST_CHECK(! placer.place(pairings, segs)) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

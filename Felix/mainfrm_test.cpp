@@ -460,6 +460,13 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 		trans_match_container matches ;
 		frame->get_matches(matches, params) ;
 		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+		search_match_ptr first = *matches.begin() ;
+		record_pointer rec = first->get_record() ;
+		wstring expected_source = L"bbb ccc bbb" ;
+		wstring expected_trans = L"zzz yyy zzz" ;
+		BOOST_CHECK_EQUAL(rec->get_source_rich(), expected_source) ;
+		BOOST_CHECK_EQUAL(rec->get_trans_rich(), expected_trans) ;
+		BOOST_CHECK(first->get_score() > .9) ;
 	}
 
 

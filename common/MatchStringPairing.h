@@ -89,6 +89,7 @@ int is_num_pair(pairing_entity& pe);
 /** Calculates the score based on our pairings.
 */
 double calc_score(pair_list &pairs);
+double calc_score_gloss(pair_list &pairs);
 
 /*!
  * Represents a pairing of match strings.

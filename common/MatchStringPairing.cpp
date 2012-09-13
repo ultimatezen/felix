@@ -193,6 +193,31 @@ double calc_score(pair_list &pairs)
 	return ( HighLen - Distance ) / HighLen ;
 }
 
+double calc_score_gloss(pair_list &pairs)
+{
+	double SourceLen(0.0f), QueryLen(0.0f), Distance( 0.0f ) ;
+
+	for ( auto pos = pairs.begin() ; pos != pairs.end() ; ++pos )
+	{
+		if ( pos->source() != 0 )
+		{
+			SourceLen += 1.0f ;
+		}
+		if ( pos->query() != 0 )
+		{
+			QueryLen += 1.0f ;
+		}
+
+		if ( pos->m_MatchType == NOMATCH )
+		{
+			Distance += 1.0f ;
+		}
+	}
+
+	double HighLen = max( SourceLen, QueryLen ) ;
+	return ( HighLen - Distance ) / HighLen ;
+}
+
 /************************************************************************/
 /* match_string_pairing                                                 */
 /************************************************************************/
