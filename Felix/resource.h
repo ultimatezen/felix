@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixENG.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -546,6 +546,8 @@
 #define IDD_PROPPAGE_GLOSSARY           469
 #define IDC_PLACE_GLOSS_CHECK           469
 #define IDC_PLACE_NUMBERS_CHECK         470
+#define IDC_PLACE_NUMBERS_CHECK2        471
+#define IDC_PLACE_GLOSS                 471
 #define IDC_CONN_EDIT                   472
 #define IDD_CONNECTION_DLG              472
 #define IDC_DUP_MSG                     472

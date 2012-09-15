@@ -72,206 +72,6 @@ END
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
 
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""atlres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST ""res\\\\Felix.exe.manifest""\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_MAINFRAME MENU
-BEGIN
-    POPUP "ファイル(&F)"
-    BEGIN
-        POPUP "新規(&N)"
-        BEGIN
-            MENUITEM "用語集の作成(&G)",                  ID_GLOSSARY_NEW
-            MENUITEM "メモリの作成(&M)\tCtrl+N",          ID_FILE_NEW
-        END
-        MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
-        MENUITEM SEPARATOR
-        MENUITEM "接続(&C)...",                   ID_FILE_CONNECT
-        MENUITEM SEPARATOR
-        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
-        MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
-        MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
-        MENUITEM SEPARATOR
-        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
-        MENUITEM SEPARATOR
-        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "Felixの終了(&X)",                ID_APP_EXIT
-    END
-    POPUP "編集(&E)"
-    BEGIN
-        POPUP "検索(&F)"
-        BEGIN
-            MENUITEM "メモリの検索(&M)\tCtrl+F",          ID_EDIT_FIND
-            MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
-            MENUITEM "コンコーダンス(一致)検索(&C)",           IDD_CONCORDANCE
-        END
-        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
-        MENUITEM SEPARATOR
-        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
-        MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
-        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
-        MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
-        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
-        MENUITEM "用語集への登録(&G)\tF3",             ID_EDIT_REGISTER
-    END
-    POPUP "表示(&V)"
-    BEGIN
-        MENUITEM "ツール バー(&T)",                  ID_VIEW_TOOLBAR
-        MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
-        MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
-        POPUP "現在のビュー(&V)"
-        BEGIN
-            MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH
-            MENUITEM "検索ビュー(&S)",                   ID_VIEW_SEARCH
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "小型表示(&C)",                    IDC_MIN_VIEW_BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "倍率(&Z)...",                   ID_VIEW_ZOOM
-    END
-    POPUP "書式(&O)"
-    BEGIN
-        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
-        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
-    END
-    POPUP "ツール(&L)"
-    BEGIN
-        MENUITEM "ユーザ設定の取り込み(&L)",              32816
-        MENUITEM "ユーザ設定の保存(&S)",                32817
-        MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
-        MENUITEM SEPARATOR
-        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
-        MENUITEM "メモリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
-    END
-    POPUP "ヘルプ(&H)"
-    BEGIN
-        MENUITEM "ヘルプの表示(&H)\tF1",              ID_HELP
-        MENUITEM "&FAQ（良くある質問）の表示...",          ID_HELP_FAQ
-        MENUITEM SEPARATOR
-        MENUITEM "バージョンアップの確認(&U)...",          ID_HELP_CHECKUPDATES
-        MENUITEM SEPARATOR
-        MENUITEM "ソフトの登録(&R)...",               ID_HELP_REGISTER
-        MENUITEM SEPARATOR
-        MENUITEM "Felixのバージョン情報...(&A)",        ID_APP_ABOUT
-    END
-END
-
-IDR_GLOSSARYMENU MENU
-BEGIN
-    POPUP "ファイル(&F)"
-    BEGIN
-        MENUITEM "新規(&N)\tCtrl+N",              ID_FILE_NEW
-        MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
-        MENUITEM SEPARATOR
-        MENUITEM "接続(&C)...",                   ID_FILE_CONNECT
-        MENUITEM SEPARATOR
-        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
-        MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
-        MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
-        MENUITEM SEPARATOR
-        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
-        MENUITEM SEPARATOR
-        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "閉じる(&C)",                     IDCLOSE
-    END
-    POPUP "編集(&E)"
-    BEGIN
-        POPUP "検索(&F)"
-        BEGIN
-            MENUITEM "メモリの検索(&M)\tCtrl+F",          ID_EDIT_FIND
-            MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
-            MENUITEM "コンコーダンス(一致)検索(&C)",           IDD_CONCORDANCE
-        END
-        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
-        MENUITEM SEPARATOR
-        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
-        MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
-        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
-        MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
-        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
-    END
-    POPUP "表示(&V)"
-    BEGIN
-        MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
-        MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
-        MENUITEM "ツールバー(&T)",                   59392
-        MENUITEM "簡易表示(&P)",                    IDC_GLOSS_SIMPLE_VIEW
-        POPUP "現在のビュー(&V)"
-        BEGIN
-            MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH
-            MENUITEM "検索ビュー(&S)",                   ID_VIEW_SEARCH
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "倍率(&Z)...",                   32815
-    END
-    POPUP "書式(&O)"
-    BEGIN
-        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
-        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
-    END
-    POPUP "ツール(&L)"
-    BEGIN
-        MENUITEM "用語集の管理(&M)...",               ID_TOOLS_MEMORY_MGR
-    END
-END
-
-IDR_REGISTERMENU MENU
-BEGIN
-    POPUP "ファイル(&F)"
-    BEGIN
-        MENUITEM "閉じる(&C)",                     IDCLOSE
-    END
-    POPUP "編集(&E)"
-    BEGIN
-        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
-        MENUITEM "切り取り(&U)",                    ID_EDIT_CUT
-        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "削除(&D)",                      ID_EDIT_CLEAR
-    END
-    POPUP "書式(&R)"
-    BEGIN
-        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
-        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
-        MENUITEM "シンボルの挿入(&S)...",              ID_INSERT_SYMBOL
-    END
-END
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
@@ -380,7 +180,7 @@ BEGIN
     CONTROL         "既定の設定にする",IDC_DEFAULTS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,57,255,139,14
 END
 
-IDD_PROPPAGE_MEMORY DIALOGEX 0, 0, 239, 249
+IDD_PROPPAGE_MEMORY DIALOGEX 0, 0, 239, 292
 STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
 CAPTION "メモリ"
 FONT 10, "ＭＳ ゴシック", 400, 0, 0x80
@@ -395,9 +195,10 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,7,104,201,45
     CONTROL         "エントリをテキスト形式として獲得する(&P)",IDC_PLAINTEXT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,113,166,16
     CONTROL         "書式が一致しない場合ペナルティを採点する(&F)",IDC_FORMATTING_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,186,13
-    GROUPBOX        "自動置換え",IDC_STATIC,7,159,201,26
-    CONTROL         "数字(&N)",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,169,138,13
-    CONTROL         "原文あたり一つの訳文に制限する(&O)",IDC_ONE_TRANS_PER_SOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,198,164,12
+    GROUPBOX        "自動置換え",IDC_STATIC,7,159,201,57
+    CONTROL         "数字(&N)",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,172,138,13
+    CONTROL         "原文あたり一つの訳文に制限する(&O)",IDC_ONE_TRANS_PER_SOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,222,164,12
+    CONTROL         "用語(&G)",IDC_PLACE_GLOSS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,191,138,15
 END
 
 IDD_PROPPAGE_ALGORITHM DIALOGEX 0, 0, 179, 148
@@ -741,7 +542,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 222
         TOPMARGIN, 7
-        BOTTOMMARGIN, 231
+        BOTTOMMARGIN, 274
     END
 
     IDD_MULTITERM_CONVERSION_DLG, DIALOG
@@ -834,6 +635,206 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""atlres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST ""res\\\\Felix.exe.manifest""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        POPUP "新規(&N)"
+        BEGIN
+            MENUITEM "用語集の作成(&G)",                  ID_GLOSSARY_NEW
+            MENUITEM "メモリの作成(&M)\tCtrl+N",          ID_FILE_NEW
+        END
+        MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "接続(&C)...",                   ID_FILE_CONNECT
+        MENUITEM SEPARATOR
+        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
+        MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Felixの終了(&X)",                ID_APP_EXIT
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        POPUP "検索(&F)"
+        BEGIN
+            MENUITEM "メモリの検索(&M)\tCtrl+F",          ID_EDIT_FIND
+            MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
+            MENUITEM "コンコーダンス(一致)検索(&C)",           IDD_CONCORDANCE
+        END
+        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
+        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
+        MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
+        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
+        MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
+        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
+        MENUITEM "用語集への登録(&G)\tF3",             ID_EDIT_REGISTER
+    END
+    POPUP "表示(&V)"
+    BEGIN
+        MENUITEM "ツール バー(&T)",                  ID_VIEW_TOOLBAR
+        MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
+        MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
+        POPUP "現在のビュー(&V)"
+        BEGIN
+            MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH
+            MENUITEM "検索ビュー(&S)",                   ID_VIEW_SEARCH
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "小型表示(&C)",                    IDC_MIN_VIEW_BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "倍率(&Z)...",                   ID_VIEW_ZOOM
+    END
+    POPUP "書式(&O)"
+    BEGIN
+        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
+        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
+    END
+    POPUP "ツール(&L)"
+    BEGIN
+        MENUITEM "ユーザ設定の取り込み(&L)",              32816
+        MENUITEM "ユーザ設定の保存(&S)",                32817
+        MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
+        MENUITEM SEPARATOR
+        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
+        MENUITEM "メモリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
+    END
+    POPUP "ヘルプ(&H)"
+    BEGIN
+        MENUITEM "ヘルプの表示(&H)\tF1",              ID_HELP
+        MENUITEM "&FAQ（良くある質問）の表示...",          ID_HELP_FAQ
+        MENUITEM SEPARATOR
+        MENUITEM "バージョンアップの確認(&U)...",          ID_HELP_CHECKUPDATES
+        MENUITEM SEPARATOR
+        MENUITEM "ソフトの登録(&R)...",               ID_HELP_REGISTER
+        MENUITEM SEPARATOR
+        MENUITEM "Felixのバージョン情報...(&A)",        ID_APP_ABOUT
+    END
+END
+
+IDR_GLOSSARYMENU MENU
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM "新規(&N)\tCtrl+N",              ID_FILE_NEW
+        MENUITEM "開く...(&O)\tCtrl+O",           ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "接続(&C)...",                   ID_FILE_CONNECT
+        MENUITEM SEPARATOR
+        MENUITEM "上書き保存(&S)\tCtrl+S",           ID_FILE_SAVE
+        MENUITEM "名前を付けて保存...(&A)",             ID_FILE_SAVE_AS
+        MENUITEM "すべてを保存(&L)",                  ID_FILE_SAVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "閉じる(&L)\tCtrl+W",             ID_MEMORY_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "最近使ったファイル",                   ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "閉じる(&C)",                     IDCLOSE
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        POPUP "検索(&F)"
+        BEGIN
+            MENUITEM "メモリの検索(&M)\tCtrl+F",          ID_EDIT_FIND
+            MENUITEM "簡易検索(&Q)",                    ID_FIND_QUICKSEARCH
+            MENUITEM "コンコーダンス(一致)検索(&C)",           IDD_CONCORDANCE
+        END
+        MENUITEM "置換(&R)\tCtrl+H",              ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
+        MENUITEM "コピー(&C)\tCtrl+C",             ID_EDIT_COPY
+        MENUITEM "切り取り(&U)\tCtrl+X",            ID_EDIT_CUT
+        MENUITEM "貼り付け(&P)\tCtrl+V",            ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "エントリの編集(&E)",                 IDD_EDIT_ENTRY
+        MENUITEM "エントリの削除(&D)\tCtrl+D",         ID_EDIT_DELETE
+        MENUITEM "エントリの追加(&A)\tF2",             ID_EDIT_ADD
+    END
+    POPUP "表示(&V)"
+    BEGIN
+        MENUITEM "編集モード(&E)\tCtrl+E",           ID_VIEW_EDIT_MODE
+        MENUITEM "ステータス バー(&S)",                ID_VIEW_STATUS_BAR
+        MENUITEM "ツールバー(&T)",                   59392
+        MENUITEM "簡易表示(&P)",                    IDC_GLOSS_SIMPLE_VIEW
+        POPUP "現在のビュー(&V)"
+        BEGIN
+            MENUITEM "マッチビュー(&M)",                  ID_VIEW_MATCH
+            MENUITEM "検索ビュー(&S)",                   ID_VIEW_SEARCH
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "倍率(&Z)...",                   32815
+    END
+    POPUP "書式(&O)"
+    BEGIN
+        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
+        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
+    END
+    POPUP "ツール(&L)"
+    BEGIN
+        MENUITEM "用語集の管理(&M)...",               ID_TOOLS_MEMORY_MGR
+    END
+END
+
+IDR_REGISTERMENU MENU
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM "閉じる(&C)",                     IDCLOSE
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        MENUITEM "コピー(&C)",                     ID_EDIT_COPY
+        MENUITEM "切り取り(&U)",                    ID_EDIT_CUT
+        MENUITEM "貼り付け(&P)",                    ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "削除(&D)",                      ID_EDIT_CLEAR
+    END
+    POPUP "書式(&R)"
+    BEGIN
+        MENUITEM "フォント...(&F)",                 ID_FORMAT_FONT
+        MENUITEM "背景色の設定...(&B)",               ID_FORMAT_BGCOLOR
+        MENUITEM "シンボルの挿入(&S)...",              ID_INSERT_SYMBOL
+    END
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1113,6 +1114,7 @@ BEGIN
     IDC_DELETE_TARGET       "deletetarget"
     IDS_ADD_TO_GLOSS_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">用語集に登録</span>"
     IDS_CORRUPT_FILE        "ファイルのデータが壊れています。"
+    IDS_CHECK_LOGIN         "接続の文字列や接続先の権利を確認してください。"
     IDC_NAV                 "nav"
     IDC_PREV                "prev"
     IDC_NEXT                "next"
@@ -1173,8 +1175,11 @@ BEGIN
     ID_APP_ABOUT            "プログラム情報、バージョン、および著作権を表示します。\nバージョン情報"
     ID_APP_EXIT             "プルグラムの終了。ドキュメントの保存ダイアログが表示されます。\n終了"
     ID_HELP                 "ヘルプファイルを表示します。\nヘルプ"
+END
+
+STRINGTABLE
+BEGIN
     IDS_CHECK_USER_AND_PASS "ユーザ名とパスワードを確認してください。"
-    IDS_CHECK_LOGIN         "接続の文字列や接続先の権利を確認してください。"
 END
 
 STRINGTABLE

@@ -305,18 +305,19 @@ BEGIN
     LTEXT           "&Minimum Match Score",IDC_MIN_MATCH_STATIC,43,8,98,13,SS_CENTERIMAGE
     EDITTEXT        IDC_MIN_MATCH_EDIT,8,8,27,13,ES_NUMBER
     CONTROL         "Spin1",IDC_MIN_MATCH_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,35,8,11,13
-    GROUPBOX        "Normalize",IDC_STATIC,6,29,177,61
+    GROUPBOX        "Normalize",IDC_STATIC,6,29,177,51
     CONTROL         "&Case",IDC_IGNORE_CASE_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,36,61,14
-    CONTROL         "&Width",IDC_IGNORE_WIDTH_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,55,69,15
-    CONTROL         "&Hiragana && Katakana",IDC_IGNORE_HIR_KAT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,73,115,15
-    GROUPBOX        "Formatting",IDC_STATIC,6,99,175,45
-    CONTROL         "Get entries as &plain text",IDC_PLAINTEXT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,108,115,16
+    CONTROL         "&Width",IDC_IGNORE_WIDTH_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,69,15
+    CONTROL         "&Hiragana && Katakana",IDC_IGNORE_HIR_KAT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,63,115,15
+    GROUPBOX        "Formatting",IDC_STATIC,6,85,175,41
+    CONTROL         "Get entries as &plain text",IDC_PLAINTEXT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,94,115,16
     CONTROL         "Assess penalty for &formatting mismatches",IDC_FORMATTING_CHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,127,152,13
-    GROUPBOX        "Placements",IDC_STATIC,6,153,175,31
-    CONTROL         "&Numbers",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,163,138,13
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,109,152,13
+    GROUPBOX        "Placements",IDC_STATIC,6,132,175,42
+    CONTROL         "&Numbers",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,142,138,13
     CONTROL         "&One translation per source segment",IDC_ONE_TRANS_PER_SOURCE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,194,164,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,184,164,10
+    CONTROL         "&Glossary matches",IDC_PLACE_GLOSS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,156,138,13
 END
 
 IDD_PROPPAGE_GLOSSARY DIALOGEX 0, 0, 240, 264
@@ -877,7 +878,7 @@ BEGIN
     IDD_PROPPAGE_MEMORY, DIALOG
     BEGIN
         RIGHTMARGIN, 206
-        BOTTOMMARGIN, 254
+        BOTTOMMARGIN, 265
     END
 
     IDD_PROPPAGE_GLOSSARY, DIALOG
@@ -1233,11 +1234,15 @@ BEGIN
     IDS_MSG_DROPPED_RECORDS "Failed to save %1 record(s)."
     IDD_DELETE              "Delete the current memory entry\nDelete entry"
     IDC_DELETE              "delete"
-    IDS_CHECK_USER_AND_PASS "Check your username and password."
     IDS_POPUP_REGISTER_GLOSS "&Register Glossary Entries"
     IDS_POPUP_DELETE        "&Delete"
     IDD_EDIT_ENTRY          "Edit the current entry\nEdit entry"
     IDC_REGISTER            "register"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CHECK_USER_AND_PASS "Check your username and password."
 END
 
 STRINGTABLE
