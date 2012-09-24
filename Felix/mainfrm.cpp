@@ -4240,7 +4240,7 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 	pair_list pairings ;
 	pairings.assign(match->match_pairing().m_pairs.begin(), match->match_pairing().m_pairs.end()) ;
 
-	placement::gloss placer(get_glossary_window()->get_memories()) ;
+	placement::gloss_placer placer(get_glossary_window()->get_memories()) ;
 	std::pair< wstring, wstring > trans_segs( trans, trans ) ;
 	if ( placer.place(pairings, trans_segs) )
 	{

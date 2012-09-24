@@ -136,7 +136,7 @@ namespace mem_engine
 		/* gloss                                                                */
 		/************************************************************************/
 
-		bool gloss::place( pairings_t &pairings, std::pair< wstring, wstring > &trans )
+		bool gloss_placer::place( pairings_t &pairings, std::pair< wstring, wstring > &trans )
 		{
 
 			hole_pair_t holes ;
@@ -175,7 +175,7 @@ namespace mem_engine
 			return true ;
 		}
 
-		size_t gloss::get_matches( search_match_container &matches, const wstring text )
+		size_t gloss_placer::get_matches( search_match_container &matches, const wstring text )
 		{
 			foreach(memory_pointer mem, m_memories)
 			{
@@ -184,7 +184,7 @@ namespace mem_engine
 			return matches.size() ;
 		}
 
-		size_t gloss::num_hits( const wstring needle, const wstring haystack ) const
+		size_t gloss_placer::num_hits( const wstring needle, const wstring haystack ) const
 		{
 			size_t count = 0 ;
 			for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos+1))
@@ -195,7 +195,7 @@ namespace mem_engine
 		}
 
 
-		size_t gloss::get_trans_subset( search_match_container &matches, const wstring trans ) const
+		size_t gloss_placer::get_trans_subset( search_match_container &matches, const wstring trans ) const
 		{
 			search_match_container tmp ;
 			foreach(search_match_ptr match, matches)
@@ -212,7 +212,7 @@ namespace mem_engine
 		}
 
 
-		void gloss::create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const
+		void gloss_placer::create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const
 		{
 			const wstring query = holes.lhs.get_str_query(pairings) ;
 			std::vector<pairing_t> pairvec ;
@@ -240,7 +240,7 @@ namespace mem_engine
 
 		}
 
-		void gloss::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
+		void gloss_placer::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
 		{
 			const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 			wstring replacement = ( boost::wformat( placement_fmt ) % qword ).str() ;
@@ -251,7 +251,7 @@ namespace mem_engine
 			fix_match_spans(trans.second) ;
 		}
 
-		bool gloss::is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans, search_match_container &q_matches, search_match_container &s_matches )
+		bool gloss_placer::is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans, search_match_container &q_matches, search_match_container &s_matches )
 		{
 			const wstring query = holes.rhs.get_str_query(pairings) ;
 			if(this->get_matches(q_matches, query) == 0)

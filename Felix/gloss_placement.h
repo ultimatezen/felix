@@ -95,11 +95,11 @@ namespace placement
 	There can be more than one placement candidate (one for each valid hole filling).
 
 	*/
-	class gloss
+	class gloss_placer
 	{
 		memory_list &m_memories ;
 	public:
-		gloss(memory_list &memories) : m_memories(memories)
+		gloss_placer(memory_list &memories) : m_memories(memories)
 		{
 		}
 		// Get placement candidates

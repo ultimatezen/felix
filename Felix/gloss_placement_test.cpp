@@ -384,7 +384,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 	BOOST_AUTO_TEST_CASE(init_empty)
 	{
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -397,7 +397,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "bar", "bar") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "foo", "bar") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -424,7 +424,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "foo", "bar") ;
 		add_record(mem, "foo", "gaz") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -438,7 +438,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "foo", "bar") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -453,7 +453,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "foo", "bar") ;
 		add_record(mem, "foo", "gaz") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -468,7 +468,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "foo", "bar") ;
 		add_record(mem, "foo", "bar bar") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		search_match_container matches ;
 		wstring text = L"foo" ;
@@ -481,7 +481,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 	BOOST_AUTO_TEST_CASE(num_hits_0)
 	{
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring needle = L"aaa" ;
 		wstring haystack = L"bbb" ;
@@ -491,7 +491,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 	BOOST_AUTO_TEST_CASE(num_hits_1)
 	{
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring needle = L"aaa" ;
 		wstring haystack = L"bbb aaa" ;
@@ -501,7 +501,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 	BOOST_AUTO_TEST_CASE(num_hits_2)
 	{
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring needle = L"aaa" ;
 		wstring haystack = L"bbb aaa ccc aaa" ;
@@ -520,7 +520,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring expected = L"<span class=\"placement\">after</span> xxx" ;
 
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		placer.replace_trans_term(qword, trans_plain, segs) ;
 
@@ -536,7 +536,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring expected = L"yyy <span class=\"placement\">after</span> xxx" ;
 
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		placer.replace_trans_term(qword, trans_plain, segs) ;
 
@@ -552,7 +552,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring expected = L"xxx <span class=\"placement\">after</span>" ;
 
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		placer.replace_trans_term(qword, trans_plain, segs) ;
 
@@ -568,7 +568,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		const wstring expected = L"<span class=\"placement\">after</span> x &lt; y" ;
 
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		placer.replace_trans_term(qword, trans_plain, segs) ;
 
@@ -591,7 +591,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
 
 		memory_list memories ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 		placer.create_new_pairings(pairings, holes) ;
 
 		std::vector<pairing_t> pairvec ;
@@ -634,7 +634,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 
@@ -663,7 +663,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with blah" ;
 
@@ -689,7 +689,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 
@@ -715,7 +715,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 
@@ -740,7 +740,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 		std::pair<wstring, wstring> segs(trans, trans) ;
@@ -763,7 +763,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 		std::pair<wstring, wstring> segs(trans, trans) ;
@@ -784,7 +784,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memory_pointer mem(new memory_local(app_props::get_props())) ;
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with source" ;
 		std::pair<wstring, wstring> segs(trans, trans) ;
@@ -806,7 +806,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss )
 		memories.push_back(mem) ;
 		add_record(mem, "yy", "source") ;
 		add_record(mem, "xx", "query") ;
-		gp::gloss placer(memories) ;
+		gp::gloss_placer placer(memories) ;
 
 		wstring trans = L"End up with blah" ;
 		std::pair<wstring, wstring> segs(trans, trans) ;

@@ -88,12 +88,12 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 
 		wstring numbers = L"<input type=\"checkbox\" name=\"numbers\" id=\"numbers\" value=\"numbers\" />" ;
 		wstring allcaps = L"<input type=\"checkbox\" name=\"allcaps\" id=\"allcaps\" value=\"allcaps\" />" ;
-		wstring gloss = L"<input type=\"checkbox\" name=\"gloss\" id=\"gloss\" value=\"gloss\" />" ;
+		wstring gloss_placer = L"<input type=\"checkbox\" name=\"gloss\" id=\"gloss\" value=\"gloss\" />" ;
 		wstring live = L"<input type=\"checkbox\" name=\"live\" id=\"live\" value=\"live\" />" ;
 
 		BOOST_CHECK(full_text.find(numbers) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(allcaps) != wstring::npos) ;
-		BOOST_CHECK(full_text.find(gloss) != wstring::npos) ;
+		BOOST_CHECK(full_text.find(gloss_placer) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(live) != wstring::npos) ;
 		BOOST_CHECK_EQUAL(full_text.find(L"Glossaries to use in check"), wstring::npos) ;
 	}
@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 
 		wstring numbers = L"<input type=\"checkbox\" name=\"numbers\" id=\"numbers\" value=\"numbers\" checked=\"checked\" />" ;
 		wstring allcaps = L"<input type=\"checkbox\" name=\"allcaps\" id=\"allcaps\" value=\"allcaps\" checked=\"checked\" />" ;
-		wstring gloss = L"<input type=\"checkbox\" name=\"gloss\" id=\"gloss\" value=\"gloss\" checked=\"checked\" />" ;
+		wstring gloss_placer = L"<input type=\"checkbox\" name=\"gloss\" id=\"gloss\" value=\"gloss\" checked=\"checked\" />" ;
 		wstring live = L"<input type=\"checkbox\" name=\"live\" id=\"live\" value=\"live\" checked=\"checked\" />" ;
 
 		wstring gloss1 = (wformat( L"<input type=\"checkbox\" name=\"%d\" id=\"%d\" value=\"%d\" />" ) % id2 % id2 % id2).str() ;
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 
 		BOOST_CHECK(full_text.find(numbers) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(allcaps) != wstring::npos) ;
-		BOOST_CHECK(full_text.find(gloss) != wstring::npos) ;
+		BOOST_CHECK(full_text.find(gloss_placer) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(live) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(gloss1) != wstring::npos) ;
 		BOOST_CHECK(full_text.find(gloss2) != wstring::npos) ;

@@ -358,7 +358,7 @@ BOOST_AUTO_TEST_SUITE(TestApp2ActiveGlossary)
 		app2_ptr application ;
 		app2_obj::CreateInstance( &application ) ;
 
-		CComPtr<IMemory> gloss ;
+		CComPtr<IMemory> gloss;
 		HRESULT hr = application->get_ActiveGlossary(&gloss) ;
 		BOOST_CHECK(SUCCEEDED(hr)) ;
 		BOOST_CHECK(gloss) ;

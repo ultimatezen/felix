@@ -249,30 +249,30 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( set_display_state_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
-		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_initial) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
+		BOOST_CHECK_EQUAL(gloss_placer.m_view_state, &gloss_placer.m_view_state_initial) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
-		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_new) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
+		BOOST_CHECK_EQUAL(gloss_placer.m_view_state, &gloss_placer.m_view_state_new) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_match)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
-		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_match) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+		BOOST_CHECK_EQUAL(gloss_placer.m_view_state, &gloss_placer.m_view_state_match) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_concordance)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
-		BOOST_CHECK_EQUAL(gloss.m_view_state, &gloss.m_view_state_concordance) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
+		BOOST_CHECK_EQUAL(gloss_placer.m_view_state, &gloss_placer.m_view_state_concordance) ;
 	}
 
 
@@ -285,10 +285,10 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
+		CGlossaryDialog gloss_placer(props) ;
 
-		BOOST_CHECK_EQUAL((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)gloss.m_display_state) ;
-		search_match_ptr match = gloss.get_current_match() ;
+		BOOST_CHECK_EQUAL((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)gloss_placer.m_display_state) ;
+		search_match_ptr match = gloss_placer.get_current_match() ;
 
 		string expected("") ;
 		string actual(string2string(match->get_record()->get_source_rich())) ;
@@ -298,14 +298,14 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"source") ;
-		gloss.set_new_record(rec) ;
+		gloss_placer.set_new_record(rec) ;
 
-		search_match_ptr match = gloss.get_current_match() ;
+		search_match_ptr match = gloss_placer.get_current_match() ;
 
 		string expected("source") ;
 		string actual(string2string(match->get_record()->get_source_rich())) ;
@@ -316,13 +316,13 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_match_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		gloss.m_search_matches.set_query_rich(query) ;
+		gloss_placer.m_search_matches.set_query_rich(query) ;
 
-		search_match_ptr match = gloss.get_current_match() ;
+		search_match_ptr match = gloss_placer.get_current_match() ;
 
 		string expected("query") ;
 		string actual(string2string(match->get_record()->get_source_rich())) ;
@@ -332,8 +332,8 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_match_non_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		search_match_ptr match(new search_match) ;
 		record_pointer rec(new record_local) ;
@@ -344,9 +344,9 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 
 		search_match_container matches ;
 		matches.insert(match) ;
-		gloss.m_search_matches.set_matches(matches) ;
+		gloss_placer.m_search_matches.set_matches(matches) ;
 
-		search_match_ptr current_match = gloss.get_current_match() ;
+		search_match_ptr current_match = gloss_placer.get_current_match() ;
 
 		string expected("record source") ;
 		string actual(string2string(current_match->get_record()->get_source_rich())) ;
@@ -357,13 +357,13 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_concordance_match_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
-		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
+		CGlossaryDialog gloss_placer(props) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		gloss.m_concordance_matches.set_query_rich(query) ;
+		gloss_placer.m_concordance_matches.set_query_rich(query) ;
 
-		search_match_ptr match = gloss.get_current_match() ;
+		search_match_ptr match = gloss_placer.get_current_match() ;
 
 		string expected("query") ;
 		string actual(string2string(match->get_record()->get_source_rich())) ;
@@ -381,13 +381,13 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
+		CGlossaryDialog gloss_placer(props) ;
 		CGlossaryWinListenerFake listener ;
-		gloss.set_listener(&listener) ;
+		gloss_placer.set_listener(&listener) ;
 
-		gloss.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
 
-		gloss.OnUserAdd(0) ;
+		gloss_placer.OnUserAdd(0) ;
 
 		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
@@ -400,18 +400,18 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
+		CGlossaryDialog gloss_placer(props) ;
 		CGlossaryWinListenerFake listener ;
-		gloss.set_listener(&listener) ;
+		gloss_placer.set_listener(&listener) ;
 
-		gloss.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 		record_pointer rec(new record_local) ;
 		rec->set_source(L"new state") ;
 		rec->set_trans(L"new trans") ;
 		rec->set_id(10) ;
-		gloss.set_new_record(rec) ;
+		gloss_placer.set_new_record(rec) ;
 
-		gloss.OnUserAdd(0) ;
+		gloss_placer.OnUserAdd(0) ;
 
 		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
@@ -420,16 +420,16 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		BOOST_CHECK_EQUAL("gloss_add_record", listener.m_sensing_variable[0]) ;
 		BOOST_CHECK_EQUAL(1u, listener.m_sensing_variable.size()) ;
 
-		BOOST_CHECK_EQUAL((int)rec->get_id(), (int)gloss.get_new_record()->get_id()) ;
+		BOOST_CHECK_EQUAL((int)rec->get_id(), (int)gloss_placer.get_new_record()->get_id()) ;
 	}
 
 
 	BOOST_AUTO_TEST_CASE( on_user_add_match)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
+		CGlossaryDialog gloss_placer(props) ;
 		CGlossaryWinListenerFake listener ;
-		gloss.set_listener(&listener) ;
+		gloss_placer.set_listener(&listener) ;
 
 		search_match_ptr m0 = make_match_ws("match 0", "match 0") ;
 		search_match_ptr m1 = make_match_ws("match 1", "match 1") ;
@@ -440,11 +440,11 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		matches.push_back(m1) ;
 		matches.push_back(m2) ;
 
-		gloss.m_search_matches.set_matches(matches) ;
+		gloss_placer.m_search_matches.set_matches(matches) ;
 
-		gloss.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
-		gloss.OnUserAdd(1) ;
+		gloss_placer.OnUserAdd(1) ;
 
 		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
@@ -457,9 +457,9 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_concordance)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss(props) ;
+		CGlossaryDialog gloss_placer(props) ;
 		CGlossaryWinListenerFake listener ;
-		gloss.set_listener(&listener) ;
+		gloss_placer.set_listener(&listener) ;
 
 		search_match_ptr m0 = make_match_ws("match 0", "match 0") ;
 		search_match_ptr m1 = make_match_ws("match 1", "match 1") ;
@@ -470,11 +470,11 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		matches.push_back(m1) ;
 		matches.push_back(m2) ;
 
-		gloss.m_concordance_matches.set_matches(matches) ;
+		gloss_placer.m_concordance_matches.set_matches(matches) ;
 
-		gloss.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
+		gloss_placer.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
-		gloss.OnUserAdd(2) ;
+		gloss_placer.OnUserAdd(2) ;
 
 		string actual(string2string(listener.added_rec->get_source_rich())) ;
 
