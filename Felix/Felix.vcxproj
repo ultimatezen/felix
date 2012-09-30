@@ -860,7 +860,9 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="NavUrl.cpp" />
     <ClCompile Include="..\common\numberfmt.cpp" />
+    <ClCompile Include="number_placement.cpp" />
     <ClCompile Include="pagination.cpp" />
+    <ClCompile Include="placement_holes.cpp" />
     <ClCompile Include="PropertiesDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Disabled</Optimization>
@@ -1387,6 +1389,8 @@ echo Protection complete!
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="mem_tests.h" />
+    <ClInclude Include="number_placement.h" />
+    <ClInclude Include="placement_holes.h" />
     <ClInclude Include="revertible_action.h" />
     <ClInclude Include="unit_test_config.h" />
     <ClInclude Include="_IApp2Events_CP.h" />

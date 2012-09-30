@@ -55,6 +55,9 @@
       <UniqueIdentifier>{feef7741-eea5-4627-8821-81bf69d4544f}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Header Files\placement">
+      <UniqueIdentifier>{d811110d-0e38-4a81-936e-c4d1c6f6a9ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
@@ -921,6 +924,12 @@
     <ClCompile Include="gloss_placement_test.cpp">
       <Filter>Source Files\mem_engine</Filter>
     </ClCompile>
+    <ClCompile Include="number_placement.cpp">
+      <Filter>Header Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="placement_holes.cpp">
+      <Filter>Header Files\placement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1651,6 +1660,12 @@
     </ClInclude>
     <ClInclude Include="mem_tests.h">
       <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="number_placement.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="placement_holes.h">
+      <Filter>Header Files\placement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
