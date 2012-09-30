@@ -4213,7 +4213,7 @@ void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches,
 	record_pointer rec = match->get_record() ;
 	const wstring trans = rec->get_trans_plain() ;
 
-	std::pair< wstring, wstring > Transpair( trans, trans ) ;
+	trans_pair Transpair( trans, trans ) ;
 	match_string_pairing newPairing( match->match_pairing() ) ;
 	if ( newPairing.place_numbers( Transpair ) )
 	{
@@ -4241,8 +4241,16 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 	pairings.assign(match->match_pairing().m_pairs.begin(), match->match_pairing().m_pairs.end()) ;
 
 	placement::gloss_placer placer(get_glossary_window()->get_memories()) ;
-	std::pair< wstring, wstring > trans_segs( trans, trans ) ;
-	if ( placer.place(pairings, trans_segs) )
+	trans_pair trans_segs( trans, trans ) ;
+
+	hole_pair_t holes ;
+	hole_finder finder ;
+	if (! finder.find_hole(pairings, holes))
+	{
+		return ;
+	}
+
+	if ( placer.place(pairings, trans_segs, holes) )
 	{
 		search_match_ptr new_match = create_placement_match(match, trans_segs.first);
 

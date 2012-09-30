@@ -271,7 +271,7 @@ std::wstring match_string_pairing::mark_up_query()
 
 /** Places numbers found in source and trans.
  */
-bool match_string_pairing::place_numbers( std::pair< wstring, wstring >& trans )
+bool match_string_pairing::place_numbers( trans_pair& trans )
 {
 	const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 

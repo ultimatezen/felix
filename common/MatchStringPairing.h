@@ -12,12 +12,14 @@ namespace mem_engine
 
 namespace placement
 {
+
+	typedef std::pair< std::wstring, std::wstring > trans_pair ;
 wchar_t narrow_num( wchar_t c ) ;
 
 void fix_match_spans( wstring &segment );
 void fix_html_entities( wstring &segment );
 bool is_num_rep(std::wstring& PotentialNum);
-bool is_substitution(std::pair< std::wstring, std::wstring >& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
+bool is_substitution(trans_pair& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
 int is_num_or_null( wchar_t c );
 
 
@@ -112,7 +114,7 @@ public:
 	void no_match( wchar_t s, wchar_t q );
 	wstring mark_up_source();
 	wstring mark_up_query();
-	bool place_numbers( std::pair< wstring, wstring >& trans ) ;
+	bool place_numbers( trans_pair& trans ) ;
 
 	std::wstring get_num(std::vector< pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
 	void re_align_pairs(std::vector< pairing_entity >& PairVec);

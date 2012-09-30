@@ -861,8 +861,10 @@ echo Protection complete!
     <ClCompile Include="NavUrl.cpp" />
     <ClCompile Include="..\common\numberfmt.cpp" />
     <ClCompile Include="number_placement.cpp" />
+    <ClCompile Include="number_placement_test.cpp" />
     <ClCompile Include="pagination.cpp" />
     <ClCompile Include="placement_holes.cpp" />
+    <ClCompile Include="placement_holes_test.cpp" />
     <ClCompile Include="PropertiesDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Disabled</Optimization>

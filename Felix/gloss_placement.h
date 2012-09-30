@@ -47,7 +47,7 @@ namespace placement
 		{
 		}
 		// Get placement candidates
-		bool place(pairings_t &pairings, std::pair< wstring, wstring > &trans);
+		bool place(pairings_t &pairings, trans_pair &trans, hole_pair_t &holes);
 
 		bool is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans,
 			search_match_container &q_matches, search_match_container &s_matches);
@@ -60,7 +60,7 @@ namespace placement
 		// Get the source matches that have gloss hits in translation
 		size_t get_trans_subset(search_match_container &matches, const wstring trans) const;
 
-		void replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const;
+		void replace_trans_term( const wstring qword, const wstring trans_plain, trans_pair & trans ) const;
 		void create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const;
 	};
 

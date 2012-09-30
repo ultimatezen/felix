@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'2', L'3' ) ;
 		BOOST_CHECK_CLOSE( (double)1.0f / 3.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
 
-		std::pair< wstring, wstring > trans( L"2a1", L"2a1" ) ;
+		trans_pair trans( L"2a1", L"2a1" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		CStringA expected = "3a2" ;
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'‚R', L'2' ) ;
 		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
 
-		std::pair< wstring, wstring > trans( L"3a", L"3a" ) ;
+		trans_pair trans( L"3a", L"3a" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		CStringA expected = "2a" ;
@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'‚R', L'‚Q' ) ;
 		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
 
-		std::pair< wstring, wstring > trans( L"3a", L"3a" ) ;
+		trans_pair trans( L"3a", L"3a" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		CStringA expected = "2a" ;
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.match( L'a', L'a' ) ;
 
-		std::pair< wstring, wstring > trans( L"a", L"a" ) ;
+		trans_pair trans( L"a", L"a" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pair_up(pairing, L"I have, apples", L"I have 3 apples") ;
 
-		std::pair< wstring, wstring > trans( L"I have 5 apples", L"I have 5 apples" ) ;
+		trans_pair trans( L"I have 5 apples", L"I have 5 apples" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.no_match( L'1', L'2' ) ;
 
-		std::pair< wstring, wstring > trans( L"<a> & <b>1", L"<a> & <b>1" ) ;
+		trans_pair trans( L"<a> & <b>1", L"<a> & <b>1" ) ;
 
 		BOOST_CHECK(pairing.place_numbers( trans )) ;
 		wstring expected = L"&lt;a&gt; &amp; &lt;b&gt;2" ;
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.match( L'1', L'1' ) ;
 
-		std::pair< wstring, wstring > trans( L"1", L"1" ) ;
+		trans_pair trans( L"1", L"1" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -241,7 +241,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.no_match( L'1', L'2' ) ;
 
-		std::pair< wstring, wstring > trans( L"1", L"1" ) ;
+		trans_pair trans( L"1", L"1" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 	}
@@ -251,7 +251,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.match( L'1', L'1' ) ;
 
-		std::pair< wstring, wstring > trans( L"a", L"a" ) ;
+		trans_pair trans( L"a", L"a" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.no_match( L'1', L'2' ) ;
 
-		std::pair< wstring, wstring > trans( L"a", L"a" ) ;
+		trans_pair trans( L"a", L"a" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'1', L'2' ) ;
 		pairing.match( L'1', L'1' ) ;
 
-		std::pair< wstring, wstring > trans( L"a1", L"a1" ) ;
+		trans_pair trans( L"a1", L"a1" ) ;
 
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 	}
@@ -283,7 +283,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'1', L'2' ) ;
 		pairing.match( L'1', L'1' ) ;
 
-		std::pair< wstring, wstring > trans( L"a11", L"a11" ) ;
+		trans_pair trans( L"a11", L"a11" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		CStringA expected = "a12" ;
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
-		std::pair< wstring, wstring > trans( L"a11", L"a11" ) ;
+		trans_pair trans( L"a11", L"a11" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		CStringA expected = "a12" ;
@@ -317,7 +317,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pair_up(pairing, L"aa11aa", L"ab12ab") ;
 
-		std::pair< wstring, wstring > trans( L"1111", L"1111" ) ;
+		trans_pair trans( L"1111", L"1111" ) ;
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 
 		trans.first = L"11a11" ;
@@ -333,7 +333,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 			L"ab32*a*") ;
 
 		// a11
-		std::pair< wstring, wstring > trans( L"a11", L"a11" ) ;
+		trans_pair trans( L"a11", L"a11" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 			L"ab32*a*") ;
 
 		// 1111
-		std::pair< wstring, wstring > trans( L"1111", L"1111" ) ;
+		trans_pair trans( L"1111", L"1111" ) ;
 		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
 
 		// 11a11
@@ -378,7 +378,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 			L"a12,3a", 
 			L"a45,6a") ;
 
-		std::pair< wstring, wstring > trans( L"c12,3c", L"c12,3c" ) ;
+		trans_pair trans( L"c12,3c", L"c12,3c" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		wstring expected = L"c45,6c" ;
@@ -395,7 +395,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 			L"a2‚©3a", 
 			L"a5‚©6a") ;
 
-		std::pair< wstring, wstring > trans( L"c2a3c", L"c2a3c" ) ;
+		trans_pair trans( L"c2a3c", L"c2a3c" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
 		wstring expected = L"c5a6c" ;
@@ -718,7 +718,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 		pair_up(pairing, source, query) ;
 
 		// a11
-		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 										     L"\\850,000 (\\892,500 with tax)" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
@@ -745,7 +745,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 		pair_up(pairing, source, query) ;
 
 		// a11
-		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 			L"\\850,000 (\\892,500 with tax)" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
@@ -769,7 +769,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_backslashes )
 		pair_up(pairing, source, query) ;
 
 		// a11
-		std::pair< wstring, wstring > trans( L"\\850,000 (\\892,500 with tax)", 
+		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 			L"\\850,000 (\\892,500 with tax)" ) ;
 
 		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
