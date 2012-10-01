@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		pairing.no_match( L'1', L'2' ) ;
 		pairing.match( L'a', L'a' ) ;
 		pairing.no_match( L'2', L'3' ) ;
-		BOOST_CHECK_CLOSE( (double)1.0f / 3.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f / 3.0f, calc_score(pairing.get()), 0.000001 ) ;
 
 		trans_pair trans( L"2a1", L"2a1" ) ;
 
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		// same value when called twice
 		BOOST_CHECK_EQUAL(actual, CStringA(pairing.mark_up_query().c_str())) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.000001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TwoBytePlacement )
 	{
@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.match( L'a', L'a' ) ;
 		pairing.no_match( L'‚R', L'2' ) ;
-		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.get()), 0.000001 ) ;
 
 		trans_pair trans( L"3a", L"3a" ) ;
 
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		// same value when called twice
 		BOOST_CHECK_EQUAL(actual, CStringA(pairing.mark_up_query().c_str())) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.000001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( BothDoubleByte )
 	{
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 
 		pairing.match( L'a', L'a' ) ;
 		pairing.no_match( L'‚R', L'‚Q' ) ;
-		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.get()), 0.000001 ) ;
 
 		trans_pair trans( L"3a", L"3a" ) ;
 
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		// same value when called twice
 		BOOST_CHECK_EQUAL(expected, CStringA(pairing.mark_up_query().c_str())) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.000001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.000001 ) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( TrivialPlacementFalse )
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( WithJpn )
 	{
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Placement )
 		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -418,7 +418,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		BOOST_CHECK_EQUAL( pairing.mark_up_source(), L"a") ;
 		BOOST_CHECK_EQUAL( pairing.mark_up_query(), L"a") ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_source )
 	{
@@ -430,7 +430,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 
 		wstring markup = pairing.mark_up_source() ;
 		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
 	{
@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 
 		wstring markup = pairing.mark_up_query() ;
 		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialNoMatch )
 	{
@@ -458,7 +458,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		actual = pairing.mark_up_query() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( LargerMatch )
 	{
@@ -471,7 +471,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		BOOST_CHECK_EQUAL( pairing.mark_up_source(), L"abc") ;
 		BOOST_CHECK_EQUAL( pairing.mark_up_query(), L"abc") ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( LargerNoMatch_source )
 	{
@@ -484,7 +484,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		wstring expected = L"<span class=\"nomatch\">abc</span>" ;
 		wstring actual = pairing.mark_up_source() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( LargerNoMatch_query )
 	{
@@ -497,7 +497,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		wstring expected = L"<span class=\"nomatch\">def</span>" ;
 		wstring actual = pairing.mark_up_query() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( Mixed_Score )
 	{
@@ -508,7 +508,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 			L"xbx") ;
 
 		double expected_score = 1.0 / 3.0 ;
-		BOOST_CHECK_CLOSE(expected_score, calc_score(pairing.m_pairs), 0.001) ;
+		BOOST_CHECK_CLOSE(expected_score, calc_score(pairing.get()), 0.001) ;
 	}
 	BOOST_AUTO_TEST_CASE( Mixed_Source )
 	{
@@ -690,7 +690,7 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_calc_score )
 			L"abba", 
 			L"xbbx") ;
 
-		BOOST_CHECK_CLOSE( 0.5, calc_score(pairing.m_pairs), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( 0.5, calc_score(pairing.get()), 0.00001 ) ;
 	}
 
 

@@ -15,9 +15,6 @@ namespace mem_engine
 
 namespace placement
 {
-	typedef pair_list pairings_t ;
-	typedef pairing_entity pairing_t ;
-
 
 	/** 
 	Make glossary placements in queries.

@@ -222,12 +222,6 @@
     <ClCompile Include="matcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\MatchStringPairing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\MatchStringPairing_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Memories.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -939,6 +933,12 @@
     <ClCompile Include="placement_holes_test.cpp">
       <Filter>Source Files\placement</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\MatchStringPairing.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MatchStringPairing_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1248,9 +1248,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="matcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\MatchStringPairing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\Matrix.h">
@@ -1674,6 +1671,9 @@
       <Filter>Header Files\placement</Filter>
     </ClInclude>
     <ClInclude Include="placement_holes.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MatchStringPairing.h">
       <Filter>Header Files\placement</Filter>
     </ClInclude>
   </ItemGroup>

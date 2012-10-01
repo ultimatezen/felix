@@ -16,11 +16,12 @@ namespace mem_engine
 
 	namespace placement
 	{
-		typedef pair_list pairings_t ;
-		typedef pairing_entity pairing_t ;
 
 		class number_placer
 		{
+		public:
+			// Get placement candidates
+			bool place(pairings_t &pairings, trans_pair &trans, hole_pair_t &holes);
 
 		};
 	}

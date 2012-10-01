@@ -4219,10 +4219,10 @@ void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches,
 	{
 		search_match_ptr new_match = create_placement_match(match, Transpair.first);
 
-		placement_score(new_match, newPairing.m_pairs, match->get_formatting_penalty());
+		placement_score(new_match, newPairing.get(), match->get_formatting_penalty());
 
 		// new query/source
-		pairing_query_source(new_match, newPairing.m_pairs, Transpair.second);
+		pairing_query_source(new_match, newPairing.get(), Transpair.second);
 
 		PlacedMatches.insert( new_match ) ;
 	}
@@ -4237,8 +4237,7 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 	const wstring trans = rec->get_trans_plain() ;
 	wstring after = rec->get_trans_plain() ;
 
-	pair_list pairings ;
-	pairings.assign(match->match_pairing().m_pairs.begin(), match->match_pairing().m_pairs.end()) ;
+	pairings_t &pairings = match->match_pairing().get() ;
 
 	placement::gloss_placer placer(get_glossary_window()->get_memories()) ;
 	trans_pair trans_segs( trans, trans ) ;
@@ -4296,7 +4295,7 @@ mem_engine::search_match_ptr CMainFrame::create_placement_match( search_match_pt
 	return new_match ;
 }
 
-void CMainFrame::pairing_query_source( search_match_ptr new_match, pair_list &pairings, const wstring after ) const
+void CMainFrame::pairing_query_source( search_match_ptr new_match, pairings_t &pairings, const wstring after ) const
 {
 	mem_engine::markup_ptr Markup = new_match->get_markup() ;
 	Markup->SetQuery(mark_up(pairings, QUERY)) ;
@@ -4306,7 +4305,7 @@ void CMainFrame::pairing_query_source( search_match_ptr new_match, pair_list &pa
 	new_match->set_placement_on() ;
 }
 
-void CMainFrame::placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, double fmt_penalty ) const
+void CMainFrame::placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, double fmt_penalty ) const
 {
 	// HACK -- to make sure that the placed matches sort below the non-placed ones
 	const double PLACEMENT_PENALTY = 0.00001 ;

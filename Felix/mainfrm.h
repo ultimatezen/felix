@@ -607,9 +607,9 @@ public:
 	void check_placement_gloss( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
 
 	mem_engine::search_match_ptr create_placement_match( mem_engine::search_match_ptr match, const wstring &trans ) const ;
-	void pairing_query_source( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, const wstring after ) const ;
+	void pairing_query_source( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, const wstring after ) const ;
 	// placement score
-	void placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pair_list &pairings, double fmt_penalty ) const ;
+	void placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, double fmt_penalty ) const ;
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 
 	// the current match

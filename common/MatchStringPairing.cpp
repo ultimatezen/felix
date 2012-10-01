@@ -88,7 +88,7 @@ int is_num_pair(pairing_entity& pe)
 }
 
 
-std::wstring mark_up( pair_list &pairs, CharType ct )
+std::wstring mark_up( pairings_t &pairs, CharType ct )
 {
 	ATLASSERT( ! pairs.empty() ) ;
 
@@ -160,7 +160,7 @@ wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer)
 }
 
 
-double calc_score(pair_list &pairs)
+double calc_score(pairings_t &pairs)
 {
 	double SourceLen(0.0f), QueryLen(0.0f), Distance( 0.0f ) ;
 
@@ -193,7 +193,7 @@ double calc_score(pair_list &pairs)
 	return ( HighLen - Distance ) / HighLen ;
 }
 
-double calc_score_gloss(pair_list &pairs)
+double calc_score_gloss(pairings_t &pairs)
 {
 	double SourceLen(0.0f), QueryLen(0.0f), Distance( 0.0f ) ;
 
@@ -259,14 +259,14 @@ void match_string_pairing::query_to_epsilon( wchar_t q )
  */
 std::wstring match_string_pairing::mark_up_source()
 {
-	return mark_up( m_pairs, SOURCE ) ;
+	return mark_up( get(), SOURCE ) ;
 }
 
 /** Returns the marked up query string.
  */
 std::wstring match_string_pairing::mark_up_query()
 {
-	return mark_up( m_pairs, QUERY ) ;
+	return mark_up( get(), QUERY ) ;
 }
 
 /** Places numbers found in source and trans.
@@ -278,23 +278,22 @@ bool match_string_pairing::place_numbers( trans_pair& trans )
 	m_placement_positions.clear() ;
 	std::set< size_t > positions_tmp ;
 
-	std::vector< pairing_entity > PairVec ;
-	PairVec.assign(m_pairs.begin(), m_pairs.end()) ;
-	ATLASSERT( m_pairs.size() == PairVec.size() ) ;
+	pairings_t &pair_vec = get() ;
+	ATLASSERT( m_pairs.size() == pair_vec.size() ) ;
 
 	bool PairedNums = false ;
 
-	for( size_t i = 0 ; i < PairVec.size() ;)
+	for( size_t i = 0 ; i < pair_vec.size() ;)
 	{
-		pairing_entity pe = PairVec[i] ;
+		pairing_entity pe = pair_vec[i] ;
 		if( is_num_pair(pe)
 			&& pe.m_MatchType == NOMATCH )
 		{
 			size_t SourcePos = i ;
-			std::wstring SourceNum = get_num(PairVec, SourcePos, SOURCE, positions_tmp);
+			std::wstring SourceNum = get_num(pair_vec, SourcePos, SOURCE, positions_tmp);
 
 			size_t QueryPos = i ;
-			std::wstring QueryNum = get_num(PairVec, QueryPos, QUERY, positions_tmp);
+			std::wstring QueryNum = get_num(pair_vec, QueryPos, QUERY, positions_tmp);
 
 			// is the num in the translation? (but only once...)
 			size_t TransPos = trans.first.find( SourceNum ) ;
@@ -342,7 +341,7 @@ bool match_string_pairing::place_numbers( trans_pair& trans )
 
 	if( PairedNums )
 	{
-		re_align_pairs(PairVec);
+		re_align_pairs(pair_vec);
 		fix_html_entities(trans.first);
 		fix_html_entities(trans.second);
 		fix_match_spans(trans.second);
@@ -355,13 +354,13 @@ bool match_string_pairing::place_numbers( trans_pair& trans )
 
 /** Re-aligns the pairs.
  */
-void match_string_pairing::re_align_pairs(std::vector< pairing_entity >& PairVec)
+void match_string_pairing::re_align_pairs(pairings_t& pair_vec)
 {
 	m_pairs.clear() ;
 
-	for( size_t i = 0 ; i < PairVec.size() ; ++i )
+	for( size_t i = 0 ; i < pair_vec.size() ; ++i )
 	{
-		pairing_entity pe = PairVec[i] ;
+		pairing_entity pe = pair_vec[i] ;
 
 		if ( m_placement_positions.find( i ) == m_placement_positions.end() )
 		{
@@ -382,26 +381,26 @@ void match_string_pairing::re_align_pairs(std::vector< pairing_entity >& PairVec
 
 /** Returns a number for placement.
  */
-std::wstring match_string_pairing::get_num(std::vector< pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
+std::wstring match_string_pairing::get_num(pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
 {
-	while( is_num_or_null(PairVec[CharPos].get_char(ct)) && CharPos > 0 )
+	while( is_num_or_null(pair_vec[CharPos].get_char(ct)) && CharPos > 0 )
 	{
 		CharPos-- ;
 	}
 
-	if ( ! is_num_or_null(PairVec[CharPos].get_char(ct)) )
+	if ( ! is_num_or_null(pair_vec[CharPos].get_char(ct)) )
 	{
 		CharPos++ ;
 	}
-	ATLASSERT( is_num_or_null(PairVec[CharPos].get_char(ct)) ) ;
+	ATLASSERT( is_num_or_null(pair_vec[CharPos].get_char(ct)) ) ;
 
 	wstring Num ;
-	while( CharPos < PairVec.size() && is_num_or_null(PairVec[CharPos].get_char(ct)) )
+	while( CharPos < pair_vec.size() && is_num_or_null(pair_vec[CharPos].get_char(ct)) )
 	{
-		if( PairVec[CharPos].get_char(ct) != 0 )
+		if( pair_vec[CharPos].get_char(ct) != 0 )
 		{
 			positions.insert( CharPos ) ;
-			Num += PairVec[CharPos].get_char(ct) ;
+			Num += pair_vec[CharPos].get_char(ct) ;
 		}
 		CharPos++ ;
 	}

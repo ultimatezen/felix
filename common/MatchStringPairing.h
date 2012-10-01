@@ -72,6 +72,8 @@ enum CharType { SOURCE, QUERY } ;
 	   }
 	} ;
 	typedef std::list< pairing_entity > pair_list ;
+	typedef std::vector< pairing_entity > pairings_t ;
+	typedef pairing_entity pairing_t ;
 
 /** Adds the buffer we have stored to the marked up string.
 */	
@@ -82,7 +84,7 @@ wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer);
 * Keep accumulating characters in a buffer until the match type
 * changes, and then dump it into our markup string.
 */
-wstring mark_up( pair_list &pairs, CharType ct );
+wstring mark_up( pairings_t &pairs, CharType ct );
 
 /** Are we looking at a pair of number characters?
 */
@@ -90,8 +92,8 @@ int is_num_pair(pairing_entity& pe);
 	
 /** Calculates the score based on our pairings.
 */
-double calc_score(pair_list &pairs);
-double calc_score_gloss(pair_list &pairs);
+double calc_score(pairings_t &pairs);
+double calc_score_gloss(pairings_t &pairs);
 
 /*!
  * Represents a pairing of match strings.
@@ -101,11 +103,18 @@ class match_string_pairing
 public:
 
 	pair_list m_pairs ;
+	pairings_t m_pairvec ;
 
 	std::set< size_t > m_placement_positions ;
 
 	match_string_pairing(void);
 
+	pairings_t &get()
+	{
+		m_pairvec.clear() ;
+		m_pairvec.assign(m_pairs.begin(), m_pairs.end()) ;
+		return m_pairvec ;
+	}
 	void clear();
 
 	void source_to_epsilon( wchar_t s );
@@ -116,8 +125,8 @@ public:
 	wstring mark_up_query();
 	bool place_numbers( trans_pair& trans ) ;
 
-	std::wstring get_num(std::vector< pairing_entity >& PairVec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
-	void re_align_pairs(std::vector< pairing_entity >& PairVec);
+	std::wstring get_num(pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
+	void re_align_pairs(pairings_t& pair_vec);
 
 };
 
