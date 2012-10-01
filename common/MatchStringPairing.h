@@ -14,13 +14,13 @@ namespace placement
 {
 
 	typedef std::pair< std::wstring, std::wstring > trans_pair ;
-wchar_t narrow_num( wchar_t c ) ;
+	wchar_t narrow_num( wchar_t c ) ;
 
-void fix_match_spans( wstring &segment );
-void fix_html_entities( wstring &segment );
-bool is_num_rep(std::wstring& PotentialNum);
-bool is_substitution(trans_pair& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
-int is_num_or_null( wchar_t c );
+	void fix_match_spans( wstring &segment );
+	void fix_html_entities( wstring &segment );
+	bool is_num_rep(std::wstring& PotentialNum);
+	bool is_substitution(trans_pair& trans, std::wstring& SourceNum, size_t TransPos, std::wstring& QueryNum);
+	int is_num_or_null( wchar_t c );
 
 
 enum MatchType { MATCH, NOMATCH, PLACEMENT } ;

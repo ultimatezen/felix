@@ -11,9 +11,8 @@ namespace mem_engine
 		/* gloss                                                                */
 		/************************************************************************/
 
-		bool gloss_placer::place( pairings_t &pairings, trans_pair &trans, hole_pair_t &holes )
+		bool gloss_placer::place( pairings_t &pairings, std::pair< wstring, wstring > &trans, hole_pair_t &holes )
 		{
-
 
 			/* First, see if it's a valid placement.
 			 * Got to:
@@ -109,7 +108,7 @@ namespace mem_engine
 
 		}
 
-		void gloss_placer::replace_trans_term( const wstring qword, const wstring trans_plain, trans_pair & trans ) const
+		void gloss_placer::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
 		{
 			const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 			wstring replacement = ( boost::wformat( placement_fmt ) % qword ).str() ;
