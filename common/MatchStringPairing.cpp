@@ -269,152 +269,19 @@ std::wstring match_string_pairing::mark_up_query()
 	return mark_up( get(), QUERY ) ;
 }
 
-/** Places numbers found in source and trans.
- */
-bool match_string_pairing::place_numbers( trans_pair& trans )
-{
-	const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
-
-	m_placement_positions.clear() ;
-	std::set< size_t > positions_tmp ;
-
-	pairings_t &pair_vec = get() ;
-	ATLASSERT( m_pairs.size() == pair_vec.size() ) ;
-
-	bool PairedNums = false ;
-
-	for( size_t i = 0 ; i < pair_vec.size() ;)
-	{
-		pairing_entity pe = pair_vec[i] ;
-		if( is_num_pair(pe)
-			&& pe.m_MatchType == NOMATCH )
-		{
-			size_t SourcePos = i ;
-			std::wstring SourceNum = get_num(pair_vec, SourcePos, SOURCE, positions_tmp);
-
-			size_t QueryPos = i ;
-			std::wstring QueryNum = get_num(pair_vec, QueryPos, QUERY, positions_tmp);
-
-			// is the num in the translation? (but only once...)
-			size_t TransPos = trans.first.find( SourceNum ) ;
-			if (TransPos == wstring::npos && has_asian(SourceNum))
-			{
-				wstring newsource ;
-				foreach(wchar_t c, SourceNum)
-				{
-					newsource += narrow_num(c) ;
-				}
-				SourceNum = newsource ;
-				TransPos = trans.first.find( SourceNum ) ;
-			}
-
-			if( is_substitution(trans, SourceNum, TransPos, QueryNum) ) 
-			{
-				PairedNums = true ;
-				if (! has_asian(SourceNum) && has_asian(QueryNum))
-				{
-					wstring newsource ;
-					foreach(wchar_t c, QueryNum)
-					{
-						newsource += narrow_num(c) ;
-					}
-					QueryNum = newsource ;
-				}
-				
-				boost::replace_first( trans.first, SourceNum, QueryNum ) ;
-				boost::replace_first( trans.second, SourceNum, ( boost::wformat( placement_fmt ) % QueryNum ).str() ) ;
-
-				std::copy(
-					positions_tmp.begin(), positions_tmp.end(),
-					std::inserter( m_placement_positions, m_placement_positions.begin() ) );
-			}
-
-
-			// how much to skip
-			i = max( SourcePos, QueryPos ) + 1 ;
-		}
-		else // we didn't find a number, so examine the next pairing
-		{
-			++i ;
-		}
-	}
-
-	if( PairedNums )
-	{
-		re_align_pairs(pair_vec);
-		fix_html_entities(trans.first);
-		fix_html_entities(trans.second);
-		fix_match_spans(trans.second);
-	}
-
-	return PairedNums ;
-}
-
-
-
-/** Re-aligns the pairs.
- */
-void match_string_pairing::re_align_pairs(pairings_t& pair_vec)
-{
-	m_pairs.clear() ;
-
-	for( size_t i = 0 ; i < pair_vec.size() ; ++i )
-	{
-		pairing_entity pe = pair_vec[i] ;
-
-		if ( m_placement_positions.find( i ) == m_placement_positions.end() )
-		{
-			m_pairs.push_back(pe) ;
-		}
-		else
-		{
-			if( pe.query() != 0 )
-			{
-				pe.source() = pe.query() ;
-				pe.m_MatchType = PLACEMENT ;
-				m_pairs.push_back(pe) ;
-			}
-		}
-
-	}
-}
-
-/** Returns a number for placement.
- */
-std::wstring match_string_pairing::get_num(pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
-{
-	while( is_num_or_null(pair_vec[CharPos].get_char(ct)) && CharPos > 0 )
-	{
-		CharPos-- ;
-	}
-
-	if ( ! is_num_or_null(pair_vec[CharPos].get_char(ct)) )
-	{
-		CharPos++ ;
-	}
-	ATLASSERT( is_num_or_null(pair_vec[CharPos].get_char(ct)) ) ;
-
-	wstring Num ;
-	while( CharPos < pair_vec.size() && is_num_or_null(pair_vec[CharPos].get_char(ct)) )
-	{
-		if( pair_vec[CharPos].get_char(ct) != 0 )
-		{
-			positions.insert( CharPos ) ;
-			Num += pair_vec[CharPos].get_char(ct) ;
-		}
-		CharPos++ ;
-	}
-
-	return Num;
-}
-
-
-
 void match_string_pairing::clear()
 {
 	m_placement_positions.clear() ;
 	m_pairs.clear() ;
 }
 
+pairings_t & match_string_pairing::get()
+{
+	if (m_pairvec.empty())
+	{
+		m_pairvec.assign(m_pairs.begin(), m_pairs.end()) ;
+	}
+	return m_pairvec ;
+}
 }
 }

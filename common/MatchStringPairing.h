@@ -108,12 +108,7 @@ public:
 
 	match_string_pairing(void);
 
-	pairings_t &get()
-	{
-		m_pairvec.clear() ;
-		m_pairvec.assign(m_pairs.begin(), m_pairs.end()) ;
-		return m_pairvec ;
-	}
+	pairings_t &get();
 	void clear();
 
 	void source_to_epsilon( wchar_t s );
@@ -122,10 +117,6 @@ public:
 	void no_match( wchar_t s, wchar_t q );
 	wstring mark_up_source();
 	wstring mark_up_query();
-	bool place_numbers( trans_pair& trans ) ;
-
-	std::wstring get_num(pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions );
-	void re_align_pairs(pairings_t& pair_vec);
 
 };
 

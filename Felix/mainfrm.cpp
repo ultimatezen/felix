@@ -62,6 +62,10 @@
 #include "qcrules/gloss_check.h"
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 
+// placement
+#include "number_placement.h"
+#include "gloss_placement.h"
+
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
 using namespace mem_engine ;
@@ -4267,14 +4271,16 @@ void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches,
 
 	trans_pair Transpair( trans, trans ) ;
 	match_string_pairing newPairing( match->match_pairing() ) ;
-	if ( newPairing.place_numbers( Transpair ) )
+	number_placer placer ;
+	pairings_t &pairings = newPairing.get() ;
+	if ( placer.place( pairings, Transpair ) )
 	{
 		search_match_ptr new_match = create_placement_match(match, Transpair.first);
 
-		placement_score(new_match, newPairing.get(), match->get_formatting_penalty());
+		placement_score(new_match, pairings, match->get_formatting_penalty());
 
 		// new query/source
-		pairing_query_source(new_match, newPairing.get(), Transpair.second);
+		pairing_query_source(new_match, pairings, Transpair.second);
 
 		PlacedMatches.insert( new_match ) ;
 	}

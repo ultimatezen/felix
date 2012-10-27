@@ -11,7 +11,7 @@ namespace gp = placement ;
 
 void pair_up_num(gp::pairings_t &pairings, wstring source, wstring query)
 {
-	for (int i = source.size() - 1 ; i >= 0 ; --i)
+	for (size_t i = 0 ; i < source.size() ; ++i)
 	{
 		const wchar_t s = source[i] ;
 		const wchar_t q = query[i] ;
@@ -240,7 +240,9 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 
 		trans_pair trans( L"1", L"1" ) ;
 
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		pairings_t &parings = pairing.get() ;
+		BOOST_CHECK( ! placer.place(parings, trans)) ;
 	}
 	BOOST_AUTO_TEST_CASE( TrivialPlacementTrue )
 	{
@@ -274,7 +276,9 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 
 		trans_pair trans( L"a", L"a" ) ;
 
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		pairings_t &parings = pairing.get() ;
+		BOOST_CHECK( ! placer.place(parings, trans)) ;
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumNoMatch )
 	{
@@ -285,79 +289,91 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 
 		trans_pair trans( L"a1", L"a1" ) ;
 
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		pairings_t &parings = pairing.get() ;
+		BOOST_CHECK( ! placer.place(parings, trans)) ;
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatch )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pairing.no_match( L'1', L'2' ) ;
-		pairing.match( L'1', L'1' ) ;
+		pair_up_num(pairs, L"11", L"12") ; 
 
 		trans_pair trans( L"a11", L"a11" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
-		CStringA expected = "a12" ;
-		CStringA actual = trans.first.c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( placer.place(pairs, trans)) ;
+		wstring expected = L"a12" ;
+		wstring actual = trans.first ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE( PlacementLongNumMatch_no_match_when_found_twice )
+	{
+		pairings_t pairs ;
+
+		pair_up_num(pairs, L"11", L"21") ; 
+
+		trans_pair trans( L"11a11", L"11a11" ) ;
+
+		gp::number_placer placer ;
+
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 
 		trans.first = L"1111" ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
-
-		trans.first = L"11a11" ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
-
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchLonger1 )
 	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, L"aa11aa", L"ab12ab") ;
+		pairings_t pairs ;
+		pair_up_num(pairs, L"aa11aa", L"ab12ab") ;
 
 		trans_pair trans( L"a11", L"a11" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
-		CStringA expected = "a12" ;
-		CStringA actual = trans.first.c_str() ;
+		gp::number_placer placer ;
+		BOOST_CHECK( placer.place(pairs, trans)) ;
+		wstring expected = L"a12" ;
+		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchLonger2 )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pair_up_num(pairing, L"aa11aa", L"ab12ab") ;
+		pair_up_num(pairs, L"aa11aa", L"ab12ab") ;
 
 		trans_pair trans( L"1111", L"1111" ) ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 
 		trans.first = L"11a11" ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchEpsilons1 )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pair_up_num(pairing, 
+		pair_up_num(pairs, 
 			L"aa*11aa", 
 			L"ab32*a*") ;
 
 		// a11
 		trans_pair trans( L"a11", L"a11" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( placer.place(pairs, trans)) ;
 
-		CStringA expected = "a32" ;
-		CStringA actual = trans.first.c_str() ;
+		wstring expected = L"a32" ;
+		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		expected = "a<span class=\"nomatch\">a</span><span class=\"placement\">32</span>a<span class=\"nomatch\">a</span>" ;
-		actual = pairing.mark_up_source().c_str() ;
+		expected = L"a<span class=\"nomatch\">a</span><span class=\"placement\">32</span>a<span class=\"nomatch\">a</span>" ;
+		actual = mark_up(pairs, SOURCE) ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		expected = "a<span class=\"nomatch\">b</span><span class=\"placement\">32</span>a" ;
-		actual = pairing.mark_up_query().c_str() ;
+		expected = L"a<span class=\"nomatch\">b</span><span class=\"placement\">32</span>a" ;
+		actual = mark_up(pairs, QUERY) ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 	}
@@ -365,332 +381,61 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 
 	BOOST_AUTO_TEST_CASE( PlacementLongNumMatchEpsilons2 )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pair_up_num(pairing, 
+		pair_up_num(pairs, 
 			L"aa*11aa", 
 			L"ab32*a*") ;
 
 		// 1111
 		trans_pair trans( L"1111", L"1111" ) ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 
 		// 11a11
 		trans.first = L"11a11" ;
-		BOOST_CHECK( ! pairing.place_numbers( trans ) ) ;
+		BOOST_CHECK( ! placer.place(pairs, trans)) ;
 
 	}
 
 	BOOST_AUTO_TEST_CASE( WithPunct )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pair_up_num(pairing, 
+		pair_up_num(pairs, 
 			L"a12,3a", 
 			L"a45,6a") ;
 
 		trans_pair trans( L"c12,3c", L"c12,3c" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( placer.place(pairs, trans)) ;
 		wstring expected = L"c45,6c" ;
 		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairs), 0.00001 ) ;
 	}
 	BOOST_AUTO_TEST_CASE( WithJpn )
 	{
-		match_string_pairing pairing ;
+		pairings_t pairs ;
 
-		pair_up_num(pairing, 
+		pair_up_num(pairs, 
 			L"a2か3a", 
 			L"a5か6a") ;
 
 		trans_pair trans( L"c2a3c", L"c2a3c" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		gp::number_placer placer ;
+		BOOST_CHECK( placer.place(pairs, trans)) ;
 		wstring expected = L"c5a6c" ;
 		wstring actual = trans.first ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairs), 0.00001 ) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Markup )
-
-	BOOST_AUTO_TEST_CASE( TrivialMatch )
-	{
-		match_string_pairing pairing ;
-
-		pairing.match( L'a', L'a' ) ;
-
-		BOOST_CHECK_EQUAL( pairing.mark_up_source(), L"a") ;
-		BOOST_CHECK_EQUAL( pairing.mark_up_query(), L"a") ;
-
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_source )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"<a>", 
-			L"<a>") ;
-
-		wstring markup = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"<a>", 
-			L"<a>") ;
-
-		wstring markup = pairing.mark_up_query() ;
-		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( TrivialNoMatch )
-	{
-		match_string_pairing pairing ;
-
-		pairing.no_match( L'a', L'a' ) ;
-
-		wstring expected = L"<span class=\"nomatch\">a</span>" ;
-
-		wstring actual = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		actual = pairing.mark_up_query() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( LargerMatch )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"abc") ;
-
-		BOOST_CHECK_EQUAL( pairing.mark_up_source(), L"abc") ;
-		BOOST_CHECK_EQUAL( pairing.mark_up_query(), L"abc") ;
-
-		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( LargerNoMatch_source )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"def") ;
-
-		wstring expected = L"<span class=\"nomatch\">abc</span>" ;
-		wstring actual = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( LargerNoMatch_query )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"def") ;
-
-		wstring expected = L"<span class=\"nomatch\">def</span>" ;
-		wstring actual = pairing.mark_up_query() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-		BOOST_CHECK_CLOSE( (double)0.0f, calc_score(pairing.get()), 0.00001 ) ;
-	}
-	BOOST_AUTO_TEST_CASE( Mixed_Score )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"xbx") ;
-
-		double expected_score = 1.0 / 3.0 ;
-		BOOST_CHECK_CLOSE(expected_score, calc_score(pairing.get()), 0.001) ;
-	}
-	BOOST_AUTO_TEST_CASE( Mixed_Source )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"xbx") ;
-
-		wstring expected = L"<span class=\"nomatch\">a</span>b<span class=\"nomatch\">c</span>" ;
-
-		wstring actual = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( Mixed_Query )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abc", 
-			L"xbx") ;
-
-		wstring expected = L"<span class=\"nomatch\">x</span>b<span class=\"nomatch\">x</span>" ;
-
-		wstring actual = pairing.mark_up_query() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( MixedEnds_source )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abba", 
-			L"xbbx") ;
-
-		wstring expected = L"<span class=\"nomatch\">a</span>bb<span class=\"nomatch\">a</span>" ;
-
-		wstring actual = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( MixedEnds_query )
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"abba", 
-			L"xbbx") ;
-
-		wstring expected = L"<span class=\"nomatch\">x</span>bb<span class=\"nomatch\">x</span>" ;
-
-		wstring actual = pairing.mark_up_query() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( MixedMiddle )
-	{
-		match_string_pairing pairing ;
-
-		pairing.match( L'a', L'a' ) ;
-		pairing.no_match( L'c', L'c' ) ;
-		pairing.no_match( L'c', L'c' ) ;
-		pairing.match( L'a', L'a' ) ;
-
-		CStringA expected = "a<span class=\"nomatch\">cc</span>a" ;
-
-		CStringA actual = pairing.mark_up_source().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		actual = pairing.mark_up_query().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( Epsilons )
-	{
-		match_string_pairing pairing ;
-
-		pairing.query_to_epsilon( L'c' ) ;
-		pairing.no_match( L'b', L'b' ) ;
-		pairing.source_to_epsilon( L'a' ) ;
-
-		CStringA expected = "<span class=\"nomatch\">ab</span>" ;
-
-		CStringA actual = pairing.mark_up_source().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		expected = "<span class=\"nomatch\">bc</span>" ;
-		actual = pairing.mark_up_query().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( EpsilonsMixed )
-	{
-		match_string_pairing pairing ;
-
-		pairing.query_to_epsilon( L'c' ) ;
-		pairing.match( L'b', L'b' ) ;
-		pairing.source_to_epsilon( L'a' ) ;
-
-		CStringA expected = "<span class=\"nomatch\">a</span>b" ;
-
-		CStringA actual = pairing.mark_up_source().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		expected = "b<span class=\"nomatch\">c</span>" ;
-		actual = pairing.mark_up_query().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( EpsilonsMixedEnds )
-	{
-		match_string_pairing pairing ;
-
-		pairing.no_match( L'b', L'b' ) ;
-		pairing.query_to_epsilon( L'c' ) ;
-		pairing.match( L'b', L'b' ) ;
-		pairing.source_to_epsilon( L'a' ) ;
-		pairing.no_match( L'b', L'b' ) ;
-
-		CStringA expected = "<span class=\"nomatch\">ba</span>b<span class=\"nomatch\">b</span>" ;
-
-		CStringA actual = pairing.mark_up_source().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-
-		expected = "<span class=\"nomatch\">b</span>b<span class=\"nomatch\">cb</span>" ;
-		actual = pairing.mark_up_query().c_str() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE( test_number_placement_tests_MarkupString )
-
-		BOOST_AUTO_TEST_CASE(test_lt_source)
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"<", 
-			L"<") ;
-
-		wstring markup = pairing.mark_up_source() ;
-
-		wstring expected = L"&lt;" ;
-		BOOST_CHECK_EQUAL( expected, markup ) ;
-	}
-
-	BOOST_AUTO_TEST_CASE(test_gt_source)
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L">", 
-			L">") ;
-
-		wstring markup = pairing.mark_up_source() ;
-
-		wstring expected = L"&gt;" ;
-		BOOST_CHECK_EQUAL( expected, markup ) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_amp_source)
-	{
-		match_string_pairing pairing ;
-
-		pair_up_num(pairing, 
-			L"&", 
-			L"&") ;
-
-		wstring markup = pairing.mark_up_source() ;
-
-		wstring expected = L"&amp;" ;
-		BOOST_CHECK_EQUAL( expected, markup ) ;
-	}
-
-BOOST_AUTO_TEST_SUITE_END()
-
 
 BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 
@@ -717,7 +462,10 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 			L"\\850,000 (\\892,500 with tax)" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		pairings_t &pairs = pairing.get() ;
+		gp::number_placer placer ;
+
+		BOOST_CHECK( placer.place(pairs, trans) ) ;
 
 		wstring expected = L"\\1,300,000 (\\1,365,000 with tax)" ;
 		wstring actual = trans.first ;
@@ -744,7 +492,10 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 			L"\\850,000 (\\892,500 with tax)" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		pairings_t &pairs = pairing.get() ;
+		gp::number_placer placer ;
+
+		BOOST_CHECK( placer.place(pairs, trans) ) ;
 
 		wstring expected = L"\\<span class=\"placement\">1,300,000</span> （税込\\<span class=\"placement\">1,365,000</span>）" ;
 		wstring actual = pairing.mark_up_source() ;
@@ -768,7 +519,10 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
 			L"\\850,000 (\\892,500 with tax)" ) ;
 
-		BOOST_CHECK( pairing.place_numbers( trans ) ) ;
+		pairings_t &pairs = pairing.get() ;
+		gp::number_placer placer ;
+
+		BOOST_CHECK( placer.place(pairs, trans) ) ;
 
 		wstring expected = L"\\<span class=\"placement\">1,300,000</span> （税込\\<span class=\"placement\">1,365,000</span>）" ;
 		wstring actual = pairing.mark_up_query() ;
