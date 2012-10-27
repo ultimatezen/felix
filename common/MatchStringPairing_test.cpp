@@ -12,8 +12,8 @@ void pair_up(match_string_pairing &pairing, wstring source, wstring query)
 {
 	for (int i = source.size() - 1 ; i >= 0 ; --i)
 	{
-		wchar_t s = source[i] ;
-		wchar_t q = query[i] ;
+		const wchar_t s = source[i] ;
+		const wchar_t q = query[i] ;
 
 		if (s == L'*')
 		{

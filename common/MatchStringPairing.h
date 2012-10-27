@@ -12,7 +12,6 @@ namespace mem_engine
 
 namespace placement
 {
-
 	typedef std::pair< std::wstring, std::wstring > trans_pair ;
 	wchar_t narrow_num( wchar_t c ) ;
 

@@ -5,12 +5,9 @@ namespace mem_engine
 {
 	namespace placement
 	{
-		bool number_placer::place( pairings_t &pairings, trans_pair &trans, hole_pair_t &holes )
+		// Try to find a number placement.
+		bool number_placer::place( pairings_t &pairings, trans_pair &trans )
 		{
-			pairings ;
-			trans ;
-			holes ;
-
 			const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 
 			m_placement_positions.clear() ;
@@ -34,12 +31,7 @@ namespace mem_engine
 					size_t TransPos = trans.first.find( SourceNum ) ;
 					if (TransPos == wstring::npos && has_asian(SourceNum))
 					{
-						wstring newsource ;
-						foreach(wchar_t c, SourceNum)
-						{
-							newsource += narrow_num(c) ;
-						}
-						SourceNum = newsource ;
+						SourceNum = narrow_num_str(SourceNum);
 						TransPos = trans.first.find( SourceNum ) ;
 					}
 
@@ -48,12 +40,7 @@ namespace mem_engine
 						PairedNums = true ;
 						if (! has_asian(SourceNum) && has_asian(QueryNum))
 						{
-							wstring newsource ;
-							foreach(wchar_t c, QueryNum)
-							{
-								newsource += narrow_num(c) ;
-							}
-							QueryNum = newsource ;
+							QueryNum = narrow_num_str(QueryNum);
 						}
 
 						boost::replace_first( trans.first, SourceNum, QueryNum ) ;
@@ -85,6 +72,8 @@ namespace mem_engine
 			return PairedNums ;
 		}
 
+		// If we have aligned any positions, re-mark them as `PLACEMENT` in the pair vec,
+		// and place the chars from query into source.
 		void number_placer::re_align_pairs( pairings_t& pair_vec )
 		{
 			pairings_t temp ;
@@ -110,6 +99,8 @@ namespace mem_engine
 			pair_vec.clear() ;
 			pair_vec.assign(temp.begin(), temp.end()) ;
 		}
+
+		// Get an aligned number from the source or query.
 		std::wstring number_placer::get_num( pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
 		{
 			while( is_num_or_null(pair_vec[CharPos].get_char(ct)) && CharPos > 0 )
@@ -137,9 +128,21 @@ namespace mem_engine
 			return Num;
 		}
 
+		// clear the placement positions.
 		void number_placer::clear()
 		{
 			m_placement_positions.clear() ;
+		}
+
+		// Normaize number to single-byte chars.
+		std::wstring number_placer::narrow_num_str( const std::wstring &SourceNum )
+		{
+			wstring newsource ;
+			foreach(wchar_t c, SourceNum)
+			{
+				newsource += narrow_num(c) ;
+			}
+			return newsource;
 		}
 	}
 }

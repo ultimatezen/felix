@@ -22,7 +22,9 @@ namespace mem_engine
 			std::set< size_t > m_placement_positions ;
 		public:
 			// Get placement candidates
-			bool place(pairings_t &pairings, trans_pair &trans, hole_pair_t &holes);
+			bool place(pairings_t &pairings, trans_pair &trans);
+
+			std::wstring narrow_num_str( const std::wstring &SourceNum );
 			// Re-aligns the pairs.
 			void re_align_pairs(pairings_t& pair_vec);
 			// Returns a number for placement.
