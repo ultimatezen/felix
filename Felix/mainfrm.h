@@ -360,6 +360,8 @@ public:
 	LRESULT on_tools_load_preferences(WindowsMessage &message);
 
 	void load_old_preferences( const CString filename );
+
+	void reflect_loaded_preferences( const WORD old_language );
 	LRESULT on_tools_save_preferences(WindowsMessage &message);
 
 	void save_old_prefs_file( CString filename );

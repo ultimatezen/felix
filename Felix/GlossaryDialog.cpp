@@ -116,8 +116,6 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 
 	logging::log_debug("Initializing glossary dialog") ;
 
-	load_reg_settings();
-
 	load_util_settings() ;
 	// create and instantiate html view
 	m_hWndClient = init_view() ;
@@ -535,7 +533,7 @@ CGlossaryDialog::MERGE_CHOICE CGlossaryDialog::check_empty_on_load()
 		IDS_MERGE_GLOSS_TEXT, 
 		file::CPath(first_mem->get_location()).FindFileName());
 
-	return get_merge_choice(dlg);
+	return get_merge_choice(dlg, &m_props->m_gen_props);
 
 }
 
@@ -556,7 +554,7 @@ bool CGlossaryDialog::load(const CString file_name, const bool check_empty /*= t
 	user_feedback( system_message( IDS_MSG_LOADING, file::name( file_name ).file_name() ) ) ;
 
 	// merge or add?
-	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	memory_pointer mem ;
 	if (should_merge == MERGE_CHOICE_SEPARATE)
 	{
 		mem = m_memories->add_memory() ;
@@ -1955,11 +1953,6 @@ void CGlossaryDialog::save_prefs()
 	check_save_history() ;
 	save_window_settings( _T("MainGlossary") ) ;
 	save_util_settings() ;
-}
-
-void CGlossaryDialog::load_reg_settings()
-{
-	m_appstate.read_from_registry() ;
 }
 
 void CGlossaryDialog::apply_reg_bg_color()

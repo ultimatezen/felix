@@ -277,7 +277,6 @@ public:
 
 	void apply_mousewheel_setting();
 	void apply_reg_bg_color();
-	void load_reg_settings();
 	LRESULT on_close_command( ) ;
 	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam ) ;
 

@@ -931,14 +931,11 @@ bool CCommonWindowFunctionality::OnProgressWriteUpdate( size_t current_val ) // 
 }
 /////////////////////// == end progress-bar related == //////////////
 
-CCommonWindowFunctionality::MERGE_CHOICE CCommonWindowFunctionality::get_merge_choice( CQueryMergeDlg &dlg )
+CCommonWindowFunctionality::MERGE_CHOICE CCommonWindowFunctionality::get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props )
 {
-	app_props::properties_general props ;
-	props.read_from_registry() ;
-
-	if (props.m_data.m_query_merge)
+	if (props->m_data.m_query_merge)
 	{
-		dlg.m_iMerge = props.m_data.m_merge_choice ;
+		dlg.m_iMerge = props->m_data.m_merge_choice ;
 		if ( 
 #ifdef UNIT_TEST
 			false
@@ -951,12 +948,11 @@ CCommonWindowFunctionality::MERGE_CHOICE CCommonWindowFunctionality::get_merge_c
 			user_feedback(CString(), 2) ;
 			return MERGE_CHOICE_CANCEL ;
 		}
-		props.m_data.m_merge_choice = dlg.m_iMerge ;
-		props.m_data.m_query_merge = ! dlg.m_bDontAsk ;
-		props.write_to_registry() ;
+		props->m_data.m_merge_choice = dlg.m_iMerge ;
+		props->m_data.m_query_merge = ! dlg.m_bDontAsk ;
 	}
 
-	if (props.m_data.m_merge_choice == IDC_MERGE)
+	if (props->m_data.m_merge_choice == IDC_MERGE)
 	{
 		return MERGE_CHOICE_MERGE ;
 	}

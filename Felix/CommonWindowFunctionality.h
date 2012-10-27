@@ -260,7 +260,7 @@ public:
 	void export_excel( CString file_name, mem_engine::memory_pointer mem );
 
 	void save_window_settings( LPCTSTR key_name );
-	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg ) ;
+	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props ) ;
 
 /************************************************************************/
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */

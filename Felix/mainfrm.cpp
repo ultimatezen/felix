@@ -474,10 +474,10 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		set_up_recent_docs_list() ;
 		set_up_command_bars() ;
 		init_status_bar() ;
-		set_up_ui_state() ;
 
 		// register object for message filtering and idle updates
 #ifndef UNIT_TEST
+		set_up_ui_state() ;
 		CMessageLoop* pLoop = _Module.GetMessageLoop() ;
 		ATLASSERT(pLoop != NULL) ;
 		if (pLoop)
@@ -2040,7 +2040,7 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
 		IDS_MERGE_MEM_TEXT, 
 		file::CPath(mem->get_location()).Path()) ;
 
-	return get_merge_choice(dlg);
+	return get_merge_choice(dlg, &m_props->m_gen_props);
 }
 
 
@@ -3146,8 +3146,6 @@ WORD CMainFrame::get_current_gui_language()
 */
 void CMainFrame::reflect_preferences()
 {
-	m_props->read_from_registry() ;
-
 	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
 		gloss_win->show_view_content() ;
@@ -3159,6 +3157,59 @@ void CMainFrame::reflect_preferences()
 	m_trans_matches.m_trans_color =	m_props->m_view_props.m_data.m_trans_color ;
 }
 
+void CMainFrame::reflect_loaded_preferences( const WORD old_language )
+{
+	set_up_ui_state() ;
+
+	// set the title
+	set_window_title() ;
+
+	set_up_window_size() ;
+
+	init_item_colors();
+
+	set_bg_color( static_cast< COLORREF >( m_props->m_view_props.m_data.m_back_color ) ) ;
+
+	load_history() ;
+	load_util_settings() ;
+
+	if (old_language != m_appstate.m_preferred_gui_lang)
+	{
+		switch( m_appstate.m_preferred_gui_lang )
+		{
+		case LANG_JAPANESE :
+			SetUILanguage( LANG_JAPANESE ) ;
+			break ;
+		default:
+			SetUILanguage( LANG_ENGLISH ) ;
+		}
+	}
+
+	if (! m_glossary_windows.empty())
+	{
+		gloss_window_pointer gloss = get_glossary_window();
+		CWindowSettings ws;
+
+		if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
+		{
+			ws.ApplyTo( *gloss ) ;
+		}
+		else
+		{
+			gloss->set_up_initial_size() ;
+		}
+		gloss->load_history() ;
+		gloss->load_util_settings() ;
+		gloss->reflect_sb_vis() ;
+		gloss->reflect_tb_vis();
+		gloss->apply_reg_bg_color() ;
+		gloss->apply_mousewheel_setting() ;
+	}
+
+	// ===============
+	logging::log_debug("Loaded preferences") ;
+	user_feedback( IDS_PREFS_LOADED ) ;
+}
 
 /** This is called with a PostMessage from OnCreate.
 */
@@ -3411,30 +3462,31 @@ void CMainFrame::init_status_bar()
 */
 void CMainFrame::set_up_ui_state()
 {
+	ATLASSERT( ::IsWindow( m_hWndToolBar ) ) ;
+	CReBarCtrl rebar = m_hWndToolBar ;
+	const int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1) ;	// toolbar is 2nd added band
+
+	// toolbar
 	if( m_appstate.m_is_toolbar_visible )
 	{
 		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, TRUE)) ;
+		ATLVERIFY(rebar.ShowBand(nBandIndex, TRUE)) ;
 	}
 	else
 	{
 		ATLVERIFY(UISetCheck(ID_VIEW_TOOLBAR, FALSE)) ;
-		ATLASSERT( ::IsWindow( m_hWndToolBar ) ) ;
-
-		CReBarCtrl rebar = m_hWndToolBar ;
-		const int nBandIndex = rebar.IdToIndex(ATL_IDW_BAND_FIRST + 1) ;	// toolbar is 2nd added band
-		rebar.ShowBand(nBandIndex, FALSE ) ;
+		ATLVERIFY(rebar.ShowBand(nBandIndex, FALSE)) ;
 	}
 
-
+	// status bar
 	if( m_appstate.m_is_statusbar_visible )
 	{
+		::ShowWindow(m_hWndStatusBar, SW_SHOW) ;
 		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, TRUE)) ;
 	}
 	else
 	{
-		// Returns: If the window was previously visible, the return value is nonzero.
-		::ShowWindow(m_hWndStatusBar, SW_HIDE ) ;
-
+		::ShowWindow(m_hWndStatusBar, SW_HIDE) ;
 		ATLVERIFY(UISetCheck(ID_VIEW_STATUS_BAR, FALSE)) ;
 	}
 
@@ -4531,6 +4583,8 @@ void CMainFrame::set_zoom_level( int zoom_level )
 
 void CMainFrame::load_history()
 {
+	this->get_memories().clear() ;
+
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
 	std::vector<wstring> &loaded_mems = history_props->m_loaded_mems ;
@@ -4590,12 +4644,15 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 	}
 
 	const int selected_index = dialog.get_selected_index() ;
+	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
 	switch( selected_index ) 
 	{
 	case 1:
 		ATLTRACE( "Load new preferences format\n" ) ;
 		m_props->load_file(static_cast<LPCTSTR>(filename)) ;
+		this->reflect_loaded_preferences(old_language) ;
+		get_glossary_window()->load_history() ;
 		break;
 
 	case 2:
@@ -4827,57 +4884,8 @@ void CMainFrame::load_old_preferences( const CString filename )
 	// get our default properties
 	m_props->read_from_registry() ;
 
-	set_up_ui_state() ;
+	reflect_loaded_preferences(old_language);
 
-	// set the title
-	set_window_title() ;
-
-	set_up_window_size() ;
-
-	init_item_colors();
-
-	set_bg_color( static_cast< COLORREF >( m_props->m_view_props.m_data.m_back_color ) ) ;
-
-	load_history() ;
-	load_util_settings() ;
-
-	if (old_language != m_appstate.m_preferred_gui_lang)
-	{
-		switch( m_appstate.m_preferred_gui_lang )
-		{
-		case LANG_JAPANESE :
-			SetUILanguage( LANG_JAPANESE ) ;
-			break ;
-		default:
-			SetUILanguage( LANG_ENGLISH ) ;
-		}
-	}
-
-	if (! m_glossary_windows.empty())
-	{
-		gloss_window_pointer gloss = get_glossary_window();
-		CWindowSettings ws;
-
-		if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
-		{
-			ws.ApplyTo( *gloss ) ;
-		}
-		else
-		{
-			gloss->set_up_initial_size() ;
-		}
-		gloss->load_reg_settings() ;
-		gloss->load_history() ;
-		gloss->load_util_settings() ;
-		gloss->reflect_sb_vis() ;
-		gloss->reflect_tb_vis();
-		gloss->apply_reg_bg_color() ;
-		gloss->apply_mousewheel_setting() ;
-	}
-
-	// ===============
-	logging::log_debug("Loaded preferences") ;
-	user_feedback( IDS_PREFS_LOADED ) ;
 }
 
 LRESULT CMainFrame::on_new_search( WindowsMessage &)
