@@ -1299,6 +1299,9 @@ BEGIN
     ID_EDIT_ADD             "Create and add an entry\nAdd"
     ID_VIEW_EDIT_MODE       "Toggle edit mode"
     ID_TOOLS_PREFERENCES    "View and set preferences\nPreferences"
+    ID_TOOLS_MEMORY_MGR    "View the Memory Manager window\nMemory Manager"
+    ID_TOOLS_SAVEPREFERENCES    "Save preferences to a file\nSave preferences"
+    ID_TOOLS_LOADPREFERENCES    "Load preferences from a file\nLoad preferences"
     ID_TOOLS_LANGUAGE       "Switch UI to Japanese\nJapanese UI"
 END
 

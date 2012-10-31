@@ -3344,12 +3344,12 @@ void CMainFrame::set_up_command_bars()
 	std::vector< int > commands ;
 	add_common_tb_commands(commands) ;
 	commands += 
-		ID_TOOLS_PREFERENCES,	SEP_ID,
+		ID_TOOLS_PREFERENCES,	ID_TOOLS_MEMORY_MGR, SEP_ID,
 		ID_HELP,		ID_APP_ABOUT;
 	std::vector< int > StdBitmaps ;
 	add_common_std_bitmaps(StdBitmaps) ;
 	StdBitmaps += 
-		IDB_PROPERTIES,
+		IDB_PROPERTIES,		IDB_MEM_MGR,
 		IDB_HELP,			IDB_INFORMATION ;
 
 

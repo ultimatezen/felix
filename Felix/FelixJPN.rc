@@ -1350,6 +1350,9 @@ BEGIN
     ID_EDIT_ADD             "新しいエントリを作成して追加します\n追加"
     ID_VIEW_EDIT_MODE       "編集モードを切替えます。\n編集モードの切替"
     ID_TOOLS_PREFERENCES    "プロパティを表示して、設定します\nプロパティ"
+    ID_TOOLS_MEMORY_MGR    "メモリの管理\nメモリの管理画面を表示します"
+    ID_TOOLS_SAVEPREFERENCES    "設定データをファイルから読み取ります\n設定の読み取り"
+    ID_TOOLS_LOADPREFERENCES    "設定データをファイルに書きも見ます\n設定の書き込み"
     ID_TOOLS_LANGUAGE       "ＵＩを英語に切り替えます。\n英語に切替"
 END
 

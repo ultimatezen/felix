@@ -10,8 +10,7 @@ namespace mem_engine
 		{
 			const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 
-			m_placement_positions.clear() ;
-			std::set< size_t > positions_tmp ;
+			std::set< size_t > positions ;
 
 			bool PairedNums = false ;
 
@@ -22,10 +21,10 @@ namespace mem_engine
 					&& pe.m_MatchType == NOMATCH )
 				{
 					size_t SourcePos = i ;
-					std::wstring SourceNum = get_num(pairings, SourcePos, SOURCE, positions_tmp);
+					std::wstring SourceNum = get_num(pairings, SourcePos, SOURCE, positions);
 
 					size_t QueryPos = i ;
-					std::wstring QueryNum = get_num(pairings, QueryPos, QUERY, positions_tmp);
+					std::wstring QueryNum = get_num(pairings, QueryPos, QUERY, positions);
 
 					// is the num in the translation? (but only once...)
 					size_t TransPos = trans.first.find( SourceNum ) ;
@@ -45,10 +44,6 @@ namespace mem_engine
 
 						boost::replace_first( trans.first, SourceNum, QueryNum ) ;
 						boost::replace_first( trans.second, SourceNum, ( boost::wformat( placement_fmt ) % QueryNum ).str() ) ;
-
-						std::copy(
-							positions_tmp.begin(), positions_tmp.end(),
-							std::inserter( m_placement_positions, m_placement_positions.begin() ) );
 					}
 
 
@@ -63,7 +58,7 @@ namespace mem_engine
 
 			if( PairedNums )
 			{
-				re_align_pairs(pairings);
+				re_align_pairs(pairings, positions);
 				fix_html_entities(trans.first);
 				fix_html_entities(trans.second);
 				fix_match_spans(trans.second);
@@ -74,7 +69,7 @@ namespace mem_engine
 
 		// If we have aligned any positions, re-mark them as `PLACEMENT` in the pair vec,
 		// and place the chars from query into source.
-		void number_placer::re_align_pairs( pairings_t& pair_vec )
+		void number_placer::re_align_pairs( pairings_t& pair_vec, const pos_holder &positions )
 		{
 			pairings_t temp ;
 
@@ -82,7 +77,7 @@ namespace mem_engine
 			{
 				pairing_entity pe = pair_vec[i] ;
 
-				if ( m_placement_positions.find( i ) == m_placement_positions.end() )
+				if ( positions.find( i ) == positions.end() )
 				{
 					temp.push_back(pe) ;
 				}
@@ -101,7 +96,7 @@ namespace mem_engine
 		}
 
 		// Get an aligned number from the source or query.
-		std::wstring number_placer::get_num( pairings_t& pair_vec, size_t& CharPos, CharType ct, std::set< size_t > &positions )
+		std::wstring number_placer::get_num( pairings_t& pair_vec, size_t& CharPos, CharType ct, pos_holder &positions )
 		{
 			while( is_num_or_null(pair_vec[CharPos].get_char(ct)) && CharPos > 0 )
 			{
@@ -126,12 +121,6 @@ namespace mem_engine
 			}
 
 			return Num;
-		}
-
-		// clear the placement positions.
-		void number_placer::clear()
-		{
-			m_placement_positions.clear() ;
 		}
 
 		// Normaize number to single-byte chars.
