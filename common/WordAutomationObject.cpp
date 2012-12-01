@@ -831,7 +831,7 @@ long WordRange::move_end_while(const _bstr_t &pass_chars)
 	WORD_CATCH 
 }
 
-long WordRange::move_end_until(_bstr_t &text)
+long WordRange::move_end_until(const _bstr_t &text)
 { 
 	WORD_TRY
 		ATLASSERT( is_instantiated() ) ;

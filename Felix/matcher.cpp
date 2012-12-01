@@ -22,7 +22,7 @@ namespace mem_search
 		{
 			return true ;
 		}
-		const wstring pattern  = L"(" + needle + L")" ;
+		const wstring pattern  = needle ;
 		boost::wregex search_regex( pattern, boost::regex::extended|boost::regex::icase) ;
 		return boost::regex_search(haystack, search_regex) ;
 	}

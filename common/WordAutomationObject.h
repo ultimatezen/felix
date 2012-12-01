@@ -164,7 +164,7 @@ public:
 	void select();
 	void extend_to_story_end();
 
-	long  move_end_until( _bstr_t &text );
+	long  move_end_until( const _bstr_t &text );
 	long  move_end_while( const _bstr_t &pass_chars );
 
 	void put_end( long end );
