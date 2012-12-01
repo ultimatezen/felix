@@ -737,7 +737,7 @@ BEGIN
         MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
         MENUITEM SEPARATOR
         MENUITEM "プロパティ...(&P)",            ID_TOOLS_PREFERENCES
-        MENUITEM "置換ルールの管理(&R)...",            ID_TOOLS_RULEMANAGER
+        MENUITEM "置換ルールの管理(&R)...",      ID_TOOLS_RULEMANAGER
         MENUITEM "メモリの管理(&M)...",          ID_TOOLS_MEMORY_MGR
     END
     POPUP "ヘルプ(&H)"

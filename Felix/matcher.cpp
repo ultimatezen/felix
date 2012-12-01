@@ -2,6 +2,7 @@
 #include "matcher.h"
 #include "logging.h"
 #include "replacer.h"
+
 namespace mem_search
 {
 	using namespace boost ;
