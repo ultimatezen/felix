@@ -732,12 +732,13 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "ユーザ設定の取り込み(&L)",              32816
-        MENUITEM "ユーザ設定の保存(&S)",                32817
+        MENUITEM "ユーザ設定の取り込み(&L)",     ID_TOOLS_LOADPREFERENCES
+        MENUITEM "ユーザ設定の保存(&S)",         ID_TOOLS_SAVEPREFERENCES
         MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
         MENUITEM SEPARATOR
-        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
-        MENUITEM "メモリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
+        MENUITEM "プロパティ...(&P)",            ID_TOOLS_PREFERENCES
+        MENUITEM "置換ルールの管理(&R)...",            ID_TOOLS_RULEMANAGER
+        MENUITEM "メモリの管理(&M)...",          ID_TOOLS_MEMORY_MGR
     END
     POPUP "ヘルプ(&H)"
     BEGIN
