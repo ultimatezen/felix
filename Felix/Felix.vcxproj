@@ -725,6 +725,8 @@ echo Protection complete!
     <ClCompile Include="GlossaryWindow_test.cpp" />
     <ClCompile Include="gloss_placement.cpp" />
     <ClCompile Include="gloss_placement_test.cpp" />
+    <ClCompile Include="gloss_rules.cpp" />
+    <ClCompile Include="gloss_rules_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
     <ClCompile Include="HtmlDocColorSetter.cpp" />
     <ClCompile Include="..\common\HtmlDocument.cpp" />
@@ -962,6 +964,7 @@ echo Protection complete!
     <ClCompile Include="view_interface.cpp" />
     <ClCompile Include="ViewCollectionWalker.cpp" />
     <ClCompile Include="WebPage.cpp" />
+    <ClCompile Include="xml_utils.cpp" />
     <ClCompile Include="zoom_dialog.cpp" />
     <ClCompile Include="action_delete_entry_test.cpp" />
     <ClCompile Include="action_delete_matches_test.cpp" />
@@ -1390,11 +1393,13 @@ echo Protection complete!
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="gloss_placement.h" />
+    <ClInclude Include="gloss_rules.h" />
     <ClInclude Include="mem_tests.h" />
     <ClInclude Include="number_placement.h" />
     <ClInclude Include="placement_holes.h" />
     <ClInclude Include="revertible_action.h" />
     <ClInclude Include="unit_test_config.h" />
+    <ClInclude Include="xml_utils.h" />
     <ClInclude Include="_IApp2Events_CP.h" />
     <ClInclude Include="_IRecordEvents_CP.h" />
     <ClInclude Include="..\common\aboutdlg.h" />

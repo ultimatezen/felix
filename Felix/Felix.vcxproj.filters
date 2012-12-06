@@ -61,6 +61,9 @@
     <Filter Include="Source Files\placement">
       <UniqueIdentifier>{8be7634c-f43d-4f1f-a310-7154b7e49665}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\glossrules">
+      <UniqueIdentifier>{101e3cb7-54f1-4896-9f20-bc0547b2c266}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
@@ -939,6 +942,15 @@
     <ClCompile Include="..\common\MatchStringPairing_test.cpp">
       <Filter>Source Files\placement</Filter>
     </ClCompile>
+    <ClCompile Include="gloss_rules_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_rules.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="xml_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1658,9 +1670,6 @@
     <ClInclude Include="BrowseView.h">
       <Filter>Header Files\ManagerView</Filter>
     </ClInclude>
-    <ClInclude Include="gloss_placement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="unit_test_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1675,6 +1684,15 @@
     </ClInclude>
     <ClInclude Include="..\common\MatchStringPairing.h">
       <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_placement.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_rules.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="xml_utils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
