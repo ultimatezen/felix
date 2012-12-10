@@ -217,12 +217,11 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		mem->set_location("spam") ;
 		mem->get_memory_info()->set_created_on(L"2008/11/04 14:49:56") ;
 		wstring text = dialog.get_info_for_item(mem) ;
-		CStringA actual = text.c_str() ;
+
+
 		string expected = string("<table width=\"100%\" class=\"info\">\r\n")
 			+ "<tr><td bgcolor=\"#F2F2F2\"><b>File Name:</b></td><td id=\"file_name\" bgcolor=\"#F2F2F2\">spam</td></tr>\r\n"
-			+ "<tr><td><b>Creator:</b></td><td id=\"creator\">"
-			+ (LPCSTR)CT2A(props.m_data.m_user_name)
-			+ "</td></tr>\r\n"
+			+ "<tr><td><b>Creator:</b></td><td id=\"creator\">Default</td></tr>\r\n"
 			+ "<tr><td bgcolor=\"#F0F0F0\"><b>Field:</b></td><td id=\"field\" bgcolor=\"#F0F0F0\"><b>Default</b></td></tr>\r\n"
 			+ "<tr><td><b>Created:</b></td><td id=\"created_on\">2008/11/04 14:49:56</td></tr>\r\n"
 			+ "<tr><td bgcolor=\"#F0F0F0\"><b>Source Language:</b></td><td id=\"source_language\" bgcolor=\"#F0F0F0\"><b>Default</b></td></tr>\r\n"
@@ -234,7 +233,8 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 			+ "<tr><td bgcolor=\"#F0F0F0\"><b>Validated %</b></td><td id=\"validated\" bgcolor=\"#F0F0F0\">0%</td></tr>\r\n"
 			+ "<tr><td><b>Locked:</b></td><td id=\"locked\">false</td></tr>\r\n"
 			+ "</table><p align=right><b><a href=\"100:100\">Advanced...</a></b></p>" ;
-		BOOST_CHECK_EQUAL(string(expected.c_str()), string(actual)) ;
+
+		BOOST_CHECK_EQUAL(expected, string2string(text)) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( get_saving_feedback)
@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
-		string expected = "Ryan" ;
+		string expected = "Default" ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_empty)

@@ -210,6 +210,7 @@ struct properties_memory : public props::CRegMap
 		// placements
 		BOOL	m_place_numbers ;
 		BOOL	m_place_gloss ;
+		BOOL	m_place_rules;
 
 		BOOL	m_one_trans_per_source ;
 
@@ -222,7 +223,8 @@ struct properties_memory : public props::CRegMap
 			m_assess_format_penalty(FALSE),
 			m_place_numbers(TRUE),
 			m_one_trans_per_source(FALSE),
-			m_place_gloss(FALSE)
+			m_place_gloss(FALSE),
+			m_place_rules(FALSE)
 		{
 		}
 		props_data( const props_data &rhs )
@@ -279,6 +281,7 @@ struct properties_memory : public props::CRegMap
 		REG_ENTRY_BOOL( _T("MEM_FORMATPENALTY"),	m_data.m_assess_format_penalty );
 		REG_ENTRY_BOOL( _T("MEM_PLACE_NUM"),	m_data.m_place_numbers );
 		REG_ENTRY_BOOL( _T("MEM_PLACE_GLOSS"),	m_data.m_place_gloss );
+		REG_ENTRY_BOOL( _T("MEM_PLACE_RULES"),	m_data.m_place_rules);
 
 
 		if (! is_read)

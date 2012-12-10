@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_SUITE( memory_header_test_case )
 		OutputDeviceFake output_device ;
 		header.write_header(&output_device) ;
 
-		BOOST_CHECK(contains(output_device.m_value, L"<modified_by>")) ;
+		BOOST_CHECK(! contains(output_device.m_value, L"<modified_by>")) ;
 	}
 	BOOST_AUTO_TEST_CASE( write_header_modified_on)
 	{

@@ -35,6 +35,7 @@ public:
 		DDX_CHECK( IDC_IGNORE_HIR_KAT_CHECK,	m_properties->m_data.m_ignore_hir_kat)
 		DDX_CHECK( IDC_PLACE_NUMBERS_CHECK,		m_properties->m_data.m_place_numbers)
 		DDX_CHECK( IDC_PLACE_GLOSS_CHECK,		m_properties->m_data.m_place_gloss)
+		DDX_CHECK( IDC_PLACE_RULES_CHECK,		m_properties->m_data.m_place_rules)
 		DDX_CHECK( IDC_ONE_TRANS_PER_SOURCE,	m_properties->m_data.m_one_trans_per_source)
 	END_DDX_MAP()
 };

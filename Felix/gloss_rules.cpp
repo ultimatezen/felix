@@ -3,6 +3,7 @@
 
 namespace placement
 {
+	// Load rules from file in preferences.
 	void regex_rules::load(input_device_ptr input, output_device_ptr output)
 	{
 		m_rules.clear() ;
@@ -16,6 +17,7 @@ namespace placement
 		this->parse(doc) ;
 	}
 
+	// Parse the XML doc into regex rules.
 	void regex_rules::parse( pugi::xml_document &doc )
 	{
 		pugi::xml_node nodes = doc.child("rules") ;
@@ -23,9 +25,12 @@ namespace placement
 			node; 
 			node = node.next_sibling("rule"))
 		{
+			// Only load enabled rules
 			if (read_xml_ulong(node, "enabled"))
 			{
-				m_rules.push_back(regex_ptr(new regex_rule(L"", L"", L""))) ;
+				m_rules.push_back(regex_ptr(new regex_rule(read_xml_string(node, "name"),
+									read_xml_string(node, "source"), 
+									read_xml_string(node, "target")))) ;
 			}
 		}
 	}

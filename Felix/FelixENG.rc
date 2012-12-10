@@ -314,11 +314,12 @@ BEGIN
     CONTROL         "Get entries as &plain text",IDC_PLAINTEXT_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,94,115,16
     CONTROL         "Assess penalty for &formatting mismatches",IDC_FORMATTING_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,109,152,13
-    GROUPBOX        "Placements",IDC_STATIC,6,132,175,42
+    GROUPBOX        "Placements",IDC_STATIC,6,132,175,52
     CONTROL         "&Numbers",IDC_PLACE_NUMBERS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,142,138,13
-    CONTROL         "&One translation per source segment",IDC_ONE_TRANS_PER_SOURCE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,184,164,10
     CONTROL         "&Glossary matches",IDC_PLACE_GLOSS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,156,138,13
+    CONTROL         "&Rules",IDC_PLACE_RULES_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,170,138,13
+    CONTROL         "&One translation per source segment",IDC_ONE_TRANS_PER_SOURCE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,196,164,10
 END
 
 IDD_PROPPAGE_GLOSSARY DIALOGEX 0, 0, 240, 264

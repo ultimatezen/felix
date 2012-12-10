@@ -352,6 +352,9 @@ BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
 		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_width, FALSE ) ; 
 		BOOST_CHECK_EQUAL ( props.m_data.m_ignore_hir_kat, FALSE ) ; 
 		BOOST_CHECK_EQUAL ( props.m_data.m_plaintext, FALSE ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_place_gloss, FALSE ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_place_numbers, TRUE ) ; 
+		BOOST_CHECK_EQUAL ( props.m_data.m_place_rules, FALSE ) ; 
 		BOOST_CHECK_EQUAL ( props.m_data.m_assess_format_penalty, FALSE ) ; 
 
 		props.read_from_registry() ;
@@ -814,6 +817,7 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 			// placements
 			"<place_numbers>false</place_numbers>\n"
 			"<place_gloss>true</place_gloss>\n"
+			"<place_rules>true</place_rules>\n"
 			"<one_trans_per_source>true</one_trans_per_source>\n"
 			"</properties_memory>\n" 
 			"</properties>";
@@ -836,6 +840,7 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 
 		BOOST_CHECK_EQUAL (props.m_data.m_place_numbers, FALSE) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_place_gloss, TRUE) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_place_rules, TRUE) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_one_trans_per_source, TRUE) ; 
 	}
 
@@ -851,6 +856,8 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 		data->m_assess_format_penalty = TRUE ;
 		data->m_place_numbers = FALSE ;
 		data->m_place_gloss = TRUE ;
+		data->m_place_rules = TRUE ;
+
 
 		pugi::xml_document doc;
 		pugi::xml_node preferences = doc.append_child() ;
@@ -872,6 +879,7 @@ BOOST_AUTO_TEST_SUITE( properties_memory_xml_tests )
 			"		<assess_format_penalty>true</assess_format_penalty>\n"
 			"		<place_numbers>false</place_numbers>\n"
 			"		<place_gloss>true</place_gloss>\n"
+			"		<place_rules>true</place_rules>\n"
 			"		<one_trans_per_source>false</one_trans_per_source>\n"
 			"	</properties_memory>\n"
 			"</properties>\n" ;
