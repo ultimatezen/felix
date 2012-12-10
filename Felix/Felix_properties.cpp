@@ -8,7 +8,6 @@
 const wchar_t* LOADED_HISTORY_FILENAME = L"felix_load_history.xml" ;
 const wchar_t* PREFS_FILENAME = L"felix_prefs.fprefx" ;
 
-string get_file_text(wstring filename, input_device_ptr input) ;
 
 struct xml_string_writer: pugi::xml_writer
 {

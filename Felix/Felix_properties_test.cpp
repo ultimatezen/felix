@@ -9,6 +9,7 @@
 // ***************************************************************
 #include "StdAfx.h"
 #include "Felix_properties.h"
+#include "output_device_fake.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -26,6 +27,17 @@ struct xml_string_writer_test: pugi::xml_writer
 BOOST_AUTO_TEST_SUITE( test_properties )
 
 	using namespace app_props ;
+
+	BOOST_AUTO_TEST_CASE(test_get_config_filename)
+	{
+		output_device_ptr device(new OutputDeviceFake) ;
+		wstring filename = L"felix_rules.frules" ;
+		wstring actual = get_config_filename(filename, device) ;
+		wstring expected = L"C:\\Users\\Ryan\\AppData\\Local\\Felix\\prefs\\felix_rules.frules" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
+
 
 	BOOST_AUTO_TEST_CASE(assignment_memory)
 	{

@@ -6,10 +6,13 @@
 #include "RegistryStuff.h"		// CRegMap
 #include "resource_string.h"	// R2T
 
-
 #include "output_device.h"
+#include "input_device.h"
 
 #include "xml_utils.h"
+
+wstring get_config_filename(wstring filename, output_device_ptr output) ;
+string get_file_text(wstring filename, input_device_ptr input) ;
 
 /**
 	@namespace app_props
