@@ -70,6 +70,15 @@ void add_child(pugi::xml_node &node, string name, string value)
 	child_node.append_child(pugi::node_pcdata).set_value(value.c_str());
 }
 
+pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) 
+{
+	pugi::xml_node child = doc.child(node_name.c_str()) ;
+	if (! child )
+	{
+		child = doc.child("properties").child(node_name.c_str()) ;
+	}
+	return child ;
+}
 
 
 namespace app_props

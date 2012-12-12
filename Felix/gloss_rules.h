@@ -14,16 +14,21 @@ namespace placement
 	{
 	public:
 		const wstring m_name ;
-		const wstring m_pattern ;
+		const boost::wregex m_expr;
 		const wstring m_repl ;
 
 		regex_rule(wstring name, wstring pattern, wstring repl) :
 			m_name(name),
-			m_pattern(pattern),
+			m_expr(pattern, boost::regex::extended|boost::regex::icase),
 			m_repl(repl)
 		{
 
 		}
+
+		// Gets the matches for the search string.
+		bool get_matches(const wstring haystack, std::vector<wstring> &matches) const ;
+		// Gets the replacements for all matches found.
+		bool get_replacements(const std::vector<wstring> &matches, std::vector<std::pair<wstring, wstring> > &replacements) const ;
 
 	};
 
@@ -36,7 +41,9 @@ namespace placement
 
 		std::vector<regex_ptr> m_rules ;
 
+		// Load from preferences file
 		void load(input_device_ptr input, output_device_ptr output);
+		// Parse preferences file
 		void parse(pugi::xml_document &doc);
 	};
 }

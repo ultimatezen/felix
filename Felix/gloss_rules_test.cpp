@@ -8,20 +8,74 @@
 using namespace placement ;
 
 #include <boost/test/unit_test.hpp>
-BOOST_AUTO_TEST_SUITE( regex_rules_tests )
 
-	BOOST_AUTO_TEST_CASE( create_regex_rule )
+BOOST_AUTO_TEST_SUITE( test_regex_rule )
+
+	BOOST_AUTO_TEST_CASE( test_create_regex_rule )
 	{
 		placement::regex_rule rule(L"aaa", L"bbb", L"ccc") ;
 		BOOST_CHECK_EQUAL(rule.m_name, L"aaa") ;
-		BOOST_CHECK_EQUAL(rule.m_pattern, L"bbb") ;
+		BOOST_CHECK_EQUAL(rule.m_expr.str(), L"bbb") ;
 		BOOST_CHECK_EQUAL(rule.m_repl, L"ccc") ;
+
 	}
-	BOOST_AUTO_TEST_CASE( create_regex_rules )
+
+	BOOST_AUTO_TEST_CASE( test_get_matches )
+	{
+		placement::regex_rule rule(L"Numbers", L"(\\d+)", L"\\1") ;
+		wstring haystack = L"a 1 bb 22 ccc 333" ;
+		std::vector<wstring> matches ;
+		rule.get_matches(haystack, matches) ;
+		BOOST_CHECK_EQUAL(3u, matches.size()) ;
+		BOOST_CHECK_EQUAL(matches[0], L"1") ;
+		BOOST_CHECK_EQUAL(matches[1], L"22") ;
+		BOOST_CHECK_EQUAL(matches[2], L"333") ;
+
+	}
+	BOOST_AUTO_TEST_CASE( test_get_replacements )
+	{
+		placement::regex_rule rule(L"Numbers", L"(\\d+)", L"\\1") ;
+		wstring haystack = L"a 1 bb 22 ccc 333" ;
+		std::vector<wstring> matches ;
+		rule.get_matches(haystack, matches) ;
+		std::vector<std::pair<wstring, wstring> > replacements;
+		rule.get_replacements(matches, replacements) ;
+		BOOST_CHECK_EQUAL(3u, replacements.size()) ;
+		for (size_t i=replacements.size(); i<3; ++i)
+		{
+			BOOST_CHECK_EQUAL(replacements[i], std::make_pair(matches[i], matches[i])) ;
+		}
+	}
+	BOOST_AUTO_TEST_CASE( test_get_replacements_twice )
+	{
+		placement::regex_rule rule(L"Numbers", L"(\\d+)", L"\\1") ;
+		wstring haystack = L"a 1 bb 22 ccc 333" ;
+		std::vector<wstring> matches ;
+		rule.get_matches(haystack, matches) ;
+		std::vector<std::pair<wstring, wstring> > replacements;
+		rule.get_replacements(matches, replacements) ;
+
+		haystack = L"4 5" ;
+		matches.clear() ;
+		rule.get_matches(haystack, matches) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+		rule.get_replacements(matches, replacements) ;
+
+		BOOST_CHECK_EQUAL(5u, replacements.size()) ;
+		BOOST_CHECK_EQUAL(replacements[3], std::make_pair(matches[0], matches[0])) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( test_regex_rules )
+
+	BOOST_AUTO_TEST_CASE( test_create_regex_rules )
 	{
 		placement::regex_rules rules ;
 		BOOST_CHECK_EQUAL(0u, rules.m_rules.size()) ;
 	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_regex_rules_load_and_parse )
@@ -111,7 +165,7 @@ BOOST_AUTO_TEST_SUITE( test_regex_rules_load_and_parse )
 		placement::regex_ptr rule = rules.m_rules[1] ;
 
 		BOOST_CHECK_EQUAL(rule->m_name, L"ALL CAPS") ;
-		BOOST_CHECK_EQUAL(rule->m_pattern, L"([-_A-Z][-_A-Z]+)") ;
+		BOOST_CHECK_EQUAL(rule->m_expr.str(), L"([-_A-Z][-_A-Z]+)") ;
 		BOOST_CHECK_EQUAL(rule->m_repl, L"\\1") ;
 
 	}
@@ -135,11 +189,55 @@ BOOST_AUTO_TEST_SUITE( test_regex_rules_load_and_parse )
 		placement::regex_ptr rule = rules.m_rules[0] ;
 
 		BOOST_CHECK_EQUAL(rule->m_name, L"Numbers") ;
-		BOOST_CHECK_EQUAL(rule->m_pattern, L"") ;
+		BOOST_CHECK_EQUAL(rule->m_expr.str(), L"") ;
 		BOOST_CHECK_EQUAL(rule->m_repl, L"") ;
 
 	}
-	
+	BOOST_AUTO_TEST_CASE(test_reload_clears)
+	{
+		placement::regex_rules rules ;
+		output_device_ptr output(new OutputDeviceFake) ;
+		InputDeviceFake *raw_input1 = new InputDeviceFake ;
+		raw_input1->set_view("<?xml version='1.0' encoding='utf-8'?>"
+			"<rules>"
+			"<rule>"
+			"<name>Numbers</name>"
+			"<source>(\\d+(\\.\\d+)?)</source>"
+			"<target>\\1</target>"
+			"<sample>My number 123.456</sample>"
+			"<enabled>1</enabled>"
+			"</rule>"
+			"</rules>") ;
+		input_device_ptr input1(raw_input1) ;
+
+		BOOST_CHECK_NO_THROW(rules.load(input1, output)) ;
+		BOOST_CHECK_EQUAL(1u, rules.m_rules.size()) ;
+
+		InputDeviceFake *raw_input2 = new InputDeviceFake ;
+		raw_input2->set_view("<?xml version='1.0' encoding='utf-8'?>"
+			"<rules>"
+			"<rule>"
+			"<name>ALL CAPS</name>"
+			"<source>([-_A-Z][-_A-Z]+)</source>"
+			"<target>\\1</target>"
+			"<sample>Some text ALL-CAPS_BIG-NAME.</sample>"
+			"<enabled>1</enabled>"
+			"</rule>"
+			"</rules>") ;
+		input_device_ptr input2(raw_input2) ;
+
+		BOOST_CHECK_NO_THROW(rules.load(input2, output)) ;
+		BOOST_CHECK_EQUAL(1u, rules.m_rules.size()) ;
+
+		placement::regex_ptr rule = rules.m_rules[0] ;
+
+		BOOST_CHECK_EQUAL(rule->m_name, L"ALL CAPS") ;
+		BOOST_CHECK_EQUAL(rule->m_expr.str(), L"([-_A-Z][-_A-Z]+)") ;
+		BOOST_CHECK_EQUAL(rule->m_repl, L"\\1") ;
+
+	}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

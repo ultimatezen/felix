@@ -3,6 +3,38 @@
 
 namespace placement
 {
+	//////////////////////////////////////////////////////////////////////////
+	// regex_rule class
+	//////////////////////////////////////////////////////////////////////////
+
+	bool regex_rule::get_matches( const wstring haystack, std::vector<wstring> &matches ) const
+	{
+		boost::wsmatch what ;
+		auto start = haystack.begin() ;
+		auto end = haystack.end() ;
+		while(boost::regex_search(start, end, what, m_expr))
+		{
+			matches.push_back(what[0]) ;
+			start = what[0].second ;
+		}
+		return ! matches.empty();
+	}
+
+	bool regex_rule::get_replacements( const std::vector<wstring> &matches, std::vector<std::pair<wstring, wstring> > &replacements ) const
+	{
+		foreach(wstring m, matches)
+		{
+			const wstring result = boost::regex_replace(m, m_expr, m_repl);
+			replacements.push_back(std::make_pair(m, result)) ;
+		}
+		return ! replacements.empty() ;
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////
+	// regex_rules class
+	//////////////////////////////////////////////////////////////////////////
+
 	// Load rules from file in preferences.
 	void regex_rules::load(input_device_ptr input, output_device_ptr output)
 	{

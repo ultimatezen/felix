@@ -13,6 +13,7 @@
 
 wstring get_config_filename(wstring filename, output_device_ptr output) ;
 string get_file_text(wstring filename, input_device_ptr input) ;
+pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
 
 /**
 	@namespace app_props
