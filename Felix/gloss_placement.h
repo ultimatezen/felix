@@ -46,7 +46,7 @@ namespace placement
 		// Get placement candidates
 		bool place(pairings_t &pairings, trans_pair &trans, hole_pair_t &holes);
 
-		bool is_valid_placement( hole_pair_t &holes, pairings_t & pairings, wstring & trans,
+		bool is_valid_placement( const hole_pair_t &holes, const pairings_t & pairings, const wstring & trans,
 			search_match_container &q_matches, search_match_container &s_matches);
 		// matches with source containing `text`
 		size_t get_matches(search_match_container &matches, const wstring text);
