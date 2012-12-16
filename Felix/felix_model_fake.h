@@ -42,12 +42,12 @@ public:
 		SENSE("is_reverse_lookup") ;
 		return m_is_reverse_lookup ;
 	}
-	int get_first_mem_id()
+	size_t get_first_mem_id()
 	{
 		SENSE("get_first_mem_id") ;
 		return m_model->get_first_memory()->get_id() ; 
 	}
-	mem_engine::memory_pointer get_memory_by_id(int id)
+	mem_engine::memory_pointer get_memory_by_id(size_t id)
 	{
 		SENSE("get_memory_by_id") ;
 		return m_model->get_memory_by_id(id) ;

@@ -53,8 +53,8 @@ public:
 	virtual model_ptr get_memories() = 0 ;
 	virtual void set_reverse_lookup(bool setting) = 0 ;
 	virtual bool is_reverse_lookup() = 0 ;
-	virtual int get_first_mem_id() = 0 ;
-	virtual mem_engine::memory_pointer get_memory_by_id(int id) = 0 ;
+	virtual size_t get_first_mem_id() = 0 ;
+	virtual mem_engine::memory_pointer get_memory_by_id(size_t id) = 0 ;
 	virtual void get_memories_needing_saving( memory_list &memories ) = 0 ;
 	virtual model_ptr create_memory_model(bool is_memory) = 0 ;
 };
@@ -93,7 +93,7 @@ public:
 		}
 	}
 
-	int get_first_mem_id()
+	size_t get_first_mem_id()
 	{
 		memory_type mem = m_memories->get_first_memory() ;
 		return mem->get_id() ;
@@ -112,7 +112,7 @@ public:
 		return m_is_reverse_lookup ;
 	}
 
-	mem_engine::memory_pointer get_memory_by_id(int id)
+	mem_engine::memory_pointer get_memory_by_id(size_t id)
 	{
 		return m_memories->get_memory_by_id(id) ;
 	}

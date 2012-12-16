@@ -725,8 +725,8 @@ echo Protection complete!
     <ClCompile Include="GlossaryWindow_test.cpp" />
     <ClCompile Include="gloss_placement.cpp" />
     <ClCompile Include="gloss_placement_test.cpp" />
-    <ClCompile Include="gloss_rules.cpp" />
-    <ClCompile Include="gloss_rules_test.cpp" />
+    <ClCompile Include="rule_placement.cpp" />
+    <ClCompile Include="rule_placement_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
     <ClCompile Include="HtmlDocColorSetter.cpp" />
     <ClCompile Include="..\common\HtmlDocument.cpp" />
@@ -1393,7 +1393,7 @@ echo Protection complete!
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="gloss_placement.h" />
-    <ClInclude Include="gloss_rules.h" />
+    <ClInclude Include="rule_placement.h" />
     <ClInclude Include="mem_tests.h" />
     <ClInclude Include="number_placement.h" />
     <ClInclude Include="placement_holes.h" />

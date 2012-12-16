@@ -60,9 +60,9 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	{
 		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
-		int first_id = mem1->get_id() ;
+		size_t first_id = mem1->get_id() ;
 		memory_pointer mem2 = mm.create_memory() ;
-		int second_id = mem2->get_id() ;
+		size_t second_id = mem2->get_id() ;
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
@@ -76,13 +76,13 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 	{
 		memory_model_gloss mm(get_props()) ;
 		memory_pointer mem1 = mm.create_memory() ;
-		int first_id = mem1->get_id() ;
+		size_t first_id = mem1->get_id() ;
 		memory_pointer mem2 = mm.create_memory() ;
-		int second_id = mem2->get_id() ;
+		size_t second_id = mem2->get_id() ;
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		int third_id = first_id + second_id ;
+		size_t third_id = first_id + second_id ;
 		BOOST_CHECK(third_id != first_id) ;
 		BOOST_CHECK(third_id != second_id) ;
 		try
@@ -213,8 +213,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 
 		get_props()->m_gloss_props.m_data.m_min_score = 50 ;
 
-		BOOST_CHECK_EQUAL(50, (int)mem1->m_gloss_properties->m_data.m_min_score) ;
-		BOOST_CHECK_EQUAL(50, (int)mem2->m_gloss_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(50u, mem1->m_gloss_properties->m_data.m_min_score) ;
+		BOOST_CHECK_EQUAL(50u, mem2->m_gloss_properties->m_data.m_min_score) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_properties_memory )
 	{
@@ -289,8 +289,8 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		params.m_ignore_case = true ;
 		params.m_source = L"Spam and eggy weggies" ;
 		mm.get_glossary_matches(matches, params) ;
-		int num_matches = (int)matches.size() ;
-		BOOST_CHECK_EQUAL(2, num_matches) ;
+		size_t num_matches = matches.size() ;
+		BOOST_CHECK_EQUAL(2u, num_matches) ;
 	}
 	BOOST_AUTO_TEST_CASE( perform_search )
 	{
@@ -332,7 +332,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		mm.insert_memory(mem1) ;
 		mm.insert_memory(mem2) ;
 
-		BOOST_CHECK_EQUAL(3, (int)mm.total_memory_size()) ;
+		BOOST_CHECK_EQUAL(3u, mm.total_memory_size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( empty_true )
 	{

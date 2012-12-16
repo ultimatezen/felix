@@ -104,12 +104,12 @@ bool memory_model::remove_memory_by_name( const CString &mem_name )
 	return false ;
 }
 
-bool memory_model::remove_memory_by_id( const int id )
+bool memory_model::remove_memory_by_id( const size_t id )
 {
 	for ( memory_iterator pos = begin() ; pos != end() ; ++pos )
 	{
 		memory_pointer mem = *pos ;
-		int cmp_id = mem->get_id(); 
+		size_t cmp_id = mem->get_id(); 
 		
 		if ( cmp_id == id )
 		{
@@ -121,9 +121,9 @@ bool memory_model::remove_memory_by_id( const int id )
 	return false ;
 }
 
-void memory_model::reduce_size_to(const int max_size)
+void memory_model::reduce_size_to(const size_t max_size)
 {
-	while ( total_memory_size() > static_cast< size_t >( max_size ) )
+	while ( total_memory_size() > max_size )
 	{
 		m_memories.pop_back() ;
 	}
@@ -204,7 +204,7 @@ bool memory_model::find_matches( trans_match_container &matches, const search_qu
 
 // operations on records
 
-void memory_model::remove_record( record_pointer record, const int id )
+void memory_model::remove_record( record_pointer record, const size_t id )
 {
 	memory_pointer mem = get_memory_by_id(id) ;
 	mem->erase( record ) ;
@@ -225,7 +225,7 @@ void memory_model::swap_memories(memory_list &memories)
 
 
 
-void memory_model::add_record( const record_pointer &record, const int memory_id)
+void memory_model::add_record( const record_pointer &record, const size_t memory_id)
 {
 	memory_pointer mem ;
 	try
@@ -240,7 +240,7 @@ void memory_model::add_record( const record_pointer &record, const int memory_id
 	mem->add_record( record ) ;
 }
 
-mem_engine::memory_pointer memory_model::get_memory_by_id( const int cmp_id )
+mem_engine::memory_pointer memory_model::get_memory_by_id( const size_t cmp_id )
 {
 	foreach(memory_pointer mem, m_memories)
 	{

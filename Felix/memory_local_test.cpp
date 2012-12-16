@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	{
 		memory_local mem(get_props()) ;
 
-		const int memid = mem.get_id() ;
+		const size_t memid = mem.get_id() ;
 		BOOST_CHECK_EQUAL(mem.get_id(), memid ) ;
 	}
 	BOOST_AUTO_TEST_CASE( TwoMemoryIds )
@@ -1520,7 +1520,7 @@ BOOST_AUTO_TEST_SUITE( test_perform_search_concordance )
 
 		search_match_ptr match = *(matches.begin()) ;
 		BOOST_CHECK(match->get_record()->get_source_rich() == L"I love ham and eggs.") ;
-		BOOST_CHECK_EQUAL((int)match->get_memory_id(), (int)mem.get_id()) ;
+		BOOST_CHECK_EQUAL(match->get_memory_id(), mem.get_id()) ;
 	}
 
 	// perform_search (reverse concordance)

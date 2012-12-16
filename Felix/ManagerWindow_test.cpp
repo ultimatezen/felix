@@ -119,8 +119,8 @@ BOOST_AUTO_TEST_SUITE( TestCManagerWindowNavTests )
 		setup.add_mems(2) ;
 		memory_pointer mem0 = setup.mem_model->memory_at(0) ;
 		memory_pointer mem1 = setup.mem_model->memory_at(1) ;
-		int id0 = mem0->get_id() ;
-		int id1 = mem1->get_id() ;
+		size_t id0 = mem0->get_id() ;
+		size_t id1 = mem1->get_id() ;
 		BOOST_CHECK(mem0->get_id() != mem1->get_id()) ;
 
 		_bstr_t url = L"c:\\foo/1/mem/moveup" ;
@@ -143,8 +143,8 @@ BOOST_AUTO_TEST_SUITE( TestCManagerWindowNavTests )
 
 		memory_pointer mem0 = setup.gloss_model->memory_at(0) ;
 		memory_pointer mem1 = setup.gloss_model->memory_at(1) ;
-		int id0 = mem0->get_id() ;
-		int id1 = mem1->get_id() ;
+		size_t id0 = mem0->get_id() ;
+		size_t id1 = mem1->get_id() ;
 		BOOST_CHECK(id0 != id1) ;
 
 		_bstr_t url = L"c:\\foo/0/gloss/movedown" ;

@@ -918,12 +918,6 @@
     <ClCompile Include="view_state_review_test.cpp">
       <Filter>Source Files\view_state</Filter>
     </ClCompile>
-    <ClCompile Include="gloss_placement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gloss_placement_test.cpp">
-      <Filter>Source Files\mem_engine</Filter>
-    </ClCompile>
     <ClCompile Include="placement_holes.cpp">
       <Filter>Source Files\placement</Filter>
     </ClCompile>
@@ -942,14 +936,20 @@
     <ClCompile Include="..\common\MatchStringPairing_test.cpp">
       <Filter>Source Files\placement</Filter>
     </ClCompile>
-    <ClCompile Include="gloss_rules_test.cpp">
-      <Filter>Source Files\placement</Filter>
-    </ClCompile>
-    <ClCompile Include="gloss_rules.cpp">
-      <Filter>Source Files\placement</Filter>
-    </ClCompile>
     <ClCompile Include="xml_utils.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rule_placement.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="rule_placement_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_placement.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_placement_test.cpp">
+      <Filter>Source Files\placement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1688,11 +1688,11 @@
     <ClInclude Include="gloss_placement.h">
       <Filter>Header Files\placement</Filter>
     </ClInclude>
-    <ClInclude Include="gloss_rules.h">
-      <Filter>Header Files\placement</Filter>
-    </ClInclude>
     <ClInclude Include="xml_utils.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rule_placement.h">
+      <Filter>Header Files\placement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

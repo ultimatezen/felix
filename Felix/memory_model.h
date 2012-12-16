@@ -27,9 +27,9 @@ public:
 	memory_model(app_props::props_ptr props);
 	virtual ~memory_model();
 
-	void add_record( const record_pointer &record, const int memory_id );
+	void add_record( const record_pointer &record, const size_t memory_id );
 	void swap_memories( memory_list &memories );
-	void remove_record( record_pointer record, const int id );
+	void remove_record( record_pointer record, const size_t id );
 	void remove_record( record_pointer record );
 
 	void clear(){m_memories.clear();}
@@ -46,11 +46,11 @@ public:
 	memory_list& get_memories();
 	void insert_memory( memory_pointer mem );
 	memory_pointer add_memory( );
-	void reduce_size_to( const int max_size );
+	void reduce_size_to( const size_t max_size );
 	bool remove_memory_by_name( const CString &mem_name ) ;
-	bool remove_memory_by_id( const int id ) ;
+	bool remove_memory_by_id( const size_t id ) ;
 	memory_pointer get_memory_by_name( const CString mem_name ) ;
-	memory_pointer get_memory_by_id( const int id );
+	memory_pointer get_memory_by_id( const size_t id );
 	memory_pointer get_memory_at(const size_t i);
 	void get_memories_needing_saving( memory_list &memories );
 	

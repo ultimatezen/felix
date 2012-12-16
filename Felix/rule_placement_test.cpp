@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "gloss_rules.h"
+#include "rule_placement.h"
 #include "output_device_fake.h"
 #include "input_device_fake.h"
 
