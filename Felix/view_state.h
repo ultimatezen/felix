@@ -55,7 +55,7 @@ public:
 	virtual void activate() = 0 ;
 	virtual void handle_toggle_edit_mode() = 0 ;
 	virtual void show_content() = 0 ;
-	virtual void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add) = 0 ;
+	virtual void retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add) = 0 ;
 	virtual mem_engine::search_match_ptr get_current_match() = 0 ;
 	virtual void delete_match(size_t index) = 0 ;
 };

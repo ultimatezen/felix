@@ -11,7 +11,7 @@ public:
 	typedef mem_engine::record_pointer record_pointer ;
 	typedef mem_engine::memory_pointer memory_pointer ;
 
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add);
+	void retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add);
 	void delete_match(size_t index);
 };
 

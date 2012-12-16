@@ -65,7 +65,6 @@ BOOST_AUTO_TEST_SUITE( view_state_new_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[3].c_str()), "ensure_document_complete") ;
 	}
 
-
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_listener )
 	{
 		ViewStateNewMain state ;

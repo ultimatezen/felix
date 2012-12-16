@@ -68,13 +68,14 @@ struct translation_record_compare
 typedef std::set < record_pointer, translation_record_compare > trans_set ;
 typedef std::set < record_pointer, translation_record_compare >::iterator record_iterator ;
 
-static const int ALL_MEMORIES = 1 ;
+static const size_t ALL_MEMORIES_ID = 1 ;
+static const size_t RULE_MEMORY_ID = 2 ;
 
 /** Gives each memory a unique id (even if they have the same location).
  */
-inline int get_unique_memory_id()
+inline size_t get_unique_memory_id()
 {
-	static int current_id = ALL_MEMORIES ;
+	static size_t current_id = RULE_MEMORY_ID + 1 ;
 
 	current_id++ ;
 
@@ -93,7 +94,7 @@ protected:
 VISIBLE_TO_TESTS
 	typedef std::map< wstring, wstring >	extra_strings_type ;
 
-	int							m_id ;
+	size_t							m_id ;
 
 	bool					m_is_demo ;
 	extra_strings_type		m_extra_strings ;
@@ -134,7 +135,7 @@ public:
 		return m_default_context ;
 	}
 
-	int	get_id() 
+	size_t get_id() 
 	{ 
 		return m_id ;
 	}

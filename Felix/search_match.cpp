@@ -127,12 +127,12 @@ match_string_pairing& search_match::match_pairing()
 	return m_match_pairing ;
 }
 
-void search_match::set_memory_id( const int id )
+void search_match::set_memory_id( const size_t id )
 {
 	m_memory_id = id ;
 }
 
-const int search_match::get_memory_id() const
+const size_t search_match::get_memory_id() const
 {
 	return m_memory_id ;
 }

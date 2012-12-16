@@ -58,7 +58,7 @@ public:
 
 	CAccelerator	m_accel ;
 
-	int				m_memory_id ;
+	size_t				m_memory_id ;
 
 	DECLARE_SENSING_VAR ;
 
@@ -77,12 +77,12 @@ public:
 	{
 	}
 
-	void set_memory_id(const int id)
+	void set_memory_id( size_t id)
 	{
 		m_memory_id = id ;
 	}
 
-	int get_memory_id()
+	size_t get_memory_id() const
 	{
 		return m_memory_id ;
 	}

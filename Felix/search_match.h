@@ -22,7 +22,7 @@ class search_match
 	match_score			m_score ;
 
 	wstring				m_memory_location ;
-	int					m_memory_id ;
+	size_t					m_memory_id ;
 
 	placement::match_string_pairing	m_match_pairing ;
 
@@ -58,8 +58,8 @@ public:
 
 	placement::match_string_pairing& match_pairing();
 
-	void set_memory_id( const int id );
-	const int get_memory_id() const;
+	void set_memory_id( const size_t id );
+	const size_t get_memory_id() const;
 	void set_memory_location( const wstring loc ) ;
 	const wstring get_memory_location() const ;
 

@@ -132,7 +132,7 @@ void ViewStateConcordanceMain::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateConcordanceMain::retrieve_edit_record( int mem_id, mem_engine::record_pointer new_rec, bool is_add )
+void ViewStateConcordanceMain::retrieve_edit_record( size_t mem_id, mem_engine::record_pointer new_rec, bool is_add )
 {
 	memory_pointer mem ;
 	try
@@ -218,7 +218,7 @@ void ViewStateConcordanceGloss::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateConcordanceGloss::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
+void ViewStateConcordanceGloss::retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	memory_pointer mem ;
 	try

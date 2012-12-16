@@ -44,7 +44,7 @@ public:
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
 	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add);
+	void retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add);
 
 };
 
@@ -60,5 +60,5 @@ public:
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
 	void handle_toggle_edit_mode();
-	void retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add);
+	void retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add);
 };

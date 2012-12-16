@@ -15,7 +15,7 @@
 
 
 
-void ViewStateNew::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
+void ViewStateNew::retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
 	if (is_add)

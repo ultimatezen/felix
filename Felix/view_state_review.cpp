@@ -50,7 +50,7 @@ void ViewStateReview::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateReview::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
+void ViewStateReview::retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	memory_pointer mem ;
 	try

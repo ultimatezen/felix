@@ -130,7 +130,7 @@ void ViewStateMatchMain::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateMatchMain::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
+void ViewStateMatchMain::retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	mem_engine::memory_pointer mem = m_model->get_memory_by_id(mem_id) ;
 	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
@@ -234,7 +234,7 @@ void ViewStateMatchGloss::handle_toggle_edit_mode()
 	}
 }
 
-void ViewStateMatchGloss::retrieve_edit_record(int mem_id, mem_engine::record_pointer new_rec, bool is_add)
+void ViewStateMatchGloss::retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add)
 {
 	memory_pointer mem ;
 	try
