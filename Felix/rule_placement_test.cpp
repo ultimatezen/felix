@@ -70,20 +70,42 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_regex_rules )
 
+	using namespace mem_engine ;
+	namespace rp = placement ;
+
 	BOOST_AUTO_TEST_CASE( test_create_regex_rules )
 	{
-		placement::regex_rules rules ;
+		rp::regex_rules rules ;
 		BOOST_CHECK_EQUAL(0u, rules.m_rules.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_make_match)
 	{
-		placement::regex_rules rules ;
+		rp::regex_rules rules ;
 		search_match_ptr match = rules.make_match(L"source", L"trans") ;
 
 		BOOST_CHECK_EQUAL(match->get_memory_id(), RULE_MEMORY_ID) ;
 		record_pointer rec = match->get_record() ;
 		BOOST_CHECK_EQUAL(rec->get_source_rich(), L"source") ;
 		BOOST_CHECK_EQUAL(rec->get_trans_plain(), L"trans") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_get_matches_empty)
+	{
+		rp::regex_rules rules ;
+		search_match_container matches ;
+		wstring haystack = L"a 1 bb" ;
+		rules.get_matches(matches, haystack) ;
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_get_matches)
+	{
+		rp::regex_ptr rule(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1")) ;
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rule) ;
+		BOOST_CHECK_EQUAL(1u, rules.m_rules.size()) ;
+		search_match_container matches ;
+		wstring haystack = L"a 1 bb" ;
+		rules.get_matches(matches, haystack) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

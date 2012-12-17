@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "rule_placement.h"
 #include "record_local.h"
+#include "logging.h"
 
 namespace mem_engine
 {
@@ -23,12 +24,12 @@ namespace placement
 		return ! matches.empty();
 	}
 
-	bool regex_rule::get_replacements( const std::vector<wstring> &matches, std::vector<std::pair<wstring, wstring> > &replacements ) const
+	bool regex_rule::get_replacements( const std::vector<wstring> &matches, std::vector<repl_t> &replacements ) const
 	{
 		foreach(wstring m, matches)
 		{
 			const wstring result = boost::regex_replace(m, m_expr, m_repl);
-			replacements.push_back(std::make_pair(m, result)) ;
+			replacements.push_back(repl_t(m, result)) ;
 		}
 		return ! replacements.empty() ;
 	}
@@ -41,11 +42,28 @@ namespace placement
 	// Get matches for the specified text
 	size_t regex_rules::get_matches(search_match_container &matches, const wstring text)
 	{
-		matches ;
-		text ;
-		return 0 ;
+		std::vector<repl_t> replacements ;
+		foreach(regex_ptr rule, m_rules)
+		{
+			this->get_placements(rule, text, replacements) ;
+		}
+
+		foreach(repl_t repl, replacements)
+		{
+			matches.insert(this->make_match(repl.first, repl.second)) ;
+		}
+
+		return matches.size() ;
 	}
 
+	size_t regex_rules::get_placements(regex_ptr rule, const wstring haystack, std::vector<repl_t> &replacements )
+	{
+		std::vector<wstring> matches ;
+		rule->get_matches(haystack, matches) ;
+		rule->get_replacements(matches, replacements) ;
+
+		return replacements.size() ;
+	}
 	// Load rules from file in preferences.
 	void regex_rules::load(input_device_ptr input, output_device_ptr output)
 	{
@@ -56,6 +74,12 @@ namespace placement
 		pugi::xml_document doc;
 		pugi::xml_parse_result result = doc.load(text.c_str());
 		ATLASSERT ( result.status == pugi::status_ok ) ; 
+		// abort on failure
+		if (result.status != pugi::status_ok)
+		{
+			logging::log_warn("Failed to load: " + string2string(filename) + string("\n\t") + result.description()) ;
+			return ;
+		}
 
 		this->parse(doc) ;
 	}
@@ -89,6 +113,7 @@ namespace placement
 		match->set_record(rec) ;
 		return match ;
 	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// rule_placer
 	//////////////////////////////////////////////////////////////////////////

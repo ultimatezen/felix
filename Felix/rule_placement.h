@@ -22,6 +22,7 @@ namespace mem_engine
 
 namespace placement
 {
+	typedef std::pair<wstring, wstring> repl_t ;
 
 	// a glossary rule.
 	class regex_rule
@@ -42,7 +43,7 @@ namespace placement
 		// Gets the matches for the search string.
 		bool get_matches(const wstring haystack, std::vector<wstring> &matches) const ;
 		// Gets the replacements for all matches found.
-		bool get_replacements(const std::vector<wstring> &matches, std::vector<std::pair<wstring, wstring> > &replacements) const ;
+		bool get_replacements(const std::vector<wstring> &matches, std::vector<repl_t> &replacements) const ;
 
 	};
 
@@ -55,6 +56,7 @@ namespace placement
 
 		std::vector<regex_ptr> m_rules ;
 
+		size_t get_placements(regex_ptr rule, const wstring haystack, std::vector<repl_t> &replacements);
 		size_t get_matches(search_match_container &matches, const wstring text) ;
 
 		// Load from preferences file
