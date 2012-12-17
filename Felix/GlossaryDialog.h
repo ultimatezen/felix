@@ -59,8 +59,8 @@ class CGlossaryDialog :
 	VISIBLE_TO_TESTS
 
 	// various user preferences
-	appstate_glossary			m_appstate ;
-	app_props::props_ptr m_props ;
+	appstate_glossary					m_appstate ;
+	app_props::props_ptr				m_props ;
 	app_props::properties_glossary		*m_properties_gloss ;
 
 	// the status bar

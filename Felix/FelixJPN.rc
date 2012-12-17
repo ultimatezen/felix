@@ -1326,6 +1326,7 @@ BEGIN
     IDS_MSG_FINISHED_MULTITERM_EXPORT "ファイル [%1] を MultiTerm 形式でエクスポート完了"
     IDD_MIN_VIEW_DLG        "Felix小型表示"
     IDS_MSG_LOADING         "ファイル[%1]を取り込み中..."
+	IDS_MANAGE_RULES		"置換ルールの管理"
 END
 
 STRINGTABLE

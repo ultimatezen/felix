@@ -1237,7 +1237,7 @@ BEGIN
     IDS_EDIT_COMPLETE       "Edit complete"
     IDS_MSG_DROPPED_RECORDS "Failed to save %1 record(s)."
     IDD_DELETE              "Delete the current memory entry\nDelete entry"
-    IDC_DELETE              "delete"
+    IDS_MANAGE_RULES        "Manage replacement rules"
     IDS_POPUP_REGISTER_GLOSS "&Register Glossary Entries"
     IDS_POPUP_DELETE        "&Delete"
     IDD_EDIT_ENTRY          "Edit the current entry\nEdit entry"
@@ -1247,6 +1247,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_CHECK_USER_AND_PASS "Check your username and password."
+    IDC_DELETE              "delete"
 END
 
 STRINGTABLE

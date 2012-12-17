@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixENG.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -141,7 +141,6 @@
 #define IDS_EDIT_COMPLETE               119
 #define IDS_MSG_DROPPED_RECORDS         120
 #define IDD_DELETE                      121
-#define IDC_DELETE                      122
 #define IDC_CHECK_DEMO                  123
 #define IDS_IDS_REG_LINK_DEAD           123
 #define IDC_ONE_TRANS_PER_SOURCE        123
@@ -571,6 +570,7 @@
 #define IDD_SELECT_LANGS_DLG            493
 #define IDC_DEFAULTS_CHECK              494
 #define IDC_LANG_SOURCE_COMBO           495
+#define IDS_MANAGE_RULES                496
 #define IDR_APP                         562
 #define IDC_CLOSE                       562
 #define IDC_ADD_SOURCE                  563
@@ -600,6 +600,7 @@
 #define IDS_MSG_REPLACE                 590
 #define IDC_GLOSS_SIMPLE_VIEW           591
 #define IDS_CHECK_USER_AND_PASS         592
+#define IDC_DELETE                      593
 #define IDC_CHECK1                      1000
 #define IDC_OLD_MEM_MGR                 1000
 #define IDC_CONN_LOGIN                  1000

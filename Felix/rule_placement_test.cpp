@@ -2,6 +2,7 @@
 #include "rule_placement.h"
 #include "output_device_fake.h"
 #include "input_device_fake.h"
+#include "gloss_placement.h"
 
 #ifdef UNIT_TEST
 
@@ -32,7 +33,7 @@ BOOST_AUTO_TEST_SUITE( test_regex_rule )
 		BOOST_CHECK_EQUAL(matches[2], L"333") ;
 
 	}
-	BOOST_AUTO_TEST_CASE( test_get_replacements )
+	BOOST_AUTO_TEST_CASE( test_get_replacements_numbers )
 	{
 		placement::regex_rule rule(L"Numbers", L"(\\d+)", L"\\1") ;
 		wstring haystack = L"a 1 bb 22 ccc 333" ;
@@ -46,6 +47,19 @@ BOOST_AUTO_TEST_SUITE( test_regex_rule )
 			BOOST_CHECK_EQUAL(replacements[i], std::make_pair(matches[i], matches[i])) ;
 		}
 	}
+
+	BOOST_AUTO_TEST_CASE( test_get_replacements_x_to_y )
+	{
+		placement::regex_rule rule(L"Numbers", L"x", L"y") ;
+		wstring haystack = L"a x a" ;
+		std::vector<wstring> matches ;
+		rule.get_matches(haystack, matches) ;
+		std::vector<std::pair<wstring, wstring> > replacements;
+		rule.get_replacements(matches, replacements) ;
+		BOOST_CHECK_EQUAL(1u, replacements.size()) ;
+		BOOST_CHECK_EQUAL(replacements[0], placement::repl_t(L"x", L"y")) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( test_get_replacements_twice )
 	{
 		placement::regex_rule rule(L"Numbers", L"(\\d+)", L"\\1") ;
@@ -273,5 +287,100 @@ BOOST_AUTO_TEST_SUITE( test_regex_rules_load_and_parse )
 BOOST_AUTO_TEST_SUITE_END()
 
 
+//////////////////////////////////////////////////////////////////////////
+// rule_placer
+//////////////////////////////////////////////////////////////////////////
+
+BOOST_AUTO_TEST_SUITE( test_rule_placer )
+
+	using namespace mem_engine ;
+	namespace rp = placement ;
+
+	BOOST_AUTO_TEST_CASE(init_empty)
+	{
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		rules.get_matches(matches, text) ;
+		BOOST_CHECK(matches.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_matches_none)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"foo" ;
+		rules.get_matches(matches, text) ;
+		BOOST_CHECK(matches.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_matches_one)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"a 1 b" ;
+		BOOST_CHECK_EQUAL(1u, rules.get_matches(matches, text)) ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(get_matches_two)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"1 b 2" ;
+		rules.get_matches(matches, text) ;
+		BOOST_CHECK_EQUAL(2u, matches.size()) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE(test_trans_subset_0)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"1" ;
+		rules.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"foo") ;
+		BOOST_CHECK_EQUAL(0u, matches.size()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_trans_subset_1)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"a 1 b" ;
+		rules.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"x 1 y") ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_trans_subset_2_rules_1_match)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"x to z", L"x", L"z"))) ;
+		rp::rule_placer placer(rules) ;
+
+		search_match_container matches ;
+		wstring text = L"a x b" ;
+		rules.get_matches(matches, text) ;
+		placer.get_trans_subset(matches, L"a z b") ;
+		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 #endif

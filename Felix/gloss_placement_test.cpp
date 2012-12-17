@@ -21,7 +21,7 @@ namespace gp = placement ;
 // gloss_placer
 //////////////////////////////////////////////////////////////////////////
 
-BOOST_AUTO_TEST_SUITE( test_gloss )
+BOOST_AUTO_TEST_SUITE( test_gloss_placer )
 
 	using namespace mem_engine ;
 	namespace gp = placement ;

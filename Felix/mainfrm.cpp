@@ -53,6 +53,7 @@
 
 #include "cpptempl.h"
 #include <shellapi.h>
+// file I/O
 #include "input_device_file.h"
 #include "output_device.h"
 
@@ -225,6 +226,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 
 	this->register_command_event_listener( IDC_SET_GLOSS, boost::bind(&CMainFrame::on_register_gloss, this, _1 )) ;
 	this->register_command_event_listener( ID_TOOLS_PREFERENCES, boost::bind(&CMainFrame::on_tools_preferences, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_RULEMANAGER, boost::bind(&CMainFrame::on_tools_rule_manager, this, _1 )) ;
 	this->register_command_event_listener( ID_TOOLS_LANGUAGE, boost::bind(&CMainFrame::on_tools_switch_language, this, _1 )) ;
 
 	this->register_command_event_listener( ID_TOOLS_LOADPREFERENCES, boost::bind(&CMainFrame::on_tools_load_preferences, this, _1 )) ;
@@ -461,6 +463,9 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 		// read our properties from the registry
 		m_appstate.read_from_registry() ;
 		load_util_settings();
+		input_device_ptr input(new InputDeviceFile) ;
+		output_device_ptr output(new OutputDeviceFile) ;
+		m_rules.load(input, output) ;
 
 		// the view
 		logging::log_debug("Initializing mainframe view") ;
@@ -2216,11 +2221,62 @@ bool CMainFrame::clear_memory()
 // Message handlers
 //============================
 
+LRESULT CMainFrame::on_tools_rule_manager(WindowsMessage &) 
+{
+	SENSE("on_tools_rule_manager") ;
+	logging::log_debug("Launching Rule Manager dialog.") ;
+
+	user_feedback( IDS_MANAGE_RULES );
+
+#ifndef UNIT_TEST
+
+	// Call the COM server that will call up the rule manager.
+	// After it returns, we reload the rules. They may or may not have changed.
+	try
+	{
+		CDispatchWrapper wrapper(L"Felix.Preferences"); 
+		CComVariant language = L"English";
+		CComVariant prog = L"felix" ;
+
+		if( m_appstate.m_preferred_gui_lang == LANG_JAPANESE )
+		{
+			language = L"Japanese" ;
+		}
+
+		wrapper.method(L"RuleManager", prog, language) ;
+		wrapper.m_app = NULL ;
+
+		input_device_ptr input(new InputDeviceFile) ;
+		output_device_ptr output(new OutputDeviceFile) ;
+		m_rules.load(input, output) ;
+	}
+	catch (_com_error& err)
+	{
+		logging::log_error("Call to rule manager failed") ;
+		ATLASSERT(FALSE && "Raised exception in file_logger") ;
+		except::CComException ce(err) ;
+		logging::log_exception(ce) ;
+		ce.notify_user(_T("Rule Manager Error")) ;
+	}		
+	catch(except::CException &e)
+	{
+		logging::log_error("Call to rule manager failed") ;
+		logging::log_exception(e) ;
+		e.notify_user(_T("Rule Manager Error")) ;
+	}
+	user_feedback( IDS_PREFS_REGISTERED ) ;
+
+#endif
+	return 0L ;
+}
+
+
 /** Responds to Tools > Preferences menu selection.
 */
 LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 {
 	SENSE("on_tools_preferences") ;
+	logging::log_debug("Launching Preferences dialog.") ;
 
 	user_feedback( IDS_SETTING_PREFS );
 
@@ -5332,3 +5388,7 @@ void CMainFrame::check_mousewheel_count()
 	}
 }
 
+mem_engine::placement::regex_rules * CMainFrame::get_regex_rules()
+{
+	return &m_rules ;
+}

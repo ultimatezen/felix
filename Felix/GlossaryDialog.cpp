@@ -659,6 +659,7 @@ void CGlossaryDialog::perform_gloss_lookup()
 {
 	search_match_container matches ;
 	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
+	m_listener->get_regex_rules()->get_matches(matches, m_search_matches.m_params.m_source) ;
 	m_search_matches.set_matches( matches ) ;
 }
 

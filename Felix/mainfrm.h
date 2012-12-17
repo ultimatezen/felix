@@ -31,6 +31,7 @@
 #include "felix_cl_options.h"
 
 #include "gloss_placement.h"
+#include "rule_placement.h"
 
 // view states
 #include "view_state_initial.h"
@@ -113,8 +114,14 @@ VISIBLE_TO_TESTS
 	input_device_ptr	m_input_device ;
 	output_device_ptr	m_output_device ;
 
+	// placement rules
+	mem_engine::placement::regex_rules m_rules ;
+
 public:
 	static const int IDD = IDR_MAINFRAME ;
+
+
+	mem_engine::placement::regex_rules *get_regex_rules();
 
 	wstring m_deferred_query ;
 
@@ -354,6 +361,7 @@ public:
 	LRESULT on_help_check_updates(WindowsMessage &message);
 	// tools menu
 	LRESULT on_tools_preferences(WindowsMessage &message) ;
+	LRESULT on_tools_rule_manager(WindowsMessage &message) ;
 	LRESULT on_tools_switch_language(WindowsMessage &message) ;
 	LRESULT on_tools_memory_manager(WindowsMessage &message);
 
