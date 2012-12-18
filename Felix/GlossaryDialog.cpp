@@ -1846,7 +1846,7 @@ void CGlossaryDialog::load_util_settings()
 		CComVariant val = utils.method(L"LoadProp", ZOOM_KEY) ;
 		if (val.vt != VT_NULL)
 		{
-			m_mousewheel_count = min(max(val.intVal, -10), 10) ;
+			m_mousewheel_count = std::min(std::max(val.intVal, -10), 10) ;
 		}
 	}
 	catch (_com_error& e)

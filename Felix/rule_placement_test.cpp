@@ -379,6 +379,12 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		rules.get_matches(matches, text) ;
 		placer.get_trans_subset(matches, L"a z b") ;
 		BOOST_CHECK_EQUAL(1u, matches.size()) ;
+
+		search_match_ptr match = *matches.begin() ;
+		markup_ptr markup = match->get_markup() ;
+
+		BOOST_CHECK_EQUAL(wstring(L"x"), markup->GetSource()) ;
+		BOOST_CHECK_EQUAL(wstring(L"z"), markup->GetTrans()) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

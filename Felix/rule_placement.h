@@ -2,7 +2,7 @@
 
 	regex-based.
 */
-
+#pragma once
 #include "TranslationMemory.h"
 #include "MatchStringPairing.h"
 #include "placement_holes.h"

@@ -5,6 +5,7 @@
 #include "record_local.h"
 #include "felix_model_fake.h"
 #include "Felix_properties.h"
+#include "rule_placement.h"
 
 #ifdef UNIT_TEST
 
@@ -19,6 +20,7 @@ public:
 	app_props::properties_general m_props_general ;
 	app_props::properties_memory m_mem_props ;
 	model_iface_ptr m_model ;
+	mem_engine::placement::regex_rules m_rules ;
 
 	CGlossaryWinListenerFake() : 
 		check_save_retval(IDCANCEL), 
@@ -28,6 +30,11 @@ public:
 		check_save_mem = mem_engine::memory_pointer(new mem_engine::memory_local(app_props::get_props())) ;
 
 	}	
+		
+	mem_engine::placement::regex_rules *get_regex_rules() 
+	{
+		return &m_rules ;
+	}
 		
 	model_iface_ptr get_model()
 	{

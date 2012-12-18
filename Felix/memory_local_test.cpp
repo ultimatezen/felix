@@ -1768,7 +1768,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_info )
 		mem_info->set_creator( L"FooBar" ) ;
 		BOOST_CHECK_EQUAL( L"FooBar", mem.get_memory_info()->get_creator() ) ;
 
-		BOOST_CHECK_EQUAL( wstring(L""),  mem_info->get_current_user()) ;
+		BOOST_CHECK_EQUAL( wstring(L"Ryan"),  mem_info->get_current_user()) ;
 	}
 
 	BOOST_AUTO_TEST_CASE(get_creation_date)

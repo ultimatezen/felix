@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 
 		string expected = string("<table width=\"100%\" class=\"info\">\r\n")
 			+ "<tr><td bgcolor=\"#F2F2F2\"><b>File Name:</b></td><td id=\"file_name\" bgcolor=\"#F2F2F2\">spam</td></tr>\r\n"
-			+ "<tr><td><b>Creator:</b></td><td id=\"creator\">Default</td></tr>\r\n"
+			+ "<tr><td><b>Creator:</b></td><td id=\"creator\">Ryan</td></tr>\r\n"
 			+ "<tr><td bgcolor=\"#F0F0F0\"><b>Field:</b></td><td id=\"field\" bgcolor=\"#F0F0F0\"><b>Default</b></td></tr>\r\n"
 			+ "<tr><td><b>Created:</b></td><td id=\"created_on\">2008/11/04 14:49:56</td></tr>\r\n"
 			+ "<tr><td bgcolor=\"#F0F0F0\"><b>Source Language:</b></td><td id=\"source_language\" bgcolor=\"#F0F0F0\"><b>Default</b></td></tr>\r\n"
@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 		memory_pointer mem = model->create_memory() ;
 		wstring text = dialog.get_creator_name(mem->get_memory_info()) ;
 		CStringA actual = text.c_str() ;
-		string expected = "Default" ;
+		string expected = "Ryan" ;
 		BOOST_CHECK_EQUAL(expected, string(actual)) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_creator_name_empty)

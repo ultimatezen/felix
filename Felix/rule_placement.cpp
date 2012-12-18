@@ -111,6 +111,7 @@ namespace placement
 		match->set_memory_id(RULE_MEMORY_ID) ;
 		match->set_memory_location(L"Rules") ;
 		match->set_record(rec) ;
+		match->set_values_to_record() ;
 		return match ;
 	}
 
