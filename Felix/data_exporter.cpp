@@ -8,7 +8,6 @@
 #include "data_exporter.h"
 #include "charset_info.h"	// charset_info
 #include "system_message.h"
-#include <boost/algorithm/string.hpp>
 
 using namespace except ;
 using namespace mem_engine ;

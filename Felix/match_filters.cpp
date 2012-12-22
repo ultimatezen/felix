@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "match_filters.h"
-#include <boost/regex.hpp>
 #include "logging.h"
 #include "replacer.h"
 #include "matcher.h"

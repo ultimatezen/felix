@@ -7,7 +7,6 @@
 #include "Exceptions.h"
 #include "record_local.h"
 #include "system_message.h"
-#include "cpptempl.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateNew

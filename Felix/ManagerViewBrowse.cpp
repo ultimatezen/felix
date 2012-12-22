@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ManagerViewBrowse.h"
 #include "SearchWindow.h"
-#include "cpptempl.h"
 
 namespace mgrview
 {

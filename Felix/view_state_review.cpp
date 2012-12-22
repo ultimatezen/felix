@@ -6,7 +6,6 @@
 #include "text_templates.h"
 #include "Exceptions.h"
 #include "record_local.h"
-#include "cpptempl.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ViewStateReview

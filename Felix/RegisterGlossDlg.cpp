@@ -11,8 +11,6 @@
 #include "resource_string.h"
 #include "record_local.h"
 
-#include "ColorRef.h"
-
 #include "reg_msg_filter.h"
 
 #include "xpmenu/Tools.h"

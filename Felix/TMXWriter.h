@@ -25,7 +25,6 @@
 #include "ProgressListener.h"
 
 #include "output_device.h"
-#include "cpptempl.h"
 
 /**
 	@class CTMXWriter

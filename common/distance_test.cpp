@@ -1,9 +1,10 @@
 #include "StdAfx.h"
 #include "distance.h"
 
+#ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
-#ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( TestDistance )
 
 	using namespace std ;

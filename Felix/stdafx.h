@@ -73,6 +73,8 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <string>
 #include <algorithm> 
 #include <iterator>
+#include <stack>
+#include <exception>			// for exceptions thrown by STL
 
 using std::wstring ;
 using std::string ;
@@ -106,6 +108,7 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/tuple/tuple.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <boost/regex.hpp>
 
 #include <boost/foreach.hpp>
@@ -119,9 +122,16 @@ using namespace boost::foreach ;
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include <boost/filesystem.hpp>   // includes all needed Boost.Filesystem declarations
 #pragma warning( default : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
-#include <boost/static_assert.hpp>
 
 namespace fs = boost::filesystem;
+
+#include <boost/static_assert.hpp>
+
+#include <boost/range/adaptor/map.hpp>
+#include <boost/flyweight.hpp>
+
+#include <boost/timer.hpp>
+
 
 //////////////////////////////////////////////////////////////////////////
 // WTL Headers
@@ -147,6 +157,9 @@ namespace fs = boost::filesystem;
 #include <ATLCTRLX.H>
 
 #include <Mshtml.h>
+// shell API support
+#include <shellapi.h>
+#include <shlobj.h>
 
 #include "DebugUtilities.h"
 #include "StringEx.h"
@@ -167,13 +180,13 @@ extern CLocalizedServerAppModule _Module;
 
 
 #ifdef UNIT_TEST
-#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(std::string(x))
-#define VISIBLE_TO_TESTS public:
+	#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
+	#define SENSE(x) m_sensing_variable.push_back(std::string(x))
+	#define VISIBLE_TO_TESTS public:
 #else
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#define VISIBLE_TO_TESTS
+	#define DECLARE_SENSING_VAR
+	#define SENSE(x) (void)0
+	#define VISIBLE_TO_TESTS
 #endif
 
 #include <atlgdix.h>				// must be included before CustomTabCtrl.h
@@ -209,6 +222,8 @@ CExeModule
 #pragma warning( default:4995 ) // #pragma deprecated
 
 #include "resource_string.h"
+#include "stringex.h"
+#include "ColorRef.h"
 
 #include "xpmenu/MenuXP.h"
 #include "xpmenu/ToolBarXP.h"
@@ -219,6 +234,8 @@ CExeModule
 #include "pugxml/src/pugixml.hpp"
 
 #include "unit_testing.h"
+#include "ArmadilloStuff.h"		// get them crackers!
+#include "cpptempl.h"
 
 static const int SEND_BUTTON_ID = 17 ;
 static const int DONT_SEND_BUTTON_ID = 18 ;

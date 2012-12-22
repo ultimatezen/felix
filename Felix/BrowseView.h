@@ -2,8 +2,6 @@
 
 #include "ManagerView.h"
 #include "pagination.h"
-#include "cpptempl.h"
-
 
 namespace mgrview
 {

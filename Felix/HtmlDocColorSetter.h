@@ -10,7 +10,6 @@
 #pragma once
 
 #include "HtmlDocument.h"
-#include "ColorRef.h"
 
 namespace html
 {

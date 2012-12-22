@@ -12,7 +12,7 @@
 #ifdef _DEBUG 
 
 #include <crtdbg.h>		// redefine memory allocation functions
-
+#include "comdef.h"
 #pragma warning( disable:4310 ) // cast truncates constant value
 
 /*! Checks for memory leaks.
@@ -30,11 +30,6 @@ public:
 	}
 } ;
 
-
-
-#pragma warning( disable:4995 ) // deprecated
-	#include <comdef.h> // _bstr_t
-#pragma warning( default:4995 ) // deprecated
 
 	// =================
 	// tabs to prettify our debug output

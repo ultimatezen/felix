@@ -11,10 +11,8 @@
 #include "DebugUtilities.h" 
 
 // C RunTime Header Files
-#include "comdef.h"
 
 	#include <eh.h>				// _se_translator_function -- CException handling header file
-	#include <exception>			// for exceptions thrown by STL
 
 #include "ComUtilities.h"
 

@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "FileOpHandler.h"
-#include <shlobj.h>
 #include "ComUtilities.h"
 #include "Exceptions.h"
 

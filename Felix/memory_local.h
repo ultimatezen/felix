@@ -1,7 +1,6 @@
 #pragma once
 #include "TranslationMemory.h"
 #include "memory_header.h"
-#include <boost/range/adaptor/map.hpp>
 
 namespace mem_engine
 {

@@ -2,7 +2,6 @@
 #include "BrowseView.h"
 #include "numberfmt.h"
 #include "SearchWindow.h"
-#include "cpptempl.h"
 
 namespace mgrview
 {

@@ -1,11 +1,8 @@
 /**
- * <File comment goes here!!>
- * 
- * Copyright (c) 2005 by <your name/ organization here>
+ * Match up holes in strings for placement.
  */
 #include "StdAfx.h"
 #include "MatchStringPairing.h"
-#include "stringex.h"
 
 namespace mem_engine
 {

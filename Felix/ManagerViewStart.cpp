@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ManagerViewStart.h"
 #include "text_templates.h"
-#include "cpptempl.h"
 #include "numberfmt.h"
 
 namespace mgrview

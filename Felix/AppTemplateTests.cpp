@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "ResHtmlFile.h"
 #include "file.h"
-#include "cpptempl.h"
 #include "textstream_reader.h"
-#include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
+
+#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE( AppTemplateTest )
 

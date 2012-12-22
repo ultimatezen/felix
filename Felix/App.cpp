@@ -7,7 +7,6 @@
 #include "Exceptions.h"					// exception support
 
 #include "FelixApp.h"
-#include <comdef.h> // _com_error
 #include "atlscintilla.h"
 #include "background_processor.h"
 

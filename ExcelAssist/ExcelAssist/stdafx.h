@@ -144,11 +144,11 @@ extern CAddInModule _AtlModule;
 
 
 #ifdef UNIT_TEST
-#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(string(x))
+	#define DECLARE_SENSING_VAR std::vector<string> m_sensing_variable
+	#define SENSE(x) m_sensing_variable.push_back(string(x))
 #else
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
+	#define DECLARE_SENSING_VAR
+	#define SENSE(x) (void)0
 #endif
 
 

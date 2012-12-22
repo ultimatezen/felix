@@ -2,11 +2,6 @@
 
 #include "check_rule.h"
 
-#include <vector>
-#include <string>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-
 namespace qc
 {
 	typedef std::pair<std::wstring, std::wstring> gloss_pair ;

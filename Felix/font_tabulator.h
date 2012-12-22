@@ -9,10 +9,6 @@
 
 #pragma once
 
-
-#include "StringEx.h"
-#include "ArmadilloStuff.h"
-
 /**
 	@class font_tabulator  
 	@brief Tabulates fonts in HTML text into a set.

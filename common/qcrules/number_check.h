@@ -1,7 +1,6 @@
 #pragma once
 
 #include "check_rule.h"
-#include <boost/format.hpp>
 
 namespace qc
 {

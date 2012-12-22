@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "StringEx.h"
 #include "File.h"
 #include "MiscWrappers.h"
 #include "output_device.h"

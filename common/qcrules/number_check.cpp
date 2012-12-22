@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "number_check.h"
 
-#include <boost/algorithm/string.hpp>
-
 namespace qc
 {
 	bool NumberCheckRule::check( const std::wstring source, const std::wstring target )

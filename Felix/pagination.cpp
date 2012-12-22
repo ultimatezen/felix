@@ -2,7 +2,6 @@
 #include "pagination.h"
 #include "text_templates.h"
 #include "numberfmt.h"
-#include "cpptempl.h"
 
 using namespace cpptempl ;
 

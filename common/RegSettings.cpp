@@ -8,8 +8,6 @@
 #include "memory_debugging.h"
 #include "RegSettings.h"
 
-#include <atlstr.h>
-
 
 //////////////////////////////////////////////////////////////////////
 // CWindowSettings

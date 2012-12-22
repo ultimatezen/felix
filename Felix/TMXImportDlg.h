@@ -5,10 +5,6 @@
 
 #pragma once
 
-#include "resource.h"       // main symbols
-#include <vector>
-#include <set>
-#include <map>
 #include "Exceptions.h"		// exception support
 #include "WindowExceptionHandler.h"
 

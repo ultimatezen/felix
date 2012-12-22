@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "InputKeyDlg.h"
-#include "ArmadilloStuff.h"
 #include "logging.h"
 
 // CInputKeyDlg

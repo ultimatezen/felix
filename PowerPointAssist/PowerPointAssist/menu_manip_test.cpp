@@ -2,6 +2,7 @@
 #include "menu_manip.h"
 
 #ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
 
 namespace easyunit
 {

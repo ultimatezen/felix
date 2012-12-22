@@ -1,9 +1,7 @@
 #include "StdAfx.h"
 #include "TranslationMemory.h"
-#include "StringEx.h"
 #include ".\match_maker.h"
 #include "distance.h"
-#include <boost/algorithm/string/join.hpp>
 
 #ifdef max
 #undef max

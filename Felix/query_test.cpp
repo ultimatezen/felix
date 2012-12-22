@@ -3,8 +3,6 @@
 #include "query.h"
 #include "record_local.h"
 
-#include <boost/test/unit_test.hpp>
-
 wstring get_dummy_text()
 {
 	wstring etext = L"	<div class=\"nomatch_query\">\r\n"
@@ -17,6 +15,10 @@ wstring get_dummy_text()
 }
 
 bool is_critical( std::logic_error const& ) { return true; }
+
+#ifdef UNIT_TEST
+
+#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 
@@ -668,3 +670,6 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 	}	
 
 BOOST_AUTO_TEST_SUITE_END()
+
+
+#endif

@@ -2,10 +2,6 @@
 
 #include "check_rule.h"
 
-#include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-
 namespace qc
 {
 	class AllCapsCheckRule : public CheckRule

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "textstream_reader.h"
-#include <map>
-#include "stringex.h"
 #include "tag_stripper.h"
 
 class CTmxSymbolMapper

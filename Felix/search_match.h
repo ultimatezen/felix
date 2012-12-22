@@ -3,7 +3,6 @@
 #include "record.h"				// translation record
 #include "match_score.h"		// match_score
 #include "markup_strings.h"	// markup_ptr
-#include <set>
 #include "MatchStringPairing.h"
 
 namespace mem_engine

@@ -10,7 +10,6 @@
 #pragma once
 
 #include "atlcomcli.h" // CComPtr etc.
-#include "comdef.h" // _com_error
 #include "Exceptions.h"
 
 class CDispatchWrapper

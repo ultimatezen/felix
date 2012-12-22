@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE( word_writer_test )
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "record.h"
-#include <boost/flyweight.hpp>
 
 namespace mem_engine
 {

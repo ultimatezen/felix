@@ -1,14 +1,7 @@
 #include "StdAfx.h"
-#include "Windows.h"
 #include "TranslationMemory.h"
-
-#include "ArmadilloStuff.h"
-
 #include "StringConversions.h"
-#include ".\translationmemory.h"
-
 #include "record_local.h"
-
 #include "output_device.h"
 #include "logging.h"
 #include "DemoException.h"

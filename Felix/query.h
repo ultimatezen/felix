@@ -1,17 +1,9 @@
 #pragma once
 
-#include "StringEx.h"			// string extensions
-#include "StringConversions.h"	// convert to/from wstrings/strings/tstrings
-#include "resource.h"			// string ids
-#include "ArmadilloStuff.h"		// get them crackers!
-
 #include "PropertiesDlg.h"
-
-#include "ColorRef.h"
 
 #include "search_match.h"
 #include "text_templates.h"
-#include "cpptempl.h"
 
 #define RES_INST _Module.GetResourceInstance()
 

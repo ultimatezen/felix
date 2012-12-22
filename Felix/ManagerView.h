@@ -3,7 +3,6 @@
 #include "view_interface.h"
 #include "FelixModelInterface.h"
 #include "TranslationMemory.h"
-#include "cpptempl.h"
 #include "search_match.h"
 
 namespace mgrview

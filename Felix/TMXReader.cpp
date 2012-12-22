@@ -10,7 +10,10 @@
 #include "logging.h"
 #include "record_local.h"
 #include "input_device_file.h"
-#include <boost/test/unit_test.hpp>
+
+#ifdef UNIT_TEST
+	#include <boost/test/unit_test.hpp>
+#endif
 
 using namespace mem_engine ;
 using namespace except;
@@ -754,6 +757,7 @@ namespace tmx_reader
 // =====================>
 
 #ifdef UNIT_TEST
+
 BOOST_AUTO_TEST_SUITE( test_txmStripTags )
 
 	BOOST_AUTO_TEST_CASE( TestSimple )

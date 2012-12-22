@@ -5,10 +5,8 @@
 #include "StdAfx.h"
 #include "data_importer.h"
 #include "File.h"
-#include <stack>
 
 #include "Exceptions.h"
-#include "ArmadilloStuff.h"
 
 #include "charset_info.h"	// convert lang ids to code pages
 #include "input_device_file.h"

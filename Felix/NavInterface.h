@@ -33,8 +33,6 @@ public:
 
 #ifdef _DEBUG
 
-#include <list>
-
 /**
  * @class CNavInterfaceDummy
  * @brief mock object for unit testing.

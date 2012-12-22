@@ -2,11 +2,11 @@
 #include "App2.h"
 #include "Memories.h"
 #include "query.h"
-#include "felix_model_fake.h"
-
-#include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
+
+#include "felix_model_fake.h"
+#include <boost/test/unit_test.hpp>
 
 // test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( TestComMemories )

@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "resource.h"
 #include "record.h"				// record_pointer
 #include "record_local.h"
 #include "MessageMapDefines.h"	// message handling enhancements
@@ -15,8 +14,6 @@
 #include "WideRichEdit.h"
 
 #include "UserStringDlg.h"
-#include "resource_string.h"
-#include "ColorRef.h"
 #include "reg_msg_filter.h"
 
 

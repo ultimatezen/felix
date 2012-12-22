@@ -9,11 +9,6 @@
 #error WIN32_IE must be 0x0500 or higher
 #endif
 
-#pragma warning( disable:4995 ) // #pragma deprecated
-#include <atlframe.h> // for CDialogResize<>
-#pragma warning( default:4995 ) // #pragma deprecated
-
-#include <atlctrls.h> // for member controls
 #include "Exceptions.h"			// CException
 #include "HtmlView.h"			// CHtmlView
 #include "atlcrack.h"			// message crackers

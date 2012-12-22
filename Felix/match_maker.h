@@ -14,7 +14,6 @@
 #include "MatchStringPairing.h"
 #include "distance.h"
 #include "segment.h"
-#include "stringex.h"
 
 namespace mem_engine
 {

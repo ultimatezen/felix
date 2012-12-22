@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "atlstr.h"
 #include "record.h"					// translation_record
 #include "data_converter.h"		// data conversion (eg to/from xml)
 
@@ -28,7 +27,6 @@
 #include "match_tester.h"
 #include "segment.h"
 #include "input_device.h"
-#include <boost/range/adaptor/map.hpp>
 
 bool is_vista_or_later() ;
 const CString get_load_failure_msg( const CString & file_name ) ;

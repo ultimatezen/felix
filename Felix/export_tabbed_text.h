@@ -1,9 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
 #include "record.h"
 #include "output_device.h"
 #include "TranslationMemory.h"

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "logging.h"
 
-// shell API support
-#include <shlobj.h>
 #include "Path.h"
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch

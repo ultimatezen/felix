@@ -5,11 +5,8 @@
 
 #pragma once
 
-#include "atlstr.h"
 #include "TranslationMemory.h"
 #include "data_importer.h"
-
-#include <map>
 
 #include "ProgressListener.h"
 #include "input_device.h"

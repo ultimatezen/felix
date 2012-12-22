@@ -5,15 +5,8 @@
 #include "stdafx.h"
 #include "Exceptions.h"				// the header file
 #include <dbghelp.h>
-#include <shellapi.h>
-#include <shlobj.h>
 #include "resource_string.h"
 #include "stringconversions.h"
-
-#include <boost/format.hpp>
-using boost::format;
-using boost::wformat ;
-typedef boost::basic_format< TCHAR > tformat;
 
 
 CString GenerateDump(EXCEPTION_POINTERS* pExceptionPointers)

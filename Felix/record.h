@@ -1,7 +1,6 @@
 #pragma once
 
 #include "StringEx.h"			// useful string stuff
-#include <map>					// map
 #include "MiscWrappers.h"		// CDate
 #include "StringConversions.h"	// string2long et al
 #include "tag_stripper.h"

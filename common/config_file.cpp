@@ -5,7 +5,7 @@
 #include "Path.h"
 #include "logging.h"
 #include "Exceptions.h"
-
+#include "comdef.h"
 
 CString get_config_filename(CString filename, output_device_ptr output)
 {
@@ -18,8 +18,8 @@ CString get_config_filename(CString filename, output_device_ptr output)
 	if (! SUCCEEDED(hr))
 	{
 		logging::log_error("Failed to get local app data folder") ;
-		except::CComException e(hr) ;
-		logging::log_exception(e) ;
+		_com_error ce(hr) ;
+		logging::log_exception(ce) ;
 		return CString();
 	}
 

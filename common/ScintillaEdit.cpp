@@ -9,7 +9,6 @@
 #include "File.h"
 #include "MultiLanguage.h"
 #include "textstream_reader.h"
-#include "ColorRef.h"
 #include "logging.h"
 
 using namespace except ;

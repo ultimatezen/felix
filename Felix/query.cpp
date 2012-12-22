@@ -3,7 +3,6 @@
 #include "query.h"
 #include "logging.h"
 #include "Path.h"
-#include "cpptempl.h"
 
 namespace mem_engine
 {

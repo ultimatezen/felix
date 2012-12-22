@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "HtmlView.h"
 #include "MsHtmHst.h"
-#include <atlhost.h>
 #include "Path.h"
 #include "logging.h"
 

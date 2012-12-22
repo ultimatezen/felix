@@ -162,13 +162,13 @@ extern CAddInModule _AtlModule;
 #endif 
 
 #ifdef UNIT_TEST
-#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
-#define SENSE(x) m_sensing_variable.push_back(std::string(x))
-#define VISIBLE_TO_TESTS public:
+	#define DECLARE_SENSING_VAR std::vector<std::string> m_sensing_variable
+	#define SENSE(x) m_sensing_variable.push_back(std::string(x))
+	#define VISIBLE_TO_TESTS public:
 #else
-#define DECLARE_SENSING_VAR
-#define SENSE(x) (void)0
-#define VISIBLE_TO_TESTS
+	#define DECLARE_SENSING_VAR
+	#define SENSE(x) (void)0
+	#define VISIBLE_TO_TESTS
 #endif
 
 #define VERSION "1.6"

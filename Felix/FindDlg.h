@@ -9,10 +9,6 @@
 
 #pragma once
 
-#include <atlbase.h>			// must be included before atlapp.h
-#include "atlapp.h"				// CMessageFilter
-								// must be included before atlmisc.h
-#include "resource.h"
 #include "record.h"				// for record_pointer
 #include "query.h"				// for search_params_ptr
 #include "WideRichEdit.h"		// for CWideRichEdit

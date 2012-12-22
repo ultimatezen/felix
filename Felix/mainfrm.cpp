@@ -10,8 +10,6 @@
 #include "StdAfx.h"
 #include "MainFrm.h"
 
-#include "resource.h"				// resource IDs
-
 #include "ConcordanceDialog.h"
 
 #include "aboutdlg.h"				// CAboutDlg
@@ -26,7 +24,6 @@
 
 #include "Path.h"
 #include "RegSettings.h"	// CWindowSettings & CReBarSettings
-#include "ColorRef.h"
 
 #include "TMXReader.h"		// CTMXReader
 #include "record_local.h"
@@ -51,8 +48,6 @@
 #include "memory_local.h"
 #include "memory_remote.h"
 
-#include "cpptempl.h"
-#include <shellapi.h>
 // file I/O
 #include "input_device_file.h"
 #include "output_device.h"
@@ -61,11 +56,9 @@
 #include "qcrules/allcaps_check.h"
 #include "qcrules/number_check.h"
 #include "qcrules/gloss_check.h"
-#include <boost/assign/std/vector.hpp> // for 'operator+=()'
 
 // placement
 #include "number_placement.h"
-#include "gloss_placement.h"
 
 #define ZOOM_KEY CComVariant(L"MainFrameZoom")
 
@@ -2280,9 +2273,7 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 
 	user_feedback( IDS_SETTING_PREFS );
 
-#ifdef UNIT_TEST
-	return 0L ;
-#else
+#ifndef UNIT_TEST
 	m_props->write_to_registry() ;
 
 	CPropertiesDlg props ;
@@ -2304,9 +2295,9 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 	set_record_username(user_name) ;
 
 	user_feedback( IDS_PREFS_REGISTERED ) ;
+#endif
 
 	return 0L ;
-#endif
 }
 
 

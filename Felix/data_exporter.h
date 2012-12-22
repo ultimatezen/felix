@@ -5,12 +5,8 @@
 
 #include "File.h"
 #include "TranslationMemory.h"
-#include <map>						// map word color numbers to html-style RGB tags
-#include <set>
-#include <stack>					// remember the code pages
 #include "rtf.h"					// rtf-style font table, font defs, etc.
 #include "resource.h"				// message ids
-#include "ArmadilloStuff.h"
 #include "background_processor.h"	// AKA poor-man's multithreading
 
 #include "ProgressListener.h"		// CProgressListener

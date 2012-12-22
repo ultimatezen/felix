@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 #include "StdAfx.h"
 #include "record.h"
-#include "resource.h"
 
 namespace mem_engine
 {

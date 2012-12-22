@@ -11,7 +11,6 @@
 
 #include "query.h"					// query structs
 #include "segment.h"				// CmpMaker
-#include <boost/regex.hpp>
 
 namespace mem_engine
 {
