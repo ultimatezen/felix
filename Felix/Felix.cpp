@@ -128,7 +128,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
  * Put main code into a subroutine to allow exceptions to be caught more easily.
  * 
  * \returns
- * int - success
+ * int - success: EXIT_SUCCESS on success, other value otherwise.
  */
 int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 {

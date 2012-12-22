@@ -1354,6 +1354,7 @@ LRESULT CMainFrame::on_view_search(  WindowsMessage &message )
 LRESULT CMainFrame::show_about_dialog(WindowsMessage &)
 {
 	SENSE("show_about_dialog") ;
+	logging::log_debug("Showing the About dialog.") ;
 
 #ifdef UNIT_TEST
 	return 0L ;
@@ -2327,9 +2328,11 @@ LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 	switch( m_appstate.m_preferred_gui_lang )
 	{
 	case LANG_JAPANESE :
+		logging::log_debug("Switching UI language to English.") ;
 		SetUILanguage( LANG_ENGLISH ) ;
 		break ;
 	case LANG_ENGLISH :
+		logging::log_debug("Switching UI language to Japanese.") ;
 		SetUILanguage( LANG_JAPANESE ) ;
 		break ;
 	default:
@@ -4679,6 +4682,7 @@ void CMainFrame::load_history()
 // Todo: restore background color preferences
 LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 {
+	logging::log_debug("Loading user preferences.") ;
 	// get the file name
 	open_file_dlg dialog ;
 
@@ -4721,6 +4725,7 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 
 LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 {
+	logging::log_debug("Saving user preferences.") ;
 	save_file_dlg dialog ;
 	dialog.set_prompt( R2T( IDS_SAVE_PREFS_TITLE ) ) ;
 

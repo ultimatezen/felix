@@ -138,9 +138,6 @@
     <ClCompile Include="..\common\Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\Exceptions_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExtraStringsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -950,6 +947,9 @@
     </ClCompile>
     <ClCompile Include="gloss_placement_test.cpp">
       <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Exceptions_test.cpp">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
