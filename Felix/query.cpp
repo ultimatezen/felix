@@ -34,18 +34,12 @@ const wstring felix_query::get_query_plain() const
 { 
 	return get_source_plain() ; 
 }
-
-void felix_query::set_query_plain ( const wstring source  ) 
-{ 
-	set_source_plain( source ) ; 
-}
-
 const wstring felix_query::get_query_rich() const 
 {
 	return get_source_rich()  ; 
 }
 
-void felix_query::set_query_rich( const wstring rich_source  ) 
+void felix_query::set_query( const wstring rich_source  ) 
 { 
 	set_source( rich_source ) ; 
 }
@@ -54,62 +48,44 @@ void felix_query::set_query_rich( const wstring rich_source  )
 
 const wstring felix_query::get_source_plain() const 
 { 
-	return m_params.m_source ; 
-}
-
-void felix_query::set_source_plain ( const wstring source  ) 
-{
-	m_params.m_source = source ; 
+	return m_params.get_source_plain() ; 
 }
 
 const wstring felix_query::get_source_rich() const 
 { 
-	return m_params.m_rich_source  ; 
+	return m_params.get_source_rich()  ; 
 }
 void felix_query::set_source ( const wstring rich_source  ) 
 {
-	m_params.m_rich_source = rich_source ; 
-	set_source_plain( strip_tags( rich_source ) ) ;
+	m_params.set_source(rich_source) ; 
 }
 
 // trans
 const wstring felix_query::get_trans_plain() const 
 { 
-	return m_params.m_trans ; 
+	return m_params.get_trans_plain() ; 
 }
-void felix_query::set_plain_trans ( const wstring trans  ) 
-{ 
-	m_params.m_trans = trans ; 
-}
-
 const wstring felix_query::get_trans_rich() const 
 { 
-	return m_params.m_rich_trans  ; 
+	return m_params.get_trans_rich()  ; 
 }
 void felix_query::set_trans ( const wstring rich_trans  ) 
 { 
-	m_params.m_rich_trans = rich_trans ; 
-	set_plain_trans( strip_tags( rich_trans ) ) ;
+	m_params.set_trans(rich_trans) ;
 }
 
 // context
 const wstring felix_query::get_context_plain() const 
 { 
-	return m_params.m_context ; 
+	return m_params.get_context_plain() ; 
 }
-void felix_query::set_plain_context ( const wstring context  ) 
-{ 
-	m_params.m_context = context ; 
-}
-
 const wstring felix_query::get_context_rich() const 
 { 
-	return m_params.m_rich_context  ; 
+	return m_params.get_context_rich()  ; 
 }
 void felix_query::set_context ( const wstring rich_context  ) 
 {
-	m_params.m_rich_context = rich_context ; 
-	set_plain_context( strip_tags( rich_context ) ) ;
+	m_params.set_context(rich_context) ;
 }
 
 // ====================
@@ -724,7 +700,54 @@ void search_query_params::internal_copy( const search_query_params &rhs )
 	m_show_marking			=	rhs.m_show_marking ;
 	m_place_numbers			=	rhs.m_place_numbers ;
 	m_place_gloss			=	rhs.m_place_gloss ;
+	m_place_rules			=	rhs.m_place_rules ;
 }
 
+const wstring search_query_params::get_source_plain() const
+{
+	return this->m_source ;
+}
 
+const wstring search_query_params::get_source_rich() const
+{
+	return this->m_rich_source  ;
+}
+
+void search_query_params::set_source( const wstring rich_source )
+{
+	this->m_rich_source = rich_source ; 
+	this->m_source = strip_tags( rich_source ) ;
+}
+
+const wstring search_query_params::get_trans_plain() const
+{
+	return this->m_trans ;
+}
+
+const wstring search_query_params::get_trans_rich() const
+{
+	return this->m_rich_trans  ;
+}
+
+void search_query_params::set_trans( const wstring rich_trans )
+{
+	this->m_rich_trans = rich_trans ; 
+	this->m_trans = strip_tags( rich_trans ) ;
+}
+
+const wstring search_query_params::get_context_plain() const
+{
+	return this->m_context ;
+}
+
+const wstring search_query_params::get_context_rich() const
+{
+	return this->m_rich_context  ;
+}
+
+void search_query_params::set_context( const wstring rich_context )
+{
+	this->m_rich_context = rich_context ; 
+	this->m_context = strip_tags( rich_context ) ;
+}
 }

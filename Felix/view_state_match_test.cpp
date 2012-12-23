@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 
 		translation_match_query trans_matches; 
 		wstring query(L"query") ;
-		trans_matches.set_query_rich(query) ;
+		trans_matches.set_query(query) ;
 		state.set_search_matches(&trans_matches) ;
 
 		search_match_ptr match = state.get_current_match() ;
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 
 		translation_match_query trans_matches; 
 		wstring query(L"query") ;
-		trans_matches.set_query_rich(query) ;
+		trans_matches.set_query(query) ;
 		state.set_search_matches(&trans_matches) ;
 
 		state.on_user_edit() ;
@@ -553,7 +553,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 
 		translation_match_query trans_matches; 
 		wstring query(L"query") ;
-		trans_matches.set_query_rich(query) ;
+		trans_matches.set_query(query) ;
 		state.set_search_matches(&trans_matches) ;
 
 		search_match_ptr match = state.get_current_match() ;
@@ -614,7 +614,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 
 		translation_match_query trans_matches; 
 		wstring query(L"query") ;
-		trans_matches.set_query_rich(query) ;
+		trans_matches.set_query(query) ;
 		state.set_search_matches(&trans_matches) ;
 
 		state.on_user_edit() ;

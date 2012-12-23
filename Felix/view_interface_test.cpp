@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE( test_view_interface )
 	{
 		frame_view vi ;
 		translation_match_query matches ;
-		matches.set_query_rich(L"spam") ;
+		matches.set_query(L"spam") ;
 
 		search_match_ptr match = search_match_ptr(new search_match) ;
 		record_pointer record = record_pointer(new record_local) ;
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( test_view_interface )
 	{
 		frame_view vi ;
 		mem_engine::translation_match_query matches ;
-		matches.set_query_rich(L"spam") ;
+		matches.set_query(L"spam") ;
 
 		mem_engine::record_pointer rec = vi.get_match_record(&matches) ;
 

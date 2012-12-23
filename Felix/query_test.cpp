@@ -50,9 +50,9 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 		wstring actual(query.get_query_plain()) ;
 		BOOST_CHECK_EQUAL(wstring(), actual) ;
 
-		wstring text = L"spam" ;
+		wstring text = L"<b>spam</b>" ;
 
-		query.set_query_plain(text) ;
+		query.set_query(text) ;
 		actual = query.get_query_plain() ;
 		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 
 		wstring text = L"<b>spam</b>" ;
 
-		query.set_query_rich(text) ;
+		query.set_query(text) ;
 		actual = query.get_query_rich() ;
 		BOOST_CHECK_EQUAL(wstring(L"<b>spam</b>"), actual) ;
 	}
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_SUITE( test_search_query_mainframe )
 
 		wstring text = L"<b>spam</b>" ;
 
-		query.set_query_rich(text) ;
+		query.set_query(text) ;
 		wstring actual = query.get_query_plain() ;
 		BOOST_CHECK_EQUAL(wstring(L"spam"), actual) ;
 	}

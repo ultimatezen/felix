@@ -31,6 +31,7 @@ struct search_query_params
 
 	bool				m_place_numbers ;
 	bool				m_place_gloss ;
+	bool				m_place_rules ;
 
 	int					m_match_algo ;
 	
@@ -51,7 +52,8 @@ struct search_query_params
 			m_match_algo( IDC_ALGO_CHAR ),
 			m_show_marking(true),
 			m_place_numbers(false),
-			m_place_gloss(false)
+			m_place_gloss(false),
+			m_place_rules(false)
 	{}
 
 	search_query_params( const search_query_params &rhs );
@@ -61,6 +63,24 @@ struct search_query_params
 		return *this ;
 	}
 	void internal_copy( const search_query_params &rhs );
+
+	// source
+
+	const wstring get_source_plain() const;
+	const wstring get_source_rich() const;
+	void set_source ( const wstring rich_source  );
+
+	// trans
+	const wstring get_trans_plain() const;
+	const wstring get_trans_rich() const;
+	void set_trans ( const wstring rich_trans  );
+
+	// context
+	const wstring get_context_plain() const;
+	const wstring get_context_rich() const;
+	void set_context ( const wstring rich_context  );
+
+
 } ;
 
 /** struct felix_query. */
@@ -99,28 +119,24 @@ struct felix_query
 	const wstring get_query_plain() const ;
 	const wstring get_query_rich() const ;
 
-	void set_query_plain ( const wstring source  ) ;
-	void set_query_rich ( const wstring rich_source  ) ;
+	void set_query( const wstring rich_source  ) ;
 
 	// source
 	const wstring get_source_plain() const ;
 	const wstring get_source_rich() const ;
 
-	void set_source_plain ( const wstring source  ) ;
 	void set_source ( const wstring rich_source  ) ;
 
 	// trans
 	const wstring get_trans_plain() const ;
 	const wstring get_trans_rich() const ;
 
-	void set_plain_trans ( const wstring trans  ) ;
 	void set_trans ( const wstring rich_trans  ) ;
 
 	// context
 	const wstring get_context_plain() const ;
 	const wstring get_context_rich() const ;
 
-	void set_plain_context ( const wstring context  ) ;
 	void set_context ( const wstring rich_context  ) ;
 
 	// ====================

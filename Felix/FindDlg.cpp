@@ -121,8 +121,8 @@ LRESULT CFindDlg::OnInitDialog( )
 	// ===========================
 	// set the text of the edit boxes
 	// ===========================
-	m_source_edit.SetText( m_params.m_rich_source ) ;
-	if ( m_params.m_rich_source.empty() ) 
+	m_source_edit.SetText( m_params.get_source_rich() ) ;
+	if ( m_params.get_source_rich().empty() ) 
 	{
 		m_source_edit.SetSel(0, 0) ;
 	}
@@ -199,16 +199,13 @@ LRESULT CFindDlg::OnSearch( )
 	m_record = record_pointer(new record_local()) ;
 
 	// source
-	m_params.m_rich_source = m_source_edit.GetText() ;
-	m_params.m_source = m_source_edit.GetText() ;
+	m_params.set_source(m_source_edit.GetText()) ;
 
 	// trans
-	m_params.m_rich_trans = m_trans_edit.GetText() ;
-	m_params.m_trans = m_trans_edit.GetText() ;
+	m_params.set_trans(m_trans_edit.GetText()) ;
 
 	// context
-	m_params.m_rich_context = m_context_edit.GetText() ;
-	m_params.m_context = m_context_edit.GetText() ;
+	m_params.set_context(m_context_edit.GetText()) ;
 
 	// various search flags
 	// !! changes BOOL to bool

@@ -871,6 +871,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 
 		source->m_mem_props.m_data.m_place_numbers = TRUE ;
 		source->m_mem_props.m_data.m_place_gloss = TRUE ;
+		source->m_mem_props.m_data.m_place_rules = TRUE ;
 
 		frame->init_lookup_properties(source, dest) ;
 		BOOST_CHECK(dest.m_ignore_case) ;
@@ -882,6 +883,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 
 		BOOST_CHECK(dest.m_place_numbers) ;
 		BOOST_CHECK(dest.m_place_gloss) ;
+		BOOST_CHECK(dest.m_place_rules) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_off)

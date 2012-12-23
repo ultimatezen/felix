@@ -672,7 +672,7 @@ void CGlossaryDialog::config_matches_for_gloss_lookup(const std::wstring& query_
 	m_search_matches.m_params.m_ignore_hira_kata =	m_properties_gloss->get_m_ignore_hir_kat() ;
 
 	// source
-	m_search_matches.set_query_rich(query_text) ;
+	m_search_matches.set_query(query_text) ;
 }
 
 
@@ -1404,7 +1404,7 @@ void CGlossaryDialog::prep_concordance_search(const std::wstring& query_string)
 
 	// this will hold our matches
 	m_concordance_matches.clear() ;
-	m_concordance_matches.set_query_rich( query_string ) ;
+	m_concordance_matches.set_query( query_string ) ;
 
 	config_concordance_search_settings();
 }

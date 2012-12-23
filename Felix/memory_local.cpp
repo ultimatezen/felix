@@ -474,7 +474,7 @@ namespace mem_engine
 		Distance distance ;
 		const double min_score = m_match_maker.get_minimum_score() ;
 		distance.set_minscore(min_score) ;
-		Segment haystack(&m_cmp_maker, params.m_rich_source) ;
+		Segment haystack(&m_cmp_maker, params.get_source_rich()) ;
 
 		search_match_ptr match(this->make_match()) ;
 		foreach(record_pointer record, m_records | ad::map_values)

@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		main_frame.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		main_frame.m_trans_matches.set_query_rich(query) ;
+		main_frame.m_trans_matches.set_query(query) ;
 
 		search_match_ptr match = main_frame.get_current_match() ;
 
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		main_frame.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		main_frame.m_search_matches.set_query_rich(query) ;
+		main_frame.m_search_matches.set_query(query) ;
 
 		search_match_ptr match = main_frame.get_current_match() ;
 
@@ -166,7 +166,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 		main_frame.set_display_state(CCommonWindowFunctionality::TRANS_REVIEW_STATE) ;
 
 		wstring query(L"query") ;
-		main_frame.m_trans_matches.set_query_rich(query) ;
+		main_frame.m_trans_matches.set_query(query) ;
 
 		search_match_ptr match = main_frame.get_current_match() ;
 
@@ -320,7 +320,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		gloss_dlg.m_search_matches.set_query_rich(query) ;
+		gloss_dlg.m_search_matches.set_query(query) ;
 
 		search_match_ptr match = gloss_dlg.get_current_match() ;
 
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
-		gloss_dlg.m_concordance_matches.set_query_rich(query) ;
+		gloss_dlg.m_concordance_matches.set_query(query) ;
 
 		search_match_ptr match = gloss_dlg.get_current_match() ;
 

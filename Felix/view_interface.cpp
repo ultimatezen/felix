@@ -552,7 +552,7 @@ void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories,
 			}
 			else if ( tags.is_query_tag(id) )	
 			{
-				matches->set_query_rich( BSTR2wstring(element->innerHTML) ) ;
+				matches->set_query( BSTR2wstring(element->innerHTML) ) ;
 			}
 			else
 			{

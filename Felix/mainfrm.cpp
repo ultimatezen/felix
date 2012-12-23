@@ -1472,6 +1472,7 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 
 	trans_match_container placed_numbers ;
 	trans_match_container placed_gloss ;
+	trans_match_container placed_rules;
 
 	foreach(search_match_ptr match, matches)
 	{
@@ -1485,11 +1486,15 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 			{
 				check_placement_gloss(placed_gloss, match);
 			}
+			if (params.m_place_rules)
+			{
+				check_placement_rules(placed_rules, match);
+			}
 		}
 	}
 
 	// Now place the gloss in the number matches.
-	// This will get unweildy with too many more types of
+	// This will get unwieldy with too many more types of
 	// placement...
 	// Got to redo this logic!
 	foreach(search_match_ptr match, placed_numbers)
@@ -1506,6 +1511,10 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 	{
 		matches.insert(match) ;
 	}
+	foreach(search_match_ptr match, placed_rules)
+	{
+		matches.insert(match) ;
+	}
 }
 
 /** Initializes the transaction matches for a new lookup.
@@ -1513,7 +1522,7 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 void CMainFrame::init_trans_matches_for_lookup( const wstring  query )
 {
 	m_trans_matches.clear() ;
-	m_trans_matches.set_query_rich( query ) ;
+	m_trans_matches.set_query( query ) ;
 	init_lookup_properties(m_props, m_trans_matches.m_params);
 }
 
@@ -1704,13 +1713,13 @@ bool CMainFrame::set_translation( const wstring translation)
 */
 bool CMainFrame::register_trans_to_glossary(const wstring trans)
 {
-	if ( m_trans_matches.m_params.m_rich_source.empty() )
+	if ( m_trans_matches.m_params.get_source_rich().empty() )
 	{
 		MessageBox( resource_string( IDS_NO_QUERIES ), resource_string( IDS_INVALID_ACTION ), MB_OK | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
 		return false ;
 	}
 	record_pointer record ;
-	record->set_source( m_trans_matches.m_params.m_rich_source ) ;
+	record->set_source( m_trans_matches.m_params.get_source_rich() ) ;
 	record->set_trans( trans ) ;
 	record->create() ;
 
@@ -1759,7 +1768,7 @@ bool CMainFrame::get_concordances(const wstring query_string )
 
 	// this will hold our matches
 	m_search_matches.clear() ;
-	m_search_matches.set_query_rich( query_string ) ;
+	m_search_matches.set_query( query_string ) ;
 
 	m_search_matches.m_params.m_ignore_case = true ;
 	m_search_matches.m_params.m_ignore_width =		!! m_props->m_gloss_props.m_data.m_ignore_width ;
@@ -2778,7 +2787,7 @@ bool CMainFrame::correct_trans(const wstring trans)
 
 		current->set_record(record);
 		current->set_values_to_record() ;
-		m_trans_matches.set_query_rich(trans) ;
+		m_trans_matches.set_query(trans) ;
 
 		// show it!
 		set_display_state( MATCH_DISPLAY_STATE ) ;
@@ -4276,6 +4285,7 @@ void CMainFrame::init_lookup_properties( const app_props::props_ptr source, sear
 
 	dest.m_place_numbers = !! source->m_mem_props.m_data.m_place_numbers ;
 	dest.m_place_gloss = !! source->m_mem_props.m_data.m_place_gloss ;
+	dest.m_place_rules = !! source->m_mem_props.m_data.m_place_rules ;
 }
 
 //! Tell the user that we found x matches for the search string.
@@ -4337,6 +4347,41 @@ void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches,
 }
 
 
+void CMainFrame::add_placement_match( search_match_ptr match, trans_pair &trans_segs, pairings_t & pairings, trans_match_container &PlacedMatches )
+{
+	search_match_ptr new_match = create_placement_match(match, trans_segs.first);
+
+	set_placement_penalty(new_match, pairings, match->get_formatting_penalty());
+
+	wstring newsource = get_new_source(pairings);
+
+	new_match->get_record()->set_source(newsource) ;
+
+	// new query/source
+	pairing_query_source(new_match, pairings, trans_segs.second);
+
+	PlacedMatches.insert( new_match ) ;
+}
+void CMainFrame::set_placement_penalty( search_match_ptr new_match, pairings_t & pairings, double format_penalty )
+{
+	const double PLACEMENT_PENALTY = 0.00001 ;
+	new_match->set_base_score( calc_score_gloss(pairings) - PLACEMENT_PENALTY) ;
+	new_match->set_formatting_penalty( format_penalty ) ;
+}
+
+wstring CMainFrame::get_new_source( pairings_t & pairings )
+{
+	// This hack obliterates our formatting info
+	wstring newsource ;
+	foreach(pairing_entity entity, pairings)
+	{
+		if(entity.source())
+		{
+			newsource += entity.source() ;
+		}
+	}
+	return newsource ;
+}
 void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches, 
 	search_match_ptr match )
 {
@@ -4359,33 +4404,38 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 
 	if ( placer.place(pairings, trans_segs, holes) )
 	{
-		search_match_ptr new_match = create_placement_match(match, trans_segs.first);
-
-		const double PLACEMENT_PENALTY = 0.00001 ;
-		new_match->set_base_score( calc_score_gloss(pairings) - PLACEMENT_PENALTY) ;
-		new_match->set_formatting_penalty( match->get_formatting_penalty() ) ;
-
-		// This hack obliterates our formatting info
-		wstring newsource ;
-		foreach(pairing_entity entity, pairings)
-		{
-			if(entity.source())
-			{
-				newsource += entity.source() ;
-			}
-		}
-		new_match->get_record()->set_source(newsource) ;
-
-		// new query/source
-		pairing_query_source(new_match, pairings, trans_segs.second);
-
-		PlacedMatches.insert( new_match ) ;
+		add_placement_match(match, trans_segs, pairings, PlacedMatches);
 	}
 
 	return ;
 }
 
+void CMainFrame::check_placement_rules( trans_match_container &PlacedMatches, search_match_ptr match)
+{
 
+	record_pointer rec = match->get_record() ;
+	const wstring trans = rec->get_trans_plain() ;
+	wstring after = rec->get_trans_plain() ;
+
+	pairings_t &pairings = match->match_pairing().get() ;
+
+	placement::rule_placer placer(m_rules) ;
+	trans_pair trans_segs( trans, trans ) ;
+
+	hole_pair_t holes ;
+	hole_finder finder ;
+	if (! finder.find_hole(pairings, holes))
+	{
+		return ;
+	}
+
+	if ( placer.place(pairings, trans_segs, holes) )
+	{
+		add_placement_match(match, trans_segs, pairings, PlacedMatches);
+	}
+
+	return ;
+}
 mem_engine::search_match_ptr CMainFrame::create_placement_match( search_match_ptr match, const wstring &trans ) const
 {
 	search_match_ptr new_match(new search_match) ;
@@ -5291,8 +5341,7 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 		params.m_ignore_case = !! m_props->m_gloss_props.m_data.m_ignore_case ;
 		params.m_ignore_width = !! m_props->m_gloss_props.m_data.m_ignore_width ;
 		params.m_ignore_hira_kata = !! m_props->m_gloss_props.m_data.m_ignore_hir_kat ;
-		params.m_rich_source = record->get_source_rich() ;
-		params.m_source = record->get_source_plain() ;
+		params.set_source(record->get_source_rich()) ;
 
 		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model() ;
 

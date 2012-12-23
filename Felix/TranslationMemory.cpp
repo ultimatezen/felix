@@ -89,7 +89,7 @@ namespace mem_engine
 
 		set_cmp_params(params);
 		const double min_score = m_match_maker.get_minimum_score() ;
-		Segment query(&m_cmp_maker, params.m_rich_source) ;
+		Segment query(&m_cmp_maker, params.get_source_rich()) ;
 
 		int match_algo = params.m_match_algo ;
 		if ( match_algo == IDC_ALGO_AUTO )
@@ -98,7 +98,7 @@ namespace mem_engine
 		}
 
 		trans_set candidates ;
-		this->get_match_candidates(candidates, params.m_rich_source, min_score) ;
+		this->get_match_candidates(candidates, params.get_source_rich(), min_score) ;
 
 		// check each of the records for a match
 		foreach ( record_pointer record, candidates )
@@ -140,7 +140,7 @@ namespace mem_engine
 
 			set_cmp_params(params);
 			const double min_score = m_match_maker.get_minimum_score() ;
-			Segment query(&m_cmp_maker, params.m_rich_source) ;
+			Segment query(&m_cmp_maker, params.get_source_rich()) ;
 
 			int	match_algo = params.m_match_algo ;
 			if ( match_algo == IDC_ALGO_AUTO )
@@ -149,7 +149,7 @@ namespace mem_engine
 			}
 
 			trans_set candidates ;
-			this->get_rmatch_candidates(candidates, params.m_rich_source, min_score) ;
+			this->get_rmatch_candidates(candidates, params.get_source_rich(), min_score) ;
 
 			foreach ( record_pointer record, candidates )
 			{

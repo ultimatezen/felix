@@ -317,6 +317,9 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		rules.get_matches(matches, text) ;
 		BOOST_CHECK(matches.empty()) ;
 	}
+
+
+
 	BOOST_AUTO_TEST_CASE(get_matches_one)
 	{
 		rp::regex_rules rules ;
@@ -385,6 +388,26 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 
 		BOOST_CHECK_EQUAL(wstring(L"x"), markup->GetSource()) ;
 		BOOST_CHECK_EQUAL(wstring(L"z"), markup->GetTrans()) ;
+	}
+
+	// num_hits
+	BOOST_AUTO_TEST_CASE(test_num_hits_0)
+	{
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+		BOOST_CHECK_EQUAL(0u, placer.num_hits(L"foo", L"bar baz bar")) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_num_hits_1)
+	{
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+		BOOST_CHECK_EQUAL(1u, placer.num_hits(L"foo", L"bar foo bar")) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_num_hits_3)
+	{
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+		BOOST_CHECK_EQUAL(3u, placer.num_hits(L"foo", L"bar foofoo bar foo")) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

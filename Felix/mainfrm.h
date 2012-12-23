@@ -43,6 +43,11 @@
 CString get_help_file_path( CString path ) ;
 CString get_docs_path() ;
 
+using mem_engine::search_match_ptr ;
+using mem_engine::placement::trans_pair ;
+using mem_engine::placement::pairings_t ;
+using mem_engine::trans_match_container ;
+
 enum
 {
 	USER_LOOKUP_SOURCE = 1,
@@ -339,7 +344,7 @@ public:
 	LRESULT on_view_status_bar(WindowsMessage &message);
 	LRESULT on_view_match(WindowsMessage &message) ;
 
-	void recalculate_match( mem_engine::search_match_ptr match, mem_engine::search_query_params &params );
+	void recalculate_match( search_match_ptr match, mem_engine::search_query_params &params );
 	LRESULT on_view_search(WindowsMessage &message) ;
 	//LRESULT OnViewReg( ) ;
 	LRESULT on_view_min_begin(WindowsMessage &message);
@@ -400,7 +405,7 @@ public:
 	LRESULT on_user_delete( size_t num );
 
 	void remove_record_from_glossaries(record_type rec);
-	void remove_match_record( mem_engine::search_match_ptr match );
+	void remove_match_record( search_match_ptr match );
 	void remove_record_from_mem_id( record_type rec, int mem_id );
 	void deleted_new_record_feedback();
 	LRESULT on_user_edit(WindowsMessage &message);
@@ -611,19 +616,24 @@ public:
 	void set_bg_color_if_needed();
 
     virtual void addToMessageLoop();
-	void get_matches(mem_engine::trans_match_container &matches, mem_engine::search_query_params &params) ;
+	void get_matches(trans_match_container &matches, mem_engine::search_query_params &params) ;
 
-	void check_placement_numbers( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
-	void check_placement_gloss( mem_engine::trans_match_container &PlacedMatches, mem_engine::search_match_ptr match);
+	void check_placement_numbers( trans_match_container &PlacedMatches, search_match_ptr match);
+	void check_placement_gloss( trans_match_container &PlacedMatches, search_match_ptr match);
 
-	mem_engine::search_match_ptr create_placement_match( mem_engine::search_match_ptr match, const wstring &trans ) const ;
-	void pairing_query_source( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, const wstring after ) const ;
+	void add_placement_match( search_match_ptr match, trans_pair &trans_segs, pairings_t & pairings, trans_match_container &PlacedMatches );
+	void set_placement_penalty( search_match_ptr new_match, pairings_t & pairings, double format_penalty );
+	void check_placement_rules( trans_match_container &PlacedMatches, search_match_ptr match );
+
+	wstring get_new_source( pairings_t & pairings );
+	search_match_ptr create_placement_match( search_match_ptr match, const wstring &trans ) const ;
+	void pairing_query_source( search_match_ptr new_match, pairings_t &pairings, const wstring after ) const ;
 	// placement score
-	void placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, double fmt_penalty ) const ;
+	void placement_score( search_match_ptr new_match, pairings_t &pairings, double fmt_penalty ) const ;
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 
 	// the current match
-	mem_engine::search_match_ptr get_current_match();
+	search_match_ptr get_current_match();
 
 	mem_engine::felix_query *get_current_matches()
 	{
@@ -638,7 +648,7 @@ public:
 		return NULL ;
 	}
 
-	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false ) ;
+	void redo_lookup( search_match_ptr match, bool do_gloss = false ) ;
 	edit_record_dlg_ptr get_editor();
 	bool is_short_format();
 	bool is_single_page();

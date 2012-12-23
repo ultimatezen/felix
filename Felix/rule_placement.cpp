@@ -11,6 +11,7 @@ namespace placement
 	// regex_rule class
 	//////////////////////////////////////////////////////////////////////////
 
+	// Gets all of the substrings that match this rule.
 	bool regex_rule::get_matches( const wstring haystack, std::vector<wstring> &matches ) const
 	{
 		boost::wsmatch what ;
@@ -24,6 +25,7 @@ namespace placement
 		return ! matches.empty();
 	}
 
+	// Calculates the replacement strings for the matches found in get_matches.
 	bool regex_rule::get_replacements( const std::vector<wstring> &matches, std::vector<repl_t> &replacements ) const
 	{
 		foreach(wstring m, matches)
@@ -102,6 +104,8 @@ namespace placement
 		}
 	}
 
+	// Creates a new match with the source and trans strings.
+	// This entails creating the wrapped record object, and then setting the record values to the match.
 	mem_engine::search_match_ptr regex_rules::make_match( const wstring source, const wstring trans )
 	{
 		record_pointer rec(new record_local) ;
@@ -120,16 +124,8 @@ namespace placement
 	//////////////////////////////////////////////////////////////////////////
 
 	// Try to place the glossary match in our source/trans from the query.
-	bool rule_placer::place( pairings_t &pairings, std::pair< wstring, wstring > &trans, hole_pair_t &holes )
+	bool rule_placer::place( pairings_t &pairings, repl_t &trans, hole_pair_t &holes )
 	{
-
-		/* First, see if it's a valid placement.
-			* Got to:
-			*	1. Have a gloss match for the query hole.
-			*	2. Have a gloss match for the source hole.
-			*	3. Have a match between the gloss trans and the source translation.
-			*/
-
 		search_match_container q_matches ;
 		search_match_container s_matches ;
 		if (! is_valid_placement(holes, pairings, trans.first, q_matches, s_matches))
@@ -174,7 +170,7 @@ namespace placement
 	size_t rule_placer::num_hits( const wstring needle, const wstring haystack ) const
 	{
 		size_t count = 0 ;
-		for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos+1))
+		for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos + needle.size()))
 		{
 			++count ;
 		}
@@ -211,7 +207,7 @@ namespace placement
 	}
 
 	// Replace the translated term in the translation
-	void rule_placer::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
+	void rule_placer::replace_trans_term( const wstring qword, const wstring trans_plain, repl_t &trans ) const
 	{
 		const static wstring placement_fmt( L"<span class=\"placement\">%s</span>" ) ;
 		wstring replacement = ( boost::wformat( placement_fmt ) % qword ).str() ;
@@ -223,7 +219,8 @@ namespace placement
 	}
 
 	// Gathers up the matches for the query and source, and determines whether this is a valid placement.
-	bool rule_placer::is_valid_placement( const hole_pair_t &holes, const pairings_t & pairings, const wstring & trans, search_match_container &q_matches, search_match_container &s_matches )
+	bool rule_placer::is_valid_placement( const hole_pair_t &holes, const pairings_t & pairings, 
+								const wstring & trans, search_match_container &q_matches, search_match_container &s_matches)
 	{
 		const wstring query = holes.rhs.get_str_query(pairings) ;
 		if(m_rules.get_matches(q_matches, query) == 0)
