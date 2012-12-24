@@ -30,7 +30,7 @@ namespace mem_engine
 			}
 
 			// It's a valid placement, so create the new pairings
-			create_new_pairings(pairings, holes);
+			create_new_pairings(pairings, holes.lhs);
 
 			// Now, do the replacement in the translation segment.
 			auto qmatch = *q_matches.begin() ;
@@ -84,16 +84,16 @@ namespace mem_engine
 		}
 
 		// Redo the pairings based on the placement.
-		void gloss_placer::create_new_pairings( pairings_t &pairings, const hole_pair_t &holes ) const
+		void gloss_placer::create_new_pairings( pairings_t &pairings, const hole_t &hole ) const
 		{
-			const wstring query = holes.lhs.get_str_query(pairings) ;
+			const wstring query = hole.get_str_query(pairings) ;
 			std::vector<pairing_t> pairvec ;
 			pairvec.assign(pairings.begin(), pairings.end()) ;
 
 			pairings.clear() ;
 
 			// start
-			for(size_t i=0 ; i < holes.lhs.start ; ++i)
+			for(size_t i=0 ; i < hole.start ; ++i)
 			{
 				pairings.push_back(pairvec[i]) ;
 			}
@@ -105,7 +105,7 @@ namespace mem_engine
 			}
 
 			// end
-			for(size_t i=holes.lhs.start + holes.lhs.len ; i < pairvec.size() ; ++i)
+			for(size_t i=hole.start + hole.len ; i < pairvec.size() ; ++i)
 			{
 				pairings.push_back(pairvec[i]) ;
 			}

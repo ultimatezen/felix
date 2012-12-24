@@ -410,6 +410,45 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		BOOST_CHECK_EQUAL(3u, placer.num_hits(L"foo", L"bar foofoo bar foo")) ;
 	}
 
+
+	// create_new_pairings
+	BOOST_AUTO_TEST_CASE(create_new_pairings_xx_yy)
+	{
+		rp::hole_finder finder ;
+		rp::pairings_t pairings ;
+		pairings.push_back(rp::pairing_t(L'a', MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'a', MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'y', NOMATCH, L'x')) ;
+		pairings.push_back(rp::pairing_t(L'y', NOMATCH, L'x')) ;
+		pairings.push_back(rp::pairing_t(L'b', MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'b', MATCH, L'b')) ;
+
+		placement::hole_pair_t holes ;
+		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+		placer.create_new_pairings(pairings, holes.lhs) ;
+
+		std::vector<pairing_t> pairvec ;
+		pairvec.assign(pairings.begin(), pairings.end()) ;
+
+		BOOST_CHECK_EQUAL(pairvec[0].source(), L'a') ;
+		BOOST_CHECK_EQUAL(pairvec[1].source(), L'a') ;
+		BOOST_CHECK_EQUAL(pairvec[2].source(), L'x') ;
+		BOOST_CHECK_EQUAL(pairvec[3].source(), L'x') ;
+		BOOST_CHECK_EQUAL(pairvec[4].source(), L'b') ;
+		BOOST_CHECK_EQUAL(pairvec[5].source(), L'b') ;
+
+		BOOST_CHECK_EQUAL(pairvec[0].query(), L'a') ;
+		BOOST_CHECK_EQUAL(pairvec[1].query(), L'a') ;
+		BOOST_CHECK_EQUAL(pairvec[2].query(), L'x') ;
+		BOOST_CHECK_EQUAL(pairvec[3].query(), L'x') ;
+		BOOST_CHECK_EQUAL(pairvec[4].query(), L'b') ;
+		BOOST_CHECK_EQUAL(pairvec[5].query(), L'b') ;
+
+		BOOST_CHECK_EQUAL(pairvec[2].match_type(), PLACEMENT) ;
+	}
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

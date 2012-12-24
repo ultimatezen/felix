@@ -187,56 +187,27 @@ public:
 	}
 	catch ( except::CSWException &sw_e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - Structured Windows Exception") ;
-		logging::log_exception(sw_e) ;
-		CString language = L"English" ;
-		const CString lang_code = resource_string(IDS_LANG_CODE) ;
-		if(lang_code == L"jp")
-		{
-			language = L"Japanese" ;
-		}
-		logging::send_report(language, sw_e.get_filename()) ;
-		return FALSE ;
+		return this->handle_sw_exception(sw_e, _T("Register Glossary Dialog")) ;
 	} 
 	catch ( _com_error &e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - COM Exception") ;
-		logging::log_exception(e) ;
-		CString fail_msg( R2T( IDS_MSG_ACTION_FAILED ) ) ; 
-		fail_msg += _T(": COM ERROR") ;
-		return handle_exception( e, fail_msg ) ; 
+		return handle_exception( e, _T("Register Glossary Dialog - COM Exception") ) ; 
 	} 
 	catch ( except::CComException &e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - Application COM Exception") ;
-		logging::log_exception(e) ;
-		CString fail_msg( R2T( IDS_MSG_ACTION_FAILED ) ) ; 
-		fail_msg += _T(": COM EXCEPTION") ;
-		return handle_exception( e, fail_msg ) ;
+		return handle_exception( e, _T("Register Glossary Dialog - Application COM Exception") ) ;
 	} 
 	catch ( except::CWinException &e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - Windows Exception") ;
-		logging::log_exception(e) ;
-		CString fail_msg( R2T( IDS_MSG_ACTION_FAILED ) ) ; 
-		fail_msg += _T(": WINDOWS ERROR") ;
-		return handle_exception( e, fail_msg ) ;
+		return handle_exception( e, _T("Register Glossary Dialog - Windows Exception") ) ;
 	} 
 	catch ( except::CException &e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - Application Exception") ;
-		logging::log_exception(e) ;
-		CString fail_msg( R2T( IDS_MSG_ACTION_FAILED ) ) ; 
-		fail_msg += _T(": EXCEPTION") ;
-		return handle_exception( e, fail_msg ) ; 
+		return handle_exception( e, _T("Register Glossary Dialog - Application Exception") ) ; 
 	} 
 	catch ( std::exception &e ) 
 	{ 
-		logging::log_error("Register Gloss Dlg - C++ Library Exception") ;
-		logging::log_error(e.what()) ;
-		CString fail_msg( R2T( IDS_MSG_ACTION_FAILED ) ) ; 
-		fail_msg += _T(": RUNTIME ERROR") ;
-		return handle_exception( e, fail_msg ) ; 
+		return handle_exception( e, _T("Register Glossary Dialog -  C++ Library Exception") ) ; 
 	}
 	END_MSG_MAP()
 };

@@ -82,12 +82,6 @@ class WordFont : public WordObject< WordFont, word_font_ptr >
 	typedef WordObject< WordFont, word_font_ptr > base_object ;
 public:
 	_bstr_t get_face();
-	enum VERT_ALIGNMENT
-	{
-		VA_BASELINE,
-		VA_SUBSCRIPT,
-		VA_SUPERSCRIPT
-	};
 
 	void set_face( const wstring &face );
 	
