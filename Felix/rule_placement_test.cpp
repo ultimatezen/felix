@@ -416,12 +416,12 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 	{
 		rp::hole_finder finder ;
 		rp::pairings_t pairings ;
-		pairings.push_back(rp::pairing_t(L'a', MATCH, L'a')) ;
-		pairings.push_back(rp::pairing_t(L'a', MATCH, L'a')) ;
-		pairings.push_back(rp::pairing_t(L'y', NOMATCH, L'x')) ;
-		pairings.push_back(rp::pairing_t(L'y', NOMATCH, L'x')) ;
-		pairings.push_back(rp::pairing_t(L'b', MATCH, L'b')) ;
-		pairings.push_back(rp::pairing_t(L'b', MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'y', rp::NOMATCH, L'x')) ;
+		pairings.push_back(rp::pairing_t(L'y', rp::NOMATCH, L'x')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
 
 		placement::hole_pair_t holes ;
 		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
@@ -430,7 +430,7 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		rp::rule_placer placer(rules) ;
 		placer.create_new_pairings(pairings, holes.lhs) ;
 
-		std::vector<pairing_t> pairvec ;
+		std::vector<rp::pairing_t> pairvec ;
 		pairvec.assign(pairings.begin(), pairings.end()) ;
 
 		BOOST_CHECK_EQUAL(pairvec[0].source(), L'a') ;
@@ -447,7 +447,7 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		BOOST_CHECK_EQUAL(pairvec[4].query(), L'b') ;
 		BOOST_CHECK_EQUAL(pairvec[5].query(), L'b') ;
 
-		BOOST_CHECK_EQUAL(pairvec[2].match_type(), PLACEMENT) ;
+		BOOST_CHECK_EQUAL(pairvec[2].match_type(), rp::PLACEMENT) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

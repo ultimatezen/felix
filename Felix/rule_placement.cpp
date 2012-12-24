@@ -134,7 +134,7 @@ namespace placement
 		}
 
 		// It's a valid placement, so create the new pairings
-		create_new_pairings(pairings, hole.lhs);
+		create_new_pairings(pairings, holes.lhs);
 
 		// Now, do the replacement in the translation segment.
 		auto qmatch = *q_matches.begin() ;
