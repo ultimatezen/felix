@@ -35,6 +35,8 @@ namespace mem_engine
 	};
 
 	/** A pair of holes
+	lhs - source
+	rhs - query
 	*/
 	struct hole_pair_t
 	{
@@ -70,6 +72,8 @@ namespace mem_engine
 
 
 	};
+
+	void create_new_pairings( pairings_t &pairings, const hole_t &hole ) ;
 	}
 
 }

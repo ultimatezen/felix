@@ -632,7 +632,7 @@ wstring CGlossaryDialog::build_glossary_list(search_query_glossary &search_match
 }
 
 
-void CGlossaryDialog::handle_glossary_lookup(const std::wstring& query_text)
+void CGlossaryDialog::lookup(const std::wstring& query_text)
 {
 	prep_for_gloss_lookup(query_text);
 	perform_gloss_lookup();
@@ -649,18 +649,23 @@ void CGlossaryDialog::prep_for_gloss_lookup(const std::wstring& query_text)
 	config_matches_for_gloss_lookup(query_text);
 }
 
+// Here is where we do the actual glossary lookup.
+void CGlossaryDialog::perform_gloss_lookup()
+{
+	search_match_container matches ;
+	// TM matches
+	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
+	// rule matches
+	m_listener->get_regex_rules()->get_matches(matches, m_search_matches.m_params.m_source) ;
+	// This container will hold the results that we display later.
+	m_search_matches.set_matches( matches ) ;
+}
+
+
 void CGlossaryDialog::show_gloss_lookup_results()
 {
 	m_view_state_match.show_content() ;
 	// give the user feedback
-}
-
-void CGlossaryDialog::perform_gloss_lookup()
-{
-	search_match_container matches ;
-	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
-	m_listener->get_regex_rules()->get_matches(matches, m_search_matches.m_params.m_source) ;
-	m_search_matches.set_matches( matches ) ;
 }
 
 
@@ -752,7 +757,7 @@ bool CGlossaryDialog::add_record( memory_pointer mem, record_pointer record )
 
 	if ( get_display_state() == MATCH_DISPLAY_STATE )
 	{
-		handle_glossary_lookup( query ) ;
+		lookup( query ) ;
 	}
 	else if ( get_display_state() == CONCORDANCE_DISPLAY_STATE )
 	{

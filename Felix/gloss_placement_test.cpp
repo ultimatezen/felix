@@ -235,9 +235,7 @@ BOOST_AUTO_TEST_SUITE( test_gloss_placer )
 		placement::hole_pair_t holes ;
 		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
 
-		memory_list memories ;
-		gp::gloss_placer placer(memories) ;
-		placer.create_new_pairings(pairings, holes.lhs) ;
+		gp::create_new_pairings(pairings, holes.lhs) ;
 
 		std::vector<pairing_t> pairvec ;
 		pairvec.assign(pairings.begin(), pairings.end()) ;

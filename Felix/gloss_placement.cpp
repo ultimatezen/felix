@@ -83,35 +83,6 @@ namespace mem_engine
 			return count ;
 		}
 
-		// Redo the pairings based on the placement.
-		void gloss_placer::create_new_pairings( pairings_t &pairings, const hole_t &hole ) const
-		{
-			const wstring query = hole.get_str_query(pairings) ;
-			std::vector<pairing_t> pairvec ;
-			pairvec.assign(pairings.begin(), pairings.end()) ;
-
-			pairings.clear() ;
-
-			// start
-			for(size_t i=0 ; i < hole.start ; ++i)
-			{
-				pairings.push_back(pairvec[i]) ;
-			}
-
-			// middle
-			foreach(wchar_t c, query)
-			{
-				pairings.push_back(pairing_entity(c, PLACEMENT, c)) ;
-			}
-
-			// end
-			for(size_t i=hole.start + hole.len ; i < pairvec.size() ; ++i)
-			{
-				pairings.push_back(pairvec[i]) ;
-			}
-
-		}
-
 		// Replace the translated term in the translation
 		void gloss_placer::replace_trans_term( const wstring qword, const wstring trans_plain, std::pair< wstring, wstring > & trans ) const
 		{

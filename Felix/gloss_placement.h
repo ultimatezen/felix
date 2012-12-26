@@ -58,7 +58,6 @@ namespace placement
 		size_t get_trans_subset(search_match_container &matches, const wstring trans) const;
 
 		void replace_trans_term( const wstring qword, const wstring trans_plain, trans_pair & trans ) const;
-		void create_new_pairings( pairings_t &pairings, const hole_t &hole ) const;
 	};
 
 }

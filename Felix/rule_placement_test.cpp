@@ -8,6 +8,11 @@
 
 using namespace mem_engine ;
 
+#define MAKE_A_HOLE(X) 	rp::hole_pair_t X ; \
+	rp::hole_finder finder ;\
+	BOOST_CHECK(finder.find_hole(pairings, holes)) ;
+
+
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE( test_regex_rule )
@@ -320,77 +325,13 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 
 
 
-	BOOST_AUTO_TEST_CASE(get_matches_one)
-	{
-		rp::regex_rules rules ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
-		rp::rule_placer placer(rules) ;
-
-		search_match_container matches ;
-		wstring text = L"a 1 b" ;
-		BOOST_CHECK_EQUAL(1u, rules.get_matches(matches, text)) ;
-		BOOST_CHECK_EQUAL(1u, matches.size()) ;
-	}
-	BOOST_AUTO_TEST_CASE(get_matches_two)
-	{
-		rp::regex_rules rules ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
-		rp::rule_placer placer(rules) ;
-
-		search_match_container matches ;
-		wstring text = L"1 b 2" ;
-		rules.get_matches(matches, text) ;
-		BOOST_CHECK_EQUAL(2u, matches.size()) ;
-	}
-
-
-	BOOST_AUTO_TEST_CASE(test_trans_subset_0)
-	{
-		rp::regex_rules rules ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
-		rp::rule_placer placer(rules) ;
-
-		search_match_container matches ;
-		wstring text = L"1" ;
-		rules.get_matches(matches, text) ;
-		placer.get_trans_subset(matches, L"foo") ;
-		BOOST_CHECK_EQUAL(0u, matches.size()) ;
-	}
-
-	BOOST_AUTO_TEST_CASE(test_trans_subset_1)
-	{
-		rp::regex_rules rules ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
-		rp::rule_placer placer(rules) ;
-
-		search_match_container matches ;
-		wstring text = L"a 1 b" ;
-		rules.get_matches(matches, text) ;
-		placer.get_trans_subset(matches, L"x 1 y") ;
-		BOOST_CHECK_EQUAL(1u, matches.size()) ;
-	}
-
-	BOOST_AUTO_TEST_CASE(test_trans_subset_2_rules_1_match)
-	{
-		rp::regex_rules rules ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d+)", L"\\1"))) ;
-		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"x to z", L"x", L"z"))) ;
-		rp::rule_placer placer(rules) ;
-
-		search_match_container matches ;
-		wstring text = L"a x b" ;
-		rules.get_matches(matches, text) ;
-		placer.get_trans_subset(matches, L"a z b") ;
-		BOOST_CHECK_EQUAL(1u, matches.size()) ;
-
-		search_match_ptr match = *matches.begin() ;
-		markup_ptr markup = match->get_markup() ;
-
-		BOOST_CHECK_EQUAL(wstring(L"x"), markup->GetSource()) ;
-		BOOST_CHECK_EQUAL(wstring(L"z"), markup->GetTrans()) ;
-	}
-
 	// num_hits
+	BOOST_AUTO_TEST_CASE(test_num_hits_empty_string)
+	{
+		rp::regex_rules rules ;
+		rp::rule_placer placer(rules) ;
+		BOOST_CHECK_EQUAL(0u, placer.num_hits(L"", L"bar baz bar")) ;
+	}
 	BOOST_AUTO_TEST_CASE(test_num_hits_0)
 	{
 		rp::regex_rules rules ;
@@ -409,8 +350,57 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		rp::rule_placer placer(rules) ;
 		BOOST_CHECK_EQUAL(3u, placer.num_hits(L"foo", L"bar foofoo bar foo")) ;
 	}
+	// get_rule_replacement_source
+	BOOST_AUTO_TEST_CASE(test_get_rule_replacement_source_num)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d\\d)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
 
+		rp::pairings_t pairings ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
 
+		const wstring trans = L"End up with 11" ;
+
+		MAKE_A_HOLE(holes) ;
+		rp::repl_t replacement ;
+		BOOST_CHECK(placer.get_rule_replacement_source(holes.lhs, rules.m_rules[0], L"aa11bb", trans, replacement)) ;
+
+		BOOST_CHECK_EQUAL(replacement.first, L"11") ;
+		BOOST_CHECK_EQUAL(replacement.second, L"11") ;
+
+	}
+	// get_rule_replacement_query
+	BOOST_AUTO_TEST_CASE(test_get_rule_replacement_query_num)
+	{
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"(\\d\\d)", L"\\1"))) ;
+		rp::rule_placer placer(rules) ;
+
+		rp::pairings_t pairings ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+
+		const wstring trans = L"End up with 22" ;
+
+		MAKE_A_HOLE(holes) ;
+		rp::repl_t replacement(L"11", L"11") ;
+		rp::repl_t q_replacement ;
+		BOOST_CHECK(placer.get_rule_replacement_query(holes.rhs, rules.m_rules[0], L"aa22bb", replacement, q_replacement)) ;
+
+		BOOST_CHECK_EQUAL(q_replacement.first, L"22") ;
+		BOOST_CHECK_EQUAL(q_replacement.second, L"22") ;
+
+	}
 	// create_new_pairings
 	BOOST_AUTO_TEST_CASE(create_new_pairings_xx_yy)
 	{
@@ -426,9 +416,7 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		placement::hole_pair_t holes ;
 		BOOST_CHECK(finder.find_hole(pairings, holes)) ;
 
-		rp::regex_rules rules ;
-		rp::rule_placer placer(rules) ;
-		placer.create_new_pairings(pairings, holes.lhs) ;
+		rp::create_new_pairings(pairings, holes.lhs) ;
 
 		std::vector<rp::pairing_t> pairvec ;
 		pairvec.assign(pairings.begin(), pairings.end()) ;
@@ -449,6 +437,39 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 
 		BOOST_CHECK_EQUAL(pairvec[2].match_type(), rp::PLACEMENT) ;
 	}
+
+	// place
+	BOOST_AUTO_TEST_CASE(place_true)
+	{
+		rp::pairings_t pairings ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'a', rp::MATCH, L'a')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'1', rp::NOMATCH, L'2')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+		pairings.push_back(rp::pairing_t(L'b', rp::MATCH, L'b')) ;
+
+		rp::regex_rules rules ;
+		rules.m_rules.push_back(rp::regex_ptr(new rp::regex_rule(L"Numbers", L"\\d\\d", L"foo"))) ;
+		rp::rule_placer placer(rules) ;
+
+		const wstring trans = L"End up with foo" ;
+		std::pair<wstring, wstring> segs(trans, trans) ;
+
+		MAKE_A_HOLE(holes) ;
+		BOOST_CHECK(placer.place(pairings, segs, holes)) ;
+		const wstring expected_trans = L"End up with <span class=\"placement\">foo</span>" ;
+		BOOST_CHECK_EQUAL(segs.second, expected_trans) ;
+
+		const wstring placed_query = rp::mark_up(pairings, rp::QUERY) ;
+		const wstring placed_source = rp::mark_up(pairings, rp::SOURCE) ;
+		const wstring expected_query = L"aa<span class=\"placement\">22</span>bb" ;
+		const wstring expected_source = L"aa<span class=\"placement\">22</span>bb" ;
+
+		BOOST_CHECK_EQUAL(placed_query, expected_query) ;
+		BOOST_CHECK_EQUAL(placed_source, expected_source) ;
+	}
+	
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif

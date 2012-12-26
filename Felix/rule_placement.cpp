@@ -58,6 +58,8 @@ namespace placement
 		return matches.size() ;
 	}
 
+	// Get the placements for a given rule.
+	// We accumulate the placements, but get a fresh batch of matches for each rule.
 	size_t regex_rules::get_placements(regex_ptr rule, const wstring haystack, std::vector<repl_t> &replacements )
 	{
 		std::vector<wstring> matches ;
@@ -123,53 +125,185 @@ namespace placement
 	// rule_placer
 	//////////////////////////////////////////////////////////////////////////
 
+	wstring rule_placer::get_str(pairings_t &pairings, const CharType index) const
+	{
+		wstring s ; 
+		foreach(pairing_t p, pairings)
+		{
+			if (p.get_char(index))
+			{
+				s += p.get_char(index) ;
+			}
+		}
+		return s ;
+
+	}
+
 	// Try to place the glossary match in our source/trans from the query.
 	bool rule_placer::place( pairings_t &pairings, repl_t &trans, hole_pair_t &holes )
 	{
-		search_match_container q_matches ;
-		search_match_container s_matches ;
-		if (! is_valid_placement(holes, pairings, trans.first, q_matches, s_matches))
+
+		const wstring source = this->get_str(pairings, SOURCE) ; 
+		const wstring query = this->get_str(pairings, QUERY) ;
+
+		foreach(regex_ptr rule, this->m_rules.m_rules)
+		{
+			if (place_rule(rule, pairings, trans, holes, source, query))
+			{
+				return true ;
+			}
+		}
+		return false ;
+/*
+		// It's a valid placement, so create the new pairings
+		create_new_pairings(pairings, holes.lhs);
+
+		// replace the translation
+		replace_trans_term(L"query", L"source", trans);
+
+		return true ;
+*/
+	}
+
+	bool rule_placer::place_rule( regex_ptr rule, 
+				pairings_t &pairings, 
+				trans_pair &trans, 
+				hole_pair_t &holes, 
+				const wstring source, 
+				const wstring query)
+	{
+		repl_t s_replacement ;
+		if (! this->get_rule_replacement_source(holes.lhs, rule, source, trans.first, s_replacement))
+		{
+			return false ;
+		}
+		repl_t q_replacement ;
+		if (! this->get_rule_replacement_query(holes.rhs, rule, query, s_replacement, q_replacement))
 		{
 			return false ;
 		}
 
-		// It's a valid placement, so create the new pairings
-		create_new_pairings(pairings, holes.lhs);
+		const size_t start = query.find(q_replacement.first) ;
+		const size_t len = q_replacement.first.size() ;
+		
+		pairings_t pairvec ;
+		// start
+		for(size_t i=0 ; i < start ; ++i)
+		{
+			pairvec.push_back(pairings[i]) ;
+		}
 
-		// Now, do the replacement in the translation segment.
-		auto qmatch = *q_matches.begin() ;
-		auto qrec = qmatch->get_record() ;
-		auto smatch = *s_matches.begin() ;
-		auto srec = smatch->get_record() ;
+		// middle
+		foreach(wchar_t c, q_replacement.first)
+		{
+			pairvec.push_back(pairing_entity(c, PLACEMENT, c)) ;
+		}
 
-		// replace the translation
-		replace_trans_term(qrec->get_trans_plain(), srec->get_trans_plain(), trans);
+		// end
+		for(size_t i=start + len ; i < pairings.size() ; ++i)
+		{
+			pairvec.push_back(pairings[i]) ;
+		}
 
+		pairings.swap(pairvec) ;
+		
+		// The translation
+		replace_trans_term(q_replacement.second, s_replacement.second, trans);
+
+		return true ;
+
+	}
+	bool rule_placer::get_rule_replacement_source( const hole_t &hole, 
+								regex_ptr rule, 
+								const wstring source, 
+								const wstring trans, 
+								repl_t &replacement )
+	{
+		std::vector<wstring> matches ;
+		if (! rule->get_matches(source, matches))
+		{
+			return false ;
+		}
+		std::vector<repl_t> replacements;
+		if (! rule->get_replacements(matches, replacements))
+		{
+			return false ;
+		}
+
+		foreach(repl_t rep, replacements)
+		{
+			if (num_hits(rep.first, source) == 1 && num_hits(rep.second, trans) == 1)
+			{
+				if (hole_fits(hole, rep.first, source))
+				{
+					replacement = rep ;
+					return true ;
+				}
+			}
+		}
+		return false ;
+	}
+	bool rule_placer::get_rule_replacement_query( const hole_t &hole, 
+								regex_ptr rule, 
+								const wstring text, 
+								const repl_t &s_replacement, 
+								repl_t &replacement )
+	{
+		std::vector<wstring> matches ;
+		if (! rule->get_matches(text, matches))
+		{
+			return false ;
+		}
+		std::vector<repl_t> replacements;
+		if (! rule->get_replacements(matches, replacements))
+		{
+			return false ;
+		}
+
+		foreach(repl_t rep, replacements)
+		{
+			if (num_hits(rep.first, text) == 1)
+			{
+				if (hole_fits(hole, rep.first, text) && s_replacement != rep)
+				{
+					replacement = rep ;
+					return true ;
+				}
+			}
+		}
+
+		return false ;
+	}
+
+	// Does the hole fit in the placement?
+	bool rule_placer::hole_fits( const hole_t &hole, const wstring repl, const wstring text )
+	{
+		size_t start = text.find(repl) ;
+		if (start == wstring::npos)
+		{
+			return false ;
+		}
+		if (start > hole.start)
+		{
+			return false ;
+		}
+		if (start + repl.size() < hole.start + hole.len)
+		{
+			return false ;
+		}
 		return true ;
 	}
 
-	// Narrow down gloss matches to those whose translations are in trans.
-	size_t rule_placer::get_trans_subset( search_match_container &matches, const wstring trans ) const
-	{
-		search_match_container tmp ;
-		foreach(search_match_ptr match, matches)
-		{
-			wstring gloss_hit = match->get_record()->get_trans_plain() ;
-			// IFF it occurs once in trans
-			if (this->num_hits(gloss_hit, trans) == 1)
-			{
-				tmp.insert(match) ;
-			}
-		}
-		std::swap(matches, tmp) ;
-		return matches.size() ;
-	}
 
 	// How many matches are in the translation?
 	// We want to make sure it is in the translation once, and only once.
 	size_t rule_placer::num_hits( const wstring needle, const wstring haystack ) const
 	{
 		size_t count = 0 ;
+		if (needle.empty() || haystack.empty())
+		{
+			return count ;
+		}
 		for(size_t pos = haystack.find(needle) ; pos != wstring::npos; pos = haystack.find(needle, pos + needle.size()))
 		{
 			++count ;
@@ -177,34 +311,6 @@ namespace placement
 		return count ;
 	}
 
-	// Redo the pairings based on the placement.
-	void rule_placer::create_new_pairings( pairings_t &pairings, const hole_t &hole ) const
-	{
-		const wstring query = hole.get_str_query(pairings) ;
-		std::vector<pairing_t> pairvec ;
-		pairvec.assign(pairings.begin(), pairings.end()) ;
-
-		pairings.clear() ;
-
-		// start
-		for(size_t i=0 ; i < hole.start ; ++i)
-		{
-			pairings.push_back(pairvec[i]) ;
-		}
-
-		// middle
-		foreach(wchar_t c, query)
-		{
-			pairings.push_back(pairing_entity(c, PLACEMENT, c)) ;
-		}
-
-		// end
-		for(size_t i=hole.start + hole.len ; i < pairvec.size() ; ++i)
-		{
-			pairings.push_back(pairvec[i]) ;
-		}
-
-	}
 
 	// Replace the translated term in the translation
 	void rule_placer::replace_trans_term( const wstring qword, const wstring trans_plain, repl_t &trans ) const
@@ -218,26 +324,6 @@ namespace placement
 		fix_match_spans(trans.second) ;
 	}
 
-	// Gathers up the matches for the query and source, and determines whether this is a valid placement.
-	bool rule_placer::is_valid_placement( const hole_pair_t &holes, const pairings_t & pairings, 
-								const wstring & trans, search_match_container &q_matches, search_match_container &s_matches)
-	{
-		const wstring query = holes.rhs.get_str_query(pairings) ;
-		if(m_rules.get_matches(q_matches, query) == 0)
-		{
-			return false ;
-		}
 
-		const wstring source = holes.lhs.get_str_source(pairings); 
-		if(m_rules.get_matches(s_matches, source) == 0)
-		{
-			return false ;
-		}
-		if(this->get_trans_subset(s_matches, trans) == 0)
-		{
-			return false ;
-		}
-		return true ;
-	}
 }
 }
