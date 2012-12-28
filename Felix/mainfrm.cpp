@@ -3606,7 +3606,7 @@ void CMainFrame::look_up_in_glossaries(const wstring query)
 		ATLASSERT(gloss->IsWindow()) ;
 		if ( gloss->IsWindow() )
 		{
-			gloss->handle_glossary_lookup( query ) ;
+			gloss->lookup( query ) ;
 		}
 	}
 }
