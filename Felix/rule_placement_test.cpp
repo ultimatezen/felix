@@ -369,10 +369,11 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 
 		MAKE_A_HOLE(holes) ;
 		rp::repl_t replacement ;
-		BOOST_CHECK(placer.get_rule_replacement_source(holes.lhs, rules.m_rules[0], L"aa11bb", trans, replacement)) ;
+		rp::rule_placement_param param(holes, rules.m_rules[0], L"aa11bb", L"aa22bb") ;
+		BOOST_CHECK(placer.get_rule_replacement_source(param, trans)) ;
 
-		BOOST_CHECK_EQUAL(replacement.first, L"11") ;
-		BOOST_CHECK_EQUAL(replacement.second, L"11") ;
+		BOOST_CHECK_EQUAL(param.s_replacement.first, L"11") ;
+		BOOST_CHECK_EQUAL(param.s_replacement.second, L"11") ;
 
 	}
 	// get_rule_replacement_query
@@ -393,12 +394,12 @@ BOOST_AUTO_TEST_SUITE( test_rule_placer )
 		const wstring trans = L"End up with 22" ;
 
 		MAKE_A_HOLE(holes) ;
-		rp::repl_t replacement(L"11", L"11") ;
-		rp::repl_t q_replacement ;
-		BOOST_CHECK(placer.get_rule_replacement_query(holes.rhs, rules.m_rules[0], L"aa22bb", replacement, q_replacement)) ;
+		rp::rule_placement_param param(holes, rules.m_rules[0], L"aa11bb", L"aa22bb") ;
+		param.s_replacement = rp::repl_t(L"11", L"11") ;
+		BOOST_CHECK(placer.get_rule_replacement_query(param)) ;
 
-		BOOST_CHECK_EQUAL(q_replacement.first, L"22") ;
-		BOOST_CHECK_EQUAL(q_replacement.second, L"22") ;
+		BOOST_CHECK_EQUAL(param.q_replacement.first, L"22") ;
+		BOOST_CHECK_EQUAL(param.q_replacement.second, L"22") ;
 
 	}
 	// create_new_pairings

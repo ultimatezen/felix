@@ -172,19 +172,18 @@ namespace placement
 				const wstring source, 
 				const wstring query)
 	{
-		repl_t s_replacement ;
-		if (! this->get_rule_replacement_source(holes.lhs, rule, source, trans.first, s_replacement))
+		rule_placement_param param(holes, rule, source, query) ;
+		if (! this->get_rule_replacement_source(param, trans.first))
 		{
 			return false ;
 		}
-		repl_t q_replacement ;
-		if (! this->get_rule_replacement_query(holes.rhs, rule, query, s_replacement, q_replacement))
+		if (! this->get_rule_replacement_query(param))
 		{
 			return false ;
 		}
 
-		const size_t start = query.find(q_replacement.first) ;
-		const size_t len = q_replacement.first.size() ;
+		const size_t start = query.find(param.q_replacement.first) ;
+		const size_t len = param.q_replacement.first.size() ;
 		
 		pairings_t pairvec ;
 		// start
@@ -194,7 +193,7 @@ namespace placement
 		}
 
 		// middle
-		foreach(wchar_t c, q_replacement.first)
+		foreach(wchar_t c, param.q_replacement.first)
 		{
 			pairvec.push_back(pairing_entity(c, PLACEMENT, c)) ;
 		}
@@ -208,19 +207,19 @@ namespace placement
 		pairings.swap(pairvec) ;
 		
 		// The translation
-		replace_trans_term(q_replacement.second, s_replacement.second, trans);
+		replace_trans_term(param.q_replacement.second, param.s_replacement.second, trans);
 
 		return true ;
 
 	}
-	bool rule_placer::get_rule_replacement_source( const hole_t &hole, 
-								regex_ptr rule, 
-								const wstring source, 
-								const wstring trans, 
-								repl_t &replacement )
+	bool rule_placer::get_rule_replacement_source(rule_placement_param &param, const wstring trans)
 	{
+		const hole_t &hole = param.source_hole ;
+		regex_ptr rule = param.rule ;
+		repl_t &replacement = param.s_replacement ;
+
 		std::vector<wstring> matches ;
-		if (! rule->get_matches(source, matches))
+		if (! rule->get_matches(param.source, matches))
 		{
 			return false ;
 		}
@@ -232,9 +231,9 @@ namespace placement
 
 		foreach(repl_t rep, replacements)
 		{
-			if (num_hits(rep.first, source) == 1 && num_hits(rep.second, trans) == 1)
+			if (num_hits(rep.first, param.source) == 1 && num_hits(rep.second, trans) == 1)
 			{
-				if (hole_fits(hole, rep.first, source))
+				if (hole_fits(hole, rep.first, param.source))
 				{
 					replacement = rep ;
 					return true ;
@@ -243,12 +242,14 @@ namespace placement
 		}
 		return false ;
 	}
-	bool rule_placer::get_rule_replacement_query( const hole_t &hole, 
-								regex_ptr rule, 
-								const wstring text, 
-								const repl_t &s_replacement, 
-								repl_t &replacement )
+	bool rule_placer::get_rule_replacement_query(rule_placement_param &param)
 	{
+		const hole_t &hole = param.query_hole ;
+		regex_ptr rule = param.rule ;
+		const wstring text = param.query ; 
+		const repl_t &s_replacement = param.s_replacement ;
+		repl_t &replacement = param.q_replacement ;
+
 		std::vector<wstring> matches ;
 		if (! rule->get_matches(text, matches))
 		{
@@ -276,7 +277,7 @@ namespace placement
 	}
 
 	// Does the hole fit in the placement?
-	bool rule_placer::hole_fits( const hole_t &hole, const wstring repl, const wstring text )
+	bool rule_placer::hole_fits( const hole_t &hole, const wstring repl, const wstring text ) const
 	{
 		size_t start = text.find(repl) ;
 		if (start == wstring::npos)

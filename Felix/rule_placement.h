@@ -68,6 +68,23 @@ namespace placement
 
 	};
 
+	struct rule_placement_param
+	{
+	public:
+		const hole_t &source_hole ;
+		const hole_t &query_hole;
+		regex_ptr rule ;
+		const wstring source ;
+		const wstring query ;
+		
+		repl_t s_replacement ;
+		repl_t q_replacement ;
+
+		rule_placement_param(const hole_pair_t &h, regex_ptr r, const wstring s, const wstring q) :
+			source_hole(h.lhs), query_hole(h.rhs), rule(r), source(s), query(q)
+		{
+		}
+	};
 	/** 
 	Make rule placements in queries.
 	*/
@@ -89,10 +106,10 @@ namespace placement
 
 		wstring get_str(pairings_t &pairings, const CharType index) const ;
 
-		bool get_rule_replacement_query( const hole_t &hole, regex_ptr rule, const wstring text, const repl_t &s_replacement, repl_t &replacement );
-		bool get_rule_replacement_source( const hole_t &hole, regex_ptr rule, const wstring source, const wstring trans, repl_t &replacement );
+		bool get_rule_replacement_source(rule_placement_param &param, const wstring trans);
+		bool get_rule_replacement_query(rule_placement_param &param);
 
-		bool hole_fits(const hole_t &hole, const wstring repl, const wstring text);
+		bool hole_fits(const hole_t &hole, const wstring repl, const wstring text) const ;
 
 		// Number of times needle is found in haystack
 		size_t num_hits(const wstring needle, const wstring haystack) const;

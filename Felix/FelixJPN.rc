@@ -163,7 +163,7 @@ BEGIN
     PUSHBUTTON      "フィールドの編集(&E)",IDC_EDIT_STRINGS,7,324,77,16
     EDITTEXT        IDC_RELIABILITY_EDIT,283,256,28,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,319,256,11,12
-    CONTROL         "確認済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
+    CONTROL         "確定済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
     DEFPUSHBUTTON   "&OK",IDOK,287,338,50,19
     PUSHBUTTON      "キャンセル",IDCANCEL,342,338,50,19
     LTEXT           "原語",IDC_SOURCE_STATIC,7,7,22,8
@@ -457,7 +457,7 @@ BEGIN
     PUSHBUTTON      "フィールドの編集(&E)",IDC_EDIT_STRINGS,7,297,77,16
     EDITTEXT        IDC_RELIABILITY_EDIT,283,256,28,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_RELIABILITY_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,319,256,11,12
-    CONTROL         "確認済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
+    CONTROL         "確定済み",IDC_VALIDATED_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,248,275,64,16
     DEFPUSHBUTTON   "&OK",IDOK,287,338,50,19
     PUSHBUTTON      "キャンセル",IDCANCEL,342,338,50,19
     LTEXT           "原語",IDC_SOURCE_STATIC,7,7,22,8
@@ -733,13 +733,13 @@ BEGIN
     END
     POPUP "ツール(&L)"
     BEGIN
-        MENUITEM "ユーザ設定の取り込み(&L)",     ID_TOOLS_LOADPREFERENCES
-        MENUITEM "ユーザ設定の保存(&S)",         ID_TOOLS_SAVEPREFERENCES
+        MENUITEM "ユーザ設定の取り込み(&L)",              ID_TOOLS_LOADPREFERENCES
+        MENUITEM "ユーザ設定の保存(&S)",                ID_TOOLS_SAVEPREFERENCES
         MENUITEM "UI to &English\tCtrl+L",      ID_TOOLS_LANGUAGE
         MENUITEM SEPARATOR
-        MENUITEM "プロパティ...(&P)",            ID_TOOLS_PREFERENCES
-        MENUITEM "置換ルールの管理(&R)...",      ID_TOOLS_RULEMANAGER
-        MENUITEM "メモリの管理(&M)...",          ID_TOOLS_MEMORY_MGR
+        MENUITEM "プロパティ...(&P)",                ID_TOOLS_PREFERENCES
+        MENUITEM "置換ルールの管理(&R)...",             ID_TOOLS_RULEMANAGER
+        MENUITEM "メモリの管理(&M)...",               ID_TOOLS_MEMORY_MGR
     END
     POPUP "ヘルプ(&H)"
     BEGIN
@@ -1141,6 +1141,8 @@ END
 
 STRINGTABLE
 BEGIN
+    ID_TOOLS_LOADPREFERENCES "設定データをファイルに書きも見ます\n設定の書き込み"
+    ID_TOOLS_SAVEPREFERENCES "設定データをファイルから読み取ります\n設定の読み取り"
     IDS_MEMORY_CLOSE        "閉じる\n現在のメモリを閉じます"
     IDS_GLOSSARY_CLOSE      "閉じる\n現在の用語集を閉じます"
     IDS_CLOSED_MEMORY       "メモリを閉じました：[%1]"
@@ -1182,6 +1184,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_CHECK_USER_AND_PASS "ユーザ名とパスワードを確認してください。"
+    IDC_DELETE              "delete"
 END
 
 STRINGTABLE
@@ -1292,7 +1295,6 @@ BEGIN
     IDS_EDIT_COMPLETE       "編集の完了"
     IDS_MSG_DROPPED_RECORDS "%1 個のエントリを保存できませんでした。"
     IDD_DELETE              "現在のエントリをメモリから削除します。\nエントリの削除"
-    IDC_DELETE              "delete"
     IDS_IDS_REG_LINK_DEAD   "<span title=""このリンクをアクティブにするには、原語と訳語を指定してください"">用語集に登録</span>"
     IDS_POPUP_REGISTER_GLOSS "用語の登録(&R)"
     IDS_POPUP_DELETE        "削除(&D)"
@@ -1326,7 +1328,11 @@ BEGIN
     IDS_MSG_FINISHED_MULTITERM_EXPORT "ファイル [%1] を MultiTerm 形式でエクスポート完了"
     IDD_MIN_VIEW_DLG        "Felix小型表示"
     IDS_MSG_LOADING         "ファイル[%1]を取り込み中..."
-	IDS_MANAGE_RULES		"置換ルールの管理"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MANAGE_RULES        "置換ルールの管理"
 END
 
 STRINGTABLE
@@ -1335,6 +1341,7 @@ BEGIN
     ID_PANE_2               "          "
     ID_VIEW_GLOSSARY        "用語集ウィンドウを表示します\n用語集ウィンドウ表示"
     ID_VIEW_MEMORY          "現在の翻訳メモリを表示します\nメモリの表示"
+    ID_TOOLS_MEMORY_MGR     "メモリの管理\nメモリの管理画面を表示します"
 END
 
 STRINGTABLE
@@ -1353,9 +1360,6 @@ BEGIN
     ID_EDIT_ADD             "新しいエントリを作成して追加します\n追加"
     ID_VIEW_EDIT_MODE       "編集モードを切替えます。\n編集モードの切替"
     ID_TOOLS_PREFERENCES    "プロパティを表示して、設定します\nプロパティ"
-    ID_TOOLS_MEMORY_MGR    "メモリの管理\nメモリの管理画面を表示します"
-    ID_TOOLS_SAVEPREFERENCES    "設定データをファイルから読み取ります\n設定の読み取り"
-    ID_TOOLS_LOADPREFERENCES    "設定データをファイルに書きも見ます\n設定の書き込み"
     ID_TOOLS_LANGUAGE       "ＵＩを英語に切り替えます。\n英語に切替"
 END
 
