@@ -139,7 +139,10 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// add flags to support other controls
 	LOG_DEBUG("Loading Windows libraries") ;
 
-	ATLVERIFY(AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS)) ;
+	if(! AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS))
+	{
+		logging::log_error("Failed to init common controls.") ;
+	}
 
 	// We need the rich edit control
 	CLibrary riched_lib( CWideRichEdit::GetLibraryName() ) ;
@@ -315,7 +318,10 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
     ATLTRACE( "Unit testing app...\n" ) ;
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
-	ATLVERIFY(_Module.set_library( _T("lang\\EngResource.dll") )) ;
+	if(! _Module.set_library( _T("lang\\EngResource.dll") ))
+	{
+		logging::log_error("Failed to load English-language resource") ;
+	}
 
 	char *args[] = {"", "--report_level=detailed", "--result_code=yes", "--log_level=message"};
 	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);

@@ -213,7 +213,9 @@ CTMXReader::~CTMXReader(void)
 // Load a TMX file into a memory
 memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_device_ptr input)
 {
-	switch ( get_bom(file_name) )
+	logging::log_debug(string("Loading TMX memory file ") + static_cast<LPCSTR>(CT2A(file_name))) ;
+
+	switch ( get_bom(file_name, input) )
 	{
 	case file::BOM_LE:
 		load_utf16(file_name, input) ;
@@ -296,6 +298,8 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_devi
 
 	m_listener->OnProgressDoneLoad(record_count) ;
 
+	m_memory->set_saved_flag(true) ;
+
 	return m_memory ;
 }
 
@@ -360,7 +364,13 @@ void CTMXReader::load_body()
 	{
 		wc_reader::bookmark_type tu_start = m_reader.get_current_pos() ;
 
-		ATLVERIFY(m_reader.find( L"</tu>" )) ;
+		if (! m_reader.find( L"</tu>" ))
+		{
+			wstring error = L"TMX Reader failed to find end of TU segment. TMX file may be corrupt." ;
+			m_errors.push_back(error) ;
+			logging::log_error(string2string(error, CP_UTF8)) ;
+			return ;
+		}
 
 		wc_reader::bookmark_type tu_end = m_reader.get_current_pos() ;
 
@@ -383,7 +393,13 @@ void CTMXReader::load_tu(const wstring  tu_text)
 
 	wc_reader::bookmark_type tu_tag_start = tu_reader.get_current_pos() ;
 
-	ATLVERIFY(tu_reader.find(L">")) ;
+	if(! tu_reader.find(L">"))
+	{
+		wstring error = L"TMX Reader failed to find end of TU tag. TMX file may be corrupt." ;
+		m_errors.push_back(error) ;
+		logging::log_error(string2string(error, CP_UTF8)) ;
+		return ;
+	}
 	
 	wc_reader::bookmark_type tu_tag_end = tu_reader.get_current_pos() ;
 
@@ -405,7 +421,13 @@ void CTMXReader::load_tu(const wstring  tu_text)
 	{
 		wc_reader::bookmark_type tuv_tag_start = tu_reader.get_current_pos() ;
 
-		ATLVERIFY(tu_reader.find(L">")) ;
+		if(! tu_reader.find(L">"))
+		{
+			wstring error = L"TMX Reader failed to find end of TUV tag. TMX file may be corrupt." ;
+			m_errors.push_back(error) ;
+			logging::log_error(string2string(error, CP_UTF8)) ;
+			return ;
+		}
 
 		wc_reader::bookmark_type tuv_tag_end = tu_reader.get_current_pos() ;
 
@@ -420,7 +442,13 @@ void CTMXReader::load_tu(const wstring  tu_text)
 			xml_lang = tuv_tag.get_attribute( L"lang" ) ;
 		}
 
-		ATLVERIFY(tu_reader.find(L"</tuv>")) ;
+		if(! tu_reader.find(L"</tuv>"))
+		{
+			wstring error = L"TMX Reader failed to find end of TUV segment. TMX file may be corrupt." ;
+			m_errors.push_back(error) ;
+			logging::log_error(string2string(error, CP_UTF8)) ;
+			return ;
+		}
 
 		wc_reader::bookmark_type tuv_end = tu_reader.get_current_pos() ;
 		wstring tuv_text( tuv_tag_end, tuv_end ) ;
@@ -457,11 +485,22 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 	wc_reader seg_reader ;
 	seg_reader.set_buffer( tuv_text.c_str() ) ;
 
-	ATLVERIFY(seg_reader.find(L"<seg>", true)) ;
-	
+	if(! seg_reader.find(L"<seg>", true))
+	{
+		wstring error = L"TMX Reader failed to find SEG tag. TMX file may be corrupt." ;
+		m_errors.push_back(error) ;
+		logging::log_error(string2string(error, CP_UTF8)) ;
+		return wstring();
+	}
 	wc_reader::bookmark_type seg_tag_start = seg_reader.get_current_pos() ;
 
-	ATLVERIFY(seg_reader.find(L"</seg>", false)) ;
+	if(! seg_reader.find(L"</seg>", false))
+	{
+		wstring error = L"TMX Reader failed to find SEG closing tag. TMX file may be corrupt." ;
+		m_errors.push_back(error) ;
+		logging::log_error(string2string(error, CP_UTF8)) ;
+		return wstring();
+	}
 
 	wc_reader::bookmark_type seg_tag_end = seg_reader.get_current_pos() ;
 
@@ -487,9 +526,8 @@ size_t CTMXReader::get_file_size(const CString & file_name)
 	return input->get_size(file_name) ;
 }
 
-file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name)
+file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name, input_device_ptr input)
 {
-	input_device_ptr input(new InputDeviceFile) ;
 	return input->get_file_bom(file_name) ;
 }
 
@@ -683,12 +721,12 @@ namespace tmx_reader
 			}
 			catch (CException& e)
 			{
-				e ;
+				logging::log_error("Error reflecting record creation date from TMX file") ;
 				logging::log_exception(e) ;
 			}
 			catch(boost::bad_lexical_cast& e)
 			{
-				e ;
+				logging::log_error("Error reflecting record creation date from TMX file") ;
 				logging::log_error(e.what()) ;
 			}
 		}
@@ -702,10 +740,12 @@ namespace tmx_reader
 			}
 			catch (CException& e)
 			{
+				logging::log_error("Error reflecting record change date from TMX file") ;
 				logging::log_exception(e) ;
 			}
 			catch(boost::bad_lexical_cast& e)
 			{
+				logging::log_error("Error reflecting record change date from TMX file") ;
 				logging::log_error(e.what()) ;
 			}
 		}

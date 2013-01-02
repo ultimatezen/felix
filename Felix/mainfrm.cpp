@@ -2517,8 +2517,17 @@ bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
 	feedback_loaded_mem( mem );
 	m_mru.AddToList( file_name ) ;
 	mem->set_is_memory(true) ;
+	mem->set_saved_flag(true) ;
 
 	set_window_title() ;
+
+	if (! reader.m_errors.empty())
+	{
+		CString msg ;
+		msg.Format(_T("%d errors during import. Check log for details."), reader.m_errors.size()) ;
+		user_feedback(msg) ;
+	}
+
 	return true ;
 
 }
@@ -2623,6 +2632,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 		user_feedback( msg ) ;
 		mem->set_location( trados_file_name ) ;
 		mem->set_is_memory(true) ;
+		mem->set_saved_flag(true) ;
 		set_window_title() ;
 	}
 
@@ -3501,7 +3511,10 @@ void CMainFrame::init_status_bar()
 	return ;
 #else
 	// create the status bar
-	ATLVERIFY(CreateSimpleStatusBar());
+	if(! CreateSimpleStatusBar())
+	{
+		logging::log_error("Failed to create status bar in main window.") ;
+	}
 	ATLASSERT( ::IsWindow(m_hWndStatusBar) ) ;
 
 	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
@@ -4228,6 +4241,9 @@ void CMainFrame::loading_file_feedback( const CString & file_name )
 bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
 	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	bool make_dirty = false ;
+
+	// merge or add?
 	MERGE_CHOICE should_merge = MERGE_CHOICE_SEPARATE ;
 	if ( check_empty )
 	{
@@ -4244,6 +4260,7 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 		{
 			ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
 			mem = m_model->get_first_memory() ;
+			make_dirty = true ;
 		}
 	}
 	else
@@ -4251,15 +4268,16 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 		mem = m_model->get_memories()->add_memory() ;
 	}
 
-	// merge or add?
 	mem->set_is_memory(true) ;
-
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 
 	try
 	{
 		const bool success = mem->load( file_name )  ;
-		mem->set_is_memory(true) ;
+		if (make_dirty)
+		{
+			mem->set_saved_flag(false) ;
+		}
 		return success ;
 	}
 	catch ( ... ) 

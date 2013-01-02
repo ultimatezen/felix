@@ -537,6 +537,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		MemoryInfo *info = mem.get_memory_info() ;
 		BOOST_CHECK_EQUAL(10, (int)info->get_count()) ;
 		BOOST_CHECK_EQUAL(string("Felix"), string((LPCSTR)CW2A(info->get_creation_tool().c_str()))) ;
+		BOOST_CHECK(mem.is_saved()) ;
 	}
 	// load_text
 	BOOST_AUTO_TEST_CASE( TestZeroEntries )
@@ -566,6 +567,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 		CString filename = _T("C:\\dev\\Test Files\\MemoryFiles\\EmptyMemory.xml") ;
 		mem.load_text(text, filename, strlen(text)) ;
 		BOOST_CHECK_EQUAL( 0u, mem.size() ) ;
+		BOOST_CHECK(mem.is_saved()) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_one_entry )
 	{
@@ -597,7 +599,8 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 			"<ref_count>0</ref_count>"
 			"</record>"
 			"</records></memory>" ;
-		mem.load_text(text, filename, strlen(text)) ;
+		// Will be true if it was saved, which it was...
+		BOOST_CHECK(mem.load_text(text, filename, strlen(text))) ;
 		BOOST_CHECK_EQUAL((int)mem.size(), 1) ;
 
 		record_pointer rec = mem.get_record_at(0) ;

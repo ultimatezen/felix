@@ -1626,9 +1626,6 @@ echo Protection complete!
       <SubType>Designer</SubType>
     </CustomBuildStep>
   </ItemGroup>
-  <ItemGroup>
-    <Xsd Include="felix_tm.xsd" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

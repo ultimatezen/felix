@@ -1192,10 +1192,10 @@ private:
 							   flags, 
 							   NULL );
 
-		ATLASSERT( is_open() ) ;
-
-		if ( ! m_file.is_valid() )
+		if ( ! m_file.is_valid() || ! is_open())
+		{
 			THROW_FILE_EXCEPTION( _T("Failed to open file ") + m_file_name ) ;
+		}
 
 		return true ;
 	}

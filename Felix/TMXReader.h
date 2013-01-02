@@ -90,7 +90,6 @@ namespace tmx_reader
 	};
 }
 
-
 /**
 	@class CTMXReader
 	@brief Reads in TMX memory files and loads them into a native memory class.
@@ -110,6 +109,7 @@ class CTMXReader
 
 	wstring			m_target_lang ;
 
+	std::vector<wstring> m_errors ;
 
 	struct CTMXHeader : public tmx_reader::tmx_data
 	{
@@ -151,7 +151,7 @@ public:
 	void load_body() ;
 
 	size_t get_file_size(const CString & file_name);
-	file::BYTE_ORDER_MARK get_bom(const CString & file_name);
+	file::BYTE_ORDER_MARK get_bom(const CString & file_name, input_device_ptr input);
 	void load_utf16(const CString & file_name, input_device_ptr input);
 	void load_utf16be(const CString & file_name, input_device_ptr input) ;
 	void load_utf8(const CString & file_name, input_device_ptr input);
