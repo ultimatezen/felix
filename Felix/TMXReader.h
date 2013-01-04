@@ -109,14 +109,13 @@ class CTMXReader
 
 	wstring			m_target_lang ;
 
-	std::vector<wstring> m_errors ;
-
 	struct CTMXHeader : public tmx_reader::tmx_data
 	{
 
 		wstring m_adminlang ; // not case sensitive
 
 	public:
+
 		CTMXHeader() 
 		{}
 
@@ -138,9 +137,9 @@ class CTMXReader
 
 	CTMXHeader m_header ;
 
-
-
 public:
+	std::vector<wstring> m_errors ;
+
 	CTMXReader( mem_engine::memory_pointer mem, CProgressListener *listener ) ;
 	~CTMXReader(void);
 	// Load a TMX file into a memory
