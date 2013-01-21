@@ -16,7 +16,7 @@
 <p>
 <hr />
 <a href="142:0" title="Edit entry">Edit</a> |
-<a href="122:0" title="Delete entry">Delete</a> |
+<a href="593:0" title="Delete entry">Delete</a> |
 <a href="158:0" title="Add entry to memory">Add to Memory</a>
 	|
 	<a href="#" id="view_0" onclick="toggleDetails(0);">Details &gt;&gt;</a>

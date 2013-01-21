@@ -16,7 +16,7 @@
 
 <p>
   <a href="142:{$index}" title="Edit entry">Edit</a> | 
-  <a href="122:{$index}" title="Delete entry">Delete</a>
+  <a href="593:{$index}" title="Delete entry">Delete</a>
 </p>
 
   <hr style="margin-top:3px;" />

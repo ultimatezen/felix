@@ -16,7 +16,7 @@
 
 <p>
   <a href="142:{$index}" title="翻訳対の編集">編集</a> | 
-  <a href="122:{$index}" title="翻訳対の削除">削除</a>
+  <a href="593:{$index}" title="翻訳対の削除">削除</a>
 </p>
 
   <hr style="margin-top:3px;" />

@@ -66,7 +66,7 @@
 <div style="font-size:3px;">&nbsp;</div>
 <div style="float:left;">
   <a href="142:{$index}" title="Edit entry">Edit</a> | 
-  <a href="122:{$index}" title="Delete entry">Delete</a>
+  <a href="593:{$index}" title="Delete entry">Delete</a>
 </div>
 {$next_nav}
 <br clear="all" />

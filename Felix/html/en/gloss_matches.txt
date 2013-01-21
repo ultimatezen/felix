@@ -4,7 +4,7 @@
    <td rowspan="2"><strong>{$loop.index}.</strong>
   <br />
 	<a title="Edit entry" href="142:{$loop.index0}">[E]</a>-<a
-      title="Delete entry" href="122:{$loop.index0}">[D]</a>-<a
+      title="Delete entry" href="593:{$loop.index0}">[D]</a>-<a
 	  title="Add entry to memory" href="158:{$loop.index0}">[M]</a><br />
 	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
     <td><strong>Source</strong></td>

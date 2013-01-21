@@ -12,7 +12,7 @@
                 <tr id="item_{$loop.index}" style="display:none;">
 		<td colspan="2">
 		<a title="用語の編集" href="142:{$loop.index0}">[E]</a>
-		<a title="用語の削除" href="122:{$loop.index0}">[D]</a>
+		<a title="用語の削除" href="593:{$loop.index0}">[D]</a>
 		<a title="メモリに登録" href="158:{$loop.index0}">[M]</a>
                     <table class="props">
                         <tr>

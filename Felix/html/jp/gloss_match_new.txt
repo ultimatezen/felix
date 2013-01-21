@@ -16,7 +16,7 @@
 <p>
 <hr />
 <a href="142:0" title="用語を編集">編集</a> |
-<a href="122:0" title="用語を削除">削除</a> |
+<a href="593:0" title="用語を削除">削除</a> |
 <a href="158:0" title="用語を訳文としてメモリへコピー">メモリへコピー</a>
 			|
 		<a href="#" id="view_0" onclick="toggleDetails(0);">詳細 &gt;&gt;</a>

@@ -5,7 +5,7 @@
 
    <br />
 	<a title="用語の編集" href="142:{$loop.index0}">[E]</a>-<a
-      title="用語の削除" href="122:{$loop.index0}">[D]</a>-<a
+      title="用語の削除" href="593:{$loop.index0}">[D]</a>-<a
 	  title="メモリに登録" href="158:{$loop.index0}">[M]</a><br />
 	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
     <td><strong>原語</strong></td>

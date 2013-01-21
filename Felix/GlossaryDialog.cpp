@@ -1169,14 +1169,18 @@ void CGlossaryDialog::route_nav_command(LPMSG pMsg)
 	case IDC_PREV:
 		OnUserPrev( pMsg->lParam ) ;
 		break ;
+	default:
+		logging::log_warn((format("Glossary window: unknown navigation message code (%i)") % pMsg->wParam).str()) ;
+		ATLASSERT("Unknown glossary nav message" && FALSE) ;
 	}
+
 }
 
+// Returns `true` to cancel, `false` otherwise.
 bool CGlossaryDialog::OnBeforeNavigate2( _bstr_t url )
 {
 	try
 	{
-
 		// "#" is used for JavaScript links.
 		wstring _url = BSTR2wstring(url) ;
 		if(boost::ends_with(_url, L"#"))
@@ -1184,16 +1188,20 @@ bool CGlossaryDialog::OnBeforeNavigate2( _bstr_t url )
 			return false ; // don't cancel
 		}
 
+		// If the link is a dropped file, open it.
 		const CString possible_xml_file(static_cast< LPCWSTR >( url )) ;
 		const file::CFileExtension ext(possible_xml_file) ;
 		if (ext.is_xml() || ext.equals(_T(".fgloss")))
 		{
+			logging::log_debug("Glossary file dropped into window.") ;
 			this->load(possible_xml_file) ;
 			return true ; // should cancel
 		}
 		else if (ext.is_txt())
 		{
+			logging::log_debug("Text file dropped into glossary window.") ;
 			this->import_multiterm(possible_xml_file) ;
+			return true ; // should cancel
 		}
 
 		const wstring raw_command = BSTR2wstring( url );

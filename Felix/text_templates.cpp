@@ -66,6 +66,10 @@ namespace cpptempl
 		const CString full_path = get_template_filename(filename) ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
+		if (raw_text.empty())
+		{
+			logging::log_error("Failed to load template text from " + string((LPCSTR)CStringA(full_path))) ;
+		}
 		return string2wstring(raw_text, CP_UTF8) ;
 	}
 
