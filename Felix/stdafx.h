@@ -61,6 +61,7 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 #include <comdef.h>
 #include "resource.h"
 
+#include "cpptempl.h"
 
 //////////////////////////////////////////////////////////////////////////
 // stl libraries we are using
@@ -235,7 +236,6 @@ CExeModule
 
 #include "unit_testing.h"
 #include "ArmadilloStuff.h"		// get them crackers!
-#include "cpptempl.h"
 
 static const int SEND_BUTTON_ID = 17 ;
 static const int DONT_SEND_BUTTON_ID = 18 ;
@@ -252,7 +252,7 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-static const char* VERSION = "1.7.1.2" ;
+static const char* VERSION = "1.7.2" ;
 static const wchar_t* LOGGING_SERVER = L"FelixHelpers.FelixLogger" ;
 #define LOGFILE_NAME _T("felix.log")
  

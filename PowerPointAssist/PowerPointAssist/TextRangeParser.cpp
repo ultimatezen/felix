@@ -21,6 +21,11 @@ _bstr_t CTextRangeParser::getSelectedText(bool isPlainText)
 	m_currentSegment = globalApp::get()->ActiveWindow->Selection->TextRange ;
 	m_start = m_currentSegment->Start ;
 
+	if (m_currentSegment->Length == 0)
+	{
+		return _bstr_t() ;
+	}
+
 	if ( isPlainText == false )
 	{
 		return selectionToRichText();

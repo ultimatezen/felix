@@ -989,7 +989,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		text += "\r\n" ;
 		text += "<p>\r\n" ;
 		text += "  <a href=\"142:0\" title=\"Edit entry\">Edit</a> | \r\n" ;
-		text += "  <a href=\"122:0\" title=\"Delete entry\">Delete</a>\r\n" ;
+		text += "  <a href=\"593:0\" title=\"Delete entry\">Delete</a>\r\n" ;
 		text += "</p>\r\n" ;
 		text += "\r\n" ;
 		text += "  <hr style=\"margin-top:3px;\" />\r\n" ;

@@ -121,36 +121,25 @@ namespace shortcuts
 		shortcut_ptr cut = (*keys_for_letter)[0] ;
 		ATLASSERT(cut->m_secondkey == 0) ;
 
-		if (! m_shortcuts_enabled)
+		// special case
+		if (cut->m_command == "ToggleShortcuts")
 		{
-			// special case
-			if (cut->m_command == "ToggleShortcuts")
+			m_shortcuts_enabled = ! m_shortcuts_enabled ;
+			if (m_on_toggle_shortcuts)
 			{
-				m_shortcuts_enabled = true ;
-				if (m_on_toggle_shortcuts)
-				{
-					m_on_toggle_shortcuts(!! m_shortcuts_enabled) ;
-				}
-				return true;
-			}
-		}
-		else
-		{
-			if (cut->m_command == "ToggleShortcuts")
-			{
-				m_shortcuts_enabled = false ;
-				if (m_on_toggle_shortcuts)
-				{
-					m_on_toggle_shortcuts(!! m_shortcuts_enabled) ;
-				}
-			}
-			else
-			{
-				return m_mapper->map_command(cut->m_command) ;
+				m_on_toggle_shortcuts(!! m_shortcuts_enabled) ;
 			}
 			return true;
 		}
-		return false;
+
+		if (! m_shortcuts_enabled)
+		{
+			return false;
+		}
+		else
+		{
+			return m_mapper->map_command(cut->m_command) ;
+		}
 	}
 
 	KeyboardShortcuts::key_map * KeyboardShortcuts::get_key_map( bool ctrl_pressed, bool alt_pressed )

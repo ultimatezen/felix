@@ -386,9 +386,9 @@ HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 			return E_FAIL ;
 		}
 
-		if (! this->is_translation_mode())
+		if (shift_key_is_pressed())
 		{
-			return this->OnExtendTransLookupAction() ;
+			return E_FAIL ;
 		}
 
 		// If there is no text selected, we should not call extend selection.
@@ -396,6 +396,11 @@ HRESULT CPowerPointInterface::OnExtendLookupAction ( bool plaintext )
 		if ( selected_text.length() == 0 )
 		{
 			return E_FAIL ;
+		}
+
+		if (! this->is_translation_mode())
+		{
+			return this->OnExtendTransLookupAction() ;
 		}
 
 		if ( ! m_textRangeParser.extendSelection() )
@@ -690,6 +695,14 @@ HRESULT CPowerPointInterface::OnExtendTransLookupAction ( bool plaintext )
 {
 	try 
 	{
+
+		// If there is no text selected, we should not call extend selection.
+		const _bstr_t selected_text = m_textRangeParser.getSelectedText(plaintext) ;
+		if ( selected_text.length() == 0 )
+		{
+			return E_FAIL ;
+		}
+
 		if ( ! m_textRangeParser.extendSelection() )
 		{
 			MessageBeep( MB_ICONASTERISK ) ;

@@ -109,6 +109,22 @@ BOOST_AUTO_TEST_SUITE( CTMXWriterTestCase )
 		wstring expected = L"<seg>egg</seg>" ;
 		BOOST_CHECK(text.find(expected) != wstring::npos) ;
 	}
+	BOOST_AUTO_TEST_CASE( make_tu_real_trans_bad_amps )
+	{
+		CMockListener dummy ;
+		CTMXWriter tmx_writer(static_cast< CProgressListener* >(&dummy), 
+			get_props(), 
+			CUserName().as_wstring() ) ;
+
+		mem_engine::record_pointer rec(new mem_engine::record_local()) ;
+		rec->set_source(L"spam") ;
+		rec->set_trans(L"egg & spam");
+		CResHtmlFile resFile( _T("TMX_TU") ) ;
+		wstring tmplText = (LPCWSTR)resFile.text() ;
+		wstring text = tmx_writer.make_tu(rec, tmplText) ;
+		wstring expected = L"<seg>egg &amp; spam</seg>" ;
+		BOOST_CHECK(text.find(expected) != wstring::npos) ;
+	}
 	BOOST_AUTO_TEST_CASE( make_tu_real_source)
 	{
 		CMockListener dummy ;

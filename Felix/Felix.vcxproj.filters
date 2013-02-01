@@ -99,9 +99,6 @@
     <ClCompile Include="ConnectionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DemoException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -379,9 +376,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="ConnectionDlg_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="data_converter_test.cpp">
@@ -950,6 +944,12 @@
     </ClCompile>
     <ClCompile Include="TMXReader_test.cpp">
       <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

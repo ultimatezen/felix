@@ -114,6 +114,9 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'" />
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">C:\dev\cpp\Assistant Suite\common;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">C:\dev\cpp\Assistant Suite\common;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">C:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">C:\dev\cpp\Assistant Suite\CppTempl\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">C:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <PreBuildEvent>
@@ -522,6 +525,8 @@ echo Protection complete!
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\cpptempl\cpptempl.cpp" />
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp" />
     <ClCompile Include="..\common\aboutdlg.cpp" />
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
@@ -628,13 +633,6 @@ echo Protection complete!
     <ClCompile Include="ComRecords.cpp" />
     <ClCompile Include="ConcordanceDialog.cpp" />
     <ClCompile Include="ConnectionDlg.cpp" />
-    <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">Use</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="DemoException.cpp" />
     <ClCompile Include="..\common\distance.cpp" />
     <ClCompile Include="document_wrapper.cpp" />
@@ -986,18 +984,6 @@ echo Protection complete!
     <ClCompile Include="ComRecords_test.cpp" />
     <ClCompile Include="ConcordanceDialog_test.cpp" />
     <ClCompile Include="ConnectionDlg_test.cpp" />
-    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">
-      </PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="data_converter_test.cpp" />
     <ClCompile Include="data_exporter_test.cpp" />
     <ClCompile Include="data_importer_test.cpp" />

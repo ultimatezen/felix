@@ -114,22 +114,7 @@ public:
 		return *this ;
 	}
 	/*!
-	 * \brief
-	 * Write brief comment for empty here.
-	 * 
-	 * \returns
-	 * Write description of return value here.
-	 * 
-	 * \throws <exception class>
-	 * Description of criteria for throwing this exception.
-	 * 
-	 * Write detailed description for empty here.
-	 * 
-	 * \remarks
-	 * Write remarks for empty here.
-	 * 
-	 * \see
-	 * Separate items with the '|' character.
+	 * Is the string empty?
 	 */
 	bool empty()
 	{
@@ -148,19 +133,8 @@ public:
 	}
 private:
 	/*!
-	 * \brief
-	 * Write brief comment for normalize here.
-	 * 
-	 * \throws <exception class>
-	 * Description of criteria for throwing this exception.
-	 * 
-	 * Write detailed description for normalize here.
-	 * 
-	 * \remarks
-	 * Write remarks for normalize here.
-	 * 
-	 * \see
-	 * Separate items with the '|' character.
+	 * Normalizes the text string.
+	 * Replaces special chars with HTML entities.
 	 */
 	void normalize()
 	{
