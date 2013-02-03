@@ -695,7 +695,6 @@ HRESULT CPowerPointInterface::OnExtendTransLookupAction ( bool plaintext )
 {
 	try 
 	{
-
 		// If there is no text selected, we should not call extend selection.
 		const _bstr_t selected_text = m_textRangeParser.getSelectedText(plaintext) ;
 		if ( selected_text.length() == 0 )

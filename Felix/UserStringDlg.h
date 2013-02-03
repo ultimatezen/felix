@@ -5,7 +5,6 @@
 
 #pragma once
 #include "messagemapdefines.h"
-#include "WideRichEdit.h"		// for CWideRichEdit
 #include "Exceptions.h"			// for exception support
 #include "WindowExceptionHandler.h"
 
@@ -18,8 +17,8 @@ class CUserStringDlg :
 	public CWindowExceptionHandler< CUserStringDlg >
 {
 
-	CWideRichEdit		m_key_edit ;
-	CWideRichEdit		m_value_edit ;
+	CCommandEdit		m_key_edit ;
+	CCommandEdit		m_value_edit ;
 
 public:
 	static const int IDD = IDD_USER_STRING_DLG ;

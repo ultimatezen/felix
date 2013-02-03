@@ -242,9 +242,7 @@ static const int DONT_SEND_BUTTON_ID = 18 ;
 static const int CRASH_PAGE_ID = 19 ;
 static const int ERROR_TITLE_ID = 57672 ;
 
-// use Unicode version of RTF
-#undef RICHEDIT_CLASS
-#define RICHEDIT_CLASS RICHEDIT_CLASSW
+#include "command_edit.h"
 
 #ifndef FLOAT_EQ
 static const double EPSILON = 0.00001 ;
@@ -252,7 +250,7 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-static const char* VERSION = "1.7.2" ;
+static const char* VERSION = "1.7.1.3" ;
 static const wchar_t* LOGGING_SERVER = L"FelixHelpers.FelixLogger" ;
 #define LOGFILE_NAME _T("felix.log")
  

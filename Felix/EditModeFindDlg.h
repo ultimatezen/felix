@@ -11,7 +11,6 @@
 
 #include "resource.h"
 #include "HtmlDocument.h"		// CHtmlDocument
-#include "WideRichEdit.h"		// CWideRichEdit
 #include "MessageMapDefines.h"	// more crackers
 #include "Exceptions.h"			// CException
 #include "Accelerator.h"		// CAccelerator
@@ -63,7 +62,7 @@ protected:
 	emode_search_params		m_params ;
 	html::CHtmlDocument		m_doc ;
 
-	CWideRichEdit			m_find_edit ;
+	CCommandEdit			m_find_edit ;
 	CComboBox				m_search_type_combo ;
 
 public:
@@ -619,7 +618,7 @@ class CEditModeReplaceDlg  :
 	public CEditModeCommonFunctions< CEditModeReplaceDlg >
 {
 	typedef CEditModeCommonFunctions< CEditModeReplaceDlg > ParentClass ;
-	CWideRichEdit			m_replace_edit ;
+	CCommandEdit			m_replace_edit ;
 
 public:
 	

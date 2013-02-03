@@ -15,11 +15,11 @@ class CConnectionDlg :
 	public CDialogImpl<CConnectionDlg, CWindow>, 
 	public CWindowExceptionHandler< CConnectionDlg >
 {
-	CEdit	m_edit ;
+	CCommandEdit	m_edit ;
 	CStatic m_err_box ;
 
-	CEdit	m_username ;
-	CEdit	m_password ;
+	CCommandEdit	m_username ;
+	CCommandEdit	m_password ;
 
 public:
 	static const int IDD = IDD_CONNECTION_DLG ;

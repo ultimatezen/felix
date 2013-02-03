@@ -326,9 +326,9 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 	m_RegisterBtn.Attach(GetDlgItem(IDC_REGISTER)) ;
 	m_CloseBtn.Attach(GetDlgItem(IDCLOSE)) ;
 
-	m_AddCombo.Attach(GetDlgItem(IDC_ADD_TO_COMBO)) ;
 	m_AddStatic.Attach(GetDlgItem(IDC_ADD_STATIC)) ;
-
+	m_AddCombo.Attach(GetDlgItem(IDC_ADD_TO_COMBO)) ;
+	set_combo_font();
 	fill_add_combo();
 
 	CWindowRect AddButtonRect(m_AddSourceBtn) ;
@@ -1059,4 +1059,32 @@ void CRegisterGlossDlg::fresh_record_focus()
 	m_gloss_source_edit.SetText(blank) ;
 	m_gloss_trans_edit.SetText(blank) ;
 	m_rec_source_edit.set_html_focus() ;
+}
+
+void CRegisterGlossDlg::set_combo_font()
+{
+	// We need to change the font so that Japanese text appears correctly in the edit control.
+	HFONT hFont = CreateFont(
+		10, //  int nHeight,
+		0, //  int nWidth,
+		0, //  int nEscapement,
+		0, //  int nOrientation,
+		FW_DONTCARE, //  int fnWeight,
+		FALSE, //  DWORD fdwItalic,
+		FALSE, //  DWORD fdwUnderline,
+		FALSE, //  DWORD fdwStrikeOut,
+		DEFAULT_CHARSET, //  DWORD fdwCharSet,
+		OUT_OUTLINE_PRECIS, //  DWORD fdwOutputPrecision,
+		CLIP_DEFAULT_PRECIS, //  DWORD fdwClipPrecision,
+		CLEARTYPE_QUALITY, //  DWORD fdwQuality,
+		VARIABLE_PITCH, //  DWORD fdwPitchAndFamily,
+		TEXT("MS Dialog Shell") //  LPCTSTR lpszFace
+		);
+
+	ATLASSERT(hFont) ;
+	if (hFont)
+	{
+		BOOL redraw = FALSE ;
+		m_AddCombo.SetFont(hFont, redraw) ;
+	}
 }

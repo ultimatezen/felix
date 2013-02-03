@@ -19,7 +19,7 @@
 class CInputSymbolDlg : 
 	public CDialogImpl<CInputSymbolDlg, CWindow>
 {
-	CEdit	m_edit ;
+	CCommandEdit	m_edit ;
 public:
 	static const int BUFSIZE = 512 ;
 	TCHAR	m_text[BUFSIZE] ;

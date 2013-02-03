@@ -139,23 +139,19 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// add flags to support other controls
 	LOG_DEBUG("Loading Windows libraries") ;
 
-	if(! AtlInitCommonControls( ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES | ICC_NATIVEFNTCTL_CLASS))
+	if(! AtlInitCommonControls( ICC_COOL_CLASSES | 
+				ICC_BAR_CLASSES | 
+				ICC_INTERNET_CLASSES | 
+				ICC_USEREX_CLASSES | 
+				ICC_WIN95_CLASSES | 
+				ICC_NATIVEFNTCTL_CLASS |
+				ICC_UPDOWN_CLASS))
 	{
 		logging::log_error("Failed to init common controls.") ;
 	}
 
-	// We need the rich edit control
-	CLibrary riched_lib( CWideRichEdit::GetLibraryName() ) ;
-	ATLASSERT( riched_lib.is_loaded() ) ;
-	if ( ! riched_lib.is_loaded() )
-	{
-		// Loading didn't work, so we try loading it manually.
-		logging::log_debug("Loading RTF library") ;
-		riched_lib.load( CRichEditCtrl::GetLibraryName() ) ;
-		ATLASSERT( riched_lib.is_loaded() ) ;
-	}
 
-	logging::log_debug("Opening main Felix window") ;
+	LOG_DEBUG("Initializing COM server") ;
 	// Initialize Felix module and ActiveX windowing
 	// We need ActiveX because we embed the IE web browser
 	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
@@ -276,6 +272,35 @@ public:
 	}
 };
 
+int do_unit_testing(HINSTANCE hInstance)
+{
+	ATLTRACE( "Unit testing app...\n" ) ;
+	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
+	if(! _Module.set_library( _T("lang\\EngResource.dll") ))
+	{
+		logging::log_error("Failed to load English-language resource") ;
+	}
+
+	char *args[] = {"", "--report_level=detailed", "--result_code=yes", "--log_level=message"};
+	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
+
+	if (ut_result)
+	{
+		::MessageBeep(MB_ICONSTOP) ;
+		ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
+	}
+	else
+	{
+		::MessageBeep(MB_ICONINFORMATION) ;
+		ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
+	}
+
+	_Module.Term() ;
+	::OleUninitialize() ;
+	return EXIT_SUCCESS ;
+
+}
+
 /*!
  * Our program's entry point.
  * 
@@ -299,6 +324,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	{
 		// logging has failed somehow
 		e ;
+		ATLASSERT(FALSE && "Exception trying to do logging") ;
 	}
 	catch(...)
 	{
@@ -315,34 +341,11 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 #ifdef UNIT_TEST
 	lpstrCmdLine ;
 	nCmdShow ;
+	do_unit_testing(hInstance) ;
 
-    ATLTRACE( "Unit testing app...\n" ) ;
-	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
-	if(! _Module.set_library( _T("lang\\EngResource.dll") ))
-	{
-		logging::log_error("Failed to load English-language resource") ;
-	}
 
-	char *args[] = {"", "--report_level=detailed", "--result_code=yes", "--log_level=message"};
-	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
-
-	if (ut_result)
-	{
-		::MessageBeep(MB_ICONSTOP) ;
-		ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
-	}
-	else
-	{
-		::MessageBeep(MB_ICONINFORMATION) ;
-		ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
-	}
-
-	_Module.Term() ;
-	::OleUninitialize() ;
-    return EXIT_SUCCESS ;
-
-// otherwise, proceed with program as usual (not unit testing)
 #else
+	// normal program execution (not unit testing)
 
 	// going to a subroutine makes it cleaner to separate app code from error handling
 	try

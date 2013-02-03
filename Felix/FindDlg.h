@@ -11,7 +11,6 @@
 
 #include "record.h"				// for record_pointer
 #include "query.h"				// for search_params_ptr
-#include "WideRichEdit.h"		// for CWideRichEdit
 #include "Exceptions.h"			// for exception support
 #include "Accelerator.h"		// CAccelerator
 
@@ -31,9 +30,9 @@ class CFindDlg  :
 	mem_engine::search_query_params	m_params ;
 	mem_engine::record_pointer		m_record ;
 
-	CWideRichEdit		m_source_edit ;
-	CWideRichEdit		m_trans_edit ;
-	CWideRichEdit		m_context_edit ;
+	CCommandEdit		m_source_edit ;
+	CCommandEdit		m_trans_edit ;
+	CCommandEdit		m_context_edit ;
 
 	CCommandEdit		m_reliability_edit ;
 

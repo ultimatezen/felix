@@ -11,7 +11,6 @@
 
 #include "SourceAndHtmlEdit.h"
 #include "ExtraStringsView.h"
-#include "WideRichEdit.h"
 
 #include "UserStringDlg.h"
 #include "reg_msg_filter.h"

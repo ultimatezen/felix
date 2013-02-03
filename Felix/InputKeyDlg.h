@@ -19,7 +19,7 @@
 class CInputKeyDlg : 
 	public CDialogImpl< CInputKeyDlg, CWindow >
 {
-	CEditT<CWindow>	m_edit ;
+	CCommandEdit	m_edit ;
 
 public:
 	DECLARE_SENSING_VAR ;

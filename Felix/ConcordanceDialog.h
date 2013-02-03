@@ -20,7 +20,7 @@ class CConcordanceDialog  :
 		public CDialogImpl< CConcordanceDialog, CWindow >, 
 		public CWindowExceptionHandler< CConcordanceDialog >
 {
-	CEdit		m_edit ;
+	CCommandEdit		m_edit ;
 	tstring		m_text ;
 
 public:

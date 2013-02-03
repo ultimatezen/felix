@@ -161,8 +161,8 @@ LRESULT CEditModeReplaceDlg::OnReplace( )
 
 	wstring range_text = get_range_text() ;
 
-	ATLASSERT ( m_params.m_search_string == m_find_edit.GetText() ) ; 
 	wstring search_text = m_find_edit.GetText() ;
+	ATLASSERT ( m_params.m_search_string == search_text ) ; 
 
 	check_make_lower(range_text, search_text);	
 	

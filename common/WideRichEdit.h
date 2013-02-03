@@ -16,19 +16,7 @@
 #error CWideRichEdit requires Rich Edit version 3.0 or higher.
 #endif
 
-/**
-	@class CCommandEdit 
-	@brief Edit class handling keyboard shortcuts for cut/paste etc.
- */
-class CCommandEdit : public CWindowImpl<CCommandEdit, CEditT<CWindow> >,
-					public CEditCommands<CCommandEdit>
-{
-	public:
-	
-	BEGIN_MSG_MAP(CCommandEdit)
-		CHAIN_MSG_MAP_ALT(CEditCommands<CCommandEdit>, 1)
-	END_MSG_MAP()
-} ;
+
 
 /**
 	@class CWideRichEdit 

@@ -21,7 +21,7 @@ class CAdvancedMemMgrDlg :
 {
 	//  CButton                     m_idcancel;
 	CButton                     m_idcLocked;
-	CEdit                       m_idcReliabilityEdit;
+	CCommandEdit                m_idcReliabilityEdit;
 	CUpDownCtrl                 m_idcReliabilitySpin;
 	CButton                     m_idcValidity;
 	//  CButton                     m_idok;

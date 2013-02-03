@@ -1075,7 +1075,6 @@ echo Protection complete!
     <ClCompile Include="view_state_review_test.cpp" />
     <ClCompile Include="ViewCollectionWalker_test.cpp" />
     <ClCompile Include="WebPage_test.cpp" />
-    <ClCompile Include="WideRichEdit_test.cpp" />
     <ClCompile Include="window_state_tests.cpp" />
     <ClCompile Include="WindowsMessage_test.cpp" />
     <ClCompile Include="xpmenu_test.cpp" />
@@ -1334,7 +1333,6 @@ echo Protection complete!
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">true</BrowseInformation>
     </ClCompile>
     <ClCompile Include="TranslationMemory_test.cpp" />
-    <ClCompile Include="..\common\WideRichEdit.cpp" />
     <ClCompile Include="TMXImportDlg.cpp" />
     <ClCompile Include="TMXImportDlg_test.cpp" />
   </ItemGroup>
@@ -1378,6 +1376,7 @@ echo Protection complete!
   <ItemGroup>
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
+    <ClInclude Include="command_edit.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="rule_placement.h" />
     <ClInclude Include="mem_tests.h" />
@@ -1529,7 +1528,6 @@ echo Protection complete!
     <ClInclude Include="view_interface.h" />
     <ClInclude Include="ViewCollectionWalker.h" />
     <ClInclude Include="WebPage.h" />
-    <ClInclude Include="..\common\WideRichEdit.h" />
     <ClInclude Include="window_interface.h" />
     <ClInclude Include="window_listener.h" />
     <ClInclude Include="..\common\WindowExceptionHandler.h" />
