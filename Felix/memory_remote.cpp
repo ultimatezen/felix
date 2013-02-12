@@ -84,7 +84,7 @@ namespace mem_engine
 		// check each of the records for a match
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
-		foreach ( record_pointer record, candidates )
+		FOREACH ( record_pointer record, candidates )
 		{
 			const double score = distance.edist_score(query_cmp, record->get_source_rich()) ;
 			if (score > best_score)
@@ -122,7 +122,7 @@ namespace mem_engine
 			const Segment haystack(&m_cmp_maker, params.get_source_rich()) ;
 
 			search_match_ptr match(this->make_match()) ;
-			foreach(record_pointer record, candidates)
+			FOREACH(record_pointer record, candidates)
 			{
 				const Segment needle(&m_cmp_maker, record->get_source_rich()) ;
 				match->set_record(record) ;
@@ -141,7 +141,7 @@ namespace mem_engine
 			const wstring query_cmp = segment.cmp() ;
 			gloss_match_tester tester(query_cmp) ;
 
-			foreach( record_pointer record, candidates)
+			FOREACH( record_pointer record, candidates)
 			{
 				search_match_ptr match(this->make_match(record)) ;
 				match->set_values_to_record() ;
@@ -179,7 +179,7 @@ namespace mem_engine
 			this->convert_candidates(candidates, com_matches) ;
 		}
 
-		foreach(record_pointer record, candidates)
+		FOREACH(record_pointer record, candidates)
 		{
 			search_match_ptr match(this->make_match(record)) ;
 			match->set_values_to_record() ;
@@ -670,7 +670,7 @@ namespace mem_engine
 		this->convert_candidates(candidates, remote_matches) ;
 
 		// Collect the matches with exact match of plain source
-		foreach(record_pointer record, candidates)
+		FOREACH(record_pointer record, candidates)
 		{
 			if (record->get_source_plain() == query)
 			{

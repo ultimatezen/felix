@@ -39,7 +39,7 @@ void add_common_std_bitmaps(std::vector< int > &StdBitmaps)
 void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
 {
 	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, StdBitmaps.size() + 1 ) ;
-	foreach(int img_id, StdBitmaps)
+	FOREACH(int img_id, StdBitmaps)
 	{
 		CBitmap bmp ;
 		ATLVERIFY(bmp.LoadBitmap(img_id)) ;
@@ -159,7 +159,7 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	memory_list memories_needing_saving ;
 	this->get_memory_model()->get_memories_needing_saving( memories_needing_saving ) ;
 
-	foreach (memory_pointer mem, memories_needing_saving)
+	FOREACH (memory_pointer mem, memories_needing_saving)
 	{
 		if (check_save_memory(mem) == IDCANCEL)
 		{
@@ -839,7 +839,7 @@ void CCommonWindowFunctionality::save_all_memories()
 {
 	memory_list &memories = this->get_memory_model()->get_memories() ;
 
-	foreach(memory_pointer mem, memories)
+	FOREACH(memory_pointer mem, memories)
 	{
 		do_save( mem ) ;
 	}
@@ -1135,7 +1135,7 @@ void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, 
 	tabbed_export::TabbedTextExporter exporter(output) ;
 	
 	trans_set records ;
-	foreach(record_pointer record, mem->get_records() | ad::map_values)
+	FOREACH(record_pointer record, mem->get_records() | ad::map_values)
 	{
 		records.insert(record) ;
 	}

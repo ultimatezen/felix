@@ -824,7 +824,7 @@ bool CGlossaryDialog::handle_open()
 
 	case 3:
 		{
-			foreach(CString filename, import_files.m_filenames)
+			FOREACH(CString filename, import_files.m_filenames)
 			{
 				import_tabbed_text(filename) ;
 			}
@@ -841,7 +841,7 @@ bool CGlossaryDialog::handle_open()
 
 void CGlossaryDialog::load_felix_files(file::OpenDlgList& import_files)
 {
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		load(filename) ;
 	}
@@ -849,7 +849,7 @@ void CGlossaryDialog::load_felix_files(file::OpenDlgList& import_files)
 
 void CGlossaryDialog::import_multiterm( const file::OpenDlgList &import_files )
 {
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		import_multiterm(filename) ;
 	}
@@ -1049,7 +1049,7 @@ bool CGlossaryDialog::exit_silently()
 	memory_list memories ;
 	m_memories->get_memories_needing_saving( memories ) ;
 	
-	foreach( memory_pointer mem, memories) 
+	FOREACH( memory_pointer mem, memories) 
 	{
 		mem->set_saved_flag( true ) ;
 	}
@@ -1259,7 +1259,7 @@ void CGlossaryDialog::get_gloss_names( std::list< CString > &names )
 
 	ATLASSERT ( ! m_memories->empty() ) ; 
 
-	foreach(memory_pointer mem, m_memories->get_memories())
+	FOREACH(memory_pointer mem, m_memories->get_memories())
 	{
 		names.push_back(mem->get_location( )) ;
 	}
@@ -1928,7 +1928,7 @@ void CGlossaryDialog::load_history()
 	std::copy(history_props->m_loaded_gloss.begin(), history_props->m_loaded_gloss.end(), std::back_inserter(items)) ;
 	std::reverse(items.begin(), items.end()) ;
 
-	foreach(wstring filename, items)
+	FOREACH(wstring filename, items)
 	{
 		TRACE(filename) ;
 		load(filename.c_str(), false) ;
@@ -1938,7 +1938,7 @@ void CGlossaryDialog::load_history()
 	std::copy(history_props->m_loaded_remote_gloss.begin(), history_props->m_loaded_remote_gloss.end(), std::back_inserter(items)) ;
 	std::reverse(items.begin(), items.end()) ;
 
-	foreach(wstring filename, items)
+	FOREACH(wstring filename, items)
 	{
 		try
 		{

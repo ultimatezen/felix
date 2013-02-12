@@ -168,7 +168,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts,
 		font_table_buffer.eat_whitespace() ;
 	}
 
-	foreach(const wstring font, fonts)
+	FOREACH(const wstring font, fonts)
 	{
 		m_fonts.add_font(string2tstring(font)) ;
 	}
@@ -221,7 +221,7 @@ void TradosDataExporter::export_trados( memory_pointer mem )
 	int num_missed = 0 ;
 	size_t count = 0 ;
 
-	foreach(record_pointer rec, mem->get_records() | ad::map_values)
+	FOREACH(record_pointer rec, mem->get_records() | ad::map_values)
 	{
 		try
 		{
@@ -1069,7 +1069,7 @@ void multiterm_data_exporter_55::export_gloss( mem_engine::memory_pointer &mem )
 	m_listener->OnProgressInit( mem->get_location(), 0, mem->size() ) ;
 
 	long i = 0 ;
-	foreach(record_pointer record, mem->get_records() | ad::map_values)
+	FOREACH(record_pointer record, mem->get_records() | ad::map_values)
 	{
 		write_record( record ) ;
 		++i ;
@@ -1130,7 +1130,7 @@ void multiterm_data_exporter_6::export_gloss( mem_engine::memory_pointer mem )
 	write_line( m_source_lang, m_target_lang, notes ) ;
 
 	int i = 0 ;
-	foreach(record_pointer record, mem->get_records() | ad::map_values)
+	FOREACH(record_pointer record, mem->get_records() | ad::map_values)
 	{
 		write_record(record) ;
 

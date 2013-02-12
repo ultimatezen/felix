@@ -11,7 +11,7 @@ CLanguageHolder::~CLanguageHolder(void)
 
 void CLanguageHolder::put_langs_into_combo(CComboBox & combo)
 {
-	foreach(tstring lang, m_languages)
+	FOREACH(tstring lang, m_languages)
 	{
 		combo.AddString( lang.c_str() ) ;
 	}

@@ -47,7 +47,7 @@ namespace mem_engine
 		// Get the matches for our glossary entry in TM.
 		size_t gloss_placer::get_matches( search_match_container &matches, const wstring text )
 		{
-			foreach(memory_pointer mem, m_memories)
+			FOREACH(memory_pointer mem, m_memories)
 			{
 				mem->get_perfect_matches(matches, text) ;
 			}
@@ -58,7 +58,7 @@ namespace mem_engine
 		size_t gloss_placer::get_trans_subset( search_match_container &matches, const wstring trans ) const
 		{
 			search_match_container tmp ;
-			foreach(search_match_ptr match, matches)
+			FOREACH(search_match_ptr match, matches)
 			{
 				wstring gloss_hit = match->get_record()->get_trans_plain() ;
 				// IFF it occurs once in trans

@@ -413,7 +413,7 @@ void CSearchWindow::get_replace_matches_mem( mem_engine::memory_pointer mem,
 {
 	matcher_ptr matcher = get_matcher(replace_from) ;
 	m_search_runner.set_matchers() ;
-	foreach(record_pointer rec, mem->get_records() | boost::adaptors::map_values)
+	FOREACH(record_pointer rec, mem->get_records() | boost::adaptors::map_values)
 	{
 		if (m_search_runner.is_match(rec) 
 			&& matcher->is_match(rec))
@@ -823,7 +823,7 @@ void CSearchWindow::handle_replace_all(doc3_wrapper_ptr doc,
 	const wstring replace_to = replaceto_box->get_attribute(L"value") ;
 
 	size_t num_replaced = 0 ;
-	foreach(search_match_ptr match, m_replace_matches)
+	FOREACH(search_match_ptr match, m_replace_matches)
 	{
 		if (replace_in_memory(match, replace_from, replace_to))
 		{
@@ -932,7 +932,7 @@ void CSearchWindow::save_results( match_vec &matches )
 	SENSE("save_results") ;
 	memory_pointer mem(new memory_local(m_listener->get_properties())) ;
 
-	foreach(mem_engine::search_match_ptr match, matches)
+	FOREACH(mem_engine::search_match_ptr match, matches)
 	{
 		mem->add_record(match->get_record()) ;
 	}
@@ -969,7 +969,7 @@ wstring get_filter_text( const std::vector<wstring> & terms )
 	cpptempl::data_map data ;
 	cpptempl::data_list filters ;
 
-	foreach(wstring term, terms)
+	FOREACH(wstring term, terms)
 	{
 		filters.push_back(cpptempl::make_data(term)) ;
 	}

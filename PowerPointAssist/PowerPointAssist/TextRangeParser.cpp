@@ -129,7 +129,7 @@ bool CTextRangeParser::selectNext(void)
 				last_char_was_period = true ;
 				PowerPoint::TextRangePtr chars_so_far = characters->Characters( 1, i ) ;
 				const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
-				foreach(wstring word, m_abbreviations->m_abbreviations)
+				FOREACH(wstring word, m_abbreviations->m_abbreviations)
 				{
 					if (boost::ends_with(text_so_far, word))
 					{

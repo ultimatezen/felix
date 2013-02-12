@@ -81,9 +81,9 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 
-#include <boost/foreach.hpp>
-using namespace boost::foreach ;
-#define foreach BOOST_FOREACH
+#include <boost/FOREACH.hpp>
+using namespace boost::FOREACH ;
+#define FOREACH BOOST_FOREACH
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations

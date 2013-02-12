@@ -1146,7 +1146,7 @@ HRESULT CPowerPointInterface::select_next_sentence_from_textrange(PowerPoint::Te
 		{
 			PowerPoint::TextRangePtr chars_so_far = characters->Characters( 1, i ) ;
 			const wstring text_so_far = BSTR2wstring(chars_so_far->Text) ;
-			foreach(wstring word, m_abbreviations.m_abbreviations)
+			FOREACH(wstring word, m_abbreviations.m_abbreviations)
 			{
 				if (boost::ends_with(text_so_far, word))
 				{
@@ -1718,7 +1718,7 @@ bool CPowerPointInterface::is_ignorable( const wstring& text, bool skip_numbers,
 
 bool CPowerPointInterface::has_j( const wstring &text )
 {
-	foreach( wchar_t ch, text )
+	FOREACH( wchar_t ch, text )
 	{
 		if ( str::is_double_byte( ch ) )
 		{

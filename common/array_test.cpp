@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_SUITE( ArrayTests )
 		a.resize( 15 ) ;
 		a.init(35) ;
 
-		foreach(short i, a)
+		FOREACH(short i, a)
 		{
 			BOOST_CHECK_EQUAL(35, i) ;
 		}
@@ -307,7 +307,7 @@ BOOST_AUTO_TEST_SUITE( ArrayTests )
 		BOOST_CHECK_EQUAL(0u, a.max_size()) ;
 		BOOST_CHECK_EQUAL(5, (int)b.max_size()) ;
 
-		foreach(short i, b)
+		FOREACH(short i, b)
 		{
 			BOOST_CHECK_EQUAL(10, i) ;
 		}
@@ -346,7 +346,7 @@ BOOST_AUTO_TEST_SUITE( ArrayTests )
 		a.init(10) ;
 
 		a = a ;
-		foreach(int i, a)
+		FOREACH(int i, a)
 		{
 			BOOST_CHECK_EQUAL(10, i) ;
 		}

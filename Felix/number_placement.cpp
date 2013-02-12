@@ -127,7 +127,7 @@ namespace mem_engine
 		std::wstring number_placer::narrow_num_str( const std::wstring &SourceNum )
 		{
 			wstring newsource ;
-			foreach(wchar_t c, SourceNum)
+			FOREACH(wchar_t c, SourceNum)
 			{
 				newsource += narrow_num(c) ;
 			}

@@ -123,7 +123,7 @@ bool WordController::is_ignorable( const wstring& text, bool skip_numbers, int s
 // Does the segment have any Asian characters?
 bool WordController::has_j( const wstring &text )
 {
-	foreach( wchar_t ch, text )
+	FOREACH( wchar_t ch, text )
 	{
 		if ( str::is_double_byte( ch ) )
 		{

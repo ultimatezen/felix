@@ -108,62 +108,64 @@ LRESULT CRegisterGlossDlg::OnSize(UINT type, CSize size)
 		return 0L ;
 	}
 
-	CClientRect ClientRect(*this) ;
+	CClientRect client_rect(*this) ;
 
+	this->InvalidateRect(&client_rect) ;
 	// pad rectangle
-	pad_rectangle(ClientRect, PaddingConst);
+	pad_rectangle(client_rect, PaddingConst);
 
 	//////////////////////////////////////////////////////////////////////////
 	// bottom buttons
 	//////////////////////////////////////////////////////////////////////////
 
-	resize_close_button(ClientRect);
-	resize_client_rect_close(ClientRect, PaddingConst);
+	resize_close_button(client_rect);
+	resize_client_rect_close(client_rect, PaddingConst);
 
-	resize_register_button(ClientRect);
+	resize_register_button(client_rect);
 
-	resize_advanced_button(ClientRect);
-	resize_client_rect_advanced(ClientRect, PaddingConst);
+	resize_advanced_button(client_rect);
+	resize_client_rect_advanced(client_rect, PaddingConst);
 
 	// add combo
-	const CWindowRect AddComboRect(m_AddCombo) ;
-	CRect NewAddComboRect(ClientRect) ;
+	const CWindowRect add_combobox_rect(m_AddCombo) ;
+	CRect new_add_combobox_rect(client_rect) ;
 
-	NewAddComboRect.top = NewAddComboRect.bottom - AddComboRect.Height() ;
-	const int add_combo_width = AddComboRect.Width() ;
-	NewAddComboRect.right = NewAddComboRect.right - PaddingConst ;
-	NewAddComboRect.left = NewAddComboRect.right - add_combo_width ;
-	m_AddCombo.MoveWindow(&NewAddComboRect, TRUE) ;
+	new_add_combobox_rect.top = new_add_combobox_rect.bottom - add_combobox_rect.Height() ;
+	const int add_combo_width = add_combobox_rect.Width() ;
+	new_add_combobox_rect.right = new_add_combobox_rect.right - PaddingConst ;
+	new_add_combobox_rect.left = new_add_combobox_rect.right - add_combo_width ;
+	m_AddCombo.MoveWindow(&new_add_combobox_rect, TRUE) ;
 	m_AddCombo.ShowWindow(SW_SHOW) ;
+	m_AddCombo.InvalidateRect(&new_add_combobox_rect) ;
 
-	CWindowRect AddStaticRect(m_AddStatic) ;
-	const int add_static_width = AddStaticRect.Width() ;
-	AddStaticRect.top = NewAddComboRect.top ;
-	AddStaticRect.right = NewAddComboRect.left - PaddingConst ;
-	AddStaticRect.left = AddStaticRect.right - add_static_width ;
-	AddStaticRect.bottom = NewAddComboRect.bottom ;
+	CWindowRect add_static_rect(m_AddStatic) ;
+	const int add_static_width = add_static_rect.Width() ;
+	add_static_rect.top = new_add_combobox_rect.top ;
+	add_static_rect.right = new_add_combobox_rect.left - PaddingConst ;
+	add_static_rect.left = add_static_rect.right - add_static_width ;
+	add_static_rect.bottom = new_add_combobox_rect.bottom ;
 
-	m_AddStatic.MoveWindow(&AddStaticRect, TRUE) ;
+	m_AddStatic.MoveWindow(&add_static_rect, TRUE) ;
 	m_AddStatic.ShowWindow(SW_SHOW) ;
-	m_AddStatic.InvalidateRect(&AddStaticRect) ;
+	m_AddStatic.InvalidateRect(&add_static_rect) ;
 
 	CWindowRect add_combo_rect(m_AddCombo) ;
-	ClientRect.bottom -= (add_combo_rect.Height() + PaddingConst) ;
+	client_rect.bottom -= (add_combo_rect.Height() + PaddingConst) ;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Boxes
 	//////////////////////////////////////////////////////////////////////////
 
-	int VertMidPoint = ClientRect.Width() / 2 ;
-	int HorMidPoint = ClientRect.Height() / 2 ;
+	int VertMidPoint = client_rect.Width() / 2 ;
+	int HorMidPoint = client_rect.Height() / 2 ;
 
 	CWindowRect AddSourceRect(m_AddSourceBtn) ;
 
 	int CenterPadding = (AddSourceRect.Width() / 2) + PaddingConst ;
 
 	// right and left columns
-	CRect LeftColumnRect(ClientRect) ;
-	CRect RightColumnRect(ClientRect) ;
+	CRect LeftColumnRect(client_rect) ;
+	CRect RightColumnRect(client_rect) ;
 
 	LeftColumnRect.right = LeftColumnRect.left + VertMidPoint ;
 	LeftColumnRect.right -= CenterPadding ;
@@ -965,7 +967,7 @@ void CRegisterGlossDlg::fill_add_combo()
 	// Re-fill the combo contents.
 	// This is in case the number/names of glossaries changed.
 	m_AddCombo.ResetContent() ;
-	foreach(mem_engine::memory_pointer mem, model->get_memories())
+	FOREACH(mem_engine::memory_pointer mem, model->get_memories())
 	{
 		m_AddCombo.AddString(get_mem_name(mem)) ;
 	}
@@ -1061,11 +1063,12 @@ void CRegisterGlossDlg::fresh_record_focus()
 	m_rec_source_edit.set_html_focus() ;
 }
 
+// We need to change the font of the combo box
+// so that DBC text appears correctly in the edit control.
 void CRegisterGlossDlg::set_combo_font()
 {
-	// We need to change the font so that Japanese text appears correctly in the edit control.
 	HFONT hFont = CreateFont(
-		10, //  int nHeight,
+		0, //  int nHeight,
 		0, //  int nWidth,
 		0, //  int nEscapement,
 		0, //  int nOrientation,

@@ -12,7 +12,7 @@ namespace action
 
 		m_new->clear_memory() ;
 		mem_engine::copy_mem_info(m_old, m_new) ;
-		foreach(mem_engine::record_pointer rec, records)
+		FOREACH(mem_engine::record_pointer rec, records)
 		{
 			m_new->add_record(rec) ;
 		}

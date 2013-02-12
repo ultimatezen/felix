@@ -745,7 +745,7 @@ bool CFelixExcelIF::IsIgnoreCell( const wstring &text )
 	// double-byte characters
 	if (m_properties->get_segmentation_type() == SKIP_IF_J)
 	{
-		foreach( wchar_t ch, text )
+		FOREACH( wchar_t ch, text )
 		{
 			if ( str::is_double_byte( ch ) )
 			{
@@ -756,7 +756,7 @@ bool CFelixExcelIF::IsIgnoreCell( const wstring &text )
 	else if (m_properties->get_segmentation_type() == SKIP_UNLESS_J)
 	{
 		bool hasJ = false ;
-		foreach( wchar_t ch, text )
+		FOREACH( wchar_t ch, text )
 		{
 			if ( str::is_double_byte( ch ) )
 			{

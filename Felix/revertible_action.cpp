@@ -8,7 +8,7 @@ namespace action
 	{
 		using namespace mem_engine;
 		m_new->clear_memory() ;
-		foreach(mem_engine::record_pointer rec, m_old->get_records() | ad::map_values)
+		FOREACH(mem_engine::record_pointer rec, m_old->get_records() | ad::map_values)
 		{
 			m_new->add_record(rec) ;
 		}
@@ -21,7 +21,7 @@ namespace action
 		using namespace mem_engine;
 		m_old->clear_memory() ;
 		mem_engine::copy_mem_info(m_new, m_old) ;
-		foreach(mem_engine::record_pointer rec, m_new->get_records() | ad::map_values)
+		FOREACH(mem_engine::record_pointer rec, m_new->get_records() | ad::map_values)
 		{
 			m_old->add_record(rec->clone()) ;
 			rec->set_source(pred(rec->get_source_rich())) ;

@@ -48,7 +48,7 @@ void CTabbedTextImporter::add_records( const wstring text )
 		0, 
 		lines.size() ) ;
 
-	foreach(wstring line, lines)
+	FOREACH(wstring line, lines)
 	{
 		this->add_record(line) ;
 		m_listener->OnProgressLoadUpdate( m_memory->size() ) ;

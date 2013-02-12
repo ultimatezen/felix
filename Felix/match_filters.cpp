@@ -29,7 +29,7 @@ namespace mem_search
 
 		if (is_wanted_mem(mem))
 		{
-			foreach(record_pointer rec, mem->get_records() | ad::map_values)
+			FOREACH(record_pointer rec, mem->get_records() | ad::map_values)
 			{
 				if (is_match(rec))
 				{
@@ -67,7 +67,7 @@ namespace mem_search
 	bool search_runner::is_match( const record_pointer rec ) const
 	{
 
-		foreach(matcher_ptr matcher, m_matchers)
+		FOREACH(matcher_ptr matcher, m_matchers)
 		{
 			if (! matcher->is_match(rec))
 			{
@@ -86,7 +86,7 @@ namespace mem_search
 
 		const wstring MEM_TAG = L"mem:" ;
 		const wstring GLOSS_TAG = L"gloss:" ;
-		foreach(wstring term, m_terms)
+		FOREACH(wstring term, m_terms)
 		{
 			if (boost::starts_with(term, MEM_TAG) || boost::starts_with(term, GLOSS_TAG))
 			{

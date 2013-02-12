@@ -101,7 +101,7 @@ namespace mem_engine
 		this->get_match_candidates(candidates, params.get_source_rich(), min_score) ;
 
 		// check each of the records for a match
-		foreach ( record_pointer record, candidates )
+		FOREACH ( record_pointer record, candidates )
 		{
 			search_match_ptr match_test(this->make_match(record)) ;
 			Segment source(&m_cmp_maker, record->get_source_rich()) ;
@@ -151,7 +151,7 @@ namespace mem_engine
 			trans_set candidates ;
 			this->get_rmatch_candidates(candidates, params.get_source_rich(), min_score) ;
 
-			foreach ( record_pointer record, candidates )
+			FOREACH ( record_pointer record, candidates )
 			{
 				search_match_ptr match_test(this->make_match(record)) ;
 				Segment source(&m_cmp_maker, record->get_trans_rich()) ;

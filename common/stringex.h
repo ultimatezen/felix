@@ -1124,7 +1124,7 @@ static const wchar_t IDEOGRAPHIC_SPACE = (wchar_t)0x3000 ;
 } ;
 inline bool has_asian(const wstring s)
 {
-	foreach(wchar_t c, s)
+	FOREACH(wchar_t c, s)
 	{
 		if (str::is_asian(c))
 		{
@@ -1135,7 +1135,7 @@ inline bool has_asian(const wstring s)
 }
 inline bool has_spaces(const wstring s)
 {
-	foreach(wchar_t c, s)
+	FOREACH(wchar_t c, s)
 	{
 		if (iswspace(c))
 		{

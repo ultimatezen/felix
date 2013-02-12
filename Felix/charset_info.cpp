@@ -131,7 +131,7 @@ unsigned int charset_info::cp_from_charset( const BYTE charset ) const
 unsigned int charset_info::cp_from_lang_str( const string lang ) const
 {
 	// first element is the string, second is the code
-	foreach(code_pair this_pair, codes)
+	FOREACH(code_pair this_pair, codes)
 	{
 		const string code_string = this_pair.first ;
 		if ( boost::iequals( code_string, lang ) == true ) 
@@ -139,7 +139,7 @@ unsigned int charset_info::cp_from_lang_str( const string lang ) const
 			return this_pair.second ;
 		}
 	}
-	foreach(code_pair this_pair, codes)
+	FOREACH(code_pair this_pair, codes)
 	{
 		const string code_string = this_pair.first ;
 		const string for_comp_chunk = str::left( lang, code_string.size() ) ;

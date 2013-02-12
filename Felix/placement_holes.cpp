@@ -147,7 +147,7 @@ namespace mem_engine
 			}
 
 			// middle
-			foreach(wchar_t c, query)
+			FOREACH(wchar_t c, query)
 			{
 				pairings.push_back(pairing_entity(c, PLACEMENT, c)) ;
 			}

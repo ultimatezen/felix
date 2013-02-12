@@ -37,7 +37,7 @@ memory_pointer memory_model::get_first_memory()
 
 memory_pointer memory_model::get_memory_by_name( const CString mem_name )
 {
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		CString cmp_name = mem->get_location(); 
 
@@ -57,7 +57,7 @@ size_t memory_model::total_memory_size()
 {
 	size_t total_size = 0 ;
 
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		total_size += mem->size() ;
 	}
@@ -79,7 +79,7 @@ bool memory_model::empty()
  */
 void memory_model::get_memories_needing_saving(memory_list &memories)
 {
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		if ( mem->is_saved() == false )
 		{
@@ -163,7 +163,7 @@ bool memory_model::get_glossary_matches( search_match_container &matches, const 
 bool memory_model::perform_search( search_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
-	foreach ( memory_pointer mem, m_memories )
+	FOREACH ( memory_pointer mem, m_memories )
 	{
 		if( mem->perform_search( matches, params ) )
 		{
@@ -179,7 +179,7 @@ bool memory_model::perform_search( search_match_container &matches, const search
 bool memory_model::find_trans_matches( trans_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		if( mem->find_trans_matches( matches, params ) )
 		{
@@ -192,7 +192,7 @@ bool memory_model::find_trans_matches( trans_match_container &matches, const sea
 bool memory_model::find_matches( trans_match_container &matches, const search_query_params &params )
 {
 	bool search_success = false ;
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		if( mem->find_matches( matches, params ) )
 		{
@@ -212,7 +212,7 @@ void memory_model::remove_record( record_pointer record, const size_t id )
 
 void memory_model::remove_record( record_pointer record )
 {
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		mem->erase(record) ;
 	}
@@ -242,7 +242,7 @@ void memory_model::add_record( const record_pointer &record, const size_t memory
 
 mem_engine::memory_pointer memory_model::get_memory_by_id( const size_t cmp_id )
 {
-	foreach(memory_pointer mem, m_memories)
+	FOREACH(memory_pointer mem, m_memories)
 	{
 		if ( cmp_id == mem->get_id() )
 		{

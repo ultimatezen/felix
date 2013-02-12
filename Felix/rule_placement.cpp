@@ -28,7 +28,7 @@ namespace placement
 	// Calculates the replacement strings for the matches found in get_matches.
 	bool regex_rule::get_replacements( const std::vector<wstring> &matches, std::vector<repl_t> &replacements ) const
 	{
-		foreach(wstring m, matches)
+		FOREACH(wstring m, matches)
 		{
 			const wstring result = boost::regex_replace(m, m_expr, m_repl);
 			replacements.push_back(repl_t(m, result)) ;
@@ -45,12 +45,12 @@ namespace placement
 	size_t regex_rules::get_matches(search_match_container &matches, const wstring text)
 	{
 		std::vector<repl_t> replacements ;
-		foreach(regex_ptr rule, m_rules)
+		FOREACH(regex_ptr rule, m_rules)
 		{
 			this->get_placements(rule, text, replacements) ;
 		}
 
-		foreach(repl_t repl, replacements)
+		FOREACH(repl_t repl, replacements)
 		{
 			matches.insert(this->make_match(repl.first, repl.second)) ;
 		}
@@ -128,7 +128,7 @@ namespace placement
 	wstring rule_placer::get_str(pairings_t &pairings, const CharType index) const
 	{
 		wstring s ; 
-		foreach(pairing_t p, pairings)
+		FOREACH(pairing_t p, pairings)
 		{
 			if (p.get_char(index))
 			{
@@ -146,7 +146,7 @@ namespace placement
 		const wstring source = this->get_str(pairings, SOURCE) ; 
 		const wstring query = this->get_str(pairings, QUERY) ;
 
-		foreach(regex_ptr rule, this->m_rules.m_rules)
+		FOREACH(regex_ptr rule, this->m_rules.m_rules)
 		{
 			if (place_rule(rule, pairings, trans, holes, source, query))
 			{
@@ -193,7 +193,7 @@ namespace placement
 		}
 
 		// middle
-		foreach(wchar_t c, param.q_replacement.first)
+		FOREACH(wchar_t c, param.q_replacement.first)
 		{
 			pairvec.push_back(pairing_entity(c, PLACEMENT, c)) ;
 		}
@@ -229,7 +229,7 @@ namespace placement
 			return false ;
 		}
 
-		foreach(repl_t rep, replacements)
+		FOREACH(repl_t rep, replacements)
 		{
 			if (num_hits(rep.first, param.source) == 1 && num_hits(rep.second, trans) == 1)
 			{
@@ -261,7 +261,7 @@ namespace placement
 			return false ;
 		}
 
-		foreach(repl_t rep, replacements)
+		FOREACH(repl_t rep, replacements)
 		{
 			if (num_hits(rep.first, text) == 1)
 			{

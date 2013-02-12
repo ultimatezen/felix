@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE(test_default)
 	Abbreviations abbrev ;
 	std::vector<wstring> tokens ;
 	tokens += L"Mr.", L"Mrs.", L"Ms.", L"Dr.", L"e.g.", L"i.e." ;
-	foreach(wstring token, tokens)
+	FOREACH(wstring token, tokens)
 	{
 		BOOST_CHECK( abbrev.m_abbreviations.find(token) !=  abbrev.m_abbreviations.end()) ;
 	}
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(test_load)
 	tokens += L"butter.", L"bitter." ;
 	wstring text = L"butter.\nbitter.\n" ;
 	abbrev.load(text) ;
-	foreach(wstring token, tokens)
+	FOREACH(wstring token, tokens)
 	{
 		BOOST_CHECK( abbrev.m_abbreviations.find(token) !=  abbrev.m_abbreviations.end()) ;
 	}

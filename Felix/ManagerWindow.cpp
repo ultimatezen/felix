@@ -914,7 +914,7 @@ bool CManagerWindow::remove_all( const std::vector<string> &tokens )
 	}
 	memory_list memories_needing_saving ;
 	controller->get_memories_needing_saving( memories_needing_saving ) ;
-	foreach (memory_pointer mem, memories_needing_saving)
+	FOREACH (memory_pointer mem, memories_needing_saving)
 	{
 		if (m_listener->check_save_memory(mem) == IDCANCEL)
 		{
@@ -991,7 +991,7 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 
 		case 3:
 			{
-				foreach(CString filename, import_files.m_filenames)
+				FOREACH(CString filename, import_files.m_filenames)
 				{
 					import_tabbed_text(filename) ;
 				}
@@ -1013,7 +1013,7 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 void CManagerWindow::add_memory_files(model_iface_ptr model,
 									  file::OpenDlgList &import_files)
 {
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		add_memory_file(model, filename);
 	}
@@ -1050,7 +1050,7 @@ void CManagerWindow::add_memory_file( model_iface_ptr model, CString filename )
 
 bool CManagerWindow::import_tmx( const file::OpenDlgList &files )
 {
-	foreach(CString filename, files.m_filenames)
+	FOREACH(CString filename, files.m_filenames)
 	{
 		import_tmx(filename) ;
 	}
@@ -1083,7 +1083,7 @@ bool CManagerWindow::import_trados( const file::OpenDlgList &files )
 {
 	try
 	{
-		foreach(CString filename, files.m_filenames)
+		FOREACH(CString filename, files.m_filenames)
 		{
 			import_trados(filename) ;
 		}
@@ -1153,7 +1153,7 @@ bool CManagerWindow::import_trados( const CString &trados_file_name )
 
 void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
 {
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		import_multiterm(filename) ;
 	}

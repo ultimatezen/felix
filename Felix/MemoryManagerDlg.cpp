@@ -525,7 +525,7 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 void CMemoryManagerDlg::add_memory_files( file::OpenDlgList &import_files )
 {
 	input_device_ptr input(new InputDeviceFile) ;
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		input->ensure_file_exists(filename);
 		add_memory_file(filename) ;

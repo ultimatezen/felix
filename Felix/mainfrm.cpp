@@ -554,21 +554,21 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 		this->load_old_preferences(options.m_prefs_file.c_str()) ;
 		return ;
 	}
-	foreach(tstring filename, options.m_tm_files)
+	FOREACH(tstring filename, options.m_tm_files)
 	{
 		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
 		this->add_memory(mem) ;
 	}
-	foreach(tstring filename, options.m_glossary_files)
+	FOREACH(tstring filename, options.m_glossary_files)
 	{
 		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
 		rawmem->load(filename.c_str()) ;
 		this->get_glossary_window()->add_glossary(mem) ;
 	}
-	foreach(tstring filename, options.m_xml_files)
+	FOREACH(tstring filename, options.m_xml_files)
 	{
 		memory_local *rawmem = new memory_local(m_props) ;
 		memory_pointer mem(rawmem) ;
@@ -582,15 +582,15 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 			this->get_glossary_window()->add_glossary(mem) ;
 		}
 	}
-	foreach(tstring filename, options.m_multiterm_files)
+	FOREACH(tstring filename, options.m_multiterm_files)
 	{
 		this->get_glossary_window()->import_multiterm(CString(filename.c_str())) ;
 	}
-	foreach(tstring filename, options.m_tmx_files)
+	FOREACH(tstring filename, options.m_tmx_files)
 	{
 		this->import_tmx(CString(filename.c_str()), input) ;
 	}
-	foreach(tstring filename, options.m_trados_text_files)
+	FOREACH(tstring filename, options.m_trados_text_files)
 	{
 		this->import_trados(CString(filename.c_str())) ;
 	}
@@ -866,7 +866,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 	}
 
 	// They are regular memory files
-	foreach(CString filename, import_files.m_filenames)
+	FOREACH(CString filename, import_files.m_filenames)
 	{
 		load(filename) ;
 	}
@@ -1474,7 +1474,7 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 	trans_match_container placed_gloss ;
 	trans_match_container placed_rules;
 
-	foreach(search_match_ptr match, matches)
+	FOREACH(search_match_ptr match, matches)
 	{
 		if ( match->get_score() < MATCH_THRESHOLD )
 		{
@@ -1497,21 +1497,21 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 	// This will get unwieldy with too many more types of
 	// placement...
 	// Got to redo this logic!
-	foreach(search_match_ptr match, placed_numbers)
+	FOREACH(search_match_ptr match, placed_numbers)
 	{
 		check_placement_gloss(placed_gloss, match);
 	}
 
 	// now add in all our placements
-	foreach(search_match_ptr match, placed_numbers)
+	FOREACH(search_match_ptr match, placed_numbers)
 	{
 		matches.insert(match) ;
 	}
-	foreach(search_match_ptr match, placed_gloss)
+	FOREACH(search_match_ptr match, placed_gloss)
 	{
 		matches.insert(match) ;
 	}
-	foreach(search_match_ptr match, placed_rules)
+	FOREACH(search_match_ptr match, placed_rules)
 	{
 		matches.insert(match) ;
 	}
@@ -1840,7 +1840,7 @@ INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 	const CString mem_loc = mem->get_location() ;
 
 	memory_list &memories = this->get_memories() ;
-	foreach (memory_pointer my_mem, memories)
+	FOREACH (memory_pointer my_mem, memories)
 	{
 		if ( 0 == mem_loc.CompareNoCase( my_mem->get_location() ) && mem->get_id() != my_mem->get_id() )
 		{
@@ -2101,7 +2101,7 @@ void CMainFrame::report_memory_after_load(size_t original_num)
 //! Destroy all the glossary windows (prior to shutdown).
 void CMainFrame::destroy_all_gloss_windows()
 {
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		if (gloss->IsWindow())
 		{
@@ -2167,7 +2167,7 @@ bool CMainFrame::exit_silently()
 {
 	SENSE("exit_silently") ;
 
-	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
 		if (gloss_win->IsWindow())
 		{
@@ -2178,7 +2178,7 @@ bool CMainFrame::exit_silently()
 	memory_list memories ;
 	m_model->get_memories()->get_memories_needing_saving( memories ) ;
 
-	foreach(memory_pointer mem, memories)
+	FOREACH(memory_pointer mem, memories)
 	{
 		mem->set_saved_flag(true) ;
 	}
@@ -2197,7 +2197,7 @@ bool CMainFrame::clear_memory()
 		memory_pointer mem = m_model->get_first_memory() ;
 		mem->clear_memory() ;
 	}
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		gloss->clear_memory() ;
 	}
@@ -2484,7 +2484,7 @@ void CMainFrame::set_translation_at(short index, const wstring translation )
 */
 bool CMainFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr input )
 {
-	foreach(CString filename, files.m_filenames)
+	FOREACH(CString filename, files.m_filenames)
 	{
 		import_tmx(filename, input) ;
 	}
@@ -2548,7 +2548,7 @@ bool CMainFrame::import_trados( const file::OpenDlgList &files )
 {
 	try
 	{
-		foreach(CString filename, files.m_filenames)
+		FOREACH(CString filename, files.m_filenames)
 		{
 			import_trados(filename) ;
 		}
@@ -2947,7 +2947,7 @@ LRESULT CMainFrame::on_user_save(WindowsMessage &message)
 	SENSE("on_user_save") ;
 
 	on_file_save(message) ;
-	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
 		if ( gloss_win->IsWindow())
 		{
@@ -3114,7 +3114,7 @@ LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &)
 
 	ShowWindow( SW_SHOW ) ;
 
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		if ( gloss->IsWindow() )
 		{
@@ -3136,7 +3136,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 
 	SENSE("on_view_min_begin") ;
 
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		if ( gloss->IsWindow() )
 		{
@@ -3178,7 +3178,7 @@ void CMainFrame::put_visible(int visibility)
 		ShowWindow( visibility ) ;
 	}
 
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		gloss->ShowWindow(visibility) ;
 	}
@@ -3219,7 +3219,7 @@ WORD CMainFrame::get_current_gui_language()
 */
 void CMainFrame::reflect_preferences()
 {
-	foreach( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
 		gloss_win->show_view_content() ;
 	}
@@ -3614,7 +3614,7 @@ void CMainFrame::set_up_window_size()
 */
 void CMainFrame::look_up_in_glossaries(const wstring query)
 {
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		ATLASSERT(gloss->IsWindow()) ;
 		if ( gloss->IsWindow() )
@@ -3812,7 +3812,7 @@ LPCTSTR CMainFrame::get_open_filter()
 */
 bool CMainFrame::gloss_win_shutdown_check()
 {
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		if ( false == gloss->pre_shutdown_save_check() )
 		{
@@ -3851,7 +3851,7 @@ void CMainFrame::put_show_marking( const VARIANT_BOOL setting )
 		m_trans_matches.m_params.m_show_marking = true ;
 	}
 
-	foreach(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
 		gloss->put_show_marking(setting) ;
 	}
@@ -4391,7 +4391,7 @@ wstring CMainFrame::get_new_source( pairings_t & pairings )
 {
 	// This hack obliterates our formatting info
 	wstring newsource ;
-	foreach(pairing_entity entity, pairings)
+	FOREACH(pairing_entity entity, pairings)
 	{
 		if(entity.source())
 		{
@@ -4716,7 +4716,7 @@ void CMainFrame::load_history()
 	std::vector<wstring> items ;
 	std::copy(loaded_mems.rbegin(), loaded_mems.rend(), std::back_inserter(items)) ;
 
-	foreach(wstring filename, items)
+	FOREACH(wstring filename, items)
 	{
 		LOG_VERBOSE(string("Loading from history: ") + string2string(filename)) ;
 		load( filename.c_str(), false) ;
@@ -4725,7 +4725,7 @@ void CMainFrame::load_history()
 	std::vector<wstring> remote_items ;
 	std::copy(history_props->m_loaded_remote_mems.rbegin(), history_props->m_loaded_remote_mems.rend(), std::back_inserter(remote_items)) ;
 
-	foreach(wstring filename, remote_items)
+	FOREACH(wstring filename, remote_items)
 	{
 		try
 		{
@@ -5375,7 +5375,7 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 		}
 
 		std::vector<qc::gloss_pair> gloss_matches ;
-		foreach(match_ptr match, matches)
+		FOREACH(match_ptr match, matches)
 		{
 			record_pointer rec = match->get_record() ;
 			gloss_matches.push_back(qc::gloss_pair(rec->get_source_plain(), rec->get_trans_plain())) ;

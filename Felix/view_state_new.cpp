@@ -134,7 +134,7 @@ void ViewStateNewMain::show_content()
 	{
 		std::vector<wstring> messages ;
 		m_window_listener->get_qc_messages(new_rec, messages) ;
-		foreach(wstring message, messages)
+		FOREACH(wstring message, messages)
 		{
 			qc_messages.push_back(cpptempl::make_data(message)) ;
 		}

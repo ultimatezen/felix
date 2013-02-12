@@ -15,7 +15,7 @@ namespace action
 
 	void ActionDeleteMatches::undo()
 	{
-		foreach(search_match_ptr match, m_matches)
+		FOREACH(search_match_ptr match, m_matches)
 		{
 			memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
 			mem->add_record(match->get_record()) ;
@@ -24,7 +24,7 @@ namespace action
 
 	void ActionDeleteMatches::redo()
 	{
-		foreach(search_match_ptr match, m_matches)
+		FOREACH(search_match_ptr match, m_matches)
 		{
 			memory_pointer mem = m_controller->get_memory_by_id(match->get_memory_id()) ;
 			mem->erase(match->get_record()) ;

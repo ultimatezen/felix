@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE( is_double_byte_false)
 BOOST_AUTO_TEST_CASE( is_hiragana)
 	{
 		wstring actual   = L"あいうえおかきくけこがぎぐげこさしすせそざじずぜぞたちつてとだぢづでどなにぬねのはひふへほばびぶべぼぱぴぷぺぽまもむめもらりるれろわをやゆよゃゅょ" ;
-		foreach(wchar_t c, actual)
+		FOREACH(wchar_t c, actual)
 		{
 			BOOST_CHECK(str::is_hiragana(c)) ;
 		}
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE( is_hiragana)
 BOOST_AUTO_TEST_CASE( is_katakana)
 	{
 		wstring actual   = L"アイウエオカキクケコガギグゲコサシスセソザジズゼゾタチツテトダヂヅデドナニヌネノハヒフヘホバビブベボパピプペポマモムメモラリルレロワヲヤユヨャュョ" ;
-		foreach(wchar_t c, actual)
+		FOREACH(wchar_t c, actual)
 		{
 			BOOST_CHECK(str::is_katakana(c)) ;
 		}

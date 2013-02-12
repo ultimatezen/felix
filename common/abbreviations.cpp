@@ -8,7 +8,7 @@ void Abbreviations::load(const wstring &text)
 	if (! tokens.empty())
 	{
 		m_abbreviations.clear() ;
-		foreach(wstring token, tokens)
+		FOREACH(wstring token, tokens)
 		{
 			if (! token.empty())
 			{

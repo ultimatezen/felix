@@ -24,7 +24,7 @@ bool mgrview::QCFormParser::live_check()
 void mgrview::QCFormParser::checked_glosses( const std::vector<size_t> &memids, std::vector<size_t> &existids )
 {
 	existids.clear() ;
-	foreach(size_t memid, memids)
+	FOREACH(size_t memid, memids)
 	{
 		if (is_id_checked(memid))
 		{

@@ -88,7 +88,7 @@ namespace app_props
 	{
 		pugi::xml_node files_node = node.append_child() ;
 		files_node.set_name(node_name.c_str()) ;
-		foreach(wstring filename, filenames)
+		FOREACH(wstring filename, filenames)
 		{
 			add_child(files_node, "filename", string2string(filename, CP_UTF8)) ;
 		}

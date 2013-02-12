@@ -58,7 +58,7 @@ namespace mgrview
 			cpptempl::data_list qc_messages ;
 			std::vector<wstring> messages ;
 			match->get_qc_messages(messages) ;
-			foreach(wstring message, messages)
+			FOREACH(wstring message, messages)
 			{
 				qc_messages.push_back(cpptempl::make_data(message)) ;
 			}

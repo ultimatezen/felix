@@ -239,7 +239,7 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_devi
 	std::set< tstring > languages ;
 	const size_t record_count = get_record_count(languages) ;
 	std::set< tstring > target_languages ;
-	foreach(tstring language, languages)
+	FOREACH(tstring language, languages)
 	{
 		if (! boost::iequals(language, m_header.m_srclang))
 		{

@@ -60,7 +60,7 @@ app_str_entry_ptr CAppStringRecordParser::get_next_record(void)
 	keys.push_back(L"id") ;
 	keys.push_back(L"trans") ;
 	keys.push_back(L"trans_tt") ;
-	foreach(wstring key, keys)
+	FOREACH(wstring key, keys)
 	{
 		entry->set_entry( key, node_parser.get_node_string( key ) ) ;
 	}

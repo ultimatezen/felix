@@ -152,7 +152,7 @@ namespace mem_engine
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
-		foreach ( record_pointer record, m_records | ad::map_values )
+		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
 			if ( distance.edist_score(query_cmp, record->get_source_cmp()) >= min_score)
 			{
@@ -168,7 +168,7 @@ namespace mem_engine
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
-		foreach ( record_pointer record, m_records | ad::map_values )
+		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
 			if ( distance.edist_score(query_cmp, record->get_trans_cmp()) >= min_score)
 			{
@@ -183,7 +183,7 @@ namespace mem_engine
 
 		double best_score = 0.0f ;
 		// check each of the records for a match
-		foreach ( record_pointer record, m_records | ad::map_values )
+		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
 			const double score = distance.edist_score(query_cmp, record->get_source_cmp()) ;
 			best_score = max(score, best_score) ;
@@ -235,7 +235,7 @@ namespace mem_engine
 		// we are using regular expressions
 		search_match_tester_regex tester( params ) ;
 		tester.set_search_match(this->make_match()) ;
-		foreach(record_pointer record, m_records | ad::map_values)
+		FOREACH(record_pointer record, m_records | ad::map_values)
 		{
 			if ( tester.is_match( record ) )
 			{
@@ -329,7 +329,7 @@ namespace mem_engine
 
 			int current_record = 0 ;
 			// loop through each of the records
-			foreach(record_pointer record, m_records | ad::map_values)
+			FOREACH(record_pointer record, m_records | ad::map_values)
 			{
 				try // Failing to save a single record should not make
 					// the entire save fail!
@@ -383,7 +383,7 @@ namespace mem_engine
 
 	mem_engine::record_pointer memory_local::add_by_id( size_t recid, const wstring source, const wstring trans )
 	{
-		foreach(record_pointer rec, m_records | ad::map_values)
+		FOREACH(record_pointer rec, m_records | ad::map_values)
 		{
 			if (recid == rec->get_id())
 			{
@@ -445,7 +445,7 @@ namespace mem_engine
 		}
 		if (params_changed)
 		{
-			foreach(record_pointer record, m_records | ad::map_values)
+			FOREACH(record_pointer record, m_records | ad::map_values)
 			{
 				record->set_cmp_maker(&m_cmp_maker) ;
 			}
@@ -457,7 +457,7 @@ namespace mem_engine
 		gloss_match_tester tester(query.cmp()) ;
 		tester.set_search_match(this->make_match()) ;
 
-		foreach( record_pointer record, m_records | ad::map_values)
+		FOREACH( record_pointer record, m_records | ad::map_values)
 		{
 			if ( tester.test_source( record ) )
 			{
@@ -477,7 +477,7 @@ namespace mem_engine
 		Segment haystack(&m_cmp_maker, params.get_source_rich()) ;
 
 		search_match_ptr match(this->make_match()) ;
-		foreach(record_pointer record, m_records | ad::map_values)
+		FOREACH(record_pointer record, m_records | ad::map_values)
 		{
 			if (distance.subdist_score(record->get_source_cmp(), haystack.cmp()) >= min_score)
 			{
@@ -575,7 +575,7 @@ namespace mem_engine
 	// tabulate_fonts
 	void memory_local::tabulate_fonts(font_tabulator &tabulator)
 	{
-		foreach(record_pointer record, m_records | ad::map_values)
+		FOREACH(record_pointer record, m_records | ad::map_values)
 		{
 			// clear doc text
 
@@ -594,7 +594,7 @@ namespace mem_engine
 		size_t high = 0 ;
 		double ave = 0 ;
 
-		foreach ( record_pointer record, m_records | ad::map_values )
+		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
 			const size_t rel = record->get_reliability() ;
 			low = min(low, rel) ;
@@ -632,7 +632,7 @@ namespace mem_engine
 	{
 		search_match_tester tester( params ) ;
 		tester.set_search_match(this->make_match()) ;
-		foreach( record_pointer record, m_records | ad::map_values )
+		FOREACH( record_pointer record, m_records | ad::map_values )
 		{
 			if ( tester.is_match( record ) )
 			{
@@ -654,7 +654,7 @@ namespace mem_engine
 			return ;
 		}
 		const size_t setting = min(rel, MAX_RELIABILITY) ;
-		foreach(record_pointer record, m_records | ad::map_values)
+		FOREACH(record_pointer record, m_records | ad::map_values)
 		{
 			record->set_reliability(setting) ;
 		}
@@ -666,7 +666,7 @@ namespace mem_engine
 		{
 			return ;
 		}
-		foreach( record_pointer record, m_records | ad::map_values )
+		FOREACH( record_pointer record, m_records | ad::map_values )
 		{
 			if ( val ) 
 			{
@@ -1008,7 +1008,7 @@ namespace mem_engine
 	// Get records with exact match of query to plain source
 	size_t memory_local::get_perfect_matches( search_match_container &matches, const wstring &query )
 	{
-		foreach(record_pointer record, m_records | ad::map_values)
+		FOREACH(record_pointer record, m_records | ad::map_values)
 		{
 			if (record->get_source_plain() == query)
 			{

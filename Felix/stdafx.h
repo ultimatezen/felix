@@ -88,6 +88,7 @@ using std::string ;
 //////////////////////////////////////////////////////////////////////////
 // boost
 //////////////////////////////////////////////////////////////////////////
+#pragma warning( disable : 2220 )
 
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 #include <boost/assign/std/set.hpp>
@@ -114,7 +115,7 @@ typedef boost::basic_format< TCHAR > tformat;
 
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;
-#define foreach BOOST_FOREACH
+#define FOREACH BOOST_FOREACH
 
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
@@ -132,6 +133,7 @@ namespace fs = boost::filesystem;
 #include <boost/flyweight.hpp>
 
 #include <boost/timer.hpp>
+#pragma warning( default : 2220 )
 
 
 //////////////////////////////////////////////////////////////////////////

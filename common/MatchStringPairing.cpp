@@ -60,7 +60,7 @@ bool is_substitution(std::pair< std::wstring,
  */
 bool is_num_rep(std::wstring& PotentialNum)
 {
-	foreach(wchar_t c, PotentialNum)
+	FOREACH(wchar_t c, PotentialNum)
 	{
 		if (! is_num_or_null(c))
 		{
@@ -94,7 +94,7 @@ std::wstring mark_up( pairings_t &pairs, CharType ct )
 	std::vector<wstring> markup ;
 	wstring buffer ;
 
-	foreach ( pairing_entity entity, pairs )
+	FOREACH ( pairing_entity entity, pairs )
 	{
 		const wchar_t c = entity.get_char(ct) ;
 
