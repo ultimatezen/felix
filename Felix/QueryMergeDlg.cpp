@@ -5,7 +5,10 @@ CQueryMergeDlg::CQueryMergeDlg(int title_res_id, int text_res_id, const CString 
 : m_bDontAsk(FALSE), 
 	m_iMerge(IDC_MERGE)
 {
-	ATLVERIFY(m_title.LoadString(title_res_id)) ;
+	if(! m_title.LoadString(title_res_id))
+	{
+		logging::log_warn("Failed to load title resource ID " + int2string(title_res_id)) ;
+	}
 	m_merge_message.Format(resource_string(text_res_id), mem_name) ;
 }
 

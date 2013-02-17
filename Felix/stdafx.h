@@ -88,7 +88,7 @@ using std::string ;
 //////////////////////////////////////////////////////////////////////////
 // boost
 //////////////////////////////////////////////////////////////////////////
-#pragma warning( disable : 2220 )
+#pragma warning( disable : 6334 )
 
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
 #include <boost/assign/std/set.hpp>
@@ -133,7 +133,7 @@ namespace fs = boost::filesystem;
 #include <boost/flyweight.hpp>
 
 #include <boost/timer.hpp>
-#pragma warning( default : 2220 )
+#pragma warning( default : 6334 )
 
 
 //////////////////////////////////////////////////////////////////////////

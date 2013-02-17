@@ -945,7 +945,10 @@ void CSearchWindow::save_results( match_vec &matches )
 void CSearchWindow::set_window_title( UINT pagetype )
 {
 	CString search ;
-	ATLVERIFY(search.LoadString(pagetype)) ;
+	if(! search.LoadString(pagetype))
+	{
+		logging::log_warn("Failed to load page type " + int2string(pagetype)) ;
+	}
 	CString brackets ;
 	brackets.Format(_T(" [%s]"), search) ;
 	SetWindowText( m_title + brackets) ;

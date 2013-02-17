@@ -157,7 +157,10 @@ namespace html
 		for( int i = 0; i < arraySize; i++)
 		{
 			CComBSTR bstr = paramArray.at(arraySize - 1 - i); // back reading
-			ATLVERIFY(SUCCEEDED(bstr.CopyTo(&dispparams.rgvarg[i].bstrVal)));
+			if(! SUCCEEDED(bstr.CopyTo(&dispparams.rgvarg[i].bstrVal)))
+			{
+				logging::log_warn("CWebPage::CallJScript -- Failed to copy BSTR value") ;
+			}
 			dispparams.rgvarg[i].vt = VT_BSTR;
 		}
 		dispparams.cNamedArgs = 0;

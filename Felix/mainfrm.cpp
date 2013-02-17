@@ -3437,7 +3437,7 @@ void CMainFrame::set_up_command_bars()
 	create_command_bar();
 
 	// remove old menu
-	SetMenu(NULL);
+	SetMenu((HMENU)NULL);
 
 	// Add menu bitmaps
 	AddMenuBitmap(IDB_NEW_DOCUMENT, ID_FILE_NEW) ;
