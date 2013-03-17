@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include "stringex.h"
 
 #include "File.h"
@@ -10,31 +10,31 @@ BOOST_AUTO_TEST_SUITE( TestStringEx )
 	// is_fullwidth_lower
 	BOOST_AUTO_TEST_CASE( is_fullwidth_lower_false )
 	{
-		wchar_t c = L'‚`' ;
+		wchar_t c = L'ï¼¡' ;
 		BOOST_CHECK(! str::is_fullwidth_lower(c)) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_fullwidth_lower_true )
 	{
-		wchar_t c = L'‚' ;
+		wchar_t c = L'ï½' ;
 		BOOST_CHECK(str::is_fullwidth_lower(c)) ;
 	}
 
 	// is_fullwidth_number
 	BOOST_AUTO_TEST_CASE( is_fullwidth_number_true)
 	{
-		wchar_t c = L'‚S' ;
+		wchar_t c = L'ï¼”' ;
 		BOOST_CHECK(str::is_fullwidth_number(c)) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_fullwidth_number_false)
 	{
-		wchar_t c = L'‚`' ;
+		wchar_t c = L'ï¼¡' ;
 		BOOST_CHECK(! str::is_fullwidth_number(c)) ;
 	}
 
 	// is_fullwidth_upper
 	BOOST_AUTO_TEST_CASE( is_fullwidth_upper_true )
 	{
-		wchar_t c = L'‚`' ;
+		wchar_t c = L'ï¼¡' ;
 		BOOST_CHECK(str::is_fullwidth_upper(c)) ;
 	}
 	BOOST_AUTO_TEST_CASE( is_fullwidth_upper_false )
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_SUITE( NormalizeWidthTest )
 	BOOST_AUTO_TEST_CASE( FullWidthPercent )
 	{
 		file::view fview ;
-		wstring ftext = L"“‚U‚O“" ;
+		wstring ftext = L"ï¼…ï¼–ï¼ï¼…" ;
 		str::normalize_width( ftext ) ;
 		// we skip character 0 because that is just the BOM
 		BOOST_CHECK_EQUAL( L"%60%", ftext) ;
@@ -99,19 +99,19 @@ BOOST_AUTO_TEST_SUITE( NormalizeWidthTest )
 // normalize_fullwidth_upper
 BOOST_AUTO_TEST_CASE( normalize_fullwidth_upper )
 {
-	wchar_t c = L'‚`' ;
+	wchar_t c = L'ï¼¡' ;
 	BOOST_CHECK(L'A' == str::normalize_fullwidth_upper(c)) ;
 }
 // normalize_fullwidth_lower
 BOOST_AUTO_TEST_CASE( normalize_fullwidth_lower )
 {
-	wchar_t c = L'‚' ;
+	wchar_t c = L'ï½' ;
 	BOOST_CHECK(L'a' == str::normalize_fullwidth_lower(c)) ;
 }
 // normalize_fullwidth_number
 BOOST_AUTO_TEST_CASE( normalize_fullwidth_number)
 {
-	wchar_t c = L'‚S' ;
+	wchar_t c = L'ï¼”' ;
 	BOOST_CHECK(L'4' == str::normalize_fullwidth_number(c)) ;
 }
 
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_SUITE( double_byte_tests )
 
 BOOST_AUTO_TEST_CASE( is_asian_true)
 {
-	wchar_t c = L'“ú' ;
+	wchar_t c = L'æ—¥' ;
 	BOOST_CHECK(str::is_asian(c)) ;
 }
 BOOST_AUTO_TEST_CASE( is_asian_false)
@@ -132,11 +132,11 @@ BOOST_AUTO_TEST_CASE( is_asian_false)
 
 BOOST_AUTO_TEST_CASE( asian_yes )
 	{
-		BOOST_CHECK(str::is_asian(L'©')) ;
-		BOOST_CHECK(str::is_asian(L'‚ç')) ;
-		BOOST_CHECK(str::is_asian(L'ƒJ')) ;
-		BOOST_CHECK(str::is_asian(L'B')) ;
-		BOOST_CHECK(str::is_asian(L'[')) ;
+		BOOST_CHECK(str::is_asian(L'è‡ª')) ;
+		BOOST_CHECK(str::is_asian(L'ã‚‰')) ;
+		BOOST_CHECK(str::is_asian(L'ã‚«')) ;
+		BOOST_CHECK(str::is_asian(L'ã€‚')) ;
+		BOOST_CHECK(str::is_asian(L'ãƒ¼')) ;
 	}
 BOOST_AUTO_TEST_CASE( asian_no )
 	{
@@ -147,13 +147,13 @@ BOOST_AUTO_TEST_CASE( asian_no )
 
 BOOST_AUTO_TEST_CASE( is_asian_false_is_double_byte_true)
 	{
-		wchar_t c = L'ƒ¿' ; // U+03B1
+		wchar_t c = L'Î±' ; // U+03B1
 		BOOST_CHECK(! str::is_asian(c)) ;
 		BOOST_CHECK(str::is_double_byte(c)) ;
 	}
 BOOST_AUTO_TEST_CASE( is_double_byte_true)
 	{
-		wchar_t c = L'“ú' ;
+		wchar_t c = L'æ—¥' ;
 		BOOST_CHECK(str::is_double_byte(c)) ;
 	}
 BOOST_AUTO_TEST_CASE( is_double_byte_false)
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE( is_double_byte_false)
 
 BOOST_AUTO_TEST_CASE( is_hiragana)
 	{
-		wstring actual   = L"‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚ª‚¬‚®‚°‚±‚³‚µ‚·‚¹‚»‚´‚¶‚¸‚º‚¼‚½‚¿‚Â‚Ä‚Æ‚¾‚À‚Ã‚Å‚Ç‚È‚É‚Ê‚Ë‚Ì‚Í‚Ğ‚Ó‚Ö‚Ù‚Î‚Ñ‚Ô‚×‚Ú‚Ï‚Ò‚Õ‚Ø‚Û‚Ü‚à‚Ş‚ß‚à‚ç‚è‚é‚ê‚ë‚í‚ğ‚â‚ä‚æ‚á‚ã‚å" ;
+		wstring actual   = L"ã‚ã„ã†ãˆãŠã‹ããã‘ã“ãŒããã’ã“ã•ã—ã™ã›ãã–ã˜ãšãœããŸã¡ã¤ã¦ã¨ã ã¢ã¥ã§ã©ãªã«ã¬ã­ã®ã¯ã²ãµã¸ã»ã°ã³ã¶ã¹ã¼ã±ã´ã·ãºã½ã¾ã‚‚ã‚€ã‚ã‚‚ã‚‰ã‚Šã‚‹ã‚Œã‚ã‚ã‚’ã‚„ã‚†ã‚ˆã‚ƒã‚…ã‚‡" ;
 		FOREACH(wchar_t c, actual)
 		{
 			BOOST_CHECK(str::is_hiragana(c)) ;
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE( is_hiragana)
 	}
 BOOST_AUTO_TEST_CASE( is_katakana)
 	{
-		wstring actual   = L"ƒAƒCƒEƒGƒIƒJƒLƒNƒPƒRƒKƒMƒOƒQƒRƒTƒVƒXƒZƒ\ƒUƒWƒYƒ[ƒ]ƒ^ƒ`ƒcƒeƒgƒ_ƒaƒdƒfƒhƒiƒjƒkƒlƒmƒnƒqƒtƒwƒzƒoƒrƒuƒxƒ{ƒpƒsƒvƒyƒ|ƒ}ƒ‚ƒ€ƒƒ‚ƒ‰ƒŠƒ‹ƒŒƒƒƒ’ƒ„ƒ†ƒˆƒƒƒ…ƒ‡" ;
+		wstring actual   = L"ã‚¢ã‚¤ã‚¦ã‚¨ã‚ªã‚«ã‚­ã‚¯ã‚±ã‚³ã‚¬ã‚®ã‚°ã‚²ã‚³ã‚µã‚·ã‚¹ã‚»ã‚½ã‚¶ã‚¸ã‚ºã‚¼ã‚¾ã‚¿ãƒãƒ„ãƒ†ãƒˆãƒ€ãƒ‚ãƒ…ãƒ‡ãƒ‰ãƒŠãƒ‹ãƒŒãƒãƒãƒãƒ’ãƒ•ãƒ˜ãƒ›ãƒãƒ“ãƒ–ãƒ™ãƒœãƒ‘ãƒ”ãƒ—ãƒšãƒãƒãƒ¢ãƒ ãƒ¡ãƒ¢ãƒ©ãƒªãƒ«ãƒ¬ãƒ­ãƒ¯ãƒ²ãƒ¤ãƒ¦ãƒ¨ãƒ£ãƒ¥ãƒ§" ;
 		FOREACH(wchar_t c, actual)
 		{
 			BOOST_CHECK(str::is_katakana(c)) ;
@@ -181,16 +181,16 @@ BOOST_AUTO_TEST_CASE( is_katakana)
 
 BOOST_AUTO_TEST_CASE( normalize_hiragana_to_katakana_nihongo)
 	{
-		wstring actual   = L"‚É‚Ù‚ñ‚²" ;
+		wstring actual   = L"ã«ã»ã‚“ã”" ;
 		str::normalize_hiragana_to_katakana(actual) ;
-		wstring expected =  L"ƒjƒzƒ“ƒS";
+		wstring expected =  L"ãƒ‹ãƒ›ãƒ³ã‚´";
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 BOOST_AUTO_TEST_CASE( normalize_hiragana_to_katakana_mixed)
 	{
-		wstring actual   = L"Felix‚Æ‚Íƒƒ‚ƒŠŒ^–|–óx‰‡ƒc[ƒ‹‚Å‚ ‚éB" ;
+		wstring actual   = L"Felixã¨ã¯ãƒ¡ãƒ¢ãƒªå‹ç¿»è¨³æ”¯æ´ãƒ„ãƒ¼ãƒ«ã§ã‚ã‚‹ã€‚" ;
 		str::normalize_hiragana_to_katakana(actual) ;
-		wstring expected = L"Felixƒgƒnƒƒ‚ƒŠŒ^–|–óx‰‡ƒc[ƒ‹ƒfƒAƒ‹B" ;
+		wstring expected = L"Felixãƒˆãƒãƒ¡ãƒ¢ãƒªå‹ç¿»è¨³æ”¯æ´ãƒ„ãƒ¼ãƒ«ãƒ‡ã‚¢ãƒ«ã€‚" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 

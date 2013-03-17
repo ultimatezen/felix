@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Match up holes in strings for placement.
  */
 #include "StdAfx.h"
@@ -75,7 +75,7 @@ bool is_num_rep(std::wstring& PotentialNum)
  */
 int is_num_or_null( wchar_t c )
 {
-	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'�D' || c == L',') ;
+	return ( iswdigit( narrow_num( c ) ) || c == 0 ||  c == L'.' || c == L'-' || c == L'．' || c == L',') ;
 }
 
 int is_num_pair(pairing_entity& pe)

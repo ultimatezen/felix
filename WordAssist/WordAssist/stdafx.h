@@ -1,4 +1,4 @@
-// stdafx.h : include file for standard system include files,
+ï»¿// stdafx.h : include file for standard system include files,
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
@@ -75,14 +75,14 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/tuple/tuple.hpp>
 #include <boost/bind.hpp>
 
-#pragma warning( disable : 4701 ) // ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢‰Â”\«‚Ì‚ ‚éƒ[ƒJƒ‹•Ï” 'result' ‚ªg—p‚³‚ê‚Ü‚·
+#pragma warning( disable : 4701 ) // åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å¯èƒ½æ€§ã®ã‚ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•° 'result' ãŒä½¿ç”¨ã•ã‚Œã¾ã™
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 
 #include <boost/FOREACH.hpp>
-using namespace boost::FOREACH ;
+using namespace boost::foreach ;
 #define FOREACH BOOST_FOREACH
 
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch

@@ -4,7 +4,6 @@
 	@date 2005/06/25
 	Time: 15:34:25
 	@author Ryan Ginstrom
-	@dir c:\Programming\Programming Projects\Felix 1.5
  */
 
 #pragma once

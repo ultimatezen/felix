@@ -32,7 +32,7 @@ CStringA system_message_a( UINT id, ... )
 
 	// get format string from string table
 	CStringA strFormat ;
-	if( ! strFormat.LoadString( id ) ) ;
+	if( ! strFormat.LoadString( id ) )
 	{
 		logging::log_warn("Failed to load format string " + int2string(id)) ;
 	}
@@ -64,7 +64,7 @@ CStringW system_message_w( UINT id, ... )
 
 	// get format string from string table
 	CStringW strFormat ;
-	if( ! strFormat.LoadString( id ) ) ;
+	if( ! strFormat.LoadString( id ) )
 	{
 		logging::log_warn("Failed to load format string " + int2string(id)) ;
 	}

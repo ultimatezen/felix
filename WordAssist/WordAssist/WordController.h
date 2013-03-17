@@ -14,7 +14,7 @@
 #include <map>
 #include "Word2HtmlParser.h"
 #include "logging.h"
-#import "C:\dev\cpp\Assistant Suite\Felix\Unicode_Release\Felix.tlb"\
+#import "D:\dev\cpp\Assistant Suite\Felix\Unicode_Release\Felix.tlb"\
 	rename("TranslateAccelerator", "FelixTranslateAccelerator")
 
 class WordController 

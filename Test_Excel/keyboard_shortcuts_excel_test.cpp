@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "keyboard_shortcuts_excel.h"
+#include "../ExcelAssist/ExcelAssist/keyboard_shortcuts_excel.h"
 #include "keyboard_shortcuts.h"
 
 #ifdef UNIT_TEST

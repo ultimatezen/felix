@@ -75,9 +75,8 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/regex.hpp>
 
 #include <boost/FOREACH.hpp>
-using namespace boost::FOREACH ;
+using namespace boost::foreach ;
 #define FOREACH BOOST_FOREACH
-
 
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES

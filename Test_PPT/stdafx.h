@@ -1,4 +1,4 @@
-// stdafx.h : include file for standard system include files,
+ï»¿// stdafx.h : include file for standard system include files,
 // or project specific include files that are used frequently, but
 // are changed infrequently
 //
@@ -26,8 +26,8 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma warning( disable : 4267 ) // 'size_t' ‚©‚ç 'DWORD' ‚É•ÏŠ·‚µ‚Ü‚µ‚½Bƒf[ƒ^‚ª¸‚í‚ê‚Ä‚¢‚é‚©‚à‚µ‚ê‚Ü‚¹‚ñB
-#pragma warning( disable : 4312 ) // 'reinterpret_cast' : 'LONG' ‚©‚ç‚æ‚è‘å‚«‚¢ƒTƒCƒY‚Ì 'HINSTANCE' ‚Ö•ÏŠ·‚µ‚Ü‚·B
+#pragma warning( disable : 4267 ) // convert size_t to DWORD
+#pragma warning( disable : 4312 ) // 'reinterpret_cast'
 
 #ifndef STRICT
 #define STRICT
@@ -62,8 +62,7 @@
 #define _ATL_ALL_WARNINGS
 
 #include <atlstr.h>
-#include "resource.h"
-
+#include "../PowerPointAssist/PowerPointAssist/resource.h"
 
 #include "cstringinterface.h"
 #include <atltypes.h>
@@ -104,13 +103,13 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/bind.hpp>
 #include <boost/cast.hpp>
 
-#pragma warning( disable : 4701 ) // ‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢‰Â”\«‚Ì‚ ‚éƒ[ƒJƒ‹•Ï” 'result' ‚ªg—p‚³‚ê‚Ü‚·
+#pragma warning( disable : 4701 ) // åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å¯èƒ½æ€§ã®ã‚ã‚‹ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•° 'result' ãŒä½¿ç”¨ã•ã‚Œã¾ã™
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 #include <boost/FOREACH.hpp>
-using namespace boost::FOREACH ;
+using namespace boost::foreach ;
 #define FOREACH BOOST_FOREACH
 
 #include <atlbase.h>

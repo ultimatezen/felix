@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE( TestFileOpHandler )
 	{
 		CString out = get_local_appdata_folder() ;
 		string actual = (LPCSTR)CT2A(out) ;
-		string expected = "C:\\Users\\Ryan\\AppData\\Local" ;
+		string expected = "D:\\Users\\Ryan\\AppData\\Local" ;
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 

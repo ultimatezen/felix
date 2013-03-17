@@ -4,7 +4,6 @@
 	@date 2005/06/25
 	Time: 10:04:34
 	@author Ryan Ginstrom
-	@dir c:\Programming\Programming Projects\Felix 1.5
  */
 
 #include "StdAfx.h"
@@ -185,10 +184,12 @@ LRESULT CGlossaryDialog::on_close_command( )
 		SetMsgHandled( TRUE ) ;
 		return 1 ;
 	}
-	 
-	ATLASSERT( IsWindow() ) ;
 
+#ifndef UNIT_TEST
+	ATLASSERT( IsWindow() ) ;
 	DestroyWindow() ;
+#endif
+
 	return 0 ;
 }
 

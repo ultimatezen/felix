@@ -4921,7 +4921,7 @@ LRESULT CMainFrame::on_help_check_updates(WindowsMessage &)
 
 	CString filepath = path.Path() ;
 #ifdef _DEBUG
-	filepath = "C:\\Program Files (x86)\\Assistant Suite\\Felix\\pytools\\CheckUpdates.exe" ;
+	filepath = "D:\\Program Files (x86)\\Assistant Suite\\Felix\\pytools\\CheckUpdates.exe" ;
 #endif
 
 	HINSTANCE result = ::ShellExecute(

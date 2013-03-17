@@ -42,7 +42,7 @@ void CViewCollectionWalker::RepairLinkUrl( element_wrapper_ptr element, const ws
 
 	href = href.substr(8) ;
 
-	// doc_url = "file://C:\Users\RyanVista\AppData\Local\Felix\html\en\start.html"
+	// doc_url = "file://D:\Users\RyanVista\AppData\Local\Felix\html\en\start.html"
 	wstring doc ;
 	if (str::left(doc_path, 7) == L"file://")
 	{

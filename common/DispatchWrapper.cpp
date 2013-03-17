@@ -116,6 +116,7 @@ DISPID CDispatchWrapper::get_dispid( LPCWSTR name )
 		1, 
 		LOCALE_USER_DEFAULT, 
 		&dispID) ;
+
 	if ( FAILED(hr))
 	{
 		throw _com_error(hr) ;

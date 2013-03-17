@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE( test_properties )
 		output_device_ptr device(new OutputDeviceFake) ;
 		wstring filename = L"felix_rules.frules" ;
 		wstring actual = get_config_filename(filename, device) ;
-		wstring expected = L"C:\\Users\\Ryan\\AppData\\Local\\Felix\\prefs\\felix_rules.frules" ;
+		wstring expected = L"D:\\Users\\Ryan\\AppData\\Local\\Felix\\prefs\\felix_rules.frules" ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}

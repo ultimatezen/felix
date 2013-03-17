@@ -9,7 +9,7 @@
 #import "C:/dev/cpp/Common DLLs/Word 2000 OLBs/MSO.DLL"	\
 	rename_namespace("MSOffice") rename("RGB", "OfficeRGB") rename( "SearchPath", "OfficeSearchPath" ) rename("DocumentProperties", "OfficeDocumentProperties") named_guids    
 
-#import "C:\Program Files (x86)\Common Files\microsoft shared\VBA\VBA6\\VBE6EXT.olb" \
+#import "D:\Program Files (x86)\Common Files\microsoft shared\VBA\VBA6\\VBE6EXT.olb" \
 	rename_namespace("VBE6") 
 
 #import "C:/dev/cpp/Common DLLs/Word 2000 OLBs/MSWORD9.olb" \

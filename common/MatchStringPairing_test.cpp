@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+Ôªø#include "StdAfx.h"
 #include "MatchStringPairing.h"
 
 #ifdef UNIT_TEST
@@ -402,18 +402,20 @@ BOOST_AUTO_TEST_SUITE( test_narrow_num )
 		BOOST_CHECK_EQUAL( L'8', narrow_num( L'8' ) ) ;
 		BOOST_CHECK_EQUAL( L'9', narrow_num( L'9' ) ) ;
 	}
+#pragma warning( disable:4566 ) // #pragma deprecated
+
 	BOOST_AUTO_TEST_CASE( MatchesWide )
 	{
-		BOOST_CHECK_EQUAL( L'0', narrow_num( L'ÇO' ) ) ;
-		BOOST_CHECK_EQUAL( L'1', narrow_num( L'ÇP' ) ) ;
-		BOOST_CHECK_EQUAL( L'2', narrow_num( L'ÇQ' ) ) ;
-		BOOST_CHECK_EQUAL( L'3', narrow_num( L'ÇR' ) ) ;
-		BOOST_CHECK_EQUAL( L'4', narrow_num( L'ÇS' ) ) ;
-		BOOST_CHECK_EQUAL( L'5', narrow_num( L'ÇT' ) ) ;
-		BOOST_CHECK_EQUAL( L'6', narrow_num( L'ÇU' ) ) ;
-		BOOST_CHECK_EQUAL( L'7', narrow_num( L'ÇV' ) ) ;
-		BOOST_CHECK_EQUAL( L'8', narrow_num( L'ÇW' ) ) ;
-		BOOST_CHECK_EQUAL( L'9', narrow_num( L'ÇX' ) ) ;
+		BOOST_CHECK_EQUAL( L'0', narrow_num( L'Ôºê' ) ) ;
+		BOOST_CHECK_EQUAL( L'1', narrow_num( L'Ôºë' ) ) ;
+		BOOST_CHECK_EQUAL( L'2', narrow_num( L'Ôºí' ) ) ;
+		BOOST_CHECK_EQUAL( L'3', narrow_num( L'Ôºì' ) ) ;
+		BOOST_CHECK_EQUAL( L'4', narrow_num( L'Ôºî' ) ) ;
+		BOOST_CHECK_EQUAL( L'5', narrow_num( L'Ôºï' ) ) ;
+		BOOST_CHECK_EQUAL( L'6', narrow_num( L'Ôºñ' ) ) ;
+		BOOST_CHECK_EQUAL( L'7', narrow_num( L'Ôºó' ) ) ;
+		BOOST_CHECK_EQUAL( L'8', narrow_num( L'Ôºò' ) ) ;
+		BOOST_CHECK_EQUAL( L'9', narrow_num( L'Ôºô' ) ) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

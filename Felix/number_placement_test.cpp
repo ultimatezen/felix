@@ -1,4 +1,4 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "number_placement.h"
 
 #ifdef UNIT_TEST
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_SUITE( number_placement_tests )
 	{
 		gp::number_placer placer ;
 
-		wstring num = L"ÇPÇQÇRÇS.ÇTÇU" ;
+		wstring num = L"ÔºëÔºíÔºìÔºî.ÔºïÔºñ" ;
 		wstring actual = placer.narrow_num_str(num) ;
 		wstring expected = L"1234.56" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 		match_string_pairing pairing ;
 
 		pairing.match( L'a', L'a' ) ;
-		pairing.no_match( L'ÇR', L'2' ) ;
+		pairing.no_match( L'Ôºì', L'2' ) ;
 		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.get()), 0.000001 ) ;
 
 		trans_pair trans( L"3a", L"3a" ) ;
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 		match_string_pairing pairing ;
 
 		pairing.match( L'a', L'a' ) ;
-		pairing.no_match( L'ÇR', L'ÇQ' ) ;
+		pairing.no_match( L'Ôºì', L'Ôºí' ) ;
 		BOOST_CHECK_CLOSE( (double)1.0f / 2.0f, calc_score(pairing.get()), 0.000001 ) ;
 
 		trans_pair trans( L"3a", L"3a" ) ;
@@ -185,8 +185,8 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 
 		BOOST_CHECK_EQUAL( trans.second, L"<span class=\"placement\">2</span>a" ) ;
-		BOOST_CHECK_EQUAL( mark_up(parings, SOURCE), L"<span class=\"placement\">ÇQ</span>a" ) ;
-		BOOST_CHECK_EQUAL( mark_up(parings, SOURCE), L"<span class=\"placement\">ÇQ</span>a" ) ;
+		BOOST_CHECK_EQUAL( mark_up(parings, SOURCE), L"<span class=\"placement\">Ôºí</span>a" ) ;
+		BOOST_CHECK_EQUAL( mark_up(parings, SOURCE), L"<span class=\"placement\">Ôºí</span>a" ) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( TrivialPlacementFalse )
@@ -421,8 +421,8 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_Placement )
 		pairings_t pairs ;
 
 		pair_up_num(pairs, 
-			L"a2Ç©3a", 
-			L"a5Ç©6a") ;
+			L"a2‚Äö¬©3a", 
+			L"a5‚Äö¬©6a") ;
 
 		trans_pair trans( L"c2a3c", L"c2a3c" ) ;
 
@@ -447,12 +447,12 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 	{
 		match_string_pairing pairing ;
 
-		// source: \850,000 Åiê≈çû\892,500Åj
-		// query:  \1,300,000 Åiê≈çû\1,365,000Åj
+		// source: \850,000 ¬Åi¬ê√Ö¬ç≈æ\892,500¬Åj
+		// query:  \1,300,000 ¬Åi¬ê√Ö¬ç≈æ\1,365,000¬Åj
 		// trans: \850,000 (\892,500 with tax)
 
-		wstring source = L"\\**850,000 Åiê≈çû\\**892,500Åj" ;
-		wstring query  = L"\\1,300,000 Åiê≈çû\\1,365,000Åj" ;
+		wstring source = L"\\**850,000 (¬ÅÁ®éËæº„Åø\\**892,500¬Å)" ;
+		wstring query  = L"\\1,300,000 ¬Å(Á®éËæº„Åø\\1,365,000¬Å)" ;
 
 		BOOST_CHECK_EQUAL(source.size(), query.size()) ;
 
@@ -479,12 +479,8 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 	{
 		match_string_pairing pairing ;
 
-		// source: \850,000 Åiê≈çû\892,500Åj
-		// query:  \1,300,000 Åiê≈çû\1,365,000Åj
-		// trans: \850,000 (\892,500 with tax)
-
-		wstring source = L"\\**850,000 Åiê≈çû\\**892,500Åj" ;
-		wstring query  = L"\\1,300,000 Åiê≈çû\\1,365,000Åj" ;
+		wstring source = L"\\**850,000ÔºàÁ®éËæº„Åø\\**892,500¬ÅÔºâ" ;
+		wstring query  = L"\\1,300,000ÔºàÁ®éËæº„Åø\\1,365,000¬ÅÔºâ" ;
 
 		pair_up_num(pairing, source, query) ;
 
@@ -497,35 +493,8 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 
 		BOOST_CHECK( placer.place(pairs, trans) ) ;
 
-		wstring expected = L"\\<span class=\"placement\">1,300,000</span> Åiê≈çû\\<span class=\"placement\">1,365,000</span>Åj" ;
+		wstring expected = L"\\<span class=\"placement\">1,300,000</span>ÔºàÁ®éËæº„Åø\\<span class=\"placement\">1,365,000</span>¬ÅÔºâ" ;
 		wstring actual = pairing.mark_up_source() ;
-		BOOST_CHECK_EQUAL( expected, actual ) ;
-	}
-	BOOST_AUTO_TEST_CASE( backslash_error_extra_string_query )
-	{
-
-		match_string_pairing pairing ;
-
-		// source: \850,000 Åiê≈çû\892,500Åj
-		// query:  \1,300,000 Åiê≈çû\1,365,000Åj
-		// trans: \850,000 (\892,500 with tax)
-
-		wstring source = L"\\**850,000 Åiê≈çû\\**892,500Åj" ;
-		wstring query  = L"\\1,300,000 Åiê≈çû\\1,365,000Åj" ;
-
-		pair_up_num(pairing, source, query) ;
-
-		// a11
-		trans_pair trans( L"\\850,000 (\\892,500 with tax)", 
-			L"\\850,000 (\\892,500 with tax)" ) ;
-
-		pairings_t &pairs = pairing.get() ;
-		gp::number_placer placer ;
-
-		BOOST_CHECK( placer.place(pairs, trans) ) ;
-
-		wstring expected = L"\\<span class=\"placement\">1,300,000</span> Åiê≈çû\\<span class=\"placement\">1,365,000</span>Åj" ;
-		wstring actual = pairing.mark_up_query() ;
 		BOOST_CHECK_EQUAL( expected, actual ) ;
 	}
 

@@ -4,7 +4,6 @@
 	@date 2004/12/29
 	Time: 10:54:35
 	@author Ryan Ginstrom
-	@dir c:\Programming\Programming Projects\Felix 1.5
  */
 
 #pragma once
@@ -609,63 +608,5 @@ inline std::string get_arm_error_string( DWORD err = ::GetLastError() )
  }
 
 
-/**	: devious_crack_check_1
-   @brief	    You can also try to load a function called 
-     			  GetDOSEnvironment from Kernel32.DLL. That function 
-     			  doesn't exist in any 32-bit version of Windows, but 
-     			  Armadillo will substitute a similar function if it is
-     			  still protecting your program. If your program cannot 
-     			  load this function, then the Armadillo shell has been 
-     			  removed from it, and you can take the appropriate 
-     			  measures.
-   @retval  inline bool 
-*/
- inline bool devious_crack_check_1()
- {
-#ifdef _DEBUG
-	return true ;
-#else
-	HINSTANCE lib = ::LoadLibrary( _T("Kernel32.DLL") ) ;
-	if ( ! lib ) 
-		return true ;
-
-	FARPROC dummy_proc = ::GetProcAddress( lib, "GetDOSEnvironment" ) ;
-
-	if ( ! dummy_proc )
-	{
-		return false ;
-	}
-
-	::FreeLibrary( lib ) ;
-	return true ;
-#endif
- }
-
-
-/**	: devious_crack_check_2
-   @brief	    The other is to use SetEnvironmentVariable to 
-     			  try to change one of the Armadillo-supplied 
-     			  variables, and then read it using
-     			  GetEnvironmentVariable. If the variable actually 
-     			  changes, then you *know* that your program is no 
-     			  longer protected.
-   @retval  inline bool 
-   @param         const std::string to_check = "USERKEY"
-*/
- inline bool devious_crack_check_2( const std::string to_check = "USERKEY" )
- {
-	BANNER( "devious_crack_check_2" ) ;
-
-#ifdef _DEBUG
-	return true ;
-#else
-
-	std::string raw_check("NOCHECK") ;
-	set_environment_var( to_check, raw_check ) ;
-
-	return ( get_environment_var( raw_check ) != raw_check ) ;
-#endif
-
- }
 
 }

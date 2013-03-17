@@ -39,12 +39,12 @@ BOOST_AUTO_TEST_SUITE(test_text_template_locations)
 	BOOST_AUTO_TEST_CASE( start_file )
 	{
 		CStringA filename = get_template_filename(_T("start.html")) ;
-		BOOST_CHECK_EQUAL("C:\\Users\\Ryan\\AppData\\Local\\Felix\\html\\en\\start.html", filename) ;
+		BOOST_CHECK_EQUAL("D:\\Users\\Ryan\\AppData\\Local\\Felix\\html\\en\\start.html", filename) ;
 	}
 	BOOST_AUTO_TEST_CASE( glossary_start )
 	{
 		CStringA filename = get_template_filename(_T("start_gloss.html")) ;
-		BOOST_CHECK_EQUAL("C:\\Users\\Ryan\\AppData\\Local\\Felix\\html\\en\\start_gloss.html", filename) ;
+		BOOST_CHECK_EQUAL("D:\\Users\\Ryan\\AppData\\Local\\Felix\\html\\en\\start_gloss.html", filename) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_template_text_match_none )
 	{
@@ -55,14 +55,14 @@ BOOST_AUTO_TEST_SUITE(test_text_template_locations)
 	{
 		string filename = (LPCSTR)CStringA(calculate_template_filename("foo.txt")) ;
 		string actual = boost::to_lower_copy(filename) ;
-		string expected = "c:\\users\\ryan\\appdata\\local\\felix\\html\\en\\foo.txt" ;
+		string expected = "D:\\users\\ryan\\appdata\\local\\felix\\html\\en\\foo.txt" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_calculate_module_template_filename )
 	{
 		string filename = (LPCSTR)CStringA(calculate_module_template_filename("foo.txt")) ;
 		string actual = boost::to_lower_copy(filename) ;
-		string expected = "c:\\dev\\cpp\\assistant suite\\felix\\testing\\html\\en\\foo.txt" ;
+		string expected = "D:\\dev\\cpp\\assistant suite\\felix\\testing\\html\\en\\foo.txt" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
-		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
+		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
 		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
-		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
+		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
 		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
-		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
+		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
 		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data, &props->m_qc_props.m_data) ;
 
-		const CString full_path = "C:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
+		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
 		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;

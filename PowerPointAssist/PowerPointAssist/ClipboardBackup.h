@@ -2,8 +2,6 @@
 //
 // Copyright 2006 (c) RegExLab.com
 //
-// Author:  ∑ ŸŒ∞ (sswater shi)
-//
 // 2006/05/17 01:21:10
 //
 

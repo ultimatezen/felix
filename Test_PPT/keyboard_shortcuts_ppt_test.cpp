@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "keyboard_shortcuts_ppt.h"
+#include "../PowerPointAssist/PowerPointAssist/keyboard_shortcuts_ppt.h"
 #include "keyboard_shortcuts.h"
 
 #ifdef UNIT_TEST

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include ".\resource_string.h"
+#include "logging.h"
 
 CStringA resource_string_a( UINT id )
 {

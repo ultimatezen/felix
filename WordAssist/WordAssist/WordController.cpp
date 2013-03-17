@@ -1,8 +1,6 @@
 /********************************************************************
 	created:	2004/11/09
 	created:	9:11:2004   15:48
-	filename: 	C:\Programming\Programming Projects\Felix Interface for Word\WordController.cpp
-	file path:	C:\Programming\Programming Projects\Felix Interface for Word
 	file base:	WordController
 	file ext:	cpp
 	author:		Ryan Ginstrom
