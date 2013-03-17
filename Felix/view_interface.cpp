@@ -600,7 +600,6 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 
 	// the *@!# DHTML will convert our nice relative URLs to absolute ones!
 	clean_up_urls(collection) ;
-	std::list< int > marked_for_death ;
 
 	SearchMatchType	match = matches->at(0);
 	MatchListType	match_list ;

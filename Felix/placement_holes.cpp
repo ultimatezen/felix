@@ -29,7 +29,6 @@ namespace mem_engine
 		{
 			wstring out ;
 
-			std::vector<pairing_t> pairvec ;
 			auto start = pairings.begin() ;
 			auto end = pairings.begin() ;
 			std::advance(start, this->start) ;

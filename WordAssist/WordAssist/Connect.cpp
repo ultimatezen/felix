@@ -24,9 +24,6 @@ extern CAddInModule _AtlModule;
 #include "resource.h"
 #include "Broadcaster.h"
 
-#include "testresultsprinter.h"		// CAtlResultsPrinter
-#include "ProgressBarTestRunner.h"	// CProgressBarTestRunner
-
 #include "Localizer.h"
 #include "ClipboardBackup.h"
 #include <boost/algorithm/string.hpp>

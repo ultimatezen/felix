@@ -1367,10 +1367,6 @@ void trados_data_importer::process_formatted_line_old()
 		m_html += L"</U>" ;
 	}
 
-	if ( m_codepage_stack.empty() == false ) 
-	{
-		codepage = m_codepage_stack.top() ;
-	}
 }
 
 char trados_data_importer::get_escaped_char( const string num ) const

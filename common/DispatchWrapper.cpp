@@ -169,11 +169,10 @@ HRESULT CDispatchWrapper::Wrap( WORD autoType, VARIANT *result, LPCWSTR name, va
 	DISPID dispidNamed = DISPID_PROPERTYPUT ;
 	GetDp( &dp, autoType, vars, &dispidNamed );
 	// Make the call
-	HRESULT hr = S_OK ;
 	EXCEPINFO except_info = {0} ;
 	UINT err_num = 0 ;
 
-	hr = m_app->Invoke(dispID, 
+	HRESULT hr = m_app->Invoke(dispID, 
 		IID_NULL, 
 		LOCALE_SYSTEM_DEFAULT,
 		autoType, 

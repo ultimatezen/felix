@@ -553,11 +553,10 @@ bool RecordExceptionInfo(PEXCEPTION_POINTERS pExceptPtrs,
 
 		string exception_description = GetExceptionDescription(Exception->ExceptionCode) ;
 		char crash_buffer[ONEK] = {0} ;
-		HRESULT hr = S_OK ;
 		LPSTR dest_end = NULL ;
 		size_t remaining = 0 ;
 		DWORD flags = STRSAFE_FILL_BEHIND_NULL | STRSAFE_IGNORE_NULLS | STRSAFE_FILL_ON_FAILURE | STRSAFE_NULL_ON_FAILURE ;
-		hr = StringCbPrintfExA( crash_buffer, ONEK, &dest_end, &remaining, 
+		HRESULT hr = StringCbPrintfExA( crash_buffer, ONEK, &dest_end, &remaining, 
 			flags,
 			"%s caused %s (0x%08X) \r\nin module %s at 0x%08Xx:%08X.\r\n\r\n", 
 			CT2A( module_path.Path() ), 
