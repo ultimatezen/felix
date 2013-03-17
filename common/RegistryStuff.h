@@ -87,9 +87,7 @@ public:
 
 	bool close_registry()
 	{
-		LONG success = ERROR_SUCCESS ;
-		
-		success = rk.Close() ;
+		LONG success = rk.Close()  ;
 		ATLASSERT( success == ERROR_SUCCESS  ) ;
 
 		success = rkParent.Close() ;

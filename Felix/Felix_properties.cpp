@@ -735,9 +735,7 @@ namespace app_props
 
 	bool properties::parse_xml_doc( pugi::xml_document &doc )
 	{
-		bool result = true ;
-
-		result = m_mem_props.parse_xml_doc(doc) ;
+		bool result = m_mem_props.parse_xml_doc(doc) ;
 
 		if (!m_gloss_props.parse_xml_doc(doc))
 		{

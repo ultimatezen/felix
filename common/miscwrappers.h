@@ -339,7 +339,7 @@ const static int TIME_BUF_SIZE = 50 ;
 			{
 				internal_convert( date_string ) ;
 			}
-			catch ( CException e )
+			catch ( CException &e )
 			{
 				e.add_to_message( TEXT("Date string: ") + string2tstring( date_string ) ) ;
 				init_values() ;

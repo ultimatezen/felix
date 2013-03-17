@@ -1,11 +1,5 @@
 /**
- * @file ScintillaIF.h
- * @brief Define scintilla wrapper class CScintilla
- * @author Simon Steele
- * @note Copyright (c) 2002 Simon Steele <s.steele@pnotepad.org>
- *
- * Programmers Notepad 2 : The license file (license.[txt|html]) describes 
- * the conditions under which this source may be modified / distributed.
+ * Scintilla editor
  */
 
 #ifndef __SCINTILLAIF_H__
@@ -73,6 +67,7 @@ private:
  * assistance from a window loop in the containing window. The code for
  * many methods is derived from / taken from code found in Scite.
  */
+const static size_t NUM_BOOKMARKS = 10 ;
 template <class T>
 class CScintillaIF 
 {
@@ -83,8 +78,9 @@ class CScintillaIF
 
 	public:
 		/// Default constructor
-		CScintillaIF()
+		CScintillaIF() : m_Pointer(0)
 		{
+			ZeroMemory( m_numberedBookmarks, NUM_BOOKMARKS  * sizeof( int )) ;
 			if ( ! ScintillaModule::instance().IsLoaded() )
 			{
 				throw std::logic_error( "You must load SciLexer.dll before creating this class" ) ;
@@ -667,7 +663,7 @@ class CScintillaIF
 
 		int m_SelLength;
 
-		int m_numberedBookmarks[10];
+		int m_numberedBookmarks[NUM_BOOKMARKS];
 	
 	// Python Wrapper-Generator Generated header...
 	public:

@@ -972,6 +972,7 @@ echo Protection complete!
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\atlscintilla.h" />
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />
