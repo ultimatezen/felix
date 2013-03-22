@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include "data_exporter.h"
 #include "record_local.h"
 #include "memory_local.h"
@@ -94,10 +94,10 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
-		rec1->set_source(L"‚è‚ñ‚²") ;
+		rec1->set_source(L"ã‚Šã‚“ã”") ;
 		rec1->set_trans(L"apple") ;
 
-		rec2->set_source(L"“ú–{Œê") ;
+		rec2->set_source(L"æ—¥æœ¬èªž") ;
 		rec2->set_trans(L"Japanese") ;
 
 		mem->add_record(rec1) ;
@@ -143,10 +143,10 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
 		record_pointer rec2(new record_local) ;
-		rec1->set_source(L"‚è‚ñ‚²") ;
+		rec1->set_source(L"ã‚Šã‚“ã”") ;
 		rec1->set_trans(L"apple") ;
 
-		rec2->set_source(L"“ú–{Œê") ;
+		rec2->set_source(L"æ—¥æœ¬èªž") ;
 		rec2->set_trans(L"Japanese") ;
 
 		mem->add_record(rec1) ;
@@ -154,13 +154,13 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 
 		exporter.export_gloss(mem) ;
 
-		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
-		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
-		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		string expected = string2string(fmt, CP_UTF8) ;
+		wstring expected = L"Japanese\tEnglish\tNotes\n" ;
+		expected += L"ã‚Šã‚“ã”\tapple\t-\n" ;
+		expected += L"æ—¥æœ¬èªž\tJapanese\t-\n" ;
 
-		BOOST_CHECK_EQUAL(expected, 
-			string(string2string(device->m_value, CP_UTF8))) ;
+		BOOST_MESSAGE("Checking in export_gloss\n") ;
+
+		BOOST_CHECK_EQUAL(expected, device->m_value) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

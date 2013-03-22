@@ -3616,10 +3616,13 @@ void CMainFrame::look_up_in_glossaries(const wstring query)
 {
 	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
-		ATLASSERT(gloss->IsWindow()) ;
 		if ( gloss->IsWindow() )
 		{
 			gloss->lookup( query ) ;
+		}
+		else
+		{
+			logging::log_warn("look_up_in_glossaries -- Glossary window object is not a window!") ;
 		}
 	}
 }

@@ -60,11 +60,13 @@ LRESULT CEditModeFindDlg::OnInitDialog( )
 	// checkbox setup
 	init_checkboxes() ;
 
+#ifndef UNIT_TEST
 	// search edit setup
 	init_find_edit() ;
 
 	// combo box setup
 	init_combo() ;
+#endif
 
 	return TRUE ;
 }
@@ -123,6 +125,11 @@ LRESULT CEditModeReplaceDlg::OnInitDialog( )
 	register_message_filter(this) ;
 #endif
 
+#ifdef UNIT_TEST
+	return TRUE ;
+#else
+
+
 	// checkbox setup
 	init_checkboxes() ;
 
@@ -146,6 +153,7 @@ LRESULT CEditModeReplaceDlg::OnInitDialog( )
 	m_replace_edit.SetWindowPos( m_find_edit, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) ;
 
 	return TRUE ;
+#endif
 }
 
 /** OnReplace

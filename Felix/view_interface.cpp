@@ -728,10 +728,6 @@ void frame_view::clean_up_urls( html::collection_ptr &collection )
 
 wstring frame_view::get_doc_path( const wstring doc_url )
 {
-	if (! m_view.IsWindow())
-	{
-		return wstring();
-	}
 	wstring local_docurl(doc_url) ;
 	boost::replace_all(local_docurl, L"\\", L"/") ;
 

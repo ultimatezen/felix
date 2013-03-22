@@ -19,13 +19,13 @@ BOOST_AUTO_TEST_SUITE( test_trados_data_importer )
 		CMockListener dummy ;
 		trados_data_importer importer(&dummy) ;
 
-		importer.open_data_source( _T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt") ) ;
+		importer.open_data_source( _T("L:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt") ) ;
 
 		importer.set_source_language( _T("JA") ) ;
 		importer.set_target_language( _T("EN-US") ) ;
 
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
-		bool LoadSuccess = importer.load(_T("C:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt"), mem ) ;
+		bool LoadSuccess = importer.load(_T("L:\\dev\\Test Files\\Trados Parsing\\TEST_ONE_SENTENCE_SIMPLE.txt"), mem ) ;
 
 		BOOST_CHECK( LoadSuccess ) ;
 

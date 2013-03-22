@@ -422,34 +422,6 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	}
 
 
-	// message processing
-	BOOST_AUTO_TEST_CASE(test_message_WM_CREATE)
-	{
-		CSearchWindow window ;
-		LRESULT lResult = 1 ;
-		window.ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, window.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "OnCreate"); 
-		BOOST_CHECK_EQUAL(0, (int)lResult) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_message_WM_DESTROY)
-	{
-		CSearchWindow window ;
-		LRESULT lResult = 1 ;
-		window.ProcessWindowMessage(NULL, WM_DESTROY, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, window.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( window.m_sensing_variable[0], "OnDestroy"); 
-		BOOST_CHECK_EQUAL(0, (int)lResult) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_message_WM_SIZE)
-	{
-		CSearchWindow window ;
-		LRESULT lResult = 1 ;
-		window.ProcessWindowMessage(NULL, WM_SIZE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, window.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(window.m_sensing_variable[0], "OnSize"); 
-		BOOST_CHECK_EQUAL(0, (int)lResult) ;
-	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_perform_replace )

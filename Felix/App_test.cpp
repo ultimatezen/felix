@@ -19,18 +19,6 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 	}
 
 
-	BOOST_AUTO_TEST_CASE( Quit)
-	{
-		app::get_app().m_sensing_variable.clear() ;
-		appPtr felix ;
-		HRESULT hr = CComObject< CApp >::CreateInstance( &felix ) ;
-		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-
-		felix->Quit() ;
-
-		CMainFrame &main_frame = app::get_app() ;
-		BOOST_CHECK_EQUAL( 0u, main_frame.m_sensing_variable.size() ) ;
-	}
 	BOOST_AUTO_TEST_CASE(add_memory_entry)
 	{
 		appPtr felix ;

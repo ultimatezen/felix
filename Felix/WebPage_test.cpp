@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( TestGetSystemErrorMessage)
 	CString msg = html::GetSystemErrorMessage(ERROR_FILE_NOT_FOUND) ;
 	wstring actual = CT2W(msg) ;
 	boost::trim(actual) ;
-	wstring expected = L"指定されたファイルが見つかりません。" ;
+	wstring expected = L"The system cannot find the file specified." ;
 	BOOST_CHECK_EQUAL(expected, actual) ;
 }
 BOOST_AUTO_TEST_CASE( TestGetNextToken)

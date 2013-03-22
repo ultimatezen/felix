@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE( AppTemplateTest )
 
 using namespace cpptempl ;
 
-BOOST_AUTO_TEST_CASE( ReplaceTestTu )
+	BOOST_AUTO_TEST_CASE( ReplaceTestTu )
 	{
 		data_map data ;
 		data[L"id"] = cpptempl::make_data(L"1" ) ;
@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE( ReplaceTestTu )
 
 		file::view raw_view ;
 
-		LPCWSTR rawData = static_cast< LPCWSTR >( raw_view.create_view( _T("C:\\Dev\\Test Files\\tatemplates\\tmx_tu_out.xml") ) ) ;
+		LPCWSTR rawData = static_cast< LPCWSTR >( raw_view.create_view( _T("L:\\Dev\\Test Files\\tatemplates\\tmx_tu_out.xml") ) ) ;
 		BOOST_CHECK( rawData != NULL ) ;
 		textstream_reader<wchar_t> reader ;
 		reader.set_buffer(rawData) ;

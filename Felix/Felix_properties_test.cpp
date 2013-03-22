@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_SUITE( test_properties_general )
 	{
 		properties_general props ;
 		BOOST_CHECK_EQUAL((int)IDC_MEMSIZE_FULL, props.m_data.m_window_size) ;
-		BOOST_CHECK_EQUAL((int)LANG_JAPANESE, props.m_data.m_preferred_gui_lang) ;
+		BOOST_CHECK_EQUAL((int)LANG_ENGLISH, props.m_data.m_preferred_gui_lang) ;
 		BOOST_CHECK(! props.m_data.m_load_prev_mem_on_startup) ;
 		BOOST_CHECK(! props.m_data.m_load_prev_gloss_on_startup) ;
 		BOOST_CHECK(props.m_data.m_show_markup) ;

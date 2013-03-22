@@ -274,25 +274,36 @@ public:
 
 int do_unit_testing(HINSTANCE hInstance)
 {
-	ATLTRACE( "Unit testing app...\n" ) ;
-	COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
-	if(! _Module.set_library( _T("lang\\EngResource.dll") ))
+	try
 	{
-		logging::log_error("Failed to load English-language resource") ;
-	}
+		ATLTRACE( "Unit testing app...\n" ) ;
+		COM_ENFORCE( _Module.Init(ObjectMap, hInstance, &LIBID_ATLLib), _T("Failed to initialize the module.") );
+		if(! _Module.set_library( _T("lang\\EngResource.dll") ))
+		{
+			logging::log_error("Failed to load English-language resource") ;
+		}
 
-	char *args[] = {"", "--report_level=detailed", "--result_code=yes", "--log_level=message"};
-	int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
+		char *args[] = {"", "--report_level=detailed", "--result_code=yes", "--log_level=error"};
+		int ut_result = ::boost::unit_test::unit_test_main(&init_unit_test_suite, sizeof(args) / sizeof(char*), args);
 
-	if (ut_result)
-	{
-		::MessageBeep(MB_ICONSTOP) ;
-		ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
+		if (ut_result)
+		{
+			::MessageBeep(MB_ICONSTOP) ;
+			ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
+		}
+		else
+		{
+			::MessageBeep(MB_ICONINFORMATION) ;
+			ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
+		}
 	}
-	else
+	catch (CException& e)
 	{
-		::MessageBeep(MB_ICONINFORMATION) ;
-		ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
+		e ;
+	}
+	catch(...)
+	{
+		ATLTRACE("waaa?\n");
 	}
 
 	_Module.Term() ;

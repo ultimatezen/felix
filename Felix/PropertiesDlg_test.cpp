@@ -23,15 +23,6 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryPage )
 		BOOST_CHECK_EQUAL(IDD_PROPPAGE_MEMORY, CMemoryPage::IDD) ;
 	}
 	// message processing
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CMemoryPage dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
-	}
 
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -42,15 +33,6 @@ BOOST_AUTO_TEST_SUITE( TestCGeneralPage )
 		CGeneralPage dialog ;
 		BOOST_CHECK_EQUAL(IDD_PROPPAGE_GENERAL, CGeneralPage::IDD) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CGeneralPage dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
-	}
 
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -60,17 +42,6 @@ BOOST_AUTO_TEST_SUITE( TestCAlgorithmPage )
 		CAlgorithmPage dialog ;
 		BOOST_CHECK_EQUAL(IDD_PROPPAGE_ALGORITHM, CAlgorithmPage::IDD) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CAlgorithmPage dialog ;
-		app_props::properties_algorithm	properties ;
-		dialog.set_props(&properties) ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
-	}
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( TestCGlossaryPage )
@@ -79,17 +50,6 @@ BOOST_AUTO_TEST_SUITE( TestCGlossaryPage )
 	{
 		CGlossaryPage dialog ;
 		BOOST_CHECK_EQUAL(IDD_PROPPAGE_GLOSSARY, CGlossaryPage::IDD) ;
-	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CGlossaryPage dialog ;
-		app_props::properties_glossary	properties ;
-		dialog.set_props(&properties) ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
 	}
 
 	// CViewPage
@@ -101,15 +61,7 @@ BOOST_AUTO_TEST_SUITE( TestCViewPage )
 		CViewPage dialog ;
 		BOOST_CHECK_EQUAL(IDD_PROPPAGE_VIEW, CViewPage::IDD) ;
 	}
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CViewPage dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, (int)lResult) ;
-	}
+
 	BOOST_AUTO_TEST_CASE( Rect2Points)
 	{
 		CViewPage dialog ;

@@ -123,33 +123,6 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 
 
 	// messages
-	BOOST_AUTO_TEST_CASE( test_message_WM_INITDIALOG)
-	{
-		CRegisterGlossDlg dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnInitDialog"); 
-		BOOST_CHECK_EQUAL(1, lResult) ;
-	}
-	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
-	{
-		CRegisterGlossDlg dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnCancel"); 
-		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
-	}
-	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
-	{
-		CRegisterGlossDlg dialog ;
-		LRESULT lResult = 1 ;
-		dialog.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(dialog.m_sensing_variable[0], "OnClose"); 
-		BOOST_CHECK_EQUAL( 0, (int)lResult) ;
-	}
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		CRegisterGlossDlg dialog ;
@@ -159,9 +132,6 @@ BOOST_AUTO_TEST_SUITE( TestCRegisterGlossDlg )
 		BOOST_CHECK_EQUAL(TRUE, result) ;
 		BOOST_CHECK_EQUAL(0, (int)lResult) ;
 	}
-
-
-
 
 
 BOOST_AUTO_TEST_SUITE_END()

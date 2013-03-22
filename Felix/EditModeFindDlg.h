@@ -221,9 +221,12 @@ public:
 		::SendMessage( GetParent(), UWM_USER_MESSAGE, ID_EDIT_FIND, T::IDD ) ;
 
 		// various search flags
+#ifndef UNIT_TEST
 		fill_checkboxes() ;
 		fill_search_string() ;
 		fill_search_type() ;
+#endif
+
 
 #ifdef UNIT_TEST
 		return 0L ;

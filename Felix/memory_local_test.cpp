@@ -443,7 +443,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	// get_correct_encoding
 	BOOST_AUTO_TEST_CASE( GetFileEncodingXmlUtf8 )
 	{
-		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
+		file::CPath path( CString( _T("L:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		// create a local memory
 		memory_local mem(app_props::get_props()) ;
 
@@ -459,7 +459,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf8 )
 	{
-		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
+		file::CPath path( CString( _T("L:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		// create a local memory
 		memory_local mem(app_props::get_props()) ;
 
@@ -476,7 +476,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextSjis )
 	{
-		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
+		file::CPath path( CString( _T("L:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		// create a local memory
 		memory_local mem(app_props::get_props()) ;
 		// sjis text file
@@ -493,7 +493,7 @@ BOOST_AUTO_TEST_SUITE( TestMemory )
 	}
 	BOOST_AUTO_TEST_CASE( GetFileEncodingTextUtf16 )
 	{
-		file::CPath path( CString( _T("c:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
+		file::CPath path( CString( _T("L:\\dev\\Test Files\\MemoryFiles\\") ) ) ;
 		// create a local memory
 		memory_local mem(app_props::get_props()) ;
 		// utf-16 text file

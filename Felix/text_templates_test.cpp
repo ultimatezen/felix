@@ -55,14 +55,14 @@ BOOST_AUTO_TEST_SUITE(test_text_template_locations)
 	{
 		string filename = (LPCSTR)CStringA(calculate_template_filename("foo.txt")) ;
 		string actual = boost::to_lower_copy(filename) ;
-		string expected = "D:\\users\\ryan\\appdata\\local\\felix\\html\\en\\foo.txt" ;
+		string expected = "d:\\users\\ryan\\appdata\\local\\felix\\html\\en\\foo.txt" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_calculate_module_template_filename )
 	{
 		string filename = (LPCSTR)CStringA(calculate_module_template_filename("foo.txt")) ;
 		string actual = boost::to_lower_copy(filename) ;
-		string expected = "D:\\dev\\cpp\\assistant suite\\felix\\testing\\html\\en\\foo.txt" ;
+		string expected = "d:\\dev\\cpp\\assistant suite\\felix\\testing\\html\\en\\foo.txt" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 

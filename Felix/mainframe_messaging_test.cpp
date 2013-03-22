@@ -193,59 +193,6 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 		model_iface_ptr the_model(new FelixModelInterfaceFake);
 		return frame_ptr(new CMainFrame( the_model, props )) ;
 	}
-	BOOST_AUTO_TEST_CASE( on_create )
-	{
-		frame_ptr frame = make_fake_frame() ;
-		LRESULT lResult = 1 ;
-		frame->ProcessWindowMessage(NULL, WM_CREATE, 0, 0, lResult, 0)  ;
-		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found message key"); 
-		BOOST_CHECK_EQUAL(frame->m_sensing_variable[1], "on_create" ) ;
-
-		BOOST_CHECK( 0 == lResult ) ;
-	}
-
-	BOOST_AUTO_TEST_CASE( OnNavEdit )
-	{
-		frame_ptr frame = make_fake_frame() ;
-
-		frame->OnNavEdit(0) ;
-		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "OnNavEdit"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_edit" ) ;
-	}
-	BOOST_AUTO_TEST_CASE( OnBeforeNavigateNavEdit )
-	{
-		frame_ptr frame = make_fake_frame() ;
-
-		frame->OnBeforeNavigate2( _bstr_t(L"100:edit:0") ) ;
-		BOOST_CHECK_EQUAL(3, (int)frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "OnBeforeNavigate2"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "OnNavEdit"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[2], "on_user_edit" ) ;
-	}
-
-	BOOST_AUTO_TEST_CASE( OnNavDelete)
-	{
-		frame_ptr frame = make_fake_frame() ;
-
-		frame->OnNavDelete(0) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "OnNavDelete"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_delete" ) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[2], "No Matches" ) ;
-		BOOST_CHECK_EQUAL(3, (int)frame->m_sensing_variable.size()) ;
-	}
-
-	BOOST_AUTO_TEST_CASE( TestOnNavAddToGloss )
-	{
-		frame_ptr frame = make_fake_frame() ;
-
-		// Will throw because record is invalid.
-		BOOST_CHECK_THROW(frame->OnNavAddToGloss(0), except::CException) ;
-		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "OnNavAddToGloss"); 
-		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_add_to_glossary" ) ;
-	}
 
 BOOST_AUTO_TEST_SUITE_END()
 #endif 
