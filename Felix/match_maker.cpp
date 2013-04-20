@@ -48,8 +48,8 @@ namespace mem_engine
 
 	// get_score
 	// Get score for source segment.
-	bool match_maker::get_score (const Segment row,
-								const Segment col,
+	bool match_maker::get_score (const Segment &row,
+								const Segment &col,
 								int match_algo,
 								search_match_ptr &match )
 	{
@@ -69,8 +69,8 @@ namespace mem_engine
 	
 	// get_trans_score
 	// Get score for translation segment.
-	bool match_maker::get_score_trans(const Segment row,
-									const Segment col,
+	bool match_maker::get_score_trans(const Segment &row,
+									const Segment &col,
 									int match_algo,
 									search_match_ptr &match )
 	{
@@ -821,8 +821,8 @@ namespace mem_engine
 		return token_matrix( num_token_rows, num_token_cols ) ;
 	}
 
-	bool match_maker::fuzzy_gloss_score(const Segment needle,
-		const Segment haystack,
+	bool match_maker::fuzzy_gloss_score(const Segment &needle,
+		const Segment &haystack,
 		search_match_ptr &match )
 	{
 		m_row = haystack ;

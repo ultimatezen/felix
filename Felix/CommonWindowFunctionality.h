@@ -100,7 +100,6 @@ public:
 	background_processor	m_background_processor ;
 	std::map<int, int>		m_toolmap ;
 
-
 	// ====================
 	// status
 	// ====================
@@ -128,9 +127,7 @@ protected:
 public:
 
 	CCommonWindowFunctionality( ) ;
-	virtual ~CCommonWindowFunctionality()
-	{
-	}
+	virtual ~CCommonWindowFunctionality();
 
 	/************************************************************************/
 	/* WindowInterface implementation                                       */
@@ -156,6 +153,7 @@ public:
 	{
 		return this ;
 	}
+
 	/************************************************************************/
 	/* pure virtual methods 
 	/************************************************************************/

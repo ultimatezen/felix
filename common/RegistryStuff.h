@@ -24,6 +24,7 @@ class CRegMap
 	CRegKey	rk ;
 
 public:
+	CRegMap() : res(0) {}
 	virtual ~CRegMap(){}
 	bool open_reg_for_read( HKEY reg_store, LPCTSTR reg_entry, LPCTSTR specific_entry )
 	{

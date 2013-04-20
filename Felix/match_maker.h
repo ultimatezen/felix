@@ -93,8 +93,8 @@ public:
 
 
 	bool m_assess_format_penalty ;
-	bool fuzzy_gloss_score(const Segment needle,
-		const Segment haystack,
+	bool fuzzy_gloss_score(const Segment &needle,
+		const Segment &haystack,
 		search_match_ptr &match);
 
 	size_t calc_word_distance( const wstring row_word, const wstring col_word, Matrix< size_t > &matrix );
@@ -122,12 +122,12 @@ public:
 
 	bool pass_minimum_tests() const ;
 
-	bool get_score(const Segment row,
-		const Segment col,
+	bool get_score(const Segment &row,
+		const Segment &col,
 		int match_algo,
 		search_match_ptr &match ) ;
-	bool get_score_trans(const Segment row,
-		const Segment col,
+	bool get_score_trans(const Segment &row,
+		const Segment &col,
 		int match_algo,
 		search_match_ptr &match);
 

@@ -644,7 +644,7 @@ wstring CHtmlView::get_body_text()
 /*
  This gets called when we're used as a dialog control.
  */
-HWND CHtmlView::GetDlgItem(int nID) const
+CWindow CHtmlView::GetDlgItem(int nID) const
 {
 	ATLTRACE( "CHtmlView::GetDlgItem\n" ) ;
 
@@ -655,7 +655,7 @@ HWND CHtmlView::GetDlgItem(int nID) const
 	if ( nID == m_ctl_id )
 		return m_hWnd ;
 
-	return NULL ;
+	return CWindow() ;
 }
 
 bool CHtmlView::navigate(const _bstr_t &url)

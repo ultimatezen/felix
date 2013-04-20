@@ -54,6 +54,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_model(new FelixModel(props,
 							false))
 { 
+
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
 	m_editor->m_interface = this ;
@@ -711,7 +712,7 @@ std::wstring CGlossaryDialog::get_record_translation(record_pointer entry)
 bool CGlossaryDialog::add_record(record_pointer record, const CString gloss_name )
 {
 	// Add record
-	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	memory_pointer mem ;
 	if ( gloss_name.IsEmpty() ) 
 	{
 		mem = m_memories->get_first_memory() ;

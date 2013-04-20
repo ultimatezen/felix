@@ -9,7 +9,6 @@
 
 #include "amop/include/MockObject.h"
 
-// test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( TestApp2 )
 
 	using namespace mem_engine;

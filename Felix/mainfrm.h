@@ -136,7 +136,7 @@ public:
 	messageMapType m_command_message_map ;
 	model_iface_ptr m_model ;
 
-	~CMainFrame() ;
+	virtual ~CMainFrame() ;
 	CMainFrame( model_iface_ptr model, app_props::props_ptr props ) ;
 
 	input_device_ptr get_input_device()

@@ -114,6 +114,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_output_device(new OutputDeviceFile),
 	m_silent_memories(props)
 {
+
 	initialize_values() ;
 
 	m_editor->m_interface = this ;
@@ -2019,6 +2020,7 @@ void CMainFrame::show_view_content()
 
 	if (! IsWindow())
 	{
+		logging::log_debug("Window is not created; no content to display.") ;
 		return ;
 	}
 	if ( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
@@ -3616,14 +3618,7 @@ void CMainFrame::look_up_in_glossaries(const wstring query)
 {
 	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
-		if ( gloss->IsWindow() )
-		{
-			gloss->lookup( query ) ;
-		}
-		else
-		{
-			logging::log_warn("look_up_in_glossaries -- Glossary window object is not a window!") ;
-		}
+		gloss->lookup( query ) ;
 	}
 }
 
@@ -5221,6 +5216,7 @@ void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
 {
 	if (! this->IsWindow())
 	{
+		logging::log_debug("Window is not visible; ignoring menu checkmark.") ;
 		return ;
 	}
 	UISetCheck(item_id, !! is_checked);

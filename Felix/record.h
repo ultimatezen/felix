@@ -25,6 +25,8 @@ namespace mem_engine
 		typedef std::map< wstring, wstring >	record_data_map ;
 		typedef record_data_map::iterator		record_data_iterator ;
 
+		virtual ~translation_record(){}
+
 		virtual void set_validated(bool setting) = 0 ;
 		virtual void increment_reliability() = 0 ;
 		virtual void increment_refcount() = 0 ;

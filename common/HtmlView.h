@@ -231,7 +231,7 @@ public:
 	bool is_document_complete();
 	void set_body_text(const _bstr_t &text);
 	bool navigate( const _bstr_t &url );
-	HWND GetDlgItem( int nID ) const;
+	CWindow GetDlgItem( int nID ) const;
 	wstring get_body_text();
 	void set_body_text( const wstring &text );
 	void load_from_resource( const CString &resource_name );

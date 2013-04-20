@@ -5,7 +5,7 @@
 
 #ifdef UNIT_TEST
 
-BOOST_AUTO_TEST_SUITE( AppTest )
+BOOST_AUTO_TEST_SUITE( TestApp )
 
 	using namespace mem_engine ;
 	typedef CComPtr< CComObject< CApp > > appPtr ;
@@ -225,8 +225,6 @@ BOOST_AUTO_TEST_SUITE( AppTest )
 		appPtr felix ;
 		HRESULT hr = CComObject< CApp >::CreateInstance( &felix ) ;
 		BOOST_CHECK( SUCCEEDED( hr ) ) ;
-
-		app::get_app().clear_memory() ;
 
 		CComBSTR source = L"aaaa" ;
 		CComBSTR trans = L"aaaa trans" ;

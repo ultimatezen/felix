@@ -54,6 +54,12 @@ void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
 // CTOR
 CCommonWindowFunctionality::CCommonWindowFunctionality( ) 
 {
+
+}
+
+CCommonWindowFunctionality::~CCommonWindowFunctionality()
+{
+
 }
 
 void add_popup_separator(CMenu &menu) 

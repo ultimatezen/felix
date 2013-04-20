@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "longest_common_substring.h"
 
-wstring LCS::longest_common_substring( const std::set<wstring> strings ) const
+wstring LCS::longest_common_substring( const std::set<wstring> &strings ) const
 {
 	if (strings.empty())
 	{
@@ -20,7 +20,7 @@ wstring LCS::longest_common_substring( const std::set<wstring> strings ) const
 	return first ;
 }
 
-wstring LCS::longest_common_substring( const wstring first, const wstring second ) const
+wstring LCS::longest_common_substring( const wstring &first, const wstring &second ) const
 {
 	if (first.empty() || second.empty())
 	{

@@ -279,8 +279,6 @@ void CMemoryManagerDlg::getAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 
 void CMemoryManagerDlg::setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& dlg)
 {
-	const int HUNDRED_PERCENT = 100 ;
-
 	size_t low, high ; 
 	double ave ;
 	boost::tuples::tie(low, high, ave) = mem->get_reliability_stats() ;
@@ -290,7 +288,7 @@ void CMemoryManagerDlg::setAdvDlgInfo(memory_pointer& mem, CAdvancedMemMgrDlg& d
 	}
 	else
 	{
-		dlg.set_reliability( HUNDRED_PERCENT );
+		dlg.set_reliability( 100 );
 	}
 
 	dlg.set_lock( mem->is_locked() ? BST_CHECKED : BST_UNCHECKED ) ;

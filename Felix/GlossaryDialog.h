@@ -100,9 +100,7 @@ public:
 	static const int IDD = IDD_GLOSSARYVIEW ;
 
 	CGlossaryDialog(app_props::props_ptr props) ;
-	~CGlossaryDialog( ) ;
-
-
+	virtual ~CGlossaryDialog( ) ;
 
 	mem_engine::felix_query *get_current_matches()
 	{

@@ -12,6 +12,8 @@
 #include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
 
+#define MAKE_TEST_FRAME(frame) frame_ptr frame = make_frame()
+
 BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	using namespace mem_engine ;
@@ -41,7 +43,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->m_props->m_mem_props.m_data.m_plaintext = FALSE ;
 
 		record_pointer record(new record_local) ;
@@ -57,7 +59,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	}
 	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->m_props->m_mem_props.m_data.m_plaintext = TRUE ;
 
 		record_pointer record(new record_local) ;
@@ -78,7 +80,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( AddMessageFilter)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		try
 		{
@@ -97,8 +99,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
 	BOOST_AUTO_TEST_CASE( toggle_markup)
 	{
-
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		BOOL old_markup = frame->m_props->m_gen_props.m_data.m_show_markup ;
 
 		WindowsMessage dummy ;
@@ -115,7 +116,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	BOOST_AUTO_TEST_CASE(test_check_shell_execute_result_ok)
 	{
 
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		CString path = L"c:\\foo" ;
 		int result = 40 ;
 		frame->check_shell_execute_result(result, path) ;
@@ -124,7 +125,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	BOOST_AUTO_TEST_CASE(test_check_shell_execute_result_bad)
 	{
 
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		CString path = L"c:\\foo" ;
 		int result = 10 ;
 		try
@@ -181,7 +182,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 	BOOST_AUTO_TEST_CASE( lookup_does_not_change_markup)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		BOOL old_markup = frame->m_props->m_gen_props.m_data.m_show_markup ;
 
 		WindowsMessage dummy ;
@@ -205,7 +206,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_brackets)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"&lt;spam&gt;", L"foo") ;
 
 		wstring query = L"&lt;spam&gt;" ;
@@ -215,7 +216,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE(lookup_trans_brackets)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"source", L"&lt;trans&gt;") ;
 
 		wstring query = L"&lt;trans&gt;" ;
@@ -226,7 +227,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// MON[0]Å`MON[6] of ScheduleNo1Å`7
 	BOOST_AUTO_TEST_CASE(lookup_naishi)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"MON[0]Å`MON[6] of ScheduleNo1Å`7", L"MON[0]Å`MON[6] of ScheduleNo1Å`7") ;
 
 		wstring query = L"MON[0]Å`MON[6] of ScheduleNo1Å`7" ;
@@ -238,7 +239,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// match lookup stuff
 	BOOST_AUTO_TEST_CASE( get_matches_size_0)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_query_params params ;
 		params.m_rich_source = L"beans beans spam and eggs" ;
@@ -251,7 +252,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -266,7 +267,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -281,7 +282,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_1_trans_bold)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"beans beans spam and egg", L"lovely <b>plumage</b>") ;
 
 		search_query_params params ;
@@ -295,7 +296,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_size_2)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 		add_record(frame, L"sausage beans beans spam and egg", L"lovely plumage") ;
 
@@ -314,7 +315,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_placement_size_1)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -329,7 +330,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_size_2)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans and 2 eggs", L"beans and 2 eggs") ;
 
@@ -345,7 +346,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"5. bar", L"5. bar") ;
 
@@ -368,7 +369,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_trans)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
 
@@ -389,7 +390,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_source)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
 
@@ -406,7 +407,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_marked_source)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
 
@@ -423,7 +424,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_placement_eating_numbers_flipped_score)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"ÇTÅDIPä¥Ç∂", L"ÇTÅDIPä¥Ç∂") ;
 
@@ -444,7 +445,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_gloss_placement_size_2)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"bbb aaa bbb", L"zzz xxx zzz") ;
 		add_gloss(frame, L"aaa", L"xxx") ;
@@ -475,7 +476,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	/************************************************************************/
 	BOOST_AUTO_TEST_CASE( get_matches_markup)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -492,7 +493,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_query)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -509,7 +510,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_twice)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -526,7 +527,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_query_twice)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -543,7 +544,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -561,7 +562,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -579,7 +580,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_twice)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -597,7 +598,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( get_matches_markup_word_algo_query_twice)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"beans beans spam and egg", L"lovely plumage") ;
 
@@ -617,7 +618,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	// recalculate_match
 	BOOST_AUTO_TEST_CASE( recalculate_source)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aabbcc", L"112233") ;
 
@@ -637,7 +638,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_query)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aabbcc", L"112233") ;
 
@@ -657,7 +658,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_source_trans_lookup)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aabbcc", L"112233") ;
 
@@ -678,7 +679,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_trans_trans_lookup)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aabbcc", L"112233") ;
 
@@ -699,7 +700,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMatchLookup )
 	}
 	BOOST_AUTO_TEST_CASE( recalculate_query_trans_lookup)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aabbcc", L"112233") ;
 
@@ -730,7 +731,7 @@ BOOST_AUTO_TEST_SUITE( TestConnect )
 	// review match
 	BOOST_AUTO_TEST_CASE(add_null_mem)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
 											   memory_pointer()) ;
@@ -742,7 +743,7 @@ BOOST_AUTO_TEST_SUITE( TestConnect )
 	// review match
 	BOOST_AUTO_TEST_CASE(add_ok_mem)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
 												memory_pointer(new memory_local(frame->m_props))) ;
@@ -764,7 +765,7 @@ BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
 	// review match
 	BOOST_AUTO_TEST_CASE(from_top_memory)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		memory_pointer mem2 = frame->m_model->add_memory() ;
 		memory_pointer mem1 = frame->m_model->add_memory() ;
@@ -791,7 +792,7 @@ BOOST_AUTO_TEST_SUITE( TestCorrectTrans )
 	// review match
 	BOOST_AUTO_TEST_CASE(from_bottom_memory)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		memory_pointer mem2 = frame->m_model->add_memory() ;
 		memory_pointer mem1 = frame->m_model->add_memory() ;
@@ -835,7 +836,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameConcordance )
 
 	BOOST_AUTO_TEST_CASE(get_concordance_size_1)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		add_record(frame, L"aaa BBB ccc", L"get_concordance_size_1") ;
 
@@ -857,7 +858,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 	// init_lookup_properties
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_on)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_query_params dest ;
 		app_props::props_ptr source(new app_props::properties) ;
@@ -888,7 +889,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameInitSearchStuff )
 
 	BOOST_AUTO_TEST_CASE( test_init_trans_matches_for_lookup_off)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_query_params dest ;
 		app_props::props_ptr source(new app_props::properties) ;
@@ -937,7 +938,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 
 	BOOST_AUTO_TEST_CASE( get_window_type_string)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		CStringA typestring = frame->get_window_type_string() ;
 
@@ -945,7 +946,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( put_show_marking)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		VARIANT_BOOL old_markup = frame->get_show_marking() ;
 
@@ -959,7 +960,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( get_review_content)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		record_pointer record(new record_local) ;
 		frame->m_review_match = search_match_ptr(new search_match(record)) ;
@@ -1018,7 +1019,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	}
 	BOOST_AUTO_TEST_CASE( clear_memory)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"foo", L"bar") ;
 		BOOST_CHECK_EQUAL(1u, frame->get_memory_model()->get_first_memory()->size()) ;
 		frame->clear_memory() ;
@@ -1028,14 +1029,14 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	// get_active_mem_name
 	BOOST_AUTO_TEST_CASE( get_active_mem_name_new)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		string actual = (LPCSTR)CStringA(frame->get_active_mem_name()) ;
 		string expected = "New" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 	BOOST_AUTO_TEST_CASE( get_active_mem_name_spam)
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"aabbcc", L"112233") ;
 
 		frame->m_model->get_memories()->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
@@ -1047,28 +1048,28 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 	// match_count_feedback
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->match_count_feedback(1) ;
 		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found 1 match." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_0 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->match_count_feedback(0) ;
 		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found 0 matches." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_10 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->match_count_feedback(10) ;
 		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found 10 matches." ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_msg_match_count_feedback_1001 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 		frame->match_count_feedback(1001) ;
 		BOOST_CHECK_EQUAL(1u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL(frame->m_sensing_variable[0], "Found 1,001 matches." ) ;
@@ -1086,7 +1087,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( concordance_state_0 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_match_ptr match = frame->get_model()->get_first_memory()->make_match() ;
 		match->get_record()->set_source(L"concordance_state_0") ;
@@ -1100,7 +1101,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( initial_state )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_match_ptr match = frame->get_model()->get_first_memory()->make_match() ;
 		match->get_record()->set_source(L"concordance_state_0") ;
@@ -1114,7 +1115,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( match_state_0 )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		search_match_ptr match = frame->get_model()->get_first_memory()->make_match() ;
 		match->get_record()->set_source(L"concordance_state_0") ;
@@ -1132,7 +1133,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( new_state )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"new_state") ;
@@ -1152,7 +1153,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 	BOOST_AUTO_TEST_CASE( review_state )
 	{
-		frame_ptr frame = make_frame() ;
+		MAKE_TEST_FRAME(frame) ;
 
 		record_pointer newrec(new record_local) ;
 		newrec->set_source(L"review_state") ;
