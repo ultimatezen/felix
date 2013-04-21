@@ -28,6 +28,27 @@ union cracker
 	char	c[2] ;
 } ;
 
+wstring tmx_handle_ampersand( wc_reader &reader, symbol_map &symbols) 
+{
+	wstring symbol_name = handle_ampersand(reader, symbols);
+	if ( symbol_name == L"&")
+	{
+		return L"&amp;" ;
+	}
+	else if ( symbol_name == L"<")
+	{
+		return L"&lt;" ;
+	}
+	else if ( symbol_name == L">")
+	{
+		return L"&gt;" ;
+	}
+	else
+	{
+		return symbol_name ;
+	}
+}
+
 // tmx_strip_tags
 wstring tmx_strip_tags( const wstring raw_string )
 {
@@ -110,12 +131,13 @@ wstring tmx_strip_tags( const wstring raw_string )
 		}
 		else if ( reader.peek() == L'&' )
 		{
-			handle_ampersand(reader, chunk, stripped_text, symbols);
+			stripped_text += handle_ampersand(reader, symbols);
 		}
 	}
 
 	return stripped_text ;
 }
+
 
 // unknown_strip_tags
 wstring unknown_strip_tags( const wstring raw_string )
@@ -150,46 +172,7 @@ wstring unknown_strip_tags( const wstring raw_string )
 		// convert xml symbols
 		else if ( reader.peek() == L'&' )
 		{
-			reader.advance() ;
-			reader.getline( chunk, L"; <", false ) ;
-			if ( chunk.empty() == false )
-			{
-				// numeric symbol code
-				if ( chunk[0] == L'#' )
-				{
-					stripped_text += convert_num_entity(reader, chunk);
-				}
-				// named entity
-				else
-				{
-					if ( symbols.exists( chunk ) )
-					{
-						reader.eat_if( L';' ) ;
-						wchar_t symbol_name = symbols.get_val( chunk ) ;
-						if ( symbol_name == L'&')
-						{
-							stripped_text += L"&amp;" ;
-						}
-						else if ( symbol_name == L'<')
-						{
-							stripped_text += L"&lt;" ;
-						}
-						else if ( symbol_name == L'>')
-						{
-							stripped_text += L"&gt;" ;
-						}
-						else
-						{
-							stripped_text += symbol_name ;
-						}
-					}
-					else // it was not a symbol tag
-					{
-						stripped_text += L"&" ;
-						stripped_text += chunk ;
-					}
-				}
-			}
+			stripped_text += tmx_handle_ampersand(reader, symbols);
 		}
 	}
 

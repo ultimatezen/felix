@@ -554,6 +554,13 @@ public:
 
 		return str_from_endpos( str, end_pos, eat ) ;
 	}
+	string_type getline_as_string(const_pointer_type delims, bool eat=true )
+	{
+		string_type chunk ;
+		this->getline(chunk, delims, eat) ;
+		return chunk ;
+	}
+
 	string_type getline_delims(const_pointer_type delims, bool eat=true )
 	{
 		string_type out ;

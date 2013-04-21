@@ -55,33 +55,7 @@ wstring CTmxSymbolMapper::strip_html_symbols( const wstring raw_wstring )
 
 void CTmxSymbolMapper::handleAmp( wc_reader &reader, wstring &stripped_text )
 {
-	reader.advance() ;
-	wstring chunk ;
-	reader.getline( chunk, L"; <", false ) ;
-	if ( chunk.empty() == false )
-	{
-		if ( chunk[0] == L'#' )
-		{
-			stripped_text += convert_num_entity(reader, chunk);
-		}
-		else
-		{
-			if ( this->exists( chunk ) )
-			{
-				reader.eat_if( L';' ) ;
-				stripped_text += this->get_val( chunk ) ;
-			}
-			else // it was not a symbol tag
-			{
-				stripped_text += L"&" ;
-				stripped_text += chunk ;
-			}
-		}
-	}
-	else // put the ampersand back in
-	{
-		stripped_text += L"&" ;
-	}
+	stripped_text += handle_ampersand(reader, this->m_symbols) ;
 }
 
 bool CTmxSymbolMapper::exists( const wstring key ) const

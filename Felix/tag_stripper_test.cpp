@@ -48,6 +48,28 @@ BOOST_AUTO_TEST_SUITE( test_convert_num_entity )
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( test_tag_stripper )
+	BOOST_AUTO_TEST_CASE( test_handle_ampersand_hash )
+	{
+		symbol_map symbols ;
+		wstring text = L"&#65;" ;
+		wc_reader reader ;
+		reader.set_buffer(text.c_str()) ;
+		wstring chunk ;
+		wstring stripped_text = handle_ampersand(reader, symbols) ;
+		BOOST_CHECK_EQUAL( stripped_text, L"A" ) ;
+		BOOST_CHECK(reader.empty()) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_handle_ampersand_amp )
+	{
+		symbol_map symbols ;
+		wstring text = L"&amp;" ;
+		wc_reader reader ;
+		reader.set_buffer(text.c_str()) ;
+		wstring chunk ;
+		wstring stripped_text = handle_ampersand(reader, symbols) ;
+		BOOST_CHECK_EQUAL( stripped_text, L"&" ) ;
+		BOOST_CHECK(reader.empty()) ;
+	}
 	// strip_tags
 	BOOST_AUTO_TEST_CASE( test_foobar )
 	{

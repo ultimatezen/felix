@@ -89,6 +89,7 @@ namespace tmx_reader
 		void fill_date( misc_wrappers::date &thedate, const wstring datestring );
 	};
 }
+wstring tmx_handle_ampersand( wc_reader &reader, symbol_map &symbols) ;
 
 /**
 	@class CTMXReader

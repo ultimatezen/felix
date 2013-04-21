@@ -476,33 +476,38 @@ inline wchar_t convert_num_entity( wc_reader &reader, const wstring &chunk)
 	return (wchar_t)string2ulong( chunk.substr(1) ) ;
 }
 
-inline void handle_ampersand( wc_reader &reader, wstring &chunk, wstring &stripped_text, const symbol_map &symbols ) 
+inline wstring add_amp_chunk(wc_reader &reader, const symbol_map &the_symbols, const wstring &chunk)
+{
+	if ( the_symbols.exists( chunk ) )
+	{
+		reader.eat_if( L';' ) ;
+		return wstring(1, the_symbols.get_val( chunk )) ;
+	}
+	else // it was not a symbol tag
+	{
+		return L"&" + chunk ;
+	}
+}
+
+inline wstring handle_ampersand( wc_reader &reader, const symbol_map &symbols ) 
 {
 	reader.advance() ;
-	reader.getline( chunk, L"; <", false ) ;
+	// Here, we allow degenerate tags 
+	wstring chunk = reader.getline_as_string(L"; <", false) ;
 	if ( chunk.empty() == false )
 	{
 		if ( chunk[0] == L'#' )
 		{
-			stripped_text += convert_num_entity(reader, chunk);
+			return wstring(1, convert_num_entity(reader, chunk));
 		}
 		else
 		{
-			if ( symbols.exists( chunk ) )
-			{
-				reader.eat_if( L';' ) ;
-				stripped_text += symbols.get_val( chunk ) ;
-			}
-			else // it was not a symbol tag
-			{
-				stripped_text += L"&" ;
-				stripped_text += chunk ;
-			}
+			return add_amp_chunk(reader, symbols, chunk) ;
 		}
 	}
 	else
 	{
-		stripped_text += L"&" ;
+		return L"&" ;
 	}
 }
 inline wstring convert_entities(const wstring &text)
@@ -527,7 +532,7 @@ inline wstring convert_entities(const wstring &text)
 
 		if ( reader.peek() == L'&' )
 		{
-			handle_ampersand(reader, chunk, stripped_text, symbols);
+			stripped_text += handle_ampersand(reader, symbols);
 		}
 	}
 
