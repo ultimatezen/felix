@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "logging.h"
 #include "atlapp.h"
 #include "CStringInterface.h"
 #include "atlwin.h"
@@ -14,7 +15,6 @@
 #include "DebugUtilities.h"	// extra debugging stuff
 #include "app_state.h"
 #include "dispatchwrapper.h" // For COM dialogs
-#include "logging.h"
 
 // ======================
 // class CPageFormat 

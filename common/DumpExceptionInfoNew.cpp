@@ -61,11 +61,10 @@ bool DumpModuleInfo(file::file &log_file, HINSTANCE ModuleHandle, int nModuleNo)
 			FILE_ATTRIBUTE_NORMAL, 0) ;
 
 		char module_buffer[512] = {0} ;
-		HRESULT hr = S_OK ;
 		LPSTR dest_end = NULL ;
 		size_t remaining = 0 ;
 		DWORD flags = STRSAFE_FILL_BEHIND_NULL | STRSAFE_IGNORE_NULLS | STRSAFE_FILL_ON_FAILURE | STRSAFE_NULL_ON_FAILURE ;
-		hr = StringCbPrintfExA( module_buffer, 512, &dest_end, &remaining, 
+		HRESULT hr =StringCbPrintfExA( module_buffer, 512, &dest_end, &remaining, 
 			flags,
 			"Module %d:\r\n%s\r\n", 
 			nModuleNo, 
@@ -470,8 +469,8 @@ void DumpRegisters( file::file &log_file, PCONTEXT Context)
 	char register_buff[1024] = {0} ;
 	LPSTR dest_end(NULL) ;
 	DWORD flags = STRSAFE_IGNORE_NULLS | STRSAFE_FILL_ON_FAILURE ;
-	HRESULT str_cpy_result(S_OK) ;
-	str_cpy_result = StringCbPrintfExA(register_buff, 1024, &dest_end, NULL, flags, 
+
+	HRESULT str_cpy_result = StringCbPrintfExA(register_buff, 1024, &dest_end, NULL, flags, 
 		// Print out the register values in an XP error window compatible format.
 		 "\r\n"
 		 "Context:\r\n"

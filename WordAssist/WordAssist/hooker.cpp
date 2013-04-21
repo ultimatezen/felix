@@ -1,10 +1,10 @@
 //! Keyboard hooks to implement keyboard shortcuts.
 #include "stdafx.h"
+#include "logging.h"
 #include "hooker.h"
 
 #include "DebugUtilities.h"
 #include "KeyboardListener.h"
-#include "logging.h"
 
 using namespace except ;
 

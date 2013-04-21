@@ -204,13 +204,19 @@ void log_file::write_version_info()
 	
 	HRESULT str_cpy_result = StringCbPrintfExA(szBuf, buffer_len, &dest_end, NULL, flags, "   FileVer:    %d.%d.%d.%d\r\n", dwBuf[0], dwBuf[1], dwBuf[2], dwBuf[3]  ) ;
 	ASSERT_HRESULT( str_cpy_result ) ;
-	*this << szBuf ;
+	if(SUCCEEDED(str_cpy_result))
+	{
+		*this << szBuf ;
+	}
 	
 	ver.GetProductVersion(dwBuf);
 	ZeroMemory( szBuf, sizeof( szBuf ) ) ;
 	str_cpy_result = StringCbPrintfExA(szBuf, buffer_len, &dest_end, NULL, flags, "   ProdVer:    %d.%d.%d.%d\r\n\r\n", dwBuf[0], dwBuf[1], dwBuf[2], dwBuf[3] ) ;
 	ASSERT_HRESULT( str_cpy_result ) ;
-	*this << szBuf ;
+	if(SUCCEEDED(str_cpy_result))
+	{
+		*this << szBuf ;
+	}
 
 	ver.Release();
 }

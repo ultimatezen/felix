@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "logging.h"
 #include "WordAutomationObject.h"
 #include "html_formatter.h"
 #include "office_seg.h"
@@ -12,7 +13,6 @@
 
 #include "app_state.h"
 #include "Parser.h"
-#include "logging.h"
 
 class CParserBase : public OfficeSeg
 {

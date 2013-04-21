@@ -95,7 +95,7 @@ public:
 	/** Set the foreground color.
 	@param color
 	*/
-	void set_fore_color( const CColorRef color ) ;	
+	void set_fore_color( const CColorRef &color ) ;	
 	// specify empty string to clear font-face information
 
 	/** brief. 

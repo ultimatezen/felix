@@ -21,6 +21,8 @@
 #include "OleAutoWrapper.h"
 #include "Localizer.h"
 
+#include "logging.h"
+
 #pragma warning(default:4146) // unary minus operator applied to unsigned type
 
 #define WORD_ENFORCE( expr, fail_msg ) \
@@ -308,9 +310,14 @@ public:
 
 	void set_status_bar( const _bstr_t &text )
 	{
-		HRESULT hr = S_OK ;
-		hr = m_member->put_StatusBar( text ) ;
+		HRESULT hr = m_member->put_StatusBar( text ) ;
 		ASSERT_HRESULT( hr ) ;
+		if (! SUCCEEDED(hr) )
+		{
+			_com_error e(hr) ;
+			logging::log_error("Failed to set status bar text.") ;
+			logging::log_exception(e) ;
+		}
 		WordSelection selection = get_selection() ;
 		WordRange range = selection.get_range() ;
 		range.select() ;

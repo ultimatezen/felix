@@ -126,7 +126,7 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 		// Do the main matching
 		while (p <= end)
 		{
-			const size_t cell = --diag + (c != *(above++));
+			const size_t cell = (diag - 1)+ (c != *(above++));
 			diag = *p + 1;
 			x++;
 

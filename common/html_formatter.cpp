@@ -264,7 +264,7 @@ void html_formatter::set_underline( const bool setting )
 
 }
 
-void html_formatter::set_fore_color( const CColorRef color )
+void html_formatter::set_fore_color( const CColorRef &color )
 {
 	m_is_fore_color_specified = true ;
 

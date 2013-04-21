@@ -753,7 +753,7 @@ void CHtmlView::SetFocusToHTML()
 			{
 				CComPtr<IHTMLWindow2> spParentWindow;
 				hRet = spHtmlDoc->get_parentWindow(&spParentWindow);
-				if(spParentWindow != NULL)
+				if(spParentWindow != NULL && SUCCEEDED(hRet))
 					spParentWindow->focus();
 			}
 		}

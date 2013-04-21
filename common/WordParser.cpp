@@ -608,8 +608,7 @@ bool WordParser::reflect_bold(WordFont &font, font_properties &props)
 		return true ;
 	}
 
-	MSOffice::MsoTriState tri_setting = MSOffice::msoFalse ;
-	tri_setting = font.is_bold() ;
+	MSOffice::MsoTriState tri_setting = font.is_bold() ;
 	if ( tri_setting == MSOffice::msoTrue || tri_setting == MSOffice::msoFalse )
 	{
 		bool is_bold = (tri_setting != MSOffice::msoFalse ) ;
@@ -626,8 +625,7 @@ bool WordParser::reflect_italic(WordFont &font, font_properties &props)
 		return true ;
 	}
 
-	MSOffice::MsoTriState tri_setting = MSOffice::msoFalse ;
-	tri_setting = font.is_italic() ;
+	MSOffice::MsoTriState tri_setting = font.is_italic() ;
 	if ( tri_setting == MSOffice::msoTrue || tri_setting == MSOffice::msoFalse )
 	{
 		bool is_italic = (tri_setting != MSOffice::msoFalse ) ;
@@ -641,13 +639,11 @@ bool WordParser::reflect_italic(WordFont &font, font_properties &props)
 bool WordParser::reflect_super_sub(WordFont &font, font_properties &props)
 {
 
-	MSOffice::MsoTriState tri_setting = MSOffice::msoFalse ;
-
 	bool retval = true ;
 
 	if ( ! props.is_superscript_established() ) 
 	{
-		tri_setting = font.is_superscript() ;
+		MSOffice::MsoTriState tri_setting = font.is_superscript() ;
 		if ( tri_setting == MSOffice::msoTrue || tri_setting == MSOffice::msoFalse )
 		{
 			bool is_superscript = (tri_setting != MSOffice::msoFalse ) ;
@@ -661,7 +657,7 @@ bool WordParser::reflect_super_sub(WordFont &font, font_properties &props)
 	
 	if ( ! props.is_subscript_established() ) 
 	{
-		tri_setting = font.is_subscript() ;
+		MSOffice::MsoTriState tri_setting = font.is_subscript() ;
 		if ( tri_setting == MSOffice::msoTrue || tri_setting == MSOffice::msoFalse )
 		{
 			bool is_subscript = (tri_setting != MSOffice::msoFalse ) ;
