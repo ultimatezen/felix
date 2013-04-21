@@ -18,7 +18,7 @@ using namespace std ;
 class FailsRule : public CheckRule
 {
 public:
-	bool check(const wstring, const wstring)
+	bool check(const wstring&, const wstring&)
 	{
 		return false ;
 	}

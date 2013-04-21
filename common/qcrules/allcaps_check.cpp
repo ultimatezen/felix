@@ -6,7 +6,7 @@ namespace qc
 {
 
 
-	bool AllCapsCheckRule::check( const std::wstring source, const std::wstring target )
+	bool AllCapsCheckRule::check( const std::wstring &source, const std::wstring &target )
 	{
 		m_messages.clear() ;
 		boost::wregex caps(L"\\b[A-Z]{2,}\\b") ;

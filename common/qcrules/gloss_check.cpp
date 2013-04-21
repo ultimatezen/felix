@@ -4,7 +4,7 @@
 
 namespace qc
 {
-	bool GlossCheckRule::check( const std::wstring source, const std::wstring target )
+	bool GlossCheckRule::check( const std::wstring &, const std::wstring &target )
 	{
 		BOOST_FOREACH(gloss_pair gloss, m_gloss_matches)
 		{

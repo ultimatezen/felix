@@ -7,7 +7,7 @@ namespace qc
 	class AllCapsCheckRule : public CheckRule
 	{
 	public:
-		bool check(const std::wstring source, const std::wstring target);
+		bool check(const std::wstring &source, const std::wstring &target);
 
 	};
 }

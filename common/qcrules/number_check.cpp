@@ -3,7 +3,7 @@
 
 namespace qc
 {
-	bool NumberCheckRule::check( const std::wstring source, const std::wstring target )
+	bool NumberCheckRule::check( const std::wstring &source, const std::wstring &target )
 	{
 		m_messages.clear() ;
 
@@ -31,7 +31,7 @@ namespace qc
 		return m_messages.empty() ;
 	}
 
-	void NumberCheckRule::check_number( std::wstring &number, const std::wstring target )
+	void NumberCheckRule::check_number( std::wstring &number, const std::wstring &target )
 	{
 		if (number.empty())
 		{
