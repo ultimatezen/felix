@@ -306,6 +306,8 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 	search_match_ptr match(mem->make_match(get_new_record())) ;
 	this->set_item_under_edit(match) ;
 	
+	// This is so that when we edit the record, the editor can tell us
+	// the display state we were in when we started editing it.
 	get_editor()->set_display_state( NEW_RECORD_DISPLAY_STATE ) ;
 
 	get_editor()->SetWindowText( R2T( title_id ) ) ;

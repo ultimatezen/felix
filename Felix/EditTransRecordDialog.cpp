@@ -135,3 +135,8 @@ LRESULT CEditTransRecordDialog::notify_calling_window()
 	}
 	return 0L ;
 }
+
+void CEditTransRecordDialog::set_display_state( LPARAM display_state )
+{
+	m_display_state = display_state ;
+}

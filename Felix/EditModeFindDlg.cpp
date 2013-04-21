@@ -53,14 +53,12 @@ LRESULT CEditModeFindDlg::OnInitDialog( )
 	// set our message filter...
 #ifndef UNIT_TEST
 	register_message_filter(this) ;
-#endif
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
 	// checkbox setup
 	init_checkboxes() ;
 
-#ifndef UNIT_TEST
 	// search edit setup
 	init_find_edit() ;
 
@@ -117,18 +115,12 @@ LRESULT CEditModeReplaceDlg::OnInitDialog( )
 {
 	SENSE( "OnInitDialog" ) ;
 
+#ifndef UNIT_TEST
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
 	// set our message filter...
-#ifndef UNIT_TEST
 	register_message_filter(this) ;
-#endif
-
-#ifdef UNIT_TEST
-	return TRUE ;
-#else
-
 
 	// checkbox setup
 	init_checkboxes() ;
@@ -151,9 +143,9 @@ LRESULT CEditModeReplaceDlg::OnInitDialog( )
 	// make it second in the z, and hence tab, order
 	ATLASSERT( m_find_edit.IsWindow() ) ;
 	m_replace_edit.SetWindowPos( m_find_edit, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) ;
+#endif
 
 	return TRUE ;
-#endif
 }
 
 /** OnReplace

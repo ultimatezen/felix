@@ -32,7 +32,7 @@ public:
 	void set_old_record (record_type record );
 	record_type get_old_record();
 	record_type get_new_record();
-	void set_display_state( LPARAM display_state ) { m_display_state = display_state ; }
+	void set_display_state( LPARAM display_state );
 
 	// message handlers
 	LRESULT OnInitDialog() ;
