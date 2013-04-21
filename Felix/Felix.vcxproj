@@ -636,6 +636,7 @@ echo Protection complete!
     <ClCompile Include="view_interface.cpp" />
     <ClCompile Include="ViewCollectionWalker.cpp" />
     <ClCompile Include="WebPage.cpp" />
+    <ClCompile Include="WindowsExceptionHandler_test.cpp" />
     <ClCompile Include="xml_utils.cpp" />
     <ClCompile Include="zoom_dialog.cpp" />
     <ClCompile Include="action_delete_entry_test.cpp" />

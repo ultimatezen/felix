@@ -945,6 +945,9 @@
     <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WindowsExceptionHandler_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">

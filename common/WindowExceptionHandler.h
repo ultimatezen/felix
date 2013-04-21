@@ -1,8 +1,6 @@
 /*!
 	@file WindowExceptionHandler.h
 	@brief interface for the CWindowExceptionHandler class.
-	@date 2005/06/25
-	Time: 15:35:08
 	@author Ryan Ginstrom
  */
 
@@ -11,6 +9,23 @@
 #include "Exceptions.h"
 #include "logging.h"
 
+inline CString get_language_code()
+{
+	if(resource_string(IDS_LANG_CODE) == L"jp")
+	{
+		return L"Japanese" ;
+	}
+	return L"English" ;
+}
+
+inline void report_structured_windows_exception(const string &err_msg, except::CSWException &e)
+{
+	logging::log_error(err_msg) ;
+	logging::log_exception(e) ;
+
+	const CString language = get_language_code();
+	logging::send_report(language, e.get_filename()) ;
+}
 /**
 	@class CWindowExceptionHandler  
 	@brief Handles exceptions thrown in window message-handler routine.
@@ -51,18 +66,10 @@ public:
 	{
 		T* pT = static_cast< T* >(this) ;
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message ) ) ;	 
+		const wstring werr_msg = (LPCWSTR)message ;
+		const string err_msg = string2string(werr_msg, CP_UTF8) ;
 
-		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
-		logging::log_exception(e) ;
-
-		CString language = L"English" ;
-		const CString lang_code = resource_string(IDS_LANG_CODE);
-		if(lang_code == L"jp")
-		{
-			language = L"Japanese" ;
-		}
-		logging::send_report(language, e.get_filename()) ;
+		report_structured_windows_exception(err_msg, e) ;
 		return FALSE ;											 
 	}
 

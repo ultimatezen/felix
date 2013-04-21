@@ -794,15 +794,9 @@ public:
 	}
 	catch ( except::CSWException &sw_e ) 
 	{ 
-		logging::log_error("Edit Trans Record Dialog - Structured Windows Exception") ;
-		logging::log_exception(sw_e) ;
-		CString language = L"English" ;
-		const CString lang_code = resource_string(IDS_LANG_CODE);
-		if(lang_code == L"jp")
-		{
-			language = L"Japanese" ;
-		}
-		logging::send_report(language, sw_e.get_filename()) ;
+		string err_msg = "Edit Trans Record Dialog - Structured Windows Exception" ;
+
+		report_structured_windows_exception(err_msg, sw_e) ;
 		return FALSE ;
 	} 
 	catch ( _com_error &e ) 
