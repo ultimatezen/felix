@@ -335,14 +335,10 @@ void CToolBarXP::PaintTBButton(LPNMCUSTOMDRAW pInfo)
 	
 	int nIndex = SendMessage(TB_COMMANDTOINDEX, pInfo->dwItemSpec, 0);
 
-	UINT nID = 0;
-	UINT nStyle = 0;
 	int iImage = 0;
 
 	TBBUTTON tb;
 	_GetButton( nIndex, &tb);
-	nID = tb.idCommand;
-	nStyle = MAKELONG(tb.fsStyle, tb.fsState);
 	iImage = tb.iBitmap;
 
 	if(pInfo->uItemState&CDIS_HOT && !(pInfo->uItemState&CDIS_SELECTED))
