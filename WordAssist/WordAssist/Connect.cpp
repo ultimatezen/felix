@@ -321,13 +321,13 @@ STDMETHODIMP CConnect::OnDisconnection(AddInDesignerObjects::ext_DisconnectMode 
 		logging::log_debug("OnDisconnection") ;
 		m_app = NULL;
 		m_pAddInInstance = NULL;
+		logging::log_debug("Cleaning up logger") ;
 		logging::set_logger(logger_ptr()) ;
 	}
 	catch( _com_error &e ) 
 	{
 		logging::log_error("CConnect::OnDisconnection - _com_error") ;
-		CComException ce(e) ;
-		logging::log_exception(ce) ;
+		logging::log_exception(e) ;
 	}
 	catch( CException &myException )
 	{
@@ -400,12 +400,22 @@ STDMETHODIMP CConnect::OnBeginShutdown (SAFEARRAY ** /*custom*/ )
 		logging::log_debug("OnBeginShutdown") ;
 		persist_app_state() ;
 
+		logging::log_debug("Cleaning up document events") ;
 		unadvise_document_events() ;
 
+		logging::log_debug("Cleaning up buttons") ;
 		unadvise_button_items() ;
 
-		unadvise_menu_items() ;
+		logging::log_debug("Cleaning up menu items") ;
+		const HRESULT unadvise_menu_items_result = unadvise_menu_items() ;
+		if (FAILED(unadvise_menu_items_result))
+		{
+			logging::log_error("Failed to unadvise menu items") ;
+			_com_error err(unadvise_menu_items_result) ;
+			logging::log_exception(err) ;
+		}
 
+		logging::log_debug("Cleaning up keyboard listener") ;
 		uninstallhook( &m_keyboard_shortcuts ) ;
 
 		m_controller->shut_down() ;
