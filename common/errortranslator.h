@@ -1,8 +1,6 @@
 /*!
 	@file ErrorTranslator.h
 	@brief interface for the error translation functions
-	@date 2005/06/25
-	Time: 15:19:09
 	@author Ryan Ginstrom
  */
 
@@ -147,7 +145,11 @@ inline void _cdecl TranslateSEHtoCE( UINT code, PEXCEPTION_POINTERS pep )
 	CHECK_RECOVERABLE_CODE( EXCEPTION_GUARD_PAGE )             
 	CHECK_RECOVERABLE_CODE( EXCEPTION_INVALID_HANDLE )         
 	CHECK_RECOVERABLE_CODE( CONTROL_C_EXIT )    
-	
+
+	//	EXCEPTION_PRIV_INSTRUCTION 
+	//	The thread tried to execute an instruction whose operation is not allowed in the current machine mode. 
+	CHECK_RECOVERABLE_CODE( EXCEPTION_PRIV_INSTRUCTION )      
+
 	// =============================
 	// non-recoverable errors
 	// =============================
@@ -155,9 +157,6 @@ inline void _cdecl TranslateSEHtoCE( UINT code, PEXCEPTION_POINTERS pep )
 	//	EXCEPTION_ILLEGAL_INSTRUCTION 
 	//	The thread tried to execute an invalid instruction. 
 	CHECK_MELTDOWN_CODE( EXCEPTION_ILLEGAL_INSTRUCTION )     
-	//	EXCEPTION_PRIV_INSTRUCTION 
-	//	The thread tried to execute an instruction whose operation is not allowed in the current machine mode. 
-	CHECK_MELTDOWN_CODE( EXCEPTION_PRIV_INSTRUCTION )      
 	//	EXCEPTION_NONCONTINUABLE_EXCEPTION 
 	//	The thread tried to continue execution after a noncontinuable exception occurred. 
 	CHECK_MELTDOWN_CODE( EXCEPTION_NONCONTINUABLE_EXCEPTION )
