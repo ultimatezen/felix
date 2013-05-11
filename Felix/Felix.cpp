@@ -20,10 +20,6 @@
 
 	Felix is a translation memory program. 
 
-	Frame (observer) classes:
-	- \ref CMainFrame
-	- \ref CGlossaryDialog
-
 	Felix is an automation server, and interacts with several application 
 	interfaces and stand-alone applications.
  */
@@ -303,7 +299,7 @@ int do_unit_testing(HINSTANCE hInstance)
 	}
 	catch(...)
 	{
-		ATLTRACE("waaa?\n");
+		ATLTRACE("whaaa?\n");
 	}
 
 	_Module.Term() ;
@@ -324,8 +320,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	// sets us to convert SEH into C++ exceptions,
 	// and sets up float exceptions as well
 	set_up_exception_handling() ;
-	_invalid_parameter_handler oldHandler;
-	oldHandler = _set_invalid_parameter_handler((_invalid_parameter_handler)felix_invalid_parameter_handler);
+	_set_invalid_parameter_handler((_invalid_parameter_handler)felix_invalid_parameter_handler);
 	
 	try
 	{
@@ -345,8 +340,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 	logging::log_debug("Loading Scintilla library") ;
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
-	scintilla_module ;
-	ATLASSERT(scintilla_module.IsLoaded()) ;
+	ATLVERIFY(scintilla_module.IsLoaded()) ;
 
 // For unit testing
 #ifdef UNIT_TEST
