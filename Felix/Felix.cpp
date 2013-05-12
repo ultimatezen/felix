@@ -49,7 +49,6 @@
 
 #include "unit_test_config.h"
 
-
 using namespace except ;
 
 /** memory debugging */
@@ -355,7 +354,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	// going to a subroutine makes it cleaner to separate app code from error handling
 	try
 	{
-		 return MainSub( hInstance, lpstrCmdLine, nCmdShow ) ;
+		lua_State* luaVM = luaL_newstate();
+		if (luaVM == NULL)
+		{
+			logging::log_error("Failed to initialize Lua VM.") ;
+		}
+		return MainSub( hInstance, lpstrCmdLine, nCmdShow ) ;
 	}
 	catch ( CException &e )
 	{

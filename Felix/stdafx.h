@@ -54,6 +54,15 @@ static const size_t MAX_MEMORY_SIZE_FOR_DEMO = 10 ;
 //	#define _ATL_DEBUG_INTERFACES 
 #endif 
 
+#define _CRT_SECURE_NO_WARNINGS
+#pragma warning( disable : 4996 )
+#pragma warning( disable : 4244 )
+	// This function or variable may be unsafe. 
+	// Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS.
+	#include <lua.hpp>
+//#pragma warning( default : 4996 )
+//#pragma warning( default : 4244 )
+//#undef _CRT_SECURE_NO_WARNINGS
 
 #include <Windows.h>
 #include <commdlg.h>
