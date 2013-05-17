@@ -302,7 +302,6 @@ int do_unit_testing(HINSTANCE hInstance)
 	}
 
 	_Module.Term() ;
-	::OleUninitialize() ;
 	return EXIT_SUCCESS ;
 
 }
@@ -386,7 +385,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 		::MessageBoxA( NULL, "Fatal exception. The program will terminate now.", "FATAL ERROR", MB_OK | MB_SETFOREGROUND | MB_ICONSTOP ) ;
 	}
 
-	::OleUninitialize();
 	return EXIT_FAILURE ;
 
 #endif
