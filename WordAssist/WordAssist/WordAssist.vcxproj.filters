@@ -370,10 +370,10 @@
     <ClInclude Include="WordParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WordScreenUpdateLock.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\DumpExceptionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordScreenUpdateLock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

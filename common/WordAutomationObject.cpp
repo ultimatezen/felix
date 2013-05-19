@@ -446,7 +446,7 @@ word_sel_ptr WordApplication::get_selection()
 		ATLASSERT( is_instantiated( ) ) ;
 	
 		word_sel_ptr selection ;
-		WORD_ENFORCE( m_member->get_Selection( &selection ), _("Failed to retrieve Selection property") ) ;
+		WORD_ENFORCE( m_member->get_Selection( &selection ), ("Failed to retrieve Selection property") ) ;
 		ATLASSERT( selection ) ;
 
 		return selection ;
@@ -473,7 +473,7 @@ MSWord::_DocumentPtr WordApplication::open( const _bstr_t file_to_open )
 	ATLASSERT ( is_instantiated() ) ; 
 	
 	CComPtr< MSWord::Documents > pDocs ;
-	WORD_ENFORCE( m_member->get_Documents( &pDocs ), _("Failed to get documents") ) ;
+	WORD_ENFORCE( m_member->get_Documents( &pDocs ), ("Failed to get documents") ) ;
 
 	_variant_t vtFilename( file_to_open ) ;
 	_variant_t vtConfirmConversions( VARIANT_FALSE ) ;
@@ -509,7 +509,7 @@ long WordSelection::get_start()
 		ATLASSERT( is_instantiated( ) ) ;
 
 		long start = 0 ;
-		WORD_ENFORCE( m_member->get_Start( &start), _("Failed to retrieve Start property") ) ;
+		WORD_ENFORCE( m_member->get_Start( &start), ("Failed to retrieve Start property") ) ;
 		ATLASSERT( start >= 0 ) ;
 
 		return start ;
@@ -524,7 +524,7 @@ void WordSelection::set_start(long new_start)
 		ATLASSERT( is_instantiated( ) ) ;
 		ATLASSERT( new_start >= 0 ) ;
 		
-		WORD_ENFORCE( m_member->put_Start( new_start), _("Failed to set Start property") ) ;
+		WORD_ENFORCE( m_member->put_Start( new_start), ("Failed to set Start property") ) ;
 
 	WORD_CATCH 
 }
@@ -535,7 +535,7 @@ long WordSelection::get_story_length()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		long story_len = 0 ;
-		WORD_ENFORCE( m_member->get_StoryLength( &story_len ), _("Failed to get story length") ) ;
+		WORD_ENFORCE( m_member->get_StoryLength( &story_len ), ("Failed to get story length") ) ;
 		ATLASSERT( story_len >= 0 ) ;
 		return story_len ;
 
@@ -549,7 +549,7 @@ long WordSelection::get_end()
 		ATLASSERT( is_instantiated( ) ) ;
 	
 		long sel_end = 0 ;
-		WORD_ENFORCE( m_member->get_End( &sel_end ), _("Failed to get selection endpoint") ) ;
+		WORD_ENFORCE( m_member->get_End( &sel_end ), ("Failed to get selection endpoint") ) ;
 		ATLASSERT( sel_end >= 0 ) ;
 		return sel_end ;
 
@@ -575,7 +575,7 @@ void WordSelection::type_paragraph()
 
 		ATLASSERT( is_instantiated( ) ) ;
 		
-		WORD_ENFORCE( m_member->TypeParagraph( ), _("Call to TypeParagraph() failed.") ) ;
+		WORD_ENFORCE( m_member->TypeParagraph( ), ("Call to TypeParagraph() failed.") ) ;
 
 	WORD_CATCH 
 }
@@ -586,7 +586,7 @@ void WordSelection::type_text(const _bstr_t &text)
 
 		ATLASSERT( is_instantiated( ) ) ;
 
-		WORD_ENFORCE( m_member->TypeText( _bstr_t( (LPCWSTR)text) ), _("Call to TypeText() failed.") ) ;
+		WORD_ENFORCE( m_member->TypeText( _bstr_t( (LPCWSTR)text) ), ("Call to TypeText() failed.") ) ;
 	
 	WORD_CATCH 
 }
@@ -597,7 +597,7 @@ word_chars_ptr WordSelection::get_characters()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		word_chars_ptr chars ;
-		WORD_ENFORCE( m_member->get_Characters( &chars ), _("Call to Characters failed.") ) ;
+		WORD_ENFORCE( m_member->get_Characters( &chars ), ("Call to Characters failed.") ) ;
 		ATLASSERT( chars ) ;
 		return chars ;
 
@@ -611,7 +611,7 @@ word_range_ptr WordSelection::get_range()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		word_range_ptr range ;
-		WORD_ENFORCE( m_member->get_Range( &range ), _("Failed to retrieve Range member") ) ;
+		WORD_ENFORCE( m_member->get_Range( &range ), ("Failed to retrieve Range member") ) ;
 		ATLASSERT( range ) ;
 		return range ;
 
@@ -629,7 +629,7 @@ long WordSelection::extend_end(MSWord::WdUnits unit, long count)
 		_variant_t extend_count( count ) ;
 		_variant_t extend_flag( MSWord::wdExtend ) ;
 		long prop = 0 ;
-		WORD_ENFORCE( m_member->raw_MoveRight( &extend_unit, &extend_count, &extend_flag, &prop ), _("Call to MoveRight() failed") ) ;
+		WORD_ENFORCE( m_member->raw_MoveRight( &extend_unit, &extend_count, &extend_flag, &prop ), ("Call to MoveRight() failed") ) ;
 		return prop ;
 
 	WORD_CATCH 
@@ -642,7 +642,7 @@ void WordSelection::put_start( const long start )
 		ATLASSERT( is_instantiated() ) ;
 		ATLASSERT( start >= 0 ) ;
 		
-		WORD_ENFORCE( m_member->put_Start( start ), _("Failed to set selection start") ) ;
+		WORD_ENFORCE( m_member->put_Start( start ), ("Failed to set selection start") ) ;
 
 	WORD_CATCH 
 }
@@ -659,7 +659,7 @@ long WordCharacters::get_count()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		long count = 0 ;
-		WORD_ENFORCE( m_member->get_Count( &count ), _("Failed to retrieve Count property") ) ;
+		WORD_ENFORCE( m_member->get_Count( &count ), ("Failed to retrieve Count property") ) ;
 		ATLASSERT( count >= 0 ) ;
 		return count ;
 
@@ -676,7 +676,7 @@ word_range_ptr WordCharacters::item(long index)
 		ATLASSERT( index <= get_count() ) ;
 
 		word_range_ptr range ;
-		WORD_ENFORCE( m_member->raw_Item( index, &range ), _("Failed to retrieve Item member") ) ;
+		WORD_ENFORCE( m_member->raw_Item( index, &range ), ("Failed to retrieve Item member") ) ;
 		ATLASSERT( range ) ;
 
 		return range ;
@@ -696,7 +696,7 @@ long WordWords::get_count()
 		ATLASSERT( is_instantiated( ) ) ;
 
 		long count = 0 ;
-		WORD_ENFORCE( m_member->get_Count( &count ), _("Failed to retrieve Count property") ) ;
+		WORD_ENFORCE( m_member->get_Count( &count ), ("Failed to retrieve Count property") ) ;
 		ATLASSERT( count >= 0 ) ;
 		return count ;
 
@@ -713,7 +713,7 @@ word_range_ptr WordWords::item(long index)
 		ATLASSERT( index <= get_count() ) ;
 
 		word_range_ptr range ;
-		WORD_ENFORCE( m_member->raw_Item( index, &range ), _("Failed to retrieve Item member (Words)") ) ;
+		WORD_ENFORCE( m_member->raw_Item( index, &range ), ("Failed to retrieve Item member (Words)") ) ;
 		ATLASSERT( range ) ;
 
 		return range ;
@@ -744,18 +744,18 @@ _bstr_t WordRange::get_unicode_char()
 
 		ATLASSERT( is_instantiated( ) ) ;
 		
-		WORD_ENFORCE( m_member->Select( ), _("Call to Select() method failed.") ) ;
+		WORD_ENFORCE( m_member->Select( ), ("Call to Select() method failed.") ) ;
 		
 		word_app_ptr app ;
-		WORD_ENFORCE( m_member->get_Application (&app), _("Failed to get Word application") )  ;
+		WORD_ENFORCE( m_member->get_Application (&app), ("Failed to get Word application") )  ;
 		ATLASSERT( app ) ;
 
 		CComPtr< MSWord::Dialogs > dialogs ;
-		WORD_ENFORCE( app->get_Dialogs( &dialogs ), _("Failed to get Word dialogs" ) ) ;
+		WORD_ENFORCE( app->get_Dialogs( &dialogs ), ("Failed to get Word dialogs" ) ) ;
 		ATLASSERT( dialogs ) ;
 
 		CComPtr< MSWord::Dialog > insert_symbol_dlg ;
-		WORD_ENFORCE( dialogs->raw_Item( MSWord::wdDialogInsertSymbol, &insert_symbol_dlg ), _("Failed to get Word dialogs" ) ) ;
+		WORD_ENFORCE( dialogs->raw_Item( MSWord::wdDialogInsertSymbol, &insert_symbol_dlg ), ("Failed to get Word dialogs" ) ) ;
 
 		// Line 3: unicode_symbol = dlg . charnum 
 		CDispatchWrapper wrapper( CComPtr<IDispatch>( static_cast< IDispatch* >( insert_symbol_dlg ) ) ) ;
@@ -777,7 +777,7 @@ word_font_ptr WordRange::get_font()
 		
 		word_font_ptr font ;
 
-		WORD_ENFORCE( m_member->get_Font( &font), _("Failed to retrieve Font property") ) ;
+		WORD_ENFORCE( m_member->get_Font( &font), ("Failed to retrieve Font property") ) ;
 		ATLASSERT( font ) ;
 
 		return font ;
@@ -793,7 +793,7 @@ void WordRange::extend_to_story_end()
 		_variant_t unit( MSWord::wdStory ) ;
 		_variant_t count_sentinel( (long)10000 ) ;
 		long prop = 0 ;
-		WORD_ENFORCE( m_member->raw_MoveEnd( &unit, &count_sentinel, &prop ), _("Failed to extend Word range") ) ;
+		WORD_ENFORCE( m_member->raw_MoveEnd( &unit, &count_sentinel, &prop ), ("Failed to extend Word range") ) ;
 	WORD_CATCH 
 }
 
@@ -805,7 +805,7 @@ void WordRange::collapse_end()
 		ATLASSERT( is_instantiated() ) ;
 
 		_variant_t direction = (long)MSWord::wdCollapseEnd ;
-		WORD_ENFORCE( m_member->Collapse( &direction ), _("Failed to collapse Word range (end)") ) ;
+		WORD_ENFORCE( m_member->Collapse( &direction ), ("Failed to collapse Word range (end)") ) ;
 	WORD_CATCH 
 }
 
@@ -815,7 +815,7 @@ void WordRange::collapse_start()
 		ATLASSERT( is_instantiated() ) ;
 
 		_variant_t direction = (long)MSWord::wdCollapseStart ;
-		WORD_ENFORCE( m_member->Collapse( &direction), _("Failed to collapse Word range (start)") ) ;
+		WORD_ENFORCE( m_member->Collapse( &direction), ("Failed to collapse Word range (start)") ) ;
 	WORD_CATCH 
 }
 
@@ -839,7 +839,7 @@ long WordRange::move_end_until(const _bstr_t &text)
 		_variant_t move_until( text ) ;
 		_variant_t count_sentinel( (long)1000 ) ;
 		long prop = 0 ;
-		WORD_ENFORCE( m_member->raw_MoveEndUntil( &move_until, &count_sentinel, &prop ), _("Call to MoveEndUntil() failed") ) ;
+		WORD_ENFORCE( m_member->raw_MoveEndUntil( &move_until, &count_sentinel, &prop ), ("Call to MoveEndUntil() failed") ) ;
 		return prop ;
 	WORD_CATCH 
 }
@@ -852,7 +852,7 @@ long WordRange::get_start()
 		ATLASSERT( is_instantiated() ) ;
 	
 		long count = 0 ;
-		WORD_ENFORCE( m_member->get_Start( &count), _("Failed to retrieve Start property") ) ;
+		WORD_ENFORCE( m_member->get_Start( &count), ("Failed to retrieve Start property") ) ;
 		ATLASSERT( count >= 0 ) ;
 		return count ;
 
@@ -866,7 +866,7 @@ long WordRange::get_end()
 		ATLASSERT( is_instantiated() ) ;
 	
 		long count = 0 ;
-		WORD_ENFORCE( m_member->get_End( &count), _("Failed to retrieve End property") ) ;
+		WORD_ENFORCE( m_member->get_End( &count), ("Failed to retrieve End property") ) ;
 		ATLASSERT( count >= 0 ) ;
 		return count ;
 
@@ -881,7 +881,7 @@ void WordRange::put_start( long start)
 		ATLASSERT( is_instantiated() ) ;
 		ATLASSERT( start >= 0 ) ;
 		
-		WORD_ENFORCE( m_member->put_Start( start), _("Failed to set Start property") ) ;
+		WORD_ENFORCE( m_member->put_Start( start), ("Failed to set Start property") ) ;
 
 	WORD_CATCH 
 }
@@ -894,7 +894,7 @@ void WordRange::put_end( long end )
 		ATLASSERT( end >= 0 ) ;
 		ATLASSERT( end >= get_start() ) ;
 		
-		WORD_ENFORCE( m_member->put_End( end ), _("Failed to set End property") ) ;
+		WORD_ENFORCE( m_member->put_End( end ), ("Failed to set End property") ) ;
 
 	WORD_CATCH 
 }
@@ -905,7 +905,7 @@ word_chars_ptr WordRange::get_characters()
 		ATLASSERT( is_instantiated( ) ) ;
 
 	word_chars_ptr chars ;
-	WORD_ENFORCE( m_member->get_Characters( &chars ), _("Failed to put selection text") ) ;
+	WORD_ENFORCE( m_member->get_Characters( &chars ), ("Failed to put selection text") ) ;
 	ATLASSERT( chars ) ;
 
 	return chars ;
@@ -921,7 +921,7 @@ word_words_ptr WordRange::get_words()
 		ATLASSERT( is_instantiated( ) ) ;
 
 	word_words_ptr words ;
-	WORD_ENFORCE( m_member->get_Words( &words ), _("Failed to put selection text") ) ;
+	WORD_ENFORCE( m_member->get_Words( &words ), ("Failed to put selection text") ) ;
 	ATLASSERT( words ) ;
 
 	return words ;
@@ -936,7 +936,7 @@ void WordRange::select_range(const long start_pos, const long end_pos)
 	ATLASSERT( end_pos >= start_pos ) ;
 
 	WORD_ENFORCE( m_member->SetRange(start_pos, end_pos), 
-		_("Failed to set selection range") ) ;
+		("Failed to set selection range") ) ;
 
 	select() ;
 	WORD_CATCH 
@@ -949,7 +949,7 @@ word_app_ptr WordRange::get_application()
 		ATLASSERT( is_instantiated() ) ;
 		
 		word_app_ptr app ;
-		WORD_ENFORCE( m_member->get_Application( &app), _("Failed to retrieve Application property") ) ;
+		WORD_ENFORCE( m_member->get_Application( &app), ("Failed to retrieve Application property") ) ;
 		ATLASSERT( app ) ;
 		
 		return app ;
@@ -963,7 +963,7 @@ void WordRange::select()
 	
 		ATLASSERT( is_instantiated() ) ;
 
-		WORD_ENFORCE( m_member->Select(), _("Call to Select() method failed") ) ;
+		WORD_ENFORCE( m_member->Select(), ("Call to Select() method failed") ) ;
 
 	WORD_CATCH 
 }
@@ -975,7 +975,7 @@ void WordRange::put_text(const _bstr_t &text)
 		
 		ATLASSERT( is_instantiated( ) ) ;
 		
-		WORD_ENFORCE( m_member->put_Text( text ), _("Failed to set range text") ) ;
+		WORD_ENFORCE( m_member->put_Text( text ), ("Failed to set range text") ) ;
 	
 	WORD_CATCH 
 }
@@ -992,7 +992,7 @@ MSOffice::MsoTriState WordFont::is_superscript()
 		
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->get_Superscript( &setting), _("Failed to retrieve Superscript property") ) ;
+		WORD_ENFORCE( m_member->get_Superscript( &setting), ("Failed to retrieve Superscript property") ) ;
 	
 	WORD_CATCH 
 		
@@ -1007,7 +1007,7 @@ MSOffice::MsoTriState WordFont::is_subscript()
 		
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->get_Subscript( &setting), _("Failed to retrieve Subscript property") ) ;
+		WORD_ENFORCE( m_member->get_Subscript( &setting), ("Failed to retrieve Subscript property") ) ;
 	
 	WORD_CATCH 
 		
@@ -1022,7 +1022,7 @@ MSOffice::MsoTriState WordFont::is_bold()
 	
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->get_Bold( &setting), _("Failed to retrieve Bold property") ) ;
+		WORD_ENFORCE( m_member->get_Bold( &setting), ("Failed to retrieve Bold property") ) ;
 
 	WORD_CATCH 
 	
@@ -1035,7 +1035,7 @@ void WordFont::put_bold_on()
 		
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Bold( MSOffice::msoTrue ), _("Failed to set Bold property") ) ;
+		WORD_ENFORCE( m_member->put_Bold( MSOffice::msoTrue ), ("Failed to set Bold property") ) ;
 
 	WORD_CATCH 
 }
@@ -1046,7 +1046,7 @@ void WordFont::put_bold_off()
 
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Bold( MSOffice::msoFalse ), _("Failed set set Bold property to False") ) ;
+		WORD_ENFORCE( m_member->put_Bold( MSOffice::msoFalse ), ("Failed set set Bold property to False") ) ;
 
 	WORD_CATCH 
 }
@@ -1059,7 +1059,7 @@ MSOffice::MsoTriState WordFont::is_italic()
 
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->get_Italic( &setting ), _("Failed to get Italic property") ) ;
+		WORD_ENFORCE( m_member->get_Italic( &setting ), ("Failed to get Italic property") ) ;
 	
 	WORD_CATCH 
 
@@ -1072,7 +1072,7 @@ void WordFont::put_italic_on()
 
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Italic( MSOffice::msoTrue ), _("Failed to set Italic property to True") ) ;
+		WORD_ENFORCE( m_member->put_Italic( MSOffice::msoTrue ), ("Failed to set Italic property to True") ) ;
 
 	WORD_CATCH 
 }
@@ -1083,7 +1083,7 @@ void WordFont::put_italic_off()
 
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Italic( MSOffice::msoFalse ), _("Failed to set Italic property to False") ) ;
+		WORD_ENFORCE( m_member->put_Italic( MSOffice::msoFalse ), ("Failed to set Italic property to False") ) ;
 
 	WORD_CATCH 
 }
@@ -1096,7 +1096,7 @@ MSWord::WdUnderline WordFont::get_underline()
 	
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->get_Underline( &setting ), _("Failed to get Underline property") ) ;
+		WORD_ENFORCE( m_member->get_Underline( &setting ), ("Failed to get Underline property") ) ;
 	
 	WORD_CATCH
 		
@@ -1109,7 +1109,7 @@ void WordFont::put_underline_on()
 		
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Underline( MSWord::wdUnderlineSingle ), _("Failed to set Underline property to True") ) ;
+		WORD_ENFORCE( m_member->put_Underline( MSWord::wdUnderlineSingle ), ("Failed to set Underline property to True") ) ;
 
 	WORD_CATCH 
 }
@@ -1120,7 +1120,7 @@ void WordFont::put_underline_off()
 
 		ATLASSERT( is_instantiated( ) ) ;
 	
-		WORD_ENFORCE( m_member->put_Underline( MSWord::wdUnderlineNone ), _("Failed to set Underline property to False") ) ;
+		WORD_ENFORCE( m_member->put_Underline( MSWord::wdUnderlineNone ), ("Failed to set Underline property to False") ) ;
 
 	WORD_CATCH 
 }
@@ -1174,7 +1174,7 @@ word_doc_ptr WordApplication::get_active_document()
 		ATLASSERT( is_instantiated( ) ) ;
 	
 		word_doc_ptr doc ;
-		WORD_ENFORCE( m_member->get_ActiveDocument( &doc ), _("Failed to get active document") ) ;
+		WORD_ENFORCE( m_member->get_ActiveDocument( &doc ), ("Failed to get active document") ) ;
 		ATLASSERT( doc ) ;
 
 		return doc ;
@@ -1189,7 +1189,7 @@ word_bkms_ptr WordDocument::get_bookmarks()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		word_bkms_ptr bookmarks ;
-		WORD_ENFORCE( m_member->get_Bookmarks( &bookmarks ), _("Failed to get bookmarks collection") ) ;
+		WORD_ENFORCE( m_member->get_Bookmarks( &bookmarks ), ("Failed to get bookmarks collection") ) ;
 		ATLASSERT( bookmarks ) ;
 		
 		return bookmarks ;
@@ -1205,7 +1205,7 @@ word_bkm_ptr WordBookmarks::add_bookmark(const _bstr_t &name, WordRange &range)
 		
 		word_bkm_ptr bkmark ;
 		_variant_t vrange( (word_range_ptr)range ) ;
-		WORD_ENFORCE( m_member->raw_Add( name, &vrange, &bkmark ), _("Failed to add bookmark") ) ;
+		WORD_ENFORCE( m_member->raw_Add( name, &vrange, &bkmark ), ("Failed to add bookmark") ) ;
 		ATLASSERT( bkmark ) ;
 		
 		return bkmark ;
@@ -1219,7 +1219,7 @@ word_range_ptr WordBookmark::get_range()
 		ATLASSERT( is_instantiated( ) ) ;
 		
 		word_range_ptr range ;
-		WORD_ENFORCE( m_member->get_Range( &range ), _("Failed to get bookmark range") ) ;
+		WORD_ENFORCE( m_member->get_Range( &range ), ("Failed to get bookmark range") ) ;
 		ATLASSERT( range ) ;
 		return range ;
 
@@ -1232,7 +1232,7 @@ void WordBookmark::delete_bookmark()
 	
 		ATLASSERT( is_instantiated( ) ) ;
 		
-		WORD_ENFORCE( m_member->Delete( ), _("Failed to delete bookmark") ) ;
+		WORD_ENFORCE( m_member->Delete( ), ("Failed to delete bookmark") ) ;
 
 	WORD_CATCH 
 }

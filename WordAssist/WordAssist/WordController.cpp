@@ -585,7 +585,7 @@ bool WordController::OnSetAction( bool as_plaintext )
 			
 			if ( abs( selection.get_end() - get_query_start() ) > 1000 ) 
 			{
-				if ( IDNO == MessageBox( NULL, _("You are about to set a long translation in Felix. Are you sure?"), _("Felix Warning"), MB_YESNO | MB_SETFOREGROUND | MB_ICONWARNING ) )
+				if ( IDNO == MessageBox( NULL, _T("You are about to set a long translation in Felix. Are you sure?"), _T("Felix Warning"), MB_YESNO | MB_SETFOREGROUND | MB_ICONWARNING ) )
 				{
 					return false ;
 				}
@@ -1482,7 +1482,7 @@ bool WordController::OnCorrectAction ( bool as_plaintext )
 			ATLASSERT ( get_query_start() >= 0 ) ; 
 			if ( abs( selection.get_end() - get_query_start() ) > 1000 ) 
 			{
-				if ( IDNO == MessageBox( NULL, _("You are about to look up a long segment in Felix. Are you sure?"), _("Felix Warning"), MB_YESNO | MB_SETFOREGROUND | MB_ICONWARNING ) )
+				if ( IDNO == MessageBox( NULL, _T("You are about to look up a long segment in Felix. Are you sure?"), _T("Felix Warning"), MB_YESNO | MB_SETFOREGROUND | MB_ICONWARNING ) )
 				{
 					return false ;
 
@@ -2217,11 +2217,6 @@ void WordController::SetQueryStart( long start )
 {
 	set_query_start( start ) ;
 }
-bool WordController::refresh_properties( boost::any &Param )
-{
-	BANNER( "WordParser::OnPreferencesChanged" ) ;
-	return set_properties(boost::any_cast<app_state>(Param));
-}
 
 bool WordController::IsActive()
 {
@@ -2236,9 +2231,9 @@ bool WordController::OnShiftStateAction()
 bool WordController::handle_exception( std::exception &e, CString msg )
 {
 	CString message( "Runtime Error\r\nCall to Felix.WordInterface on automation server failed.\r\n" ) ;	
-	message << _("Error: " ) << CA2T(e.what()) ;
+	message << _T("Error: " ) << CA2T(e.what()) ;
 	message << _T("\r\n") << msg ;
-	MessageBox( NULL, message, _("C Runtime Error"), MB_OK | MB_ICONHAND | MB_SETFOREGROUND | MB_SYSTEMMODAL ) ;
+	MessageBox( NULL, message, _T("C Runtime Error"), MB_OK | MB_ICONHAND | MB_SETFOREGROUND | MB_SYSTEMMODAL ) ;
 
 	logging::log_error("std::exception") ;
 	logging::log_error(e.what()) ;
@@ -2247,7 +2242,7 @@ bool WordController::handle_exception( std::exception &e, CString msg )
 
 bool WordController::handle_exception( CComException &com_exception, CString msg )
 {
-	CString message( _("COM Error\r\nCall to Felix.WordInterface on automation server failed.\r\n") ) ;	
+	CString message( _T("COM Error\r\nCall to Felix.WordInterface on automation server failed.\r\n") ) ;	
 	message << _T("\r\n") << msg ;
 	com_exception.notify_user( message ) ;								
 
@@ -2258,7 +2253,7 @@ bool WordController::handle_exception( CComException &com_exception, CString msg
 
 bool WordController::handle_exception( CWinException &e, CString msg )
 {
-	CString message( _("Windows Error\r\nCall to Felix.WordInterface on automation server failed.\r\n") ) ;	
+	CString message( _T("Windows Error\r\nCall to Felix.WordInterface on automation server failed.\r\n") ) ;	
 	message << _T("\r\n") << msg ;
 	e.notify_user( message ) ;								
 
@@ -2282,8 +2277,8 @@ bool WordController::handle_exception( CSWException &e, CString msg )
 
 bool WordController::handle_exception( _com_error &e, CString msg )
 {
-	CComException com_exception(_("COM Error\r\nCall to Felix.WordInterface on automation server failed.\r\n"), e) ;					
-	CString message( _("COM Error") ) ;	
+	CComException com_exception(_T("COM Error\r\nCall to Felix.WordInterface on automation server failed.\r\n"), e) ;					
+	CString message( _T("COM Error") ) ;	
 	message << _T("\r\n") << msg ;
 	com_exception.notify_user( message ) ;								
 
@@ -2294,7 +2289,7 @@ bool WordController::handle_exception( _com_error &e, CString msg )
 
 bool WordController::handle_exception( CException &e, CString msg )
 {
-	CString message( _("Call to Felix.WordInterface on automation server failed.\r\n") ) ;	
+	CString message( _T("Call to Felix.WordInterface on automation server failed.\r\n") ) ;	
 	message << _T("\r\n") << msg ;
 	e.notify_user( message ) ;								
 

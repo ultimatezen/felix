@@ -54,7 +54,6 @@ public:
 public:
 	void setPrefs( app_state *prefs );
 	// format toolbar combo selections
-	bool OnPreferencesChanged( boost::any &Param );
 	bool select_to_maru();
 	bool is_right_quote_selected( const _bstr_t &text );
 	bool reflect_bold( WordFont &font, font_properties &props );

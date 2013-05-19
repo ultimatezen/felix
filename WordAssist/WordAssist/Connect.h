@@ -14,9 +14,6 @@
 #include "app_state.h"
 #include "Properties.h"
 #include "hooker.h"
-#include "Broadcaster.h"
-#include "Broker.h"
-#include "Localizer.h"
 #include "logging.h"
 
 #include "keyboard_shortcuts.h"
@@ -312,8 +309,6 @@ class ATL_NO_VTABLE CConnect :
 	CKeyboardListener	*m_controller ;
 
 	app_state			m_properties ;
-
-	CBroadcaster::SignalPtrType m_PropChangeSig ;
 
 	KeyMapperWord m_mapper ;
 	shortcuts::KeyboardShortcuts m_keyboard_shortcuts ;

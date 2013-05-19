@@ -22,9 +22,7 @@ extern CAddInModule _AtlModule;
 #include <exception>
 
 #include "resource.h"
-#include "Broadcaster.h"
 
-#include "Localizer.h"
 #include "ClipboardBackup.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
@@ -40,7 +38,7 @@ using namespace except ;
 { \
 	CStringA err_msg ; err_msg.Format("COM failure: %s(%d)", __FILE__, __LINE__) ; \
 	logging::log_error((LPCSTR)err_msg); \
-	throw CComException( _("COM Failure"), _hr, _T(__FILE__), __LINE__ ) ; \
+	throw CComException( _T("COM Failure"), _hr, _T(__FILE__), __LINE__ ) ; \
 } \
 }
 
@@ -89,7 +87,7 @@ using namespace except ;
 { \
 	CStringA err_msg ; err_msg.Format("COM failure: %s(%d)", __FILE__, __LINE__) ; \
 	logging::log_warn((LPCSTR)err_msg); \
-	throw CComException( _("COM Failure"), _hr, _T(__FILE__), __LINE__ ) ; \
+	throw CComException( _T("COM Failure"), _hr, _T(__FILE__), __LINE__ ) ; \
 } \
 }
 
@@ -508,7 +506,7 @@ HRESULT CConnect::add_menu( office_cmd_bars &spCmdBars )
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spMenuControls;
-	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	int string_offset = 0 ;
 
@@ -576,7 +574,7 @@ HRESULT CConnect::add_menu( office_cmd_bars &spCmdBars )
 		vTemp,
 		&m_gloss_menu_popup
 		),
-		_("Failed to get controls for menu item") 
+		_T("Failed to get controls for menu item") 
 		) ;
 
 	m_gloss_menu_popup->Caption = R2W(IDS_MENU_GET_GLOSS + string_offset) ;
@@ -590,7 +588,7 @@ HRESULT CConnect::add_menu( office_cmd_bars &spCmdBars )
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spGlossMenuControls;
-	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	m_menu_entry_0 = add_menu_item( spGlossMenuControls, 0, IDS_MENU_ENTRY_0 + string_offset ) ;
 	ATLASSERT( m_menu_entry_0 ) ;
@@ -660,7 +658,7 @@ command_button_ptr CConnect::add_menu_item(office_cmd_bar_ctls &controls, int bu
 		vTemp,
 		&spMenuItemCtrl
 		),
-		_("Failed to get controls for menu item") 
+		_T("Failed to get controls for menu item") 
 		) ;
 
 	CComPtr< IDispatch > spDispatch ;
@@ -1466,7 +1464,7 @@ void CConnect::switch_to_new_menu()
 {
 	logging::log_debug("switch_to_new_menu") ;
 	office_cmd_bars spCmdBars; 
-	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _("Failed to retrieve command bars collection from app") ) ;
+	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _T("Failed to retrieve command bars collection from app") ) ;
 	ATLASSERT(spCmdBars);
 
 	add_menu( spCmdBars ) ;
@@ -1476,7 +1474,7 @@ void CConnect::switch_to_classic_menu()
 {
 	logging::log_debug("switch_to_classic_menu") ;
 	office_cmd_bars spCmdBars; 
-	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _("Failed to retrieve command bars collection from app") ) ;
+	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _T("Failed to retrieve command bars collection from app") ) ;
 	ATLASSERT(spCmdBars);
 
 	add_classic_menu( spCmdBars ) ;
@@ -1486,7 +1484,7 @@ void CConnect::switch_to_translation_menu()
 {
 	logging::log_debug("switch_to_translation_menu") ;
 	office_cmd_bars spCmdBars; 
-	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _("Failed to retrieve command bars collection from app") ) ; ;
+	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _T("Failed to retrieve command bars collection from app") ) ; ;
 	ATLASSERT(spCmdBars);
 
 	add_menu( spCmdBars ) ;
@@ -1496,7 +1494,7 @@ void CConnect::switch_to_review_menu()
 {
 	logging::log_debug("switch_to_review_menu") ;
 	office_cmd_bars spCmdBars; 
-	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _("Failed to retrieve command bars collection from app") ) ; ;
+	COM_ENFORCE( m_app->get_CommandBars( &spCmdBars ), _T("Failed to retrieve command bars collection from app") ) ; ;
 	ATLASSERT(spCmdBars);
 
 	add_menu_review( spCmdBars ) ;
@@ -1505,10 +1503,10 @@ void CConnect::switch_to_review_menu()
 HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 {
 	CComPtr< MSOffice::CommandBar >   spActiveMenuBar;
-	COM_ENFORCE( spCmdBars->get_ActiveMenuBar(&spActiveMenuBar), _("Failed to get menu bar") ) ;
+	COM_ENFORCE( spCmdBars->get_ActiveMenuBar(&spActiveMenuBar), _T("Failed to get menu bar") ) ;
 
 	office_cmd_bar_ctls spCmdBarCtrls;
-	COM_ENFORCE( spActiveMenuBar->get_Controls(&spCmdBarCtrls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spActiveMenuBar->get_Controls(&spCmdBarCtrls), _T("Failed to get menu bar controls") ) ;
 
 	kill_old_menu( spCmdBarCtrls ) ;
 
@@ -1521,7 +1519,7 @@ HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 		vtMissing, 								// before
 		vTemp, 			// temporary
 		&m_trans_assist_menu_popup ), 			// the control
-		_("Failed to add popup menu") ) ;
+		_T("Failed to add popup menu") ) ;
 
 	_HR_RET( m_trans_assist_menu_popup->put_Caption( _bstr_t( L"Feli&x" ) ) ) ;
 
@@ -1533,7 +1531,7 @@ HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spMenuControls;
-	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	int string_offset = 0 ;
 
@@ -1601,7 +1599,7 @@ HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 		vTemp,
 		&m_gloss_menu_popup
 		),
-		_("Failed to get controls for menu item") 
+		_T("Failed to get controls for menu item") 
 		) ;
 
 	CStringW caption ; caption.LoadString( IDS_MENU_GET_GLOSS + string_offset ) ;
@@ -1617,7 +1615,7 @@ HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spGlossMenuControls;
-	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	m_menu_entry_0 = add_menu_item( spGlossMenuControls, 0, IDS_MENU_ENTRY_0 + string_offset ) ;
 	ATLASSERT( m_menu_entry_0 ) ;
@@ -1790,10 +1788,10 @@ HRESULT CConnect::add_menu_review(office_cmd_bars & spCmdBars)
 	logging::log_debug("add_menu_review") ;
 
 	CComPtr< MSOffice::CommandBar >   spActiveMenuBar;
-	COM_ENFORCE( spCmdBars->get_ActiveMenuBar(&spActiveMenuBar), _("Failed to get menu bar") ) ;
+	COM_ENFORCE( spCmdBars->get_ActiveMenuBar(&spActiveMenuBar), _T("Failed to get menu bar") ) ;
 
 	office_cmd_bar_ctls spCmdBarCtrls;
-	COM_ENFORCE( spActiveMenuBar->get_Controls(&spCmdBarCtrls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spActiveMenuBar->get_Controls(&spCmdBarCtrls), _T("Failed to get menu bar controls") ) ;
 
 	kill_old_menu( spCmdBarCtrls ) ;
 
@@ -1806,7 +1804,7 @@ HRESULT CConnect::add_menu_review(office_cmd_bars & spCmdBars)
 		vtMissing, 								// before
 		vTemp, 			// temporary
 		&m_trans_assist_menu_popup ), 			// the control
-		_("Failed to add popup menu") ) ;
+		_T("Failed to add popup menu") ) ;
 
 
 	wstring felix_caption = L"Feli&x [*]" ;
@@ -1826,7 +1824,7 @@ HRESULT CConnect::add_menu_review(office_cmd_bars & spCmdBars)
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spMenuControls;
-	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spCmdBarPopup->get_Controls(&spMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	int string_offset = 0 ;
 
@@ -1895,7 +1893,7 @@ HRESULT CConnect::add_menu_review(office_cmd_bars & spCmdBars)
 		vTemp,
 		&m_gloss_menu_popup
 		),
-		_("Failed to get controls for menu item") 
+		_T("Failed to get controls for menu item") 
 		) ;
 
 	CStringW caption ; caption.LoadString( IDS_MENU_GET_GLOSS + string_offset ) ;
@@ -1911,7 +1909,7 @@ HRESULT CConnect::add_menu_review(office_cmd_bars & spCmdBars)
 	_HR_RET( spCmdBarPopup->put_Visible( VARIANT_TRUE ) ) ;
 
 	office_cmd_bar_ctls spGlossMenuControls;
-	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _("Failed to get menu bar controls") ) ;
+	COM_ENFORCE( spGlossPopup->get_Controls(&spGlossMenuControls), _T("Failed to get menu bar controls") ) ;
 
 	m_menu_entry_0 = add_menu_item( spGlossMenuControls, 0, IDS_MENU_ENTRY_0 + string_offset ) ;
 	ATLASSERT( m_menu_entry_0 ) ;
@@ -2016,10 +2014,6 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 
 		m_properties.write_to_registry() ;
 
-		// broadcast preferences change
-		boost::any Param = m_properties ;
-		(*m_PropChangeSig)(Param) ;
-
 		m_controller->set_properties(m_properties) ;
 
 		reflectSegType(old_segmentation_type) ;
@@ -2061,9 +2055,6 @@ CConnect::CConnect() :
 	m_controller( NULL ),
 	m_keyboard_shortcuts(&m_mapper)
 {
-	CBroadcaster instance = CBroadcaster::instance() ;
-	m_PropChangeSig = instance.Register( "preferences", "changed" ) ;
-	CBroker broker = CBroker::instance() ;
 }
 
 HRESULT CConnect::FinalConstruct()

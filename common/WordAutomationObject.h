@@ -19,7 +19,6 @@
 #include "html_processing.h"
 
 #include "OleAutoWrapper.h"
-#include "Localizer.h"
 
 #include "logging.h"
 
@@ -299,13 +298,13 @@ public:
 	{
 		ATLASSERT( is_instantiated( ) ) ;
 
-		WORD_ENFORCE( m_member->put_ScreenUpdating( VARIANT_TRUE ), _("Failed to turn on screen updating") ) ;
+		WORD_ENFORCE( m_member->put_ScreenUpdating( VARIANT_TRUE ), ("Failed to turn on screen updating") ) ;
 	}
 	void set_screen_updating_off()
 	{
 		ATLASSERT( is_instantiated( ) ) ;
 		
-		WORD_ENFORCE( m_member->put_ScreenUpdating( VARIANT_FALSE ), _("Failed to turn off screen updating")  ) ;
+		WORD_ENFORCE( m_member->put_ScreenUpdating( VARIANT_FALSE ), ("Failed to turn off screen updating")  ) ;
 	}
 
 	void set_status_bar( const _bstr_t &text )

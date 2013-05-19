@@ -46,7 +46,7 @@ void CWordControllerHtml::write_translation( const wstring& text, bool as_plaint
 
 bool CWordControllerHtml::OnAnalyze()
 {
-	MessageBox( NULL, _("OnMenuAnalyze"), _("To Be Implemented"), MB_OK ) ;
+	MessageBox( NULL, _T("OnMenuAnalyze"), _T("To Be Implemented"), MB_OK ) ;
 
 	return true ;
 }

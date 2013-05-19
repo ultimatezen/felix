@@ -58,7 +58,6 @@ public:
 	bool OnToMaruAction( bool as_plaintext );
 	bool is_translation_mode();
 	void OnSwitchModeAction();
-	bool refresh_properties( boost::any &Param ) ;
 	virtual bool set_properties( const app_state params )
 	{
 		m_properties = params ;
