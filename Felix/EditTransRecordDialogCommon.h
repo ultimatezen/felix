@@ -5,8 +5,6 @@
 #include "record_local.h"
 #include "MessageMapDefines.h"	// message handling enhancements
 
-#include "Accelerator.h"		// CAccelerator
-
 #include "WindowExceptionHandler.h"
 
 #include "SourceAndHtmlEdit.h"

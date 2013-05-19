@@ -11,7 +11,6 @@
 #include "record.h"				// for record_pointer
 #include "query.h"				// for search_params_ptr
 #include "Exceptions.h"			// for exception support
-#include "Accelerator.h"		// CAccelerator
 
 #include "MessageMapDefines.h"	// more crackers
 

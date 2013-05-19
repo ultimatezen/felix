@@ -12,7 +12,6 @@
 #include "HtmlDocument.h"		// CHtmlDocument
 #include "MessageMapDefines.h"	// more crackers
 #include "Exceptions.h"			// CException
-#include "Accelerator.h"		// CAccelerator
 
 #include "WindowExceptionHandler.h"
 #include "system_message.h"
