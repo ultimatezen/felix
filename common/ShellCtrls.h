@@ -24,9 +24,6 @@
 // Beware of bugs.
 //
 
-#ifndef __cplusplus
-  #error ATL requires C++ compilation (use a .cpp suffix)
-#endif
 
 #ifndef __ATLAPP_H__
   #error ShellCtrls.h requires atlapp.h to be included first

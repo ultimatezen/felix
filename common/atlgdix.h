@@ -22,9 +22,6 @@
 
 #pragma once
 
-#ifndef __cplusplus
-   #error ATL requires C++ compilation (use a .cpp suffix)
-#endif
 
 #ifndef __ATLGDI_H__
    #error atlgdix.h requires atlgdi.h to be included first
