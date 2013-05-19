@@ -7,7 +7,8 @@
 #include <dbghelp.h>
 #include "resource_string.h"
 #include "stringconversions.h"
-
+#include "comdef.h"
+#include "comdefsp.h"
 
 CString GenerateDump(EXCEPTION_POINTERS* pExceptionPointers)
 {
@@ -247,28 +248,7 @@ CString except::CException::bottom_message() const
 */
 CString except::CException::format_message( DWORD err )
 {
-	LPVOID buff(0)  ;
-	if ( 0 == 
-		::FormatMessage
-		(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM ,
-		NULL,
-		err,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR) &buff,
-		0,
-		NULL 
-		)
-		)
-	{
-		if ( buff != NULL )	::LocalFree( buff ) ;
-		return CString( _T("Unknown Error Type") ) ;
-	}
-	ATLASSERT( buff != NULL ) ;
-	CString msg( static_cast< LPCTSTR >( buff ) ) ;
-	::LocalFree( buff ) ;
-
-	return msg ;
+	return FormatWinError(err) ;
 }
 
 //////////////////////////////////////////////////////////////////////////

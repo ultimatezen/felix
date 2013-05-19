@@ -9,6 +9,34 @@
 
 #include <cstdlib>			// define memory allocation functions
 
+
+inline CString FormatWinError(DWORD error)
+{
+	LPVOID buff(0)  ;
+	if ( 0 == 
+		::FormatMessage
+		(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM ,
+		NULL,
+		error,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR) &buff,
+		0,
+		NULL 
+		)
+		)
+	{
+		if ( buff != NULL )	::LocalFree( buff ) ;
+		return CString( _T("Unknown Error Type") ) ;
+	}
+	ATLASSERT( buff != NULL ) ;
+	CString msg( static_cast< LPCTSTR >( buff ) ) ;
+	::LocalFree( buff ) ;
+
+	return msg ;
+}
+
+
 #ifdef _DEBUG 
 
 #include <crtdbg.h>		// redefine memory allocation functions
@@ -109,7 +137,6 @@ public:
 		if ( s == NULL ) return "" ;
 		return ATL::CW2A( s ) ;
 	}
-
 	// Function name	: TraceWinError
 	// Description	    : 
 	// Return type		: inline void 
@@ -122,27 +149,8 @@ public:
 			return ;
 		}
 
-		LPVOID buff(0)  ;
-		if ( 0 == 
-				::FormatMessage
-					(
-						FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM ,
-						NULL,
-						error,
-						MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-						(LPTSTR) &buff,
-						0,
-						NULL 
-					)
-				)
-		{
-			if ( buff != NULL )	::LocalFree( buff ) ;
-			ATLTRACE( "%s(%d): %d (Unknown error)\n", file_name, line, error ) ;
-			return ;
-		}
-		ATLASSERT( buff != NULL ) ;
-		ATLTRACE( "%s(%d): %d (%s)\n", file_name, line, error, (TCHAR *)buff ) ;
-		::LocalFree( buff ) ;
+		CString message = FormatWinError(error) ;
+		ATLTRACE( "%s(%d): %d (%s)\n", file_name, line, error, message ) ;
 	}
 	// trace routines
 
