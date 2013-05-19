@@ -655,6 +655,22 @@ typedef CWinTraits<WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | C
 
 #pragma message( "    CCustomTabCtrl")
 
+
+inline void InitializeDrawStructCommon(LPNMCTCCUSTOMDRAW lpNMCustomDraw)
+{
+	lpNMCustomDraw->clrBtnFace = ::GetSysColor(COLOR_BTNFACE);
+	lpNMCustomDraw->clrBtnShadow = ::GetSysColor(COLOR_BTNSHADOW);
+	lpNMCustomDraw->clrBtnHighlight = ::GetSysColor(COLOR_BTNHIGHLIGHT);
+	lpNMCustomDraw->clrBtnText = ::GetSysColor(COLOR_BTNTEXT);
+	lpNMCustomDraw->clrHighlight = ::GetSysColor(COLOR_HIGHLIGHT);
+#if WINVER >= 0x0500 || _WIN32_WINNT >= 0x0500
+	lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(26 /*COLOR_HOTLIGHT*/);
+#else
+	lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(COLOR_HIGHLIGHT);
+#endif
+	lpNMCustomDraw->clrHighlightText = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
+}
+
 template <class T, class TItem = CCustomTabItem, class TBase = CWindow, class TWinTraits = CCustomTabCtrlWinTraits>
 class ATL_NO_VTABLE CCustomTabCtrl : 
 	public CWindowImpl< T, TBase, TWinTraits >,
@@ -2615,17 +2631,8 @@ public:
 		lpNMCustomDraw->clrTextSelected = ::GetSysColor(COLOR_BTNTEXT);
 		lpNMCustomDraw->clrTextInactive = ::GetSysColor(COLOR_BTNTEXT);
 		lpNMCustomDraw->clrSelectedTab = ::GetSysColor(COLOR_BTNFACE);
-		lpNMCustomDraw->clrBtnFace = ::GetSysColor(COLOR_BTNFACE);
-		lpNMCustomDraw->clrBtnShadow = ::GetSysColor(COLOR_BTNSHADOW);
-		lpNMCustomDraw->clrBtnHighlight = ::GetSysColor(COLOR_BTNHIGHLIGHT);
-		lpNMCustomDraw->clrBtnText = ::GetSysColor(COLOR_BTNTEXT);
-		lpNMCustomDraw->clrHighlight = ::GetSysColor(COLOR_HIGHLIGHT);
-#if WINVER >= 0x0500 || _WIN32_WINNT >= 0x0500
-		lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(COLOR_HOTLIGHT);
-#else
-		lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(COLOR_HIGHLIGHT);
-#endif
-		lpNMCustomDraw->clrHighlightText = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
+
+		InitializeDrawStructCommon(lpNMCustomDraw) ;
 	}
 
 	void DoPrePaint(RECT rcClient, LPNMCTCCUSTOMDRAW lpNMCustomDraw)

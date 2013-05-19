@@ -779,17 +779,8 @@ public:
 		lpNMCustomDraw->clrTextSelected = ::GetSysColor(COLOR_BTNTEXT);
 		lpNMCustomDraw->clrTextInactive = m_clrTextInactiveTab;
 		lpNMCustomDraw->clrSelectedTab = m_clrSelectedTab;
-		lpNMCustomDraw->clrBtnFace = ::GetSysColor(COLOR_BTNFACE);
-		lpNMCustomDraw->clrBtnShadow = ::GetSysColor(COLOR_BTNSHADOW);
-		lpNMCustomDraw->clrBtnHighlight = ::GetSysColor(COLOR_BTNHIGHLIGHT);
-		lpNMCustomDraw->clrBtnText = ::GetSysColor(COLOR_BTNTEXT);
-		lpNMCustomDraw->clrHighlight = ::GetSysColor(COLOR_HIGHLIGHT);
-#if WINVER >= 0x0500 || _WIN32_WINNT >= 0x0500
-		lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(26/*COLOR_HOTLIGHT*/);
-#else
-		lpNMCustomDraw->clrHighlightHotTrack = ::GetSysColor(COLOR_HIGHLIGHT);
-#endif
-		lpNMCustomDraw->clrHighlightText = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
+
+		InitializeDrawStructCommon(lpNMCustomDraw) ;
 	}
 
 	void DoPrePaint(RECT rcClient, LPNMCTCCUSTOMDRAW lpNMCustomDraw)
