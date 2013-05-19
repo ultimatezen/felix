@@ -72,12 +72,12 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\lua-5.2.2\src;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Release;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\lua-5.2.2\src;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\lua-5.2.2\src;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <PreBuildEvent>
@@ -625,6 +625,7 @@ echo Protection complete!
     <ClCompile Include="GlossaryWindow_test.cpp" />
     <ClCompile Include="gloss_placement.cpp" />
     <ClCompile Include="gloss_placement_test.cpp" />
+    <ClCompile Include="menu_helper.cpp" />
     <ClCompile Include="rule_placement.cpp" />
     <ClCompile Include="rule_placement_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
@@ -1160,12 +1161,14 @@ echo Protection complete!
     <ClInclude Include="..\..\lua-5.2.2\src\lundump.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lvm.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lzio.h" />
+    <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h" />
     <ClInclude Include="..\common\atlscintilla.h" />
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="..\common\window_object.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />
     <ClInclude Include="gloss_placement.h" />
+    <ClInclude Include="menu_helper.h" />
     <ClInclude Include="rule_placement.h" />
     <ClInclude Include="mem_tests.h" />
     <ClInclude Include="number_placement.h" />

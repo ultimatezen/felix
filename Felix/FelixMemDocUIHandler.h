@@ -11,7 +11,6 @@
 #endif
 
 
-
 // CFelixMemDocUIHandler
 
 class ATL_NO_VTABLE CFelixMemDocUIHandler :

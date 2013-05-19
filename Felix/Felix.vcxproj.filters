@@ -1050,6 +1050,9 @@
     <ClCompile Include="..\..\lua-5.2.2\src\lzio.c">
       <Filter>Source Files\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="menu_helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1872,6 +1875,12 @@
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lua-5.2.2\src\lzio.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="menu_helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
   </ItemGroup>

@@ -48,6 +48,7 @@
 #include "atlscintilla.h"
 
 #include "unit_test_config.h"
+#include "LuaState.h"
 
 using namespace except ;
 
@@ -353,10 +354,11 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	// going to a subroutine makes it cleaner to separate app code from error handling
 	try
 	{
-		lua_State* luaVM = luaL_newstate();
-		if (luaVM == NULL)
+		luawrapper::LuaState lua_state ;
+		if (! lua_state.is_valid())
 		{
 			logging::log_error("Failed to initialize Lua VM.") ;
+			logging::log_error(lua_state.get_string(-1)) ;
 		}
 		return MainSub( hInstance, lpstrCmdLine, nCmdShow ) ;
 	}
