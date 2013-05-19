@@ -270,7 +270,7 @@ public:
 
 	// Called before navigation after a URL is clicked
 	void __stdcall CHtmlView::BeforeNavigate2( IDispatch *, VARIANT *URL, 
-		VARIANT *, VARIANT *, VARIANT *, VARIANT *, VARIANT_BOOL *Cancel )
+		VARIANT *, VARIANT *, VARIANT *, VARIANT *, VARIANT_BOOL *Cancel ) ;
 
 	// Navigation complete callback
 	void __stdcall NavigateComplete2( IDispatch * /*pDisp*/, VARIANT *URL );
