@@ -21,6 +21,9 @@ namespace rtf
 	
 #define FLAG_CASE( var, x ) if ( var & x ) { WRITE_TABS ATLTRACE( #x "\n" ) ; return x ; }
 
+
+void set_default_font_table(textstream_reader< char > &reader) ;
+void advance_to_next_font(textstream_reader< char > &reader) ;
 /** Enumerate systems fonts.
 */
 BOOL CALLBACK EnumFontsProc(LPLOGFONT lplf, LPNEWTEXTMETRIC lpntm, DWORD FontType, LPVOID aFontCount) ;

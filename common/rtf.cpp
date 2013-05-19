@@ -10,6 +10,71 @@
 namespace rtf
 {
 	using namespace except ;
+
+
+	void set_default_font_table(textstream_reader< char > &reader)
+	{
+		reader.set_buffer( 
+			// this seems to be the default font table output by Trados.
+			"{\\fonttbl "
+			"{\\f1 \\fmodern\\fprq1 \\fcharset128 MS UI Gothic;}"
+			"{\\f2 \\fswiss\\fprq2 \\fcharset0 Arial;}"
+			"{\\f3 \\froman\\fprq2 {\\*\\panose 02020603050405020304}\\fcharset0 Times New Roman;}"
+			"{\\f4 \\froman\\fprq1 {\\*\\panose 02020609040205080304}{\\*\\falt MS Mincho}\\fcharset128 \\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
+			"{\\f5 \\froman\\fprq2 {\\*\\panose 02040604050505020304}\\fcharset0 Century;}"
+			"{\\f6 \\froman\\fprq1 {\\*\\panose 02020609040205080304}\\fcharset128 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
+			"{\\f7 \\froman\\fprq2 \\fcharset238 Times New Roman CE;}"
+			"{\\f8 \\froman\\fprq2 \\fcharset204 Times New Roman Cyr;}"
+			"{\\f9 \\froman\\fprq2 \\fcharset161 Times New Roman Greek;}"
+			"{\\f10 \\froman\\fprq2 \\fcharset162 Times New Roman Tur;}"
+			"{\\f11 \\froman\\fprq2 \\fcharset177 Times New Roman (Hebrew);}"
+			"{\\f12 \\froman\\fprq2 \\fcharset178 Times New Roman (Arabic);}"
+			"{\\f13 \\froman\\fprq2 \\fcharset186 Times New Roman Baltic;}"
+			"{\\f14 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset0 MS Mincho Western;}"
+			"{\\f15 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset238 MS Mincho CE;}"
+			"{\\f16 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset204 MS Mincho Cyr;}"
+			"{\\f17 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset161 MS Mincho Greek;}"
+			"{\\f18 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset162 MS Mincho Tur;}"
+			"{\\f19 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset186 MS Mincho Baltic;}"
+			"{\\f20 \\froman\\fprq1 \\fcharset0 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Western;}"
+			"{\\f21 \\froman\\fprq1 \\fcharset238 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 CE;}"
+			"{\\f22 \\froman\\fprq1 \\fcharset204 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Cyr;}"
+			"{\\f23 \\froman\\fprq1 \\fcharset161 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Greek;}"
+			"{\\f24 \\froman\\fprq1 \\fcharset162 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Tur;}"
+			"{\\f25 \\froman\\fprq1 \\fcharset186 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Baltic;}"
+			"{\\f26 \\fmodern\\fprq2 {\\*\\panose 020b0600070205080204}\\fcharset128 @MS UI Gothic;}"
+			"{\\f27 \\fswiss\\fprq2 \\fcharset238 Arial CE;}"
+			"{\\f28 \\fswiss\\fprq2 \\fcharset204 Arial Cyr;}"
+			"{\\f29 \\fswiss\\fprq2 \\fcharset161 Arial Greek;}"
+			"{\\f30 \\fswiss\\fprq2 \\fcharset162 Arial Tur;}"
+			"{\\f31 \\fswiss\\fprq2 \\fcharset177 Arial (Hebrew);}"
+			"{\\f32 \\fswiss\\fprq2 \\fcharset178 Arial (Arabic);}"
+			"{\\f33 \\fswiss\\fprq2 \\fcharset186 Arial Baltic;}"
+			"{\\f34 \\fmodern\\fprq2 \\fcharset0 MS UI Gothic Western;}"
+			"{\\f35 \\fmodern\\fprq2 \\fcharset238 MS UI Gothic CE;}"
+			"{\\f36 \\fmodern\\fprq2 \\fcharset204 MS UI Gothic Cyr;}"
+			"{\\f37 \\fmodern\\fprq2 \\fcharset161 MS UI Gothic Greek;}"
+			"{\\f38 \\fmodern\\fprq2 \\fcharset162 MS UI Gothic Tur;}"
+			"{\\f39 \\fmodern\\fprq2 \\fcharset186 MS UI Gothic Baltic;}"
+			"{\\f40 \\fmodern\\fprq2 \\fcharset0 @MS UI Gothic Western;}"
+			"{\\f41 \\fmodern\\fprq2 \\fcharset238 @MS UI Gothic CE;}"
+			"{\\f42 \\fmodern\\fprq2 \\fcharset204 @MS UI Gothic Cyr;}"
+			"{\\f43 \\fmodern\\fprq2 \\fcharset161 @MS UI Gothic Greek;}"
+			"{\\f44 \\fmodern\\fprq2 \\fcharset162 @MS UI Gothic Tur;}"
+			"{\\f45 \\fmodern\\fprq2 \\fcharset186 @MS UI Gothic Baltic;}}  " 
+			) ;
+	}
+
+
+	void advance_to_next_font(textstream_reader< char > &reader)
+	{
+		// eat the }
+		ATLASSERT( reader.current_is( '}' ) ) ;
+		reader.advance() ; 
+		// advance to next brace
+		reader.eat_whitespace() ;
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	// Construction/Destruction
 	//////////////////////////////////////////////////////////////////////
@@ -781,65 +846,14 @@ namespace rtf
 			add_font( entry ) ;
 			font.init_font_info() ;
 
-			// eat the }
-			ATLASSERT( reader.current_is( '}' ) ) ;
-			reader.advance() ; 
-			// advance to next brace
-			reader.eat_whitespace() ;
+			advance_to_next_font(reader) ;
 		}
 	}
+
 	void font_table::setDefaultFontTable()
 	{
 		c_reader tmp_reader ;
-		tmp_reader.set_buffer( 
-			// this seems to be the default font table output by Trados.
-			"{\\fonttbl "
-			"{\\f1 \\fmodern\\fprq1 \\fcharset128 MS UI Gothic;}"
-			"{\\f2 \\fswiss\\fprq2 \\fcharset0 Arial;}"
-			"{\\f3 \\froman\\fprq2 {\\*\\panose 02020603050405020304}\\fcharset0 Times New Roman;}"
-			"{\\f4 \\froman\\fprq1 {\\*\\panose 02020609040205080304}{\\*\\falt MS Mincho}\\fcharset128 \\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
-			"{\\f5 \\froman\\fprq2 {\\*\\panose 02040604050505020304}\\fcharset0 Century;}"
-			"{\\f6 \\froman\\fprq1 {\\*\\panose 02020609040205080304}\\fcharset128 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
-			"{\\f7 \\froman\\fprq2 \\fcharset238 Times New Roman CE;}"
-			"{\\f8 \\froman\\fprq2 \\fcharset204 Times New Roman Cyr;}"
-			"{\\f9 \\froman\\fprq2 \\fcharset161 Times New Roman Greek;}"
-			"{\\f10 \\froman\\fprq2 \\fcharset162 Times New Roman Tur;}"
-			"{\\f11 \\froman\\fprq2 \\fcharset177 Times New Roman (Hebrew);}"
-			"{\\f12 \\froman\\fprq2 \\fcharset178 Times New Roman (Arabic);}"
-			"{\\f13 \\froman\\fprq2 \\fcharset186 Times New Roman Baltic;}"
-			"{\\f14 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset0 MS Mincho Western;}"
-			"{\\f15 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset238 MS Mincho CE;}"
-			"{\\f16 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset204 MS Mincho Cyr;}"
-			"{\\f17 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset161 MS Mincho Greek;}"
-			"{\\f18 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset162 MS Mincho Tur;}"
-			"{\\f19 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset186 MS Mincho Baltic;}"
-			"{\\f20 \\froman\\fprq1 \\fcharset0 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Western;}"
-			"{\\f21 \\froman\\fprq1 \\fcharset238 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 CE;}"
-			"{\\f22 \\froman\\fprq1 \\fcharset204 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Cyr;}"
-			"{\\f23 \\froman\\fprq1 \\fcharset161 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Greek;}"
-			"{\\f24 \\froman\\fprq1 \\fcharset162 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Tur;}"
-			"{\\f25 \\froman\\fprq1 \\fcharset186 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Baltic;}"
-			"{\\f26 \\fmodern\\fprq2 {\\*\\panose 020b0600070205080204}\\fcharset128 @MS UI Gothic;}"
-			"{\\f27 \\fswiss\\fprq2 \\fcharset238 Arial CE;}"
-			"{\\f28 \\fswiss\\fprq2 \\fcharset204 Arial Cyr;}"
-			"{\\f29 \\fswiss\\fprq2 \\fcharset161 Arial Greek;}"
-			"{\\f30 \\fswiss\\fprq2 \\fcharset162 Arial Tur;}"
-			"{\\f31 \\fswiss\\fprq2 \\fcharset177 Arial (Hebrew);}"
-			"{\\f32 \\fswiss\\fprq2 \\fcharset178 Arial (Arabic);}"
-			"{\\f33 \\fswiss\\fprq2 \\fcharset186 Arial Baltic;}"
-			"{\\f34 \\fmodern\\fprq2 \\fcharset0 MS UI Gothic Western;}"
-			"{\\f35 \\fmodern\\fprq2 \\fcharset238 MS UI Gothic CE;}"
-			"{\\f36 \\fmodern\\fprq2 \\fcharset204 MS UI Gothic Cyr;}"
-			"{\\f37 \\fmodern\\fprq2 \\fcharset161 MS UI Gothic Greek;}"
-			"{\\f38 \\fmodern\\fprq2 \\fcharset162 MS UI Gothic Tur;}"
-			"{\\f39 \\fmodern\\fprq2 \\fcharset186 MS UI Gothic Baltic;}"
-			"{\\f40 \\fmodern\\fprq2 \\fcharset0 @MS UI Gothic Western;}"
-			"{\\f41 \\fmodern\\fprq2 \\fcharset238 @MS UI Gothic CE;}"
-			"{\\f42 \\fmodern\\fprq2 \\fcharset204 @MS UI Gothic Cyr;}"
-			"{\\f43 \\fmodern\\fprq2 \\fcharset161 @MS UI Gothic Greek;}"
-			"{\\f44 \\fmodern\\fprq2 \\fcharset162 @MS UI Gothic Tur;}"
-			"{\\f45 \\fmodern\\fprq2 \\fcharset186 @MS UI Gothic Baltic;}}  " 
-			) ;
+		set_default_font_table(tmp_reader) ;
 		parse_fonttbl(tmp_reader) ;
 	}
 

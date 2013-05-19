@@ -8,6 +8,7 @@
 #include "data_exporter.h"
 #include "charset_info.h"	// charset_info
 #include "system_message.h"
+#include "rtf.h"
 
 using namespace except ;
 using namespace mem_engine ;
@@ -50,54 +51,9 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts,
 
 	m_fonts.add_font( _T("MS UI Gothic") ) ;
 
-	textstream_reader< char > font_table_buffer( 
-	"{\\f1 \\fmodern\\fprq1 \\fcharset0 Courier New;}"
-	"{\\f2 \\fswiss\\fprq2 \\fcharset0 Arial;}"
-	"{\\f3 \\fcharset128 MS UI Gothic;}"
-	"{\\f3 \\froman\\fprq2 {\\*\\panose 02020603050405020304}\\fcharset0 Times New Roman;}"
-	"{\\f4 \\froman\\fprq1 {\\*\\panose 02020609040205080304}{\\*\\falt MS Mincho}\\fcharset128 \\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
-	"{\\f5 \\froman\\fprq2 {\\*\\panose 02040604050505020304}\\fcharset0 Century;}"
-	"{\\f6 \\froman\\fprq1 {\\*\\panose 02020609040205080304}\\fcharset128 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}"
-	"{\\f7 \\froman\\fprq2 \\fcharset238 Times New Roman CE;}"
-	"{\\f8 \\froman\\fprq2 \\fcharset204 Times New Roman Cyr;}"
-	"{\\f9 \\froman\\fprq2 \\fcharset161 Times New Roman Greek;}"
-	"{\\f10 \\froman\\fprq2 \\fcharset162 Times New Roman Tur;}"
-	"{\\f11 \\froman\\fprq2 \\fcharset177 Times New Roman (Hebrew);}"
-	"{\\f12 \\froman\\fprq2 \\fcharset178 Times New Roman (Arabic);}"
-	"{\\f13 \\froman\\fprq2 \\fcharset186 Times New Roman Baltic;}"
-	"{\\f14 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset0 MS Mincho Western;}"
-	"{\\f15 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset238 MS Mincho CE;}"
-	"{\\f16 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset204 MS Mincho Cyr;}"
-	"{\\f17 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset161 MS Mincho Greek;}"
-	"{\\f18 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset162 MS Mincho Tur;}"
-	"{\\f19 \\froman\\fprq1 {\\*\\falt MS Mincho}\\fcharset186 MS Mincho Baltic;}"
-	"{\\f20 \\froman\\fprq1 \\fcharset0 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Western;}"
-	"{\\f21 \\froman\\fprq1 \\fcharset238 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 CE;}"
-	"{\\f22 \\froman\\fprq1 \\fcharset204 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Cyr;}"
-	"{\\f23 \\froman\\fprq1 \\fcharset161 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Greek;}"
-	"{\\f24 \\froman\\fprq1 \\fcharset162 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Tur;}"
-	"{\\f25 \\froman\\fprq1 \\fcharset186 @\\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9 Baltic;}"
-	"{\\f26 \\fmodern\\fprq2 {\\*\\panose 020b0600070205080204}\\fcharset128 @MS UI Gothic;}"
-	"{\\f27 \\fswiss\\fprq2 \\fcharset238 Arial CE;}"
-	"{\\f28 \\fswiss\\fprq2 \\fcharset204 Arial Cyr;}"
-	"{\\f29 \\fswiss\\fprq2 \\fcharset161 Arial Greek;}"
-	"{\\f30 \\fswiss\\fprq2 \\fcharset162 Arial Tur;}"
-	"{\\f31 \\fswiss\\fprq2 \\fcharset177 Arial (Hebrew);}"
-	"{\\f32 \\fswiss\\fprq2 \\fcharset178 Arial (Arabic);}"
-	"{\\f33 \\fswiss\\fprq2 \\fcharset186 Arial Baltic;}"
-	"{\\f34 \\fmodern\\fprq2 \\fcharset0 MS UI Gothic Western;}"
-	"{\\f35 \\fmodern\\fprq2 \\fcharset238 MS UI Gothic CE;}"
-	"{\\f36 \\fmodern\\fprq2 \\fcharset204 MS UI Gothic Cyr;}"
-	"{\\f37 \\fmodern\\fprq2 \\fcharset161 MS UI Gothic Greek;}"
-	"{\\f38 \\fmodern\\fprq2 \\fcharset162 MS UI Gothic Tur;}"
-	"{\\f39 \\fmodern\\fprq2 \\fcharset186 MS UI Gothic Baltic;}"
-	"{\\f40 \\fmodern\\fprq2 \\fcharset0 @MS UI Gothic Western;}"
-	"{\\f41 \\fmodern\\fprq2 \\fcharset238 @MS UI Gothic CE;}"
-	"{\\f42 \\fmodern\\fprq2 \\fcharset204 @MS UI Gothic Cyr;}"
-	"{\\f43 \\fmodern\\fprq2 \\fcharset161 @MS UI Gothic Greek;}"
-	"{\\f44 \\fmodern\\fprq2 \\fcharset162 @MS UI Gothic Tur;}"
-	"{\\f45 \\fmodern\\fprq2 \\fcharset186 @MS UI Gothic Baltic;}}  " 
-	) ;
+	textstream_reader< char > font_table_buffer ;
+	
+	rtf::set_default_font_table(font_table_buffer) ;
 
 	font_table_buffer.eat_whitespace() ;
 	while ( font_table_buffer.current_is( '{' ) )
@@ -112,60 +68,18 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts,
 		// just jump past it
 		font_table_buffer.find( " ", true ) ;
 
-		while ( ! font_table_buffer.current_is( '}' ) )
-		{
-			font_table_buffer.jump_to_first_of( char('\\'), true ) ;
-			string tag ;
-			ATLVERIFY(font_table_buffer.getline(tag, " \\{", false )) ;
+		rtf::font_table table ;
 
-			// check for font family
-			if ( tag == "fdecorative" )
-				font.set_family( FF_DECORATIVE ) ;
-			else if ( tag == "fmodern" )
-				font.set_family( FF_MODERN ) ;
-			else if ( tag == "froman" )
-				font.set_family( FF_ROMAN ) ;
-			else if ( tag == "fscript" )
-				font.set_family( FF_SCRIPT ) ;
-			else if ( tag == "fswiss" )
-				font.set_family( FF_SWISS ) ;
-			// check for pitch 
-			else if ( tag == "fprq1" )
-				font.set_pitch( FIXED_PITCH ) ;
-			else if ( tag == "fprq2" )
-				font.set_pitch( VARIABLE_PITCH ) ;
-			else if ( str::left(tag, 8 ) == "fcharset" )
-			{
-				font.set_charset( static_cast< unsigned char >(string2long( tag.substr(8) ) ) ) ;
-				font_table_buffer.advance() ;
-				tag = font_table_buffer.getline(char(';'), true ) ;
-				font.set_name( CA2CT( unescape_string( tag ).c_str() ) ) ;
-
-			}
-
-
-			if( font_table_buffer.current_is( '{' ) )
-			{
-				font_table_buffer.jump_to_first_of( char('}'), true ) ; 
-			}
-		}
+		table.readFontInfo(font, font_table_buffer) ;
 
 		font.lookup_font() ;
 
 		m_fonts.add_font( font ) ;
 
-
 		// clear the font info
 		font.init_font_info() ;
 
-		// eat the }
-		ATLASSERT( font_table_buffer.current_is( '}' ) ) ;
-
-		font_table_buffer.advance() ; 
-
-		// advance to next brace
-
-		font_table_buffer.eat_whitespace() ;
+		rtf::advance_to_next_font(font_table_buffer) ;
 	}
 
 	FOREACH(const wstring font, fonts)
