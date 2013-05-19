@@ -24,15 +24,7 @@ public:
 	// construction/destruction
 	html_writer() 
 	{
-		init_bold() ;
-		init_italic() ;
-		init_underline() ;
-		init_fore_color() ;
-		init_back_color() ;
-		init_font_face() ;
-		init_font_size() ;
-		init_justification() ;
-		init_v_alignment() ;
+		init_state() ;
 	}
 	virtual ~html_writer(){}
 

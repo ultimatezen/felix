@@ -459,15 +459,7 @@ const wstring html_formatter::get_paragraph_text()
 
 void html_formatter::init()
 {
-	init_bold() ;
-	init_italic() ;
-	init_underline() ;
-	init_fore_color() ;
-	init_back_color() ;
-	init_font_face() ;
-	init_font_size() ;
-	init_justification() ;
-	init_v_alignment() ;
+	init_state() ;
 
 	while( m_tags_to_close.empty() == false )
 	{

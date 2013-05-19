@@ -190,6 +190,8 @@ protected:
 	// state initialization
 	// =====================
 	
+	void init_state();
+
 	void init_bold( bool setting = false ) ;
 	void init_italic( bool setting = false ) ;
 	void init_underline( bool setting = false ) ;

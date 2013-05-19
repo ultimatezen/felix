@@ -396,3 +396,16 @@ bool html_processing::is_underline_specified()
 {
 	return m_is_underline_specified ;
 }
+
+void html_processing::init_state()
+{
+	init_bold() ;
+	init_italic() ;
+	init_underline() ;
+	init_fore_color() ;
+	init_back_color() ;
+	init_font_face() ;
+	init_font_size() ;
+	init_justification() ;
+	init_v_alignment() ;
+}
