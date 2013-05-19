@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "logging.h"
 #include "comdef.h"
+#include "FileOpHandler.h"
 
 #include "Path.h"
 
@@ -164,25 +165,13 @@ void logging::send_report(const CString language, const CString filename)
 
 file_logger::file_logger()
 {
-#ifdef UNIT_TEST
-	return ;
-#else
+	CString basepath = fileops::get_local_appdata_folder() ;
 
-	TCHAR szPath[MAX_PATH] = {0};
-	COM_ENFORCE(SHGetFolderPath(NULL, // hwndOwner
-		CSIDL_LOCAL_APPDATA,		  // nFolder
-		(HANDLE)NULL,				  // hToken (-1 means "default user")
-		SHGFP_TYPE_CURRENT,			  // dwFlags 
-		szPath
-		), _T("Failed to retrieve local app data folder") ) ; 
-
-	CString basepath(szPath) ;
 	file::CPath pathname(basepath) ;
 	pathname.Append(CString(_T("Felix"))) ;
 	pathname.Append(CString(_T("logs"))) ;
 	pathname.Append(CString(LOGFILE_NAME)) ;
 	m_logfile_name = pathname.Path() ;
-#endif
 }
 
 void file_logger::init()
