@@ -640,7 +640,7 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 		BOOST_CHECK_EQUAL (items[1], expected2) ; 
 	}
 
-	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_two_nodes )
+	string get_loaded_history_string_two_nodes()
 	{
 		string text = "<loaded_history>\n"
 			"<loaded_gloss>\n"
@@ -653,8 +653,63 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 			"</loaded_mems>\n"
 			"</loaded_history>\n" ;
 
+		return text ;
+	}
+	string get_loaded_history_string_empty()
+	{
+		return string() ;
+	}
+	string get_loaded_history_string_bad_xml()
+	{
+		return string("<xml foo ::barf:: wants to be xml but barfs...") ;
+	}
+	BOOST_AUTO_TEST_CASE( test_load_xml_props_empty )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_get_config_text = &get_loaded_history_string_empty ;
+		props.load_xml_props() ;
+
+		BOOST_CHECK_EQUAL(props.m_loaded_mems.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_gloss.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_mems.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_gloss.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_load_xml_props_bad_xml )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_get_config_text = &get_loaded_history_string_bad_xml ;
+		props.load_xml_props() ;
+
+		BOOST_CHECK_EQUAL(props.m_loaded_mems.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_gloss.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_mems.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_gloss.size(), 0u) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( test_load_xml_props )
+	{
+		app_props::properties_loaded_history props ;
+		props.m_get_config_text = &get_loaded_history_string_two_nodes ;
+		props.load_xml_props() ;
+
+		BOOST_CHECK_EQUAL(props.m_loaded_mems.size(), 2u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_gloss.size(), 2u) ;
+
+		BOOST_CHECK_EQUAL(props.m_loaded_mems[0], L"foo.txt") ;
+		BOOST_CHECK_EQUAL(props.m_loaded_mems[1], L"bar.txt") ;
+		BOOST_CHECK_EQUAL(props.m_loaded_gloss[0], L"gfoo.txt") ;
+		BOOST_CHECK_EQUAL(props.m_loaded_gloss[1], L"gbar.txt") ;
+
+
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_mems.size(), 0u) ;
+		BOOST_CHECK_EQUAL(props.m_loaded_remote_gloss.size(), 0u) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_two_nodes )
+	{
+
 		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(text.c_str());
+		pugi::xml_parse_result result = doc.load(get_loaded_history_string_two_nodes().c_str());
 		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
 
 		app_props::properties_loaded_history props ;

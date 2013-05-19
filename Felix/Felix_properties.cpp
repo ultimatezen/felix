@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Felix_properties.h"
 #include "xml_writer.h"
+#include <boost/bind.hpp>
 
 #include "cstringinterface.h"
 #include "input_device_file.h"
@@ -31,47 +32,6 @@ pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name )
 namespace app_props
 {
 
-	void write_filenames( pugi::xml_node &node, const std::vector<wstring> &filenames, string node_name ) 
-	{
-		pugi::xml_node files_node = node.append_child() ;
-		files_node.set_name(node_name.c_str()) ;
-		FOREACH(wstring filename, filenames)
-		{
-			add_child(files_node, "filename", string2string(filename, CP_UTF8)) ;
-		}
-	}
-	//////////////////////////////////////////////////////////////////////////
-	// properties_loaded_history
-	//////////////////////////////////////////////////////////////////////////
-	bool properties_loaded_history::write_xml_props()
-	{
-		output_device_ptr output(new OutputDeviceFile) ;
-		write_xml_file(output);
-		return true ;
-	}
-
-	void properties_loaded_history::write_xml_file( output_device_ptr output )
-	{
-		wstring config_filename = get_config_filename(LOADED_HISTORY_FILENAME, output) ;
-
-		string text = make_xml_doc();
-
-		output->open(config_filename.c_str()) ;
-		output->write(text) ;
-		output->close() ;
-	}
-	string properties_loaded_history::make_xml_doc()
-	{
-		pugi::xml_document doc;
-		pugi::xml_node preferences = doc.append_child() ;
-		preferences.set_name("properties") ;
-		build_xml_doc(preferences);
-		xml_string_writer writer ;
-		doc.save(writer) ;
-		return writer.result ;
-	}
-
-
 	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name)
 	{
 		items.clear() ;
@@ -84,11 +44,77 @@ namespace app_props
 		}
 	}
 
-	bool properties_loaded_history::load_xml_props()
+	string get_config_file_text(CString filename)
 	{
 		input_device_ptr input(new InputDeviceFile) ;
 		output_device_ptr output(new OutputDeviceFile) ;
-		string text = get_config_text(_T("felix_load_history.xml"), output, input) ;
+		return get_config_text(filename, output, input) ;
+	}
+
+	output_device_ptr get_config_output_device( CString filename ) 
+	{
+		output_device_ptr output(new OutputDeviceFile) ;
+		CString config_filename = get_config_filename(filename, output) ;
+		output->open(config_filename) ;
+		return output ;
+	}
+
+	void write_xml_doc( pugi::xml_document &doc, output_device_ptr output )
+	{
+		xml_string_writer writer ;
+		doc.save(writer) ;
+		output->write(writer.result) ;
+		output->close() ;
+	}
+
+	void write_filenames( pugi::xml_node &node, const std::vector<wstring> &filenames, string node_name ) 
+	{
+		pugi::xml_node files_node = node.append_child() ;
+		files_node.set_name(node_name.c_str()) ;
+		FOREACH(wstring filename, filenames)
+		{
+			add_child(files_node, "filename", string2string(filename, CP_UTF8)) ;
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////
+	// properties_loaded_history
+	//////////////////////////////////////////////////////////////////////////
+
+	properties_loaded_history::properties_loaded_history()
+	{
+		m_get_config_text = boost::bind(get_config_file_text, LOADED_HISTORY_FILENAME) ;
+	}
+
+	bool properties_loaded_history::write_xml_props()
+	{
+		string text = make_xml_doc();
+		write_xml_file(text);
+
+		return true ;
+	}
+
+	void properties_loaded_history::write_xml_file( string &text )
+	{
+		output_device_ptr output = get_config_output_device(LOADED_HISTORY_FILENAME) ;
+		output->write(text) ;
+		output->close() ;
+	}
+
+	string properties_loaded_history::make_xml_doc()
+	{
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child() ;
+		preferences.set_name("properties") ;
+		build_xml_doc(preferences);
+		xml_string_writer writer ;
+		doc.save(writer) ;
+		return writer.result ;
+	}
+
+
+	bool properties_loaded_history::load_xml_props()
+	{
+		string text = m_get_config_text() ;
 		if (text.empty())
 		{
 			return false ;
@@ -186,22 +212,9 @@ namespace app_props
 
 		return *this ;
 	}
+
+
 	// properties_memory
-
-	bool properties_memory::write_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_memory::copy_reg_props()
-	{
-		return false ;
-	}
-
-	bool properties_memory::load_xml_props()
-	{
-		return false ;
-	}
 
 	void properties_memory::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -260,20 +273,6 @@ namespace app_props
 		return true ;
 	}
 	// properties_glossary
-	bool properties_glossary::load_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_glossary::write_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_glossary::copy_reg_props()
-	{
-		return false ;
-	}
 
 	void properties_glossary::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -334,22 +333,10 @@ namespace app_props
 		}
 		return true ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// properties_algorithm
-
-	bool properties_algorithm::write_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_algorithm::copy_reg_props()
-	{
-		return false ;
-	}
-
-	bool properties_algorithm::load_xml_props()
-	{
-		return false ;
-	}
+	//////////////////////////////////////////////////////////////////////////
 
 	void properties_algorithm::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -382,21 +369,10 @@ namespace app_props
 		}
 		return true ;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// properties_view
-	bool properties_view::write_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_view::copy_reg_props()
-	{
-		return false ;
-	}
-
-	bool properties_view::load_xml_props()
-	{
-		return false ;
-	}
+	//////////////////////////////////////////////////////////////////////////
 
 	void properties_view::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -439,20 +415,10 @@ namespace app_props
 		return true ;
 
 	}
-	// properties_qc
-	bool properties_qc::write_xml_props()
-	{
-		return false ;
-	}
 
-	bool properties_qc::copy_reg_props()
-	{
-		return false ;
-	}
-	bool properties_qc::load_xml_props()
-	{
-		return false ;
-	}
+	//////////////////////////////////////////////////////////////////////////
+	// properties_qc
+	//////////////////////////////////////////////////////////////////////////
 
 	void properties_qc::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -493,22 +459,10 @@ namespace app_props
 		return true ;
 
 	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// properties_general
 	//////////////////////////////////////////////////////////////////////////
-	bool properties_general::write_xml_props()
-	{
-		return false ;
-	}
-
-	bool properties_general::copy_reg_props()
-	{
-		return false ;
-	}
-	bool properties_general::load_xml_props()
-	{
-		return false ;
-	}
 
 	void properties_general::build_xml_doc( pugi::xml_node &prefs )
 	{
@@ -569,7 +523,10 @@ namespace app_props
 		return true ;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
 	// properties
+	//////////////////////////////////////////////////////////////////////////
+
 	bool properties::read_from_registry()
 	{
 		output_device_ptr output(new OutputDeviceFile) ;
@@ -734,11 +691,27 @@ namespace app_props
 		return this->parse_xml_doc(doc) ;
 	}
 
+	void properties::save_prefs()
+	{
+		output_device_ptr output = get_config_output_device(PREFS_FILENAME);
+		this->save_xml_doc(output);
+	}
+
 	void properties::save_file( CString filename )
 	{
 		output_device_ptr output(new OutputDeviceFile) ;
+		output->open(filename) ;
+		this->save_xml_doc(output) ;
+	}
 
+	void properties::save_xml_doc( output_device_ptr output )
+	{
 		pugi::xml_document doc;
+		build_xml_doc(doc);
+		write_xml_doc(doc, output);
+	}
+	void properties::build_xml_doc( pugi::xml_document &doc )
+	{
 		pugi::xml_node preferences = doc.append_child() ;
 		preferences.set_name("properties") ;
 
@@ -749,20 +722,8 @@ namespace app_props
 		m_view_props.build_xml_doc(preferences) ;
 		m_qc_props.build_xml_doc(preferences) ;
 		m_history_props.build_xml_doc(preferences) ;
-
-		xml_string_writer writer ;
-		doc.save(writer) ;
-		string text = writer.result ;
-		output->open(filename) ;
-		output->write(text) ;
-		output->close() ;
 	}
 
-	void properties::write_prefs()
-	{
-		output_device_ptr output(new OutputDeviceFile) ;
-		wstring config_filename = get_config_filename(PREFS_FILENAME, output) ;
 
-		this->save_file(config_filename.c_str()) ;
-	}
+
 }

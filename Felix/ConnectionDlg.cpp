@@ -149,7 +149,7 @@ LRESULT CConnectionDlg::OnLoginChecked( WORD, WORD, HWND, BOOL& )
 	m_password.EnableWindow(enable_login); 
 
 	m_props->m_gen_props.set_must_log_in(enable_login) ;
-	m_props->write_prefs();
+	m_props->save_prefs();
 
 	ATLTRACE("OnLoginChecked\n") ;
 	return 0L ;

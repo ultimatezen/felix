@@ -540,7 +540,7 @@ bool CManagerWindow::handle_qc_settings(doc3_wrapper_ptr doc)
 {
 	set_qc_prop_values(doc);
 	
-	m_props->write_prefs() ;
+	m_props->save_prefs() ;
 
 	m_message = L"Configured QC Settings" ;
 	std::vector<string> tokens ;

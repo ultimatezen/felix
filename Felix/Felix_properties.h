@@ -10,6 +10,7 @@
 #include "input_device.h"
 
 #include "xml_utils.h"
+#include <boost/function.hpp>
 
 pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
 
@@ -19,6 +20,7 @@ pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
  */
 namespace app_props
 {
+	void write_xml_doc( pugi::xml_document &doc, output_device_ptr output );
 	void write_filenames( pugi::xml_node &node, const std::vector<wstring> &filenames, string node_name ) ;
 	void load_xml_props_type(pugi::xml_node &parent, std::vector<wstring> &items, string node_name) ;
 
@@ -75,8 +77,9 @@ namespace app_props
 
 	props_data m_data ;
 
-	properties_loaded_history() 
-	{}
+	boost::function<string()> m_get_config_text ;
+
+	properties_loaded_history();
 	properties_loaded_history( const properties_loaded_history &rhs ) :
 		m_data( rhs.m_data )
 	{
@@ -85,6 +88,8 @@ namespace app_props
 	bool load_xml_props();
 
 	bool write_xml_props();
+
+	void write_xml_file( string &text );
 
 	void write_xml_file( output_device_ptr output );
 	string make_xml_doc();
@@ -282,32 +287,7 @@ struct properties_memory : public props::CRegMap
 		REG_ENTRY_BOOL( _T("MEM_PLACE_GLOSS"),	m_data.m_place_gloss );
 		REG_ENTRY_BOOL( _T("MEM_PLACE_RULES"),	m_data.m_place_rules);
 
-
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
-
-	bool load_xml_props();
-	bool write_xml_props();
-
-	bool copy_reg_props();
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
@@ -437,31 +417,7 @@ struct properties_glossary : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GLOSS_SIMPLE_VIEW"),		m_data.m_simple_view) ;
 		REG_ENTRY_INT( _T("GLOSS_BACK_COLOR"),			m_data.m_back_color ) ;
 
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
-
-	bool load_xml_props();
-	bool write_xml_props();
-
-	bool copy_reg_props();
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
@@ -516,31 +472,8 @@ struct properties_algorithm : public props::CRegMap
 
 		validate() ;
 
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
 
-	bool load_xml_props();
-	bool write_xml_props();
-
-	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
@@ -615,31 +548,8 @@ struct properties_view : public props::CRegMap
 		REG_ENTRY_INT( _T("VIEW_SOURCE_COLOR"),	m_data.m_source_color );
 		REG_ENTRY_INT( _T("VIEW_TRANS_COLOR"),		m_data.m_trans_color );
 
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
 
-	bool load_xml_props();
-	bool write_xml_props();
-
-	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
@@ -719,30 +629,8 @@ struct properties_qc : public props::CRegMap
 		REG_ENTRY_BOOL( _T("qc_check_all_caps"),	m_data.m_check_all_caps );
 		REG_ENTRY_BOOL( _T("qc_check_gloss"),		m_data.m_check_gloss );
 		REG_ENTRY_BOOL( _T("qc_live_checking"),		m_data.m_live_checking );
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
 
-	bool load_xml_props();
-	bool write_xml_props();
-	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
@@ -850,32 +738,8 @@ struct properties_general : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GENERAL_OLD_MEM_MGR"),		m_data.m_old_mem_mgr)
 		REG_ENTRY_STRING( _T("GENERAL_USER_NAME"),		m_data.m_user_name, MAX_PATH )
 		REG_ENTRY_BOOL( _T("GENERAL_MUST_LOGIN"),		m_data.m_must_login)
-
-		if (! is_read)
-		{
-			if (write_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-
-		}		
-		if (is_read)
-		{
-			if (load_xml_props())
-			{
-				return true ;
-			}
-			copy_reg_props() ;
-		}
-
-
 	END_REGISTRY_MAP
 
-	bool load_xml_props();
-	bool write_xml_props();
-
-	bool copy_reg_props();
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
@@ -907,13 +771,19 @@ struct properties
 
 		return *this ;
 	}
-	bool load_file(wstring filename);
-	void write_prefs();
-	void save_file(CString filename);
 	bool read_from_registry();
 
+	bool load_file(wstring filename);
 	bool parse_xml_doc( pugi::xml_document &doc );
+	
 	bool write_to_registry();
+
+	void save_prefs();
+	void save_file(CString filename);
+
+	void save_xml_doc( output_device_ptr output );
+
+	void build_xml_doc(pugi::xml_document &doc);
 } ;
 
 typedef boost::shared_ptr<properties> props_ptr ;
