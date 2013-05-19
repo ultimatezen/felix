@@ -32,6 +32,7 @@ void frame_view::ensure_document_complete()
 #else
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot ensure document complete.") ;
 		return ;
 	}
 	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
@@ -47,6 +48,7 @@ void frame_view::ensure_navigation_complete()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot ensure navigation complete.") ;
 		return ;
 	}
 	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
@@ -65,6 +67,7 @@ const wstring frame_view::get_selection_text()
 #else
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot get selection text.") ;
 		return wstring();
 	}
 	html::CHtmlSelection selection = m_view.get_selection() ;
@@ -93,6 +96,7 @@ void frame_view::set_text( const wstring text )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set text.") ;
 		return ;
 	}
 	m_view.set_body_text( text ) ;
@@ -101,6 +105,7 @@ void frame_view::load_resource( LPCTSTR resource_name )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot load resource.") ;
 		return ;
 	}
 	m_view.load_from_resource( resource_name ) ;
@@ -109,6 +114,7 @@ void frame_view::navigate(LPCTSTR url)
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot navigate.") ;
 		return ;
 	}
 	m_view.navigate(_bstr_t(url)) ;
@@ -118,6 +124,7 @@ void frame_view::do_bold()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set bold.") ;
 		return ;
 	}
 	m_view.do_bold() ;
@@ -126,6 +133,7 @@ void frame_view::do_underline()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set underline.") ;
 		return ;
 	}
 	m_view.do_underline() ;
@@ -134,6 +142,7 @@ void frame_view::do_italic()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set italic.") ;
 		return ;
 	}
 	m_view.do_italic() ;
@@ -142,6 +151,7 @@ void frame_view::do_delete()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot delete.") ;
 		return ;
 	}
 	m_view.OnEditDelete() ;
@@ -150,6 +160,7 @@ void frame_view::set_bg_color( const wstring color )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set background color.") ;
 		return ;
 	}
 	html::CHtmlDocument doc = m_view.get_document() ;
@@ -161,7 +172,7 @@ void frame_view::set_bg_color( const wstring color )
 	tagbase.Format(L"background-color: %ls", color.c_str()) ;
 	const _bstr_t bg_style = static_cast< LPCWSTR >( tagbase ) ;
 
-	// loop through each of the elements
+	// Set background color of each table cell
 	for ( int i=0 ; i < collection->length ; ++i )
 	{
 		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
@@ -170,7 +181,7 @@ void frame_view::set_bg_color( const wstring color )
 		{
 			element->style->cssText = bg_style ;
 		} 
-	} // increment i...
+	}
 
 
 }
@@ -181,6 +192,7 @@ wstring frame_view::get_bg_color()
 #else
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot get background color.") ;
 		return wstring();
 	}
 
@@ -197,6 +209,7 @@ bool frame_view::is_edit_mode()
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot get edit mode.") ;
 		return false ;
 	}
 	return m_view.get_edit_mode() ;
@@ -205,6 +218,7 @@ void frame_view::put_edit_mode( bool setting )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot set edit mode.") ;
 		return ;
 	}
 	m_view.put_edit_mode( setting ) ;
@@ -216,6 +230,7 @@ void frame_view::handle_enter_edit_mode_new_record_glossary( )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle enter edit mode.") ;
 		return ;
 	}
 	// get the collection of HTML elements in the doc body
@@ -254,6 +269,7 @@ void frame_view::handle_enter_edit_mode_concordance_glossary( mem_engine::felix_
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle enter edit mode (glossary concordance).") ;
 		return ;
 	}
 	// get the collection of HTML elements in the doc body
@@ -277,6 +293,7 @@ bool frame_view::handle_leave_edit_mode_new_record_glossary( MemoryControllerTyp
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle leave edit mode.") ;
 		return false;
 	}
 	// set the actual edit mode
@@ -314,10 +331,129 @@ bool frame_view::handle_leave_edit_mode_new_record_glossary( MemoryControllerTyp
 	return true ;
 }
 
+
+void frame_view::handle_enter_edit_mode_new_record()
+{
+	if (! m_view.IsWindow())
+	{
+		logging::log_warn("Browser view not created. Cannot handle enter edit mode.") ;
+		return ;
+	}
+	m_view.put_edit_mode( true ) ;
+
+	html::CHtmlSelection selection = m_view.get_selection() ;
+	html::CHtmlTextRange text_range = selection.create_text_range() ;
+	text_range.select() ;
+}
+
+void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches )
+{
+	if (! m_view.IsWindow())
+	{
+		logging::log_warn("Browser view not created. Cannot handle enter edit mode.") ;
+		return ;
+	}
+	// Get the collection of HTML elements in the doc body
+	html::collection_ptr collection = get_element_collection() ;
+
+	record_pointer rec = get_match_record(matches);
+
+	CViewCollectionWalker walker ;
+	tag_name_holder &tags = tag_name_holder::instance() ;
+
+	app_props::props_ptr props = app_props::get_props() ;
+	const bool single_screen_matches = !! props->m_view_props.m_data.m_single_screen_matches ;
+
+	// loop through each of the elements
+	for ( int i=0 ; i < collection->length ; ++i )
+	{
+		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
+
+		const wstring id = BSTR2wstring( element->id ) ;
+
+		if ( id.empty() == false )
+		{
+			// this is in case we're showing all matches on one screen
+			if ( single_screen_matches && str::is_int_rep( id ) )
+			{
+				mem_engine::search_match_ptr match = matches->at( boost::lexical_cast< long >( id ) ) ;
+				rec = match->get_record() ;
+			}
+			else if ( tags.is_query_tag(id) )	
+			{
+				element->innerHTML = ( matches->get_query_rich() ).c_str() ;
+				// we need to re-calculate the length, because we've been mucking with the html
+			}
+			else
+			{
+				walker.RecordToElement( element, rec )  ;
+			}
+		}
+	}
+
+	// put the actual browse mode setting
+	m_view.put_edit_mode( true ) ;
+
+	html::CHtmlSelection selection = m_view.get_selection() ;
+	html::CHtmlTextRange text_range = selection.create_text_range() ;
+	text_range.select() ;
+}
+
+void frame_view::handle_enter_edit_mode_concordance( mem_engine::felix_query *matches )
+{
+	if (! m_view.IsWindow())
+	{
+		logging::log_warn("Browser view not created. Cannot handle enter edit mode.") ;
+		return ;
+	}
+	// get the collection of HTML elements in the doc body
+	html::collection_ptr collection = get_element_collection() ;
+
+	CViewCollectionWalker walker ;
+	walker.RecordsToElements( matches, collection ) ;
+
+	// put the actual browse mode setting
+	m_view.put_edit_mode( true ) ;
+}
+
+
+
+// =========================
+// for leaving edit mode
+// =========================
+void frame_view::handle_leave_edit_mode_new( record_pointer &record )
+{
+	if (! m_view.IsWindow())
+	{
+		logging::log_warn("Browser view not created. Cannot handle leave edit mode.") ;
+		return ;
+	}
+	// set the actual edit mode
+	m_view.put_edit_mode( false ) ;
+
+	// get the collection of HTML elements in the doc body
+	html::collection_ptr collection = get_element_collection() ;
+
+	// the *@!# DHTML will convert our nice relative URLs to absolute ones!
+	clean_up_urls(collection) ;
+
+	CViewCollectionWalker walker ;
+
+	// loop through each of the elements
+	for ( int i=0 ; i < collection->length ; ++i )
+	{
+		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
+
+		walker.ElementToRecord( make_element_wrapper(element), record ) ;
+	} // increment i...
+
+}
+
 bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerType memories, mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle leave edit mode (glossary concordance).") ;
 		return false;
 	}
 
@@ -382,127 +518,12 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 
 	return true ;
 }
-
-
-
-void frame_view::handle_enter_edit_mode_new_record()
-{
-	if (! m_view.IsWindow())
-	{
-		return ;
-	}
-	m_view.put_edit_mode( true ) ;
-
-	html::CHtmlSelection selection = m_view.get_selection() ;
-	html::CHtmlTextRange text_range = selection.create_text_range() ;
-	text_range.select() ;
-}
-
-void frame_view::handle_enter_edit_mode_match( mem_engine::felix_query *matches )
-{
-	if (! m_view.IsWindow())
-	{
-		return ;
-	}
-	// Get the collection of HTML elements in the doc body
-	html::collection_ptr collection = get_element_collection() ;
-
-	record_pointer rec = get_match_record(matches);
-
-	CViewCollectionWalker walker ;
-	tag_name_holder &tags = tag_name_holder::instance() ;
-
-	app_props::props_ptr props = app_props::get_props() ;
-	const bool single_screen_matches = !! props->m_view_props.m_data.m_single_screen_matches ;
-
-	// loop through each of the elements
-	for ( int i=0 ; i < collection->length ; ++i )
-	{
-		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
-
-		const wstring id = BSTR2wstring( element->id ) ;
-
-		if ( id.empty() == false )
-		{
-			// this is in case we're showing all matches on one screen
-			if ( single_screen_matches && str::is_int_rep( id ) )
-			{
-				mem_engine::search_match_ptr match = matches->at( boost::lexical_cast< long >( id ) ) ;
-				rec = match->get_record() ;
-			}
-			else if ( tags.is_query_tag(id) )	
-			{
-				element->innerHTML = ( matches->get_query_rich() ).c_str() ;
-				// we need to re-calculate the length, because we've been mucking with the html
-			}
-			else
-			{
-				walker.RecordToElement( element, rec )  ;
-			}
-		}
-	}
-
-	// put the actual browse mode setting
-	m_view.put_edit_mode( true ) ;
-
-	html::CHtmlSelection selection = m_view.get_selection() ;
-	html::CHtmlTextRange text_range = selection.create_text_range() ;
-	text_range.select() ;
-}
-
-void frame_view::handle_enter_edit_mode_concordance( mem_engine::felix_query *matches )
-{
-	if (! m_view.IsWindow())
-	{
-		return ;
-	}
-	// get the collection of HTML elements in the doc body
-	html::collection_ptr collection = get_element_collection() ;
-
-	CViewCollectionWalker walker ;
-	walker.RecordsToElements( matches, collection ) ;
-
-	// put the actual browse mode setting
-	m_view.put_edit_mode( true ) ;
-}
-
-
-
-// =========================
-// for leaving edit mode
-// =========================
-void frame_view::handle_leave_edit_mode_new( record_pointer &record )
-{
-	if (! m_view.IsWindow())
-	{
-		return ;
-	}
-	// set the actual edit mode
-	m_view.put_edit_mode( false ) ;
-
-	// get the collection of HTML elements in the doc body
-	html::collection_ptr collection = get_element_collection() ;
-
-	// the *@!# DHTML will convert our nice relative URLs to absolute ones!
-	clean_up_urls(collection) ;
-
-	CViewCollectionWalker walker ;
-
-	// loop through each of the elements
-	for ( int i=0 ; i < collection->length ; ++i )
-	{
-		MSHTML::IHTMLElementPtr element = collection->item(_variant_t( i ), _variant_t(0) ) ;
-
-		walker.ElementToRecord( make_element_wrapper(element), record ) ;
-	} // increment i...
-
-}
-
 void frame_view::handle_leave_edit_mode_match( MemoryControllerType memories, 
 											   mem_engine::felix_query *matches )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle leave edit mode.") ;
 		return ;
 	}
 	// set the actual edit mode
@@ -583,15 +604,18 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot handle leave edit mode (glossary concordance).") ;
 		return false;
 	}
 	m_view.put_edit_mode( false ) ;
 	if ( memories->empty() ) 
 	{
+		logging::log_debug("Leaving edit mode. No memories.") ;
 		return false ;
 	}
 	if (matches->empty())
 	{
+		logging::log_debug("Leaving edit mode. No matches.") ;
 		return false ;
 	}
 
@@ -656,6 +680,7 @@ void frame_view::scroll_element_into_view( const wstring current_id )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot scroll element into view.") ;
 		return ;
 	}
 	// get the collection of HTML elements in the doc body
@@ -681,6 +706,7 @@ BOOL frame_view::PreTranslateMessage( LPMSG pMsg )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot pre-translate message.") ;
 		return FALSE;
 	}
 	return m_view.PreTranslateMessage( pMsg ) ;
@@ -690,6 +716,7 @@ BOOL frame_view::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot process window message.") ;
 		return FALSE;
 	}
 	return m_view.ProcessWindowMessage( hWnd, uMsg, wParam, lParam, lResult ) ;
@@ -698,6 +725,7 @@ void frame_view::Move( LPRECT rect )
 {
 	if (! m_view.IsWindow())
 	{
+		logging::log_warn("Browser view not created. Cannot move window.") ;
 		return ;
 	}
 	m_view.MoveWindow( rect, TRUE ) ;
