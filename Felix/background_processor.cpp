@@ -4,6 +4,17 @@
 #include "atlapp.h"
 #include "atluser.h"
 
+void pump_messages()
+{
+	MSG msg = {0};
+	while ( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
+	{ 
+		::TranslateMessage(&msg);
+		::DispatchMessage(&msg);
+	} 
+}
+
+
 background_processor::background_processor( size_t num_iterations/*=DEFAULT_ITERATIONS*/, HACCEL accel /*= NULL*/, HWND hwnd /*= GetActiveWindow() */ ) : 
 m_num_iterations ( num_iterations ), 
 	m_iteration ( 0 ), 
@@ -54,15 +65,15 @@ void background_processor::perform_background_processing()
 #ifdef UNIT_TEST
 	return ;
 #else
+	if (m_accelerator.IsNull() || ! ::IsWindow(m_hWnd))
+	{
+		pump_messages() ;
+	}
+
 	// process any messages on the queue
 	while ( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
 	{
-		if ( 
-#ifdef _DEBUG
-			m_accelerator.IsNull() || 
-			! ::IsWindow(m_hWnd) || 
-#endif
-			! m_accelerator.TranslateAccelerator( m_hWnd, &msg ) )
+		if (! m_accelerator.TranslateAccelerator(m_hWnd, &msg))
 		{
 			::TranslateMessage(&msg);
 			::DispatchMessage(&msg);

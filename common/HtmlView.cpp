@@ -6,6 +6,7 @@
 #include "MsHtmHst.h"
 #include "Path.h"
 #include "logging.h"
+#include "background_processor.h"
 
 namespace html
 {
@@ -774,14 +775,9 @@ void CHtmlView::ensure_document_complete()
 	return ;
 #else
 
-	MSG msg ;
 	while ( is_document_complete() == false || is_navigation_complete() == false) 
 	{
-		while ( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
-		{ 
-			::TranslateMessage(&msg);
-			::DispatchMessage(&msg);
-		} 
+		pump_messages() ;
 	}
 #endif
 }

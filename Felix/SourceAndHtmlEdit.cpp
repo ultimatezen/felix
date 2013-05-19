@@ -8,6 +8,7 @@
 #include "xpmenu/tools.h"
 #include "text_templates.h"
 #include "logging.h"
+#include "background_processor.h"
 
 using namespace except;
 using namespace html ;
@@ -450,20 +451,7 @@ void CSourceAndHtmlEdit::SizeBox()
 
 void CSourceAndHtmlEdit::ensure_document_complete()
 {
-#ifdef UNIT_TEST
-	return ;
-#else
-
-	MSG msg = {0};
-	while ( m_html_edit.is_document_complete() == false || m_html_edit.is_navigation_complete() == false) 
-	{
-		while ( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
-		{ 
-			::TranslateMessage(&msg);
-			::DispatchMessage(&msg);
-		} 
-	}
-#endif
+	m_html_edit.ensure_document_complete() ;
 }
 
 _bstr_t CSourceAndHtmlEdit::get_html_text()

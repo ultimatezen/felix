@@ -2,6 +2,8 @@
 #pragma once
 
 
+void pump_messages() ;
+
 /**
 	@class background_processor  
 	@brief Poor man's multithreading.
@@ -11,7 +13,7 @@ class background_processor
 	size_t	m_num_iterations ;
 	size_t	m_iteration ;
 	CAcceleratorHandle	m_accelerator ;
-	HWND		m_hWnd ;
+	HWND	m_hWnd ;
 	MSG		msg;
 	
 	static const size_t DEFAULT_ITERATIONS = 100 ;
