@@ -664,7 +664,11 @@
 #define IDS_CLOSED_MEMORY               32827
 #define ID_SEARCH                       32827
 #define IDS_CLOSED_GLOSSARY             32828
-#define ID_TOGGLE_HELP                  32828
+#define ID_TOGGLE_HELP                  32829
+#define ID_CMD_SAVE_MATCHES             32830
+#define ID_CMD_DELETE_MATCHES           32831
+#define ID_CMD_SEARCH_PAGE              32832
+#define ID_CMD_REPLACE_PAGE             32833
 #define ID_TOOLS_RULEMANAGER            40003
 #define IDC_SOURCE_LANG_STATIC          -1
 
