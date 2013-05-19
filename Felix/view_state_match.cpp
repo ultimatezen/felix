@@ -91,6 +91,11 @@ size_t ViewStateMatch::get_current()
 	return m_search_matches->current_pos() ;
 }
 
+ViewStateMatch::ViewStateMatch() : m_search_matches(NULL)
+{
+
+}
+
 //////////////////////////////////////////////////////////////////////////
 // ViewStateMatchMain
 //////////////////////////////////////////////////////////////////////////
@@ -201,6 +206,16 @@ void ViewStateMatchMain::activate()
 {
 	m_window_listener->set_menu_checkmark(ID_VIEW_MATCH, true);
 	m_window_listener->set_menu_checkmark(ID_VIEW_SEARCH, false);
+}
+
+void ViewStateMatchMain::set_props( app_props::props_ptr props )
+{
+	m_props = props ;
+}
+
+void ViewStateMatchMain::set_gloss_matches( mem_engine::felix_query *matches )
+{
+	m_gloss_matches = matches ;
 }
 
 //////////////////////////////////////////////////////////////////////////

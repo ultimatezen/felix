@@ -14,10 +14,7 @@ public:
 
 	mem_engine::felix_query *m_search_matches ;
 
-	ViewStateMatch() : m_search_matches(NULL)
-	{
-
-	}	
+	ViewStateMatch();	
 	void set_current(size_t num);
 	virtual size_t get_current();
 	void set_search_matches(mem_engine::felix_query *search_matches);
@@ -32,14 +29,8 @@ class ViewStateMatchMain : public ViewStateMatch
 
 public:
 	ViewStateMatchMain() : m_gloss_matches(NULL), ViewStateMatch() {}
-	void set_props(app_props::props_ptr props)
-	{
-	  m_props = props ;
-	}
-	void set_gloss_matches(mem_engine::felix_query *matches)
-	{
-		m_gloss_matches = matches ;
-	}
+	void set_props(app_props::props_ptr props);
+	void set_gloss_matches(mem_engine::felix_query *matches);
 	void show_content();
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
