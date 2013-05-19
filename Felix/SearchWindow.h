@@ -13,6 +13,8 @@
 #include "undoable_action.h"
 #include "FelixModelInterface.h"
 
+#include "menu_helper.h"
+
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 					WS_EX_OVERLAPPEDWINDOW> SearchWindowTraits;
 
@@ -114,7 +116,7 @@ public:
 	void handle_undodelete(doc3_wrapper_ptr doc);
 
 	void show_search_page();
-	void handle_gotoreplace();
+	void show_replace_page();
 	void show_search_results_page();
 	void show_replace_results_page();
 	void perform_search(doc3_wrapper_ptr doc);
@@ -137,6 +139,12 @@ public:
 	void set_filterbox_text( doc3_wrapper_ptr doc, const std::vector<wstring> &terms );
 	void wait_for_doc_complete();
 
+
+	// This lets us override the context menu.
+	void set_doc_ui_handler();
+
+	HRESULT get_doc_context_menu();
+
 	// ========================
 	// message map
 	// ========================
@@ -152,6 +160,14 @@ public:
 	LRESULT OnSearch();
 	LRESULT OnReplace();
 	LRESULT OnToggleHelp();
+
+	LRESULT OnSaveMatches();
+	LRESULT OnDeleteMatches();
+	LRESULT OnViewSearchPage();
+	LRESULT OnViewReplacePage();
+
+	LRESULT OnEditCopy();
+
 	BEGIN_MSG_MAP_EX(CSearchWindow)
 		try
 		{
@@ -163,10 +179,18 @@ public:
 
 			BEGIN_CMD_HANDLER_EX
 
+				CMD_HANDLER_EX_0(ID_EDIT_COPY,		OnEditCopy)
 				CMD_HANDLER_EX_0(ID_NEW_SEARCH,		OnNewSearch)
 				CMD_HANDLER_EX_0(ID_SEARCH,			OnSearch)
 				CMD_HANDLER_EX_0(ID_REPLACE,		OnReplace)
 				CMD_HANDLER_EX_0(ID_TOGGLE_HELP,	OnToggleHelp)
+
+				CMD_HANDLER_EX_0(ID_CMD_SAVE_MATCHES,	OnSaveMatches)
+				CMD_HANDLER_EX_0(ID_CMD_DELETE_MATCHES,	OnDeleteMatches)
+				CMD_HANDLER_EX_0(ID_CMD_SEARCH_PAGE,	OnViewSearchPage)
+				CMD_HANDLER_EX_0(ID_CMD_REPLACE_PAGE,	OnViewReplacePage)
+
+
 
 			END_CMD_HANDLER_EX
 		}

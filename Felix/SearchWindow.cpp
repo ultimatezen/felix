@@ -14,6 +14,8 @@
 #include "action_delete_entry.h"
 #include "action_delete_matches.h"
 
+#include "FelixMemDocUIHandler.h"
+
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
@@ -54,7 +56,7 @@ LRESULT CSearchWindow::OnCreate( UINT, WPARAM, LPARAM )
 	set_window_title(IDS_MSG_SEARCH);
 
 	m_accelerator.LoadAccelerators(IDR_SEARCH_ACCEL) ;
-
+	set_doc_ui_handler() ;
 #ifndef UNIT_TEST
 	_Module.GetMessageLoop()->AddMessageFilter(this) ;
 #endif
@@ -137,7 +139,7 @@ void CSearchWindow::show_search_page()
 }
 
 // When we navigate from the search page
-void CSearchWindow::handle_gotoreplace()
+void CSearchWindow::show_replace_page()
 {
 	SENSE("handle_gotoreplace") ;
 	const wstring filename = (LPCWSTR)cpptempl::get_template_filename(_T("start_replace.html")) ;
@@ -219,7 +221,7 @@ bool CSearchWindow::OnBeforeNavigate2( _bstr_t burl )
 
 		if (boost::ends_with(url, L"gotoreplace"))
 		{
-			handle_gotoreplace() ;
+			show_replace_page() ;
 			return true ;
 		}
 		if (boost::ends_with(url, L"gotosearch"))
@@ -913,7 +915,7 @@ LRESULT CSearchWindow::OnSearch()
 // Navigate to the replace page
 LRESULT CSearchWindow::OnReplace()
 {
-	handle_gotoreplace() ;
+	show_replace_page() ;
 	return 0L ;
 }
 
@@ -953,6 +955,87 @@ void CSearchWindow::set_window_title( UINT pagetype )
 	brackets.Format(_T(" [%s]"), search) ;
 	SetWindowText( m_title + brackets) ;
 }
+
+void CSearchWindow::set_doc_ui_handler()
+{
+#ifdef UNIT_TEST
+	return ;
+#else
+	logging::log_debug("Setting the doc UI handler") ;
+	CComObject<CFelixMemDocUIHandler> *pUIH = NULL;
+	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
+	if (SUCCEEDED(hr))
+	{
+		pUIH->m_get_menu = boost::bind(&CSearchWindow::get_doc_context_menu, this) ;
+		// Make our custom DocHostUIHandler the window.external handler
+		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
+		hr = m_view.SetExternalUIHandler(pIUIH) ;
+	}
+	if (FAILED(hr))
+	{
+		except::CComException com_exception(hr) ;
+		logging::log_error("Failed to set doc UI handler") ;
+		logging::log_exception(com_exception) ;
+	}
+	ATLASSERT(SUCCEEDED(hr)) ;
+#endif
+}
+
+HRESULT CSearchWindow::get_doc_context_menu()
+{
+	BANNER("CMainFrame::get_doc_context_menu") ;
+	CMenu menu ;
+
+	menu.CreatePopupMenu() ;
+	MenuWrapper wrapper(menu, m_hWnd) ;
+	wrapper.add_item(ID_EDIT_COPY, "&Copy (CTRL+C)") ;
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_NEW_SEARCH, "&New Search (CTRL+N)") ;
+	if (! m_matches.empty())
+	{
+		wrapper.add_separator() ;
+		wrapper.add_item(ID_CMD_SAVE_MATCHES, "&Save Matches") ;
+		wrapper.add_item(ID_CMD_DELETE_MATCHES, "&Delete Matches") ;
+	}
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_CMD_SEARCH_PAGE, "S&earch Page") ;
+	wrapper.add_item(ID_CMD_REPLACE_PAGE, "&Replace Page") ;
+	wrapper.add_item(ID_TOGGLE_HELP, "Toggle &Help") ;
+
+	// Show the menu at the cursor position
+	wrapper.show() ;
+	return S_OK ;
+}
+
+LRESULT CSearchWindow::OnSaveMatches()
+{
+	save_results(m_matches) ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnDeleteMatches()
+{
+	delete_results(m_matches) ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnViewSearchPage()
+{
+	show_search_page() ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnViewReplacePage()
+{
+	show_replace_page() ;
+	return 0L ;
+}
+
+LRESULT CSearchWindow::OnEditCopy()
+{
+	return m_view.OnEditCopy() ;
+}
+
 /*
  Get the value of the specified input box, and clear that value
  afterward.

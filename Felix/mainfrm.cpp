@@ -682,7 +682,7 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 	if ( m_view_interface.is_edit_mode() == false )
 	{
 		on_new_search(message) ;
-		m_search_window.handle_gotoreplace() ;
+		m_search_window.show_replace_page() ;
 	}
 	else
 	{
@@ -5060,24 +5060,20 @@ HRESULT CMainFrame::get_doc_context_menu()
 	BANNER("CMainFrame::get_doc_context_menu") ;
 	CMenu menu ;
 
-	CImageList images ;
-	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, 2 ) ;
-
 	menu.CreatePopupMenu() ;
-	add_popup_item(menu, ID_EDIT_COPY, IDS_POPUP_COPY) ;
-	add_popup_separator(menu) ;
-	add_popup_item(menu, ID_NEXT_PANE, IDS_POPUP_SWITCH_VIEWS) ;
-	add_popup_item(menu, ID_EDIT_REGISTER, IDS_POPUP_REGISTER_GLOSS) ;
-	add_popup_separator(menu) ;
-	add_popup_item(menu, IDC_SOURCE_CONCORDANCE_SEL, IDS_SOURCE_CONCORDANCE) ;
-	add_popup_item(menu, IDC_TRANS_CONCORDANCE_SEL, IDS_TRANS_CONCORDANCE) ;
-	add_popup_separator(menu) ;
-	add_popup_item(menu, ID_EDIT_DELETE, IDS_POPUP_DELETE) ;
+	MenuWrapper wrapper(menu, m_hWnd) ;
+	wrapper.add_item(ID_EDIT_COPY, R2S(IDS_POPUP_COPY)) ;
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_NEXT_PANE,  R2S(IDS_POPUP_SWITCH_VIEWS)) ;
+	wrapper.add_item(ID_EDIT_REGISTER,  R2S(IDS_POPUP_REGISTER_GLOSS)) ;
+	wrapper.add_separator() ;
+	wrapper.add_item(IDC_SOURCE_CONCORDANCE_SEL,  R2S(IDS_SOURCE_CONCORDANCE)) ;
+	wrapper.add_item(IDC_TRANS_CONCORDANCE_SEL,  R2S(IDS_TRANS_CONCORDANCE)) ;
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_EDIT_DELETE,  R2S(IDS_POPUP_DELETE)) ;
 
 	// Show the menu at the cursor position
-	POINT ptScreen ;
-	::GetCursorPos(&ptScreen) ;
-	menu.TrackPopupMenu( TPM_LEFTALIGN | TPM_RIGHTBUTTON,	ptScreen.x, ptScreen.y, m_hWnd, NULL) ;
+	wrapper.show() ;
 	return S_OK ;
 }
 

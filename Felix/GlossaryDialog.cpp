@@ -471,7 +471,7 @@ LRESULT CGlossaryDialog::on_edit_replace( )
 	else
 	{
 		on_new_search() ;
-		m_search_window.handle_gotoreplace() ;
+		m_search_window.show_replace_page() ;
 	}
 	return 0 ;
 }
@@ -2066,20 +2066,15 @@ HRESULT CGlossaryDialog::get_doc_context_menu()
 	BANNER("CGlossaryDialog::get_doc_context_menu") ;
 	CMenu menu ;
 
-	CImageList images ;
-	const int grow_size = 2 ;
-	images.Create(BM_SIZE, BM_SIZE, ILC_COLOR24 | ILC_MASK, 0, grow_size ) ;
-
 	menu.CreatePopupMenu() ;
-	add_popup_item(menu, ID_EDIT_COPY, IDS_POPUP_COPY) ;
-	add_popup_separator(menu) ;
-	add_popup_item(menu, ID_NEXT_PANE, IDS_POPUP_SWITCH_VIEWS) ;
-	add_popup_separator(menu) ;
-	add_popup_item(menu, ID_EDIT_DELETE, IDS_POPUP_DELETE) ;
+	MenuWrapper wrapper(menu, m_hWnd) ;
+	wrapper.add_item(ID_EDIT_COPY, R2S(IDS_POPUP_COPY)) ;
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_NEXT_PANE, R2S(IDS_POPUP_SWITCH_VIEWS)) ;
+	wrapper.add_separator() ;
+	wrapper.add_item(ID_EDIT_DELETE, R2S(IDS_POPUP_DELETE)) ;
 
-	POINT ptScreen ;
-	::GetCursorPos(&ptScreen) ;
-	menu.TrackPopupMenu( TPM_LEFTALIGN | TPM_RIGHTBUTTON,	ptScreen.x, ptScreen.y, m_hWnd, NULL) ;
+	wrapper.show() ;
 
 	return S_OK ;
 }

@@ -30,15 +30,9 @@
 #include "window_listener.h"
 #include "window_interface.h"
 
-void add_popup_item(CMenu &menu, int command_id, int text_id) ;
-void add_popup_separator(CMenu &menu) ;
-
+#include "menu_helper.h"
 
 typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
-
-static const int BM_SIZE = 16 ;
-static const int SEP_ID = 0 ;
-static const COLORREF MAGENTA = RGB( 255, 0, 255 ) ;
 
 
 void add_common_tb_commands(std::vector< int > &commands) ;
