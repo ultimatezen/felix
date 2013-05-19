@@ -263,49 +263,25 @@ public:
 	void do_underline() ;
 	void do_select_all();
 
-	// ================================================
 	// Event implementations for IDocHostUIHandlerDispatch
-	// ================================================
 
-
-	// Function name	: DocumentComplete
-	// Description	    : 
-	// Return type		: void __stdcall 
-	// Argument         :  IDispatch *pDisp
-	// Argument         : VARIANT *URL
+	// Called when the HTML DOM is loaded
 	void __stdcall DocumentComplete( IDispatch * /*pDisp*/, VARIANT *URL );
 
-	// Function name	: BeforeNavigate2
-	// Description	    : 
-	// Return type		: void __stdcall 
-	void __stdcall BeforeNavigate2(          
-		IDispatch * /*pDisp*/,
-		VARIANT *URL,
-		VARIANT * /*Flags*/,
-		VARIANT * /*TargetFrameName*/,
-		VARIANT * /*PostData*/,
-		VARIANT * /*Headers*/,
-		VARIANT_BOOL *Cancel
-		);
+	// Called before navigation after a URL is clicked
+	void __stdcall CHtmlView::BeforeNavigate2( IDispatch *, VARIANT *URL, 
+		VARIANT *, VARIANT *, VARIANT *, VARIANT *, VARIANT_BOOL *Cancel )
 
-	// Function name	: NavigateComplete2
-	// Description	    : 
-	// Return type		: void __stdcall 
-	// Argument         : const _bstr_t url
+	// Navigation complete callback
 	void __stdcall NavigateComplete2( IDispatch * /*pDisp*/, VARIANT *URL );
 
-	// Function name	: StatusTextChange
-	// Description	    : 
-	// Return type		: void __stdcall 
-	// Argument         : const _bstr_t text
+	// Status-bar text changed callback
 	void __stdcall StatusTextChange( BSTR text);
 
-	// Function name	: TitleChange
-	// Description	    : 
-	// Return type		: void __stdcall 
-	// Argument         : const _bstr_t title
+	// Title text changed callback
 	void __stdcall TitleChange( BSTR title);
 
+	// Handle Windows messages
 	BEGIN_MSG_MAP_EX(CHtmlView)
 		// don't use MSG_HANDLER_0
 		// we need the arguments to pass to DefWindowProc
@@ -327,6 +303,7 @@ public:
 			DEFAULT_REFLECTION_HANDLER()
 	END_MSG_MAP()
 		
+	// These are the events we want callbacks on
 	BEGIN_SINK_MAP( CHtmlView )
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_BEFORENAVIGATE2,	  BeforeNavigate2,   &BeforeNavigate2Info )		// hyperlink clicked on
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_DOCUMENTCOMPLETE,  DocumentComplete,  &DocumentCompleteInfo )		// hyperlink clicked on

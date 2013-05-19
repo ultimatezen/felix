@@ -807,13 +807,8 @@ void __stdcall CHtmlView::DocumentComplete( IDispatch * /*pDisp*/, VARIANT *URL 
 	LoadedHandler(URL->bstrVal) ;
 }
 
-void __stdcall CHtmlView::BeforeNavigate2( IDispatch * /*pDisp*/, 
-										  VARIANT *URL, 
-										  VARIANT * /*Flags*/, 
-										  VARIANT * /*TargetFrameName*/, 
-										  VARIANT * /*PostData*/, 
-										  VARIANT * /*Headers*/, 
-										  VARIANT_BOOL *Cancel )
+void __stdcall CHtmlView::BeforeNavigate2( IDispatch * /*pDisp*/, VARIANT *URL, 
+	VARIANT *, VARIANT *, VARIANT *, VARIANT *, VARIANT_BOOL *Cancel )
 {
 
 	ATLASSERT( URL != NULL ) ;
