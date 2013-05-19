@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "logging.h"
+#include "comdef.h"
 
 #include "Path.h"
 

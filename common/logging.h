@@ -17,6 +17,8 @@ typedef enum
 
 void set_logging_level(LOGGING_LEVEL level) ;
 
+class _com_error ;
+
 class logger
 {
 public:

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "dispatchwrapper.h"
+#include "comdef.h"
 
 CDispatchWrapper::CDispatchWrapper( LPCWSTR app_name ) : 
 m_server_name(app_name),
