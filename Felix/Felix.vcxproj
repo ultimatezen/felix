@@ -492,6 +492,7 @@ echo Protection complete!
     <ClCompile Include="..\common\aboutdlg.cpp" />
     <ClCompile Include="..\common\config_file.cpp" />
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
+    <ClCompile Include="..\common\FileOpHandler.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -604,7 +605,6 @@ echo Protection complete!
     <ClCompile Include="felix_cl_options.cpp" />
     <ClCompile Include="Felix_properties.cpp" />
     <ClCompile Include="FelixMemDocUIHandler.cpp" />
-    <ClCompile Include="FileOpHandler.cpp" />
     <ClCompile Include="FileOpHandler_test.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="font_tabulator.cpp" />
