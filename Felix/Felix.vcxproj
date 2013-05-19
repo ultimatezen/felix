@@ -1164,6 +1164,8 @@ echo Protection complete!
     <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h" />
     <ClInclude Include="..\common\atlscintilla.h" />
     <ClInclude Include="..\common\debugutilities.h" />
+    <ClInclude Include="..\common\dotnettabctrl.h" />
+    <ClInclude Include="..\common\ShellCtrls.h" />
     <ClInclude Include="..\common\window_object.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />

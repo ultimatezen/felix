@@ -1883,6 +1883,12 @@
     <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\dotnettabctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ShellCtrls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\Felix.exe.manifest">
