@@ -554,9 +554,9 @@ inline std::wstring resource2wstring( const UINT uid, const HINSTANCE instance )
 
 inline std::string resource2string( const UINT uid, HINSTANCE resource_inst )
 {
-	const tstring tres = resource2tstring( uid, resource_inst ) ;
+	const tstring resource = resource2tstring( uid, resource_inst ) ;
 
-	return string2string( tres ) ;
+	return string2string( resource, CP_UTF8 ) ;
 }
 
 #define R2S( id )    resource2string ( id, _Module.GetResourceInstance() )
