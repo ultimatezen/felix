@@ -7,7 +7,6 @@
 #include "MatchStringPairing.h"
 #include "placement_holes.h"
 
-#include "Felix_properties.h" // get_config_filename
 #include "input_device.h" // InputDevice
 #include "output_device.h"
 

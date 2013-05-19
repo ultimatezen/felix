@@ -10,6 +10,7 @@
 #include "StdAfx.h"
 #include "Felix_properties.h"
 #include "output_device_fake.h"
+#include "config_file.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -31,7 +32,7 @@ BOOST_AUTO_TEST_SUITE( test_properties )
 	BOOST_AUTO_TEST_CASE(test_get_config_filename)
 	{
 		output_device_ptr device(new OutputDeviceFake) ;
-		wstring filename = L"felix_rules.frules" ;
+		CString filename = L"felix_rules.frules" ;
 		wstring actual = get_config_filename(filename, device) ;
 		wstring expected = L"D:\\Users\\Ryan\\AppData\\Local\\Felix\\prefs\\felix_rules.frules" ;
 

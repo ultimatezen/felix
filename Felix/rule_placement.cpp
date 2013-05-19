@@ -2,6 +2,7 @@
 #include "rule_placement.h"
 #include "record_local.h"
 #include "logging.h"
+#include "config_file.h"
 
 namespace mem_engine
 {
@@ -73,7 +74,7 @@ namespace placement
 	{
 		m_rules.clear() ;
 		wstring filename = get_config_filename(L"felix_rules.frules", output) ;
-		string text = get_file_text(filename, input) ;
+		string text = get_file_text(filename.c_str(), input) ;
 
 		pugi::xml_document doc;
 		pugi::xml_parse_result result = doc.load(text.c_str());

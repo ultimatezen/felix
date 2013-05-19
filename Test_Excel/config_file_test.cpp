@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_SUITE( config_file_tests )
 		OutputDeviceFake *fake_output = new OutputDeviceFake ;
 		output_device_ptr output(fake_output) ;
 
-		const wstring actual = get_config_text(_T("foo.xml"), output, input) ;
-		const wstring expected = L"" ;
+		const string actual = get_config_text(_T("foo.xml"), output, input) ;
+		const string expected = "" ;
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()

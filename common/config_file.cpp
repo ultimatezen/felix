@@ -9,6 +9,16 @@
 
 CString get_config_filename(CString filename, output_device_ptr output)
 {
+	file::CPath pathname(get_local_appdata()) ;
+	pathname.Append(_T("Felix")) ;
+	pathname.Append(_T("prefs")) ;
+	output->ensure_dirs(pathname.Path()) ;
+	pathname.Append(filename) ;
+	return pathname.Path() ;
+}
+
+CString get_local_appdata()
+{
 	TCHAR szPath[MAX_PATH];
 	HRESULT hr = SHGetFolderPath(NULL, // hwndOwner
 		CSIDL_LOCAL_APPDATA,		  // nFolder
@@ -23,30 +33,30 @@ CString get_config_filename(CString filename, output_device_ptr output)
 		return CString();
 	}
 
-	file::CPath pathname(CString(static_cast<LPCTSTR>(szPath))) ;
-	pathname.Append(_T("Felix")) ;
-	pathname.Append(_T("prefs")) ;
-	output->ensure_dirs(pathname.Path()) ;
-	pathname.Append(filename) ;
-	return pathname.Path() ;
+	return CString(static_cast<LPCTSTR>(szPath)) ;
 }
 
-wstring get_config_text(CString filename, output_device_ptr output, input_device_ptr input)
+string get_config_text(CString filename, output_device_ptr output, input_device_ptr input)
 {
 	CString config_filename = get_config_filename(filename, output) ;
-	if (! input->exists(config_filename))
+	return get_file_text(config_filename, input) ;
+}
+
+string get_file_text(CString filename, input_device_ptr input)
+{
+	if (! input->exists(filename))
 	{
-		return wstring() ;
+		logging::log_error("File does not exist.") ;
+		return string() ;
 	}
 	try
 	{
-		string raw_text(input->create_view_const_char(config_filename)) ;
-		return string2wstring(raw_text, CP_UTF8) ;
+		return string(input->create_view_const_char(filename)) ;
 	}
 	catch (except::CException& e)
 	{
-		logging::log_error("Program exception: configuration file could not be read") ;
+		logging::log_error("Program exception: File could not be read.") ;
 		logging::log_exception(e) ;
-		return wstring() ;
+		return string() ;
 	}
 }

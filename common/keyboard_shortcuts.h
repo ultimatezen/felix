@@ -3,18 +3,8 @@
 #include "config_file.h"
 #include "pugxml/src/pugixml.hpp"
 #include "key_mapper.h"
+#include "xml_writer.h"
 
-
-
-struct xml_string_writer: pugi::xml_writer
-{
-	std::string result;
-
-	virtual void write(const void* data, size_t size)
-	{
-		result += std::string(static_cast<const char*>(data), size);
-	}
-};
 void add_child_text(pugi::xml_node &node, string name, string text) ;
 void create_shortcut_node(pugi::xml_node &node, 
 						  string stype, 

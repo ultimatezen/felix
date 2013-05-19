@@ -490,6 +490,7 @@ echo Protection complete!
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\common\aboutdlg.cpp" />
+    <ClCompile Include="..\common\config_file.cpp" />
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
@@ -1163,10 +1164,12 @@ echo Protection complete!
     <ClInclude Include="..\..\lua-5.2.2\src\lzio.h" />
     <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h" />
     <ClInclude Include="..\common\atlscintilla.h" />
+    <ClInclude Include="..\common\config_file.h" />
     <ClInclude Include="..\common\debugutilities.h" />
     <ClInclude Include="..\common\dotnettabctrl.h" />
     <ClInclude Include="..\common\ShellCtrls.h" />
     <ClInclude Include="..\common\window_object.h" />
+    <ClInclude Include="..\common\xml_writer.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />
     <ClInclude Include="gloss_placement.h" />

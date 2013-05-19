@@ -1733,5 +1733,6 @@ void CPowerPointInterface::load_abbreviations()
 {
 	input_device_ptr input(new InputDeviceFile) ;
 	output_device_ptr output(new OutputDeviceFile) ;
-	m_abbreviations.load(get_config_text(_T("abbreviations.txt"), output, input)) ;
+	string file_text = get_config_text(_T("abbreviations.txt"), output, input) ;
+	m_abbreviations.load(string2wstring(file_text)) ;
 }

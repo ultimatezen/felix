@@ -1,68 +1,15 @@
 #include "stdafx.h"
 #include "Felix_properties.h"
+#include "xml_writer.h"
 
 #include "cstringinterface.h"
 #include "input_device_file.h"
 #include "logging.h"
+#include "config_file.h"
 
 const wchar_t* LOADED_HISTORY_FILENAME = L"felix_load_history.xml" ;
 const wchar_t* PREFS_FILENAME = L"felix_prefs.fprefx" ;
 
-
-struct xml_string_writer: pugi::xml_writer
-{
-	std::string result;
-
-	virtual void write(const void* data, size_t size)
-	{
-		result += std::string(static_cast<const char*>(data), size);
-	}
-};
-wstring get_config_filename(wstring filename, output_device_ptr output)
-{
-	TCHAR szPath[MAX_PATH];
-	HRESULT hr = SHGetFolderPath(NULL, // hwndOwner
-		CSIDL_LOCAL_APPDATA,		  // nFolder
-		(HANDLE)NULL,				  // hToken (-1 means "default user")
-		SHGFP_TYPE_CURRENT,			  // dwFlags 
-		szPath) ;
-	if (! SUCCEEDED(hr))
-	{
-		logging::log_error("Failed to get local app data folder") ;
-		except::CComException e(hr) ;
-		logging::log_exception(e) ;
-		return wstring();
-	}
-
-	file::CPath pathname(CString(static_cast<LPCTSTR>(szPath))) ;
-	pathname.Append(_T("Felix")) ;
-	pathname.Append(_T("prefs")) ;
-	output->ensure_dirs(pathname.Path()) ;
-	pathname.Append(filename.c_str()) ;
-	return wstring(static_cast<LPCTSTR>(pathname.Path())) ;
-}
-string get_config_text(wstring filename, output_device_ptr output, input_device_ptr input)
-{
-	wstring config_filename = get_config_filename(filename, output) ;
-	return get_file_text(config_filename, input) ;
-}
-string get_file_text(wstring filename, input_device_ptr input)
-{
-	if (! input->exists(filename.c_str()))
-	{
-		return string() ;
-	}
-	try
-	{
-		return string(input->create_view_const_char(filename.c_str())) ;
-	}
-	catch (except::CException& e)
-	{
-		logging::log_error("Program exception: configuration file could not be read") ;
-		logging::log_exception(e) ;
-		return string() ;
-	}
-}
 void add_child(pugi::xml_node &node, string name, string value)
 {
 	pugi::xml_node child_node = node.append_child();
@@ -771,7 +718,7 @@ namespace app_props
 	bool properties::load_file(wstring filename )
 	{
 		input_device_ptr input(new InputDeviceFile) ;
-		string text = get_file_text(filename, input) ;
+		string text = get_file_text(filename.c_str(), input) ;
 		if (text.empty())
 		{
 			return false ;
