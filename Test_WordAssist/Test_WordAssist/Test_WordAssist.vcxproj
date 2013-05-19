@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
+    <ClCompile Include="..\..\common\FileOpHandler.cpp" />
     <ClCompile Include="..\..\common\office_seg.cpp" />
     <ClCompile Include="..\..\common\office_seg_test.cpp" />
     <ClCompile Include="..\..\WordAssist\WordAssist\app_state_test.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\abbreviations.h" />
+    <ClInclude Include="..\..\common\FileOpHandler.h" />
     <ClInclude Include="..\..\common\office_seg.h" />
     <ClInclude Include="..\..\common\office_seg_fake.h" />
     <ClInclude Include="..\..\WordAssist\WordAssist\AddGlossDialog.h" />

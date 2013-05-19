@@ -99,6 +99,7 @@
   <ItemGroup>
     <ClCompile Include="..\common\abbreviations.cpp" />
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
+    <ClCompile Include="..\common\FileOpHandler.cpp" />
     <ClCompile Include="abbreviations_test.cpp" />
     <ClCompile Include="..\PowerPointAssist\PowerPointAssist\app_state.cpp" />
     <ClCompile Include="..\PowerPointAssist\PowerPointAssist\app_state_test.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\abbreviations.h" />
+    <ClInclude Include="..\common\FileOpHandler.h" />
     <ClInclude Include="..\PowerPointAssist\PowerPointAssist\app_state.h" />
     <ClInclude Include="..\common\ColorRef.h" />
     <ClInclude Include="..\common\config_file.h" />

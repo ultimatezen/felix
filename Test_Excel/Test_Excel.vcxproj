@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\FileOpHandler.cpp" />
     <ClCompile Include="..\ExcelAssist\ExcelAssist\app_state.cpp" />
     <ClCompile Include="..\ExcelAssist\ExcelAssist\app_state_test.cpp" />
     <ClCompile Include="..\ExcelAssist\ExcelAssist\AppStringEntry.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Test_Excel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\FileOpHandler.h" />
     <ClInclude Include="..\ExcelAssist\ExcelAssist\app_state.h" />
     <ClInclude Include="..\ExcelAssist\ExcelAssist\AppStringEntry.h" />
     <ClInclude Include="..\ExcelAssist\ExcelAssist\AppStringRecordParser.h" />

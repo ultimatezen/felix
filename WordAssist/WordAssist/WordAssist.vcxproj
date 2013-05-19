@@ -178,6 +178,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
+    <ClCompile Include="..\..\common\FileOpHandler.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="AddIn_i.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -270,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\abbreviations.h" />
+    <ClInclude Include="..\..\common\FileOpHandler.h" />
     <ClInclude Include="AddGlossDialog.h" />
     <ClInclude Include="AddIn.h" />
     <ClInclude Include="app_state.h" />
