@@ -7,8 +7,6 @@
  */
 #pragma once
 
-#include "StringEx.h"
-#include "StringConversions.h" // convert to/from strings
 #include "Exceptions.h"
 
 

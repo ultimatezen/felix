@@ -15,16 +15,11 @@
 
 #pragma once
 
-#include "StringEx.h"			// for string conversion
-#include "StringConversions.h"	// convert to/from wstrings/strings/CStrings
-
 #include "Exceptions.h"		// exception support
-#include "DebugUtilities.h"	// TRACE et al
 
 #include "MiscWrappers.h"	// misc_wrappers::handle
 
 #include "Path.h"
-
 
 #include "stdio.h"
 #include "stdarg.h"

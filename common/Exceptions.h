@@ -9,11 +9,7 @@
 #pragma warning( disable : 4996 ) 
 
 #include "DebugUtilities.h" 
-
-// C RunTime Header Files
-
-	#include <eh.h>				// _se_translator_function -- CException handling header file
-
+#include <eh.h>		// _se_translator_function -- CException handling header file
 #include "ComUtilities.h"
 
 

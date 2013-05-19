@@ -1,18 +1,8 @@
 /*!
-	@file StringEx.h
-	@brief string extension utilities
-	@date 2004/12/16
-	@time 1:54:07
-	@author Ryan Ginstrom
-
- #define DO_EFFICIENT_STRING_CONVERSIONS 
- to keep string <-> wstring conversion buffers in a static variable
+string extension utilities
 */
 
 #pragma once
-
-#ifndef _STRINGEX_H
-#define _STRINGEX_H
 
 #include <mbstring.h>	// _ismbcspace() et al
 // std string support
@@ -1144,4 +1134,4 @@ inline bool has_spaces(const wstring s)
 	}
 	return false ;
 }
-#endif
+
