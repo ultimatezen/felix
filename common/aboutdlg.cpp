@@ -6,6 +6,7 @@
 //#include "resource.h"
 
 #include "aboutdlg.h"
+#include "resizeable_dialog.h"
 
 
 
@@ -14,6 +15,9 @@ LRESULT CAboutDialog::OnSize( UINT type, CSize size )
 {
 	SENSE( "OnSize" ) ;
 
+	return resize_html_view_dialog(*this, type, size, IDC_ABOUT_MSG_BOX) ;
+
+/*
 	SetMsgHandled( FALSE ) ;
 
 	if(m_bGripper)
@@ -45,6 +49,7 @@ LRESULT CAboutDialog::OnSize( UINT type, CSize size )
 
 
 	return 0L ;
+	*/
 }
 
 LRESULT CAboutDialog::OnInitDialog()

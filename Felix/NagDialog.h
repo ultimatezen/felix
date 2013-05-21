@@ -2,12 +2,10 @@
 
 #include "resource.h"
 #include "HtmlView.h"			// CHtmlView
-
 #include "MessageMapDefines.h"	// atlcrack.h + custom message map defines
-
 #include "WindowExceptionHandler.h"
 
-#include "resource_string.h"
+
 
 /**
 	@class CNagDialog  
@@ -19,16 +17,22 @@ class CNagDialog
 	public CDialogResize< CNagDialog >, 
 	public CWindowExceptionHandler< CNagDialog >
 {
-	// view
+
 	html::CHtmlView	m_view ;
-	CString		m_nagPage ;
 
 public:
 	static const int IDD = IDD_NAG_BOX ;
+	CString		m_nagPage ;
+
 	DECLARE_SENSING_VAR ;
 
 	LRESULT OnInitDialog( );
 	LRESULT OnClose( WORD wID  );
+
+	void position_view(RECT &rect)
+	{
+		m_view.SetWindowPos(NULL, &rect, SWP_NOZORDER | SWP_NOACTIVATE);
+	}
 
 	CNagDialog( CString nagPage = _T("NAGPAGE.HTML") );
 	virtual ~CNagDialog();

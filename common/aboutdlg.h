@@ -1,9 +1,7 @@
 #pragma once
 
 #include "HtmlView.h"			// CHtmlView
-#include "atlcrack.h"			// message crackers
-#include "MessageMapDefines.h"	// more crackers
-#include "wingdi.h"
+#include "MessageMapDefines.h"	// atlcrack.h + custom message map defines
 #include "WindowExceptionHandler.h"
 
 /**
@@ -24,6 +22,13 @@ public:
 	CString m_aboutfile_name ;
 
 	DECLARE_SENSING_VAR ;
+
+
+	void position_view(RECT &rect)
+	{
+		m_view.SetWindowPos(NULL, &rect, SWP_NOZORDER | SWP_NOACTIVATE);
+	}
+
 
 	CAboutDialog(CString aboutfile_name=_T("")) : m_aboutfile_name(aboutfile_name)
 	{

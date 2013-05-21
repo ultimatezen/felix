@@ -5,6 +5,8 @@
 #include "StdAfx.h"
 #include "NagDialog.h"
 #include "InputKeyDlg.h"
+#include "resource_string.h"
+#include "resizeable_dialog.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -65,16 +67,12 @@ LRESULT CNagDialog::OnClose( WORD wID )
 	END_DLG ;
 }
 
-
-// Function name	: CNagDialog::OnSize
-// Description	    : 
-// Return type		: LRESULT 
-// Argument         :  UINT type
-// Argument         : CSize size
 LRESULT CNagDialog::OnSize( UINT type, CSize size )
 {
 	SENSE( "OnSize" ) ;
 
+	return resize_html_view_dialog(*this, type, size, IDC_NAG_MSG_BOX) ;
+/*
 	SetMsgHandled( FALSE ) ;
 
 	if(m_bGripper)
@@ -106,6 +104,7 @@ LRESULT CNagDialog::OnSize( UINT type, CSize size )
 	m_view.SetWindowPos(NULL, &rc, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	return 0L ;
+*/
 }
 
 
