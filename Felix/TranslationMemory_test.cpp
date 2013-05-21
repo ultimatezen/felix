@@ -14,7 +14,6 @@
 #include "memory_local.h"
 #include <boost/test/unit_test.hpp>
 #include "input_device_file.h"
-#include "amop/include/MockObject.h"
 
 BOOST_AUTO_TEST_SUITE( TestMemoryFunctions )
 

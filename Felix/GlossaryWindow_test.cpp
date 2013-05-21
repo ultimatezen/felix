@@ -5,7 +5,6 @@
 
 #ifdef UNIT_TEST
 
-#include "amop/include/MockObject.h"
 
 // test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )

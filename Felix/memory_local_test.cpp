@@ -7,7 +7,6 @@
 
 #include "MockListener.h"
 #include <boost/test/unit_test.hpp>
-#include <amop/include/MockObject.h>
 #include "input_device_fake.h"
 #include "mem_tests.h"
 

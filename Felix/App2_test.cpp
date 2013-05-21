@@ -7,8 +7,6 @@
 
 #ifdef UNIT_TEST
 
-#include "amop/include/MockObject.h"
-
 BOOST_AUTO_TEST_SUITE( TestApp2 )
 
 	using namespace mem_engine;
