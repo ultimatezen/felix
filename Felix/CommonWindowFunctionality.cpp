@@ -353,7 +353,7 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 		}
 		else
 		{
-			logging::log_error("Failed to instantiate dialog") ;
+			logging::log_error("Failed to instantiate dialog with id " + int2string(res_id)) ;
 			this->user_feedback(CString("Failed to instantiate dialog")) ;
 			return ;
 		}
@@ -373,9 +373,7 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 				GlobalFree(GlobalHandle(lpDialogTemplate));
 			}
 			UnlockResource(hResource);
-		}
-		if (hResource)
-		{
+			ATLASSERT(hResource) ;
 			FreeResource(hResource);
 		}
 	}

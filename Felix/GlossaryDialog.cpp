@@ -476,10 +476,6 @@ LRESULT CGlossaryDialog::on_edit_replace( )
 	return 0 ;
 }
 
-LRESULT CGlossaryDialog::on_delete( )
-{
-	return on_user_delete( 0 ) ;
-}
 
 // ===============================
 
@@ -2139,7 +2135,7 @@ LRESULT CGlossaryDialog::on_edit_edit()
 
 LRESULT CGlossaryDialog::on_edit_delete()
 {
-	return on_delete() ;
+	return on_user_delete( 0 ) ;
 }
 
 void CGlossaryDialog::set_bg_color_if_needed()

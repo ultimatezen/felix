@@ -277,10 +277,7 @@ namespace mem_engine
 				}
 				catch (...)
 				{
-					if (remrec)
-					{
-						delete remrec ;
-					}
+					delete remrec ;
 					throw ;				
 				}
 				return record_pointer(remrec) ;

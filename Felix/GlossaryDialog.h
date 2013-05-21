@@ -291,7 +291,6 @@ public:
 	LRESULT on_find( ) ;
 	LRESULT on_new_search( );
 	LRESULT on_edit_replace( ) ;
-	LRESULT on_delete( ) ;
 	LRESULT on_add( ) ;
 	LRESULT OnDestroy( ) ;
 
@@ -433,7 +432,6 @@ public:
 			CMD_HANDLER_EX_0(IDD_EDIT_ENTRY, on_edit_edit)
 			CMD_HANDLER_EX_0(ID_EDIT_DELETE, on_edit_delete)
 
-			CMD_HANDLER_EX_0(ID_EDIT_DELETE, on_delete )
 			CMD_HANDLER_EX_0(ID_EDIT_REPLACE, on_edit_replace )
 
 			CMD_HANDLER_EX_0(IDC_GLOSS_SIMPLE_VIEW, on_view_simple)

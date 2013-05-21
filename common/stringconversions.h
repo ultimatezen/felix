@@ -593,7 +593,7 @@ inline std::string escape_string( const std::string &str )
 
 		if ( the_char < 0x20 )
 			out += escape_char( the_char ) ;
-		else if ( 0x80 <= the_char && the_char <= 0xFF )
+		else if ( 0x80 <= the_char )
 			out += escape_char( the_char ) ;
 		else switch ( the_char )		
 		{

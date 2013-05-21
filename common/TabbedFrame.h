@@ -585,52 +585,51 @@ public:
 				if(cchWindowText > 0)
 				{
 					sWindowText = new TCHAR[cchWindowText + 1];
-					if(sWindowText != NULL)
+					ATLASSERT(sWindowText != NULL) ;
+
+					::GetWindowText(hWnd, sWindowText, cchWindowText+1);
+
+					HICON hIcon = NULL;
+					if(bUseIcon)
 					{
-						::GetWindowText(hWnd, sWindowText, cchWindowText+1);
-
-						HICON hIcon = NULL;
-						if(bUseIcon)
-						{
-							if(hIcon == NULL)
-							{
-								hIcon = (HICON) ::SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
-							}
-							if(hIcon == NULL)
-							{
-// need conditional code because types don't match in winuser.h
-#ifdef _WIN64
-								hIcon = (HICON)::GetClassLongPtr(hWnd, GCLP_HICONSM);
-#else
-								hIcon = (HICON)LongToHandle(::GetClassLongPtr(hWnd, GCLP_HICONSM));
-#endif
-							}
-							if(hIcon == NULL)
-							{
-								hIcon = (HICON) ::SendMessage(hWnd, WM_GETICON, ICON_BIG, 0);
-							}
-							if(hIcon == NULL)
-							{
-// need conditional code because types don't match in winuser.h
-#ifdef _WIN64
-								hIcon = (HICON)::GetClassLongPtr(hWnd, GCLP_HICON);
-#else
-								hIcon = (HICON)LongToHandle(::GetClassLongPtr(hWnd, GCLP_HICON));
-#endif
-							}
-						}
-
 						if(hIcon == NULL)
 						{
-							nTab = AddTab(hWnd, sWindowText);
+							hIcon = (HICON) ::SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
 						}
-						else
+						if(hIcon == NULL)
 						{
-							nTab = AddTabWithIcon(hWnd, sWindowText, hIcon);
+// need conditional code because types don't match in winuser.h
+#ifdef _WIN64
+							hIcon = (HICON)::GetClassLongPtr(hWnd, GCLP_HICONSM);
+#else
+							hIcon = (HICON)LongToHandle(::GetClassLongPtr(hWnd, GCLP_HICONSM));
+#endif
 						}
-
-						delete [] sWindowText;
+						if(hIcon == NULL)
+						{
+							hIcon = (HICON) ::SendMessage(hWnd, WM_GETICON, ICON_BIG, 0);
+						}
+						if(hIcon == NULL)
+						{
+// need conditional code because types don't match in winuser.h
+#ifdef _WIN64
+							hIcon = (HICON)::GetClassLongPtr(hWnd, GCLP_HICON);
+#else
+							hIcon = (HICON)LongToHandle(::GetClassLongPtr(hWnd, GCLP_HICON));
+#endif
+						}
 					}
+
+					if(hIcon == NULL)
+					{
+						nTab = AddTab(hWnd, sWindowText);
+					}
+					else
+					{
+						nTab = AddTabWithIcon(hWnd, sWindowText, hIcon);
+					}
+
+					delete [] sWindowText;
 				}
 
 				if(nTab < 0)
@@ -708,20 +707,18 @@ public:
 				if(cchWindowText > 0)
 				{
 					sWindowText = new TCHAR[cchWindowText + 1];
-					if(sWindowText != NULL)
+					ATLASSERT(sWindowText != NULL) ;
+
+					::GetWindowText(hWnd, sWindowText, cchWindowText+1);
+
+					if(sCurrentTabText != sWindowText)
 					{
-						::GetWindowText(hWnd, sWindowText, cchWindowText+1);
-
-						if(sWindowText != NULL &&
-							sCurrentTabText != sWindowText)
-						{
-							bSuccess = pItem->SetText(sWindowText);
-							m_TabCtrl.UpdateLayout();
-							m_TabCtrl.Invalidate();
-						}
-
-						delete [] sWindowText;
+						bSuccess = pItem->SetText(sWindowText);
+						m_TabCtrl.UpdateLayout();
+						m_TabCtrl.Invalidate();
 					}
+
+					delete [] sWindowText;
 				}
 			}
 		}

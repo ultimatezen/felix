@@ -360,7 +360,6 @@ inline bool windows_ui::get_open_files( file::OpenDlgList &flist, LPCTSTR prompt
 	dialog.m_ofn.lpstrFilter = 	filter  ;
 	// default extension
 	dialog.m_ofn.lpstrDefExt = def_ext  ;
-	dialog.m_ofn.lpstrFile  ;
 
 #ifndef UNIT_TEST
 	if ( dialog.DoModal(m_parent_hwnd) == IDCANCEL)

@@ -125,6 +125,7 @@ public:
 	// Argument         : LPCWSTR s
 	inline const char *to_cstr( LPCWSTR s )
 	{
+		if ( s == NULL ) return "" ;
 		return ATL::CW2A( s ) ;
 	}
 
