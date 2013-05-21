@@ -61,3 +61,6 @@ Felix/ComMemory_test.cpp.PVS-Studio.cfg
 Felix/ManagerViewActions_test.cpp.PVS-Studio.cfg
 Felix/ManagerViewEdit_test.cpp.PVS-Studio.cfg
 Felix/RegisterGlossDlg_test.cpp.PVS-Studio.cfg
+*cl.cfg
+*PVS-Studio.cfg
+*.cl.cmd
