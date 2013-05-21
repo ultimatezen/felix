@@ -56,3 +56,8 @@ Felix/Felix120602.vsp
 doxy_docs/*
 Felix/html/.idea/*
 Felix.smproj
+Felix/ComMemory_test.cpp.PVS-Studio.cfg
+*.i
+Felix/ManagerViewActions_test.cpp.PVS-Studio.cfg
+Felix/ManagerViewEdit_test.cpp.PVS-Studio.cfg
+Felix/RegisterGlossDlg_test.cpp.PVS-Studio.cfg
