@@ -45,7 +45,7 @@ wstring trim_text(const wstring before)
 	{
 		if (text[i] == L'>')
 		{
-			while (i>=0 && text[i] != L'<')
+			while (text[i] != L'<')
 			{
 				--i ;
 			}
