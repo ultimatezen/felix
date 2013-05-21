@@ -11,6 +11,7 @@
 #include "resource_string.h"
 #include "xpmenu/Tools.h"
 #include "logging.h"
+#include "resizeable_dialog.h"
 
 // Serious DRY violation here...
 static const wstring red_match			= L"#f80000" ;
@@ -90,25 +91,12 @@ LRESULT CMinViewDlg::OnRestoreFullView( )
 /////////////////////////////////////////////////////////////////////////////////////////
 LRESULT CMinViewDlg::OnSize( UINT type, CSize size )
 {
-	BANNER( "CAboutDlg::OnSize" ) ;
+	SENSE( "CMinViewDlg::OnSize" ) ;
 	
-	SetMsgHandled( FALSE ) ;
-	
-	if(m_bGripper)
+	if (! handle_common_resize_tasks(*this, type, size))
 	{
-		CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
-		if(type == SIZE_MAXIMIZED)
-			wndGripper.ShowWindow(SW_HIDE);
-		else if(type == SIZE_RESTORED)
-			wndGripper.ShowWindow(SW_SHOW);
-	}
-	if(type != SIZE_MINIMIZED)
-	{
-		DlgResize_UpdateLayout(size.cx , size.cy );
-	}
-	
-	if ( type == SIZE_MINIMIZED )
 		return 0L ;
+	}
 	
 	// get its position
 	RECT window_rc ;

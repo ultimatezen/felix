@@ -20,6 +20,7 @@
 #include "Drop.h"
 #include "system_message.h"
 #include "input_device_file.h"
+#include "resizeable_dialog.h"
 
 using namespace html ;
 using namespace mem_engine ;
@@ -118,22 +119,13 @@ CMemoryManagerDlg::~CMemoryManagerDlg()
 
 LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 {
-	SetMsgHandled( FALSE ) ;
-	
-	if(m_bGripper)
-	{
-		sizeGripper(type);
-	}
-	
-	if(type != SIZE_MINIMIZED)
-	{
-		DlgResize_UpdateLayout(size.cx , size.cy );
-	}
-	else
+	SENSE("CMemoryManagerDlg::OnSize") ;
+
+	if (! handle_common_resize_tasks(*this, type, size))
 	{
 		return 0L ;
 	}
-	
+
 	// get its position
 	sizeInfoBox();
 
@@ -156,19 +148,6 @@ LRESULT CMemoryManagerDlg::OnSize(UINT type, CSize size)
 	m_list_box.SetWindowPos(NULL, &listrect, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	return 0L ;
-}
-
-void CMemoryManagerDlg::sizeGripper(UINT type)
-{
-	CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
-	if(type == SIZE_MAXIMIZED)
-	{
-		wndGripper.ShowWindow(SW_HIDE);
-	}
-	else if(type == SIZE_RESTORED)
-	{
-		wndGripper.ShowWindow(SW_SHOW);
-	}
 }
 
 void CMemoryManagerDlg::sizeInfoBox()

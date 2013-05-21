@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "EditTransRecordDialogRegGloss.h"
+#include "resizeable_dialog.h"
 
 using namespace except ;
 using namespace mem_engine ;
@@ -83,24 +84,11 @@ LRESULT CEditTransRecordDialogRegGloss::OnAddString()
 
 LRESULT CEditTransRecordDialogRegGloss::OnSize( UINT type, CSize size )
 {
-	BANNER("CAboutDlg::OnSize") ;
+	SENSE("CEditTransRecordDialogRegGloss::OnSize") ;
 
 	SetMsgHandled(FALSE) ;
 
-	if(m_bGripper)
-	{
-		CWindow wndGripper = GetDlgItem(ATL_IDW_STATUS_BAR);
-		if(type == SIZE_MAXIMIZED)
-			wndGripper.ShowWindow(SW_HIDE);
-		else if(type == SIZE_RESTORED)
-			wndGripper.ShowWindow(SW_SHOW);
-	}
-
-	if(type != SIZE_MINIMIZED)
-	{
-		DlgResize_UpdateLayout(size.cx , size.cy);
-	}
-	else
+	if (! handle_common_resize_tasks(*this, type, size))
 	{
 		return 0L ;
 	}

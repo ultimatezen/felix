@@ -119,7 +119,6 @@ public:
 
 	LRESULT OnSize( UINT type, CSize size );
 	void sizeInfoBox();
-	void sizeGripper(UINT type);
 
 	LRESULT OnAdvanced() ;
 
