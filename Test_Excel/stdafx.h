@@ -152,6 +152,7 @@ extern CAddInModule _AtlModule;
 #include "File.h"
 #include "CStringInterface.h"
 #include "resource_string.h"
+#include "stringconversions.h"
 
 #include <map>
 

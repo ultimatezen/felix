@@ -2,6 +2,7 @@
 #include "menu_manip.h"
 #include "DispatchWrapper.h"
 #include "logging.h"
+#include "stringconversions.h"
 
 using namespace except ;
 

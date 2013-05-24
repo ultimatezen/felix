@@ -11,6 +11,7 @@
 #include "resource.h"
 #include "file.h"
 #include "AppStringRecordParser.h"
+#include "stringconversions.h"
 
 /*!
  * CTOR with language ID.
