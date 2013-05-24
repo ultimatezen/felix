@@ -6,6 +6,16 @@
 #include "StringConversions.h"
 #include "ColorRef.h"
 
+const static int DEFAULT_HTML_FONT_SIZE = 4 ;
+
+unsigned int clamp_html_size( unsigned int html_size ) ;
+
+unsigned int get_num_fonts();
+
+unsigned int html_size_to_point_size( unsigned int html_size ) ;
+unsigned int point_size_to_html_size( unsigned int point_size ) ;
+unsigned int get_font_point_diff( unsigned int point_size, size_t i );
+
 class html_processing
 {
 public:
@@ -36,12 +46,12 @@ private:
 	typedef std::stack< bool >				bold_stack ;
 	typedef std::stack< bool >				italic_stack ;
 	typedef std::stack< bool >				underline_stack ;
-	typedef std::stack< int >				font_size_stack ;
+	typedef std::stack< unsigned int >		font_size_stack ;
 	typedef std::stack< COLORREF >			color_stack ;
 	typedef std::stack< JUSTIFICATION >		just_stack ;
 	typedef std::stack< bool >				subscript_stack ;
 	typedef std::stack< bool >				superscript_stack ;
-	typedef std::stack< int >				value_pop_stack ;
+	typedef std::stack< unsigned int >		value_pop_stack ;
 	
 	bold_stack			m_bold ;
 	italic_stack		m_italic ;
@@ -130,8 +140,6 @@ public:
 
 	VERT_ALIGNMENT get_v_align() 
 	{ 
-		ATLASSERT( m_subscript.empty() == false || m_superscript.empty() == false ) ;
-
 		if ( m_subscript.empty() == false )
 		{
 			if ( m_subscript.top() )
@@ -151,18 +159,11 @@ public:
 		return VA_BASELINE ; 
 	}
 
-	int get_font_size() 
-	{ 
-		ATLASSERT( m_font_size.empty() == false ) ;
-		return m_font_size.top() ; 
-	}
-	
-	int font_size_in_points();
-
-	int html_size_to_point_size( int html_size ) ;
-	int point_size_to_html_size( int point_size ) ;
 
 	void restore_original_states()  ;
+	unsigned int get_font_size() ;
+
+	unsigned int font_size_in_points();
 
 	html_processing() :
 		m_is_fore_color_specified ( false ),
@@ -172,7 +173,8 @@ public:
 		m_is_underline_specified ( false )
 	{}
 
-protected:
+public:
+
 
 	enum  
 	{ 
@@ -220,7 +222,7 @@ protected:
 	void push_back_color( CColorRef setting = CColorRef() )  ;
 	// initialize to empty string by default (means use current font)
 	void push_font_face( const wstring &setting = wstring() )  ;
-	void push_font_size( int setting = 4 )  ;
+	void push_font_size( unsigned int setting = DEFAULT_HTML_FONT_SIZE )  ;
 	void push_font_size( const wstring &setting )  ;
 
 	void push_subscript( bool setting = false ) ;
@@ -238,7 +240,7 @@ protected:
 	void pop_back_color( ) ;
 	void pop_font_face( ) ;
 	void pop_font_size( )  ;
-	void pop_values( int values ) ;
 	void pop_subscript() ;
 	void pop_superscript() ;
+	void pop_values( unsigned int values ) ;
 };

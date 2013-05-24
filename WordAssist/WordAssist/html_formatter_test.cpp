@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_SUITE( test_html_formatter_formatting )
 
 		formatter.set_size( 12 ) ;
 
-		BOOST_CHECK( formatter.get_font_size() == formatter.point_size_to_html_size( 12 ) ) ;
+		BOOST_CHECK( formatter.get_font_size() == point_size_to_html_size( 12 ) ) ;
 		BOOST_CHECK ( formatter.is_font_size_specified() == true ) ; 
 	}
 

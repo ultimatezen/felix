@@ -119,7 +119,7 @@ void word_writer::restore_formatting_values()
 {
 	if ( formatting_enabled() ) 
 	{
-		restore_original_states() ;
+		m_parser.restore_original_states() ;
 		
 		WordRange word_range = m_selection.get_range() ;
 		
@@ -134,7 +134,7 @@ void word_writer::apply_formatting(WordFont &font)
 	// bold
 	if ( m_write_font_bold ) 
 	{
-		if ( get_bold() )
+		if ( m_parser.get_bold() )
 		{
 			font.put_bold_on() ;
 		}
@@ -147,7 +147,7 @@ void word_writer::apply_formatting(WordFont &font)
 	// italic
 	if ( m_write_font_italic )
 	{
-		if ( get_italic() )
+		if ( m_parser.get_italic() )
 		{
 			font.put_italic_on() ;
 		}
@@ -160,7 +160,7 @@ void word_writer::apply_formatting(WordFont &font)
 	// underline
 	if ( m_write_font_underline )
 	{
-		if ( get_underline() )
+		if ( m_parser.get_underline() )
 		{
 			font.put_underline_on() ;
 		}
@@ -173,21 +173,21 @@ void word_writer::apply_formatting(WordFont &font)
 	// fore color
 	if ( m_write_font_color )
 	{
-		COLORREF color = get_fore_color() ;
+		COLORREF color = m_parser.get_fore_color() ;
 		font.set_rgb_color( color ) ;
 	}
 
 	// subscript/superscript
 	if ( m_write_font_super_sub )
 	{
-		VERT_ALIGNMENT valign = get_v_align() ;
+		html_processing::VERT_ALIGNMENT valign = m_parser.get_v_align() ;
 		font.set_v_align( valign ) ;
 	}
 
 	// font face
 	if ( m_write_font_face )
 	{
-		wstring font_face = get_font_face() ;
+		wstring font_face = m_parser.get_font_face() ;
 		wstring font_label( font_face ) ;
 		font.set_face( font_label ) ;
 	}
@@ -217,9 +217,9 @@ void word_writer::default_formatting_for_selection()
 	WordFont font = word_range.get_font() ;
 	
 	// set default values
-	init_bold( font.is_bold_on() ) ;
-	init_italic( font.is_italic_on() ) ;
-	init_underline( font.is_underline_on() ) ;
-	init_fore_color( CColorRef( font.get_rgb_color() ) ) ;
-	init_font_face( wstring( font.get_face() ) ) ;
+	m_parser.init_bold( font.is_bold_on() ) ;
+	m_parser.init_italic( font.is_italic_on() ) ;
+	m_parser.init_underline( font.is_underline_on() ) ;
+	m_parser.init_fore_color( CColorRef( font.get_rgb_color() ) ) ;
+	m_parser.init_font_face( wstring( font.get_face() ) ) ;
 }

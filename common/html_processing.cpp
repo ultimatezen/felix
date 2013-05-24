@@ -12,8 +12,59 @@
 #include "html_processing.h"
 
 // these are the font sizes with the 7 HTML font size settings (1-7)
-const static int font_sizes[] = 
-{ 8, 10, 12, 14, 18, 24, 36 } ;
+const static unsigned int font_sizes[] = 
+{ 8u, 10u, 12u, 14u, 18u, 24u, 36u } ;
+
+
+
+unsigned int html_size_to_point_size( unsigned int html_size )
+{
+	html_size = clamp_html_size(html_size);
+
+	return font_sizes[html_size-1] ;
+}
+
+unsigned int clamp_html_size( unsigned int html_size )
+{
+	if (html_size == 0)
+	{
+		return 1 ;
+	}
+	if (html_size > get_num_fonts())
+	{
+		return get_num_fonts() ;
+	}	
+	return html_size;
+}
+
+unsigned int get_num_fonts()
+{
+	return sizeof( font_sizes ) / sizeof( font_sizes[0] );
+}
+
+unsigned int point_size_to_html_size( unsigned int point_size ) 
+{
+	unsigned int min_diff = get_font_point_diff(point_size, 0) ;
+
+	unsigned int min_index = 0 ;
+	unsigned int num_fonts = get_num_fonts() ;
+	for ( size_t i = 1 ; i < num_fonts ; ++i )
+	{
+		unsigned int this_diff = get_font_point_diff(point_size, i) ;
+		if ( this_diff < min_diff )
+		{
+			min_index = i ;
+			min_diff = this_diff ;
+		}
+	}
+
+	return min_index + 1 ;
+}
+
+unsigned int get_font_point_diff( unsigned int point_size, size_t i )
+{
+	return abs( ( static_cast<int>(point_size) - static_cast<int>(font_sizes[i]) ) );
+}
 
 // =====================
 // state initialization
@@ -181,7 +232,7 @@ void html_processing::restore_original_states()
 	}
 }
 
-void html_processing::pop_values( int values )
+void html_processing::pop_values( unsigned int values )
 {
 	if( values & POP_FACE ) 
 		pop_font_face() ;
@@ -314,7 +365,7 @@ void html_processing::push_font_face( const wstring &setting /* = L"MS UI Gothic
 {
 	m_font_face.push( setting ) ;
 }
-void html_processing::push_font_size( int setting /* = 4 */ ) 
+void html_processing::push_font_size( unsigned int setting /* = 4 */ ) 
 {
 	m_font_size.push( setting ) ;
 }
@@ -336,41 +387,9 @@ void html_processing::push_superscript( bool setting /* = false */ )
 // public interface stuff
 // =====================
 
-int html_processing::font_size_in_points()
-{
-	int html_font_size = get_font_size() ;
 
-	return html_size_to_point_size( html_font_size ) ;
-}
 
-int html_processing::html_size_to_point_size( int html_size )
-{
-	ATLASSERT( 0 < html_size && html_size <= 7 ) ;
-	
-	if( 0 < html_size && html_size <= 7 )
-		return font_sizes[html_size] ;
-	
-	return 12 ; // default!
-}
 
-int html_processing::point_size_to_html_size( int point_size ) 
-{
-	int min_diff = abs( ( point_size - font_sizes[0] ) ) ;
-	
-	int min_index = 0 ;
-	int num_fonts = sizeof( font_sizes ) / sizeof( font_sizes[0] ) ;
-	for ( int i = 1 ; i < num_fonts ; ++i )
-	{
-		int this_diff = abs( ( point_size - font_sizes[i] ) ) ;
-		if ( this_diff < min_diff )
-		{
-			min_index = i ;
-			min_diff = this_diff ;
-		}
-	}
-	
-	return min_index + 1 ;
-}
 
 bool html_processing::is_fore_color_specified()
 {
@@ -408,4 +427,21 @@ void html_processing::init_state()
 	init_font_size() ;
 	init_justification() ;
 	init_v_alignment() ;
+}
+
+unsigned int html_processing::get_font_size()
+{
+	ATLASSERT( m_font_size.empty() == false ) ;
+	if (m_font_size.empty())
+	{
+		return font_sizes[DEFAULT_HTML_FONT_SIZE] ;
+	}
+	return m_font_size.top() ;
+}
+
+unsigned int html_processing::font_size_in_points()
+{
+	unsigned int html_font_size = get_font_size() ;
+
+	return html_size_to_point_size( html_font_size ) ;
 }

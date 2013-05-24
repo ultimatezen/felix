@@ -317,7 +317,7 @@ void html_formatter::set_size( const int font_size )
 {
 	m_is_font_size_specified = true ;
 
-	int html_font_size = point_size_to_html_size( font_size ) ;
+	unsigned int html_font_size = point_size_to_html_size( font_size ) ;
 	
 	if ( get_font_size() == html_font_size ) 
 	{
@@ -327,12 +327,6 @@ void html_formatter::set_size( const int font_size )
 	flush_buffer() ;
 	
 	unwind_stack_until( TAG_TYPE_SIZE ) ;
-
-	if ( font_size == -1 )
-	{
-		remove_from_tag_buffer( TAG_TYPE_SIZE ) ;
-		return ;
-	}
 
 	push_font_size( html_font_size ) ;
 

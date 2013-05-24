@@ -9,20 +9,18 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "html_processing.h"
-// #include "HtmlDocument.h"
+#include "html_parser.h"
 
-class html_writer : public html_processing 
+class html_writer : public writer_interface
 {
 public:
-	
-private:
-	textstream_reader< wchar_t > m_reader ;
+
+	html_parser m_parser ;
 	
 public:
 
 	// construction/destruction
-	html_writer() 
+	html_writer() : m_parser(this)
 	{
 		init_state() ;
 	}
@@ -32,26 +30,17 @@ public:
 	// pure virtual functions
 	// =====================
 
-	virtual void write_text( const wstring &text ) = 0 ;
-	virtual void apply_linebreak() = 0 ;
-	virtual void apply_paragraph() = 0 ;
-
 	// =====================
 	// base functions
 	// =====================
 
 	void write_html( wstring html_text ) ;
 
-
 private:
-
-	void parse_text()  ;
-	void parse_tag() ;
-	void pop_tag( const wstring &tag ) ;
-	void parse_font( const wstring &attributes )  ;
-	void parse_span( const wstring &attributes )  ;
-	void parse_paragraph( const wstring &attributes )  ;
-	bool parse_attribute( textstream_reader<wchar_t> &reader, wstring &key, wstring &val ) ;
+	void init_state()
+	{
+		m_parser.init_state() ;
+	}
 
 };
 
