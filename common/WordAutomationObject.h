@@ -50,6 +50,26 @@ typedef MSWord::BookmarksPtr				word_bkms_ptr ;
 typedef MSWord::BookmarkPtr					word_bkm_ptr ;
 typedef MSWord::_DocumentPtr				word_doc_ptr ;
 
+/** Converts Word-style Unicode symbols into actual Unicode symbols */
+class symbol_converter
+{
+	typedef std::map< long, wchar_t > map_type ;
+
+	map_type m_symbols ;
+
+public:
+	symbol_converter();
+
+	/** converts a Word-style symbol.
+	charcode is the code retrieved from the InsertSymbol dialog box in Word
+	@return wchar_t the Unicode character. 
+	@param charcode The code from Word. 
+	*/
+	wchar_t convert_symbol( const long charcode );
+};
+
+wchar_t symbol2unicode( _variant_t &unicode_symbol ) ;
+
 template < class object_type, class member_type >
 class WordObject 
 {
