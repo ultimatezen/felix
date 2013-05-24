@@ -70,39 +70,27 @@
     <Filter Include="Header Files\Lua">
       <UniqueIdentifier>{5834b75c-6c06-4bd7-b4d5-9380a037c284}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\dialogs">
+      <UniqueIdentifier>{1b133fea-d0ac-4d76-879d-b522136ba0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\COM Servers">
+      <UniqueIdentifier>{21b7a93b-9040-4f1e-b418-5288e3865866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{0c9ca1d0-8b5c-4c46-881c-0e67628e6423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\COM Servers">
+      <UniqueIdentifier>{3d341d30-f9be-4152-8194-d68a4a3b04a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AdvancedMemMgrDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="App2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="charset_info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\common\ColorRef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ComMemory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CommonWindowFunctionality.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComRecord.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComRecords.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConcordanceDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConnectionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DemoException.cpp">
@@ -118,18 +106,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Drop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EditModeFindDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialogModal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialogRegGloss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="element_wrapper.cpp">
@@ -156,9 +132,6 @@
     <ClCompile Include="FelixMemDocUIHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FindDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="font_tabulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,19 +153,10 @@
     <ClCompile Include="..\common\HtmlView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImportDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImportMultitermFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\common\input_device_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputKeyDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputSymbolDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LanguageHolder.cpp">
@@ -222,12 +186,6 @@
     <ClCompile Include="matcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Memories.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoryManagerDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -235,12 +193,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\common\MultiLanguage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MultitermConversionDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NagDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NavUrl.cpp">
@@ -318,9 +270,6 @@
     <ClCompile Include="..\common\xpmenu\ToolBarXP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserStringDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="view_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -328,9 +277,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WebPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zoom_dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AdvancedMemMgrDlg_test.cpp">
@@ -834,9 +780,6 @@
     <ClCompile Include="TranslationMemory_test.cpp">
       <Filter>Source Files\mem_engine</Filter>
     </ClCompile>
-    <ClCompile Include="TMXImportDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="revertible_action.cpp">
       <Filter>Source Files\undoable_actions</Filter>
     </ClCompile>
@@ -853,9 +796,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\common\DispatchWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\aboutdlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QCFormParser.cpp">
@@ -943,9 +883,6 @@
       <Filter>Source Files\import_export</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowsExceptionHandler_test.cpp">
@@ -1056,6 +993,81 @@
     <ClCompile Include="..\common\FileOpHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\aboutdlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedMemMgrDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="App2.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemory.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecord.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecords.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcordanceDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModeFindDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogModal.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogRegGloss.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FindDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSymbolDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKeyDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManagerDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Memories.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="NagDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MultitermConversionDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXImportDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="zoom_dialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="UserStringDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1124,24 +1136,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_IApp2Events_CP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="_IRecordEvents_CP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\aboutdlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AdvancedMemMgrDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="App2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ArmadilloStuff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1163,34 +1157,10 @@
     <ClInclude Include="..\common\ColorRef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="com2stl_coll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComMemory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CommonWindowFunctionality.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComRecord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComRecords.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\ComUtilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConcordanceDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectionDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cpptempl\cpptempl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRecordLabelPickerDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\CStringInterface.h">
@@ -1215,21 +1185,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Drop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditModeFindDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditTransRecordDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditTransRecordDialogCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditTransRecordDialogModal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EditTransRecordDialogRegGloss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="element_wrapper.h">
@@ -1283,9 +1238,6 @@
     <ClInclude Include="FileOpHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FindDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="font_tabulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1316,9 +1268,6 @@
     <ClInclude Include="..\common\HtmlView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImportDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ImportMultitermFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1326,12 +1275,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\input_device_file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputKeyDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSymbolDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LanguageHolder.h">
@@ -1373,9 +1316,6 @@
     <ClInclude Include="Memories.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryManagerDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1383,9 +1323,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\messagemapdefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MinViewDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\miscwrappers.h">
@@ -1397,9 +1334,6 @@
     <ClInclude Include="..\common\MultiLanguage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MultitermConversionDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MyPaneContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1407,9 +1341,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MySplitterWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NagDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NavInterface.h">
@@ -1436,22 +1367,13 @@
     <ClInclude Include="ProgressListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PropertiesDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\pugxml\src\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\pugxml\src\pugixml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QueryMergeDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\RegEx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegisterGlossDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\RegistryStuff.h">
@@ -1655,12 +1577,6 @@
     <ClInclude Include="export_tabbed_text.h">
       <Filter>Header Files\import_export</Filter>
     </ClInclude>
-    <ClInclude Include="TMXImportDlg.h">
-      <Filter>Header Files\import_export</Filter>
-    </ClInclude>
-    <ClInclude Include="TmxImportLangsDlg.h">
-      <Filter>Header Files\import_export</Filter>
-    </ClInclude>
     <ClInclude Include="TMXReader.h">
       <Filter>Header Files\import_export</Filter>
     </ClInclude>
@@ -1808,6 +1724,117 @@
     <ClInclude Include="..\..\lua-5.2.2\src\lua.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="menu_helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dotnettabctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ShellCtrls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\config_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedMemMgrDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="NagDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\aboutdlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MinViewDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcordanceDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="CRecordLabelPickerDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditModeFindDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogCommon.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogModal.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogRegGloss.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="RegisterGlossDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManagerDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MultitermConversionDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryMergeDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSymbolDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="FindDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKeyDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertiesDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="_IApp2Events_CP.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="_IRecordEvents_CP.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="App2.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="com2stl_coll.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComMemory.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComRecord.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComRecords.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ComUtilities.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="TmxImportLangsDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXImportDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\lua-5.2.2\src\lapi.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
@@ -1880,23 +1907,11 @@
     <ClInclude Include="..\..\lua-5.2.2\src\lzio.h">
       <Filter>Header Files\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="menu_helper.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\LuaBridge\Source\LuaBridge\LuaBridge.h">
+      <Filter>Header Files\Lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h">
       <Filter>Header Files\Lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\dotnettabctrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\ShellCtrls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\config_file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\xml_writer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

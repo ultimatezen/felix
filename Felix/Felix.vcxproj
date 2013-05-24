@@ -72,12 +72,12 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\luacom\src\library;D:\dev\cpp\luacom\include;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Release;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\luacom\src\library;D:\dev\cpp\luacom\include;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\luacom\src\library;D:\dev\cpp\luacom\include;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <PreBuildEvent>
@@ -1162,6 +1162,7 @@ echo Protection complete!
     <ClInclude Include="..\..\lua-5.2.2\src\lundump.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lvm.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lzio.h" />
+    <ClInclude Include="..\..\LuaBridge\Source\LuaBridge\LuaBridge.h" />
     <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h" />
     <ClInclude Include="..\common\atlscintilla.h" />
     <ClInclude Include="..\common\config_file.h" />
