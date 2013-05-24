@@ -16,8 +16,8 @@ class CPowerPointInterface : public KeyTargetPpt
 	PowerPoint::_ApplicationPtr m_app ; 
 	long						m_queryStart ;
 	CShapeParser				m_shapeParser ;
-	CTextRangeParser			m_textRangeParser ;
 	app_state					*m_properties ;
+	CTextRangeParser			m_textRangeParser ;
 	Abbreviations				m_abbreviations ;
 
 public:
