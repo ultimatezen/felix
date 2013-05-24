@@ -37,7 +37,7 @@ CPropertiesDlgE::CPropertiesDlgE( const app_state &props ) :
 
 	app_state CPropertiesDlgE::get_properties()
 	{
-		_tcscpy_s(m_properties.m_segChars, m_segmentation_page.m_segChars) ;
+		_tcscpy_s(m_properties.m_data.m_segChars, m_segmentation_page.m_segChars) ;
 		return m_properties ;
 	}
 /*!
@@ -68,6 +68,6 @@ CPropertiesDlgJ::CPropertiesDlgJ( const app_state &props ) :
 
 	app_state CPropertiesDlgJ::get_properties()
 	{
-		_tcscpy_s(m_properties.m_segChars, m_segmentation_page.m_segChars) ;
+		_tcscpy_s(m_properties.m_data.m_segChars, m_segmentation_page.m_segChars) ;
 		return m_properties ;
 	}

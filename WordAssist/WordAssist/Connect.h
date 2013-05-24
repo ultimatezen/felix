@@ -486,7 +486,6 @@ public:
 	void gui_to_language( int string_offset );
 	void set_command_bar_text( command_button_ptr &button, int string_id );
 	void set_menu_text(  command_button_ptr &button, int string_id  );
-	void set_button_text( command_button_ptr &button, int string_id );
 
 	HRESULT unadvise_menu_items();
 	HRESULT advise_menu_items();
@@ -502,10 +501,7 @@ public:
 	// Get a keyboard listener of the desired type
 	CKeyboardListener* get_listener(int listener_type);
 
-	bool is_2007_version()
-	{
-		return CStringW(static_cast< LPCWSTR >( this->m_app->Version )) == L"12.0";
-	}
+	bool is_2007_version();
 	void on_toggle_shortcuts(BOOL shortcuts_enabled) ;
 private:
 

@@ -28,29 +28,7 @@ static const wchar_t maru_char_array[] =
 /*!
  * CTOR. Sets default values.
  */
-app_state::app_state() : 
-	m_toolbar_visible(TRUE),
-
-	m_preferred_gui_lang(PREF_LANG_ENGLISH),
-	m_classic_if(FALSE),
-
-	m_font_face(TRUE),
-	m_font_color(TRUE),
-	m_font_bold(TRUE),
-	m_font_italic(TRUE),
-	m_font_underline(TRUE),
-	m_font_super_sub(TRUE),
-
-	m_segmentation_type(SEG_TYPE_WORD_DOC),
-	m_skipNumbers(TRUE),
-	m_skipJ(NO_SKIP),
-	m_select_spaces(TRUE),
-
-	m_freshInstall(TRUE),
-
-	m_use_trans_hist(FALSE),
-	m_shortcuts_active(TRUE),
-	m_really_wants_no_delims(FALSE)
+app_state::app_state() 
 {
 	setDefaults() ;
 }
@@ -58,11 +36,11 @@ app_state::app_state() :
 void app_state::set_seg_defaults()
 {
 	// Segment-ending characters
-	ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
+	ZeroMemory(m_data.m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
 	CString segChars = CW2T( maru_char_array ) ;
 	// automatically calculates size of destination
-	_tcscpy_s( m_segChars, segChars ) ;
-	ATLASSERT( _tcslen( m_segChars) == static_cast<size_t>(segChars.GetLength())) ;
+	_tcscpy_s( m_data.m_segChars, segChars ) ;
+	ATLASSERT( _tcslen( m_data.m_segChars) == static_cast<size_t>(segChars.GetLength())) ;
 }
 
 /*!
@@ -70,12 +48,12 @@ void app_state::set_seg_defaults()
 */
 void app_state::setDefaults()
 {
-	m_toolbar_visible = TRUE ;
+	m_data.m_toolbar_visible = TRUE ;
 
 	set_seg_defaults() ;
 
-	ZeroMemory(m_manual_url, MANUAL_URL_SIZE  * sizeof(TCHAR)) ;
-	_tcscpy_s( m_manual_url, _T("http://felix-cat.com/media/manuals/felix/5.html") ) ;
+	ZeroMemory(m_data.m_manual_url, MANUAL_URL_SIZE  * sizeof(TCHAR)) ;
+	_tcscpy_s( m_data.m_manual_url, _T("http://felix-cat.com/media/manuals/felix/5.html") ) ;
 
 	// preferred GUI language
 	LANGID lid = ::GetUserDefaultLangID() ;
@@ -83,33 +61,33 @@ void app_state::setDefaults()
 
 	if ( preflang == LANG_JAPANESE )
 	{
-		m_preferred_gui_lang = PREF_LANG_JAPANESE ;
+		m_data.m_preferred_gui_lang = PREF_LANG_JAPANESE ;
 	}
 	else
 	{
-		m_preferred_gui_lang = PREF_LANG_ENGLISH ;
+		m_data.m_preferred_gui_lang = PREF_LANG_ENGLISH ;
 	}
 
-	m_classic_if = FALSE ;
+	m_data.m_classic_if = FALSE ;
 
-	m_font_face = TRUE ;
-	m_font_color = TRUE ;
-	m_font_bold = TRUE ;
-	m_font_italic = TRUE ;
-	m_font_underline = TRUE ;
-	m_font_super_sub = TRUE ;
+	m_data.m_font_face = TRUE ;
+	m_data.m_font_color = TRUE ;
+	m_data.m_font_bold = TRUE ;
+	m_data.m_font_italic = TRUE ;
+	m_data.m_font_underline = TRUE ;
+	m_data.m_font_super_sub = TRUE ;
 
-	m_segmentation_type = SEG_TYPE_WORD_DOC ;
-	m_skipNumbers = TRUE ;
-	m_skipJ = NO_SKIP ;
+	m_data.m_segmentation_type = SEG_TYPE_WORD_DOC ;
+	m_data.m_skipNumbers = TRUE ;
+	m_data.m_skipJ = NO_SKIP ;
 
-	m_freshInstall = TRUE ;
+	m_data.m_freshInstall = TRUE ;
 
-	m_select_spaces = TRUE ;
-	m_use_trans_hist = FALSE ;
-	m_shortcuts_active = TRUE ;
+	m_data.m_select_spaces = TRUE ;
+	m_data.m_use_trans_hist = FALSE ;
+	m_data.m_shortcuts_active = TRUE ;
 
-	m_raise_felix = FALSE ;
+	m_data.m_raise_felix = FALSE ;
 }
 
 /*!
@@ -136,29 +114,59 @@ app_state &app_state::operator=( const app_state &rhs )
 
 void app_state::_internal_copy ( const app_state &rhs )
 {
-	CopyMemory( this, &rhs, sizeof(app_state) ) ;
-	if (! rhs.m_segChars[0])
+	CopyMemory( &(this->m_data), &(rhs.m_data), sizeof(app_state_data) ) ;
+	if (! rhs.m_data.m_segChars[0])
 	{
-		if (m_really_wants_no_delims)
+		if (m_data.m_really_wants_no_delims)
 		{
-			ZeroMemory(m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
+			ZeroMemory(m_data.m_segChars, SEG_CHAR_SIZE  * sizeof(TCHAR)) ;
 		}
 	}
-	else if (CString(m_segChars) == _T("NONE"))
+	else if (CString(m_data.m_segChars) == _T("NONE"))
 	{
-		m_really_wants_no_delims = TRUE ;
-		m_segChars[0] = 0 ;
+		m_data.m_really_wants_no_delims = TRUE ;
+		m_data.m_segChars[0] = 0 ;
 	}
-	else if (CString(m_segChars) == _T("DEFAULT"))
+	else if (CString(m_data.m_segChars) == _T("DEFAULT"))
 	{
-		m_really_wants_no_delims = FALSE ;
+		m_data.m_really_wants_no_delims = FALSE ;
 		this->set_seg_defaults() ;
 	}
 	else
 	{
-		m_really_wants_no_delims = FALSE ;
-		_tcscpy_s( m_segChars, rhs.m_segChars ) ;
+		m_data.m_really_wants_no_delims = FALSE ;
+		_tcscpy_s( m_data.m_segChars, rhs.m_data.m_segChars ) ;
 	}
-	TRACE( m_segChars ) ;
+	TRACE( m_data.m_segChars ) ;
 }
 
+
+app_state::app_state_data::app_state_data(): 
+	m_toolbar_visible(TRUE),
+
+	m_preferred_gui_lang(PREF_LANG_ENGLISH),
+	m_classic_if(FALSE),
+
+	m_font_face(TRUE),
+	m_font_color(TRUE),
+	m_font_bold(TRUE),
+	m_font_italic(TRUE),
+	m_font_underline(TRUE),
+	m_font_super_sub(TRUE),
+
+	m_segmentation_type(SEG_TYPE_WORD_DOC),
+	m_skipNumbers(TRUE),
+	m_skipJ(NO_SKIP),
+	m_select_spaces(TRUE),
+
+	m_freshInstall(TRUE),
+
+	m_use_trans_hist(FALSE),
+	m_shortcuts_active(TRUE),
+	m_really_wants_no_delims(FALSE),
+
+	m_raise_felix(FALSE)
+{
+	ZeroMemory(m_segChars, SEG_CHAR_SIZE & sizeof(TCHAR)) ;
+	ZeroMemory(m_manual_url, MANUAL_URL_SIZE & sizeof(TCHAR)) ;
+}

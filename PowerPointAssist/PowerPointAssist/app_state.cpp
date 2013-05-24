@@ -44,7 +44,8 @@ app_state::app_data::app_data() :
 	m_freshInstall(TRUE),
 	m_select_spaces(TRUE),
 	m_navigation_type(NAV_TYPE_ASK),
-	m_shortcuts_active(TRUE)
+	m_shortcuts_active(TRUE),
+	m_raise_felix(FALSE)
 {
 	set_segchars_to_defaults() ;
 }

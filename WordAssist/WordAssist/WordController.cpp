@@ -54,7 +54,8 @@ WordController::WordController(LPCWSTR history_server) :
 	m_history_name(history_server),
 	m_trans_history(NULL),
 	m_app(NULL),
-	m_is_auto(false)
+	m_is_auto(false),
+	m_query_start(0)
 {
 	logging::log_debug("Initializing Word controller") ;
 	m_properties.read_from_registry() ;
@@ -66,7 +67,7 @@ WordController::WordController(LPCWSTR history_server) :
 		m_word2html->set_properties(&m_properties) ;
 	}
 
-	if (m_properties.m_use_trans_hist)
+	if (m_properties.get_use_trans_hist())
 	{
 		ensure_trans_history();
 	}
@@ -279,7 +280,7 @@ void WordController::dispose_trans_history()
 }
 void WordController::close_doc(IDispatch* doc)
 {
-	if (m_properties.m_use_trans_hist)
+	if (m_properties.get_use_trans_hist())
 	{
 		try
 		{
@@ -470,7 +471,7 @@ bool WordController::OnRestoreAction( bool as_plaintext )
 		}
 		else if (m_isAndSetAction)
 		{
-			if (m_properties.m_use_trans_hist)
+			if (m_properties.get_use_trans_hist())
 			{
 				m_word2html->set_plaintext(as_plaintext) ;
 				CComPtr<IDispatch> parser ;
@@ -546,7 +547,7 @@ bool WordController::OnGetAction( bool as_plaintext )
 		}
 		else if (m_isAndSetAction)
 		{
-			if (m_properties.m_use_trans_hist)
+			if (m_properties.get_use_trans_hist())
 			{
 				m_word2html->set_plaintext(as_plaintext) ;
 				CComPtr<IDispatch> parser ;
@@ -602,7 +603,7 @@ bool WordController::OnSetAction( bool as_plaintext )
 		Felix::IAppPtr app = getAssistant( ) ;
 		app->Trans = get_selection_text( as_plaintext ) ;
 
-		if (m_properties.m_use_trans_hist)
+		if (m_properties.get_use_trans_hist())
 		{
 			ensure_trans_history();
 			m_word2html->set_plaintext(as_plaintext) ;
@@ -1349,7 +1350,7 @@ bool WordController::OnLookupTransAction ( bool as_plaintext )
 		set_query_start( selection.get_start() );
 		ATLASSERT(get_query_start() >= 0) ; 
 
-		if (m_properties.m_use_trans_hist)
+		if (m_properties.get_use_trans_hist())
 		{
 			m_word2html->set_plaintext(as_plaintext) ;
 			CComPtr<IDispatch> parser ;
@@ -1499,7 +1500,7 @@ bool WordController::OnCorrectAction ( bool as_plaintext )
 			method_name = L"CorrectTransFixed" ;
 		}
 
-		if (m_properties.m_use_trans_hist)
+		if (m_properties.get_use_trans_hist())
 		{
 			m_word2html->set_plaintext(as_plaintext) ;
 			CComPtr<IDispatch> parser ;
@@ -2019,7 +2020,7 @@ void WordController::configure_writer_font_settings(word_writer& writer)
 bool WordController::OnTrans2MemAction(bool as_plaintext)
 {
 	m_is_auto = true ;
-	if (m_properties.m_use_trans_hist)
+	if (m_properties.get_use_trans_hist())
 	{
 		m_word2html->set_plaintext(as_plaintext) ;
 		IDispatch *parser ;
@@ -2133,7 +2134,7 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 // Tells our controller that a new document has opened
 void WordController::OnDocumentOpenAction(LPDISPATCH doc)
 {
-	if (m_properties.m_use_trans_hist)
+	if (m_properties.get_use_trans_hist())
 	{
 		try
 		{
@@ -2193,7 +2194,7 @@ Felix::IAppPtr WordController::getAssistant(void)
 		COM_ENFORCE(assistant.CreateInstance( L"Felix.App" ), _T("Failed to connect to Felix window") ) ;
 
 		assistant->Visible = VARIANT_TRUE ;
-		if (m_properties.m_raise_felix)
+		if (m_properties.get_raise_felix())
 		{
 			assistant->App2->MemoryWindow->Raise() ;
 		}

@@ -27,6 +27,8 @@ extern CAddInModule _AtlModule;
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include "input_device_file.h"
+#include "stringconversions.h"
+#include "LuaState.h"
 
 using namespace except ;
 
@@ -171,6 +173,15 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 	try 
 	{
 		logging::log_debug("OnConnection") ;
+
+		luawrapper::LuaState lua_state ;
+		if (! lua_state.is_valid())
+		{
+			logging::log_error("Failed to initialize Lua VM.") ;
+			logging::log_error(lua_state.get_string(-1)) ;
+		}
+
+
 		// store/restore the clipboard contents
 		CClipboardBackup cbb ;
 
@@ -206,9 +217,15 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 	CATCH_ALL( _T("En error occured loading WordAssist Addin (OnConnection)") ) ;
 
 
+
 	return S_OK;
 }
 
+
+bool CConnect::is_2007_version()
+{
+	return string2double(wstring(static_cast< LPCWSTR >( this->m_app->Version ))) >= 12.0f ;
+}
 
 void CConnect::load_keyboard_shortcuts()
 {
@@ -777,7 +794,7 @@ command_button_ptr CConnect::add_toolbar_item(office_cmd_bar_ctls &controls, int
 	// set style before setting bitmap
 	_HR_NULL( button->put_Style( MSOffice::msoButtonIcon ) ) ;
 
-	set_button_text( button, string_id ) ;
+	set_command_bar_text( button, string_id ) ;
 
 	CStringW tag_text ;
 	tag_text.LoadString( string_id ) ;
@@ -867,7 +884,7 @@ void CConnect::persist_app_state()
 	{
 		m_properties.set_toolbar_visible( TRUE ) ;
 	}
-	m_properties.m_freshInstall = FALSE ;
+	m_properties.set_is_not_fresh_install() ;
 
 	m_properties.write_to_registry() ;
 }
@@ -1026,29 +1043,26 @@ HRESULT CConnect::unadvise_menu_items()
 }
 
 
-void CConnect::set_button_text( command_button_ptr &button, int string_id )
-{
-	set_command_bar_text( button, string_id ) ;
-}
-
 void CConnect::set_menu_text(command_button_ptr &button, int string_id)
 {
 	set_command_bar_text( button, string_id ) ;
 
 	CStringW description_text ;
-	bool success = false ;
-	success = !! description_text.LoadString( string_id+1 ) ;
+	bool success = !! description_text.LoadString( string_id+1 ) ;
 	ATLASSERT( success ) ;
+	if (! success)
+	{
+		logging::log_error("Failed to load button text with id " + int2string(string_id)) ;
+		description_text = L"Button" ;
+	}
 
 	button->DescriptionText = (LPCWSTR)description_text ;
 }
 
 void CConnect::set_command_bar_text(command_button_ptr &button, int string_id)
 {
-	bool success = false ;
-
 	CStringW caption_text ;
-	success = !! caption_text.LoadString( string_id ) ;
+	bool success = !! caption_text.LoadString( string_id ) ;
 	ATLASSERT( success ) ;
 
 	button->Caption = (LPCWSTR)caption_text ;
@@ -1074,7 +1088,7 @@ void CConnect::gui_to_language(int lang_offset)
 	ATLASSERT( R2TS( IDS_MENU_HELP_J +1 ) == R2TS( IDS_MENU_HELP_TT_J) ) ;
 
 	int string_id = IDS_MENU_HELP + string_offset ;
-	set_button_text( m_button_help, string_id ) ;
+	set_command_bar_text( m_button_help, string_id ) ;
 
 	if ( m_controller->is_translation_mode() ) 
 	{
@@ -1095,30 +1109,30 @@ void CConnect::gui_to_language(int lang_offset)
 
 	string_id = IDS_MENU_GET + string_offset ;
 	set_menu_text( m_menu_get, string_id ) ;
-	set_button_text( m_button_get, string_id ) ;
+	set_command_bar_text( m_button_get, string_id ) ;
 
 	ATLASSERT( R2TS( IDS_MENU_GET_AND_NEXT +1 ) == R2TS( IDS_MENU_GET_AND_NEXT_TT) ) ;
 	ATLASSERT( R2TS( IDS_MENU_GET_AND_NEXT_J +1 ) == R2TS( IDS_MENU_GET_AND_NEXT_TT_J) ) ;
 
 	string_id = IDS_MENU_GET_AND_NEXT + string_offset ;
 	set_menu_text( m_menu_get_and_next, string_id ) ;
-	set_button_text( m_button_get_and_next, string_id ) ;
+	set_command_bar_text( m_button_get_and_next, string_id ) ;
 
 	string_id = IDS_MENU_REGISTER + string_offset ;
 	set_menu_text( m_menu_set, string_id ) ;
-	set_button_text( m_button_set, string_id ) ;
+	set_command_bar_text( m_button_set, string_id ) ;
 
 	string_id = IDS_MENU_SET_AND_NEXT + string_offset ;
 	set_menu_text( m_menu_set_and_next, string_id ) ;
-	set_button_text( m_button_set_and_next, string_id ) ;
+	set_command_bar_text( m_button_set_and_next, string_id ) ;
 
 	string_id = IDS_MENU_LOOKUP + string_offset ;
 	set_menu_text( m_menu_lookup, string_id ) ;
-	set_button_text( m_button_lookup, string_id ) ;
+	set_command_bar_text( m_button_lookup, string_id ) ;
 
 	string_id = IDS_MENU_LOOKUP_NEXT + string_offset ;
 	set_menu_text( m_menu_lookup_next, string_id ) ;
-	set_button_text( m_button_lookup_next, string_id ) ;
+	set_command_bar_text( m_button_lookup_next, string_id ) ;
 
 	string_id = IDS_MENU_EXTEND + string_offset ;
 	set_menu_text( m_menu_extend_lookup, string_id ) ;
@@ -1181,11 +1195,11 @@ void CConnect::gui_to_language(int lang_offset)
 
 	if ( m_properties.get_classic_if() ) 
 	{
-		set_button_text( m_button_switch_modes, string_id ) ;
+		set_command_bar_text( m_button_switch_modes, string_id ) ;
 	}
 	else
 	{
-		set_button_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + lang_offset ) ;
+		set_command_bar_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + lang_offset ) ;
 	}
 
 	if ( m_menu_lookup_trans && m_properties.get_classic_if() ) 
@@ -1368,25 +1382,25 @@ void CConnect::switch_to_classic_toolbar()
 
 	// add buttons
 	set_button_image( m_button_lookup, IDB_LOOKUP ) ;
-	set_button_text( m_button_lookup, IDS_MENU_LOOKUP + string_offset ) ;
+	set_command_bar_text( m_button_lookup, IDS_MENU_LOOKUP + string_offset ) ;
 
 	set_button_image( m_button_lookup_next, IDB_LOOKUP_NEXT ) ;
-	set_button_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
 
 	set_button_image( m_button_get, IDB_GET ) ;
-	set_button_text( m_button_get, IDS_MENU_GET + string_offset ) ;
+	set_command_bar_text( m_button_get, IDS_MENU_GET + string_offset ) ;
 
 	set_button_image( m_button_get_and_next, IDB_GET_AND_NEXT ) ;
-	set_button_text( m_button_get_and_next, IDS_MENU_GET_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_get_and_next, IDS_MENU_GET_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_set, IDB_SET ) ;
-	set_button_text( m_button_set, IDS_MENU_REGISTER + string_offset ) ;
+	set_command_bar_text( m_button_set, IDS_MENU_REGISTER + string_offset ) ;
 
 	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
-	set_button_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_switch_modes, IDB_GLOSS_N ) ;
-	set_button_text( m_button_switch_modes, IDS_MENU_GLOSS_N + string_offset ) ;
+	set_command_bar_text( m_button_switch_modes, IDS_MENU_GLOSS_N + string_offset ) ;
 
 }
 
@@ -1403,25 +1417,25 @@ void CConnect::switch_to_translation_toolbar()
 
 	// add buttons
 	set_button_image( m_button_lookup, IDB_LOOKUP ) ;
-	set_button_text( m_button_lookup, IDS_MENU_LOOKUP + string_offset ) ;
+	set_command_bar_text( m_button_lookup, IDS_MENU_LOOKUP + string_offset ) ;
 
 	set_button_image( m_button_lookup_next, IDB_LOOKUP_NEXT ) ;
-	set_button_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT + string_offset ) ;
 
 	set_button_image( m_button_get, IDB_GET ) ;
-	set_button_text( m_button_get, IDS_MENU_GET + string_offset ) ;
+	set_command_bar_text( m_button_get, IDS_MENU_GET + string_offset ) ;
 
 	set_button_image( m_button_get_and_next, IDB_GET_AND_NEXT ) ;
-	set_button_text( m_button_get_and_next, IDS_MENU_GET_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_get_and_next, IDS_MENU_GET_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_set, IDB_SET ) ;
-	set_button_text( m_button_set, IDS_MENU_REGISTER + string_offset ) ;
+	set_command_bar_text( m_button_set, IDS_MENU_REGISTER + string_offset ) ;
 
 	set_button_image( m_button_set_and_next, IDB_SET_AND_NEXT ) ;
-	set_button_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_set_and_next, IDS_MENU_SET_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_switch_modes, IDB_SWITCH_TO_REVIEW ) ;
-	set_button_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + string_offset ) ;
+	set_command_bar_text( m_button_switch_modes, IDS_MENU_TO_REVIEW_MODE + string_offset ) ;
 }
 
 
@@ -1438,25 +1452,25 @@ void CConnect::switch_to_review_toolbar( )
 
 	// add buttons
 	set_button_image( m_button_lookup, IDB_LOOKUP_TRANS ) ;
-	set_button_text( m_button_lookup, IDS_MENU_LOOKUP_TRANS + string_offset ) ;
+	set_command_bar_text( m_button_lookup, IDS_MENU_LOOKUP_TRANS + string_offset ) ;
 
 	set_button_image( m_button_lookup_next, IDB_LOOKUP_NEXT_TRANS ) ;
-	set_button_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT_TRANS + string_offset ) ;
+	set_command_bar_text( m_button_lookup_next, IDS_MENU_LOOKUP_NEXT_TRANS + string_offset ) ;
 
 	set_button_image( m_button_get, IDB_RESTORE ) ;
-	set_button_text( m_button_get, IDS_MENU_RESTORE + string_offset ) ;
+	set_command_bar_text( m_button_get, IDS_MENU_RESTORE + string_offset ) ;
 
 	set_button_image( m_button_get_and_next, IDB_RESTORE_AND_NEXT ) ;
-	set_button_text( m_button_get_and_next, IDS_MENU_RESTORE_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_get_and_next, IDS_MENU_RESTORE_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_set, IDB_CORRECT ) ;
-	set_button_text( m_button_set, IDS_MENU_CORRECT_TRANS + string_offset ) ;
+	set_command_bar_text( m_button_set, IDS_MENU_CORRECT_TRANS + string_offset ) ;
 
 	set_button_image( m_button_set_and_next, IDB_CORRECT_AND_NEXT ) ;
-	set_button_text( m_button_set_and_next, IDS_MENU_CORRECT_AND_NEXT + string_offset ) ;
+	set_command_bar_text( m_button_set_and_next, IDS_MENU_CORRECT_AND_NEXT + string_offset ) ;
 
 	set_button_image( m_button_switch_modes, IDB_SWITCH_TO_TRANS ) ;
-	set_button_text( m_button_switch_modes, IDS_MENU_TO_TRANS_MODE + string_offset ) ;
+	set_command_bar_text( m_button_switch_modes, IDS_MENU_TO_TRANS_MODE + string_offset ) ;
 }
 
 
@@ -1681,9 +1695,7 @@ HRESULT CConnect::add_classic_menu( office_cmd_bars &spCmdBars )
 
 void CConnect::advise_document_events()
 {
-	HRESULT hr = S_OK ;
-
-	hr = ActivateDocumentEventImpl::DispEventAdvise( (IUnknown*)m_app );
+	HRESULT hr = ActivateDocumentEventImpl::DispEventAdvise( (IUnknown*)m_app );
 	ASSERT_HRESULT( hr ) ;
 	hr = DeActivateDocumentEventImpl::DispEventAdvise( (IUnknown*)m_app );
 	ASSERT_HRESULT( hr ) ;
@@ -1975,7 +1987,7 @@ void __stdcall CConnect::OnMenuPreferences ( IDispatch *, VARIANT_BOOL *  )
 		{
 			m_properties.setDefaults() ;
 		}
-		m_properties.m_freshInstall = FALSE ;
+		m_properties.set_is_not_fresh_install() ;
 
 		BOOL old_classic_if = m_properties.get_classic_if() ;
 		int old_preferred_gui = m_properties.get_preferred_gui_lang() ;
@@ -2501,7 +2513,7 @@ void __stdcall CConnect::OnDocumentOpen(IDispatch *doc)
 }
 void __stdcall CConnect::OnBeforeDocumentClose( IDispatch* doc, VARIANT_BOOL * )
 {
-	if(m_properties.m_use_trans_hist)
+	if(m_properties.get_use_trans_hist())
 	{
 		try
 		{

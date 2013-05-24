@@ -269,7 +269,7 @@ public:
 	void __stdcall DocumentComplete( IDispatch * /*pDisp*/, VARIANT *URL );
 
 	// Called before navigation after a URL is clicked
-	void __stdcall CHtmlView::BeforeNavigate2( IDispatch *, VARIANT *URL, 
+	void __stdcall BeforeNavigate2( IDispatch *, VARIANT *URL, 
 		VARIANT *, VARIANT *, VARIANT *, VARIANT *, VARIANT_BOOL *Cancel ) ;
 
 	// Navigation complete callback

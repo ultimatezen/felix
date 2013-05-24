@@ -95,6 +95,11 @@ int CMemoryPage::OnApply()
 	return PSNRET_NOERROR  ;
 }
 
+CMemoryPage::CMemoryPage() : m_properties(NULL)
+{
+
+}
+
 /************************************************************************/
 /* CGeneralPage                                                         */
 /************************************************************************/
@@ -119,6 +124,11 @@ int CGeneralPage::OnApply()
 {
 	DoDataExchange(TRUE) ;
 	return PSNRET_NOERROR  ;
+}
+
+CGeneralPage::CGeneralPage() : m_properties(NULL)
+{
+
 }
 
 /************************************************************************/
@@ -172,6 +182,11 @@ LRESULT CAlgorithmPage::OnAlgoAuto( WORD, WORD, HWND, BOOL& )
 {
 	m_properties->m_data.m_match_algo = IDC_ALGO_AUTO;
 	return 0;
+}
+
+CAlgorithmPage::CAlgorithmPage() : m_properties(NULL)
+{
+
 }
 
 /************************************************************************/
@@ -282,6 +297,11 @@ LRESULT CGlossaryPage::OnGlossNum( WORD wNotifyCode, WORD wID, HWND, BOOL& )
 		m_properties->m_data.m_numbering = 0 ;
 	}
 	return 0L;
+}
+
+CGlossaryPage::CGlossaryPage() : m_properties(NULL)
+{
+
 }
 
 /************************************************************************/
@@ -452,4 +472,9 @@ void CViewPage::invalidate_client_rect()
 	RECT rc = {0} ;
 	GetClientRect( &rc ) ;
 	InvalidateRect( &rc ) ;
+}
+
+CViewPage::CViewPage() : m_properties(NULL)
+{
+
 }

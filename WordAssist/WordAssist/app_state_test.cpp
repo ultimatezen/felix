@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE( initial_values_seg_chars )
 {
 	app_state state ;
 	CString expected = CW2T(maru_char_array) ;
-	CString actual(state.m_segChars) ;
+	CString actual(state.m_data.m_segChars) ;
 	BOOST_CHECK_EQUAL(expected, actual) ;
 }
 
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( initial_values_manual_url )
 {
 	app_state state ;
 	CString expected = _T("http://felix-cat.com/media/manuals/felix/5.html") ;
-	CString actual(state.m_manual_url) ;
+	CString actual(state.m_data.m_manual_url) ;
 	BOOST_CHECK_EQUAL( expected, actual) ;
 }
 BOOST_AUTO_TEST_SUITE_END()

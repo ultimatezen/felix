@@ -41,13 +41,17 @@ wstring trim_text(const wstring before)
 	}
 
 	wstring text = before ;
-	for (size_t i = text.size()-1 ; i>=0 && ! text.empty(); --i)
+	for (size_t i = text.size()-1 ; ! text.empty() ; --i)
 	{
 		if (text[i] == L'>')
 		{
 			while (text[i] != L'<')
 			{
 				--i ;
+			}
+			if (! i)
+			{
+				break ;
 			}
 		}
 		else if (! iswspace(text[i]))

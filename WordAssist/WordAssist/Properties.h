@@ -15,6 +15,7 @@
 #include "DebugUtilities.h"	// extra debugging stuff
 #include "app_state.h"
 #include "dispatchwrapper.h" // For COM dialogs
+#include "comdef.h"
 
 // ======================
 // class CPageFormat 
@@ -69,12 +70,12 @@ public:
 	END_MSG_MAP()
 
 	BEGIN_DDX_MAP(CPageFormat)
-		DDX_CHECK( IDC_FONT_FACE,		m_properties->m_font_face )
-		DDX_CHECK( IDC_FONT_COLOR,		m_properties->m_font_color )
-		DDX_CHECK( IDC_FONT_BOLD,		m_properties->m_font_bold )
-		DDX_CHECK( IDC_FONT_ITALIC,		m_properties->m_font_italic )
-		DDX_CHECK( IDC_FONT_UNDERLINE,	m_properties->m_font_underline )
-		DDX_CHECK( IDC_FONT_SUPER_SUB,	m_properties->m_font_super_sub )
+		DDX_CHECK( IDC_FONT_FACE,		m_properties->m_data.m_font_face )
+		DDX_CHECK( IDC_FONT_COLOR,		m_properties->m_data.m_font_color )
+		DDX_CHECK( IDC_FONT_BOLD,		m_properties->m_data.m_font_bold )
+		DDX_CHECK( IDC_FONT_ITALIC,		m_properties->m_data.m_font_italic )
+		DDX_CHECK( IDC_FONT_UNDERLINE,	m_properties->m_data.m_font_underline )
+		DDX_CHECK( IDC_FONT_SUPER_SUB,	m_properties->m_data.m_font_super_sub )
 	END_DDX_MAP()
 };
 
@@ -126,10 +127,10 @@ public:
 			wrapper.method(L"EditShortcuts", prog, language) ;
 			wrapper.m_app = NULL ;
 		}
-		catch (_com_error& err)
+		catch (_com_error &e)
 		{
 			ATLASSERT(FALSE && "Raised exception in file_logger") ;
-			except::CComException ce(err) ;
+			except::CComException ce(e) ;
 			ce.notify_user(_T("Shortcuts Error")) ;
 		}		
 		catch(except::CException &e)
@@ -147,8 +148,8 @@ public:
 	END_MSG_MAP()
 		
 	BEGIN_DDX_MAP(CPageView)
-		DDX_CHECK(IDC_RAISE_FELIX, m_properties->m_raise_felix )
-		DDX_RADIO(IDC_LANG_ENG,m_properties->m_preferred_gui_lang)
+		DDX_CHECK(IDC_RAISE_FELIX, m_properties->m_data.m_raise_felix )
+		DDX_RADIO(IDC_LANG_ENG,m_properties->m_data.m_preferred_gui_lang)
 	END_DDX_MAP()
 
 };
@@ -178,7 +179,7 @@ public:
 	void set_props( app_state *props )
 	{
 		m_properties = props ;
-		_tcscpy_s(m_segChars, (LPCTSTR)m_properties->m_segChars ) ;
+		_tcscpy_s(m_segChars, (LPCTSTR)m_properties->m_data.m_segChars ) ;
 	}
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&)
@@ -190,16 +191,16 @@ public:
 		// we need to manually set the radio buttons, because the DDX
 		// doesn't work for them.
 		// The check boxes are handled in the DDX.
-		switch(m_properties->m_skipJ)
+		switch(m_properties->m_data.m_skipJ)
 		{
 		case IDC_SKIP_HASJ:
 		case IDC_SKIP_NOJ:
 		case IDC_NOSKIP:
 			break ;
 		default:
-			m_properties->m_skipJ = IDC_NOSKIP ;
+			m_properties->m_data.m_skipJ = IDC_NOSKIP ;
 		}
-		SendDlgItemMessage( m_properties->m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
+		SendDlgItemMessage( m_properties->m_data.m_skipJ, BM_SETCHECK, TRUE, 0 ) ;
 
 		CWindow edit = GetDlgItem(IDC_SEG_END_EDIT) ;
 		edit.SetWindowText( m_segChars ) ;
@@ -297,23 +298,23 @@ public:
 	}
 	LRESULT OnSkipJpn(WORD, WORD, HWND, BOOL& )
 	{
-		m_properties->m_skipJ = IDC_SKIP_HASJ ;
+		m_properties->m_data.m_skipJ = IDC_SKIP_HASJ ;
 		return 0;
 	}
 	LRESULT OnSkipUnlessJpn(WORD, WORD, HWND, BOOL& )
 	{
-		m_properties->m_skipJ = IDC_SKIP_NOJ ;
+		m_properties->m_data.m_skipJ = IDC_SKIP_NOJ ;
 		return 0;
 	}
 	LRESULT OnNoSkip(WORD, WORD, HWND, BOOL& )
 	{
-		m_properties->m_skipJ = IDC_NOSKIP ;
+		m_properties->m_data.m_skipJ = IDC_NOSKIP ;
 		return 0;
 	}
 
 	BEGIN_DDX_MAP(CPageSegmentation)
-		DDX_CHECK(IDC_SKIP_NUMS_CHECK, m_properties->m_skipNumbers)
-		DDX_CHECK(IDC_SELECT_SPACES, m_properties->m_select_spaces)
+		DDX_CHECK(IDC_SKIP_NUMS_CHECK, m_properties->m_data.m_skipNumbers)
+		DDX_CHECK(IDC_SELECT_SPACES, m_properties->m_data.m_select_spaces)
 	END_DDX_MAP()
 
 };
@@ -375,7 +376,7 @@ public:
 	END_MSG_MAP()
 
 	BEGIN_DDX_MAP(CPageTransHist)
-		DDX_CHECK(IDC_USE_TRANS_HIST, m_properties->m_use_trans_hist)
+		DDX_CHECK(IDC_USE_TRANS_HIST, m_properties->m_data.m_use_trans_hist)
 	END_DDX_MAP()
 
 };

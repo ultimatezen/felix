@@ -16,7 +16,7 @@ public:
 	static const int IDD = IDD_PROPPAGE_MEMORY ;
 	DECLARE_SENSING_VAR ;
 
-	CMemoryPage(){}
+	CMemoryPage();
 	void set_props( app_props::properties_memory *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
@@ -58,6 +58,7 @@ public:
 	static const int IDD = IDD_PROPPAGE_GENERAL ;
 	DECLARE_SENSING_VAR ;
 
+	CGeneralPage();
 	void set_props( app_props::properties_general *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
@@ -96,7 +97,7 @@ public:
 	static const int IDD = IDD_PROPPAGE_ALGORITHM ;
 	DECLARE_SENSING_VAR ;
 
-	CAlgorithmPage(){}
+	CAlgorithmPage();
 	void set_props( app_props::properties_algorithm *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
@@ -135,7 +136,7 @@ public:
 	static const int IDD = IDD_PROPPAGE_GLOSSARY ;
 	DECLARE_SENSING_VAR ;
 
-	CGlossaryPage(){}
+	CGlossaryPage();
 	void set_props( app_props::properties_glossary *props );
 
 	void init_max_add_spin();
@@ -189,7 +190,7 @@ public:
 	static const int IDD = IDD_PROPPAGE_VIEW ;
 	DECLARE_SENSING_VAR ;
 
-	CViewPage(){}
+	CViewPage();
 	void set_props( app_props::properties_view *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
