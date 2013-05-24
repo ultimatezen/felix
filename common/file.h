@@ -994,27 +994,6 @@ public:
 	}
 
 
-	/** brief. 
-	@return file &operator description. 
-	@param i parameter. 
-	*/
-	file &operator << ( const int i )
-	{
-		write( int2string( i ) ) ;
-		return *(this) ;
-	}
-
-
-	/** brief. 
-	@return file &operator description. 
-	@param d parameter. 
-	*/
-	file &operator << ( const double d )
-	{
-		write( double2string( d ) ) ;
-		return *(this) ;
-	}
-
 	// write
 
 	/** brief. 

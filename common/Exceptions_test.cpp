@@ -9,10 +9,6 @@ BOOST_AUTO_TEST_SUITE( ExceptionTest )
 
 	using namespace except ;
 
-	BOOST_AUTO_TEST_CASE( Instantiate)
-	{
-		BOOST_CHECK_NO_THROW(CException(_T("exception"))) ;
-	}
 	BOOST_AUTO_TEST_CASE( what)
 	{
 		CException e(_T("exception")) ;

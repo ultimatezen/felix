@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "input_device_file.h"
+#include "stringconversions.h"
 
 unsigned int InputDeviceFile::get_size( const CString filename )
 {
@@ -90,5 +91,8 @@ bool InputDeviceFile::exists( const CString filename )
 
 void InputDeviceFile::delete_file(const CString filename) 
 {
-	m_target.delete_file(filename) ;
+	if (! m_target.delete_file(filename))
+	{
+		THROW_WIN_EXCEPTION(_T("Failed to delete file ") + filename) ;
+	}
 }

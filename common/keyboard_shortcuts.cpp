@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "keyboard_shortcuts.h"
 #include "pugxml/src/pugixml.hpp"
-
+#include "stringconversions.h"
 
 void add_child_text(pugi::xml_node &node, string name, string text)
 {

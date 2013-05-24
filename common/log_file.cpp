@@ -116,6 +116,10 @@ void log_file::log_exception(_com_error &ce)
 	DWORD flags = STRSAFE_IGNORE_NULLS | STRSAFE_FILL_ON_FAILURE ;
 	HRESULT str_cpy_result(S_OK) ;
 	str_cpy_result = StringCbPrintfEx(num_buff, MAX_NUM_STRLEN, &dest_end, NULL, flags, _T("%08X"), ce.Error() ) ;
+	if(FAILED(str_cpy_result))
+	{
+		write_text("Error parsing error code into string.") ;
+	}
 	ASSERT_HRESULT( str_cpy_result ) ;
 
 	write_text( "*******************\r\n*** COM Error Detected ***\r\n\r\n" ) ;
