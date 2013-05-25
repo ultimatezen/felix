@@ -23,6 +23,8 @@ public:
 		init_state() ;
 	}
 
+	void write_html(const wstring &html_text);
+
 	void set_buffer(const wstring &text)
 	{
 		m_reader.set_buffer( text.c_str() ) ;

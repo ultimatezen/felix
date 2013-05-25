@@ -299,7 +299,6 @@
     <ClCompile Include="hooker.cpp" />
     <ClCompile Include="..\..\common\html_formatter.cpp" />
     <ClCompile Include="..\..\common\html_processing.cpp" />
-    <ClCompile Include="..\..\common\html_writer.cpp" />
     <ClCompile Include="..\..\common\input_device_file.cpp" />
     <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
     <ClCompile Include="keyboard_shortcuts_word.cpp" />
@@ -414,7 +413,6 @@
     <ClInclude Include="hooker.h" />
     <ClInclude Include="..\..\common\html_formatter.h" />
     <ClInclude Include="..\..\common\html_processing.h" />
-    <ClInclude Include="..\..\common\html_writer.h" />
     <ClInclude Include="..\..\common\input_device.h" />
     <ClInclude Include="..\..\common\input_device_fake.h" />
     <ClInclude Include="..\..\common\input_device_file.h" />

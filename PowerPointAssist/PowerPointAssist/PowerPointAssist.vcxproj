@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\common\abbreviations.cpp" />
     <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
     <ClCompile Include="..\..\common\FileOpHandler.cpp" />
+    <ClCompile Include="..\..\common\html_parser.cpp" />
     <ClCompile Include="AddIn.cpp" />
     <ClCompile Include="app_state.cpp" />
     <ClCompile Include="ClipboardBackup.cpp" />
@@ -175,7 +176,6 @@
     <ClCompile Include="hooker_test.cpp" />
     <ClCompile Include="..\..\common\html_formatter.cpp" />
     <ClCompile Include="..\..\common\html_processing.cpp" />
-    <ClCompile Include="..\..\common\html_writer.cpp" />
     <ClCompile Include="..\..\common\input_device_file.cpp" />
     <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
     <ClCompile Include="keyboard_shortcuts_ppt.cpp" />
@@ -254,6 +254,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\common\abbreviations.h" />
     <ClInclude Include="..\..\common\FileOpHandler.h" />
+    <ClInclude Include="..\..\common\html_parser.h" />
     <ClInclude Include="..\..\common\ui.h" />
     <ClInclude Include="AddGlossDialog.h" />
     <ClInclude Include="AddIn.h" />

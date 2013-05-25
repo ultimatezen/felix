@@ -6,7 +6,8 @@
 
 
 CPPTWriter::CPPTWriter( PowerPoint::TextRangePtr range ) : 
-	m_range( range )
+	m_range( range ),
+	m_parser(this)
 {
 	m_properties.read_from_registry() ;
 }
@@ -37,7 +38,7 @@ void CPPTWriter::write_text( const wstring &text )
 
 	if (m_properties.get_font_bold())
 	{
-		if ( get_bold() )
+		if ( m_parser.get_bold() )
 		{
 			font->put_Bold( Office::msoTrue ) ;
 		}
@@ -49,7 +50,7 @@ void CPPTWriter::write_text( const wstring &text )
 
 	if (m_properties.get_font_italic())
 	{
-		if ( get_italic() )
+		if ( m_parser.get_italic() )
 		{
 			font->put_Italic( Office::msoTrue ) ;
 		}
@@ -61,7 +62,7 @@ void CPPTWriter::write_text( const wstring &text )
 
 	if (m_properties.get_font_underline())
 	{
-		if ( get_underline() )
+		if ( m_parser.get_underline() )
 		{
 			font->put_Underline( Office::msoTrue ) ;
 		}
@@ -77,7 +78,7 @@ void CPPTWriter::write_text( const wstring &text )
 		font->get_Color( &color ) ;
 		ATLASSERT( color ) ;
 
-		Office::MsoRGBType rgb_color_value = (Office::MsoRGBType)get_fore_color() ;
+		Office::MsoRGBType rgb_color_value = (Office::MsoRGBType)m_parser.get_fore_color() ;
 		color->put_PowerPointRGB( rgb_color_value ) ;
 	}
 
@@ -90,21 +91,21 @@ void CPPTWriter::write_text( const wstring &text )
 	m_range->get_ParagraphFormat( &paragraph_format ) ;
 	ATLASSERT( paragraph_format ) ;
 
-	switch( get_justification() )
+	switch( m_parser.get_justification() )
 	{
-	case JUST_LEFT:
+	case html_processing::JUST_LEFT:
 		paragraph_format->put_Alignment( PowerPoint::ppAlignLeft ) ;
 		break ;
 
-	case JUST_RIGHT:
+	case html_processing::JUST_RIGHT:
 		paragraph_format->put_Alignment( PowerPoint::ppAlignRight ) ;
 		break ;
 
-	case JUST_CENTER:
+	case html_processing::JUST_CENTER:
 		paragraph_format->put_Alignment( PowerPoint::ppAlignCenter ) ;
 		break ;
 
-	case JUST_NONE: // no alignment specification
+	case html_processing::JUST_NONE: // no alignment specification
 		break ;
 
 	default:
@@ -129,5 +130,10 @@ void CPPTWriter::apply_linebreak()
 void CPPTWriter::apply_paragraph() 
 {
 	m_range->put_Text( _bstr_t(L"\13") ) ;
+}
+
+void CPPTWriter::write_html( const wstring html_text )
+{
+	m_parser.write_html(html_text) ;
 }
 

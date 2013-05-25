@@ -18,17 +18,24 @@ word_writer::word_writer( const WordSelection &selection ) :
 	m_write_font_bold( TRUE ),
 	m_write_font_italic( TRUE ),
 	m_write_font_underline( TRUE ),
-	m_write_font_super_sub( TRUE )
+	m_write_font_super_sub( TRUE ),
+	m_parser(this)
 {
 	if ( m_selection.is_instantiated())
 	{
 		default_formatting_for_selection() ;
 	}
+	init_state();
 }
 
 word_writer::~word_writer()
 {
 
+}
+
+void word_writer::write_html( const wstring html_text )
+{
+	m_parser.write_html(html_text) ;
 }
 
 void word_writer::set_write_font_face( BOOL setting )

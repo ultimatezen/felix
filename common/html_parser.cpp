@@ -253,4 +253,23 @@ void html_parser::parse_tag()
 	}
 }
 
+void html_parser::write_html( const wstring &html_text )
+{
+	// &#32; entities will keep us from reading tags
+	wstring local(html_text) ;
+	boost::replace_all(local, L"&#32;", L" ") ;
+
+	set_buffer(local); 
+
+	push_defaults() ;
+
+	while ( this->empty() == false )
+	{
+		parse_text() ;
+		parse_tag() ;
+	}
+
+	restore_original_states() ;
+}
+
 
