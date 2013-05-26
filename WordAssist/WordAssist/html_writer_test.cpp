@@ -1,15 +1,18 @@
 #include "stdafx.h"
-#include "html_writer.h"
-
+#include "html_processing.h"
+#include "html_parser.h"
 
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
 
-	class fake_html_writer : public html_writer
+	class fake_html_writer : public writer_interface
 	{
 	public:
 		std::vector<wstring> m_sensing_variable ;
+		html_parser m_parser ;
+
+		fake_html_writer() : m_parser(this){}
 
 		void write_text( const wstring &text)
 		{
@@ -23,6 +26,10 @@
 		{
 			m_sensing_variable.push_back(L"apply_paragraph") ;
 		};
+		void write_html(const wstring html_text)
+		{
+			m_parser.write_html(html_text) ;
+		}
 		
 	};
 

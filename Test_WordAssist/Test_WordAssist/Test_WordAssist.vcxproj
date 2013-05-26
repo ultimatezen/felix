@@ -137,7 +137,6 @@
     <ClCompile Include="..\..\WordAssist\WordAssist\hooker.cpp" />
     <ClCompile Include="..\..\common\html_formatter.cpp" />
     <ClCompile Include="..\..\common\html_processing.cpp" />
-    <ClCompile Include="..\..\common\html_writer.cpp" />
     <ClCompile Include="..\..\common\logging.cpp" />
     <ClCompile Include="..\..\common\MiniVersion.cpp" />
     <ClCompile Include="..\..\common\Parser.cpp" />
@@ -169,7 +168,6 @@
     <ClInclude Include="..\..\WordAssist\WordAssist\hooker.h" />
     <ClInclude Include="..\..\common\html_formatter.h" />
     <ClInclude Include="..\..\common\html_processing.h" />
-    <ClInclude Include="..\..\common\html_writer.h" />
     <ClInclude Include="..\..\common\input_device.h" />
     <ClInclude Include="..\..\common\input_device_fake.h" />
     <ClInclude Include="..\..\common\input_device_file.h" />

@@ -28,6 +28,8 @@ extern CAddInModule _AtlModule;
 #include <boost/bind.hpp>
 #include "input_device_file.h"
 #include "stringconversions.h"
+
+#pragma warning( disable : 4702 ) // Unreachable code
 #include "LuaState.h"
 
 using namespace except ;

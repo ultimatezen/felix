@@ -1,5 +1,4 @@
 #pragma once
-#include "html_writer.h"
 #include "PowerPointImports.h"
 #include "app_state.h"
 #include "html_parser.h"
@@ -18,6 +17,15 @@ public:
 	void apply_linebreak() ;
 	void apply_paragraph() ;
 
+	void select_end( long start, int text_len );
+	void check_color( PowerPoint::FontPtr font );
+	void check_underline( PowerPoint::FontPtr font );
+	void check_italic( PowerPoint::FontPtr font );
+	void check_bold( PowerPoint::FontPtr font );
+
+	void apply_paragraph_formatting();
+
+	void check_justification( PowerPoint::ParagraphFormatPtr paragraph_format );
 
 	void write_html( const wstring html_text );
 

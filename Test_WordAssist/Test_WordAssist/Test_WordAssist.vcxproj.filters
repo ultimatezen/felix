@@ -18,13 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\common\abbreviations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\WordAssist\WordAssist\app_state_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\config_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\Exceptions_test.cpp">
@@ -48,22 +42,10 @@
     <ClCompile Include="keyboard_mapper_word_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="keyboard_shortcuts_word_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\WordAssist\WordAssist\logging_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test_CColorRef.cpp">
@@ -108,9 +90,6 @@
     <ClCompile Include="..\..\common\html_processing.cpp">
       <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\html_writer.cpp">
-      <Filter>Source Files\files_under_test</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\common\logging.cpp">
       <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
@@ -141,20 +120,38 @@
     <ClCompile Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp">
       <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\DispatchWrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\office_seg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\common\office_seg_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\abbreviations.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\common\FileOpHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
     <ClCompile Include="..\..\common\html_parser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\office_seg.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files\files_under_test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +189,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\html_processing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\html_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\input_device.h">
