@@ -5,6 +5,23 @@
 
 #ifdef UNIT_TEST
 
+
+BOOST_AUTO_TEST_SUITE( test_symbol2unicode )
+
+	BOOST_AUTO_TEST_CASE( test_0x22 )
+	{
+		_variant_t symbol(0x22 - 0x1000) ;
+
+		wchar_t expected = static_cast<wchar_t>(0x2200) ;
+		wchar_t actual = symbol2unicode(symbol) ;
+		TRACE(actual) ;
+		BOOST_MESSAGE("Testing symbol2unicode") ;
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
 BOOST_AUTO_TEST_SUITE( WordFontTest )
 
 	BOOST_AUTO_TEST_CASE( Instantiate )

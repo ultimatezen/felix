@@ -915,49 +915,49 @@ bool WordApplication::active_window_has_focus()
 symbol_converter::symbol_converter()
 {
 	m_symbols[0x22]     // # FOR ALL
-	= 0x2200 ;
+		= 0x2200 ;
 	m_symbols[0x24]     // # THERE EXISTS
-	= 0x2203 ;
+		= 0x2203 ;
 	m_symbols[0x27]     // # CONTAINS AS MEMBER
-	= 0x220B ;
+		= 0x220B ;
 	m_symbols[0x2A]     // # ASTERISK OPERATOR
-	= 0x2217 ;
+		= 0x2217 ;
 	m_symbols[0x2D]     // # MINUS SIGN
-	= 0x2212 ;
+		= 0x2212 ;
 	m_symbols[0x40]     // # APPROXIMATELY EQUAL TO
-	= 0x2245 ;
+		= 0x2245 ;
 	m_symbols[0x41]     // # GREEK CAPITAL LETTER ALPHA
-	= 0x391 ;
+		= 0x391 ;
 	m_symbols[0x42]     // # GREEK CAPITAL LETTER BETA
-	= 0x392 ;
+		= 0x392 ;
 	m_symbols[0x43]     // # GREEK CAPITAL LETTER CHI
-	= 0x3A7 ;
+		= 0x3A7 ;
 	m_symbols[0x44]     // # GREEK CAPITAL LETTER DELTA
-	= 0x394 ;
+		= 0x394 ;
 	m_symbols[0x44]     // # INCREMENT
-	= 0x2206 ;
+		= 0x2206 ;
 	m_symbols[0x45]     // # GREEK CAPITAL LETTER EPSILON
-	= 0x395 ;
+		= 0x395 ;
 	m_symbols[0x46]     // # GREEK CAPITAL LETTER PHI
-	= 0x3A6 ;
+		= 0x3A6 ;
 	m_symbols[0x47]     // # GREEK CAPITAL LETTER GAMMA
-	= 0x393 ;
+		= 0x393 ;
 	m_symbols[0x48]     // # GREEK CAPITAL LETTER ETA
-	= 0x397 ;
+		= 0x397 ;
 	m_symbols[0x49]     // # GREEK CAPITAL LETTER IOTA
-	= 0x399 ;
+		= 0x399 ;
 	m_symbols[0x4A]     // # GREEK THETA SYMBOL
-	= 0x3D1 ;
+		= 0x3D1 ;
 	m_symbols[0x4B]     // # GREEK CAPITAL LETTER KAPPA
-	= 0x39A ;
+		= 0x39A ;
 	m_symbols[0x4C]     // # GREEK CAPITAL LETTER LAMDA
-	= 0x39B ;
+		= 0x39B ;
 	m_symbols[0x4D]     // # GREEK CAPITAL LETTER MU
-	= 0x39C ;
+		= 0x39C ;
 	m_symbols[0x4E]     // # GREEK CAPITAL LETTER NU
-	= 0x39D ;
+		= 0x39D ;
 	m_symbols[0x4F]     // # GREEK CAPITAL LETTER OMICRON
-	= 0x39F ;
+		= 0x39F ;
 
 	// 0x5
 	m_symbols[0x50]     // # GREEK CAPITAL LETTER PI
