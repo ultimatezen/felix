@@ -302,7 +302,9 @@ wstring ViewStateMatchGloss::get_match_html_content()
 {
 	if ( m_search_matches->empty() )
 	{
-		return L"<p>" + system_message_w( IDS_FOUND_X_MATCHES, int_arg_w(0) ) + L"</p>" ;
+		wstring p = L"<p>" ;
+		wstring pe = L"</p>" ;
+		return p + static_cast<LPCWSTR>(system_message_w( IDS_FOUND_X_MATCHES, int_arg_w(0) )) +  pe ;
 	}
 	else
 	{

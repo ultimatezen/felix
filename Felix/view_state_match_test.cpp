@@ -642,7 +642,37 @@ BOOST_AUTO_TEST_SUITE( view_state_match_gloss_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[1]), "<p>Found 0 matches.</p>") ;
 	}
+	BOOST_AUTO_TEST_CASE( get_match_html_content_0 )
+	{
+		ViewStateMatchGloss state ;
+		view_state_obj vso(&state) ;
 
+		search_query_glossary search_matches; 
+		state.set_search_matches(&search_matches) ;
+
+		wstring actual = state.get_match_html_content() ;
+		wstring expected = L"<p>Found 0 matches.</p>" ;
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
+	BOOST_AUTO_TEST_CASE( get_match_html_content_1 )
+	{
+		ViewStateMatchGloss state ;
+		view_state_obj vso(&state) ;
+		app_props::properties_glossary gloss_props; 
+		state.set_app_props(&gloss_props) ;
+
+		search_match_ptr match = make_match("record source", "record trans") ;
+
+		search_match_container matches ;
+		matches.insert(match) ;
+		search_query_glossary search_matches; 
+		search_matches.set_matches(matches) ;
+		state.set_search_matches(&search_matches) ;
+
+		wstring actual = state.get_match_html_content() ;
+		BOOST_CHECK(actual.find(L"<td id=\"source\">record source</td>") != wstring::npos) ;
+		BOOST_CHECK(actual.find(L"<td id=\"trans\">record trans</td>") != wstring::npos) ;
+	}
 	// delete_match
 	BOOST_AUTO_TEST_CASE( delete_match_empty)
 	{
