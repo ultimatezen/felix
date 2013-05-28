@@ -115,36 +115,6 @@ void WordApplication::deactivate()
 }
 
 
-MSWord::_DocumentPtr WordApplication::open( const _bstr_t file_to_open )
-{
-	ATLASSERT ( is_instantiated() ) ; 
-	
-	CComPtr< MSWord::Documents > pDocs ;
-	WORD_ENFORCE( m_member->get_Documents( &pDocs ), ("Failed to get documents") ) ;
-
-	_variant_t vtFilename( file_to_open ) ;
-	_variant_t vtConfirmConversions( VARIANT_FALSE ) ;
-	_variant_t vtReadOnly( VARIANT_FALSE ) ;
-	_variant_t vtAddToRecentFiles( VARIANT_FALSE ) ;
-	_variant_t vtVisible( VARIANT_TRUE ) ;
-	return pDocs->Open(
-		&vtFilename,				// file name
-		&vtConfirmConversions,		// confirm conversions
-		&vtReadOnly,				// read only
-		&vtAddToRecentFiles,		// add to recent files
-		&vtMissing,					// password document
-		&vtMissing,					// password template
-		&vtMissing,					// revert
-		&vtMissing,					// write password document
-		&vtMissing,					// write password template
-		&vtMissing,					// format
-		&vtMissing,					// encoding
-		&vtVisible					// visible
-		) ;
-
-}
-
-
 // -------------------------------
 // WordSelection functions
 // -------------------------------

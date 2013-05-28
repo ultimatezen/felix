@@ -312,8 +312,6 @@ public:
 	void set_app( word_app_ptr word_app );
 	bool is_active();
 
-	MSWord::_DocumentPtr open( const _bstr_t file_to_open ) ;
-
 	void set_screen_updating_on()
 	{
 		ATLASSERT( is_instantiated( ) ) ;
