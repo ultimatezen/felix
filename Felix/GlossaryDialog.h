@@ -172,8 +172,6 @@ public:
 
 	void perform_gloss_lookup() ;
 
-	void show_gloss_lookup_results() ;
-
 	void prep_for_gloss_lookup(const std::wstring& query_text) ;
 
 	std::wstring get_record_translation(mem_engine::record_pointer entry) ;

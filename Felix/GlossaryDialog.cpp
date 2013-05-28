@@ -312,7 +312,8 @@ LRESULT CGlossaryDialog::on_file_new( )
 	
 	m_memories->add_memory() ;
 
-	m_view_interface.set_text( wstring() ) ;
+	m_view_interface.set_text(wstring()) ;
+
 	check_mousewheel() ;
 	set_window_title() ;
 	
@@ -634,7 +635,7 @@ void CGlossaryDialog::lookup(const std::wstring& query_text)
 {
 	prep_for_gloss_lookup(query_text);
 	perform_gloss_lookup();
-	show_gloss_lookup_results();
+	m_view_state_match.show_content() ;
 }
 
 void CGlossaryDialog::prep_for_gloss_lookup(const std::wstring& query_text)
@@ -658,14 +659,6 @@ void CGlossaryDialog::perform_gloss_lookup()
 	// This container will hold the results that we display later.
 	m_search_matches.set_matches( matches ) ;
 }
-
-
-void CGlossaryDialog::show_gloss_lookup_results()
-{
-	m_view_state_match.show_content() ;
-	// give the user feedback
-}
-
 
 void CGlossaryDialog::config_matches_for_gloss_lookup(const std::wstring& query_text)
 {
@@ -1087,7 +1080,8 @@ bool CGlossaryDialog::clear_memory()
 	m_new_record = record_pointer(new record_local()) ;
 	set_window_title() ;
 	
-	m_view_interface.set_text( R2WSTR( IDS_GLOSSARY_CLEARED ) ) ;
+	m_view_interface.set_text(R2W(IDS_GLOSSARY_CLEARED)) ;
+
 	check_mousewheel() ;
 	user_feedback( system_message( IDS_CLEARED_MEMORY, get_window_type_string() ) ) ;
 	m_view_interface.set_scroll_pos(0) ;
