@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "view_state.h"
 
+#ifdef UNIT_TEST
+	#include "document_wrapper_fake.h"
+#endif
 
 void ViewState::set_view( view_interface *view )
 {
@@ -63,4 +66,20 @@ wstring ViewState::retrieve_record_trans( record_pointer rec, record_string_pref
 	}
 
 	return trans ;
+}
+
+doc3_wrapper_ptr ViewState::get_doc3()
+{
+#ifndef UNIT_TEST
+	return make_doc3_wrapper(m_view->get_document3());
+#else
+	return get_fake_search_doc(); 
+#endif
+}
+
+void ViewState::set_div_content( const wstring div_name, const wstring &div_content )
+{
+	doc3_wrapper_ptr doc = get_doc3() ;
+	element_wrapper_ptr div = doc->get_element_by_id(div_name) ;
+	div->set_inner_text(div_content) ;
 }

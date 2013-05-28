@@ -4,6 +4,7 @@
 #include "FelixModelInterface.h"
 #include "window_listener.h"
 #include "search_match.h"
+#include "document_wrapper.h"
 
 struct record_string_prefs 
 {
@@ -51,6 +52,8 @@ public:
 
 	virtual int get_edit_record_title();
 
+	doc3_wrapper_ptr get_doc3();
+	void set_div_content(const wstring div_name, const wstring &div_content);
 	// pure virtual
 	virtual void activate() = 0 ;
 	virtual void handle_toggle_edit_mode() = 0 ;
