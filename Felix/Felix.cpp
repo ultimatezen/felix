@@ -197,9 +197,18 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// register
 	if (bRegister)
 	{
-		logging::log_debug("Registering Felix COM server") ;
-		COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
-		::MessageBeep( MB_ICONINFORMATION ) ;
+		try
+		{
+			logging::log_debug("Registering Felix COM server") ;
+			COM_ENFORCE( _Module.RegisterServer(TRUE), _T("Failed to register server") ) ;
+			::MessageBeep( MB_ICONINFORMATION ) ;
+		}
+		catch (CComException &e)
+		{
+			logging::log_error("Failed to register COM server.") ;
+			logging::log_exception(e) ;
+			e.notify_user(L"Failed to register COM server.") ;
+		}
 	}
 	// run as main window
 	if(bRun)
