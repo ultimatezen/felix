@@ -281,17 +281,7 @@ void ViewStateMatchGloss::retrieve_edit_record(size_t mem_id, mem_engine::record
 
 void ViewStateMatchGloss::show_content()
 {
-	wstring html_content ;
-
-	if ( m_search_matches->empty() )
-	{
-		html_content << L"<p>" << system_message_w( IDS_FOUND_X_MATCHES, int_arg_w(0) ) << L"</p>" ;
-	}
-	else
-	{
-		m_search_matches->m_simple_view = m_properties_gloss->get_simple_view() ;
-		html_content << m_search_matches->get_html_short() ;
-	}
+	wstring html_content = get_match_html_content();
 
 	m_view->set_text(html_content) ;
 	m_view->set_scroll_pos(0) ;
@@ -307,17 +297,36 @@ void ViewStateMatchGloss::show_content()
 	}
 }
 
+
+wstring ViewStateMatchGloss::get_match_html_content()
+{
+	if ( m_search_matches->empty() )
+	{
+		return L"<p>" + system_message_w( IDS_FOUND_X_MATCHES, int_arg_w(0) ) + L"</p>" ;
+	}
+	else
+	{
+		m_search_matches->m_simple_view = m_properties_gloss->get_simple_view() ;
+		return m_search_matches->get_html_short() ;
+	}
+}
+
 mem_engine::search_match_ptr ViewStateMatchGloss::get_current_match()
 {
 	if (m_search_matches->empty())
 	{
-		record_pointer rec(new mem_engine::record_local) ;
-		rec->set_source( m_search_matches->get_query_rich() ) ;
-		search_match_ptr match = this->m_model->get_first_memory()->make_match(rec) ;
-		match->set_values_to_record() ;
-		return match ;
+		return get_query_as_match();
 	}
 	return m_search_matches->current( ) ;
+}
+
+mem_engine::search_match_ptr ViewStateMatchGloss::get_query_as_match()
+{
+	record_pointer rec(new mem_engine::record_local) ;
+	rec->set_source( m_search_matches->get_query_rich() ) ;
+	search_match_ptr match = this->m_model->get_first_memory()->make_match(rec) ;
+	match->set_values_to_record() ;
+	return match ;
 }
 
 void ViewStateMatchGloss::set_app_props( app_props::properties_glossary *properties )

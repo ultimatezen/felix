@@ -64,3 +64,4 @@ Felix/RegisterGlossDlg_test.cpp.PVS-Studio.cfg
 *cl.cfg
 *PVS-Studio.cfg
 *.cl.cmd
+ExcelAssist/ExcelAssist/ExcelAssist.opensdf

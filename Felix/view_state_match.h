@@ -48,7 +48,13 @@ public:
 
 	void set_app_props(app_props::properties_glossary *properties);
 	void show_content();
+
+	wstring get_match_html_content();
+
 	mem_engine::search_match_ptr get_current_match();
+
+	mem_engine::search_match_ptr get_query_as_match();
+
 	void activate();
 	void handle_toggle_edit_mode();
 	void retrieve_edit_record(size_t mem_id, mem_engine::record_pointer new_rec, bool is_add);
