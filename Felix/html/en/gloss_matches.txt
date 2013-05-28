@@ -1,4 +1,4 @@
-<table class="base">
+<table class="base" id="gloss_match_table">
 {% for record in records %}
   <tr id="{$loop.index0}">
    <td rowspan="2"><strong>{$loop.index}.</strong>
@@ -9,7 +9,7 @@
 	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
     <td><strong>Source</strong></td>
     <td id="source">{$record.source}</td></tr>
-  <tr>
+  <tr id="trans_{$loop.index0}">
     <td><strong>Trans</strong></td>
     <td id="trans">{$record.trans}</td></tr>
                 <tr id="item_{$loop.index}" style="display:none;">
@@ -58,6 +58,6 @@
 
                     </table>
 		  </td>
-                </tr>
+     </tr>
 {% endfor %}
 </table>

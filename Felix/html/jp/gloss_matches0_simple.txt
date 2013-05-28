@@ -1,4 +1,4 @@
-<table class="base">
+<table class="base" id="gloss_match_table">
 {% for record in records %}
   <tr id="{$loop.index0}">
    <td rowspan="2"><strong>{$loop.index0}.</strong>
