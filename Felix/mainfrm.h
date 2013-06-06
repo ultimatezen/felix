@@ -299,7 +299,7 @@ public:
 	LRESULT on_create(WindowsMessage &message);
 
 	void set_doc_ui_handler();
-	HRESULT get_doc_context_menu();
+	HRESULT show_doc_context_menu();
 
 	void load_util_settings();
 	void init_background_processor();

@@ -255,7 +255,7 @@ public:
 	void retrieve_record_results_state();
 
 	void set_doc_ui_handler();
-	HRESULT get_doc_context_menu();
+	HRESULT show_doc_context_menu();
 
 	//============================
 	// Message handlers

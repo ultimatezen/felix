@@ -5034,7 +5034,7 @@ void CMainFrame::set_doc_ui_handler()
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
 	{
-		pUIH->m_get_menu = boost::bind(&CMainFrame::get_doc_context_menu, this) ;
+		pUIH->m_get_menu = boost::bind(&CMainFrame::show_doc_context_menu, this) ;
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
@@ -5055,9 +5055,9 @@ Todo:
 * More items
 * images?
 */
-HRESULT CMainFrame::get_doc_context_menu()
+HRESULT CMainFrame::show_doc_context_menu()
 {
-	BANNER("CMainFrame::get_doc_context_menu") ;
+	BANNER("CMainFrame::show_doc_context_menu") ;
 	CMenu menu ;
 
 	menu.CreatePopupMenu() ;

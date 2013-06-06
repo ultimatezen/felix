@@ -966,7 +966,7 @@ void CSearchWindow::set_doc_ui_handler()
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
 	{
-		pUIH->m_get_menu = boost::bind(&CSearchWindow::get_doc_context_menu, this) ;
+		pUIH->m_get_menu = boost::bind(&CSearchWindow::show_doc_context_menu, this) ;
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view.SetExternalUIHandler(pIUIH) ;
@@ -981,9 +981,9 @@ void CSearchWindow::set_doc_ui_handler()
 #endif
 }
 
-HRESULT CSearchWindow::get_doc_context_menu()
+HRESULT CSearchWindow::show_doc_context_menu()
 {
-	BANNER("CMainFrame::get_doc_context_menu") ;
+	BANNER("CMainFrame::show_doc_context_menu") ;
 	CMenu menu ;
 
 	menu.CreatePopupMenu() ;

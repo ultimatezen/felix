@@ -2041,7 +2041,7 @@ void CGlossaryDialog::set_doc_ui_handler()
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
 	{
-		pUIH->m_get_menu = boost::bind(&CGlossaryDialog::get_doc_context_menu, this) ;
+		pUIH->m_get_menu = boost::bind(&CGlossaryDialog::show_doc_context_menu, this) ;
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
@@ -2051,9 +2051,9 @@ void CGlossaryDialog::set_doc_ui_handler()
 }
 
 // Show context menu in response to right click in browser.
-HRESULT CGlossaryDialog::get_doc_context_menu()
+HRESULT CGlossaryDialog::show_doc_context_menu()
 {
-	BANNER("CGlossaryDialog::get_doc_context_menu") ;
+	BANNER("CGlossaryDialog::show_doc_context_menu") ;
 	CMenu menu ;
 
 	menu.CreatePopupMenu() ;

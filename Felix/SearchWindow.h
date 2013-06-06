@@ -143,7 +143,7 @@ public:
 	// This lets us override the context menu.
 	void set_doc_ui_handler();
 
-	HRESULT get_doc_context_menu();
+	HRESULT show_doc_context_menu();
 
 	// ========================
 	// message map
