@@ -61,7 +61,7 @@ class search_match_tester : public match_tester
 	wstring				m_context_pattern ;
 
 public:
-	search_match_tester( const search_query_params &params ) ;
+	search_match_tester( const mem_engine::search_query_params &params ) ;
 	search_match_ptr get_search_match( record_pointer rec ); 
 	bool test_source_only( record_pointer rec ) ;
 	bool test_source( record_pointer rec ) ;

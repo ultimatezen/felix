@@ -20,6 +20,7 @@ public:
 	void set_search_matches(mem_engine::felix_query *search_matches);
 	int get_edit_record_title();
 	void delete_match(size_t index);
+
 };
 
 class ViewStateMatchMain : public ViewStateMatch

@@ -5,6 +5,12 @@
 	#include "document_wrapper_fake.h"
 #endif
 
+wstring get_no_match_text() 
+{
+	return L"<center><h1>" + R2WSTR( IDS_NO_MATCHES ) + L"</h1></center>";
+}
+
+
 void ViewState::set_view( view_interface *view )
 {
 	m_view = view ;
@@ -83,3 +89,30 @@ void ViewState::set_div_content( const wstring div_name, const wstring &div_cont
 	element_wrapper_ptr div = doc->get_element_by_id(div_name) ;
 	div->set_inner_text(div_content) ;
 }
+
+
+void ViewState::erase_from_memory( mem_engine::search_match_ptr match )
+{
+	mem_engine::memory_pointer = get_memory_from_match(match);
+	if (! mem)
+	{
+		logging::log_error("Failed to retrieve memory") ;
+		return ;
+	}
+	mem->erase(match->get_record()) ;
+}
+
+mem_engine::memory_pointer ViewState::get_memory_from_match( mem_engine::search_match_ptr match )
+{
+	try
+	{
+		return m_model->get_memory_by_id(match->get_memory_id()) ;
+	}
+	catch (except::CProgramException& e)
+	{
+		logging::log_error("Program exception") ;
+		logging::log_exception(e) ;
+		return m_model->get_first_memory() ;
+	}
+}
+

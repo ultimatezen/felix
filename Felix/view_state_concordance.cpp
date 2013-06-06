@@ -62,21 +62,9 @@ void ViewStateConcordance::delete_match( size_t index )
 		return ;
 	}
 
-	search_match_ptr match = m_search_matches->at(index) ;
-	mem_engine::memory_pointer mem = m_model->get_memory_by_id(match->get_memory_id()) ;
-	mem->erase(match->get_record()) ;
+	erase_by_index(*this, index) ;
 
-	m_search_matches->erase_at(index) ;
-	m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
-
-	if ( m_search_matches->empty() )
-	{
-		const wstring feedback = L"<center><h1>" + resource_string_w( IDS_NO_MATCHES ) + L"</h1></center>" ;
-		m_view->set_text(feedback) ;
-		return ;
-	}
-
-	this->show_content() ;
+	deleted_match_feedback(*this) ;
 }
 
 size_t ViewStateConcordance::get_current()
@@ -97,6 +85,12 @@ mem_engine::search_match_ptr ViewStateConcordance::get_current_match()
 	}
 	return m_search_matches->current( ) ;
 }
+
+ViewStateConcordance::ViewStateConcordance() : m_search_matches(NULL)
+{
+
+}
+
 //////////////////////////////////////////////////////////////////////////
 // ViewStateConcordanceMain
 //////////////////////////////////////////////////////////////////////////
@@ -167,10 +161,7 @@ void ViewStateConcordanceMain::show_content()
 {
 	if ( m_search_matches->size() == 0 )
 	{
-		wstring content = wstring(L"<b>")
-			+ R2WSTR( IDS_SEARCH_RESULTS ) 
-			+ L":</b><br />";
-		content += (LPCWSTR)system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
+		wstring content = get_no_match_content();
 		m_view->set_text(content) ;
 	}
 	else
@@ -180,6 +171,16 @@ void ViewStateConcordanceMain::show_content()
 
 	m_window_listener->check_mousewheel() ;
 }
+
+wstring ViewStateConcordanceMain::get_no_match_content()
+{
+	wstring content = wstring(L"<b>")
+		+ R2WSTR( IDS_SEARCH_RESULTS ) 
+		+ L":</b><br />";
+	content += (LPCWSTR)system_message_w( IDS_FOUND_X_MATCHES, L"0" ) ;
+	return content ;
+}
+
 
 
 void ViewStateConcordanceMain::activate()

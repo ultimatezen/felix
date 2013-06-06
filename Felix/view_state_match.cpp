@@ -53,37 +53,9 @@ void ViewStateMatch::delete_match( size_t index )
 		return ;
 	}
 
-	search_match_ptr match = m_search_matches->at(index) ;
-	mem_engine::memory_pointer mem ;
-	try
-	{
-		mem = m_model->get_memory_by_id(match->get_memory_id()) ;
-	}
-	catch (except::CProgramException& e)
-	{
-		logging::log_error("Program exception") ;
-		logging::log_exception(e) ;
-		mem = m_model->get_first_memory() ;
-	}
-	if (! mem)
-	{
-		logging::log_error("Failed to retrieve memory") ;
-		return ;
-	}
-	mem->erase(match->get_record()) ;
+	erase_by_index(*this, index) ;
 
-	m_search_matches->erase_at(index) ;
-	m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
-
-	if ( m_search_matches->empty() )
-	{
-		const wstring feedback = L"<center><h1>" + resource_string_w( IDS_NO_MATCHES ) + L"</h1></center>" ;
-		m_view->set_text(feedback) ;
-		return ;
-	}
-
-	this->show_content() ;
-
+	deleted_match_feedback(*this) ;
 }
 
 size_t ViewStateMatch::get_current()

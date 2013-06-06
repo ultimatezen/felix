@@ -157,6 +157,7 @@ struct felix_query
 	void  forward( );
 	void  back( );
 	void erase_current();
+
 	void erase_at( size_t pos );
 	void set_current( size_t pos );
 

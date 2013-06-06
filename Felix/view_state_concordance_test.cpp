@@ -91,7 +91,19 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		BOOST_CHECK_EQUAL(string(vso.view.m_sensing_variable[0]), "set_text") ;
 		BOOST_CHECK(vso.view.m_sensing_variable[1].find("Found 0 matches.") != string::npos) ;
 	}
+	BOOST_AUTO_TEST_CASE( get_no_match_content )
+	{
+		ViewStateConcordanceMain state ;
+		view_state_obj vso(&state) ;
 
+		mem_engine::search_query_mainframe matches ;
+		state.set_search_matches(&matches) ;
+
+		wstring actual = state.get_no_match_content() ;
+		wstring expected = L"" ;
+
+		BOOST_CHECK_EQUAL(actual, expected) ;
+	}
 	BOOST_AUTO_TEST_CASE( retrieve_edit_record_model )
 	{
 		ViewStateConcordanceMain state ;
