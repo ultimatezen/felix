@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExcelAssist", "ExcelAssist.vcxproj", "{BA2D853D-4090-4CA0-9F77-D7D402937A40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA2D853D-4090-4CA0-9F77-D7D402937A40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BA2D853D-4090-4CA0-9F77-D7D402937A40}.Debug|Win32.Build.0 = Debug|Win32
+		{BA2D853D-4090-4CA0-9F77-D7D402937A40}.Release|Win32.ActiveCfg = Release|Win32
+		{BA2D853D-4090-4CA0-9F77-D7D402937A40}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
