@@ -48,7 +48,7 @@ namespace mem_engine
 
 
 					// how much to skip
-					i = std::max( SourcePos, QueryPos ) + 1 ;
+					i = max( SourcePos, QueryPos ) + 1 ;
 				}
 				else // we didn't find a number, so examine the next pairing
 				{

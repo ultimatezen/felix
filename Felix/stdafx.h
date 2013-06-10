@@ -5,6 +5,12 @@
 
 #pragma once
 
+#pragma warning( disable : 4996 ) // #conditional expression is constant
+#define NOMINMAX
+#include <algorithm>    // std::min
+using std::min ;
+using std::max ;
+
 // This is to keep the compiler from complaining about insecure code in the STL (as if I can do anything about it!)
 #define _SCL_SECURE_NO_WARNINGS
 

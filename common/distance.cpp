@@ -2,13 +2,10 @@
 #include "distance.h"
 #include "boost/tuple/tuple.hpp"
 
-#ifdef min
-#undef min
-#endif
 
 size_t min3( size_t a, size_t b, size_t c ) 
 {
-	return std::min(std::min(a, b), c) ;
+	return min(min(a, b), c) ;
 }
 double compute_score( const size_t high_len, size_t total_cost ) 
 {
@@ -141,7 +138,7 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 			const size_t cell = --diag + (c != *above);
 			x++;
 
-			x = std::min(x, cell) ;
+			x = min(x, cell) ;
 
 			*p = x;
 		}

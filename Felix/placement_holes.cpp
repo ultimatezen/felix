@@ -17,7 +17,7 @@ namespace mem_engine
 		void hole_t::define( size_t s, size_t end )
 		{
 			start = s ;
-			len = std::max(s, end) - s ;
+			len = max(s, end) - s ;
 		}
 
 		wstring hole_t::get_str( const wstring text ) const
@@ -124,7 +124,7 @@ namespace mem_engine
 		size_t hole_finder::find_start( const wstring &lhs, const wstring &rhs ) const
 		{
 			size_t start = 0 ;
-			while(start < std::min(lhs.size(), rhs.size()) && lhs[start] == rhs[start])
+			while(start < min(lhs.size(), rhs.size()) && lhs[start] == rhs[start])
 			{
 				++start ;
 			}

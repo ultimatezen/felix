@@ -3,12 +3,6 @@
 
 namespace mem_engine
 {
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
 
 	namespace placement
 	{
