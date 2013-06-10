@@ -82,7 +82,7 @@ LRESULT CManagerWindow::OnCreate( UINT, WPARAM, LPARAM )
 	}
 
 	m_accelerator.LoadAccelerators(IDR_SEARCH_ACCEL) ;
-	::PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_CHECK_DEMO, 100 ), 0) ;
+	::PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_STARTUP_CHECKS, 100 ), 0) ;
 
 	init_status_bar() ;
 

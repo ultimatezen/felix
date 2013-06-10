@@ -60,8 +60,6 @@
 // placement
 #include "number_placement.h"
 
-#define ZOOM_KEY CComVariant(L"MainFrameZoom")
-
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
@@ -173,7 +171,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 
 	// commands
 	this->register_command_event_listener( IDC_DEMO_CHECK_EXCESS, boost::bind(&CMainFrame::on_demo_check_excess_memories, this, _1 )) ;
-	this->register_command_event_listener( IDC_CHECK_DEMO, boost::bind(&CMainFrame::on_check_demo, this, _1 )) ;
+	this->register_command_event_listener( IDC_STARTUP_CHECKS, boost::bind(&CMainFrame::on_startup_checks, this, _1 )) ;
 	this->register_command_event_listener( IDC_SOURCE_CONCORDANCE_SEL, boost::bind(&CMainFrame::on_source_concordance, this, _1 )) ;
 	this->register_command_event_listener( IDC_TRANS_CONCORDANCE_SEL, boost::bind(&CMainFrame::on_trans_concordance, this, _1 )) ;
 	this->register_command_event_listener( ID_TOOLS_MEMORY_MGR, boost::bind(&CMainFrame::on_tools_memory_manager, this, _1 )) ;
@@ -456,7 +454,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		// read our properties from the registry
 		m_appstate.read_from_registry() ;
-		load_util_settings();
+		load_mousewheel_setting();
 		input_device_ptr input(new InputDeviceFile) ;
 		output_device_ptr output(new OutputDeviceFile) ;
 		m_rules.load(input, output) ;
@@ -508,7 +506,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		SetFocus() ;
 
-		::PostMessage( m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_CHECK_DEMO, 100 ), 0 ) ;
+		::PostMessage( m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_STARTUP_CHECKS, 100 ), 0 ) ;
 
 		logging::log_debug("Checking load history") ;
 		check_load_history() ;
@@ -596,8 +594,6 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 		this->import_trados(CString(filename.c_str())) ;
 	}
 }
-
-
 
 
 
@@ -1147,7 +1143,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 	save_settings_destroy();
 
 	// no longer the first launch
-	m_props->m_gen_props.m_data.m_first_launch = FALSE ;
+	m_props->m_gen_props.set_not_first_launch() ;
 	m_props->write_to_registry() ;
 
 	m_statusbar.release() ;
@@ -3246,7 +3242,7 @@ void CMainFrame::reflect_loaded_preferences( const WORD old_language )
 	set_bg_color( static_cast< COLORREF >( m_props->m_view_props.m_data.m_back_color ) ) ;
 
 	load_history() ;
-	load_util_settings() ;
+	load_mousewheel_setting() ;
 
 	if (old_language != m_appstate.m_preferred_gui_lang)
 	{
@@ -3274,7 +3270,7 @@ void CMainFrame::reflect_loaded_preferences( const WORD old_language )
 			gloss->set_up_initial_size() ;
 		}
 		gloss->load_history() ;
-		gloss->load_util_settings() ;
+		gloss->load_mousewheel_setting() ;
 		gloss->reflect_sb_vis() ;
 		gloss->reflect_tb_vis();
 		gloss->apply_reg_bg_color() ;
@@ -3288,9 +3284,9 @@ void CMainFrame::reflect_loaded_preferences( const WORD old_language )
 
 /** This is called with a PostMessage from OnCreate.
 */
-LRESULT CMainFrame::on_check_demo(WindowsMessage &)
+LRESULT CMainFrame::on_startup_checks(WindowsMessage &)
 {
-	SENSE("on_check_demo") ;
+	SENSE("on_startup_checks") ;
 	logging::log_debug("Doing post-launch checks") ;
 
 #ifdef UNIT_TEST
@@ -3305,7 +3301,7 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 	}
 
 	// only do this if it is not the first launch
-	if (! m_props->m_gen_props.m_data.m_first_launch)
+	if (! m_props->m_gen_props.is_first_launch())
 	{
 		try
 		{
@@ -3325,40 +3321,8 @@ LRESULT CMainFrame::on_check_demo(WindowsMessage &)
 	}
 
 	// We should have returned if it's not the first launch.
-	ATLASSERT(m_props->m_gen_props.m_data.m_first_launch) ;
-	logging::log_debug("Doing first-launch checks") ;
+	ATLASSERT(m_props->m_gen_props.is_first_launch()) ;
 	SetFocus() ;
-	if ( ! ::GetFocus())
-	{
-		return 0L ;
-	}
-
-	if ( ! this->is_demo() )
-	{
-		return 0L ;
-	}
-
-	// Demo version on first launch: nag him!
-	CNagDialog nagger ;
-	if ( IDCANCEL == nagger.DoModal( ) )
-	{
-		return 0L ;
-	}
-
-	// User wants to register: prompt him!
-	CInputKeyDlg input_key_dlg ;
-	INT_PTR	input_key_result = input_key_dlg.DoModal( ) ;
-
-	if ( IDOK == input_key_result )
-	{
-		user_feedback( IDS_REGISTERED_USER_TITLE ) ;
-		MessageBox( resource_string( IDS_REGISTERED_USER ), resource_string( IDS_REGISTERED_USER_TITLE ) ) ;
-	}
-	else
-	{
-		user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
-		MessageBox( resource_string( IDS_NOT_REGISTERED_USER ), resource_string( IDS_NOT_REGISTERED_USER_TITLE ) ) ;
-	}
 
 	set_window_title() ;
 	SetFocus() ;
@@ -4624,42 +4588,12 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 	return content ;
 }
 
-// Get the UTIL settings from our COM server.
-// Got to consolidate all prefs (using boost?).
-void CMainFrame::load_util_settings()
+// Get the mousewheel setting
+void CMainFrame::load_mousewheel_setting()
 {
-	try
-	{
-		CDispatchWrapper utils(L"Felix.Utilities") ;
-		CComVariant val = utils.method(L"LoadProp", ZOOM_KEY) ;
-		if (val.vt != VT_NULL)
-		{
-			m_mousewheel_count = std::min(std::max(val.intVal, -10), 10) ;
-		}
-	}
-	catch (_com_error& e)
-	{
-		logging::log_error("Failed to retrieve mousewheel setting") ;
-		logging::log_exception(e) ;
-	}
+	m_mousewheel_count = m_props->m_view_props.get_mem_mousewheel() ;
 }
 
-// Serialize prefs in COM sever.
-// Got to consolidate all prefs (using boost?).
-void CMainFrame::save_util_settings()
-{
-	try
-	{
-		// save zoom state
-		CDispatchWrapper utils(L"Felix.Utilities") ;
-		utils.method(L"SaveProp", ZOOM_KEY, CComVariant(m_mousewheel_count)) ;
-	}
-	catch (_com_error& e)
-	{
-		logging::log_error("Failed to save utility settings") ;
-		logging::log_exception(e) ;
-	}
-}
 
 // Show the zoom dialog.
 LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
@@ -4889,7 +4823,6 @@ void CMainFrame::save_settings_destroy()
 
 	check_save_history() ;
 
-	save_util_settings();
 }
 
 wstring CMainFrame::get_record_translation(record_pointer record)

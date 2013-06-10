@@ -141,7 +141,7 @@
 #define IDS_EDIT_COMPLETE               119
 #define IDS_MSG_DROPPED_RECORDS         120
 #define IDD_DELETE                      121
-#define IDC_CHECK_DEMO                  123
+#define IDC_STARTUP_CHECKS                  123
 #define IDS_IDS_REG_LINK_DEAD           123
 #define IDC_ONE_TRANS_PER_SOURCE        123
 #define IDC_EDIT_ACCELERATORS           124

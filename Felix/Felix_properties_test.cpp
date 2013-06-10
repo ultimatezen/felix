@@ -1102,6 +1102,8 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 			"<query_color>12</query_color>\n" 
 			"<source_color>13</source_color>\n" 
 			"<trans_color>14</trans_color>\n" 
+			"<mem_mousewheel>-7</mem_mousewheel>\n" 
+			"<gloss_mousewheel>7</gloss_mousewheel>\n" 
 
 			"</properties_view>\n" 
 			"</properties>";
@@ -1117,6 +1119,72 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 		BOOST_CHECK_EQUAL (props.m_data.m_query_color, 12) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_source_color, 13) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_trans_color, 14) ; 
+		BOOST_CHECK_EQUAL (props.get_mem_mousewheel(), -7) ; 
+		BOOST_CHECK_EQUAL (props.get_gloss_mousewheel(), 7) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_single_screen_matches, TRUE) ; 
+
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_missing_mousewheel )
+	{
+		string text = "<properties>\n"
+			"<properties_view>\n"
+			"<single_screen_matches>true</single_screen_matches>\n" 
+
+			"<back_color>11</back_color>\n" 
+			"<query_color>12</query_color>\n" 
+			"<source_color>13</source_color>\n" 
+			"<trans_color>14</trans_color>\n" 
+
+			"</properties_view>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_view props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_back_color, 11) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_query_color, 12) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_source_color, 13) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_trans_color, 14) ; 
+		BOOST_CHECK_EQUAL (props.get_mem_mousewheel(), -20) ; 
+		BOOST_CHECK_EQUAL (props.get_gloss_mousewheel(), 20) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_single_screen_matches, TRUE) ; 
+
+	}
+
+	BOOST_AUTO_TEST_CASE( load_xml_clamped_mousewheel )
+	{
+		string text = "<properties>\n"
+			"<properties_view>\n"
+			"<single_screen_matches>true</single_screen_matches>\n" 
+
+			"<back_color>11</back_color>\n" 
+			"<query_color>12</query_color>\n" 
+			"<source_color>13</source_color>\n" 
+			"<trans_color>14</trans_color>\n" 
+			"<mem_mousewheel>14</mem_mousewheel>\n" 
+			"<gloss_mousewheel>-14</gloss_mousewheel>\n" 
+
+			"</properties_view>\n" 
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_view props ;
+		props.parse_xml_doc(doc) ;
+
+		BOOST_CHECK_EQUAL (props.m_data.m_back_color, 11) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_query_color, 12) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_source_color, 13) ; 
+		BOOST_CHECK_EQUAL (props.m_data.m_trans_color, 14) ; 
+		BOOST_CHECK_EQUAL (props.get_mem_mousewheel(), 10) ; 
+		BOOST_CHECK_EQUAL (props.get_gloss_mousewheel(), -10) ; 
 		BOOST_CHECK_EQUAL (props.m_data.m_single_screen_matches, TRUE) ; 
 
 	}
@@ -1148,6 +1216,8 @@ BOOST_AUTO_TEST_SUITE( properties_view_xml_tests )
 			"		<query_color>62</query_color>\n"
 			"		<source_color>0</source_color>\n"
 			"		<trans_color>55</trans_color>\n"
+			"		<mem_mousewheel>0</mem_mousewheel>\n"
+			"		<gloss_mousewheel>0</gloss_mousewheel>\n"
 			"		<single_screen_matches>false</single_screen_matches>\n"
 			"	</properties_view>\n"
 			"</properties>\n" ;

@@ -229,8 +229,8 @@ inline long string2long( const std::string &str, int base=10 )
 
 	if( errno == ERANGE ) 
 	{
-		std::string message ("Failed to convert std::string to double ") ;
-		message += str + " to long";
+		std::string message ("Failed to convert std::string [") ;
+		message += str + "] to long";
 		throw std::exception(message.c_str()) ;
 	}
 	return val ;
@@ -248,9 +248,9 @@ inline unsigned long string2ulong( const std::string &str, int base=10 )
 
 	if( errno == ERANGE ) 
 	{
-		std::string message = std::string("Failed to convert std::string to std::string ") +
+		std::string message = std::string("Failed to convert std::string [") +
 			str +
-			" to ulong";
+			"] to ulong";
 		throw std::exception(message.c_str()) ;
 	}
 	return val ;

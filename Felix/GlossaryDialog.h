@@ -566,8 +566,7 @@ public:
 
 	void delete_record(mem_engine::record_pointer rec) ;
 
-	void load_util_settings() ;
-	void save_util_settings() ;
+	void load_mousewheel_setting() ;
 
 	mem_engine::search_match_ptr get_current_match();
 	void redo_lookup( mem_engine::search_match_ptr match, bool do_gloss = false );

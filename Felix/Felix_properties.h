@@ -505,12 +505,17 @@ struct properties_view : public props::CRegMap
 		int		m_source_color ;
 		int		m_trans_color ;
 
+		int		m_mem_mousewheel ;
+		int		m_gloss_mousewheel ;
+
 		props_data() : 
 			m_single_screen_matches(FALSE),
 			m_back_color ( static_cast< int >( RGB( 255, 255, 255 ) ) ),
 			m_query_color ( static_cast< int >( RGB( 0, 0, 0 ) ) ),
 			m_source_color ( static_cast< int >( RGB( 0, 0, 0 ) ) ),
-			m_trans_color ( static_cast< int >( RGB( 0, 0, 0 ) ) )
+			m_trans_color ( static_cast< int >( RGB( 0, 0, 0 ) ) ),
+			m_mem_mousewheel(0),
+			m_gloss_mousewheel(0)
 		{
 		}
 		props_data( const props_data &rhs )
@@ -539,13 +544,16 @@ struct properties_view : public props::CRegMap
 		return *this ;
 	}
 
+	int get_mem_mousewheel();
+	int get_gloss_mousewheel();
+
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 
 		REG_ENTRY_BOOL( _T("VIEW_ONE_SCREEN"),		m_data.m_single_screen_matches );
 
 		REG_ENTRY_INT( _T("VIEW_BACK_COLOR"),		m_data.m_back_color );
 		REG_ENTRY_INT( _T("VIEW_QUERY_COLOR"),		m_data.m_query_color );
-		REG_ENTRY_INT( _T("VIEW_SOURCE_COLOR"),	m_data.m_source_color );
+		REG_ENTRY_INT( _T("VIEW_SOURCE_COLOR"),		m_data.m_source_color );
 		REG_ENTRY_INT( _T("VIEW_TRANS_COLOR"),		m_data.m_trans_color );
 
 	END_REGISTRY_MAP
@@ -553,6 +561,10 @@ struct properties_view : public props::CRegMap
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
+
+	void load_mousewheel_props();
+
+	int clamp_mousewheel( const int val );
 
 } ;
 
@@ -713,6 +725,10 @@ struct properties_general : public props::CRegMap
 	{
 		m_data.m_must_login = value;
 	}
+	void set_not_first_launch()
+	{
+		m_data.m_first_launch = FALSE ;
+	}
 
 
 	properties_general &operator=( const properties_general &rhs )
@@ -723,6 +739,10 @@ struct properties_general : public props::CRegMap
 	wstring get_user_name()
 	{
 		return wstring(m_data.m_user_name) ;
+	}
+	bool is_first_launch()
+	{
+		return !! m_data.m_first_launch ;
 	}
 
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;

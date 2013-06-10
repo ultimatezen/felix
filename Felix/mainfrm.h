@@ -301,13 +301,13 @@ public:
 	void set_doc_ui_handler();
 	HRESULT show_doc_context_menu();
 
-	void load_util_settings();
+	void load_mousewheel_setting();
 	void init_background_processor();
 	void init_item_colors();
 	LRESULT on_destroy(WindowsMessage &message) ;
 
 	void save_settings_destroy();
-	void save_util_settings();
+
 	LRESULT on_close(WindowsMessage &message) ;
 
 	void save_settings_close();
@@ -380,7 +380,7 @@ public:
 	void save_old_prefs_file( CString filename );
 	void create_process( CString &command, CString error_message );
 
-	LRESULT on_check_demo(WindowsMessage &message);
+	LRESULT on_startup_checks(WindowsMessage &message);
 
 	void check_mousewheel_count();
 	LRESULT on_trans_concordance(WindowsMessage &message);

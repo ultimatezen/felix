@@ -76,11 +76,11 @@
     <Filter Include="Header Files\COM Servers">
       <UniqueIdentifier>{21b7a93b-9040-4f1e-b418-5288e3865866}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\dialogs">
-      <UniqueIdentifier>{0c9ca1d0-8b5c-4c46-881c-0e67628e6423}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\COM Servers">
       <UniqueIdentifier>{3d341d30-f9be-4152-8194-d68a4a3b04a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{0c9ca1d0-8b5c-4c46-881c-0e67628e6423}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -660,9 +660,6 @@
     <ClCompile Include="export_tabbed_text.cpp">
       <Filter>Source Files\import_export</Filter>
     </ClCompile>
-    <ClCompile Include="TmxImportLangsDlg.cpp">
-      <Filter>Source Files\import_export</Filter>
-    </ClCompile>
     <ClCompile Include="TMXReader.cpp">
       <Filter>Source Files\import_export</Filter>
     </ClCompile>
@@ -1067,6 +1064,9 @@
     </ClCompile>
     <ClCompile Include="..\common\menu_helper.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxImportLangsDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1907,6 +1907,9 @@
     </ClInclude>
     <ClInclude Include="..\common\menu_helper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tmx_dialogs.h">
+      <Filter>Header Files\dialogs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

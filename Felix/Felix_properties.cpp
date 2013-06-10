@@ -384,6 +384,9 @@ namespace app_props
 		add_child(parent, "source_color", int2string(this->m_data.m_source_color)) ;
 		add_child(parent, "trans_color", int2string(this->m_data.m_trans_color)) ;
 
+		add_child(parent, "mem_mousewheel", int2string(this->m_data.m_mem_mousewheel)) ;
+		add_child(parent, "gloss_mousewheel", int2string(this->m_data.m_gloss_mousewheel)) ;
+
 		add_child(parent, "single_screen_matches", bool2string(!! this->m_data.m_single_screen_matches)) ;
 	}
 
@@ -399,6 +402,17 @@ namespace app_props
 			this->m_data.m_trans_color = read_xml_long(parent, "trans_color") ;
 
 			this->m_data.m_single_screen_matches = read_xml_bool(parent, "single_screen_matches") ;
+
+			if (! parent.child("mem_mousewheel"))
+			{
+				logging::log_debug("properties_view: Key `mem_mousewheel` not found. Loading mousewheel preferences from old Props service.") ;
+				load_mousewheel_props();
+			}
+			else
+			{
+				this->m_data.m_mem_mousewheel = clamp_mousewheel(read_xml_long(parent, "mem_mousewheel")) ;
+				this->m_data.m_gloss_mousewheel = clamp_mousewheel(read_xml_long(parent, "gloss_mousewheel")) ;
+			}
 		}
 		catch (except::CException& e)
 		{
@@ -412,8 +426,53 @@ namespace app_props
 			logging::log_error(e.what()) ;
 			return false ;
 		}
+
+
 		return true ;
 
+	}
+
+	void properties_view::load_mousewheel_props()
+	{
+#ifdef UNIT_TEST
+		this->m_data.m_mem_mousewheel = -20 ;
+		this->m_data.m_gloss_mousewheel = 20 ;
+#else
+		try
+		{
+			CDispatchWrapper utils(L"Felix.Utilities") ;
+			const CComVariant mem_val = utils.method(L"LoadProp", CComVariant(L"MainFrameZoom")) ;
+			if (mem_val.vt != VT_NULL)
+			{
+				this->m_data.m_mem_mousewheel = clamp_mousewheel(mem_val.intVal) ;
+			}
+			const CComVariant gloss_val = utils.method(L"LoadProp", CComVariant(L"GlossWindowZoom")) ;
+			if (gloss_val.vt != VT_NULL)
+			{
+				this->m_data.m_gloss_mousewheel = clamp_mousewheel(gloss_val.intVal) ;
+			}
+		}
+		catch (_com_error& e)
+		{
+			logging::log_error("Failed to retrieve mousewheel setting") ;
+			logging::log_exception(e) ;
+		}
+#endif // UNIT_TEST
+	}
+
+	int properties_view::get_mem_mousewheel()
+	{
+		return m_data.m_mem_mousewheel ;
+	}
+
+	int properties_view::get_gloss_mousewheel()
+	{
+		return m_data.m_gloss_mousewheel ;
+	}
+
+	int properties_view::clamp_mousewheel( const int val )
+	{
+		return min(max(val, -10), 10);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -685,7 +744,7 @@ namespace app_props
 		pugi::xml_parse_result result = doc.load(text.c_str());
 		if (result.status != pugi::status_ok)
 		{
-			logging::log_error("Failed to parse felix preferences file: " + string2string(filename)) ;
+			logging::log_error("Failed to parse Felix preferences file: " + string2string(filename)) ;
 			return false ;
 		}
 		return this->parse_xml_doc(doc) ;

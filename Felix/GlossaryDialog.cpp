@@ -33,8 +33,6 @@
 #include "output_device.h"
 #include "memory_remote.h"
 
-#define ZOOM_KEY CComVariant(L"GlossWindowZoom")
-
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
@@ -116,7 +114,7 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 
 	logging::log_debug("Initializing glossary dialog") ;
 
-	load_util_settings() ;
+	load_mousewheel_setting() ;
 	// create and instantiate html view
 	m_hWndClient = init_view() ;
 
@@ -1843,37 +1841,9 @@ void CGlossaryDialog::delete_record(record_pointer rec)
 }
 
 
-void CGlossaryDialog::load_util_settings()
+void CGlossaryDialog::load_mousewheel_setting()
 {
-	try
-	{
-		CDispatchWrapper utils(L"Felix.Utilities") ;
-		CComVariant val = utils.method(L"LoadProp", ZOOM_KEY) ;
-		if (val.vt != VT_NULL)
-		{
-			m_mousewheel_count = std::min(std::max(val.intVal, -10), 10) ;
-		}
-	}
-	catch (_com_error& e)
-	{
-		logging::log_error("Failed to retrieve mousewheel setting") ;
-		logging::log_exception(e) ;
-	}
-}
-
-void CGlossaryDialog::save_util_settings()
-{
-	try
-	{
-		// save zoom state
-		CDispatchWrapper utils(L"Felix.Utilities") ;
-		utils.method(L"SaveProp", ZOOM_KEY, CComVariant(m_mousewheel_count)) ;
-	}
-	catch (_com_error& e)
-	{
-		logging::log_error("Failed to save utility settings") ;
-		logging::log_exception(e) ;
-	}
+	m_mousewheel_count = m_props->m_view_props.get_gloss_mousewheel() ;
 }
 
 LRESULT CGlossaryDialog::on_view_zoom()
@@ -1958,7 +1928,6 @@ void CGlossaryDialog::save_prefs()
 
 	check_save_history() ;
 	save_window_settings( _T("MainGlossary") ) ;
-	save_util_settings() ;
 }
 
 void CGlossaryDialog::apply_reg_bg_color()
