@@ -11,7 +11,10 @@ public:
 	typedef mem_engine::memory_pointer memory_pointer ;
 	mem_engine::felix_query		*m_search_matches ;
 
+	bool m_should_scroll ;
+
 	ViewStateConcordance();
+	virtual ~ViewStateConcordance(){}
 	void set_current(size_t num);
 	virtual size_t get_current();
 	void set_search_matches(mem_engine::felix_query *search_matches);

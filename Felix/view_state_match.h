@@ -14,7 +14,10 @@ public:
 
 	mem_engine::felix_query *m_search_matches ;
 
+	bool m_should_scroll ;
+
 	ViewStateMatch();	
+	virtual ~ViewStateMatch(){}
 	void set_current(size_t num);
 	virtual size_t get_current();
 	void set_search_matches(mem_engine::felix_query *search_matches);
@@ -33,6 +36,9 @@ public:
 	void set_props(app_props::props_ptr props);
 	void set_gloss_matches(mem_engine::felix_query *matches);
 	void show_content();
+
+	wstring get_view_content();
+
 	mem_engine::search_match_ptr get_current_match();
 	void activate();
 	void handle_toggle_edit_mode();

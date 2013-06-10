@@ -63,7 +63,7 @@ size_t ViewStateMatch::get_current()
 	return m_search_matches->current_pos() ;
 }
 
-ViewStateMatch::ViewStateMatch() : m_search_matches(NULL)
+ViewStateMatch::ViewStateMatch() : m_search_matches(NULL), m_should_scroll(true)
 {
 
 }
@@ -130,19 +130,7 @@ void ViewStateMatchMain::retrieve_edit_record(size_t mem_id, mem_engine::record_
 
 void ViewStateMatchMain::show_content()
 {
-	wstring content ;
-	if ( m_window_listener->is_single_page() ) 
-	{
-		content = m_search_matches->get_html_all() ;			
-	}
-	else if ( m_window_listener->is_short_format() )
-	{
-		content = m_search_matches->get_html_short() ; 
-	}
-	else
-	{
-		content = m_search_matches->get_html_long() ;
-	}
+	const wstring content = get_view_content();
 
 	m_view->set_text( content ) ;
 	m_window_listener->check_mousewheel() ;
@@ -153,10 +141,11 @@ void ViewStateMatchMain::show_content()
 		const wstring current_id = ulong2wstring( m_search_matches->current_pos() ) ;
 		m_view->scroll_element_into_view( current_id ) ;
 	}
-	else
+	else if (m_should_scroll)
 	{
 		m_view->set_scroll_pos(0) ;
 	}
+
 	m_window_listener->set_bg_color_if_needed() ;
 }
 
@@ -188,6 +177,22 @@ void ViewStateMatchMain::set_props( app_props::props_ptr props )
 void ViewStateMatchMain::set_gloss_matches( mem_engine::felix_query *matches )
 {
 	m_gloss_matches = matches ;
+}
+
+wstring ViewStateMatchMain::get_view_content()
+{
+	if ( m_window_listener->is_single_page() ) 
+	{
+		return m_search_matches->get_html_all() ;			
+	}
+	else if ( m_window_listener->is_short_format() )
+	{
+		return m_search_matches->get_html_short() ; 
+	}
+	else
+	{
+		return m_search_matches->get_html_long() ;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -256,7 +261,10 @@ void ViewStateMatchGloss::show_content()
 	wstring html_content = get_match_html_content();
 
 	m_view->set_text(html_content) ;
-	m_view->set_scroll_pos(0) ;
+	if (m_should_scroll)
+	{
+		m_view->set_scroll_pos(0) ;
+	}
 	m_window_listener->check_mousewheel() ;
 	// give the user feedback
 	if ( m_search_matches->size() == 1 )

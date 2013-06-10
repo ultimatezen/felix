@@ -80,14 +80,15 @@ void deleted_match_feedback(VIEW_STATE &view_state)
 	}
 	else
 	{
+		view_state.m_should_scroll = false ;
 		view_state.show_content() ;
+		view_state.m_should_scroll = true ;
 	}
 }
 
 template<class VIEW_STATE>
 void erase_by_index(VIEW_STATE &view_state, size_t index)
 {
-	search_match_ptr match = view_state.m_search_matches->at(index) ;
-	view_state.erase_from_memory(match) ;
+	view_state.erase_from_memory(view_state.m_search_matches->at(index)) ;
 	view_state.m_search_matches->erase_at(index) ;
 }

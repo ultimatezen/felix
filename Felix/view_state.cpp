@@ -93,7 +93,7 @@ void ViewState::set_div_content( const wstring div_name, const wstring &div_cont
 
 void ViewState::erase_from_memory( mem_engine::search_match_ptr match )
 {
-	mem_engine::memory_pointer = get_memory_from_match(match);
+	mem_engine::memory_pointer mem = get_memory_from_match(match);
 	if (! mem)
 	{
 		logging::log_error("Failed to retrieve memory") ;
@@ -110,7 +110,7 @@ mem_engine::memory_pointer ViewState::get_memory_from_match( mem_engine::search_
 	}
 	catch (except::CProgramException& e)
 	{
-		logging::log_error("Program exception") ;
+		logging::log_error("Program exception retrieving memory by ID") ;
 		logging::log_exception(e) ;
 		return m_model->get_first_memory() ;
 	}

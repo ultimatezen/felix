@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_SUITE( view_state_concordance_test )
 		state.set_search_matches(&matches) ;
 
 		wstring actual = state.get_no_match_content() ;
-		wstring expected = L"" ;
+		wstring expected = L"<b>Search Results:</b><br />Found 0 matches." ;
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}

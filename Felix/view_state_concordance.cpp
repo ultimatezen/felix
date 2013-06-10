@@ -86,7 +86,7 @@ mem_engine::search_match_ptr ViewStateConcordance::get_current_match()
 	return m_search_matches->current( ) ;
 }
 
-ViewStateConcordance::ViewStateConcordance() : m_search_matches(NULL)
+ViewStateConcordance::ViewStateConcordance() : m_search_matches(NULL), m_should_scroll(true)
 {
 
 }
@@ -276,5 +276,8 @@ void ViewStateConcordanceGloss::show_content()
 
 	m_view->set_text( html_content ) ;
 	m_window_listener->check_mousewheel() ;
-	m_view->set_scroll_pos(0) ;
+	if (m_should_scroll)
+	{
+		m_view->set_scroll_pos(0) ;
+	}
 }
