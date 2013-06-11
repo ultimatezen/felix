@@ -31,6 +31,7 @@
 #include "window_interface.h"
 
 #include "menu_helper.h"
+#include "zoom_dialog.h"
 
 typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
@@ -38,6 +39,10 @@ typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 void add_common_tb_commands(std::vector< int > &commands) ;
 void add_common_std_bitmaps(std::vector< int > &StdBitmaps) ;
 void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps) ;
+
+
+CString get_mousewheel_command(int count);
+
 
 /**
 	@class CCommonWindowFunctionality  
@@ -50,6 +55,7 @@ class CCommonWindowFunctionality :
 	, public CNavInterface
 	, public WindowListener
 	, public WindowInterface
+	, public CZoomInterface
 {
 public:
 	DECLARE_SENSING_VAR ;
@@ -228,7 +234,9 @@ public:
 	LRESULT on_user_edit_search( LPARAM lParam ) ;
 
 	void check_mousewheel();
-
+	// Set zoom level in response to the zoom dialog, 
+	// or loading from preferences.
+	void set_zoom_level( int zoom_level );
 	LRESULT OnMouseWheel( UINT, WPARAM wparam, LPARAM);
 
 	// other helper functions

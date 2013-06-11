@@ -3981,10 +3981,10 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	{
 		BOOL bHandled = FALSE ;
 		COMMAND_ID_HANDLER_EX(ID_FILE_CONNECT, on_file_connect)
-			NOTIFY_CODE_HANDLER(TTN_GETDISPINFOW, OnToolTipTextW)
-			MESSAGE_HANDLER_EX(WM_MOUSEWHEEL /* 0x020A */, OnMouseWheel)
+		NOTIFY_CODE_HANDLER(TTN_GETDISPINFOW, OnToolTipTextW)
+		MESSAGE_HANDLER_EX(WM_MOUSEWHEEL /* 0x020A */, OnMouseWheel)
 
-			const messageMapType *theMessageMap = this->get_message_map( uMsg ) ;
+		const messageMapType *theMessageMap = this->get_message_map( uMsg ) ;
 		const UINT key = this->get_message_key( uMsg, wParam ) ;
 
 		messageMapType::const_iterator pos = theMessageMap->find( key ) ;
@@ -4598,38 +4598,14 @@ void CMainFrame::load_mousewheel_setting()
 // Show the zoom dialog.
 LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
 {
-	CZoomDlg dlg ;
-	dlg.m_zoom_level = m_mousewheel_count ;
-	dlg.m_interface = static_cast< CZoomInterface* >( this ) ;
-	if ( dlg.DoModal() == IDOK )
-	{
-		m_mousewheel_count = dlg.m_zoom_level ;
-	}
-	else if (dlg.m_zoom_level != m_mousewheel_count)
-	{
-		this->set_zoom_level(m_mousewheel_count) ;
-	}
+	CZoomDlg dlg(static_cast< CZoomInterface* >( this ), m_mousewheel_count) ;
+
+	dlg.DoModal() ;
+
 	return 0L ;
 }
 
-// Set zoom level in response to the zoom dialog, 
-// or loading from preferences.
-void CMainFrame::set_zoom_level( int zoom_level )
-{
-	m_view_interface.run_script("resetFontSizes") ;
-	if (zoom_level)
-	{
-		CString command = _T("decreaseFont") ;
-		if (zoom_level > 0)
-		{
-			command = _T("increaseFont") ;
-		}
-		for (int i = 0 ; i < abs(zoom_level); ++i)
-		{
-			m_view_interface.run_script(command) ;
-		}
-	}
-}
+
 
 void CMainFrame::load_history()
 {
@@ -5360,16 +5336,7 @@ void CMainFrame::check_mousewheel_count()
 {
 	if (m_mousewheel_count)
 	{
-		CString command = _T("decreaseFont") ;
-		if (m_mousewheel_count > 0)
-		{
-			command = _T("increaseFont") ;
-		}
-		logging::log_debug("Mousewheel command: " + string((LPCSTR)CT2A(command))) ;
-		for (int i = 0 ; i < abs(m_mousewheel_count); ++i)
-		{
-			m_view_interface.run_script(command) ;
-		}
+		set_zoom_level(m_mousewheel_count) ;
 	}
 }
 

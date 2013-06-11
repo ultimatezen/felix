@@ -27,7 +27,6 @@
 #include "FelixModelInterface.h"
 
 #include "TMXWriter.h"		// CTMXWriter
-#include "zoom_dialog.h"
 #include "felix_cl_options.h"
 
 #include "gloss_placement.h"
@@ -65,7 +64,6 @@ class CMainFrame :
 		, public CIdleHandler
 		, public CWindowExceptionHandler< CMainFrame >
 		, public CGlossaryWinListener
-		, public CZoomInterface
 		, public FrameListener
 		, public EditRecordInterface
 {
@@ -165,7 +163,6 @@ public:
 
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;
 
-	void set_zoom_level(int zoom_level);
 	LRESULT on_view_zoom(WindowsMessage &);
 
 	void register_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction )

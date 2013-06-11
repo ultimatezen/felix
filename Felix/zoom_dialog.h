@@ -29,7 +29,9 @@ public:
 	DECLARE_SENSING_VAR ;
 	CZoomInterface *m_interface ;
 	int m_zoom_level ;
-	LRESULT OnInitDialog( );
+	int m_original_zoom_level ;
+	CZoomDlg(CZoomInterface *zoom_interface, int zoom_level);
+	LRESULT OnInitDialog();
 	LRESULT OnOK(WORD wID);
 	LRESULT OnCancel(WORD wID);
 	void OnZoomCtrl( int /*iType*/, short /*iTrackPos*/, HWND /*hWndTrackBar*/ );

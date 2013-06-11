@@ -47,6 +47,15 @@ void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
 	}
 }
 
+CString get_mousewheel_command( int count )
+{
+	if (count > 0)
+	{
+		return _T("increaseFont") ;
+	}
+	return _T("decreaseFont") ;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // CCommonWindowFunctionality class
 //////////////////////////////////////////////////////////////////////////
@@ -1183,5 +1192,20 @@ LRESULT CCommonWindowFunctionality::add_remote_memory( mem_engine::model_ptr mem
 
 	this->set_window_title() ;
 	return 0L ;
+}
+
+void CCommonWindowFunctionality::set_zoom_level( int zoom_level )
+{
+	m_mousewheel_count = zoom_level ;
+	m_view_interface.run_script("resetFontSizes") ;
+	if (zoom_level)
+	{
+		CString command = get_mousewheel_command(zoom_level);
+
+		for (int i = 0 ; i < abs(zoom_level); ++i)
+		{
+			m_view_interface.run_script(command) ;
+		}
+	}
 }
 

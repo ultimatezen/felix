@@ -5,6 +5,13 @@ static const int ZOOM_MIN = -10 ;
 static const int ZOOM_MAX = 10 ;
 static const int TIC_FREQ = 1 ;
 
+CZoomDlg::CZoomDlg( CZoomInterface *zoom_interface, int zoom_level ) : m_interface(zoom_interface),
+	m_zoom_level(zoom_level),
+	m_original_zoom_level(zoom_level)
+{
+
+}
+
 LRESULT CZoomDlg::OnInitDialog()
 {
 	SENSE("CZoomDlg::OnInitDialog") ;
@@ -28,7 +35,11 @@ LRESULT CZoomDlg::OnOK( WORD wID )
 
 LRESULT CZoomDlg::OnCancel( WORD wID )
 {
-	SENSE("OnCloseCommand") ;
+	SENSE("OnCancel") ;
+	if (m_original_zoom_level != m_zoom_level)
+	{
+		m_interface->set_zoom_level(m_original_zoom_level) ;
+	}
 	END_DLG ;
 }
 
@@ -41,3 +52,4 @@ void CZoomDlg::OnZoomCtrl( int /*iType*/, short /*iTrackPos*/, HWND /*hWndTrackB
 		m_interface->set_zoom_level(thepos) ;
 	}
 }
+

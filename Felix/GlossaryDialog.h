@@ -36,7 +36,6 @@
 #include "FileOpHandler.h"
 #include "WindowsMessage.h"
 #include "logging.h"
-#include "zoom_dialog.h"
 #include "FelixModelInterface.h"
 
 #include "view_state_initial.h"
@@ -51,7 +50,6 @@
 class CGlossaryDialog :
 		public CDialogImpl< CGlossaryDialog, CCommonWindowFunctionality >
 		, public CWindowExceptionHandler< CGlossaryDialog >
-		, public CZoomInterface
 		, public FrameListener
 		, public EditRecordInterface
 {
@@ -123,7 +121,7 @@ public:
 	{
 		return m_props ;
 	}
-	void set_zoom_level(int zoom_level);
+
 	void set_bg_color_if_needed();
 
 	void set_display_state( DISPLAY_STATE new_state );
@@ -271,6 +269,8 @@ public:
 	LRESULT OnInitDialog( ) ;
 
 	void apply_mousewheel_setting();
+
+
 	void apply_reg_bg_color();
 	LRESULT on_close_command( ) ;
 	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam ) ;

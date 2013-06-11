@@ -1848,35 +1848,11 @@ void CGlossaryDialog::load_mousewheel_setting()
 
 LRESULT CGlossaryDialog::on_view_zoom()
 {
-	CZoomDlg dlg ;
-	dlg.m_zoom_level = m_mousewheel_count ;
-	dlg.m_interface = static_cast< CZoomInterface* >( this ) ;
-	if ( dlg.DoModal() == IDOK )
-	{
-		m_mousewheel_count = dlg.m_zoom_level ;
-	}
-	else if (dlg.m_zoom_level != m_mousewheel_count)
-	{
-		this->set_zoom_level(m_mousewheel_count) ;
-	}
-	return 0L ;
-}
+	CZoomDlg dlg(static_cast< CZoomInterface* >( this ), m_mousewheel_count) ;
 
-void CGlossaryDialog::set_zoom_level( int zoom_level )
-{
-	m_view_interface.run_script("resetFontSizes") ;
-	if (zoom_level)
-	{
-		CString command = _T("decreaseFont") ;
-		if (zoom_level > 0)
-		{
-			command = _T("increaseFont") ;
-		}
-		for (int i = 0 ; i < abs(zoom_level); ++i)
-		{
-			m_view_interface.run_script(command) ;
-		}
-	}
+	dlg.DoModal() ;
+
+	return 0L ;
 }
 
 void CGlossaryDialog::load_history()
@@ -1942,15 +1918,7 @@ void CGlossaryDialog::apply_mousewheel_setting()
 #else
 	if (m_mousewheel_count)
 	{
-		CString command = _T("decreaseFont") ;
-		if (m_mousewheel_count > 0)
-		{
-			command = _T("increaseFont") ;
-		}
-		for (int i = 0 ; i < abs(m_mousewheel_count); ++i)
-		{
-			m_view_interface.run_script(command) ;
-		}
+		set_zoom_level(m_mousewheel_count) ;
 	}
 #endif
 }
