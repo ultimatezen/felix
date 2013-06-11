@@ -33,6 +33,18 @@ static const unsigned int UWM_USER_MESSAGE = ::RegisterWindowMessage( _T("UUWM_U
 			return TRUE; \
 	}
 
+#define MSG_HANDLER_WIN_MSG(msg, func) \
+	if(uMsg == msg) \
+{ \
+	WindowsMessage message( hWnd, uMsg, wParam, lParam ) ;\
+	SetMsgHandled(TRUE); \
+	lResult = (LRESULT)func(message); \
+	if(IsMsgHandled()) \
+	{\
+		return TRUE; \
+	}\
+}
+
 #define MSG_HANDLER_1(msg, func, arg) \
 	if(uMsg == msg) \
 	{ \
