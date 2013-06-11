@@ -26,6 +26,14 @@ public:
 	~WindowsMessage(void)
 	{
 	}
+	WORD w_low()
+	{
+		return LOWORD(wParam) ;
+	}
+	WORD w_high()
+	{
+		return HIWORD(wParam) ;
+	}
 	void notHandled()
 	{
 		bHandled = false ;
