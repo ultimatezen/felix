@@ -386,6 +386,8 @@ public:
 		MESSAGE_HANDLER_EX(WM_SIZE, OnSize)
 		MSG_WM_DROPFILES( OnDrop )
 
+		MSG_HANDLER_WIN_MSG(WM_ACTIVATE, on_activate)
+
 		// ----
 		BEGIN_USER_HANDLER_EX
 			USER_HANDLER_EX(ID_USER_SEARCH, on_user_search )

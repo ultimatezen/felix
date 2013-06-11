@@ -5,6 +5,17 @@ static const int ZOOM_MIN = -10 ;
 static const int ZOOM_MAX = 10 ;
 static const int TIC_FREQ = 1 ;
 
+
+CString get_mousewheel_command( int count )
+{
+	if (count > 0)
+	{
+		return _T("increaseFont") ;
+	}
+	return _T("decreaseFont") ;
+}
+
+
 CZoomDlg::CZoomDlg( CZoomInterface *zoom_interface, int zoom_level ) : m_interface(zoom_interface),
 	m_zoom_level(zoom_level),
 	m_original_zoom_level(zoom_level)

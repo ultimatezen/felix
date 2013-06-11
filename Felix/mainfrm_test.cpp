@@ -113,6 +113,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 		BOOST_CHECK(old_markup == frame->m_props->m_gen_props.m_data.m_show_markup) ;
 	}
 
+
 	BOOST_AUTO_TEST_CASE(test_check_shell_execute_result_ok)
 	{
 

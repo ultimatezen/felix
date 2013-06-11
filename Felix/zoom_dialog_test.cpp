@@ -17,7 +17,8 @@ BOOST_AUTO_TEST_SUITE( CZoomDlgTest )
 	};
 	BOOST_AUTO_TEST_CASE( init_message )
 	{
-		CZoomDlg dialog ;
+		FakeZoomDialogInterface zi ;
+		CZoomDlg dialog(&zi, 0) ;
 		LRESULT lresult = 0 ;
 		dialog.ProcessWindowMessage(NULL, WM_INITDIALOG, 0, 0, lresult) ;
 		BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;

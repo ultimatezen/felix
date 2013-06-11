@@ -47,15 +47,6 @@ void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
 	}
 }
 
-CString get_mousewheel_command( int count )
-{
-	if (count > 0)
-	{
-		return _T("increaseFont") ;
-	}
-	return _T("decreaseFont") ;
-}
-
 //////////////////////////////////////////////////////////////////////////
 // CCommonWindowFunctionality class
 //////////////////////////////////////////////////////////////////////////
@@ -1207,5 +1198,18 @@ void CCommonWindowFunctionality::set_zoom_level( int zoom_level )
 			m_view_interface.run_script(command) ;
 		}
 	}
+}
+
+LRESULT CCommonWindowFunctionality::on_activate( WindowsMessage &message )
+{
+	if (message.w_low() == WA_INACTIVE)
+	{
+		m_is_active = false ;
+	}
+	else
+	{
+		m_is_active = true ;
+	}
+	return 0L ;
 }
 

@@ -7,6 +7,8 @@
 #include "Exceptions.h"
 #include "WindowExceptionHandler.h"
 
+CString get_mousewheel_command(int count);
+
 class CZoomInterface
 {
 public:
@@ -27,6 +29,7 @@ class CZoomDlg :
 public:
 	static const int IDD = IDD_ZOOM_DLG ;
 	DECLARE_SENSING_VAR ;
+
 	CZoomInterface *m_interface ;
 	int m_zoom_level ;
 	int m_original_zoom_level ;

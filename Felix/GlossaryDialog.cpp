@@ -52,7 +52,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_model(new FelixModel(props,
 							false))
 { 
-
+	m_is_active = false ;
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
 	m_editor->m_interface = this ;
@@ -1048,7 +1048,10 @@ bool CGlossaryDialog::exit_silently()
 
 BOOL CGlossaryDialog::PreTranslateMessage( LPMSG pMsg )
 {
-	ENSURE_FOCUS
+	if (! m_is_active)
+	{
+		return FALSE ;
+	}
 
 	if ( IsWindow() && m_accelerator.TranslateAccelerator( *this, pMsg ) )
 	{

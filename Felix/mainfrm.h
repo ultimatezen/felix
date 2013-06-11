@@ -283,6 +283,9 @@ public:
 	//CSmartCommandBarCtrl m_CmdBar;
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+
+	void remove_destroyed_gloss_windows();
+
 	virtual BOOL OnIdle();
 
 	// Handler prototypes (uncomment arguments if needed):
@@ -294,6 +297,7 @@ public:
 	// Message handlers
 	//============================
 	LRESULT on_create(WindowsMessage &message);
+
 
 	void set_doc_ui_handler();
 	HRESULT show_doc_context_menu();

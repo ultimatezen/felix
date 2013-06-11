@@ -112,6 +112,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_output_device(new OutputDeviceFile),
 	m_silent_memories(props)
 {
+	m_is_active = false ;
 
 	initialize_values() ;
 
@@ -157,6 +158,9 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	this->register_event_listener( WM_DESTROY, boost::bind(&CMainFrame::on_destroy, this, _1 ) ) ; 
 	this->register_event_listener( WM_CLOSE, boost::bind(&CMainFrame::on_close, this, _1 ) ) ; 
 	this->register_event_listener( WM_DROPFILES, boost::bind(&CMainFrame::on_drop, this, _1 ) ) ; 
+
+	this->register_event_listener( WM_ACTIVATE, boost::bind(&CMainFrame::on_activate, this, _1 ) ) ; 
+
 
 	// user messages
 	this->register_user_event_listener( USER_LOOKUP_SOURCE, boost::bind(&CMainFrame::on_user_lookup_source, this, _1 )) ;
@@ -277,25 +281,21 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 
 	// Go through our glossary windows, and see if we need to pass on 
 	// this message to them...
-	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; )
+	remove_destroyed_gloss_windows();
+
+	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
 	{
-		if ( ! (*pos)->IsWindow() )
+		if ( (*pos)->PreTranslateMessage(pMsg) )
 		{
-			m_glossary_windows.erase( pos ) ;
-			// reset to avoid problems
-			pos = m_glossary_windows.begin() ;
-		}
-		else 
-		{
-			HWND focus = pMsg->hwnd ;
-			if ( (*pos)->m_hWnd == focus || (*pos)->IsChild( focus ) )
-			{
-				return (*pos)->PreTranslateMessage(pMsg) ;
-			}
-			++pos ;
+			return TRUE ;
 		}
 	}
 
+
+	if (! m_is_active)
+	{
+		return FALSE ;
+	}
 	// let the frame window have a try
 	if( frame_class::PreTranslateMessage( pMsg ) )
 	{
@@ -308,6 +308,24 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 		return FALSE ;
 	}
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
+}
+
+
+void CMainFrame::remove_destroyed_gloss_windows()
+{
+	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; )
+	{
+		if ( ! (*pos)->IsWindow() )
+		{
+			m_glossary_windows.erase( pos ) ;
+			// reset to avoid problems
+			pos = m_glossary_windows.begin() ;
+		}
+		else 
+		{
+			++pos ;
+		}
+	}
 }
 
 

@@ -33,14 +33,14 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	BOOST_AUTO_TEST_CASE( TestMessageMap )
 	{
 		frame_ptr frame = make_fake_frame() ;
-		BOOST_CHECK_EQUAL( 4, (int)frame->m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 5u, frame->m_message_map.size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( TestMessageMapAddFunction )
 	{
 		frame_ptr frame = make_fake_frame() ;
-		BOOST_CHECK_EQUAL( 4, (int)frame->m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 5u, frame->m_message_map.size()) ;
 		frame->register_event_listener( WM_CREATE, FakeFreeFunction ) ;
-		BOOST_CHECK_EQUAL( 4, (int)frame->m_message_map.size()) ;
+		BOOST_CHECK_EQUAL( 5u, frame->m_message_map.size()) ;
 	}
 
 
@@ -127,6 +127,27 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[NEW_RECORD_DISPLAY_STATE]" ) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[1], "on_user_register" ) ;
 	}
+
+
+	BOOST_AUTO_TEST_CASE(test_on_activate)
+	{
+		frame_ptr frame = make_fake_frame() ;
+		BOOST_CHECK(! frame->m_is_active) ;
+
+		WindowsMessage dummy ;
+
+		dummy.wParam = MAKEWPARAM(WA_ACTIVE, 0) ;
+		frame->on_activate(dummy) ;
+
+		BOOST_CHECK(frame->m_is_active) ;
+
+		dummy.wParam = MAKEWPARAM(WA_INACTIVE, 0) ;
+		frame->on_activate(dummy) ;
+
+		BOOST_CHECK(! frame->m_is_active) ;
+	}
+
+
 	BOOST_AUTO_TEST_CASE( Test_register_glossary_entries_MATCH_DISPLAY_STATE )
 	{
 		frame_ptr frame = make_fake_frame() ;

@@ -41,8 +41,6 @@ void add_common_std_bitmaps(std::vector< int > &StdBitmaps) ;
 void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps) ;
 
 
-CString get_mousewheel_command(int count);
-
 
 /**
 	@class CCommonWindowFunctionality  
@@ -87,6 +85,8 @@ public:
 
 	frame_view			m_view_interface ;
 	ViewState			*m_view_state ;
+
+	bool				m_is_active ;
 
 
 	// find dialog
@@ -260,6 +260,9 @@ public:
 
 	void save_window_settings( LPCTSTR key_name );
 	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props ) ;
+
+
+	LRESULT on_activate(WindowsMessage &message);
 
 /************************************************************************/
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
