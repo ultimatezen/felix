@@ -429,9 +429,6 @@
     <ClCompile Include="mainframe_messaging_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrameController_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="mainfrm_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>

@@ -862,7 +862,6 @@ echo Protection complete!
     <ClCompile Include="logical_test.cpp" />
     <ClCompile Include="longest_common_substring_test.cpp" />
     <ClCompile Include="mainframe_messaging_test.cpp" />
-    <ClCompile Include="MainFrameController_test.cpp" />
     <ClCompile Include="mainfrm_test.cpp" />
     <ClCompile Include="ManagerWindow_test.cpp" />
     <ClCompile Include="match_filters_matcher_test.cpp" />
