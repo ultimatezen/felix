@@ -5,8 +5,6 @@
 #include "MessageMapDefines.h"	// atlcrack.h + custom message map defines
 #include "WindowExceptionHandler.h"
 
-
-
 /**
 	@class CNagDialog  
 	@brief Nag dialog for demo version.

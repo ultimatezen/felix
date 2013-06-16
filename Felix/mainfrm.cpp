@@ -291,11 +291,8 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
+	ENSURE_ACTIVE
 
-	if (! m_is_active)
-	{
-		return FALSE ;
-	}
 	// let the frame window have a try
 	if( frame_class::PreTranslateMessage( pMsg ) )
 	{

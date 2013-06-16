@@ -408,6 +408,9 @@ public:
 #define ENSURE_FOCUS \
 	if ( m_hWnd != pMsg->hwnd  && ! IsChild( pMsg->hwnd  ) ) return FALSE ;
 
+#define ENSURE_ACTIVE \
+	if (! m_is_active)	{ return FALSE ; }
+
 #define ASSERT_WINERR ASSERT_WITH_WINERR
 
 #define XCRASHREPORT_ERROR_LOG_FILE		_T("ERRORLOG.TXT")

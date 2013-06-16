@@ -9,6 +9,7 @@
 #include "SourceAndHtmlEdit.h"
 
 #include "GlossaryDialog.h"	// gloss_window_pointer
+#include "active_window.h"
 
 wstring trim_and_normalize(const _bstr_t before) ;
 wstring trim_text(const wstring before) ;
@@ -22,7 +23,7 @@ class CRegisterGlossDlg :
 	public CMessageFilter
 	, public CAxDialogImpl< CRegisterGlossDlg, CWindow >
 	, public CWindowExceptionHandler< CRegisterGlossDlg >
-	//, public CDialogLayout< CRegisterGlossDlg >
+	, public ActiveWindow
 {
 	VISIBLE_TO_TESTS
 
@@ -145,6 +146,7 @@ public:
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
 		MSG_WM_SHOWWINDOW(OnShowWindow)
 		MSG_WM_SIZE(OnSize)
+		MSG_HANDLER_WIN_MSG(WM_ACTIVATE, on_activate)
 
 		BEGIN_NOTIFY_HANDLER_EX
 

@@ -442,7 +442,7 @@ BOOL CRegisterGlossDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// no banner, because we would be swamped with trace statements!
 
-	ENSURE_FOCUS
+	ENSURE_ACTIVE
 
 	// intercept enter key in order to shut down dialog even when
 	// the DHTML edit controls have focus
