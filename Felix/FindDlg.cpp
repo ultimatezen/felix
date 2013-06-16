@@ -24,7 +24,7 @@ CFindDlg::CFindDlg()
 */
 BOOL CFindDlg::PreTranslateMessage( MSG *pMsg )
 {
-	ENSURE_FOCUS
+	ENSURE_ACTIVE
 	// translating accelerators here will just rob messages from our edit boxes.
 	// let those guys handle their own accelerators
 
@@ -147,36 +147,6 @@ LRESULT CFindDlg::OnInitDialog( )
 
 	return 0 ;
 #endif
-}
-
-/** OnActivate
-@brief What to do when activated. 
-@retval LRESULT 
-@param WPARAM wParam. TRUE if being activated, false otherwise.
-*/
-LRESULT CFindDlg::OnActivate( WPARAM wParam ) 
-{
-	SENSE("OnActivate") ;
-
-	if ( LOWORD( wParam ) ) // set to TRUE if being activated
-	{
-		ATLTRACE( "This is an activation\n" ) ;
-		m_source_edit.SetSel(0, -1) ;
-		ATLASSERT(  GetLastError() == ERROR_SUCCESS ||
-			GetLastError() == 6				||
-			GetLastError() == 5
-			)	;		// Often, error 6 is set here.
-						// No idea why this happens, but
-						// it appears harmless. Will be 5 (access denied)
-						// on deactivate messages.
-		CLEAR_WINERRORS ;
-		return 0 ;
-	}
-	ATLASSERT(  GetLastError() == ERROR_SUCCESS || GetLastError() == 5	) ;
-	CLEAR_WINERRORS ;
-
-	ATLTRACE( "This is a deactivation\n" ) ;
-	return 0L ;
 }
 
 /** We hide ourselves when we get a close command.

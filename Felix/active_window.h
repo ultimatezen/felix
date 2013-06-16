@@ -11,7 +11,10 @@ public:
 	{
 
 	}
-
+	bool we_are_active()
+	{
+		return m_is_active ;
+	}
 	LRESULT on_activate( WindowsMessage &message )
 	{
 		if (message.w_low() == WA_INACTIVE)

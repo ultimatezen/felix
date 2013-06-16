@@ -16,6 +16,7 @@
 #include "WindowExceptionHandler.h"
 #include "system_message.h"
 #include "stringconversions.h"
+#include "active_window.h"
 
 
 /**
@@ -54,6 +55,7 @@ class CEditModeCommonFunctions :
 		public CMessageFilter, 
 		public CDialogImpl<T, CWindow>, 
 		public CWindowExceptionHandler< T >
+		, public ActiveWindow
 {
 protected:
 	
@@ -87,7 +89,7 @@ public:
 
 	BOOL PreTranslateMessage( MSG *pMsg ) 
 	{
-		ENSURE_FOCUS
+		ENSURE_ACTIVE
 
 		return IsDialogMessage( pMsg ) ;
 	}
@@ -524,6 +526,7 @@ public:
 	// ========================
 	BEGIN_MAP_EX( CEditModeCommonFunctions )
 		MSG_HANDLER_0 ( WM_DESTROY,		on_destroy )
+		MSG_HANDLER_WIN_MSG(WM_ACTIVATE, on_activate)
 
 		BEGIN_CMD_HANDLER_EX
 			CMD_HANDLER_EX_0(IDCANCEL, OnCloseCommand)

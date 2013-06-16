@@ -284,7 +284,9 @@ public:
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	void remove_destroyed_gloss_windows();
+	bool pre_translate_in_glossary_windows( MSG* pMsg, gloss_window_list &glossary_windows );
+
+	void remove_destroyed_gloss_windows(gloss_window_list &glossary_windows);
 
 	virtual BOOL OnIdle();
 

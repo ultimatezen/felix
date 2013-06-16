@@ -13,7 +13,8 @@ public:
 };
 
 
-class CEditTransRecordDialog : public CEditTransRecordDialogCommon<CEditTransRecordDialog>
+class CEditTransRecordDialog : 
+	public CEditTransRecordDialogCommon<CEditTransRecordDialog>
 {
 public:
 	typedef CEditTransRecordDialogCommon<CEditTransRecordDialog> BaseClass ;

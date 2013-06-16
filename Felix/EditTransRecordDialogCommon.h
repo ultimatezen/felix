@@ -13,6 +13,7 @@
 #include "UserStringDlg.h"
 #include "reg_msg_filter.h"
 #include "resizeable_dialog.h"
+#include "active_window.h"
 
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 
@@ -29,6 +30,7 @@ class CEditTransRecordDialogCommon :
 	public CAxDialogImpl< CEditTransRecordDialogCommon<TBase>, CWindow >, 
 	public CDialogResize< CEditTransRecordDialogCommon<TBase> >,
 	public CWindowExceptionHandler< CEditTransRecordDialogCommon<TBase> >
+	, public ActiveWindow
 {
 public:
 	typedef mem_engine::record_pointer record_type ;
@@ -728,6 +730,7 @@ public:
 	{
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
+		MSG_HANDLER_WIN_MSG(WM_ACTIVATE, on_activate)
 
 		MSG_WM_SIZE(OnSize)
 		//MESSAGE_HANDLER_EX(WM_GETDLGCODE, OnGetDlgCode)
@@ -828,30 +831,13 @@ public:
 	{
 		// no banner, because we would be swamped with trace statements!
 
-		ENSURE_FOCUS
+		ENSURE_ACTIVE
 
 		// intercept enter key in order to shut down dialog even when
 		// the DHTML edit controls have focus
-		if (pMsg->message == WM_KEYDOWN)
+		if( process_keydown(pMsg) )
 		{
-			switch (pMsg->wParam)
-			{
-			case VK_RETURN:
-				process_return_key() ;
-				return TRUE ;
-			case VK_ESCAPE:
-				ATLASSERT(IsWindow()) ;
-				::SendMessage(m_hWnd, WM_COMMAND, IDCANCEL, 0) ;
-				return TRUE ;
-			case VK_TAB:
-				if (process_tab_key())
-				{
-					return TRUE ;
-				}
-			case VK_DELETE:
-				this->OnEditDelete() ;
-				return TRUE ;
-			}	
+			return TRUE ;
 		}
 
 		HWND focus_hwnd = ::GetFocus() ;
@@ -894,6 +880,32 @@ public:
 		if(CAxDialogImpl<TheClass, CWindow>::IsDialogMessage(pMsg))
 			return TRUE ;
 
+		return FALSE ;
+	}
+
+	BOOL process_keydown( MSG* pMsg ) 
+	{
+		if (pMsg->message == WM_KEYDOWN)
+		{
+			switch (pMsg->wParam)
+			{
+			case VK_RETURN:
+				process_return_key() ;
+				return TRUE ;
+			case VK_ESCAPE:
+				ATLASSERT(IsWindow()) ;
+				::SendMessage(m_hWnd, WM_COMMAND, IDCANCEL, 0) ;
+				return TRUE ;
+			case VK_TAB:
+				if (process_tab_key())
+				{
+					return TRUE ;
+				}
+			case VK_DELETE:
+				this->OnEditDelete() ;
+				return TRUE ;
+			}	
+		}
 		return FALSE ;
 	}
 

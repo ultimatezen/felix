@@ -239,6 +239,9 @@ CExeModule
 #include "xpmenu/ToolBarXP.h"
 #include "xpmenu/Tools.h"
 
+// We need to rename the functions below, because they clash
+// with our namespace. If only we could pull these defs into their
+// own namespace...
 #import "mshtml.tlb" no_auto_exclude, \
 		named_guids, \
 		rename( "TranslateAccelerator", "HtmlTranslateAccelerator" ), \

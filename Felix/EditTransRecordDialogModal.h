@@ -6,7 +6,8 @@
 #include "EditTransRecordDialogCommon.h"
 
 
-class CEditTransRecordDialogModal : public CEditTransRecordDialogCommon<CEditTransRecordDialogModal>
+class CEditTransRecordDialogModal : 
+	public CEditTransRecordDialogCommon<CEditTransRecordDialogModal>
 {
 public:
 	typedef CEditTransRecordDialogCommon<CEditTransRecordDialogModal> BaseClass ;

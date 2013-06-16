@@ -15,6 +15,7 @@
 #include "MessageMapDefines.h"	// more crackers
 
 #include "WindowExceptionHandler.h"
+#include "active_window.h"
 
 /**
 	@class CFindDlg  
@@ -24,6 +25,7 @@ class CFindDlg  :
 		public CMessageFilter, 
 		public CDialogImpl<CFindDlg, CWindow>,
 		public CWindowExceptionHandler< CFindDlg >
+		, public ActiveWindow
 {
 	mem_engine::search_query_params	m_params ;
 	mem_engine::record_pointer		m_record ;
@@ -46,7 +48,6 @@ public:
 
 	LRESULT OnDestroy( ) ;
 	LRESULT OnInitDialog( ) ;
-	LRESULT OnActivate( WPARAM wParam )  ;
 	LRESULT OnClose( ) ;
 	LRESULT OnSearch( ) ;
 
@@ -58,7 +59,7 @@ public:
 	BEGIN_MAP_EX( CFindDlg )
 		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
-		MSG_HANDLER_1 (WM_ACTIVATE,   OnActivate,    wParam)
+		MSG_HANDLER_WIN_MSG(WM_ACTIVATE, on_activate)
 
 		BEGIN_CMD_HANDLER_EX
 			CMD_HANDLER_EX_0(IDCANCEL, OnClose)

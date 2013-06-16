@@ -6,7 +6,8 @@
 #include "EditTransRecordDialogCommon.h"
 #include "resource.h"
 
-class CEditTransRecordDialogRegGloss : public CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss, IDD_EDIT_RECORD_GLOSS>
+class CEditTransRecordDialogRegGloss : 
+	public CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss, IDD_EDIT_RECORD_GLOSS>
 {
 public:
 

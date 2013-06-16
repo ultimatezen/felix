@@ -281,14 +281,11 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 
 	// Go through our glossary windows, and see if we need to pass on 
 	// this message to them...
-	remove_destroyed_gloss_windows();
+	remove_destroyed_gloss_windows(m_glossary_windows);
 
-	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
+	if (pre_translate_in_glossary_windows(pMsg, m_glossary_windows))
 	{
-		if ( (*pos)->PreTranslateMessage(pMsg) )
-		{
-			return TRUE ;
-		}
+		return TRUE ;
 	}
 
 	ENSURE_ACTIVE
@@ -308,9 +305,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 }
 
 
-void CMainFrame::remove_destroyed_gloss_windows()
+void CMainFrame::remove_destroyed_gloss_windows(gloss_window_list &glossary_windows)
 {
-	for( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; )
+	for( auto pos = glossary_windows.begin() ; pos != glossary_windows.end() ; )
 	{
 		if ( ! (*pos)->IsWindow() )
 		{
@@ -323,6 +320,18 @@ void CMainFrame::remove_destroyed_gloss_windows()
 			++pos ;
 		}
 	}
+}
+
+bool CMainFrame::pre_translate_in_glossary_windows( MSG* pMsg, gloss_window_list &glossary_windows )
+{
+	for( auto pos = glossary_windows.begin() ; pos != glossary_windows.end() ; ++pos )
+	{
+		if ( (*pos)->PreTranslateMessage(pMsg) )
+		{
+			return true ;
+		}
+	}
+	return false ;
 }
 
 
