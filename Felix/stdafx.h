@@ -239,7 +239,12 @@ CExeModule
 #include "xpmenu/ToolBarXP.h"
 #include "xpmenu/Tools.h"
 
-#import "mshtml.tlb" no_auto_exclude, named_guids, rename( "TranslateAccelerator", "HtmlTranslateAccelerator" )
+#import "mshtml.tlb" no_auto_exclude, \
+		named_guids, \
+		rename( "TranslateAccelerator", "HtmlTranslateAccelerator" ), \
+		rename("min", "HtmlMin"), \
+		rename("max", "HtmlMax")
+
 #include "mshtml.h"
 #include "pugxml/src/pugixml.hpp"
 
