@@ -1908,6 +1908,9 @@
     <ClInclude Include="tmx_dialogs.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
+    <ClInclude Include="active_window.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\Felix.exe.manifest">

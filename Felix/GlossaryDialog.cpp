@@ -1048,10 +1048,7 @@ bool CGlossaryDialog::exit_silently()
 
 BOOL CGlossaryDialog::PreTranslateMessage( LPMSG pMsg )
 {
-	if (! m_is_active)
-	{
-		return FALSE ;
-	}
+	ENSURE_ACTIVE
 
 	if ( IsWindow() && m_accelerator.TranslateAccelerator( *this, pMsg ) )
 	{
