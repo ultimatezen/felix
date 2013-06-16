@@ -32,6 +32,7 @@
 
 #include "menu_helper.h"
 #include "zoom_dialog.h"
+#include "active_window.h"
 
 typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
@@ -54,6 +55,7 @@ class CCommonWindowFunctionality :
 	, public WindowListener
 	, public WindowInterface
 	, public CZoomInterface
+	, public ActiveWindow
 {
 public:
 	DECLARE_SENSING_VAR ;
@@ -85,8 +87,6 @@ public:
 
 	frame_view			m_view_interface ;
 	ViewState			*m_view_state ;
-
-	bool				m_is_active ;
 
 
 	// find dialog
@@ -260,9 +260,6 @@ public:
 
 	void save_window_settings( LPCTSTR key_name );
 	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props ) ;
-
-
-	LRESULT on_activate(WindowsMessage &message);
 
 /************************************************************************/
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
