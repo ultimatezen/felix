@@ -34,13 +34,8 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 #endif
 	// load the name and key strings
 	const string name = "REGISTERED" ;
-	string key = CT2A(text) ;
+	string key = get_key_text(text);
 
-	// strip whitespace from key
-	boost::replace_all( key, "\t", "" ) ;
-	boost::replace_all( key, "\n", "" ) ;
-	boost::replace_all( key, "\r", "" ) ;
-	boost::replace_all( key, " ", "" ) ;
 
 #ifndef UNIT_TEST
 #ifdef _DEBUG
@@ -77,6 +72,18 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 #endif
 
 	END_DLG ;
+}
+
+string CInputKeyDlg::get_key_text( CString text )
+{
+	string key = CT2A(text) ;
+
+	boost::replace_all( key, "\t", "" ) ;
+	boost::replace_all( key, "\n", "" ) ;
+	boost::replace_all( key, "\r", "" ) ;
+	boost::replace_all( key, " ", "" ) ;
+	boost::replace_all( key, ">", "" ) ;
+	return key ;
 }
 
 LRESULT CInputKeyDlg::OnCloseCommand( WORD wID )

@@ -27,6 +27,11 @@ public:
 
 	LRESULT OnInitDialog( );
 	LRESULT OnOK(  WORD wID );
+
+	// strip whitespace from key.
+	// Also strip quote marks (>), in case email is forwarded, etc.
+	string get_key_text( CString text );
+
 	LRESULT OnCloseCommand(  WORD wID );
 
 	BEGIN_MSG_MAP_EX(CInputKeyDlg)

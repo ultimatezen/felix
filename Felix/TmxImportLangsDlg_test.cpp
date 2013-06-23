@@ -24,7 +24,15 @@ BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	BOOST_CHECK_EQUAL(FALSE, result) ;
 	BOOST_CHECK_EQUAL(1, lResult) ;
 }
-
+BOOST_AUTO_TEST_CASE(test_OnInitDialog)
+{
+	CTMXImportLangsDlg dialog ;
+	BOOL handled = FALSE ;
+	LRESULT lResult = dialog.OnInitDialog(0, 0, 0, handled) ;
+	BOOST_CHECK_EQUAL(1u, dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL("OnInitDialog", dialog.m_sensing_variable[0]) ;
+	BOOST_CHECK_EQUAL(1, lResult) ;
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 
