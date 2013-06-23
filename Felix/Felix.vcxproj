@@ -498,6 +498,7 @@ echo Protection complete!
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
     <ClCompile Include="..\common\FileOpHandler.cpp" />
     <ClCompile Include="..\common\menu_helper.cpp" />
+    <ClCompile Include="aboutdlg_test.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>

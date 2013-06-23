@@ -1065,6 +1065,9 @@
     <ClCompile Include="TmxImportLangsDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="aboutdlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
