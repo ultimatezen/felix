@@ -1,22 +1,18 @@
 #include "stdafx.h"
 #include "aboutdlg.h"
-#include "easyunit/testharness.h"
 
+#ifdef UNIT_TEST
 
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE( TestCAboutDialog )
 
-BOOST_AUTO_TEST_CASE( instantiate)
-{
-	CAboutDialog dialog ;
-	BOOST_CHECK_EQUAL(IDD_ABOUTBOX, CAboutDialog::IDD) ;
-}
 BOOST_AUTO_TEST_CASE( EndDialog)
 {
 	CAboutDialog dialog ;
-	dialog.m_bModal = TRUE ;
 	int actual = (int)dialog.OnCloseCmd(IDCANCEL) ;
+	BOOST_CHECK_EQUAL(1, (int)dialog.m_sensing_variable.size()) ;
+	BOOST_CHECK_EQUAL( dialog.m_sensing_variable[0], "OnCloseCmd"); 
 	BOOST_CHECK_EQUAL(0, actual) ;
 }
 // message processing
@@ -70,3 +66,5 @@ BOOST_AUTO_TEST_CASE( test_message_ZERO)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#endif

@@ -53,7 +53,7 @@ public:
 	// Argument         : WORD wID
 	LRESULT OnCloseCmd( WORD wID );
 
-    BEGIN_DLGRESIZE_MAP(CAboutDialog< int id_type >)
+    BEGIN_DLGRESIZE_MAP(CAboutDialog)
         // buttons
         DLGRESIZE_CONTROL(IDCLOSE, DLSZ_MOVE_X|DLSZ_MOVE_Y)
 
@@ -61,7 +61,7 @@ public:
         DLGRESIZE_CONTROL(IDC_ABOUT_MSG_BOX, DLSZ_SIZE_X|DLSZ_SIZE_Y)
     END_DLGRESIZE_MAP()
 
-	BEGIN_MSG_MAP_EX( CAboutDialog< int id_type > )
+	BEGIN_MSG_MAP_EX( CAboutDialog )
 		MSG_HANDLER_0 ( WM_INITDIALOG,  OnInitDialog )
  		MSG_WM_SIZE   ( OnSize )
 

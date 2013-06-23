@@ -9,8 +9,6 @@
 #include "resizeable_dialog.h"
 
 
-
-
 LRESULT CAboutDialog::OnSize( UINT type, CSize size )
 {
 	SENSE( "OnSize" ) ;
@@ -59,7 +57,6 @@ LRESULT CAboutDialog::OnInitDialog()
 	// Init the CDialogResize code
 #ifndef UNIT_TEST
 	DlgResize_Init( true, true ) ;
-#endif		
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
@@ -87,6 +84,7 @@ LRESULT CAboutDialog::OnInitDialog()
 	{
 		m_view.load_from_resource( _T("ABOUTPAGE.HTML") ) ;
 	}
+#endif		
 
 
 	return TRUE ;
