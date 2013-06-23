@@ -52,6 +52,7 @@ CGlossaryDialog::CGlossaryDialog(app_props::props_ptr props) :
 	m_model(new FelixModel(props,
 							false))
 { 
+	m_get_window = &get_window_real ;
 	m_is_active = false ;
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;

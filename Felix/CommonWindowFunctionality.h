@@ -129,6 +129,8 @@ public:
 	CCommonWindowFunctionality( ) ;
 	virtual ~CCommonWindowFunctionality();
 
+	boost::function<window_wrapper_ptr(HWND)> m_get_window ;
+
 	/************************************************************************/
 	/* WindowInterface implementation                                       */
 	/************************************************************************/

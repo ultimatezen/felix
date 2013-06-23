@@ -112,6 +112,7 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_output_device(new OutputDeviceFile),
 	m_silent_memories(props)
 {
+	m_get_window = &get_window_real ;
 	m_is_active = false ;
 
 	initialize_values() ;
@@ -273,7 +274,6 @@ CMainFrame::~CMainFrame()
 */
 BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 {
-
 	if( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
 		return m_min_view.PreTranslateMessage( pMsg ) ;
