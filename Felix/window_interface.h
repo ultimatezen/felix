@@ -47,3 +47,14 @@ public:
 	}
 
 };
+
+typedef boost::shared_ptr<WindowWrapper> window_wrapper_ptr ;
+
+inline window_wrapper_ptr get_window_real(HWND hwnd)
+{
+	return window_wrapper_ptr(new WindowWrapperReal(hwnd)) ;
+}
+inline window_wrapper_ptr get_window_fake(window_wrapper_ptr window, HWND)
+{
+	return window ;
+}
