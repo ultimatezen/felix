@@ -51,7 +51,9 @@
 // file I/O
 #include "input_device_file.h"
 #include "output_device.h"
+#include "system_paths.h"
 
+// QC
 #include "qcrules/qc_checker.h"
 #include "qcrules/allcaps_check.h"
 #include "qcrules/number_check.h"
@@ -65,38 +67,6 @@ using namespace except ;
 using namespace html ;
 using namespace placement ;
 
-CString get_help_file_path( CString path )
-{
-	file::CPath filePath( path ) ;
-	filePath.Append( resource_string(IDS_HELPFILE_NAME) ) ;
-
-	if ( ! filePath.FileExists() ) 
-	{
-		filePath.ReplaceFileSpec(resource_string(IDS_PDF_HELPFILE_NAME)) ;
-	}
-
-	if ( ! filePath.FileExists() ) 
-	{
-		return resource_string(IDS_ONLINE_HELPFILE_URL) ;
-	}
-
-	return filePath.Path() ;
-}
-CString get_docs_path()
-{
-	// get the instance
-	HINSTANCE hInstance = _Module.GetModuleInstance() ;
-	ATLASSERT(hInstance != NULL) ;
-
-	// get the module file name
-	file::CPath path ;
-	path.GetModulePath( hInstance ) ;
-
-	path.Append( _T("DOCS") ) ;
-	path.AddBackslash() ;
-
-	return path.Path() ;
-}
 
 
 /** Constructor. Takes model interface.
@@ -572,30 +542,20 @@ void CMainFrame::check_load_history( )
 //! See if the command line has us loading any memories.
 void CMainFrame::check_command_line(commandline_options &options, input_device_ptr input)
 {
-	if (! options.m_prefs_file.empty())
-	{
-		this->load_old_preferences(options.m_prefs_file.c_str()) ;
-		return ;
-	}
 	FOREACH(tstring filename, options.m_tm_files)
 	{
-		memory_local *rawmem = new memory_local(m_props) ;
-		memory_pointer mem(rawmem) ;
-		rawmem->load(filename.c_str()) ;
-		this->add_memory(mem) ;
+		CString cfilename = filename.c_str() ;
+		load_felix_memory(false, cfilename);
 	}
 	FOREACH(tstring filename, options.m_glossary_files)
 	{
-		memory_local *rawmem = new memory_local(m_props) ;
-		memory_pointer mem(rawmem) ;
-		rawmem->load(filename.c_str()) ;
-		this->get_glossary_window()->add_glossary(mem) ;
+		CString cfilename = filename.c_str() ;
+		this->get_glossary_window()->load(cfilename, false) ;
 	}
 	FOREACH(tstring filename, options.m_xml_files)
 	{
-		memory_local *rawmem = new memory_local(m_props) ;
-		memory_pointer mem(rawmem) ;
-		rawmem->load(filename.c_str()) ;
+		memory_pointer mem(new memory_local(m_props)) ;
+		mem->load(filename.c_str()) ;
 		if (mem->get_memory_info()->is_memory())
 		{
 			this->add_memory(mem) ;
@@ -616,6 +576,17 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 	FOREACH(tstring filename, options.m_trados_text_files)
 	{
 		this->import_trados(CString(filename.c_str())) ;
+	}
+	if (! options.m_prefs_file.empty())
+	{
+		if (options.m_new_prefs_format)
+		{
+			m_props->load_file(options.m_prefs_file) ;
+		}
+		else
+		{
+			this->load_old_preferences(options.m_prefs_file.c_str()) ;
+		}
 	}
 }
 
@@ -773,6 +744,7 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 
 #ifndef UNIT_TEST
 	gloss_window->Create( m_hWnd ) ;
+	gloss_window->ShowWindow(SW_SHOW) ;
 	ATLASSERT( gloss_window->IsWindow() ) ;
 #endif
 

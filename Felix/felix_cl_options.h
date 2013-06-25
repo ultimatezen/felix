@@ -19,8 +19,14 @@ struct commandline_options
 	LOGGING_LEVEL m_logging_level ;
 	
 	tstring m_prefs_file ;
+	bool m_new_prefs_format ;
 	WORD m_language ;
 
 	commandline_options(LPCTSTR text, WORD language=LANG_ENGLISH);
+
+	bool parse_filename( tstring &token );
+
+	void parse_logging_level( tstring level );
+
 	WORD parse_lang(const tstring lang) const;
 };

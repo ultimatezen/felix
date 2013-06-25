@@ -56,6 +56,80 @@ BOOST_AUTO_TEST_SUITE( test_parse_command_line )
 		BOOST_CHECK_EQUAL(_T("c:\\program files\\foo.txt"), tokens[1]) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( test_parse_filename )
+
+	BOOST_AUTO_TEST_CASE(test_lang)
+	{
+		tstring token = _T("-lang") ;
+		tstring commandline_text ;
+		commandline_options options(commandline_text.c_str()) ;
+
+		BOOST_CHECK_EQUAL(false, options.parse_filename(token)) ;
+		BOOST_CHECK(options.m_tm_files.empty()) ;
+		BOOST_CHECK(options.m_glossary_files.empty()) ;
+		BOOST_CHECK(options.m_xml_files.empty()) ;
+		BOOST_CHECK(options.m_tmx_files.empty()) ;
+		BOOST_CHECK(options.m_trados_text_files.empty()) ;
+		BOOST_CHECK(options.m_multiterm_files.empty()) ;
+		BOOST_CHECK(options.m_prefs_file.empty()) ;
+		BOOST_CHECK(! options.m_new_prefs_format) ;
+
+	}
+	BOOST_AUTO_TEST_CASE(test_logging)
+	{
+		tstring token = _T("-logging") ;
+		tstring commandline_text ;
+		commandline_options options(commandline_text.c_str()) ;
+
+		BOOST_CHECK_EQUAL(false, options.parse_filename(token)) ;
+		BOOST_CHECK(options.m_tm_files.empty()) ;
+		BOOST_CHECK(options.m_glossary_files.empty()) ;
+		BOOST_CHECK(options.m_xml_files.empty()) ;
+		BOOST_CHECK(options.m_tmx_files.empty()) ;
+		BOOST_CHECK(options.m_trados_text_files.empty()) ;
+		BOOST_CHECK(options.m_multiterm_files.empty()) ;
+		BOOST_CHECK(options.m_prefs_file.empty()) ;
+		BOOST_CHECK(! options.m_new_prefs_format) ;
+
+	}
+	BOOST_AUTO_TEST_CASE(test_old_prefs)
+	{
+		tstring token = _T("foo.fprefs") ;
+		tstring commandline_text ;
+		commandline_options options(commandline_text.c_str()) ;
+
+		BOOST_CHECK_EQUAL(true, options.parse_filename(token)) ;
+		BOOST_CHECK(options.m_tm_files.empty()) ;
+		BOOST_CHECK(options.m_glossary_files.empty()) ;
+		BOOST_CHECK(options.m_xml_files.empty()) ;
+		BOOST_CHECK(options.m_tmx_files.empty()) ;
+		BOOST_CHECK(options.m_trados_text_files.empty()) ;
+		BOOST_CHECK(options.m_multiterm_files.empty()) ;
+		BOOST_CHECK_EQUAL(L"foo.fprefs", options.m_prefs_file) ;
+		BOOST_CHECK(! options.m_new_prefs_format) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_new_prefs)
+	{
+		tstring token = _T("foo.fprefx") ;
+		tstring commandline_text ;
+		commandline_options options(commandline_text.c_str()) ;
+
+		BOOST_CHECK_EQUAL(true, options.parse_filename(token)) ;
+		BOOST_CHECK(options.m_tm_files.empty()) ;
+		BOOST_CHECK(options.m_glossary_files.empty()) ;
+		BOOST_CHECK(options.m_xml_files.empty()) ;
+		BOOST_CHECK(options.m_tmx_files.empty()) ;
+		BOOST_CHECK(options.m_trados_text_files.empty()) ;
+		BOOST_CHECK(options.m_multiterm_files.empty()) ;
+		BOOST_CHECK_EQUAL(L"foo.fprefx", options.m_prefs_file) ;
+		BOOST_CHECK(options.m_new_prefs_format) ;
+	}
+
+
+BOOST_AUTO_TEST_SUITE_END()
+
 	//////////////////////////////////////////////////////////////////////////
 	// commandline_options
 	//////////////////////////////////////////////////////////////////////////

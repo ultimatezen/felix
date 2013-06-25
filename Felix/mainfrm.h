@@ -39,9 +39,6 @@
 #include "view_state_match.h"
 #include "view_state_review.h"
 
-CString get_help_file_path( CString path ) ;
-CString get_docs_path() ;
-
 using mem_engine::search_match_ptr ;
 using mem_engine::placement::trans_pair ;
 using mem_engine::placement::pairings_t ;
