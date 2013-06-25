@@ -12,9 +12,12 @@ CEditTransRecordDialogRegGloss::CEditTransRecordDialogRegGloss(const bool make_d
 // Function name	: CEditTransRecordDialogRegGloss::OnInitDialog
 LRESULT CEditTransRecordDialogRegGloss::OnInitDialog( )
 {
+	SENSE("OnInitDialog"); 
+#ifndef UNIT_TEST
 	initialize_dialog() ;
 
 	init_dlg_part_two() ;
+#endif
 
 	return TRUE ;
 }
@@ -23,9 +26,7 @@ LRESULT CEditTransRecordDialogRegGloss::OnInitDialog( )
 LRESULT CEditTransRecordDialogRegGloss::OnCancel( )
 {
 	SENSE("OnCancel"); 
-#ifndef UNIT_TEST
 	EndDialog(IDCANCEL);
-#endif
 	return 0L;
 }
 
