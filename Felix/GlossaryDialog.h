@@ -43,12 +43,15 @@
 #include "view_state_concordance.h"
 #include "view_state_match.h"
 
+typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	WS_EX_APPWINDOW | WS_EX_WINDOWEDGE> CGlossaryWindowTraits;
+
 /**
 	@class CGlossaryDialog 
 	@brief Class for a glossary window.
  */
 class CGlossaryDialog :
-		public CDialogImpl< CGlossaryDialog, CCommonWindowFunctionality >
+		public CWindowImpl< CGlossaryDialog, CCommonWindowFunctionality, CGlossaryWindowTraits >
 		, public CWindowExceptionHandler< CGlossaryDialog >
 		, public FrameListener
 		, public EditRecordInterface
@@ -96,6 +99,7 @@ class CGlossaryDialog :
 
 public:
 	static const int IDD = IDD_GLOSSARYVIEW ;
+	DECLARE_WND_CLASS(_T("Glossary Window"))
 
 	CGlossaryDialog(app_props::props_ptr props) ;
 	virtual ~CGlossaryDialog( ) ;
@@ -379,7 +383,8 @@ public:
 	// ========================
 	BEGIN_MSG_MAP_EX( CGlossaryDialog )
 	MSG_TRY
-		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
+//		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
+		MSG_HANDLER_0(WM_CREATE, OnInitDialog)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
 		// we need the generic handler, because we pass on the size command to the status bar
 		MESSAGE_HANDLER_EX(0x020A/*WM_MOUSEWHEEL*/, OnMouseWheel)

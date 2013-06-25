@@ -82,6 +82,9 @@
     <Filter Include="Source Files\dialogs">
       <UniqueIdentifier>{0c9ca1d0-8b5c-4c46-881c-0e67628e6423}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dialogs\test">
+      <UniqueIdentifier>{a2a260cf-7edf-4ef9-9363-418b6d85d2de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="charset_info.cpp">
@@ -343,18 +346,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="..\common\distance_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="EditModeFindDlg_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialog_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialogModal_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="EditTransRecordDialogRegGloss_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="element_wrapper_test.cpp">
@@ -1066,6 +1057,24 @@
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
     <ClCompile Include="aboutdlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialog_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModeFindDlg_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogModal_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogRegGloss_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\system_paths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\system_paths_tests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1913,6 +1922,9 @@
     </ClInclude>
     <ClInclude Include="active_window.h">
       <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\system_paths.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

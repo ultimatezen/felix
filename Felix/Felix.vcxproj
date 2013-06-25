@@ -498,6 +498,8 @@ echo Protection complete!
     <ClCompile Include="..\common\DispatchWrapper.cpp" />
     <ClCompile Include="..\common\FileOpHandler.cpp" />
     <ClCompile Include="..\common\menu_helper.cpp" />
+    <ClCompile Include="..\common\system_paths.cpp" />
+    <ClCompile Include="..\common\system_paths_tests.cpp" />
     <ClCompile Include="aboutdlg_test.cpp" />
     <ClCompile Include="AdvancedMemMgrDlg.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
@@ -1174,6 +1176,7 @@ echo Protection complete!
     <ClInclude Include="..\common\dotnettabctrl.h" />
     <ClInclude Include="..\common\menu_helper.h" />
     <ClInclude Include="..\common\ShellCtrls.h" />
+    <ClInclude Include="..\common\system_paths.h" />
     <ClInclude Include="..\common\window_object.h" />
     <ClInclude Include="..\common\xml_writer.h" />
     <ClInclude Include="active_window.h" />

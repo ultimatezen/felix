@@ -117,6 +117,7 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 
 	load_mousewheel_setting() ;
 	// create and instantiate html view
+
 	m_hWndClient = init_view() ;
 
 	// set content
@@ -144,6 +145,9 @@ LRESULT CGlossaryDialog::OnInitDialog( )
 	
 	::DragAcceptFiles( m_hWnd, TRUE ) ;
 
+	HMENU hmenu = LoadMenu ( _Module.GetResourceInstance(),  // _AtlBaseModule in VC7
+		MAKEINTRESOURCE(IDR_GLOSSARYMENU) );
+	SetMenu(hmenu) ;
 	size_client_and_status_bar() ;
 
 	m_accelerator.LoadAccelerators(IDR_MAINFRAME) ;
