@@ -25,7 +25,8 @@ public:
 		{
 			m_is_active = true ;
 		}
-		return 0L ;
+		// Return 1 if you don't process the message.
+		return 1L ;
 	}
 
 };
