@@ -1,9 +1,9 @@
 #pragma once
 
-#include "mainfrm.h"
+#include "MemoryWindowFrame.h"
 #include "memory_local.h"
 
-typedef boost::shared_ptr<CMainFrame> frame_ptr ;
+typedef boost::shared_ptr<MemoryWindowFrame> frame_ptr ;
 
 class FelixFactory
 {
@@ -23,7 +23,7 @@ public:
 	{ 
 		app_props::props_ptr props = make_props(); 
 		model_iface_ptr the_model = make_model_interface(props);
-		return frame_ptr(new CMainFrame( the_model, props )) ;
+		return frame_ptr(new MemoryWindowFrame( the_model, props )) ;
 	}
 
 	mem_engine::memory_pointer make_memory()

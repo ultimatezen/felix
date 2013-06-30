@@ -98,7 +98,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	_Module.AddMessageLoop(&theLoop);
 
 	// singleton ensures we have only one main window.
-	CMainFrame &view = app::get_app() ;
+	MemoryWindowFrame &view = app::get_app() ;
 
 	ATLASSERT( ! view.m_message_map.empty() ) ;
 	

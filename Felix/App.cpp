@@ -33,7 +33,7 @@ STDMETHODIMP CApp::get_Visible(VARIANT_BOOL* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		if ( ! MainFrame.IsWindow() )
 		{
 			*pVal = VARIANT_FALSE ;
@@ -58,7 +58,7 @@ STDMETHODIMP CApp::put_Visible(VARIANT_BOOL newVal)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		if ( ! MainFrame.IsWindow() )
 		{
 			if ( newVal == VARIANT_FALSE )
@@ -83,7 +83,7 @@ STDMETHODIMP CApp::Quit(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		if ( ! MainFrame.IsWindow() )
 		{
 			::PostQuitMessage( 0 ) ;
@@ -102,7 +102,7 @@ STDMETHODIMP CApp::Lookup(BSTR Query)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.lookup(BSTR2wstring( Query )) ;
 
 		//MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
@@ -117,7 +117,7 @@ STDMETHODIMP CApp::LookupTrans(BSTR Trans)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.lookup_trans(BSTR2wstring( Trans )) ;
 
 		//MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
@@ -132,7 +132,7 @@ STDMETHODIMP CApp::LookupDeferred(BSTR Query)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.m_deferred_query = BSTR2wstring( Query ) ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_SOURCE, USER_LOOKUP_SOURCE ) ;
 	}
@@ -145,7 +145,7 @@ STDMETHODIMP CApp::LookupTransDeferred(BSTR Trans)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.m_deferred_query = BSTR2wstring( Trans ) ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_LOOKUP_TRANS, USER_LOOKUP_TRANS ) ;
 	}
@@ -158,7 +158,7 @@ STDMETHODIMP CApp::Concordance(BSTR Query)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.get_concordances( BSTR2wstring( Query ) ) ;
 	}
 	FELIX_AUTO_CATCH( "Concordance" ) ;
@@ -170,7 +170,7 @@ STDMETHODIMP CApp::TransConcordance(BSTR Trans)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.get_translation_concordances( BSTR2wstring( Trans ) ) ;
 	}
 	FELIX_AUTO_CATCH( "TransConcordance" ) ;
@@ -184,7 +184,7 @@ STDMETHODIMP CApp::get_Score(DOUBLE* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_score() ;
 	}
 	FELIX_AUTO_CATCH( "get_Score" ) ;
@@ -196,7 +196,7 @@ STDMETHODIMP CApp::get_Query(BSTR* pVal)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		const wstring current_query = MainFrame.get_current_query( ) ;
 		*pVal = ::SysAllocStringLen( current_query.c_str(), current_query.size() ) ;
 	}
@@ -208,7 +208,7 @@ STDMETHODIMP CApp::put_Query(BSTR Query)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.lookup(BSTR2wstring( Query )) ;
 	}
 	FELIX_AUTO_CATCH( "put_Query" ) ;
@@ -222,7 +222,7 @@ STDMETHODIMP CApp::get_Trans(BSTR* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		const wstring trans = MainFrame.get_current_translation( ) ;
 		*pVal = ::SysAllocStringLen( trans.c_str(), trans.size() ) ;
 	}
@@ -234,7 +234,7 @@ STDMETHODIMP CApp::put_Trans(BSTR pVal)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.set_translation(  BSTR2wstring( pVal ) ) ;
 	}
 	FELIX_AUTO_CATCH( "put_Trans" ) ;
@@ -246,7 +246,7 @@ STDMETHODIMP CApp::Save(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.PostMessage( UWM_USER_MESSAGE, USER_SAVE_MEMORIES, USER_SAVE_MEMORIES ) ;
 	}
 	FELIX_AUTO_CATCH( "Save" ) ;
@@ -258,7 +258,7 @@ STDMETHODIMP CApp::NextTrans(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.next_match() ;
 	}
 	FELIX_AUTO_CATCH( "NextTrans" ) ;
@@ -270,7 +270,7 @@ STDMETHODIMP CApp::PrevTrans(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.prev_match() ;
 	}
 	FELIX_AUTO_CATCH( "PrevTrans" ) ;
@@ -284,7 +284,7 @@ STDMETHODIMP CApp::get_GlossMatch(SHORT Index, BSTR* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		const wstring entry = MainFrame.get_glossary_entry( Index ) ;
 		*pVal = ::SysAllocStringLen( entry.c_str(), entry.size() ) ;
 	}
@@ -299,7 +299,7 @@ STDMETHODIMP CApp::get_NumGlossMatches(SHORT* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		*pVal = static_cast< SHORT >( gloss->num_matches() ) ;
 	}
@@ -312,7 +312,7 @@ STDMETHODIMP CApp::LoadMemory(BSTR MemoryName)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.load( MemoryName ) ;
 	}
 	FELIX_AUTO_CATCH( "LoadMemory" ) ;
@@ -324,7 +324,7 @@ STDMETHODIMP CApp::LoadGlossary(BSTR GlossaryName)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		gloss->load( GlossaryName ) ;
 
@@ -338,7 +338,7 @@ STDMETHODIMP CApp::ClearMemories(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.clear_memory() ;
 	}
 	FELIX_AUTO_CATCH( "ClearMemories" ) ;
@@ -350,7 +350,7 @@ STDMETHODIMP CApp::ClearGlossaries(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		gloss->clear_memory() ;
 	}
@@ -365,7 +365,7 @@ STDMETHODIMP CApp::get_ShowMarkup(VARIANT_BOOL* pVal)
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		*pVal = MainFrame.get_show_marking() ;
 	}
 	FELIX_AUTO_CATCH( "get_ShowMarkup" ) ;
@@ -377,7 +377,7 @@ STDMETHODIMP CApp::put_ShowMarkup(VARIANT_BOOL newVal)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.put_show_marking( newVal ) ;
 	}
 	FELIX_AUTO_CATCH( "put_ShowMarkup" ) ;
@@ -394,7 +394,7 @@ STDMETHODIMP CApp::AddMemoryEntry(BSTR Source, BSTR Trans, BSTR EntryContext)
 		record->set_trans( BSTR2wstring(Trans) ) ;
 		record->set_context( BSTR2wstring(EntryContext) ) ;
 
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.add_record( record ) ;
 	}
 	FELIX_AUTO_CATCH( "AddMemoryEntry" ) ;
@@ -411,7 +411,7 @@ STDMETHODIMP CApp::AddGlossaryEntry(BSTR Source, BSTR Trans, BSTR EntryContext)
 		record->set_trans( BSTR2wstring(Trans) ) ;
 		record->set_context( BSTR2wstring(EntryContext) ) ;
 
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		gloss_window_pointer gloss = MainFrame.get_glossary_window() ;
 		gloss->add_record(record) ;
 
@@ -425,7 +425,7 @@ STDMETHODIMP CApp::DeleteMemEntry(void)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.delete_current_translation( ) ;
 	}
 	FELIX_AUTO_CATCH( "DeleteMemEntry" ) ;
@@ -437,7 +437,7 @@ STDMETHODIMP CApp::CorrectTrans(BSTR Trans)
 {
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		MainFrame.correct_trans(BSTR2wstring(Trans)) ;
 	}
 	FELIX_AUTO_CATCH( _T("CorrectedTranslation") )
@@ -451,7 +451,7 @@ STDMETHODIMP CApp::get_NumMatches( SHORT *index )
 
 	try
 	{
-		CMainFrame &MainFrame = app::get_app() ;
+		MemoryWindowFrame &MainFrame = app::get_app() ;
 		*index = static_cast< SHORT >( MainFrame.get_num_matches() ) ;
 	}
 	FELIX_AUTO_CATCH( "get_NumMatches" ) ;
@@ -471,7 +471,7 @@ CApp::CApp()
 
 void CApp::wait_for_query()
 {
-	CMainFrame &MainFrame = app::get_app() ;
+	MemoryWindowFrame &MainFrame = app::get_app() ;
 	if(MainFrame.m_deferred_query.empty())
 	{
 		return ;

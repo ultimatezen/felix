@@ -126,10 +126,11 @@ protected:
 
 public:
 
+	boost::function<window_wrapper_ptr(HWND)> m_get_window ;
+	boost::function<BOOL(MSG*)> m_pre_translate_msg ;
+
 	CCommonWindowFunctionality( ) ;
 	virtual ~CCommonWindowFunctionality();
-
-	boost::function<window_wrapper_ptr(HWND)> m_get_window ;
 
 	/************************************************************************/
 	/* WindowInterface implementation                                       */
@@ -155,7 +156,14 @@ public:
 	{
 		return this ;
 	}
-
+	/************************************************************************/
+	/* window_wrapper implementation                                       */
+	/************************************************************************/
+	BOOL is_window()
+	{
+		window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
+		return window->IsWindow() ;
+	}
 	/************************************************************************/
 	/* pure virtual methods 
 	/************************************************************************/

@@ -1,12 +1,40 @@
 #include "StdAfx.h"
-#include "GlossaryDialog.h"
+#include "GlossaryWindowFrame.h"
 #include "record_local.h"
 #include "memory_local.h"
 #include "felix_factory.h"
 #include "input_device_fake.h"
 
-#include <boost/test/unit_test.hpp>
 #ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_SUITE( TestGlossaryWindowFrameWrapper )
+
+	using namespace mem_engine;
+	// window wrapper stuff
+
+	BOOST_AUTO_TEST_CASE(test_is_window_true)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		fake_window->m_is_window = TRUE ;
+		gloss_dlg.m_get_window = boost::bind(&get_window_fake, window, _1) ;
+		BOOST_CHECK(gloss_dlg.is_window()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_is_window_false)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		fake_window->m_is_window = FALSE ;
+		gloss_dlg.m_get_window = boost::bind(&get_window_fake, window, _1) ;
+		BOOST_CHECK(! gloss_dlg.is_window()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
 	using namespace mem_engine;
@@ -17,14 +45,14 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(init_view_state_search_matches)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		BOOST_CHECK(gloss_dlg.m_view_state_concordance.m_search_matches) ;
 		BOOST_CHECK(gloss_dlg.m_view_state_match.m_search_matches) ;
 	}
 	BOOST_AUTO_TEST_CASE(init_view_state_gloss_properties)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		BOOST_CHECK(gloss_dlg.m_view_state_concordance.m_properties_gloss) ;
 		BOOST_CHECK(gloss_dlg.m_view_state_match.m_properties_gloss) ;
 	}
@@ -35,7 +63,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(config_matches_for_gloss_lookup)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.m_search_matches.m_params.m_ignore_case = false ;
 		gloss_dlg.m_search_matches.m_params.m_ignore_width = false ;
 		gloss_dlg.m_search_matches.m_params.m_ignore_hira_kata = false ;
@@ -60,7 +88,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(toggle_views_from_match)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(WindowListener::MATCH_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss_dlg.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::CONCORDANCE_DISPLAY_STATE, gloss_dlg.get_display_state()) ;
@@ -68,7 +96,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(toggle_views_from_concordance_nothrow)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(WindowListener::CONCORDANCE_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss_dlg.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss_dlg.get_display_state()) ;
@@ -76,7 +104,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(toggle_views_from_init_nothrow)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(WindowListener::INIT_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss_dlg.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss_dlg.get_display_state()) ;
@@ -84,7 +112,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE(toggle_views_from_new_nothrow)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(WindowListener::NEW_RECORD_DISPLAY_STATE) ;
 		BOOST_CHECK_NO_THROW(gloss_dlg.on_toggle_views()) ;
 		BOOST_CHECK_EQUAL(WindowListener::MATCH_DISPLAY_STATE, gloss_dlg.get_display_state()) ;
@@ -94,7 +122,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( get_record_translation_standard)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.m_properties_gloss->m_data.m_to_lower = FALSE ;
 		gloss_dlg.m_properties_gloss->m_data.m_plaintext = FALSE ;
 
@@ -112,7 +140,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( get_record_translation_lower)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.m_properties_gloss->m_data.m_to_lower = TRUE ;
 		gloss_dlg.m_properties_gloss->m_data.m_plaintext = FALSE ;
 
@@ -129,7 +157,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( get_record_translation_plain)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.m_properties_gloss->m_data.m_to_lower = FALSE ;
 		gloss_dlg.m_properties_gloss->m_data.m_plaintext = TRUE ;
 
@@ -151,7 +179,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( load_tabbed_text )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		InputDeviceFake *device = new InputDeviceFake ;
 		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"), CP_UTF8)) ;
 		gloss_dlg.m_input_device = input_device_ptr(device) ;
@@ -168,7 +196,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( load_multiterm6 )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample_small.txt") ;
 		gloss_dlg.import_multiterm(filename) ;
 		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_memories->size()) ;
@@ -178,7 +206,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( export_gloss_mt55 )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CString filename = _T("c:\\test\\mt.55.output.txt") ;
 		::DeleteFile(filename) ;
 		string source("Japanese") ;
@@ -221,7 +249,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( export_gloss_mt6)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CString filename = _T("c:\\test\\mt.6.output.txt") ;
 		::DeleteFile(filename) ;
 
@@ -260,20 +288,20 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_initially_false )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		BOOST_CHECK( !gloss_dlg.m_is_trans_concordance ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_true )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.get_translation_concordances(L"foo") ;
 		BOOST_CHECK(gloss_dlg.m_is_trans_concordance ) ;
 	}
 	BOOST_AUTO_TEST_CASE( test_is_trans_concordance_set_to_false )
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.m_is_trans_concordance = true ;
 		gloss_dlg.get_concordances(L"foo") ;
 		BOOST_CHECK( ! gloss_dlg.m_is_trans_concordance ) ;
@@ -288,7 +316,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( test_message_IDOK)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		LRESULT lResult = 1 ;
 		gloss_dlg.ProcessWindowMessage(NULL, WM_COMMAND, IDOK, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_sensing_variable.size()) ;
@@ -298,7 +326,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( test_message_IDCANCEL)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		LRESULT lResult = 1 ;
 		gloss_dlg.ProcessWindowMessage(NULL, WM_COMMAND, IDCANCEL, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_sensing_variable.size()) ;
@@ -308,7 +336,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( test_message_IDCLOSE)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		LRESULT lResult = 1 ;
 		gloss_dlg.ProcessWindowMessage(NULL, WM_COMMAND, IDCLOSE, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(1u,gloss_dlg.m_sensing_variable.size()) ;
@@ -318,7 +346,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 	BOOST_AUTO_TEST_CASE( test_message_ZERO)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		LRESULT lResult = 1 ;
 		BOOL result = gloss_dlg.ProcessWindowMessage(NULL, WM_COMMAND, 0, 0, lResult, 0)  ;
 		BOOST_CHECK_EQUAL(0u,gloss_dlg.m_sensing_variable.size()) ;

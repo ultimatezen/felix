@@ -1,5 +1,5 @@
 /*!
-	@file GlossaryDialog.h
+	@file GlossaryWindowFrame.h
 	@brief The glossary dialog
 	@date 2005/06/23
 	Time: 21:30:03
@@ -50,9 +50,9 @@ typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 	@class CGlossaryDialog 
 	@brief Class for a glossary window.
  */
-class CGlossaryDialog :
-		public CWindowImpl< CGlossaryDialog, CCommonWindowFunctionality, CGlossaryWindowTraits >
-		, public CWindowExceptionHandler< CGlossaryDialog >
+class GlossaryWindowFrame :
+		public CWindowImpl< GlossaryWindowFrame, CCommonWindowFunctionality, CGlossaryWindowTraits >
+		, public CWindowExceptionHandler< GlossaryWindowFrame >
 		, public FrameListener
 		, public EditRecordInterface
 {
@@ -101,8 +101,8 @@ public:
 	static const int IDD = IDD_GLOSSARYVIEW ;
 	DECLARE_WND_CLASS(_T("Glossary Window"))
 
-	CGlossaryDialog(app_props::props_ptr props) ;
-	virtual ~CGlossaryDialog( ) ;
+	GlossaryWindowFrame(app_props::props_ptr props) ;
+	virtual ~GlossaryWindowFrame( ) ;
 
 	mem_engine::felix_query *get_current_matches()
 	{
@@ -125,6 +125,7 @@ public:
 	{
 		return m_props ;
 	}
+
 
 	void set_bg_color_if_needed();
 
@@ -381,7 +382,7 @@ public:
 	// ========================
 	// message map
 	// ========================
-	BEGIN_MSG_MAP_EX( CGlossaryDialog )
+	BEGIN_MSG_MAP_EX( GlossaryWindowFrame )
 	MSG_TRY
 //		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_CREATE, OnInitDialog)
@@ -584,6 +585,4 @@ public:
 };
 
 
-typedef boost::shared_ptr< CGlossaryDialog > gloss_window_pointer ;
-typedef std::vector< gloss_window_pointer > gloss_window_list ;
-typedef std::vector< gloss_window_pointer >::iterator gloss_window_iterator ;
+typedef boost::shared_ptr< GlossaryWindowFrame > gloss_window_pointer ;

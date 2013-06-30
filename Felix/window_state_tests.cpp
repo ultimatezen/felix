@@ -5,8 +5,8 @@
 #include "felix_model_fake.h"
 #include "memory_local.h"
 #include "record_local.h"
-#include "mainfrm.h"
-#include "GlossaryDialog.h"
+#include "MemoryWindowFrame.h"
+#include "GlossaryWindowFrame.h"
 #include "GlossaryDlgListenerFake.h"
 #include "FelixApp.h"
 
@@ -37,31 +37,31 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	// mainframe
 	BOOST_AUTO_TEST_CASE( set_display_state_init)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(main_frame.m_view_state, &main_frame.m_view_state_initial) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_new)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(main_frame.m_view_state, &main_frame.m_view_state_new) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_review)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::TRANS_REVIEW_STATE) ;
 		BOOST_CHECK_EQUAL(main_frame.m_view_state, &main_frame.m_view_state_review) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_match)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(main_frame.m_view_state, &main_frame.m_view_state_match) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_concordance)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(main_frame.m_view_state, &main_frame.m_view_state_concordance) ;
 	}
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	// mainframe
 	BOOST_AUTO_TEST_CASE( get_current_match_init)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 
 		BOOST_CHECK_EQUAL((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)main_frame.m_display_state) ;
 		search_match_ptr match = main_frame.get_current_match() ;
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_new)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 
 		record_pointer rec(new record_local) ;
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_match_empty)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_match_non_empty)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		search_match_ptr match(new search_match) ;
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 
 	BOOST_AUTO_TEST_CASE( get_current_match_concordance_match_empty)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 
 	BOOST_AUTO_TEST_CASE( get_current_match_review_empty)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::TRANS_REVIEW_STATE) ;
 
 		wstring query(L"query") ;
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	}
 	BOOST_AUTO_TEST_CASE( get_current_match_review_non_empty)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::TRANS_REVIEW_STATE) ;
 
 		record_pointer newrec(new record_local) ;
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_mainframe )
 	// concordance
 	BOOST_AUTO_TEST_CASE( get_current_match_concordance)
 	{
-		CMainFrame main_frame(app::get_model_interface(), app::get_props()) ;
+		MemoryWindowFrame main_frame(app::get_model_interface(), app::get_props()) ;
 		main_frame.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		search_match_ptr match(new search_match) ;
@@ -249,28 +249,28 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( set_display_state_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::INIT_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss_dlg.m_view_state, &gloss_dlg.m_view_state_initial) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss_dlg.m_view_state, &gloss_dlg.m_view_state_new) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_match)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss_dlg.m_view_state, &gloss_dlg.m_view_state_match) ;
 	}
 	BOOST_AUTO_TEST_CASE( set_display_state_concordance)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 		BOOST_CHECK_EQUAL(gloss_dlg.m_view_state, &gloss_dlg.m_view_state_concordance) ;
 	}
@@ -285,7 +285,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 
 		BOOST_CHECK_EQUAL((int)CCommonWindowFunctionality::INIT_DISPLAY_STATE, (int)gloss_dlg.m_display_state) ;
 		search_match_ptr match = gloss_dlg.get_current_match() ;
@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::NEW_RECORD_DISPLAY_STATE) ;
 
 		record_pointer rec(new record_local) ;
@@ -316,7 +316,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_match_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -332,7 +332,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_match_non_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::MATCH_DISPLAY_STATE) ;
 
 		search_match_ptr match(new search_match) ;
@@ -357,7 +357,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( get_current_match_concordance_match_empty)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		gloss_dlg.set_display_state(CCommonWindowFunctionality::CONCORDANCE_DISPLAY_STATE) ;
 
 		wstring query(L"query") ;
@@ -381,7 +381,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_init)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CGlossaryWinListenerFake listener ;
 		gloss_dlg.set_listener(&listener) ;
 
@@ -400,7 +400,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_new)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CGlossaryWinListenerFake listener ;
 		gloss_dlg.set_listener(&listener) ;
 
@@ -427,7 +427,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_match)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CGlossaryWinListenerFake listener ;
 		gloss_dlg.set_listener(&listener) ;
 
@@ -457,7 +457,7 @@ BOOST_AUTO_TEST_SUITE( window_state_tests_glossary )
 	BOOST_AUTO_TEST_CASE( on_user_add_concordance)
 	{
 		app_props::props_ptr props(new app_props::properties) ;
-		CGlossaryDialog gloss_dlg(props) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
 		CGlossaryWinListenerFake listener ;
 		gloss_dlg.set_listener(&listener) ;
 

@@ -616,7 +616,7 @@ echo Protection complete!
     <ClCompile Include="FileOpHandler_test.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="font_tabulator.cpp" />
-    <ClCompile Include="GlossaryDialog.cpp">
+    <ClCompile Include="GlossaryWindowFrame.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">EnableFastChecks</BasicRuntimeChecks>
@@ -634,6 +634,8 @@ echo Protection complete!
     <ClCompile Include="GlossaryWindow_test.cpp" />
     <ClCompile Include="gloss_placement.cpp" />
     <ClCompile Include="gloss_placement_test.cpp" />
+    <ClCompile Include="gloss_win_collection.cpp" />
+    <ClCompile Include="gloss_win_collection_test.cpp" />
     <ClCompile Include="rule_placement.cpp" />
     <ClCompile Include="rule_placement_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
@@ -649,7 +651,7 @@ echo Protection complete!
     <ClCompile Include="..\common\Library.cpp" />
     <ClCompile Include="..\common\logging.cpp" />
     <ClCompile Include="longest_common_substring.cpp" />
-    <ClCompile Include="mainfrm.cpp">
+    <ClCompile Include="MemoryWindowFrame.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">EnableFastChecks</BasicRuntimeChecks>
@@ -851,7 +853,7 @@ echo Protection complete!
     <ClCompile Include="..\common\File_test.cpp" />
     <ClCompile Include="FindDlg_test.cpp" />
     <ClCompile Include="font_tabulator_test.cpp" />
-    <ClCompile Include="GlossaryDialog_test.cpp" />
+    <ClCompile Include="GlossaryWindowFrame_test.cpp" />
     <ClCompile Include="HrefTags_test.cpp" />
     <ClCompile Include="HtmlDocColorSetter_test.cpp" />
     <ClCompile Include="HtmlDocument_test.cpp" />
@@ -865,7 +867,7 @@ echo Protection complete!
     <ClCompile Include="logical_test.cpp" />
     <ClCompile Include="longest_common_substring_test.cpp" />
     <ClCompile Include="mainframe_messaging_test.cpp" />
-    <ClCompile Include="mainfrm_test.cpp" />
+    <ClCompile Include="MemoryWindowFrame_test.cpp" />
     <ClCompile Include="ManagerWindow_test.cpp" />
     <ClCompile Include="match_filters_matcher_test.cpp" />
     <ClCompile Include="match_filters_searcher_test.cpp" />
@@ -1183,6 +1185,7 @@ echo Protection complete!
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />
     <ClInclude Include="gloss_placement.h" />
+    <ClInclude Include="gloss_win_collection.h" />
     <ClInclude Include="rule_placement.h" />
     <ClInclude Include="mem_tests.h" />
     <ClInclude Include="number_placement.h" />
@@ -1247,7 +1250,7 @@ echo Protection complete!
     <ClInclude Include="FindDlg.h" />
     <ClInclude Include="font_tabulator.h" />
     <ClInclude Include="FrameListener.h" />
-    <ClInclude Include="GlossaryDialog.h" />
+    <ClInclude Include="GlossaryWindowFrame.h" />
     <ClInclude Include="GlossaryDlgListener.h" />
     <ClInclude Include="GlossaryDlgListenerFake.h" />
     <ClInclude Include="GlossaryWindow.h" />
@@ -1267,7 +1270,7 @@ echo Protection complete!
     <ClInclude Include="..\common\logging.h" />
     <ClInclude Include="..\common\logical.h" />
     <ClInclude Include="longest_common_substring.h" />
-    <ClInclude Include="mainfrm.h" />
+    <ClInclude Include="MemoryWindowFrame.h" />
     <ClInclude Include="ManagerWindow.h" />
     <ClInclude Include="match_filters.h" />
     <ClInclude Include="match_score.h" />

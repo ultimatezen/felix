@@ -8,7 +8,7 @@
 
 #include "SourceAndHtmlEdit.h"
 
-#include "GlossaryDialog.h"	// gloss_window_pointer
+#include "GlossaryWindowFrame.h"	// gloss_window_pointer
 #include "active_window.h"
 
 wstring trim_and_normalize(const _bstr_t before) ;

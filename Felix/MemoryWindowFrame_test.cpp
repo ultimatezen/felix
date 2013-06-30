@@ -4,7 +4,7 @@
  */
 
 #include "StdAfx.h"
-#include "MainFrm.h"
+#include "MemoryWindowFrame.h"
 #include "reg_msg_filter.h"
 #include "record_local.h"
 #include "memory_local.h"
@@ -38,6 +38,8 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 	/************************************************************************/
 	/* tests start here                                                     */
 	/************************************************************************/	
+
+
 
 	// Tests for CMainFrame
 
@@ -1169,6 +1171,30 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrame_get_reg_gloss_record )
 
 		record_pointer rec = frame->get_reg_gloss_record(0u) ;
 		BOOST_CHECK_EQUAL(rec->get_source_plain(), wstring(L"review_state")) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( TestCMainFrameWindowWrapper )
+	// window wrapper stuff
+
+	BOOST_AUTO_TEST_CASE(test_is_window_true)
+	{
+		MAKE_TEST_FRAME(frame) ;
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		fake_window->m_is_window = TRUE ;
+		frame->m_get_window = boost::bind(&get_window_fake, window, _1) ;
+		BOOST_CHECK(frame->is_window()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_is_window_false)
+	{
+		MAKE_TEST_FRAME(frame) ;
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		fake_window->m_is_window = FALSE ;
+		frame->m_get_window = boost::bind(&get_window_fake, window, _1) ;
+		BOOST_CHECK(! frame->is_window()) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

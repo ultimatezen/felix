@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MainFrm.h"			// main app window class CMainFrame
+#include "MemoryWindowFrame.h"			// main app window class CMainFrame
 #include "FelixModelInterface.h"
 
 /**
@@ -23,11 +23,11 @@ public:
 	}
 	/** Get the MainFrame.
 	*/
-	static CMainFrame& get_app(void) 
+	static MemoryWindowFrame& get_app(void) 
 	{ 
 		static model_iface_ptr the_model = get_model_interface();
 		app_props::props_ptr props = get_props(); 
-		static CMainFrame main_frame( the_model, props ) ;
+		static MemoryWindowFrame main_frame( the_model, props ) ;
 
 		return main_frame ; 
 	}

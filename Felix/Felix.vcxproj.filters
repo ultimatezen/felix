@@ -138,9 +138,6 @@
     <ClCompile Include="font_tabulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlossaryDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GlossaryWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,9 +169,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="longest_common_substring.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mainfrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="markup_strings.cpp">
@@ -378,9 +372,6 @@
     <ClCompile Include="font_tabulator_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="GlossaryDialog_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="HrefTags_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -418,9 +409,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="mainframe_messaging_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="mainfrm_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="match_filters_matcher_test.cpp">
@@ -1077,6 +1065,24 @@
     <ClCompile Include="..\common\system_paths_tests.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="GlossaryWindowFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindowFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindowFrame_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindowFrame_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_win_collection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_win_collection_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1248,9 +1254,6 @@
     <ClInclude Include="FrameListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlossaryDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GlossaryDlgListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1297,9 +1300,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="longest_common_substring.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mainfrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManagerWindow.h">
@@ -1924,6 +1924,15 @@
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\common\system_paths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryWindowFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryWindowFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_win_collection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

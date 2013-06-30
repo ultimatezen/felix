@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "GlossaryDialog.h"		// CGlossaryDialog
 #include "SearchWindow.h"
 #include "ManagerWindow.h"		// CManagerWindow
 #include "MemoryManagerDlg.h"	// CMemoryManagerDlg
@@ -15,6 +14,7 @@
 #include "background_processor.h"
 #include "CommonWindowFunctionality.h"	// functionality common to mainframe and
 										// glossary dialogs
+#include "gloss_win_collection.h"
 
 #include "MinViewDlg.h"
 #include "WindowExceptionHandler.h"
@@ -54,18 +54,18 @@ enum
 	@class CMainFrame 							   
 	@brief The main app window.
  */
-class CMainFrame : 							   
-		public CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality >
-		, public CUpdateUI<CMainFrame>
+class MemoryWindowFrame : 							   
+		public CFrameWindowImpl< MemoryWindowFrame, CCommonWindowFunctionality >
+		, public CUpdateUI<MemoryWindowFrame>
 		, public CMessageFilter
 		, public CIdleHandler
-		, public CWindowExceptionHandler< CMainFrame >
+		, public CWindowExceptionHandler< MemoryWindowFrame >
 		, public CGlossaryWinListener
 		, public FrameListener
 		, public EditRecordInterface
 {
 VISIBLE_TO_TESTS
-	typedef CFrameWindowImpl< CMainFrame, CCommonWindowFunctionality > frame_class ;
+	typedef CFrameWindowImpl< MemoryWindowFrame, CCommonWindowFunctionality > frame_class ;
 
 	typedef mem_engine::record_pointer record_type ;
 	typedef mem_engine::memory_pointer memory_type ;
@@ -92,7 +92,7 @@ VISIBLE_TO_TESTS
 	// ====================
 	// glossary interface
 	// ====================
-	gloss_window_list		m_glossary_windows ;
+	GlossWinCollection		m_glossary_windows ;
 
 	ViewStateInitialMain	m_view_state_initial ;
 	ViewStateNewMain		m_view_state_new ;
@@ -104,8 +104,6 @@ VISIBLE_TO_TESTS
 	// misc internal stuff
 	// ====================
 
-	// the memory controller
-	mem_engine::memory_model_mem	m_silent_memories ;
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
@@ -120,19 +118,20 @@ VISIBLE_TO_TESTS
 public:
 	static const int IDD = IDR_MAINFRAME ;
 
-
-	mem_engine::placement::regex_rules *get_regex_rules();
+	// the memory controller
+	mem_engine::memory_model_mem	m_silent_memories ;
+	model_iface_ptr m_model ;
 
 	wstring m_deferred_query ;
 
+	// message maps
 	typedef std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > messageMapType ;
 	messageMapType m_message_map ;
 	messageMapType m_user_message_map ;
 	messageMapType m_command_message_map ;
-	model_iface_ptr m_model ;
 
-	virtual ~CMainFrame() ;
-	CMainFrame( model_iface_ptr model, app_props::props_ptr props ) ;
+	virtual ~MemoryWindowFrame() ;
+	MemoryWindowFrame( model_iface_ptr model, app_props::props_ptr props ) ;
 
 	input_device_ptr get_input_device()
 	{
@@ -142,6 +141,8 @@ public:
 	{
 		return m_output_device ;
 	}
+	mem_engine::placement::regex_rules *get_regex_rules();
+
 
 	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages);
 
@@ -208,13 +209,13 @@ public:
 
 	gloss_window_list& get_glossary_windows()
 	{
-		return m_glossary_windows ;
+		return m_glossary_windows.m_glossary_windows ;
 	}
 
 	bool set_window_title() ;
 
 	CString get_active_mem_name();
-	bool add_glossary_window(gloss_window_pointer gloss_window, int show_cmd = SW_SHOWNOACTIVATE ) ;
+	bool add_glossary_window(app_props::props_ptr props) ;
 
 	// -------------
 	// initialization
@@ -280,10 +281,6 @@ public:
 	//CSmartCommandBarCtrl m_CmdBar;
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-
-	bool pre_translate_in_glossary_windows( MSG* pMsg, gloss_window_list &glossary_windows );
-
-	void remove_destroyed_gloss_windows(gloss_window_list &glossary_windows);
 
 	virtual BOOL OnIdle();
 
@@ -561,7 +558,7 @@ public:
 
 	DECLARE_FRAME_WND_CLASS(NULL, IDR_MAINFRAME)
 
-	BEGIN_UPDATE_UI_MAP(CMainFrame)
+	BEGIN_UPDATE_UI_MAP(MemoryWindowFrame)
 		UPDATE_ELEMENT( ID_VIEW_TOOLBAR,	UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT( ID_VIEW_STATUS_BAR,	UPDUI_MENUPOPUP)
 		UPDATE_ELEMENT( ID_VIEW_EDIT_MODE,	UPDUI_MENUPOPUP)
@@ -641,9 +638,9 @@ public:
 	}
 	mem_engine::felix_query *get_current_gloss_matches()
 	{
-		if ( ! m_glossary_windows.empty() )
+		if ( ! m_glossary_windows.m_glossary_windows.empty() )
 		{
-			return m_glossary_windows[0]->get_current_matches() ;
+			return m_glossary_windows.m_glossary_windows[0]->get_current_matches() ;
 		}
 		return NULL ;
 	}

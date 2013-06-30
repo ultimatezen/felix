@@ -4,7 +4,7 @@
 */
 
 #include "StdAfx.h"
-#include "MainFrm.h"
+#include "MemoryWindowFrame.h"
 #include "record_local.h"
 #include "felix_model_fake.h"
 
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	{
 		app_props::props_ptr props(new app_props::properties); 
 		model_iface_ptr the_model(new FelixModelInterfaceFake);
-		return frame_ptr(new CMainFrame( the_model, props )) ;
+		return frame_ptr(new MemoryWindowFrame( the_model, props )) ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 	BOOST_AUTO_TEST_CASE( Test_get_message_map )
 	{
 		frame_ptr frame = make_fake_frame() ;
-		CMainFrame::messageMapType *mmap = frame->get_message_map( WM_CREATE ) ;
+		MemoryWindowFrame::messageMapType *mmap = frame->get_message_map( WM_CREATE ) ;
 		BOOST_CHECK( mmap == &frame->m_message_map) ;
 
 		mmap = frame->get_message_map( UWM_USER_MESSAGE ) ;
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		frame->m_search_matches.set_matches( matches ) ;
 		frame->m_trans_matches.set_matches( matches ) ;
 
-		frame->set_display_state( CMainFrame::NEW_RECORD_DISPLAY_STATE ) ;
+		frame->set_display_state( MemoryWindowFrame::NEW_RECORD_DISPLAY_STATE ) ;
 		frame->on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[NEW_RECORD_DISPLAY_STATE]" ) ;
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		frame->m_search_matches.set_matches( matches ) ;
 		frame->m_trans_matches.set_matches( matches ) ;
 
-		frame->set_display_state( CMainFrame::MATCH_DISPLAY_STATE ) ;
+		frame->set_display_state( MemoryWindowFrame::MATCH_DISPLAY_STATE ) ;
 		frame->on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[MATCH_DISPLAY_STATE]" ) ;
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		frame->m_search_matches.set_matches( matches ) ;
 		frame->m_trans_matches.set_matches( matches ) ;
 
-		frame->set_display_state( CMainFrame::CONCORDANCE_DISPLAY_STATE ) ;
+		frame->set_display_state( MemoryWindowFrame::CONCORDANCE_DISPLAY_STATE ) ;
 		frame->on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[CONCORDANCE_DISPLAY_STATE]" ) ;
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_SUITE( CMainFrameMessageTestCase )
 		frame->m_search_matches.set_matches( matches ) ;
 		frame->m_trans_matches.set_matches( matches ) ;
 
-		frame->set_display_state( CMainFrame::INIT_DISPLAY_STATE ) ;
+		frame->set_display_state( MemoryWindowFrame::INIT_DISPLAY_STATE ) ;
 		frame->on_register_gloss(message) ;
 		BOOST_CHECK_EQUAL(2u, frame->m_sensing_variable.size()) ;
 		BOOST_CHECK_EQUAL( frame->m_sensing_variable[0], "[Other display state]" ) ;
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameMessages )
 	{
 		app_props::props_ptr props(new app_props::properties); 
 		model_iface_ptr the_model(new FelixModelInterfaceFake);
-		return frame_ptr(new CMainFrame( the_model, props )) ;
+		return frame_ptr(new MemoryWindowFrame( the_model, props )) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

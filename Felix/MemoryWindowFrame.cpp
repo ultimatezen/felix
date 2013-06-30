@@ -8,7 +8,8 @@
  */
 
 #include "StdAfx.h"
-#include "MainFrm.h"
+#include "MemoryWindowFrame.h"
+
 
 #include "ConcordanceDialog.h"
 
@@ -71,7 +72,7 @@ using namespace placement ;
 
 /** Constructor. Takes model interface.
 */
-CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) : 
+MemoryWindowFrame::MemoryWindowFrame( model_iface_ptr model, app_props::props_ptr props ) : 
 	m_model(model),
 	m_props(props),
 	m_editor(new CEditTransRecordDialog),
@@ -82,11 +83,13 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	m_output_device(new OutputDeviceFile),
 	m_silent_memories(props)
 {
+	// assign functions
 	m_get_window = &get_window_real ;
+	m_pre_translate_msg = boost::bind(&MemoryWindowFrame::PreTranslateMessage, this, _1) ;
+
+	// other props
 	m_is_active = false ;
-
 	initialize_values() ;
-
 	m_editor->m_interface = this ;
 
 	// initialize min view
@@ -125,112 +128,97 @@ CMainFrame::CMainFrame( model_iface_ptr model, app_props::props_ptr props ) :
 	addToMessageLoop();
 
 	// register command handlers
-	this->register_event_listener( WM_CREATE, boost::bind(&CMainFrame::on_create, this, _1 ) ) ; 
-	this->register_event_listener( WM_DESTROY, boost::bind(&CMainFrame::on_destroy, this, _1 ) ) ; 
-	this->register_event_listener( WM_CLOSE, boost::bind(&CMainFrame::on_close, this, _1 ) ) ; 
-	this->register_event_listener( WM_DROPFILES, boost::bind(&CMainFrame::on_drop, this, _1 ) ) ; 
+	this->register_event_listener( WM_CREATE, boost::bind(&MemoryWindowFrame::on_create, this, _1 ) ) ; 
+	this->register_event_listener( WM_DESTROY, boost::bind(&MemoryWindowFrame::on_destroy, this, _1 ) ) ; 
+	this->register_event_listener( WM_CLOSE, boost::bind(&MemoryWindowFrame::on_close, this, _1 ) ) ; 
+	this->register_event_listener( WM_DROPFILES, boost::bind(&MemoryWindowFrame::on_drop, this, _1 ) ) ; 
 
-	this->register_event_listener( WM_ACTIVATE, boost::bind(&CMainFrame::on_activate, this, _1 ) ) ; 
+	this->register_event_listener( WM_ACTIVATE, boost::bind(&MemoryWindowFrame::on_activate, this, _1 ) ) ; 
 
 
 	// user messages
-	this->register_user_event_listener( USER_LOOKUP_SOURCE, boost::bind(&CMainFrame::on_user_lookup_source, this, _1 )) ;
-	this->register_user_event_listener( USER_LOOKUP_TRANS, boost::bind(&CMainFrame::on_user_lookup_trans, this, _1 )) ;
-	this->register_user_event_listener( USER_SAVE_MEMORIES, boost::bind(&CMainFrame::on_user_save, this, _1 )) ;
+	this->register_user_event_listener( USER_LOOKUP_SOURCE, boost::bind(&MemoryWindowFrame::on_user_lookup_source, this, _1 )) ;
+	this->register_user_event_listener( USER_LOOKUP_TRANS, boost::bind(&MemoryWindowFrame::on_user_lookup_trans, this, _1 )) ;
+	this->register_user_event_listener( USER_SAVE_MEMORIES, boost::bind(&MemoryWindowFrame::on_user_save, this, _1 )) ;
 
-	this->register_user_event_listener( ID_EDIT_FIND, boost::bind(&CMainFrame::on_user_edit_search, this, _1 )) ;
-	this->register_user_event_listener( ID_USER_SEARCH, boost::bind(&CMainFrame::on_user_search, this, _1 )) ;
-	this->register_user_event_listener( IDC_REPLACE_EDIT_RECORD, boost::bind(&CMainFrame::on_user_replace_edit_record, this, _1 )) ;
-	this->register_user_event_listener( ID_EDIT_REPLACE, boost::bind(&CMainFrame::on_user_edit_replace, this, _1 )) ;
-	this->register_user_event_listener( IDC_MIN_VIEW_END, boost::bind(&CMainFrame::on_user_view_min_end, this, _1 )) ;
+	this->register_user_event_listener( ID_EDIT_FIND, boost::bind(&MemoryWindowFrame::on_user_edit_search, this, _1 )) ;
+	this->register_user_event_listener( ID_USER_SEARCH, boost::bind(&MemoryWindowFrame::on_user_search, this, _1 )) ;
+	this->register_user_event_listener( IDC_REPLACE_EDIT_RECORD, boost::bind(&MemoryWindowFrame::on_user_replace_edit_record, this, _1 )) ;
+	this->register_user_event_listener( ID_EDIT_REPLACE, boost::bind(&MemoryWindowFrame::on_user_edit_replace, this, _1 )) ;
+	this->register_user_event_listener( IDC_MIN_VIEW_END, boost::bind(&MemoryWindowFrame::on_user_view_min_end, this, _1 )) ;
 
 	// commands
-	this->register_command_event_listener( IDC_DEMO_CHECK_EXCESS, boost::bind(&CMainFrame::on_demo_check_excess_memories, this, _1 )) ;
-	this->register_command_event_listener( IDC_STARTUP_CHECKS, boost::bind(&CMainFrame::on_startup_checks, this, _1 )) ;
-	this->register_command_event_listener( IDC_SOURCE_CONCORDANCE_SEL, boost::bind(&CMainFrame::on_source_concordance, this, _1 )) ;
-	this->register_command_event_listener( IDC_TRANS_CONCORDANCE_SEL, boost::bind(&CMainFrame::on_trans_concordance, this, _1 )) ;
-	this->register_command_event_listener( ID_TOOLS_MEMORY_MGR, boost::bind(&CMainFrame::on_tools_memory_manager, this, _1 )) ;
-	this->register_command_event_listener( IDC_UNDERLINE, boost::bind(&CMainFrame::on_underline, this, _1 )) ;
-	this->register_command_event_listener( IDC_BOLD, boost::bind(&CMainFrame::on_bold, this, _1 )) ;
-	this->register_command_event_listener( IDC_ITALIC, boost::bind(&CMainFrame::on_italic, this, _1 )) ;
-	this->register_command_event_listener( ID_FORMAT_BGCOLOR, boost::bind(&CMainFrame::OnFormatBackgroundColor, this, _1 )) ;
-	this->register_command_event_listener( ID_APP_EXIT, boost::bind(&CMainFrame::on_file_exit, this, _1 )) ;
-	this->register_command_event_listener( ID_GLOSSARY_NEW, boost::bind(&CMainFrame::on_new_glossary, this, _1 )) ;
+	this->register_command_event_listener( IDC_DEMO_CHECK_EXCESS, boost::bind(&MemoryWindowFrame::on_demo_check_excess_memories, this, _1 )) ;
+	this->register_command_event_listener( IDC_STARTUP_CHECKS, boost::bind(&MemoryWindowFrame::on_startup_checks, this, _1 )) ;
+	this->register_command_event_listener( IDC_SOURCE_CONCORDANCE_SEL, boost::bind(&MemoryWindowFrame::on_source_concordance, this, _1 )) ;
+	this->register_command_event_listener( IDC_TRANS_CONCORDANCE_SEL, boost::bind(&MemoryWindowFrame::on_trans_concordance, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_MEMORY_MGR, boost::bind(&MemoryWindowFrame::on_tools_memory_manager, this, _1 )) ;
+	this->register_command_event_listener( IDC_UNDERLINE, boost::bind(&MemoryWindowFrame::on_underline, this, _1 )) ;
+	this->register_command_event_listener( IDC_BOLD, boost::bind(&MemoryWindowFrame::on_bold, this, _1 )) ;
+	this->register_command_event_listener( IDC_ITALIC, boost::bind(&MemoryWindowFrame::on_italic, this, _1 )) ;
+	this->register_command_event_listener( ID_FORMAT_BGCOLOR, boost::bind(&MemoryWindowFrame::OnFormatBackgroundColor, this, _1 )) ;
+	this->register_command_event_listener( ID_APP_EXIT, boost::bind(&MemoryWindowFrame::on_file_exit, this, _1 )) ;
+	this->register_command_event_listener( ID_GLOSSARY_NEW, boost::bind(&MemoryWindowFrame::on_new_glossary, this, _1 )) ;
 
-	this->register_command_event_listener( ID_FILE_NEW, boost::bind(&CMainFrame::on_file_new, this, _1 )) ;
-	this->register_command_event_listener( ID_FILE_OPEN, boost::bind(&CMainFrame::on_file_open, this, _1 )) ;
-	this->register_command_event_listener( ID_FILE_SAVE, boost::bind(&CMainFrame::on_file_save, this, _1 )) ;
-	this->register_command_event_listener( ID_FILE_SAVE_AS, boost::bind(&CMainFrame::on_file_save_as, this, _1 )) ;
-	this->register_command_event_listener( ID_FILE_SAVE_ALL, boost::bind(&CMainFrame::on_file_save_all, this, _1 )) ;
+	this->register_command_event_listener( ID_FILE_NEW, boost::bind(&MemoryWindowFrame::on_file_new, this, _1 )) ;
+	this->register_command_event_listener( ID_FILE_OPEN, boost::bind(&MemoryWindowFrame::on_file_open, this, _1 )) ;
+	this->register_command_event_listener( ID_FILE_SAVE, boost::bind(&MemoryWindowFrame::on_file_save, this, _1 )) ;
+	this->register_command_event_listener( ID_FILE_SAVE_AS, boost::bind(&MemoryWindowFrame::on_file_save_as, this, _1 )) ;
+	this->register_command_event_listener( ID_FILE_SAVE_ALL, boost::bind(&MemoryWindowFrame::on_file_save_all, this, _1 )) ;
 
-	this->register_command_event_listener( ID_MEMORY_CLOSE, boost::bind(&CMainFrame::on_memory_close, this, _1 )) ;
+	this->register_command_event_listener( ID_MEMORY_CLOSE, boost::bind(&MemoryWindowFrame::on_memory_close, this, _1 )) ;
 
 
-	this->register_command_event_listener( IDD_EDIT_ENTRY, boost::bind(&CMainFrame::on_edit_entry, this, _1 )) ;
-	this->register_command_event_listener( ID_EDIT_DELETE, boost::bind(&CMainFrame::on_delete_entry, this, _1 )) ;
-	this->register_command_event_listener( ID_EDIT_ADD, boost::bind(&CMainFrame::on_add, this, _1 )) ;
-	this->register_command_event_listener( ID_EDIT_REGISTER, boost::bind(&CMainFrame::on_register_gloss, this, _1 )) ;
-	this->register_command_event_listener( ID_EDIT_FIND, boost::bind(&CMainFrame::on_new_search, this, _1 )) ;
+	this->register_command_event_listener( IDD_EDIT_ENTRY, boost::bind(&MemoryWindowFrame::on_edit_entry, this, _1 )) ;
+	this->register_command_event_listener( ID_EDIT_DELETE, boost::bind(&MemoryWindowFrame::on_delete_entry, this, _1 )) ;
+	this->register_command_event_listener( ID_EDIT_ADD, boost::bind(&MemoryWindowFrame::on_add, this, _1 )) ;
+	this->register_command_event_listener( ID_EDIT_REGISTER, boost::bind(&MemoryWindowFrame::on_register_gloss, this, _1 )) ;
+	this->register_command_event_listener( ID_EDIT_FIND, boost::bind(&MemoryWindowFrame::on_new_search, this, _1 )) ;
 
-	this->register_command_event_listener( ID_FIND_QUICKSEARCH, boost::bind(&CMainFrame::on_find, this, _1 )) ;
+	this->register_command_event_listener( ID_FIND_QUICKSEARCH, boost::bind(&MemoryWindowFrame::on_find, this, _1 )) ;
 
-	this->register_command_event_listener( IDD_CONCORDANCE, boost::bind(&CMainFrame::on_concordance, this, _1 )) ;
-	this->register_command_event_listener( ID_EDIT_REPLACE, boost::bind(&CMainFrame::on_edit_replace, this, _1 )) ;
+	this->register_command_event_listener( IDD_CONCORDANCE, boost::bind(&MemoryWindowFrame::on_concordance, this, _1 )) ;
+	this->register_command_event_listener( ID_EDIT_REPLACE, boost::bind(&MemoryWindowFrame::on_edit_replace, this, _1 )) ;
 
-	this->register_command_event_listener( ID_VIEW_TOOLBAR, boost::bind(&CMainFrame::on_view_toolbar, this, _1 )) ;
-	this->register_command_event_listener( ID_VIEW_STATUS_BAR, boost::bind(&CMainFrame::on_view_status_bar, this, _1 )) ;
-	this->register_command_event_listener( ID_VIEW_EDIT_MODE, boost::bind(&CMainFrame::on_view_edit_mode, this, _1 )) ;
-	this->register_command_event_listener( ID_VIEW_MATCH, boost::bind(&CMainFrame::on_view_match, this, _1 )) ;
-	this->register_command_event_listener( ID_VIEW_SEARCH, boost::bind(&CMainFrame::on_view_search, this, _1 )) ;
-	this->register_command_event_listener( ID_VIEW_SWITCH, boost::bind(&CMainFrame::on_view_switch, this, _1 )) ;
-	this->register_command_event_listener( IDC_MIN_VIEW_BEGIN, boost::bind(&CMainFrame::on_view_min_begin, this, _1 )) ;
-	this->register_command_event_listener( ID_APP_ABOUT, boost::bind(&CMainFrame::show_about_dialog, this, _1 )) ;
-	this->register_command_event_listener( ID_HELP, boost::bind(&CMainFrame::on_help, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_TOOLBAR, boost::bind(&MemoryWindowFrame::on_view_toolbar, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_STATUS_BAR, boost::bind(&MemoryWindowFrame::on_view_status_bar, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_EDIT_MODE, boost::bind(&MemoryWindowFrame::on_view_edit_mode, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_MATCH, boost::bind(&MemoryWindowFrame::on_view_match, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_SEARCH, boost::bind(&MemoryWindowFrame::on_view_search, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_SWITCH, boost::bind(&MemoryWindowFrame::on_view_switch, this, _1 )) ;
+	this->register_command_event_listener( IDC_MIN_VIEW_BEGIN, boost::bind(&MemoryWindowFrame::on_view_min_begin, this, _1 )) ;
+	this->register_command_event_listener( ID_APP_ABOUT, boost::bind(&MemoryWindowFrame::show_about_dialog, this, _1 )) ;
+	this->register_command_event_listener( ID_HELP, boost::bind(&MemoryWindowFrame::on_help, this, _1 )) ;
 
-	this->register_command_event_listener( ID_HELP_FAQ, boost::bind(&CMainFrame::on_help_faq, this, _1 )) ;
-	this->register_command_event_listener( ID_HELP_REGISTER, boost::bind(&CMainFrame::on_help_register, this, _1 )) ;
-	this->register_command_event_listener(ID_HELP_CHECKUPDATES, boost::bind(&CMainFrame::on_help_check_updates, this, _1 )) ;
+	this->register_command_event_listener( ID_HELP_FAQ, boost::bind(&MemoryWindowFrame::on_help_faq, this, _1 )) ;
+	this->register_command_event_listener( ID_HELP_REGISTER, boost::bind(&MemoryWindowFrame::on_help_register, this, _1 )) ;
+	this->register_command_event_listener(ID_HELP_CHECKUPDATES, boost::bind(&MemoryWindowFrame::on_help_check_updates, this, _1 )) ;
 
-	this->register_command_event_listener( IDC_SET_GLOSS, boost::bind(&CMainFrame::on_register_gloss, this, _1 )) ;
-	this->register_command_event_listener( ID_TOOLS_PREFERENCES, boost::bind(&CMainFrame::on_tools_preferences, this, _1 )) ;
-	this->register_command_event_listener( ID_TOOLS_RULEMANAGER, boost::bind(&CMainFrame::on_tools_rule_manager, this, _1 )) ;
-	this->register_command_event_listener( ID_TOOLS_LANGUAGE, boost::bind(&CMainFrame::on_tools_switch_language, this, _1 )) ;
+	this->register_command_event_listener( IDC_SET_GLOSS, boost::bind(&MemoryWindowFrame::on_register_gloss, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_PREFERENCES, boost::bind(&MemoryWindowFrame::on_tools_preferences, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_RULEMANAGER, boost::bind(&MemoryWindowFrame::on_tools_rule_manager, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_LANGUAGE, boost::bind(&MemoryWindowFrame::on_tools_switch_language, this, _1 )) ;
 
-	this->register_command_event_listener( ID_TOOLS_LOADPREFERENCES, boost::bind(&CMainFrame::on_tools_load_preferences, this, _1 )) ;
-	this->register_command_event_listener( ID_TOOLS_SAVEPREFERENCES, boost::bind(&CMainFrame::on_tools_save_preferences, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_LOADPREFERENCES, boost::bind(&MemoryWindowFrame::on_tools_load_preferences, this, _1 )) ;
+	this->register_command_event_listener( ID_TOOLS_SAVEPREFERENCES, boost::bind(&MemoryWindowFrame::on_tools_save_preferences, this, _1 )) ;
 
-	this->register_command_event_listener( IDC_TEST_EXCEPTION, boost::bind(&CMainFrame::on_test_exception, this, _1 )) ;
+	this->register_command_event_listener( IDC_TEST_EXCEPTION, boost::bind(&MemoryWindowFrame::on_test_exception, this, _1 )) ;
 
-	this->register_command_event_listener( ID_NEXT_PANE, boost::bind(&CMainFrame::on_toggle_views, this, _1 )) ;
-	this->register_command_event_listener( ID_PREV_PANE, boost::bind(&CMainFrame::on_toggle_views, this, _1 )) ;
+	this->register_command_event_listener( ID_NEXT_PANE, boost::bind(&MemoryWindowFrame::on_toggle_views, this, _1 )) ;
+	this->register_command_event_listener( ID_PREV_PANE, boost::bind(&MemoryWindowFrame::on_toggle_views, this, _1 )) ;
 
-	this->register_command_event_listener( ID_VIEW_ZOOM, boost::bind(&CMainFrame::on_view_zoom, this, _1 )) ;
+	this->register_command_event_listener( ID_VIEW_ZOOM, boost::bind(&MemoryWindowFrame::on_view_zoom, this, _1 )) ;
 	for ( int i=ID_FILE_MRU_FIRST ; i <=ID_FILE_MRU_LAST ; ++i )
 	{
-		this->register_command_event_listener( i, boost::bind(&CMainFrame::on_mru_file_open, this, _1 )) ;
+		this->register_command_event_listener( i, boost::bind(&MemoryWindowFrame::on_mru_file_open, this, _1 )) ;
 	}
 
 }
 
 
 //! DTOR
-CMainFrame::~CMainFrame()
+MemoryWindowFrame::~MemoryWindowFrame()
 {
-#ifndef UNIT_TEST
-	ATLASSERT( FALSE == m_CmdBar.IsWindow() ) ;
-#endif
-	if ( m_CmdBar.m_hWnd )
-	{
-		m_CmdBar.m_hWnd = NULL ;
-	}
-#ifndef UNIT_TEST
-	ATLASSERT( FALSE == IsWindow() ) ;
-#endif
-
-	if ( m_hWnd )
-	{
-		m_hWnd = NULL ;
-	}
 }
 
 /**************************************************
@@ -242,7 +230,7 @@ CMainFrame::~CMainFrame()
 
 /** We get a crack at messages before the are dispatched.
 */
-BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
+BOOL MemoryWindowFrame::PreTranslateMessage(MSG* pMsg)
 {
 	if( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
@@ -251,9 +239,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 
 	// Go through our glossary windows, and see if we need to pass on 
 	// this message to them...
-	remove_destroyed_gloss_windows(m_glossary_windows);
+	m_glossary_windows.remove_destroyed_gloss_windows() ;
 
-	if (pre_translate_in_glossary_windows(pMsg, m_glossary_windows))
+	if (m_glossary_windows.pre_translate(pMsg))
 	{
 		return TRUE ;
 	}
@@ -275,39 +263,9 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 }
 
 
-void CMainFrame::remove_destroyed_gloss_windows(gloss_window_list &glossary_windows)
-{
-	for( auto pos = glossary_windows.begin() ; pos != glossary_windows.end() ; )
-	{
-		if ( ! (*pos)->IsWindow() )
-		{
-			m_glossary_windows.erase( pos ) ;
-			// reset to avoid problems
-			pos = m_glossary_windows.begin() ;
-		}
-		else 
-		{
-			++pos ;
-		}
-	}
-}
-
-bool CMainFrame::pre_translate_in_glossary_windows( MSG* pMsg, gloss_window_list &glossary_windows )
-{
-	for( auto pos = glossary_windows.begin() ; pos != glossary_windows.end() ; ++pos )
-	{
-		if ( (*pos)->PreTranslateMessage(pMsg) )
-		{
-			return true ;
-		}
-	}
-	return false ;
-}
-
-
 /** Idle handler.
 */
-BOOL CMainFrame::OnIdle()
+BOOL MemoryWindowFrame::OnIdle()
 {
 	SENSE("OnIdle") ;
 #ifdef UNIT_TEST
@@ -320,13 +278,13 @@ BOOL CMainFrame::OnIdle()
 }
 
 //! Gets the background color.
-CColorRef CMainFrame::GetBackColor()
+CColorRef MemoryWindowFrame::GetBackColor()
 {
 	return CColorRef( m_view_interface.get_bg_color() ) ;
 }
 
 //! Respond to user command to format the background color.
-LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
+LRESULT MemoryWindowFrame::OnFormatBackgroundColor( WindowsMessage &message )
 {
 	message ;
 	SENSE("OnFormatBackgroundColor") ;
@@ -359,14 +317,14 @@ LRESULT CMainFrame::OnFormatBackgroundColor( WindowsMessage &message )
 }
 
 //! Get the source and target languages for saving current memory as TMX.
-void CMainFrame::set_exporter_src_and_target_langs(CExportDialog &dialog, CTMXWriter &exporter)
+void MemoryWindowFrame::set_exporter_src_and_target_langs(CExportDialog &dialog, CTMXWriter &exporter)
 {
 	exporter.set_src_lang( string2wstring( dialog.get_source_plain() ) ) ;
 	exporter.set_target_lang( string2wstring( dialog.get_trans_plain() ) ) ;
 }
 
 //! Export the top memory as a TMX memory.
-bool CMainFrame::export_tmx( const CString &file_name, mem_engine::memory_pointer mem )
+bool MemoryWindowFrame::export_tmx( const CString &file_name, mem_engine::memory_pointer mem )
 {
 	CExportDialog dialog ;
 
@@ -392,7 +350,7 @@ bool CMainFrame::export_tmx( const CString &file_name, mem_engine::memory_pointe
 }
 
 //! Exports the current memory as a trados text file
-bool CMainFrame::export_trados( const CString &file_name, mem_engine::memory_pointer mem )
+bool MemoryWindowFrame::export_trados( const CString &file_name, mem_engine::memory_pointer mem )
 {
 	ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
 	ATLASSERT ( ! file_name.IsEmpty() ) ; 
@@ -432,7 +390,7 @@ bool CMainFrame::export_trados( const CString &file_name, mem_engine::memory_poi
 }
 
 //! WM_CREATE message handler
-LRESULT CMainFrame::on_create( WindowsMessage &message  )
+LRESULT MemoryWindowFrame::on_create( WindowsMessage &message  )
 {
 	message ;
 	SENSE("on_create") ;
@@ -483,7 +441,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 		// the glossary window
 		logging::log_debug("Setting up the glossary window") ;
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_props))) ;
+		add_glossary_window(m_props) ;
 
 		// set the title
 		set_window_title() ;
@@ -529,7 +487,7 @@ LRESULT CMainFrame::on_create( WindowsMessage &message  )
 
 //! Check whether the preferences say to load the previous
 //! memories, and load them if so.
-void CMainFrame::check_load_history( )
+void MemoryWindowFrame::check_load_history( )
 {
 	if ( ! m_props->m_gen_props.load_prev_mem_on_startup() ) 
 	{
@@ -540,7 +498,7 @@ void CMainFrame::check_load_history( )
 }
 
 //! See if the command line has us loading any memories.
-void CMainFrame::check_command_line(commandline_options &options, input_device_ptr input)
+void MemoryWindowFrame::check_command_line(commandline_options &options, input_device_ptr input)
 {
 	FOREACH(tstring filename, options.m_tm_files)
 	{
@@ -593,7 +551,7 @@ void CMainFrame::check_command_line(commandline_options &options, input_device_p
 
 
 //! Handle a user exit command
-LRESULT CMainFrame::on_file_exit(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_file_exit(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_file_exit") ;
@@ -608,7 +566,7 @@ LRESULT CMainFrame::on_file_exit(  WindowsMessage &message )
 
 /** Deletes the current entry.
 */
-LRESULT CMainFrame::on_delete_entry(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_delete_entry(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_delete_entry") ;
@@ -632,7 +590,7 @@ LRESULT CMainFrame::on_delete_entry(  WindowsMessage &message )
 /** Peform a find.
 * We use different dialogs depending on whether we're in edit mode.
 */
-LRESULT CMainFrame::on_find( WindowsMessage &message  )
+LRESULT MemoryWindowFrame::on_find( WindowsMessage &message  )
 {
 	message ;
 	SENSE("on_find") ;
@@ -662,7 +620,7 @@ LRESULT CMainFrame::on_find( WindowsMessage &message  )
 /** The Replace dialog has told us that it's time to do a replace.
 * We don't allow this message while not in edit mode.
 */
-LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_edit_replace(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_edit_replace") ;
@@ -692,7 +650,7 @@ LRESULT CMainFrame::on_edit_replace(  WindowsMessage &message )
 /** The user has chosen to get concordance via the dialog.
 * Edit -> Find -> Concordance.
 */
-LRESULT CMainFrame::on_concordance(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_concordance(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_concordance") ;
@@ -719,49 +677,35 @@ LRESULT CMainFrame::on_concordance(  WindowsMessage &message )
 /** Adds a new glossary window.
 * File -> New -> Glossary.
 */
-LRESULT CMainFrame::on_new_glossary(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_new_glossary(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_new_glossary") ;
 
-#ifdef UNIT_TEST
+	add_glossary_window(m_props) ;
 	return 0L ;
-#else
-	add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_props))) ;
-	return 0L ;
-#endif
 }
 
 /** Adds a new glossary window.
 */
-bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show_cmd)
+bool MemoryWindowFrame::add_glossary_window(app_props::props_ptr props)
 {
-	show_cmd ;
-	if ( m_glossary_windows.empty() )
-	{
-		gloss_window->set_main_on() ;
-	}
+	const int show_cmd = SW_SHOWNOACTIVATE ;
+
+	gloss_window_pointer gloss_window = m_glossary_windows.add(props) ;
 
 #ifndef UNIT_TEST
 	gloss_window->Create( m_hWnd ) ;
-	gloss_window->ShowWindow(SW_SHOW) ;
 	ATLASSERT( gloss_window->IsWindow() ) ;
 #endif
 
 	gloss_window->set_listener( static_cast< CGlossaryWinListener* >( this ) ) ;
 
-	// the glossary window reads these itself
-	//	gloss_window->set_properties_gloss( m_properties->m_gloss_props ) ;
-	//	gloss_window->set_properties_algo( m_properties->m_alg_props ) ;
-
-	m_glossary_windows += gloss_window ;
-	get_glossary_window()->set_main( true ) ;
-
 #ifdef UNIT_TEST
 	return true ;
 #else
 
-	if ( m_glossary_windows.size() == 1 ) // we have just added the only one...
+	if ( m_glossary_windows.m_glossary_windows.size() == 1 ) // we have just added the only one...
 	{
 		CWindowSettings ws;
 
@@ -792,7 +736,7 @@ bool CMainFrame::add_glossary_window(gloss_window_pointer gloss_window, int show
 /** Handles the new file command. Creates a new memory.
 * File -> New -> Memory.
 */
-LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
+LRESULT MemoryWindowFrame::on_file_new( WindowsMessage &message  )
 {
 	message ;
 	SENSE("on_file_new") ;
@@ -812,7 +756,7 @@ LRESULT CMainFrame::on_file_new( WindowsMessage &message  )
 
 /** Handles file open command.
 */
-LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_file_open") ;
@@ -873,7 +817,7 @@ LRESULT CMainFrame::on_file_open(  WindowsMessage &message )
 /** Handle the BeforeNavigate2 event from the MSHTML view.
 * If a file was dropped, load it.
 */
-bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
+bool MemoryWindowFrame::OnBeforeNavigate2( _bstr_t url )
 {
 	SENSE("OnBeforeNavigate2") ;
 
@@ -978,7 +922,7 @@ bool CMainFrame::OnBeforeNavigate2( _bstr_t url )
 /** Save the top memory.
 * File -> Save.
 */
-LRESULT CMainFrame::on_file_save(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_file_save(WindowsMessage &)
 {
 	SENSE("on_file_save") ;
 
@@ -1004,7 +948,7 @@ LRESULT CMainFrame::on_file_save(WindowsMessage &)
 /** Perform a file save. 
 * We already have the location.
 */
-void CMainFrame::do_save( memory_pointer mem )
+void MemoryWindowFrame::do_save( memory_pointer mem )
 {
 	const file::CFileExtension ext = mem->get_location() ;
 
@@ -1022,7 +966,7 @@ void CMainFrame::do_save( memory_pointer mem )
 
 /** Save a memory that was imported from another format.
 */
-void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFileExtension& ext)
+void MemoryWindowFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFileExtension& ext)
 {
 	switch ( wants_to_save_in_native_format() ) 
 	{
@@ -1052,7 +996,7 @@ void CMainFrame::handle_foreign_file_save(memory_pointer& mem, const file::CFile
 /** Saves the top memory with a new name.
 * File -> Save As.
 */
-LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_file_save_as(WindowsMessage &)
 {
 	SENSE("on_file_save_as") ;
 
@@ -1078,7 +1022,7 @@ LRESULT CMainFrame::on_file_save_as(WindowsMessage &)
 
 /** Responds to WM_CLOSE message.
 */
-LRESULT CMainFrame::on_close( WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_close( WindowsMessage &message )
 {
 	SENSE("on_close") ;
 
@@ -1114,7 +1058,7 @@ LRESULT CMainFrame::on_close( WindowsMessage &message )
 
 /** Responds to WM_DESTROY message.
 */
-LRESULT CMainFrame::on_destroy( WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_destroy( WindowsMessage &message )
 {
 	// let the base window procs get a chance
 	message.notHandled() ;
@@ -1166,7 +1110,7 @@ LRESULT CMainFrame::on_destroy( WindowsMessage &message )
 /** See if we should save our memory/glossary history.
 * If so, we'll load the same memories/glossaries on next startup.
 */
-void CMainFrame::check_save_history()
+void MemoryWindowFrame::check_save_history()
 {
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
@@ -1223,7 +1167,7 @@ void CMainFrame::check_save_history()
 	history_props->write_to_registry() ;
 }
 //! See if we have more memories to save to our history.
-bool CMainFrame::has_more_memory_history( memory_iterator pos, 
+bool MemoryWindowFrame::has_more_memory_history( memory_iterator pos, 
 										 const size_t mem_num )
 {
 	return (pos != m_model->get_memories()->end() && 
@@ -1232,7 +1176,7 @@ bool CMainFrame::has_more_memory_history( memory_iterator pos,
 
 /** Toggle toolbar visibility.
 */
-LRESULT CMainFrame::on_view_toolbar(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_view_toolbar(WindowsMessage &)
 {
 	SENSE("on_view_toolbar") ;
 
@@ -1252,7 +1196,7 @@ LRESULT CMainFrame::on_view_toolbar(WindowsMessage &)
 
 /** Toggle edit mode.
 */
-LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_view_edit_mode(WindowsMessage &)
 {
 	SENSE("on_view_edit_mode") ;
 
@@ -1277,7 +1221,7 @@ LRESULT CMainFrame::on_view_edit_mode(WindowsMessage &)
 
 /** Toggle status bar visibility.
 */
-LRESULT CMainFrame::on_view_status_bar(  WindowsMessage &message )
+LRESULT MemoryWindowFrame::on_view_status_bar(  WindowsMessage &message )
 {
 	message ;
 	SENSE("on_view_status_bar") ;
@@ -1297,7 +1241,7 @@ LRESULT CMainFrame::on_view_status_bar(  WindowsMessage &message )
 /** Switch to match view.
 * View -> Current View -> Match View.
 */
-LRESULT CMainFrame::on_view_match(  WindowsMessage &message ) 
+LRESULT MemoryWindowFrame::on_view_match(  WindowsMessage &message ) 
 {
 	message ;
 	SENSE("on_view_match") ;
@@ -1321,7 +1265,7 @@ LRESULT CMainFrame::on_view_match(  WindowsMessage &message )
 /** Switch to search view.
 * View -> Current View -> Search View.
 */
-LRESULT CMainFrame::on_view_search(  WindowsMessage &message ) 
+LRESULT MemoryWindowFrame::on_view_search(  WindowsMessage &message ) 
 {
 	message ;
 	SENSE("on_view_search") ;
@@ -1344,7 +1288,7 @@ LRESULT CMainFrame::on_view_search(  WindowsMessage &message )
 /*!
 * Show the About dialog.
 */
-LRESULT CMainFrame::show_about_dialog(WindowsMessage &)
+LRESULT MemoryWindowFrame::show_about_dialog(WindowsMessage &)
 {
 	SENSE("show_about_dialog") ;
 	logging::log_debug("Showing the About dialog.") ;
@@ -1361,7 +1305,7 @@ LRESULT CMainFrame::show_about_dialog(WindowsMessage &)
 /** Help -> Help.
 * Show the Felix help.
 */
-LRESULT CMainFrame::on_help(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_help(WindowsMessage &)
 {
 	CString filePath = get_help_file_path(get_docs_path()) ;
 	SENSE("on_help") ;
@@ -1387,7 +1331,7 @@ LRESULT CMainFrame::on_help(WindowsMessage &)
 /** Help -> FAQ.
 * Show the FAQ.
 */
-LRESULT CMainFrame::on_help_faq( WindowsMessage &)
+LRESULT MemoryWindowFrame::on_help_faq( WindowsMessage &)
 {
 	SENSE("on_help_faq") ;
 
@@ -1425,7 +1369,7 @@ LRESULT CMainFrame::on_help_faq( WindowsMessage &)
 * Use the appropriate translation-memory entry as the base
 * according to the current state.
 */
-LRESULT CMainFrame::on_register_gloss(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_register_gloss(WindowsMessage &)
 {
 	switch( get_display_state() )
 	{
@@ -1452,7 +1396,7 @@ LRESULT CMainFrame::on_register_gloss(WindowsMessage &)
 /** Get the translation matches.
 * Use params as the parameters and put the matches in matches.
 */
-void CMainFrame::get_matches(trans_match_container &matches, search_query_params &params)
+void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query_params &params)
 {
 	const double MATCH_THRESHOLD = 0.9999 ;
 
@@ -1512,7 +1456,7 @@ void CMainFrame::get_matches(trans_match_container &matches, search_query_params
 
 /** Initializes the transaction matches for a new lookup.
 */
-void CMainFrame::init_trans_matches_for_lookup( const wstring  query )
+void MemoryWindowFrame::init_trans_matches_for_lookup( const wstring  query )
 {
 	m_trans_matches.clear() ;
 	m_trans_matches.set_query( query ) ;
@@ -1521,7 +1465,7 @@ void CMainFrame::init_trans_matches_for_lookup( const wstring  query )
 
 /** Look up a query string.
 */
-bool CMainFrame::lookup(const wstring query)
+bool MemoryWindowFrame::lookup(const wstring query)
 {
 	if ( query.empty() )
 	{
@@ -1556,7 +1500,7 @@ bool CMainFrame::lookup(const wstring query)
 
 /** Gets the currently displayed translation.
 */
-wstring CMainFrame::get_current_translation()
+wstring MemoryWindowFrame::get_current_translation()
 {
 	if ( m_trans_matches.empty() )
 	{
@@ -1570,7 +1514,7 @@ wstring CMainFrame::get_current_translation()
 
 /** Shows the next match.
 */
-bool CMainFrame::next_match()
+bool MemoryWindowFrame::next_match()
 {
 	if ( m_trans_matches.empty() )
 	{
@@ -1595,7 +1539,7 @@ bool CMainFrame::next_match()
 
 /** Shows the previous match.
 */
-bool CMainFrame::prev_match()
+bool MemoryWindowFrame::prev_match()
 {
 	if ( m_trans_matches.empty() )
 	{
@@ -1621,7 +1565,7 @@ bool CMainFrame::prev_match()
 
 /** Gets the current query.
 */
-wstring CMainFrame::get_current_query()
+wstring MemoryWindowFrame::get_current_query()
 {
 	if (  m_model->is_reverse_lookup() ) 
 	{
@@ -1634,7 +1578,7 @@ wstring CMainFrame::get_current_query()
 
 /** Sets the translation for the current query.
 */
-bool CMainFrame::set_translation( const wstring translation)
+bool MemoryWindowFrame::set_translation( const wstring translation)
 {
 	try
 	{
@@ -1676,7 +1620,7 @@ bool CMainFrame::set_translation( const wstring translation)
 		if ( record->get_source_plain().length() <= m_props->m_gloss_props.get_max_add() 
 			&& m_props->m_gloss_props.get_max_add() > 0) 
 		{
-			if ( false == m_glossary_windows.empty() )
+			if ( false == m_glossary_windows.m_glossary_windows.empty() )
 			{
 				record_pointer gloss_record = record_pointer(record->clone()) ;
 				get_glossary_window()->add_record( gloss_record ) ;
@@ -1704,7 +1648,7 @@ bool CMainFrame::set_translation( const wstring translation)
 /*!
 * Registers a new glossary entry with the query as source, and trans as the translation.
 */
-bool CMainFrame::register_trans_to_glossary(const wstring trans)
+bool MemoryWindowFrame::register_trans_to_glossary(const wstring trans)
 {
 	if ( m_trans_matches.m_params.get_source_rich().empty() )
 	{
@@ -1716,7 +1660,7 @@ bool CMainFrame::register_trans_to_glossary(const wstring trans)
 	record->set_trans( trans ) ;
 	record->create() ;
 
-	if ( false == m_glossary_windows.empty() )
+	if ( false == m_glossary_windows.m_glossary_windows.empty() )
 		get_glossary_window()->add_record( record ) ;
 
 	// give the user feedback
@@ -1733,7 +1677,7 @@ bool CMainFrame::register_trans_to_glossary(const wstring trans)
 * \todo
 * Make undoable.
 */
-void CMainFrame::delete_current_translation()
+void MemoryWindowFrame::delete_current_translation()
 {
 	on_user_delete( m_view_state->get_current() ) ;
 }
@@ -1743,7 +1687,7 @@ void CMainFrame::delete_current_translation()
 * Concordances are co-locations of query_string in the source
 * fields of memory records.
 */
-bool CMainFrame::get_concordances(const wstring query_string )
+bool MemoryWindowFrame::get_concordances(const wstring query_string )
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
@@ -1780,9 +1724,9 @@ bool CMainFrame::get_concordances(const wstring query_string )
 
 /** Get the glossary entry at index from the main glossary window.
 */
-wstring CMainFrame::get_glossary_entry(short index)
+wstring MemoryWindowFrame::get_glossary_entry(short index)
 {
-	if ( false == m_glossary_windows.empty() )
+	if ( false == m_glossary_windows.m_glossary_windows.empty() )
 	{
 		return get_glossary_window()->get_glossary_entry( index ) ;
 	}
@@ -1792,7 +1736,7 @@ wstring CMainFrame::get_glossary_entry(short index)
 /** Get the score for a given match.
 * If index is -1, returns the score for the current match.
 */
-double CMainFrame::get_score( const short index )
+double MemoryWindowFrame::get_score( const short index )
 {
 	if ( m_trans_matches.size() == 0 )
 	{
@@ -1817,7 +1761,7 @@ double CMainFrame::get_score( const short index )
 
 /** Callback from glossary window telling us to add a record.
 */
-bool CMainFrame::gloss_add_record( record_pointer rec )
+bool MemoryWindowFrame::gloss_add_record( record_pointer rec )
 {
 	add_record(rec) ;
 
@@ -1827,7 +1771,7 @@ bool CMainFrame::gloss_add_record( record_pointer rec )
 /** Make sure that we aren't saving the glossary to a filename
 * already taken by a memory.
 */
-INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
+INT_PTR MemoryWindowFrame::gloss_check_save_location( memory_pointer mem )
 {
 
 	const CString mem_loc = mem->get_location() ;
@@ -1852,7 +1796,7 @@ INT_PTR CMainFrame::gloss_check_save_location( memory_pointer mem )
 /** Do a search using the parameters in the find dialog.
 * The user has clicked "Find" in the find dialog.
 */
-LRESULT CMainFrame::on_user_search(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_user_search(WindowsMessage &)
 {	
 	SENSE("on_user_search") ;
 
@@ -1869,7 +1813,7 @@ LRESULT CMainFrame::on_user_search(WindowsMessage &)
 /** Transfers the parameters from the replace dialog to the
 * find dialog.
 */
-LRESULT CMainFrame::on_user_edit_replace(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_user_edit_replace(WindowsMessage &)
 {
 	SENSE("on_user_edit_replace") ;
 
@@ -1882,7 +1826,7 @@ LRESULT CMainFrame::on_user_edit_replace(WindowsMessage &)
 /** The user has told us to edit an entry.
 * If the index is out of range, call up the add record dialog instead.
 */
-LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
+LRESULT MemoryWindowFrame::on_user_edit(WindowsMessage &message)
 {
 	SENSE("on_user_edit") ;
 
@@ -1897,7 +1841,7 @@ LRESULT CMainFrame::on_user_edit(WindowsMessage &message)
 
 /** Responds to user command to delete memory entry.
 */
-LRESULT CMainFrame::on_user_delete(size_t num )
+LRESULT MemoryWindowFrame::on_user_delete(size_t num )
 {
 	SENSE("on_user_delete") ;
 
@@ -1908,20 +1852,20 @@ LRESULT CMainFrame::on_user_delete(size_t num )
 
 /** Shows register glossary entry dialog.
 */
-LRESULT CMainFrame::on_user_register(LPARAM num )
+LRESULT MemoryWindowFrame::on_user_register(LPARAM num )
 {
 	SENSE("on_user_register") ;
 	record_pointer rec = get_reg_gloss_record(static_cast<size_t>(num));
 
 	m_reg_gloss_dlg.set_record( rec ) ;
 
-	if ( m_glossary_windows.empty() ) 
+	if ( m_glossary_windows.m_glossary_windows.empty() ) 
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_props))) ;
+		add_glossary_window(m_props) ;
 	}
 
-	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
-	m_reg_gloss_dlg.set_gloss_window(*m_glossary_windows.begin()) ;
+	ATLASSERT ( m_glossary_windows.m_glossary_windows.empty() == false ) ; 
+	m_reg_gloss_dlg.set_gloss_window(*m_glossary_windows.m_glossary_windows.begin()) ;
 
 #ifdef UNIT_TEST
 	return 0 ;
@@ -1951,7 +1895,7 @@ LRESULT CMainFrame::on_user_register(LPARAM num )
 
 /** Adds a new record to the active memory.
 */
-bool CMainFrame::add_record( const record_pointer record )
+bool MemoryWindowFrame::add_record( const record_pointer record )
 {
 	SENSE("add_record") ;
 	ATLASSERT( record->is_valid_record() ) ;
@@ -1971,30 +1915,30 @@ bool CMainFrame::add_record( const record_pointer record )
 
 /** Retrieves the active glossary window
 */
-gloss_window_pointer CMainFrame::get_glossary_window()
+gloss_window_pointer MemoryWindowFrame::get_glossary_window()
 {
-	if ( m_glossary_windows.empty() )
+	if ( m_glossary_windows.m_glossary_windows.empty() )
 	{
-		add_glossary_window(gloss_window_pointer(new CGlossaryDialog(m_props))) ;
+		add_glossary_window(m_props) ;
 	}
-	return m_glossary_windows[0] ;
+	return m_glossary_windows.m_glossary_windows[0] ;
 }
 
 
 /** Gets the glossary window with focus
 */
-int CMainFrame::get_focus_glossary(HWND focus_hwnd)
+int MemoryWindowFrame::get_focus_glossary(HWND focus_hwnd)
 {
 	ATLASSERT( ::IsWindow( focus_hwnd ) ) ;
 
-	const size_t num_glossaries = m_glossary_windows.size() ;
+	const size_t num_glossaries = m_glossary_windows.m_glossary_windows.size() ;
 	for ( size_t index=0 ; index<num_glossaries ; ++index )
 	{
-		if ( m_glossary_windows[index]->IsWindow() )
+		if ( m_glossary_windows.m_glossary_windows[index]->IsWindow() )
 		{
 			if ( 
-				m_glossary_windows[index]->m_hWnd == focus_hwnd || 
-				m_glossary_windows[index]->IsChild( focus_hwnd ) 
+				m_glossary_windows.m_glossary_windows[index]->m_hWnd == focus_hwnd || 
+				m_glossary_windows.m_glossary_windows[index]->IsChild( focus_hwnd ) 
 				)
 			{
 				return index ;
@@ -2007,7 +1951,7 @@ int CMainFrame::get_focus_glossary(HWND focus_hwnd)
 
 /** Show the view content.
 */
-void CMainFrame::show_view_content()
+void MemoryWindowFrame::show_view_content()
 {
 
 	if (! IsWindow())
@@ -2031,7 +1975,7 @@ void CMainFrame::show_view_content()
 * Check whether the user wants to merge the memories if so.
 */
 
-CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
+MemoryWindowFrame::MERGE_CHOICE MemoryWindowFrame::check_empty_on_load()
 {
 	if ( m_model->get_memories()->empty() ) 
 	{
@@ -2052,7 +1996,7 @@ CMainFrame::MERGE_CHOICE CMainFrame::check_empty_on_load()
 
 /** Get the translation for the entry at index.
 */
-wstring CMainFrame::get_translation_at(short index)
+wstring MemoryWindowFrame::get_translation_at(short index)
 {
 	const int CURRENT_INDEX = -1 ;
 	if ( index == CURRENT_INDEX )
@@ -2078,7 +2022,7 @@ wstring CMainFrame::get_translation_at(short index)
 
 /** Report how many records we have loaded.
 */
-void CMainFrame::report_memory_after_load(size_t original_num)
+void MemoryWindowFrame::report_memory_after_load(size_t original_num)
 {
 	memory_pointer mem = m_model->get_first_memory() ;
 
@@ -2093,22 +2037,22 @@ void CMainFrame::report_memory_after_load(size_t original_num)
 }
 
 //! Destroy all the glossary windows (prior to shutdown).
-void CMainFrame::destroy_all_gloss_windows()
+void MemoryWindowFrame::destroy_all_gloss_windows()
 {
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		if (gloss->IsWindow())
 		{
 			gloss->DestroyWindow() ;
 		}
 	}
-	m_glossary_windows.clear() ;
+	m_glossary_windows.m_glossary_windows.clear() ;
 }
 
 
 /** Handles user navigation.
 */
-LRESULT CMainFrame::on_user_nav(const LPARAM lParam )
+LRESULT MemoryWindowFrame::on_user_nav(const LPARAM lParam )
 {
 	SENSE("on_user_nav") ;
 
@@ -2143,7 +2087,7 @@ LRESULT CMainFrame::on_user_nav(const LPARAM lParam )
 * If the index is out of range, then give a beep and feedback in the
 * status bar (we used to throw an exception).
 */
-LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
+LRESULT MemoryWindowFrame::on_user_add_to_glossary(const LPARAM lParam )
 {
 	SENSE("on_user_add_to_glossary") ;
 
@@ -2157,11 +2101,11 @@ LRESULT CMainFrame::on_user_add_to_glossary(const LPARAM lParam )
 
 
 //! Exit without showing confirmation dialogs. 
-bool CMainFrame::exit_silently()
+bool MemoryWindowFrame::exit_silently()
 {
 	SENSE("exit_silently") ;
 
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
 	{
 		if (gloss_win->IsWindow())
 		{
@@ -2184,14 +2128,14 @@ bool CMainFrame::exit_silently()
 
 /** Clears the active memory.
 */
-bool CMainFrame::clear_memory()
+bool MemoryWindowFrame::clear_memory()
 {
 	if ( ! m_model->get_memories()->empty() ) 
 	{
 		memory_pointer mem = m_model->get_first_memory() ;
 		mem->clear_memory() ;
 	}
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		gloss->clear_memory() ;
 	}
@@ -2218,7 +2162,7 @@ bool CMainFrame::clear_memory()
 // Message handlers
 //============================
 
-LRESULT CMainFrame::on_tools_rule_manager(WindowsMessage &) 
+LRESULT MemoryWindowFrame::on_tools_rule_manager(WindowsMessage &) 
 {
 	SENSE("on_tools_rule_manager") ;
 	logging::log_debug("Launching Rule Manager dialog.") ;
@@ -2270,7 +2214,7 @@ LRESULT CMainFrame::on_tools_rule_manager(WindowsMessage &)
 
 /** Responds to Tools > Preferences menu selection.
 */
-LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_tools_preferences(WindowsMessage &)
 {
 	SENSE("on_tools_preferences") ;
 	logging::log_debug("Launching Preferences dialog.") ;
@@ -2309,7 +2253,7 @@ LRESULT CMainFrame::on_tools_preferences(WindowsMessage &)
 * testing purposes. It tests the exception logging and reporting
 * feature.
 */
-LRESULT CMainFrame::on_test_exception(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_test_exception(WindowsMessage &)
 {
 	logging::log_debug("Generating test exception") ;
 	int x = 3 ;
@@ -2319,7 +2263,7 @@ LRESULT CMainFrame::on_test_exception(WindowsMessage &)
 /** Responds to Tools > Language menu selection.
 * Toggles UI language between Japanese and English.
 */
-LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_tools_switch_language(WindowsMessage &)
 {
 	SENSE("on_tools_switch_language") ;
 
@@ -2350,7 +2294,7 @@ LRESULT CMainFrame::on_tools_switch_language(WindowsMessage &)
 
 /** Show the find dialog.
 */
-LRESULT CMainFrame::handle_find()
+LRESULT MemoryWindowFrame::handle_find()
 {
 	init_find_window( SW_RESTORE, IDS_MEMORY_SEARCH ) ;
 
@@ -2359,7 +2303,7 @@ LRESULT CMainFrame::handle_find()
 
 /** Edit the current translation match.
 */
-LRESULT CMainFrame::on_edit_entry(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_edit_entry(WindowsMessage &)
 {
 	SENSE("on_edit_entry") ;
 
@@ -2369,7 +2313,7 @@ LRESULT CMainFrame::on_edit_entry(WindowsMessage &)
 }
 /** Show the add entry dialog.
 */
-LRESULT CMainFrame::on_add(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_add(WindowsMessage &)
 {
 	SENSE("on_add") ;
 	m_editor->m_is_add = true ;
@@ -2380,7 +2324,7 @@ LRESULT CMainFrame::on_add(WindowsMessage &)
 /** Set the window title.
 * Complicated, ain't it?
 */
-bool CMainFrame::set_window_title()
+bool MemoryWindowFrame::set_window_title()
 {
 	CString title = resource_string(IDS_MEMORY) +
 		_T(" [") +
@@ -2412,7 +2356,7 @@ bool CMainFrame::set_window_title()
 
 /** Reloads the UI text elements after switching GUI languages.
 */
-void CMainFrame::set_ui_to_current_language()
+void MemoryWindowFrame::set_ui_to_current_language()
 {
 	logging::log_debug("Setting UI to current language") ;
 	try
@@ -2447,7 +2391,7 @@ void CMainFrame::set_ui_to_current_language()
 
 /** Sets the translation for the current query.
 */
-void CMainFrame::set_translation_at(short index, const wstring translation )
+void MemoryWindowFrame::set_translation_at(short index, const wstring translation )
 {
 	const int CURRENT_INDEX = -1 ;
 
@@ -2476,7 +2420,7 @@ void CMainFrame::set_translation_at(short index, const wstring translation )
 
 /** import a list of tmx files.
 */
-bool CMainFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr input )
+bool MemoryWindowFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr input )
 {
 	FOREACH(CString filename, files.m_filenames)
 	{
@@ -2488,7 +2432,7 @@ bool CMainFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr in
 
 /** import a single tmx file.
 */
-bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
+bool MemoryWindowFrame::import_tmx( const CString &file_name, input_device_ptr input )
 {
 	memory_pointer mem = m_model->get_memories()->add_memory() ;
 	mem->set_is_memory(true) ;
@@ -2528,7 +2472,7 @@ bool CMainFrame::import_tmx( const CString &file_name, input_device_ptr input )
 
 /** Give feedback for a loaded memory.
 */
-void CMainFrame::feedback_loaded_mem( const memory_pointer mem )
+void MemoryWindowFrame::feedback_loaded_mem( const memory_pointer mem )
 {
 	const CString file_name = mem->get_location() ;
 	CString msg ;
@@ -2538,7 +2482,7 @@ void CMainFrame::feedback_loaded_mem( const memory_pointer mem )
 }
 /** Imports a list of Trados memories.
 */
-bool CMainFrame::import_trados( const file::OpenDlgList &files )
+bool MemoryWindowFrame::import_trados( const file::OpenDlgList &files )
 {
 	try
 	{
@@ -2562,7 +2506,7 @@ bool CMainFrame::import_trados( const file::OpenDlgList &files )
 
 /** Imports a Trados memory.
 */
-bool CMainFrame::import_trados(const CString &trados_file_name)
+bool MemoryWindowFrame::import_trados(const CString &trados_file_name)
 {
 	const int PROGRESS_START = 0 ;
 	const int PROGRESS_END = 100 ;
@@ -2636,7 +2580,7 @@ bool CMainFrame::import_trados(const CString &trados_file_name)
 
 /** Loads a memory.
 */
-bool CMainFrame::load(const CString file_name, const bool check_empty )
+bool MemoryWindowFrame::load(const CString file_name, const bool check_empty )
 {
 	input_device_ptr input = get_input_device() ;
 	input->ensure_file_exists(file_name);
@@ -2679,7 +2623,7 @@ bool CMainFrame::load(const CString file_name, const bool check_empty )
 
 /** Looks up a translation in the memory.
 */
-bool CMainFrame::lookup_trans(const wstring query)
+bool MemoryWindowFrame::lookup_trans(const wstring query)
 {
 	if ( query.empty() )
 	{
@@ -2723,7 +2667,7 @@ bool CMainFrame::lookup_trans(const wstring query)
 * Correct any glossary entries with matching source/translation
 * - Prompt user?
 */
-bool CMainFrame::correct_trans(const wstring trans)
+bool MemoryWindowFrame::correct_trans(const wstring trans)
 {
 	if ( m_model->get_memories()->empty() )
 	{
@@ -2812,7 +2756,7 @@ bool CMainFrame::correct_trans(const wstring trans)
 
 /** Translation concordance.
 */
-bool CMainFrame::get_translation_concordances(const wstring query_string)
+bool MemoryWindowFrame::get_translation_concordances(const wstring query_string)
 {
 	// an empty string would retrieve everything - probably not what the user wants!
 	if ( query_string.empty() )
@@ -2848,7 +2792,7 @@ bool CMainFrame::get_translation_concordances(const wstring query_string)
 /** Alt + C.
 * Get concordance in the source fields.
 */
-LRESULT CMainFrame::on_source_concordance(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_source_concordance(WindowsMessage &)
 {
 	SENSE("on_source_concordance") ;
 
@@ -2859,7 +2803,7 @@ LRESULT CMainFrame::on_source_concordance(WindowsMessage &)
 /** Ctrl + Alt + C.
 * Get concordance in the translation fields.
 */
-LRESULT CMainFrame::on_trans_concordance(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_trans_concordance(WindowsMessage &)
 {
 	SENSE("on_trans_concordance") ;
 
@@ -2870,7 +2814,7 @@ LRESULT CMainFrame::on_trans_concordance(WindowsMessage &)
 /** Help -> Register.
 * Show the register dialog.
 */
-LRESULT CMainFrame::on_help_register(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_help_register(WindowsMessage &)
 {
 	SENSE("on_help_register") ;
 
@@ -2913,7 +2857,7 @@ LRESULT CMainFrame::on_help_register(WindowsMessage &)
 
 /** Toggle markup (matches) between on and off.
 */
-LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_user_toggle_markup(WindowsMessage &)
 {
 	SENSE("on_user_toggle_markup") ;
 
@@ -2936,12 +2880,12 @@ LRESULT CMainFrame::on_user_toggle_markup(WindowsMessage &)
 /** File -> Save.
 * The user wants to save the top memory.
 */
-LRESULT CMainFrame::on_user_save(WindowsMessage &message)
+LRESULT MemoryWindowFrame::on_user_save(WindowsMessage &message)
 {
 	SENSE("on_user_save") ;
 
 	on_file_save(message) ;
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
 	{
 		if ( gloss_win->IsWindow())
 		{
@@ -2953,7 +2897,7 @@ LRESULT CMainFrame::on_user_save(WindowsMessage &message)
 
 /** Respond to dropped files.
 */
-LRESULT CMainFrame::on_drop(WindowsMessage &message)
+LRESULT MemoryWindowFrame::on_drop(WindowsMessage &message)
 {
 	HDROP dropped = (HDROP)message.wParam ;
 	SENSE("on_drop") ;
@@ -2994,7 +2938,7 @@ LRESULT CMainFrame::on_drop(WindowsMessage &message)
 /** Tools -> Manage Memories.
 * Shows memory manager dialog.
 */
-LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_tools_memory_manager(WindowsMessage &)
 {
 	SENSE("on_tools_memory_manager") ;
 
@@ -3020,7 +2964,7 @@ LRESULT CMainFrame::on_tools_memory_manager(WindowsMessage &)
 }
 
 
-LRESULT CMainFrame::on_toggle_views(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_toggle_views(WindowsMessage &)
 {
 	logging::log_debug("Toggling view between match and concordance") ;
 
@@ -3057,11 +3001,11 @@ LRESULT CMainFrame::on_toggle_views(WindowsMessage &)
 
 /** Switches focus to the glossary window.
 */
-LRESULT CMainFrame::on_view_switch(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_view_switch(WindowsMessage &)
 {
 	SENSE("on_view_switch") ;
 
-	if (m_glossary_windows.empty())
+	if (m_glossary_windows.m_glossary_windows.empty())
 	{
 		return 0L ;
 	}
@@ -3073,15 +3017,15 @@ LRESULT CMainFrame::on_view_switch(WindowsMessage &)
 
 /** Loop through the glossary views (which has focus).
 */
-void CMainFrame::gloss_view_switch(HWND child)
+void MemoryWindowFrame::gloss_view_switch(HWND child)
 {
-	for ( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
+	for ( auto pos = m_glossary_windows.m_glossary_windows.begin() ; pos != m_glossary_windows.m_glossary_windows.end() ; ++pos )
 	{
 		gloss_window_pointer gloss = *pos ;
 		if ( gloss->m_hWnd == child )
 		{
 			++pos ;
-			while ( pos != m_glossary_windows.end() )
+			while ( pos != m_glossary_windows.m_glossary_windows.end() )
 			{
 				gloss = *pos ;
 				if ( gloss->IsWindow() )
@@ -3102,13 +3046,13 @@ void CMainFrame::gloss_view_switch(HWND child)
 /** View -> Compact View.
 * Hide the min view.
 */
-LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_user_view_min_end(WindowsMessage &)
 {
 	SENSE("on_user_view_min_end") ;
 
 	ShowWindow( SW_SHOW ) ;
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		if ( gloss->IsWindow() )
 		{
@@ -3124,13 +3068,13 @@ LRESULT CMainFrame::on_user_view_min_end(WindowsMessage &)
 /** View -> Compact View.
 * Show the min view.
 */
-LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
+LRESULT MemoryWindowFrame::on_view_min_begin( WindowsMessage &)
 {
 	const int DEFAULT_SIZE = 100 ;
 
 	SENSE("on_view_min_begin") ;
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		if ( gloss->IsWindow() )
 		{
@@ -3161,7 +3105,7 @@ LRESULT CMainFrame::on_view_min_begin( WindowsMessage &)
 /** Sets whether the window is visible.
 * Also applied to all glossary windows.
 */
-void CMainFrame::put_visible(int visibility)
+void MemoryWindowFrame::put_visible(int visibility)
 {
 	if ( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
@@ -3172,7 +3116,7 @@ void CMainFrame::put_visible(int visibility)
 		ShowWindow( visibility ) ;
 	}
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		gloss->ShowWindow(visibility) ;
 	}
@@ -3181,7 +3125,7 @@ void CMainFrame::put_visible(int visibility)
 /** Load the appropriate resource file according to the 
 * language code.
 */
-void CMainFrame::SetUILanguage(WORD lang_id)
+void MemoryWindowFrame::SetUILanguage(WORD lang_id)
 {
 	logging::log_debug((format("Setting language id to %1%") % lang_id).str()) ;
 	set_module_library(lang_id);
@@ -3204,16 +3148,16 @@ void CMainFrame::SetUILanguage(WORD lang_id)
 
 /** As a WORD (LANG_ENGLISH/LANG_JAPANESE).
 */
-WORD CMainFrame::get_current_gui_language()
+WORD MemoryWindowFrame::get_current_gui_language()
 {
 	return m_appstate.m_preferred_gui_lang ;
 }
 
 /** Called after the preference dialog is exited with "OK".
 */
-void CMainFrame::reflect_preferences()
+void MemoryWindowFrame::reflect_preferences()
 {
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
 	{
 		gloss_win->show_view_content() ;
 	}
@@ -3224,7 +3168,7 @@ void CMainFrame::reflect_preferences()
 	m_trans_matches.m_trans_color =	m_props->m_view_props.m_data.m_trans_color ;
 }
 
-void CMainFrame::reflect_loaded_preferences( const WORD old_language )
+void MemoryWindowFrame::reflect_loaded_preferences( const WORD old_language )
 {
 	set_up_ui_state() ;
 
@@ -3252,7 +3196,7 @@ void CMainFrame::reflect_loaded_preferences( const WORD old_language )
 		}
 	}
 
-	if (! m_glossary_windows.empty())
+	if (! m_glossary_windows.m_glossary_windows.empty())
 	{
 		gloss_window_pointer gloss = get_glossary_window();
 		CWindowSettings ws;
@@ -3280,7 +3224,7 @@ void CMainFrame::reflect_loaded_preferences( const WORD old_language )
 
 /** This is called with a PostMessage from OnCreate.
 */
-LRESULT CMainFrame::on_startup_checks(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_startup_checks(WindowsMessage &)
 {
 	SENSE("on_startup_checks") ;
 	logging::log_debug("Doing post-launch checks") ;
@@ -3329,7 +3273,7 @@ LRESULT CMainFrame::on_startup_checks(WindowsMessage &)
 
 /** Adds a memory.
 */
-void CMainFrame::add_memory(memory_pointer mem)
+void MemoryWindowFrame::add_memory(memory_pointer mem)
 {
 	m_model->get_memories()->insert_memory( mem ) ;
 
@@ -3342,7 +3286,7 @@ void CMainFrame::add_memory(memory_pointer mem)
 
 /** If we don't have a size saved, use the default.
 */
-void CMainFrame::set_up_default_initial_size()
+void MemoryWindowFrame::set_up_default_initial_size()
 {
 	const int PADDING = 5 ;
 
@@ -3368,7 +3312,7 @@ void CMainFrame::set_up_default_initial_size()
 
 /** Add our tool bars and menu.
 */
-void CMainFrame::set_up_command_bars()
+void MemoryWindowFrame::set_up_command_bars()
 {
 	// Set the 24-bit color images in the toolbar's image list
 	// SEP_ID is for separators.
@@ -3432,7 +3376,7 @@ void CMainFrame::set_up_command_bars()
 	ATLVERIFY(UIAddToolBar(m_stdToolbar)) ;
 #endif
 }
-void CMainFrame::create_command_bar()
+void MemoryWindowFrame::create_command_bar()
 {
 	// create command bar window
 	m_CmdBar.Create(m_hWnd, rcDefault, NULL, ATL_SIMPLE_CMDBAR_PANE_STYLE);
@@ -3444,7 +3388,7 @@ void CMainFrame::create_command_bar()
 	ATLVERIFY(m_CmdBar.AttachMenu(GetMenu())) ;
 }
 //! Add a bitmap menu item.
-void CMainFrame::AddMenuBitmap( const int BitmapId, const int CmdId ) 
+void MemoryWindowFrame::AddMenuBitmap( const int BitmapId, const int CmdId ) 
 {
 	CBitmap bmp ;
 	bmp.LoadBitmap( BitmapId ) ;
@@ -3453,7 +3397,7 @@ void CMainFrame::AddMenuBitmap( const int BitmapId, const int CmdId )
 
 /** Load the MRU.
 */
-void CMainFrame::set_up_recent_docs_list()
+void MemoryWindowFrame::set_up_recent_docs_list()
 {
 	const int MAX_NUM_ENTRIES = 15 ;
 	const int MAX_ITEM_LEN = 400 ; // pixels
@@ -3467,7 +3411,7 @@ void CMainFrame::set_up_recent_docs_list()
 
 /** Create the status bar.
 */
-void CMainFrame::init_status_bar()
+void MemoryWindowFrame::init_status_bar()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -3498,7 +3442,7 @@ void CMainFrame::init_status_bar()
 
 /** Set up the various menu checkmarks and such.
 */
-void CMainFrame::set_up_ui_state()
+void MemoryWindowFrame::set_up_ui_state()
 {
 	ATLASSERT( ::IsWindow( m_hWndToolBar ) ) ;
 	CReBarCtrl rebar = m_hWndToolBar ;
@@ -3537,7 +3481,7 @@ If not, we will set the window size to the default.
 
 CReBarSettings is used to save/load the command bar settings in the registry.
 */
-void CMainFrame::set_up_window_size()
+void MemoryWindowFrame::set_up_window_size()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -3574,9 +3518,9 @@ void CMainFrame::set_up_window_size()
 
 /** Look up the query in all of our glossary windows.
 */
-void CMainFrame::look_up_in_glossaries(const wstring query)
+void MemoryWindowFrame::look_up_in_glossaries(const wstring query)
 {
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		gloss->lookup( query ) ;
 	}
@@ -3584,7 +3528,7 @@ void CMainFrame::look_up_in_glossaries(const wstring query)
 
 /** Add the record to the top memory, and give feedback.
 */
-void CMainFrame::add_record_to_memory(record_pointer record)
+void MemoryWindowFrame::add_record_to_memory(record_pointer record)
 {
 	memory_pointer mem = m_model->get_first_memory() ;
 
@@ -3612,7 +3556,7 @@ void CMainFrame::add_record_to_memory(record_pointer record)
 
 /** Perform the lookup again. This is needed after we've edited the record.
 */
-void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
+void MemoryWindowFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 {
 	match_maker matcher( 0.0 ) ; // show score no matter what
 
@@ -3658,21 +3602,21 @@ void CMainFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 
 /** Tell the user how many matches we found.
 */
-void CMainFrame::provide_user_search_feedback()
+void MemoryWindowFrame::provide_user_search_feedback()
 {
 	match_count_feedback(m_search_matches.size()) ;
 }
 
 /** Provides feedback on found matches.
 */
-void CMainFrame::provide_user_trans_feedback()
+void MemoryWindowFrame::provide_user_trans_feedback()
 {
 	match_count_feedback(m_trans_matches.size()) ;
 }
 
 /** Template: Found x match(es).
 */
-void CMainFrame::match_count_feedback(size_t num)
+void MemoryWindowFrame::match_count_feedback(size_t num)
 {
 	if ( num == 1 )
 	{
@@ -3687,7 +3631,7 @@ void CMainFrame::match_count_feedback(size_t num)
 /** Perform a search on the memories with the parameters from the find
 * dialog.
 */
-void CMainFrame::perform_user_search()
+void MemoryWindowFrame::perform_user_search()
 {
 	m_search_matches.clear() ;
 	m_search_matches.m_params = m_find.get_search_params() ;
@@ -3696,7 +3640,7 @@ void CMainFrame::perform_user_search()
 }
 /** This is kind of a useless method, isn't it?
 */
-void CMainFrame::show_user_search_results()
+void MemoryWindowFrame::show_user_search_results()
 {
 	set_display_state ( CONCORDANCE_DISPLAY_STATE );
 	show_view_content() ;
@@ -3705,22 +3649,22 @@ void CMainFrame::show_user_search_results()
 
 /** Refresh the glossary window text after switching GUI languages.
 */
-void CMainFrame::set_lang_of_gloss_windows()
+void MemoryWindowFrame::set_lang_of_gloss_windows()
 {
 	// now set each of our glossaries...
-	const size_t num_glossaries = m_glossary_windows.size() ;
+	const size_t num_glossaries = m_glossary_windows.m_glossary_windows.size() ;
 	for ( size_t i=0 ; i<num_glossaries ; ++i )
 	{
-		if ( m_glossary_windows[i]->IsWindow() )
+		if ( m_glossary_windows.m_glossary_windows[i]->IsWindow() )
 		{
-			m_glossary_windows[i]->set_ui_language() ;
+			m_glossary_windows.m_glossary_windows[i]->set_ui_language() ;
 		}
 	}
 
 }
 /** Reload the menu bar after switching GUI languages.
 */
-void CMainFrame::refresh_command_bar()
+void MemoryWindowFrame::refresh_command_bar()
 {
 	HINSTANCE h = _Module.GetResourceInstance() ;
 	HMENU menu = ::LoadMenu( h, MAKEINTRESOURCE( IDR_MAINFRAME ) ) ;
@@ -3732,7 +3676,7 @@ void CMainFrame::refresh_command_bar()
 
 /** We need to reload the MRU list after switching GUI languages.
 */
-void CMainFrame::refresh_mru_doc_list(HMENU menu)
+void MemoryWindowFrame::refresh_mru_doc_list(HMENU menu)
 {
 	// write our recent docs
 	m_mru.WriteToRegistry( resource_string( IDS_REG_KEY ) );
@@ -3748,7 +3692,7 @@ void CMainFrame::refresh_mru_doc_list(HMENU menu)
 * \see
 * CCommonWindowFunctionality | CGlossaryDialog
 */
-LPCTSTR CMainFrame::get_save_filter()
+LPCTSTR MemoryWindowFrame::get_save_filter()
 {
 	return get_mem_save_filter() ;
 }
@@ -3759,7 +3703,7 @@ LPCTSTR CMainFrame::get_save_filter()
 * \see
 * CCommonWindowFunctionality | CGlossaryDialog
 */
-LPCTSTR CMainFrame::get_open_filter()
+LPCTSTR MemoryWindowFrame::get_open_filter()
 {
 	return get_mem_open_filter() ;
 }
@@ -3768,9 +3712,9 @@ LPCTSTR CMainFrame::get_open_filter()
 
 /** Allow the glossary windows to tell us not to shut down.
 */
-bool CMainFrame::gloss_win_shutdown_check()
+bool MemoryWindowFrame::gloss_win_shutdown_check()
 {
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		if ( false == gloss->pre_shutdown_save_check() )
 		{
@@ -3786,7 +3730,7 @@ bool CMainFrame::gloss_win_shutdown_check()
 /** Saves the rebar settings to the register, so we can remember them
 * at next startup. (We're just nice that way)
 */
-void CMainFrame::save_rebar_settings()
+void MemoryWindowFrame::save_rebar_settings()
 {
 	CReBarCtrl rbc = m_hWndToolBar;
 	ATLASSERT(rbc.IsWindow()) ;
@@ -3798,7 +3742,7 @@ void CMainFrame::save_rebar_settings()
 
 /** Sets whether to show markup for matches.
 */
-void CMainFrame::put_show_marking( const VARIANT_BOOL setting )
+void MemoryWindowFrame::put_show_marking( const VARIANT_BOOL setting )
 {
 	if ( setting == VARIANT_FALSE ) 
 	{
@@ -3809,7 +3753,7 @@ void CMainFrame::put_show_marking( const VARIANT_BOOL setting )
 		m_trans_matches.m_params.m_show_marking = true ;
 	}
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
 	{
 		gloss->put_show_marking(setting) ;
 	}
@@ -3819,7 +3763,7 @@ void CMainFrame::put_show_marking( const VARIANT_BOOL setting )
 
 /** Returns whether markup is being shown.
 */
-VARIANT_BOOL CMainFrame::get_show_marking()
+VARIANT_BOOL MemoryWindowFrame::get_show_marking()
 {
 	if ( m_trans_matches.m_params.m_show_marking == false ) 
 	{
@@ -3833,7 +3777,7 @@ VARIANT_BOOL CMainFrame::get_show_marking()
 
 /** Set the location of the top memory.
 */
-bool CMainFrame::set_location( const CString &location ) 
+bool MemoryWindowFrame::set_location( const CString &location ) 
 {
 	memory_pointer mem = m_model->get_first_memory() ;
 	try
@@ -3851,7 +3795,7 @@ bool CMainFrame::set_location( const CString &location )
 
 /** Get the type string for the memory window (e.g. "Memory").
 */
-CString CMainFrame::get_window_type_string() 
+CString MemoryWindowFrame::get_window_type_string() 
 {
 	return resource_string(IDS_MEMORY) ;
 }
@@ -3860,14 +3804,14 @@ CString CMainFrame::get_window_type_string()
 
 
 //! This is our poor-man's multithreading.
-void CMainFrame::init_background_processor()
+void MemoryWindowFrame::init_background_processor()
 {
 	m_background_processor.set_accelerator(m_hAccel) ;
 	m_background_processor.set_hwnd(*this) ;
 }
 
 //! Load color preferences from registry.
-void CMainFrame::init_item_colors()
+void MemoryWindowFrame::init_item_colors()
 {
 	app_props::properties_view::props_data *prop_data = &m_props->m_view_props.m_data ;
 
@@ -3877,55 +3821,55 @@ void CMainFrame::init_item_colors()
 }
 
 //! See if we want to save our memory/glossary loaded history.
-BOOL CMainFrame::should_save_memory_history()
+BOOL MemoryWindowFrame::should_save_memory_history()
 {
 	return m_props->m_gen_props.load_prev_mem_on_startup();
 }
 
 //! Respond to italic command.
-LRESULT CMainFrame::on_italic(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_italic(WindowsMessage &)
 {
 	SENSE("on_italic") ;
 	return CCommonWindowFunctionality::on_italic( ) ;
 }
 
 //! Respond to an underline command.
-LRESULT CMainFrame::on_underline(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_underline(WindowsMessage &)
 {
 	SENSE("on_underline") ;
 	return CCommonWindowFunctionality::on_underline( ) ;
 }
 
 //! Respond to bold command.
-LRESULT CMainFrame::on_bold(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_bold(WindowsMessage &)
 {
 	SENSE("on_bold") ;
 	return CCommonWindowFunctionality::on_bold( ) ;
 }
 
 //! Save all open memory files.
-LRESULT CMainFrame::on_file_save_all(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_file_save_all(WindowsMessage &)
 {
 	SENSE("on_file_save_all") ;
 	return CCommonWindowFunctionality::on_file_save_all( ) ;
 }
 
 //! Replace the record with the one beind edited.
-LRESULT CMainFrame::on_user_replace_edit_record(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_user_replace_edit_record(WindowsMessage &)
 {
 	SENSE("on_user_replace_edit_record") ;
 	return 0L ;
 }
 
 //! Make sure that we haven't exceeded the demo constraints.
-LRESULT CMainFrame::on_demo_check_excess_memories(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_demo_check_excess_memories(WindowsMessage &)
 {
 	SENSE("on_demo_check_excess_memories") ;
 	return CCommonWindowFunctionality::on_demo_check_excess_memories( ) ;
 }
 
 //! User wants to search in edit mode.
-LRESULT CMainFrame::on_user_edit_search(WindowsMessage &message)
+LRESULT MemoryWindowFrame::on_user_edit_search(WindowsMessage &message)
 {
 	SENSE("on_user_edit_search") ;
 	return CCommonWindowFunctionality::on_user_edit_search( message.lParam ) ;
@@ -3936,14 +3880,14 @@ LRESULT CMainFrame::on_user_edit_search(WindowsMessage &message)
 * If the index is out of range, then just return an empty record. 
 * The user should be able to register glossary entries without a template record.
 */
-mem_engine::record_pointer CMainFrame::get_reg_gloss_record( const size_t num )
+mem_engine::record_pointer MemoryWindowFrame::get_reg_gloss_record( const size_t num )
 {
 	m_view_state->set_current(num) ;
 	return m_view_state->get_current_match()->get_record() ;
 }
 
 //! Open a file from the MRU list
-LRESULT CMainFrame::on_mru_file_open(WindowsMessage &message)
+LRESULT MemoryWindowFrame::on_mru_file_open(WindowsMessage &message)
 {
 	SENSE("on_mru_file_open") ;
 
@@ -3971,7 +3915,7 @@ LRESULT CMainFrame::on_mru_file_open(WindowsMessage &message)
 
 
 //! We got rid of the WTL switch statement style to add flexibility
-BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD /*dwMsgMapID*/ /*= 0*/ )
+BOOL MemoryWindowFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD /*dwMsgMapID*/ /*= 0*/ )
 {
 	try
 	{
@@ -4002,7 +3946,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return TRUE; 
 		}
 
-		CHAIN_MSG_MAP(CUpdateUI<CMainFrame>) ;
+		CHAIN_MSG_MAP(CUpdateUI<MemoryWindowFrame>) ;
 
 #ifndef UNIT_TEST
 		CHAIN_MSG_MAP(frame_class) ;
@@ -4088,7 +4032,7 @@ BOOL CMainFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 }
 
 //! Get the correct key to use with the message map
-UINT CMainFrame::get_message_key( UINT message, WPARAM wParam )
+UINT MemoryWindowFrame::get_message_key( UINT message, WPARAM wParam )
 {
 	if ( message == UWM_USER_MESSAGE )
 	{
@@ -4102,7 +4046,7 @@ UINT CMainFrame::get_message_key( UINT message, WPARAM wParam )
 }
 
 //! Get the correct message map depending on the message type
-std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > * CMainFrame::get_message_map( UINT message )
+std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > * MemoryWindowFrame::get_message_map( UINT message )
 {
 	if ( message == UWM_USER_MESSAGE )
 	{
@@ -4118,7 +4062,7 @@ std::map< UINT, boost::function< LRESULT( WindowsMessage& ) >  > * CMainFrame::g
 /** Recalculates the match after switching from another view state.
 * This is needed because we might have edited the record.
 */
-void CMainFrame::recalculate_match( search_match_ptr match, search_query_params &params )
+void MemoryWindowFrame::recalculate_match( search_match_ptr match, search_query_params &params )
 {
 	// initialize the match
 	match->match_pairing().clear() ;
@@ -4129,7 +4073,7 @@ void CMainFrame::recalculate_match( search_match_ptr match, search_query_params 
 }
 
 //! File -> Connect
-LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
+LRESULT MemoryWindowFrame::on_file_connect( UINT, int, HWND )
 {
 	CConnectionDlg dlg(m_props) ;
 	if (IDCANCEL == dlg.DoModal(*this))
@@ -4141,7 +4085,7 @@ LRESULT CMainFrame::on_file_connect( UINT, int, HWND )
 }
 
 //! Set the background color unless it's white (the default)
-void CMainFrame::set_bg_color_if_needed()
+void MemoryWindowFrame::set_bg_color_if_needed()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -4157,7 +4101,7 @@ void CMainFrame::set_bg_color_if_needed()
 /** handle tooltip text ourselves to enable dynamic switching.
 * (The default WTL way caches tooltip text)
 */
-LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/ )
+LRESULT MemoryWindowFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/ )
 {
 	if( m_toolmap.empty() )
 	{
@@ -4175,14 +4119,14 @@ LRESULT CMainFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/
 }
 
 //! Tell the user that we failed to load the memory
-void CMainFrame::load_failed_feedback( const CString & file_name )
+void MemoryWindowFrame::load_failed_feedback( const CString & file_name )
 {
 	// we failed to load the memory
 	user_feedback( get_load_failure_msg(file_name) ) ; //
 }
 
 //! Tell the user that we're loading a file
-void CMainFrame::loading_file_feedback( const CString & file_name )
+void MemoryWindowFrame::loading_file_feedback( const CString & file_name )
 {
 	const file::CPath path( file_name ) ;
 	user_feedback(system_message( IDS_MSG_LOADING, path.FindFileName()));
@@ -4190,7 +4134,7 @@ void CMainFrame::loading_file_feedback( const CString & file_name )
 
 /** Loads a Felix memory.
 */
-bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name )
+bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
 	memory_pointer mem = m_model->get_memories()->create_memory() ;
 	bool make_dirty = false ;
@@ -4244,7 +4188,7 @@ bool CMainFrame::load_felix_memory( bool check_empty, const CString & file_name 
 }
 
 //! Set search params from registry settings.
-void CMainFrame::init_lookup_properties( const app_props::props_ptr source, search_query_params &dest )
+void MemoryWindowFrame::init_lookup_properties( const app_props::props_ptr source, search_query_params &dest )
 {
 	dest.m_ignore_case = !! source->m_mem_props.m_data.m_ignore_case ;
 	dest.m_ignore_width = !! source->m_mem_props.m_data.m_ignore_width ;
@@ -4259,21 +4203,21 @@ void CMainFrame::init_lookup_properties( const app_props::props_ptr source, sear
 }
 
 //! Tell the user that we found x matches for the search string.
-void CMainFrame::source_concordance_feedback()
+void MemoryWindowFrame::source_concordance_feedback()
 {
 	const wstring plain_text = m_search_matches.get_source_plain() ;
 	concordance_feedback(plain_text, m_search_matches.size()) ;
 }
 
 //! Tell the user that we found translation x matches for the search string.
-void CMainFrame::translation_concordance_feedback()
+void MemoryWindowFrame::translation_concordance_feedback()
 {
 	const wstring plain_text = m_search_matches.get_trans_plain() ;
 	concordance_feedback(plain_text, m_search_matches.size()) ;
 }
 
 //! Show concordance match count in status bar.
-void CMainFrame::concordance_feedback(const wstring plain_text, size_t num)
+void MemoryWindowFrame::concordance_feedback(const wstring plain_text, size_t num)
 {
 	user_feedback(system_message(IDS_FOUND_X_MATCHES_FOR_STRING, 
 		int_arg(num), 
@@ -4281,7 +4225,7 @@ void CMainFrame::concordance_feedback(const wstring plain_text, size_t num)
 }
 
 //! Tell the user that we deleted a new record.
-void CMainFrame::deleted_new_record_feedback()
+void MemoryWindowFrame::deleted_new_record_feedback()
 {
 	const wstring feedback = L"<center><h1>" + resource_string_w( IDS_DELETED_ENTRY ) + L"</h1></center>" ;
 	m_view_interface.set_text(feedback) ;
@@ -4292,7 +4236,7 @@ void CMainFrame::deleted_new_record_feedback()
 
 
 //! See if we can create a placement for this match.
-void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches, 
+void MemoryWindowFrame::check_placement_numbers( trans_match_container &PlacedMatches, 
 								 search_match_ptr match )
 {
 
@@ -4317,7 +4261,7 @@ void CMainFrame::check_placement_numbers( trans_match_container &PlacedMatches,
 }
 
 
-void CMainFrame::add_placement_match( search_match_ptr match, trans_pair &trans_segs, pairings_t & pairings, trans_match_container &PlacedMatches )
+void MemoryWindowFrame::add_placement_match( search_match_ptr match, trans_pair &trans_segs, pairings_t & pairings, trans_match_container &PlacedMatches )
 {
 	search_match_ptr new_match = create_placement_match(match, trans_segs.first);
 
@@ -4332,14 +4276,14 @@ void CMainFrame::add_placement_match( search_match_ptr match, trans_pair &trans_
 
 	PlacedMatches.insert( new_match ) ;
 }
-void CMainFrame::set_placement_penalty( search_match_ptr new_match, pairings_t & pairings, double format_penalty )
+void MemoryWindowFrame::set_placement_penalty( search_match_ptr new_match, pairings_t & pairings, double format_penalty )
 {
 	const double PLACEMENT_PENALTY = 0.00001 ;
 	new_match->set_base_score( calc_score_gloss(pairings) - PLACEMENT_PENALTY) ;
 	new_match->set_formatting_penalty( format_penalty ) ;
 }
 
-wstring CMainFrame::get_new_source( pairings_t & pairings )
+wstring MemoryWindowFrame::get_new_source( pairings_t & pairings )
 {
 	// This hack obliterates our formatting info
 	wstring newsource ;
@@ -4352,7 +4296,7 @@ wstring CMainFrame::get_new_source( pairings_t & pairings )
 	}
 	return newsource ;
 }
-void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches, 
+void MemoryWindowFrame::check_placement_gloss( trans_match_container &PlacedMatches, 
 	search_match_ptr match )
 {
 
@@ -4380,7 +4324,7 @@ void CMainFrame::check_placement_gloss( trans_match_container &PlacedMatches,
 	return ;
 }
 
-void CMainFrame::check_placement_rules( trans_match_container &PlacedMatches, search_match_ptr match)
+void MemoryWindowFrame::check_placement_rules( trans_match_container &PlacedMatches, search_match_ptr match)
 {
 
 	record_pointer rec = match->get_record() ;
@@ -4406,7 +4350,7 @@ void CMainFrame::check_placement_rules( trans_match_container &PlacedMatches, se
 
 	return ;
 }
-mem_engine::search_match_ptr CMainFrame::create_placement_match( search_match_ptr match, const wstring &trans ) const
+mem_engine::search_match_ptr MemoryWindowFrame::create_placement_match( search_match_ptr match, const wstring &trans ) const
 {
 	search_match_ptr new_match(new search_match) ;
 	new_match->set_memory_id(match->get_memory_id()) ;
@@ -4423,7 +4367,7 @@ mem_engine::search_match_ptr CMainFrame::create_placement_match( search_match_pt
 	return new_match ;
 }
 
-void CMainFrame::pairing_query_source( search_match_ptr new_match, pairings_t &pairings, const wstring after ) const
+void MemoryWindowFrame::pairing_query_source( search_match_ptr new_match, pairings_t &pairings, const wstring after ) const
 {
 	mem_engine::markup_ptr Markup = new_match->get_markup() ;
 	Markup->SetQuery(mark_up(pairings, QUERY)) ;
@@ -4433,7 +4377,7 @@ void CMainFrame::pairing_query_source( search_match_ptr new_match, pairings_t &p
 	new_match->set_placement_on() ;
 }
 
-void CMainFrame::placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, double fmt_penalty ) const
+void MemoryWindowFrame::placement_score( mem_engine::search_match_ptr new_match, mem_engine::placement::pairings_t &pairings, double fmt_penalty ) const
 {
 	// HACK -- to make sure that the placed matches sort below the non-placed ones
 	const double PLACEMENT_PENALTY = 0.00001 ;
@@ -4443,7 +4387,7 @@ void CMainFrame::placement_score( mem_engine::search_match_ptr new_match, mem_en
 
 
 //! Make sure that ShellExecute didn't return an error code.
-void CMainFrame::check_shell_execute_result( int result, 
+void MemoryWindowFrame::check_shell_execute_result( int result, 
 											const CString & filePath )
 {
 	const int ERR_THRESHOLD = 32 ;
@@ -4454,34 +4398,34 @@ void CMainFrame::check_shell_execute_result( int result,
 	}
 }
 
-void CMainFrame::OnNavEdit( long index )
+void MemoryWindowFrame::OnNavEdit( long index )
 {
 	SENSE("OnNavEdit") ;
 	WindowsMessage message( NULL, 0, 0, index ) ;
 	on_user_edit( message ) ;
 }
 
-void CMainFrame::OnNavDelete( long index )
+void MemoryWindowFrame::OnNavDelete( long index )
 {
 	SENSE("OnNavDelete") ;
 	on_user_delete( static_cast<size_t>(index) ) ;
 }
 
 //! Register glossary entries based on entry at index.
-void CMainFrame::OnNavAddGloss( long index )
+void MemoryWindowFrame::OnNavAddGloss( long index )
 {
 	SENSE("OnNavAddGloss") ;
 	on_user_register( index ) ;
 }
 
 //! Add the entry at index to the glossary.
-void CMainFrame::OnNavAddToGloss( long index )
+void MemoryWindowFrame::OnNavAddToGloss( long index )
 {
 	SENSE("OnNavAddToGloss") ;
 	on_user_add_to_glossary( index ) ;
 }
 
-void CMainFrame::remove_record_from_mem_id( record_pointer rec, int mem_id )
+void MemoryWindowFrame::remove_record_from_mem_id( record_pointer rec, int mem_id )
 {
 	try
 	{
@@ -4495,7 +4439,7 @@ void CMainFrame::remove_record_from_mem_id( record_pointer rec, int mem_id )
 	}
 }
 
-void CMainFrame::remove_match_record( search_match_ptr match )
+void MemoryWindowFrame::remove_match_record( search_match_ptr match )
 {
 	record_pointer rec = match->get_record() ;
 
@@ -4503,15 +4447,15 @@ void CMainFrame::remove_match_record( search_match_ptr match )
 	remove_record_from_glossaries(rec);
 }
 
-void CMainFrame::remove_record_from_glossaries( record_pointer rec )
+void MemoryWindowFrame::remove_record_from_glossaries( record_pointer rec )
 {
-	if (! m_glossary_windows.empty() && m_props->m_gloss_props.get_max_add())
+	if (! m_glossary_windows.m_glossary_windows.empty() && m_props->m_gloss_props.get_max_add())
 	{
 		get_glossary_window()->delete_record(rec) ;
 	}
 }
 
-void CMainFrame::view_by_id( size_t recid, wstring source, wstring trans )
+void MemoryWindowFrame::view_by_id( size_t recid, wstring source, wstring trans )
 {
 
 	memory_pointer mem = get_memory_model()->get_memory_by_id(m_review_match->get_memory_id()) ;
@@ -4524,7 +4468,7 @@ void CMainFrame::view_by_id( size_t recid, wstring source, wstring trans )
 	m_view_interface.set_scroll_pos(0) ;
 }
 
-void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
+void MemoryWindowFrame::add_by_id( size_t recid, wstring source, wstring trans )
 {
 	if (source.empty() || trans.empty())
 	{
@@ -4557,13 +4501,13 @@ void CMainFrame::add_by_id( size_t recid, wstring source, wstring trans )
 	m_view_interface.set_scroll_pos(0) ;
 }
 
-mem_engine::search_match_ptr CMainFrame::get_current_match()
+mem_engine::search_match_ptr MemoryWindowFrame::get_current_match()
 {
 	return m_view_state->get_current_match() ;
 }
 
 // Content when using translation history
-wstring CMainFrame::get_review_content( memory_pointer mem )
+wstring MemoryWindowFrame::get_review_content( memory_pointer mem )
 {
 	search_match_ptr match(mem->make_match(m_review_match->get_record())) ;
 	match->set_values_to_record() ;
@@ -4585,14 +4529,14 @@ wstring CMainFrame::get_review_content( memory_pointer mem )
 }
 
 // Get the mousewheel setting
-void CMainFrame::load_mousewheel_setting()
+void MemoryWindowFrame::load_mousewheel_setting()
 {
 	m_mousewheel_count = m_props->m_view_props.get_mem_mousewheel() ;
 }
 
 
 // Show the zoom dialog.
-LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
+LRESULT MemoryWindowFrame::on_view_zoom( WindowsMessage & )
 {
 	CZoomDlg dlg(static_cast< CZoomInterface* >( this ), m_mousewheel_count) ;
 
@@ -4603,7 +4547,7 @@ LRESULT CMainFrame::on_view_zoom( WindowsMessage & )
 
 
 
-void CMainFrame::load_history()
+void MemoryWindowFrame::load_history()
 {
 	this->get_memories().clear() ;
 
@@ -4646,7 +4590,7 @@ void CMainFrame::load_history()
 
 // Load user preferences
 // Todo: restore background color preferences
-LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 {
 	logging::log_debug("Loading user preferences.") ;
 	// get the file name
@@ -4689,7 +4633,7 @@ LRESULT CMainFrame::on_tools_load_preferences(WindowsMessage &)
 	return 0L ;
 }
 
-LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 {
 	logging::log_debug("Saving user preferences.") ;
 	save_file_dlg dialog ;
@@ -4709,7 +4653,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	}
 	logging::log_debug("Saving preferences") ;
 
-	if (! m_glossary_windows.empty())
+	if (! m_glossary_windows.m_glossary_windows.empty())
 	{
 		gloss_window_pointer gloss = get_glossary_window();
 		gloss->save_prefs() ;
@@ -4742,7 +4686,7 @@ LRESULT CMainFrame::on_tools_save_preferences(WindowsMessage &)
 	return 0L ;
 }
 
-void CMainFrame::create_process( CString &command, CString error_message )
+void MemoryWindowFrame::create_process( CString &command, CString error_message )
 {
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
@@ -4775,7 +4719,7 @@ void CMainFrame::create_process( CString &command, CString error_message )
 	CloseHandle( pi.hThread );
 }
 
-void CMainFrame::save_settings_close()
+void MemoryWindowFrame::save_settings_close()
 {
 	save_window_settings(_T("MainFrame"));
 
@@ -4788,7 +4732,7 @@ void CMainFrame::save_settings_close()
 	m_props->write_to_registry() ;
 }
 
-void CMainFrame::save_settings_destroy()
+void MemoryWindowFrame::save_settings_destroy()
 {
 	// write our recent docs
 	m_mru.WriteToRegistry( resource_string( IDS_REG_KEY ) );
@@ -4797,7 +4741,7 @@ void CMainFrame::save_settings_destroy()
 
 }
 
-wstring CMainFrame::get_record_translation(record_pointer record)
+wstring MemoryWindowFrame::get_record_translation(record_pointer record)
 {
 	return m_view_state->retrieve_record_trans(record,
 		record_string_prefs( m_props->m_mem_props.is_plaintext())) ;
@@ -4807,7 +4751,7 @@ wstring CMainFrame::get_record_translation(record_pointer record)
 * This is in a separate process, so that in the future we can have this
 * process shut us down, and download/install the update automatically.
 */
-LRESULT CMainFrame::on_help_check_updates(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_help_check_updates(WindowsMessage &)
 {
 	logging::log_debug("Checking for updates") ;
 
@@ -4834,7 +4778,7 @@ LRESULT CMainFrame::on_help_check_updates(WindowsMessage &)
 	return 0L ;
 }
 
-void CMainFrame::set_module_library( WORD lang_id )
+void MemoryWindowFrame::set_module_library( WORD lang_id )
 {
 	switch( lang_id )
 	{
@@ -4886,7 +4830,7 @@ void CMainFrame::set_module_library( WORD lang_id )
 	}
 }
 
-void CMainFrame::load_old_preferences( const CString filename )
+void MemoryWindowFrame::load_old_preferences( const CString filename )
 {
 	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
@@ -4911,7 +4855,7 @@ void CMainFrame::load_old_preferences( const CString filename )
 
 }
 
-LRESULT CMainFrame::on_new_search( WindowsMessage &)
+LRESULT MemoryWindowFrame::on_new_search( WindowsMessage &)
 {
 	m_search_window.set_mem_window(true) ;
 	if (! m_search_window.IsWindow())
@@ -4929,7 +4873,7 @@ LRESULT CMainFrame::on_new_search( WindowsMessage &)
 }
 
 // This lets us override the context menu.
-void CMainFrame::set_doc_ui_handler()
+void MemoryWindowFrame::set_doc_ui_handler()
 {
 #ifdef UNIT_TEST
 	return ;
@@ -4939,7 +4883,7 @@ void CMainFrame::set_doc_ui_handler()
 	HRESULT hr = CComObject<CFelixMemDocUIHandler>::CreateInstance (&pUIH);
 	if (SUCCEEDED(hr))
 	{
-		pUIH->m_get_menu = boost::bind(&CMainFrame::show_doc_context_menu, this) ;
+		pUIH->m_get_menu = boost::bind(&MemoryWindowFrame::show_doc_context_menu, this) ;
 		// Make our custom DocHostUIHandler the window.external handler
 		CComQIPtr<IDocHostUIHandlerDispatch> pIUIH = pUIH;
 		hr = m_view_interface.m_view.SetExternalUIHandler(pIUIH) ;
@@ -4960,7 +4904,7 @@ Todo:
 * More items
 * images?
 */
-HRESULT CMainFrame::show_doc_context_menu()
+HRESULT MemoryWindowFrame::show_doc_context_menu()
 {
 	BANNER("CMainFrame::show_doc_context_menu") ;
 	CMenu menu ;
@@ -4986,7 +4930,7 @@ HRESULT CMainFrame::show_doc_context_menu()
 Close the top memory on the stack, if any.
 Change window title to reflect new top memory, if any.
 */
-LRESULT CMainFrame::on_memory_close(WindowsMessage &)
+LRESULT MemoryWindowFrame::on_memory_close(WindowsMessage &)
 {
 	BANNER("CMainFrame::on_memory_close") ;
 	// base case -- there are no memories
@@ -5011,7 +4955,7 @@ LRESULT CMainFrame::on_memory_close(WindowsMessage &)
 	return 0L ;
 }
 
-void CMainFrame::addToMessageLoop()
+void MemoryWindowFrame::addToMessageLoop()
 {
 #ifndef UNIT_TEST
 	// register object for message filtering
@@ -5024,7 +4968,7 @@ void CMainFrame::addToMessageLoop()
 #endif
 }
 
-CString CMainFrame::get_active_mem_name()
+CString MemoryWindowFrame::get_active_mem_name()
 {
 	if ( ! m_model->get_memories()->empty() )
 	{
@@ -5042,7 +4986,7 @@ CString CMainFrame::get_active_mem_name()
 	return resource_string( IDS_NEW ) ;
 }
 
-LRESULT CMainFrame::on_user_lookup_source( WindowsMessage& )
+LRESULT MemoryWindowFrame::on_user_lookup_source( WindowsMessage& )
 {
 	SENSE("CMainFrame::on_user_lookup_source") ;
 	if (m_deferred_query.empty())
@@ -5055,7 +4999,7 @@ LRESULT CMainFrame::on_user_lookup_source( WindowsMessage& )
 	return 0L ; 
 }
 
-LRESULT CMainFrame::on_user_lookup_trans( WindowsMessage& )
+LRESULT MemoryWindowFrame::on_user_lookup_trans( WindowsMessage& )
 {
 	SENSE("CMainFrame::on_user_lookup_trans") ;
 	if (m_deferred_query.empty())
@@ -5068,7 +5012,7 @@ LRESULT CMainFrame::on_user_lookup_trans( WindowsMessage& )
 	return 0L ; 
 }
 
-void CMainFrame::set_display_state( DISPLAY_STATE new_state )
+void MemoryWindowFrame::set_display_state( DISPLAY_STATE new_state )
 {
 	switch(new_state)
 	{
@@ -5092,22 +5036,22 @@ void CMainFrame::set_display_state( DISPLAY_STATE new_state )
 	m_view_state->activate() ;
 }
 
-edit_record_dlg_ptr CMainFrame::get_editor()
+edit_record_dlg_ptr MemoryWindowFrame::get_editor()
 {
 	return m_editor ;
 }
 
-bool CMainFrame::is_short_format()
+bool MemoryWindowFrame::is_short_format()
 {
 	return m_is_short_format ;
 }
 
-bool CMainFrame::is_single_page()
+bool MemoryWindowFrame::is_single_page()
 {
 	return !! m_props->m_view_props.m_data.m_single_screen_matches ;
 }
 
-void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
+void MemoryWindowFrame::set_menu_checkmark( int item_id, bool is_checked )
 {
 	if (! this->IsWindow())
 	{
@@ -5118,14 +5062,14 @@ void CMainFrame::set_menu_checkmark( int item_id, bool is_checked )
 	UpdateLayout( FALSE ) ;
 }
 
-void CMainFrame::perform_concordance_search(mem_engine::search_query_params &params)
+void MemoryWindowFrame::perform_concordance_search(mem_engine::search_query_params &params)
 {
 	search_match_container matches ;
 	m_model->get_memories()->perform_search( matches, params ) ;
 	m_search_matches.set_matches( matches ) ;
 }
 
-void CMainFrame::create_reg_gloss_window()
+void MemoryWindowFrame::create_reg_gloss_window()
 {
 	_Module.AddCreateWndData( &m_reg_gloss_dlg.m_thunk.cd, (CDialogImplBaseT< CWindow >*)&m_reg_gloss_dlg);
 
@@ -5141,7 +5085,7 @@ void CMainFrame::create_reg_gloss_window()
 	}
 }
 
-void CMainFrame::save_memory_as( memory_pointer mem )
+void MemoryWindowFrame::save_memory_as( memory_pointer mem )
 {
 	save_file_dlg dialog ;
 
@@ -5229,7 +5173,7 @@ void CMainFrame::save_memory_as( memory_pointer mem )
 	set_window_title() ;
 }
 
-void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector<wstring> &messages )
+void MemoryWindowFrame::get_qc_messages( mem_engine::record_pointer record, std::vector<wstring> &messages )
 {
 	app_props::properties_qc *props = &(m_props->m_qc_props) ;
 
@@ -5283,7 +5227,7 @@ void CMainFrame::get_qc_messages( mem_engine::record_pointer record, std::vector
 	checker.get_error_msgs(messages) ;
 }
 
-INT_PTR CMainFrame::check_save_memory( mem_engine::memory_pointer mem )
+INT_PTR MemoryWindowFrame::check_save_memory( mem_engine::memory_pointer mem )
 {
 	switch( user_wants_to_save( mem->get_location() ) ) 
 	{
@@ -5312,7 +5256,7 @@ INT_PTR CMainFrame::check_save_memory( mem_engine::memory_pointer mem )
 	}
 }
 
-void CMainFrame::save_old_prefs_file( CString filename )
+void MemoryWindowFrame::save_old_prefs_file( CString filename )
 {
 
 	CString command ;
@@ -5328,7 +5272,7 @@ void CMainFrame::save_old_prefs_file( CString filename )
 	create_process(command, error_message);
 }
 
-void CMainFrame::check_mousewheel_count()
+void MemoryWindowFrame::check_mousewheel_count()
 {
 	if (m_mousewheel_count)
 	{
@@ -5336,7 +5280,7 @@ void CMainFrame::check_mousewheel_count()
 	}
 }
 
-mem_engine::placement::regex_rules * CMainFrame::get_regex_rules()
+mem_engine::placement::regex_rules * MemoryWindowFrame::get_regex_rules()
 {
 	return &m_rules ;
 }
