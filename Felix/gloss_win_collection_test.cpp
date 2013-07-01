@@ -15,6 +15,36 @@ gloss_window_pointer make_gloss_window(app_props::props_ptr props, BOOL is_windo
 	gloss_window->m_get_window = boost::bind(&get_window_fake, window, _1) ;
 	return gloss_window ;
 }
+BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAdd )
+
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss = windows.add(props) ;
+		BOOST_CHECK(gloss->is_main()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss1 = windows.add(props) ;
+		gloss_window_pointer gloss2 = windows.add(props) ;
+		BOOST_CHECK(gloss1->is_main()) ;
+		BOOST_CHECK(! gloss2->is_main()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_one_removed)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss1 = windows.add(props) ;
+		BOOST_CHECK(gloss1->is_main()) ;
+		windows.m_glossary_windows.clear() ;
+		gloss_window_pointer gloss2 = windows.add(props) ;
+		BOOST_CHECK(gloss2->is_main()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionPreTranslate )
 

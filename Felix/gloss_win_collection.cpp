@@ -13,3 +13,15 @@ void GlossWinCollection::remove_destroyed_gloss_windows()
 	}
 	m_glossary_windows.swap(live_windows) ;
 }
+
+bool GlossWinCollection::pre_translate( MSG *msg )
+{
+	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	{
+		if(gloss->m_pre_translate_msg(msg))
+		{
+			return true ;
+		}
+	}
+	return false ;
+}

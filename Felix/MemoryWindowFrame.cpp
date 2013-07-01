@@ -690,47 +690,26 @@ LRESULT MemoryWindowFrame::on_new_glossary(  WindowsMessage &message )
 */
 bool MemoryWindowFrame::add_glossary_window(app_props::props_ptr props)
 {
-	const int show_cmd = SW_SHOWNOACTIVATE ;
+	const int sw_command = get_gloss_show_command() ;
 
-	gloss_window_pointer gloss_window = m_glossary_windows.add(props) ;
+	gloss_window_pointer gloss_window = m_glossary_windows.m_add(props) ;
 
+// we will work a seam into this
 #ifndef UNIT_TEST
-	gloss_window->Create( m_hWnd ) ;
-	ATLASSERT( gloss_window->IsWindow() ) ;
+	if(!m_glossary_windows.create(gloss_window, m_hWnd))
+	{
+		return false ;
+	}
 #endif
-
-	gloss_window->set_listener( static_cast< CGlossaryWinListener* >( this ) ) ;
-
-#ifdef UNIT_TEST
-	return true ;
-#else
 
 	if ( m_glossary_windows.m_glossary_windows.size() == 1 ) // we have just added the only one...
 	{
-		CWindowSettings ws;
-
-		if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
-		{
-			ws.ApplyTo( *gloss_window ) ;
-		}
-		else
-		{
-			gloss_window->set_up_initial_size() ;
-		}
+		gloss_window->m_apply_settings(sw_command) ;
 	}
-
-	if ( ! IsWindowVisible() )
-	{
-		gloss_window->ShowWindow( SW_HIDE ) ;
-	}
-	else
-	{
-		// show it after it has been sized and stuff
-		gloss_window->ShowWindow( show_cmd ) ;
-	}
+	gloss_window->ShowWindow(sw_command) ;
+	gloss_window->set_listener( static_cast< CGlossaryWinListener* >( this ) ) ;
 
 	return true ;
-#endif
 }
 
 /** Handles the new file command. Creates a new memory.
@@ -5283,4 +5262,13 @@ void MemoryWindowFrame::check_mousewheel_count()
 mem_engine::placement::regex_rules * MemoryWindowFrame::get_regex_rules()
 {
 	return &m_rules ;
+}
+
+int MemoryWindowFrame::get_gloss_show_command()
+{
+	if (! is_window())
+	{
+		return SW_HIDE ;
+	}
+	return SW_SHOWNOACTIVATE ;
 }

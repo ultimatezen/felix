@@ -55,6 +55,8 @@ GlossaryWindowFrame::GlossaryWindowFrame(app_props::props_ptr props) :
 	// assign functions
 	m_get_window = &get_window_real ;
 	m_pre_translate_msg = boost::bind(&GlossaryWindowFrame::PreTranslateMessage, this, _1) ;
+	m_create = boost::bind(&GlossaryWindowFrame::create, this, _1) ;
+	m_apply_settings = boost::bind(&GlossaryWindowFrame::apply_window_settings, this, _1) ;
 
 	// other props
 	m_is_active = false ;
@@ -2286,4 +2288,54 @@ INT_PTR GlossaryWindowFrame::check_save_memory( mem_engine::memory_pointer mem )
 		return IDCANCEL ;
 
 	}
+}
+
+mem_engine::felix_query * GlossaryWindowFrame::get_current_matches()
+{
+	return &m_search_matches ;
+}
+
+input_device_ptr GlossaryWindowFrame::get_input_device()
+{
+	return m_input_device ;
+}
+
+output_device_ptr GlossaryWindowFrame::get_output_device()
+{
+	return m_output_device ;
+}
+
+void GlossaryWindowFrame::get_qc_messages( mem_engine::record_pointer record, std::vector<wstring> &messages )
+{
+	record ;
+	messages ;
+}
+
+app_props::props_ptr GlossaryWindowFrame::get_properties()
+{
+	return m_props ;
+}
+
+void GlossaryWindowFrame::apply_window_settings( const int show_cmd )
+{
+#ifdef UNIT_TEST
+	show_cmd ;
+	return ;
+#else
+	CWindowSettings ws;
+
+	if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
+	{
+		ws.ApplyTo( *this, show_cmd ) ;
+	}
+	else
+	{
+		this->set_up_initial_size() ;
+	}
+#endif
+}
+
+HWND GlossaryWindowFrame::create( HWND parent )
+{
+	return this->Create(parent) ;
 }

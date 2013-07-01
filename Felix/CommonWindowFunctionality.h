@@ -125,7 +125,8 @@ protected:
 	void refresh_view_content();
 
 public:
-
+	// These function pointers provide seams that we can
+	// override for testing.
 	boost::function<window_wrapper_ptr(HWND)> m_get_window ;
 	boost::function<BOOL(MSG*)> m_pre_translate_msg ;
 

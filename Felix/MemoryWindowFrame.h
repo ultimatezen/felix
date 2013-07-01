@@ -217,6 +217,8 @@ public:
 	CString get_active_mem_name();
 	bool add_glossary_window(app_props::props_ptr props) ;
 
+	int get_gloss_show_command();
+
 	// -------------
 	// initialization
 

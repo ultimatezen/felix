@@ -98,34 +98,23 @@ class GlossaryWindowFrame :
 	output_device_ptr	m_output_device ;
 
 public:
+	// seams for testing
+	boost::function<HWND(HWND)> m_create ;
+	boost::function<void(const int)> m_apply_settings ;
+
 	static const int IDD = IDD_GLOSSARYVIEW ;
 	DECLARE_WND_CLASS(_T("Glossary Window"))
 
 	GlossaryWindowFrame(app_props::props_ptr props) ;
 	virtual ~GlossaryWindowFrame( ) ;
 
-	mem_engine::felix_query *get_current_matches()
-	{
-		return &m_search_matches ;
-	}
-	input_device_ptr get_input_device()
-	{
-		return m_input_device ;
-	}
-	output_device_ptr get_output_device()
-	{
-		return m_output_device ;
-	}
-	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages) 
-	{
-		record ;
-		messages ;
-	}
-	app_props::props_ptr get_properties() 
-	{
-		return m_props ;
-	}
-
+	mem_engine::felix_query *get_current_matches();
+	input_device_ptr get_input_device();
+	output_device_ptr get_output_device();
+	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages);
+	app_props::props_ptr get_properties();
+	void apply_window_settings(const int show_cmd);
+	HWND create(HWND parent);
 
 	void set_bg_color_if_needed();
 
