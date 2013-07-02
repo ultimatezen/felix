@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "gloss_win_collection.h"
+#include "record_local.h"
 
 #ifdef UNIT_TEST
+
 #include "GlossaryDlgListenerFake.h"
 #include <boost/test/unit_test.hpp>
+
+using namespace mem_engine ;
 
 gloss_window_pointer make_gloss_window(app_props::props_ptr props, BOOL is_window)
 {
@@ -143,6 +147,51 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionRemoveDestroyed)
 		BOOST_CHECK_EQUAL(2u, collection.m_glossary_windows.size()) ;
 		collection.remove_destroyed_gloss_windows() ;
 		BOOST_CHECK_EQUAL(1u, collection.m_glossary_windows.size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAddRecord )
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection windows ;
+		record_pointer record(new record_local) ;
+		windows.add_record(record) ;
+		BOOST_CHECK_EQUAL(0u, windows.m_glossary_windows.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss1 = windows.add(props) ;
+		record_pointer record(new record_local) ;
+		record->set_source(L"source") ;
+		record->set_trans(L"trans") ;
+		windows.add_record(record) ;
+		BOOST_CHECK_EQUAL(1u, windows.m_glossary_windows.size()) ;
+		BOOST_CHECK_EQUAL(1u, gloss1->m_memories->get_first_memory()->size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss1 = windows.add(props) ;
+		gloss_window_pointer gloss2 = windows.add(props) ;
+
+		record_pointer record1(new record_local) ;
+		record1->set_source(L"source1") ;
+		record1->set_trans(L"trans1") ;
+		windows.add_record(record1) ;
+
+		record_pointer record2(new record_local) ;
+		record2->set_source(L"source2") ;
+		record2->set_trans(L"trans2") ;
+		windows.add_record(record2) ;
+
+		BOOST_CHECK_EQUAL(2u, windows.m_glossary_windows.size()) ;
+		BOOST_CHECK_EQUAL(2u, gloss1->m_memories->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(0u, gloss2->m_memories->get_first_memory()->size()) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

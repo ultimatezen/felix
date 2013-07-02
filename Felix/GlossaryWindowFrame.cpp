@@ -685,17 +685,12 @@ void GlossaryWindowFrame::config_matches_for_gloss_lookup(const std::wstring& qu
 
 wstring GlossaryWindowFrame::get_glossary_entry(const int index)
 {
-	int localIndex = index - m_properties_gloss->m_data.m_numbering ;
+	const size_t local_index = static_cast<size_t>(get_local_index(index));
 
-	if ( localIndex == -1 )
-	{
-		localIndex = 9 ; // 10th item by 0 index
-	}
+	ATLASSERT( local_index >= 0 ) ;
 
-	ATLASSERT( localIndex >= 0 ) ;
-
-	m_view_state->set_current(static_cast<size_t>( localIndex )) ;
-	return get_record_translation(m_view_state->get_current_match()->get_record());
+	record_pointer record = m_view_state->get_specified_record(local_index) ;
+	return get_record_translation(record);
 }
 
 std::wstring GlossaryWindowFrame::get_record_translation(record_pointer entry)
@@ -2338,4 +2333,15 @@ void GlossaryWindowFrame::apply_window_settings( const int show_cmd )
 HWND GlossaryWindowFrame::create( HWND parent )
 {
 	return this->Create(parent) ;
+}
+
+int GlossaryWindowFrame::get_local_index( const int index )
+{
+	int local_index = index - m_properties_gloss->get_numbering() ;
+
+	if ( local_index == -1 )
+	{
+		local_index = 9 ; // 10th item by 0 index
+	}
+	return local_index ;
 }

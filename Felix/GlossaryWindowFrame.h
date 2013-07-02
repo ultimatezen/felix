@@ -217,6 +217,9 @@ public:
 	wstring build_glossary_list(mem_engine::search_query_glossary &search_matches) ;
 	void lookup(const std::wstring& query_text) ;
 	wstring get_glossary_entry(const int index) ;
+
+	int get_local_index( const int index );
+
 	bool add_record(mem_engine::record_pointer record, const CString gloss_name = CString() ) ;
 	bool add_record(mem_engine::record_pointer record, const size_t i );
 

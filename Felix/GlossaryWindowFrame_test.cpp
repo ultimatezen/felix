@@ -8,6 +8,8 @@
 #ifdef UNIT_TEST
 #include <boost/test/unit_test.hpp>
 
+using namespace mem_engine;
+
 BOOST_AUTO_TEST_SUITE( TestGlossaryWindowFrameWrapper )
 
 	using namespace mem_engine;
@@ -37,7 +39,6 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 
-	using namespace mem_engine;
 
 	//////////////////////////////////////////////////////////////////////////
 	// initial setup
@@ -354,5 +355,39 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		BOOST_CHECK_EQUAL(1, lResult) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestGlossaryWindowGetLocalIndex )
+
+	BOOST_AUTO_TEST_CASE(test_0_0)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		gloss_dlg.m_properties_gloss->set_numbering(0) ;
+		BOOST_CHECK_EQUAL(0, gloss_dlg.get_local_index(0)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_0_1)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		gloss_dlg.m_properties_gloss->set_numbering(1) ;
+		BOOST_CHECK_EQUAL(9, gloss_dlg.get_local_index(0)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_9_1)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		gloss_dlg.m_properties_gloss->set_numbering(1) ;
+		BOOST_CHECK_EQUAL(8, gloss_dlg.get_local_index(9)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_9_0)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+		GlossaryWindowFrame gloss_dlg(props) ;
+		gloss_dlg.m_properties_gloss->set_numbering(0) ;
+		BOOST_CHECK_EQUAL(9, gloss_dlg.get_local_index(9)) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 
 #endif 

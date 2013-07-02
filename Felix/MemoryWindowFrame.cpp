@@ -1596,14 +1596,9 @@ bool MemoryWindowFrame::set_translation( const wstring translation)
 
 		// If the max add length is 0, then we don't add the entry to the glossary.
 		// Made this explicit in the code below.
-		if ( record->get_source_plain().length() <= m_props->m_gloss_props.get_max_add() 
-			&& m_props->m_gloss_props.get_max_add() > 0) 
+		if ( should_add_record_to_glossary(record)) 
 		{
-			if ( false == m_glossary_windows.m_glossary_windows.empty() )
-			{
-				record_pointer gloss_record = record_pointer(record->clone()) ;
-				get_glossary_window()->add_record( gloss_record ) ;
-			}
+			m_glossary_windows.add_record(record) ;
 		}
 		// now, set the display content
 		m_new_record = record ;
@@ -1639,8 +1634,7 @@ bool MemoryWindowFrame::register_trans_to_glossary(const wstring trans)
 	record->set_trans( trans ) ;
 	record->create() ;
 
-	if ( false == m_glossary_windows.m_glossary_windows.empty() )
-		get_glossary_window()->add_record( record ) ;
+	m_glossary_windows.add_record(record) ;
 
 	// give the user feedback
 	user_feedback( IDS_MSG_ADDED_GLOSS_ENTRY_TITLE ) ;
@@ -1705,7 +1699,7 @@ bool MemoryWindowFrame::get_concordances(const wstring query_string )
 */
 wstring MemoryWindowFrame::get_glossary_entry(short index)
 {
-	if ( false == m_glossary_windows.m_glossary_windows.empty() )
+	if ( false == m_glossary_windows.empty() )
 	{
 		return get_glossary_window()->get_glossary_entry( index ) ;
 	}
@@ -1838,12 +1832,12 @@ LRESULT MemoryWindowFrame::on_user_register(LPARAM num )
 
 	m_reg_gloss_dlg.set_record( rec ) ;
 
-	if ( m_glossary_windows.m_glossary_windows.empty() ) 
+	if ( m_glossary_windows.empty() ) 
 	{
 		add_glossary_window(m_props) ;
 	}
 
-	ATLASSERT ( m_glossary_windows.m_glossary_windows.empty() == false ) ; 
+	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
 	m_reg_gloss_dlg.set_gloss_window(*m_glossary_windows.m_glossary_windows.begin()) ;
 
 #ifdef UNIT_TEST
@@ -1896,7 +1890,7 @@ bool MemoryWindowFrame::add_record( const record_pointer record )
 */
 gloss_window_pointer MemoryWindowFrame::get_glossary_window()
 {
-	if ( m_glossary_windows.m_glossary_windows.empty() )
+	if ( m_glossary_windows.empty() )
 	{
 		add_glossary_window(m_props) ;
 	}
@@ -2984,7 +2978,7 @@ LRESULT MemoryWindowFrame::on_view_switch(WindowsMessage &)
 {
 	SENSE("on_view_switch") ;
 
-	if (m_glossary_windows.m_glossary_windows.empty())
+	if (m_glossary_windows.empty())
 	{
 		return 0L ;
 	}
@@ -3175,7 +3169,7 @@ void MemoryWindowFrame::reflect_loaded_preferences( const WORD old_language )
 		}
 	}
 
-	if (! m_glossary_windows.m_glossary_windows.empty())
+	if (! m_glossary_windows.empty())
 	{
 		gloss_window_pointer gloss = get_glossary_window();
 		CWindowSettings ws;
@@ -3861,8 +3855,7 @@ LRESULT MemoryWindowFrame::on_user_edit_search(WindowsMessage &message)
 */
 mem_engine::record_pointer MemoryWindowFrame::get_reg_gloss_record( const size_t num )
 {
-	m_view_state->set_current(num) ;
-	return m_view_state->get_current_match()->get_record() ;
+	return m_view_state->get_specified_record(num) ;
 }
 
 //! Open a file from the MRU list
@@ -4428,7 +4421,7 @@ void MemoryWindowFrame::remove_match_record( search_match_ptr match )
 
 void MemoryWindowFrame::remove_record_from_glossaries( record_pointer rec )
 {
-	if (! m_glossary_windows.m_glossary_windows.empty() && m_props->m_gloss_props.get_max_add())
+	if (! m_glossary_windows.empty() && m_props->m_gloss_props.get_max_add())
 	{
 		get_glossary_window()->delete_record(rec) ;
 	}
@@ -4632,7 +4625,7 @@ LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 	}
 	logging::log_debug("Saving preferences") ;
 
-	if (! m_glossary_windows.m_glossary_windows.empty())
+	if (! m_glossary_windows.empty())
 	{
 		gloss_window_pointer gloss = get_glossary_window();
 		gloss->save_prefs() ;
@@ -5271,4 +5264,10 @@ int MemoryWindowFrame::get_gloss_show_command()
 		return SW_HIDE ;
 	}
 	return SW_SHOWNOACTIVATE ;
+}
+
+bool MemoryWindowFrame::should_add_record_to_glossary( record_pointer record )
+{
+	return  record->get_source_plain().length() <= m_props->m_gloss_props.get_max_add() 
+		&& m_props->m_gloss_props.get_max_add() > 0;
 }

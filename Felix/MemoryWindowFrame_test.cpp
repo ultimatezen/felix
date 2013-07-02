@@ -9,14 +9,15 @@
 #include "record_local.h"
 #include "memory_local.h"
 #include "felix_factory.h"
-#include <boost/test/unit_test.hpp>
+
 #ifdef UNIT_TEST
+#include <boost/test/unit_test.hpp>
 
 #define MAKE_TEST_FRAME(frame) frame_ptr frame = make_frame()
+using namespace mem_engine ;
 
 BOOST_AUTO_TEST_SUITE( TestCMainFrame )
 
-	using namespace mem_engine ;
 
 	void add_record(frame_ptr frame, LPCWSTR source, LPCWSTR trans)
 	{
@@ -1196,6 +1197,38 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameWindowWrapper )
 		frame->m_get_window = boost::bind(&get_window_fake, window, _1) ;
 		BOOST_CHECK(! frame->is_window()) ;
 	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestMemoryFrameShouldAddRecordToGlossary )
+	// window wrapper stuff
+
+	BOOST_AUTO_TEST_CASE(test_zero_len)
+	{
+		MAKE_TEST_FRAME(frame) ;
+		record_pointer record(new record_local) ;
+		frame->m_props->m_gloss_props.m_data.m_max_add = 0 ;
+
+		BOOST_CHECK(! frame->should_add_record_to_glossary(record)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_record_shorter_than_props)
+	{
+		MAKE_TEST_FRAME(frame) ;
+		record_pointer record(new record_local) ;
+		record->set_source(L"123") ;
+		frame->m_props->m_gloss_props.m_data.m_max_add = 2 ;
+
+		BOOST_CHECK(! frame->should_add_record_to_glossary(record)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_true)
+	{
+		MAKE_TEST_FRAME(frame) ;
+		record_pointer record(new record_local) ;
+		record->set_source(L"123") ;
+		frame->m_props->m_gloss_props.m_data.m_max_add = 4 ;
+
+		BOOST_CHECK(frame->should_add_record_to_glossary(record)) ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #endif 

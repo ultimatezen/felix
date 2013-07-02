@@ -171,12 +171,7 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 		ViewStateMatchMain state ;
 		view_state_obj vso(&state) ;
 
-		search_match_ptr match(new search_match) ;
-		record_pointer rec(new record_local) ;
-		rec->set_source(L"record source") ;
-		rec->set_trans(L"record trans") ;
-		match->set_record(rec) ;
-		match->set_values_to_record() ;
+		search_match_ptr match = make_match("record source", "record trans") ;
 
 		trans_match_container matches ;
 		matches.insert(match) ;
@@ -188,6 +183,55 @@ BOOST_AUTO_TEST_SUITE( view_state_match_test )
 
 		string expected("record source") ;
 		string actual(string2string(current_match->get_record()->get_source_rich())) ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+	BOOST_AUTO_TEST_CASE( get_specified_record_0 )
+	{
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match1 = make_match("source 1", "trans 1") ;
+		match1->set_base_score(.9) ;
+		search_match_ptr match2 = make_match("source 2", "trans 2") ;
+		match2->set_base_score(.8) ;
+
+		trans_match_container matches ;
+		matches.insert(match1) ;
+		matches.insert(match2) ;
+		translation_match_query trans_matches; 
+		trans_matches.set_matches(matches) ;
+		state.set_search_matches(&trans_matches) ;
+
+		record_pointer record = state.get_specified_record(0u) ;
+
+		string expected("source 1") ;
+		string actual(string2string(record->get_source_rich())) ;
+
+		BOOST_CHECK_EQUAL(expected, actual) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( get_specified_record_1 )
+	{
+		ViewStateMatchMain state ;
+		view_state_obj vso(&state) ;
+
+		search_match_ptr match1 = make_match("source 1", "trans 1") ;
+		match1->set_base_score(.9) ;
+		search_match_ptr match2 = make_match("source 2", "trans 2") ;
+		match2->set_base_score(.8) ;
+
+		trans_match_container matches ;
+		matches.insert(match1) ;
+		matches.insert(match2) ;
+		translation_match_query trans_matches; 
+		trans_matches.set_matches(matches) ;
+		state.set_search_matches(&trans_matches) ;
+
+		record_pointer record = state.get_specified_record(1u) ;
+
+		string expected("source 2") ;
+		string actual(string2string(record->get_source_rich())) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}

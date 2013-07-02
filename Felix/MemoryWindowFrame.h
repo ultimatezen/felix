@@ -258,6 +258,9 @@ public:
 
 	// set the translation for the current query
 	bool set_translation( const wstring translation );
+
+	bool should_add_record_to_glossary( mem_engine::record_pointer record );
+
 	bool clear_memory() ;
 
 	// helper

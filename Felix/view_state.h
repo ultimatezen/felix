@@ -49,6 +49,7 @@ public:
 	void on_user_edit();
 
 	wstring retrieve_record_trans(record_pointer rec, record_string_prefs prefs);
+	record_pointer get_specified_record(size_t index);
 	virtual void set_current(size_t num);
 	virtual size_t get_current();
 
@@ -59,7 +60,11 @@ public:
 	void erase_from_memory( mem_engine::search_match_ptr match );
 	doc3_wrapper_ptr get_doc3();
 	void set_div_content(const wstring div_name, const wstring &div_content);
+
+	//////////////////////////////////////////////////////////////////////////
 	// pure virtual
+	//////////////////////////////////////////////////////////////////////////
+
 	virtual void activate() = 0 ;
 	virtual void handle_toggle_edit_mode() = 0 ;
 	virtual void show_content() = 0 ;

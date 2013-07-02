@@ -116,3 +116,9 @@ mem_engine::memory_pointer ViewState::get_memory_from_match( mem_engine::search_
 	}
 }
 
+ViewState::record_pointer ViewState::get_specified_record( size_t index )
+{
+	set_current(index) ;
+	return get_current_match()->get_record() ;
+}
+

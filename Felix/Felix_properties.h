@@ -391,6 +391,10 @@ struct properties_glossary : public props::CRegMap
 	{
 		return !! m_data.m_to_lower ;
 	}
+	void set_numbering(int numbering)
+	{
+		m_data.m_numbering = numbering ;
+	}
 	properties_glossary()
 	{
 	}
