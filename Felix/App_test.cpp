@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE( TestApp )
 		app::get_app().clear_memory() ;
 		felix->AddGlossaryEntry(source, trans, context) ;
 
-		memory_pointer mem = app::get_app().get_glossary_windows()[0]->get_model()->get_first_memory() ;
+		memory_pointer mem = app::get_app().m_glossary_windows.first()->get_model()->get_first_memory() ;
 		BOOST_CHECK_EQUAL(1u, mem->size()) ;
 		record_pointer rec = mem->get_record_at(0) ;
 

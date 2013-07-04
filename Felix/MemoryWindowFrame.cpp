@@ -38,6 +38,7 @@
 #pragma comment(lib, "HtmlHelp.lib")
 
 #include "NumberFmt.h"
+#include "process.h"
 
 #include "text_templates.h"
 #include "ConnectionDlg.h"
@@ -702,7 +703,7 @@ bool MemoryWindowFrame::add_glossary_window(app_props::props_ptr props)
 	}
 #endif
 
-	if ( m_glossary_windows.m_glossary_windows.size() == 1 ) // we have just added the only one...
+	if ( m_glossary_windows.size() == 1 ) // we have just added the only one...
 	{
 		gloss_window->m_apply_settings(sw_command) ;
 	}
@@ -1471,7 +1472,7 @@ bool MemoryWindowFrame::lookup(const wstring query)
 	show_view_content() ;
 
 	// do glossary lookup as well
-	look_up_in_glossaries( query ) ;
+	m_glossary_windows.look_up( query ) ;
 
 	return true ;
 }
@@ -1503,12 +1504,7 @@ bool MemoryWindowFrame::next_match()
 
 	if ( m_model->is_reverse_lookup() )
 	{
-		search_match_ptr match = m_trans_matches.current() ;
-		record_pointer rec = match->get_record() ;
-		wstring entry_source = rec->get_source_plain() ;
-		// do glossary lookup as well
-		look_up_in_glossaries( entry_source ) ;
-
+		look_up_current_source_in_gloss();
 	}
 	show_view_content() ;
 
@@ -1528,12 +1524,7 @@ bool MemoryWindowFrame::prev_match()
 
 	if ( m_model->is_reverse_lookup() )
 	{
-		search_match_ptr match = m_trans_matches.current() ;
-		record_pointer rec = match->get_record() ;
-		wstring entry_source = rec->get_source_plain() ;
-		// do glossary lookup as well
-		look_up_in_glossaries( entry_source ) ;
-
+		look_up_current_source_in_gloss();
 	}
 
 	show_view_content() ;
@@ -1699,11 +1690,7 @@ bool MemoryWindowFrame::get_concordances(const wstring query_string )
 */
 wstring MemoryWindowFrame::get_glossary_entry(short index)
 {
-	if ( false == m_glossary_windows.empty() )
-	{
-		return get_glossary_window()->get_glossary_entry( index ) ;
-	}
-	return wstring( ) ;
+	return m_glossary_windows.get_glossary_entry(index) ;
 }
 
 /** Get the score for a given match.
@@ -1838,7 +1825,7 @@ LRESULT MemoryWindowFrame::on_user_register(LPARAM num )
 	}
 
 	ATLASSERT ( m_glossary_windows.empty() == false ) ; 
-	m_reg_gloss_dlg.set_gloss_window(*m_glossary_windows.m_glossary_windows.begin()) ;
+	m_reg_gloss_dlg.set_gloss_window(m_glossary_windows.first()) ;
 
 #ifdef UNIT_TEST
 	return 0 ;
@@ -1894,32 +1881,7 @@ gloss_window_pointer MemoryWindowFrame::get_glossary_window()
 	{
 		add_glossary_window(m_props) ;
 	}
-	return m_glossary_windows.m_glossary_windows[0] ;
-}
-
-
-/** Gets the glossary window with focus
-*/
-int MemoryWindowFrame::get_focus_glossary(HWND focus_hwnd)
-{
-	ATLASSERT( ::IsWindow( focus_hwnd ) ) ;
-
-	const size_t num_glossaries = m_glossary_windows.m_glossary_windows.size() ;
-	for ( size_t index=0 ; index<num_glossaries ; ++index )
-	{
-		if ( m_glossary_windows.m_glossary_windows[index]->IsWindow() )
-		{
-			if ( 
-				m_glossary_windows.m_glossary_windows[index]->m_hWnd == focus_hwnd || 
-				m_glossary_windows.m_glossary_windows[index]->IsChild( focus_hwnd ) 
-				)
-			{
-				return index ;
-			}
-		}
-	}
-
-	return -1 ;
+	return m_glossary_windows.first() ;
 }
 
 /** Show the view content.
@@ -2012,14 +1974,7 @@ void MemoryWindowFrame::report_memory_after_load(size_t original_num)
 //! Destroy all the glossary windows (prior to shutdown).
 void MemoryWindowFrame::destroy_all_gloss_windows()
 {
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		if (gloss->IsWindow())
-		{
-			gloss->DestroyWindow() ;
-		}
-	}
-	m_glossary_windows.m_glossary_windows.clear() ;
+	m_glossary_windows.destroy_all() ;
 }
 
 
@@ -2078,13 +2033,7 @@ bool MemoryWindowFrame::exit_silently()
 {
 	SENSE("exit_silently") ;
 
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
-	{
-		if (gloss_win->IsWindow())
-		{
-			gloss_win->exit_silently() ;
-		}
-	}
+	m_glossary_windows.exit_silently() ;
 
 	memory_list memories ;
 	m_model->get_memories()->get_memories_needing_saving( memories ) ;
@@ -2108,10 +2057,7 @@ bool MemoryWindowFrame::clear_memory()
 		memory_pointer mem = m_model->get_first_memory() ;
 		mem->clear_memory() ;
 	}
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		gloss->clear_memory() ;
-	}
+	m_glossary_windows.clear_glossaries() ;
 
 	m_view_interface.set_text( wstring() ) ;
 	check_mousewheel() ;
@@ -2618,10 +2564,7 @@ bool MemoryWindowFrame::lookup_trans(const wstring query)
 	if ( m_trans_matches.empty() == false )
 	{
 		m_model->set_reverse_lookup(true)  ;
-		search_match_ptr match = m_trans_matches.current() ;
-		record_pointer rec = match->get_record() ;
-		// do glossary lookup as well
-		look_up_in_glossaries( rec->get_source_plain() ) ;
+		look_up_current_source_in_gloss() ;
 	}
 
 	// give the user feedback
@@ -2858,13 +2801,7 @@ LRESULT MemoryWindowFrame::on_user_save(WindowsMessage &message)
 	SENSE("on_user_save") ;
 
 	on_file_save(message) ;
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
-	{
-		if ( gloss_win->IsWindow())
-		{
-			gloss_win->on_file_save() ;
-		}
-	}
+	m_glossary_windows.on_file_save() ;
 	return 0L ;
 }
 
@@ -2983,7 +2920,7 @@ LRESULT MemoryWindowFrame::on_view_switch(WindowsMessage &)
 		return 0L ;
 	}
 
-	get_glossary_window()->SetFocus() ;
+	m_glossary_windows.first()->SetFocus() ;
 
 	return 0L ;
 }
@@ -2992,28 +2929,10 @@ LRESULT MemoryWindowFrame::on_view_switch(WindowsMessage &)
 */
 void MemoryWindowFrame::gloss_view_switch(HWND child)
 {
-	for ( auto pos = m_glossary_windows.m_glossary_windows.begin() ; pos != m_glossary_windows.m_glossary_windows.end() ; ++pos )
+	if (! m_glossary_windows.gloss_view_switch(child))
 	{
-		gloss_window_pointer gloss = *pos ;
-		if ( gloss->m_hWnd == child )
-		{
-			++pos ;
-			while ( pos != m_glossary_windows.m_glossary_windows.end() )
-			{
-				gloss = *pos ;
-				if ( gloss->IsWindow() )
-				{
-					gloss->SetFocus() ;
-					return ;
-				}
-			}
-			SetFocus() ;
-			return ;
-		}
+		SetFocus() ;
 	}
-
-	SetFocus() ;
-	return ;
 }
 
 /** View -> Compact View.
@@ -3025,13 +2944,7 @@ LRESULT MemoryWindowFrame::on_user_view_min_end(WindowsMessage &)
 
 	ShowWindow( SW_SHOW ) ;
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		if ( gloss->IsWindow() )
-		{
-			gloss->ShowWindow( SW_SHOW ) ;
-		}
-	}
+	m_glossary_windows.put_visibility(SW_SHOW); 
 
 	show_view_content() ;
 
@@ -3047,13 +2960,7 @@ LRESULT MemoryWindowFrame::on_view_min_begin( WindowsMessage &)
 
 	SENSE("on_view_min_begin") ;
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		if ( gloss->IsWindow() )
-		{
-			gloss->ShowWindow( SW_HIDE ) ;
-		}
-	}
+	m_glossary_windows.put_visibility(SW_HIDE); 
 
 	ShowWindow( SW_HIDE ) ;
 
@@ -3089,10 +2996,7 @@ void MemoryWindowFrame::put_visible(int visibility)
 		ShowWindow( visibility ) ;
 	}
 
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		gloss->ShowWindow(visibility) ;
-	}
+	m_glossary_windows.put_visibility(visibility) ;
 }
 
 /** Load the appropriate resource file according to the 
@@ -3130,10 +3034,7 @@ WORD MemoryWindowFrame::get_current_gui_language()
 */
 void MemoryWindowFrame::reflect_preferences()
 {
-	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows.m_glossary_windows)
-	{
-		gloss_win->show_view_content() ;
-	}
+	m_glossary_windows.show_view_content() ;
 
 	set_bg_color( static_cast< COLORREF >( m_props->m_view_props.m_data.m_back_color ) );	
 	m_trans_matches.m_query_color =	m_props->m_view_props.m_data.m_query_color  ;
@@ -3171,7 +3072,7 @@ void MemoryWindowFrame::reflect_loaded_preferences( const WORD old_language )
 
 	if (! m_glossary_windows.empty())
 	{
-		gloss_window_pointer gloss = get_glossary_window();
+		gloss_window_pointer gloss = m_glossary_windows.first();
 		CWindowSettings ws;
 
 		if( ws.Load( resource_string(IDS_REG_KEY), _T("MainGlossary") ) )
@@ -3489,16 +3390,6 @@ void MemoryWindowFrame::set_up_window_size()
 #endif
 }
 
-/** Look up the query in all of our glossary windows.
-*/
-void MemoryWindowFrame::look_up_in_glossaries(const wstring query)
-{
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		gloss->lookup( query ) ;
-	}
-}
-
 /** Add the record to the top memory, and give feedback.
 */
 void MemoryWindowFrame::add_record_to_memory(record_pointer record)
@@ -3569,7 +3460,7 @@ void MemoryWindowFrame::redo_lookup( search_match_ptr match, bool do_gloss )
 
 	if ( do_gloss ) 
 	{
-		look_up_in_glossaries( search_segment ) ;
+		m_glossary_windows.look_up(search_segment) ;
 	}
 }
 
@@ -3624,16 +3515,7 @@ void MemoryWindowFrame::show_user_search_results()
 */
 void MemoryWindowFrame::set_lang_of_gloss_windows()
 {
-	// now set each of our glossaries...
-	const size_t num_glossaries = m_glossary_windows.m_glossary_windows.size() ;
-	for ( size_t i=0 ; i<num_glossaries ; ++i )
-	{
-		if ( m_glossary_windows.m_glossary_windows[i]->IsWindow() )
-		{
-			m_glossary_windows.m_glossary_windows[i]->set_ui_language() ;
-		}
-	}
-
+	m_glossary_windows.set_ui_language() ;
 }
 /** Reload the menu bar after switching GUI languages.
 */
@@ -3681,24 +3563,17 @@ LPCTSTR MemoryWindowFrame::get_open_filter()
 	return get_mem_open_filter() ;
 }
 
-
-
 /** Allow the glossary windows to tell us not to shut down.
 */
 bool MemoryWindowFrame::gloss_win_shutdown_check()
 {
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
+	if (m_glossary_windows.pre_shutdown_save_check())
 	{
-		if ( false == gloss->pre_shutdown_save_check() )
-		{
-			SetMsgHandled( TRUE ) ;
-			return false ;
-		}
+		return true ;
 	}
-
-	return true ;
+	SetMsgHandled( TRUE ) ;
+	return false ;
 }
-
 
 /** Saves the rebar settings to the register, so we can remember them
 * at next startup. (We're just nice that way)
@@ -3725,11 +3600,7 @@ void MemoryWindowFrame::put_show_marking( const VARIANT_BOOL setting )
 	{
 		m_trans_matches.m_params.m_show_marking = true ;
 	}
-
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows.m_glossary_windows)
-	{
-		gloss->put_show_marking(setting) ;
-	}
+	m_glossary_windows.put_show_marking(setting) ;
 
 	show_view_content() ;
 }
@@ -4416,20 +4287,11 @@ void MemoryWindowFrame::remove_match_record( search_match_ptr match )
 	record_pointer rec = match->get_record() ;
 
 	remove_record_from_mem_id(rec, match->get_memory_id());
-	remove_record_from_glossaries(rec);
-}
-
-void MemoryWindowFrame::remove_record_from_glossaries( record_pointer rec )
-{
-	if (! m_glossary_windows.empty() && m_props->m_gloss_props.get_max_add())
-	{
-		get_glossary_window()->delete_record(rec) ;
-	}
+	m_glossary_windows.remove_gloss_record(rec) ;
 }
 
 void MemoryWindowFrame::view_by_id( size_t recid, wstring source, wstring trans )
 {
-
 	memory_pointer mem = get_memory_model()->get_memory_by_id(m_review_match->get_memory_id()) ;
 	m_review_match->set_record(mem->add_by_id(recid, source, trans)) ;
 	this->set_display_state(TRANS_REVIEW_STATE) ;
@@ -4506,7 +4368,6 @@ void MemoryWindowFrame::load_mousewheel_setting()
 	m_mousewheel_count = m_props->m_view_props.get_mem_mousewheel() ;
 }
 
-
 // Show the zoom dialog.
 LRESULT MemoryWindowFrame::on_view_zoom( WindowsMessage & )
 {
@@ -4517,8 +4378,7 @@ LRESULT MemoryWindowFrame::on_view_zoom( WindowsMessage & )
 	return 0L ;
 }
 
-
-
+// Load the translation history.
 void MemoryWindowFrame::load_history()
 {
 	this->get_memories().clear() ;
@@ -4605,6 +4465,7 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 	return 0L ;
 }
 
+// Serialize preferences to file
 LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 {
 	logging::log_debug("Saving user preferences.") ;
@@ -4625,11 +4486,7 @@ LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 	}
 	logging::log_debug("Saving preferences") ;
 
-	if (! m_glossary_windows.empty())
-	{
-		gloss_window_pointer gloss = get_glossary_window();
-		gloss->save_prefs() ;
-	}
+	m_glossary_windows.save_prefs() ;
 	save_settings_close() ;
 	save_settings_destroy() ;
 
@@ -4640,56 +4497,20 @@ LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 	{
 	case 1:
 		fileops::add_extension_as_needed( filename,  _T( ".fprefx" ) ) ;
-		m_props->save_file(filename) ;
 		ATLTRACE( "Save new preferences format\n" ) ;
 		break;
 
-	case 2:
-		fileops::add_extension_as_needed( filename,  _T( ".fprefs" ) ) ;
-		save_old_prefs_file(filename);
-		break;
-
 	default:
-		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
+		LOG_VERBOSE("Unknown file type for prefs file. Saving raw filename.") ;
 	}
+	m_props->save_file(filename) ;
 
 	user_feedback( IDS_PREFS_SAVED ) ;
 
 	return 0L ;
 }
 
-void MemoryWindowFrame::create_process( CString &command, CString error_message )
-{
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
 
-	ZeroMemory( &si, sizeof(si) );
-	si.cb = sizeof(si);
-	ZeroMemory( &pi, sizeof(pi) );
-
-	// Start the child process. 
-	if( !CreateProcess(NULL,   // No module name (use command line). 
-		command.GetBuffer(), // Command line. 
-		NULL,             // Process handle not inheritable. 
-		NULL,             // Thread handle not inheritable. 
-		FALSE,            // Set handle inheritance to FALSE. 
-		DETACHED_PROCESS,                // DETACHED_PROCESS creation flags. 
-		NULL,             // Use parent's environment block. 
-		NULL,             // Use parent's starting directory. 
-		&si,              // Pointer to STARTUPINFO structure.
-		&pi )             // Pointer to PROCESS_INFORMATION structure.
-		) 
-	{
-		throw CWinException(error_message) ;
-	}
-
-	// Wait until child process exits.
-	WaitForSingleObject( pi.hProcess, INFINITE );
-
-	// Close process and thread handles. 
-	CloseHandle( pi.hProcess );
-	CloseHandle( pi.hThread );
-}
 
 void MemoryWindowFrame::save_settings_close()
 {
@@ -5259,15 +5080,25 @@ mem_engine::placement::regex_rules * MemoryWindowFrame::get_regex_rules()
 
 int MemoryWindowFrame::get_gloss_show_command()
 {
-	if (! is_window())
-	{
-		return SW_HIDE ;
-	}
-	return SW_SHOWNOACTIVATE ;
+	return m_glossary_windows.get_show_command(is_window());
 }
 
 bool MemoryWindowFrame::should_add_record_to_glossary( record_pointer record )
 {
 	return  record->get_source_plain().length() <= m_props->m_gloss_props.get_max_add() 
 		&& m_props->m_gloss_props.get_max_add() > 0;
+}
+
+// Gets the glossary matches from the active glossary. NULL if there are no glossaries.
+mem_engine::felix_query * MemoryWindowFrame::get_current_gloss_matches()
+{
+	return m_glossary_windows.get_current_matches() ;
+}
+
+void MemoryWindowFrame::look_up_current_source_in_gloss()
+{
+	search_match_ptr match = m_trans_matches.current() ;
+	record_pointer rec = match->get_record() ;
+	wstring entry_source = rec->get_source_plain() ;
+	m_glossary_windows.look_up( entry_source ) ;
 }

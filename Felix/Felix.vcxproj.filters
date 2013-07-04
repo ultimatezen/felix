@@ -1083,6 +1083,9 @@
     <ClCompile Include="gloss_win_collection_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1933,6 +1936,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gloss_win_collection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

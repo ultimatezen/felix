@@ -50,6 +50,34 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAdd )
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionCollectionFuncs )
+
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss = windows.add(props) ;
+		BOOST_CHECK(! windows.empty()) ;
+		BOOST_CHECK_EQUAL(1u, windows.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection windows ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss1 = windows.add(props) ;
+		gloss_window_pointer gloss2 = windows.add(props) ;
+		BOOST_CHECK(! windows.empty()) ;
+		BOOST_CHECK_EQUAL(2u, windows.size()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_zero)
+	{
+		GlossWinCollection windows ;
+		BOOST_CHECK(windows.empty()) ;
+		BOOST_CHECK_EQUAL(0u, windows.size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionPreTranslate )
 
 	BOOL not_translated(MSG*)
@@ -192,6 +220,46 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAddRecord )
 		BOOST_CHECK_EQUAL(2u, windows.m_glossary_windows.size()) ;
 		BOOST_CHECK_EQUAL(2u, gloss1->m_memories->get_first_memory()->size()) ;
 		BOOST_CHECK_EQUAL(0u, gloss2->m_memories->get_first_memory()->size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionGetGlossaryEntry )
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection collection ;
+		BOOST_CHECK(collection.get_glossary_entry(1).empty()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionCreate )
+
+	HWND create_true(HWND)
+	{
+		return (HWND)1000 ;
+	}
+	HWND create_false(HWND)
+	{
+		return NULL ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_true)
+	{
+		GlossWinCollection collection ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		gloss_window->m_create = boost::bind(&create_true, _1) ;
+		BOOST_CHECK(collection.create(gloss_window, NULL)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_false)
+	{
+		GlossWinCollection collection ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		gloss_window->m_create = boost::bind(&create_false, _1) ;
+		BOOST_CHECK(! collection.create(gloss_window, NULL)) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

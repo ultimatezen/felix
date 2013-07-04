@@ -134,12 +134,10 @@ inline LPCTSTR get_mem_open_filter()
 inline LPCTSTR get_prefs_filter()
 {
 	static LPCTSTR prefs_file_filter_english = 
-		_T("Felix Preference Files (*.fprefx)\0*.fprefx\0")
-		_T("Old Felix Preference Files (*.fprefs)\0*.fprefs\0") ;
+		_T("Felix Preference Files (*.fprefx)\0*.fprefx\0") ;
 
 	static LPCTSTR prefs_file_filter_japanese = 
-		_T("Felix 設定ファイル(*.fprefx)\0*.fprefx\0")
-		_T("前バージョンのFelix 設定ファイル(*.fprefs)\0*.fprefs\0") ;
+		_T("Felix 設定ファイル(*.fprefx)\0*.fprefx\0") ;
 
 	if (boost::icontains(_Module.get_library(), _T("j")))
 	{

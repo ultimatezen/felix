@@ -207,11 +207,6 @@ public:
 
 	mem_engine::memory_list& get_silent_memories() { return m_silent_memories.get_memories() ; } 
 
-	gloss_window_list& get_glossary_windows()
-	{
-		return m_glossary_windows.m_glossary_windows ;
-	}
-
 	bool set_window_title() ;
 
 	CString get_active_mem_name();
@@ -282,6 +277,9 @@ public:
 
 	bool prev_match( );
 	bool next_match( );
+
+	// do source lookup in glossary lookup as well
+	void look_up_current_source_in_gloss();
 
 	//CSmartCommandBarCtrl m_CmdBar;
 
@@ -380,7 +378,6 @@ public:
 	LRESULT on_tools_save_preferences(WindowsMessage &message);
 
 	void save_old_prefs_file( CString filename );
-	void create_process( CString &command, CString error_message );
 
 	LRESULT on_startup_checks(WindowsMessage &message);
 
@@ -406,7 +403,6 @@ public:
 
 	LRESULT on_user_delete( size_t num );
 
-	void remove_record_from_glossaries(record_type rec);
 	void remove_match_record( search_match_ptr match );
 	void remove_record_from_mem_id( record_type rec, int mem_id );
 	void deleted_new_record_feedback();
@@ -509,7 +505,6 @@ private:
 
 public:
 	void add_record_to_memory( record_type record );
-	void look_up_in_glossaries( const wstring query );
 	void set_up_window_size();
 	void set_up_ui_state();
 	void init_status_bar();
@@ -547,7 +542,6 @@ public:
 
 
 	void show_view_content();
-	int get_focus_glossary(HWND focus_hwnd = ::GetFocus());
 	gloss_window_pointer get_glossary_window();
 
 	double get_score(const short index = -1);
@@ -641,14 +635,7 @@ public:
 	{
 		return &m_trans_matches ;
 	}
-	mem_engine::felix_query *get_current_gloss_matches()
-	{
-		if ( ! m_glossary_windows.m_glossary_windows.empty() )
-		{
-			return m_glossary_windows.m_glossary_windows[0]->get_current_matches() ;
-		}
-		return NULL ;
-	}
+	mem_engine::felix_query *get_current_gloss_matches();
 
 	void redo_lookup( search_match_ptr match, bool do_gloss = false ) ;
 	edit_record_dlg_ptr get_editor();
