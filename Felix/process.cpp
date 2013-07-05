@@ -16,7 +16,7 @@ void create_process( CString &command, CString error_message )
 		NULL,             // Process handle not inheritable. 
 		NULL,             // Thread handle not inheritable. 
 		FALSE,            // Set handle inheritance to FALSE. 
-		DETACHED_PROCESS,                // DETACHED_PROCESS creation flags. 
+		DETACHED_PROCESS, // DETACHED_PROCESS creation flags. 
 		NULL,             // Use parent's environment block. 
 		NULL,             // Use parent's starting directory. 
 		&si,              // Pointer to STARTUPINFO structure.

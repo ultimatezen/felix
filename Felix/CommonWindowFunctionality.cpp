@@ -151,8 +151,6 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	return IDYES ;
 }
 
-
-
 INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer& mem)
 {
 	if ( mem->is_new() )

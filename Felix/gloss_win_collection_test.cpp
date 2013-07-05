@@ -5,20 +5,28 @@
 #ifdef UNIT_TEST
 
 #include "GlossaryDlgListenerFake.h"
+#include "mem_tests.h"
 #include <boost/test/unit_test.hpp>
 
 using namespace mem_engine ;
 
-gloss_window_pointer make_gloss_window(app_props::props_ptr props, BOOL is_window)
+gloss_window_pointer make_gloss_window_with_fake(app_props::props_ptr props, window_wrapper_ptr window) ;
+gloss_window_pointer make_gloss_window(app_props::props_ptr props, BOOL is_window) ;
+
+gloss_window_pointer make_gloss_window_with_fake(app_props::props_ptr props, window_wrapper_ptr window)
 {
-	GlossWinCollection collection ;
 	gloss_window_pointer gloss_window(new GlossaryWindowFrame(props)) ;
-	WindowWrapperFake *fake_window = new WindowWrapperFake ;
-	window_wrapper_ptr window(fake_window) ;
-	fake_window->m_is_window = is_window ;
 	gloss_window->m_get_window = boost::bind(&get_window_fake, window, _1) ;
 	return gloss_window ;
 }
+gloss_window_pointer make_gloss_window(app_props::props_ptr props, BOOL is_window)
+{
+	WindowWrapperFake *fake_window = new WindowWrapperFake ;
+	window_wrapper_ptr window(fake_window) ;
+	fake_window->m_is_window = is_window ;
+	return make_gloss_window_with_fake(props, window) ;
+}
+
 BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAdd )
 
 	BOOST_AUTO_TEST_CASE(test_one)
@@ -264,4 +272,274 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionCreate )
 
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionSetUiLanguage)
+
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.set_ui_language() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable[0], "set_ui_language") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, FALSE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.set_ui_language() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "set_ui_language") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, TRUE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.set_ui_language() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable[0], "set_ui_language") ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "set_ui_language") ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionSavePrefs)
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection collection ;
+		BOOST_CHECK_NO_THROW(collection.save_prefs()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		glosses.save_prefs() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable[0], "save_prefs") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window1 = glosses.add(props) ; 
+		gloss_window_pointer gloss_window2 = glosses.add(props) ;
+
+		glosses.save_prefs() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable[0], "save_prefs") ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable.size(), 0u) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionFirst)
+
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window1 = glosses.add(props) ; 
+		gloss_window_pointer gloss_window2 = glosses.add(props) ;
+
+		BOOST_CHECK_EQUAL(2u, glosses.size()) ;
+		BOOST_CHECK_EQUAL(gloss_window1, glosses.first()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionRemoveGlossRecord)
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		record_pointer rec1 = make_record("aaa", "bbb") ;
+		BOOST_CHECK_NO_THROW(glosses.remove_gloss_record(rec1)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		memory_pointer mem(new memory_local(props)) ;
+		gloss_window->get_memories().push_back(mem) ;
+		record_pointer rec1 = make_record("aaa", "bbb") ;
+		record_pointer rec2 = make_record("yyy", "zzz") ;
+		gloss_window->add_record(mem, rec1) ;
+		gloss_window->add_record(mem, rec2) ;
+		BOOST_CHECK_EQUAL(2u, mem->size()) ;
+		glosses.remove_gloss_record(rec1) ;
+		BOOST_CHECK_EQUAL(1u, mem->size()) ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_remove_unrelated)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		memory_pointer mem(new memory_local(props)) ;
+		gloss_window->get_memories().push_back(mem) ;
+		record_pointer rec1 = make_record("aaa", "bbb") ;
+		record_pointer rec2 = make_record("yyy", "zzz") ;
+		gloss_window->add_record(mem, rec1) ;
+		gloss_window->add_record(mem, rec2) ;
+		BOOST_CHECK_EQUAL(2u, mem->size()) ;
+		record_pointer rec3 = make_record("111", "222") ;
+		glosses.remove_gloss_record(rec3) ;
+		BOOST_CHECK_EQUAL(2u, mem->size()) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionGetCurrentMatches)
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		felix_query *null_query = NULL ;
+		BOOST_CHECK_EQUAL(null_query, glosses.get_current_matches()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		BOOST_CHECK_EQUAL(gloss_window->get_current_matches(), glosses.get_current_matches()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionGetShowCommand)
+
+	BOOST_AUTO_TEST_CASE(test_visible)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK_EQUAL(SW_SHOWNOACTIVATE, glosses.get_show_command(TRUE)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_not_visible)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK_EQUAL(SW_HIDE, glosses.get_show_command(FALSE)) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionPreShutdownSaveCheck)
+
+	INT_PTR return_cancel()
+	{
+		return IDCANCEL ;
+	}
+	INT_PTR return_yes()
+	{
+		return IDYES ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK(glosses.pre_shutdown_save_check()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_check_save_cancel)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		memory_pointer mem(new memory_local(props)) ;
+		gloss_window->get_memories().push_back(mem) ;
+		record_pointer rec1 = make_record("aaa", "bbb") ;
+		gloss_window->add_record(mem, rec1) ;
+
+		gloss_window->m_check_save = &return_cancel ;
+
+		BOOST_CHECK(! glosses.pre_shutdown_save_check()) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_check_save_yes)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		memory_pointer mem(new memory_local(props)) ;
+		gloss_window->get_memories().push_back(mem) ;
+		record_pointer rec1 = make_record("aaa", "bbb") ;
+		gloss_window->add_record(mem, rec1) ;
+
+		gloss_window->m_check_save = &return_yes ;
+
+		BOOST_CHECK(glosses.pre_shutdown_save_check()) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionShowViewContent)
+
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.show_view_content() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable[0], "show_view_content") ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, FALSE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.show_view_content() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "show_view_content") ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionPutVisibility)
+
+	BOOST_AUTO_TEST_CASE(test_show)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		gloss_window_pointer gloss_window = make_gloss_window_with_fake(props, window) ;
+		glosses.m_glossary_windows.push_back(gloss_window) ;
+
+		glosses.put_visibility(SW_SHOW) ;
+		BOOST_CHECK_EQUAL(SW_SHOW, fake_window->m_show) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_hide)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		window_wrapper_ptr window(fake_window) ;
+		gloss_window_pointer gloss_window = make_gloss_window_with_fake(props, window) ;
+		glosses.m_glossary_windows.push_back(gloss_window) ;
+
+		glosses.put_visibility(SW_HIDE) ;
+		BOOST_CHECK_EQUAL(SW_HIDE, fake_window->m_show) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
 #endif

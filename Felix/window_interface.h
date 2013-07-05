@@ -23,6 +23,7 @@ class WindowWrapper
 {
 public:
 	virtual BOOL IsWindow() = 0 ;
+	virtual BOOL ShowWindow(int) = 0 ;
 };
 
 class WindowWrapperReal : public WindowWrapper
@@ -34,16 +35,26 @@ public:
 	{
 		return ::IsWindow(m_window) ;
 	}
+	BOOL ShowWindow(int show_command)
+	{
+		return ::ShowWindow(m_window, show_command) ;
+	}
 };
 
 class WindowWrapperFake : public WindowWrapper
 {
 public:
 	BOOL m_is_window ;
-	WindowWrapperFake() : m_is_window(FALSE){}
+	int m_show ;
+	WindowWrapperFake() : m_is_window(FALSE), m_show(-1){}
 	BOOL IsWindow()
 	{
 		return m_is_window ;
+	}
+	BOOL ShowWindow(int show_command)
+	{
+		m_show = show_command ;
+		return TRUE ;
 	}
 
 };

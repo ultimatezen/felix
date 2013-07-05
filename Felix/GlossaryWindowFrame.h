@@ -101,6 +101,7 @@ public:
 	// seams for testing
 	boost::function<HWND(HWND)> m_create ;
 	boost::function<void(const int)> m_apply_settings ;
+	boost::function<INT_PTR(void)> m_check_save ;
 
 	static const int IDD = IDD_GLOSSARYVIEW ;
 	DECLARE_WND_CLASS(_T("Glossary Window"))

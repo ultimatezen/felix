@@ -56,6 +56,7 @@ GlossaryWindowFrame::GlossaryWindowFrame(app_props::props_ptr props) :
 	m_get_window = &get_window_real ;
 	m_pre_translate_msg = boost::bind(&GlossaryWindowFrame::PreTranslateMessage, this, _1) ;
 	m_create = boost::bind(&GlossaryWindowFrame::create, this, _1) ;
+	m_check_save = boost::bind(&GlossaryWindowFrame::check_save, this) ;
 	m_apply_settings = boost::bind(&GlossaryWindowFrame::apply_window_settings, this, _1) ;
 
 	// other props
@@ -1029,7 +1030,7 @@ bool GlossaryWindowFrame::pre_shutdown_save_check()
 		return true ;
 	} 
 
-	if ( check_save() == IDCANCEL)
+	if ( m_check_save() == IDCANCEL)
 	{
 		// user does not want to close window
 		return false ;
@@ -1298,6 +1299,10 @@ void GlossaryWindowFrame::show_post_edit_content()
 
 void GlossaryWindowFrame::set_ui_language()
 {
+	SENSE("set_ui_language") ;
+#ifdef UNIT_TEST
+	return ;
+#else
 	wait_until_view_not_busy() ;
 
 	refresh_menu() ;
@@ -1314,17 +1319,20 @@ void GlossaryWindowFrame::set_ui_language()
 	set_bg_color((COLORREF)m_properties_gloss->m_data.m_back_color);
 
 	user_feedback( IDS_CHANGED_LANGUAGES ) ;
+#endif
 }
 
 
 void GlossaryWindowFrame::show_view_content()
 {
-	if (! IsWindow())
+	if (! is_window())
 	{
 		return ;
 	}
-
+	SENSE("show_view_content") ;
+#ifndef UNIT_TEST
 	m_view_state->show_content() ;
+#endif
 }
 
 LRESULT GlossaryWindowFrame::on_view_match( ) 
@@ -1904,12 +1912,17 @@ void GlossaryWindowFrame::load_history()
 
 void GlossaryWindowFrame::save_prefs()
 {
+	SENSE("save_prefs") ;
+#ifdef UNIT_TEST
+	return ;
+#else
 	m_appstate.write_to_registry() ;
 
 	m_mru.WriteToRegistry( R2T( IDS_REG_KEY_GLOSS ) );
 
 	check_save_history() ;
 	save_window_settings( _T("MainGlossary") ) ;
+#endif
 }
 
 void GlossaryWindowFrame::apply_reg_bg_color()

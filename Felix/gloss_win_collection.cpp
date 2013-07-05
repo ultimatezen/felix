@@ -172,7 +172,7 @@ void GlossWinCollection::put_visibility( int visibility )
 {
 	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
 	{
-		gloss->ShowWindow(visibility) ;
+		gloss->show_window(visibility) ;
 	}
 }
 
