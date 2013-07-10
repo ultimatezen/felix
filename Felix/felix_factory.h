@@ -2,6 +2,7 @@
 
 #include "MemoryWindowFrame.h"
 #include "memory_local.h"
+#include "FelixModel.h"
 
 typedef boost::shared_ptr<MemoryWindowFrame> frame_ptr ;
 
