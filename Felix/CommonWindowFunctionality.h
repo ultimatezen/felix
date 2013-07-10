@@ -160,16 +160,9 @@ public:
 	/************************************************************************/
 	/* window_wrapper implementation                                       */
 	/************************************************************************/
-	BOOL is_window()
-	{
-		window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
-		return window->IsWindow() ;
-	}
-	BOOL show_window(int show_command)
-	{
-		window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
-		return window->ShowWindow(show_command) ;
-	}
+	BOOL is_window();
+	BOOL show_window(int show_command);
+	HWND set_focus();
 	/************************************************************************/
 	/* pure virtual methods 
 	/************************************************************************/

@@ -1198,4 +1198,26 @@ void CCommonWindowFunctionality::set_zoom_level( int zoom_level )
 	}
 }
 
+/************************************************************************/
+/* window_wrapper implementation                                       */
+/************************************************************************/
+
+BOOL CCommonWindowFunctionality::is_window()
+{
+	window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
+	return window->IsWindow() ;
+}
+
+BOOL CCommonWindowFunctionality::show_window( int show_command )
+{
+	window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
+	return window->ShowWindow(show_command) ;
+}
+
+HWND CCommonWindowFunctionality::set_focus()
+{
+	window_wrapper_ptr window = this->m_get_window(this->m_hWnd) ;
+	return window->SetFocus() ;
+}
+
 
