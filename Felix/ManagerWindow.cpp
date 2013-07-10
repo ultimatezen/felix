@@ -788,7 +788,7 @@ bool CManagerWindow::nav_addnew(const std::vector<string> &tokens)
 
 /* swap_memories
  swaps the memory at `index` with the one below it.
- i.e. if you specify index=0, it will swap the memories at indices 0 and 1
+ For example, if you specify index=0, it will swap the memories at indices 0 and 1
  */
 void CManagerWindow::swap_memories( model_iface_ptr model, const int index )
 {
