@@ -1043,7 +1043,7 @@ BOOST_AUTO_TEST_SUITE( TestCMainFrameSettings )
 		MAKE_TEST_FRAME(frame) ;
 		add_record(frame, L"aabbcc", L"112233") ;
 
-		frame->m_model->get_memories()->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
+		frame->m_model->get_first_memory()->set_location(_T("C:\\test\\spam.ftm"));
 
 		string actual = (LPCSTR)CStringA(frame->get_active_mem_name()) ;
 		string expected = "spam" ;
