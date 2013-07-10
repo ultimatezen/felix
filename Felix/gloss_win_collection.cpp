@@ -178,22 +178,27 @@ void GlossWinCollection::put_visibility( int visibility )
 
 bool GlossWinCollection::gloss_view_switch( HWND child )
 {
+	remove_destroyed_gloss_windows() ;
+	if (size() < 2)
+	{
+		return false ;
+	}
 	for ( auto pos = m_glossary_windows.begin() ; pos != m_glossary_windows.end() ; ++pos )
 	{
 		gloss_window_pointer gloss = *pos ;
 		if ( gloss->m_hWnd == child )
 		{
 			++pos ;
-			while ( pos != m_glossary_windows.end() )
+			if ( pos != m_glossary_windows.end() )
 			{
 				gloss = *pos ;
-				if ( gloss->IsWindow() )
-				{
-					gloss->SetFocus() ;
-					return true ;
-				}
+				gloss->set_focus() ;
 			}
-			return false ;
+			else
+			{
+				first()->set_focus() ;
+			}
+			return true ;
 		}
 	}
 	return false ;

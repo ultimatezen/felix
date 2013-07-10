@@ -542,4 +542,284 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionPutVisibility)
 		BOOST_CHECK_EQUAL(SW_HIDE, fake_window->m_show) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionGlossViewSwitch)
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK(! glosses.gloss_view_switch(NULL)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_destroyed)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window = new WindowWrapperFake ;
+		fake_window->m_is_window = FALSE ;
+		window_wrapper_ptr window(fake_window) ;
+		gloss_window_pointer gloss_window = make_gloss_window_with_fake(props, window) ;
+		gloss_window->m_hWnd = (HWND)0x1000 ;
+		glosses.m_glossary_windows.push_back(gloss_window) ;
+
+		BOOST_CHECK(! glosses.gloss_view_switch((HWND)0x1000)) ;
+		gloss_window->m_hWnd = NULL ;
+	}
+	BOOST_AUTO_TEST_CASE(test_has_no_next)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window1 = new WindowWrapperFake ;
+		fake_window1->m_is_window = TRUE ;
+		window_wrapper_ptr window1(fake_window1) ;
+		gloss_window_pointer gloss_window1 = make_gloss_window_with_fake(props, window1) ;
+		gloss_window1->m_hWnd = (HWND)0x1000 ;
+		glosses.m_glossary_windows.push_back(gloss_window1) ;
+
+		BOOST_CHECK(! glosses.gloss_view_switch((HWND)0x1000)) ;
+		BOOST_CHECK(! fake_window1->m_set_focus) ;
+		gloss_window1->m_hWnd = NULL ;
+	}
+	BOOST_AUTO_TEST_CASE(test_has_next)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window1 = new WindowWrapperFake ;
+		fake_window1->m_is_window = TRUE ;
+		window_wrapper_ptr window1(fake_window1) ;
+		gloss_window_pointer gloss_window1 = make_gloss_window_with_fake(props, window1) ;
+		gloss_window1->m_hWnd = (HWND)0x1000 ;
+		glosses.m_glossary_windows.push_back(gloss_window1) ;
+
+		WindowWrapperFake *fake_window2 = new WindowWrapperFake ;
+		fake_window2->m_is_window = TRUE ;
+		window_wrapper_ptr window2(fake_window2) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window_with_fake(props, window2) ;
+		gloss_window2->m_hWnd = (HWND)0x2000 ;
+		glosses.m_glossary_windows.push_back(gloss_window2) ;
+
+		BOOST_CHECK(glosses.gloss_view_switch((HWND)0x1000)) ;
+		BOOST_CHECK(! fake_window1->m_set_focus) ;
+		BOOST_CHECK(fake_window2->m_set_focus) ;
+		gloss_window1->m_hWnd = NULL ;
+		gloss_window2->m_hWnd = NULL ;
+	}
+
+	BOOST_AUTO_TEST_CASE(test_has_previous)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window1 = new WindowWrapperFake ;
+		fake_window1->m_is_window = TRUE ;
+		window_wrapper_ptr window1(fake_window1) ;
+		gloss_window_pointer gloss_window1 = make_gloss_window_with_fake(props, window1) ;
+		gloss_window1->m_hWnd = (HWND)0x1000 ;
+		glosses.m_glossary_windows.push_back(gloss_window1) ;
+
+		WindowWrapperFake *fake_window2 = new WindowWrapperFake ;
+		fake_window2->m_is_window = TRUE ;
+		window_wrapper_ptr window2(fake_window2) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window_with_fake(props, window2) ;
+		gloss_window2->m_hWnd = (HWND)0x2000 ;
+		glosses.m_glossary_windows.push_back(gloss_window2) ;
+
+		BOOST_CHECK(glosses.gloss_view_switch((HWND)0x2000)) ;
+		BOOST_CHECK(fake_window1->m_set_focus) ;
+		BOOST_CHECK(! fake_window2->m_set_focus) ;
+		gloss_window1->m_hWnd = NULL ;
+		gloss_window2->m_hWnd = NULL ;
+	}
+	BOOST_AUTO_TEST_CASE(test_unrelated_hwnd)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		WindowWrapperFake *fake_window1 = new WindowWrapperFake ;
+		fake_window1->m_is_window = TRUE ;
+		window_wrapper_ptr window1(fake_window1) ;
+		gloss_window_pointer gloss_window1 = make_gloss_window_with_fake(props, window1) ;
+		gloss_window1->m_hWnd = (HWND)0x1000 ;
+		glosses.m_glossary_windows.push_back(gloss_window1) ;
+
+		WindowWrapperFake *fake_window2 = new WindowWrapperFake ;
+		fake_window2->m_is_window = TRUE ;
+		window_wrapper_ptr window2(fake_window2) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window_with_fake(props, window2) ;
+		gloss_window2->m_hWnd = (HWND)0x2000 ;
+		glosses.m_glossary_windows.push_back(gloss_window2) ;
+
+		BOOST_CHECK(! glosses.gloss_view_switch((HWND)0x3000)) ;
+		BOOST_CHECK(! fake_window1->m_set_focus) ;
+		BOOST_CHECK(! fake_window2->m_set_focus) ;
+		gloss_window1->m_hWnd = NULL ;
+		gloss_window2->m_hWnd = NULL ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionOnFileSave)
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK_NO_THROW(glosses.on_file_save()) ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, FALSE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.on_file_save() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.on_file_save() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable[0], "on_file_save") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, FALSE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.on_file_save() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "on_file_save") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, TRUE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.on_file_save() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable[0], "on_file_save") ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "on_file_save") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 2u) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionExitSilently)
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK_NO_THROW(glosses.exit_silently()) ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, FALSE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.exit_silently() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.exit_silently() ;
+		BOOST_CHECK_EQUAL(gloss_window->m_sensing_variable[0], "exit_silently") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, FALSE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.exit_silently() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable.size(), 0u) ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "exit_silently") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 1u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, TRUE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.exit_silently() ;
+		BOOST_CHECK_EQUAL(gloss_window1->m_sensing_variable[0], "exit_silently") ;
+		BOOST_CHECK_EQUAL(gloss_window2->m_sensing_variable[0], "exit_silently") ;
+		BOOST_CHECK_EQUAL(glosses.size(), 2u) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionDestroyAll)
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		BOOST_CHECK_NO_THROW(glosses.destroy_all()) ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one_not_window)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, FALSE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.destroy_all() ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_one)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window);
+
+		glosses.destroy_all() ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+
+		gloss_window_pointer gloss_window1 = make_gloss_window(props, TRUE) ;
+		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
+		glosses.m_glossary_windows.push_back(gloss_window1);
+		glosses.m_glossary_windows.push_back(gloss_window2);
+
+		glosses.destroy_all() ;
+		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
+	}
+BOOST_AUTO_TEST_SUITE_END()
 #endif
