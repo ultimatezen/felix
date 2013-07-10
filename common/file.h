@@ -280,6 +280,11 @@ public:
 		_ASSERTE(!::IsBadStringPtr(pstrTargetFileName, MAX_PATH));
 		return ::MoveFile(pstrSourceFileName, pstrTargetFileName);
 	}
+
+	BOOL GetFileInformationByHandle(BY_HANDLE_FILE_INFORMATION *info)
+	{
+		return ::GetFileInformationByHandle(m_hFile, info) ;
+	}
 };
 
 /** DTOR closes file handle.
@@ -288,6 +293,45 @@ typedef CFileT<true> CFile;
 /** DTOR does not close file handle.
  */
 typedef CFileT<false> CFileHandle;
+
+
+inline bool is_same_file(CString lhs, CString rhs)
+{
+	CFile lfile ;
+	lfile.Open(lhs) ;
+	if (! lfile.IsOpen())
+	{
+		return false ;
+	}
+
+	CFile rfile ;
+	rfile.Open(lhs) ;
+	if (! rfile.IsOpen())
+	{
+		return false ;
+	}
+
+	BY_HANDLE_FILE_INFORMATION linfo = {0} ;
+	if (! lfile.GetFileInformationByHandle(&linfo))
+	{
+		return false ;
+	}
+
+	BY_HANDLE_FILE_INFORMATION rinfo = {0} ;
+	if (! rfile.GetFileInformationByHandle(&rinfo))
+	{
+		return false ;
+	}
+
+	if (linfo.dwVolumeSerialNumber == rinfo.dwVolumeSerialNumber &&
+		linfo.nFileIndexLow        == rinfo.nFileIndexLow &&
+		linfo.nFileIndexHigh       == rinfo.nFileIndexHigh)
+	{
+		return true ;
+	}
+	return false ;
+}
+
 
 /**
 	@class CFileExtension
