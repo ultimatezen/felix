@@ -610,6 +610,9 @@ echo Protection complete!
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">Default</BasicRuntimeChecks>
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">true</BrowseInformation>
     </ClCompile>
+    <ClCompile Include="FelixApp.cpp" />
+    <ClCompile Include="FelixModel.cpp" />
+    <ClCompile Include="FelixModelInterface.cpp" />
     <ClCompile Include="felix_cl_options.cpp" />
     <ClCompile Include="Felix_properties.cpp" />
     <ClCompile Include="FelixMemDocUIHandler.cpp" />
@@ -1185,6 +1188,7 @@ echo Protection complete!
     <ClInclude Include="active_window.h" />
     <ClInclude Include="BrowseView.h" />
     <ClInclude Include="command_edit.h" />
+    <ClInclude Include="FelixModel.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="gloss_win_collection.h" />
     <ClInclude Include="process.h" />
@@ -1248,7 +1252,6 @@ echo Protection complete!
     <ClInclude Include="FelixModelInterface.h" />
     <ClInclude Include="FelixStatusBar.h" />
     <ClInclude Include="..\common\file.h" />
-    <ClInclude Include="FileOpHandler.h" />
     <ClInclude Include="FindDlg.h" />
     <ClInclude Include="font_tabulator.h" />
     <ClInclude Include="FrameListener.h" />

@@ -1086,6 +1086,15 @@
     <ClCompile Include="process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FelixModelInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1246,9 +1255,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileOpHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="font_tabulator.h">
@@ -1939,6 +1945,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
