@@ -49,6 +49,7 @@
 #include "FelixMemDocUIHandler.h"
 #include "memory_local.h"
 #include "memory_remote.h"
+#include "FelixModel.h"
 
 // file I/O
 #include "input_device_file.h"
@@ -353,7 +354,7 @@ bool MemoryWindowFrame::export_tmx( const CString &file_name, mem_engine::memory
 //! Exports the current memory as a trados text file
 bool MemoryWindowFrame::export_trados( const CString &file_name, mem_engine::memory_pointer mem )
 {
-	ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
+	ATLASSERT ( m_model->empty() == false ) ; 
 	ATLASSERT ( ! file_name.IsEmpty() ) ; 
 
 	CExportDialog dialog ;
@@ -720,18 +721,13 @@ LRESULT MemoryWindowFrame::on_file_new( WindowsMessage &message  )
 {
 	message ;
 	SENSE("on_file_new") ;
-
-#ifdef UNIT_TEST
-	return 0L ;
-#else
-	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	memory_pointer mem = m_model->create_memory() ;
 
 	add_memory( mem ) ;
 
 	user_feedback( IDS_NEW ) ;
 
 	return 0L ;
-#endif
 }
 
 /** Handles file open command.
@@ -906,7 +902,7 @@ LRESULT MemoryWindowFrame::on_file_save(WindowsMessage &)
 {
 	SENSE("on_file_save") ;
 
-	if ( m_model->get_memories()->empty() )
+	if ( m_model->empty() )
 	{
 		SENSE("empty") ;
 		return 0L ;
@@ -983,7 +979,7 @@ LRESULT MemoryWindowFrame::on_file_save_as(WindowsMessage &)
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	if ( m_model->get_memories()->empty() )
+	if ( m_model->empty() )
 	{
 		user_feedback(IDS_NO_MATCHES) ;
 		::MessageBeep( MB_ICONINFORMATION ) ;
@@ -1090,69 +1086,18 @@ LRESULT MemoryWindowFrame::on_destroy( WindowsMessage &message )
 /** See if we should save our memory/glossary history.
 * If so, we'll load the same memories/glossaries on next startup.
 */
-void MemoryWindowFrame::check_save_history()
+void MemoryWindowFrame::record_loaded_memory_history()
 {
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
 	history_props->m_loaded_mems.clear() ;
 	history_props->m_loaded_remote_mems.clear() ;
 	
-	for ( auto pos = m_model->get_memories()->begin() ;
-		pos != m_model->get_memories()->end() ;
-		++pos)
-	{
-		memory_pointer mem = *pos ;
-		tstring location = (LPCTSTR)mem->get_fullpath();
-		if (! mem->is_local())
-		{
-			history_props->m_loaded_remote_mems.push_back(location);
-		}
-		else if (::PathFileExists(location.c_str()))
-		{
-			history_props->m_loaded_mems.push_back(location);
-		}
-	}
+	m_model->record_loaded_memories(history_props->m_loaded_mems, history_props->m_loaded_remote_mems) ;
 
-	size_t mem_num = 0 ;
-	size_t remote_num = 0 ;
-	for ( auto pos = m_model->get_memories()->begin() ; 
-		has_more_memory_history(pos, mem_num) ; ++pos )
-	{
-		memory_pointer mem = *pos ;
-		const CString location = mem->get_fullpath() ;
-		if ( ::PathFileExists(location) && mem->is_local()) 
-		{
-			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props->m_data.m_mems[mem_num], 
-				MAX_PATH, 
-				(LPCTSTR)mem_title.c_str(), 
-				mem_title.size() ) ;
-
-			ATLASSERT ( mem_num + remote_num < m_model->get_memories()->size() ) ;
-			mem_num++ ;
-		}
-		else if (! mem->is_local())
-		{
-			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props->m_data.m_remote_mems[remote_num], 
-				MAX_PATH, 
-				(LPCTSTR)mem_title.c_str(), 
-				mem_title.size() ) ;
-			ATLASSERT ( remote_num + mem_num < m_model->get_memories()->size() ) ;
-			remote_num++ ;
-		}
-	}
-	history_props->m_data.m_num_mems = mem_num ;
-	history_props->m_data.m_num_remote_mems = remote_num ;
 	history_props->write_to_registry() ;
 }
-//! See if we have more memories to save to our history.
-bool MemoryWindowFrame::has_more_memory_history( memory_iterator pos, 
-										 const size_t mem_num )
-{
-	return (pos != m_model->get_memories()->end() && 
-		mem_num < app_props::NumMems) ;
-}
+
 
 /** Toggle toolbar visibility.
 */
@@ -1380,7 +1325,7 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 {
 	const double MATCH_THRESHOLD = 0.9999 ;
 
-	m_model->get_memories()->find_matches(matches, params) ;
+	m_model->find_matches(matches, params) ;
 
 	if (!params.m_place_numbers && ! params.m_place_gloss)
 	{
@@ -1733,24 +1678,19 @@ bool MemoryWindowFrame::gloss_add_record( record_pointer rec )
 */
 INT_PTR MemoryWindowFrame::gloss_check_save_location( memory_pointer mem )
 {
-
 	const CString mem_loc = mem->get_location() ;
 
-	memory_list &memories = this->get_memories() ;
-	FOREACH (memory_pointer my_mem, memories)
+	if (! m_model->has_name_clash(mem_loc))
 	{
-		if ( 0 == mem_loc.CompareNoCase( my_mem->get_location() ) && mem->get_id() != my_mem->get_id() )
-		{
-			// Todo: make this a custom dialog
-			CString prompt ;
-			prompt.FormatMessage( IDS_PROMPT_OVERWRITE_MEMORY, (LPCTSTR)mem->get_location( ) ) ;
-			return (LRESULT)MessageBox( prompt, 
-				resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), 
-				MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
-		}
+		return IDYES ;
 	}
 
-	return IDYES ;
+	// Todo: make this a custom dialog
+	CString prompt ;
+	prompt.FormatMessage( IDS_PROMPT_OVERWRITE_MEMORY, (LPCTSTR)mem->get_location( ) ) ;
+	return (INT_PTR)MessageBox( prompt, 
+		resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), 
+		MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
 }
 
 /** Do a search using the parameters in the find dialog.
@@ -1912,7 +1852,7 @@ void MemoryWindowFrame::show_view_content()
 
 MemoryWindowFrame::MERGE_CHOICE MemoryWindowFrame::check_empty_on_load()
 {
-	if ( m_model->get_memories()->empty() ) 
+	if ( m_model->empty() ) 
 	{
 		return MERGE_CHOICE_SEPARATE ;
 	}
@@ -2036,7 +1976,7 @@ bool MemoryWindowFrame::exit_silently()
 	m_glossary_windows.exit_silently() ;
 
 	memory_list memories ;
-	m_model->get_memories()->get_memories_needing_saving( memories ) ;
+	m_model->get_memories_needing_saving( memories ) ;
 
 	FOREACH(memory_pointer mem, memories)
 	{
@@ -2052,7 +1992,7 @@ bool MemoryWindowFrame::exit_silently()
 */
 bool MemoryWindowFrame::clear_memory()
 {
-	if ( ! m_model->get_memories()->empty() ) 
+	if ( ! m_model->empty() ) 
 	{
 		memory_pointer mem = m_model->get_first_memory() ;
 		mem->clear_memory() ;
@@ -2353,7 +2293,7 @@ bool MemoryWindowFrame::import_tmx( const file::OpenDlgList &files, input_device
 */
 bool MemoryWindowFrame::import_tmx( const CString &file_name, input_device_ptr input )
 {
-	memory_pointer mem = m_model->get_memories()->add_memory() ;
+	memory_pointer mem = m_model->add_memory() ;
 	mem->set_is_memory(true) ;
 
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
@@ -2363,7 +2303,7 @@ bool MemoryWindowFrame::import_tmx( const CString &file_name, input_device_ptr i
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 
 	{
-		m_model->get_memories()->remove_memory_by_id( mem->get_id() ) ;
+		m_model->remove_memory_by_id( mem->get_id() ) ;
 		user_feedback( get_load_failure_msg(file_name) ) ;
 		return false ;
 	}
@@ -2463,7 +2403,7 @@ bool MemoryWindowFrame::import_trados(const CString &trados_file_name)
 	importer.set_source_language( import_dialog.get_source_plain() ) ;
 	importer.set_target_language( import_dialog.get_trans_plain() ) ;
 
-	memory_pointer mem = m_model->get_memories()->add_memory() ;
+	memory_pointer mem = m_model->add_memory() ;
 	mem->set_is_memory(true) ;
 
 	MemoryInfo *mem_info = mem->get_memory_info() ;
@@ -2557,7 +2497,7 @@ bool MemoryWindowFrame::lookup_trans(const wstring query)
 	init_trans_matches_for_lookup(query) ;
 
 	trans_match_container matches ;
-	m_model->get_memories()->find_trans_matches( matches, m_trans_matches.m_params ) ;
+	m_model->find_trans_matches( matches, m_trans_matches.m_params ) ;
 
 	m_trans_matches.set_matches( matches ) ;
 
@@ -2585,7 +2525,7 @@ bool MemoryWindowFrame::lookup_trans(const wstring query)
 */
 bool MemoryWindowFrame::correct_trans(const wstring trans)
 {
-	if ( m_model->get_memories()->empty() )
+	if ( m_model->empty() )
 	{
 		user_feedback(IDS_NO_QUERIES) ;
 		return false ;
@@ -2854,7 +2794,7 @@ LRESULT MemoryWindowFrame::on_tools_memory_manager(WindowsMessage &)
 
 	if (m_props->m_gen_props.m_data.m_old_mem_mgr)
 	{
-		m_old_manager_window.set_memories(this->get_model()->get_memories()) ;
+		m_old_manager_window.set_memories(this->m_model->get_memories()) ;
 		m_old_manager_window.DoModal() ;
 		return 0L ;
 	}
@@ -2895,7 +2835,7 @@ LRESULT MemoryWindowFrame::on_toggle_views(WindowsMessage &)
 			trans_match_container matches ;
 			if (m_model->is_reverse_lookup())
 			{
-				m_model->get_memories()->find_trans_matches( matches, m_trans_matches.m_params ) ;
+				m_model->find_trans_matches( matches, m_trans_matches.m_params ) ;
 			}
 			else
 			{
@@ -3149,7 +3089,7 @@ LRESULT MemoryWindowFrame::on_startup_checks(WindowsMessage &)
 */
 void MemoryWindowFrame::add_memory(memory_pointer mem)
 {
-	m_model->get_memories()->insert_memory( mem ) ;
+	m_model->insert_memory( mem ) ;
 
 	m_view_interface.set_text( wstring() ) ;
 	check_mousewheel() ;
@@ -3632,7 +3572,7 @@ bool MemoryWindowFrame::set_location( const CString &location )
 	catch( ... )
 	{
 		logging::log_error("Error while setting memory location. Removing memory.") ;
-		m_model->get_memories()->remove_memory_by_id( mem->get_id() ) ;
+		m_model->remove_memory_by_id( mem->get_id() ) ;
 	}
 	return false ;
 }
@@ -3979,7 +3919,7 @@ void MemoryWindowFrame::loading_file_feedback( const CString & file_name )
 */
 bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
-	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	memory_pointer mem = m_model->create_memory() ;
 	bool make_dirty = false ;
 
 	// merge or add?
@@ -3993,7 +3933,7 @@ bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & fil
 		}
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
-			mem = m_model->get_memories()->add_memory() ;
+			mem = m_model->add_memory() ;
 		}
 		else
 		{
@@ -4004,7 +3944,7 @@ bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & fil
 	}
 	else
 	{
-		mem = m_model->get_memories()->add_memory() ;
+		mem = m_model->add_memory() ;
 	}
 
 	mem->set_is_memory(true) ;
@@ -4024,7 +3964,7 @@ bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & fil
 		logging::log_error("Failed to load memory") ;
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
-			m_model->get_memories()->remove_memory_by_id( mem->get_id() ) ;
+			m_model->remove_memory_by_id( mem->get_id() ) ;
 		}
 		throw ;
 	}
@@ -4272,7 +4212,7 @@ void MemoryWindowFrame::remove_record_from_mem_id( record_pointer rec, int mem_i
 {
 	try
 	{
-		m_model->get_memories()->remove_record( rec, mem_id ) ;
+		m_model->get_memory_by_id(mem_id)->erase( rec ) ;
 	}
 	catch (CProgramException& e)
 	{
@@ -4310,7 +4250,7 @@ void MemoryWindowFrame::add_by_id( size_t recid, wstring source, wstring trans )
 		return ;
 	}
 
-	memory_pointer mem = m_model->get_memories()->create_memory() ;
+	memory_pointer mem = m_model->create_memory() ;
 
 	try
 	{
@@ -4381,7 +4321,7 @@ LRESULT MemoryWindowFrame::on_view_zoom( WindowsMessage & )
 // Load the translation history.
 void MemoryWindowFrame::load_history()
 {
-	this->get_memories().clear() ;
+	this->m_model->clear() ;
 
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
@@ -4530,7 +4470,7 @@ void MemoryWindowFrame::save_settings_destroy()
 	// write our recent docs
 	m_mru.WriteToRegistry( resource_string( IDS_REG_KEY ) );
 
-	check_save_history() ;
+	record_loaded_memory_history() ;
 
 }
 
@@ -4628,7 +4568,7 @@ void MemoryWindowFrame::load_old_preferences( const CString filename )
 	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
 	this->clear_memory() ;
-	m_model->get_memories()->clear() ;
+	m_model->clear() ;
 
 	logging::log_debug("Loading preferences") ;
 
@@ -4727,7 +4667,7 @@ LRESULT MemoryWindowFrame::on_memory_close(WindowsMessage &)
 {
 	BANNER("CMainFrame::on_memory_close") ;
 	// base case -- there are no memories
-	if (m_model->get_memories()->empty())
+	if (m_model->empty())
 	{
 		return 0L ;
 	}
@@ -4763,7 +4703,7 @@ void MemoryWindowFrame::addToMessageLoop()
 
 CString MemoryWindowFrame::get_active_mem_name()
 {
-	if ( ! m_model->get_memories()->empty() )
+	if ( ! m_model->empty() )
 	{
 		memory_pointer mem = m_model->get_first_memory() ;
 		if (! mem->is_local())
@@ -4858,7 +4798,7 @@ void MemoryWindowFrame::set_menu_checkmark( int item_id, bool is_checked )
 void MemoryWindowFrame::perform_concordance_search(mem_engine::search_query_params &params)
 {
 	search_match_container matches ;
-	m_model->get_memories()->perform_search( matches, params ) ;
+	m_model->perform_search( matches, params ) ;
 	m_search_matches.set_matches( matches ) ;
 }
 
@@ -5101,4 +5041,116 @@ void MemoryWindowFrame::look_up_current_source_in_gloss()
 	record_pointer rec = match->get_record() ;
 	wstring entry_source = rec->get_source_plain() ;
 	m_glossary_windows.look_up( entry_source ) ;
+}
+
+input_device_ptr MemoryWindowFrame::get_input_device()
+{
+	return m_input_device ;
+}
+
+output_device_ptr MemoryWindowFrame::get_output_device()
+{
+	return m_output_device ;
+}
+
+model_iface_ptr MemoryWindowFrame::get_model()
+{
+	return m_model ;
+}
+
+app_props::properties_general* MemoryWindowFrame::get_props_general()
+{
+	return &(m_props->m_gen_props) ;
+}
+
+app_props::props_ptr MemoryWindowFrame::get_properties()
+{
+	return m_props ;
+}
+
+void MemoryWindowFrame::register_event_listener( UINT id, boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
+{
+	this->m_message_map[id] = listenerFunction ;
+}
+
+void MemoryWindowFrame::register_user_event_listener( UINT id, boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
+{
+	this->m_user_message_map[id] = listenerFunction ;
+}
+
+void MemoryWindowFrame::register_command_event_listener( UINT id, boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
+{
+	this->m_command_message_map[id] = listenerFunction ;
+}
+
+long MemoryWindowFrame::get_num_matches()
+{
+	return m_trans_matches.size() ;
+}
+
+void MemoryWindowFrame::add_edit_record( mem_engine::record_pointer new_record, LPARAM display_state )
+{
+	set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+	ATLASSERT( get_display_state() == display_state ) ;
+
+	SENSE("add_edit_record") ;
+
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+		new_record,
+		true) ;
+
+#ifdef UNIT_TEST
+	return ;
+#else
+	show_view_content() ;
+#endif
+}
+
+void MemoryWindowFrame::edit_edit_record( mem_engine::record_pointer new_record, LPARAM display_state )
+{
+	set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+	ATLASSERT( get_display_state() == display_state ) ;
+
+	SENSE("edit_edit_record") ;
+
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+		new_record,
+		false) ;
+
+#ifdef UNIT_TEST
+	return ;
+#else
+	show_view_content() ;
+#endif
+}
+
+BOOL MemoryWindowFrame::handle_sw_exception( except::CSWException &e, const CString &failure_message )
+{
+	return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
+}
+
+LPCTSTR MemoryWindowFrame::get_save_ext()
+{
+	static LPCTSTR memory_file_ext = _T("ftm") ;
+
+	return memory_file_ext ;
+}
+
+bool MemoryWindowFrame::check_for_clashes( memory_type mem )
+{
+	return IDCANCEL != gloss_check_save_location( mem ) ;
+}
+
+boost::shared_ptr<mem_engine::memory_model> MemoryWindowFrame::get_memory_model()
+{
+	return m_model->get_memories() ;
+}
+
+mem_engine::felix_query * MemoryWindowFrame::get_current_matches()
+{
+	return &m_trans_matches ;
 }

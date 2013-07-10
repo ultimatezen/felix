@@ -133,48 +133,24 @@ public:
 	virtual ~MemoryWindowFrame() ;
 	MemoryWindowFrame( model_iface_ptr model, app_props::props_ptr props ) ;
 
-	input_device_ptr get_input_device()
-	{
-		return m_input_device ;
-	}
-	output_device_ptr get_output_device()
-	{
-		return m_output_device ;
-	}
+	input_device_ptr get_input_device();
+	output_device_ptr get_output_device();
 	mem_engine::placement::regex_rules *get_regex_rules();
 
 
 	void get_qc_messages(mem_engine::record_pointer record, std::vector<wstring> &messages);
 
-	model_iface_ptr get_model()
-	{
-		return m_model ;
-	}
-	app_props::properties_general* get_props_general()
-	{
-		return &(m_props->m_gen_props) ;
-	}
-	app_props::props_ptr get_properties() 
-	{
-		return m_props ;
-	}
+	model_iface_ptr get_model();
+	app_props::properties_general* get_props_general();
+	app_props::props_ptr get_properties();
 
 	void AddMenuBitmap( const int BitmapId, const int CmdId ) ;
 
 	LRESULT on_view_zoom(WindowsMessage &);
 
-	void register_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
-	{
-		this->m_message_map[id] = listenerFunction ;
-	}
-	void register_user_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
-	{
-		this->m_user_message_map[id] = listenerFunction ;
-	}
-	void register_command_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction )
-	{
-		this->m_command_message_map[id] = listenerFunction ;
-	}
+	void register_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction );
+	void register_user_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction );
+	void register_command_event_listener( UINT id,  boost::function< LRESULT( WindowsMessage& ) > listenerFunction );
 
 
 	bool OnBeforeNavigate2( _bstr_t url ) ;
@@ -262,7 +238,7 @@ public:
 	bool add_record( record_type record ) ;
 
 	// information about the memory
-	long get_num_matches() { return m_trans_matches.size() ; }
+	long get_num_matches();
 
 	// the current query
 	wstring get_current_query( );
@@ -287,16 +263,10 @@ public:
 
 	virtual BOOL OnIdle();
 
-	// Handler prototypes (uncomment arguments if needed):
-//	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
-//	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/ )
-//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/ )
-
 	//============================
 	// Message handlers
 	//============================
 	LRESULT on_create(WindowsMessage &message);
-
 
 	void set_doc_ui_handler();
 	HRESULT show_doc_context_menu();
@@ -324,13 +294,11 @@ public:
 	LRESULT on_file_open(WindowsMessage &message);
 	LRESULT on_file_save(WindowsMessage &message);
 	LRESULT on_file_save_as(WindowsMessage &message);
-
 	void save_memory_as( mem_engine::memory_pointer mem );
-
 	LRESULT on_memory_close(WindowsMessage &message);
-
 	LRESULT on_file_connect(UINT, int, HWND);
-	// edit
+
+	// edit menu
 	LRESULT on_edit_replace(WindowsMessage &message);
 	LRESULT on_delete_entry(WindowsMessage &message);
 	LRESULT on_find(WindowsMessage &message);
@@ -338,7 +306,7 @@ public:
 
 	LRESULT on_new_search( WindowsMessage &message  );
 
-	// view
+	// view menu
 	LRESULT on_view_edit_mode(WindowsMessage &message);
 	LRESULT on_view_toolbar(WindowsMessage &message);
 	LRESULT on_view_status_bar(WindowsMessage &message);
@@ -346,13 +314,11 @@ public:
 
 	void recalculate_match( search_match_ptr match, mem_engine::search_query_params &params );
 	LRESULT on_view_search(WindowsMessage &message) ;
-	//LRESULT OnViewReg( ) ;
 	LRESULT on_view_min_begin(WindowsMessage &message);
 	LRESULT on_view_switch(WindowsMessage &message);
-	// Function name	: change_display_state
 	void set_display_state( DISPLAY_STATE new_state );
 
-	// help
+	// help menu
 	LRESULT show_about_dialog(WindowsMessage &message);
 	LRESULT on_help(WindowsMessage &message);
 
@@ -362,18 +328,15 @@ public:
 	LRESULT on_glossary_trans(WindowsMessage &message);
 	LRESULT on_help_faq(WindowsMessage &message);
 	LRESULT on_help_register(WindowsMessage &message);
-
 	LRESULT on_help_check_updates(WindowsMessage &message);
+
 	// tools menu
 	LRESULT on_tools_preferences(WindowsMessage &message) ;
 	LRESULT on_tools_rule_manager(WindowsMessage &message) ;
 	LRESULT on_tools_switch_language(WindowsMessage &message) ;
 	LRESULT on_tools_memory_manager(WindowsMessage &message);
-
 	LRESULT on_tools_load_preferences(WindowsMessage &message);
-
 	void load_old_preferences( const CString filename );
-
 	void reflect_loaded_preferences( const WORD old_language );
 	LRESULT on_tools_save_preferences(WindowsMessage &message);
 
@@ -420,46 +383,8 @@ public:
 	LRESULT on_italic(WindowsMessage &message);
 
 
-	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
-	{
-		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
-		ATLASSERT( get_display_state() == display_state ) ;
-
-		SENSE("add_edit_record") ;
-
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-			new_record,
-			true) ;
-
-#ifdef UNIT_TEST
-		return ;
-#else
-		show_view_content() ;
-#endif
-
-	}
-	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
-	{
-		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
-		ATLASSERT( get_display_state() == display_state ) ;
-
-		SENSE("edit_edit_record") ;
-
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-			new_record,
-			false) ;
-
-#ifdef UNIT_TEST
-		return ;
-#else
-		show_view_content() ;
-#endif
-
-	}
+	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state);
+	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state);
 
 	//! Add a record after editing.
 
@@ -493,9 +418,8 @@ private:
 	void load_history();
 	void check_command_line(commandline_options &options, input_device_ptr input) ;
 
-	void check_save_history() ;
+	void record_loaded_memory_history() ;
 
-	bool has_more_memory_history( mem_engine::memory_iterator pos, size_t mem_num );
 	BOOL should_save_memory_history( );
 	bool export_trados( const CString &file_name, mem_engine::memory_pointer mem ) ;
 	bool export_tmx(const CString &file_name, mem_engine::memory_pointer mem);
@@ -572,15 +496,9 @@ public:
 	UINT get_message_key( UINT message, WPARAM wParam );
 	BOOL ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& lResult, DWORD dwMsgMapID = 0);
 
-	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message ) 
-	{
-		return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
-	}
-//////////////////////////////////////////////////////////////////////////
-
-
-
-
+	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message );
+	//////////////////////////////////////////////////////////////////////////
+	
 	void set_lang_of_gloss_windows();
 
 	void refresh_command_bar();
@@ -588,26 +506,15 @@ public:
 
 	LPCTSTR get_save_filter() ;
 	LPCTSTR get_open_filter() ;
-	LPCTSTR get_save_ext()
-	{
-		static LPCTSTR memory_file_ext = _T("ftm") ;
-
-		return memory_file_ext ;
-	}
+	LPCTSTR get_save_ext();
 	bool gloss_win_shutdown_check();
 
 	void save_rebar_settings() ;
 
 
 	CString get_window_type_string();
-	bool check_for_clashes( memory_type mem )
-	{
-		return IDCANCEL != gloss_check_save_location( mem ) ;
-	}
-	boost::shared_ptr<mem_engine::memory_model> get_memory_model()
-	{
-		return m_model->get_memories() ;
-	}
+	bool check_for_clashes( memory_type mem );
+	boost::shared_ptr<mem_engine::memory_model> get_memory_model();
 
 	void set_bg_color_if_needed();
 
@@ -631,10 +538,7 @@ public:
 	// the current match
 	search_match_ptr get_current_match();
 
-	mem_engine::felix_query *get_current_matches()
-	{
-		return &m_trans_matches ;
-	}
+	mem_engine::felix_query *get_current_matches();
 	mem_engine::felix_query *get_current_gloss_matches();
 
 	void redo_lookup( search_match_ptr match, bool do_gloss = false ) ;
