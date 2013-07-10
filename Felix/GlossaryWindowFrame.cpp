@@ -32,6 +32,7 @@
 #include "input_device_file.h"
 #include "output_device.h"
 #include "memory_remote.h"
+#include "FelixModel.h"
 
 using namespace mem_engine ;
 using namespace except ;
@@ -358,11 +359,12 @@ LRESULT GlossaryWindowFrame::on_file_open( )
 
 LRESULT GlossaryWindowFrame::on_file_save( )
 {
+	SENSE("on_file_save") ;
 	if ( m_memories->empty() )
 	{
 		return 0L ;
 	}
-
+#ifndef UNIT_TEST
 	memory_pointer mem = m_memories->get_first_memory() ; 
 
 	if ( mem->is_new() ) 
@@ -371,6 +373,7 @@ LRESULT GlossaryWindowFrame::on_file_save( )
 	}
 
 	do_save( mem ) ;
+#endif
 
 	return 0L ;
 }
@@ -1042,6 +1045,7 @@ bool GlossaryWindowFrame::pre_shutdown_save_check()
 // Exit without prompting to save memories.
 bool GlossaryWindowFrame::exit_silently()
 {
+	SENSE("exit_silently") ;
 	memory_list memories ;
 	m_memories->get_memories_needing_saving( memories ) ;
 	
