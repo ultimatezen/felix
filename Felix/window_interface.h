@@ -24,6 +24,7 @@ class WindowWrapper
 public:
 	virtual BOOL IsWindow() = 0 ;
 	virtual BOOL ShowWindow(int) = 0 ;
+	virtual HWND SetFocus() = 0 ;
 };
 
 class WindowWrapperReal : public WindowWrapper
@@ -39,6 +40,10 @@ public:
 	{
 		return ::ShowWindow(m_window, show_command) ;
 	}
+	HWND SetFocus()
+	{
+		return ::SetFocus(m_window) ;
+	}
 };
 
 class WindowWrapperFake : public WindowWrapper
@@ -46,7 +51,9 @@ class WindowWrapperFake : public WindowWrapper
 public:
 	BOOL m_is_window ;
 	int m_show ;
-	WindowWrapperFake() : m_is_window(FALSE), m_show(-1){}
+	bool m_set_focus ;
+	WindowWrapperFake() : m_is_window(FALSE), m_show(-1), m_set_focus(false) 
+	{}
 	BOOL IsWindow()
 	{
 		return m_is_window ;
@@ -56,7 +63,11 @@ public:
 		m_show = show_command ;
 		return TRUE ;
 	}
-
+	HWND SetFocus()
+	{
+		m_set_focus = true ;
+		return NULL ;
+	}
 };
 
 typedef boost::shared_ptr<WindowWrapper> window_wrapper_ptr ;
