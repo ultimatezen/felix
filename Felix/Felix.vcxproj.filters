@@ -1095,6 +1095,9 @@
     <ClCompile Include="FelixApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FelixModel_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">

@@ -613,6 +613,7 @@ echo Protection complete!
     <ClCompile Include="FelixApp.cpp" />
     <ClCompile Include="FelixModel.cpp" />
     <ClCompile Include="FelixModelInterface.cpp" />
+    <ClCompile Include="FelixModel_test.cpp" />
     <ClCompile Include="felix_cl_options.cpp" />
     <ClCompile Include="Felix_properties.cpp" />
     <ClCompile Include="FelixMemDocUIHandler.cpp" />
