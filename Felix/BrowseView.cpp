@@ -10,7 +10,7 @@ namespace mgrview
 	void BrowseView::config_page_data( cpptempl::data_map &data, size_t num_pages, CString page_name )
 	{
 		m_paginator.set_num_records(num_pages) ;
-		m_paginator.set_current_page(m_page-1);
+		m_paginator.goto_page(m_page-1);
 		// page stuff
 		data[L"pagination"] = cpptempl::make_data(get_pagination_text(m_paginator, page_name)) ;
 		data[L"page"] = cpptempl::make_data(ulong2wstring(m_paginator.get_current_page()+1)) ;

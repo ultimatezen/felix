@@ -89,7 +89,7 @@ namespace app_props
 
 	bool write_xml_props();
 
-	void write_xml_file( string &text );
+	void write_xml_file( const string &text );
 
 	void write_xml_file( output_device_ptr output );
 	string make_xml_doc();

@@ -691,8 +691,6 @@ wstring GlossaryWindowFrame::get_glossary_entry(const int index)
 {
 	const size_t local_index = static_cast<size_t>(get_local_index(index));
 
-	ATLASSERT( local_index >= 0 ) ;
-
 	record_pointer record = m_view_state->get_specified_record(local_index) ;
 	return get_record_translation(record);
 }
@@ -860,7 +858,7 @@ void GlossaryWindowFrame::import_multiterm( const file::OpenDlgList &import_file
 record_pointer GlossaryWindowFrame::get_record( size_t pos ) 
 { 
 	BANNER( "CGlossaryDialog::get_record()" ) ;
-	ATLASSERT( pos >= 0 && pos < m_search_matches.size() ) ;
+	ATLASSERT( pos < m_search_matches.size() ) ;
 	record_pointer record(m_search_matches.at( pos )->get_record()->clone()) ;  
 	return record ;
 }

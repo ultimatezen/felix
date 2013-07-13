@@ -51,7 +51,8 @@ CManagerWindow::CManagerWindow(app_props::props_ptr props,
 	m_settings_key(key),
 	m_current_item(0),
 	m_is_memory(true),
-	m_props(props)
+	m_props(props),
+	m_hWndStatusBar(NULL)
 {
 
 }
@@ -1292,18 +1293,16 @@ void CManagerWindow::redo_delete_record()
 
 bool CManagerWindow::init_status_bar()
 {
-	const int PANE_WIDTH = 100 ;
-
 	// create status bar
 	DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | SBARS_SIZEGRIP ;
 	m_hWndStatusBar = ::CreateStatusWindow( dwStyle, R2T( ATL_IDS_IDLEMESSAGE ), m_hWnd, ATL_IDW_STATUS_BAR ) ;
 
-	ATLASSERT( CWindow( m_hWndStatusBar ).IsWindow() ) ;
-
 #ifdef UNIT_TEST
-	PANE_WIDTH ;
 	return true ;
 #else
+	ATLASSERT( CWindow( m_hWndStatusBar ).IsWindow() ) ;
+
+	const int PANE_WIDTH = 100 ;
 
 	ATLVERIFY(m_statusbar.m_mp_sbar.SubclassWindow( m_hWndStatusBar )) ;
 	ATLASSERT( m_statusbar.m_mp_sbar.IsWindow() ) ;

@@ -235,37 +235,6 @@ parsingStrategy CShapeNavigator::getStrategy(ShapePtr shape)
 	return strategyFactory::create( shape ) ;
 }
 
-bool CShapeNavigator::notesPaneSelected(void)
-{
-	return ( ppViewNotesPage == m_app->ActiveWindow->ActivePane->ViewType ) ;
-}
-
-parsingStrategy CShapeNavigator::getNotesPageStrategy(void)
-{
-	PowerPoint::_SlidePtr activeSlide = m_app->ActiveWindow->View->Slide ;
-
-	PowerPoint::SlideRangePtr notesPage = activeSlide->NotesPage ;
-
-	PowerPoint::ShapesPtr shapes = notesPage->Shapes ;
-
-	for ( int i = 1 ; i <= shapes->Count ; ++i )
-	{
-		PowerPoint::ShapePtr shape = shapes->Item(i) ;
-
-		if ( shape->PlaceholderFormat->Type == ppPlaceholderBody && shape->HasTextFrame == Office::msoTrue )
-		{
-			if ( shape->TextFrame->TextRange->Text == _bstr_t(L"") )
-			{
-				return strategyFactory::create( NULL ) ;
-			}
-			m_lastWasNotesPage = true ;
-			return strategyFactory::create( shape ) ;
-		}
-	}
-
-	return strategyFactory::create( NULL ) ;
-}
-
 ShapePtr CShapeNavigator::getTableFromSelection(SelectionPtr selection)
 {
 	if ( PowerPoint::ppSelectionText != selection->Type )

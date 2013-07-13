@@ -93,7 +93,7 @@ namespace app_props
 		return true ;
 	}
 
-	void properties_loaded_history::write_xml_file( string &text )
+	void properties_loaded_history::write_xml_file( const string &text )
 	{
 		output_device_ptr output = get_config_output_device(LOADED_HISTORY_FILENAME) ;
 		output->write(text) ;

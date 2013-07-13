@@ -300,13 +300,6 @@ public:
 	{ 
 		OutputDebugStringW( static_cast<LPCWSTR>(v) ) ;
 	}
-	inline void VariableTracer ( const BSTR v ) 
-	{ 
-		if ( ::SysStringLen( v ) > 0 ) 
-		{
-			OutputDebugStringW( static_cast<LPCWSTR>(v) ) ;
-		}
-	}
 	inline void VariableTracer ( LPCWSTR v ) 
 	{ 
 		if ( v == NULL )

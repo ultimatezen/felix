@@ -167,6 +167,6 @@ app_state::app_state_data::app_state_data():
 
 	m_raise_felix(FALSE)
 {
-	ZeroMemory(m_segChars, SEG_CHAR_SIZE & sizeof(TCHAR)) ;
-	ZeroMemory(m_manual_url, MANUAL_URL_SIZE & sizeof(TCHAR)) ;
+	ZeroMemory(m_segChars, SEG_CHAR_SIZE * sizeof(TCHAR)) ;
+	ZeroMemory(m_manual_url, MANUAL_URL_SIZE * sizeof(TCHAR)) ;
 }

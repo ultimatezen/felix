@@ -12,10 +12,10 @@ public:
 	background_processor	m_background_processor ;
 	CNumberFmt				m_number_format ;
 	CString					m_progress_file ;
-	int						m_progress_max ;
+	size_t					m_progress_max ;
 	bool					m_cancel_requested ;
 
-	CFelixStatusBar() : m_cancel_requested(false)
+	CFelixStatusBar() : m_cancel_requested(false), m_progress_max(1)
 	{
 	}
 	void release()
@@ -165,7 +165,8 @@ public:
 	}
 	void do_percent_done_msg( size_t current_val )
 	{
-		int percent_done = ( current_val * 100 ) / m_progress_max ;
+		const size_t val_in_percent = current_val * 100 ;
+		const size_t percent_done = val_in_percent / m_progress_max ;
 
 		CString percent_done_msg ;
 		percent_done_msg.Format( _T("%d%%"), percent_done ) ;

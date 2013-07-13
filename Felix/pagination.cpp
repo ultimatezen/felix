@@ -83,10 +83,6 @@ void Paginator::goto_page( size_t page )
 	m_current_page = page ;
 }
 
-void Paginator::set_current_page( size_t page )
-{
-	m_current_page = page ;
-}
 /*
 	Create the window of page numbers to show.
 	This is so if there are lots of pages, only the surrounding ones are shown, 

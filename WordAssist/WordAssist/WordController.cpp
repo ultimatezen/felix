@@ -185,8 +185,7 @@ bool WordController::OnAutoTransAction ( bool as_plaintext )
 			//	EatWhiteSpace
 			//	oParser.SelectNextSentence
 
-			bool success = false ;
-			success = select_next_sentence() ;
+			bool success = select_next_sentence() ;
 
 			//	' some minimal error checking
 			//	If IsAtEndOfStory Then
@@ -409,8 +408,7 @@ bool WordController::OnAutoTransFuzzyAction(  bool as_plaintext  )
 		
 		while ( true ) 
 		{
-			bool success = false ;
-			success = OnLookupNextAction( as_plaintext ) ;
+			bool success = OnLookupNextAction( as_plaintext ) ;
 
 			if ( ! success )
 			{

@@ -34,10 +34,7 @@ private:
 	bool selectNextSlide(void);
 	long getSlideIndex(PowerPoint::_SlidePtr& activeSlide);
 
-	bool notesPaneSelected(void);
-
 	parsingStrategy getStrategy(ShapePtr shape);
-	parsingStrategy getNotesPageStrategy(void);
 	parsingStrategy getStrategyFromNextPane();
 
 	PowerPoint::SelectionPtr getSelection();

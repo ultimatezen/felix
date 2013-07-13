@@ -327,7 +327,6 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 
 	ATLASSERT( IsWindow() ) ;
 	HWND hWndParent = m_hWnd ;
-	LPARAM dwInitParam = 1 ;
 
 	ATLVERIFY(AtlAxWinInit());
 
@@ -340,7 +339,6 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 
 	HGLOBAL hData = NULL;
 	BYTE* pInitData = NULL;
-	HWND hWnd = NULL ;
 
 	if (hDlgInit)
 	{
@@ -362,6 +360,8 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 		ATLASSERT(hResource) ;
 		if (hResource)
 		{
+			LPARAM dwInitParam = 1 ;
+			HWND hWnd = NULL ;
 			DLGTEMPLATE* pDlg = (DLGTEMPLATE*) LockResource(hResource);
 			LPCDLGTEMPLATE lpDialogTemplate;
 			lpDialogTemplate = _DialogSplitHelper::SplitDialogTemplate(pDlg, pInitData);
@@ -373,6 +373,10 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 			UnlockResource(hResource);
 			ATLASSERT(hResource) ;
 			FreeResource(hResource);
+			if(!hWnd)
+			{
+				return ;
+			}
 		}
 	}
 	if (pInitData && hDlgInit && hData)

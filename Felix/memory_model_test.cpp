@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_SUITE( test_memory_model_gloss )
 		catch (CProgramException &e)
 		{
 			CStringA expected ;
-			expected.Format("Memory not found with id %d", third_id) ;
+			expected.Format("Memory not found with id %u", third_id) ;
 			CStringA actual(e.what()) ;
 			BOOST_CHECK_EQUAL(string(expected), string(actual)) ;
 			BOOST_CHECK_EQUAL(2u, mm.size()) ;

@@ -75,7 +75,7 @@ namespace mem_engine
 	// Finding matches
 	//////////////////////////////////////////////////////////////////////
 
-	// find_matches
+	// find matches in TM (source)
 	bool CTranslationMemory::find_matches( trans_match_container &matches, const search_query_params &params )
 	{
 		if ( ! m_is_active )
@@ -120,11 +120,7 @@ namespace mem_engine
 
 
 
-	// Function name	: memory::find_trans_matches
-	// Description	    : 
-	// Return type		: bool 
-	// Argument         :  translation_match_multiset &matches
-	// Argument         : search_query_params &params
+	// Find matches in translations
 	bool CTranslationMemory::find_trans_matches( trans_match_container &matches, const search_query_params &params )
 	{
 		if( ! m_is_active )

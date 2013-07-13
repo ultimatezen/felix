@@ -451,7 +451,7 @@ HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 			dlg.m_source = (LPCWSTR)source ;
 			if ( IDCANCEL == dlg.DoModal( ) ) 
 			{
-				return false ;
+				return S_FALSE ;
 			}
 			trans = (LPCWSTR)dlg.m_trans ;
 			source = (LPCWSTR)dlg.m_source ;
@@ -462,7 +462,7 @@ HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 			dlg.m_source = (LPCWSTR)source ;
 			if ( IDCANCEL == dlg.DoModal( ) ) 
 			{
-				return false ;
+				return S_FALSE ;
 			}
 			trans = (LPCWSTR)dlg.m_trans ;
 			source = (LPCWSTR)dlg.m_source ;
@@ -473,7 +473,7 @@ HRESULT CPowerPointInterface::OnRegisterGlossAction ( bool /*as_plaintext*/)
 		_bstr_t context = L"" ;
 		app->AddGlossaryEntry( source, trans, context ) ;
 
-		return true ;
+		return S_FALSE ;
 	}
 
 	ADDIN_CATCH( _T("PowerPoint Interface :: Adding a Glossary Entry") )
@@ -1655,7 +1655,9 @@ PowerPoint::TextRangePtr CPowerPointInterface::getSetSelShapeRange()
 	PowerPoint::TextRangePtr textRange = parser.m_range ;
 
 	if ( !textRange ) 
+	{
 		return NULL ;
+	}
 
 	// get the translation
 	long textExtent = (selLen-m_queryStart)+1 ;

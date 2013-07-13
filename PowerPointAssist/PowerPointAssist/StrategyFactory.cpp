@@ -85,7 +85,6 @@ CShapeParsingStrategy *strategyFactory::create( PowerPoint::ShapePtr shape )
 	}
 }
 
-void strategyFactory::dispose( CShapeParsingStrategy *strat )
+void strategyFactory::dispose(CShapeParsingStrategy *)
 {
-	strat = NULL ;
 }

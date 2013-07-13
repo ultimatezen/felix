@@ -359,7 +359,7 @@ namespace rtf
 		clear_text() ;
 	}
 
-	void rich_text_formatter::add( wstring &text )
+	void rich_text_formatter::add( const wstring &text )
 	{
 		if ( m_package->HasText() )
 			AddCurrentPackage() ;

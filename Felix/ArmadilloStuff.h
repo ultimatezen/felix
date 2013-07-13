@@ -310,7 +310,7 @@ inline int copies_running()
 { 
 	CArmadilloFunction arm_lib( "CopiesRunning" ) ;
 
-	if ( arm_lib.is_loaded( ) == false ) return false ;
+	if ( arm_lib.is_loaded( ) == false ) return -1 ;
 
 	CopiesRunningFn arm_fun = (CopiesRunningFn)arm_lib.get_function() ;
 

@@ -100,9 +100,9 @@ public:
 	}
 
 
-	bool handle_db_period( WordRange &range, long &old_start, long &old_end );
+	bool handle_db_period( WordRange &range, long old_start, long &old_end );
 	void handle_not_whitespace( WordRange &range, long &old_end, _bstr_t &text );
-	long handle_wdigit( WordRange &range, long &old_end, long &old_start );
+	long handle_wdigit( WordRange &range, long &old_end, long old_start );
 	bool handle_period( WordRange &range, long &old_end, long old_start, _bstr_t &text );
 
 	void advance_end(  WordRange &range, long &old_end, _bstr_t &text, _bstr_t &next_char);

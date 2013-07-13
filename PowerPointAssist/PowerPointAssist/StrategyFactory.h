@@ -8,5 +8,5 @@ class strategyFactory
 public:
 	static CShapeParsingStrategy *create( PowerPoint::ShapePtr shape ) ;
 	
-	static void dispose( CShapeParsingStrategy *strat ) ;
+	static void dispose(CShapeParsingStrategy *) ;
 };

@@ -13,7 +13,6 @@ public:
 	Paginator(size_t records_per_page = RECORDS_PER_PAGE);
 
 	void set_num_records(size_t num_records, bool reset_current_page=true);
-	void set_current_page(size_t page);
 	size_t get_current_page();
 	size_t get_num_records();
 

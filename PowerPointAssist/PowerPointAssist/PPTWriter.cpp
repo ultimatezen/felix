@@ -59,7 +59,7 @@ void CPPTWriter::apply_linebreak()
 
 void CPPTWriter::apply_paragraph() 
 {
-	m_range->put_Text( _bstr_t(L"\13") ) ;
+	this->apply_linebreak() ;
 }
 
 void CPPTWriter::write_html( const wstring html_text )

@@ -101,7 +101,7 @@ class ATL_NO_VTABLE CCommandBarCtrlImplXP : public TBase
 
         GetClassName (pnmh->hwndFrom, sClass, 128);
 
-        if ( _tcscmp (sClass, _T("WTL_CommandBarXP")) )
+        if ( 0 != _tcscmp (sClass, _T("WTL_CommandBarXP")) )
         {
 			// Added code..
 			bHandled = FALSE;

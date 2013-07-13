@@ -159,7 +159,7 @@ public:
 		if (bytes_requested > 0)
 		{
 			ATL::CString msg ;
-			msg.Format(_T("Failed to allocate requested %d bytes of memory."), bytes_requested) ;
+			msg.Format(_T("Failed to allocate requested %d bytes of memory."), (int)bytes_requested) ;
 			this->add_to_message(msg) ;
 		}
 		BANNER( "CAllocException" ) ;
@@ -255,7 +255,7 @@ private:
 	ATL::CString errnum_as_string()
 	{
 		ATL::CString err ;
-		err.Format( _T("%d"), m_err ) ;
+		err.Format( _T("%d"), (int)m_err ) ;
 		return err ;
 	}
 } ;

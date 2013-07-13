@@ -1715,8 +1715,7 @@ void CConnect::advise_document_events()
 
 void CConnect::unadvise_document_events()
 {
-	HRESULT hr = S_OK ;
-	hr = ActivateDocumentEventImpl::DispEventUnadvise( (IUnknown*)m_app );
+	HRESULT hr = ActivateDocumentEventImpl::DispEventUnadvise( (IUnknown*)m_app );
 	ASSERT_HRESULT( hr ) ;
 	hr = DeActivateDocumentEventImpl::DispEventUnadvise( (IUnknown*)m_app );
 	ASSERT_HRESULT( hr ) ;
@@ -1735,10 +1734,8 @@ void CConnect::unadvise_document_events()
 
 void CConnect::unadvise_button_items()
 {
-	HRESULT hr = S_OK ;
-
 	// disconnect buttons
-	hr = ButtonGetEventImpl::DispEventUnadvise( (IUnknown*)m_button_get  ) ;       
+	HRESULT hr = ButtonGetEventImpl::DispEventUnadvise( (IUnknown*)m_button_get  ) ;       
 	ASSERT_HRESULT( hr ) ;
 	hr = ButtonSetEventImpl::DispEventUnadvise( (IUnknown*)m_button_set  ) ;       
 	ASSERT_HRESULT( hr ) ;
@@ -1761,8 +1758,7 @@ void CConnect::setup_stuff()
 {
 	set_up_exception_handling() ;
 
-	BOOL success = FALSE ;
-	success = AtlInitCommonControls(ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES );	// add flags to support other controls
+	BOOL success = AtlInitCommonControls(ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES );	// add flags to support other controls
 	ATLASSERT( success ) ;
 }
 void CConnect::on_toggle_shortcuts(BOOL shortcuts_enabled)

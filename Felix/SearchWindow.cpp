@@ -506,8 +506,7 @@ void CSearchWindow::show_search_results( doc3_wrapper_ptr doc, match_vec &matche
 
 		item[L"mem"] = cpptempl::make_data(loc) ;
 		item[L"memory"] = cpptempl::make_data(loc) ;
-		item[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
-		item[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
+		item[L"ref_count"] = item[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
 
 		items.push_back(cpptempl::make_data(item)) ;
 	}
@@ -749,8 +748,7 @@ void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &match
 		found[L"creator"] = cpptempl::make_data(record->get_creator()) ;
 		found[L"created_by"] = cpptempl::make_data(record->get_creator()) ;
 		found[L"modified_by"] = cpptempl::make_data(record->get_modified_by()) ;
-		found[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
-		found[L"ref_count"] = cpptempl::make_data(tows(record->get_refcount())) ;
+		found[L"ref_count"] = found[L"refcount"] = cpptempl::make_data(tows(record->get_refcount())) ;
 
 		// result
 		mem_engine::record_pointer replaced(new record_local(record)) ;
@@ -769,9 +767,7 @@ void CSearchWindow::show_replace_results( doc3_wrapper_ptr doc, match_vec &match
 		result[L"creator"] = cpptempl::make_data(replaced->get_creator()) ;
 		result[L"created_by"] = cpptempl::make_data(replaced->get_creator()) ;
 		result[L"modified_by"] = cpptempl::make_data(replaced->get_modified_by()) ;
-		result[L"refcount"] = cpptempl::make_data(tows(replaced->get_refcount())) ;
-		result[L"ref_count"] = cpptempl::make_data(tows(replaced->get_refcount())) ;
-
+		result[L"ref_count"] = result[L"refcount"] = cpptempl::make_data(tows(replaced->get_refcount())) ;
 
 		data[L"found"] = cpptempl::make_data(found) ;
 		data[L"result"] = cpptempl::make_data(result) ;
@@ -1021,14 +1017,12 @@ LRESULT CSearchWindow::OnDeleteMatches()
 
 LRESULT CSearchWindow::OnViewSearchPage()
 {
-	show_search_page() ;
-	return 0L ;
+	return OnSearch() ;
 }
 
 LRESULT CSearchWindow::OnViewReplacePage()
 {
-	show_replace_page() ;
-	return 0L ;
+	return OnReplace() ;
 }
 
 LRESULT CSearchWindow::OnEditCopy()

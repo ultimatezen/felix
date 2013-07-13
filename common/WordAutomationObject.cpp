@@ -904,8 +904,6 @@ symbol_converter::symbol_converter()
 		= 0x3A7 ;
 	m_symbols[0x44]     // # GREEK CAPITAL LETTER DELTA
 		= 0x394 ;
-	m_symbols[0x44]     // # INCREMENT
-		= 0x2206 ;
 	m_symbols[0x45]     // # GREEK CAPITAL LETTER EPSILON
 		= 0x395 ;
 	m_symbols[0x46]     // # GREEK CAPITAL LETTER PHI

@@ -1905,7 +1905,7 @@ void MemoryWindowFrame::report_memory_after_load(size_t original_num)
 	const size_t num_records_after_load = mem->size() ;
 	const size_t num_records_loaded = num_records_after_load - original_num ;
 	CString arg1 ;
-	arg1.Format( _T("%d"), num_records_loaded ) ;
+	arg1.Format( _T("%u"), num_records_loaded ) ;
 	CString message ;
 	message.FormatMessage( IDS_MSG_ADDED_RECORDS, arg1, file::name( get_location() ).file_name() ) ;
 	user_feedback( message ) ; 
@@ -2321,7 +2321,7 @@ bool MemoryWindowFrame::import_tmx( const CString &file_name, input_device_ptr i
 	if (! reader.m_errors.empty())
 	{
 		CString msg ;
-		msg.Format(_T("%d errors during import. Check log for details."), reader.m_errors.size()) ;
+		msg.Format(_T("%u errors during import. Check log for details."), reader.m_errors.size()) ;
 		user_feedback(msg) ;
 	}
 
@@ -2423,7 +2423,7 @@ bool MemoryWindowFrame::import_trados(const CString &trados_file_name)
 		m_mru.AddToList(  trados_file_name ) ;
 
 		CString int_arg ;
-		int_arg.Format( _T("%d"), mem->size() ) ;
+		int_arg.Format( _T("%u"), mem->size() ) ;
 		CString msg ;
 		msg.FormatMessage( IDS_DONE_LOADING, int_arg, file::name( trados_file_name ).file_name() ) ;
 		user_feedback( msg ) ;

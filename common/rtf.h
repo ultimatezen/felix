@@ -506,7 +506,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 		wstring get_formatted_text(void);
 		void clear_text( void );
 		void add(const wchar_t * const text );
-		void add(wstring &text);
+		void add(const wstring &text);
 
 		// private helper functions
 

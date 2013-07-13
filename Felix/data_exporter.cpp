@@ -442,15 +442,13 @@ bool TradosDataExporter::write_plain_text( const wstring raw_text )
 	const size_t BUFLEN = 10 ;
 	char output_buffer[BUFLEN] ;
 	
-	size_t end_pos = 0 ;
-
 	BOOL default_char_was_used = FALSE ;
 
 	for ( size_t i=0 ; i<len ; ++i )
 	{
 		CLEAR_WINERRORS ;
 
-		end_pos = ::WideCharToMultiByte(
+		size_t end_pos = ::WideCharToMultiByte(
 			current_codepage,			// code page 
 			0 /* 0x00000400 */,			// performance and mapping flags -- = WC_NO_BEST_FIT_CHARS 
 			text_stream + i,			// address of wide-character string
