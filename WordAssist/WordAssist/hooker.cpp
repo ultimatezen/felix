@@ -108,6 +108,7 @@ if ( control_key_pressed && wParam == VK_F3 )
 			int x = 3 ;
 			int y = 5 ;
 			int z = y / (x - 3) ;
+			z = 0 ; // Gets rid of warning: z is initialized but not referenced
 		}
 		catch (CSWException &e)
 		{

@@ -1759,6 +1759,10 @@ void CConnect::setup_stuff()
 	set_up_exception_handling() ;
 
 	BOOL success = AtlInitCommonControls(ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_INTERNET_CLASSES | ICC_USEREX_CLASSES );	// add flags to support other controls
+	if (! success)
+	{
+		logging::log_warn("Failed to initialize common controls.") ;
+	}
 	ATLASSERT( success ) ;
 }
 void CConnect::on_toggle_shortcuts(BOOL shortcuts_enabled)

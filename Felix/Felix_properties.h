@@ -96,8 +96,6 @@ namespace app_props
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
-
-
 	bool parse_xml_doc( pugi::xml_document &doc );
 
 	bool copy_reg_props();
