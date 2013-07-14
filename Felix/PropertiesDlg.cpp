@@ -14,9 +14,9 @@
 /************************************************************************/
 
 CPropertiesDlg::CPropertiesDlg() : 
-	m_title( R2T( IDS_PREFERENCES_TITLE ) ),
 	m_properties(new app_props::properties)
 {
+	m_title.LoadStringW(IDS_PREFERENCES_TITLE) ;
 	m_psh.dwFlags |= PSH_NOAPPLYNOW  ;
 	m_psh.pszCaption = (LPCTSTR)m_title ;
 

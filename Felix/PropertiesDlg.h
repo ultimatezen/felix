@@ -245,11 +245,11 @@ public:
 	static const int IDD = IDD_PROPSHEET ;
 	DECLARE_SENSING_VAR ;
 
-	CString get_title();
-	app_props::props_ptr get_properties();
-
 	CPropertiesDlg( );
 	virtual ~CPropertiesDlg();
+
+	CString get_title();
+	app_props::props_ptr get_properties();
 
 	BEGIN_MSG_MAP(CPropertiesDlg)
 		CHAIN_MSG_MAP	  ( CPropertySheetImpl<CPropertiesDlg> )
