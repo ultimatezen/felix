@@ -21,6 +21,7 @@ public:
 	// getting
 	mem_engine::memory_iterator begin();
 	memory_type memory_at(size_t i);
+	mem_engine::memory_pointer get_memory_by_name(CString name);
 	virtual mem_engine::memory_pointer get_first_memory();
 
 	// removing
@@ -42,6 +43,8 @@ public:
 		const mem_engine::search_query_params &params );
 	bool find_trans_matches ( mem_engine::trans_match_container &matches, 
 		const mem_engine::search_query_params &params );
+	bool get_glossary_matches ( mem_engine::search_match_container &matches, 
+		const mem_engine::search_query_params &params );
 
 	//////////////////////////////////////////////////////////////////////////
 	// pure virtual functions
@@ -51,7 +54,7 @@ public:
 	virtual bool is_reverse_lookup() = 0 ;
 	virtual size_t get_first_mem_id() = 0 ;
 	virtual mem_engine::memory_pointer get_memory_by_id(size_t id) = 0 ;
-	virtual void get_memories_needing_saving( memory_list &memories ) = 0 ;
+	virtual memory_list & get_memories_needing_saving( memory_list &memories ) = 0 ;
 	virtual model_ptr create_memory_model(bool is_memory) = 0 ;
 };
 

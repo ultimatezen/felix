@@ -22,9 +22,10 @@ public:
 		m_model = model_ptr(new mem_engine::memory_model_mem(props)) ;
 	}
 	
-	void get_memories_needing_saving( memory_list &memories )
+	memory_list & get_memories_needing_saving( memory_list &memories )
 	{
 		m_model->get_memories_needing_saving(memories) ;
+		return memories ;
 	}
 
 	model_ptr get_memories()

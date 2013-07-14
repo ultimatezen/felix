@@ -83,6 +83,11 @@ void FelixModelInterface::remove_record( mem_engine::record_pointer record )
 	get_memories()->remove_record(record) ;
 }
 
+bool FelixModelInterface::get_glossary_matches( mem_engine::search_match_container &matches, const mem_engine::search_query_params &params )
+{
+	return get_memories()->get_glossary_matches(matches, params) ;
+}
+
 bool FelixModelInterface::has_name_clash( CString location )
 {
 	FOREACH(memory_type mem, get_memories()->get_memories())
@@ -104,9 +109,14 @@ void FelixModelInterface::record_loaded_memories( std::vector<wstring> &local, s
 		{
 			remote.push_back(location);
 		}
-		else if (::PathFileExists(location.c_str()))
+		else
 		{
 			local.push_back(location);
 		}
 	}
+}
+
+mem_engine::memory_pointer FelixModelInterface::get_memory_by_name( CString name )
+{
+	return get_memories()->get_memory_by_name(name) ;
 }

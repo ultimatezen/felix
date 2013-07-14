@@ -26,6 +26,6 @@ public:
 	bool is_reverse_lookup();
 
 	mem_engine::memory_pointer get_memory_by_id(size_t id);
-	void get_memories_needing_saving( memory_list &memories );
+	memory_list & get_memories_needing_saving( memory_list &memories );
 
 };

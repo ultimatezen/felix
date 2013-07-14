@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "FelixModel.h"
 
+using namespace mem_engine ;
+
 FelixModel::FelixModel( app_props::props_ptr props, bool is_memory/*=true*/ ) :
 m_is_reverse_lookup(false),
 	m_props(props)
@@ -13,7 +15,7 @@ FelixModel::~FelixModel( void )
 
 }
 
-mem_engine::model_ptr FelixModel::create_memory_model( bool is_memory/*=false*/ )
+model_ptr FelixModel::create_memory_model( bool is_memory/*=false*/ )
 {
 	if (is_memory)
 	{
@@ -31,7 +33,7 @@ size_t FelixModel::get_first_mem_id()
 	return mem->get_id() ;
 }
 
-mem_engine::model_ptr FelixModel::get_memories()
+model_ptr FelixModel::get_memories()
 {
 	return m_memories ;
 }
@@ -46,13 +48,14 @@ bool FelixModel::is_reverse_lookup()
 	return m_is_reverse_lookup ;
 }
 
-mem_engine::memory_pointer FelixModel::get_memory_by_id( size_t id )
+memory_pointer FelixModel::get_memory_by_id( size_t id )
 {
 	return m_memories->get_memory_by_id(id) ;
 }
 
-void FelixModel::get_memories_needing_saving( memory_list &memories )
+memory_list & FelixModel::get_memories_needing_saving( memory_list &memories )
 {
 	m_memories->get_memories_needing_saving(memories) ;
+	return memories ;
 }
 
