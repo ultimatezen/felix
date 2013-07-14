@@ -640,6 +640,7 @@ echo Protection complete!
     <ClCompile Include="gloss_placement_test.cpp" />
     <ClCompile Include="gloss_win_collection.cpp" />
     <ClCompile Include="gloss_win_collection_test.cpp" />
+    <ClCompile Include="memory_fake.cpp" />
     <ClCompile Include="process.cpp" />
     <ClCompile Include="rule_placement.cpp" />
     <ClCompile Include="rule_placement_test.cpp" />
@@ -1192,6 +1193,7 @@ echo Protection complete!
     <ClInclude Include="FelixModel.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="gloss_win_collection.h" />
+    <ClInclude Include="memory_fake.h" />
     <ClInclude Include="process.h" />
     <ClInclude Include="rule_placement.h" />
     <ClInclude Include="mem_tests.h" />

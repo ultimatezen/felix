@@ -201,9 +201,6 @@
     <ClCompile Include="pagination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PropertiesDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\pugxml\src\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1098,6 +1095,12 @@
     <ClCompile Include="FelixModel_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="memory_fake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1951,6 +1954,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FelixModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_fake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
