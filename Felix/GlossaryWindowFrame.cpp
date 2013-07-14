@@ -65,6 +65,7 @@ GlossaryWindowFrame::GlossaryWindowFrame(app_props::props_ptr props) :
 	m_properties_gloss = &m_props->m_gloss_props ;
 	initialize_values() ;
 	m_editor->m_interface = this ;
+	m_editor->m_is_glossary = true ;
 
 	// initialize states
 	this->init_state(&m_view_state_initial) ;
@@ -83,8 +84,6 @@ GlossaryWindowFrame::GlossaryWindowFrame(app_props::props_ptr props) :
 
 	seed_random_numbers();
 
-	m_memories = m_model->get_memories() ; 
-	m_editor->m_is_glossary = true ;
 }
 
 // DTOR
@@ -229,7 +228,7 @@ void GlossaryWindowFrame::import_tabbed_text( const CString &file_name )
 	CTabbedTextImporter importer(this, m_props) ;
 	importer.load_file(file_name, get_input_device()) ;
 	importer.m_memory->set_is_memory(false) ;
-	m_memories->insert_memory(importer.m_memory) ;
+	m_model->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
 
@@ -239,7 +238,7 @@ void GlossaryWindowFrame::import_multiterm( const CString &file_name )
 	CImportMultitermFile importer(this, m_props) ;
 	importer.import(file_name, get_input_device()) ;
 	importer.m_memory->set_is_memory(false) ;
-	m_memories->insert_memory(importer.m_memory) ;
+	m_model->insert_memory(importer.m_memory) ;
 	set_window_title() ;
 }
 
@@ -321,7 +320,7 @@ LRESULT GlossaryWindowFrame::on_file_new( )
 		return 0 ;
 	}
 	
-	m_memories->add_memory() ;
+	m_model->add_memory() ;
 
 	m_view_interface.set_text(wstring()) ;
 
@@ -360,12 +359,12 @@ LRESULT GlossaryWindowFrame::on_file_open( )
 LRESULT GlossaryWindowFrame::on_file_save( )
 {
 	SENSE("on_file_save") ;
-	if ( m_memories->empty() )
+	if ( m_model->empty() )
 	{
 		return 0L ;
 	}
 #ifndef UNIT_TEST
-	memory_pointer mem = m_memories->get_first_memory() ; 
+	memory_pointer mem = m_model->get_first_memory() ; 
 
 	if ( mem->is_new() ) 
 	{
@@ -430,14 +429,14 @@ void GlossaryWindowFrame::do_save( memory_pointer mem )
 // File -> Save As...
 LRESULT GlossaryWindowFrame::on_file_save_as( )
 {
-	if ( m_memories->empty() )
+	if ( m_model->empty() )
 	{
 		MessageBeep( MB_ICONSTOP ) ;
 		return 0L ;
 	}
 	// clearing location won't work, because we want to offer the current location
 	// as the default file name
-	memory_pointer mem = m_memories->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 
 	save_memory_as(mem);
 
@@ -532,14 +531,14 @@ size_t GlossaryWindowFrame::num_matches()
 
 GlossaryWindowFrame::MERGE_CHOICE GlossaryWindowFrame::check_empty_on_load()
 {
-	if ( m_memories->empty() ) 
+	if ( m_model->empty() ) 
 	{
 		return MERGE_CHOICE_SEPARATE ;
 	}
 
 	user_feedback( IDS_GLOSSARY_OPEN ) ;
 
-	memory_pointer first_mem = m_memories->get_first_memory() ;
+	memory_pointer first_mem = m_model->get_first_memory() ;
 
 	CQueryMergeDlg dlg(IDS_MERGE_GLOSS_TITLE, 
 		IDS_MERGE_GLOSS_TEXT, 
@@ -569,12 +568,12 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 	memory_pointer mem ;
 	if (should_merge == MERGE_CHOICE_SEPARATE)
 	{
-		mem = m_memories->add_memory() ;
+		mem = m_model->add_memory() ;
 	}
 	else
 	{
 		ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
-		mem = m_memories->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
 
@@ -593,7 +592,7 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 		mem->set_listener(NULL) ;
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
-			m_memories->remove_memory_by_id( mem->get_id() ) ;
+			m_model->remove_memory_by_id( mem->get_id() ) ;
 		}
 		throw ;
 	}
@@ -615,7 +614,7 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 		file::CPath path( file_name ) ;
 		// we failed to load the memory
 		user_feedback( get_load_failure_msg(path.FindFileName()) ) ; //
-		m_memories->remove_memory_by_id( mem->get_id() ) ;
+		m_model->remove_memory_by_id( mem->get_id() ) ;
 	}
 	
 	return success ;
@@ -666,7 +665,7 @@ void GlossaryWindowFrame::perform_gloss_lookup()
 {
 	search_match_container matches ;
 	// TM matches
-	m_memories->get_glossary_matches( matches, m_search_matches.m_params ) ;
+	m_model->get_glossary_matches( matches, m_search_matches.m_params ) ;
 	// rule matches
 	m_listener->get_regex_rules()->get_matches(matches, m_search_matches.m_params.m_source) ;
 	// This container will hold the results that we display later.
@@ -710,12 +709,12 @@ bool GlossaryWindowFrame::add_record(record_pointer record, const CString gloss_
 	memory_pointer mem ;
 	if ( gloss_name.IsEmpty() ) 
 	{
-		mem = m_memories->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	else
 	{
 		ATLASSERT ( ::PathFileExists( gloss_name ) ) ; 
-		mem = m_memories->get_memory_by_name( gloss_name ) ;
+		mem = m_model->get_memory_by_name( gloss_name ) ;
 	}
 	
 	return add_record(mem, record);
@@ -995,9 +994,9 @@ bool GlossaryWindowFrame::set_main ( bool setting )
 bool GlossaryWindowFrame::set_window_title()
 {
 	CString file_name ;
-	if ( ! m_memories->empty() )
+	if ( ! m_model->empty() )
 	{
-		memory_pointer mem = m_memories->get_first_memory() ;
+		memory_pointer mem = m_model->get_first_memory() ;
 		file_name = get_memory_name(mem);
 	} 
 
@@ -1026,7 +1025,7 @@ bool GlossaryWindowFrame::set_window_title()
 // that need saving.
 bool GlossaryWindowFrame::pre_shutdown_save_check()
 {
-	if ( m_memories->empty() )
+	if ( m_model->empty() )
 	{
 		return true ;
 	} 
@@ -1045,7 +1044,7 @@ bool GlossaryWindowFrame::exit_silently()
 {
 	SENSE("exit_silently") ;
 	memory_list memories ;
-	m_memories->get_memories_needing_saving( memories ) ;
+	m_model->get_memories_needing_saving( memories ) ;
 	
 	FOREACH( memory_pointer mem, memories) 
 	{
@@ -1079,7 +1078,7 @@ BOOL GlossaryWindowFrame::PreTranslateMessage( LPMSG pMsg )
 
 bool GlossaryWindowFrame::clear_memory()
 {
-	memory_pointer mem = m_memories->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	mem->clear_memory() ;
 	m_search_matches.clear() ;
 	m_concordance_matches.clear() ;
@@ -1249,22 +1248,6 @@ void GlossaryWindowFrame::set_listener( CGlossaryWinListener *listener)
 	m_listener = listener ;
 }
 
-void GlossaryWindowFrame::get_gloss_names( std::list< CString > &names )
-{
-	if ( m_memories->empty() ) 
-	{
-		m_memories->add_memory() ;
-	}
-
-	ATLASSERT ( ! m_memories->empty() ) ; 
-
-	FOREACH(memory_pointer mem, m_memories->get_memories())
-	{
-		names.push_back(mem->get_location( )) ;
-	}
-	ATLASSERT ( ! names.empty() ) ; 
-	ATLASSERT ( names.size() == m_memories->size() ) ; 
-}
 
 void GlossaryWindowFrame::put_show_marking( VARIANT_BOOL setting )
 {
@@ -1404,7 +1387,7 @@ void GlossaryWindowFrame::perform_concordance_search()
 	search_match_container matches ;
 	if (! m_concordance_matches.get_source_plain().empty())
 	{
-		m_memories->perform_search( matches, m_concordance_matches.m_params ) ;
+		m_model->perform_search( matches, m_concordance_matches.m_params ) ;
 	}
 	m_concordance_matches.set_matches( matches ) ;
 }
@@ -1706,62 +1689,8 @@ void GlossaryWindowFrame::check_save_history()
 
 	history_props->m_loaded_remote_gloss.clear() ;
 	history_props->m_loaded_gloss.clear() ;
-	for ( auto pos = m_memories->begin() ; 
-			pos != m_memories->end() ; 
-			++pos )
-	{
-		auto mem = *pos ;
-		tstring location = (LPCTSTR)mem->get_fullpath();
-		if (! mem->is_local())
-		{
-			history_props->m_loaded_remote_gloss.push_back(location) ;
-		}
-		else if (::PathFileExists(location.c_str()))
-		{
-			history_props->m_loaded_gloss.push_back(location) ;
-		}
-	}
+	m_model->record_loaded_memories(history_props->m_loaded_gloss, history_props->m_loaded_remote_gloss) ;
 
-	size_t mem_num = 0 ;
-	size_t remote_num = 0 ;
-	for ( auto pos = m_memories->begin() ; 
-		pos != m_memories->end() ; ++pos )
-	{
-		memory_pointer mem = *pos ;
-		const CString location = mem->get_fullpath() ;
-		if ( ::PathFileExists(location) && mem->is_local()) 
-		{
-			if (mem_num >= app_props::NumMems)
-			{
-				continue;
-			}
-			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props->m_data.m_glosses[mem_num], 
-				MAX_PATH, 
-				(LPCTSTR)mem_title.c_str(), 
-				mem_title.size() ) ;
-
-			ATLASSERT ( mem_num + remote_num < m_memories->size() ) ;
-			mem_num++ ;
-		}
-		else if (! mem->is_local())
-		{
-			if (remote_num >= app_props::NumMems)
-			{
-				continue;
-			}
-			tstring mem_title = (LPCTSTR)location;
-			_tcsncpy_s(history_props->m_data.m_remote_glosses[remote_num], 
-				MAX_PATH, 
-				(LPCTSTR)mem_title.c_str(), 
-				mem_title.size() ) ;
-			ATLASSERT ( remote_num + mem_num < m_memories->size() ) ;
-			remote_num++ ;
-		}
-	}
-
-	history_props->m_data.m_num_gloss = mem_num ;
-	history_props->m_data.m_num_remote_gloss = remote_num ;
 	history_props->write_to_registry() ;
 }
 
@@ -1819,7 +1748,7 @@ bool GlossaryWindowFrame::check_for_clashes( memory_pointer mem )
 
 void GlossaryWindowFrame::edit_record( record_pointer rec )
 {
-	memory_pointer mem = m_memories->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 	show_edit_dialog( rec, mem->get_id() ) ;
 }
 
@@ -1831,7 +1760,7 @@ LRESULT GlossaryWindowFrame::on_file_connect()
 		return 0L ;
 	}
 
-	return add_remote_memory(m_memories, dlg.m_memory) ;
+	return add_remote_memory(m_model->get_memories(), dlg.m_memory) ;
 }
 
 LRESULT GlossaryWindowFrame::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
@@ -1853,7 +1782,7 @@ LRESULT GlossaryWindowFrame::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bH
 
 void GlossaryWindowFrame::delete_record(record_pointer rec)
 {
-	m_memories->get_first_memory()->erase(rec) ;
+	m_model->get_first_memory()->erase(rec) ;
 }
 
 
@@ -1876,7 +1805,7 @@ void GlossaryWindowFrame::load_history()
 	ATLTRACE("Loading glossary history\n") ;
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
 
-	m_memories->clear() ;
+	m_model->clear() ;
 
 	std::vector<wstring> items ;
 	std::copy(history_props->m_loaded_gloss.begin(), history_props->m_loaded_gloss.end(), std::back_inserter(items)) ;
@@ -2359,4 +2288,70 @@ int GlossaryWindowFrame::get_local_index( const int index )
 		local_index = 9 ; // 10th item by 0 index
 	}
 	return local_index ;
+}
+
+boost::shared_ptr<mem_engine::memory_model> GlossaryWindowFrame::get_memory_model()
+{
+	return m_model->get_memories() ;
+}
+
+void GlossaryWindowFrame::add_glossary( mem_engine::memory_pointer mem )
+{
+	m_model->insert_memory( mem ) ;
+	check_mousewheel() ;
+	set_window_title() ;
+}
+
+BOOL GlossaryWindowFrame::handle_sw_exception( except::CSWException &e, const CString &failure_message )
+{
+	return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
+}
+
+void GlossaryWindowFrame::edit_edit_record( mem_engine::record_pointer new_record, LPARAM display_state )
+{
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+	set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+	ATLASSERT( get_display_state() == display_state ) ;
+
+	SENSE("edit_edit_record") ;
+
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+		new_record,
+		false) ;
+
+#ifdef UNIT_TEST
+	return ;
+#else
+	show_view_content() ;
+#endif
+}
+
+void GlossaryWindowFrame::add_edit_record( mem_engine::record_pointer new_record, LPARAM display_state )
+{
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+	set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
+	ATLASSERT( get_display_state() == display_state ) ;
+
+	SENSE("add_edit_record") ;
+
+	ATLASSERT( m_editor->get_memory_id() > 0 ) ;
+
+	m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
+		new_record,
+		true) ;
+
+#ifdef UNIT_TEST
+	return ;
+#else
+	show_view_content() ;
+#endif
+}
+
+LPCTSTR GlossaryWindowFrame::get_save_ext()
+{
+	static LPCTSTR memory_file_ext = _T("fgloss") ;
+
+	return memory_file_ext ;
 }

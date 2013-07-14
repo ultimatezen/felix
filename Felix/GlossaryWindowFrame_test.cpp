@@ -186,8 +186,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		gloss_dlg.m_input_device = input_device_ptr(device) ;
 		CString filename = _T("c:\\test\\tabbed-text.txt") ;
 		gloss_dlg.import_tabbed_text(filename) ;
-		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_memories->size()) ;
-		mem_engine::memory_pointer mem = gloss_dlg.m_memories->get_first_memory() ;
+		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_model->size()) ;
+		mem_engine::memory_pointer mem = gloss_dlg.m_model->get_first_memory() ;
 		BOOST_CHECK_EQUAL(2u, mem->size()) ;
 	}
 
@@ -200,8 +200,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		GlossaryWindowFrame gloss_dlg(props) ;
 		CString filename = _T("c:\\test\\Multiterm.6.0.sample_small.txt") ;
 		gloss_dlg.import_multiterm(filename) ;
-		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_memories->size()) ;
-		mem_engine::memory_pointer mem = gloss_dlg.m_memories->get_first_memory() ;
+		BOOST_CHECK_EQUAL(1u, gloss_dlg.m_model->size()) ;
+		mem_engine::memory_pointer mem = gloss_dlg.m_model->get_first_memory() ;
 		BOOST_CHECK_EQUAL(5u, mem->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE( export_gloss_mt55 )

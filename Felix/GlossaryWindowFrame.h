@@ -81,7 +81,6 @@ class GlossaryWindowFrame :
 	CToolBarCtrl				m_toolbar ;
 	// the memory controller
 	model_iface_ptr					m_model ;
-	mem_engine::model_ptr			m_memories ;
 
 	CSearchWindow		m_search_window ;
 	CManagerWindow		m_manager_window ;
@@ -193,7 +192,6 @@ public:
 
 	bool OnBeforeNavigate2( _bstr_t url ) ;
 	void set_listener( CGlossaryWinListener *listener) ;
-	void get_gloss_names( std::list< CString > &names ) ;
 
 	void put_show_marking( VARIANT_BOOL setting ) ;
 	VARIANT_BOOL get_show_marking() ;
@@ -237,12 +235,7 @@ public:
 	
 	bool get_translation_concordances(const wstring query_string) ;
 	bool get_concordances( const wstring query_string )  ;
-	LPCTSTR get_save_ext()
-	{
-		static LPCTSTR memory_file_ext = _T("fgloss") ;
-
-		return memory_file_ext ;
-	}
+	LPCTSTR get_save_ext();
 
 	bool exit_silently() ;
 	BOOL PreTranslateMessage( LPMSG pMsg ) ;
@@ -318,48 +311,8 @@ public:
 	LRESULT OnUserAdd( LPARAM lParam ) ;
 	LRESULT OnUserPrev( LPARAM lParam ) ;
 
-	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
-	{
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
-		ATLASSERT( get_display_state() == display_state ) ;
-
-		SENSE("add_edit_record") ;
-
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-			new_record,
-			true) ;
-
-#ifdef UNIT_TEST
-		return ;
-#else
-		show_view_content() ;
-#endif
-
-	}
-	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state)
-	{
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-		set_display_state( static_cast< DISPLAY_STATE >( display_state ) ) ;
-		ATLASSERT( get_display_state() == display_state ) ;
-
-		SENSE("edit_edit_record") ;
-
-		ATLASSERT( m_editor->get_memory_id() > 0 ) ;
-
-		m_view_state->retrieve_edit_record(m_editor->get_memory_id(),
-			new_record,
-			false) ;
-
-#ifdef UNIT_TEST
-		return ;
-#else
-		show_view_content() ;
-#endif
-
-	}
+	void add_edit_record(mem_engine::record_pointer new_record, LPARAM display_state);
+	void edit_edit_record(mem_engine::record_pointer new_record, LPARAM display_state);
 
 	// TOOLS
 	LRESULT on_tools_memory_manager();
@@ -522,10 +475,7 @@ public:
 
 	LRESULT OnFormatBackgroundColor() ;
 
-	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message ) 
-	{
-		return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
-	}
+	BOOL handle_sw_exception( except::CSWException &e, const CString &failure_message );
 
 
 	void edit_record( mem_engine::record_pointer rec ) ;
@@ -537,24 +487,10 @@ public:
 	LPCTSTR get_save_filter() ;
 	LPCTSTR get_open_filter() ;
 
-	boost::shared_ptr<mem_engine::memory_model> create_memory_model()
-	{
-		using namespace mem_engine ;
-		typedef boost::shared_ptr<memory_model> mdl_ptr ;
-		return mdl_ptr(new memory_model_gloss(m_props)) ;
-	}
-	boost::shared_ptr<mem_engine::memory_model> get_memory_model() 
-	{
-		return m_memories ;
-	}
+	boost::shared_ptr<mem_engine::memory_model> get_memory_model();
 	CString get_window_type_string() ;
 
-	void add_glossary(mem_engine::memory_pointer mem)
-	{
-		m_memories->insert_memory( mem ) ;
-		check_mousewheel() ;
-		set_window_title() ;
-	}
+	void add_glossary(mem_engine::memory_pointer mem);
 
 	void seed_random_numbers();
 	bool check_for_clashes( mem_engine::memory_pointer mem ) ;

@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAddRecord )
 		record->set_trans(L"trans") ;
 		windows.add_record(record) ;
 		BOOST_CHECK_EQUAL(1u, windows.m_glossary_windows.size()) ;
-		BOOST_CHECK_EQUAL(1u, gloss1->m_memories->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(1u, gloss1->m_model->get_first_memory()->size()) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_two)
 	{
@@ -226,8 +226,8 @@ BOOST_AUTO_TEST_SUITE( TestGlossWinCollectionAddRecord )
 		windows.add_record(record2) ;
 
 		BOOST_CHECK_EQUAL(2u, windows.m_glossary_windows.size()) ;
-		BOOST_CHECK_EQUAL(2u, gloss1->m_memories->get_first_memory()->size()) ;
-		BOOST_CHECK_EQUAL(0u, gloss2->m_memories->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(2u, gloss1->m_model->get_first_memory()->size()) ;
+		BOOST_CHECK_EQUAL(0u, gloss2->m_model->get_first_memory()->size()) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
