@@ -1061,7 +1061,7 @@ bool CManagerWindow::import_tmx( const file::OpenDlgList &files )
 
 bool CManagerWindow::import_tmx( const CString &file_name )
 {
-	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
+	memory_pointer mem = m_mem_model->add_memory() ;
 
 	CTMXReader reader( mem, static_cast< CProgressListener* >( this ) ) ;
 	input_device_ptr input(new InputDeviceFile) ;
@@ -1070,7 +1070,7 @@ bool CManagerWindow::import_tmx( const CString &file_name )
 	// if we failed to load any entries, remove the memory
 	if ( mem->empty() ) 
 	{
-		m_mem_model->get_memories()->remove_memory_by_id( mem->get_id() ) ;
+		m_mem_model->remove_memory_by_id( mem->get_id() ) ;
 		return false ;
 	}
 
@@ -1130,7 +1130,7 @@ bool CManagerWindow::import_trados( const CString &trados_file_name )
 	importer.set_source_language( import_dialog.get_source_plain() ) ;
 	importer.set_target_language( import_dialog.get_trans_plain() ) ;
 
-	memory_pointer mem = m_mem_model->get_memories()->add_memory() ;
+	memory_pointer mem = m_mem_model->add_memory() ;
 
 	MemoryInfo *mem_info = mem->get_memory_info() ;
 	mem_info->set_creation_tool( L"TradosText" ) ;
@@ -1166,7 +1166,7 @@ void CManagerWindow::import_multiterm( const CString &file_name )
 	CImportMultitermFile importer(this, m_props) ;
 	input_device_ptr input(new InputDeviceFile) ;
 	importer.import(file_name, input) ;
-	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
+	m_gloss_model->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;
 }
 
@@ -1175,7 +1175,7 @@ void CManagerWindow::import_tabbed_text( const CString &file_name )
 	CTabbedTextImporter importer(this, m_props) ;
 	input_device_ptr input(new InputDeviceFile) ;
 	importer.load_file(file_name, input) ;
-	m_gloss_model->get_memories()->insert_memory(importer.m_memory) ;
+	m_gloss_model->insert_memory(importer.m_memory) ;
 	m_listener->set_window_title() ;
 }
 

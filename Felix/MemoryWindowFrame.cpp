@@ -3864,7 +3864,7 @@ LRESULT MemoryWindowFrame::on_file_connect( UINT, int, HWND )
 		return 0L ;
 	}
 
-	return add_remote_memory(m_model->get_memories(), dlg.m_memory) ;
+	return add_remote_memory(m_model, dlg.m_memory) ;
 }
 
 //! Set the background color unless it's white (the default)

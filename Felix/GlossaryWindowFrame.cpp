@@ -1760,7 +1760,7 @@ LRESULT GlossaryWindowFrame::on_file_connect()
 		return 0L ;
 	}
 
-	return add_remote_memory(m_model->get_memories(), dlg.m_memory) ;
+	return add_remote_memory(m_model, dlg.m_memory) ;
 }
 
 LRESULT GlossaryWindowFrame::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)

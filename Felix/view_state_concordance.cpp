@@ -136,7 +136,7 @@ void ViewStateConcordanceMain::retrieve_edit_record( size_t mem_id, mem_engine::
 	catch (except::CProgramException &e )
 	{
 		logging::log_exception(e) ;
-		mem = m_model->get_memories()->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
 	if (is_add)
@@ -229,7 +229,7 @@ void ViewStateConcordanceGloss::retrieve_edit_record(size_t mem_id, mem_engine::
 	catch (except::CProgramException &e )
 	{
 		logging::log_exception(e) ;
-		mem = m_model->get_memories()->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
 	ATLASSERT( mem_id == current_match->get_memory_id() ) ;

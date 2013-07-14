@@ -737,7 +737,7 @@ BOOST_AUTO_TEST_SUITE( TestConnect )
 	{
 		MAKE_TEST_FRAME(frame) ;
 
-		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
+		LRESULT res = frame->add_remote_memory(frame->m_model,
 											   memory_pointer()) ;
 
 		BOOST_CHECK_EQUAL(-1L, res) ;
@@ -749,7 +749,7 @@ BOOST_AUTO_TEST_SUITE( TestConnect )
 	{
 		MAKE_TEST_FRAME(frame) ;
 
-		LRESULT res = frame->add_remote_memory(frame->m_model->get_memories(),
+		LRESULT res = frame->add_remote_memory(frame->m_model,
 												memory_pointer(new memory_local(frame->m_props))) ;
 
 		BOOST_CHECK_EQUAL(0L, res) ;

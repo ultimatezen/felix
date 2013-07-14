@@ -1169,7 +1169,7 @@ void CCommonWindowFunctionality::set_item_under_edit( match_ptr match )
 	m_item_under_edit = match ;
 }
 
-LRESULT CCommonWindowFunctionality::add_remote_memory( mem_engine::model_ptr memories, mem_engine::memory_pointer mem )
+LRESULT CCommonWindowFunctionality::add_remote_memory( model_iface_ptr memories, mem_engine::memory_pointer mem )
 {
 	if (! mem)
 	{

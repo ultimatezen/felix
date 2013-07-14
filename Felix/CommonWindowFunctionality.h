@@ -109,7 +109,7 @@ public:
 	int					m_mousewheel_count ;
 
 	void SetPaneWidths(int* arrWidths, int nPanes) ;
-	LRESULT add_remote_memory(mem_engine::model_ptr memories, mem_engine::memory_pointer mem);
+	LRESULT add_remote_memory(model_iface_ptr memories, mem_engine::memory_pointer mem);
 
 private:
 
