@@ -305,7 +305,7 @@ inline bool is_same_file(CString lhs, CString rhs)
 	}
 
 	CFile rfile ;
-	rfile.Open(lhs) ;
+	rfile.Open(rhs) ;
 	if (! rfile.IsOpen())
 	{
 		return false ;
