@@ -8,6 +8,7 @@ namespace mem_engine
 	typedef std::map<key_type, record_pointer> map_type ;
 
 	typedef map_type record_collection_type ;
+	void copy_mem_info(memory_pointer from, memory_pointer to) ;
 
 	class memory_local : public CTranslationMemory
 	{
