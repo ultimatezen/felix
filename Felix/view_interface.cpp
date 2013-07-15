@@ -489,10 +489,10 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 			{
 				if ( record->is_valid_record() )
 				{
-					walker.AddRecordToList(record, memories, match, match_list);
+					walker.AddRecordToList(record, memories->get_memories(), match, match_list);
 				}
 				// get current match setting, and erase it from memory
-				walker.EraseCurrentRecord(match, matches, id, memories);
+				walker.EraseCurrentRecord(match, matches, id, memories->get_memories());
 
 				// set to current record
 				record = match->get_record() ;
@@ -506,7 +506,7 @@ bool frame_view::handle_leave_edit_mode_concordance_glossary( MemoryControllerTy
 
 	if ( record->is_valid_record() )
 	{
-		walker.AddRecordToList(record, memories, match, match_list);
+		walker.AddRecordToList(record, memories->get_memories(), match, match_list);
 	}
 
 	matches->set_matches( match_list ) ;
@@ -644,10 +644,10 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 			{
 				if ( rec->is_valid_record() )
 				{
-					walker.AddRecordToList(rec, memories, match, match_list);
+					walker.AddRecordToList(rec, memories->get_memories(), match, match_list);
 				}
 				// get current match setting, and erase it from memory
-				walker.EraseCurrentRecord(match, matches, id, memories);
+				walker.EraseCurrentRecord(match, matches, id, memories->get_memories());
 
 				// set to current record
 				rec = match->get_record() ;
@@ -661,7 +661,7 @@ bool frame_view::handle_leave_edit_mode_concordance( MemoryControllerType memori
 
 	if ( rec->is_valid_record() )
 	{
-		walker.AddRecordToList(rec, memories, match, match_list);
+		walker.AddRecordToList(rec, memories->get_memories(), match, match_list);
 	}
 
 	matches->set_matches( match_list ) ;

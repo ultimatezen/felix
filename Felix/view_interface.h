@@ -7,9 +7,8 @@
 
 #include "record.h"
 #include "query.h"
-#include "memory_model.h"
 #include "background_processor.h"
-
+#include "FelixModelInterface.h"
 #include "HtmlView.h"
 #include "HtmlDocument.h"
 #include "data_converter.h"
@@ -21,7 +20,7 @@ class view_interface
 {
 public:
 	typedef mem_engine::translation_match_query TransMatchQueryTrans ;
-	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
+	typedef model_iface_ptr MemoryControllerType ;
 	typedef std::vector< mem_engine::search_match_ptr > MatchListType ;
 	typedef mem_engine::search_match_ptr SearchMatchType ;
 

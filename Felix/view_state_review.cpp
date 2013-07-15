@@ -26,7 +26,7 @@ void ViewStateReview::handle_toggle_edit_mode()
 	{
 		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
-		m_view->handle_leave_edit_mode_match( m_model->get_memories(), m_search_matches ) ;
+		m_view->handle_leave_edit_mode_match( m_model, m_search_matches ) ;
 
 		m_window_listener->user_feedback( IDS_LEFT_EDIT_MODE ) ;
 
@@ -59,7 +59,7 @@ void ViewStateReview::retrieve_edit_record(size_t mem_id, mem_engine::record_poi
 	catch (except::CProgramException &e )
 	{
 		logging::log_exception(e) ;
-		mem = m_model->get_memories()->get_first_memory() ;
+		mem = m_model->get_first_memory() ;
 	}
 	mem_engine::search_match_ptr current_match = m_window_listener->get_item_under_edit() ;
 	if (is_add)
@@ -132,7 +132,7 @@ void ViewStateReview::delete_match( size_t index )
 {
 	index ;
 	ATLASSERT( index == 0 ) ;
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 
 	if ( ! m_window_listener->check_delete() )
 	{

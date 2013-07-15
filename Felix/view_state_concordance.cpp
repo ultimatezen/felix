@@ -110,7 +110,7 @@ void ViewStateConcordanceMain::handle_toggle_edit_mode()
 	{
 		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
-		if( false == m_view->handle_leave_edit_mode_concordance( m_model->get_memories(), m_search_matches ) )
+		if( false == m_view->handle_leave_edit_mode_concordance( m_model, m_search_matches ) )
 		{
 			ATLTRACE(" ... All records deleted\n") ;
 			m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;
@@ -204,7 +204,7 @@ void ViewStateConcordanceGloss::handle_toggle_edit_mode()
 	{
 		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
-		if( false == m_view->handle_leave_edit_mode_concordance_glossary( m_model->get_memories(), m_search_matches ) )
+		if( false == m_view->handle_leave_edit_mode_concordance_glossary( m_model, m_search_matches ) )
 		{
 			ATLTRACE(" ... All records deleted\n") ;
 			m_window_listener->user_feedback( IDS_DELETED_ENTRY ) ;

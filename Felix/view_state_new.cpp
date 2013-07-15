@@ -35,7 +35,7 @@ void ViewStateNew::delete_match( size_t index )
 {
 	index ;
 	ATLASSERT( index == 0 ) ;
-	memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+	memory_pointer mem = m_model->get_first_memory() ;
 
 	if ( ! m_window_listener->check_delete() )
 	{
@@ -77,11 +77,11 @@ void ViewStateNewMain::handle_toggle_edit_mode()
 			return ;
 		}
 
-		ATLASSERT ( m_model->get_memories()->empty() == false ) ; 
-		memory_pointer mem = m_model->get_memories()->get_first_memory() ;
+		ATLASSERT ( m_model->empty() == false ) ; 
+		memory_pointer mem = m_model->get_first_memory() ;
 		try
 		{
-			m_model->get_memories()->remove_record( new_rec, mem->get_id() ) ;
+			m_model->get_memory_by_id(mem->get_id())->erase(new_rec) ;
 			wstring content ; 
 			content << L"<center><h1>" << resource_string_w( IDS_DELETED_ENTRY ) << L"</h1></center>" ;
 
@@ -182,8 +182,7 @@ void ViewStateNewGloss::handle_toggle_edit_mode()
 		m_window_listener->user_feedback( IDS_LEAVING_EDIT_MODE ) ;
 
 		record_pointer record = m_window_listener->get_new_record() ;
-		if( false == m_view->handle_leave_edit_mode_new_record_glossary( m_model->get_memories(), 
-																		record) )
+		if( false == m_view->handle_leave_edit_mode_new_record_glossary(m_model, record) )
 		{
 			m_view->set_text( R2WSTR( IDS_POST_EDIT_ALL_DELETED ) ) ;
 			m_window_listener->check_mousewheel() ;
