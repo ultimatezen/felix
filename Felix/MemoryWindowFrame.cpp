@@ -1684,12 +1684,7 @@ INT_PTR MemoryWindowFrame::gloss_check_save_location( memory_pointer mem )
 		return IDYES ;
 	}
 
-	// Todo: make this a custom dialog
-	CString prompt ;
-	prompt.FormatMessage( IDS_PROMPT_OVERWRITE_MEMORY, (LPCTSTR)mem->get_location( ) ) ;
-	return (INT_PTR)MessageBox( prompt, 
-		resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), 
-		MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
+	return prompt_user_for_overwrite(mem->get_location());
 }
 
 /** Do a search using the parameters in the find dialog.
@@ -1908,12 +1903,6 @@ void MemoryWindowFrame::report_memory_after_load(size_t original_num)
 	CString message ;
 	message.FormatMessage( IDS_MSG_ADDED_RECORDS, arg1, file::name( get_location() ).file_name() ) ;
 	user_feedback( message ) ; 
-}
-
-//! Destroy all the glossary windows (prior to shutdown).
-void MemoryWindowFrame::destroy_all_gloss_windows()
-{
-	m_glossary_windows.destroy_all() ;
 }
 
 
@@ -5141,7 +5130,10 @@ LPCTSTR MemoryWindowFrame::get_save_ext()
 
 bool MemoryWindowFrame::check_for_clashes( memory_type mem )
 {
-	return IDCANCEL != gloss_check_save_location( mem ) ;
+	if (m_glossary_windows.has_clashes(mem->get_location()))
+	{
+		return IDCANCEL != prompt_user_for_overwrite( mem->get_location() ) ;
+	}
 }
 
 boost::shared_ptr<mem_engine::memory_model> MemoryWindowFrame::get_memory_model()

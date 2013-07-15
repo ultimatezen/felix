@@ -163,6 +163,7 @@ public:
 	/* CGlossaryDlgListener implementation                                  */
 	/************************************************************************/
 	INT_PTR gloss_check_save_location( memory_type mem ) ;
+
 	bool gloss_add_record( record_type rec );
 	void gloss_view_switch( HWND hwnd ) ;
 
@@ -459,7 +460,6 @@ public:
 	void set_translation_at( short index, const wstring translation );
 
 	void set_ui_to_current_language();
-	void destroy_all_gloss_windows();
 	void report_memory_after_load( size_t original_num );
 	wstring get_translation_at( short index = -1 );
 	MERGE_CHOICE check_empty_on_load();

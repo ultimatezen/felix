@@ -780,46 +780,4 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionExitSilently)
 		BOOST_CHECK_EQUAL(glosses.size(), 2u) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionDestroyAll)
-	BOOST_AUTO_TEST_CASE(test_empty)
-	{
-		GlossWinCollection glosses ;
-		BOOST_CHECK_NO_THROW(glosses.destroy_all()) ;
-		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_one_not_window)
-	{
-		GlossWinCollection glosses ;
-		app_props::props_ptr props(new app_props::properties) ;
-		gloss_window_pointer gloss_window = make_gloss_window(props, FALSE) ;
-		glosses.m_glossary_windows.push_back(gloss_window);
-
-		glosses.destroy_all() ;
-		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_one)
-	{
-		GlossWinCollection glosses ;
-		app_props::props_ptr props(new app_props::properties) ;
-		gloss_window_pointer gloss_window = make_gloss_window(props, TRUE) ;
-		glosses.m_glossary_windows.push_back(gloss_window);
-
-		glosses.destroy_all() ;
-		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
-	}
-	BOOST_AUTO_TEST_CASE(test_two)
-	{
-		GlossWinCollection glosses ;
-		app_props::props_ptr props(new app_props::properties) ;
-
-		gloss_window_pointer gloss_window1 = make_gloss_window(props, TRUE) ;
-		gloss_window_pointer gloss_window2 = make_gloss_window(props, TRUE) ;
-		glosses.m_glossary_windows.push_back(gloss_window1);
-		glosses.m_glossary_windows.push_back(gloss_window2);
-
-		glosses.destroy_all() ;
-		BOOST_CHECK_EQUAL(glosses.size(), 0u) ;
-	}
-BOOST_AUTO_TEST_SUITE_END()
 #endif

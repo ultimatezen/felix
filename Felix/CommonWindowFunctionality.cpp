@@ -1234,4 +1234,35 @@ HWND CCommonWindowFunctionality::set_focus()
 	return window->SetFocus() ;
 }
 
+CCommonWindowFunctionality::record_type CCommonWindowFunctionality::get_new_record()
+{
+	return m_new_record ;
+}
+
+CCommonWindowFunctionality::match_ptr CCommonWindowFunctionality::get_review_match()
+{
+	return m_review_match ;
+}
+
+void CCommonWindowFunctionality::set_new_record( record_type rec )
+{
+	m_new_record = rec ;
+}
+
+void CCommonWindowFunctionality::set_review_match( record_type rec, int mem_id )
+{
+	m_review_match->set_record(rec) ;
+	m_review_match->set_values_to_record() ;
+	m_review_match->set_memory_id(mem_id) ;
+}
+
+INT_PTR CCommonWindowFunctionality::prompt_user_for_overwrite( CString location )
+{
+	CString prompt ;
+	prompt.FormatMessage( IDS_PROMPT_OVERWRITE_MEMORY, (LPCTSTR)location ) ;
+	return (INT_PTR)MessageBox( prompt, 
+		resource_string( IDS_PROMPT_OVERWRITE_MEMORY_TITLE ), 
+		MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
+}
+
 

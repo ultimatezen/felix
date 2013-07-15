@@ -230,12 +230,16 @@ void GlossWinCollection::exit_silently()
 	}
 }
 
-void GlossWinCollection::destroy_all()
+bool GlossWinCollection::has_clashes( CString location )
 {
 	remove_destroyed_gloss_windows() ;
-	FOREACH(gloss_window_pointer gloss, m_glossary_windows)
+	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
-		gloss->DestroyWindow() ;
+		if (gloss_win->m_model->has_name_clash(location))
+		{
+			return true ;
+		}
 	}
-	m_glossary_windows.clear() ;
+	return false ;
 }
+

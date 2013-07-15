@@ -62,6 +62,6 @@ public:
 	void clear_glossaries();
 	// Exit without prompting user to save glossaries
 	void exit_silently();
-	// Destroy all glossary windows
-	void destroy_all();
+	// Check for glossaries matching this filename
+	bool has_clashes(CString location);
 };

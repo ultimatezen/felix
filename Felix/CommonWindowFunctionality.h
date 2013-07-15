@@ -172,24 +172,10 @@ public:
 
 	void init_state(ViewState *state);
 	void init_tooltip_map( std::map<int, int> &toolmap );
-	record_type get_new_record()
-	{
-		return m_new_record ;
-	}
-	match_ptr get_review_match()
-	{
-		return m_review_match ;
-	}
-	void set_new_record(record_type rec)
-	{
-		m_new_record = rec ;
-	}
-	void set_review_match(record_type rec, int mem_id)
-	{
-		m_review_match->set_record(rec) ;
-		m_review_match->set_values_to_record() ;
-		m_review_match->set_memory_id(mem_id) ;
-	}
+	record_type get_new_record();
+	match_ptr get_review_match();
+	void set_new_record(record_type rec);
+	void set_review_match(record_type rec, int mem_id);
 	match_ptr get_item_under_edit();
 	void set_item_under_edit(match_ptr match);
 
@@ -270,6 +256,9 @@ public:
 
 	void save_window_settings( LPCTSTR key_name );
 	MERGE_CHOICE get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props ) ;
+
+	// Todo: make this a custom dialog
+	INT_PTR prompt_user_for_overwrite( CString location );
 
 /************************************************************************/
 /* Pure virtual methods to enable methods to be pulled up/polymorphism  */
