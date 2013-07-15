@@ -109,20 +109,17 @@ HWND CHtmlView::create( HWND hWnd, const TCHAR *startup_page, UINT id )
 BOOL CHtmlView::PreTranslateMessage(MSG* pMsg)
 {
 	// just ignore anything but mouse and keyboard messages
-	if((pMsg->message < WM_KEYFIRST || pMsg->message > WM_KEYLAST) &&
-	   (pMsg->message < WM_MOUSEFIRST || pMsg->message > WM_MOUSELAST))
+	if(! is_keyboard_or_mouse_msg(pMsg))
 	{
 		return FALSE ;
 	}
 
-	BOOL bRet = FALSE;
-	// give HTML page a chance to translate this message
-	if(pMsg->hwnd == m_hWnd || IsChild(pMsg->hwnd))
+	if (! IsWindow())
 	{
-		bRet = (BOOL)SendMessage(WM_FORWARDMSG, 0, (LPARAM)pMsg);
+		return FALSE ;
 	}
-
-	return bRet;
+	
+	return (BOOL)SendMessage(WM_FORWARDMSG, 0, (LPARAM)pMsg);
 }
 
 // navigate
@@ -915,4 +912,11 @@ void __stdcall CHtmlView::TitleChange( const BSTR title )
 			logging::log_exception(e) ;
 		}
 	}
+
+	bool CHtmlView::is_keyboard_or_mouse_msg( MSG* pMsg )
+	{
+		return ! ((pMsg->message < WM_KEYFIRST || pMsg->message > WM_KEYLAST) &&
+			(pMsg->message < WM_MOUSEFIRST || pMsg->message > WM_MOUSELAST));
+	}
+
 }

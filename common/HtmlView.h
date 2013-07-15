@@ -182,6 +182,8 @@ public:
 	// PreTranslateMessage
 	BOOL PreTranslateMessage(MSG* pMsg) ;
 
+	bool is_keyboard_or_mouse_msg( MSG* pMsg );
+
 	bool navigate(const string &url ) ;
 	bool navigate(const wstring &url ) ;
 	bool write(const wstring &content) ;
