@@ -256,8 +256,7 @@ BOOL MemoryWindowFrame::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 	// prevent the view from eating our menu shortcut keys...
-	const int key_mask = 0x8000 ;
-	if (::GetKeyState(VK_MENU) & key_mask)
+	if (is_menu_key_pressed())
 	{
 		return FALSE ;
 	}

@@ -47,6 +47,16 @@ void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps)
 	}
 }
 
+bool is_menu_key_pressed() 
+{
+	const int key_mask = 0x8000 ;
+	if (::GetKeyState(VK_MENU) & key_mask)
+	{
+		return true ;
+	}
+	return false ;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // CCommonWindowFunctionality class
 //////////////////////////////////////////////////////////////////////////

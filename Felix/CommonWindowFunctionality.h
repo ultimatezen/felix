@@ -41,6 +41,7 @@ void add_common_tb_commands(std::vector< int > &commands) ;
 void add_common_std_bitmaps(std::vector< int > &StdBitmaps) ;
 void create_tb_imagelist(CImageList &images, std::vector< int > &StdBitmaps) ;
 
+bool is_menu_key_pressed() ;
 
 
 /**

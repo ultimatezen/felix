@@ -1062,17 +1062,12 @@ BOOL GlossaryWindowFrame::PreTranslateMessage( LPMSG pMsg )
 	{
 		return TRUE ;
 	}
-	// intercept enter key in order to not shut down dialog 
-	if ( pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN )
-	{
-		return m_view_interface.PreTranslateMessage( pMsg ) ;
-	}
 
-	if ( IsDialogMessage( pMsg ) )
+	// prevent the view from eating our menu shortcut keys...
+	if (is_menu_key_pressed())
 	{
-		return TRUE ;
+		return FALSE ;
 	}
-
 	return m_view_interface.PreTranslateMessage( pMsg ) ;
 }
 
