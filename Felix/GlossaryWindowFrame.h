@@ -125,6 +125,7 @@ public:
 	void load_history();
 	void check_save_history() ;
 	MERGE_CHOICE check_empty_on_load() ;
+	bool has_name_clash(CString location);
 
 	model_iface_ptr get_model()
 	{

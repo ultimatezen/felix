@@ -234,7 +234,7 @@ bool GlossWinCollection::has_clashes( CString location )
 {
 	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
-		if (gloss_win->m_model->has_name_clash(location))
+		if (gloss_win->has_name_clash(location))
 		{
 			return true ;
 		}

@@ -2350,3 +2350,8 @@ LPCTSTR GlossaryWindowFrame::get_save_ext()
 
 	return memory_file_ext ;
 }
+
+bool GlossaryWindowFrame::has_name_clash( CString location )
+{
+	return m_model->has_name_clash(location) ;
+}
