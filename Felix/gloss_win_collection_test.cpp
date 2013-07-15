@@ -780,4 +780,54 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionExitSilently)
 		BOOST_CHECK_EQUAL(glosses.size(), 2u) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionHasClashes)
+
+	BOOST_AUTO_TEST_CASE(test_empty)
+	{
+		GlossWinCollection glosses ;
+		CString location = L"C:\\foo.xml" ;
+		BOOST_CHECK(! glosses.has_clashes(location)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_false)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		CString location = L"C:\\foo.xml" ;
+
+		memory_pointer mem1(new memory_local(props)) ;
+		mem1->set_location("C:\\mem1.xml") ;
+		gloss_window->m_model->insert_memory(mem1) ;
+
+		memory_pointer mem2(new memory_local(props)) ;
+		mem2->set_location("C:\\mem2.xml") ;
+		gloss_window->m_model->insert_memory(mem2) ;
+
+		BOOST_CHECK(! glosses.has_clashes(location)) ;
+	}
+	BOOST_AUTO_TEST_CASE(test_two_true)
+	{
+		GlossWinCollection glosses ;
+		app_props::props_ptr props(new app_props::properties) ;
+		gloss_window_pointer gloss_window = glosses.add(props) ; 
+
+		CString location = L"D:\\dev\\testdata\\felix\\testmem.ftm" ;
+
+		memory_pointer mem1(new memory_local(props)) ;
+		mem1->set_location("C:\\mem1.xml") ;
+		gloss_window->m_model->insert_memory(mem1) ;
+
+		memory_pointer mem2(new memory_local(props)) ;
+		mem2->set_location(location) ;
+		gloss_window->m_model->insert_memory(mem2) ;
+
+		BOOST_CHECK(glosses.has_clashes(location)) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
 #endif

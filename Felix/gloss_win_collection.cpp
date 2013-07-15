@@ -232,7 +232,6 @@ void GlossWinCollection::exit_silently()
 
 bool GlossWinCollection::has_clashes( CString location )
 {
-	remove_destroyed_gloss_windows() ;
 	FOREACH( gloss_window_pointer gloss_win, m_glossary_windows)
 	{
 		if (gloss_win->m_model->has_name_clash(location))

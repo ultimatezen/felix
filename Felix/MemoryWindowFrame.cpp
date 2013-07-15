@@ -5134,6 +5134,7 @@ bool MemoryWindowFrame::check_for_clashes( memory_type mem )
 	{
 		return IDCANCEL != prompt_user_for_overwrite( mem->get_location() ) ;
 	}
+	return true ;
 }
 
 boost::shared_ptr<mem_engine::memory_model> MemoryWindowFrame::get_memory_model()
