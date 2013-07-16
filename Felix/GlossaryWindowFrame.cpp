@@ -116,7 +116,7 @@ LRESULT GlossaryWindowFrame::handle_find()
 	return 0 ;
 }
 
-LRESULT GlossaryWindowFrame::OnInitDialog( )
+LRESULT GlossaryWindowFrame::on_create( )
 {
 	SENSE("OnInitDialog") ;
 

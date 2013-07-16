@@ -258,7 +258,7 @@ public:
 	LRESULT on_mru_file_open(WORD wID ) ;
 
 	void open_mru_file( WORD wID, input_device_ptr input );
-	LRESULT OnInitDialog( ) ;
+	LRESULT on_create( ) ;
 
 	void apply_mousewheel_setting();
 
@@ -332,7 +332,7 @@ public:
 	BEGIN_MSG_MAP_EX( GlossaryWindowFrame )
 	MSG_TRY
 //		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
-		MSG_HANDLER_0(WM_CREATE, OnInitDialog)
+		MSG_HANDLER_0(WM_CREATE, on_create)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
 		// we need the generic handler, because we pass on the size command to the status bar
 		MESSAGE_HANDLER_EX(0x020A/*WM_MOUSEWHEEL*/, OnMouseWheel)
