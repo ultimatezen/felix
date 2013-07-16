@@ -10,6 +10,7 @@
 #include "StdAfx.h"
 #include "MemoryWindowFrame.h"
 
+#include "winuser.h"
 
 #include "ConcordanceDialog.h"
 
@@ -93,6 +94,11 @@ MemoryWindowFrame::MemoryWindowFrame( model_iface_ptr model, app_props::props_pt
 	m_is_active = false ;
 	initialize_values() ;
 	m_editor->m_interface = this ;
+
+	// Allow drag and drop in Windows 7
+	ChangeWindowMessageFilter( WM_DROPFILES, 1);
+	ChangeWindowMessageFilter( WM_COPYDATA , 1);
+	ChangeWindowMessageFilter( 0x0049, 1);
 
 	// initialize min view
 	m_min_view.set_listener(this) ;
@@ -229,11 +235,17 @@ MemoryWindowFrame::~MemoryWindowFrame()
 *
 **************************************************/
 
+#define WATCH(var, val) if (var == val) \
+	{\
+		ATLTRACE("Got value of " #val " (%d)\n", var) ; \
+	}
 
 /** We get a crack at messages before the are dispatched.
 */
 BOOL MemoryWindowFrame::PreTranslateMessage(MSG* pMsg)
 {
+	WATCH(pMsg->message, WM_DROPFILES) ;
+
 	if( m_min_view.IsWindow() && m_min_view.IsWindowVisible() )
 	{
 		return m_min_view.PreTranslateMessage( pMsg ) ;
@@ -2767,6 +2779,12 @@ LRESULT MemoryWindowFrame::on_drop(WindowsMessage &message)
 			this->load_old_preferences(filename) ;
 			return 0L ;
 		}
+		else if(ext.equals(".fprefx"))
+		{
+			const WORD old_language = m_appstate.m_preferred_gui_lang ;
+			load_new_preferences(filename, old_language);
+			return 0L ;
+		}
 		load(filename) ;
 	}
 
@@ -4377,9 +4395,7 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 	{
 	case 1:
 		ATLTRACE( "Load new preferences format\n" ) ;
-		m_props->load_file(static_cast<LPCTSTR>(filename)) ;
-		this->reflect_loaded_preferences(old_language) ;
-		get_glossary_window()->load_history() ;
+		load_new_preferences(filename, old_language);
 		break;
 
 	case 2:

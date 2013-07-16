@@ -15,7 +15,7 @@ using std::max ;
 #define _SCL_SECURE_NO_WARNINGS
 
 // Change these values to use different versions
-#define WINVER			0x0500  // Windows 2000
+#define WINVER			0x0600  // Windows 2000
 #define _WINVER			0x0500  // Windows 2000
 #define _WIN32_IE		0x0600  // we need 6 or higher...
 #define WIN32_IE		0x0600  // we need 6 or higher...

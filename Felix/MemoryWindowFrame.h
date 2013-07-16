@@ -405,6 +405,13 @@ public:
 	// ===================
 	LRESULT on_drop(WindowsMessage &message);
 
+	void load_new_preferences( const CString filename, const WORD old_language ) 
+	{
+		m_props->load_file(static_cast<LPCTSTR>(filename)) ;
+		this->reflect_loaded_preferences(old_language) ;
+		get_glossary_window()->load_history() ;
+	}
+
 	//
 	// other helpers
 	LRESULT handle_find() ;
