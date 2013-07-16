@@ -114,12 +114,12 @@ BOOL CHtmlView::PreTranslateMessage(MSG* pMsg)
 		return FALSE ;
 	}
 
-	if (! IsWindow())
+	if (pMsg->hwnd == m_hWnd || IsChild(pMsg->hwnd))
 	{
-		return FALSE ;
+		return (BOOL)SendMessage(WM_FORWARDMSG, 0, (LPARAM)pMsg);
 	}
 	
-	return (BOOL)SendMessage(WM_FORWARDMSG, 0, (LPARAM)pMsg);
+	return FALSE ;
 }
 
 // navigate
@@ -339,11 +339,10 @@ LRESULT CHtmlView::on_create(UINT uMsg, WPARAM wParam, LPARAM lParam )
 	if(SUCCEEDED(hRet))
 	{
 		const DWORD _DOCHOSTUIFLAG_THEME = 0x40000;
-		hRet = spHost->put_DocHostFlags(DOCHOSTUIFLAG_NO3DBORDER | _DOCHOSTUIFLAG_THEME);
+		hRet = spHost->put_DocHostFlags(DOCHOSTUIFLAG_NO3DBORDER | _DOCHOSTUIFLAG_THEME );
 		ATLASSERT(SUCCEEDED(hRet));
 	}
 #endif
-	
 	return 0;
 }
 
