@@ -308,7 +308,7 @@ public:
 	// These are the events we want callbacks on
 	BEGIN_SINK_MAP( CHtmlView )
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_BEFORENAVIGATE2,	  BeforeNavigate2,   &BeforeNavigate2Info )		// hyperlink clicked on
-		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_DOCUMENTCOMPLETE,  DocumentComplete,  &DocumentCompleteInfo )		// hyperlink clicked on
+		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_DOCUMENTCOMPLETE,  DocumentComplete,  &DocumentCompleteInfo )	// Document is complete.
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_TITLECHANGE,		  TitleChange,		 &TitleChangeInfo ) 
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_STATUSTEXTCHANGE,  StatusTextChange,  &StatusTextChangeInfo )	
 		SINK_ENTRY_INFO( ID_HTML_CTL_EVENT_ID, DIID_DWebBrowserEvents2, DISPID_NAVIGATECOMPLETE2, NavigateComplete2, &NavigateComplete2Info )	// UIActivate new document

@@ -325,7 +325,6 @@ LRESULT CHtmlView::on_create(UINT uMsg, WPARAM wParam, LPARAM lParam )
 	uMsg ;
 	wParam ;
 	lParam ;
-
 	
 #ifndef UNIT_TEST
 	// Create the control for me
