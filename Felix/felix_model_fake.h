@@ -53,9 +53,9 @@ public:
 		SENSE("get_memory_by_id") ;
 		return m_model->get_memory_by_id(id) ;
 	}
-	model_ptr create_memory_model(bool)
+	mem_engine::memory_pointer get_memory_at(size_t id)
 	{
-		app_props::props_ptr props = app_props::get_props() ;
-		return model_ptr(new mem_engine::memory_model_mem(props)) ;
+		SENSE("get_memory_by_id") ;
+		return m_model->get_memory_at(id) ;
 	}
 };

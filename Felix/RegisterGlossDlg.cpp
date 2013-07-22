@@ -962,18 +962,20 @@ If there are no glossaries, add one.
 ************************************/
 void CRegisterGlossDlg::fill_add_combo()
 {
-	boost::shared_ptr<mem_engine::memory_model> model = m_gloss_window->get_memory_model() ;
-	if (model->get_memories().empty())
+	model_iface_ptr model = m_gloss_window->get_memory_model() ;
+	if (model->empty())
 	{
 		model->add_memory() ;
 	}
 
 	// Re-fill the combo contents.
 	// This is in case the number/names of glossaries changed.
+	std::vector<wstring> names ;
+	model->get_memory_names(names) ;
 	m_AddCombo.ResetContent() ;
-	FOREACH(mem_engine::memory_pointer mem, model->get_memories())
+	FOREACH(wstring name, names)
 	{
-		m_AddCombo.AddString(get_mem_name(mem)) ;
+		m_AddCombo.AddString(name.c_str()) ;
 	}
 
 	m_AddCombo.SetCurSel(m_current_add_pos) ;

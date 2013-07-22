@@ -33,6 +33,7 @@
 #include "menu_helper.h"
 #include "zoom_dialog.h"
 #include "active_window.h"
+#include "FelixModelInterface.h"
 
 typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
@@ -205,7 +206,6 @@ public:
 	bool user_feedback( const CString &feedback, int pane = 0) ;
 	bool user_feedback( const UINT id, int pane = 0) ;
 	bool user_feedback( const tstring &feedback, int pane = 0) ;
-	mem_engine::memory_list & get_memories() ;
 	INT_PTR user_wants_to_save( const CString &f_name ) ;
 	INT_PTR check_save() ;
 
@@ -277,7 +277,7 @@ public:
 	virtual CString get_window_type_string() = 0 ;
 	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
 
-	virtual boost::shared_ptr<mem_engine::memory_model> get_memory_model() = 0 ;
+	virtual model_iface_ptr get_memory_model() = 0 ;
 	virtual edit_record_dlg_ptr get_editor() = 0 ;
 	
 } ;

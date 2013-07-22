@@ -7,24 +7,20 @@ FelixModel::FelixModel( app_props::props_ptr props, bool is_memory/*=true*/ ) :
 m_is_reverse_lookup(false),
 	m_props(props)
 {
-	m_memories = create_memory_model(is_memory) ;
+	if (is_memory)
+	{
+		m_memories = mem_engine::model_ptr(new mem_engine::memory_model_mem(m_props)) ;
+	}
+	else
+	{
+		m_memories = mem_engine::model_ptr(new mem_engine::memory_model_gloss(m_props)) ;
+	}
+
 }
 
 FelixModel::~FelixModel( void )
 {
 
-}
-
-model_ptr FelixModel::create_memory_model( bool is_memory/*=false*/ )
-{
-	if (is_memory)
-	{
-		return model_ptr(new mem_engine::memory_model_mem(m_props)) ;
-	}
-	else
-	{
-		return model_ptr(new mem_engine::memory_model_gloss(m_props)) ;
-	}
 }
 
 size_t FelixModel::get_first_mem_id()
@@ -57,5 +53,10 @@ memory_list & FelixModel::get_memories_needing_saving( memory_list &memories )
 {
 	m_memories->get_memories_needing_saving(memories) ;
 	return memories ;
+}
+
+mem_engine::memory_pointer FelixModel::get_memory_at( size_t index )
+{
+	return m_memories->get_memory_at(index) ;
 }
 

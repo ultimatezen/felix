@@ -722,10 +722,9 @@ bool GlossaryWindowFrame::add_record(record_pointer record, const CString gloss_
 
 bool GlossaryWindowFrame::add_record( record_pointer record, const size_t i )
 {
-	auto mempos = this->get_memories().begin() ;
-	std::advance(mempos, i) ;
-
-	return add_record(*mempos, record);
+	auto model = this->get_model() ;
+	auto mem = model->get_memory_at(i) ;
+	return add_record(mem, record);
 
 }
 
@@ -1959,7 +1958,7 @@ LRESULT GlossaryWindowFrame::on_memory_close()
 {
 	BANNER("CGlossaryDialog::on_memory_close") ;
 	// base case -- there are no memories
-	if (this->get_memories().empty())
+	if (this->get_model()->empty())
 	{
 		return 0L ;
 	}
@@ -2285,9 +2284,9 @@ int GlossaryWindowFrame::get_local_index( const int index )
 	return local_index ;
 }
 
-boost::shared_ptr<mem_engine::memory_model> GlossaryWindowFrame::get_memory_model()
+model_iface_ptr GlossaryWindowFrame::get_memory_model()
 {
-	return m_model->get_memories() ;
+	return m_model ;
 }
 
 void GlossaryWindowFrame::add_glossary( mem_engine::memory_pointer mem )

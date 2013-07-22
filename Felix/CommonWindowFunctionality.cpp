@@ -75,7 +75,7 @@ CCommonWindowFunctionality::~CCommonWindowFunctionality()
 
 CString CCommonWindowFunctionality::get_location()
 {
-	boost::shared_ptr<mem_engine::memory_model> model = this->get_memory_model() ;
+	auto model = this->get_memory_model() ;
 	memory_pointer mem = model->get_first_memory() ;
 	return mem->get_location() ;
 }
@@ -114,13 +114,6 @@ bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pan
 	return m_statusbar.user_feedback(feedback, pane) ;
 }
 //////////////////////// == end user-feedback related == //////////////////
-
-// get a list of memories
-memory_list & CCommonWindowFunctionality::get_memories()
-{
-	auto model = this->get_memory_model() ;
-	return model->get_memories() ;
-}
 
 // Function name	: user_wants_to_save
 // Make this a dedicated dialog.
@@ -809,7 +802,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 {
 	CMemoryManagerDlg dlg(app_props::get_props(), title_id) ;
 
-	dlg.set_memories( this->get_memory_model() ) ;
+	dlg.set_memories( this->get_memory_model()->get_memories() ) ;
 #ifdef UNIT_TEST
 	return true ;
 #else
@@ -829,7 +822,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 // Save all the memories for this window
 void CCommonWindowFunctionality::save_all_memories()
 {
-	memory_list &memories = this->get_memory_model()->get_memories() ;
+	memory_list &memories = this->get_memory_model()->get_memories()->get_memories() ;
 
 	FOREACH(memory_pointer mem, memories)
 	{

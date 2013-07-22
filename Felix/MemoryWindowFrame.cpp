@@ -4095,7 +4095,7 @@ void MemoryWindowFrame::check_placement_gloss( trans_match_container &PlacedMatc
 
 	pairings_t &pairings = match->match_pairing().get() ;
 
-	placement::gloss_placer placer(get_glossary_window()->get_memories()) ;
+	placement::gloss_placer placer(get_glossary_window()->get_model()->get_memories()->get_memories()) ;
 	trans_pair trans_segs( trans, trans ) ;
 
 	hole_pair_t holes ;
@@ -4936,7 +4936,7 @@ void MemoryWindowFrame::get_qc_messages( mem_engine::record_pointer record, std:
 		params.m_ignore_hira_kata = !! m_props->m_gloss_props.m_data.m_ignore_hir_kat ;
 		params.set_source(record->get_source_rich()) ;
 
-		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model() ;
+		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model()->get_memories() ;
 
 		search_match_container matches ;
 
@@ -5153,9 +5153,9 @@ bool MemoryWindowFrame::check_for_clashes( memory_type mem )
 	return true ;
 }
 
-boost::shared_ptr<mem_engine::memory_model> MemoryWindowFrame::get_memory_model()
+model_iface_ptr MemoryWindowFrame::get_memory_model()
 {
-	return m_model->get_memories() ;
+	return m_model ;
 }
 
 mem_engine::felix_query * MemoryWindowFrame::get_current_matches()

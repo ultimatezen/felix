@@ -521,7 +521,7 @@ public:
 
 	CString get_window_type_string();
 	bool check_for_clashes( memory_type mem );
-	boost::shared_ptr<mem_engine::memory_model> get_memory_model();
+	model_iface_ptr get_memory_model();
 
 	void set_bg_color_if_needed();
 

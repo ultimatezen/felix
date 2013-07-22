@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionRemoveGlossRecord)
 		gloss_window_pointer gloss_window = glosses.add(props) ; 
 
 		memory_pointer mem(new memory_local(props)) ;
-		gloss_window->get_memories().push_back(mem) ;
+		gloss_window->get_model()->insert_memory(mem) ;
 		record_pointer rec1 = make_record("aaa", "bbb") ;
 		record_pointer rec2 = make_record("yyy", "zzz") ;
 		gloss_window->add_record(mem, rec1) ;
@@ -390,7 +390,7 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionRemoveGlossRecord)
 		gloss_window_pointer gloss_window = glosses.add(props) ; 
 
 		memory_pointer mem(new memory_local(props)) ;
-		gloss_window->get_memories().push_back(mem) ;
+		gloss_window->get_model()->insert_memory(mem) ;
 		record_pointer rec1 = make_record("aaa", "bbb") ;
 		record_pointer rec2 = make_record("yyy", "zzz") ;
 		gloss_window->add_record(mem, rec1) ;
@@ -460,7 +460,7 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionPreShutdownSaveCheck)
 		gloss_window_pointer gloss_window = glosses.add(props) ; 
 
 		memory_pointer mem(new memory_local(props)) ;
-		gloss_window->get_memories().push_back(mem) ;
+		gloss_window->get_model()->insert_memory(mem) ;
 		record_pointer rec1 = make_record("aaa", "bbb") ;
 		gloss_window->add_record(mem, rec1) ;
 
@@ -475,7 +475,7 @@ BOOST_AUTO_TEST_SUITE(TestGlossWinCollectionPreShutdownSaveCheck)
 		gloss_window_pointer gloss_window = glosses.add(props) ; 
 
 		memory_pointer mem(new memory_local(props)) ;
-		gloss_window->get_memories().push_back(mem) ;
+		gloss_window->get_model()->insert_memory(mem) ;
 		record_pointer rec1 = make_record("aaa", "bbb") ;
 		gloss_window->add_record(mem, rec1) ;
 

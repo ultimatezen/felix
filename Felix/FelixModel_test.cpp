@@ -168,6 +168,46 @@ BOOST_AUTO_TEST_SUITE( TestFelixModel )
 
 	}
 
+	BOOST_AUTO_TEST_CASE(test_get_memory_by_name)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+
+		FelixModel model(props) ;
+
+		auto mem1 = model.add_memory();
+		auto mem2 = model.add_memory();
+		mem1->set_location(L"c:\\foo.ftm") ;
+		mem2->set_location(L"c:\\bar.ftm") ;
+
+		auto byname = model.get_memory_by_name(L"c:\\bar.ftm") ;
+
+		BOOST_CHECK_EQUAL(wstring(L"c:\\bar.ftm"), wstring((LPCWSTR)byname->get_location()));
+		BOOST_CHECK_EQUAL(wstring((LPCWSTR)mem2->get_location()), wstring((LPCWSTR)byname->get_location()));
+
+		BOOST_CHECK_EQUAL(mem2->get_id(), byname->get_id()) ;
+		BOOST_CHECK(mem1->get_id() != mem2->get_id()) ;
+	}
+
+
+	BOOST_AUTO_TEST_CASE(test_get_memory_names)
+	{
+		app_props::props_ptr props(new app_props::properties) ;
+
+		FelixModel model(props) ;
+
+		auto mem1 = model.add_memory();
+		auto mem2 = model.add_memory();
+		mem1->set_location(L"c:\\foo.ftm") ;
+		mem2->set_location(L"c:\\bar.ftm") ;
+
+		std::vector<wstring> names ;
+		model.get_memory_names(names) ;
+
+		BOOST_CHECK_EQUAL(2u, names.size());
+		BOOST_CHECK_EQUAL(names[0], L"c:\\foo.ftm");
+		BOOST_CHECK_EQUAL(names[1], L"c:\\bar.ftm");
+	}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

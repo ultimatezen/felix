@@ -120,3 +120,16 @@ mem_engine::memory_pointer FelixModelInterface::get_memory_by_name( CString name
 {
 	return get_memories()->get_memory_by_name(name) ;
 }
+
+// Retrieves the names (locations) of the TMs in the collection.
+// List is ordered by the order of the TMs.
+std::vector<wstring>& FelixModelInterface::get_memory_names( std::vector<wstring>& names )
+{
+	FOREACH(memory_pointer mem, get_memories()->get_memories())
+	{
+		wstring location = (LPCWSTR)mem->get_fullpath();
+		names.push_back(location) ;
+	}
+	std::reverse(names.begin(), names.end()) ;
+	return names ;
+}

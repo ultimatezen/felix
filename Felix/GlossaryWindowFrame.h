@@ -488,7 +488,7 @@ public:
 	LPCTSTR get_save_filter() ;
 	LPCTSTR get_open_filter() ;
 
-	boost::shared_ptr<mem_engine::memory_model> get_memory_model();
+	model_iface_ptr get_memory_model();
 	CString get_window_type_string() ;
 
 	void add_glossary(mem_engine::memory_pointer mem);
