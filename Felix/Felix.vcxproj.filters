@@ -987,9 +987,6 @@
     <ClCompile Include="ConnectionDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="EditModeFindDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
@@ -1100,6 +1097,9 @@
     </ClCompile>
     <ClCompile Include="PropertiesDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1471,9 +1471,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_testing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\UserName.h">
@@ -1957,6 +1954,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="memory_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpptempl\unit_testing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

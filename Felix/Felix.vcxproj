@@ -332,7 +332,9 @@ echo Protection complete!
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp" />
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\lua-5.2.2\src\lapi.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">NotUsing</PrecompiledHeader>
@@ -1151,6 +1153,7 @@ echo Protection complete!
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpptempl\unit_testing.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lapi.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lauxlib.h" />
     <ClInclude Include="..\..\lua-5.2.2\src\lcode.h" />
@@ -1339,7 +1342,6 @@ echo Protection complete!
     <ClInclude Include="..\common\xpmenu\ToolBarXP.h" />
     <ClInclude Include="..\common\xpmenu\Tools.h" />
     <ClInclude Include="..\common\ui.h" />
-    <ClInclude Include="unit_testing.h" />
     <ClInclude Include="..\common\UserName.h" />
     <ClInclude Include="UserStringDlg.h" />
     <ClInclude Include="view_interface.h" />
