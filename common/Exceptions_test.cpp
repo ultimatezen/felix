@@ -4,6 +4,7 @@
 #include <boost/test/unit_test.hpp>
 
 #ifdef UNIT_TEST
+// Allow streaming of wstring to ostream
 
 BOOST_AUTO_TEST_SUITE( ExceptionTest )
 
