@@ -133,3 +133,13 @@ std::vector<wstring>& FelixModelInterface::get_memory_names( std::vector<wstring
 	std::reverse(names.begin(), names.end()) ;
 	return names ;
 }
+
+size_t FelixModelInterface::total_memory_size()
+{
+	return get_memories()->total_memory_size() ;
+}
+
+void FelixModelInterface::reduce_size_to( const size_t max_size )
+{
+	get_memories()->reduce_size_to(max_size) ;
+}

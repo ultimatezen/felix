@@ -811,7 +811,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 		return false ;
 	}
 
-	dlg.get_memories( this->get_memory_model() ) ;
+	dlg.get_memories( this->get_memory_model()->get_memories() ) ;
 
 	this->PostMessage( WM_COMMAND, MAKEWPARAM( IDC_DEMO_CHECK_EXCESS, 100 ), 0 ) ;
 

@@ -16,6 +16,7 @@ public:
 	bool empty();
 	bool has_name_clash(CString location);
 	void record_loaded_memories(std::vector<wstring> &local, std::vector<wstring> &remote);
+	size_t total_memory_size();
 
 	// getting
 	mem_engine::memory_iterator begin();
@@ -29,6 +30,7 @@ public:
 	virtual void clear();
 
 	void remove_record(mem_engine::record_pointer record);
+	void reduce_size_to( const size_t max_size );
 
 	// adding
 	void insert_memory(memory_type mem);
