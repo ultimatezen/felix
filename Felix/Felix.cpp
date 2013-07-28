@@ -47,7 +47,19 @@
 #include "DispatchWrapper.h"
 #include "atlscintilla.h"
 
-#include "unit_test_config.h"
+#ifdef UNIT_TEST
+
+#ifndef BOOST_TEST_MODULE
+	#define BOOST_TEST_MODULE FelixUnitTests
+#endif
+
+	#define BOOST_TEST_MAIN
+	#include "unit_test_config.h"
+	#include "unit_testing.h"
+	#include <boost/test/unit_test_suite.hpp>
+
+#endif
+
 #include "LuaState.h"
 
 using namespace except ;
@@ -277,6 +289,9 @@ public:
 	}
 };
 
+#ifdef UNIT_TEST
+
+
 int do_unit_testing(HINSTANCE hInstance)
 {
 	try
@@ -315,7 +330,7 @@ int do_unit_testing(HINSTANCE hInstance)
 	return EXIT_SUCCESS ;
 
 }
-
+#endif
 /*!
  * Our program's entry point.
  * 
