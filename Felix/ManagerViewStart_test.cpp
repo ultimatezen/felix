@@ -62,9 +62,9 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewStart )
 
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data) ;
-		BOOST_CHECK(data.find(L"message") != data.end()) ;
-		BOOST_CHECK(data.find(L"glosslist") != data.end()) ;
-		BOOST_CHECK(data.find(L"memlist") != data.end()) ;
+		BOOST_CHECK(data.has(L"message")) ;
+		BOOST_CHECK(data.has(L"glosslist")) ;
+		BOOST_CHECK(data.has(L"memlist")) ;
 	}
 	BOOST_AUTO_TEST_CASE(set_template_data_mem)
 	{
@@ -72,9 +72,9 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewStart )
 
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data) ;
-		BOOST_CHECK(data.find(L"message") != data.end()) ;
-		BOOST_CHECK(data.find(L"glosslist") == data.end()) ;
-		BOOST_CHECK(data.find(L"memlist") != data.end()) ;
+		BOOST_CHECK(data.has(L"message")) ;
+		BOOST_CHECK(! data.has(L"glosslist")) ;
+		BOOST_CHECK(data.has(L"memlist")) ;
 	}
 	BOOST_AUTO_TEST_CASE(set_template_data_gloss)
 	{
@@ -82,9 +82,9 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewStart )
 
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data) ;
-		BOOST_CHECK(data.find(L"message") != data.end()) ;
-		BOOST_CHECK(data.find(L"glosslist") != data.end()) ;
-		BOOST_CHECK(data.find(L"memlist") == data.end()) ;
+		BOOST_CHECK(data.has(L"message")) ;
+		BOOST_CHECK(data.has(L"glosslist")) ;
+		BOOST_CHECK(! data.has(L"memlist")) ;
 	}
 
 	// show_content

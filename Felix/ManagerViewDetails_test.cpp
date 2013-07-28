@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_SUITE( TestManagerViewDetails )
 
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data) ;
-		BOOST_CHECK(data.find(L"message") != data.end()) ;
+		BOOST_CHECK(data.has(L"message")) ;
 	}
 	BOOST_AUTO_TEST_CASE(test_show_content_view)
 	{

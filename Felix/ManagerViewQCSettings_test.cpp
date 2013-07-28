@@ -45,7 +45,7 @@ struct qcsettings_view_setup
 
 		cpptempl::data_map data ;
 		setup.view.set_template_data(data, & props->m_qc_props.m_data) ;
-		BOOST_CHECK(data.find(L"message") != data.end()) ;
+		BOOST_CHECK(data.has(L"message")) ;
 		BOOST_CHECK(data[L"numbers"]->getvalue().empty()) ;
 		BOOST_CHECK(data[L"allcaps"]->getvalue().empty()) ;
 		BOOST_CHECK(data[L"gloss"]->getvalue().empty()) ;
