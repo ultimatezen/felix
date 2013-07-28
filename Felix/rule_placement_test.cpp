@@ -6,6 +6,8 @@
 
 #ifdef UNIT_TEST
 
+#include "unit_testing.h"
+
 using namespace mem_engine ;
 
 #define MAKE_A_HOLE(X) 	rp::hole_pair_t X ; \
@@ -49,7 +51,8 @@ BOOST_AUTO_TEST_SUITE( test_regex_rule )
 		BOOST_CHECK_EQUAL(3u, replacements.size()) ;
 		for (size_t i=replacements.size(); i<3; ++i)
 		{
-			BOOST_CHECK_EQUAL(replacements[i], std::make_pair(matches[i], matches[i])) ;
+			BOOST_CHECK_EQUAL(replacements[i].first, matches[i]) ;
+			BOOST_CHECK_EQUAL(replacements[i].second, matches[i]) ;
 		}
 	}
 
@@ -62,7 +65,8 @@ BOOST_AUTO_TEST_SUITE( test_regex_rule )
 		std::vector<std::pair<wstring, wstring> > replacements;
 		rule.get_replacements(matches, replacements) ;
 		BOOST_CHECK_EQUAL(1u, replacements.size()) ;
-		BOOST_CHECK_EQUAL(replacements[0], placement::repl_t(L"x", L"y")) ;
+		BOOST_CHECK_EQUAL(replacements[0].first, placement::repl_t(L"x", L"y").first) ;
+		BOOST_CHECK_EQUAL(replacements[0].second, placement::repl_t(L"x", L"y").second) ;
 	}
 
 	BOOST_AUTO_TEST_CASE( test_get_replacements_twice )
@@ -81,7 +85,8 @@ BOOST_AUTO_TEST_SUITE( test_regex_rule )
 		rule.get_replacements(matches, replacements) ;
 
 		BOOST_CHECK_EQUAL(5u, replacements.size()) ;
-		BOOST_CHECK_EQUAL(replacements[3], std::make_pair(matches[0], matches[0])) ;
+		BOOST_CHECK_EQUAL(replacements[3].first, matches[0]) ;
+		BOOST_CHECK_EQUAL(replacements[3].second, matches[0]) ;
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

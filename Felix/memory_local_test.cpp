@@ -5,6 +5,7 @@
 
 #ifdef UNIT_TEST
 
+#include "unit_testing.h"
 #include "MockListener.h"
 #include <boost/test/unit_test.hpp>
 #include "input_device_fake.h"
@@ -22,7 +23,8 @@ BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
 		key_type expected(L"foo", L"bar") ;
 		record_pointer rec = make_record(expected.first, expected.second) ;
 		key_type actual = mem.get_key(rec) ;
-		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected.first, actual.first) ;
+		BOOST_CHECK_EQUAL(expected.second, actual.second) ;
 	}
 	BOOST_AUTO_TEST_CASE( create_key_single )
 	{
@@ -31,7 +33,8 @@ BOOST_AUTO_TEST_SUITE( TestMemoryMapRecords )
 		key_type expected(L"foo", L"") ;
 		record_pointer rec = make_record("foo", "bar") ;
 		key_type actual = mem.get_key(rec) ;
-		BOOST_CHECK_EQUAL(expected, actual) ;
+		BOOST_CHECK_EQUAL(expected.first, actual.first) ;
+		BOOST_CHECK_EQUAL(expected.second, actual.second) ;
 		get_props()->m_mem_props.m_data.m_one_trans_per_source = FALSE ;
 	}
 	BOOST_AUTO_TEST_CASE( record_exists_false )
