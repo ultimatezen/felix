@@ -331,7 +331,6 @@ public:
 	// ========================
 	BEGIN_MSG_MAP_EX( GlossaryWindowFrame )
 	MSG_TRY
-//		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 		MSG_HANDLER_0(WM_CREATE, on_create)
 		MSG_HANDLER_0(WM_DESTROY, OnDestroy)
 		// we need the generic handler, because we pass on the size command to the status bar
