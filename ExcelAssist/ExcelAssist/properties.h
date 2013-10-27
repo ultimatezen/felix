@@ -101,6 +101,8 @@ class CPageSegmentation :
 public:
 	static const int IDD = id_type ;
 
+	CPageSegmentation() : m_properties(NULL) {}
+	
 	void set_props( app_state *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
@@ -146,6 +148,8 @@ class CPageTransHist :
 public:
 	static const int IDD = id_type ;
 
+	CPageTransHist() : m_properties(NULL) {}
+	
 	void set_props( app_state *props );
 
 	LRESULT OnInitDialog(UINT, WPARAM, LPARAM, BOOL&);
