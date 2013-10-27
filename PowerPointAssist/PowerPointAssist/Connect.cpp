@@ -1555,7 +1555,7 @@ void CConnect::set_english_trans_menu_text()
 	m_menu_help->put_Caption( caption ) ;
 	m_menu_help->put_TooltipText( tooltip ) ;
 
-	caption = L"S&with Menu to Japanese" ;
+	caption = L"S&witch Menu to Japanese" ;
 	tooltip = L"Show Japanese GUI" ;
 	m_menu_gui->put_Caption( caption ) ;
 	m_menu_gui->put_TooltipText( tooltip ) ;
