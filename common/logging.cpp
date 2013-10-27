@@ -2,7 +2,7 @@
 #include "logging.h"
 #include "comdef.h"
 #include "FileOpHandler.h"
-
+#include "dispatchwrapper.h"
 #include "Path.h"
 #include "stringconversions.h"
 
@@ -163,8 +163,7 @@ void logging::send_report(const CString language, const CString filename)
 	}
 }
 
-
-file_logger::file_logger()
+CString get_logfile_name() 
 {
 	CString basepath = fileops::get_local_appdata_folder() ;
 
@@ -172,7 +171,13 @@ file_logger::file_logger()
 	pathname.Append(CString(_T("Felix"))) ;
 	pathname.Append(CString(_T("logs"))) ;
 	pathname.Append(CString(LOGFILE_NAME)) ;
-	m_logfile_name = pathname.Path() ;
+	return pathname.Path();
+}
+
+
+file_logger::file_logger()
+{
+	m_logfile_name = get_logfile_name() ;
 }
 
 void file_logger::init()

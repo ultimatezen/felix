@@ -118,6 +118,7 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/regex.hpp>
+#include <boost/log/trivial.hpp>
 
 #include <boost/foreach.hpp>
 using namespace boost::foreach ;

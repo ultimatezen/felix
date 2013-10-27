@@ -34,6 +34,8 @@ public:
 
 typedef boost::shared_ptr<logger> logger_ptr ;
 
+CString get_logfile_name() ;
+
 class file_logger : public logger
 {
 	CString	m_logfile_name ;
@@ -41,6 +43,9 @@ public:
 	DECLARE_SENSING_VAR ;
 
 	file_logger();
+
+
+
 	~file_logger()
 	{
 	}
