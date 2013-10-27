@@ -334,6 +334,8 @@ echo Protection complete!
     </ClCompile>
     <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\lua-5.2.2\src\lapi.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">NotUsing</PrecompiledHeader>
