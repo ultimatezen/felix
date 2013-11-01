@@ -201,15 +201,19 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_devi
 	switch ( get_bom(file_name, input) )
 	{
 	case file::BOM_LE:
+		logging::log_verbose("Loading TMX file as UTF-16 encoding") ;
 		load_utf16(file_name, input) ;
 		break ;
 	case file::BOM_UTF8: case file::BOM_UNKNOWN:
+		logging::log_verbose("Loading TMX file as UTF-8 encoding") ;
 		load_utf8(file_name, input) ;
 		break ;
 	case file::BOM_UTF7: 
+		logging::log_verbose("Loading TMX file as UTF-7 encoding") ;
 		load_utf7(file_name, input) ;
 		break ;
 	case file::BOM_BE:
+		logging::log_verbose("Loading TMX file as UTF-16-BE encoding") ;
 		load_utf16be(file_name, input) ;
 		break ;
 	default:
@@ -235,6 +239,7 @@ memory_pointer CTMXReader::load_tmx_memory(const CString & file_name, input_devi
 	// the user select the source language as well.
 	if (! srclang_in_languages(languages))
 	{
+		logging::log_verbose("Getting source and target languages from user") ;
 		CTMXImportLangsDlg dlg ;
 		dlg.set_languages( target_languages ) ;
 #ifdef UNIT_TEST
@@ -516,6 +521,7 @@ file::BYTE_ORDER_MARK CTMXReader::get_bom(const CString & file_name, input_devic
 
 void CTMXReader::load_utf16(const CString & file_name, input_device_ptr input)
 {
+	logging::log_verbose("Loading TMX file with UTF-16 encoding") ;
 	LPCWSTR raw_text = input->create_view_wchar(file_name) ;
 	m_text = raw_text+1 ;
 	m_reader.set_buffer(m_text.c_str()) ;
