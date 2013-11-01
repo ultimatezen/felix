@@ -7,6 +7,14 @@
 #include "UserName.h"
 #include "Felix_properties.h"
 #include "record.h"
+#include "logging.h"
+
+#define LOCK_PROTECT(FIELD) \
+	if (is_locked())\
+	{\
+	logging::log_debug("Cannot set " #FIELD ": memory is locked"); \
+	return ;	\
+	}
 
 namespace mem_engine
 {
@@ -109,92 +117,80 @@ namespace mem_engine
 
 	void memory_header::set_creator( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(creator)
+		logging::log_verbose("Setting creator to " + string2string(setting)) ;
 		m_creator = setting ;
 	}
 	void memory_header::set_field( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(field)
+		logging::log_verbose("Setting field to " + string2string(setting)) ;
 		m_field = setting ;
 	}
 	void memory_header::set_created_on( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(created)
+		logging::log_verbose("Setting creation date to " + string2string(setting)) ;
 		m_created_on = setting ;
 	}
 	void memory_header::set_source_language( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(source_language)
+		logging::log_verbose("Setting source language to " + string2string(setting)) ;
 		m_source_language = setting ;
 	}
 	void memory_header::set_target_language( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
-		m_target_language = setting ;
+		LOCK_PROTECT(target_language)
+		logging::log_verbose("Setting target language to " + string2string(setting)) ;
+	 	m_target_language = setting ;
 	}
 	void memory_header::set_client( const wstring setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(client)
+		logging::log_verbose("Setting client to " + string2string(setting)) ;
 		m_client = setting ;
 	}
 	void memory_header::set_count( const long setting ) 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(count)
+		logging::log_verbose("Setting count to " + int2string(setting)) ;
 		m_count = setting ;
 	}
 	void memory_header::set_locked_on( ) 
 	{
+		logging::log_verbose("Locking TM") ;
 		m_is_locked = true ;
 	}
 	void memory_header::set_locked_off( ) 
 	{
+		logging::log_verbose("Unlocking TM") ;
 		m_is_locked = false ;
 	}
 	void memory_header::set_is_memory_on() 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(memory_on)
+		logging::log_verbose("Setting TM type to memory") ;
 		m_is_memory = true ;
 	}
 	void memory_header::set_is_memory_off() 
 	{
-		if ( is_locked() )
-		{
-			return ;
-		}
+		LOCK_PROTECT(memory_off)
+		logging::log_verbose("Setting TM type to glossary") ;
 		m_is_memory = false ;
 	}
 
 	void memory_header::set_creation_tool( const wstring setting )
 	{
+		LOCK_PROTECT(creation_tool)
+		logging::log_verbose("Setting creation tool to " + string2string(setting)) ;
 		m_creation_tool = setting ;
 	}
 
 	void memory_header::set_creation_tool_version( const wstring setting )
 	{
+		LOCK_PROTECT(creation_tool_version)
+		logging::log_verbose("Setting creation tool version to " + string2string(setting)) ;
 		m_creation_tool_version = setting ;
 	}
 
@@ -202,6 +198,11 @@ namespace mem_engine
 
 	memory_header& memory_header::operator =(const memory_header &rhs)
 	{
+		if (is_locked())
+		{
+			logging::log_debug("Cannot use assignment operator when memory is locked"); 
+			return *this;
+		}		
 		internal_copy( rhs ) ;
 		return *this ;
 	}
@@ -227,10 +228,10 @@ namespace mem_engine
 		fill_value(reader, L"target_language", m_target_language) ;
 
 		fill_value(reader, L"client", m_client) ;
-		fill_value(reader, L"locked", m_is_locked) ;
 		fill_value(reader, L"is_memory", m_is_memory) ;
 		fill_value(reader, L"creation_tool", m_creation_tool) ;
 		fill_value(reader, L"creation_tool_version", m_creation_tool_version) ;
+		fill_value(reader, L"locked", m_is_locked) ;
 
 		// num_records
 		wstring header_field = get_header_field( reader, L"num_records" ) ;
@@ -365,18 +366,21 @@ namespace mem_engine
 
 	void memory_header::set_creator_to_current_user()
 	{
+		LOCK_PROTECT(creator);
 		wstring creator = get_current_user();
 		set_creator( creator ) ;
 	}
 
 	void memory_header::set_modified_now()
 	{
+		LOCK_PROTECT(modified_date)
 		misc_wrappers::date modified_date ;
 		modified_date.set_to_local_time() ;
 
 		m_modified_on = string2wstring( modified_date.get_date_time_string( ) ) ;
 	}
 
+	/// TODO: IOC (don't read file right here)
 	wstring memory_header::get_current_user()
 	{
 		app_props::properties_general props ;
