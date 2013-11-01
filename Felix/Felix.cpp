@@ -114,8 +114,10 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 	ATLASSERT( ! view.m_message_map.empty() ) ;
 	
+	logging::log_verbose("Creating Felix window") ;
 	if(view.CreateEx() == NULL)
 	{
+		logging::log_error("Failed to create Felix window") ;
 		ATLTRACE(_T("Main window creation failed!\n"));
 		return 0;
 	}
@@ -180,6 +182,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		// unregister COM component
 		if( ! _tcsicmp( lpszToken, _T("UnregServer") ) )
 		{
+			logging::log_debug("Unregistering Felix COM server") ;
 			nRet = _Module.UnregisterServer();
 			bRun = false;
 			break;
@@ -252,6 +255,7 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 		// The user can then create the main window from the App object (App.Visible = TRUE).
 		if(bAutomation)
 		{
+			logging::log_debug("Running Felix via automation") ;
 			CMessageLoop theLoop;
 			_Module.AddMessageLoop(&theLoop);
 			
@@ -310,20 +314,23 @@ int do_unit_testing(HINSTANCE hInstance)
 		{
 			::MessageBeep(MB_ICONSTOP) ;
 			ATLTRACE("ERRORS IN UNIT TESTS!\n") ;
+			logging::log_warn("ERRORS IN UNIT TESTS!") ;
 		}
 		else
 		{
 			::MessageBeep(MB_ICONINFORMATION) ;
 			ATLTRACE("Boost unit tests: 0 errors\n\nok.\n") ;
+			logging::log_debug("Boost unit tests: 0 errors\n\t\tok.") ;
 		}
 	}
 	catch (CException& e)
 	{
-		e ;
+		logging::log_exception(e);
 	}
 	catch(...)
 	{
 		ATLTRACE("whaaa?\n");
+		ATLASSERT(FALSE && "Exception running unit tests") ;
 	}
 
 	_Module.Term() ;
@@ -344,22 +351,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	// and sets up float exceptions as well
 	set_up_exception_handling() ;
 	_set_invalid_parameter_handler((_invalid_parameter_handler)felix_invalid_parameter_handler);
-	
-	try
-	{
-		logging::log_debug("Launching Felix") ;
-	}
-	catch (_com_error& e)
-	{
-		// logging has failed somehow
-		e ;
-		ATLASSERT(FALSE && "Exception trying to do logging") ;
-	}
-	catch(...)
-	{
-		ATLASSERT(FALSE && "Exception trying to do logging") ;
-	}
-
+	logging::set_logger(logger_ptr(new file_logger));
+	logging::log_debug("Launching Felix") ;
 
 	logging::log_debug("Loading Scintilla library") ;
 	WTL::ScintillaModule &scintilla_module = WTL::ScintillaModule::instance() ;
