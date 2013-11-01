@@ -1205,6 +1205,7 @@ echo Protection complete!
     <ClInclude Include="number_placement.h" />
     <ClInclude Include="placement_holes.h" />
     <ClInclude Include="revertible_action.h" />
+    <ClInclude Include="string_logger.h" />
     <ClInclude Include="tmx_dialogs.h" />
     <ClInclude Include="unit_test_config.h" />
     <ClInclude Include="xml_utils.h" />
