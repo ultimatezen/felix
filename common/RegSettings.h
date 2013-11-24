@@ -1,33 +1,39 @@
-/*!
-	@file RegSettings.h
-	@brief Classes for persisting registry info
-	@date 2005/06/22
-	Time: 9:12:20
-	@author Ryan Ginstrom
- */
+/** Classes to persist window and other UI info.
+
+	Persists window, rebar, and splitter state in the registry.
+*/
 
 #pragma once
 
-/**
-	@class CWindowSettings
-	@brief Wrapper for WINDOWPLACEMENT struct.
+/** Wrapper for WINDOWPLACEMENT struct.
+
+	Initializes on construction.
  */
+struct CWindowPlacement : public WINDOWPLACEMENT
+{
+	CWindowPlacement();
+};
+
+/** Persists window settings (pos, size, show state).
+*/
 class CWindowSettings
 {
 public:
-	WINDOWPLACEMENT m_WindowPlacement;
+	CWindowPlacement m_WindowPlacement;
 
 	CWindowSettings();
+	/// Retrieves the window settings from Wnd.
 	void GetFrom(CWindow& Wnd);
-	void ApplyTo(CWindow& Wnd, int nCmdShow = SW_SHOWNORMAL)const;
+	/// Applies the window settings to Wnd.
+	void ApplyTo(CWindow& Wnd, int nCmdShow = SW_SHOWNORMAL) const;
 
+	/// Loads window settings from registry.
 	bool Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER);
-	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER)const;
+	/// Saves window settings to registry.
+	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER) const;
 };
 
-/**
-	@class CReBarSettings
-	@brief Persists Rebar settings.
+/** Persists Rebar settings.
  */
 class CReBarSettings
 {
@@ -44,35 +50,14 @@ public:
 	CReBarSettings();
 	~CReBarSettings();
 
+	/// Retrieves the rebar settings from ReBar.
 	void GetFrom(CReBarCtrl& ReBar);
-	void ApplyTo(CReBarCtrl& ReBar)const;
+	/// Applies the rebar settings to ReBar.
+	void ApplyTo(CReBarCtrl& ReBar) const;
 
+	/// Loads rebar settings from registry.
 	bool Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER);
-	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER)const;
-};
-
-/**
-	@class CSplitterSettings
-	@brief Persists splitter settings.
- */
-class CSplitterSettings
-{
-public:
-	DWORD m_dwPos;
-
-	CSplitterSettings() : m_dwPos(0) {}
-
-	template <class T> void GetFrom(const T& Splitter)
-	{
-		m_dwPos = Splitter.GetSplitterPos();
-	}
-
-	template <class T> void ApplyTo(T& Splitter)const
-	{
-		Splitter.SetSplitterPos(m_dwPos);
-	}
-
-	bool Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER);
-	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER)const;
+	/// Saves rebar settings to registry.
+	bool Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey = HKEY_CURRENT_USER) const;
 };
 

@@ -7,6 +7,23 @@
 #include "StdAfx.h"
 #include "memory_debugging.h"
 #include "RegSettings.h"
+#include "logging.h"
+
+CWindowPlacement::CWindowPlacement()
+{
+	this->length = sizeof(*this);
+	this->flags = 0;
+	this->ptMinPosition.x=0;
+	this->ptMinPosition.y=0;
+	this->ptMaxPosition.x=0;
+	this->ptMaxPosition.y=0;
+
+	CRect rc;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, rc, 0);
+	rc.DeflateRect(100,100);
+	this->rcNormalPosition = rc;
+	this->showCmd = SW_SHOWNORMAL;
+}
 
 
 //////////////////////////////////////////////////////////////////////
@@ -16,22 +33,12 @@
 
 CWindowSettings::CWindowSettings()
 {
-	m_WindowPlacement.length = sizeof(m_WindowPlacement);
-	m_WindowPlacement.flags = 0;
-	m_WindowPlacement.ptMinPosition.x=0;
-	m_WindowPlacement.ptMinPosition.y=0;
-	m_WindowPlacement.ptMaxPosition.x=0;
-	m_WindowPlacement.ptMaxPosition.y=0;
-	
-	CRect rc;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, rc, 0);
-	rc.DeflateRect(100,100);
-	m_WindowPlacement.rcNormalPosition = rc;
-	m_WindowPlacement.showCmd = SW_SHOWNORMAL;
+
 }
 
 bool CWindowSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)
 {
+	logging::log_verbose("Loading window settings: " + string2string(wstring(szRegKey)) + "/" + string2string(wstring(szPrefix)));
 	CRegKey reg;
 	DWORD err = reg.Open(hkRootKey, szRegKey, KEY_READ);
 
@@ -48,6 +55,7 @@ bool CWindowSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* 
 
 bool CWindowSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)const
 {
+	logging::log_verbose("Saving window settings: " + string2string(wstring(szRegKey)) + "/" + string2string(wstring(szPrefix)));
 	CRegKey reg;
 	DWORD err = reg.Create(hkRootKey, szRegKey);
 
@@ -62,21 +70,26 @@ bool CWindowSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* 
 
 void CWindowSettings::GetFrom(CWindow& Wnd)
 {
+	logging::log_verbose("Retrieving window settings") ;
 	ATLASSERT(Wnd.IsWindow());
 	Wnd.GetWindowPlacement(&m_WindowPlacement);
 }
 
 void CWindowSettings::ApplyTo(CWindow& Wnd, int nCmdShow/* = SW_SHOWNORMAL*/)const
 {
+	logging::log_verbose("Applying window settings") ;
 	ATLASSERT(Wnd.IsWindow());
 
 	Wnd.SetWindowPlacement(&m_WindowPlacement);
 	
 	if(SW_SHOWNORMAL != nCmdShow)	
+	{
 		Wnd.ShowWindow(nCmdShow);		
-	else
-	if(m_WindowPlacement.showCmd == SW_MINIMIZE || m_WindowPlacement.showCmd == SW_SHOWMINIMIZED)
+	}
+	else if(m_WindowPlacement.showCmd == SW_MINIMIZE || m_WindowPlacement.showCmd == SW_SHOWMINIMIZED)
+	{
 		Wnd.ShowWindow(SW_SHOWNORMAL);
+	}
 }
 
 
@@ -97,13 +110,18 @@ CReBarSettings::CReBarSettings()
 CReBarSettings::~CReBarSettings()
 {
 	if(m_pBands != NULL)
+	{
 		delete[] m_pBands;
+	}
 }
 
 bool CReBarSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)
 {
+	logging::log_verbose("Loading rebar settings") ;
 	if(m_pBands != NULL)
+	{
 		delete[] m_pBands;
+	}
 	m_pBands = NULL;
 	m_cbBandCount = 0;
 
@@ -134,6 +152,7 @@ bool CReBarSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* =
 
 bool CReBarSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)const
 {
+	logging::log_verbose("Saving rebar settings") ;
 	CRegKey reg;
 	DWORD err = reg.Create(hkRootKey, szRegKey);
 	if(err == ERROR_SUCCESS)
@@ -157,6 +176,7 @@ bool CReBarSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* =
 
 void CReBarSettings::GetFrom(CReBarCtrl& ReBar)
 {
+	logging::log_verbose("Retrieving rebar settings") ;
 	ATLASSERT(ReBar.IsWindow());
 
 	if(m_pBands != NULL)
@@ -180,6 +200,7 @@ void CReBarSettings::GetFrom(CReBarCtrl& ReBar)
 
 void CReBarSettings::ApplyTo(CReBarCtrl& ReBar)const
 {
+	logging::log_verbose("Applying rebar settings") ;
 	ATLASSERT(ReBar.IsWindow());
 	for(UINT i = 0; i < m_cbBandCount; i++)
 	{
@@ -199,29 +220,4 @@ void CReBarSettings::ApplyTo(CReBarCtrl& ReBar)const
 	}
 }
 
-//////////////////////////////////////////////////////////////////////
-// CSplitterSettings
 
-#define S_SPLITTER_POS _T("SplitterPos")
-
-bool CSplitterSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)
-{
-	CRegKey reg;
-	DWORD err = reg.Open(hkRootKey, szRegKey, KEY_READ);
-	if(err == ERROR_SUCCESS)
-	{
-		err = reg.QueryDWORDValue(CString(szPrefix)+ S_SPLITTER_POS, m_dwPos);
-	}
-	return err == ERROR_SUCCESS;
-}
-
-bool CSplitterSettings::Save(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* = HKEY_CURRENT_USER*/)const
-{
-	CRegKey reg;
-	DWORD err = reg.Create(hkRootKey, szRegKey);
-	if(err == ERROR_SUCCESS)
-	{
-		reg.SetDWORDValue(CString(szPrefix)+ S_SPLITTER_POS, m_dwPos);
-	}
-	return err == ERROR_SUCCESS;
-}
