@@ -1101,6 +1101,9 @@
     <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="RegSettings_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="copydata.bat">
@@ -1960,6 +1963,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="string_logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\TabbedFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -122,7 +122,7 @@ echo Server registration done!
       <ErrorCheckStubData>true</ErrorCheckStubData>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/Zm500  /Zc:auto %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zm500  /Zc:auto /Bv %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;UNICODE;STRICT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -646,6 +646,7 @@ echo Protection complete!
     <ClCompile Include="gloss_win_collection_test.cpp" />
     <ClCompile Include="memory_fake.cpp" />
     <ClCompile Include="process.cpp" />
+    <ClCompile Include="RegSettings_test.cpp" />
     <ClCompile Include="rule_placement.cpp" />
     <ClCompile Include="rule_placement_test.cpp" />
     <ClCompile Include="HrefTags.cpp" />
@@ -1190,6 +1191,7 @@ echo Protection complete!
     <ClInclude Include="..\common\menu_helper.h" />
     <ClInclude Include="..\common\ShellCtrls.h" />
     <ClInclude Include="..\common\system_paths.h" />
+    <ClInclude Include="..\common\TabbedFrame.h" />
     <ClInclude Include="..\common\window_object.h" />
     <ClInclude Include="..\common\xml_writer.h" />
     <ClInclude Include="active_window.h" />
