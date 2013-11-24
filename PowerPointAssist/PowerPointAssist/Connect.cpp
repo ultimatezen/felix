@@ -46,6 +46,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication, AddInDesignerObject
 {
 	try
 	{
+		logging::set_logger(logger_ptr(new file_logger));
 		logging::log_debug("PowerPoint Assist :: OnConnection") ;
 
 

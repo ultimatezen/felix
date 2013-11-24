@@ -114,7 +114,8 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 {
 	try
 	{
-		logging::log_debug("CConnect::OnConnection") ;
+		logging::set_logger(logger_ptr(new file_logger));
+		logging::log_debug("OnConnection") ;
 		try
 		{
 			set_up_exception_handling() ;

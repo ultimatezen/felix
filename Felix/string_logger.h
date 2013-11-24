@@ -30,6 +30,7 @@ struct StringLoggerTester
 {
 	StringLoggerTester() : out(new string_logger) { logging::set_logger(logger_ptr(out)); }
 	string get_log() { return out->out.str() ;}
+	bool has_text(string text) { return get_log().find(text) != string::npos ; }
 	string_logger *out;
 };
 

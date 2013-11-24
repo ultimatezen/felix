@@ -174,6 +174,7 @@ STDMETHODIMP CConnect::OnConnection(IDispatch *pApplication,
 
 	try 
 	{
+		logging::set_logger(logger_ptr(new file_logger));
 		logging::log_debug("OnConnection") ;
 
 		luawrapper::LuaState lua_state ;
