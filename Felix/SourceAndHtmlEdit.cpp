@@ -45,16 +45,17 @@ HWND CSourceAndHtmlEdit::get_active_view(void) const
 
 HWND CSourceAndHtmlEdit::create(CWindow box_window, CWindow dlg_window, HWND top_pos )
 {
-#ifdef UNIT_TEST
-	box_window ;
-	dlg_window ;
-	top_pos ;
-	return NULL ;
-#else
+	logging::log_verbose("Creating source and HTML edit window") ;
 	try
 	{
 		m_parent_dlg = dlg_window ;
 
+#ifdef UNIT_TEST
+		box_window ;
+		dlg_window ;
+		top_pos ;
+		return NULL ;
+#else
 		m_box.Attach( box_window ) ;
 
 		CWindowRect rc(m_box) ;
@@ -89,6 +90,7 @@ HWND CSourceAndHtmlEdit::create(CWindow box_window, CWindow dlg_window, HWND top
 		m_html_edit.put_edit_mode(true) ;
 
 		return m_tabs ;
+#endif
 	}
 	catch (CException& e)
 	{
@@ -102,7 +104,6 @@ HWND CSourceAndHtmlEdit::create(CWindow box_window, CWindow dlg_window, HWND top
 		logging::log_exception(e) ;
 		throw ;
 	}
-#endif
 }
 
 BOOL CSourceAndHtmlEdit::pre_translate(MSG* pMsg)

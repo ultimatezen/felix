@@ -28,7 +28,6 @@ class CFindDlg  :
 		, public ActiveWindow
 {
 	mem_engine::search_query_params	m_params ;
-	mem_engine::record_pointer		m_record ;
 
 	CCommandEdit		m_source_edit ;
 	CCommandEdit		m_trans_edit ;
@@ -43,7 +42,6 @@ public:
 	CFindDlg()  ;
 	BOOL PreTranslateMessage( MSG *pMsg ) ;
 
-	mem_engine::record_pointer get_record() ;
 	mem_engine::search_query_params &get_search_params() ;
 
 	LRESULT OnDestroy( ) ;

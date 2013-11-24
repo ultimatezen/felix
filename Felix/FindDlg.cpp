@@ -32,27 +32,20 @@ BOOL CFindDlg::PreTranslateMessage( MSG *pMsg )
 
 }
 
-/** get_record
-@brief Get the record created from user input for use as search template.
-@retval record_pointer
-*/
-mem_engine::record_pointer CFindDlg::get_record()
-{ return m_record ; }
 
-/** get_search_params
-@brief Get the search parameters.
-@retval search_query_params
+/** Get the search parameters.
 */
 mem_engine::search_query_params &CFindDlg::get_search_params() 
-{ return m_params ; }
+{ 
+	return m_params ; 
+}
 
-/** OnDestroy
-@brief 
-@retval LRESULT 
+/** Destroys the dialog window.
 */
 LRESULT CFindDlg::OnDestroy( )
 {
-	SENSE("OnDestroy") ;
+	logging::log_verbose("Destroying the find dialog window") ;
+	// Set to FALSE so that default processing will happen.
 	SetMsgHandled( FALSE ) ;
 
 	m_source_edit.Detach() ;
@@ -60,22 +53,24 @@ LRESULT CFindDlg::OnDestroy( )
 	m_context_edit.Detach() ;
 
 	m_reliability_edit.Detach() ;
+
+#ifndef UNIT_TEST
 	_Module.GetMessageLoop()->RemoveMessageFilter(this);
+#endif
 
 	return 0L ;
 }
 
-/** OnInitDialog
-@brief Init the dialog
-NOTE: We set up the data in the find dialog, because we may
+/** Init the dialog.
+
+We set up the data in the find dialog, because we may
 switch the UI languages, and destroy/create the 
 find dialog to get the new UI. This will destroy the
 info in the edit boxes and such, but not the params.
-@retval LRESULT 
 */
 LRESULT CFindDlg::OnInitDialog( )
 {
-	SENSE("OnInitDialog") ;
+	logging::log_verbose("Initializing the find dialog") ;
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
 
@@ -164,9 +159,6 @@ LRESULT CFindDlg::OnClose( )
 LRESULT CFindDlg::OnSearch( )
 {
 	SENSE("OnSearch") ;
-
-	// set m_record to a fresh record
-	m_record = record_pointer(new record_local()) ;
 
 	// source
 	m_params.set_source(m_source_edit.GetText()) ;
