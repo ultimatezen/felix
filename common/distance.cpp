@@ -2,10 +2,18 @@
 #include "distance.h"
 #include "boost/tuple/tuple.hpp"
 
+size_t min2(size_t a, size_t b)
+{
+	return a < b ? a : b ;
+}
+size_t max2(size_t a, size_t b)
+{
+	return a > b ? a : b ;
+}
 
 size_t min3( size_t a, size_t b, size_t c ) 
 {
-	return min(min(a, b), c) ;
+	return min2(min2(a, b), c) ;
 }
 double compute_score( const size_t high_len, size_t total_cost ) 
 {
@@ -14,7 +22,7 @@ double compute_score( const size_t high_len, size_t total_cost )
 	{
 		return 0.0 ;
 	}
-	const size_t matching_elements = max(high_len, total_cost) - total_cost ;
+	const size_t matching_elements = max2(high_len, total_cost) - total_cost ;
 	return static_cast<double>(matching_elements) / static_cast<double>(high_len) ;
 }
 
@@ -24,6 +32,9 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 	size_t a_len = a.size() ;
 	const wchar_t *b_str = b.c_str() ;
 	size_t b_len = b.size() ;
+
+	const size_t max_len = max2(a_len, b_len) ;
+	const size_t max_distance = max_len - static_cast<size_t>(static_cast<double>(max_len) * minscore) ;
 
 	// swap if b is smaller
 	if (b_len < a_len)
@@ -90,6 +101,8 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 
 	for (size_t col = 1; col < a_len; col++)
 	{
+		size_t min_distance = max_len ;
+
 		const wchar_t c = a_str[col - 1];
 		// skip the upper triangle
 		if (col >= a_len - half)
@@ -106,12 +119,14 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 				x = cell;
 			}
 			*(p++) = x;
+			min_distance = min2(min_distance, x) ;
 		}
 		else
 		{
 			p = row1 + 1;
 			above = b_str;
 			diag = x = col;
+			min_distance = min2(min_distance, x) ;
 		}
 
 		// skip the lower triangle
@@ -128,6 +143,7 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 			x++;
 
 			x = min3(x, cell, diag) ;
+			min_distance = min2(min_distance, x) ;
 
 			*(p++) = x;
 		}
@@ -138,9 +154,14 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 			const size_t cell = --diag + (c != *above);
 			x++;
 
-			x = min(x, cell) ;
+			x = min2(x, cell) ;
+			min_distance = min2(min_distance, x) ;
 
 			*p = x;
+		}
+		if(min_distance > max_distance)
+		{
+			return max_len ;
 		}
 	}
 

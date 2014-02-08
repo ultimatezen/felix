@@ -17,6 +17,7 @@ public:
 	void set_minscore(double score);
 	size_t edist(const std::wstring &a, const std::wstring &b);
 
+	// get the edit distance when one of the strings only has one character
 	size_t len_1_edist( const wchar_t c, const size_t b_len, const wchar_t * b_str ) const;
 	size_t subdist(const std::wstring &needle, const std::wstring &haystack);
 

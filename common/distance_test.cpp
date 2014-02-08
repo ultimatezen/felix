@@ -41,6 +41,61 @@ BOOST_AUTO_TEST_SUITE( TestDistance )
 		BOOST_CHECK_EQUAL(d.edist(spam, ham), 2u) ;
 		BOOST_CHECK_EQUAL(d.edist(ham, spam), 2u) ;
 	}
+	BOOST_AUTO_TEST_CASE( test_max_distance_exceeded )
+	{
+		Distance d ;
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"xxxxxx7890" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 10u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 10u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_max_distance_not_exceeded )
+	{
+		Distance d ;
+		d.set_minscore(0.4);
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"xxxxxx7890" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 6u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 6u) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( test_max_distance_exceeded_mid )
+	{
+		Distance d ;
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"12xxxxxx90" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 10u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 10u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_max_distance_not_exceeded_mid )
+	{
+		Distance d ;
+		d.set_minscore(0.4);
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"12xxxxxx90" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 6u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 6u) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( test_max_distance_exceeded_end )
+	{
+		Distance d ;
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"1234xxxxxx" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 10u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 10u) ;
+	}
+	BOOST_AUTO_TEST_CASE( test_max_distance_not_exceeded_end )
+	{
+		Distance d ;
+		d.set_minscore(0.4);
+		wstring lhs = L"1234567890" ;
+		wstring rhs = L"1234xxxxxx" ;
+		BOOST_CHECK_EQUAL(d.edist(lhs, rhs), 6u) ;
+		BOOST_CHECK_EQUAL(d.edist(rhs, lhs), 6u) ;
+	}
+
+
 	BOOST_AUTO_TEST_CASE( test_edist_nihon_nihongo )
 	{
 		Distance d ;
