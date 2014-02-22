@@ -34,7 +34,8 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 	size_t b_len = b.size() ;
 
 	const size_t max_len = max2(a_len, b_len) ;
-	const size_t max_distance = max_len - static_cast<size_t>(static_cast<double>(max_len) * minscore) ;
+	const size_t max_distance = 
+		max_len - static_cast<size_t>(static_cast<double>(max_len) * minscore) ;
 
 	// swap if b is smaller
 	if (b_len < a_len)
@@ -164,7 +165,7 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 			return max_len ;
 		}
 	}
-
+	
 	return *end;
 }
 
