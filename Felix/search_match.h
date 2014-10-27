@@ -21,7 +21,7 @@ class search_match
 	match_score			m_score ;
 
 	wstring				m_memory_location ;
-	size_t					m_memory_id ;
+	size_t				m_memory_id ;
 
 	placement::match_string_pairing	m_match_pairing ;
 

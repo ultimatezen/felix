@@ -139,8 +139,6 @@ LRESULT GlossaryWindowFrame::on_create( )
 
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
-
-	set_up_recently_used_doclist() ;
 	
 	set_window_title() ;
 
@@ -156,6 +154,7 @@ LRESULT GlossaryWindowFrame::on_create( )
 		MAKEINTRESOURCE(IDR_GLOSSARYMENU) );
 	SetMenu(hmenu) ;
 	size_client_and_status_bar() ;
+	set_up_recently_used_doclist() ;
 
 	m_accelerator.LoadAccelerators(IDR_MAINFRAME) ;
 	m_background_processor.set_hwnd(*this) ;
