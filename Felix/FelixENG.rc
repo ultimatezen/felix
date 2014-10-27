@@ -43,7 +43,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "C&lose Memory\tCtrl+W",       ID_MEMORY_CLOSE
         MENUITEM SEPARATOR
-        MENUITEM "Recent Files",                ID_FILE_MRU_FILE1
+        MENUITEM "Recent Files",                ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
@@ -124,7 +124,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "C&lose Glossary\tCtrl+W",     ID_MEMORY_CLOSE
         MENUITEM SEPARATOR
-        MENUITEM "Recent Files",                ID_FILE_MRU_FILE1
+        MENUITEM "Recent Files",                ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "&Close",                      IDCLOSE
     END
