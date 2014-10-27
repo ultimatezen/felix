@@ -34,6 +34,7 @@ void fix_match_spans( wstring &segment )
 {
 	boost::replace_all(segment, L"&lt;span class=\"nomatch\"&gt;", L"<span class=\"nomatch\">") ;
 	boost::replace_all(segment, L"&lt;span class=\"placement\"&gt;", L"<span class=\"placement\">") ;
+	boost::replace_all(segment, L"&lt;span class=\"gloss_match\"&gt;", L"<span class=\"placement\">") ;
 	boost::replace_all(segment, L"&lt;/span&gt;", L"</span>") ;
 }
 /** Finds whether we are looking at a substitution text range.
@@ -89,6 +90,12 @@ std::wstring mark_up( pairings_t &pairs, CharType ct )
 {
 	ATLASSERT( ! pairs.empty() ) ;
 
+	if (pairs.empty())
+	{
+		logging::log_warn("empty pairing string") ;
+		return wstring();
+	}
+
 	MatchType MatchState = pairs.begin()->m_MatchType ;
 
 	std::vector<wstring> markup ;
@@ -136,6 +143,7 @@ wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer)
 {
 	const static wstring NoMatchFmt( L"<span class=\"nomatch\">%s</span>" ) ;
 	const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
+	const static wstring GlossMatchFmt( L"<span class=\"gloss_match\">%s</span>" ) ;
 
 	using boost::wformat ;
 
@@ -144,16 +152,21 @@ wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer)
 		return buffer ;
 	}
 
-	if ( MatchState == NOMATCH )
-	{
-		return ( wformat( NoMatchFmt ) % buffer ).str() ;
-	}
-	else if ( MatchState == PLACEMENT )
-	{
-		return ( wformat( PlacementFmt ) % buffer ).str() ;
-	}
+	wstring result = buffer ;
 
-	return buffer ;
+	if ( MatchState & NOMATCH )
+	{
+		result = ( wformat( NoMatchFmt ) % result).str() ;
+	}
+	if ( MatchState & PLACEMENT )
+	{
+		result = ( wformat( PlacementFmt ) % result ).str() ;
+	}
+	if ( MatchState & GLOSS_MATCH )
+	{
+		result = ( wformat( GlossMatchFmt ) % result ).str() ;
+	}
+	return result ;
 }
 
 
@@ -172,15 +185,15 @@ double calc_score(pairings_t &pairs)
 			QueryLen += 1.0f ;
 		}
 
-		if ( pos->m_MatchType == NOMATCH )
+		if ( pos->m_MatchType & NOMATCH )
 		{
 			Distance += 1.0f ;
 		}
-		else if ( pos->m_MatchType == PLACEMENT )
+		else if ( pos->m_MatchType & PLACEMENT )
 		{
 			if ( ! is_num_or_null( pos->source() ) || ! is_num_or_null( pos->query() ) )
 			{
-				pos->m_MatchType = NOMATCH ;
+				pos->m_MatchType = static_cast<MatchType>(pos->m_MatchType | NOMATCH) ;
 				Distance += 1.0f ;
 			}
 		}
