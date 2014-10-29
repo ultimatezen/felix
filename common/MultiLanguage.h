@@ -27,17 +27,5 @@ public:
 	CMultiLanguage();
 	virtual ~CMultiLanguage();
 	DetectEncodingInfo detect_encoding( LPCSTR text, const int str_size = -1, const DWORD flags = 0, const DWORD pref_codepage = 0 );
-
-	LPBYTE convert_to_utf8( LPBYTE source_str, 
-		UINT source_size, 
-		LPBYTE dest_str, 
-		UINT dest_size, 
-		DWORD dwEncoding = CP_UNICODE_BE );
-
-	UINT convert_to_unicode( char *source_str, 
-						     UINT str_size, 
-							 wchar_t *dest_str, 
-							 UINT dest_size, 
-							 DWORD dwEncoding = CP_UTF8 );
 };
 
