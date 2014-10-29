@@ -601,6 +601,7 @@
 #define IDC_GLOSS_SIMPLE_VIEW           591
 #define IDS_CHECK_USER_AND_PASS         592
 #define IDC_DELETE                      593
+#define IDC_HIGHLIGHT_GLOSS_MATCHES		594
 #define IDC_CHECK1                      1000
 #define IDC_OLD_MEM_MGR                 1000
 #define IDC_CONN_LOGIN                  1000
