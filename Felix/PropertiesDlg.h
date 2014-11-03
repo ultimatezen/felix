@@ -198,6 +198,7 @@ public:
 
 	BEGIN_DDX_MAP(CViewPage)
 		DDX_CHECK( IDC_ONE_SCREEN_MATCH,	m_properties->m_data.m_single_screen_matches)
+		DDX_CHECK( IDC_HIGHLIGHT_GLOSS_MATCHES,	m_properties->m_data.m_show_gloss_matches)
 	END_DDX_MAP()
 
 	BEGIN_MSG_MAP(CViewPage)

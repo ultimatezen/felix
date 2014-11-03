@@ -1338,8 +1338,12 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 
 	m_model->find_matches(matches, params) ;
 
-	if (!params.m_place_numbers && ! params.m_place_gloss)
+	if (!params.m_place_numbers && 
+		!params.m_place_gloss && 
+		!params.m_place_rules &&
+		!this->m_props->m_view_props.m_data.m_show_gloss_matches)
 	{
+		logging::log_debug("no placement options selected; bailing") ;
 		return ;
 	}
 
@@ -1365,7 +1369,6 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 			}
 		}
 	}
-
 	// Now place the gloss in the number matches.
 	// This will get unwieldy with too many more types of
 	// placement...
