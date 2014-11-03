@@ -59,6 +59,10 @@ namespace mem_engine
 			{
 				return m_MatchType ;
 			}
+			void add_match_type(MatchType m_type)
+			{
+				this->m_MatchType = static_cast<MatchType>(this->match_type() | m_type) ;
+			}
 			wchar_t& source()
 			{
 				return get_char(SOURCE) ; 
@@ -95,7 +99,18 @@ namespace mem_engine
 		/** Are we looking at a pair of number characters?
 		*/
 		int is_num_pair(pairing_entity& pe);
+		
+		/** Returns whether the pairing query has a gloss match at the
+		 * specified position.
+		 */
+		bool has_gloss_match_in_query_at(pairings_t &pairs, const wstring gloss, const size_t pos) ;
+		/** Marks up gloss match in query as specified pos
+		 */
+		void mark_gloss_match_in_query_at(pairings_t &pairs, const wstring gloss, const size_t pos) ;
 
+		/* Marks up gloss matches appearing in query
+		 */
+		void mark_up_gloss_matches(pairings_t &pairs, const std::set<wstring> gloss_entries) ;
 		/** Calculates the score based on our pairings.
 		*/
 		double calc_score(pairings_t &pairs);

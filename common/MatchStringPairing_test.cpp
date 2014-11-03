@@ -88,6 +88,128 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_IsSubstitution )
 		BOOST_CHECK( ! is_substitution( trans, SourceNum, 0, QueryNum ) ) ;
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_has_gloss_match_in_query_at )
+
+	BOOST_AUTO_TEST_CASE( no_match )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"apple", 0), false) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( match )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"bacon", 0), true) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( match_first_half )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"bac", 0), true) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( match_second_half )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"con", 2), true) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( match_with_epsilon )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"barcon",
+				L"ba*con") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"bacon", 0), true) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( gloss_not_consumed_start )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"back", 0), false) ;
+	}
+
+	BOOST_AUTO_TEST_CASE( gloss_not_consumed_end )
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		BOOST_CHECK_EQUAL(has_gloss_match_in_query_at(pairs.get(), L"condor", 2), false) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_mark_gloss_match_in_query_at )
+
+	BOOST_AUTO_TEST_CASE( mark_up_con)
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		pairings_t &pairings = pairs.get() ;
+		mark_gloss_match_in_query_at(pairings, L"con", 2) ;
+
+		MatchType compound = static_cast<MatchType>(
+			MATCH | GLOSS_MATCH ) ;
+		BOOST_CHECK_EQUAL(pairings[0].match_type(), MATCH) ;
+		BOOST_CHECK_EQUAL(pairings[1].match_type(), MATCH) ;
+		BOOST_CHECK_EQUAL(pairings[2].match_type(), compound) ;
+		BOOST_CHECK_EQUAL(pairings[3].match_type(), compound) ;
+		BOOST_CHECK_EQUAL(pairings[4].match_type(), compound) ;
+	}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( test_mark_up_gloss_matches )
+
+	BOOST_AUTO_TEST_CASE( mark_up_con)
+	{
+		match_string_pairing pairs;
+		pair_up(pairs,
+				L"bacon",
+				L"bacon") ;
+
+		std::set<wstring> gloss_matches ;
+		gloss_matches.insert(L"con") ;
+
+		pairings_t &pairings = pairs.get() ;
+		mark_up_gloss_matches(pairings, gloss_matches) ;
+
+		MatchType compound = static_cast<MatchType>(
+			MATCH | GLOSS_MATCH ) ;
+		BOOST_CHECK_EQUAL(pairings[0].match_type(), MATCH) ;
+		BOOST_CHECK_EQUAL(pairings[1].match_type(), MATCH) ;
+		BOOST_CHECK_EQUAL(pairings[2].match_type(), compound) ;
+		BOOST_CHECK_EQUAL(pairings[3].match_type(), compound) ;
+		BOOST_CHECK_EQUAL(pairings[4].match_type(), compound) ;
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 
