@@ -82,7 +82,7 @@ UINT sci_encoding_from_encoding_string( const string &encoding_str )
 		boost::iequals( encoding_str, "utf_8" ) 
 		)
 	{
-		return 932 ;
+		return CP_UTF8 ;
 	}
 
 	return CP_ACP ;
