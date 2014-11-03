@@ -4,6 +4,12 @@
 // read xml notes
 BOOL read_xml_bool(pugi::xml_node &node, string name)
 {
+	auto element = node.child(name.c_str()) ;
+	if (! element)
+	{
+		logging::log_warn(string("missing node: ") + name) ;
+		return FALSE ;
+	}
 	const string val = node.child(name.c_str()).child_value() ;
 	return val == "true" ? TRUE : FALSE ;
 }

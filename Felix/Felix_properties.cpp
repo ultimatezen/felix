@@ -388,6 +388,7 @@ namespace app_props
 		add_child(parent, "gloss_mousewheel", int2string(this->m_data.m_gloss_mousewheel)) ;
 
 		add_child(parent, "single_screen_matches", bool2string(!! this->m_data.m_single_screen_matches)) ;
+		add_child(parent, "show_gloss_matches", bool2string(!! this->m_data.m_show_gloss_matches)) ;
 	}
 
 	bool properties_view::parse_xml_doc( pugi::xml_document &doc )
@@ -402,6 +403,7 @@ namespace app_props
 			this->m_data.m_trans_color = read_xml_long(parent, "trans_color") ;
 
 			this->m_data.m_single_screen_matches = read_xml_bool(parent, "single_screen_matches") ;
+			this->m_data.m_show_gloss_matches = read_xml_bool(parent, "show_gloss_matches") ;
 
 			if (! parent.child("mem_mousewheel"))
 			{

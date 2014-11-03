@@ -502,6 +502,7 @@ struct properties_view : public props::CRegMap
 	struct props_data
 	{
 		BOOL	m_single_screen_matches ;
+		BOOL	m_show_gloss_matches ;
 		int		m_back_color ;
 		int		m_query_color ;
 		int		m_source_color ;
@@ -512,6 +513,7 @@ struct properties_view : public props::CRegMap
 
 		props_data() : 
 			m_single_screen_matches(FALSE),
+			m_show_gloss_matches(FALSE),
 			m_back_color ( static_cast< int >( RGB( 255, 255, 255 ) ) ),
 			m_query_color ( static_cast< int >( RGB( 0, 0, 0 ) ) ),
 			m_source_color ( static_cast< int >( RGB( 0, 0, 0 ) ) ),
@@ -552,7 +554,7 @@ struct properties_view : public props::CRegMap
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 
 		REG_ENTRY_BOOL( _T("VIEW_ONE_SCREEN"),		m_data.m_single_screen_matches );
-
+		REG_ENTRY_BOOL( _T("VIEW_GLOSS_MATCHES"),	m_data.m_show_gloss_matches );
 		REG_ENTRY_INT( _T("VIEW_BACK_COLOR"),		m_data.m_back_color );
 		REG_ENTRY_INT( _T("VIEW_QUERY_COLOR"),		m_data.m_query_color );
 		REG_ENTRY_INT( _T("VIEW_SOURCE_COLOR"),		m_data.m_source_color );
