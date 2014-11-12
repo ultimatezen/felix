@@ -140,7 +140,7 @@ table.form td{
 .partial_match1 {font-weight: bold; background-color: #ff8000;}
 .partial_match2 {font-weight: bold; background-color: #ffff80;}
 .placement {font-weight: bold; color: blue}
-.gloss_match {border-bottom: 2px solid #0000ff;}
+.gloss_match {border-top: 2px solid #30bb30; background-color: #d3ffdb;}
 .format_penalty {color: #888888;}
 .concordance_match { background-color: #FFFF99; }
 
