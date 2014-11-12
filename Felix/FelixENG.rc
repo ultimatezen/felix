@@ -386,7 +386,7 @@ BEGIN
     LTEXT           "&Trans",IDC_STATIC,17,94,41,10
     LTEXT           "",IDC_TRANS_COLOR_BOX,77,94,43,11,NOT WS_VISIBLE | WS_BORDER
     PUSHBUTTON      "...",IDC_TRANS_BTN,122,94,17,11
-    CONTROL         "Highly &glossary matches in query",IDC_HIGHLIGHT_GLOSS_MATCHES,
+    CONTROL         "Highlight &glossary matches in query",IDC_HIGHLIGHT_GLOSS_MATCHES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,120,171,16
 END
 
