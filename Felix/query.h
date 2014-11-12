@@ -32,6 +32,7 @@ struct search_query_params
 	bool				m_place_numbers ;
 	bool				m_place_gloss ;
 	bool				m_place_rules ;
+	bool				m_show_gloss_matches ;
 
 	int					m_match_algo ;
 	
@@ -53,7 +54,8 @@ struct search_query_params
 			m_show_marking(true),
 			m_place_numbers(false),
 			m_place_gloss(false),
-			m_place_rules(false)
+			m_place_rules(false),
+			m_show_gloss_matches(false)
 	{}
 
 	search_query_params( const search_query_params &rhs );
@@ -204,8 +206,7 @@ struct search_query
 /** This is for concordance searches in the main memory. */
 struct search_query_mainframe : public search_query
 {
-	size_t m_start_numbering ;
-	search_query_mainframe() : m_start_numbering(1), search_query() {}
+	search_query_mainframe() {}
 	virtual ~search_query_mainframe() {}
 
 	void set_start_numbering(size_t start)

@@ -272,7 +272,6 @@ wstring translation_match_query::create_dummy_match( )
 	wstring tpl_text = get_template_text("match_none.txt") ;
 	cpptempl::data_map data ;
 
-
 	data[L"color"] = cpptempl::make_data( L"#000") ;
 	data[L"query"] = cpptempl::make_data( get_query_rich()) ;
 
@@ -702,6 +701,7 @@ void search_query_params::internal_copy( const search_query_params &rhs )
 	m_place_numbers			=	rhs.m_place_numbers ;
 	m_place_gloss			=	rhs.m_place_gloss ;
 	m_place_rules			=	rhs.m_place_rules ;
+	m_show_gloss_matches	=	rhs.m_show_gloss_matches ;
 }
 
 const wstring search_query_params::get_source_plain() const

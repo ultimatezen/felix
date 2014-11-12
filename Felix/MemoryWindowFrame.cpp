@@ -72,7 +72,6 @@ using namespace html ;
 using namespace placement ;
 
 
-
 /** Constructor. Takes model interface.
 */
 MemoryWindowFrame::MemoryWindowFrame( model_iface_ptr model, app_props::props_ptr props ) : 
@@ -236,9 +235,10 @@ MemoryWindowFrame::~MemoryWindowFrame()
 **************************************************/
 
 #define WATCH(var, val) if (var == val) \
-	{\
-		ATLTRACE("Got value of " #val " (%d)\n", var) ; \
-	}
+{\
+	ATLTRACE("Got value of " #val " (%d)\n", var) ; \
+}
+
 
 /** We get a crack at messages before the are dispatched.
 */
@@ -1341,7 +1341,7 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 	if (!params.m_place_numbers && 
 		!params.m_place_gloss && 
 		!params.m_place_rules &&
-		!this->m_props->m_view_props.m_data.m_show_gloss_matches)
+		!params.m_show_gloss_matches)
 	{
 		logging::log_debug("no placement options selected; bailing") ;
 		return ;
@@ -1368,6 +1368,10 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 				check_placement_rules(placed_rules, match);
 			}
 		}
+		if(params.m_show_gloss_matches)
+		{
+			show_gloss_matches(this->m_glossary_windows.get_current_matches(), match);
+		}
 	}
 	// Now place the gloss in the number matches.
 	// This will get unwieldy with too many more types of
@@ -1382,15 +1386,50 @@ void MemoryWindowFrame::get_matches(trans_match_container &matches, search_query
 	FOREACH(search_match_ptr match, placed_numbers)
 	{
 		matches.insert(match) ;
+		if(params.m_show_gloss_matches)
+		{
+			show_gloss_matches(this->m_glossary_windows.get_current_matches(), match);
+		}
 	}
 	FOREACH(search_match_ptr match, placed_gloss)
 	{
 		matches.insert(match) ;
+		if(params.m_show_gloss_matches)
+		{
+			show_gloss_matches(this->m_glossary_windows.get_current_matches(), match);
+		}
 	}
 	FOREACH(search_match_ptr match, placed_rules)
 	{
 		matches.insert(match) ;
+		if(params.m_show_gloss_matches)
+		{
+			show_gloss_matches(this->m_glossary_windows.get_current_matches(), match);
+		}
 	}
+}
+
+void MemoryWindowFrame::show_gloss_matches(mem_engine::felix_query *query, search_match_ptr match)
+{
+	logging::log_debug("MemoryWindowFrame: showing gloss matches in query") ;
+	if(!query)
+	{
+		logging::log_warn("NULL query received from gloss window collection") ;
+		return ; 
+	}
+	
+	pairings_t &pairings = match->match_pairing().get() ;
+
+	mem_engine::gloss_match_set gloss_sources ;
+	for(size_t i = 0 ; i < query->size() ; ++i)
+	{
+		search_match_ptr gloss_match = query->at(i) ;
+		const wstring source = gloss_match->get_record()->get_source_plain() ;
+		gloss_sources.insert(source) ;
+	}
+	mem_engine::placement::mark_up_gloss_matches(pairings, gloss_sources) ;
+	match->match_pairing().set(pairings) ;
+	match->get_markup()->SetQuery( match->match_pairing().mark_up_query() ) ;
 }
 
 /** Initializes the transaction matches for a new lookup.
@@ -1418,6 +1457,10 @@ bool MemoryWindowFrame::lookup(const wstring query)
 	// only do searching when edit mode is off
 	m_view_interface.put_edit_mode( false ) ;
 
+	// do glossary lookup as well
+	m_glossary_windows.look_up( query ) ;
+
+	// now do TM lookup
 	init_trans_matches_for_lookup(query);
 
 	trans_match_container matches ;
@@ -1429,9 +1472,6 @@ bool MemoryWindowFrame::lookup(const wstring query)
 
 	set_display_state ( MATCH_DISPLAY_STATE ) ;
 	show_view_content() ;
-
-	// do glossary lookup as well
-	m_glossary_windows.look_up( query ) ;
 
 	return true ;
 }
@@ -3992,6 +4032,7 @@ void MemoryWindowFrame::init_lookup_properties( const app_props::props_ptr sourc
 	dest.m_place_numbers = !! source->m_mem_props.m_data.m_place_numbers ;
 	dest.m_place_gloss = !! source->m_mem_props.m_data.m_place_gloss ;
 	dest.m_place_rules = !! source->m_mem_props.m_data.m_place_rules ;
+	dest.m_show_gloss_matches = !! source->m_view_props.m_data.m_show_gloss_matches;
 }
 
 //! Tell the user that we found x matches for the search string.
@@ -4088,6 +4129,7 @@ wstring MemoryWindowFrame::get_new_source( pairings_t & pairings )
 	}
 	return newsource ;
 }
+
 void MemoryWindowFrame::check_placement_gloss( trans_match_container &PlacedMatches, 
 	search_match_ptr match )
 {

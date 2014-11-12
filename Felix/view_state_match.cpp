@@ -181,18 +181,47 @@ void ViewStateMatchMain::set_gloss_matches( mem_engine::felix_query *matches )
 
 wstring ViewStateMatchMain::get_view_content()
 {
+	const static wstring GlossMatchFmt( L"<span class=\"gloss_match\">%s</span>" ) ;
+
+	const wstring old_source = m_search_matches->m_params.get_source_rich() ;
+	wstring content ;
+
+	// If there are no matches and we are marking up gloss matches,
+	// set up the source query so that gloss matches are marked up
+	if(this->m_search_matches->empty() && 
+		this->m_gloss_matches && 
+		this->m_props->m_view_props.m_data.m_show_gloss_matches)
+	{
+		wstring source = old_source ;
+		mem_engine::gloss_match_set gloss_sources ;
+		for(size_t i = 0 ; i < this->m_gloss_matches->size() ; ++i)
+		{
+			search_match_ptr gloss_match = this->m_gloss_matches->at(i) ;
+			const wstring source = gloss_match->get_record()->get_source_plain() ;
+			gloss_sources.insert(boost::trim_copy(source)) ;
+		}
+		FOREACH(wstring gloss, gloss_sources)
+		{
+			const wstring marked_up = (wformat(GlossMatchFmt) % gloss).str() ;
+			source = boost::replace_all_copy(source, gloss, marked_up) ;
+		}
+		this->m_search_matches->m_params.set_source(source) ;
+	}
+
 	if ( m_window_listener->is_single_page() ) 
 	{
-		return m_search_matches->get_html_all() ;			
+		content = m_search_matches->get_html_all() ;			
 	}
 	else if ( m_window_listener->is_short_format() )
 	{
-		return m_search_matches->get_html_short() ; 
+		content = m_search_matches->get_html_short() ; 
 	}
 	else
 	{
-		return m_search_matches->get_html_long() ;
+		content = m_search_matches->get_html_long() ;
 	}
+	m_search_matches->m_params.set_source(old_source) ;
+	return content ;
 }
 
 //////////////////////////////////////////////////////////////////////////

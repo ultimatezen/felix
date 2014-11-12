@@ -10,6 +10,21 @@ using std::wstring ;
 namespace mem_engine
 {
 
+	class GlossMatchComparator
+	{
+	public:
+		bool operator()(const std::wstring& s1, const std::wstring& s2)
+		{
+			if (s1.size() > s2.size())
+			{
+				return true ;
+			}
+			return s1 > s2 ;
+		}
+	};
+
+	typedef std::set<std::wstring, GlossMatchComparator> gloss_match_set ;
+
 	namespace placement
 	{
 		typedef std::pair< std::wstring, std::wstring > trans_pair ;
@@ -87,7 +102,7 @@ namespace mem_engine
 
 		/** Adds the buffer we have stored to the marked up string.
 		*/	
-		wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer);
+		wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer, CharType ct);
 
 		/** Marks up a string.
 		* 
@@ -110,7 +125,7 @@ namespace mem_engine
 
 		/* Marks up gloss matches appearing in query
 		 */
-		void mark_up_gloss_matches(pairings_t &pairs, const std::set<wstring> gloss_entries) ;
+		void mark_up_gloss_matches(pairings_t &pairs, const gloss_match_set &gloss_entries) ;
 		/** Calculates the score based on our pairings.
 		*/
 		double calc_score(pairings_t &pairs);
@@ -126,11 +141,10 @@ namespace mem_engine
 			pair_list m_pairs ;
 			pairings_t m_pairvec ;
 
-			std::set< size_t > m_placement_positions ;
-
 			match_string_pairing(void);
 
 			pairings_t &get();
+			void set(pairings_t &pairs);
 			void clear();
 
 			void source_to_epsilon( wchar_t s );

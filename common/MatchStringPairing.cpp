@@ -133,8 +133,9 @@ namespace mem_engine
 			}
 		}
 
-		void mark_up_gloss_matches(pairings_t &pairs, const std::set<wstring> gloss_entries)
+		void mark_up_gloss_matches(pairings_t &pairs, const gloss_match_set &gloss_entries)
 		{
+			logging::log_debug("mark_up_gloss_matches") ;
 			for(size_t i=0 ; i < pairs.size() ; ++i )
 			{
 				if (pairs[0].source() != 0)
@@ -174,7 +175,7 @@ namespace mem_engine
 				{
 					if (entity.m_MatchType != MatchState )
 					{
-						markup.push_back(add_buffer_to_markup( MatchState, buffer )) ;
+						markup.push_back(add_buffer_to_markup( MatchState, buffer, ct )) ;
 						buffer = L"" ;
 						MatchState = entity.m_MatchType ;
 					}
@@ -198,13 +199,13 @@ namespace mem_engine
 				}
 			}
 
-			markup.push_back(add_buffer_to_markup( MatchState, buffer )) ;
+			markup.push_back(add_buffer_to_markup( MatchState, buffer, ct )) ;
 
 			return boost::join(markup, L"") ;
 		}
 
 
-		wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer) 
+		wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer, CharType ct) 
 		{
 			const static wstring NoMatchFmt( L"<span class=\"nomatch\">%s</span>" ) ;
 			const static wstring PlacementFmt( L"<span class=\"placement\">%s</span>" ) ;
@@ -227,7 +228,7 @@ namespace mem_engine
 			{
 				result = ( wformat( PlacementFmt ) % result ).str() ;
 			}
-			if ( MatchState & GLOSS_MATCH )
+			if ( ct == QUERY && MatchState & GLOSS_MATCH )
 			{
 				result = ( wformat( GlossMatchFmt ) % result ).str() ;
 			}
@@ -346,17 +347,19 @@ namespace mem_engine
 
 		void match_string_pairing::clear()
 		{
-			m_placement_positions.clear() ;
 			m_pairs.clear() ;
 		}
 
 		pairings_t & match_string_pairing::get()
 		{
-			if (m_pairvec.empty())
-			{
-				m_pairvec.assign(m_pairs.begin(), m_pairs.end()) ;
-			}
+			m_pairvec.assign(m_pairs.begin(), m_pairs.end()) ;
 			return m_pairvec ;
 		}
+
+		void match_string_pairing::set( pairings_t &pairs )
+		{
+			m_pairs.assign(pairs.begin(), pairs.end()) ;
+		}
+
 	}
 }

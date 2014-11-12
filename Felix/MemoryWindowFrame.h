@@ -227,6 +227,7 @@ public:
 	void init_lookup_properties(const app_props::props_ptr source, 
 							mem_engine::search_query_params &dest);
 	void get_matches(mem_engine::trans_match_container matches);
+	void show_gloss_matches(mem_engine::felix_query *query, search_match_ptr match) ;
 
 	// set the translation for the current query
 	bool set_translation( const wstring translation );

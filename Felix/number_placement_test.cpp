@@ -492,6 +492,7 @@ BOOST_AUTO_TEST_SUITE( test_number_placement_tests_backslashes )
 		gp::number_placer placer ;
 
 		BOOST_CHECK( placer.place(pairs, trans) ) ;
+		pairing.set(pairs) ;
 
 		wstring expected = L"\\<span class=\"placement\">1,300,000</span>（税込み\\<span class=\"placement\">1,365,000</span>）" ;
 		wstring actual = pairing.mark_up_source() ;

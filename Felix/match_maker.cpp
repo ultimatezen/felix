@@ -89,7 +89,7 @@ namespace mem_engine
 	}
 
 	// get_path
-	bool match_maker::get_path ( )
+	bool match_maker::get_path( )
 	{
 		create_path_stacks( ) ;
 		// the query
@@ -291,15 +291,11 @@ namespace mem_engine
 			return false ;
 		}
 
+		get_path() ;
 
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
 		{
 			set_perfect_match() ;
-		}
-		else
-		{
-			// Get the path
-			get_path() ;
 		}
 		
 		return true ;
@@ -311,15 +307,17 @@ namespace mem_engine
 			return false ;
 		}
 		
+		// Get the path
+		get_path( ) ;
+
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
 		{
 			set_perfect_match() ;
 		}
 		else
 		{
-			// Get the path
-			get_path( ) ;
-			// we need a little switcheroo here (because our matcher stupidly thinks the source is the query)
+			// we need a little switcheroo here (because our matcher stupidly 
+			// thinks the source is the query)
 			source_trans_switcheroo();
 		}
 		
@@ -541,6 +539,7 @@ namespace mem_engine
 
 		if ( FLOAT_EQ( m_match->get_score(), 1.0 ) )
 		{
+			set_match_score() ;
 			set_perfect_match() ;
 			return true ;
 		}

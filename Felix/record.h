@@ -125,5 +125,4 @@ namespace mem_engine
 		return ( lhs->get_trans_rich() < rhs->get_trans_rich( ) ) ;
 	}
 
-
 }

@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_SUITE( test_mark_up_gloss_matches )
 				L"bacon",
 				L"bacon") ;
 
-		std::set<wstring> gloss_matches ;
+		mem_engine::gloss_match_set gloss_matches ;
 		gloss_matches.insert(L"con") ;
 
 		pairings_t &pairings = pairs.get() ;
@@ -238,6 +238,41 @@ BOOST_AUTO_TEST_SUITE( test_CMatchStringPairing_Markup )
 		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
 		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
 	}
+
+	// gloss-match markup for query string
+	BOOST_AUTO_TEST_CASE( gloss_placement_query )
+	{
+		match_string_pairing pairing ;
+
+		pair_up(pairing, 
+			L"<a>", 
+			L"<a>") ;
+		auto pairs = pairing.get() ;
+		pairs[1].add_match_type(GLOSS_MATCH) ;
+		pairing.set(pairs) ;
+
+		wstring markup = pairing.mark_up_query() ;
+		BOOST_CHECK_EQUAL(L"&lt;<span class=\"gloss_match\">a</span>&gt;", markup) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
+	}
+
+	// no gloss-match markup for source string
+	BOOST_AUTO_TEST_CASE( gloss_placement_source )
+	{
+		match_string_pairing pairing ;
+
+		pair_up(pairing, 
+			L"<a>", 
+			L"<a>") ;
+		auto pairs = pairing.get() ;
+		pairs[1].add_match_type(GLOSS_MATCH) ;
+		pairing.set(pairs) ;
+
+		wstring markup = pairing.mark_up_source() ;
+		BOOST_CHECK_EQUAL(L"&lt;a&gt;", markup) ;
+		BOOST_CHECK_CLOSE( (double)1.0f, calc_score(pairing.get()), 0.00001 ) ;
+	}
+
 	BOOST_AUTO_TEST_CASE( TrivialMatchWithBrackets_query )
 	{
 		match_string_pairing pairing ;
