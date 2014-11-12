@@ -30,6 +30,9 @@ class CPageFormat :
 
 public:
 	enum { IDD = id_type } ;
+	
+	// CTOR
+	CPageFormat(){}
 
 	void set_props( app_state *props )
 	{
@@ -196,6 +199,9 @@ class CPageSegmentation :
 
 public:
 	enum { IDD = id_type } ;
+	
+	// CTOR
+	CPageSegmentation(){}
 
 	void set_props( app_state *props )
 	{
@@ -280,11 +286,6 @@ public:
 
 		return 0;
 	}
-	//LRESULT OnSkipJpn(WORD, WORD id, HWND, BOOL& )
-	//{
-	//	m_properties->m_skipJ = id ;
-	//	return 0;
-	//}
 
 	BEGIN_MSG_MAP(CPageSegmentation)
 
