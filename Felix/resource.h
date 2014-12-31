@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Felix.rc
+// Used by FelixJPN.rc
 //
 #define IDS_LANG_CODE                   3
 #define IDS_LANG_STRING                 4
@@ -141,7 +141,7 @@
 #define IDS_EDIT_COMPLETE               119
 #define IDS_MSG_DROPPED_RECORDS         120
 #define IDD_DELETE                      121
-#define IDC_STARTUP_CHECKS                  123
+#define IDC_STARTUP_CHECKS              123
 #define IDS_IDS_REG_LINK_DEAD           123
 #define IDC_ONE_TRANS_PER_SOURCE        123
 #define IDC_EDIT_ACCELERATORS           124
@@ -601,12 +601,14 @@
 #define IDC_GLOSS_SIMPLE_VIEW           591
 #define IDS_CHECK_USER_AND_PASS         592
 #define IDC_DELETE                      593
-#define IDC_HIGHLIGHT_GLOSS_MATCHES		594
+#define IDC_HIGHLIGHT_GLOSS_MATCHES     594
 #define IDC_CHECK1                      1000
 #define IDC_OLD_MEM_MGR                 1000
 #define IDC_CONN_LOGIN                  1000
 #define IDC_STATIC1                     1001
 #define IDC_STATIC2                     1002
+#define IDC_CONN_LOGIN2                 1003
+#define IDC_REMEMBER_CREDENTIALS        1003
 #define ID_HELP_CHECKUPDATES            32770
 #define ID_PANE_1                       32771
 #define ID_PANE_2                       32772
@@ -626,7 +628,6 @@
 #define ID_BUTTON32787                  32786
 #define IDS_NEW_TOOLBAR                 32786
 #define ID_INSERT_TABLE                 32787
-#define ID_EDIT_DELETE                  32788
 #define ID_MENUITEM32797                32789
 #define ID_GLOSSARY_NEW                 32790
 #define ID_FILE_IMPORT                  32791
