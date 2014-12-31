@@ -500,6 +500,8 @@ public:
 
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 
+	void add_glossary_specific_tooltips();
+
 
 	void delete_record(mem_engine::record_pointer rec) ;
 

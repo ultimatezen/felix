@@ -543,6 +543,8 @@ public:
 	void placement_score( search_match_ptr new_match, pairings_t &pairings, double fmt_penalty ) const ;
 	LRESULT OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/);
 
+	void add_frame_specific_tooltips();
+
 	// the current match
 	search_match_ptr get_current_match();
 
