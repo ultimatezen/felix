@@ -227,7 +227,7 @@ void Distance::ensure_size(size_t min_row_size)
 		row2 = (size_t*)calloc(m_row_size, sizeof(size_t));
 		if (!row1 || !row2) // Allocation failed
 		{
-			throw std::bad_alloc("Failed to allocated memory for Distance test") ;
+			throw std::exception("Failed to allocated memory for Distance test") ;
 		}
 	}
 }
