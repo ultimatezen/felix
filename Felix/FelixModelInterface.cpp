@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "FelixModelInterface.h"
+#include "query.h"
 
 using namespace mem_engine ;
 
@@ -128,11 +129,9 @@ std::vector<wstring>& FelixModelInterface::get_memory_names( std::vector<wstring
 {
 	FOREACH(memory_pointer mem, get_memories()->get_memories())
 	{
-		file::CPath path(mem->get_fullpath()) ;
-		wstring location = (LPCWSTR)path.FindFileName();
-		names.push_back(location) ;
+		CString location = mem->get_location();
+		names.push_back(mem_engine::get_fname_from_loc((LPCWSTR)location));
 	}
-	std::reverse(names.begin(), names.end()) ;
 	return names ;
 }
 

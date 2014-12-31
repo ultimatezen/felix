@@ -383,15 +383,7 @@ LRESULT CRegisterGlossDlg::OnInitDialog()
 	// set focus to source edit
 	m_rec_source_edit.set_html_focus() ;
 
-	CWindowSettings ws;
-	if( ws.Load( resource_string(IDS_REG_KEY), REG_DLG_WINSETTINGS_KEY ) )
-	{
-		ws.ApplyTo( *this ) ;
-	}
-	else
-	{
-		logging::log_warn("Failed to retrieve window settings for Register Glossary Dialog") ;
-	}
+	apply_window_settings();
 
 
 	return TRUE ;
@@ -991,18 +983,6 @@ LRESULT CRegisterGlossDlg::OnShowWindow(BOOL bShow, UINT)
 	return 0L ;
 }
 
-void CRegisterGlossDlg::refresh_current_add_pos()
-{
-	if (m_AddCombo.GetCount() > 1)
-	{
-		m_current_add_pos = m_AddCombo.GetCurSel() ;
-	}
-	else
-	{
-		m_current_add_pos = 0 ;
-	}
-}
-
 /* Get the source and translation from the right-hand dialog boxes,
  * set them to the record, and then add that record to the glossary.
  * Reset the record and right-hand combo edits afterward.
@@ -1053,6 +1033,18 @@ void CRegisterGlossDlg::add_gloss_entry()
 	}
 }
 
+void CRegisterGlossDlg::refresh_current_add_pos()
+{
+	if (m_AddCombo.GetCount() > 1)
+	{
+		m_current_add_pos = m_AddCombo.GetCurSel();
+	}
+	else
+	{
+		m_current_add_pos = 0;
+	}
+}
+
 void CRegisterGlossDlg::set_initial_source( const _bstr_t selection )
 {
 	m_gloss_source_edit.SetText(selection) ;
@@ -1087,13 +1079,46 @@ void CRegisterGlossDlg::set_combo_font()
 		CLIP_DEFAULT_PRECIS, //  DWORD fdwClipPrecision,
 		CLEARTYPE_QUALITY, //  DWORD fdwQuality,
 		VARIABLE_PITCH, //  DWORD fdwPitchAndFamily,
-		TEXT("MS Dialog Shell") //  LPCTSTR lpszFace
+		TEXT("MS UI Gothic") //  LPCTSTR lpszFace
 		);
+
+	if (! hFont)
+	{
+		hFont = CreateFont(
+			0, //  int nHeight,
+			0, //  int nWidth,
+			0, //  int nEscapement,
+			0, //  int nOrientation,
+			FW_DONTCARE, //  int fnWeight,
+			FALSE, //  DWORD fdwItalic,
+			FALSE, //  DWORD fdwUnderline,
+			FALSE, //  DWORD fdwStrikeOut,
+			DEFAULT_CHARSET, //  DWORD fdwCharSet,
+			OUT_OUTLINE_PRECIS, //  DWORD fdwOutputPrecision,
+			CLIP_DEFAULT_PRECIS, //  DWORD fdwClipPrecision,
+			CLEARTYPE_QUALITY, //  DWORD fdwQuality,
+			VARIABLE_PITCH, //  DWORD fdwPitchAndFamily,
+			TEXT("MS Dialog Shell") //  LPCTSTR lpszFace
+			);
+	}
 
 	ATLASSERT(hFont) ;
 	if (hFont)
 	{
 		BOOL redraw = FALSE ;
 		m_AddCombo.SetFont(hFont, redraw) ;
+	}
+}
+
+void CRegisterGlossDlg::apply_window_settings()
+{
+	CWindowSettings ws;
+	if (ws.Load(resource_string(IDS_REG_KEY), REG_DLG_WINSETTINGS_KEY))
+	{
+		ws.ApplyTo(*this);
+	}
+	else
+	{
+		logging::log_warn("Failed to retrieve window settings for Register Glossary Dialog");
 	}
 }

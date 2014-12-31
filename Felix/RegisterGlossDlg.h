@@ -95,6 +95,8 @@ public:
 	LRESULT OnDestroy( ) ;
 	LRESULT OnInitDialog( );
 
+	void apply_window_settings();
+
 	void set_combo_font();
 	void fill_add_combo();
 	CString get_mem_name(mem_engine::memory_pointer mem);

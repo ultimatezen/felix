@@ -204,8 +204,8 @@ BOOST_AUTO_TEST_SUITE( TestFelixModel )
 		model.get_memory_names(names) ;
 
 		BOOST_CHECK_EQUAL(2u, names.size());
-		BOOST_CHECK_EQUAL(names[0], L"foo.ftm");
-		BOOST_CHECK_EQUAL(names[1], L"bar.ftm");
+		BOOST_CHECK_EQUAL(names[1], L"foo.ftm");
+		BOOST_CHECK_EQUAL(names[0], L"bar.ftm");
 	}
 
 
