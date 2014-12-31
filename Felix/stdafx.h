@@ -6,6 +6,8 @@
 #pragma once
 
 #pragma warning( disable : 4996 ) // #conditional expression is constant
+#pragma warning(disable : 4520)
+
 #define NOMINMAX
 #include <algorithm>    // std::min
 using std::min ;
@@ -267,7 +269,7 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-static const char* VERSION = "1.7.2" ;
+static const char* VERSION = "1.7.2.2" ;
 static const wchar_t* LOGGING_SERVER = L"FelixHelpers.FelixLogger" ;
 #define LOGFILE_NAME _T("felix.log")
  

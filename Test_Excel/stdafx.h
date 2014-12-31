@@ -180,7 +180,7 @@ namespace std {
 #define VISIBLE_TO_TESTS
 #endif
 
-#define VERSION "1.7.1"
+#define VERSION "1.7"
 
 #define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"
 #define LOGFILE_NAME _T("ppt_assist.log")

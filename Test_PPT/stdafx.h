@@ -188,7 +188,7 @@ namespace std {
 #define SENSE(x) (void)0
 #endif
 
-#define VERSION "1.6"
+#define VERSION "1.7"
 
 #define LOGGING_SERVER L"FelixHelpers.PowerPointLogger"
 #define LOGFILE_NAME _T("ppt_assist.log")
