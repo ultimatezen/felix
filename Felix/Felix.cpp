@@ -228,22 +228,6 @@ int MainSub(HINSTANCE hInstance, LPTSTR lpstrCmdLine, int nCmdShow)
 	// run as main window
 	if(bRun)
 	{
-		try
-		{
-			// Copy over the HTML files if they aren't present. These are the templates
-			// we use in our HTML views.
-			logging::log_debug("Ensuring HTML files") ;
-			CDispatchWrapper utils(L"Felix.Utilities") ;
-			utils.method(L"EnsureHtml") ;
-		}
-		catch (_com_error& e)
-		{
-			logging::log_error("Failed to ensure HTML files") ;
-			logging::log_exception(e) ;
-			ATLASSERT(FALSE && "Failed to ensure HTML files") ;
-		}
-
-
 		_Module.StartMonitor();
 		HRESULT hRes = _Module.RegisterClassObjects(CLSCTX_LOCAL_SERVER, REGCLS_MULTIPLEUSE | REGCLS_SUSPENDED);
 		ATLASSERT( SUCCEEDED( hRes ) ) ;
