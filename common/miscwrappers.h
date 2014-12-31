@@ -25,53 +25,6 @@
 namespace misc_wrappers
 {
 
-	/**
-	 @class version_info 
-	 @brief Wrapper for VERSIONINFO struct.
-	 */
-	class version_info : public OSVERSIONINFO 
-	{
-	public:
-		 version_info()
-		 {
-			 dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-			 GetVersionEx(this);
-		 }
-		 bool is_unicode_version()
-		 {
-			switch( dwMajorVersion ) // Major version number of the operating system. This member can be one of the following values. Operating System Meaning 
-			{
-			case 4 :	// Windows 95 
-				// Windows 98 
-				// Windows Me 4 
-				// Windows NT 4.0
-				if ( dwMinorVersion == 0 ) //  Windows NT 4.0
-					return true ;
-				return false ;
-				
-			case 3:		// Windows NT 3.51 
-				if ( dwMinorVersion == 51 ) //  Windows NT 3.51
-					return true ;
-				
-			case 5:		// Windows 2000 
-				// Windows XP 
-				// Windows Server 2003 family
-				return true ;
-			case 6: // Vista
-				return true ;
-
-			default:
-				ATLTRACE( "This must be vista: %d - %d\n", this->dwMajorVersion, this->dwMinorVersion ) ;
-				return true ;
-			}
-
-			ATLASSERT( "WE SHOULD NEVER GET HERE" && false ) ;
-			return false ;
-			
-		 }
-	} ;
-
-
 	/** Wrapper for a Windows HANDLE.
 	 */
 	class handle
