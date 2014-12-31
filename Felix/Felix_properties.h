@@ -11,6 +11,7 @@
 
 #include "xml_utils.h"
 #include <boost/function.hpp>
+#include <map>
 
 pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
 
@@ -428,7 +429,7 @@ struct properties_glossary : public props::CRegMap
 } ;
 
 /**
-@	struct properties_algorithm : public CRegMap
+@struct properties_algorithm : public CRegMap
 @brief Algorithm properties.
 */
 struct properties_algorithm : public props::CRegMap
@@ -466,7 +467,6 @@ struct properties_algorithm : public props::CRegMap
 		m_data = rhs.m_data ;
 		return *this ;
 	}
-
 
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
 
@@ -653,7 +653,7 @@ struct properties_qc : public props::CRegMap
 } ;
 
 /**
-properties_general
+General properties
 */
 struct properties_general : public props::CRegMap
 {
@@ -673,6 +673,7 @@ struct properties_general : public props::CRegMap
 		BOOL	m_old_mem_mgr ;
 
 		BOOL	m_must_login ;
+		BOOL	m_save_credentials;
 
 		TCHAR	m_user_name[MAX_PATH] ;
 
@@ -686,7 +687,8 @@ struct properties_general : public props::CRegMap
 			m_merge_choice(IDC_MERGE),
 			m_query_merge(TRUE),
 			m_old_mem_mgr(FALSE),
-			m_must_login(FALSE)
+			m_must_login(FALSE),
+			m_save_credentials(FALSE)
 		{
 			ZeroMemory(m_user_name, sizeof(m_user_name)) ;
 			DWORD path_len(MAX_PATH) ;
@@ -705,10 +707,12 @@ struct properties_general : public props::CRegMap
 
 	props_data m_data ;
 
+	std::map<wstring, wstring> m_saved_credentials;
+
 	properties_general() 
 	{	}
 	properties_general( const properties_general &rhs ) :
-		m_data( rhs.m_data )
+		m_data(rhs.m_data), m_saved_credentials(rhs.m_saved_credentials)
 	{
 	}
 
@@ -721,24 +725,25 @@ struct properties_general : public props::CRegMap
 	{
 		return !! m_data.m_load_prev_gloss_on_startup ;
 	}
-	bool must_log_in(void)
-	{
-		return !! m_data.m_must_login ;
-	}
 	void set_must_log_in(BOOL value)
 	{
 		m_data.m_must_login = value;
+	}
+	void set_save_credentials(BOOL value)
+	{
+		m_data.m_save_credentials = value;
 	}
 	void set_not_first_launch()
 	{
 		m_data.m_first_launch = FALSE ;
 	}
 
-
 	properties_general &operator=( const properties_general &rhs )
 	{
 		m_data = rhs.m_data ;
-		return *this ;
+		std::map<wstring, wstring> tmp(rhs.m_saved_credentials);
+		tmp.swap(m_saved_credentials);
+		return *this;
 	}
 	wstring get_user_name()
 	{
@@ -747,6 +752,33 @@ struct properties_general : public props::CRegMap
 	bool is_first_launch()
 	{
 		return !! m_data.m_first_launch ;
+	}
+	bool must_log_in(void)
+	{
+		return !!m_data.m_must_login;
+	}
+	bool save_credentials(void)
+	{
+		return !!m_data.m_save_credentials;
+	}
+	bool credential_is_saved(wstring connection)
+	{
+		return m_saved_credentials.find(connection) != m_saved_credentials.end();
+	}
+	wstring username_for_connection(wstring connection)
+	{
+		return m_saved_credentials[connection];
+	}
+	void set_credential(wstring connection, wstring username)
+	{
+		m_saved_credentials[connection] = username;
+	}
+	void remove_credential(wstring connection)
+	{
+		if (credential_is_saved(connection))
+		{
+			m_saved_credentials.erase(connection);
+		}
 	}
 
 	BEGIN_REGISTRY_MAP( HKEY_CURRENT_USER, resource_string( IDS_REG_KEY ), _T("PROPERTIES") ) ;
@@ -762,11 +794,16 @@ struct properties_general : public props::CRegMap
 		REG_ENTRY_BOOL( _T("GENERAL_OLD_MEM_MGR"),		m_data.m_old_mem_mgr)
 		REG_ENTRY_STRING( _T("GENERAL_USER_NAME"),		m_data.m_user_name, MAX_PATH )
 		REG_ENTRY_BOOL( _T("GENERAL_MUST_LOGIN"),		m_data.m_must_login)
+		REG_ENTRY_BOOL(_T("GENERAL_SAVE_CREDENTIALS"), m_data.m_save_credentials)
 	END_REGISTRY_MAP
 
 	// dealing with the actual XML doc objects
 	void build_xml_doc( pugi::xml_node &prefs );
 	bool parse_xml_doc( pugi::xml_document &doc );
+	
+	void serialize_credentials(pugi::xml_node &parent);
+	std::pair<wstring, wstring> parse_credential(pugi::xml_node &credential);
+	void parse_credentials(pugi::xml_node &credentials);
 
 } ;
 

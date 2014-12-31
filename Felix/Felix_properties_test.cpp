@@ -25,6 +25,7 @@ struct xml_string_writer_test: pugi::xml_writer
 		result += std::string(static_cast<const char*>(data), size);
 	}
 };
+
 BOOST_AUTO_TEST_SUITE( test_properties )
 
 	using namespace app_props ;
@@ -38,7 +39,6 @@ BOOST_AUTO_TEST_SUITE( test_properties )
 
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
-
 
 	BOOST_AUTO_TEST_CASE(assignment_memory)
 	{
@@ -123,6 +123,7 @@ BOOST_AUTO_TEST_SUITE( test_properties )
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
+
 // test_properties_loaded_history
 BOOST_AUTO_TEST_SUITE( test_properties_loaded_history )
 
@@ -163,14 +164,17 @@ BOOST_AUTO_TEST_SUITE( test_properties_general )
 		BOOST_CHECK_EQUAL((int)IDC_MERGE, props.m_data.m_merge_choice) ;
 		BOOST_CHECK(props.m_data.m_query_merge) ;
 		BOOST_CHECK(! props.m_data.m_old_mem_mgr) ;
-		BOOST_CHECK_EQUAL(L"Ryan", wstring(props.m_data.m_user_name)) ;
+		BOOST_CHECK(!props.m_data.m_must_login);
+		BOOST_CHECK(!props.m_data.m_save_credentials);
+		BOOST_CHECK(props.m_saved_credentials.empty());
+		BOOST_CHECK_EQUAL(L"Ryan", wstring(props.m_data.m_user_name));
 	}
-
 
 	BOOST_AUTO_TEST_CASE( test_NumMems_15 )
 	{
 		BOOST_CHECK_EQUAL(15, NumMems) ;
 	}
+
 	BOOST_AUTO_TEST_CASE( user_name_default_Ryan)
 	{
 		properties_general props ;
@@ -194,7 +198,6 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_historyTestCase )
 			BOOST_CHECK_EQUAL ( props.m_data.m_remote_mems[i][0], _T('\0') ) ; 
 			BOOST_CHECK_EQUAL ( props.m_data.m_remote_glosses[i][0], _T('\0') ) ; 
 		}
-
 
 		BOOST_CHECK_EQUAL ( props.m_data.m_num_gloss, 0 ) ;
 		BOOST_CHECK_EQUAL ( props.m_data.m_num_mems, 0 ) ;
@@ -340,7 +343,6 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_historyTestCase )
 BOOST_AUTO_TEST_SUITE_END()
 
 
-
 // properties_memory
 BOOST_AUTO_TEST_SUITE( properties_memoryTestCase )
 
@@ -447,7 +449,7 @@ BOOST_AUTO_TEST_SUITE( properties_algoTestCase )
 
 BOOST_AUTO_TEST_SUITE_END()
 
-
+// properties_qc
 BOOST_AUTO_TEST_SUITE( properties_qc_TestCase )
 
 	BOOST_AUTO_TEST_CASE( init )
@@ -1358,6 +1360,93 @@ BOOST_AUTO_TEST_SUITE_END()
 // properties_general
 BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 
+	BOOST_AUTO_TEST_CASE(parse_credential)
+	{
+		string text = "<credential>\n"
+			"<connection>200</connection>\n"
+			"<username>444</username>\n"
+			"</credential>\n";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL(result.status, pugi::status_ok);
+		pugi::xml_node credential = doc.child("credential");
+
+		app_props::properties_general props;
+		auto parse_result = props.parse_credential(credential);
+		BOOST_CHECK_EQUAL(parse_result.first, L"200");
+		BOOST_CHECK_EQUAL(parse_result.second, L"444");
+	}
+
+	BOOST_AUTO_TEST_CASE(parse_credential_degenerate)
+	{
+		string text = "<credential>\n"
+			"<connection>200</connection>\n"
+			"</credential>\n";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL(result.status, pugi::status_ok);
+		pugi::xml_node credential = doc.child("credential");
+
+		app_props::properties_general props;
+		auto parse_result = props.parse_credential(credential);
+		BOOST_CHECK(parse_result.first.empty());
+		BOOST_CHECK(parse_result.second.empty());
+	}
+
+	BOOST_AUTO_TEST_CASE(parse_credentials)
+	{
+		string text = "<properties_general>\n"
+			"<credentials>\n"
+			"<credential>\n"
+			"<connection>1</connection>\n"
+			"<username>bob</username>\n"
+			"</credential>\n"
+		"<credential>\n"
+			"<connection>2</connection>\n"
+			"<username>mary</username>\n"
+			"</credential>\n"
+			"</credentials>\n"
+			"</properties_general>\n";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL(result.status, pugi::status_ok);
+		pugi::xml_node credentials = doc.child("properties_general").child("credentials");
+
+		app_props::properties_general props;
+		props.parse_credentials(credentials);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials.size(), 2u);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials[L"1"], L"bob");
+		BOOST_CHECK_EQUAL(props.m_saved_credentials[L"2"], L"mary");
+	}
+
+	BOOST_AUTO_TEST_CASE(parse_credentials_degenerate)
+	{
+		string text = "<properties_general>\n"
+			"<credentials>\n"
+			"<credential>\n"
+			"<connection>1</connection>\n"
+			"<username>bob</username>\n"
+			"</credential>\n"
+			"<credential>\n"
+			"<username>mary</username>\n"
+			"</credential>\n"
+			"</credentials>\n"
+			"</properties_general>\n";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL(result.status, pugi::status_ok);
+		pugi::xml_node credentials = doc.child("properties_general").child("credentials");
+
+		app_props::properties_general props;
+		props.parse_credentials(credentials);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials.size(), 1u);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials[L"1"], L"bob");
+	}
+
 	BOOST_AUTO_TEST_CASE( load_xml )
 	{
 		string text = "<properties>\n"
@@ -1375,7 +1464,8 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 			"<query_merge>false</query_merge>\n" 
 			"<old_mem_mgr>true</old_mem_mgr>\n" 
 			"<must_login>true</must_login>\n"
-			"<user_name>jerry</user_name>\n" 
+			"<save_credentials>true</save_credentials>\n"
+			"<user_name>jerry</user_name>\n"
 			"</properties_general>\n" 
 			"</properties>";
 
@@ -1399,12 +1489,58 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 		BOOST_CHECK_EQUAL (props.m_data.m_query_merge, FALSE) ;
 		BOOST_CHECK_EQUAL (props.m_data.m_old_mem_mgr, TRUE) ;
 		BOOST_CHECK_EQUAL (props.m_data.m_must_login, TRUE) ;
-
+		BOOST_CHECK_EQUAL(props.m_data.m_save_credentials, TRUE);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials.size(), 0u);
 
 		BOOST_CHECK_EQUAL (wstring(props.m_data.m_user_name), L"jerry") ;
 
 	}
 
+	BOOST_AUTO_TEST_CASE(load_xml_with_credentials)
+	{
+		string text = "<properties>\n"
+			"<properties_general>\n"
+			"<window_size>200</window_size>\n"
+			"<preferred_gui_lang>444</preferred_gui_lang>\n"
+
+			"<load_prev_mem_on_startup>true</load_prev_mem_on_startup>\n"
+			"<load_prev_gloss_on_startup>true</load_prev_gloss_on_startup>\n"
+			"<show_markup>false</show_markup>\n"
+			"<first_launch>false</first_launch>\n"
+
+			"<merge_choice>475</merge_choice>\n"
+			"<save_credentials>true</save_credentials>\n"
+
+			"<query_merge>false</query_merge>\n"
+			"<old_mem_mgr>true</old_mem_mgr>\n"
+			"<must_login>true</must_login>\n"
+			"<user_name>jerry</user_name>\n"
+
+			"<credentials>\n"
+			"  <credential>\n"
+			"    <connection>1</connection>\n"
+			"    <username>bob</username>\n"
+			"  </credential>\n"
+			"  <credential>\n"
+			"    <connection>2</connection>\n"
+			"    <username>mary</username>\n"
+			"  </credential>\n"
+			"</credentials>\n"
+
+			"</properties_general>\n"
+			"</properties>";
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL(result.status, pugi::status_ok);
+
+		app_props::properties_general props;
+		props.parse_xml_doc(doc);
+
+		BOOST_CHECK_EQUAL(props.m_saved_credentials.size(), 2u);
+		BOOST_CHECK_EQUAL(props.m_saved_credentials[L"1"], L"bob");
+		BOOST_CHECK_EQUAL(props.m_saved_credentials[L"2"], L"mary");
+	}
 
 	BOOST_AUTO_TEST_CASE(build_xml_doc)
 	{
@@ -1448,6 +1584,7 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 			"		<query_merge>true</query_merge>\n"
 			"		<old_mem_mgr>true</old_mem_mgr>\n"
 			"		<must_login>false</must_login>\n"
+			"		<save_credentials>false</save_credentials>\n"
 
 			"		<user_name>Bozo The Clown</user_name>\n"
 
@@ -1457,6 +1594,71 @@ BOOST_AUTO_TEST_SUITE( properties_general_xml_tests )
 		BOOST_CHECK_EQUAL(actual, expected) ;
 	}
 
+	BOOST_AUTO_TEST_CASE(build_xml_doc_with_credentials)
+	{
+		app_props::properties_general props;
+		auto *data = &props.m_data;
+
+		data->m_window_size = 1;
+		data->m_preferred_gui_lang = 2;
+		data->m_merge_choice = 4;
+
+		data->m_load_prev_mem_on_startup = TRUE;
+		data->m_load_prev_gloss_on_startup = TRUE;
+		data->m_show_markup = TRUE;
+		data->m_first_launch = TRUE;
+
+		data->m_query_merge = TRUE;
+		data->m_old_mem_mgr = TRUE;
+
+		props.set_credential(L"http://192.168.50.10/3", L"Ryan");
+		props.set_credential(L"http://192.168.50.10/4", L"Sue");
+
+		_tcscpy_s(data->m_user_name, MAX_PATH, L"Bozo The Clown");
+
+		pugi::xml_document doc;
+		pugi::xml_node preferences = doc.append_child();
+		preferences.set_name("properties");
+		props.build_xml_doc(preferences);
+		xml_string_writer_test writer;
+		doc.save(writer);
+		string actual = writer.result;
+
+		string expected = "<?xml version=\"1.0\"?>\n"
+			"<properties>\n"
+			"	<properties_general>\n"
+			"		<window_size>1</window_size>\n"
+			"		<preferred_gui_lang>2</preferred_gui_lang>\n"
+			"		<merge_choice>4</merge_choice>\n"
+
+			"		<load_prev_mem_on_startup>true</load_prev_mem_on_startup>\n"
+			"		<load_prev_gloss_on_startup>true</load_prev_gloss_on_startup>\n"
+			"		<show_markup>true</show_markup>\n"
+			"		<first_launch>true</first_launch>\n"
+
+			"		<query_merge>true</query_merge>\n"
+			"		<old_mem_mgr>true</old_mem_mgr>\n"
+			"		<must_login>false</must_login>\n"
+			"		<save_credentials>false</save_credentials>\n"
+
+			"		<user_name>Bozo The Clown</user_name>\n"
+
+			"		<credentials>\n"
+			"			<credential>\n"
+			"				<connection>http://192.168.50.10/3</connection>\n"
+			"				<username>Ryan</username>\n"
+			"			</credential>\n"
+			"			<credential>\n"
+			"				<connection>http://192.168.50.10/4</connection>\n"
+			"				<username>Sue</username>\n"
+			"			</credential>\n"
+			"		</credentials>\n"
+
+			"	</properties_general>\n"
+			"</properties>\n";
+
+		BOOST_CHECK_EQUAL(actual, expected);
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
 #endif

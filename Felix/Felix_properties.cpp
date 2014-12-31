@@ -440,25 +440,8 @@ namespace app_props
 		this->m_data.m_mem_mousewheel = -20 ;
 		this->m_data.m_gloss_mousewheel = 20 ;
 #else
-		try
-		{
-			CDispatchWrapper utils(L"Felix.Utilities") ;
-			const CComVariant mem_val = utils.method(L"LoadProp", CComVariant(L"MainFrameZoom")) ;
-			if (mem_val.vt != VT_NULL)
-			{
-				this->m_data.m_mem_mousewheel = clamp_mousewheel(mem_val.intVal) ;
-			}
-			const CComVariant gloss_val = utils.method(L"LoadProp", CComVariant(L"GlossWindowZoom")) ;
-			if (gloss_val.vt != VT_NULL)
-			{
-				this->m_data.m_gloss_mousewheel = clamp_mousewheel(gloss_val.intVal) ;
-			}
-		}
-		catch (_com_error& e)
-		{
-			logging::log_error("Failed to retrieve mousewheel setting") ;
-			logging::log_exception(e) ;
-		}
+		this->m_data.m_mem_mousewheel = clamp_mousewheel(this->m_data.m_mem_mousewheel);
+		this->m_data.m_gloss_mousewheel = clamp_mousewheel(this->m_data.m_gloss_mousewheel);
 #endif // UNIT_TEST
 	}
 
@@ -541,10 +524,44 @@ namespace app_props
 
 		add_child(parent, "query_merge", bool2string(!! this->m_data.m_query_merge)) ;
 		add_child(parent, "old_mem_mgr", bool2string(!! this->m_data.m_old_mem_mgr)) ;
-		add_child(parent, "must_login", bool2string(!! this->m_data.m_must_login)) ;
+		add_child(parent, "must_login", bool2string(!!this->m_data.m_must_login));
+		add_child(parent, "save_credentials", bool2string(!!this->m_data.m_save_credentials));
 
 		add_child(parent, "user_name", static_cast<const char*>(CW2A(this->m_data.m_user_name))) ;
 
+		if (! m_saved_credentials.empty())
+		{
+			serialize_credentials(parent);
+		}
+
+	}
+	void properties_general::serialize_credentials(pugi::xml_node &parent)
+	{
+		pugi::xml_node credentials = parent.append_child();
+		credentials.set_name("credentials");
+		for(auto var: m_saved_credentials)
+		{
+			if (! var.first.empty() && ! var.second.empty())
+			{
+				logging::log_debug("saving credential: " + 
+					string2string(var.first) + "::" + string2string(var.second));
+				// credential
+				auto credential = credentials.append_child();
+				credential.set_name("credential");
+
+				// connection
+				auto connection = credential.append_child();
+				connection.set_name("connection");
+				string connection_value = string2string(var.first, CP_UTF8);
+				connection.append_child(pugi::node_pcdata).set_value(connection_value.c_str());
+
+				// username
+				auto username = credential.append_child();
+				username.set_name("username");
+				string username_value = string2string(var.second, CP_UTF8);
+				username.append_child(pugi::node_pcdata).set_value(username_value.c_str());
+			}
+		}
 	}
 
 	bool properties_general::parse_xml_doc( pugi::xml_document &doc )
@@ -565,6 +582,13 @@ namespace app_props
 			this->m_data.m_query_merge = read_xml_bool(parent, "query_merge") ;
 			this->m_data.m_old_mem_mgr = read_xml_bool(parent, "old_mem_mgr") ;
 			this->m_data.m_must_login = read_xml_bool(parent, "must_login") ;
+			this->m_data.m_save_credentials= read_xml_bool(parent, "save_credentials");
+
+			auto credentials = parent.child("credentials");
+			if (credentials)
+			{
+				this->parse_credentials(credentials);
+			}
 
 			const wstring user_name = read_xml_string(parent, "user_name") ;
 			_tcscpy_s( m_data.m_user_name, MAX_PATH, user_name.c_str()) ;
@@ -582,6 +606,37 @@ namespace app_props
 			return false ;
 		}
 		return true ;
+	}
+
+	void properties_general::parse_credentials(pugi::xml_node &credentials)
+	{
+		m_saved_credentials.clear();
+		for (pugi::xml_node credential = credentials.child("credential");
+			credential;
+			credential = credential.next_sibling("credential"))
+		{
+			auto result = this->parse_credential(credential);
+			if (!result.first.empty() && !result.second.empty())
+			{
+				m_saved_credentials[result.first] = result.second;
+			}
+		}
+	}
+
+	std::pair<wstring, wstring> properties_general::parse_credential(pugi::xml_node &credential)
+	{
+		pugi::xml_node connection_node = credential.child("connection");
+		pugi::xml_node username_node = credential.child("username");
+
+		if (!connection_node || !username_node)
+		{
+			logging::log_warn("Empty connection or username node in credential");
+			return std::make_pair(wstring(), wstring());
+		}
+
+		return std::make_pair(
+			string2wstring(connection_node.child_value(), CP_UTF8),
+			string2wstring(username_node.child_value(), CP_UTF8));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

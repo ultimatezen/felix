@@ -34,6 +34,8 @@
 #include "memory_remote.h"
 #include "FelixModel.h"
 
+#include "CredVault.h"
+
 using namespace mem_engine ;
 using namespace except ;
 using namespace html ;
@@ -724,7 +726,6 @@ bool GlossaryWindowFrame::add_record( record_pointer record, const size_t i )
 	auto model = this->get_model() ;
 	auto mem = model->get_memory_at(i) ;
 	return add_record(mem, record);
-
 }
 
 bool GlossaryWindowFrame::add_record( memory_pointer mem, record_pointer record )
@@ -1015,7 +1016,12 @@ bool GlossaryWindowFrame::set_window_title()
 	title += ( file_name.IsEmpty() ? R2TS( IDS_NEW ) : file_name ) ;
 	title += _T("]") ;
 
-	return FALSE != SetWindowText( title ) ;
+#ifdef UNIT_TEST 
+	return true ;
+#else
+	return FALSE != SetWindowText(title) ;
+#endif
+
 
 }							
 
@@ -1756,21 +1762,30 @@ LRESULT GlossaryWindowFrame::on_file_connect()
 	return add_remote_memory(m_model, dlg.m_memory) ;
 }
 
+/** handle tooltip text ourselves to enable dynamic switching.
+* (The default WTL way caches tooltip text)
+* This way, if we switch UI languages we still get the correct tooltip
+* text.
+*/
 LRESULT GlossaryWindowFrame::OnToolTipTextW(int idCtrl, LPNMHDR pnmh, BOOL& /*bHandled*/)
 {
 	if( m_toolmap.empty() )
 	{
 		init_tooltip_map(m_toolmap);
-
-		m_toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR_GLOSS ;
-		m_toolmap[ID_MEMORY_CLOSE] = IDS_GLOSSARY_CLOSE ;
-		m_toolmap[ID_FILE_SAVE] = IDS_SAVE_GLOSSARY ;
-		m_toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_GLOSSARIES ;
+		add_glossary_specific_tooltips();
 	}
 
 	handle_tooltip(pnmh, idCtrl, m_toolmap);
 
 	return 0;
+}
+
+void GlossaryWindowFrame::add_glossary_specific_tooltips()
+{
+	m_toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR_GLOSS;
+	m_toolmap[ID_MEMORY_CLOSE] = IDS_GLOSSARY_CLOSE;
+	m_toolmap[ID_FILE_SAVE] = IDS_SAVE_GLOSSARY;
+	m_toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_GLOSSARIES;
 }
 
 void GlossaryWindowFrame::delete_record(record_pointer rec)
@@ -1797,6 +1812,7 @@ void GlossaryWindowFrame::load_history()
 {
 	ATLTRACE("Loading glossary history\n") ;
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
+	auto gen_props = &m_props->m_gen_props;
 
 	m_model->clear() ;
 
@@ -1820,7 +1836,15 @@ void GlossaryWindowFrame::load_history()
 		{
 			memory_remote *mem = new memory_remote(m_props) ;
 			memory_pointer pmem(mem) ;
-			mem->connect(filename.c_str()) ;
+			wstring username, password;
+
+			if (gen_props->credential_is_saved(filename))
+			{
+				username = gen_props->username_for_connection(filename);
+				CredentialReader reader(filename);
+				password = reader.get_password();
+			}
+			mem->connect(filename.c_str(), username.c_str(), password.c_str());
 			this->add_glossary(pmem) ;
 		}
 		catch (CException& e)

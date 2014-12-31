@@ -16,11 +16,11 @@ class CConnectionDlg :
 	public CWindowExceptionHandler< CConnectionDlg >
 {
 	CCommandEdit	m_edit ;
-	CStatic m_err_box ;
 
 	CCommandEdit	m_username ;
 	CCommandEdit	m_password ;
 
+	CWindow			m_remember_cred_checkbox;
 public:
 	static const int IDD = IDD_CONNECTION_DLG ;
 	DECLARE_SENSING_VAR ;
@@ -30,21 +30,24 @@ public:
 	CConnectionDlg(app_props::props_ptr props);
 
 	LRESULT OnInitDialog( );
-	LRESULT OnOK(  WORD wID );
+	LRESULT OnOK(WORD wID);
 	LRESULT OnCloseCommand(WORD wID);
 
-	LRESULT OnLoginChecked(WORD, WORD, HWND, BOOL& );
+	void detach();
 
+	LRESULT OnLoginChecked(WORD, WORD, HWND, BOOL&);
+	LRESULT OnConnectionStringChanged(WORD, WORD, HWND, BOOL&);
 
 	BEGIN_MSG_MAP_EX(CConnectionDlg)
 	MSG_TRY	
-		MSG_HANDLER_0 ( WM_INITDIALOG, OnInitDialog )
+		MSG_HANDLER_0(WM_INITDIALOG, OnInitDialog)
 
 		COMMAND_HANDLER(IDC_CONN_LOGIN, BN_CLICKED, OnLoginChecked)
+		COMMAND_HANDLER(IDC_CONN_EDIT, EN_CHANGE, OnConnectionStringChanged)
 
 		BEGIN_CMD_HANDLER_EX
-			CMD_HANDLER_EX_ID ( IDCANCEL, OnCloseCommand )
-			CMD_HANDLER_EX_ID ( IDOK,     OnOK )
+			CMD_HANDLER_EX_ID(IDCANCEL, OnCloseCommand)
+			CMD_HANDLER_EX_ID(IDOK,     OnOK)
 		END_CMD_HANDLER_EX
 
 	MSG_CATCH( R2T( IDS_MSG_ACTION_FAILED ) )

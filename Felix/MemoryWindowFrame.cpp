@@ -52,6 +52,8 @@
 #include "memory_remote.h"
 #include "FelixModel.h"
 
+#include "CredVault.h"
+
 // file I/O
 #include "input_device_file.h"
 #include "output_device.h"
@@ -719,7 +721,9 @@ bool MemoryWindowFrame::add_glossary_window(app_props::props_ptr props)
 	{
 		gloss_window->m_apply_settings(sw_command) ;
 	}
-	gloss_window->ShowWindow(sw_command) ;
+#ifndef UNIT_TEST
+	gloss_window->ShowWindow(sw_command);
+#endif
 	gloss_window->set_listener( static_cast< CGlossaryWinListener* >( this ) ) ;
 
 	return true ;
@@ -2252,7 +2256,11 @@ bool MemoryWindowFrame::set_window_title()
 	// refresh glossary window title as well
 	this->get_glossary_window()->set_window_title() ;
 
+#ifndef UNIT_TEST
 	return FALSE != SetWindowText( title ) ;
+#else
+	return true;
+#endif
 }
 
 
@@ -3939,15 +3947,20 @@ LRESULT MemoryWindowFrame::OnToolTipTextW( int idCtrl, LPNMHDR pnmh, BOOL& /*bHa
 	{
 		init_tooltip_map(m_toolmap);
 
-		m_toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR ;
-		m_toolmap[ID_MEMORY_CLOSE] = IDS_MEMORY_CLOSE ;
-		m_toolmap[ID_FILE_SAVE] = IDS_SAVE_MEMORY ;
-		m_toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_MEMORIES ;
+		add_frame_specific_tooltips();
 	}
 
 	handle_tooltip(pnmh, idCtrl, m_toolmap);
 
 	return 0L;
+}
+
+void MemoryWindowFrame::add_frame_specific_tooltips()
+{
+	m_toolmap[ID_EDIT_FIND] = IDS_SEARCH_TOOLBAR;
+	m_toolmap[ID_MEMORY_CLOSE] = IDS_MEMORY_CLOSE;
+	m_toolmap[ID_FILE_SAVE] = IDS_SAVE_MEMORY;
+	m_toolmap[ID_FILE_SAVE_ALL] = IDS_SAVE_ALL_MEMORIES;
 }
 
 //! Tell the user that we failed to load the memory
@@ -4088,6 +4101,7 @@ void MemoryWindowFrame::check_placement_numbers( trans_match_container &PlacedMa
 
 		// new query/source
 		pairing_query_source(new_match, pairings, Transpair.second);
+		new_match->match_pairing().set(pairings);
 
 		PlacedMatches.insert( new_match ) ;
 	}
@@ -4106,6 +4120,7 @@ void MemoryWindowFrame::add_placement_match( search_match_ptr match, trans_pair 
 
 	// new query/source
 	pairing_query_source(new_match, pairings, trans_segs.second);
+	new_match->match_pairing().set(pairings);
 
 	PlacedMatches.insert( new_match ) ;
 }
@@ -4375,6 +4390,7 @@ void MemoryWindowFrame::load_history()
 	this->m_model->clear() ;
 
 	app_props::properties_loaded_history *history_props = &m_props->m_history_props ;
+	auto gen_props = &m_props->m_gen_props;
 
 	std::vector<wstring> &loaded_mems = history_props->m_loaded_mems ;
 
@@ -4397,7 +4413,15 @@ void MemoryWindowFrame::load_history()
 			LOG_VERBOSE(string("Loading remote from history: ") + string2string(filename)) ;
 			memory_remote *mem = new memory_remote(m_props) ;
 			memory_pointer pmem(mem) ;
-			mem->connect(filename.c_str()) ;
+			wstring username, password;
+
+			if (gen_props->credential_is_saved(filename))
+			{
+				username = gen_props->username_for_connection(filename);
+				CredentialReader reader(filename);
+				password = reader.get_password();
+			}
+			mem->connect(filename.c_str(), username.c_str(), password.c_str()) ;
 			this->add_memory(pmem) ;
 		}
 		catch (CException& e)
