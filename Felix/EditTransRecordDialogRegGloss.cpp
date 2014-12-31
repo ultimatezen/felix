@@ -26,7 +26,9 @@ LRESULT CEditTransRecordDialogRegGloss::OnInitDialog( )
 LRESULT CEditTransRecordDialogRegGloss::OnCancel( )
 {
 	SENSE("OnCancel"); 
+#ifndef UNIT_TEST
 	EndDialog(IDCANCEL);
+#endif
 	return 0L;
 }
 
@@ -36,7 +38,9 @@ LRESULT CEditTransRecordDialogRegGloss::OnOK( )
 
 	try
 	{
+#ifndef UNIT_TEST
 		m_make_defaults = !! IsDlgButtonChecked(IDC_DEFAULTS_CHECK) ;
+#endif
 		// source
 		fill_record() ;
 	}

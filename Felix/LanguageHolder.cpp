@@ -13,7 +13,12 @@ void CLanguageHolder::put_langs_into_combo(CComboBox & combo)
 {
 	FOREACH(tstring lang, m_languages)
 	{
+#ifndef UNIT_TEST
 		combo.AddString( lang.c_str() ) ;
+#else
+		combo;
+		logging::log_debug(string2string(lang));
+#endif
 	}
 }
 

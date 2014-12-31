@@ -949,7 +949,9 @@ void CSearchWindow::set_window_title( UINT pagetype )
 	}
 	CString brackets ;
 	brackets.Format(_T(" [%s]"), search) ;
-	SetWindowText( m_title + brackets) ;
+#ifndef UNIT_TEST
+	SetWindowText(m_title + brackets) ;
+#endif
 }
 
 void CSearchWindow::set_doc_ui_handler()

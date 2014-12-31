@@ -6,10 +6,8 @@
 
 namespace mem_engine
 {
-
 	namespace placement
 	{
-
 		/**
 		* Changes numbers to their narrow versions.
 		* Leaves other characters untouched.
@@ -37,6 +35,7 @@ namespace mem_engine
 			boost::replace_all(segment, L"&lt;span class=\"gloss_match\"&gt;", L"<span class=\"placement\">") ;
 			boost::replace_all(segment, L"&lt;/span&gt;", L"</span>") ;
 		}
+
 		/** Finds whether we are looking at a substitution text range.
 		*/
 		bool is_substitution(std::pair< std::wstring,
@@ -70,7 +69,6 @@ namespace mem_engine
 			}
 			return true ;
 		}
-
 
 		/** Returns whether the character is a number character or epsilon.
 		*/
@@ -120,6 +118,7 @@ namespace mem_engine
 			// then it is a match
 			return char_pos == gloss.size() ;
 		}
+
 		/** Marks up gloss match in query as specified pos
 		*/
 		void mark_gloss_match_in_query_at(pairings_t &pairs, const wstring gloss, const size_t pos)
@@ -150,7 +149,6 @@ namespace mem_engine
 				}
 			}
 		}
-
 
 		std::wstring mark_up( pairings_t &pairs, CharType ct )
 		{
@@ -204,7 +202,6 @@ namespace mem_engine
 			return boost::join(markup, L"") ;
 		}
 
-
 		wstring add_buffer_to_markup(MatchType MatchState, const wstring buffer, CharType ct) 
 		{
 			const static wstring NoMatchFmt( L"<span class=\"nomatch\">%s</span>" ) ;
@@ -234,7 +231,6 @@ namespace mem_engine
 			}
 			return result ;
 		}
-
 
 		double calc_score(pairings_t &pairs)
 		{

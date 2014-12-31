@@ -37,7 +37,8 @@ void logging::write_entry( LOGGING_LEVEL level, string level_str, string msg )
 		return ;
 	}
 	try
-	{
+	{		
+
 		ATLTRACE("%s - %s\n", level_str.c_str(), msg.c_str()) ;
 		if (! m_logger)
 		{

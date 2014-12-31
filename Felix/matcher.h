@@ -11,7 +11,7 @@ namespace mem_search
 	typedef boost::function<bool (const misc_wrappers::date, const misc_wrappers::date)> date_compare ;
 	typedef boost::function<bool (size_t, size_t)> num_compare ;
 
-	typedef std::pair<wstring, text_compare> text_cmp_result ;
+	typedef std::pair<const wstring, text_compare> text_cmp_result ;
 
 	// custom comparison functions
 	bool text_match( const wstring needle, const wstring haystack ) ;

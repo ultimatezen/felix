@@ -141,7 +141,7 @@ bool CReBarSettings::Load(LPCTSTR szRegKey, LPCTSTR szPrefix, HKEY hkRootKey/* =
 			reg.QueryDWORDValue(s + S_BAR_ID_VAL, m_pBands[i].ID);
 			reg.QueryDWORDValue(s + S_BAR_CX_VAL, m_pBands[i].cx);
 
-			DWORD dw;
+			DWORD dw = 0;
 			reg.QueryDWORDValue(s + S_BAR_BREAKLINE_VAL, dw);
 			m_pBands[i].BreakLine = dw != 0;
 		}

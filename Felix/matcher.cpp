@@ -38,13 +38,11 @@ namespace mem_search
 		const wstring REGEX_TAG = L"regex:" ;
 		if (boost::starts_with(query, REGEX_TAG))
 		{
-			return std::make_pair<wstring, text_compare>(replacer::getrest(query, REGEX_TAG),
-				regex_match) ;
+			return text_cmp_result(replacer::getrest(query, REGEX_TAG), regex_match) ;
 		}
 		else
 		{
-			return std::make_pair<wstring, text_compare>(query,
-				text_match) ;
+			return text_cmp_result(query, text_match);
 		}
 	}
 	num_compare get_num_compare(const wstring tag) 

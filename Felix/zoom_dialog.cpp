@@ -27,6 +27,7 @@ LRESULT CZoomDlg::OnInitDialog()
 {
 	SENSE("CZoomDlg::OnInitDialog") ;
 
+#ifndef UNIT_TEST
 	m_ZoomCtrl.Attach(GetDlgItem(IDC_SLIDER1)) ;
 	m_ZoomCtrl.SetRange(ZOOM_MIN, ZOOM_MAX);
 	m_ZoomCtrl.SetTicFreq(TIC_FREQ) ;
@@ -34,6 +35,7 @@ LRESULT CZoomDlg::OnInitDialog()
 	m_ZoomCtrl.EnableWindow();
 	// set icon
 	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
+#endif
 
 	return TRUE;
 }

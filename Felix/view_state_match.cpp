@@ -197,8 +197,8 @@ wstring ViewStateMatchMain::get_view_content()
 		for(size_t i = 0 ; i < this->m_gloss_matches->size() ; ++i)
 		{
 			search_match_ptr gloss_match = this->m_gloss_matches->at(i) ;
-			const wstring source = gloss_match->get_record()->get_source_plain() ;
-			gloss_sources.insert(boost::trim_copy(source)) ;
+			const wstring gloss_source = gloss_match->get_record()->get_source_plain() ;
+			gloss_sources.insert(boost::trim_copy(gloss_source)) ;
 		}
 		FOREACH(wstring gloss, gloss_sources)
 		{

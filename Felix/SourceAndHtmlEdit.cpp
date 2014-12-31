@@ -496,7 +496,10 @@ HWND CSourceAndHtmlEdit::getDocumentHWND()
 	}
 
 	HWND hwnd = NULL;
-	docWindow->GetWindow( &hwnd );
+	if (FAILED(docWindow->GetWindow(&hwnd)))
+	{
+		return NULL;
+	}
 	return hwnd;
 }
 

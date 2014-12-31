@@ -374,7 +374,7 @@ public:
 	*/
 	char_type unget( size_t steps = 1 ) 
 	{ 
-		char_type c ;
+		char_type c = 0 ;
 		if ( m_pos == NULL || m_pos == m_buffer )
 		{
 			c = char_type(0) ;
@@ -386,7 +386,10 @@ public:
 				if ( m_pos != m_buffer )
 					m_pos = str::generic_char_prev( m_buffer, m_pos ) ; 
 			}
-			c = *m_pos ;
+			if (m_pos)
+			{
+				c = *m_pos;
+			}
 		}
 
 		return c; 

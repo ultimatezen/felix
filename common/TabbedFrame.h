@@ -331,7 +331,10 @@ public:
 		// Initialize nFontLogicalUnits to the typical case
 		// appropriate for CDotNetTabCtrl
 		LOGFONT lfIcon = { 0 };
-		::SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfIcon), &lfIcon, 0);
+		if (!::SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfIcon), &lfIcon, 0))
+		{
+			return;
+		}
 		int nFontLogicalUnits = -lfIcon.lfHeight;
 
 		// Use the actual font of the tab control

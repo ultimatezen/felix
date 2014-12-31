@@ -259,7 +259,11 @@ public:
 
 	bool is_validated() 
 	{
+#ifndef UNIT_TEST
 		return !! IsDlgButtonChecked(IDC_VALIDATED_CHECK);
+#else
+		return true;
+#endif
 	}
 
 	void init_dlg_part_two()

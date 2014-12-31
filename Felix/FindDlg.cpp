@@ -71,22 +71,25 @@ info in the edit boxes and such, but not the params.
 LRESULT CFindDlg::OnInitDialog( )
 {
 	logging::log_verbose("Initializing the find dialog") ;
+#ifndef UNIT_TEST
 	// set icon
-	SetIcon( LoadIcon( _Module.GetResourceInstance(), MAKEINTRESOURCE( IDR_MAINFRAME) ), FALSE ) ;
+	SetIcon(LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDR_MAINFRAME)), FALSE);
 
 	// set our message filter...
-#ifndef UNIT_TEST
 	register_message_filter(this) ;
 #endif
+
 	// ===============
 	// checkbox setup
 	// ===============
 
+#ifndef UNIT_TEST
 	CheckDlgButton( IDC_ONLY_VALIDATED_CHECK, ( m_params.m_only_validated ? BST_CHECKED : BST_UNCHECKED ) ) ;
 	CheckDlgButton( IDC_REGEX_CHECK, ( m_params.m_use_regex ? BST_CHECKED : BST_UNCHECKED ) ) ;
 	CheckDlgButton( IDC_IGNORE_CASE_CHECK, ( m_params.m_ignore_case ? BST_CHECKED : BST_UNCHECKED ) ) ;
 	CheckDlgButton( IDC_FIND_IGNORE_WIDTH_CHECK, ( m_params.m_ignore_width ? BST_CHECKED : BST_UNCHECKED ) ) ;
 	CheckDlgButton( IDC_FIND_IGNORE_HIR_KAT_CHECK, ( m_params.m_ignore_hira_kata? BST_CHECKED : BST_UNCHECKED ) ) ;
+#endif
 
 	// ===============
 	// source setup
@@ -94,21 +97,27 @@ LRESULT CFindDlg::OnInitDialog( )
 
 	// create the source window 
 	
+#ifndef UNIT_TEST
 	m_source_edit.Attach( GetDlgItem( IDC_SOURCE_BOX ) ) ;
+#endif
 
 	// ===============
 	// trans setup
 	// ===============
 
 	// create the trans window
+#ifndef UNIT_TEST
 	m_trans_edit.Attach( GetDlgItem( IDC_TRANS_BOX ) ) ;
+#endif
 
 	// ===============
 	// context setup
 	// ===============
 
 	// create the context window 
+#ifndef UNIT_TEST
 	m_context_edit.Attach( GetDlgItem( IDC_CONTEXT_BOX ) )  ;
+#endif
 
 #ifdef UNIT_TEST
 	return 0L ;

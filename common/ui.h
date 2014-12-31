@@ -190,7 +190,7 @@ public:
 
 			// default extension
 			m_dialog.m_ofn.lpstrDefExt = NULL  ;
-		}
+	}
 
 		int get_selected_index()
 		{
