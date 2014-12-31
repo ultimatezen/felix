@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -33,12 +33,23 @@
     <UseOfAtl>Dynamic</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfAtl>Dynamic</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Testing_64|Win32'">
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_64|Win32'">
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -423,7 +434,6 @@
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="..\..\common\Exceptions.cpp" />
     <ClCompile Include="..\..\common\font_properties.cpp" />
-    <ClCompile Include="..\..\common\GetWinVer.cpp" />
     <ClCompile Include="hooker.cpp" />
     <ClCompile Include="..\..\common\html_formatter.cpp" />
     <ClCompile Include="..\..\common\html_processing.cpp" />
@@ -537,7 +547,6 @@
     <ClInclude Include="..\..\common\config_file.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="..\..\common\font_properties.h" />
-    <ClInclude Include="..\..\common\GetWinVer.h" />
     <ClInclude Include="hooker.h" />
     <ClInclude Include="..\..\common\html_formatter.h" />
     <ClInclude Include="..\..\common\html_processing.h" />

@@ -51,9 +51,6 @@
     <ClCompile Include="..\..\common\font_properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\GetWinVer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hooker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -383,9 +380,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\font_properties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\GetWinVer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hooker.h">

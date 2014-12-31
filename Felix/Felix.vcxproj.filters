@@ -1968,6 +1968,9 @@
     <ClInclude Include="..\common\TabbedFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CredVault.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\Felix.exe.manifest">
