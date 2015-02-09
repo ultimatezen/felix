@@ -12,4 +12,4 @@ public:
 	virtual wstring get_seg_text() = 0 ;
 };
 
-typedef boost::shared_ptr<OfficeSeg> office_seg_ptr ;
+typedef std::shared_ptr<OfficeSeg> office_seg_ptr ;

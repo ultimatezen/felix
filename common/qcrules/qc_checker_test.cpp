@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_SUITE( QcCheckerTests )
 	{
 		std::vector<rule_ptr> rules; 
 		NumberCheckRule *rule1 = new NumberCheckRule;
-		rules.push_back(boost::shared_ptr<CheckRule>(rule1)) ;
+		rules.push_back(std::shared_ptr<CheckRule>(rule1)) ;
 
 		QcChecker checker(rules) ;
 
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_SUITE( QcCheckerTests )
 		std::vector<rule_ptr> rules; 
 		FailsRule *rule1 = new FailsRule;
 		rule1->add_message(L"Failure message") ;
-		rules.push_back(boost::shared_ptr<CheckRule>(rule1)) ;
+		rules.push_back(std::shared_ptr<CheckRule>(rule1)) ;
 
 		QcChecker checker(rules) ;
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_SUITE( QcCheckerTests )
 	{
 		std::vector<rule_ptr> rules; 
 		NumberCheckRule *rule1 = new NumberCheckRule;
-		rules.push_back(boost::shared_ptr<CheckRule>(rule1)) ;
+		rules.push_back(std::shared_ptr<CheckRule>(rule1)) ;
 
 		QcChecker checker(rules) ;
 		wstring source = L"I have 5 numbers." ;
@@ -84,8 +84,8 @@ BOOST_AUTO_TEST_SUITE( QcCheckerTests )
 		std::vector<rule_ptr> rules; 
 		NumberCheckRule *rule1 = new NumberCheckRule;
 		AllCapsCheckRule *rule2 = new AllCapsCheckRule;
-		rules.push_back(boost::shared_ptr<CheckRule>(rule1)) ;
-		rules.push_back(boost::shared_ptr<CheckRule>(rule2)) ;
+		rules.push_back(std::shared_ptr<CheckRule>(rule1)) ;
+		rules.push_back(std::shared_ptr<CheckRule>(rule2)) ;
 
 		QcChecker checker(rules) ;
 

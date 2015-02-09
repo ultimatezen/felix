@@ -58,5 +58,5 @@ namespace mem_engine
 
 	};
 
-	typedef boost::shared_ptr< markup_strings > markup_ptr ;
+	typedef std::shared_ptr< markup_strings > markup_ptr ;
 }

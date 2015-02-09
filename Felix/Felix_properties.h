@@ -39,6 +39,10 @@ namespace app_props
 	std::vector<wstring> m_loaded_remote_mems ;
 	std::vector<wstring> m_loaded_remote_gloss ;
 
+	wstring m_memory_location;
+	wstring m_glossary_location;
+	wstring m_preferences_location;
+
 	struct props_data
 	{
 		int m_num_mems ;
@@ -847,7 +851,7 @@ struct properties
 	void build_xml_doc(pugi::xml_document &doc);
 } ;
 
-typedef boost::shared_ptr<properties> props_ptr ;
+typedef std::shared_ptr<properties> props_ptr ;
 
 inline props_ptr get_props()
 {

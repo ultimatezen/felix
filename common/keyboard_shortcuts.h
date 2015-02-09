@@ -47,13 +47,13 @@ namespace shortcuts
 						const string &command);
 	};
 
-	typedef boost::shared_ptr<KeyboardShortcut> shortcut_ptr ;
+	typedef std::shared_ptr<KeyboardShortcut> shortcut_ptr ;
 
 	class KeyboardShortcuts
 	{
 	public:
 		typedef std::map<wchar_t, shortcut_ptr> shortcut_map ;
-		typedef boost::shared_ptr<shortcut_map> shortcut_map_ptr ;
+		typedef std::shared_ptr<shortcut_map> shortcut_map_ptr ;
 		typedef std::map<wchar_t, shortcut_map_ptr> key_map ;
 
 		key_map m_ctrl_shortcuts ;

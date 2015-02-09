@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE( TestCMemoryManagerDlg )
 	using namespace mem_engine ;
 	using namespace app_props ;
 
-	typedef boost::shared_ptr<memory_model> model_ptr ;
+	typedef std::shared_ptr<memory_model> model_ptr ;
 
 	model_ptr get_model()
 	{

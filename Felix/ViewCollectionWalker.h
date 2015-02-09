@@ -24,7 +24,7 @@ class CViewCollectionWalker
 	typedef std::vector< SearchMatchType > MatchListType ;
 
 	typedef mem_engine::record_pointer record_pointer ;
-	typedef boost::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
+	typedef std::shared_ptr<mem_engine::memory_model> MemoryControllerType ;
 
 	typedef mem_engine::memory_pointer MemPtr ;
 

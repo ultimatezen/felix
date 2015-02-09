@@ -176,8 +176,8 @@ STDMETHODIMP CConnect::OnDisconnection(AddInDesignerObjects::ext_DisconnectMode 
 	try
 	{
 		logging::log_debug("PowerPoint Assist :: OnDisconnection") ;
-		m_pApplication = NULL;
-		m_pAddInInstance = NULL;
+		m_pApplication = nullptr;
+		m_pAddInInstance = nullptr;
 		logging::set_logger(logger_ptr()) ;
 	}
 	catch( _com_error &e ) 

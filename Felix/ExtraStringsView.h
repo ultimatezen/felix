@@ -9,7 +9,7 @@ class CExtraStringsView
 {
 	CStaticT<CWindow>				m_extra_strings_box ;
 
-	boost::shared_ptr< html::CHtmlView > m_extra_strings_view ;
+	std::shared_ptr< html::CHtmlView > m_extra_strings_view ;
 
 	CWindow				m_parent_dlg ;
 

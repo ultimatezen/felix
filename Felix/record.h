@@ -100,11 +100,11 @@ namespace mem_engine
 		// CmpMaker
 		virtual void set_cmp_maker(CmpMaker *maker) = 0;
 
-		virtual boost::shared_ptr< translation_record > clone() = 0;
+		virtual std::shared_ptr< translation_record > clone() = 0;
 		virtual record_data_map& get_data_map() = 0 ;
 
-		virtual void internal_copy( const boost::shared_ptr< translation_record > rec ) = 0;
-		virtual boost::shared_ptr< translation_record > copy_from_self( boost::shared_ptr< translation_record > &rec ) = 0;
+		virtual void internal_copy( const std::shared_ptr< translation_record > rec ) = 0;
+		virtual std::shared_ptr< translation_record > copy_from_self( std::shared_ptr< translation_record > &rec ) = 0;
 
 		virtual size_t get_id() const = 0;
 		virtual void set_id(size_t id) = 0; 
@@ -112,7 +112,7 @@ namespace mem_engine
 
 	/** ref-counted pointer to translation record.
 	*/
-	typedef boost::shared_ptr< translation_record > record_pointer ;
+	typedef std::shared_ptr< translation_record > record_pointer ;
 
 	// bool operator < 
 	// compares two translation_records -- for use in stl containers etc.

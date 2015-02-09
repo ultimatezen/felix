@@ -74,4 +74,4 @@ public:
 	}
 };
 
-typedef boost::shared_ptr< FelixApp > ta_ptr ;
+typedef std::shared_ptr< FelixApp > ta_ptr ;

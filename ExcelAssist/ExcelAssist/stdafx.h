@@ -58,7 +58,6 @@ typedef boost::basic_format< TCHAR > tformat;
 #pragma warning( default : 4100 ) // unreferenced formal parameter
 
 
-#include <boost/shared_ptr.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/shared_array.hpp>
 

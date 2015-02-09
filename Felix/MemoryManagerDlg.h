@@ -6,15 +6,10 @@
 #pragma once
 
 #include "HtmlView.h"
-
 #include "TranslationMemory.h"
-
 #include "resource.h"
-
 #include "AdvancedMemMgrDlg.h"
-
 #include "memory_model.h"
-
 #include "ProgressListener.h"
 
 
@@ -97,8 +92,8 @@ public:
 	wstring get_loading_message( const CString &mem_file );
 	void reflect_checkstate();
 	void fill_listview();
-	void set_memories( boost::shared_ptr<mem_engine::memory_model> controller );
-	void get_memories( boost::shared_ptr<mem_engine::memory_model> memories );
+	void set_memories( std::shared_ptr<mem_engine::memory_model> controller );
+	void get_memories( std::shared_ptr<mem_engine::memory_model> memories );
 	mem_engine::memory_pointer get_memory_at( int sel );
 
 	mem_engine::memory_iterator get_pos_at( int sel );
@@ -213,4 +208,6 @@ public:
 	void set_button_focus() ;
 
 	void add_memory_files( file::OpenDlgList &import_files ) ;
+
+	CString get_save_destination(mem_engine::memory_pointer mem);
 };

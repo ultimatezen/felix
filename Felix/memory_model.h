@@ -94,6 +94,6 @@ public:
 	memory_pointer create_memory() ;
 };
 
-typedef boost::shared_ptr<memory_model> model_ptr ;
+typedef std::shared_ptr<memory_model> model_ptr ;
 
 }

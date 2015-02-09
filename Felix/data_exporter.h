@@ -1,6 +1,6 @@
-#if !defined(AFX_trados_data_exporter_H__C0E64BCD_075F_4188_BC7C_22C5852C62C2__INCLUDED_)
-#define AFX_trados_data_exporter_H__C0E64BCD_075F_4188_BC7C_22C5852C62C2__INCLUDED_
-
+/*
+ Data export classes (multiterm)
+ */
 #pragma once
 
 #include "File.h"
@@ -82,8 +82,7 @@ public:
 };
 
 /**
- * Base class of common functions for exporting 
- * memories in MultiTerm v. 5.5 format.
+ * Exports memories in MultiTerm v. 5.5 format.
  */
 class multiterm_data_exporter_55
 {
@@ -110,11 +109,11 @@ private:
 } ;
 
 /**
- *	The multiterm6_data_exporter class. Exports a memory in Trados(R) MultiTerm 6.0 format (Unicode).
+ *	Exports a glossary in Trados(R) MultiTerm 6.0 format (Unicode).
  */
 class multiterm_data_exporter_6
 {
-	typedef boost::shared_ptr<OutputDevice> output_device_ptr  ;
+	typedef std::shared_ptr<OutputDevice> output_device_ptr  ;
 	wstring m_source_lang ;
 	wstring m_target_lang ;
 	
@@ -136,6 +135,3 @@ private:
 	void write_line( wstring col1, wstring col2, wstring col3 );
 	wstring prep_string( wstring line );
 } ;
-
-
-#endif // !defined(AFX_trados_data_exporter_H__C0E64BCD_075F_4188_BC7C_22C5852C62C2__INCLUDED_)

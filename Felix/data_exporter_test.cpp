@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_55 )
 		exporter.set_target("English") ;
 
 		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = boost::shared_ptr<OutputDevice>(device) ;
+		exporter.m_file = std::shared_ptr<OutputDevice>(device) ;
 
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_SUITE( test_multiterm_data_exporter_6 )
 		exporter.set_target(L"English") ;
 
 		OutputDeviceFake *device = new OutputDeviceFake ;
-		exporter.m_file = boost::shared_ptr<OutputDevice>(device) ;
+		exporter.m_file = std::shared_ptr<OutputDevice>(device) ;
 
 		mem_engine::memory_pointer mem = FelixFactory().make_memory() ;
 		record_pointer rec1(new record_local) ;

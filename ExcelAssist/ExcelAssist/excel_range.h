@@ -82,5 +82,5 @@ public:
 	}
 };
 
-typedef boost::shared_ptr< range > range_ptr ;
+typedef std::shared_ptr< range > range_ptr ;
 }

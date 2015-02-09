@@ -13,7 +13,7 @@ public:
 	virtual void open(const CString filename) = 0 ;
 	virtual void ensure_dirs(const CString dirname) = 0 ;
 };
-typedef boost::shared_ptr<OutputDevice> output_device_ptr  ;
+typedef std::shared_ptr<OutputDevice> output_device_ptr  ;
 
 class OutputDeviceFile : public OutputDevice
 {

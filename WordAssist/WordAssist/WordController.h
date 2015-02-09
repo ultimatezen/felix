@@ -145,7 +145,7 @@ private:
 	bool handle_exception(except::CException &e, CString msg);
 
 
-	void configure_parser_font_settings(boost::shared_ptr<WordParser> parser);
+	void configure_parser_font_settings(std::shared_ptr<WordParser> parser);
 
 	void configure_writer_font_settings(word_writer& writer);
 

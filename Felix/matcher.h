@@ -36,7 +36,7 @@ namespace mem_search
 	public:
 		virtual bool is_match(record_pointer record) = 0 ;
 	};
-	typedef boost::shared_ptr<matcher> matcher_ptr ;
+	typedef std::shared_ptr<matcher> matcher_ptr ;
 
 	// created on
 	class matcher_nullop : public matcher

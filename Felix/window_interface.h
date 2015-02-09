@@ -70,7 +70,7 @@ public:
 	}
 };
 
-typedef boost::shared_ptr<WindowWrapper> window_wrapper_ptr ;
+typedef std::shared_ptr<WindowWrapper> window_wrapper_ptr ;
 
 inline window_wrapper_ptr get_window_real(HWND hwnd)
 {

@@ -62,5 +62,5 @@ public:
 };
 
 
-typedef boost::shared_ptr<FelixModelInterface> model_iface_ptr ;
+typedef std::shared_ptr<FelixModelInterface> model_iface_ptr ;
 

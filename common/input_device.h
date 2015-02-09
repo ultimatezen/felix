@@ -20,4 +20,4 @@ public:
 	virtual void open(const CString filename) = 0 ;
 };
 
-typedef boost::shared_ptr<InputDevice> input_device_ptr ;
+typedef std::shared_ptr<InputDevice> input_device_ptr ;

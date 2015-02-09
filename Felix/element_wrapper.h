@@ -14,7 +14,7 @@ public:
 	virtual void focus() = 0 ;
 };
 
-typedef boost::shared_ptr<element_wrapper> element_wrapper_ptr ;
+typedef std::shared_ptr<element_wrapper> element_wrapper_ptr ;
 
 class element_wrapper_html : public element_wrapper
 {

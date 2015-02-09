@@ -35,6 +35,7 @@
 #include "FelixModel.h"
 
 #include "CredVault.h"
+#include "file_dialog.h"
 
 using namespace mem_engine ;
 using namespace except ;
@@ -44,7 +45,7 @@ using namespace html ;
 GlossaryWindowFrame::GlossaryWindowFrame(app_props::props_ptr props) : 
 	m_props(props),
 	m_is_main(false),
-	m_listener(NULL),
+	m_listener(nullptr),
 	m_editor(new CEditTransRecordDialog),
 	m_is_trans_concordance(false),
 	m_manager_window(props, IDS_GLOSSARY_MANAGER_TITLE, _T("MemoryMangerWindowGloss"), this),
@@ -590,7 +591,7 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 	}
 	catch ( ... ) 
 	{
-		mem->set_listener(NULL) ;
+		mem->set_listener(nullptr);
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
 			m_model->remove_memory_by_id( mem->get_id() ) ;
@@ -598,7 +599,7 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 		throw ;
 	}
 
-	mem->set_listener(NULL) ;
+	mem->set_listener(nullptr);
 	set_window_title() ;
 
 	if ( success )
@@ -797,8 +798,6 @@ bool GlossaryWindowFrame::handle_open()
 	open_file_dlg dialog ;
 
 	dialog.set_prompt( R2T( IDS_OPEN_GLOSS_FILE ) ) ;
-
-	dialog.set_filter( get_open_filter() ) ;
 
 	file::OpenDlgList import_files ;
 	if ( ! dialog.get_open_files( import_files ) ) 
@@ -1148,6 +1147,10 @@ LRESULT GlossaryWindowFrame::OnUserPrev( LPARAM /* lParam */ )
 CString GlossaryWindowFrame::get_window_type_string()
 {
 	return resource_string(IDS_GLOSSARY) ;
+}
+bool GlossaryWindowFrame::is_glossary_window()
+{
+	return true;
 }
 
 void GlossaryWindowFrame::route_nav_command(LPMSG pMsg)
@@ -1721,16 +1724,6 @@ void GlossaryWindowFrame::refresh_mru_doc_list(HMENU menu)
 	m_mru.ReadFromRegistry( R2T( IDS_REG_KEY_GLOSS ) );
 }
 
-LPCTSTR GlossaryWindowFrame::get_save_filter()
-{
-	return get_gloss_save_filter() ;
-}
-
-LPCTSTR GlossaryWindowFrame::get_open_filter()
-{
-	return get_gloss_open_filter() ;
-}
-
 // This is just to fool would-be crackers into going on a goose chase.
 // Consider removing.
 void GlossaryWindowFrame::seed_random_numbers()
@@ -2101,37 +2094,32 @@ void GlossaryWindowFrame::set_menu_checkmark( int item_id, bool is_checked )
 
 void GlossaryWindowFrame::save_memory_as( memory_pointer mem )
 {
-	CString original_file_name ;
-	if ( mem->is_new() == false )
+	CString original_file_name;
+	if (mem->is_new() == false)
 	{
-		original_file_name = mem->get_location() ;
+		original_file_name = mem->get_fullpath();
 	}
 
-	save_file_dlg dialog ;
+	CString dialog_title;
+	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_GLOSSARY));
 
-	if ( ! original_file_name.IsEmpty() ) 
+	file_save_dialog dialog(
+		m_props->m_history_props.m_glossary_location,
+		original_file_name,
+		dialog_title,
+		get_gloss_save_filter(),
+		L"fgloss"
+		);
+
+	if (!dialog.show())
 	{
-		file::CPath path( original_file_name ) ;
-		path.RemoveExtension() ;
-		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
+		user_feedback(IDS_CANCELLED_ACTION);
+		return;
 	}
 
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_GLOSSARY ) ) ;
-	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
+	CString save_as_file_name = dialog.get_save_destination() ;
 
-	dialog.set_filter( get_save_filter() ) ;
-
-	CString save_as_file_name = dialog.get_save_file() ;
-
-	if ( save_as_file_name.IsEmpty() )
-	{
-		return ;
-	}
-
-	const int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
+	switch (dialog.get_selected_index())
 	{
 	case 1: case 7:
 		logging::log_debug("Saving glossary as fgloss file") ;

@@ -9,7 +9,7 @@ class FelixModelInterfaceFake : public FelixModelInterface
 public:
 	DECLARE_SENSING_VAR ;
 
-	typedef boost::shared_ptr<mem_engine::memory_model> model_ptr ;
+	typedef std::shared_ptr<mem_engine::memory_model> model_ptr ;
 	typedef mem_engine::memory_pointer memory_type ;
 
 	model_ptr m_model ;

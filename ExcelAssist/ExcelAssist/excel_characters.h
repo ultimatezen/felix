@@ -30,5 +30,5 @@ namespace excel
 		}
 	};
 
-	typedef boost::shared_ptr< characters > chars_ptr ;
+	typedef std::shared_ptr< characters > chars_ptr ;
 }

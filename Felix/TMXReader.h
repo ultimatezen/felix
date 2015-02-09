@@ -104,7 +104,7 @@ class CTMXReader
 	mem_engine::memory_pointer m_memory ;
 	mem_engine::record_pointer	m_record ;
 
-	boost::shared_ptr< tmx_data_importer > m_rtf_importer ;
+	std::shared_ptr< tmx_data_importer > m_rtf_importer ;
 
 	CProgressListener	*m_listener ;
 

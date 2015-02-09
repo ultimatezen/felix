@@ -82,7 +82,7 @@ private:
 	void internal_copy( const search_match &cpy );
 };
 
-typedef boost::shared_ptr< search_match > search_match_ptr ;
+typedef std::shared_ptr< search_match > search_match_ptr ;
 
 // ================
 // struct search_match_compare 

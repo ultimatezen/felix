@@ -34,7 +34,7 @@ class CTMXWriter
 {
 VISIBLE_TO_TESTS
 
-	boost::shared_ptr<OutputDevice> m_file ;
+	std::shared_ptr<OutputDevice> m_file ;
 
 	mem_engine::memory_pointer	m_memory ;
 

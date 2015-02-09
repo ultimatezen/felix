@@ -16,7 +16,7 @@ public:
 
 };
 
-typedef boost::shared_ptr<ExcelInterface>	ExcelInterfacePtr ;
+typedef std::shared_ptr<ExcelInterface>	ExcelInterfacePtr ;
 
 
 

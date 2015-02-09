@@ -1613,7 +1613,7 @@ bool WordController::OnHelpAction()
  */
 bool WordController::select_next_sentence()
 {
-	typedef boost::shared_ptr<WordParser> parser_ptr ;
+	typedef std::shared_ptr<WordParser> parser_ptr ;
 
 	CWordScreenUpdateLock screen_lock( m_word_object ) ;
 		
@@ -1662,7 +1662,7 @@ bool WordController::select_next_sentence()
   */
 _bstr_t WordController::get_selection_text(bool as_plaintext )
 {
-	typedef boost::shared_ptr<WordParser> parser_ptr ;
+	typedef std::shared_ptr<WordParser> parser_ptr ;
 	CWordScreenUpdateLock screen_lock( m_word_object ) ;
 		
 	WordSelection selection = m_word_object.get_selection() ;
@@ -1695,7 +1695,7 @@ _bstr_t WordController::get_selection_text(bool as_plaintext )
  * \brief
  * Write brief comment for configure_parser_font_settings here.
  */
-void WordController::configure_parser_font_settings(boost::shared_ptr<WordParser> parser)
+void WordController::configure_parser_font_settings(std::shared_ptr<WordParser> parser)
 {
 	m_word2html->set_properties(&m_properties) ;
 
@@ -1822,14 +1822,14 @@ bool WordController::OnToMaruAction(bool as_plaintext)
 		
 		WordSelection selection = m_word_object.get_selection() ;
 		
-		boost::shared_ptr<WordParser> parser = 
-			boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
+		std::shared_ptr<WordParser> parser = 
+			std::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 		if( ! parser->select_to_maru( ) )
 		{
 			try
 			{
-				parser = boost::shared_ptr<WordParser>() ;
+				parser = std::shared_ptr<WordParser>() ;
 			}
 			catch (CException& e)
 			{
@@ -1846,7 +1846,7 @@ bool WordController::OnToMaruAction(bool as_plaintext)
 		{
 			try
 			{
-				parser = boost::shared_ptr<WordParser>() ;
+				parser = std::shared_ptr<WordParser>() ;
 			}
 			catch (CException& e)
 			{
@@ -1859,7 +1859,7 @@ bool WordController::OnToMaruAction(bool as_plaintext)
 		OnLookupAction(as_plaintext) ;
 		try
 		{
-			parser = boost::shared_ptr<WordParser>() ;
+			parser = std::shared_ptr<WordParser>() ;
 		}
 		catch (CException& e)
 		{
@@ -1877,8 +1877,8 @@ bool WordController::OnMem2TransAction(bool as_plaintext)
 	m_is_auto = true ;
 	WordSelection selection = m_word_object.get_selection() ;
 
-	boost::shared_ptr<WordParser> parser 
-		= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
+	std::shared_ptr<WordParser> parser 
+		= std::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 	word_writer writer( selection ) ;
 	
@@ -1894,7 +1894,7 @@ bool WordController::OnMem2TransAction(bool as_plaintext)
 		{
 			try
 			{
-				parser = boost::shared_ptr<WordParser>() ;
+				parser = std::shared_ptr<WordParser>() ;
 			}
 			catch (CException& e)
 			{
@@ -1933,7 +1933,7 @@ bool WordController::OnMem2TransAction(bool as_plaintext)
 				range.select_range(end_pos, end_pos) ;
 				try
 				{
-					parser = boost::shared_ptr<WordParser>() ;
+					parser = std::shared_ptr<WordParser>() ;
 				}
 				catch (CException& e)
 				{
@@ -1994,7 +1994,7 @@ bool WordController::OnMem2TransAction(bool as_plaintext)
 	}
 	try
 	{
-		parser = boost::shared_ptr<WordParser>() ;
+		parser = std::shared_ptr<WordParser>() ;
 	}
 	catch (CException& e)
 	{
@@ -2032,8 +2032,8 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 	{
 		WordSelection selection = m_word_object.get_selection() ;
 
-		boost::shared_ptr<WordParser> parser 
-			= boost::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
+		std::shared_ptr<WordParser> parser 
+			= std::shared_ptr<WordParser>(new WordParser( selection, &m_properties, &m_abbreviations )) ;
 
 		Felix::IAppPtr app = getAssistant( ) ;
 
@@ -2045,7 +2045,7 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 			{
 				try
 				{
-					parser = boost::shared_ptr<WordParser>() ;
+					parser = std::shared_ptr<WordParser>() ;
 				}
 				catch (CException& e)
 				{
@@ -2075,7 +2075,7 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 					range.select_range(end_pos, end_pos) ;
 					try
 					{
-						parser = boost::shared_ptr<WordParser>() ;
+						parser = std::shared_ptr<WordParser>() ;
 					}
 					catch (CException& e)
 					{
@@ -2117,7 +2117,7 @@ bool WordController::OnTrans2MemAction(bool as_plaintext)
 		}
 		try
 		{
-			parser = boost::shared_ptr<WordParser>() ;
+			parser = std::shared_ptr<WordParser>() ;
 		}
 		catch (CException& e)
 		{

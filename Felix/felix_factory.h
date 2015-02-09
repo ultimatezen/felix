@@ -4,7 +4,7 @@
 #include "memory_local.h"
 #include "FelixModel.h"
 
-typedef boost::shared_ptr<MemoryWindowFrame> frame_ptr ;
+typedef std::shared_ptr<MemoryWindowFrame> frame_ptr ;
 
 class FelixFactory
 {

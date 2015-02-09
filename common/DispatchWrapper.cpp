@@ -4,7 +4,7 @@
 
 CDispatchWrapper::CDispatchWrapper( LPCWSTR app_name ) : 
 m_server_name(app_name),
-	m_app(NULL)
+m_app(nullptr)
 {
 	CLSID clsid;
 	ATLVERIFY(SUCCEEDED(CLSIDFromProgID(app_name, &clsid)));
@@ -12,14 +12,14 @@ m_server_name(app_name),
 }
 
 CDispatchWrapper::CDispatchWrapper( const CDispatchWrapper &app ) : 
-m_app(NULL)
+m_app(nullptr)
 {
 	app.m_app->QueryInterface(IID_IDispatch, 
 		CDispatchWrapper::out_ptr( &m_app ));
 }
 
 CDispatchWrapper::CDispatchWrapper( IDispatch *app ) : 
-m_app(NULL)
+m_app(nullptr)
 {
 	m_app = app ;
 	m_app->AddRef() ;
@@ -32,7 +32,7 @@ CDispatchWrapper::~CDispatchWrapper()
 		if(m_app)
 		{
 			m_app->Release() ;
-			m_app = NULL ;
+			m_app = nullptr;
 		}
 	}
 	catch (except::CSWException &e) 

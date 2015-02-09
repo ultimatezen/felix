@@ -37,4 +37,4 @@ private:
 	app_string_map m_appStrings ;
 };
 
-typedef boost::shared_ptr< CAppStringEntry > app_str_entry_ptr ;
+typedef std::shared_ptr< CAppStringEntry > app_str_entry_ptr ;

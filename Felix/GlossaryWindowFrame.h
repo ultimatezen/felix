@@ -484,11 +484,9 @@ public:
 	void refresh_menu();
 	void refresh_mru_doc_list(HMENU menu);
 
-	LPCTSTR get_save_filter() ;
-	LPCTSTR get_open_filter() ;
-
 	model_iface_ptr get_memory_model();
 	CString get_window_type_string() ;
+	bool is_glossary_window();
 
 	void add_glossary(mem_engine::memory_pointer mem);
 
@@ -516,4 +514,4 @@ public:
 };
 
 
-typedef boost::shared_ptr< GlossaryWindowFrame > gloss_window_pointer ;
+typedef std::shared_ptr< GlossaryWindowFrame > gloss_window_pointer ;

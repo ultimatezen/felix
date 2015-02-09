@@ -294,7 +294,7 @@ public:
 
 } ;
 
-typedef boost::shared_ptr< CTranslationMemory > memory_pointer ;
+typedef std::shared_ptr< CTranslationMemory > memory_pointer ;
 typedef std::list< memory_pointer > memory_list ;
 typedef std::list< memory_pointer >::iterator memory_iterator ;
 

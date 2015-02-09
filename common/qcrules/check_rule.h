@@ -16,6 +16,6 @@ namespace qc
 		}
 	};
 
-	typedef boost::shared_ptr<CheckRule> rule_ptr ;
+	typedef std::shared_ptr<CheckRule> rule_ptr ;
 
 }

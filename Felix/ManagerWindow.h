@@ -33,11 +33,11 @@ class CManagerWindow :
 	, public mgrview::FelixManagerWindowListener
 	, public CProgressListener
 {
-	typedef boost::shared_ptr<mem_engine::memory_model> memory_controller ;
+	typedef std::shared_ptr<mem_engine::memory_model> memory_controller ;
 	typedef std::vector<mem_engine::search_match_ptr> match_vec ;
 	typedef mem_engine::search_match_ptr search_match_ptr ;
 
-	typedef boost::shared_ptr<mgrview::ManagerView> mgr_state_ptr ;
+	typedef std::shared_ptr<mgrview::ManagerView> mgr_state_ptr ;
 public:
 
 	model_iface_ptr m_mem_model ;

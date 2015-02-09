@@ -21,6 +21,7 @@
 #include "system_message.h"
 #include "input_device_file.h"
 #include "resizeable_dialog.h"
+#include "file_dialog.h"
 
 using namespace html ;
 using namespace mem_engine ;
@@ -580,16 +581,15 @@ void CMemoryManagerDlg::perform_save(memory_pointer& mem)
 	{
 		mem->save_memory() ;
 	}
-
 	catch ( ... ) 
 	{
-		mem->set_listener( NULL ) ;
+		mem->set_listener( nullptr ) ;
 		m_list_box.DeleteAllItems() ;
 		fill_listview() ;
 		throw ;
 	}
 
-	mem->set_listener( NULL ) ;
+	mem->set_listener(nullptr);
 
 }
 
@@ -600,23 +600,15 @@ void CMemoryManagerDlg::showSavingMessage(memory_pointer& mem)
 
 bool CMemoryManagerDlg::getMemName(memory_pointer& mem)
 {
-	windows_ui ui( m_hWnd ) ;
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string(IDS_MEMORY) ) ;
-	CString f_name = ui.get_save_file
-		( 
-		(LPCTSTR)dialog_title, 
-		XML_FILE_FILTER, 
-		XML_FILE_EXT 
-		) ;
+	CString location = get_save_destination(mem);
 
-	if ( f_name.IsEmpty() )
+	if (location.IsEmpty())
 	{
 		SetMsgHandled( TRUE ) ;
 		return false ;
 	}
 
-	mem->set_location( f_name ) ;
+	mem->set_location(location);
 
 	return true ;
 }
@@ -838,13 +830,13 @@ void CMemoryManagerDlg::add_memory_file(const CString &mem_file)
 
 	catch ( ... ) 
 	{
-		mem->set_listener( NULL ) ;
+		mem->set_listener(nullptr);
 		m_list_box.DeleteAllItems() ;
 		fill_listview() ;
 		throw ;
 	}
 
-	mem->set_listener( NULL ) ;
+	mem->set_listener(nullptr);
 	m_memories.push_back(mem) ;
 	m_list_box.SelectItem( m_list_box.GetItemCount() - 1 ) ;
 	m_list_box.SetCheckState( m_list_box.GetItemCount() - 1, !! mem->is_active() ) ;
@@ -900,14 +892,14 @@ void CMemoryManagerDlg::set_button_focus()
 	}
 }
 
-void CMemoryManagerDlg::set_memories( boost::shared_ptr<mem_engine::memory_model> controller )
+void CMemoryManagerDlg::set_memories( std::shared_ptr<mem_engine::memory_model> controller )
 {
 	memory_list &memories = controller->get_memories() ;
 
 	m_memories.assign(memories.begin(), memories.end()) ;
 }
 
-void CMemoryManagerDlg::get_memories( boost::shared_ptr<mem_engine::memory_model> memories )
+void CMemoryManagerDlg::get_memories( std::shared_ptr<mem_engine::memory_model> memories )
 {
 	memories->swap_memories( m_memories ) ;
 }
@@ -1054,4 +1046,35 @@ wstring CMemoryManagerDlg::get_loading_message( const CString &mem_file )
 	text += L"</b>" ;
 
 	return text ;
+}
+
+CString CMemoryManagerDlg::get_save_destination(mem_engine::memory_pointer mem)
+{
+	CString dialog_title;
+	dialog_title.FormatMessage(IDS_SAVE, mem->get_location());
+
+	CString filename;
+	if (file::CPath(mem->get_fullpath()).FileExists())
+	{
+		filename = mem->get_fullpath();
+	}
+
+	auto history = &app_props::get_props()->m_history_props;
+
+	if (mem->get_is_memory())
+	{
+		return save_memory_file(
+			dialog_title, // dialog_title
+			history->m_glossary_location, // last_save
+			filename // filename
+			);
+	}
+	else
+	{
+		return save_glossary_file(
+			dialog_title, // dialog_title
+			history->m_memory_location, // last_save
+			filename // filename
+			);
+	}
 }

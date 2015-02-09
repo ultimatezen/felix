@@ -97,5 +97,5 @@ public:
 
 };
 
-typedef boost::shared_ptr< application > app_ptr ;
+typedef std::shared_ptr< application > app_ptr ;
 }

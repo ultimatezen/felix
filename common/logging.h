@@ -25,7 +25,7 @@ public:
 	virtual void send_report(const CString language, const CString filename) = 0 ;
 };
 
-typedef boost::shared_ptr<logger> logger_ptr ;
+typedef std::shared_ptr<logger> logger_ptr ;
 
 wstring get_logfile_name() ;
 

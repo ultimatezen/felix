@@ -12,7 +12,7 @@ public:
 	virtual wstring element_value(const wstring key) = 0 ;
 };
 
-typedef boost::shared_ptr<doc3_wrapper> doc3_wrapper_ptr ;
+typedef std::shared_ptr<doc3_wrapper> doc3_wrapper_ptr ;
 
 // real doc3 wrapper
 class doc3_wrapper_html : public doc3_wrapper

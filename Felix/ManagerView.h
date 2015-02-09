@@ -56,6 +56,6 @@ namespace mgrview
 	wstring get_memname(mem_engine::memory_pointer mem) ;
 	void set_index_info( cpptempl::data_map &item, size_t i ) ;
 
-	typedef boost::shared_ptr<ManagerView> mgr_ptr ;
+	typedef std::shared_ptr<ManagerView> mgr_ptr ;
 
 }

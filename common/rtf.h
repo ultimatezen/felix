@@ -468,7 +468,7 @@ static const wchar_t* RICH_TEXT_COLOR_TABLE = L"{\\colortbl ;"
 	{
 	VISIBLE_TO_TESTS
 
-		typedef boost::shared_ptr< format_package > package_pointer ;
+		typedef std::shared_ptr< format_package > package_pointer ;
 		typedef std::vector< package_pointer > package_list ;
 
 		package_pointer	m_package ;

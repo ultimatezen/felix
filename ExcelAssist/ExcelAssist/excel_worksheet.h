@@ -51,7 +51,7 @@ namespace excel
 		}
 	};
 
-	typedef boost::shared_ptr< worksheet > sheet_ptr ;
+	typedef std::shared_ptr< worksheet > sheet_ptr ;
 
 	class worksheets
 	{
@@ -75,6 +75,6 @@ namespace excel
 		
 	};
 
-	typedef boost::shared_ptr< worksheets > sheets_ptr ;
+	typedef std::shared_ptr< worksheets > sheets_ptr ;
 
 }

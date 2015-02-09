@@ -35,7 +35,7 @@
 #include "active_window.h"
 #include "FelixModelInterface.h"
 
-typedef boost::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
+typedef std::shared_ptr<CEditTransRecordDialog> edit_record_dlg_ptr ;
 
 
 void add_common_tb_commands(std::vector< int > &commands) ;
@@ -268,13 +268,11 @@ public:
 	virtual model_iface_ptr get_model() = 0 ;
 	virtual	void set_display_state( DISPLAY_STATE new_state ) = 0 ;
 	virtual LRESULT on_view_edit_mode(WindowsMessage &message) = 0 ;
-	virtual LPCTSTR get_save_ext() = 0 ;
-	virtual LPCTSTR get_save_filter() = 0 ;
-	virtual LPCTSTR get_open_filter() = 0 ;
 	virtual void show_view_content() = 0 ;
 	virtual bool set_window_title() = 0 ;
 	virtual void do_save( mem_engine::memory_pointer mem ) = 0 ;
 	virtual CString get_window_type_string() = 0 ;
+	virtual bool is_glossary_window() = 0;
 	virtual bool check_for_clashes( mem_engine::memory_pointer mem ) = 0 ;
 
 	virtual model_iface_ptr get_memory_model() = 0 ;

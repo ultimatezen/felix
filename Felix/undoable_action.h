@@ -10,5 +10,5 @@ namespace action
 		virtual void redo() = 0 ;
 	};
 
-	typedef boost::shared_ptr<UndoableAction> undo_action_ptr ;
+	typedef std::shared_ptr<UndoableAction> undo_action_ptr ;
 }

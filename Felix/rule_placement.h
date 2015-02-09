@@ -40,7 +40,7 @@ namespace placement
 
 	};
 
-	typedef boost::shared_ptr<regex_rule> regex_ptr ;
+	typedef std::shared_ptr<regex_rule> regex_ptr ;
 
 	// a collection of glossary rules
 	class regex_rules
