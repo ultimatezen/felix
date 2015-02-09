@@ -62,7 +62,7 @@ void CImportMultitermFile::import_multiterm55( const CString &file_name )
 		boost::tie(col1, col2) = get_multiterm55_line(reader) ;
 		if ( col1 != "Notes" && col2.find("***") == string::npos) 
 		{
-			languages.insert( string2tstring( col1 ) ) ;
+			languages.insert( string2wstring( col1 ) ) ;
 		}
 		++num_lines ;
 	}
@@ -189,8 +189,8 @@ void CImportMultitermFile::import_multiterm_6_text(LPCWSTR file_text)
 	boost::tie(first_line_col1, first_line_col2, boost::tuples::ignore) = get_multiterm6_line(reader) ;
 
 	std::set<tstring> languages ;
-	languages.insert( string2tstring(first_line_col1) ) ;
-	languages.insert( string2tstring(first_line_col2) ) ;
+	languages.insert( string2wstring(first_line_col1) ) ;
+	languages.insert( string2wstring(first_line_col2) ) ;
 
 #ifdef UNIT_TEST
 	tstring source_lang = *(languages.begin()) ;

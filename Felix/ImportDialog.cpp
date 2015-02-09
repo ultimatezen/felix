@@ -125,8 +125,8 @@ LRESULT CExportDialog::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*
 	string_map::iterator pos = m_languages.begin() ;
 	while ( pos != m_languages.end() )
 	{
-		m_source_combo.AddString( string2tstring( pos->first ).c_str() ) ;
-		m_trans_combo.AddString( string2tstring( pos->first ).c_str() ) ;
+		m_source_combo.AddString( string2wstring( pos->first ).c_str() ) ;
+		m_trans_combo.AddString( string2wstring( pos->first ).c_str() ) ;
 		++pos ;
 	}
 
