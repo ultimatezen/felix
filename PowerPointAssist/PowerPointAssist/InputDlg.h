@@ -65,7 +65,7 @@ public:
 		message += _T("Description: ") ;
 		message += CA2T(e.what()) ;	 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND | MB_SYSTEMMODAL ;
 		MessageBox(message, _T("C Runtime Error"), msg_flags ) ;  
 		return FALSE ;											 
@@ -76,7 +76,7 @@ public:
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		except::CComException com_exception(_T("COM Error"), e) ;		 
@@ -89,7 +89,7 @@ public:
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("Structured Windows Exception"), m_hWnd ) ;		 
@@ -101,7 +101,7 @@ public:
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("COM Exception"), m_hWnd ) ;		 
@@ -113,7 +113,7 @@ public:
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("Windows Exception"), m_hWnd ) ;		 
@@ -125,7 +125,7 @@ public:
 		CString message( build_window_err_msg( m_hWnd, failure_message ) ) ;	 
 
 		wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("Exception"), m_hWnd ) ;		 

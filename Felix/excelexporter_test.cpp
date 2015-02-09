@@ -25,13 +25,13 @@ BOOST_AUTO_TEST_SUITE( TestCExcelExporter )
 	{
 		wstring text = L"foo";
 		wstring out = process_cell_text(text) ;
-		BOOST_CHECK_EQUAL(string(string2string(out).c_str()), "foo") ;
+		BOOST_CHECK_EQUAL(string2string(out), "foo") ;
 	}
 	BOOST_AUTO_TEST_CASE( process_cell_text_equals_sign)
 	{
 		wstring text = L"=foo" ;
 		wstring out = process_cell_text(text) ;
-		BOOST_CHECK_EQUAL(string(string2string(out).c_str()), "\'=foo") ;
+		BOOST_CHECK_EQUAL(string2string(out), "\'=foo") ;
 	}
 
 	// write_header

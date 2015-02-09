@@ -294,7 +294,7 @@ const static int TIME_BUF_SIZE = 50 ;
 			}
 			catch ( CException &e )
 			{
-				e.add_to_message( TEXT("Date string: ") + string2tstring( date_string ) ) ;
+				e.add_to_message( TEXT("Date string: ") + string2wstring( date_string ) ) ;
 				init_values() ;
 				if ( pass_along_exceptions ) throw except::CException( e ) ;
 				return false ;

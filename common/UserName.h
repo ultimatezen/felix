@@ -42,6 +42,6 @@ public:
 	{
 		ATLASSERT ( ! m_user_name.IsEmpty() ) ; 
 		wstring user_name = CT2W( m_user_name ) ;
-		return string2string( user_name, CP_UTF8 ) ;
+		return string2string( user_name ) ;
 	}
 };

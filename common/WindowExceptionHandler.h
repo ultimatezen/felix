@@ -42,7 +42,7 @@ public:
 		message += _T("Description: ") ;
 		message += CA2T(e.what()) ;	 
 		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		const UINT msg_flags = MB_OK | MB_ICONSTOP | MB_SETFOREGROUND | MB_SYSTEMMODAL ;
 		::MessageBox( pT->m_hWnd, message, _T("C Runtime Error"), msg_flags ) ;  
 		return FALSE ;											 
@@ -54,7 +54,7 @@ public:
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message ) ) ;	 
 
 		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		except::CComException com_exception(_T("COM Error"), e) ;		 
@@ -67,7 +67,7 @@ public:
 		T* pT = static_cast< T* >(this) ;
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message ) ) ;	 
 		const wstring werr_msg = (LPCWSTR)message ;
-		const string err_msg = string2string(werr_msg, CP_UTF8) ;
+		const string err_msg = string2string(werr_msg) ;
 
 		report_structured_windows_exception(err_msg, e) ;
 		return FALSE ;											 
@@ -79,7 +79,7 @@ public:
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message  ) ) ;	 
 
 		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("COM Exception"), pT->m_hWnd ) ;		 
@@ -92,7 +92,7 @@ public:
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message  ) ) ;	 
 
 		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("Windows Exception"), pT->m_hWnd ) ;		 
@@ -105,7 +105,7 @@ public:
 		CString message( build_window_err_msg( pT->m_hWnd, failure_message ) ) ;	 
 
 		const wstring err_msg = (LPCWSTR)message ;
-		logging::log_error(string2string(err_msg, CP_UTF8)) ;
+		logging::log_error(string2string(err_msg)) ;
 		logging::log_exception(e) ;
 
 		e.notify_user( message, MB_OK, _T("Exception"), pT->m_hWnd ) ;		 

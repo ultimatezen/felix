@@ -154,7 +154,7 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		m_props->save_prefs();
 
 		wstring password_w = (LPCWSTR)password;
-		string password_a = string2string(password_w, CP_UTF8);
+		string password_a = string2string(password_w);
 
 		CREDENTIALW credential = { 0 };
 		credential.Type = CRED_TYPE_GENERIC;

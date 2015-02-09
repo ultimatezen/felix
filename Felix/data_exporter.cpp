@@ -84,7 +84,7 @@ TradosDataExporter::TradosDataExporter( std::set< wstring > &fonts,
 
 	FOREACH(const wstring font, fonts)
 	{
-		m_fonts.add_font(string2tstring(font)) ;
+		m_fonts.add_font(string2wstring(font)) ;
 	}
 
 	m_colors[L"black"		] = "0" ;
@@ -237,9 +237,9 @@ bool TradosDataExporter::write_spillage( record_pointer record )
 
 		if ( tag == L"CrU" || tag == L"CrT" )
 		{
-			write_string( "<" + string2string( tag, m_old_codepage ) + ">" ) ;
+			write_string( "<" + string2string( tag ) + ">" ) ;
 
-			write_string( string2string( pos->second, m_old_codepage ) + "\r\n" ) ;
+			write_string( string2string( pos->second ) + "\r\n" ) ;
 		}
 	}
 
@@ -659,7 +659,7 @@ bool TradosDataExporter::write_font_face( const wstring value )
 	if ( value.find( mincho ) != wstring::npos && mincho.empty() == false )
 		 font_index = m_fonts.add_font( _T("MS UI Gothic") ) ;
 	else
-		font_index = m_fonts.add_font( string2tstring( value, m_codepages.top() ) ) ;
+		font_index = m_fonts.add_font( string2wstring( value ) ) ;
 
 	rtf::font_table_entry entry = m_fonts.get_font_entry( font_index ) ;
 
@@ -933,16 +933,16 @@ void multiterm_data_exporter_55::write_record( const record_pointer &rec )
 	
 	// source
 	wstring source_w = record->get_source_plain() ;
-	string source = string2string( source_w, m_source_cp ) ;
+	string source = string2string( source_w ) ;
 	output += write_line( m_source_lang, source ) ;
 	
 	// target
 	wstring trans_w = record->get_trans_plain() ;
-	string trans = string2string( trans_w, m_trans_cp ) ;
+	string trans = string2string( trans_w ) ;
 	output += write_line( m_target_lang, trans ) ;
 	
 	wstring context_w = record->get_context_plain() ;
-	string context = string2string( context_w, m_source_cp ) ;
+	string context = string2string( context_w ) ;
 	if (context.empty())
 	{
 		context = "-" ;

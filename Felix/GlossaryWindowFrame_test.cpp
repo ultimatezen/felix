@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		app_props::props_ptr props(new app_props::properties) ;
 		GlossaryWindowFrame gloss_dlg(props) ;
 		InputDeviceFake *device = new InputDeviceFake ;
-		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"), CP_UTF8)) ;
+		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"))) ;
 		gloss_dlg.m_input_device = input_device_ptr(device) ;
 		CString filename = _T("c:\\test\\tabbed-text.txt") ;
 		gloss_dlg.import_tabbed_text(filename) ;
@@ -274,11 +274,11 @@ BOOST_AUTO_TEST_SUITE( TestGlossaryWindow )
 		wstring fmt = L"Japanese\tEnglish\tNotes\n" ;
 		fmt += L"‚è‚ñ‚²\tapple\t-\n" ;
 		fmt += L"“ú–{Œê\tJapanese\t-\n" ;
-		string expected = string2string(fmt, CP_UTF8) ;
+		string expected = string2string(fmt) ;
 
 		file::view fview ;
 		LPWSTR raw_text = (LPWSTR)fview.create_view(filename) ;
-		string actual = string2string(wstring(raw_text+1), CP_UTF8) ;
+		string actual = string2string(wstring(raw_text+1)) ;
 
 		BOOST_CHECK_EQUAL(expected, actual) ;
 	}

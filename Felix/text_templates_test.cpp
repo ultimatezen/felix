@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
-		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
+		wstring tpl_text = string2wstring(raw_text) ;
 
 		wstring full_text = cpptempl::parse(tpl_text, data) ;
 
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_english)
 		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\en\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
-		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
+		wstring tpl_text = string2wstring(raw_text) ;
 
 		wstring full_text = cpptempl::parse(tpl_text, data) ;
 
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
-		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
+		wstring tpl_text = string2wstring(raw_text) ;
 
 		wstring full_text = cpptempl::parse(tpl_text, data) ;
 
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_SUITE(test_text_templates_japanese)
 		const CString full_path = "D:\\dev\\cpp\\Assistant Suite\\Felix\\html\\jp\\manager\\qc_settings.txt" ;
 		file::view file_view ;
 		string raw_text(static_cast<LPCSTR>(file_view.create_view_readonly(full_path))) ;
-		wstring tpl_text = string2wstring(raw_text, CP_UTF8) ;
+		wstring tpl_text = string2wstring(raw_text) ;
 
 		wstring full_text = cpptempl::parse(tpl_text, data) ;
 

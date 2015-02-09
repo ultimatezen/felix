@@ -26,7 +26,7 @@ unsigned long read_xml_ulong(pugi::xml_node &node, string name)
 wstring read_xml_string(pugi::xml_node &node, string name)
 {
 	const string val = node.child(name.c_str()).child_value() ;
-	return string2wstring(val, CP_UTF8) ;
+	return string2wstring(val) ;
 }
 
 // write xml nodes

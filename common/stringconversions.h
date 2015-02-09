@@ -4,6 +4,7 @@
 #include "winnls.h" // unicode-multibyte conversion
 #include "errno.h"
 #include "textstream_reader.h"
+#include <codecvt>
 
 static const size_t ONEK = 1024 ;
 static const size_t ONEM = (ONEK*ONEK) ;
@@ -11,63 +12,37 @@ static const size_t ONEG = (ONEM*ONEK) ;
 
 // forward declarations
 std::wstring resource2wstring( const UINT uid, const HINSTANCE instance ) ;
-std::string string2string( const std::wstring &str, UINT code_page = _getmbcp() ) ;
-std::wstring string2wstring( const std::wstring &str, UINT code_page = _getmbcp() ) ;
+std::string string2string( const std::wstring &str) ;
+std::wstring string2wstring( const std::wstring &str) ;
 
 
 //////////////////////////////////////////////////////////////////////////
 // std::string conversion routines                                       /
 //////////////////////////////////////////////////////////////////////////
 
-inline std::string string2string( const std::wstring &str, const UINT code_page )
+inline std::string string2string(const std::wstring &str)
 {
-	if ( str.empty() ) 
-	{
-		return std::string() ;
-	}
-
-	// Calculate the required length of the buffer
-	const size_t len_needed = ::WideCharToMultiByte(code_page, 0, str.c_str(), (UINT)(str.length()) , NULL, 0, NULL, NULL) ;
-
-	_ASSERTE(len_needed > 0) ;
-	if ( len_needed == 0 ) 
-	{
-		return std::string() ;
-	}
-
-    // Create the buffer
-	boost::scoped_array<char> buff(new char[len_needed+1]) ;
-
-	// Do the conversion.
-	const size_t num_copied = ::WideCharToMultiByte(code_page,		// UINT CodPage
-													0,				// DWORD dwFlags, 
-													str.c_str(),	// LPCWSTR lpWideCharStr,
-													static_cast<UINT>(str.size()), // int cchWideChar, 
-													buff.get(),		// LPSTR lpMultiByteStr, 
-													static_cast<int>(len_needed+1),	// int cbMultiByte,
-													NULL,			// LPCSTR lpDefaultChar,    
-													NULL			// LPBOOL lpUsedDefaultChar
-													) ;
-	_ASSERTE(num_copied == len_needed) ;
-	_ASSERTE(num_copied > 0) ;
-	_ASSERTE(! str.empty()) ;
-
-	if (0 == num_copied) return std::string() ;
-
-	buff[num_copied] = 0 ;
-
-	return std::string(buff.get(), num_copied) ;
+	static std::wstring_convert<std::codecvt_utf8<wchar_t>> w2utf8_conv;
+	return w2utf8_conv.to_bytes(str);
 }
 
 
 // convert to std::wstring
 
-inline std::wstring string2wstring( const std::wstring &str, const UINT)
+inline std::wstring string2wstring(const std::wstring &str)
 {
 	return std::wstring( str ) ;
 }
-inline std::wstring string2wstring( const std::string &str, const UINT code_page = _getmbcp() )
+
+ inline std::wstring string2wstring( const std::string &str, const UINT code_page = CP_UTF8 )
 {
+	static std::wstring_convert<std::codecvt_utf8<wchar_t>> wchar_conv;
+	
+	if (code_page == CP_UTF8)
+	{
+		return wchar_conv.from_bytes(str);
+	}
+
 	if ( str.empty() ) 
 	{
 		return std::wstring() ;
@@ -112,15 +87,11 @@ inline std::wstring string2wstring( const std::string &str, const UINT code_page
    If the original std::string isn't in the system code page, then you
    should do this manually:
    const std::wstring tmp = string2wstring(s, CP_XX) ;
-   return string2wstring(tmp, CP_UTF8) ;
+   return string2wstring(tmp) ;
  */
-inline std::string string2string( const std::string &str, UINT code_page = CP_ACP  )
+inline std::string string2string(const std::string &str)
 {
-	if ( _getmbcp() == static_cast<int>(code_page) )
-		return std::string(str) ;
-
-	const std::wstring w = string2wstring( str, _getmbcp() ) ;
-	return string2string( w, code_page ) ;
+	return std::string(str);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -143,10 +114,10 @@ inline std::wstring BSTR2wstring( const BSTR &bstr )
 	return std::wstring( (const OLECHAR*)bstr, len ) ;
 }
 
-inline std::string BSTR2string( const BSTR &bstr, UINT code_page = _getmbcp() )
+inline std::string BSTR2string( const BSTR &bstr)
 {
 	const std::wstring tmp = BSTR2wstring( bstr ) ;
-	return string2string( tmp, code_page ) ;
+	return string2string(tmp) ;
 }
 
 inline _bstr_t string2BSTR( const std::wstring &str )
@@ -158,43 +129,13 @@ inline _bstr_t string2BSTR( const std::wstring &str )
 	_ASSERTE(str.size() > 0) ;
 	return _bstr_t(::SysAllocStringLen(str.c_str(), static_cast<UINT>(str.size())), false) ;
 }
+
 inline _bstr_t string2BSTR( const std::string &str, UINT cp = CP_ACP )
 {
 	const std::wstring tmp = string2wstring( str, cp ) ;
 	return string2BSTR(tmp) ;
 }
 
-// conversion to tstring
-
-inline tstring string2tstring( const std::string &str, UINT code_page = _getmbcp()  )
-{
-#ifdef _UNICODE
-	return string2wstring( str, code_page ) ;
-#else
-	return string2string( str, code_page ) ;
-#endif
-}
-
-inline tstring string2tstring( const std::wstring &str, UINT code_page = _getmbcp()  )
-{
-#ifdef _UNICODE
-	return string2wstring( str, code_page ) ;
-#else
-	return string2string( str, code_page ) ;
-#endif
-}
-
-
-inline tstring BSTR2tstring( const BSTR &bstr, UINT code_page = _getmbcp()  )
-{
-	const std::wstring rhs = BSTR2wstring( bstr ) ;
-	return string2tstring( rhs, code_page ) ;
-}
-
-inline tstring utf82tstring( const std::string &str )
-{
-	return string2tstring( str, CP_UTF8 ) ;
-}
 
 //***************************
 //* data type conversions
@@ -556,7 +497,7 @@ inline std::string resource2string( const UINT uid, HINSTANCE resource_inst )
 {
 	const tstring resource = resource2tstring( uid, resource_inst ) ;
 
-	return string2string( resource, CP_UTF8 ) ;
+	return string2string( resource ) ;
 }
 
 #define R2S( id )    resource2string ( id, _Module.GetResourceInstance() )

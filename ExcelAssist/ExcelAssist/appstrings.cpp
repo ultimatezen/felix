@@ -45,7 +45,7 @@ void CAppStrings::load(UINT lang_id )
 	char* pcPos = (char*)LockResource(hres);
 
 	string file_text(pcPos, static_cast< size_t >( dwFileSize ));
-	wstring wide_text = string2wstring( file_text, CP_UTF8 ) ;
+	wstring wide_text = string2wstring( file_text ) ;
 
 	CAppStringRecordParser rec_parser( wide_text.c_str() ) ;
 

@@ -10,7 +10,7 @@ MenuWrapper::MenuWrapper( HMENU wrapped_menu, HWND wrapped_hwnd ) :
 
 bool MenuWrapper::add_item( unsigned int command_id, string text )
 {
-	wstring menu_text = string2wstring(text, CP_UTF8) ;
+	wstring menu_text = string2wstring(text) ;
 
 	CMenuItemInfo menu_item ;
 	menu_item.fMask = MIIM_STRING | MIIM_ID ; // | MIIM_BITMAP;

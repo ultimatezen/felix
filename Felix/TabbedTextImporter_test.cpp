@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 		CTabbedTextImporter importer(&listener, app_props::get_props()) ;
 		CString filename = _T("C:\\test\\tab_delim_gloss.txt") ;
 		InputDeviceFake *device = new InputDeviceFake ;
-		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"), CP_UTF8)) ;
+		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\tEnglish\n"))) ;
 		input_device_ptr input(device) ;
 		importer.load_file(filename, input) ;
 
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_SUITE( TestCTabbedTextImporter )
 		CTabbedTextImporter importer(&listener, app_props::get_props()) ;
 		CString filename = _T("C:\\test\\tab_delim_gloss.txt") ;
 		InputDeviceFake *device = new InputDeviceFake ;
-		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\n"), CP_UTF8)) ;
+		device->set_view(string2string(wstring(L"“ú–{Œê\tJapanese\n‰pŒê\n"))) ;
 		input_device_ptr input(device) ;
 		importer.load_file(filename, input) ;
 

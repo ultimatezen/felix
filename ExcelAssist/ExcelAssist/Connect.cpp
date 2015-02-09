@@ -413,7 +413,7 @@ void CConnect::checkHR(HRESULT hr)
 			if ( buff != NULL )
 			{
 				tstring _msg((LPCTSTR)buff) ;
-				logging::log_error(string("COM Exception: ") + string2string(_msg, CP_UTF8)) ;
+				logging::log_error(string("COM Exception: ") + string2string(_msg)) ;
 				MessageBox( NULL, (LPCTSTR) buff, _T("COM Error"), MB_OK ) ;
 				::LocalFree( buff ) ;
 			}

@@ -98,15 +98,15 @@ BOOST_AUTO_TEST_SUITE( memory_header_test_case )
 		props.read_from_registry() ;
 
 		header.read_header(header_text) ;
-		BOOST_CHECK_EQUAL(string(string2string(header.get_creator()).c_str()), "RyanVista") ;
-		BOOST_CHECK_EQUAL(string(string2string(header.get_created_on()).c_str()), "2007/08/23 13:52:38") ;
-		BOOST_CHECK_EQUAL(string(string2string(header.get_creation_tool()).c_str()), "Felix") ;
-		BOOST_CHECK_EQUAL(string(string2string(header.get_creation_tool_version()).c_str()), "1.0") ;
+		BOOST_CHECK_EQUAL(string2string(header.get_creator()), "RyanVista") ;
+		BOOST_CHECK_EQUAL(string2string(header.get_created_on()), "2007/08/23 13:52:38") ;
+		BOOST_CHECK_EQUAL(string2string(header.get_creation_tool()), "Felix") ;
+		BOOST_CHECK_EQUAL(string2string(header.get_creation_tool_version()), "1.0") ;
 		BOOST_CHECK_EQUAL(header.get_count(), 6) ;
 		BOOST_CHECK_EQUAL(header.is_locked(), false) ;
 		BOOST_CHECK_EQUAL(header.is_memory(), false) ;
 		// this one is the default value
-		BOOST_CHECK_EQUAL(string("RyanVista"), (LPCSTR)(CStringA(header.get_modified_by().c_str()))) ;
+		BOOST_CHECK_EQUAL(header.get_modified_by(), L"RyanVista");
 	}
 
 	//////////////////////////////////////////////////////////////////////////

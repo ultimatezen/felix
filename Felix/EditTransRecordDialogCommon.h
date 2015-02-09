@@ -287,9 +287,9 @@ public:
 		CheckDlgButton(IDC_VALIDATED_CHECK, (record->is_validated() ? BST_CHECKED : BST_UNCHECKED)) ;
 #endif
 		// modified
-		m_modified_box.SetWindowText((R2T(IDS_MODIFIED) + string2tstring(record->get_modified().get_date_time_string())).c_str()) ;
+		m_modified_box.SetWindowText((R2T(IDS_MODIFIED) + string2wstring(record->get_modified().get_date_time_string())).c_str()) ;
 		// created
-		m_created_box.SetWindowText ((R2T(IDS_CREATED)  + string2tstring(record->get_created().get_date_time_string() )).c_str()) ;
+		m_created_box.SetWindowText ((R2T(IDS_CREATED)  + string2wstring(record->get_created().get_date_time_string() )).c_str()) ;
 
 		// trans
 		_bstr_t trans_text = string2BSTR(record->get_trans_rich()) ;

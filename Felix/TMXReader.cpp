@@ -356,7 +356,7 @@ void CTMXReader::load_body()
 		{
 			wstring error = L"TMX Reader failed to find end of TU segment. TMX file may be corrupt." ;
 			m_errors.push_back(error) ;
-			logging::log_error(string2string(error, CP_UTF8)) ;
+			logging::log_error(string2string(error)) ;
 			return ;
 		}
 
@@ -385,7 +385,7 @@ void CTMXReader::load_tu(const wstring  tu_text)
 	{
 		wstring error = L"TMX Reader failed to find end of TU tag. TMX file may be corrupt." ;
 		m_errors.push_back(error) ;
-		logging::log_error(string2string(error, CP_UTF8)) ;
+		logging::log_error(string2string(error)) ;
 		return ;
 	}
 	
@@ -413,7 +413,7 @@ void CTMXReader::load_tu(const wstring  tu_text)
 		{
 			wstring error = L"TMX Reader failed to find end of TUV tag. TMX file may be corrupt." ;
 			m_errors.push_back(error) ;
-			logging::log_error(string2string(error, CP_UTF8)) ;
+			logging::log_error(string2string(error)) ;
 			return ;
 		}
 
@@ -434,7 +434,7 @@ void CTMXReader::load_tu(const wstring  tu_text)
 		{
 			wstring error = L"TMX Reader failed to find end of TUV segment. TMX file may be corrupt." ;
 			m_errors.push_back(error) ;
-			logging::log_error(string2string(error, CP_UTF8)) ;
+			logging::log_error(string2string(error)) ;
 			return ;
 		}
 
@@ -477,7 +477,7 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 	{
 		wstring error = L"TMX Reader failed to find SEG tag. TMX file may be corrupt." ;
 		m_errors.push_back(error) ;
-		logging::log_error(string2string(error, CP_UTF8)) ;
+		logging::log_error(string2string(error)) ;
 		return wstring();
 	}
 	wc_reader::bookmark_type seg_tag_start = seg_reader.get_current_pos() ;
@@ -486,7 +486,7 @@ const wstring CTMXReader::get_seg_text(const wstring& tuv_text)
 	{
 		wstring error = L"TMX Reader failed to find SEG closing tag. TMX file may be corrupt." ;
 		m_errors.push_back(error) ;
-		logging::log_error(string2string(error, CP_UTF8)) ;
+		logging::log_error(string2string(error)) ;
 		return wstring();
 	}
 
@@ -556,7 +556,7 @@ void CTMXReader::load_utf8(const CString & file_name, input_device_ptr input)
 	const int file_size = input->get_size(file_name) - bom_size ;
 
 	const string text(raw_text, file_size) ;
-	m_text = string2wstring(text, CP_UTF8) ;
+	m_text = string2wstring(text) ;
 
 	m_reader.set_buffer( m_text.c_str() ) ;
 }
@@ -637,7 +637,7 @@ void CTMXReader::parse_tuv_for_language(std::set< tstring >& target_languages)
 	}
 
 	const wstring lang_name = tuv_reader.getline(L'\"') ;
-	target_languages.insert(boost::to_upper_copy(string2tstring( lang_name ))) ;
+	target_languages.insert(boost::to_upper_copy(string2wstring( lang_name ))) ;
 
 }
 

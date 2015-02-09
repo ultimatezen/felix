@@ -27,6 +27,6 @@ public:
 	std::wstring get_password()
 	{
 		std::string password((char*)m_credential->CredentialBlob, m_credential->CredentialBlobSize);
-		return string2wstring(password, CP_UTF8);
+		return string2wstring(password);
 	}
 };

@@ -74,7 +74,7 @@ public:
 		buff[num_copied] = 0 ;
 
 		const string text(buff.get(), num_copied) ;
-		return string2wstring(text, CP_UTF8) ;
+		return string2wstring(text) ;
 	}
 	wstring GetSelection()
 	{
@@ -83,7 +83,7 @@ public:
 		GetSelText( sel_text_buffer.get() ) ;
 
 		const string text(sel_text_buffer.get()) ;
-		return string2wstring(text, CP_UTF8) ;
+		return string2wstring(text) ;
 	}
 
 	void CollapseSelection(bool end = true )
@@ -112,7 +112,7 @@ public:
 		}
 		else
 		{
-			baseClass::SetText( string2string(text, CP_UTF8).c_str() ) ;
+			baseClass::SetText( string2string(text).c_str() ) ;
 		}
 	}
 	void ReplaceSelection( const wstring text )
@@ -123,7 +123,7 @@ public:
 		}
 		else
 		{
-			baseClass::ReplaceSel( string2string(text, CP_UTF8).c_str() ) ;
+			baseClass::ReplaceSel( string2string(text).c_str() ) ;
 		}
 	}
 

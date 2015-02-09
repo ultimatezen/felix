@@ -534,13 +534,13 @@ bool CRecord2XmlConverter::convert_from_record( const record_pointer rec )
 			( 
 			creator_tag_narrow, 
 			creator_tag_end_narrow, 
-			string2string(m_record->get_creator(), CP_UTF8)  
+			string2string(m_record->get_creator())  
 			) ;
 		convert_text_node
 			( 
 			modified_by_tag_narrow, 
 			modified_by_tag_end_narrow, 
-			string2string(m_record->get_modified_by(), CP_UTF8)  
+			string2string(m_record->get_modified_by())  
 			) ;
 
 		convert_rest() ;
@@ -669,7 +669,7 @@ bool CRecord2XmlConverter::convert_cdata_node( const string &tag, const string &
 		ATLASSERT( strlen( BEGIN_CDATA_SECTION ) == 9 ) ;
 		m_file->write( BEGIN_CDATA_SECTION, 9 )  ;
 
-		string atext = string2string( text, CP_UTF8 ) ;
+		string atext = string2string( text ) ;
 
 		for (size_t i = 0 ; i < m_from_strings.size() ; ++i )
 		{

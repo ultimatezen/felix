@@ -283,7 +283,7 @@ size_t trados_data_importer::get_language_codes( language_code_set &languages )
 		const string_type language_code = m_buffer.getline('>', true ) ;
 		if ( language_code.empty() == false && language_code.length() < MAX_CODE_LEN )
 		{
-			languages.insert( string2tstring( language_code ) ) ;
+			languages.insert( string2wstring( language_code ) ) ;
 		}
 		num_segs++ ;
 	}
@@ -337,7 +337,7 @@ wstring trados_data_importer::get_font_tag(const string_type &code)
 {
 	try
 	{
-		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
+		rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2wstring( code ) ) ;
 		
 		const wstring tag = L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 
@@ -367,7 +367,7 @@ wstring trados_data_importer::get_font_tag(const string_type &code)
 
 wstring tmx_data_importer::get_font_tag(const wstring code)
 {
-		const rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2tstring( code ) ) ;
+		const rtf::font_table_entry entry = m_fonts.get_font_entry_from_code( _T("\\") + string2wstring( code ) ) ;
 
 		return L"<font face=\"" + string2wstring( entry.m_name ) + L"\">" ;
 }
@@ -616,7 +616,7 @@ bool trados_data_importer::process_line(const string &line)
 		{
 			const string chunk = m_line_buffer.getline('{') ;
 			m_line_buffer.jump_to_first_of('}', true) ;
-			m_html += string2wstring(chunk, CP_UTF8) ;
+			m_html += string2wstring(chunk) ;
 		}
 	}
 	else
@@ -745,7 +745,7 @@ bool trados_data_importer::get_language_code(language_code_set &languages)
 
 	const string_type language_code = m_buffer.getline('>', true ) ;
 	if ( language_code.empty() == false && language_code.length() < 10 )
-		languages.insert( string2tstring( language_code ) ) ;
+		languages.insert( string2wstring( language_code ) ) ;
 
 	return true ;
 }

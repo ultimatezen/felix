@@ -40,7 +40,7 @@ namespace app_props
 			tm_node; 
 			tm_node = tm_node.next_sibling("filename"))
 		{
-			items.push_back(string2wstring(tm_node.child_value(), CP_UTF8)) ;
+			items.push_back(string2wstring(tm_node.child_value())) ;
 		}
 	}
 
@@ -73,7 +73,7 @@ namespace app_props
 		files_node.set_name(node_name.c_str()) ;
 		FOREACH(wstring filename, filenames)
 		{
-			add_child(files_node, "filename", string2string(filename, CP_UTF8)) ;
+			add_child(files_node, "filename", string2string(filename)) ;
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////
@@ -139,6 +139,10 @@ namespace app_props
 			load_xml_props_type(child, m_loaded_gloss, "loaded_gloss") ;
 			load_xml_props_type(child, m_loaded_remote_mems, "loaded_remote_mems") ;
 			load_xml_props_type(child, m_loaded_remote_gloss, "loaded_remote_gloss") ;
+
+			this->m_memory_location = read_xml_string(child, "memory_location");
+			this->m_glossary_location = read_xml_string(child, "glossary_location");
+			this->m_preferences_location = read_xml_string(child, "preferences_location");
 		}
 		catch (except::CException& e)
 		{
@@ -191,6 +195,9 @@ namespace app_props
 		write_filenames(loaded_history, m_loaded_gloss, "loaded_gloss");
 		write_filenames(loaded_history, m_loaded_remote_mems, "loaded_remote_mems");
 		write_filenames(loaded_history, m_loaded_remote_gloss, "loaded_remote_gloss");
+		add_child(loaded_history, "memory_location", string2string(this->m_memory_location));
+		add_child(loaded_history, "glossary_location", string2string(this->m_glossary_location));
+		add_child(loaded_history, "preferences_location", string2string(this->m_preferences_location));
 	}
 
 
@@ -552,13 +559,13 @@ namespace app_props
 				// connection
 				auto connection = credential.append_child();
 				connection.set_name("connection");
-				string connection_value = string2string(var.first, CP_UTF8);
+				string connection_value = string2string(var.first);
 				connection.append_child(pugi::node_pcdata).set_value(connection_value.c_str());
 
 				// username
 				auto username = credential.append_child();
 				username.set_name("username");
-				string username_value = string2string(var.second, CP_UTF8);
+				string username_value = string2string(var.second);
 				username.append_child(pugi::node_pcdata).set_value(username_value.c_str());
 			}
 		}
@@ -635,8 +642,8 @@ namespace app_props
 		}
 
 		return std::make_pair(
-			string2wstring(connection_node.child_value(), CP_UTF8),
-			string2wstring(username_node.child_value(), CP_UTF8));
+			string2wstring(connection_node.child_value()),
+			string2wstring(username_node.child_value()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

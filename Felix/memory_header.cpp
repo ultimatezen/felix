@@ -298,56 +298,56 @@ namespace mem_engine
 
 		if ( m_creator.empty() == false )
 		{
-			line = "<creator>" + string2string( m_creator, CP_UTF8 ) + "</creator>\r\n" ;
+			line = "<creator>" + string2string( m_creator ) + "</creator>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_created_on.empty() == false )
 		{
-			line = "<created_on>" + string2string( m_created_on, CP_UTF8 ) + "</created_on>\r\n" ;
+			line = "<created_on>" + string2string( m_created_on ) + "</created_on>\r\n" ;
 			out_file->write( line ) ;
 		}
 
 		if ( m_modified_by.empty() == false )
 		{
-			line = "<modified_by>" + string2string( m_modified_by, CP_UTF8 ) + "</modified_by>\r\n" ;
+			line = "<modified_by>" + string2string( m_modified_by ) + "</modified_by>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_modified_on.empty() == false )
 		{
-			line = "<modified_on>" + string2string( m_modified_on, CP_UTF8 ) + "</modified_on>\r\n" ;
+			line = "<modified_on>" + string2string( m_modified_on ) + "</modified_on>\r\n" ;
 			out_file->write( line ) ;
 		}
 
 
 		if ( m_field.empty() == false )
 		{
-			line = "<field>" + string2string( m_field, CP_UTF8 ) + "</field>\r\n" ;
+			line = "<field>" + string2string( m_field ) + "</field>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_source_language.empty() == false )
 		{
-			line = "<source_language>" + string2string( m_source_language, CP_UTF8 )  + "</source_language>\r\n" ;
+			line = "<source_language>" + string2string( m_source_language )  + "</source_language>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_target_language.empty() == false )
 		{
-			line = "<target_language>" + string2string( m_target_language, CP_UTF8 ) + "</target_language>\r\n" ;
+			line = "<target_language>" + string2string( m_target_language ) + "</target_language>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_client.empty() == false )
 		{
-			line = "<client>" + string2string( m_client, CP_UTF8 ) + "</client>\r\n" ;
+			line = "<client>" + string2string( m_client ) + "</client>\r\n" ;
 			out_file->write( line ) ;
 		}
 
 		if ( m_creation_tool.empty() == false )
 		{
-			line = "<creation_tool>" + string2string( m_creation_tool, CP_UTF8 ) + "</creation_tool>\r\n" ;
+			line = "<creation_tool>" + string2string( m_creation_tool ) + "</creation_tool>\r\n" ;
 			out_file->write( line ) ;
 		}
 		if ( m_creation_tool_version.empty() == false )
 		{
-			line = "<creation_tool_version>" + string2string( m_creation_tool_version, CP_UTF8 ) + "</creation_tool_version>\r\n" ;
+			line = "<creation_tool_version>" + string2string( m_creation_tool_version ) + "</creation_tool_version>\r\n" ;
 			out_file->write( line ) ;
 		}
 

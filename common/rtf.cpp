@@ -336,8 +336,8 @@ namespace rtf
 		output +=L"{" ;
 		output << L"\\cf" << int2wstring(package.mFgColor) ; 
 		output << L"\\fs" << int2wstring(package.mFontSize) ; 
-		m_font_table.add_font( string2tstring( package.mFont ) ) ;
-		output << string2wstring( m_font_table.get_font_entry( string2tstring( package.mFont ) ).m_code ) ; 
+		m_font_table.add_font( string2wstring( package.mFont ) ) ;
+		output << string2wstring( m_font_table.get_font_entry( string2wstring( package.mFont ) ).m_code ) ; 
 		if ( package.mIsBold )
 			output +=L"\\b " ;
 		if ( package.mIsItalic )
@@ -471,7 +471,7 @@ namespace rtf
 		if ( font != m_package->mFont && m_package->HasText() )
 			AddCurrentPackage() ;
 
-		m_font_table.add_font( string2tstring( font ) ) ;
+		m_font_table.add_font( string2wstring( font ) ) ;
 		m_package->mFont = font ;
 	}
 
@@ -723,7 +723,7 @@ namespace rtf
 		return false ;
 	}
 
-	int font_table::add_font( const tstring name )
+	int font_table::add_font( const wstring name )
 	{
 		if ( name.empty() ) return 0 ;
 
@@ -836,7 +836,7 @@ namespace rtf
 			const string code = reader.getline(' ', true ) ;
 
 			rtf::font_table_entry entry ;	// the entry
-			entry.m_code = string2tstring( code, CP_ACP ) ;
+			entry.m_code = string2wstring( code ) ;
 
 			rtf::my_font font ;				// the font
 			readFontInfo( font, reader );

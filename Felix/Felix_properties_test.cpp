@@ -1,11 +1,5 @@
 // ***************************************************************
 //  @brief Unit tests for Felix_properties
-//  -------------------------------------------------------------
-//  match_score_test   version:  1.0   |  @date: 2006-07-09
-//  -------------------------------------------------------------
-//  Copyright (C) 2006 - All Rights Reserved
-// ***************************************************************
-// 
 // ***************************************************************
 #include "StdAfx.h"
 #include "Felix_properties.h"
@@ -642,6 +636,27 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 		BOOST_CHECK_EQUAL (items[1], expected2) ; 
 	}
 
+	BOOST_AUTO_TEST_CASE( load_xml_loaded_history_locations )
+	{
+		string text = "<loaded_history>\n"
+			"<memory_location>memory.txt</memory_location>\n"
+			"<preferences_location>preferences.txt</preferences_location>\n"
+			"<glossary_location>glossary.txt</glossary_location>\n"
+			"</loaded_history>\n" ;
+
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(text.c_str());
+		BOOST_CHECK_EQUAL ( result.status, pugi::status_ok ) ; 
+
+		app_props::properties_loaded_history props ;
+
+		props.parse_xml_doc(doc);
+
+		BOOST_CHECK_EQUAL(props.m_memory_location, L"memory.txt") ; 
+		BOOST_CHECK_EQUAL(props.m_glossary_location, L"glossary.txt") ; 
+		BOOST_CHECK_EQUAL(props.m_preferences_location, L"preferences.txt") ; 
+	}
+
 	string get_loaded_history_string_two_nodes()
 	{
 		string text = "<loaded_history>\n"
@@ -833,6 +848,10 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 
 		props.copy_reg_props() ;
 
+		props.m_memory_location = L"memory.ftm";
+		props.m_glossary_location = L"glossary.fgloss";
+		props.m_preferences_location = L"preferences.fprefx";
+
 		string text = props.make_xml_doc() ;
 		string expected = "<?xml version=\"1.0\"?>\n"
 			"<properties>\n"
@@ -849,6 +868,9 @@ BOOST_AUTO_TEST_SUITE( properties_loaded_history_xml_tests )
 			"		<loaded_remote_gloss>\n"
 			"			<filename>C:\\m_remote_glosses.txt</filename>\n"
 			"		</loaded_remote_gloss>\n"
+			"		<memory_location>memory.ftm</memory_location>\n"
+			"		<glossary_location>glossary.fgloss</glossary_location>\n"
+			"		<preferences_location>preferences.fprefx</preferences_location>\n"
 			"	</loaded_history>\n"
 			"</properties>\n" ;
 

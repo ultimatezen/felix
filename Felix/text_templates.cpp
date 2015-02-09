@@ -35,7 +35,7 @@ namespace cpptempl
 		const file::CPath fullpath(tpl_filename) ;
 		if (! fullpath.FileExists())
 		{
-			logging::log_warn("Template file not found: " + string(static_cast<LPCSTR>(CW2A(tpl_filename, CP_UTF8)))) ;
+			logging::log_warn("Template file not found: " + string(static_cast<LPCSTR>(CW2A(tpl_filename)))) ;
 		}
 		return tpl_filename ;
 	}
@@ -49,7 +49,7 @@ namespace cpptempl
 		{
 			logging::log_error("Failed to load template text from " + string((LPCSTR)CStringA(full_path))) ;
 		}
-		return string2wstring(raw_text, CP_UTF8) ;
+		return string2wstring(raw_text) ;
 	}
 
 }

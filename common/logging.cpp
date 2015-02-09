@@ -83,14 +83,14 @@ void logging::log_exception( CException &e )
 {
 	const wstring msg(e.format_message_for_message_box()) ;
 	const wstring err_msg = logging::format_exception_msg(msg);
-	logging::log_error(string2string(err_msg, CP_UTF8)) ;
+	logging::log_error(string2string(err_msg)) ;
 }
 void logging::log_exception( std::exception &e )
 {
 	const wstring msg(string2wstring(e.what())) ;
 	const wstring err_msg = logging::format_exception_msg(msg);
 
-	logging::log_error(string2string(err_msg, CP_UTF8)) ;
+	logging::log_error(string2string(err_msg)) ;
 }
 
 wstring logging::format_exception_msg( const wstring &msg )
@@ -124,7 +124,7 @@ void logging::log_exception( _com_error &e )
 		static_cast<LPCTSTR>(message), 
 		static_cast<LPCTSTR>(description)) ;
 
-	logging::log_error(string2string(static_cast< LPCWSTR >( err_msg ), CP_UTF8)) ;
+	logging::log_error(string2string(static_cast< LPCWSTR >( err_msg ))) ;
 }
 
 

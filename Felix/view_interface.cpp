@@ -32,7 +32,7 @@ void frame_view::ensure_document_complete()
 #else
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot ensure document complete.") ;
+		ATLTRACE("Browser view not created. Cannot ensure document complete.\n") ;
 		return ;
 	}
 	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
@@ -48,7 +48,7 @@ void frame_view::ensure_navigation_complete()
 {
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot ensure navigation complete.") ;
+		ATLTRACE("Browser view not created. Cannot ensure navigation complete.\n") ;
 		return ;
 	}
 	background_processor backer(MAX_VIEW_WAIT_ITERATIONS, m_accel, m_parent) ;
@@ -67,7 +67,7 @@ const wstring frame_view::get_selection_text()
 #else
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot get selection text.") ;
+		ATLTRACE("Browser view not created. Cannot get selection text.\n") ;
 		return wstring();
 	}
 	html::CHtmlSelection selection = m_view.get_selection() ;
@@ -96,7 +96,7 @@ void frame_view::set_text( const wstring text )
 {
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot set text.") ;
+		ATLTRACE("Browser view not created. Cannot set text.\n") ;
 		return ;
 	}
 	m_view.set_body_text( text ) ;
@@ -706,7 +706,7 @@ BOOL frame_view::PreTranslateMessage( LPMSG pMsg )
 {
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot pre-translate message.") ;
+		ATLTRACE("Browser view not created. Cannot pre-translate message.\n") ;
 		return FALSE;
 	}
 	return m_view.PreTranslateMessage( pMsg ) ;
@@ -716,7 +716,7 @@ BOOL frame_view::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 {
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot process window message.") ;
+		ATLTRACE("Browser view not created. Cannot process window message.\n") ;
 		return FALSE;
 	}
 	return m_view.ProcessWindowMessage( hWnd, uMsg, wParam, lParam, lResult ) ;
@@ -725,7 +725,7 @@ void frame_view::Move( LPRECT rect )
 {
 	if (! m_view.IsWindow())
 	{
-		logging::log_warn("Browser view not created. Cannot move window.") ;
+		ATLTRACE("Browser view not created. Cannot move window.\n") ;
 		return ;
 	}
 	m_view.MoveWindow( rect, TRUE ) ;

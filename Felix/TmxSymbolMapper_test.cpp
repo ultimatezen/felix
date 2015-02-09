@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_SUITE( TestCTMXImportDlg )
 		wstring expected = L"spam " ;
 		expected += wchar_t(0x2126) ;
 		expected += L" egg" ;
-		BOOST_CHECK_EQUAL(string(string2string(expected, CP_UTF8).c_str()), 
-			string(string2string(out_text, CP_UTF8).c_str())) ;
+		BOOST_CHECK_EQUAL(string(string2string(expected).c_str()), 
+			string(string2string(out_text).c_str())) ;
 	}
 	BOOST_AUTO_TEST_CASE( strip_html_symbols_entity_base10)
 	{
@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_SUITE( TestCTMXImportDlg )
 		wstring in_text = L"spam&#64;egg" ;
 		wstring out_text = mapper.strip_html_symbols(in_text) ;
 		wstring expected = L"spam@egg" ;
-		BOOST_CHECK_EQUAL(string(string2string(expected, CP_UTF8).c_str()), 
-			string(string2string(out_text, CP_UTF8).c_str())) ;
+		BOOST_CHECK_EQUAL(string(string2string(expected).c_str()), 
+			string(string2string(out_text).c_str())) ;
 	}
 	BOOST_AUTO_TEST_CASE( strip_html_symbols_bad_symbol)
 	{
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_SUITE( TestCTMXImportDlg )
 		wstring in_text = L"spam &gargle; egg" ;
 		wstring out_text = mapper.strip_html_symbols(in_text) ;
 		wstring expected = L"spam &gargle; egg" ;
-		BOOST_CHECK_EQUAL(string(string2string(expected, CP_UTF8).c_str()), 
-			string(string2string(out_text, CP_UTF8).c_str())) ;
+		BOOST_CHECK_EQUAL(string(string2string(expected).c_str()), 
+			string(string2string(out_text).c_str())) ;
 	}
 	BOOST_AUTO_TEST_CASE( strip_html_symbols_bad_ampersand)
 	{
@@ -76,8 +76,8 @@ BOOST_AUTO_TEST_SUITE( TestCTMXImportDlg )
 		wstring in_text = L"spam & egg" ;
 		wstring out_text = mapper.strip_html_symbols(in_text) ;
 		wstring expected = L"spam & egg" ;
-		BOOST_CHECK_EQUAL(string(string2string(expected, CP_UTF8).c_str()), 
-			string(string2string(out_text, CP_UTF8).c_str())) ;
+		BOOST_CHECK_EQUAL(string(string2string(expected).c_str()), 
+			string(string2string(out_text).c_str())) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
 

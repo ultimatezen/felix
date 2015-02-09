@@ -412,7 +412,7 @@ namespace mem_engine
 		CMultiLanguage multi ;
 
 		const DWORD flag = MLDETECTCP_HTML ;
-		const DetectEncodingInfo detect = multi.detect_encoding( text, text_size, flag, CP_UTF8 ) ;
+		const DetectEncodingInfo detect = multi.detect_encoding( text, text_size, flag ) ;
 
 		return detect.nCodePage ;
 	}

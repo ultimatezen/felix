@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( TestStreamOperator_bstr)
 BOOST_AUTO_TEST_CASE( string2string_from_wstring )
 {
 	wstring w = L"Hello, world!" ;
-	string s = string2string( w, CP_UTF8 ) ;
+	string s = string2string( w ) ;
 	BOOST_CHECK_EQUAL( s, "Hello, world!") ;
 }
 BOOST_AUTO_TEST_CASE( string2string_from_string )
@@ -73,18 +73,18 @@ BOOST_AUTO_TEST_CASE( string2string_from_string )
 BOOST_AUTO_TEST_CASE( string2wstring_from_string )
 {
 	string s = "Hello, world!" ;
-	wstring w = string2wstring( s, CP_UTF8 ) ;
+	wstring w = string2wstring( s ) ;
 	BOOST_CHECK_EQUAL( w, L"Hello, world!") ;
 
 	s = "Goodbye!" ;
-	w = string2wstring( s, CP_UTF8 ) ;
+	w = string2wstring( s ) ;
 	BOOST_CHECK_EQUAL( w, L"Goodbye!") ;
 }
 BOOST_AUTO_TEST_CASE( string2wstring_from_japanese )
 {
 	wstring original = L"“ú–{Œê" ;
-	string s = string2string(original, CP_UTF8) ;
-	wstring w = string2wstring( s, CP_UTF8 ) ;
+	string s = string2string(original) ;
+	wstring w = string2wstring( s ) ;
 	BOOST_CHECK_EQUAL( w, L"“ú–{Œê") ;
 }
 BOOST_AUTO_TEST_CASE( string2wstring_from_wstring )
