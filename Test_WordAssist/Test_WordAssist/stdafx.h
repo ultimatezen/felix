@@ -27,18 +27,18 @@
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows 95 and Windows NT 4 or later.
-#define WINVER 0x0500		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#define WINVER 0x0600		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
 #endif
 
 #ifndef _WIN32_WINNT		// Allow use of features specific to Windows NT 4 or later.
-#define _WIN32_WINNT 0x0500	// Change this to the appropriate value to target Windows 2000 or later.
+#define _WIN32_WINNT 0x0600	// Change this to the appropriate value to target Windows 2000 or later.
 #endif						
 
 #ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
-#define _WIN32_WINDOWS 0x0510 // Change this to the appropriate value to target Windows Me or later.
+#define _WIN32_WINDOWS 0x0600 // Change this to the appropriate value to target Windows Me or later.
 #endif
 
-#define WIN32_IE		0x0501  // we need 5 or higher anyway...
+#define WIN32_IE		0x0600  // we need 6 or higher anyway...
 
 
 // WTL 7 handlers for property sheets
@@ -74,7 +74,6 @@ using boost::format;
 using boost::wformat ;
 typedef boost::basic_format< TCHAR > tformat;
 
-#include <boost/shared_ptr.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/shared_array.hpp>
 

@@ -17,8 +17,8 @@ using std::max ;
 #define _SCL_SECURE_NO_WARNINGS
 
 // Change these values to use different versions
-#define WINVER			0x0600  // Windows 2000
-#define _WINVER			0x0600  // Windows 2000
+#define WINVER			0x0600  // Windows Vista
+#define _WINVER			0x0600  // Windows Vista
 #define _WIN32_IE		0x0600  // we need 6 or higher...
 #define WIN32_IE		0x0600  // we need 6 or higher...
 #define _RICHEDIT_VER	0x0300  // richedit2 and above has the unicode version
@@ -108,7 +108,6 @@ using boost::format;
 using boost::wformat ;
 typedef boost::basic_format< TCHAR > tformat;
 
-#include <boost/shared_ptr.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_array.hpp>
@@ -269,7 +268,7 @@ static const double EPSILON = 0.00001 ;
 #endif 
 
 #define FELIX_APPLICATION
-static const char* VERSION = "1.7.2.2" ;
+static const char* VERSION = "1.7.3" ;
 static const wchar_t* LOGGING_SERVER = L"FelixHelpers.FelixLogger" ;
 #define LOGFILE_NAME _T("felix.log")
  
