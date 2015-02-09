@@ -58,6 +58,7 @@
 #include "input_device_file.h"
 #include "output_device.h"
 #include "system_paths.h"
+#include "file_dialog.h"
 
 // QC
 #include "qcrules/qc_checker.h"
@@ -759,8 +760,6 @@ LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 	open_file_dlg dialog ;
 
 	dialog.set_prompt( R2T( IDS_OPEN ) ) ;
-
-	dialog.set_filter( get_open_filter() ) ;
 
 	file::OpenDlgList import_files ;
 
@@ -3306,7 +3305,7 @@ void MemoryWindowFrame::init_status_bar()
 
 	ATLVERIFY(m_statusbar.m_mp_sbar.SetPanes(arrParts, sizeof(arrParts) / sizeof(arrParts[0]), false)) ;
 	CString version_info ;
-	version_info.Format(_T("Felix v. %s"), string2tstring(VERSION).c_str()) ;
+	version_info.Format(_T("Felix v. %s"), string2wstring(VERSION).c_str()) ;
 	user_feedback(version_info, 1) ;
 #endif
 }
@@ -3538,27 +3537,6 @@ void MemoryWindowFrame::refresh_mru_doc_list(HMENU menu)
 	m_mru.ReadFromRegistry( resource_string( IDS_REG_KEY ) );
 }
 
-/** This is so we can call this from CCommonWindowFunctionality
-* 
-* Todo: localize
-* \see
-* CCommonWindowFunctionality | CGlossaryDialog
-*/
-LPCTSTR MemoryWindowFrame::get_save_filter()
-{
-	return get_mem_save_filter() ;
-}
-
-/** This is so we can call this from CCommonWindowFunctionality
-* 
-* Todo: localize
-* \see
-* CCommonWindowFunctionality | CGlossaryDialog
-*/
-LPCTSTR MemoryWindowFrame::get_open_filter()
-{
-	return get_mem_open_filter() ;
-}
 
 /** Allow the glossary windows to tell us not to shut down.
 */
@@ -3640,9 +3618,10 @@ CString MemoryWindowFrame::get_window_type_string()
 {
 	return resource_string(IDS_MEMORY) ;
 }
-
-
-
+bool MemoryWindowFrame::is_glossary_window()
+{
+	return false;
+}
 
 //! This is our poor-man's multithreading.
 void MemoryWindowFrame::init_background_processor()
@@ -4445,9 +4424,6 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 
 	dialog.set_prompt( R2T( IDS_LOAD_PREFS_TITLE ) ) ;
 
-	LPCTSTR prefs_filter = get_prefs_filter() ;
-	dialog.set_filter( prefs_filter ) ;
-
 	user_feedback( IDS_LOAD_PREFS_TITLE ) ;
 
 	CString filename = dialog.get_open_file() ;
@@ -4482,41 +4458,40 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 {
 	logging::log_debug("Saving user preferences.") ;
-	save_file_dlg dialog ;
-	dialog.set_prompt( R2T( IDS_SAVE_PREFS_TITLE ) ) ;
+	user_feedback(IDS_SAVE_PREFS_TITLE);
 
-	LPCTSTR prefs_filter = get_prefs_filter() ;
-	dialog.set_filter( prefs_filter ) ;
+	file_save_dialog dialog(
+		m_props->m_history_props.m_preferences_location,
+		L"",
+		R2T(IDS_SAVE_PREFS_TITLE),
+		get_prefs_filter(),
+		L"fprefx"
+		);
 
-	user_feedback( IDS_SAVE_PREFS_TITLE ) ;
-
-	CString filename = dialog.get_save_file() ;
-
-	if ( filename.IsEmpty() )
+	if (!dialog.show())
 	{
-		user_feedback( IDS_CANCELLED_ACTION ) ;
-		return 0L ;
+		user_feedback(IDS_CANCELLED_ACTION);
+		return 0L;
 	}
-	logging::log_debug("Saving preferences") ;
+
+	CString save_as_file_name = dialog.get_save_destination();
+
 
 	m_glossary_windows.save_prefs() ;
 	save_settings_close() ;
 	save_settings_destroy() ;
 
-
-	const int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
+	switch (dialog.get_selected_index())
 	{
 	case 1:
-		fileops::add_extension_as_needed( filename,  _T( ".fprefx" ) ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".fprefx"));
 		ATLTRACE( "Save new preferences format\n" ) ;
 		break;
 
 	default:
 		LOG_VERBOSE("Unknown file type for prefs file. Saving raw filename.") ;
 	}
-	m_props->save_file(filename) ;
+	m_props->save_file(save_as_file_name);
 
 	user_feedback( IDS_PREFS_SAVED ) ;
 
@@ -4893,65 +4868,64 @@ void MemoryWindowFrame::create_reg_gloss_window()
 
 void MemoryWindowFrame::save_memory_as( memory_pointer mem )
 {
-	save_file_dlg dialog ;
-
-	if ( ! mem->is_new() ) 
+	CString original_file_name;
+	if (mem->is_new() == false)
 	{
-		file::CPath path( mem->get_location() ) ;
-		path.RemoveExtension() ;
-		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
+		original_file_name = mem->get_fullpath();
 	}
 
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
-	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
+	CString dialog_title;
+	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_MEMORY));
 
-	dialog.set_filter( get_save_filter() ) ;
+	file_save_dialog dialog(
+		m_props->m_history_props.m_memory_location,
+		original_file_name,
+		dialog_title,
+		get_mem_save_filter(),
+		L"ftm"
+		);
 
-	CString file_name = dialog.get_save_file() ;
-
-	if ( file_name.IsEmpty() )
+	if (!dialog.show())
 	{
-		return ;
+		user_feedback(IDS_CANCELLED_ACTION);
+		return;
 	}
 
-	file::CPath path( file_name ) ;
+	CString save_as_file_name = dialog.get_save_destination();
 
-	const int selected_index = dialog.get_selected_index() ;
-
-	switch( selected_index ) 
+	switch (dialog.get_selected_index())
 	{
 	case 1: case 7:
 		logging::log_debug("Saving memory as ftm file") ;
-		fileops::add_extension_as_needed( file_name,  _T( ".ftm" ) ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".ftm"));
 		break;
 
 	case 2:
 		logging::log_debug("Saving memory as xml file") ;
-		fileops::add_extension_as_needed( file_name,  _T( ".xml" ) ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".xml"));
 		break;
 
 	case 3:
 		logging::log_debug("Saving memory as tmx file") ;
-		fileops::add_extension_as_needed( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name, mem ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".tmx"));
+		export_tmx(save_as_file_name, mem);
 		return ;
 
 	case 4:
 		logging::log_debug("Saving memory as Trados text file") ;
-		fileops::add_extension_as_needed( file_name,  _T( ".txt" ) ) ;
-		export_trados( file_name, mem ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".txt"));
+		export_trados(save_as_file_name, mem);
 		return ;
 
 	case 5:
 		{
-			export_excel(file_name, mem);
+			export_excel(save_as_file_name, mem);
 			return ;
 		}
 
 	case 6:
 		{
-			export_tabbed_text(file_name, mem);
+			export_tabbed_text(save_as_file_name, mem);
 			return ;
 		}
 
@@ -4959,19 +4933,19 @@ void MemoryWindowFrame::save_memory_as( memory_pointer mem )
 		logging::log_warn("Unknown case in switch statement") ;
 		ATLASSERT ( FALSE && "Unknown case in switch statement" ) ; 
 		logging::log_debug("Saving memory as tmx file") ;
-		fileops::add_extension_as_needed( file_name,  _T( ".tmx" ) ) ;
-		export_tmx( file_name, mem ) ;
+		fileops::add_extension_as_needed(save_as_file_name, _T(".tmx"));
+		export_tmx(save_as_file_name, mem);
 		break;
 	}
 
 	// If the name changes, then we make the current user into the creator
 	const CString old_location = mem->get_location() ;
 
-	mem->set_location( file_name ) ;
+	mem->set_location(save_as_file_name);
 
 	save_memory( mem ) ;
 
-	if ( 0 != old_location.CompareNoCase( file_name ) )
+	if (0 != old_location.CompareNoCase(save_as_file_name))
 	{
 		mem->set_creator_to_current_user( ) ;
 	}
@@ -5005,7 +4979,7 @@ void MemoryWindowFrame::get_qc_messages( mem_engine::record_pointer record, std:
 		params.m_ignore_hira_kata = !! m_props->m_gloss_props.m_data.m_ignore_hir_kat ;
 		params.set_source(record->get_source_rich()) ;
 
-		boost::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model()->get_memories() ;
+		std::shared_ptr<memory_model> memories = get_glossary_window()->get_memory_model()->get_memories() ;
 
 		search_match_container matches ;
 
@@ -5204,13 +5178,6 @@ void MemoryWindowFrame::edit_edit_record( mem_engine::record_pointer new_record,
 BOOL MemoryWindowFrame::handle_sw_exception( except::CSWException &e, const CString &failure_message )
 {
 	return CCommonWindowFunctionality::handle_sw_exception(e, failure_message) ;
-}
-
-LPCTSTR MemoryWindowFrame::get_save_ext()
-{
-	static LPCTSTR memory_file_ext = _T("ftm") ;
-
-	return memory_file_ext ;
 }
 
 bool MemoryWindowFrame::check_for_clashes( memory_type mem )

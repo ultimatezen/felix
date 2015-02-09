@@ -633,6 +633,7 @@ echo Protection complete!
     <ClCompile Include="Felix_properties.cpp" />
     <ClCompile Include="FelixMemDocUIHandler.cpp" />
     <ClCompile Include="FileOpHandler_test.cpp" />
+    <ClCompile Include="file_dialog.cpp" />
     <ClCompile Include="FindDlg.cpp" />
     <ClCompile Include="font_tabulator.cpp" />
     <ClCompile Include="GlossaryWindowFrame.cpp">
@@ -934,7 +935,6 @@ echo Protection complete!
     <ClCompile Include="TmxSymbolMapper_test.cpp" />
     <ClCompile Include="TMXWriter_test.cpp" />
     <ClCompile Include="translation_match_query_test.cpp" />
-    <ClCompile Include="ui_test.cpp" />
     <ClCompile Include="UserStringDlg_test.cpp" />
     <ClCompile Include="view_interface_test.cpp" />
     <ClCompile Include="view_state_concordance_test.cpp" />
@@ -1210,6 +1210,7 @@ echo Protection complete!
     <ClInclude Include="command_edit.h" />
     <ClInclude Include="CredVault.h" />
     <ClInclude Include="FelixModel.h" />
+    <ClInclude Include="file_dialog.h" />
     <ClInclude Include="gloss_placement.h" />
     <ClInclude Include="gloss_win_collection.h" />
     <ClInclude Include="memory_fake.h" />

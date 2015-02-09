@@ -512,16 +512,15 @@ public:
 	void refresh_command_bar();
 	void refresh_mru_doc_list(HMENU menu);
 
-	LPCTSTR get_save_filter() ;
-	LPCTSTR get_open_filter() ;
-	LPCTSTR get_save_ext();
 	bool gloss_win_shutdown_check();
 
 	void save_rebar_settings() ;
 
 
 	CString get_window_type_string();
-	bool check_for_clashes( memory_type mem );
+	bool is_glossary_window();
+
+	bool check_for_clashes(memory_type mem);
 	model_iface_ptr get_memory_model();
 
 	void set_bg_color_if_needed();

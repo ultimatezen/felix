@@ -12,6 +12,7 @@
 #include "ExcelInterfaceReal.h"
 #include "input_device.h"
 #include "output_device.h"
+#include "file_dialog.h"
 
 using namespace except ;
 using namespace mem_engine ;
@@ -158,23 +159,15 @@ INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer
 {
 	if ( mem->is_new() )
 	{
-		windows_ui ui( m_hWnd ) ;
-		CString msg ;
-		msg.FormatMessage( IDS_SAVE, get_window_type_string() ) ;
-		CString f_name = ui.get_save_file
-			( 
-			(LPCTSTR)msg, 
-			get_save_filter(), 
-			get_save_ext() 
-			) ;
+		CString location = get_save_destination();
 
-		if ( f_name.IsEmpty() )
+		if ( location.IsEmpty() )
 		{
 			return IDCANCEL ;
 		}
 
 
-		mem->set_location( f_name ) ;
+		mem->set_location(location);
 	}
 
 	if ( ! check_for_clashes( mem ) ) 
@@ -193,15 +186,8 @@ bool CCommonWindowFunctionality::check_location()
 	
 	if ( mem->is_new() ) 
 	{
-		ATLASSERT( IsWindow() ) ;
-		::SetFocus(m_hWnd) ;
-	
-		windows_ui ui( m_hWnd ) ;
-		CString msg ;
-		msg.FormatMessage( IDS_SAVE, get_window_type_string() ) ;
-
-		CString file_name ;
-		if ( ! ui.get_save_file( file_name, msg, XML_FILE_FILTER, XML_FILE_EXT ) ) 
+		CString file_name = this->get_save_destination();
+		if ( file_name.IsEmpty() ) 
 		{
 			return false ;
 		}
@@ -522,11 +508,22 @@ void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 	
 	CString location = mem->get_location() ;
 	const file::CFileExtension ext(location) ;
-	const CString mem_ext = CString(".") + this->get_save_ext() ;
+	CString save_ext = L"ftm";
+	if (this->is_glossary_window())
+	{
+		save_ext = L"fgloss";
+	}
+
+	const CString mem_ext = CString(".") + save_ext;
+
+	// If the save filename isn't an XML file, and it
+	// doesn't have the default save extension for the memory
+	// type (ftm or fgloss), add the extension to the filename.
 	if (! (ext.is_xml() || ext.equals(mem_ext)))
 	{
 		location += mem_ext ;
 	}
+
 	mem->set_location( location ) ;
 
 	try
@@ -545,14 +542,34 @@ void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 
 CString CCommonWindowFunctionality::get_save_destination()
 {
-	windows_ui ui( m_hWnd ) ;
-	CString save_destination = ui.get_save_file
-		(
-		(LPCTSTR)system_message( IDS_SAVE, get_window_type_string() ),
-		this->get_save_filter(),
-		this->get_save_ext()
-		) ;
-	return save_destination;
+	CString dialog_title;
+	dialog_title.FormatMessage(IDS_SAVE, get_window_type_string());
+	
+	CString filename;
+	memory_pointer mem = this->get_memory_model()->get_first_memory();
+	if (file::CPath(mem->get_fullpath()).FileExists())
+	{
+		filename = mem->get_fullpath();
+	}
+
+	auto history = &app_props::get_props()->m_history_props;
+
+	if (this->is_glossary_window())
+	{
+		return save_glossary_file(
+			dialog_title, // dialog_title
+			history->m_memory_location, // last_save
+			filename // filename
+			);
+	}
+	else
+	{
+		return save_memory_file(
+			dialog_title, // dialog_title
+			history->m_glossary_location, // last_save
+			filename // filename
+			);
+	}
 }
 LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 {

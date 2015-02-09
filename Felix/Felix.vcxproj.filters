@@ -528,9 +528,6 @@
     <ClCompile Include="translation_match_query_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="ui_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="UserStringDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -1103,6 +1100,9 @@
     </ClCompile>
     <ClCompile Include="RegSettings_test.cpp">
       <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="file_dialog.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1969,6 +1969,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CredVault.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_dialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

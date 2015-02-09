@@ -67,6 +67,7 @@ BOOST_AUTO_TEST_SUITE( TestCSearchWindow )
 	BOOST_AUTO_TEST_CASE(get_replace_matches_mem_0)
 	{
 		CSearchWindow window ;
+
 		memory_pointer mem(new memory_local(get_props())) ;
 		add_record(mem, "aaa", "bbb") ;
 		wstring replace_from = L"source:xxx" ;

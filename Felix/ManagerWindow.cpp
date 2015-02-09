@@ -34,6 +34,8 @@
 
 #include "input_device_file.h"
 
+#include "file_dialog.h"
+
 #ifdef UNIT_TEST
 #include "element_wrapper_fake.h"
 #include "document_wrapper_fake.h"
@@ -821,38 +823,36 @@ CString CManagerWindow::get_save_prompt( mem_engine::memory_pointer mem )
 
 bool CManagerWindow::getMemName( mem_engine::memory_pointer mem ) const
 {
-	CString dialog_title ;
-	dialog_title.FormatMessage( IDS_SAVE, resource_string( IDS_MEMORY) ) ;
-
-	save_file_dlg dialog(*this) ;
-
-	if ( ! mem->is_new() ) 
+	CString original_file_name;
+	if (mem->is_new() == false)
 	{
-		file::CPath path( mem->get_location() ) ;
-		path.RemoveExtension() ;
-		dialog.set_default_file( (LPCTSTR)path.Path() ) ;
+		original_file_name = mem->get_fullpath();
 	}
 
-	dialog.set_prompt( (LPCTSTR)dialog_title ) ;
+	CString dialog_title;
+	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_MEMORY));
 
-	if (m_title_id == IDS_GLOSSARY_MANAGER_TITLE)
+	file_save_dialog dialog(
+		m_props->m_history_props.m_memory_location,
+		original_file_name,
+		dialog_title,
+		get_mem_save_filter(),
+		L"ftm"
+		);
+
+	if (!dialog.show())
 	{
-		dialog.set_filter(get_gloss_save_filter()) ;
-	}
-	else
-	{
-		dialog.set_filter(get_mem_save_filter()) ;
+		return false;
 	}
 
-	CString file_name = dialog.get_save_file() ;
+	CString save_as_file_name = dialog.get_save_destination();
 
 
-	if ( file_name.IsEmpty() )
+	if (save_as_file_name.IsEmpty())
 	{
 		return false ;
 	}
-	mem->set_location( file_name ) ;
-
+	mem->set_location(save_as_file_name);
 	return true ;
 }
 
@@ -941,12 +941,10 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	if (is_memory)
 	{
 		dialog.set_prompt( R2T( IDS_OPEN ) ) ;
-		dialog.set_filter( get_mem_open_filter() ) ;
 	}
 	else
 	{
 		dialog.set_prompt( R2T( IDS_OPEN_GLOSS_FILE ) ) ;
-		dialog.set_filter( get_gloss_open_filter() ) ;
 	}
 
 	file::OpenDlgList import_files ;
