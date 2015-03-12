@@ -22,8 +22,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_Excel", "..\Test_Excel
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71597844-0B7B-4AAF-BC9B-1F5474C4B511}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edist", "..\..\pytools\edist\edist.vcxproj", "{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -412,46 +410,6 @@ Global
 		{01F3D59E-2116-468D-9176-112DA8D18191}.Unicode_Release|Mixed Platforms.Build.0 = Release|Win32
 		{01F3D59E-2116-468D-9176-112DA8D18191}.Unicode_Release|Win32.ActiveCfg = Release|Win32
 		{01F3D59E-2116-468D-9176-112DA8D18191}.Unicode_Release|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Debug|Win32.Build.0 = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Profiler|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Profiler|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Profiler|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Profiler|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Profiler|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release_64|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release_64|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release_64|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release_64|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release_64|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Release|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing_64|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing_64|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing_64|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing_64|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing_64|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Testing|Win32.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Debug|Win32.ActiveCfg = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Debug|Win32.Build.0 = Debug|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Release|Any CPU.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Release|Mixed Platforms.Build.0 = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Release|Win32.ActiveCfg = Release|Win32
-		{1EE447CA-D2ED-410D-BB0D-30F419F3E1D6}.Unicode_Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
