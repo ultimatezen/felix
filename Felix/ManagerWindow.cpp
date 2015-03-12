@@ -832,13 +832,12 @@ bool CManagerWindow::getMemName( mem_engine::memory_pointer mem ) const
 	CString dialog_title;
 	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_MEMORY));
 
-	file_save_dialog dialog(
-		m_props->m_history_props.m_memory_location,
-		original_file_name,
-		dialog_title,
-		get_mem_save_filter(),
-		L"ftm"
-		);
+	file_save_dialog dialog;
+	dialog.set_filename(original_file_name);
+	dialog.set_title(dialog_title);
+	dialog.set_file_filter(get_mem_save_filter());
+	dialog.set_default_ext(L"ftm");
+	dialog.set_last_save(m_props->m_history_props.m_memory_location);
 
 	if (!dialog.show())
 	{

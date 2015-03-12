@@ -542,9 +542,6 @@ void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 
 CString CCommonWindowFunctionality::get_save_destination()
 {
-	CString dialog_title;
-	dialog_title.FormatMessage(IDS_SAVE, get_window_type_string());
-	
 	CString filename;
 	memory_pointer mem = this->get_memory_model()->get_first_memory();
 	if (file::CPath(mem->get_fullpath()).FileExists())
@@ -557,7 +554,6 @@ CString CCommonWindowFunctionality::get_save_destination()
 	if (this->is_glossary_window())
 	{
 		return save_glossary_file(
-			dialog_title, // dialog_title
 			history->m_memory_location, // last_save
 			filename // filename
 			);
@@ -565,7 +561,6 @@ CString CCommonWindowFunctionality::get_save_destination()
 	else
 	{
 		return save_memory_file(
-			dialog_title, // dialog_title
 			history->m_glossary_location, // last_save
 			filename // filename
 			);

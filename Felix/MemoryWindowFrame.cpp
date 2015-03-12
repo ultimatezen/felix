@@ -4460,13 +4460,11 @@ LRESULT MemoryWindowFrame::on_tools_save_preferences(WindowsMessage &)
 	logging::log_debug("Saving user preferences.") ;
 	user_feedback(IDS_SAVE_PREFS_TITLE);
 
-	file_save_dialog dialog(
-		m_props->m_history_props.m_preferences_location,
-		L"",
-		R2T(IDS_SAVE_PREFS_TITLE),
-		get_prefs_filter(),
-		L"fprefx"
-		);
+	file_save_dialog dialog ;
+	dialog.set_title(R2T(IDS_SAVE_PREFS_TITLE));
+	dialog.set_file_filter(get_prefs_filter());
+	dialog.set_last_save(m_props->m_history_props.m_preferences_location);
+	dialog.set_default_ext(L"fprefx");
 
 	if (!dialog.show())
 	{
@@ -4877,13 +4875,12 @@ void MemoryWindowFrame::save_memory_as( memory_pointer mem )
 	CString dialog_title;
 	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_MEMORY));
 
-	file_save_dialog dialog(
-		m_props->m_history_props.m_memory_location,
-		original_file_name,
-		dialog_title,
-		get_mem_save_filter(),
-		L"ftm"
-		);
+	file_save_dialog dialog;
+	dialog.set_title(dialog_title);
+	dialog.set_file_filter(get_mem_save_filter());
+	dialog.set_filename(original_file_name);
+	dialog.set_last_save(m_props->m_history_props.m_memory_location);
+	dialog.set_default_ext(L"ftm");
 
 	if (!dialog.show())
 	{

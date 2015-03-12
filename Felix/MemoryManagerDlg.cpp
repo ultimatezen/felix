@@ -1050,9 +1050,6 @@ wstring CMemoryManagerDlg::get_loading_message( const CString &mem_file )
 
 CString CMemoryManagerDlg::get_save_destination(mem_engine::memory_pointer mem)
 {
-	CString dialog_title;
-	dialog_title.FormatMessage(IDS_SAVE, mem->get_location());
-
 	CString filename;
 	if (file::CPath(mem->get_fullpath()).FileExists())
 	{
@@ -1064,7 +1061,6 @@ CString CMemoryManagerDlg::get_save_destination(mem_engine::memory_pointer mem)
 	if (mem->get_is_memory())
 	{
 		return save_memory_file(
-			dialog_title, // dialog_title
 			history->m_glossary_location, // last_save
 			filename // filename
 			);
@@ -1072,7 +1068,6 @@ CString CMemoryManagerDlg::get_save_destination(mem_engine::memory_pointer mem)
 	else
 	{
 		return save_glossary_file(
-			dialog_title, // dialog_title
 			history->m_memory_location, // last_save
 			filename // filename
 			);

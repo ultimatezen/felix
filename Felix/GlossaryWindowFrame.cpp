@@ -2103,13 +2103,12 @@ void GlossaryWindowFrame::save_memory_as( memory_pointer mem )
 	CString dialog_title;
 	dialog_title.FormatMessage(IDS_SAVE, resource_string(IDS_GLOSSARY));
 
-	file_save_dialog dialog(
-		m_props->m_history_props.m_glossary_location,
-		original_file_name,
-		dialog_title,
-		get_gloss_save_filter(),
-		L"fgloss"
-		);
+	file_save_dialog dialog;
+	dialog.set_title(dialog_title);
+	dialog.set_file_filter(get_gloss_save_filter());
+	dialog.set_filename(original_file_name);
+	dialog.set_last_save(m_props->m_history_props.m_glossary_location);
+	dialog.set_default_ext(L"fgloss");
 
 	if (!dialog.show())
 	{
