@@ -263,12 +263,12 @@ double Distance::edist_score( const std::wstring &a, const std::wstring &b )
 
 	// screen using multiset intersection for best possible matchup
 	std::map<wchar_t, size_t> bmap ;
-	FOREACH(wchar_t element, b)
+	for(wchar_t element: b)
 	{
 		bmap[element]++ ;
 	}
 	size_t maxalike = 0 ;
-	FOREACH(wchar_t element, a)
+	for(wchar_t element: a)
 	{
 		if (bmap.find(element) != bmap.end())
 		{
