@@ -354,58 +354,6 @@ BOOST_AUTO_TEST_SUITE(TestBytesToBom)
 		BOOST_CHECK_EQUAL(file::bytes_to_bom(bytes), file::BOM_UTF7) ;
 	}
 BOOST_AUTO_TEST_SUITE_END()
-// OpenDlgList
-BOOST_AUTO_TEST_SUITE( OpenDlgListTestCases )
-using namespace except;
-
-	BOOST_AUTO_TEST_CASE( NullFileSpec)
-	{
-		try
-		{
-			file::OpenDlgList open_list(NULL) ;
-			BOOST_CHECK_EQUAL((int)open_list.size(), 0) ;
-		}
-		catch (CProgramException&)
-		{
-			BOOST_FAIL("Should not throw for NULL filespec") ;
-		}
-	}
-	BOOST_AUTO_TEST_CASE( AssignNullFileSpec)
-	{
-		try
-		{
-			file::OpenDlgList open_list ;
-			open_list = NULL ;
-			BOOST_FAIL("Failed to throw for NULL filespec") ;
-		}
-		catch (CProgramException&)
-		{
-			BOOST_CHECK(true) ;
-		}
-	}
-	BOOST_AUTO_TEST_CASE( SingleFile)
-	{
-		try
-		{
-			file::OpenDlgList open_list(_T("c:\\test\\\0spam.txt\0")) ;
-			BOOST_CHECK_EQUAL((int)open_list.size(), 1) ;
-			BOOST_CHECK_EQUAL(string(CStringA(open_list.directory())), "c:\\test\\") ;
-			BOOST_CHECK_EQUAL(string(CStringA(open_list[0])), "c:\\test\\spam.txt") ;
-		}
-		catch (CProgramException&)
-		{
-			BOOST_FAIL("Should not throw for NULL filespec") ;
-		}
-	}
-	BOOST_AUTO_TEST_CASE( TwoFiles)
-	{
-		file::OpenDlgList open_list(_T("c:\\test\\\0spam.txt\0eggs.xml\0")) ;
-		BOOST_CHECK_EQUAL((int)open_list.size(), 2) ;
-		BOOST_CHECK_EQUAL(string(CStringA(open_list.directory())), "c:\\test\\") ;
-		BOOST_CHECK_EQUAL(string(CStringA(open_list[0])), "c:\\test\\spam.txt") ;
-		BOOST_CHECK_EQUAL(string(CStringA(open_list[1])), "c:\\test\\eggs.xml") ;
-	}
-BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( file_name_name_part_tests )
 	BOOST_AUTO_TEST_CASE( simple)
