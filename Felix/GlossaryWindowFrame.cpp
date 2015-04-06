@@ -795,30 +795,32 @@ bool GlossaryWindowFrame::handle_open()
 	user_feedback( IDS_OPEN_GLOSS_FILE ) ;
 
 	// get the file name
-	open_file_dlg dialog ;
+	file_open_dialog dialog;
 
-	dialog.set_prompt( R2T( IDS_OPEN_GLOSS_FILE ) ) ;
+	dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
+	user_feedback(IDS_OPEN);
 
-	file::OpenDlgList import_files ;
-	if ( ! dialog.get_open_files( import_files ) ) 
+	if ( ! dialog.show( ) ) 
 	{
 		user_feedback( IDS_CANCELLED_ACTION ) ;
 		return false ;
 	}
 
+	auto filenames = dialog.get_open_destinations();
+
 	switch(dialog.get_selected_index()) 
 	{
 	case 1: case 4:
-		load_felix_files( import_files ) ;
+		load_felix_files(filenames);
 		break;
 
 	case 2:
-		import_multiterm( import_files ) ;
+		import_multiterm(filenames);
 		break ;
 
 	case 3:
 		{
-			FOREACH(CString filename, import_files.m_filenames)
+			for(auto filename: filenames)
 			{
 				import_tabbed_text(filename) ;
 			}
@@ -833,17 +835,17 @@ bool GlossaryWindowFrame::handle_open()
 	return true ;
 }
 
-void GlossaryWindowFrame::load_felix_files(file::OpenDlgList& import_files)
+void GlossaryWindowFrame::load_felix_files(std::vector<CString> import_files)
 {
-	FOREACH(CString filename, import_files.m_filenames)
+	for(CString filename: import_files)
 	{
 		load(filename) ;
 	}
 }
 
-void GlossaryWindowFrame::import_multiterm( const file::OpenDlgList &import_files )
+void GlossaryWindowFrame::import_multiterm(std::vector<CString> import_files)
 {
-	FOREACH(CString filename, import_files.m_filenames)
+	for(CString filename: import_files)
 	{
 		import_multiterm(filename) ;
 	}

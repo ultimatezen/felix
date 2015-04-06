@@ -207,7 +207,7 @@ public:
 	void save_memory(mem_engine::memory_pointer mem) ;
 	void set_button_focus() ;
 
-	void add_memory_files( file::OpenDlgList &import_files ) ;
+	void add_memory_files(std::vector<CString> import_files);
 
 	CString get_save_destination(mem_engine::memory_pointer mem);
 };

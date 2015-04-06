@@ -757,34 +757,32 @@ LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 	return 0L ;
 #else
 	// get the file name
-	open_file_dlg dialog ;
+	file_open_dialog dialog;
 
-	dialog.set_prompt( R2T( IDS_OPEN ) ) ;
-
-	file::OpenDlgList import_files ;
+	dialog.set_title(R2T(IDS_OPEN));
 
 	user_feedback( IDS_OPEN ) ;
 
-	if ( ! dialog.get_open_files( import_files ) ) 
+	if (!dialog.show())
 	{
-		user_feedback( IDS_CANCELLED_ACTION ) ;
-		return 0L ;
+		user_feedback(IDS_CANCELLED_ACTION);
+		return 0L;
 	}
 
-	const int selected_index = dialog.get_selected_index() ;
+	auto filenames = dialog.get_open_destinations();
 
-	switch( selected_index ) 
+	switch (dialog.get_selected_index())
 	{
 	case 1: case 4:
 		ATLTRACE( "Open Felix memory files.\n" ) ;
 		break;
 
 	case 2:
-		import_tmx( import_files, get_input_device() ) ;
+		import_tmx(filenames, get_input_device());
 		return 0L ;
 
 	case 3:
-		import_trados( import_files ) ;
+		import_trados(filenames);
 		return 0L ;
 
 	default:
@@ -793,7 +791,7 @@ LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 	}
 
 	// They are regular memory files
-	FOREACH(CString filename, import_files.m_filenames)
+	for(CString filename: filenames)
 	{
 		load(filename) ;
 	}
@@ -2329,9 +2327,9 @@ void MemoryWindowFrame::set_translation_at(short index, const wstring translatio
 
 /** import a list of tmx files.
 */
-bool MemoryWindowFrame::import_tmx( const file::OpenDlgList &files, input_device_ptr input )
+bool MemoryWindowFrame::import_tmx(std::vector<CString> import_files, input_device_ptr input)
 {
-	FOREACH(CString filename, files.m_filenames)
+	for(CString filename: import_files)
 	{
 		import_tmx(filename, input) ;
 	}
@@ -2391,11 +2389,11 @@ void MemoryWindowFrame::feedback_loaded_mem( const memory_pointer mem )
 }
 /** Imports a list of Trados memories.
 */
-bool MemoryWindowFrame::import_trados( const file::OpenDlgList &files )
+bool MemoryWindowFrame::import_trados(std::vector<CString> import_files)
 {
 	try
 	{
-		FOREACH(CString filename, files.m_filenames)
+		for(CString filename: import_files)
 		{
 			import_trados(filename) ;
 		}
@@ -4420,31 +4418,29 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 {
 	logging::log_debug("Loading user preferences.") ;
 	// get the file name
-	open_file_dlg dialog ;
+	file_open_dialog dialog;
 
-	dialog.set_prompt( R2T( IDS_LOAD_PREFS_TITLE ) ) ;
+	dialog.set_title(R2T(IDS_LOAD_PREFS_TITLE));
 
 	user_feedback( IDS_LOAD_PREFS_TITLE ) ;
 
-	CString filename = dialog.get_open_file() ;
-	if (filename.IsEmpty())
+	if (!dialog.show())
 	{
-		user_feedback( IDS_CANCELLED_ACTION ) ;
-		return 0L ;
+		user_feedback(IDS_CANCELLED_ACTION);
+		return 0L;
 	}
 
-	const int selected_index = dialog.get_selected_index() ;
 	const WORD old_language = m_appstate.m_preferred_gui_lang ;
 
-	switch( selected_index ) 
+	switch (dialog.get_selected_index())
 	{
 	case 1:
 		ATLTRACE( "Load new preferences format\n" ) ;
-		load_new_preferences(filename, old_language);
+		load_new_preferences(dialog.get_open_destination(), old_language);
 		break;
 
 	case 2:
-		load_old_preferences(filename);
+		load_old_preferences(dialog.get_open_destination());
 		break;
 
 	default:

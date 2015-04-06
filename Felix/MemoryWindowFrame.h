@@ -461,8 +461,8 @@ public:
 	void load_failed_feedback( const CString & file_name );
 
 	bool import_trados( const CString &file_name ) ;
-	bool import_trados( const file::OpenDlgList &files ) ;
-	bool import_tmx( const file::OpenDlgList &files, input_device_ptr input ) ;
+	bool import_trados(std::vector<CString> import_files);
+	bool import_tmx(std::vector<CString> import_files, input_device_ptr input);
 	bool import_tmx( const CString &file_name, input_device_ptr input ) ;
 
 	void set_translation_at( short index, const wstring translation );

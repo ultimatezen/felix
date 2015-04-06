@@ -463,47 +463,35 @@ LRESULT CMemoryManagerDlg::OnCmdCancel()
 
 LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 {
-	windows_ui ui( m_hWnd ) ;
-	file::OpenDlgList import_files ;
+	file_open_dialog dialog;
+	dialog.set_title(resource_string(IDS_OPEN));
 	
-	const CString dialog_title = resource_string(IDS_OPEN);
-
-	LPCTSTR filter = NULL ;
-	LPCTSTR fileext = NULL ;
-
-	LPCTSTR filter_gloss = 
-		_T("Felix Glossary Files (*.fgloss;*.xml)\0*.fgloss;*.xml\0")
-		_T("All files (*.*)\0*.*\0") ;
 	LPCTSTR fileext_gloss = _T("flgoss") ;
-
-	LPCTSTR filter_mem = 
-		_T("Felix Memory Files (*.ftm; *.xml)\0*.xml;*.ftm\0")
-		_T("All files (*.*)\0*.*\0") ;
 	LPCTSTR fileext_mem = _T("ftm") ;
 
 	if (m_title_id == IDS_GLOSSARY_MANAGER_TITLE)
 	{
-		filter = filter_gloss ;
-		fileext = fileext_gloss ;
+		dialog.set_file_filter(get_gloss_open_filter());
+		dialog.set_default_ext(fileext_gloss);
 	}
 	else
 	{
-		filter = filter_mem ;
-		fileext = fileext_mem ;
+		dialog.set_file_filter(get_mem_open_filter());
+		dialog.set_default_ext(fileext_mem);
 	}
 
-	if ( ! ui.get_open_files( import_files, dialog_title, filter, fileext ) )
+	if ( ! dialog.show() )
 	{
 		return 0L ;
 	}
-	add_memory_files(import_files);
+	add_memory_files(dialog.get_open_destinations());
 
 	return 0L ;
 }
-void CMemoryManagerDlg::add_memory_files( file::OpenDlgList &import_files )
+void CMemoryManagerDlg::add_memory_files(std::vector<CString> import_files)
 {
 	input_device_ptr input(new InputDeviceFile) ;
-	FOREACH(CString filename, import_files.m_filenames)
+	for(auto filename: import_files)
 	{
 		input->ensure_file_exists(filename);
 		add_memory_file(filename) ;

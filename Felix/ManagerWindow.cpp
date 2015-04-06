@@ -935,38 +935,36 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	const bool is_memory = tokens[1] == "mem" ;
 	m_current_state->show_content() ;
 
-	open_file_dlg dialog ;
+	file_open_dialog dialog;
 
 	if (is_memory)
 	{
-		dialog.set_prompt( R2T( IDS_OPEN ) ) ;
+		dialog.set_title(R2T(IDS_OPEN));
 	}
 	else
 	{
-		dialog.set_prompt( R2T( IDS_OPEN_GLOSS_FILE ) ) ;
+		dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
 	}
 
-	file::OpenDlgList import_files ;
-
-	if ( ! dialog.get_open_files( import_files ) ) 
+	if (!dialog.show())
 	{
-		return true ;
+		return true;
 	}
-	const int selected_index = dialog.get_selected_index() ;
+
 	if (is_memory)
 	{
-		switch( selected_index ) 
+		switch (dialog.get_selected_index())
 		{
 		case 1: case 4:
-			add_memory_files(m_mem_model, import_files);
+			add_memory_files(m_mem_model, dialog.get_open_destinations());
 			break ;
 
 		case 2:
-			import_tmx( import_files ) ;
+			import_tmx(dialog.get_open_destinations());
 			break ;
 
 		case 3:
-			import_trados( import_files ) ;
+			import_trados(dialog.get_open_destinations());
 			break ;
 
 		default:
@@ -977,19 +975,20 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	}
 	else
 	{
-		switch(selected_index) 
+		switch (dialog.get_selected_index())
 		{
 		case 1: case 4:
-			add_memory_files(m_gloss_model, import_files);
+			add_memory_files(m_gloss_model, dialog.get_open_destinations());
 			break ;
 
 		case 2:
-			import_multiterm( import_files ) ;
+			import_multiterm(dialog.get_open_destinations());
 			break ;
 
 		case 3:
 			{
-				FOREACH(CString filename, import_files.m_filenames)
+				auto filenames = dialog.get_open_destinations();
+				for(CString filename: filenames)
 				{
 					import_tabbed_text(filename) ;
 				}
@@ -1009,9 +1008,9 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 
 
 void CManagerWindow::add_memory_files(model_iface_ptr model,
-									  file::OpenDlgList &import_files)
+	std::vector<CString> import_files)
 {
-	FOREACH(CString filename, import_files.m_filenames)
+	for(CString filename: import_files)
 	{
 		add_memory_file(model, filename);
 	}
@@ -1046,9 +1045,9 @@ void CManagerWindow::add_memory_file( model_iface_ptr model, CString filename )
 	m_listener->set_window_title() ;
 }
 
-bool CManagerWindow::import_tmx( const file::OpenDlgList &files )
+bool CManagerWindow::import_tmx(std::vector<CString> files)
 {
-	FOREACH(CString filename, files.m_filenames)
+	for(CString filename: files)
 	{
 		import_tmx(filename) ;
 	}
@@ -1077,11 +1076,11 @@ bool CManagerWindow::import_tmx( const CString &file_name )
 	return true ;
 }
 
-bool CManagerWindow::import_trados( const file::OpenDlgList &files )
+bool CManagerWindow::import_trados(std::vector<CString> files)
 {
 	try
 	{
-		FOREACH(CString filename, files.m_filenames)
+		for(CString filename: files)
 		{
 			import_trados(filename) ;
 		}
@@ -1149,9 +1148,9 @@ bool CManagerWindow::import_trados( const CString &trados_file_name )
 	return true ;
 }
 
-void CManagerWindow::import_multiterm( const file::OpenDlgList &import_files )
+void CManagerWindow::import_multiterm(std::vector<CString> import_files)
 {
-	FOREACH(CString filename, import_files.m_filenames)
+	for(CString filename: import_files)
 	{
 		import_multiterm(filename) ;
 	}

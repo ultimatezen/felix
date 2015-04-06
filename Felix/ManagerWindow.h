@@ -104,7 +104,7 @@ public:
 	bool getMemName(mem_engine::memory_pointer mem) const;
 
 	void add_memory_files(model_iface_ptr model,
-		file::OpenDlgList &import_files) ;
+		std::vector<CString> import_files);
 
 	void add_memory_file( model_iface_ptr model, CString filename );
 	// ========================
@@ -181,19 +181,19 @@ public:
 	bool handle_qc_settings(doc3_wrapper_ptr doc);
 
 	void set_qc_prop_values( doc3_wrapper_ptr doc );
-	bool import_tmx( const file::OpenDlgList &files );
+	bool import_tmx(std::vector<CString> files);
 
 	/** import a single tmx file. */
 	bool import_tmx( const CString &file_name );
 
-	bool import_trados( const file::OpenDlgList &files );
+	bool import_trados(std::vector<CString> files);
 	/** Imports a Trados memory.
 	 */
 	bool import_trados(const CString &trados_file_name);
 	// ========================
 	// message map
 	// ========================
-	void import_multiterm( const file::OpenDlgList &import_files );
+	void import_multiterm(std::vector<CString> import_files);
 	//! Import a multiterm file
 	void import_multiterm( const CString &file_name );
 	void import_tabbed_text( const CString &file_name );

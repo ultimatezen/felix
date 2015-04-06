@@ -135,7 +135,7 @@ public:
 
 	// importing/exporting multiterm files
 	void import_tabbed_text( const CString &file_name );
-	void import_multiterm( const file::OpenDlgList &import_files ) ;
+	void import_multiterm(std::vector<CString> import_files);
 	void import_multiterm( const CString &multiterm_filename ) ;
 
 	void export_multiterm_55( mem_engine::memory_pointer mem, 
@@ -171,7 +171,7 @@ public:
 
 	void give_added_record_feedback(mem_engine::memory_pointer& mem) ;
 
-	void load_felix_files(file::OpenDlgList& import_files) ;
+	void load_felix_files(std::vector<CString> import_files) ;
 
 	void give_user_search_feedback() ;
 
