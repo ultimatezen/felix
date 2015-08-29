@@ -571,27 +571,21 @@ LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 #ifdef UNIT_TEST
 	return 0L ;
 #else
-	// this is a trick to keep our code from being optimized or moved around
-	// -- which could affect our defenses.
-	if ( this != NULL )
+	size_t total_size = this->get_memory_model()->total_memory_size() ;
+
+	if ( total_size < ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) + 100000 )
 	{
-		size_t total_size = this->get_memory_model()->total_memory_size() ;
-
-		if ( total_size < ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) + 100000 )
-		{
-			return 0L ;
-		}
-
-		if ( ! this->is_demo() )
-		{
-			return 0L ;
-		}
-		
-		this->get_memory_model()->reduce_size_to( ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) ) ;
-			
-		SENSE("CDemoException") ;
-		throw CDemoException() ;
+		return 0L ;
 	}
+
+	if ( ! this->is_demo() )
+	{
+		return 0L ;
+	}
+		
+	this->get_memory_model()->reduce_size_to( ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) ) ;
+			
+	throw CDemoException() ;
 	
 	return 0L ;
 #endif
