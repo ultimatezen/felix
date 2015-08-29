@@ -760,6 +760,8 @@ LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 	file_open_dialog dialog;
 
 	dialog.set_title(R2T(IDS_OPEN));
+	dialog.set_file_filter(get_mem_open_filter());
+	dialog.allow_multi_select();
 
 	user_feedback( IDS_OPEN ) ;
 
@@ -1620,7 +1622,7 @@ bool MemoryWindowFrame::register_trans_to_glossary(const wstring trans)
 		MessageBox( resource_string( IDS_NO_QUERIES ), resource_string( IDS_INVALID_ACTION ), MB_OK | MB_ICONEXCLAMATION | MB_SETFOREGROUND ) ;
 		return false ;
 	}
-	record_pointer record ;
+	record_pointer record(new mem_engine::record_local);
 	record->set_source( m_trans_matches.m_params.get_source_rich() ) ;
 	record->set_trans( trans ) ;
 	record->create() ;
@@ -4421,6 +4423,7 @@ LRESULT MemoryWindowFrame::on_tools_load_preferences(WindowsMessage &)
 	file_open_dialog dialog;
 
 	dialog.set_title(R2T(IDS_LOAD_PREFS_TITLE));
+	dialog.set_file_filter(get_prefs_filter());
 
 	user_feedback( IDS_LOAD_PREFS_TITLE ) ;
 

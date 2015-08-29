@@ -798,6 +798,8 @@ bool GlossaryWindowFrame::handle_open()
 	file_open_dialog dialog;
 
 	dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
+	dialog.set_file_filter(get_gloss_open_filter());
+	dialog.allow_multi_select();
 	user_feedback(IDS_OPEN);
 
 	if ( ! dialog.show( ) ) 
