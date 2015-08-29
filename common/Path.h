@@ -210,6 +210,11 @@ namespace file
 			return CString( ext ) ;
 		}
 
+		/* 
+			Returns the filename part of the path
+			CPath(L"C:\\foo\\bar.txt").FindFileName()
+			-> L"bar.txt"
+		*/   
 		const CString FindFileName() const
 		{
 			LPCTSTR fname = PathFindFileName( m_path ) ;
