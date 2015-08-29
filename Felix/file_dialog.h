@@ -145,7 +145,17 @@ public:
 	}
 	void set_filename(const CString filename)
 	{
-		m_filename = filename;
+		if (! filename.IsEmpty())
+		{
+			file::CPath path(filename);
+			m_filename = path.FindFileName();
+			path.RemoveFileSpec();
+			this->set_last_save(wstring(static_cast<LPCWSTR>(path.Path())));
+		}
+		else
+		{
+			m_filename = filename;
+		}
 	}
 	void set_title(const CString title)
 	{
