@@ -936,14 +936,17 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 
 	file_open_dialog dialog;
+	dialog.allow_multi_select();
 
 	if (is_memory)
 	{
 		dialog.set_title(R2T(IDS_OPEN));
+		dialog.set_file_filter(get_mem_open_filter());
 	}
 	else
 	{
 		dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
+		dialog.set_file_filter(get_gloss_open_filter());
 	}
 
 	if (!dialog.show())

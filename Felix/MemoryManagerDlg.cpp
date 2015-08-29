@@ -465,7 +465,8 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 {
 	file_open_dialog dialog;
 	dialog.set_title(resource_string(IDS_OPEN));
-	
+	dialog.allow_multi_select();
+
 	LPCTSTR fileext_gloss = _T("flgoss") ;
 	LPCTSTR fileext_mem = _T("ftm") ;
 
@@ -479,6 +480,7 @@ LRESULT CMemoryManagerDlg::OnCmdAddMemory()
 		dialog.set_file_filter(get_mem_open_filter());
 		dialog.set_default_ext(fileext_mem);
 	}
+
 
 	if ( ! dialog.show() )
 	{
