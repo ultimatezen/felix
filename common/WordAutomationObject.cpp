@@ -12,8 +12,6 @@
 #include "StringEx.h"
 #include "StringConversions.h"
 #include "ComUtilities.h"
-#include <boost/static_assert.hpp>
-#include <map>
 
 #define WORD_TRY try {
 

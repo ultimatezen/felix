@@ -1,7 +1,6 @@
 
 #pragma once
 #include "html_processing.h"
-#include <list>
 
 /** class for formatting HTML text */
 class html_formatter : public html_processing 

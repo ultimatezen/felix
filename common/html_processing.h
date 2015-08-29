@@ -1,10 +1,10 @@
 #pragma once
 
 #include "StringEx.h"
-#include <stack>
 
 #include "StringConversions.h"
 #include "ColorRef.h"
+#include <stack>
 
 const static int DEFAULT_HTML_FONT_SIZE = 4 ;
 

@@ -6,10 +6,8 @@
 
 #include "File.h"
 #include "memory_debugging.h"
-#include <boost/filesystem.hpp>
 #include "resource.h"
 
-#include <vector>
 #include <shobjidl.h>
 
 using filter_array = std::vector < COMDLG_FILTERSPEC > ;
