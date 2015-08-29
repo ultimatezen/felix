@@ -25,7 +25,6 @@
 
 #include "scintilla.h"
 #include "stdio.h"
-#include <exception>
 
 //! Block size for disk reading and writing.
 const int blockSize = 256 * 4 ; // 131072;
