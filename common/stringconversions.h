@@ -528,7 +528,7 @@ inline std::string escape_string( const std::string &str )
 {
 	std::string out ;
 
-	FOREACH( char c, str )
+	for( const char c: str )
 	{
 		const BYTE the_char = static_cast<BYTE>(c) ;
 

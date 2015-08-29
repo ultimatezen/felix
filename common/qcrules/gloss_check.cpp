@@ -6,7 +6,7 @@ namespace qc
 {
 	bool GlossCheckRule::check( const std::wstring &, const std::wstring &target )
 	{
-		BOOST_FOREACH(gloss_pair gloss, m_gloss_matches)
+		for(gloss_pair gloss: m_gloss_matches)
 		{
 			if (! boost::contains(target, gloss.second))
 			{

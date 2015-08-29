@@ -7,7 +7,7 @@ namespace qc
 	bool QcChecker::check( const std::wstring &source, const std::wstring &target )
 	{
 		m_messages.clear() ;
-		BOOST_FOREACH(rule_ptr rule, m_rules)
+		for(rule_ptr rule: m_rules)
 		{
 			if (! rule->check(source, target))
 			{
