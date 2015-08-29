@@ -78,27 +78,26 @@ inline BYTE_ORDER_MARK bytes_to_bom(BYTE *bytes)
 // NOTE: Win 95/98 only supports < 4Gb files; see Q250301
 
 /**
-	@class CFileT
+	@class CFile
 	@brief Thin wrapper for file handle.
  */
-template< bool t_bManaged >
-class CFileT
+class CFile
 {
 public:
 	HANDLE m_hFile;
 
-	CFileT(HANDLE hFile = INVALID_HANDLE_VALUE) 
+	CFile(HANDLE hFile = INVALID_HANDLE_VALUE) 
 	{
 		m_hFile = hFile;
 	}
-	CFileT(const CFileT<t_bManaged>& other) 
+	CFile(const CFile& other) 
 	{
 		m_hFile = INVALID_HANDLE_VALUE;
 		DuplicateHandle(other.m_hFile);
 	}
-	~CFileT()
+	~CFile()
 	{ 
-		if( t_bManaged ) Close(); 
+		Close(); 
 	}
 	operator HFILE() const 
 	{ 
@@ -108,7 +107,7 @@ public:
 	{ 
 		return m_hFile; 
 	}
-	const CFileT<t_bManaged>& operator=(const CFileT<t_bManaged>& other)
+	const CFile& operator=(const CFile& other)
 	{
 		DuplicateHandle(other.m_hFile);
 		return *this;
@@ -286,13 +285,6 @@ public:
 		return ::GetFileInformationByHandle(m_hFile, info) ;
 	}
 };
-
-/** DTOR closes file handle.
- */
-typedef CFileT<true> CFile;
-/** DTOR does not close file handle.
- */
-typedef CFileT<false> CFileHandle;
 
 
 inline bool is_same_file(CString lhs, CString rhs)

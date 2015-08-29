@@ -22,12 +22,12 @@ class CDispatchWrapper
 	wstring  m_server_name ;
 public:
 	// We wrap this
-	IDispatch *m_app ;
+	CComPtr< IDispatch > m_app;
 
 
 	// constructors
 	CDispatchWrapper( LPCWSTR app_name );
-	CDispatchWrapper(const CDispatchWrapper &app);
+	CDispatchWrapper(const CDispatchWrapper &app) : m_app(app.m_app) {}
 	CDispatchWrapper(IDispatch *app);
 	
 

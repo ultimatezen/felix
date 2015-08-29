@@ -8,9 +8,6 @@ extern CAddInModule _AtlModule;
 #include "File.h"
 #include "Path.h"
 
-#include <stdio.h>
-#include <new.h>
-
 #include "ErrorTranslator.h"
 
 #include "WordControllerHtml.h"
@@ -19,13 +16,10 @@ extern CAddInModule _AtlModule;
 #include "ocidl.h"
 
 #include "ErrorTranslator.h"
-#include <exception>
 
 #include "resource.h"
 
 #include "ClipboardBackup.h"
-#include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
 #include "input_device_file.h"
 #include "stringconversions.h"
 

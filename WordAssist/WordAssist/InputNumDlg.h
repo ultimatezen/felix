@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atlctrls.h> // for member controls
 #include "Exceptions.h"			// CException
 #include "WindowExceptionHandler.h"
 

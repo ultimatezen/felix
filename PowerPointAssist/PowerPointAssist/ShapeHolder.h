@@ -1,8 +1,6 @@
 #pragma once
 
 #include "PowerPointImports.h"
-#include <set>
-#include "stringex.h"
 #include "stringconversions.h"
 
 class CShapeHolder

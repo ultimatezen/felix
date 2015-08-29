@@ -12,8 +12,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <list>
-
 /*
 #define CF_TEXT             1
 #define CF_BITMAP           2

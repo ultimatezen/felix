@@ -11,7 +11,6 @@
 #include "word_writer.h"
 
 #include "app_state.h"
-#include <map>
 #include "Word2HtmlParser.h"
 #include "logging.h"
 #import "D:\dev\cpp\Assistant Suite\Felix\Unicode_Release\Felix.tlb"\

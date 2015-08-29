@@ -341,6 +341,5 @@ public:
 	}
 	WordApplication() : m_active(true), m_active_window(NULL) {}
 	WordApplication( const word_app_ptr cpy ) : m_active(true), m_active_window(NULL), base_object( cpy ) {}
-	WordApplication( const WordApplication &cpy ) : m_active(true), m_active_window(NULL), base_object( cpy ) {}
 
 };

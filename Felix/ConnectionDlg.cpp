@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include <wincred.h>
 #include "CredVault.h"
-#include <vector>
 #include "ConnectionDlg.h"
 #include "DemoException.h"
 #include "InputKeyDlg.h"

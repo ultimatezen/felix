@@ -291,14 +291,7 @@ public:
 	/** CTOR.
 	*/
 	CSWException( const ATL::CString message, UINT code, PEXCEPTION_POINTERS pep );
-	CSWException( const CSWException &rhs ) :
-		CException(rhs), 
-		m_code(rhs.m_code),
-		m_filename(rhs.m_filename),
-		m_rec(NULL)
-	{
-		
-	}
+
 	UINT get_code() { return m_code ; }
 	ATL::CString get_filename() { return m_filename ; }
 

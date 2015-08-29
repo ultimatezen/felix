@@ -14,7 +14,6 @@
 #include "ClipboardBackup.h"
 #include "menu_manip.h"
 #include "Properties.h"
-#include <boost/bind.hpp>
 #include "logging.h"
 #include "input_device_file.h"
 #include "output_device.h"

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <wincred.h>
-#include <string>
 #include "Exceptions.h"
 
 class CredentialReader {

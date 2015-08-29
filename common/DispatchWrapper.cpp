@@ -11,18 +11,11 @@ m_app(nullptr)
 	this->create(clsid) ;
 }
 
-CDispatchWrapper::CDispatchWrapper( const CDispatchWrapper &app ) : 
-m_app(nullptr)
-{
-	app.m_app->QueryInterface(IID_IDispatch, 
-		CDispatchWrapper::out_ptr( &m_app ));
-}
 
 CDispatchWrapper::CDispatchWrapper( IDispatch *app ) : 
 m_app(nullptr)
 {
 	m_app = app ;
-	m_app->AddRef() ;
 }
 
 CDispatchWrapper::~CDispatchWrapper()
@@ -31,19 +24,16 @@ CDispatchWrapper::~CDispatchWrapper()
 	{
 		if(m_app)
 		{
-			m_app->Release() ;
 			m_app = nullptr;
 		}
 	}
 	catch (except::CSWException &e) 
 	{
 		e ;
-		TRACE(e.format_message_for_message_box()) ;
 		ATLTRACE("*** CDispatchWrapper :: Failed to set m_app to NULL! (%p)\n", this) ;
 	}
 	catch(...)
 	{
-		TRACE(m_server_name) ;
 		ATLTRACE("*** CDispatchWrapper :: Failed to set m_app to NULL! (%p)\n", this) ;
 	}
 }
@@ -216,7 +206,7 @@ void CDispatchWrapper::create( CLSID clsid )
 		IID_IDispatch, 
 		CDispatchWrapper::out_ptr( &m_app ) ) ;
 
-	if ( FAILED(hr))
+	if (FAILED(hr))
 	{
 		throw _com_error(hr) ;
 	}

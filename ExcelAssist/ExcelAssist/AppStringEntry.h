@@ -1,26 +1,13 @@
 /*!
- * <File comment goes here!!>
- * 
- * Copyright (c) 2005 by <your name/ organization here>
+ * For localization
  */
 #pragma once
-
-#include "stringex.h"
-#include <map>
 
 typedef std::map< wstring, wstring > app_string_map ;
 
 /*!
  * \brief
- * Write brief comment for CAppStringEntry here.
- * 
- * Write detailed description for CAppStringEntry here.
- * 
- * \remarks
- * Write remarks for CAppStringEntry here.
- * 
- * \see
- * Separate items with the '|' character.
+ * Keeps a db of localized strings.
  */
 class CAppStringEntry
 {

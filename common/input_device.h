@@ -5,6 +5,8 @@
 class InputDevice
 {
 public:
+	virtual ~InputDevice(){}
+
 	virtual file::BYTE_ORDER_MARK get_file_bom( const CString filename ) = 0 ;
 	virtual wstring get_creation_time(const CString location) = 0 ;
 	// Throw an exception if the file doesn't exist.

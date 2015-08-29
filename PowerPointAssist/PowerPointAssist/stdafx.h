@@ -48,7 +48,8 @@
 #include <list>
 #include <vector>
 #include <string>
-
+#include <stack>
+#include <exception>
 
 #define _WTL_NO_CSTRING
 #define _WTL_NO_WTYPES
@@ -64,7 +65,7 @@
 #include "atlapp.h"
 #pragma warning( default : 4996 ) 
 
-#include <atlctrls.h>
+#include <atlctrls.h> // for member controls
 
 using namespace ATL ;
 
@@ -149,7 +150,6 @@ private:
 extern CAddInModule _AtlModule;
 
 
-#include "StringEx.h"
 #include "File.h"
 #include "CStringInterface.h"
 #include "resource_string.h"

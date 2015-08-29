@@ -37,12 +37,18 @@
 #define _ATL_ALL_WARNINGS
 //#define _ATL_DEBUG_INTERFACES
 
+// basic libraries
+#include <stdio.h>
+#include <new.h>
+
 // stl libraries we are using
 #include <map>							// for record data
 #include <set>							// multisets of tags
 #include <list>
 #include <vector>
 #include <string>
+#include <stack>
+#include <exception>
 
 #define _WTL_NO_CSTRING
 #include <atlstr.h>
@@ -75,7 +81,9 @@ typedef boost::basic_format< TCHAR > tformat;
 #include <boost/lexical_cast.hpp>
 #pragma warning( default : 4701 )
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
+#include <boost/static_assert.hpp>
 
 #include <boost/FOREACH.hpp>
 using namespace boost::foreach ;

@@ -6,14 +6,11 @@
 
 #include "properties.h"
 #include "ErrorTranslator.h"
-#include <exception>
 
 #include "Hooker.h"
 
 #include "excel_application.h"
-#include <boost/algorithm/string.hpp>
 #include "ClipboardBackup.h"
-#include <boost/bind.hpp>
 #include "logging.h"
 #include "input_device_file.h"
 #include "output_device.h"
@@ -25,6 +22,8 @@
 #define CATCH_EXCEPTIONS(_msg) catch ( CException &e ) { handle_base_exception(e, _msg) ; }
 #define CATCH_COM_ERRORS(_msg) catch (_com_error &e ) { handle_exception(e, _msg) ; }
 #define CATCH_ATL_EXCEPTIONS(_msg) catch (CAtlException &e ) { handle_exception(e, _msg) ; }
+
+#pragma warning(disable: 4127) // Dumb-ass conditional expression is constant
 
 #define CATCH_ALL(msg) CATCH_C_EXCEPTIONS(msg) CATCH_COM_EXCEPTIONS(msg) CATCH_WIN_EXCEPTIONS(msg) CATCH_SW_EXCEPTIONS(msg) CATCH_EXCEPTIONS(msg) CATCH_COM_ERRORS(msg) \
 	catch(...)\

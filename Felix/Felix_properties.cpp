@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Felix_properties.h"
 #include "xml_writer.h"
-#include <boost/bind.hpp>
 
 #include "cstringinterface.h"
 #include "input_device_file.h"

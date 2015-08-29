@@ -10,8 +10,6 @@
 #include "input_device.h"
 
 #include "xml_utils.h"
-#include <boost/function.hpp>
-#include <map>
 
 pugi::xml_node get_prop_node( pugi::xml_document &doc, string node_name ) ;
 
