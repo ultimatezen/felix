@@ -7,9 +7,10 @@
 #include "stringconversions.h"
 #include <fstream>
 
+#pragma warning(push)
 #pragma warning( disable : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
 #include "boost/filesystem.hpp"   // includes all needed Boost.Filesystem declarations
-#pragma warning( default : 4245 ) // 'argument' : conversion from 'int' to 'boost::filesystem::system_error_type', signed/unsigned mismatch
+#pragma warning(pop)
 
 namespace fs = boost::filesystem;
 using namespace except ;

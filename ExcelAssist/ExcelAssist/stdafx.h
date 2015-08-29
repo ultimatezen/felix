@@ -43,6 +43,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <exception>
 
 // boost
 #include <boost/assign/std/vector.hpp> // for 'operator+=()'
@@ -67,9 +68,10 @@ typedef boost::basic_format< TCHAR > tformat;
 #pragma warning( disable : 4180 ) // qualifier applied to function type has no meaning; ignored
 #include <boost/bind.hpp>
 
+#pragma warning(push)
 #pragma warning( disable : 4701 ) // 初期化されていない可能性のあるローカル変数 'result' が使用されます
 #include <boost/lexical_cast.hpp>
-#pragma warning( default : 4701 )
+#pragma warning(pop)
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 
@@ -87,20 +89,23 @@ using namespace boost::foreach ;
 #include <atltypes.h>
 #include <atlstr.h>
 
+#pragma warning(push)
 #pragma warning( disable : 4996 ) 
 #include "atlapp.h"
-#pragma warning( default : 4996 ) 
+#pragma warning(pop)
 #include <atlctrls.h>
 
 #include <iostream>
 
+#pragma warning(push)
 #pragma warning( disable : 4278 )
+#pragma warning(push)
 #pragma warning( disable : 4146 )
-	//The following #import imports the IDTExtensibility2 interface based on it's LIBID
+	//The following #import imports the IDTExtensibility2 interface based on its LIBID
 	#import "libid:AC0714F2-3D04-11D1-AE7D-00A0C90F26F4" version("1.0") lcid("0")  raw_interfaces_only named_guids
 
-#pragma warning( default : 4146 )
-#pragma warning( default : 4278 )
+#pragma warning(pop)
+#pragma warning(pop)
 
 class DECLSPEC_UUID("A6FF7939-E14C-4C26-89B9-4803617A7DB6") ExcelAssistLib;
 

@@ -46,8 +46,11 @@ public:
 			CDispatchWrapper wrapper(L"Felix.Preferences"); 
 			CComVariant language = L"English";
 			CComVariant prog = L"excel" ;
+#pragma warning(push)
+#pragma warning(disable:4127)
 			if (IDD == IDD_PROPPAGE_VIEW_J)
 			{
+#pragma warning(pop)
 				language = L"Japanese" ;
 			}
 			wrapper.method(L"EditShortcuts", prog, language) ;

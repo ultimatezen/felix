@@ -41,6 +41,7 @@ inline CString FormatWinError(DWORD error)
 
 #include <crtdbg.h>		// redefine memory allocation functions
 #include "comdef.h"
+#pragma warning(push)
 #pragma warning( disable:4310 ) // cast truncates constant value
 
 /*! Checks for memory leaks.
@@ -366,6 +367,7 @@ public:
 
 #define NOT_IMPLEMENTED( x )	MessageBox(NULL, _T(x), _T("Not implemented"), MB_OK )
 
+#pragma warning(pop) // cast truncates constant value
 #else // _DEBUG not defined
 
 #ifdef _DEBUG
@@ -415,4 +417,3 @@ public:
 	#define END_DLG EndDialog(wID);return 0L ;
 #endif
 
-#pragma warning( default:4310 ) // cast truncates constant value
