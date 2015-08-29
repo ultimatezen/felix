@@ -463,7 +463,7 @@ public:
 	
 	//  Simple containment
 	BOOL AnimSeek(UINT nTo)                        { return m_Anim.Seek(nTo); }
-	BOOL AnimStop()                                { m_Anim.Stop(); }
+	BOOL AnimStop()                                { return m_Anim.Stop(); }
 	BOOL AnimPlay(UINT nFrom, UINT nTo, UINT nRep) { return m_Anim.Play(nFrom, nTo, nRep); }
 	
 protected:
