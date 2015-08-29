@@ -319,7 +319,6 @@ void CFelixExcelIF::checkNextSheet()
 			sheet = sheets->Item(CurrentSheet+1) ;
 			sheet->Activate() ;
 			m_CurrentSheetName = BSTR2wstring( sheet->GetName() ) ;
-			TRACE( m_CurrentSheetName ) ;
 			excel::range_ptr activeCell = sheet->Cell( 1 , 1 ) ;
 			activeCell->Select() ;
 			OnLookupNext() ;
@@ -702,7 +701,6 @@ void CFelixExcelIF::OnEntry( int num )
 		ta_ptr assistant = getAssistant() ;
 
 		const _bstr_t entry = assistant->GlossMatch( num ) ;
-		TRACE( entry ) ;
 
 		set_active_cell_text(entry) ;
 	}
@@ -887,7 +885,6 @@ void CFelixExcelIF::PerformSheetAutoTrans()
 
 			excel::sheet_ptr activeSheet = GetActiveSheet() ;
 
-			TRACE( activeSheet->GetName() ) ;
 			autoTransSheetName(activeSheet, assistant);
 
 			// Now do the sheet cells
@@ -1002,8 +999,6 @@ void CFelixExcelIF::remember_active_sheet(excel::sheet_ptr activeSheet)
 {
 	// Remember the current sheet name for the color map
 	m_CurrentSheetName = BSTR2wstring( activeSheet->GetName() ) ;
-
-	TRACE( m_CurrentSheetName ) ;
 }
 
 

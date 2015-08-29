@@ -250,13 +250,11 @@ public:
 	{
 		ATLTRACE("OnSheetActivate\n") ;
 		Excel::_WorksheetPtr sheet(sheet_dispatch) ;
-		TRACE(sheet->Name) ;
 	}
 	void __stdcall OnSheetDeactivate(IDispatch *sheet_dispatch)
 	{
 		ATLTRACE("OnSheetDeactivate\n") ;
 		Excel::_WorksheetPtr sheet(sheet_dispatch) ;
-		TRACE(sheet->Name) ;
 	}
 	void __stdcall OnWorkbookBeforeClose(IDispatch * workbook, VARIANT_BOOL *);
 
