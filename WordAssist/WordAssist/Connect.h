@@ -4,6 +4,17 @@
 * 	author:		Ryan Ginstrom
 * 	
 * 	purpose:	Header for CConnect class
+
+If you get this error:
+
+	wordassist\Connect.h(325): error C2440: 'static_cast' : cannot convert from 'CConnect::_ComMapClass *' to 'AddInDesignerObjects::IDTExtensibility2 *'
+
+then you need to re-register MSADDNDR.DLL, Office uses a different version and registers that, the bastards
+
+	($ProgramFiles)\Common Files\DESIGNER>regsvr32 MSADDNDR.DLL
+
+And Rebuild.
+
 * 
 */
 

@@ -84,15 +84,6 @@ CString CCommonWindowFunctionality::get_location()
 // Function name	: is_demo
 bool CCommonWindowFunctionality::is_demo() const
 {
-	if ( armadillo::get_environment_var( R2A( IDS_USERKEY ) ).empty() )
-	{
-		return true ;
-	}
-	if ( armadillo::get_environment_var( "EXPIRED" ).empty() == false )
-	{
-		return true ;
-	}
-
 	return false ;
 }
 

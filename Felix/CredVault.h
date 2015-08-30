@@ -3,6 +3,13 @@
 #include <wincred.h>
 #include "Exceptions.h"
 
+
+/*
+	Reads credentials from the cred vault.
+	The Cred Vault is used to securely store
+	credentials (passwords) that can only be retrieved
+	by the logged-in user
+*/
 class CredentialReader {
 	PCREDENTIALW m_credential;
 public:

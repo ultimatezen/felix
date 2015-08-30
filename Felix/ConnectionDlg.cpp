@@ -155,6 +155,8 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		wstring password_w = (LPCWSTR)password;
 		string password_a = string2string(password_w);
 
+		// Write to the credential vault
+		// TODO: Create CredentialWriter class
 		CREDENTIALW credential = { 0 };
 		credential.Type = CRED_TYPE_GENERIC;
 		credential.TargetName = (LPWSTR)&connection_v[0];

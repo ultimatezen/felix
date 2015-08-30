@@ -1167,9 +1167,6 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArmadilloStuff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\array.h">
       <Filter>Header Files</Filter>
     </ClInclude>

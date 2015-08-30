@@ -1230,7 +1230,6 @@ echo Protection complete!
     <ClInclude Include="AdvancedMemMgrDlg.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="App2.h" />
-    <ClInclude Include="ArmadilloStuff.h" />
     <ClInclude Include="..\common\array.h" />
     <ClInclude Include="..\common\atlgdix.h" />
     <ClInclude Include="..\common\AutomationExceptionHandler.h" />

@@ -36,41 +36,6 @@ LRESULT CInputKeyDlg::OnOK( WORD wID )
 	const string name = "REGISTERED" ;
 	string key = get_key_text(text);
 
-
-#ifndef UNIT_TEST
-#ifdef _DEBUG
-	if ( key != "debug" )
-#else
-	if ( ! armadillo::install_key( name, key ) )
-#endif
-	{
-		::MessageBeep( MB_ICONSTOP ) ;
-		MessageBox( resource_string( IDS_KEY_INCORRECT ), resource_string( IDS_KEY_INCORRECT_TITLE ) ) ;
-		m_edit.SetFocus() ;
-		m_edit.SetSelAll( ) ;
-		SetMsgHandled( TRUE ) ;
-		return 0L ;
-	}
-
-	if ( ! armadillo::update_environment() )
-	{
-		MessageBox( CA2T( armadillo::get_arm_error_string().c_str() ), _T("FAILED TO UPDATE ARMADILLO ENVIRONMENT") ) ;
-		SetMsgHandled( TRUE ) ;
-		return 0L ;
-	}
-
-	if ( ! armadillo::get_environment_var( "EXPIRED" ).empty() )
-	{
-		::MessageBeep( MB_ICONSTOP ) ;
-		MessageBox( resource_string( IDS_KEY_INCORRECT ), resource_string( IDS_KEY_INCORRECT_TITLE ) ) ;
-		m_edit.SetFocus() ;
-		m_edit.SetSelAll( ) ;
-		SetMsgHandled( TRUE ) ;
-		return 0L ;
-	}
-
-#endif
-
 	END_DLG ;
 }
 

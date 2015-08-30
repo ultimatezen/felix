@@ -151,14 +151,6 @@ bool  trados_data_importer::get_all_records( trans_set &records )
 {
 	BANNER( "trados_data_importer::get_all_records" ) ;
 
-	// anti-crack stuff!!!
-//	if ( ! armadillo::devious_crack_check_1() )
-//	{
-//		PostQuitMessage((UINT)-1) ;
-//		return false ;
-//	}
-	// <--
-
 	if ( ! load_font_table() )
 	{
 		return false ;

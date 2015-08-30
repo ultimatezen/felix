@@ -221,14 +221,8 @@ namespace mem_engine
 	// Function name	: CTranslationMemory::refresh_status
 	void CTranslationMemory::refresh_status()
 	{
-		if ( armadillo::get_environment_var( R2A( IDS_USERKEY ) ).empty() || armadillo::get_environment_var( "EXPIRED" ).empty() == false )
-		{
-			m_is_demo = true ;
-		}
-		else 
-		{
-			m_is_demo = false ;
-		}
+
+		m_is_demo = false ;
 	}
 
 

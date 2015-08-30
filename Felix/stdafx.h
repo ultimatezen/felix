@@ -253,7 +253,6 @@ CExeModule
 #include "pugxml/src/pugixml.hpp"
 
 #include "unit_testing.h"
-#include "ArmadilloStuff.h"		// get them crackers!
 
 static const int SEND_BUTTON_ID = 17 ;
 static const int DONT_SEND_BUTTON_ID = 18 ;
