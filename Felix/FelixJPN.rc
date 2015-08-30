@@ -722,9 +722,6 @@ BEGIN
         MENUITEM "&FAQ（良くある質問）の表示...",          ID_HELP_FAQ
         MENUITEM SEPARATOR
         MENUITEM "バージョンアップの確認(&U)...",          ID_HELP_CHECKUPDATES
-        MENUITEM SEPARATOR
-        MENUITEM "ソフトの登録(&R)...",               ID_HELP_REGISTER
-        MENUITEM SEPARATOR
         MENUITEM "Felixのバージョン情報...(&A)",        ID_APP_ABOUT
     END
 END

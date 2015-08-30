@@ -102,9 +102,6 @@ BEGIN
         MENUITEM "&FAQ...",                     ID_HELP_FAQ
         MENUITEM SEPARATOR
         MENUITEM "Check &Updates...",           ID_HELP_CHECKUPDATES
-        MENUITEM SEPARATOR
-        MENUITEM "&Register...",                ID_HELP_REGISTER
-        MENUITEM SEPARATOR
         MENUITEM "&About Felix...",             ID_APP_ABOUT
     END
 END

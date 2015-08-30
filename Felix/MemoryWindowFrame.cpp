@@ -200,7 +200,6 @@ MemoryWindowFrame::MemoryWindowFrame( model_iface_ptr model, app_props::props_pt
 	this->register_command_event_listener( ID_HELP, boost::bind(&MemoryWindowFrame::on_help, this, _1 )) ;
 
 	this->register_command_event_listener( ID_HELP_FAQ, boost::bind(&MemoryWindowFrame::on_help_faq, this, _1 )) ;
-	this->register_command_event_listener( ID_HELP_REGISTER, boost::bind(&MemoryWindowFrame::on_help_register, this, _1 )) ;
 	this->register_command_event_listener(ID_HELP_CHECKUPDATES, boost::bind(&MemoryWindowFrame::on_help_check_updates, this, _1 )) ;
 
 	this->register_command_event_listener( IDC_SET_GLOSS, boost::bind(&MemoryWindowFrame::on_register_gloss, this, _1 )) ;
@@ -2715,50 +2714,6 @@ LRESULT MemoryWindowFrame::on_trans_concordance(WindowsMessage &)
 	get_translation_concordances(m_view_interface.get_selection_text()) ;
 	return 0 ;
 }
-
-/** Help -> Register.
-* Show the register dialog.
-*/
-LRESULT MemoryWindowFrame::on_help_register(WindowsMessage &)
-{
-	SENSE("on_help_register") ;
-
-#ifdef UNIT_TEST
-	return 0L ;
-#else
-
-	// prompt him!
-	CInputKeyDlg input_key_dlg ;
-
-	if ( IDOK == input_key_dlg.DoModal( ) )
-	{
-		MessageBox( resource_string( IDS_REGISTERED_USER ), resource_string( IDS_REGISTERED_USER_TITLE ) ) ;
-		user_feedback( IDS_REGISTERED_USER_TITLE ) ;
-	}
-	else
-	{
-		try
-		{
-			if ( this->is_demo() ) 
-			{
-				MessageBox( resource_string( IDS_NOT_REGISTERED_USER ), resource_string( IDS_NOT_REGISTERED_USER_TITLE ) ) ;
-				user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
-			}
-		}
-		catch(...)
-		{
-			logging::log_error("An error occurred while checking user registration") ;
-			user_feedback( IDS_NOT_REGISTERED_USER_TITLE ) ;
-			set_window_title() ;
-			return -1 ;
-		}
-	}
-
-	set_window_title() ;
-	return 0L ;
-#endif
-}
-
 
 /** Toggle markup (matches) between on and off.
 */

@@ -329,7 +329,6 @@ public:
 	LRESULT on_glossary_source(WindowsMessage &message);
 	LRESULT on_glossary_trans(WindowsMessage &message);
 	LRESULT on_help_faq(WindowsMessage &message);
-	LRESULT on_help_register(WindowsMessage &message);
 	LRESULT on_help_check_updates(WindowsMessage &message);
 
 	// tools menu

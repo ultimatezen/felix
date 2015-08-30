@@ -19,8 +19,6 @@ namespace mem_engine
 
 	}
 
-
-
 	size_t memory_fake::size()
 	{
 		return m_records.size() ;
