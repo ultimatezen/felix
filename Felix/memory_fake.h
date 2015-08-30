@@ -1,3 +1,6 @@
+/*
+	Fake memory subclass used for testing
+*/
 #pragma once
 #include "TranslationMemory.h"
 #include "memory_header.h"

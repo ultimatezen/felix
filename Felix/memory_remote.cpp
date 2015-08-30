@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "memory_remote.h"
-#include "DemoException.h"
 #include "logging.h"
 
 namespace mem_engine
@@ -25,13 +24,7 @@ namespace mem_engine
 
 		// check for demo status
 		refresh_status() ;
-		if ( this->is_demo() )
-		{
-			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
-			{
-				throw CDemoException() ;
-			}
-		}
+
 		return success ;
 	}
 	bool memory_remote::login(CString username, CString password)

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include ".\languageholder.h"
+#include "logging.h"
 
 CLanguageHolder::CLanguageHolder(void)
 {

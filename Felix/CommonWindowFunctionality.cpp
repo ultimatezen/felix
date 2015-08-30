@@ -3,7 +3,6 @@
 #include "RegSettings.h" // CWindowSettings
 #include "MemoryManagerDlg.h"	// CMemoryManagerDlg
 #include "NumberFmt.h"
-#include "DemoException.h"
 #include "xpmenu/Tools.h"		// CWindowRect
 #include "record_local.h"
 #include "FileOpHandler.h"
@@ -559,27 +558,7 @@ CString CCommonWindowFunctionality::get_save_destination()
 }
 LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 {
-#ifdef UNIT_TEST
 	return 0L ;
-#else
-	size_t total_size = this->get_memory_model()->total_memory_size() ;
-
-	if ( total_size < ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) + 100000 )
-	{
-		return 0L ;
-	}
-
-	if ( ! this->is_demo() )
-	{
-		return 0L ;
-	}
-		
-	this->get_memory_model()->reduce_size_to( ( MAX_MEMORY_SIZE_FOR_DEMO * 2 ) ) ;
-			
-	throw CDemoException() ;
-	
-	return 0L ;
-#endif
 }
 
 

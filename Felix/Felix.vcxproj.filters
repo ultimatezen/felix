@@ -96,9 +96,6 @@
     <ClCompile Include="CommonWindowFunctionality.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DemoException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\distance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -328,9 +325,6 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="data_importer_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
-    <ClCompile Include="demo_exception_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="destination_parser_test.cpp">
@@ -1195,9 +1189,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\CustomTabCtrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\dispatchwrapper.h">

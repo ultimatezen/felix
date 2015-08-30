@@ -43,7 +43,6 @@
 
 #include "text_templates.h"
 #include "ConnectionDlg.h"
-#include "DemoException.h"
 
 #include "QueryMergeDlg.h"
 #include "text_templates.h"
@@ -3770,29 +3769,6 @@ BOOL MemoryWindowFrame::ProcessWindowMessage( HWND hWnd, UINT uMsg, WPARAM wPara
 #ifndef UNIT_TEST
 		CHAIN_MSG_MAP(frame_class) ;
 #endif
-	}
-	catch( CDemoException &e)
-	{
-		logging::log_error("A demo exception was thrown.") ;
-		logging::log_exception(e) ;
-		if (e.notify_user(_T("This is the Demo version of Felix")) == IDOK)
-		{
-			// prompt him!
-			CInputKeyDlg input_key_dlg ;
-
-			if ( IDOK == input_key_dlg.DoModal( ) )
-			{
-				MessageBox( resource_string( IDS_REGISTERED_USER ), resource_string( IDS_REGISTERED_USER_TITLE ) ) ;
-				user_feedback( IDS_REGISTERED_USER_TITLE ) ;
-				set_window_title() ;
-			}
-			else
-			{
-				SetMsgHandled(FALSE) ;
-				return -1L ;
-			}
-		}
-
 	}
 	catch ( CSWException &sw_e ) 
 	{ 

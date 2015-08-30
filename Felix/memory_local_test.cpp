@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Path.h"
 
-#include "DemoException.h"
-
 #ifdef UNIT_TEST
 
 #include "unit_testing.h"
@@ -1697,26 +1695,6 @@ BOOST_AUTO_TEST_SUITE( test_other_mem_local_stuff )
 		BOOST_CHECK_EQUAL(10, mem.get_progress_interval(0)) ;
 	}
 
-	// handle exception on load
-	BOOST_AUTO_TEST_CASE(exception_size_over_max_demo)
-	{
-		CMockListener listener ;
-		// create a local memory
-		memory_local mem(app_props::get_props()) ;
-		mem.set_listener( static_cast< CProgressListener* >( &listener )  ) ;
-
-		mem.m_is_demo = true ;
-
-		for (int i = 0 ; i < MAX_MEMORY_SIZE_FOR_DEMO ; ++i )
-		{
-			mem.add_record(make_record(int2string(i), "trans")) ;
-		}
-		BOOST_CHECK_EQUAL(MAX_MEMORY_SIZE_FOR_DEMO, mem.size()) ;
-
-		CString filename("c:\\foo.ftm") ;
-		CException the_error(_T("boom")) ;
-		BOOST_CHECK_THROW(mem.handle_cexception_on_load(filename, false, the_error), CDemoException) ;
-	}
 	BOOST_AUTO_TEST_CASE(exception_size_over_max_user_says_bail)
 	{
 		CMockListener listener ;

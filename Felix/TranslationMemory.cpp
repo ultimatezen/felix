@@ -4,7 +4,6 @@
 #include "record_local.h"
 #include "output_device.h"
 #include "logging.h"
-#include "DemoException.h"
 #include "input_device_file.h"
 
 static const int ONEKB = 1024 ;
@@ -294,19 +293,6 @@ namespace mem_engine
 	void CTranslationMemory::do_demo_check()
 	{
 		refresh_status() ;
-		if ( this->is_demo() )
-		{
-			if ( size() > MAX_MEMORY_SIZE_FOR_DEMO + 100 )
-			{
-				if ( m_listener )
-				{
-					m_listener->OnProgressDoneLoad( 0 ) ;
-				}
-				SENSE("CDemoException") ;
-				throw CDemoException() ;
-			}
-		}
-
 	}
 
 	void CTranslationMemory::set_creator_to_current_user()

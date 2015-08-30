@@ -7,6 +7,7 @@
 
 #include "StdAfx.h"
 #include "WebPage.h"
+#include "logging.h"
 
 namespace html
 {

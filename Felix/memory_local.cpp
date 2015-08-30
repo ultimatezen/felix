@@ -2,7 +2,6 @@
 #include "memory_local.h"
 #include "logging.h"
 #include "record_local.h"
-#include "DemoException.h"
 #include "input_device_file.h"
 
 namespace mem_engine
@@ -889,18 +888,6 @@ namespace mem_engine
 
 	void memory_local::handle_cexception_on_load( const CString& file_name, bool was_saved, CException& e ) 
 	{
-		if ( this->is_demo() )
-		{
-			// If the exception was due to an attempt to load too many
-			// entries, we'll pass it up, cancelling the load.
-			if ( size() >= MAX_MEMORY_SIZE_FOR_DEMO )
-			{
-				set_saved_flag( was_saved ) ;
-				SENSE("CDemoException") ;
-				throw CDemoException() ;
-			}
-		}
-
 		// Otherwise, see if we should bail from the load
 		check_bail_from_load(was_saved, e, file_name);
 	}

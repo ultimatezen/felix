@@ -3,6 +3,7 @@
 */
 #include "StdAfx.h"
 #include "MatchStringPairing.h"
+#include "logging.h"
 
 namespace mem_engine
 {

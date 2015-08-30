@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "xml_utils.h"
+#include "logging.h"
 
 // read xml notes
 BOOL read_xml_bool(pugi::xml_node &node, string name)

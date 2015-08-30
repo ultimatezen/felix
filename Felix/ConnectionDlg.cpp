@@ -2,7 +2,6 @@
 #include <wincred.h>
 #include "CredVault.h"
 #include "ConnectionDlg.h"
-#include "DemoException.h"
 #include "InputKeyDlg.h"
 #include "memory_remote.h"
 
@@ -86,35 +85,6 @@ LRESULT CConnectionDlg::OnOK( WORD wID )
 		TRACE(password) ;
 		// will also log in if username and password are not empty.
 		mem->connect(conn_str, username, password) ;
-	}
-	catch( CDemoException &e)
-	{
-		if (e.notify_user(_T("This is the Demo version of Felix")) == IDOK)
-		{
-			// prompt him!
-			CInputKeyDlg input_key_dlg ;
-
-			if ( IDOK == input_key_dlg.DoModal( ) )
-			{
-				MessageBox( resource_string( IDS_REGISTERED_USER ), 
-					resource_string( IDS_REGISTERED_USER_TITLE ) ) ;
-			}
-			else
-			{
-				MessageBeep(MB_ICONSTOP) ;
-				this->FlashWindow(FALSE) ;
-				this->SetMsgHandled(FALSE) ;
-				// set the focus to the edit box
-				m_edit.SetSel(0, -1) ;
-				m_edit.SetFocus() ;
-				return 1L ;
-			}
-		}
-		else
-		{
-			detach();
-			END_DLG;
-		}
 	}
 	catch (CException& e)
 	{

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include ".\system_message.h"
-
+#include "logging.h"
 #include "NumberFmt.h"
 
 CStringA int_arg_a( int arg, bool format )

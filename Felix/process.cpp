@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "process.h"
+#include "Exceptions.h"
 
 void create_process( CString &command, CString error_message )
 {
