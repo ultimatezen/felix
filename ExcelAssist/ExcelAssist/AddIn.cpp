@@ -1,6 +1,6 @@
 // AddIn.cpp : Implementation of DLL Exports.
 
-/*! \mainpage
+/*! 
 *
  This is the AddIn for MS Excel. It registers itself in the AddIns registry entry for Excel, and Excel 
  then instantiates it with a reference to its Application object.
