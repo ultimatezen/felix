@@ -147,8 +147,7 @@ namespace mem_engine
 	//! Finds match candidates using the fast version of the edit distance algorithm.
 	void memory_local::get_match_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
-		Distance distance ;
-		distance.set_minscore(min_score) ;
+		Distance distance(min_score) ;
 		Segment segment(&m_cmp_maker, query) ;
 		const wstring query_cmp = segment.cmp() ;
 
@@ -164,9 +163,8 @@ namespace mem_engine
 	//! Finds reverse matches (trans instead of source)
 	void memory_local::get_rmatch_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
-		Distance distance ;
-		distance.set_minscore(min_score) ;
-		Segment segment(&m_cmp_maker, query) ;
+		Distance distance(min_score);
+		Segment segment(&m_cmp_maker, query);
 		const wstring query_cmp = segment.cmp() ;
 
 		FOREACH ( record_pointer record, m_records | ad::map_values )

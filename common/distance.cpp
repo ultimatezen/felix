@@ -331,7 +331,7 @@ Distance::Distance(double min_score) :
 	row1(NULL),
 	row2(NULL),
 	m_row_size(0),
-	minscore(0.5f)
+	minscore(min_score)
 {
 
 }
