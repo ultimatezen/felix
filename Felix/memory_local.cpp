@@ -145,6 +145,7 @@ namespace mem_engine
 	}
 
 	//! Finds match candidates using the fast version of the edit distance algorithm.
+	//! First applies the bag matching algorithm to filter out very dissimilar strings.age
 	void memory_local::get_match_candidates( trans_set &candidates, const wstring query, double min_score )
 	{
 		Distance distance(min_score) ;
@@ -153,9 +154,14 @@ namespace mem_engine
 
 		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
-			if ( distance.edist_score(query_cmp, record->get_source_cmp()) >= min_score)
+			const wstring source_cmp = record->get_source_cmp();
+			const size_t max_len = max(query_cmp.size(), source_cmp.size());
+			if (m_match_maker.match_candidate_bag(max_len, query_cmp, source_cmp))
 			{
-				candidates.insert(record) ;
+				if (distance.edist_score(query_cmp, source_cmp) >= min_score)
+				{
+					candidates.insert(record);
+				}
 			}
 		}
 	}
@@ -169,9 +175,14 @@ namespace mem_engine
 
 		FOREACH ( record_pointer record, m_records | ad::map_values )
 		{
-			if ( distance.edist_score(query_cmp, record->get_trans_cmp()) >= min_score)
+			const wstring trans_cmp = record->get_trans_cmp();
+			const size_t max_len = max(query_cmp.size(), trans_cmp.size());
+			if (m_match_maker.match_candidate_bag(max_len, query_cmp, trans_cmp))
 			{
-				candidates.insert(record) ;
+				if (distance.edist_score(query_cmp, trans_cmp) >= min_score)
+				{
+					candidates.insert(record);
+				}
 			}
 		}
 	}
