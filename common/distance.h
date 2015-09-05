@@ -1,4 +1,4 @@
-/*
+/**
 	Calculates edit distance, and similarity score (0 to 1) based on 
 	edit distance.
 */
@@ -11,7 +11,7 @@ size_t min3(size_t a, size_t b, size_t c) ;
 // side effect: Logs warning on divide by 0 error.
 double compute_score( const size_t high_len, size_t total_cost ) ;
 
-// Class to calculate edit distance and similarity score
+//! Class to calculate edit distance and similarity score
 class Distance
 {
 	size_t *row1 ;
@@ -19,7 +19,7 @@ class Distance
 	size_t m_row_size ;
 	double minscore ;
 public:
-	Distance();
+	Distance(double min_score = 0.5f);
 	~Distance();
 	void set_minscore(double score);
 	size_t edist(const std::wstring &a, const std::wstring &b);

@@ -26,6 +26,20 @@ double compute_score( const size_t high_len, size_t total_cost )
 	return static_cast<double>(matching_elements) / static_cast<double>(high_len) ;
 }
 
+/** Calculates the edit distance of `a` vs `b`.
+
+
+This is the fast version of the edit distance algorithm. It uses just
+about every trick in the book to be fast:
+
+- Uses just one row (array) instead of an NxM matrix table
+- Uses "diagonalization" to avoid calculating distances at the corners of the
+matrix (sections that represent distances too large to consider as a match)
+- Short circuits if the maximum distance is reached
+
+As a result, we can only use this method to rule out bad matches. If a match
+is close enough, then we do a full edit distance using the Distance class.
+*/
 size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 {
 	const wchar_t* a_str = a.c_str() ;
@@ -37,7 +51,7 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 	const size_t max_distance = 
 		max_len - static_cast<size_t>(static_cast<double>(max_len) * minscore) ;
 
-	// swap if b is smaller
+	// Make sure that b is longer than a (fewer rows)
 	if (b_len < a_len)
 	{
 		std::swap(a_str, b_str) ;
@@ -169,12 +183,15 @@ size_t Distance::edist(const std::wstring &a, const std::wstring &b)
 	return *end;
 }
 
+//! Special case of distance when one string is only 1 character long.
 size_t Distance::len_1_edist( const wchar_t c, const size_t b_len, const wchar_t * b_str ) const
 {
 	const wchar_t *end = b_str + b_len ;
 	return std::find(b_str, end, c) == end ? b_len : b_len -1 ;
 }
 
+//! Substring distance.
+//! Used for fuzzy substring matching.
 size_t Distance::subdist(const std::wstring &needle, const std::wstring &haystack)
 {
 	const wchar_t* needle_str = needle.c_str() ; 
@@ -310,11 +327,11 @@ double Distance::subdist_score( const std::wstring &needle, const std::wstring &
 	return compute_score(needle_len, distance) ;
 }
 
-Distance::Distance() :
-row1(NULL),
+Distance::Distance(double min_score) :
+	row1(NULL),
 	row2(NULL),
 	m_row_size(0),
-	minscore(0.5f)
+	minscore(min_score)
 {
 
 }

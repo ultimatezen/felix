@@ -15,6 +15,7 @@ namespace mem_engine
 	const static wstring fuzzy_tag_high(L"<span class=\"partial_match2\">") ;
 	const static wstring fuzzy_tag_close(L"</span>") ;
 
+	//! Calculates the minimum edit distance using the "bag of words" approach.
 	template<typename I1, typename I2>
 	size_t bag_distance(I1 first1, I1 last1, I2 first2, I2 last2)
 	{
@@ -46,8 +47,7 @@ namespace mem_engine
 	// *
 	// *************************************
 
-	// get_score
-	// Get score for source segment.
+	//! Get score for source segment.
 	bool match_maker::get_score (const Segment &row,
 								const Segment &col,
 								int match_algo,
@@ -67,8 +67,7 @@ namespace mem_engine
 		}
 	}
 	
-	// get_trans_score
-	// Get score for translation segment.
+	//! Get score for translation segment.
 	bool match_maker::get_score_trans(const Segment &row,
 									const Segment &col,
 									int match_algo,
@@ -88,7 +87,7 @@ namespace mem_engine
 		}
 	}
 
-	// get_path
+	//! Backtrack to get the edit distance path for similarity markup
 	bool match_maker::get_path( )
 	{
 		create_path_stacks( ) ;
@@ -102,7 +101,7 @@ namespace mem_engine
 		return true ;
 	}
 
-	// bool populate_matrix_edges
+	//! Init the matrix edges to 0
 	bool match_maker::populate_matrix_edges( )
 	{
 		const size_t num_rows = m_num_rows+1 ;
@@ -118,25 +117,31 @@ namespace mem_engine
 		return true ;
 	}
 
-
-	// Get the differences between two bags of characters
+	//! Get the differences between two bags of characters
+	//! This is a first-line check to determine if two strings are similar
+	//! enough to do an edit distance, because the score returned by this
+	//! function represents the maximum possible similarity (or the minimum
+	//! possible distance). It's a lot faster than edit distance, so running
+	//! this first speeds up searches.
 	size_t match_maker::bag_difference( const wstring &row, const wstring &col ) const
 	{
+		// The "bags"
 		std::multiset<wchar_t> rows(row.begin(), row.end()) ;
 		std::multiset<wchar_t> cols(col.begin(), col.end()) ;
 		return bag_distance(rows.begin(), rows.end(),
 			cols.begin(), cols.end()) ;
 	}
 
-
+	//! Returns whether the bag difference is small enough to consider as a match.
 	bool match_maker::match_candidate_bag( const size_t MaxLen, const wstring &row, const wstring &col ) const
 	{
 		return (bag_difference(row, col) <= MaxLen) ;
 	}
 
-	// bool is_match_candidate
-	// Could this match be within the minimum score?
-	// Check each row, and fail as soon as possible.
+	/** Could this match be within the minimum score?
+	
+	Check each row, and fail as soon as possible.
+	*/
 	bool match_maker::is_match_candidate( )
 	{
 		const size_t MaxLen = std::max( m_num_rows, m_num_cols ) ;
@@ -153,7 +158,7 @@ namespace mem_engine
 		for ( size_t row_num = 1 ; row_num <= m_num_rows ; row_num++ )
 		{
 			size_t RowMin = MaxDist + 1 ;
-			// step through coloumns
+			// step through columns
 			for ( size_t col_num = 1 ; col_num <= m_num_cols ; col_num++ )
 			{
 				// get values of cells above, to left, and diagonal
@@ -205,7 +210,7 @@ namespace mem_engine
 		return compute_score(high_len, lower_right_corner) ;
 	}
 
-	/* match_cells
+	/** Match source and query chars.
 	 *
 	 * Match up the source and query chars, and return the next position in the matrix
 	 * as we backtrack to find our matchups
@@ -323,7 +328,11 @@ namespace mem_engine
 		
 		return true ;
 	}
-	bool match_maker::get_score_character_common( search_match_ptr & match )
+
+	//! Finds the character by character similarity.
+	//! Returns whether the source and trans are similar enough to
+	//! be called a match.
+	bool match_maker::get_score_character_common(search_match_ptr & match)
 	{
 		m_match = match ;
 
@@ -368,9 +377,9 @@ namespace mem_engine
 		markup->SetSource( m_match->get_record()->get_source_rich() ) ;
 	}
 
-	/*!
-	 * get_score_word here.
-	 */
+	//! Finds the word by word similarity.
+	//! Returns whether the source and trans are similar enough to
+	//! be called a match.
 	bool match_maker::get_score_word(search_match_ptr &match)
 	{
 		// we need this to populate match stuff...
@@ -1009,8 +1018,6 @@ namespace mem_engine
 			matrix( 0, col_num ) = cell( running_cell_cost, running_cell_cost, running_cell_cost)  ;
 		}
 	}
-
-
 
 	void match_maker::color_tokens_by_score( double token_score, std::list< wstring > &cols, const wstring &col, std::list< wstring > &rows, const wstring &row ) const
 	{

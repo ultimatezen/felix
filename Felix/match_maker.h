@@ -36,8 +36,6 @@ namespace mem_engine
 		@struct cell
 		@brief Represents a cell in the distance matrix.
 	 */
-
-
 	struct cell
 	{
 		size_t m_diag ;
@@ -61,7 +59,29 @@ namespace mem_engine
 		}
 	};
 
-	/** The Felix matching engine */
+/** The Felix matching engine 
+
+For speed, the matcher uses three passes. The first two are to
+filter out non-matches. Calculating edit distance is very slow 
+(quadratic due to use of NxM matrix). 
+Because the vast majority of string
+pairs are not matches, it's faster to filter out the non-matches
+as quickly as possible before calculating expensive edit distance.
+
+First, it uses a "bag of words" approach (@ref match_maker::bag_difference)
+to find the lowest possible edit distance 
+(the highest possible similarity) between the two strings. 
+If this is below the threshold, then we
+know that the strings can't be a match and then we bail.
+
+Next is uses a highly optimized version of the Levenshtein distance
+algorithm (@ref Distance::edist) to determine if the
+strings are similar enough to be considered a match.
+
+If the strings are a match, then it calculates the distance using
+the Distance class.
+
+*/
 class match_maker
 {
 	Segment		m_row ;
@@ -79,7 +99,7 @@ class match_maker
 	Matrix< size_t >		m_matrix ;
 	search_match_ptr		m_match ;
 
-	Distance		m_distance ;
+	Distance		m_distance ; //!< Levenshtein distance calculator
 	double			m_score;
 
 public:
@@ -90,7 +110,6 @@ public:
 		m_assess_format_penalty(false),
 		m_match(new search_match)
 	{ }
-
 
 	bool m_assess_format_penalty ;
 	bool fuzzy_gloss_score(const Segment &needle,
