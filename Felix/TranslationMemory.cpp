@@ -74,7 +74,7 @@ namespace mem_engine
 	// Finding matches
 	//////////////////////////////////////////////////////////////////////
 
-	// find matches in TM (source)
+	//! find matches in TM (source)
 	bool CTranslationMemory::find_matches( trans_match_container &matches, const search_query_params &params )
 	{
 		if ( ! m_is_active )
@@ -119,7 +119,7 @@ namespace mem_engine
 
 
 
-	// Find matches in translations
+	//! Find matches in translations
 	bool CTranslationMemory::find_trans_matches( trans_match_container &matches, const search_query_params &params )
 	{
 		if( ! m_is_active )
@@ -194,12 +194,14 @@ namespace mem_engine
 		matches.insert( match_test ) ;
 	}
 
+	//! Dirty flag. Returns whether the memory is saved. 
 	bool CTranslationMemory::is_saved() const
 	{
 		return m_is_saved ;
 	}
 
-	// Function name	: CTranslationMemory::set_saved_flag
+	//! Sets the is_saved flag. Used to tell whether the
+	//! tm is saved
 	bool CTranslationMemory::set_saved_flag(bool flag)
 	{
 		m_is_saved = flag ;
@@ -207,47 +209,51 @@ namespace mem_engine
 	}
 
 
-
-	// Function name	: CTranslationMemory::set_minimum_score
+	//! Sets the minimum score for determining that a translation
+	//! record is a match.
 	void CTranslationMemory::set_minimum_score(const size_t score)
 	{
 		ATLASSERT( score <= 100 ) ;
 
 		m_match_maker.set_minimum_score( static_cast< double >( score ) / 100.f ) ;
 	}
-
-
-	// Function name	: CTranslationMemory::refresh_status
+	
+	//! This is left over from the DRM days. Should be removed.
+	//! TODO: Remove this code
 	void CTranslationMemory::refresh_status()
 	{
-
 		m_is_demo = false ;
 	}
 
 
-	// Function name	: CTranslationMemory::is_demo
+	//! This is left over from the DRM days. Should be removed.
+	//! TODO: Remove this code
 	bool CTranslationMemory::is_demo() const
 	{
-		return m_is_demo ;
+		return false ;
 	}
 
-
-	/*
-	*	get/set properties
-	*/
+	//! Set the memory properties
 	void CTranslationMemory::set_properties_memory( app_props::properties_memory *props)
 	{
 		m_mem_properties = props ;
 		set_minimum_score( m_mem_properties->get_min_score() ) ;
 	}
+	//! Set the glossary properties
 	void CTranslationMemory::set_properties_glossary( app_props::properties_glossary *props )
 	{
 		m_gloss_properties = props ;
 	}
+	//! Set the algorithm properties
 	void CTranslationMemory::set_properties_algo( app_props::properties_algorithm *props )
 	{
 		m_algo_properties = props ;
 	}
+
+	//! Finds the number of records in an unparsed TM file
+	//! First tries to parse the header, and get the record count from there.
+	//! If there was no record count, counts each <record> entry in the file.
+	//! We do this so we can show the progress bar on loading.
 	const size_t CTranslationMemory::get_num_records( LPCSTR file_text )
 	{
 		ATLASSERT( file_text != NULL ) ;
@@ -271,6 +277,7 @@ namespace mem_engine
 		return num_records ;
 	}
 
+	//! Gets the number of glossary matches for `query`
 	long CTranslationMemory::get_number_of_glossary_matches( const wstring query )
 	{
 		search_query_params params ;
@@ -290,17 +297,22 @@ namespace mem_engine
 		return static_cast<long>(matches.size()) ;
 	}
 
+	//! Leftover code from DRM
+	//! TODO: Delete
 	void CTranslationMemory::do_demo_check()
 	{
 		refresh_status() ;
 	}
 
+	//! Sets the creator of the TM to the current user. The current
+	//! user is either the username provided by the user, or the
+	//! user's login name.
 	void CTranslationMemory::set_creator_to_current_user()
 	{
 		this->get_memory_info()->set_creator_to_current_user() ;
 	}
 
-	// Get the current user name from the memory info
+	//! Get the current user name from the memory info
 	void CTranslationMemory::refresh_user_name(void)
 	{
 		// refresh user name 
@@ -309,7 +321,10 @@ namespace mem_engine
 
 	//////////////////////////////////////////////////////////////////////////
 	// extra strings interface
+	// Extra strings are used to add arbitrary notes to a TM.
 	//////////////////////////////////////////////////////////////////////////
+
+	//! Remove an extra string from the TM
 	bool CTranslationMemory::remove_extra_string(const wstring key)
 	{
 		extra_strings_type::iterator pos = m_extra_strings.find( key ) ;
@@ -321,6 +336,8 @@ namespace mem_engine
 		return true ;
 	}
 
+	//! Add an extra string to the TM.
+	//! Extra strings are key/value pairs.
 	void CTranslationMemory::set_extra_string( const wstring key, const wstring value )  
 	{
 		// setting a key to an empty value is the same as
@@ -335,6 +352,7 @@ namespace mem_engine
 		}
 	}
 
+	//! Retrieve an extra string for the TM by key
 	const wstring CTranslationMemory::get_extra_string( const wstring key ) 
 	{
 		extra_strings_type::const_iterator value = m_extra_strings.find( key ) ;
@@ -346,6 +364,7 @@ namespace mem_engine
 		return wstring() ;
 	}
 
+	//! Sets the date-created value to the file's creation date.
 	void CTranslationMemory::detect_date_created( const CString &location, input_device_ptr input )
 	{
 		// get the size of the file and date created
@@ -356,7 +375,7 @@ namespace mem_engine
 		this->get_memory_info()->set_created_on( input->get_creation_time(location) ) ;
 	}
 
-	/*
+	/**
 	First, try to find an encoding declaration in the first 256 chars.
 	If that fails, use the MultiLang component to guess the correct encoding.
 	*/
@@ -375,7 +394,7 @@ namespace mem_engine
 		return encoding_from_multi_lang( text, text_size ) ;
 	}
 
-	// Get the encoding from the XML encoding declaration
+	//! Get the encoding from the XML encoding declaration
 	UINT CTranslationMemory::encoding_from_encoding_string(textstream_reader< char > & xml_reader)
 	{
 		xml_reader.jump_to_first_of( "\"'", true ) ;
@@ -386,7 +405,7 @@ namespace mem_engine
 		return sci_encoding_from_encoding_string( charset_str ) ;
 	}
 
-	// Use the CMultiLanguage class to guess the text encoding
+	//! Use the CMultiLanguage class to guess the text encoding
 	UINT CTranslationMemory::encoding_from_multi_lang(const char* text, UINT text_size)
 	{
 		CMultiLanguage multi ;
@@ -397,8 +416,8 @@ namespace mem_engine
 		return detect.nCodePage ;
 	}
 
-	// translate a std::exception into an except::CException if we are going
-	// to rethrow
+	//! translate a std::exception into an except::CException if we are going
+	//! to rethrow
 	void CTranslationMemory::handle_stdexception_on_load(   bool was_saved, const CString& file_name, std::exception &e  ) 
 	{
 		if ( UserSaysBail() )
@@ -416,7 +435,7 @@ namespace mem_engine
 		}
 	}
 
-	// set memory type: true (TM) or false (glossary)
+	//! set memory type: true (TM) or false (glossary)
 	void CTranslationMemory::set_is_memory( const bool setting )
 	{
 		if ( setting ) 
@@ -429,15 +448,15 @@ namespace mem_engine
 		}
 	}
 
-	// is it a TM or glossary?
+	//! is it a TM or glossary?
 	bool CTranslationMemory::get_is_memory() const 
 	{
 		return this->get_memory_info_const()->is_memory() ;
 	}
 
-	// If we have a listener, get UI interaction from there.
-	// Otherwise, prompt the user ourselves.
-	// ** We want to get rid of this! **
+	//! If we have a listener, get UI interaction from there.
+	//! Otherwise, prompt the user ourselves.
+	// TODO: We want to get rid of this!
 	bool CTranslationMemory::UserSaysBail()
 	{
 		if (m_listener)
@@ -450,8 +469,7 @@ namespace mem_engine
 			MB_YESNO | MB_SETFOREGROUND | MB_ICONHAND );
 	}
 
-	// continue_or_throw
-	// find out whether to continue processing, or rethrow the exception
+	//! find out whether to continue processing, or rethrow the exception
 	void CTranslationMemory::continue_or_throw( CException &e )
 	{
 		// see if the user wants to continue saving
@@ -465,14 +483,13 @@ namespace mem_engine
 		}
 	}
 
-	// ListenerSaysBail
-	// Check with the listener (which can prompt user) whether to bail on action
+	//! Check with the listener (which can prompt user) whether to bail on action
 	bool CTranslationMemory::ListenerSaysBail()
 	{
 		return m_listener != NULL && m_listener->ShouldBailFromException();
 	}
 
-	// check_progress_update
+	//! See if we should send a load update to our progress listener.
 	void CTranslationMemory::check_progress_update( int progress_interval )
 	{
 		if( 0 == ( size() % progress_interval ) )
@@ -484,6 +501,8 @@ namespace mem_engine
 		}
 	}
 
+	//! Convenience method for creating a match object that properly
+	//! points back to this TM.
 	mem_engine::search_match_ptr CTranslationMemory::make_match( record_pointer record )
 	{
 		search_match_ptr match(new search_match) ;
