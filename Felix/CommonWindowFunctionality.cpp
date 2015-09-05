@@ -72,7 +72,7 @@ CCommonWindowFunctionality::~CCommonWindowFunctionality()
 
 }
 
-
+//! Retrieves the location of the from TM/glossary in the collection
 CString CCommonWindowFunctionality::get_location()
 {
 	auto model = this->get_memory_model() ;
@@ -80,7 +80,8 @@ CString CCommonWindowFunctionality::get_location()
 	return mem->get_location() ;
 }
 
-// Function name	: is_demo
+//! Old DRM code.
+//! @TODO: Remove
 bool CCommonWindowFunctionality::is_demo() const
 {
 	return false ;
@@ -89,16 +90,22 @@ bool CCommonWindowFunctionality::is_demo() const
 /************************************************************************/
 /* User feedback                                                        */
 /************************************************************************/
+
+//! Display a feedback string in the status bar.
 bool CCommonWindowFunctionality::user_feedback( const CString &feedback, int pane )
 {
 	SENSE(CStringA(feedback)) ;
 	return m_statusbar.user_feedback(feedback, pane) ;
 }
+
+//! Display a resource string in the status bar.
 bool CCommonWindowFunctionality::user_feedback( const UINT id, int pane )
 {
 	SENSE(resource_string_a(id)) ;
 	return m_statusbar.user_feedback(id, pane) ;
 }
+
+//! Display a tstring (basic_string<TCHAR>) in the status bar.
 bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pane )
 {
 	SENSE(string2string(feedback)) ;
@@ -106,8 +113,8 @@ bool CCommonWindowFunctionality::user_feedback( const tstring &feedback, int pan
 }
 //////////////////////// == end user-feedback related == //////////////////
 
-// Function name	: user_wants_to_save
-// Make this a dedicated dialog.
+//! Find out whether the user wants to save the current TM/glossary.
+//! @TODO: Make this a dedicated dialog.
 INT_PTR CCommonWindowFunctionality::user_wants_to_save( const CString &f_name )
 {
 	CString user_prompt ;
@@ -127,7 +134,8 @@ INT_PTR CCommonWindowFunctionality::user_wants_to_save( const CString &f_name )
 		) ;
 }
 
-// Function name	: check_save
+//! Check whether user wants to save each TM/glossary that needs
+//! saving (is dirty).
 INT_PTR CCommonWindowFunctionality::check_save() 
 {
 	memory_list memories_needing_saving ;
@@ -145,6 +153,7 @@ INT_PTR CCommonWindowFunctionality::check_save()
 	return IDYES ;
 }
 
+//! Let the user save `mem`.
 INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer& mem)
 {
 	if ( mem->is_new() )
@@ -155,7 +164,6 @@ INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer
 		{
 			return IDCANCEL ;
 		}
-
 
 		mem->set_location(location);
 	}
@@ -169,7 +177,10 @@ INT_PTR CCommonWindowFunctionality::LetUserSaveMemory(mem_engine::memory_pointer
 	return IDYES ;
 }
 
-// Function name	: check_location
+//! If the first memory is new, sets the location to the
+//! specified save destination. Doesn't yet save anything
+//! to disk.
+//! Returns whether the location was set or the memory is not new.
 bool CCommonWindowFunctionality::check_location()
 {
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
@@ -189,7 +200,8 @@ bool CCommonWindowFunctionality::check_location()
 	return true ;
 }
 
-// Function name	: init_edit_replace_window
+//! Shows the edit/replace entry window.
+//! Creates window if necessary.
 void CCommonWindowFunctionality::init_edit_replace_window( int show_command /* = SW_HIDE */ )
 {
 	if ( ! m_edit_replace.IsWindow() )
@@ -202,11 +214,9 @@ void CCommonWindowFunctionality::init_edit_replace_window( int show_command /* =
 }
 
 
-// Function name	: init_edit_find_window
-// Description	    : 
-// Return type		: void 
-// Argument         : int show_command = SW_HIDE
-void CCommonWindowFunctionality::init_edit_find_window( int show_command /* = SW_HIDE */ )
+//! Shows the edit/find entry window.
+//! Creates window if necessary.
+void CCommonWindowFunctionality::init_edit_find_window(int show_command /* = SW_HIDE */)
 {
 	if ( ! m_edit_find.IsWindow() )
 	{
@@ -218,6 +228,8 @@ void CCommonWindowFunctionality::init_edit_find_window( int show_command /* = SW
 	m_edit_find.ShowWindow( show_command ) ;
 }
 
+//! Initializes the view interface.
+//! This is a polymorphic object for the current view type (match, new, etc.)
 HWND CCommonWindowFunctionality::init_view()
 {
 	ATLASSERT( IsWindow() ) ;
@@ -228,8 +240,8 @@ HWND CCommonWindowFunctionality::init_view()
 	return client ;
 }
 
-// make sure that the user wants to delete the entry.
-// TODO: Change to undoable action.
+//! make sure that the user wants to delete the entry.
+//! TODO: Change to undoable action.
 bool CCommonWindowFunctionality::check_delete()
 {
 #ifdef UNIT_TEST
@@ -240,7 +252,7 @@ bool CCommonWindowFunctionality::check_delete()
 #endif
 }
 
-
+//! Show the edit dialog for an entry that was newly added.
 bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_id)
 {
 	init_edit_window() ;
@@ -269,7 +281,7 @@ bool CCommonWindowFunctionality::show_edit_dialog_for_new_entry(const int title_
 	return true ;
 }
 
-// Function name	: CCommonWindowFunctionality::init_edit_window
+//! Initialize the edit entry window, creating lazily.
 bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE */ )
 {
 
@@ -297,7 +309,7 @@ bool CCommonWindowFunctionality::init_edit_window(int show_command /* = SW_HIDE 
 #endif
 }
 
-// Create a dialog the hard way, because it was failing before.
+//! Create a dialog the hard way, because it was failing before.
 void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogProc)
 {
 	HINSTANCE hInstance = _Module.GetResourceInstance() ;
@@ -366,7 +378,7 @@ void CCommonWindowFunctionality::instantiate_dlg(int res_id, DLGPROC lpDialogPro
 
 }
 
-// Function name	: CCommonWindowFunctionality::init_find_window
+//! Initialize the find window, creating lazily.
 bool CCommonWindowFunctionality::init_find_window(int show_command /* = SW_HIDE */, int title /* = 0 */ )
 {
 
@@ -387,8 +399,7 @@ bool CCommonWindowFunctionality::init_find_window(int show_command /* = SW_HIDE 
 
 }
 
-
-// Function name	: get_size
+//! Gets the size of the first memory.
 size_t CCommonWindowFunctionality::get_size()
 { 
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
@@ -396,11 +407,8 @@ size_t CCommonWindowFunctionality::get_size()
 }
 
 
-// Function name	: show_edit_dialog
-// Description	    : 
-// Return type		: void 
-// Argument         : record_pointer &record
-// Argument         : UINT title_id = IDS_EDIT_GLOSS
+//! Shows the edit dialog, creating lazily. 
+//! The edits will apply to the first memory.
 void CCommonWindowFunctionality::show_edit_dialog( record_pointer record, const int memory_id, UINT title_id /* = IDS_EDIT_GLOSS */ )
 {
 	memory_pointer mem = this->get_memory_model()->get_first_memory() ;
@@ -421,40 +429,35 @@ void CCommonWindowFunctionality::show_edit_dialog( record_pointer record, const 
 	init_edit_window( SW_SHOW ) ;
 #endif
 }
-// on_bold
-// There is no default command for bold, so we have to intercept it 
-// here and pass it down to our HTML view, in order to keep the view generic
-// (i.e. no dependency on resource.h")
+
+//! There is no default command for bold, so we have to intercept it 
+//! here and pass it down to our HTML view, in order to keep the view generic
+//! (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_bold( )
 {
 	m_view_interface.do_bold() ;
 	return 0L ;
 }
 
-// on_underline
-// There is no default command for bold, so we have to intercept it 
-// here and pass it down to our HTML view, in order to keep the view generic
-// (i.e. no dependency on resource.h")
+//! There is no default command for underline, so we have to intercept it 
+//! here and pass it down to our HTML view, in order to keep the view generic
+//! (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_underline( )
 {
 	m_view_interface.do_underline() ;
 	return 0L ;
 }
 
-// on_italic
-// There is no default command for italic, so we have to intercept it 
-// here and pass it down to our HTML view, in order to keep the view generic
-// (i.e. no dependency on resource.h")
+//! There is no default command for italic, so we have to intercept it 
+//! here and pass it down to our HTML view, in order to keep the view generic
+//! (i.e. no dependency on resource.h")
 LRESULT CCommonWindowFunctionality::on_italic( )
 {
 	m_view_interface.do_italic() ;
 	return 0L ;
 }
 
-
-
-
-// Function name	: prev_display_state
+//! Sets and returns the "back" display state.
 int CCommonWindowFunctionality::prev_display_state()
 {
 
@@ -469,12 +472,15 @@ int CCommonWindowFunctionality::prev_display_state()
 	return get_display_state() ;
 }
 
-// Function name	: next_display_state
+//! Sets and returns the "next" display state.
 int CCommonWindowFunctionality::next_display_state()
 {
 	return prev_display_state() ;
 }
 
+//! Saves `mem` to disk.
+//! The save method depends on the native type of the memory
+//! (local Felix, local TMX, remote, etc.)
 void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 {
 	if ( mem->is_new() ) // no location
@@ -530,6 +536,8 @@ void CCommonWindowFunctionality::save_memory(memory_pointer mem)
 	
 }
 
+//! Get the name of the file that a local memory should be
+//! saved to.
 CString CCommonWindowFunctionality::get_save_destination()
 {
 	CString filename;
@@ -556,14 +564,17 @@ CString CCommonWindowFunctionality::get_save_destination()
 			);
 	}
 }
+
+//! Leftover DRM stuff.
+//! @TODO: Delete
 LRESULT CCommonWindowFunctionality::on_demo_check_excess_memories()
 {
 	return 0L ;
 }
 
 
-/* Refresh the record-editor window after 
-* we've switched GUI languages.
+/** Refresh the record-editor window after we've switched GUI languages.
+* This will re-populate the window text with the new language.
 */
 void CCommonWindowFunctionality::refresh_editor_window()
 {
@@ -596,8 +607,8 @@ void CCommonWindowFunctionality::refresh_editor_window()
 
 }
 
-/* Refresh the replace window after 
-* we've switched GUI languages.
+/** Refresh the replace window after we've switched GUI languages.
+* This will re-populate the window text with the new language.
 */
 void CCommonWindowFunctionality::refresh_replace_window()
 {
@@ -615,8 +626,8 @@ void CCommonWindowFunctionality::refresh_replace_window()
 	m_edit_replace.MoveWindow( &rect, TRUE ) ;
 }
 
-/* Refresh the edit-mode find window after 
-* we've switched GUI languages.
+/** Refresh the edit-mode find window after we've switched GUI languages.
+* This will re-populate the window text with the new language.
 */
 void CCommonWindowFunctionality::refresh_edit_find_window()
 {
@@ -634,8 +645,8 @@ void CCommonWindowFunctionality::refresh_edit_find_window()
 	m_edit_find.MoveWindow( &rect, TRUE ) ;
 }
 
-/* Refresh the find window after 
-* we've switched GUI languages.
+/** Refresh the find window after we've switched GUI languages.
+* This will re-populate the window text with the new language.
 */
 void CCommonWindowFunctionality::refresh_find_window()
 {
@@ -653,9 +664,9 @@ void CCommonWindowFunctionality::refresh_find_window()
 	m_find.MoveWindow( &rect, TRUE ) ;
 }
 
-/* Refresh our various modeless dialogs after 
- * we've switched GUI languages.
- */
+/* Refresh our various modeless dialogs after we've switched GUI languages.
+* This will re-populate the window text with the new language.
+*/
 void CCommonWindowFunctionality::refresh_windows()
 {
 	refresh_find_window() ;
@@ -664,9 +675,9 @@ void CCommonWindowFunctionality::refresh_windows()
 	refresh_editor_window() ;
 }
 
-/* Show the view content again after we've switched
- * GUI languages.
- */
+/** Show the view content again after we've switched GUI languages.
+* This will re-populate the window text with the new language.
+*/
 void CCommonWindowFunctionality::refresh_view_content()
 {
 	// remember if we were in edit mode
@@ -687,7 +698,7 @@ void CCommonWindowFunctionality::refresh_view_content()
 
 }
 
-// The user wants to search/replace while in edit mode
+//! The user wants to search/replace while in edit mode
 LRESULT CCommonWindowFunctionality::on_user_edit_search( LPARAM lParam  )
 {
 #ifdef UNIT_TEST
@@ -707,7 +718,7 @@ LRESULT CCommonWindowFunctionality::on_user_edit_search( LPARAM lParam  )
 #endif
 }
 
-// Was the file dropped in the client rect?
+//! Was the file dropped in the client rect?
 BOOL CCommonWindowFunctionality::dropped_in_client( CDropHandle dropped )
 {
 #ifdef UNIT_TEST
@@ -722,7 +733,7 @@ BOOL CCommonWindowFunctionality::dropped_in_client( CDropHandle dropped )
 #endif
 }
 
-/*
+/**
  * Handler for structured windows exception.
  * We used to show a crash dialog, but I got rid of that
  * because it was a failure point.
@@ -737,6 +748,7 @@ BOOL CCommonWindowFunctionality::handle_sw_exception( CSWException &e, const CSt
 	return FALSE ;											 
 }
 
+//! Gets the error message for a structured windows exception.
 CString CCommonWindowFunctionality::get_swe_error_message(CString const&failure_message)
 {
 	CString window_text( _T("Exception") ) ;
@@ -751,8 +763,8 @@ CString CCommonWindowFunctionality::get_swe_error_message(CString const&failure_
 	return message;
 }
 
-// The file was imported from a different format. 
-// Does the user want to save in native format?
+//! The file was imported from a different format. 
+//! Does the user want to save in native format?
 INT_PTR CCommonWindowFunctionality::wants_to_save_in_native_format()
 {
 	CString prompt ;
@@ -765,7 +777,7 @@ INT_PTR CCommonWindowFunctionality::wants_to_save_in_native_format()
 }
 
 
-// So we can remember the size and position on startup
+//! So we can remember the size and position on startup
 void CCommonWindowFunctionality::save_window_settings( LPCTSTR key_name )
 {
 	CWindowSettings ws;
@@ -773,7 +785,7 @@ void CCommonWindowFunctionality::save_window_settings( LPCTSTR key_name )
 	ws.Save( resource_string(IDS_REG_KEY), key_name );
 }
 
-// Show the Memory Manager dialog
+//! Show the Memory Manager dialog
 bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 {
 	CMemoryManagerDlg dlg(app_props::get_props(), title_id) ;
@@ -795,7 +807,7 @@ bool CCommonWindowFunctionality::show_mem_mgr_dlg(int title_id)
 #endif
 }
 
-// Save all the memories for this window
+//! Save all the memories for this window
 void CCommonWindowFunctionality::save_all_memories()
 {
 	memory_list &memories = this->get_memory_model()->get_memories()->get_memories() ;
@@ -807,7 +819,7 @@ void CCommonWindowFunctionality::save_all_memories()
 
 }
 
-// File -> Save All
+//! File -> Save All
 LRESULT CCommonWindowFunctionality::on_file_save_all()
 {
 	save_all_memories() ;
@@ -817,7 +829,7 @@ LRESULT CCommonWindowFunctionality::on_file_save_all()
 	return 0L ;
 }
 
-/*
+/**
 * Respond to control-mouse wheel by increasing/decreasing the
 * font display size. Each message only changes the size by
 * one tick.
@@ -844,7 +856,7 @@ LRESULT CCommonWindowFunctionality::OnMouseWheel( UINT, WPARAM wparam, LPARAM )
 	return 0L ;
 }
 
-/*
+/**
  * When new content is displayed, the <td> tags don't propagate the 
  * global font size. We thus need to adjust them via JavaScript.
  * Since this is a slow operation, we only perform it if the
@@ -867,31 +879,48 @@ void CCommonWindowFunctionality::check_mousewheel()
 /* Progress Bar Related                                                 */
 /************************************************************************/
 
+//! Initializes the progress bar.
 void CCommonWindowFunctionality::OnProgressInit( const CString &file_name, size_t min_val, size_t max_val )
 {
 	m_statusbar.OnProgressInit(file_name, min_val, max_val) ;
 }
 
+//! Message that the load operation has finished. Provides the final
+//! value that should be displayed in the progress bar, e.g.:
+//!		"Done! Finished loading 100 entries."
 void CCommonWindowFunctionality::OnProgressDoneLoad( size_t final_val )
 {
 	m_statusbar.OnProgressDoneLoad(final_val) ;
 	set_window_title() ;
 }
+
+//! Message that the write operation has finished. Provides the final
+//! value that should be displayed in the progress bar, e.g.:
+//!		"Done! Finished saving 100 entries."
 void CCommonWindowFunctionality::OnProgressDoneWrite( size_t final_val )
 {
 	m_statusbar.OnProgressDoneWrite(final_val) ;
 	set_window_title() ;
 }
+
+//! Provide a progress update while loading a file
 bool CCommonWindowFunctionality::OnProgressLoadUpdate( size_t current_val ) // true to continue
 {
 	return m_statusbar.OnProgressLoadUpdate(current_val) ;
 }
+
+//! Provide a progress update while writing a file to disk
 bool CCommonWindowFunctionality::OnProgressWriteUpdate( size_t current_val ) // true to continue
 {
 	return m_statusbar.OnProgressWriteUpdate(current_val) ;
 }
 /////////////////////// == end progress-bar related == //////////////
 
+//! Gets the user's selection when adding a memory and there is already one
+//! loaded:
+//! - Add as new memory
+//! - Merge with existing memory
+//! - Cancel
 CCommonWindowFunctionality::MERGE_CHOICE CCommonWindowFunctionality::get_merge_choice( CQueryMergeDlg &dlg, app_props::properties_general *props )
 {
 	if (props->m_data.m_query_merge)
@@ -934,6 +963,7 @@ void CCommonWindowFunctionality::set_bg_color( COLORREF c )
 #endif
 }
 
+//! Removes the specified memory from the window.
 void CCommonWindowFunctionality::remove_memory( mem_engine::memory_pointer mem, int msgid )
 {
 	this->get_memory_model()->remove_memory_by_id(mem->get_id()) ;
@@ -942,6 +972,7 @@ void CCommonWindowFunctionality::remove_memory( mem_engine::memory_pointer mem, 
 	user_feedback( system_message(msgid, mem->get_location()) ) ;
 }
 
+//! Initialize window values.
 void CCommonWindowFunctionality::initialize_values( void )
 {
 	m_is_short_format = true ;
@@ -952,6 +983,7 @@ void CCommonWindowFunctionality::initialize_values( void )
 	m_item_under_edit = match_ptr(new match_type(record_type(new mem_engine::record_local)));
 }
 
+//! Initialize view state.
 void CCommonWindowFunctionality::init_state( ViewState *state )
 {
 	state->set_model(this->get_model()) ;
@@ -959,6 +991,7 @@ void CCommonWindowFunctionality::init_state( ViewState *state )
 	state->set_view(&m_view_interface) ;
 }
 
+//! Init the map of command IDs -> tooltip string IDs.
 void CCommonWindowFunctionality::init_tooltip_map( std::map<int, int> &toolmap )
 {
 	toolmap[ID_FILE_NEW] = IDS_NEW_TOOLBAR ;
@@ -972,6 +1005,8 @@ void CCommonWindowFunctionality::init_tooltip_map( std::map<int, int> &toolmap )
 	toolmap[ID_NEXT_PANE] = ID_NEXT_PANE ;
 }
 
+//! Handle a tooltip Windows message by copying in the correct tooltip
+//! string for the command.
 void CCommonWindowFunctionality::handle_tooltip( LPNMHDR pnmh, int idCtrl, std::map<int, int> &toolmap )
 {
 	LPNMTTDISPINFOW pDispInfo = (LPNMTTDISPINFOW)pnmh;
@@ -1000,6 +1035,8 @@ void CCommonWindowFunctionality::handle_tooltip( LPNMHDR pnmh, int idCtrl, std::
 /* WindowInterface implementation                                       */
 /************************************************************************/
 
+//! Gets the window height.
+//! (Used for COM automation)
 long CCommonWindowFunctionality::get_height()
 {
 	SENSE("get_height") ;
@@ -1007,7 +1044,9 @@ long CCommonWindowFunctionality::get_height()
 	return rect.Height() ;
 }
 
-void CCommonWindowFunctionality::set_height( long height )
+//! Sets the window height.
+//! (Used for COM automation)
+void CCommonWindowFunctionality::set_height(long height)
 {
 	SENSE("set_height") ;
 	CWindowRect rect(*this) ;
@@ -1015,6 +1054,8 @@ void CCommonWindowFunctionality::set_height( long height )
 	this->MoveWindow(&rect) ;
 }
 
+//! Gets the window width.
+//! (Used for COM automation)
 long CCommonWindowFunctionality::get_width()
 {
 	SENSE("get_width") ;
@@ -1022,7 +1063,9 @@ long CCommonWindowFunctionality::get_width()
 	return rect.Width() ;
 }
 
-void CCommonWindowFunctionality::set_width( long width )
+//! Sets the window width.
+//! (Used for COM automation)
+void CCommonWindowFunctionality::set_width(long width)
 {
 	SENSE("set_width") ;
 	CWindowRect rect(*this) ;
@@ -1030,6 +1073,8 @@ void CCommonWindowFunctionality::set_width( long width )
 	this->MoveWindow(&rect) ;
 }
 
+//! Gets the window's left pos.
+//! (Used for COM automation)
 long CCommonWindowFunctionality::get_left()
 {
 	SENSE("get_left") ;
@@ -1037,7 +1082,9 @@ long CCommonWindowFunctionality::get_left()
 	return rect.left ;
 }
 
-void CCommonWindowFunctionality::set_left( long left )
+//! Sets the window's left pos.
+//! (Used for COM automation)
+void CCommonWindowFunctionality::set_left(long left)
 {
 	SENSE("set_left") ;
 	CWindowRect rect(*this) ;
@@ -1047,6 +1094,8 @@ void CCommonWindowFunctionality::set_left( long left )
 	this->MoveWindow(&rect) ;
 }
 
+//! Gets the window's top pos.
+//! (Used for COM automation)
 long CCommonWindowFunctionality::get_top()
 {
 	SENSE("get_top") ;
@@ -1054,7 +1103,9 @@ long CCommonWindowFunctionality::get_top()
 	return rect.top ;
 }
 
-void CCommonWindowFunctionality::set_top( long top )
+//! Sets the window's top pos.
+//! (Used for COM automation)
+void CCommonWindowFunctionality::set_top(long top)
 {
 	SENSE("set_top") ;
 	CWindowRect rect(*this) ;
@@ -1064,6 +1115,10 @@ void CCommonWindowFunctionality::set_top( long top )
 	this->MoveWindow(&rect) ;
 }
 
+//! Set this window on top of others.
+//! Idea is to show the Felix window when it's buried under other windows
+//! (and you're working from Word and don't want to click on the Felix
+//! window), but it's buggy.
 void CCommonWindowFunctionality::raise()
 {
 	CWindowRect rect(*this) ;
@@ -1074,7 +1129,7 @@ void CCommonWindowFunctionality::raise()
 	this->SetWindowPos(HWND_NOTOPMOST, &rect, flags) ;
 }
 
-
+//! Export `mem` as excel file to `file_name`.
 void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::memory_pointer mem )
 {
 	logging::log_debug("Saving as Excel file") ;
@@ -1084,7 +1139,8 @@ void CCommonWindowFunctionality::export_excel( CString file_name, mem_engine::me
 	exporter.export_excel( mem, file_name, get_input_device() ) ;
 }
 
-void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, mem_engine::memory_pointer mem )
+//! Export `mem` as tabbed-text file to `save_as_file_name`.
+void CCommonWindowFunctionality::export_tabbed_text(CString save_as_file_name, mem_engine::memory_pointer mem)
 {
 	using namespace mem_engine;
 
@@ -1112,10 +1168,10 @@ void CCommonWindowFunctionality::export_tabbed_text( CString save_as_file_name, 
 	user_feedback( feedback ) ;
 }
 
-// We have two find dialogs: 
-// * one for edit mode (find in the browser);
-// * and one for non-edit mode (quick search in glossary)
-// Swap them when we change the edit mode.
+//! We have two find dialogs: 
+//! * one for edit mode (find in the browser);
+//! * and one for non-edit mode (quick search in glossary)
+//! Swap them when we change the edit mode.
 void CCommonWindowFunctionality::SwapFindDialogs( const bool edit_mode_enabled )
 {
 	if ( edit_mode_enabled )
@@ -1138,16 +1194,19 @@ void CCommonWindowFunctionality::SwapFindDialogs( const bool edit_mode_enabled )
 	}
 }
 
+//! Get the current item being edited.
 CCommonWindowFunctionality::match_ptr CCommonWindowFunctionality::get_item_under_edit()
 {
 	return m_item_under_edit ;
 }
 
+//! Set the current item being edited.
 void CCommonWindowFunctionality::set_item_under_edit( match_ptr match )
 {
 	m_item_under_edit = match ;
 }
 
+//! Add a remote memory to the window's list of memories.
 LRESULT CCommonWindowFunctionality::add_remote_memory( model_iface_ptr memories, mem_engine::memory_pointer mem )
 {
 	if (! mem)
@@ -1166,6 +1225,7 @@ LRESULT CCommonWindowFunctionality::add_remote_memory( model_iface_ptr memories,
 	return 0L ;
 }
 
+//! Sets the zoom level of the HTML view window.
 void CCommonWindowFunctionality::set_zoom_level( int zoom_level )
 {
 	m_mousewheel_count = zoom_level ;
@@ -1181,8 +1241,10 @@ void CCommonWindowFunctionality::set_zoom_level( int zoom_level )
 	}
 }
 
-/************************************************************************/
-/* window_wrapper implementation                                       */
+/************************************************************************
+* window_wrapper implementation
+* This is an interface that clients can use to find out about the window
+* properties.
 /************************************************************************/
 
 BOOL CCommonWindowFunctionality::is_window()
