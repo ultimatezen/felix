@@ -19,7 +19,7 @@ class Distance
 	size_t m_row_size ;
 	double minscore ;
 public:
-	Distance(double min_score = 0.5f);
+	Distance(double min_score=0.5f);
 	~Distance();
 	void set_minscore(double score);
 	size_t edist(const std::wstring &a, const std::wstring &b);
