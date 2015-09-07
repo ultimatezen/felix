@@ -21,7 +21,6 @@
 #include "ImportDialog.h"
 #include "ui.h"						// windows_ui -- wrapper for common dialog boxes
 
-#include "NagDialog.h"				// CNagDialog
 #include "InputKeyDlg.h"			// CInputKeyDlg
 
 #include "Path.h"

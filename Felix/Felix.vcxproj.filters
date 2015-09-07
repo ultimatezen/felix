@@ -1008,9 +1008,6 @@
     <ClCompile Include="Memories.cpp">
       <Filter>Source Files\COM Servers</Filter>
     </ClCompile>
-    <ClCompile Include="NagDialog.cpp">
-      <Filter>Source Files\dialogs</Filter>
-    </ClCompile>
     <ClCompile Include="MultitermConversionDlg.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
@@ -1747,9 +1744,6 @@
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="ConnectionDlg.h">
-      <Filter>Header Files\dialogs</Filter>
-    </ClInclude>
-    <ClInclude Include="NagDialog.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
     <ClInclude Include="..\common\aboutdlg.h">

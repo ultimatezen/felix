@@ -739,20 +739,6 @@ echo Protection complete!
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">Default</BasicRuntimeChecks>
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">false</BrowseInformation>
     </ClCompile>
-    <ClCompile Include="NagDialog.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">Disabled</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">EnableFastChecks</BasicRuntimeChecks>
-      <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">false</BrowseInformation>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">Disabled</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
-      <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">false</BrowseInformation>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">Full</Optimization>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">Default</BasicRuntimeChecks>
-      <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">false</BrowseInformation>
-    </ClCompile>
     <ClCompile Include="NavUrl.cpp" />
     <ClCompile Include="..\common\numberfmt.cpp" />
     <ClCompile Include="number_placement.cpp" />
@@ -1315,7 +1301,6 @@ echo Protection complete!
     <ClInclude Include="MyPaneContainer.h" />
     <ClInclude Include="..\common\MyRecentDocumentList.h" />
     <ClInclude Include="MySplitterWindow.h" />
-    <ClInclude Include="NagDialog.h" />
     <ClInclude Include="NavInterface.h" />
     <ClInclude Include="NavUrl.h" />
     <ClInclude Include="..\common\numberfmt.h" />
