@@ -429,9 +429,6 @@
     <ClCompile Include="MultitermConversionDlg_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="NagDialog_test.cpp">
-      <Filter>Source Files\tests</Filter>
-    </ClCompile>
     <ClCompile Include="NavUrl_test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>

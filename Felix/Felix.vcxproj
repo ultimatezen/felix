@@ -885,7 +885,6 @@ echo Protection complete!
     <ClCompile Include="MinViewDlg_test.cpp" />
     <ClCompile Include="miscwrappers_test.cpp" />
     <ClCompile Include="MultitermConversionDlg_test.cpp" />
-    <ClCompile Include="NagDialog_test.cpp" />
     <ClCompile Include="NavUrl_test.cpp" />
     <ClCompile Include="numberfmt_test.cpp" />
     <ClCompile Include="oleautowrapper_test.cpp" />
