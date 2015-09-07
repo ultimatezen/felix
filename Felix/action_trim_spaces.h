@@ -5,6 +5,8 @@
 
 namespace action
 {
+	/** Trims spaces from string
+	*/
 	class ActionTrimSpaces : public ActionRevertible
 	{
 	public:

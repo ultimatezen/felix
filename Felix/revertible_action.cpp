@@ -15,7 +15,7 @@ namespace action
 		mem_engine::copy_mem_info(m_old, m_new) ;
 	}
 
-	void ActionRevertible::perform_action(mem_engine::trans_set &records,
+	void ActionRevertible::back_up_tm(mem_engine::trans_set &records,
 											boost::function<wstring (wstring text)> pred )
 	{
 		using namespace mem_engine;

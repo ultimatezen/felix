@@ -5,6 +5,8 @@
 
 namespace action
 {
+	/** Strips tags from string
+	*/
 	class ActionStripTags : public ActionRevertible
 	{
 	public:

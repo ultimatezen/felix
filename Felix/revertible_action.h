@@ -5,7 +5,8 @@
 
 namespace action
 {
-	// Base class for actions that are reverted by restoring old TM
+	/** Base class for actions that are rolled back by restoring old TM.
+	*/
 	class ActionRevertible : public UndoableAction
 	{
 	public:
@@ -18,9 +19,11 @@ namespace action
 		{
 		}
 
+		//! Undoes the action by rolling back the TM
 		void undo();
 
-		void perform_action(mem_engine::trans_set &records, 
+		//! Backs up TM so it can be rolled back
+		void back_up_tm(mem_engine::trans_set &records, 
 							boost::function<wstring (wstring text)> pred);
 	} ;
 }

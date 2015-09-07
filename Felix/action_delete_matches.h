@@ -7,6 +7,8 @@
 
 namespace action
 {
+	/** Deletes specified group of matches from TM
+	*/
 	class ActionDeleteMatches : public UndoableAction
 	{
 	public:

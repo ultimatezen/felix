@@ -4,11 +4,13 @@
 
 namespace action
 {
+	//! Trims the spaces from all records in the TM.
+	//! Backs up TM so it can be undone.
 	void ActionTrimSpaces::redo()
 	{
 		using namespace mem_engine;
 		mem_engine::trans_set records ;
-		this->perform_action(records, trim_text) ;
+		this->back_up_tm(records, trim_text) ;
 
 		m_new->clear_memory() ;
 		mem_engine::copy_mem_info(m_old, m_new) ;
@@ -18,6 +20,7 @@ namespace action
 		}
 	}
 
+	//! Returns string value of resource ID (for localization)
 	wstring ActionTrimSpaces::name()
 	{
 		return R2WSTR(IDS_ACTION_TRIM_SPACES) ;

@@ -10,7 +10,7 @@ namespace action
 		using namespace mem_engine;
 
 		mem_engine::trans_set records ;
-		this->perform_action(records, strip_tags_only) ;
+		this->back_up_tm(records, strip_tags_only) ;
 		m_new->clear_memory() ;
 		try
 		{
