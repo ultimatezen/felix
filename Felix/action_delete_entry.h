@@ -6,6 +6,7 @@
 
 namespace action
 {
+	//! Deletes a specified record.
 	class ActionDeleteEntry : public UndoableAction
 	{
 	public:

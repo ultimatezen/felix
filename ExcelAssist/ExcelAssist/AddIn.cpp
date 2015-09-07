@@ -1,5 +1,3 @@
-// AddIn.cpp : Implementation of DLL Exports.
-
 /*! 
 *
  This is the AddIn for MS Excel. It registers itself in the AddIns registry entry for Excel, and Excel 
@@ -22,7 +20,7 @@ TODO:
 CAddInModule _AtlModule;
 
 
-// DLL Entry Point
+//! DLL Entry Point
 extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
 	_AtlModule.SetResourceInstance(hInstance);
@@ -30,21 +28,21 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpRes
 }
 
 
-// Used to determine whether the DLL can be unloaded by OLE
+//! Used to determine whether the DLL can be unloaded by OLE
 STDAPI DllCanUnloadNow(void)
 {
 	return _AtlModule.DllCanUnloadNow();
 }
 
 
-// Returns a class factory to create an object of the requested type
+//! Returns a class factory to create an object of the requested type
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
 	return _AtlModule.DllGetClassObject(rclsid, riid, ppv);
 }
 
 
-// DllRegisterServer - Adds entries to the system registry
+//! DllRegisterServer - Adds entries to the system registry
 STDAPI DllRegisterServer(void)
 {
 	// registers object, typelib and all interfaces in typelib
@@ -53,7 +51,7 @@ STDAPI DllRegisterServer(void)
 }
 
 
-// DllUnregisterServer - Removes entries from the system registry
+//! DllUnregisterServer - Removes entries from the system registry
 STDAPI DllUnregisterServer(void)
 {
 	HRESULT hr = _AtlModule.DllUnregisterServer();

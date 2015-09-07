@@ -20,7 +20,7 @@
 
 	Felix is a translation memory program. 
 
-	Felix is an automation server, and interacts with several application 
+	Felix implements an automation server, and interacts with several application 
 	interfaces and stand-alone applications.
  */
 
@@ -30,9 +30,9 @@
 #include "ErrorTranslator.h"
 #include "logging.h"
 
-// Note: Proxy/Stub Information
-//		To build a separate proxy/stub DLL, 
-//		run nmake -f Felixps.mk in the project directory.
+//! Note: Proxy/Stub Information
+//!		To build a separate proxy/stub DLL, 
+//!		run nmake -f Felixps.mk in the project directory.
 #include "initguid.h"
 #include "Felix.h"
 #include "Felix_i.c"
@@ -95,7 +95,7 @@ void felix_invalid_parameter_handler(
 }
 
 //! Our customized version of the server app module, to enable
-// the resource DLL to be loaded dynamically (according to language)
+//! the resource DLL to be loaded dynamically (according to language)
 CLocalizedServerAppModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
