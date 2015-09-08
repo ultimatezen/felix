@@ -948,6 +948,9 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 		dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
 		dialog.set_file_filter(get_gloss_open_filter());
 	}
+#ifdef DEBUG
+	return true;
+#else
 
 	if (!dialog.show())
 	{
@@ -1007,6 +1010,7 @@ bool CManagerWindow::nav_load(const std::vector<string> &tokens)
 	m_current_state->show_content() ;
 	m_listener->set_window_title() ;
 	return true ;
+#endif
 }
 
 
