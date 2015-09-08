@@ -18,6 +18,9 @@
 #define CHECK_PASS(CLASS_NAME, FUNCTION) if (CLASS_NAME.m_hWnd == focus || CLASS_NAME.IsChild(focus)) { return CLASS_NAME.FUNCTION() ; }
 
 
+/** 
+	Common GUI elements for edit record dialogs
+*/
 template <class TBase, int RES_ID = IDD_EDIT_RECORD>
 class CEditTransRecordDialogCommon : 
 	public CMessageFilter, 

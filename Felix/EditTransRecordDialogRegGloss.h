@@ -1,12 +1,12 @@
-/*
-  Modal dialog for editing translation records.
-*/
 #pragma once
 
 #include "EditTransRecordDialogCommon.h"
 #include "resource.h"
 
-class CEditTransRecordDialogRegGloss : 
+/**
+Modeless dialog for registering glossary entries.
+*/
+class CEditTransRecordDialogRegGloss :
 	public CEditTransRecordDialogCommon<CEditTransRecordDialogRegGloss, IDD_EDIT_RECORD_GLOSS>
 {
 public:

@@ -18,8 +18,10 @@
 #include "active_window.h"
 
 /**
-	@class CFindDlg  
 	@brief For searching entries.
+
+	This dialog is deprecated; the new Find window is the recommended
+	way to search TMs and glossaries.
  */
 class CFindDlg  : 
 		public CMessageFilter, 

@@ -1,4 +1,4 @@
-/*
+/**
   Modal dialog for editing translation records.
 */
 #pragma once
