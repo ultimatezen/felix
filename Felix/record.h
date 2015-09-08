@@ -6,6 +6,9 @@
 #include "tag_stripper.h"
 #include "segment.h"
 
+/** 
+	Translation memory "business logic."
+*/
 namespace mem_engine
 {
 	static const size_t MIN_RELIABILITY = 0 ;

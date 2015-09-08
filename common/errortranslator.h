@@ -11,15 +11,7 @@
 #include <new.h>
 #include <float.h>	// _clearfp()
 
-//////////////////////////////////////////
-// Override _com_raise_error to get our own error types.
-// FullName:  _com_raise_error
-// Access:    public 
-// Qualifier: 
-// \return    void __stdcall
-// \param     HRESULT hr
-// \param     IErrorInfo* perrinfo
-//////////////////////////////////////////
+//! Override _com_raise_error to get our own error types.
 inline void __stdcall _com_raise_error(HRESULT hr, IErrorInfo* perrinfo ) 
 {
 	BANNER( "Raising COM error: _com_raise_error" ) ;
@@ -29,28 +21,13 @@ inline void __stdcall _com_raise_error(HRESULT hr, IErrorInfo* perrinfo )
 	throw except::CComException( TEXT("Error raised by COM"), error ) ;
 }
 
-//////////////////////////////////////////
 //!  Convert exceptions raised by new into our exceptions.
-// FullName:  NewHandler
-// Access:    public 
-// Qualifier: 
-// \return    int _cdecl
-// \param     size_t size
-//////////////////////////////////////////
 inline int _cdecl NewHandler( size_t size )
 {
 	throw except::CAllocException(size) ;
 }
 
-//////////////////////////////////////////
-//!  TranslateSEHtoCE.
-// FullName:  TranslateSEHtoCE
-// Access:    public 
-// Qualifier: 
-// \return    void _cdecl
-// \param     UINT code
-// \param     PEXCEPTION_POINTERS pep
-//////////////////////////////////////////
+//! Translates a structured exception into our own exception class.
 inline void _cdecl TranslateSEHtoCE( UINT code, PEXCEPTION_POINTERS pep )
 {
 
@@ -175,16 +152,10 @@ inline void _cdecl TranslateSEHtoCE( UINT code, PEXCEPTION_POINTERS pep )
 	} // switch ( code )
 }
 
-//////////////////////////////////////////
 //!  Set up exception handling so it throws the types we expect.
-// - Translate structured exceptions into C++ exceptions
-// - Convert exceptions raised by new into our exception type
-// - Throw exceptions for floating-point overflow, underflow, zero divide, denormal, and invalid
-// FullName:  set_up_exception_handling
-// Access:    public 
-// Qualifier: 
-// \return    void
-//////////////////////////////////////////
+//! - Translate structured exceptions into C++ exceptions
+//! - Convert exceptions raised by new into our exception type
+//! - Throw exceptions for floating-point overflow, underflow, zero divide, denormal, and invalid
 inline void set_up_exception_handling()
 {
 	_set_se_translator( TranslateSEHtoCE ) ;

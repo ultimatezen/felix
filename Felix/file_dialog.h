@@ -13,6 +13,9 @@ CString save_file(
 	filter_array file_filter,
 	const CString default_ext);
 
+/**
+ * Wraps the new file open dialog 
+ */
 class file_open_dialog
 {
 

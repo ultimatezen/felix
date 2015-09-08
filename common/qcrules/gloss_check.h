@@ -6,6 +6,9 @@ namespace qc
 {
 	typedef std::pair<std::wstring, std::wstring> gloss_pair ;
 
+	//! Checks for glossary matches in source/translation
+	//! If a source has a glossary source term, then raises a
+	//! QC error if the gloss translation is not in the trans
 	class GlossCheckRule : public CheckRule
 	{
 

@@ -4,7 +4,7 @@
 
 namespace qc
 {
-
+	//! Checks whether numbers in the source appear in the translation
 	class NumberCheckRule : public CheckRule
 	{
 	public:

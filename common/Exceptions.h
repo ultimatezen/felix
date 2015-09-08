@@ -12,7 +12,11 @@
 #include <eh.h>		// _se_translator_function -- CException handling header file
 #include "ComUtilities.h"
 
-
+//! Custom exception classes
+//! Doesn't use std::exception because it can only store a multibyte
+//! string, while we use Unicode strings internally.
+//! It would be possible to convert all exception messages to UTF-8
+//! strings, in which case we could inherit from std::exception.
 namespace except
 {
 

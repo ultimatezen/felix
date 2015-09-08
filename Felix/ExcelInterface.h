@@ -4,6 +4,7 @@
 
 #pragma once
 
+//! Interface for writing Excel files
 class ExcelInterface
 {
 

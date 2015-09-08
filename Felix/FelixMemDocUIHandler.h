@@ -11,8 +11,8 @@
 #endif
 
 
-// CFelixMemDocUIHandler
-
+//! Handles right-clicks in Felix HTML views
+//! Implements IDocHostUIHandlerDispatch -- An interface to the Microsoft HTML parsing and rendering engine.
 class ATL_NO_VTABLE CFelixMemDocUIHandler :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CFelixMemDocUIHandler, &CLSID_FelixMemDocUIHandler>,

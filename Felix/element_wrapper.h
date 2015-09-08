@@ -1,6 +1,9 @@
 #pragma once
 #include "HtmlDocument.h"		// html::collection_ptr
 
+/**
+ * Interface for HTML element wrapper
+ */
 class element_wrapper
 {
 public:
@@ -16,6 +19,9 @@ public:
 
 typedef std::shared_ptr<element_wrapper> element_wrapper_ptr ;
 
+/**
+ * Concrete HTML element wrapper
+ */
 class element_wrapper_html : public element_wrapper
 {
 	MSHTML::IHTMLElementPtr m_element ;
@@ -34,7 +40,9 @@ public:
 };
 
 
-
+/**
+ * Factory for creating HTML element wrapper 
+ */
 inline element_wrapper_ptr make_element_wrapper(MSHTML::IHTMLElementPtr element)
 {
 	element_wrapper_html *wrapper = new element_wrapper_html() ;

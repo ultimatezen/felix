@@ -2,6 +2,7 @@
 
 #include "ExcelInterface.h"
 
+//! Fake Excel writer interface for testing
 class ExcelInterfaceFake : public ExcelInterface
 {
 public:

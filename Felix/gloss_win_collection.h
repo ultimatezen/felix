@@ -4,7 +4,7 @@
 
 typedef std::vector< gloss_window_pointer > gloss_window_list ;
 
-// Wraps the list of glossary windows maintained by the memory window frame.
+//! Wraps the list of glossary windows maintained by the memory window frame.
 class GlossWinCollection
 {
 public:

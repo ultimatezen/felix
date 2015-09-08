@@ -1,9 +1,6 @@
 /*!
 	@file CustomTabCtrl.h
 	@brief A base class to help implement Tab Controls with different appearances
-	@date 2005/06/25
-	Time: 15:14:34
-	@author Ryan Ginstrom
 
    Original work by Bjarke Viksoe (bjarke@viksoe.dk)
    Revised version by Daniel Bowen (dbowen@es.com).

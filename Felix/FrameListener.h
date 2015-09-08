@@ -3,6 +3,10 @@
 #include "TranslationMemory.h"
 #include "Felix_properties.h"
 
+/**
+ * Listener for frame window.
+ * Allows children of the window to query the frame.
+ */
 class FrameListener
 {
 public:

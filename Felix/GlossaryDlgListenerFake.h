@@ -9,6 +9,9 @@
 
 #ifdef UNIT_TEST
 
+/**
+ * Fake glossary window listener for testing. 
+ */
 class CGlossaryWinListenerFake : public CGlossaryWinListener
 {
 public:

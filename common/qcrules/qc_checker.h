@@ -1,9 +1,9 @@
 #pragma once
 #include "check_rule.h"
 
-
 namespace qc
 {
+	//! Container for QC rules
 	class QcChecker : public CheckRule
 	{
 		std::vector<rule_ptr> m_rules ;

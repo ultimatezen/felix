@@ -2,10 +2,10 @@
 
 #include "logging.h"
 
-// Tokenizes the command line
+//! Tokenizes the command line
 void parse_command_line(LPCTSTR text, std::vector<tstring> &tokens) ;
 
-/* Parses the command line into program startup options
+/** Parses the command line into program startup options
 */
 struct commandline_options
 {

@@ -4,7 +4,7 @@
 
 #include "record.h" // record_pointer ;
 
-
+//! Adds extra strings to a record
 class CExtraStringsView
 {
 	CStaticT<CWindow>				m_extra_strings_box ;

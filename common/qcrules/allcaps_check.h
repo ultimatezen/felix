@@ -4,6 +4,7 @@
 
 namespace qc
 {
+	//! Checks whether all-caps words in source appear in trans
 	class AllCapsCheckRule : public CheckRule
 	{
 	public:
