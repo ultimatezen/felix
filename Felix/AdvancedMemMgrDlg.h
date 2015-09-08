@@ -14,7 +14,10 @@
 #include "resource.h"
 
 
-/** Advanced memory manager settings */
+/** Advanced memory manager settings.
+	This class is only used in "classic" mode; the new
+	memory manager supercedes it.
+*/
 class CAdvancedMemMgrDlg : 
 	public CDialogImpl<CAdvancedMemMgrDlg, CWindow>
 	, public CWindowExceptionHandler< CAdvancedMemMgrDlg >

@@ -2,6 +2,7 @@
 
 #include "WindowsMessage.h"
 
+//! Mix-in class for tracking whether a window is active
 class ActiveWindow
 {
 public:
