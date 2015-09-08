@@ -5,6 +5,9 @@
 
 #include "EditTransRecordDialogCommon.h"
 
+/** 
+	Mix-in interface for editing records.
+*/
 class EditRecordInterface
 {
 public:
