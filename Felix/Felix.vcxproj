@@ -1228,7 +1228,6 @@ echo Protection complete!
     <ClInclude Include="ConcordanceDialog.h" />
     <ClInclude Include="ConnectionDlg.h" />
     <ClInclude Include="..\..\cpptempl\cpptempl.h" />
-    <ClInclude Include="CRecordLabelPickerDlg.h" />
     <ClInclude Include="..\common\CStringInterface.h" />
     <ClInclude Include="..\common\CustomTabCtrl.h" />
     <ClInclude Include="..\common\dispatchwrapper.h" />

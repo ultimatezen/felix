@@ -1752,9 +1752,6 @@
     <ClInclude Include="ConcordanceDialog.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
-    <ClInclude Include="CRecordLabelPickerDlg.h">
-      <Filter>Header Files\dialogs</Filter>
-    </ClInclude>
     <ClInclude Include="EditModeFindDlg.h">
       <Filter>Header Files\dialogs</Filter>
     </ClInclude>
