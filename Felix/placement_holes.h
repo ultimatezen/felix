@@ -9,7 +9,7 @@ namespace mem_engine
 
 	// hole defs.
 
-	/** A 'hole' in a string (non-matching portion.
+	/** A 'hole' in a string (non-matching portion).
 	*/
 	struct hole_t
 	{
@@ -29,13 +29,13 @@ namespace mem_engine
 	};
 
 	/** A pair of holes
-	lhs - source
-	rhs - query
+	@param lhs source - The source string's hole
+	@param rhs query - The query string's hole
 	*/
 	struct hole_pair_t
 	{
-		hole_t lhs ;
-		hole_t rhs ;
+		hole_t lhs ; //!< source portion
+		hole_t rhs ; //!< query portion
 		hole_pair_t() {}
 		hole_pair_t(hole_t l, hole_t r) : lhs(l), rhs(r) {}
 		/// Are one of the holes empty?
@@ -54,19 +54,20 @@ namespace mem_engine
 		
 		A hole is a mismatched segment between the two strings.
 		Example: 
-				AAA BBB XXX CCC
-				AAA BBB YYY CCC
-		Here, the hole is XXX vs YYY.
+				- `AAA BBB XXX CCC`
+				- `AAA BBB YYY CCC`
+		Here, the hole is `XXX` vs `YYY`.
 		*/
 		bool find_hole(const wstring &lhs, const wstring &rhs, hole_pair_t &holes) const;
 		bool find_hole(const pairings_t &pairings, hole_pair_t &holes) const;
 
-		/// Advance over the part at the beginning that matches.
+		//! Advance over the part at the beginning that matches.
 		size_t find_start( const wstring &lhs, const wstring &rhs ) const;
 
 
 	};
 
+	//! Creates new pairings from `hole`
 	void create_new_pairings( pairings_t &pairings, const hole_t &hole ) ;
 	}
 

@@ -1,8 +1,3 @@
-/*!
-* <File comment goes here!!>
-* 
-* Copyright (c) 2005 by <your name/ organization here>
-*/
 #pragma once
 
 using std::wstring ;
@@ -10,6 +5,7 @@ using std::wstring ;
 namespace mem_engine
 {
 
+	//! Function object for sorting glossary matches
 	class GlossMatchComparator
 	{
 	public:
@@ -30,8 +26,8 @@ namespace mem_engine
 		typedef std::pair< std::wstring, std::wstring > trans_pair ;
 		wchar_t narrow_num( wchar_t c ) ;
 
-		void fix_match_spans( wstring &segment );
-		void fix_html_entities( wstring &segment );
+		void fix_match_spans(wstring &segment);
+		void fix_html_entities(wstring &segment);
 		bool is_num_rep(std::wstring& PotentialNum);
 		bool is_substitution(trans_pair& trans, 
 							 std::wstring& SourceNum, 
@@ -70,27 +66,33 @@ namespace mem_engine
 				m_Chars[QUERY] = q ;
 			}
 
+			//! Returns the match type
 			MatchType match_type()
 			{
 				return m_MatchType ;
 			}
+			//! Adds a match type to the pairing
+			//! Match types are a union
 			void add_match_type(MatchType m_type)
 			{
 				this->m_MatchType = static_cast<MatchType>(this->match_type() | m_type) ;
 			}
+			//! Gets the source character
 			wchar_t& source()
 			{
 				return get_char(SOURCE) ; 
 			}
+			//! Gets the query character
 			wchar_t& query()
 			{
 				return get_char(QUERY) ; 
 			}
+			//! Gets the character of type `index`
 			wchar_t& get_char(const CharType &index)
 			{
 				return m_Chars[index] ;
 			}
-			// keep const-correctness
+			//! Get character, keeping const-correctness
 			const wchar_t get_char(const CharType &index) const
 			{
 				return m_Chars[index] ;
@@ -128,7 +130,10 @@ namespace mem_engine
 		void mark_up_gloss_matches(pairings_t &pairs, const gloss_match_set &gloss_entries) ;
 		/** Calculates the score based on our pairings.
 		*/
+
+		//! Calculates the score after applying matches
 		double calc_score(pairings_t &pairs);
+		//! Calculates the score for a glossary pair
 		double calc_score_gloss(pairings_t &pairs);
 
 		/*!
@@ -138,20 +143,29 @@ namespace mem_engine
 		{
 		public:
 
-			pair_list m_pairs ;
-			pairings_t m_pairvec ;
+			pair_list m_pairs ; //!< List of source/query pairs
+			pairings_t m_pairvec ; //!< Vector of source/query pairs (for copying)
 
 			match_string_pairing(void);
 
+			//! Retrieve a copy of the pairings
 			pairings_t &get();
+			//! Set the pairings
 			void set(pairings_t &pairs);
+			//! Clear the pairing list
 			void clear();
 
+			//! Match a source character to null
 			void source_to_epsilon( wchar_t s );
+			//! Match a query character to null
 			void query_to_epsilon( wchar_t q );
+			//! Match a source character to a query character
 			void match( wchar_t s, wchar_t q );
+			//! Mark a source and query character as mismatched
 			void no_match( wchar_t s, wchar_t q );
+			//! Mark up the source string in HTML according to matches
 			wstring mark_up_source();
+			//! Mark up the query string in HTML according to matches
 			wstring mark_up_query();
 
 		};
