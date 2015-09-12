@@ -1,15 +1,5 @@
 /*!
 	@brief Filesystem wrappers
-
-  Classes in this file:
-  <ul> 
-	<li> @ref name
-	<li> @ref view
-	<li> @ref file
-	<li> @ref directory
-	<li> @ref OpenDlgList
-  </ul>
-
  */
 
 

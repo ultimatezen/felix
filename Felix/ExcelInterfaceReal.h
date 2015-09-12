@@ -15,6 +15,7 @@
 #include "ExcelInterface.h"
 #include "logging.h"
 
+//! Concrete Excel writer
 class ExcelInterfaceReal : public ExcelInterface
 {
 	Excel::_ApplicationPtr	m_app ;

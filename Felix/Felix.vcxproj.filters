@@ -1221,9 +1221,6 @@
     <ClInclude Include="ExtraStringsView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\fakewindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="felix_cl_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>

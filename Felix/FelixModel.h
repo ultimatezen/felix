@@ -2,6 +2,7 @@
 
 #include "FelixModelInterface.h"
 
+//! Concrete Felix model; holds list of TMs
 class FelixModel : public FelixModelInterface
 {
 public:

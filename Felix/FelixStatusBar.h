@@ -3,6 +3,7 @@
 #include "NumberFmt.h"
 #include "background_processor.h"
 
+//! Status bar for Felix window
 class CFelixStatusBar
 {
 public:

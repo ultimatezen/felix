@@ -6,6 +6,7 @@
 
 typedef std::shared_ptr<MemoryWindowFrame> frame_ptr ;
 
+//! Factor for creating Felix app, model, and TM
 class FelixFactory
 {
 public:

@@ -1247,7 +1247,6 @@ echo Protection complete!
     <ClInclude Include="ExcelInterfaceReal.h" />
     <ClInclude Include="..\common\Exceptions.h" />
     <ClInclude Include="ExtraStringsView.h" />
-    <ClInclude Include="..\common\fakewindow.h" />
     <ClInclude Include="felix_cl_options.h" />
     <ClInclude Include="felix_factory.h" />
     <ClInclude Include="Felix_properties.h" />

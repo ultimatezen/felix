@@ -3,6 +3,7 @@
 #include "memory_model.h"
 #include "file.h"
 
+//! Partially abstract interface for Felix model
 class FelixModelInterface
 {
 public:
