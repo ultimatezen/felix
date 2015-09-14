@@ -52,3 +52,4 @@ Felix/html/en/about.html
 Felix/html/jp/about.html
 .idea/
 Felix/Felix.psess
+setup/Felix/*
