@@ -1,4 +1,7 @@
 ; Felix Setup
+; Builds installer
+; This setup file is generated from a jinja template (FelixSetup.tpl).
+; Do not edit it directly.
 
 [Setup]
 AppCopyright=Copyright (c) 2008-2015 Ginstrom IT Solutions (GITS)
@@ -135,12 +138,14 @@ Filename: {app}\Felix.exe; StatusMsg: {cm:Registering,Felix}; WorkingDir: {app};
 Filename: {app}\Felix.exe; Description: {cm:LaunchProgram,Felix}; WorkingDir: {app}; components: Main; Flags: nowait postinstall skipifsilent; Parameters: -lang {cm:LanguageID}
 
 [UninstallRun]
-
+; Unregister the Office interfaces
 Filename: {app}\pytools\UnRegDll.exe; StatusMsg: Unregistering Excel Interface; WorkingDir: {app}; components: ExcelIF; Parameters: """{app}\ExcelAssist.dll"""
 Filename: {app}\pytools\UnRegDll.exe; StatusMsg: Unregistering PowerPoint Interface; WorkingDir: {app}; components: PowerPointIF; Parameters: """{app}\PowerPointAssist.dll"""
 Filename: {app}\pytools\UnRegDll.exe; StatusMsg: Unregistering Word Interface; WorkingDir: {app}; components: WordIF; Parameters: """{app}\WordAssist.dll"""
 
+; Unregister the Memory Serves COM interface
 Filename: {app}\pytools\MemoryEngine.exe; StatusMsg: Unregistering  MemoryEngine; WorkingDir: {app}\pytools; components: Main; Parameters: /unregister
+
 ; Unregister Felix as server
 Filename: {app}\Felix.exe; StatusMsg: Unregistering Felix; WorkingDir: {app}\res; RunOnceId: DelReg; components: Main; Parameters: /UnRegServer
 Filename: {app}\pytools\FelixUtilities.exe; StatusMsg: Unregistering  FelixUtilities; WorkingDir: {app}\pytools; components: Main; Parameters: /unregister
@@ -148,16 +153,19 @@ Filename: {app}\pytools\ExcelHistory.exe; StatusMsg: Unregistering  TransHistory
 Filename: {app}\pytools\WordHistory.exe; StatusMsg: Unregistering  TransHistoryWord; WorkingDir: {app}\pytools; components: Main; Parameters: /unregister
 Filename: {app}\pytools\FelixPrefs.exe; StatusMsg: Unregistering  FelixPrefs; WorkingDir: {app}\pytools; components: Main; Parameters: /unregister
 
-; delete menus
+; delete menus from Office apps
 Filename: {app}\pytools\CleanupOffice.exe; StatusMsg: {cm:RemovingMenus}; WorkingDir: {app}\pytools; RunOnceId: DelMenus; components: WordIF ExcelIF
 
+; Files/directories to delete on uninstallation
 [UninstallDelete]
 Type: files; Name: "{app}\excel_errlog.txt"
 Type: filesandordirs; Name: "{localappdata}\Felix"
 
+; Allow desktop icon to be created
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Components: main
 
+; The places where we put icons.
 [Icons]
 Name: {group}\Felix\{cm:UninstallProgram,Felix}; Filename: {uninstallexe}
   ; Comment: {cm:UninstallProgram,Felix}; WorkingDir: {app}; Components: Main
@@ -170,12 +178,18 @@ Name: {group}\Felix\Show Logs; Filename: {app}\pytools\ShowLogs.exe
 Name: {group}\Felix\Check Updates; Filename: {app}\pytools\CheckUpdates.exe
   ; Comment: {cm:LaunchProgram,Check Updates}; WorkingDir: {app}\pytools; Components: Main; IconFilename: {app}\CheckUpdates.exe; IconIndex: 0
 
+; Allows user to select which components are installed.
+; Felix must always be installed, but users can select any or none of
+; the Office interfaces. Useful if the user only uses some or none of
+; the Office programs for translation.
 [Components]
 Name: Main; Description: {cm:MainFiles}; Types: full custom compact; Flags: fixed
 Name: WordIF; Description: {cm:InterfaceFor,MS Word}; Types: full
 Name: ExcelIF; Description: {cm:InterfaceFor,MS Excel}; Types: full
 Name: PowerPointIF; Description: {cm:InterfaceFor,MS PowerPoint}; Types: full
 
+; The directories created by the installer.
+; We clean them all up on uninstallation.
 [Dirs]
 Name: {group}\Felix; Flags: uninsalwaysuninstall
 Name: {app}; Flags: uninsalwaysuninstall
