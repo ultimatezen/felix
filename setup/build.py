@@ -72,7 +72,9 @@ def get_felix_version():
     ms = info['FileVersionMS']
     ls = info['FileVersionLS']
     nums = win32api.HIWORD(ms), win32api.LOWORD(ms), win32api.HIWORD(ls), win32api.LOWORD(ls)
-    while nums and not nums[-1]:
+    # strip off zeroes from the end
+    # Don't create a version like '2' or '3'
+    while len(nums) > 2 and not nums[-1]:
         nums = nums[:-1]
     version = '.'.join([str(n) for n in nums])
     LOGGER.info("version: %s" % version)
