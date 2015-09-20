@@ -1,0 +1,19 @@
+INFO	2009-05-17 11:33:11	PowerPoint Assist :: OnConnection
+INFO	2009-05-17 11:33:11	Removing old menu
+INFO	2009-05-17 11:33:12	initializing toolbar
+WARN	2009-05-17 11:33:12	Failed to retrieve first toolbar item; adding
+INFO	2009-05-17 11:33:12	advising toolbar items
+INFO	2009-05-17 11:33:12	Completed toolbar setup
+INFO	2009-05-17 11:33:12	adding menu
+INFO	2009-05-17 11:33:12	CConnect::add_menu
+INFO	2009-05-17 11:33:12	initializing properties
+INFO	2009-05-17 11:33:12	PowerPoint Assist :: OnAddInsUpdate
+INFO	2009-05-17 11:33:12	PowerPoint Assist :: OnStartupComplete
+INFO	2009-05-17 11:33:17	CConnect::OnMenuPreferences
+INFO	2009-05-17 11:34:04	CConnect::gui_to_english
+INFO	2009-05-17 11:34:08	CConnect::OnMenuPreferences
+INFO	2009-05-17 11:34:18	CConnect::gui_to_english
+INFO	2009-05-17 11:34:50	CConnect::OnLookupNext
+INFO	2009-05-17 11:35:36	PowerPoint Assist :: OnBeginShutdown
+INFO	2009-05-17 11:35:36	PowerPoint Assist :: OnBeginShutdown complete
+INFO	2009-05-17 11:35:36	PowerPoint Assist :: OnDisconnection

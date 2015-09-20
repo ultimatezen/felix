@@ -1,0 +1,8 @@
+INFO	2009-03-31 11:06:54	Launching TagAssist application
+INFO	2009-03-31 11:07:01	Generating an exception for testing purposes.
+ERROR	2009-03-31 11:07:01	TagAssist [New] - [utf-8]:
+		Action failed.
+ERROR	2009-03-31 11:07:07	System-generated exception: EXCEPTION_INT_DIVIDE_BY_ZERO
+		Structured Windows Exception.
+		Faulting module = c:\dev\c++\Projects\TagAssist 2.2\Debug\TagAssist.exe
+INFO	2009-03-31 11:07:09	Reporting error - language is English

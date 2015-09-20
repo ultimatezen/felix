@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<shortcuts>
+  <shortcut>
+    <type>CTRL+ALT</type>
+    <command>ToggleShortcuts</command>
+    <first>F9</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>CTRL+ALT</type>
+    <command>"Correct Translation</command>
+    <first>UP</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Look up Next</command>
+    <first>RIGHT</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Set</command>
+    <first>UP</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Get</command>
+    <first>DOWN</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Previous</command>
+    <first>P</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Next</command>
+    <first>N</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Get and Next</command>
+    <first>G</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Set and Next</command>
+    <first>S</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Look up</command>
+    <first>L</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Auto Translate Selection</command>
+    <first>Z</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 0</command>
+    <first>0</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 1</command>
+    <first>1</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 2</command>
+    <first>2</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 3</command>
+    <first>3</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 4</command>
+    <first>4</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 5</command>
+    <first>5</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 6</command>
+    <first>6</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 7</command>
+    <first>7</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 8</command>
+    <first>8</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 9</command>
+    <first>9</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Entry 7</command>
+    <first>F10</first>
+    <second></second>
+  </shortcut>
+  <shortcut>
+    <type>ALT</type>
+    <command>Look up</command>
+    <first>]</first>
+    <second></second>
+  </shortcut>
+</shortcuts>
