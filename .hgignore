@@ -53,3 +53,17 @@ Felix/html/jp/about.html
 .idea/
 Felix/Felix.psess
 setup/Felix/*
+python_tools/.coverage
+python_tools/htmlcov
+*.pyc
+python_tools/build
+python_tools/CleanupOfficeMenus/CleanUpOffice
+python_tools/CleanupOfficeMenus/build
+*.orig
+python_tools/MemoryEngine
+python_tools/MemoryEngineFake
+*.kpf
+python_tools/RuleManager/.settings
+*.pyproj
+python_tools/gdiplus.dll
+python_tools/msvcr90.dll
