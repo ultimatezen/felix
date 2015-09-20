@@ -250,8 +250,7 @@ void record_local::set_modified( const misc_wrappers::date &modified )
 	}
 }
 
-// void record_local::copy_from_self( const record_local &rec )
-// commonizes copy code used for constructor and assignment
+//! commonizes copy code used for constructor, assignment, and cloning
 record_pointer record_local::copy_from_self( record_pointer &rec )
 {
 	rec->set_source( this->get_source_rich() ) ;
@@ -296,9 +295,9 @@ void record_local::internal_copy( const record_pointer rec )
 	m_record_data.swap( tmp ) ;
 }
 
-// Function name	: record_local::is_valid_record
-// Description	    : 
-// Return type		: bool 
+//! A valid record has non-empty source and translation strings.
+//! Note that an HTML tag or entity, which may be removed during
+//! normalization, is still a non-empty string.
 bool record_local::is_valid_record() const
 {
 	if ( this->get_source_rich().empty() )
@@ -438,27 +437,27 @@ size_t record_local::get_id() const
 	return m_id;
 }
 
-// set_validated
+//! set_validated
 void record_local::set_validated( const bool setting )
 {
 	setting ? this->set_validated_on() : this->set_validated_off() ;
 }
 
-// increment_reliability
+//! increment_reliability
 void record_local::increment_reliability()
 {
 	this->set_reliability( this->get_reliability() + 1u ) ;
 }
 
-// increment_refcount
+//! increment_refcount
 void record_local::increment_refcount()
 {
 	this->set_refcount(this->get_refcount() + 1u) ;
 }
 
-// reset_refcount
-// If we actually change the refcount, then we update
-// the last-modified value.
+//! reset_refcount
+//! If we the refcount was non-zero, then we update
+//! the last-modified value.
 void record_local::reset_refcount()
 {
 	if ( 0u < this->get_refcount() ) 

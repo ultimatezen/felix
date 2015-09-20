@@ -14,7 +14,8 @@
   @section intro Introduction
   
 	This is the documentation for the Felix program. Felix is the main program in the
-	Assistant Suite; most of the other programs in the suite use this one as an automation server.
+	Assistant Suite; most of the other programs in the suite use this one as an 
+	automation server.
 
   @section details Details
 
@@ -22,6 +23,10 @@
 
 	Felix implements an automation server, and interacts with several application 
 	interfaces and stand-alone applications.
+
+	Felix depends on the `cpptemplate` library: 
+	https://bitbucket.org/ginstrom/cpptemplate
+
  */
 
 #include "StdAfx.h"

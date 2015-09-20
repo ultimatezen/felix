@@ -6,7 +6,7 @@ namespace mem_engine
 {
 	namespace fw = boost::flyweights ;
 
-		/** class record_local
+	/** class record_local
 	* local version of translation record.
 	*/
 	class record_local : public translation_record
@@ -21,24 +21,30 @@ namespace mem_engine
 
 		void set_validated(bool setting);
 		void increment_reliability();
+		//! The reference count is the number of times the record has been
+		//! retrieved/used in translations
 		void increment_refcount();
+		//! Reset the refcount to 0
 		void reset_refcount();
 
-		// assignment
+		//! assignment
 		record_local &operator =( record_pointer rec ) 
 		{
 			internal_copy( rec ) ;
 			return *this ;
 		}
 
+		//! Creates a new record with the same values as the current one.
 		record_pointer clone()
 		{
 			record_pointer cloned(new record_local()) ;
 			return copy_from_self(cloned) ;
 		}
 
+		//! Iterator for extra data fields
 		record_data_iterator data_begin() ;
-		record_data_iterator data_end() ;
+		//! Iterator for extra data fields
+		record_data_iterator data_end();
 
 		bool item_exists( const wstring key ) const ;
 		const wstring get_item( const wstring key ) const ;

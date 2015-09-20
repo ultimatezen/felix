@@ -5,14 +5,19 @@
 
 namespace mem_engine
 {
+	/**
+	 * A remote version of a translation record.
+	 * Represents a record that lives in a remote resource (e.g. server).
+	 */
 	class record_remote : public translation_record
 	{
 	public:
 		// construction
+		//! `server_name` is the COM server name
 		record_remote(LPCWSTR server_name = L"Felix.RemoteRecord");
 		record_remote(record_pointer rec);
 		record_remote(CDispatchWrapper wrapper);
-		// We really need to plug this leak, but for right now I can't find it!
+		//! TODO: We really need to plug this leak, but for right now I can't find it!
 		~record_remote();
 
 		void set_validated(bool setting);
@@ -62,9 +67,9 @@ namespace mem_engine
 		void set_created( const misc_wrappers::date &created );
 		void set_modified( const misc_wrappers::date &modified );
 
-		// set date created
+		//! set date created
 		bool create( );
-		// set the last-modifed date
+		//! set the last-modified date
 		bool modify ( );
 
 		// ref_count

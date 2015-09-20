@@ -49,6 +49,9 @@ int ViewState::get_edit_record_title()
 	return IDS_EDIT_RECORD_TITLE;
 }
 
+//! Accessing this method increments the record's "reference count."
+//! Converts HTML entities to entity codes.
+//!    <foo> ==> &amp;lt;foo&amp;gt;
 wstring ViewState::retrieve_record_trans( record_pointer rec, record_string_prefs prefs )
 {
 	rec->increment_refcount() ;
