@@ -47,8 +47,11 @@ typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 	WS_EX_APPWINDOW | WS_EX_WINDOWEDGE> CGlossaryWindowTraits;
 
 /**
-	@class CGlossaryDialog 
 	@brief Class for a glossary window.
+
+	This window holds one or more glossaries. There can be multiple glossary windows.
+
+	The GlossaryWindowFrame class owns the 
  */
 class GlossaryWindowFrame :
 		public CWindowImpl< GlossaryWindowFrame, CCommonWindowFunctionality, CGlossaryWindowTraits >

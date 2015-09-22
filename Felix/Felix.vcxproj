@@ -75,12 +75,12 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\luabind-0.9.1;D:\dev\cpp\luabind-0.9.1\src;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Release;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Testing|Win32'">D:\dev\cpp\Assistant Suite\CppTempl\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\luabind-0.9.1;D:\dev\cpp\luabind-0.9.1\src;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\luabind-0.9.1;D:\dev\cpp\luabind-0.9.1\src;D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">D:\dev\cpp\lua-5.2.2\src;D:\dev\cpp\LuaWrapper\LuaWrapper;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
     <PreBuildEvent>

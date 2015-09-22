@@ -9,8 +9,7 @@
 #include "AutomationExceptionHandler.h" // CAutomationExceptionHandler
 
 
-// CMemoryWindow
-
+//! This class makes the MemoryWindowFrame window automatable via COM
 class ATL_NO_VTABLE CMemoryWindow :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CAutomationExceptionHandler<CMemoryWindow, &CLSID_MemoryWindow>,

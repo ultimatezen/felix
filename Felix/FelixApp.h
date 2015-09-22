@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MemoryWindowFrame.h"			// main app window class CMainFrame
+#include "MemoryWindowFrame.h"			//!< main app window class
 #include "FelixModelInterface.h"
 
 /**
