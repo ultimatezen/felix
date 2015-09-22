@@ -1,0 +1,14 @@
+﻿Build started 3/7/2013 8:41:58 PM.
+     1>Project "D:\dev\cpp\Assistant Suite\Test_Excel\Test_Excel.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Testing_64\Test_Excel.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\dev\cpp\Assistant Suite\ExcelAssist\ExcelAssist" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D UNIT_TEST /D _UNICODE /D UNICODE /D _ATL_STATIC_REGISTRY /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Testing_64\Test_Excel.pch" /Fo"Testing_64\\" /Fd"Testing_64\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp /Zm500 
+         stdafx.cpp
+     1>d:\dev\cpp\assistant suite\test_excel\stdafx.h(106): error C2039: 'FOREACH' : is not a member of 'boost'
+     1>d:\dev\cpp\assistant suite\test_excel\stdafx.h(106): error C2871: 'FOREACH' : a namespace with this name does not exist
+     1>Done Building Project "D:\dev\cpp\Assistant Suite\Test_Excel\Test_Excel.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:05.17

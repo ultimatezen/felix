@@ -1,0 +1,519 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese (Japan) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INPUT_BOX DIALOG 0, 0, 117, 45
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Enter Glossary Entry"
+FONT 9, "MS UI Gothic"
+BEGIN
+    EDITTEXT        IDC_INPUT_EDIT,7,7,102,16,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,7,24,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,59,24,50,14
+END
+
+IDD_PROPSHEET_J DIALOGEX 0, 0, 293, 225
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felixのユーザ設定"
+FONT 10, "ＭＳ Ｐ明朝", 400, 0, 0x80
+BEGIN
+END
+
+IDD_PROPSHEET_E DIALOGEX 0, 0, 249, 166
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix Preferences"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+END
+
+IDD_PROPPAGE_VIEW_J DIALOGEX 0, 0, 265, 249
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "表示"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    GROUPBOX        "スライドの最後のテキストボックス(&N)",IDC_NAV_BOX,12,72,174,83
+    GROUPBOX        "Ｉ／Ｆ言語(&L)",IDC_GUI_LANG_BOX,12,8,107,57
+    CONTROL         "英語(&E)",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | WS_GROUP,20,20,87,17
+    CONTROL         "日本語(&J)",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,20,41,87,17
+    CONTROL         "次のスライドの進む(&S)",IDC_NAV_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,20,87,155,21
+    CONTROL         "スライドの上部に戻る(&T)",IDC_NAV_TOP,"Button",BS_AUTORADIOBUTTON,20,108,149,21
+    CONTROL         "ユーザに確認する(&A)",IDC_NAV_ASK,"Button",BS_AUTORADIOBUTTON,20,129,158,21
+    PUSHBUTTON      "ショートカット(&K)...",IDC_KEYBOARD_SHORTCUTS,14,202,111,22
+    CONTROL         "Felixコマンドの際、Felix画面を表示する(&R)",IDC_RAISE_FELIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,167,193,17
+END
+
+IDD_PROPPAGE_VIEW_E DIALOGEX 0, 0, 279, 190
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "View"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Interface &Language",IDC_GUI_LANG_BOX,16,6,111,51
+    CONTROL         "&English",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | WS_GROUP,24,16,87,17
+    CONTROL         "&Japanese",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,24,36,87,17
+    GROUPBOX        "A&fter last text on slide:",IDC_NAV_BOX,16,66,166,64
+    CONTROL         "Go to next &slide",IDC_NAV_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,24,79,84,17
+    CONTROL         "Go to &top of slide",IDC_NAV_TOP,"Button",BS_AUTORADIOBUTTON,24,94,84,17
+    CONTROL         "&Ask me",IDC_NAV_ASK,"Button",BS_AUTORADIOBUTTON,24,109,84,17
+    PUSHBUTTON      "&Keyboard Shortcuts...",IDC_KEYBOARD_SHORTCUTS,22,156,107,18
+    CONTROL         "&Raise Felix window on Felix command",IDC_RAISE_FELIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,133,140,17
+END
+
+IDD_PROPPAGE_SEGMENTATION_J DIALOGEX 0, 0, 295, 260
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "セグメントルール"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    LTEXT           "文末文字(&E):",IDC_STATIC,16,10,112,12
+    EDITTEXT        IDC_SEG_END_EDIT,16,24,165,13,ES_AUTOHSCROLL
+    CONTROL         "数字のみの文節を無視する(&N)",IDC_SKIP_NUMS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,53,196,12
+    GROUPBOX        "全角文字",IDC_STATIC,16,86,197,74
+    CONTROL         "全角文字があれば無視する(&S)",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP,31,102,172,14
+    CONTROL         "全角文字がなければ無視する(&U)",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON,31,120,178,15
+    CONTROL         "すべてを翻訳する(&A)",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON,31,139,161,11
+    CONTROL         "ピリオド(""."")の後の空白文字を選択(&P)",IDC_SELECT_SPACES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,180,192,12
+    PUSHBUTTON      "省略(&V)...",IDC_ABBREVIATIONS,24,208,90,20
+END
+
+IDD_PROPPAGE_SEGMENTATION_E DIALOGEX 0, 0, 259, 249
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Segmentation"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "&End of Segment Characters:",IDC_STATIC,18,8,112,12
+    EDITTEXT        IDC_SEG_END_EDIT,18,23,165,12,ES_AUTOHSCROLL
+    CONTROL         "Skip segments containing only &numbers",IDC_SKIP_NUMS_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,45,148,12
+    GROUPBOX        "Double-byte Characters",IDC_STATIC,18,64,197,74
+    CONTROL         "&Skip if there are Asian chars",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,26,81,169,14
+    CONTROL         "Skip &unless there are Asian chars",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,26,99,174,15
+    CONTROL         "Translate &all",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,26,118,161,11
+    CONTROL         "Select space after &period",IDC_SELECT_SPACES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,144,148,12
+    PUSHBUTTON      "Abbre&viations...",IDC_ABBREVIATIONS,26,160,90,16
+END
+
+IDD_PROPPAGE_FORMAT_J DIALOGEX 0, 0, 218, 148
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "書式"
+FONT 10, "ＭＳ 明朝", 400, 0, 0x80
+BEGIN
+    CONTROL         "フォント色(&C)",IDC_FONT_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,22,162,16
+    CONTROL         "太字(&B)",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,162,16
+    CONTROL         "斜字(&I)",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,56,162,16
+    CONTROL         "下線(&U)",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,73,162,16
+    LTEXT           "書式の維持:",IDC_STATIC,6,8,151,10
+END
+
+IDD_PROPPAGE_FORMAT_E DIALOGEX 0, 0, 209, 141
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Format"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    CONTROL         "Font &Color",IDC_FONT_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,21,162,16
+    CONTROL         "&Bold",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,38,162,16
+    CONTROL         "&Italic",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,55,162,16
+    CONTROL         "&Underline",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,72,162,16
+    LTEXT           "Preserve Formatting:",IDC_STATIC,6,8,151,10
+END
+
+IDD_ADD_GLOSS_J_DLG DIALOGEX 0, 0, 274, 80
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix用語の登録"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "原語:",IDC_STATIC,7,7,31,10
+    EDITTEXT        IDC_SOURCE_EDIT,46,7,221,14,ES_AUTOHSCROLL
+    LTEXT           "訳語:",IDC_STATIC,7,30,29,10
+    EDITTEXT        IDC_TRANS_EDIT,46,30,221,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "登録(&A)",IDOK,157,59,50,14
+    PUSHBUTTON      "キャンセル(&C)",IDCANCEL,212,59,55,14
+END
+
+IDD_ADD_GLOSS_E_DLG DIALOGEX 0, 0, 274, 80
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix - Add Glossary Entry"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    LTEXT           "Source:",IDC_STATIC,7,7,31,10
+    EDITTEXT        IDC_SOURCE_EDIT,46,7,221,14,ES_AUTOHSCROLL
+    LTEXT           "Trans:",IDC_STATIC,7,30,29,10
+    EDITTEXT        IDC_TRANS_EDIT,46,30,221,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Add",IDOK,158,59,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,217,59,50,14
+END
+
+IDD_NAV_QUERY_DLG DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "スライドの終わり"
+FONT 10, "ＭＳ Ｐゴシック", 400, 0, 0x80
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,122,135,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,178,135,50,14
+    LTEXT           "スライドの終わり",IDC_STATIC,21,17,205,13
+    CONTROL         "次のスライドに進む(&N)",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,49,110,14
+    CONTROL         "スライドの上部に戻る(&T)",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,66,122,14
+    GROUPBOX        "次のアクション",IDC_STATIC,21,40,139,46
+    CONTROL         "次回からこのダイアログを表示しない(&D)",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,98,155,15
+END
+
+IDD_NAV_QUERY_DLG_E DIALOGEX 0, 0, 223, 127
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "End of Slide Reached"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,113,106,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,167,106,50,14
+    LTEXT           "End of slide",IDC_STATIC,11,17,205,13
+    CONTROL         "&Next slide",IDC_NEXT_SLIDE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,32,43,76,14
+    CONTROL         "&Top of this slide",IDC_SLIDE_TOP,"Button",BS_AUTORADIOBUTTON,32,60,76,14
+    GROUPBOX        "Go To:",IDC_STATIC,21,34,117,46
+    CONTROL         "&Don't ask me again",IDC_DONT_ASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,86,155,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_INPUT_BOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 110
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 38
+    END
+
+    IDD_PROPPAGE_VIEW_J, DIALOG
+    BEGIN
+        RIGHTMARGIN, 264
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_PROPPAGE_SEGMENTATION_E, DIALOG
+    BEGIN
+        RIGHTMARGIN, 257
+    END
+
+    IDD_ADD_GLOSS_J_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_ADD_GLOSS_E_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// IMAGE
+//
+
+IDB_SWITCH_TO_TRANS_IMG IMAGE                   "bmp00001.bmp"
+IDB_SWITCH_TO_REVIEW_IMG IMAGE                   "switch_t.bmp"
+IDB_SET_IMG             IMAGE                   "next4.bmp"
+IDB_SET_AND_NEXT_IMG    IMAGE                   "correct_and_next.bmp"
+IDB_SAVE_IMG            IMAGE                   "save.bmp"
+IDB_RESTORE_IMG         IMAGE                   "restore.bmp"
+IDB_RESTORE_AND_NEXT_IMG IMAGE                   "next3.bmp"
+IDB_LOOKUP_TRANS_IMG    IMAGE                   "lookup_trans.bmp"
+IDB_LOOKUP_NEXT_TRANS_IMG IMAGE                   "bitmap1.bmp"
+IDB_LOOKUP_NEXT_IMG     IMAGE                   "lookup_next_trans.bmp"
+IDB_LOOKUP_IMG          IMAGE                   "next1.bmp"
+IDB_HELP_IMG            IMAGE                   "HELP.BMP"
+IDB_GLOSS_N_IMG         IMAGE                   "next6.bmp"
+IDB_GET_IMG             IMAGE                   "next2.bmp"
+IDB_GET_AND_NEXT_IMG    IMAGE                   "restore_and_next.bmp"
+IDB_CORRECT_IMG         IMAGE                   "correct.bmp"
+IDB_CORRECT_AND_NEXT_IMG IMAGE                   "next5.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SWITCH_TO_TRANS     BITMAP                  "bmp00002.bmp"
+IDB_SWITCH_TO_REVIEW    BITMAP                  "bmp00003.bmp"
+IDB_SET_AND_NEXT        BITMAP                  "set_and_.bmp"
+IDB_SET                 BITMAP                  "set.bmp"
+IDB_SAVE                BITMAP                  "bmp00004.bmp"
+IDB_RESTORE_AND_NEXT    BITMAP                  "restore_.bmp"
+IDB_RESTORE             BITMAP                  "bmp00005.bmp"
+IDB_PROPERTIES          BITMAP                  "PROP.BMP"
+IDB_LOOKUP_TRANS        BITMAP                  "lookup_t.bmp"
+IDB_LOOKUP_NEXT_TRANS   BITMAP                  "lookup_n.bmp"
+IDB_LOOKUP_NEXT         BITMAP                  "bmp00006.bmp"
+IDB_LOOKUP              BITMAP                  "lookup.bmp"
+IDB_HELP                BITMAP                  "help1.bmp"
+IDB_GLOSS_N             BITMAP                  "gloss_n.bmp"
+IDB_GET_AND_NEXT        BITMAP                  "get_and_.bmp"
+IDB_GET                 BITMAP                  "get.bmp"
+IDB_DELETE              BITMAP                  "DELETE.BMP"
+IDB_CORRECT_AND_NEXT    BITMAP                  "correct_.bmp"
+IDB_CORRECT             BITMAP                  "bmp00007.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "AddIn"
+    IDS_USER_PREFERENCES    "User Preferences"
+    IDS_USER_PREFERENCES_J  "ユーザ設定"
+    IDS_TO_REVIEW_MODE_E    "To Review Mode"
+    IDS_TO_REVIEW_MODE_J    "校正モードへ"
+    IDS_LANG_CODE           "en"
+    IDS_TO_TRANS_MODE_E     "To Translation Mode"
+    IDS_TO_TRANS_MODE_J     "翻訳モードへ"
+    IDS_LOOKUP_REVIEW_TB_E  "Review"
+    IDS_LOOKUP_NEXT_REVIEW_TB_E "Review Next"
+    IDS_GET_REVIEW_TB_E     "Restore"
+    IDS_GET_AND_NEXT_REVIEW_TB_E "Restore And Next"
+END
+
+STRINGTABLE
+BEGIN
+    IDB_LOOKUP_NEXT         "Lookup &Next (Alt + →)"
+    IDB_LOOKUP              "&Lookup (Alt + L)"
+    IDB_GET                 "Ge&t (Alt + DARR)"
+    IDB_GET_AND_NEXT        "&Get and Next (Alt + G)"
+    IDB_SET                 "S&et (Alt + UARR)"
+END
+
+STRINGTABLE
+BEGIN
+    IDB_SET_AND_NEXT        "&Set and Next (Alt + S)"
+    IDB_GLOSS_N             "Get Glossar&y Entry..."
+    IDS_DELIMITERS          "!?。。！？．"
+    IDB_SAVE                "Save &Memory"
+    IDS_REG_KEY             "Software\\AssistantSuite\\PowerPoint"
+    IDB_WORD                "Export to Word"
+    IDB_HELP                "View &Help File"
+    IDB_ALIGN               "&Align"
+    IDS_LOOKUP_TB_E         "Look Up"
+    IDS_LOOKUP_TB_J         "選択範囲検索"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LOOKUP_NEXT_TB_E    "Look Up Next"
+    IDS_LOOKUP_NEXT_TB_J    "次の文の検索"
+    IDS_GET_TB_E            "Get Translation"
+    IDS_AUTO_TRANS_SEL_J    "選択範囲の自動翻訳(&A) "
+    IDS_AUTO_TRANS_FUZZY_J  "ファジーマッチまで自動翻訳(&Z) (ALT + Z)"
+    IDS_LOOKUP_J            "選択範囲の検索(&C) (ALT + L)"
+    IDS_LOOKUP_NEXT_J       "次の文の検索(&L) (ALT + →)"
+    IDS_CONCORDANCE_J       "コンコーダンス(一致)検索(&O) (ALT + C)"
+    IDS_GET_J               "訳文の取得(&U) (ALT + ↓)"
+    IDS_GET_AND_NEXT_J      "取得して次へ(&G) (ALT + G)"
+    IDS_SET_J               "訳文の登録(&R) (ALT + ↑)"
+    IDS_SET_AND_NEXT_J      "登録して次へ(&S) (ALT + S)"
+    IDS_EXTEND_LOOKUP_J     "検索対象範囲の拡張(&E) (CTRL + →)"
+    IDS_REGISTER_GLOSS_J    "用語の登録(&T)"
+    IDS_DELETE_J            "エントリの削除(&D) (ALT + D)"
+    IDS_NEXT_J              "次の訳文へ(&N) (ALT + N)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PREV_J              "前の訳文へ(&P) (ALT + P)"
+    IDS_ENTRY_0_J           "エントリ &0 (ALT + 0)"
+    IDS_ENTRY_1_J           "エントリ &1 (ALT + 1)"
+    IDS_GET_TB_J            "訳文の取得"
+    IDS_GET_AND_NEXT_TB_E   "Get And Next"
+    IDS_GET_AND_NEXT_TB_J   "取得して次を検索"
+    IDS_SET_TB_J            "訳文の登録"
+    IDS_SET_AND_NEXT_TB_J   "登録して次を検索"
+    IDS_SWITCH_TO_REVIEW_TB_J "構成モードへ"
+    IDS_SET_TB_E            "Set"
+    IDS_ENTRY_2_J           "エントリ &2 (ALT + 2)"
+    IDS_ENTRY_3_J           "エントリ &3 (ALT + 3)"
+    IDS_ENTRY_4_J           "エントリ &4 (ALT + 4)"
+    IDS_ENTRY_5_J           "エントリ &5 (ALT + 5)"
+    IDS_ENTRY_6_J           "エントリ &6 (ALT + 6)"
+    IDS_ENTRY_7_J           "エントリ &7 (ALT + 7)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ENTRY_8_J           "エントリ &8 (ALT + 8)"
+    IDS_ENTRY_9_J           "エントリ &9 (ALT + 9)"
+    IDS_GLOSS_N_J           "エントリ番号の指定...(&M) (ALT + G)"
+    IDS_LOOKUP_TRANS_J      "訳文の検索(&F) ( ALT + L)"
+    IDS_LOOKUP_NEXT_TRANS_J "次の訳文の検索(&X) (ALT + →)"
+    IDS_SET_AND_NEXT_TB_E   "Set And Next"
+    IDS_SWITCH_TO_REVIEW_TB_E "To Review Mode"
+    IDS_TRANS_CONCORDANCE_J "訳文のコンコーダンス(一致)検索(&I) (ALT + C)"
+    IDS_CORRECT_TRANS_J     "訳文の訂正(&B) (ALT + ↑)"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_EXTEND_LOOKUP_TRANS_J "訳文の検索対象範囲の拡張(&K) (CTRL + →)"
+    IDS_SAVE_J              "メモリと用語集を保存します。"
+    IDS_ALIGN_J             "レガシー訳文から翻訳メモリを作成します。"
+    IDS_HELP_J              "ヘルプの表示(&H)"
+    IDS_MENU_GUI_J          "メニューを英語に切替(&W)"
+    IDS_GLOSS_POPUP_J       "グロサリエントリの取得...(&Y)"
+    IDS_ALIGN_WARNING_E     "This will align the current PowerPoint document with its translation.\rIt is highly recommended that you work from a backup copy of your document.\rProceed?"
+    IDS_ALIGN_WARNING_J     "これで現在のＰＰＴ文書を他のＰＰＴの訳文とアラインをします。.\rバックアップをとった文書で作業することをお勧めします。.\r続行しますか。"
+    IDS_OPEN_TRANS_E        "Selection Translation PowerPoint File"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPEN_TRANS_J        "ＰＰＴの訳文を指定してください"
+    IDS_UNKNOWN_SHAPE_TYPE_E 
+                            "Cannot complete action. Unsupported shape type.\rTry ungrouping the shapes, or selecting the text manually."
+    IDS_UNKNOWN_SHAPE_TYPE_J "訂正して次へ"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SET_REVIEW_TB_E     "Correct"
+    IDS_SET_AND_NEXT_REVIEW_TB_E "Correct And Next"
+    IDS_LOOKUP_REVIEW_TB_J  "訳文の検索"
+    IDS_LOOKUP_NEXT_REVIEW_TB_J "検索して次へ"
+    IDS_GET_REVIEW_TB_J     "元の訳文に戻す"
+    IDS_GET_AND_NEXT_REVIEW_TB_J "元に戻して次へ"
+    IDS_SET_REVIEW_TB_J     "訳文の訂正"
+    IDS_SET_AND_NEXT_REVIEW_TB_J "訂正して次へ"
+    IDS_EXTEND_LOOKUP       "&Extend Lookup Sentence (CTL + R ARR)"
+    IDS_EXTEND_LOOKUP_TT    "Extend the current lookup segment"
+END
+
+#endif    // Japanese (Japan) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""AddIn.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,6,5,0
+ PRODUCTVERSION 1,6,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Part of the Assistant Suite"
+            VALUE "CompanyName", "GITS"
+            VALUE "FileDescription", "Felix Interface for MS PowerPoint"
+            VALUE "FileVersion", "1.6.5.0"
+            VALUE "InternalName", "PowerPointAssist.dll"
+            VALUE "LegalCopyright", "(c) GITS.  All rights reserved."
+            VALUE "OriginalFilename", "PowerPointAssist.dll"
+            VALUE "ProductName", "PowerPoint Assist"
+            VALUE "ProductVersion", "1.6.5.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ADDIN               REGISTRY                "AddIn.rgs"
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "AddIn.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

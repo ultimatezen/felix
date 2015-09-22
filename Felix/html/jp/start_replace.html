@@ -1,0 +1,186 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	置換のページ
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui-1.7.2.custom.min.js"></script>
+
+<script type="text/javascript">
+// Set focus to "from" field in replace form
+$(function() {$("#replacefrom").focus();});
+  // Toggle help on and off
+function toggleHelp() {
+	var item = "#help_details" ;
+	var link = "#showhelp" ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == 'ヘルプの表示(H) >>') {
+		$(link).html('&lt;&lt; ヘルプ非表示(<b>H</b>)');
+	}
+	else {
+		$(link).html('ヘルプの表示(<b>H</b>) &gt;&gt;') ;
+	}
+    return false;
+}
+
+// Toggle record details visibility
+function toggleDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == '詳細 >>')
+	{$(link).html('&lt;&lt; 非表示')}
+	else
+	{$(link).html('詳細(<b>H</b>) &gt;&gt;') }
+    return false;
+}
+
+/* submit (does find) */
+$(function() {
+    $("#searchform").submit(function() {
+        document.forms[0].action = "replace_find" ;
+        return true;
+	});
+});
+
+
+</script>
+</head>
+<body>
+
+	<!-- FILTERS -->
+	<div id="filterbox" style="float:right">
+	</div>
+
+	<!-- SEARCH FORM -->
+	<div style="float:left;">
+    <form action="/replace_find" method="post" id="searchform">
+        <table class="form">
+            <tr>
+                <td><label for="replacefrom">検索対象：</label></td>
+                <td><input class="search" name="replacefrom" id="replacefrom" type="text" value="" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><label for="replaceto">置換後：</label></td>
+                <td><input class="search" name="replaceto" id="replaceto" type="text" value="" style="width:300px" /></td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <p id="replacelinks">
+                     <a href="replace_find" id="replace-find" class="ui-state-default ui-corner-all">&nbsp;検索&nbsp;</a>
+                     &nbsp;&nbsp;<a href="replace_all" id="replace-all" class="ui-state-default ui-corner-all">&nbsp;すべて置換&nbsp;</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+	<input type="submit" value="submit" style="display:none;" />
+    </form>
+
+	<a href="/newsearch" title="Clear search filters">新規検索(<b>N</b>)</a> |
+	<a href="/gotosearch" title="Replace in results">検索ページへ(<b>S</b>)</a> |
+	<!-- HELP -->
+	<a href="#" id="showhelp" onclick="toggleHelp();">ヘルプの表示(<b>H</b>) &gt;&gt;</a>
+	<div id="help_details" style="display:none;">
+	<p>「置換対象」には、置換する文字列を指定してください。「置換後」には、置換後の文字列を指定してください。下記のタグを<em>タグ名:検索対象</em>という方式を使用すると、より細かい検索ができます。</p>
+
+	<table style="border:none;">
+	<tr>
+	    <td>source:</td>
+	    <td>原文の文字列を置換する</td>
+	</tr>
+	<tr>
+	    <td>trans:</td>
+	    <td>訳文の文字列を置換する</td>
+	</tr>
+	<tr>
+	    <td>context:</td>
+	    <td>コンテキスト（文脈）の文字列を置換する</td>
+	</tr>
+	<tr>
+	    <td>created-by:</td>
+	    <td>作成者名を置換する</td>
+	</tr>
+	<tr>
+	    <td>created:</td>
+	    <td>作成日時を置換する</td>
+	</tr>
+	<tr>
+	    <td>modified-by:</td>
+	    <td>変更者名を置換する</td>
+	</tr>
+	<tr>
+	    <td>modified:</td>
+	    <td>更新日時を置換する</td>
+	</tr>
+	<tr>
+	    <td>reliability:</td>
+	    <td>信頼度を変更する</td>
+	</tr>
+	<tr>
+	    <td>validated:</td>
+	    <td>翻訳エントリを確定済み("true")、または未確定("false")にする</td>
+	</tr>
+	<tr>
+	    <td>refcount:</td>
+	    <td>翻訳エントリの参照カウントを変更する</td>
+	</tr>
+
+
+	</table>
+
+	<h3>使用例</h3>
+
+	<p>原文と訳文にある 'aaa' という文字列を'bbb'で置き換える</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>aaa</td></tr>
+	    <tr><td>置換後</td><td>bbb</td></tr>
+	</table>
+
+	<p>原文にある 'xxx' という文字列を'yyy'で置き換える</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>source:xxx</td></tr>
+	    <tr><td>置換後</td><td>yyy</td></tr>
+	</table>
+
+	<p>タグの後に「*」を指定すると、その文字列のすべてが置き換えられます。たとえば、すべての翻訳エントリの「作成者」 を「Ryan」に変更するには:</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>created-by:*</td></tr>
+	    <tr><td>置換後</td><td>Ryan</td></tr>
+	</table>
+
+	<p>翻訳エントリの作成日時を2009-10-01に変更する</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>created:</td></tr>
+	    <tr><td>置換後</td><td>2009-10-01</td></tr>
+	</table>
+
+	<p>翻訳エントリの信頼度を「5」に変更する</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>reliability:</td></tr>
+	    <tr><td>置換後</td><td>5</td></tr>
+	</table>
+
+	<p>翻訳エントリを「確定済み」にする</p>
+	<table border="0">
+	    <tr><td>検索対象</td><td>validated:</td></tr>
+	    <tr><td>置換後</td><td>true</td></tr>
+	</table>
+	</div>
+	</div>
+
+	<!-- SEARCH RESULTS -->
+
+	<div id="searchresults">
+	</div>
+</body>
+</html>

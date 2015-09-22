@@ -1,0 +1,64 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Search Page
+</title>
+	<link href="../../style.css" rel="stylesheet" type="text/css" />
+	<link href="../../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/utils.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.7.2.custom.min.js"></script>
+
+<script type="text/javascript">
+	// Toggle help on and off
+	function toggleHelp(){
+		var item = "#help_details" ;
+		var link = "#showhelp" ;
+		$(item).toggle("blind");
+
+		var currentText = $(link).text() ;
+		if (currentText == 'Search Help >>') {
+			$(link).html('&lt;&lt; Hide <b>H</b>elp');
+		}
+		else {
+			$(link).html('Search <b>H</b>elp &gt;&gt;');
+		}
+	    return false;
+	}
+	// Toggle details for record on and off
+	function toggleDetails(id){
+		var item = "#item_" + id ;
+		var link = "#view_" + id ;
+		$(item).toggle("blind");
+
+		var currentText = $(link).text() ;
+		if (currentText == 'Details >>'){
+			$(link).html('&lt;&lt; Hide');
+		}
+		else {
+			$(link).html('Details &gt;&gt;');
+		}
+	    return false;
+	}
+	function focusItem(item) {
+		$("#" + item).focus() ;
+	}
+
+</script>
+
+</head>
+<body>
+
+<h2>TMs</h2>
+<div id="tms">
+	<p>Loading...</p>
+</div>
+
+<h2>Glossaries</h2>
+<div id="glossaries">
+	<p>Loading...</p>
+</div>
+
+</body>
+</html>

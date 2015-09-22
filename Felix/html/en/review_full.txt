@@ -1,0 +1,78 @@
+<table class="base">
+	<tr>
+		<th class="header" colspan="2">
+			Review Translation
+		</th>
+	</tr>
+  <!-- source -->
+  <tr id="0">
+    <th class="perfect">Source</th>
+	<td class="match_content" id="source" style="color: {$source_color}">{$source}</td>
+  </tr>
+  <!-- trans -->
+  <tr>
+    <th class="perfect">Trans</td>
+	<td class="match_content" id="trans" style="color: {$trans_color}">{$trans}</td>
+  </tr>
+
+  <!-- context -->
+  <tr>
+    <th class="perfect">Context</td>
+	<td class="match_content" id="context">{$context}</td>
+  </tr>
+  <!-- memory_name -->
+  <tr>
+    <th class="perfect">Memory</td>
+	<td class="match_content" id="mem">{$mem}</td>
+  </tr>
+  <!-- created -->
+  <tr>
+    <th class="perfect">Created</td>
+	<td class="match_content" id="created">{$created}</td>
+  </tr>
+  <!-- creator -->
+  <tr>
+    <th class="perfect">Creator</td>
+	<td class="match_content" id="creator">{$creator}</td>
+  </tr>  
+  <!-- modified -->
+  <tr>
+    <th class="perfect">Last Modified</td>
+	<td class="match_content" id="modified">{$modified}</td>
+  </tr>
+  <!-- modified_by -->
+  <tr>
+    <th class="perfect">Modified By</td>
+	<td class="match_content" id="modified_by">{$modified_by}</td>
+  </tr>
+  <!-- reliability -->
+  <tr>
+    <th class="perfect">Reliability</td>
+	<td class="match_content" id="reliability">{$reliability}</td>
+  </tr>
+  <!-- validated -->
+  <tr>
+    <th class="perfect">Validated</td>
+	<td class="match_content" id="validated">{$validated}</td>
+  </tr>
+  <!-- ref_count -->
+  <tr>
+    <th class="perfect">Ref Count</td>
+	<td class="match_content" id="refcount">{$refcount}</td>
+  </tr>
+</table>
+
+<p>
+  <a href="142:{$index}" title="Edit entry">Edit</a> | 
+  <a href="593:{$index}" title="Delete entry">Delete</a>
+</p>
+
+  <hr style="margin-top:3px;" />
+
+<div style="float:left;"> 
+  <a href="127:{$index}" title="Register glossary entries">Register Glossary</a> | 
+  <a href="129:{$index}" title="Add entry to glossary">Add to Glossary</a>
+</div>
+<div style="float:right;"> 
+	<A title="View brief record information" href="152:155">&lt;&lt; Less</A>
+</div>

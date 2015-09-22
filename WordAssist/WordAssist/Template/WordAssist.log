@@ -1,0 +1,86 @@
+﻿Build started 3/8/2013 12:16:32 AM.
+     1>Project "D:\dev\cpp\Assistant Suite\WordAssist\WordAssist\WordAssist.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Template\WordAssist.unsuccessfulbuild".
+       Midl:
+         All outputs are up-to-date.
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W1 /WX- /O2 /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Template\\" /Fd"Template\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\common\abbreviations.cpp ..\..\common\DispatchWrapper.cpp AddIn.cpp app_state.cpp ClipboardBackup.cpp ..\..\common\ColorRef.cpp ..\..\common\config_file.cpp Connect.cpp ..\..\common\Exceptions.cpp ..\..\common\font_properties.cpp ..\..\common\GetWinVer.cpp hooker.cpp ..\..\common\html_formatter.cpp ..\..\common\html_processing.cpp ..\..\common\html_writer.cpp ..\..\common\input_device_file.cpp ..\..\common\keyboard_shortcuts.cpp keyboard_shortcuts_word.cpp ..\..\common\logging.cpp ..\..\common\Parser.cpp Properties.cpp ..\..\common\pugxml\src\pugixml.cpp ..\..\common\pugxml\src\pugixpath.cpp ..\..\common\resource_string.cpp stdafx.cpp Word2HtmlParser.cpp ..\..\common\word_writer.cpp word_writer_test.cpp ..\..\common\WordAutomationObject.cpp WordController.cpp WordController_test.cpp WordControllerHtml.cpp WordControllerWord.cpp WordParser.cpp WordScreenUpdateLock.cpp  /Zc:auto 
+         abbreviations.cpp
+     1>..\..\common\abbreviations.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         DispatchWrapper.cpp
+     1>..\..\common\DispatchWrapper.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         AddIn.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         app_state.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         ClipboardBackup.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         ColorRef.cpp
+     1>..\..\common\ColorRef.cpp(9): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         config_file.cpp
+     1>..\..\common\config_file.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         Connect.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         Exceptions.cpp
+     1>..\..\common\Exceptions.cpp(5): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         font_properties.cpp
+     1>..\..\common\font_properties.cpp(5): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         GetWinVer.cpp
+     1>..\..\common\GetWinVer.cpp(15): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         hooker.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         html_formatter.cpp
+     1>..\..\common\html_formatter.cpp(9): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         html_processing.cpp
+     1>..\..\common\html_processing.cpp(11): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         html_writer.cpp
+     1>..\..\common\html_writer.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         input_device_file.cpp
+     1>..\..\common\input_device_file.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         keyboard_shortcuts.cpp
+     1>..\..\common\keyboard_shortcuts.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         keyboard_shortcuts_word.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         logging.cpp
+     1>..\..\common\logging.cpp(1): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         Parser.cpp
+     1>..\..\common\Parser.cpp(5): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         Generating Code...
+         Compiling...
+         Properties.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         pugixml.cpp
+     1>..\..\common\pugxml\src\pugixml.cpp(13): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         pugixpath.cpp
+     1>..\..\common\pugxml\src\pugixpath.cpp(13): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         resource_string.cpp
+     1>..\..\common\resource_string.cpp(1): fatal error C1083: Cannot open include file: 'StdAfx.h': No such file or directory
+         stdafx.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         Word2HtmlParser.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         word_writer.cpp
+     1>..\..\common\word_writer.cpp(5): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         word_writer_test.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordAutomationObject.cpp
+     1>..\..\common\WordAutomationObject.cpp(9): fatal error C1083: Cannot open include file: 'stdafx.h': No such file or directory
+         WordController.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordController_test.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordControllerHtml.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordControllerWord.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordParser.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         WordScreenUpdateLock.cpp
+     1>d:\dev\cpp\assistant suite\wordassist\wordassist\stdafx.h(51): fatal error C1083: Cannot open include file: 'cstringinterface.h': No such file or directory
+         Generating Code...
+     1>Done Building Project "D:\dev\cpp\Assistant Suite\WordAssist\WordAssist\WordAssist.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:11.03

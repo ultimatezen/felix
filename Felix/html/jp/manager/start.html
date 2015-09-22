@@ -1,0 +1,61 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../../style.css" rel="stylesheet" type="text/css" />
+	<link href="../../jquery-ui-1.7.2.custom.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/utils.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript">
+// Toggle details for record on and off
+function toggleDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText.indexOf('>>') != -1) {
+		$(link).html('&lt;&lt; Hide') ;
+	}
+	else {
+		$(link).html('Details &gt;&gt;') ;
+	}
+    return false;
+}
+function showMessageDlg(item)
+{
+	$(item).dialog({
+			bgiframe: true,
+			resizable: true,
+			modal: true,
+			overlay: {
+				backgroundColor: '#000',
+				opacity: 0.5
+			},
+			buttons: {
+				'OK': function() {
+					$(this).dialog('close');
+				}
+			}
+		}); ;
+}
+</script>
+
+</head>
+<body>
+
+<h2>TM</h2>
+<div id="tms">
+	<p>取り込み中...</p>
+</div>
+
+<h2>用語集</h2>
+<div id="glossaries">
+	<p>取り込み中...</p>
+</div>
+
+</body>
+</html>

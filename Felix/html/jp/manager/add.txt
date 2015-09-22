@@ -1,0 +1,24 @@
+﻿<p><a href="/start" title="管理ＴＯＰへ">トップ</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}ＴＭ{% endif %}
+        {% if memtype == "gloss" %}用語集{% endif %}
+	&gt;&gt;
+	{$name}の表示
+</p>
+
+<h2>{$name}</h2>
+
+<table>
+<tr>
+<th>エントリ数</th>
+<td>{$size}</td>
+</tr>
+</table>
+
+<h3>操作</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/edit">編集</a></li>
+        <li><a href="/{$index}/{$memtype}/browse">一覧表</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">退避</a></li>
+</ul>

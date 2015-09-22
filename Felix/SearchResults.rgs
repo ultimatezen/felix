@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.SearchResults.1 = s 'SearchResults Class'
+	{
+		CLSID = s '{AE39B643-6534-42D9-A4A1-9C5F414BD6D8}'
+	}
+	Felix.SearchResults = s 'SearchResults Class'
+	{
+		CLSID = s '{AE39B643-6534-42D9-A4A1-9C5F414BD6D8}'
+		CurVer = s 'Felix.SearchResults.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {AE39B643-6534-42D9-A4A1-9C5F414BD6D8} = s 'SearchResults Class'
+		{
+			ProgID = s 'Felix.SearchResults.1'
+			VersionIndependentProgID = s 'Felix.SearchResults'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

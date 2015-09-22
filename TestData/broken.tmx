@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+	<!DOCTYPE tmx SYSTEM "tmx14.dtd">
+	<tmx version="1.4">
+	<header creationtoolversion="1.4.5" datatype="html" segtype="sentence" adminlang="EN-US" srclang="JA" o-tmf="html" creationtool="TransAssist" >
+	</header>	<body>	
+	<tu>
+		<tuv xml:lang="JA"><seg>foo</seg></tuv>
+		<tuv xml:lang="EN"><seg>bar</seg></tuv>
+	</tu>
+	<tu>
+		<tuv xml:lang="JA"><seg>baz</seg></tuv>

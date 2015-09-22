@@ -1,0 +1,24 @@
+<p><a href="/start" title="Go to Manager Home">Home</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}Memory{% endif %}
+        {% if memtype == "gloss" %}Glosary{% endif %}
+	&gt;&gt;
+	View {$name}
+</p>
+
+<h2>{$name}</h2>
+
+<table>
+<tr>
+<th>Size</th>
+<td>{$size}</td>
+</tr>
+</table>
+
+<h3>Actions</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/edit">Edit</a></li>
+        <li><a href="/{$index}/{$memtype}/browse">Browse</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove</a></li>
+</ul>

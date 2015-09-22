@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.ComMemory.1 = s 'ComMemory Class'
+	{
+		CLSID = s '{0CEE03C8-86F5-437C-940E-E30FB40FD3FA}'
+	}
+	Felix.ComMemory = s 'ComMemory Class'
+	{
+		CLSID = s '{0CEE03C8-86F5-437C-940E-E30FB40FD3FA}'
+		CurVer = s 'Felix.ComMemory.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {0CEE03C8-86F5-437C-940E-E30FB40FD3FA} = s 'ComMemory Class'
+		{
+			ProgID = s 'Felix.ComMemory.1'
+			VersionIndependentProgID = s 'Felix.ComMemory'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

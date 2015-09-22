@@ -1,0 +1,94 @@
+<table class="added" ID="table1">
+	<tr>
+		<th class="header" colspan="2">
+		{% if qc_messages %}
+			<img src="../images/error.png"
+			alt="QC Check Warning"
+			onclick="showQCMessages('#qc_warning');"
+			/>
+		{% endif %}
+			Added New Entry
+		</th>
+	</tr>
+	<tr id="0">
+		<th class="perfect" title="The source segment">Source</th>
+		<td class="match_content" id="source">{$source}</td>
+	<tr id="0">
+		<th class="perfect" title="The translation segment">Trans</th>
+		<td class="match_content" id="trans">{$trans}</td>
+	</tr>
+</table>
+
+<div id="qc_warning" style="display:none;">
+<h3>QC Check Warnings</h3>
+<ul>
+	{% for message in qc_messages %}
+	<li>{$message}</li>
+	{% endfor %}
+</ul>
+<p><a href="#" onclick="showQCMessages('#qc_warning');">&lt;&lt; Hide Warnings</a></p>
+</div>
+
+
+<table class="actions" ID="table2">
+	<tr>
+		<td>
+			<a title="Edit the entry" href="100:edit:0">Edit</a>
+			 |
+			<a title="Delete the entry" href="100:delete:0">Delete</a>
+		</td>
+	</tr>
+</table>
+<hr />
+<div>
+	<a title="Register glossary entries" href="100:add_gloss:0">Register Glossary Entries</a>
+	 |
+	<a title="Add entry to glossary" href="100:add_to_gloss:0">Add to Glossary</a>
+	|
+	<a href="#" id="view_0" onclick="toggleDetails(0);">Details &gt;&gt;</a>
+                <div id="item_0" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+                </div>
+</div>

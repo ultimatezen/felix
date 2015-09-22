@@ -1,0 +1,24 @@
+HKCR
+{
+	Felix.Parameters.1 = s 'Parameters Class'
+	{
+		CLSID = s '{8E480002-720B-49BA-AF64-749090088AE7}'
+	}
+	Felix.Parameters = s 'Parameters Class'
+	{
+		CLSID = s '{8E480002-720B-49BA-AF64-749090088AE7}'
+		CurVer = s 'Felix.Parameters.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {8E480002-720B-49BA-AF64-749090088AE7} = s 'Parameters Class'
+		{
+			ProgID = s 'Felix.Parameters.1'
+			VersionIndependentProgID = s 'Felix.Parameters'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

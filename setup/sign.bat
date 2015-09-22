@@ -1,0 +1,1 @@
+"D:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool" sign /v /f D:\dev\cert.pfx /p a /d "Felix CAT tool" /du http://felix-cat.com/ /t http://timestamp.verisign.com/scripts/timstamp.dll %1

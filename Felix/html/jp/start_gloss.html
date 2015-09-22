@@ -1,0 +1,48 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" language="javascript" src="../js/jquery.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js">
+	</script>
+<script type="text/javascript">
+// Toggle details for record on and off
+// Toggle details for record on and off
+function toggleDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == '詳細 >>') {
+		$(link).html('&lt;&lt; 非表示');
+	}
+	else {
+		$(link).html('詳細 &gt;&gt;') ;
+	}
+    return false;
+}
+function toggleGlossDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText == '[>>]') {
+		$(link).html('[&lt;&lt;]');
+	}
+	else {
+		$(link).html('[&gt;&gt;]') ;
+	}
+    return false;
+}
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<records>
+  <menu_entries>
+    <menu_entry>
+      <id>felix</id>
+      <text>Feli&amp;x</text>
+    </menu_entry>
+    <menu_entry>
+      <id>lookup</id>
+      <text>&amp;Look Up</text>
+    </menu_entry>
+  </menu_entries>
+  <messages>
+    <message>
+      <id>app_name</id>
+      <text>PowerPoint Assist</text>
+    </message>
+    <message>
+      <id>error_com</id>
+      <text>A COM error has ocurred.</text>
+    </message>
+  </messages>
+</records>

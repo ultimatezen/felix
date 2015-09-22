@@ -1,0 +1,197 @@
+body{
+	margin: 5px;
+	padding: 5px;
+	font-family: Calibri, Sans-Serif;
+}
+
+/* header area */
+#header {
+	width: 750px;
+	text-align: left;
+	margin: 0 auto;
+	margin-top: 5px;
+	color:#009900;
+}
+#header div.left {
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+}
+#header h1 {
+	background: url(felix_logo.png) no-repeat;
+	font-family: Cambria, Tahoma, Verdana, sans-serif;
+	font-size: 4.0em;
+	height: 300px;
+	margin: 0;
+	font-weight: bold;
+	letter-spacing: 3px;
+	padding-left: 155px;
+	padding-top: 40px;
+}
+
+
+h1{
+	color:#009900;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+h2{
+	color:#009900;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+
+a {color: blue;}
+a:hover {color: red;}
+a:active {color: red;}
+
+/* table stuff */
+table{
+	padding: 2px;
+	width: 100%;
+	border-collapse: collapse;
+}
+td{
+	border: 1px solid #000;
+}
+table.base{
+	border: 1px solid #000;
+}
+
+table.datalist td
+{
+	padding-left: 3px;
+}
+
+/* This is where match text is displayed -- query, source, and trans */
+td.match_content{
+	/*font-size: 100%;*/
+	background-color: #fff;
+}
+
+/* Used for table headers */
+th{
+	background-color: #FFCC99;
+	font-weight: bold;
+	text-align: left;
+	border: 1px solid #000
+}
+/* top header */
+th.header{
+	background-color: #DDFFDD;
+	text-align: center;
+}
+table.datalist th
+{
+	padding-left: 3px;
+}
+/* markup for perfect-match page */
+th.perfect{
+	background-color: #DDFFDD;
+}
+div.perfect_score_box{
+	background: url(accept.png) no-repeat;
+	background-position: 5px 5px;
+	background-color: #DDFFDD;
+	border: 2px solid #090;
+	padding-top: 2px;
+	padding-left: 30px;
+	padding-right: 50px;
+	margin: 5px;
+	float:left;
+	color: #090;
+	font-size:110%;
+	font-weight: bold;
+}
+/* When there are no matches */
+.nomatch_box{
+	background-color: #FFFFDD;
+	border: 1px solid #e00;
+	padding-top: 2px;
+	padding-left: 30px;
+	padding-right: 50px;
+	margin-top: 5px;
+	float:left;
+	color: #e00;
+}
+.nomatch_query{
+    width: 100%;
+    border: 2px solid #900;
+    padding:5px;
+}
+
+/* Other types of tables */
+table.nav td { border: none; }
+table.actions td { border: none; }
+
+/* in a form (no borders */
+table.form{
+	padding: 0px;
+	margin: 0px;
+}
+table.form td{
+    padding-left: 3px;
+    padding-right: 3px;
+    border: none
+}
+/* Markup for characters that do not match and placements */
+.nomatch {font-weight: bold; background-color: #FAA;}
+.partial_match1 {font-weight: bold; background-color: #ff8000;}
+.partial_match2 {font-weight: bold; background-color: #ffff80;}
+.placement {font-weight: bold; color: blue}
+.gloss_match {border-top: 2px solid #30bb30; background-color: #d3ffdb;}
+.format_penalty {color: #888888;}
+.concordance_match { background-color: #FFFF99; }
+
+/* paginator */
+.paginator {
+font-size:12px;
+padding-top:10px;
+padding-bottom:10px;
+line-height:22px;
+border-top:1px solid #ddd;
+margin:0;
+}
+
+.paginator a:link,.paginator a:visited {
+border:solid 1px #ccc;
+background:#FFF;
+text-decoration:none;
+padding:2px 6px;
+}
+
+.paginator a.showall {
+border:none !important;
+padding:0 !important;
+}
+
+.paginator a.showall:hover {
+color:#036 !important;
+background:transparent !important;
+}
+
+.paginator .end {
+margin-right:6px;
+border-width:2px !important;
+}
+
+.paginator .this-page {
+font-weight:700;
+font-size:13px;
+vertical-align:top;
+padding:2px 6px;
+}
+
+.paginator a:hover {
+color:#FFF;
+background:#5b80b2;
+border-color:#036;
+}
+/* forms */
+textarea
+{
+    width: 30em;
+    height: 10em;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BA2D853D-4090-4CA0-9F77-D7D402937A40}</ProjectGuid>
+    <RootNamespace>ExcelAssist</RootNamespace>
+    <Keyword>AtlProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Command>echo "spam"
+</Command>
+      <Outputs>custom_out_d.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Command>echo "spam"
+</Command>
+      <Outputs>custom_out.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <GenerateStublessProxies>true</GenerateStublessProxies>
+      <TypeLibraryName>$(IntDir)AddIn.tlb</TypeLibraryName>
+      <HeaderFileName>AddIn.h</HeaderFileName>
+      <DllDataFileName>
+      </DllDataFileName>
+      <InterfaceIdentifierFileName>AddIn_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>AddIn_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <IgnoreSpecificDefaultLibraries>LIBC; LIBCP;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>.\AddIn.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Performing registration</Message>
+      <Command>regsvr32 /s /c "$(TargetPath)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp" />
+    <ClCompile Include="..\..\common\FileOpHandler.cpp" />
+    <ClCompile Include="AddIn.cpp" />
+    <ClCompile Include="app_state.cpp" />
+    <ClCompile Include="app_state_test.cpp" />
+    <ClCompile Include="AppStringEntry.cpp" />
+    <ClCompile Include="AppStringEntry_test.cpp" />
+    <ClCompile Include="AppStringRecordParser.cpp" />
+    <ClCompile Include="AppStringRecordParser_test.cpp" />
+    <ClCompile Include="appstrings.cpp" />
+    <ClCompile Include="appstrings_test.cpp" />
+    <ClCompile Include="AppStringTextNodeParser.cpp" />
+    <ClCompile Include="AppStringTextNodeParser_test.cpp" />
+    <ClCompile Include="ClipboardBackup.cpp" />
+    <ClCompile Include="ClipboardBackup_test.cpp" />
+    <ClCompile Include="..\..\common\config_file.cpp" />
+    <ClCompile Include="Connect.cpp" />
+    <ClCompile Include="Connect_test.cpp" />
+    <ClCompile Include="ConnectEvents.cpp" />
+    <ClCompile Include="..\..\common\Exceptions.cpp" />
+    <ClCompile Include="FelixExcelIF.cpp" />
+    <ClCompile Include="FelixExcelIF_test.cpp" />
+    <ClCompile Include="Hooker.cpp" />
+    <ClCompile Include="..\..\common\input_device_file.cpp" />
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp" />
+    <ClCompile Include="keyboard_shortcuts_excel.cpp" />
+    <ClCompile Include="KeyPresser.cpp" />
+    <ClCompile Include="MenuAdder.cpp" />
+    <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp" />
+    <ClCompile Include="..\..\common\resource_string.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\common\logging.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddIn.def" />
+    <None Include="AddIn.rgs" />
+    <None Include="bmp00002.bmp" />
+    <None Include="bmp00003.bmp" />
+    <None Include="bmp00004.bmp" />
+    <None Include="bmp00005.bmp" />
+    <None Include="bmp00006.bmp" />
+    <None Include="bmp00007.bmp" />
+    <None Include="correct_.bmp" />
+    <None Include="DELETE.BMP" />
+    <None Include="get.bmp" />
+    <None Include="get_and_.bmp" />
+    <None Include="gloss_n.bmp" />
+    <None Include="help1.bmp" />
+    <None Include="lookup.bmp" />
+    <None Include="lookup_n.bmp" />
+    <None Include="lookup_t.bmp" />
+    <None Include="PROP.BMP" />
+    <None Include="restore_.bmp" />
+    <None Include="set.bmp" />
+    <None Include="set_and_.bmp" />
+    <None Include="app_strings.xml" />
+    <None Include="app_strings_j.xml" />
+    <None Include="english_strings.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="html1.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="japanese_strings.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="AddIn.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\FileOpHandler.h" />
+    <ClInclude Include="app_state.h" />
+    <ClInclude Include="AppStringEntry.h" />
+    <ClInclude Include="AppStringRecordParser.h" />
+    <ClInclude Include="appstrings.h" />
+    <ClInclude Include="AppStringTextNodeParser.h" />
+    <ClInclude Include="ClipboardBackup.h" />
+    <ClInclude Include="..\..\common\config_file.h" />
+    <ClInclude Include="Connect.h" />
+    <ClInclude Include="ConnectEvents.h" />
+    <ClInclude Include="excel_application.h" />
+    <ClInclude Include="excel_characters.h" />
+    <ClInclude Include="excel_range.h" />
+    <ClInclude Include="excel_worksheet.h" />
+    <ClInclude Include="ExcelImport.h" />
+    <ClInclude Include="ExcelString.h" />
+    <ClInclude Include="..\..\common\Exceptions.h" />
+    <ClInclude Include="fake_excel.h" />
+    <ClInclude Include="fake_ta.h" />
+    <ClInclude Include="FelixExcelIF.h" />
+    <ClInclude Include="FelixString.h" />
+    <ClInclude Include="Hooker.h" />
+    <ClInclude Include="..\..\common\input_device.h" />
+    <ClInclude Include="..\..\common\input_device_fake.h" />
+    <ClInclude Include="..\..\common\input_device_file.h" />
+    <ClInclude Include="..\..\common\key_mapper.h" />
+    <ClInclude Include="key_mapper_excel.h" />
+    <ClInclude Include="key_target_excel.h" />
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h" />
+    <ClInclude Include="keyboard_shortcuts_excel.h" />
+    <ClInclude Include="KeyPresser.h" />
+    <ClInclude Include="MenuAdder.h" />
+    <ClInclude Include="..\..\common\output_device.h" />
+    <ClInclude Include="properties.h" />
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="..\..\common\resource_string.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ta_application.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AddIn.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

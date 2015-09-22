@@ -1,0 +1,46 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(0C1F8208-FE35-46F0-A217-20D9567037E8),
+	dual,
+	nonextensible,
+	helpstring("IWord2HtmlParser Interface"),
+	pointer_default(unique)
+]
+interface IWord2HtmlParser : IDispatch{
+	[id(1), helpstring("method RangeToHtml")] 
+		HRESULT RangeToHtml([in] IDispatch *word_range, [out, retval] BSTR* html_text) ;
+};
+[
+	uuid(D455DA16-6885-443C-87EA-4944A420EB40),
+	version(1.0),
+	helpstring("WordAssist 1.0 Type Library")
+]
+library WordAssistLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(E7986A6D-875D-459D-BD5C-69AB76E5A7D1),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+	[
+		uuid(D695331E-45B7-4EF2-9DC0-29EB314F68CB),
+		helpstring("Word2HtmlParser Class")
+	]
+	coclass Word2HtmlParser
+	{
+		[default] interface IWord2HtmlParser;
+	};
+};

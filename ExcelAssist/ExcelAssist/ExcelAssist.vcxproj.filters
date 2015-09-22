@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e96bc16b-f11b-4557-9ace-24589298b6b0}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{5865e74e-fe0f-4f58-afd9-5dd016b292f3}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{810d60f3-2c45-426b-b3e4-02fbc1ed9343}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_state_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringEntry_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringRecordParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringRecordParser_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="appstrings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="appstrings_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringTextNodeParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStringTextNodeParser_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipboardBackup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipboardBackup_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectEvents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixExcelIF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixExcelIF_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input_device_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_shortcuts_excel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyPresser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuAdder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\FileOpHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddIn.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="AddIn.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00002.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00003.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00004.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00005.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00006.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00007.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="correct_.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DELETE.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="get.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="get_and_.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="gloss_n.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="help1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lookup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lookup_n.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lookup_t.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PROP.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="restore_.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="set.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="set_and_.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="app_strings.xml" />
+    <None Include="app_strings_j.xml" />
+    <None Include="english_strings.htm" />
+    <None Include="html1.htm" />
+    <None Include="japanese_strings.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="AddIn.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStringEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStringRecordParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="appstrings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppStringTextNodeParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipboardBackup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\config_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="excel_application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="excel_characters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="excel_range.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="excel_worksheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelImport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fake_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fake_ta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixExcelIF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\key_mapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_mapper_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_target_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard_shortcuts_excel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyPresser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuAdder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\output_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ta_application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\FileOpHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AddIn.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

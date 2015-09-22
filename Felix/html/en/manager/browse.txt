@@ -1,0 +1,106 @@
+<p><a href="/start" title="Go to Manager Home">Home</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}<a href="/memories">TMs</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">Glossaries</a>{% endif %}
+	&gt;&gt;
+	Browse {$name}
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>Browse {$name} (Page {$page} of {$num_pages})</h2>
+
+{$pagination}
+    <table>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Source</th>
+            <th>Trans</th>
+        </tr>
+		{% for record in records %}
+        <tr>
+            <td rowspan="2">
+                {$record.num}
+            </td>
+            <td>
+                {$record.source}
+            </td>
+            <td>
+                {$record.trans}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                {$record.memory} | <a href="/{$index}/{$memtype}/{$record.num0}/editrecord">Edit</a>
+                | <a href="/{$index}/{$memtype}/{$record.num0}/deleterecord">Delete</a>
+                | <a href="#" id="view_{$record.num}" onclick="toggleDetails({$record.num});">Details &gt;&gt;</a>
+                <div id="item_{$record.num}" style="display:none;">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+                        <tr>
+                            <th>Memory/Glossary</th>
+                            <td>{$record.memory}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{$pagination}
+
+<h3>Actions</h3>
+
+<p>
+<a href="/{$index}/{$memtype}/actions">Global Actions for {$name}</a> |
+<a href="/{$index}/{$memtype}/view">View {$name}</a> |
+<a href="/{$index}/{$memtype}/edit">Edit {$name}</a> |
+<a href="/{$index}/{$memtype}/remove">Remove {$name}</a>
+</p>

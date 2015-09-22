@@ -1,0 +1,86 @@
+<p><a href="/start" title="Go to Manager Home">Home</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}<a href="/memories">TMs</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">Glossaries</a>{% endif %}
+	&gt;&gt;
+	View {$name}
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>{$name}</h2>
+
+<table width="100%" class="info">
+	<tr>
+		<td bgcolor="#E6FFE6"><b>File Name:</b></td>
+		<td id="file_name" bgcolor="#E6FFE6">{$file_name}</td>
+	</tr>
+	<tr>
+		<td><b>Creator:</b></td>
+		<td id="creator">{% if not creator %}None Specified{% endif %}{$creator}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>Field:</b></td>
+		<td id="field" bgcolor="#E6FFE6"><b>{% if not field %}None Specified{% endif %}{$field}</b></td>
+	</tr>
+	<tr>
+		<td><b>Created:</b></td>
+		<td id="created_on">{$created_on}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>Source Language:</b></td>
+		<td id="source_language" bgcolor="#E6FFE6"><b>{% if not source_language %}None Specified{% endif %}{$source_language}</b></td>
+	</tr>
+	<tr>
+		<td><b>Target Language:</b></td>
+		<td id="target_language"><b>{% if not target_language %}None Specified{% endif %}{$target_language}</b></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>Client:</b></td>
+		<td id="client" bgcolor="#E6FFE6"><b>{% if not client %}None Specified{% endif %}{$client}</b></td>
+	</tr>
+	<tr>
+		<td><b>Num. Entries:</b></td>
+		<td id="mem_size">{$mem_size}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>File Size:</b></td>
+		<td id="file_size" bgcolor="#E6FFE6">{$file_size}</td>
+	</tr>
+	<tr>
+		<td><b>Reliability:</b></td>
+		<td id="reliability">{$reliability}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>Validated %</b></td>
+		<td id="validated" bgcolor="#E6FFE6">{$validated}</td>
+	</tr>
+	<tr>
+		<td><b>Locked:</b></td>
+		<td id="locked">{$locked}</td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>Active:</b></td>
+		<td bgcolor="#E6FFE6" id="is_active">{$is_active}</td>
+	</tr>
+	<tr>
+		<td><b>Default Context:</b></td>
+		<td id="locked">{$default_context}</td>
+	</tr>
+</table>
+
+<h3>Actions</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/actions">Global Actions for {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/edit">Edit {$name}</a></li>
+        <li><a href="/{$index}/1/{$memtype}/browse">Browse {$name}</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">Remove {$name}</a></li>
+</ul>

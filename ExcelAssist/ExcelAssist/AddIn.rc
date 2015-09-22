@@ -1,0 +1,338 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Japanese resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SWITCH_TO_TRANS     BITMAP                  "bmp00002.bmp"
+IDB_SWITCH_TO_REVIEW    BITMAP                  "bmp00003.bmp"
+IDB_SET_AND_NEXT        BITMAP                  "set_and_.bmp"
+IDB_SET                 BITMAP                  "set.bmp"
+IDB_SAVE                BITMAP                  "bmp00004.bmp"
+IDB_RESTORE_AND_NEXT    BITMAP                  "restore_.bmp"
+IDB_RESTORE             BITMAP                  "bmp00005.bmp"
+IDB_PROPERTIES          BITMAP                  "PROP.BMP"
+IDB_LOOKUP_TRANS        BITMAP                  "lookup_t.bmp"
+IDB_LOOKUP_NEXT_TRANS   BITMAP                  "lookup_n.bmp"
+IDB_LOOKUP_NEXT         BITMAP                  "bmp00006.bmp"
+IDB_LOOKUP              BITMAP                  "lookup.bmp"
+IDB_HELP                BITMAP                  "help1.bmp"
+IDB_GLOSS_N             BITMAP                  "gloss_n.bmp"
+IDB_GET_AND_NEXT        BITMAP                  "get_and_.bmp"
+IDB_GET                 BITMAP                  "get.bmp"
+IDB_DELETE              BITMAP                  "DELETE.BMP"
+IDB_CORRECT_AND_NEXT    BITMAP                  "correct_.bmp"
+IDB_CORRECT             BITMAP                  "bmp00007.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INPUT_NUM_DLG DIALOGEX 0, 0, 122, 51
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Gloss Number"
+FONT 9, "ÇlÇr ÇoÉSÉVÉbÉN", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,12,30,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,30,50,14
+    EDITTEXT        IDC_INPUT_EDIT,7,7,108,14,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_PROPPAGE_SEGMENTATION_E DIALOGEX 0, 0, 231, 167
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Segmentation"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    CONTROL         "Skip segments containing only &numbers",IDC_SKIP_NUMS_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,22,148,12
+    GROUPBOX        "Double-byte Characters",-1,9,56,197,74
+    CONTROL         "&Skip if there are Asian chars",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,24,73,169,14
+    CONTROL         "Skip &unless there are Asian chars",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,24,91,174,15
+    CONTROL         "Translate &all",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,24,110,161,11
+END
+
+IDD_PROPPAGE_SEGMENTATION_J DIALOGEX 0, 0, 249, 212
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "ÉZÉOÉÅÉìÉgÉãÅ[Éã"
+FONT 10, "ÇlÇr ñæí©", 400, 0, 0x80
+BEGIN
+    CONTROL         "êîéöÇÃÇ›ÇÃï∂êﬂÇñ≥éãÇ∑ÇÈ(&N)",IDC_SKIP_NUMS_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,21,196,12
+    GROUPBOX        "ëSäpï∂éö",-1,9,64,197,74
+    CONTROL         "ëSäpï∂éöÇ™Ç†ÇÍÇŒñ≥éãÇ∑ÇÈ(&S)",IDC_SKIP_HASJ,"Button",BS_AUTORADIOBUTTON | WS_GROUP,24,80,172,14
+    CONTROL         "ëSäpï∂éöÇ™Ç»ÇØÇÍÇŒñ≥éãÇ∑ÇÈ(&U)",IDC_SKIP_NOJ,"Button",BS_AUTORADIOBUTTON,24,98,178,15
+    CONTROL         "Ç∑Ç◊ÇƒÇñ|ñÛÇ∑ÇÈ(&A)",IDC_NOSKIP,"Button",BS_AUTORADIOBUTTON,24,117,161,11
+END
+
+IDD_PROPPAGE_VIEW_E DIALOGEX 0, 0, 243, 191
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "View"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Interface Language",IDC_STATIC,9,5,106,44
+    CONTROL         "&English",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
+    CONTROL         "&Japanese",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    PUSHBUTTON      "&Keyboard Shortcuts...",IDC_KEYBOARD_SHORTCUTS,12,77,107,18
+    CONTROL         "&Raise Felix window on Felix command",IDC_RAISE_FELIX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,54,140,17
+END
+
+IDD_PROPPAGE_VIEW_J DIALOGEX 0, 0, 247, 212
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "ï\é¶"
+FONT 10, "ÇlÇr ñæí©", 400, 0, 0x80
+BEGIN
+    GROUPBOX        "ÇhÅ^ÇeåæåÍ",IDC_STATIC,9,5,106,44
+    CONTROL         "âpåÍ(&E)",IDC_LANG_ENG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,14,15,87,17
+    CONTROL         "ì˙ñ{åÍ(&J)",IDC_LANG_JAPANESE,"Button",BS_AUTORADIOBUTTON,14,31,84,17
+    PUSHBUTTON      "ÉVÉáÅ[ÉgÉJÉbÉg(&K)...",IDC_KEYBOARD_SHORTCUTS,11,85,111,22
+    CONTROL         "FelixÉRÉ}ÉìÉhÇÃç€ÅAFelixâÊñ Çï\é¶Ç∑ÇÈ(&R)",IDC_RAISE_FELIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,58,140,17
+END
+
+IDD_PROPSHEET_E DIALOGEX 0, 0, 205, 186
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Felix Preferences"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+END
+
+IDD_PROPSHEET_J DIALOGEX 0, 0, 288, 263
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "FelixÇÃÉÜÅ[ÉUê›íË"
+FONT 10, "ÇlÇr Çoñæí©", 400, 0, 0x80
+BEGIN
+END
+
+IDD_PROPPAGE_TRANS_HIST_E DIALOGEX 0, 0, 231, 167
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Translation History"
+FONT 10, "Tahoma", 400, 0, 0x0
+BEGIN
+    CONTROL         "Use translation &history",IDC_USE_TRANS_HIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,28,155,14
+END
+
+IDD_PROPPAGE_TRANS_HIST_J DIALOGEX 0, 0, 231, 167
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "ñ|ñÛóöó"
+FONT 10, "ÇlÇr Çoñæí©", 400, 0, 0x0
+BEGIN
+    CONTROL         "ñ|ñÛóöóÇäàópÇ∑ÇÈ(&H)",IDC_USE_TRANS_HIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,34,155,17
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_INPUT_NUM_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 44
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Japanese resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Sys. Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+JAPANESE.HTML           HTML                    "japanese_strings.htm"
+#endif    // Neutral (Sys. Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+ENGLISH.HTML            HTML                    "english_strings.htm"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""AddIn.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,6,5,0
+ PRODUCTVERSION 1,6,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Ginstrom IT Solutions (GITS)"
+            VALUE "FileDescription", "Felix Interface for MS Excel"
+            VALUE "FileVersion", "1.6.5.0"
+            VALUE "InternalName", "ExcelAssist.dll"
+            VALUE "LegalCopyright", "(c) Ginstrom IT Solutions (GITS).  All rights reserved."
+            VALUE "OriginalFilename", "ExcelAssist.dll"
+            VALUE "ProductName", "Excel Assist"
+            VALUE "ProductVersion", "1.6.5.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ADDIN               REGISTRY                "AddIn.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "AddIn"
+    IDS_LANG_CODE           "en"
+END
+
+STRINGTABLE 
+BEGIN
+    IDB_SET_AND_NEXT        "&Set and Next (Alt + S)"
+    IDB_GLOSS_N             "Get Glossar&y Entry..."
+    IDB_CORRECT_AND_NEXT    "Correct translation and look up next"
+    IDB_SAVE                "Save &Memory"
+    IDB_CORRECT             "Correct translation"
+    IDB_WORD                "Export to Word"
+    IDB_RESTORE_AND_NEXT    "Restore trans and look up next"
+    IDB_RESTORE             "Restore translation"
+    IDB_ALIGN               "&Align"
+    IDB_LOOKUP_NEXT_TRANS   "Look up next translation"
+    IDB_SWITCH_TO_TRANS     "Switch to Translation Mode"
+END
+
+STRINGTABLE 
+BEGIN
+    IDB_LOOKUP_NEXT         "Lookup &Next (Alt + RARR)"
+    IDB_LOOKUP              "&Lookup (Alt + L)"
+    IDB_GET                 "Ge&t (Alt + DARR)"
+    IDB_GET_AND_NEXT        "&Get and Next (Alt + G)"
+    IDB_SET                 "S&et (Alt + UARR)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDB_HELP                "View &Help File"
+END
+
+STRINGTABLE 
+BEGIN
+    IDB_SWITCH_TO_REVIEW    "Switch to Review Mode"
+END
+
+STRINGTABLE 
+BEGIN
+    IDB_LOOKUP_TRANS        "Look up translation"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "AddIn.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

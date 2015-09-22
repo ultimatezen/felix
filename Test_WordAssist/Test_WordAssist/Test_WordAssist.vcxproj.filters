@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\files_under_test">
+      <UniqueIdentifier>{b0241783-5276-4bc0-8518-f8393f380498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\WordAssist\WordAssist\app_state_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Exceptions_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\font_properties_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\html_formatter_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\html_processing_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\html_writer_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\input_device_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_mapper_word_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard_shortcuts_word_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\logging_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_CColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_WordAssist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\word_writer_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\WordAutomationObject_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\WordParser_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\AddIn.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\app_state.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\ClipboardBackup.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\ColorRef.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Exceptions.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\font_properties.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\hooker.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\html_formatter.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\html_processing.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\logging.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\MiniVersion.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\Parser.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\Properties.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\resource_string.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\word_writer.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\WordAutomationObject.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\WordParser.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\office_seg_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\abbreviations.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\config_file.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\DispatchWrapper.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\FileOpHandler.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\html_parser.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\keyboard_shortcuts.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\office_seg.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files\files_under_test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\abbreviations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\AddGlossDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\AddIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\app_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\ClipboardBackup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\config_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\font_properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\hooker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\html_formatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\html_processing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\input_device_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\InputNumDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\key_mapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\key_mapper_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\key_mapper_word.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="key_target_word_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\keyboard_shortcuts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\keyboard_shortcuts_word.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\KeyboardListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\MiniVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\output_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\Properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\pugxml\src\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\resource_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\Segmentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\word_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\WordAutomationObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\WordParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WordAssist\WordAssist\WordScreenUpdateLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\office_seg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\office_seg_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\FileOpHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\html_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

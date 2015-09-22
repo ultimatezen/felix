@@ -1,0 +1,44 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+    <link href="../jquery-ui-1.8.10.custom.css" rel="Stylesheet" type="text/css" />
+	<script type="text/javascript" language="javascript" src="../js/jquery-1.4.4.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui-1.8.10.custom.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="../js/utils.js">
+	</script>
+<script type="text/javascript">
+// Toggle details for record on and off
+function toggleDetails(id) {
+	var item = "#item_" + id ;
+	var link = "#view_" + id ;
+	$(item).toggle("blind");
+
+	var currentText = $(link).text() ;
+	if (currentText.indexOf('>>') != -1) {
+		$(link).html('&lt;&lt; 非表示');
+	}
+	else {
+		$(link).html('詳細 &gt;&gt;') ;
+	}
+    return false;
+}
+function showQCMessages(item)
+{
+	$(item).toggle("blind");
+}
+</script>
+</head>
+<body>
+<div id="header">
+<div class="left">
+	<h1>Felix</h1>
+</div>
+</div>
+</body>
+</html>

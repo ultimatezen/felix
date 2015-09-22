@@ -1,0 +1,39 @@
+<table class="base">
+	<tr>
+		<th class="header" colspan="2">
+			Review Translation
+		</th>
+	</tr>
+  <tr id="0">
+    <th class="perfect">Source</th>
+	<td class="match_content" id="source" style="color: {$source_color}">{$source}</td>
+  </tr>
+  <tr>
+    <th class="perfect">Trans</td>
+	<td class="match_content" id="trans" style="color: {$trans_color}">{$trans}</td>
+  </tr>
+</table>
+
+<p>
+  <a href="142:{$index}" title="Edit entry">Edit</a> | 
+  <a href="593:{$index}" title="Delete entry">Delete</a>
+</p>
+
+  <hr style="margin-top:3px;" />
+
+<div style="float:left;"> 
+  <a href="127:{$index}" title="Register glossary entries">Register Glossary</a> | 
+  <a href="129:{$index}" title="Add entry to glossary">Add to Glossary</a>
+</div>
+<div style="float:right;"> 
+	<A title="View detailed information about this entry" href="152:159">More &gt;&gt;</A>
+</div>
+
+<br clear="all" />
+
+<table class="actions">
+  <tr>
+    <td><b>Memory</b>: {$mem}</td>
+	<td><b>Reference Count</b>: {$refcount}</td>
+   </tr>
+</table>

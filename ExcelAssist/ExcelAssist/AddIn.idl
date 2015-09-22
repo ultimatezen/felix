@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(A6FF7939-E14C-4C26-89B9-4803617A7DB6),
+	version(1.0),
+	helpstring("ExcelAssist 1.0 Type Library")
+]
+library ExcelAssistLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(7C581B3C-C8F2-42D7-B12F-93484F14CF04),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+};

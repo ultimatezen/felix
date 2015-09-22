@@ -1,0 +1,51 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table class="base">
+	<tr>
+		<th class="header" colspan="2">
+			訳文の確認
+		</th>
+	</tr>
+  <tr id="0">
+    <th class="perfect">原文</th>
+	<td class="match_content" id="source" style="color: {$source_color}">{$source}</td>
+  </tr>
+  <tr>
+    <th class="perfect">訳文</td>
+	<td class="match_content" id="trans" style="color: {$trans_color}">{$trans}</td>
+  </tr>
+</table>
+
+<p>
+  <a href="142:{$index}" title="エントリの編集">編集</a> | 
+  <a href="593:{$index}" title="エントリの削除">削除</a>
+</p>
+
+  <hr style="margin-top:3px;" />
+
+<div style="float:left;"> 
+  <a href="127:{$index}" title="用語集への登録">用語集へ登録</a> | 
+  <a href="129:{$index}" title="用語集に追加">用語集に追加</a>
+</div>
+<div style="float:right;"> 
+	<A title="このエントリについて詳細を見る" href="152:159">詳細 &gt;&gt;</A>
+</div>
+
+<br clear="all" />
+
+<table class="actions">
+  <tr>
+    <td><b>メモリ</b>: {$mem}</td>
+	<td><b>参照カウント</b>: {$refcount}</td>
+   </tr>
+</table>
+
+</body>
+</html>

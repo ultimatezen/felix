@@ -1,0 +1,63 @@
+<table class="base" id="gloss_match_table">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="2"><strong>{$loop.index}.</strong>
+  <br />
+	<a title="Edit entry" href="142:{$loop.index0}">[E]</a>-<a
+      title="Delete entry" href="593:{$loop.index0}">[D]</a>-<a
+	  title="Add entry to memory" href="158:{$loop.index0}">[M]</a><br />
+	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
+    <td><strong>Source</strong></td>
+    <td id="source">{$record.source}</td></tr>
+  <tr id="trans_{$loop.index0}">
+    <td><strong>Trans</strong></td>
+    <td id="trans">{$record.trans}</td></tr>
+                <tr id="item_{$loop.index}" style="display:none;">
+		  <td colspan="2">
+                    <table class="props">
+                        <tr>
+                            <th>Source</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>Translation</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>Context</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>Reliability</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>Validated</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>Ref count</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>Date created</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>Created by</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>Last modified</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>Modified by</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+		  </td>
+     </tr>
+{% endfor %}
+</table>

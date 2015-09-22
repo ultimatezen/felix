@@ -1,0 +1,535 @@
+// Felix.idl : IDL source for Felix.exe
+//
+//
+// This file will be processed by the MIDL tool to
+// produce the type library (Felix.tlb) and marshalling code.
+//////////////////////////////////////////////////////////////////////////
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "atliface.idl";
+
+#include "olectl.h"
+
+// record
+[
+	object,
+	uuid(6195F62F-B419-4C98-B168-BDA736ADC407),
+	dual,
+	nonextensible,
+	helpstring("IRecord Interface"),
+	pointer_default(unique)
+]
+interface IRecord : IDispatch{
+	[propget, id(1), helpstring("property Source")] HRESULT Source([out, retval] BSTR* pVal);
+	[propput, id(1), helpstring("property Source")] HRESULT Source([in] BSTR source_val);
+
+	[propget, id(2), helpstring("property Trans")] HRESULT Trans([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property Trans")] HRESULT Trans([in] BSTR trans_val);
+	
+	[propget, id(3), helpstring("property Context")] HRESULT Context([out, retval] BSTR* pVal);
+	[propput, id(3), helpstring("property Context")] HRESULT Context([in] BSTR context_val);
+	
+	[propget, id(4), helpstring("property PlainSource")] HRESULT PlainSource([out, retval] BSTR* pVal);
+	[propget, id(5), helpstring("property PlainTrans")] HRESULT PlainTrans([out, retval] BSTR* pVal);
+	[propget, id(6), helpstring("property PlainContext")] HRESULT PlainContext([out, retval] BSTR* pVal);
+	
+	[propget, id(7), helpstring("property CreatedBy")] HRESULT CreatedBy([out, retval] BSTR* pVal);
+	[propput, id(7), helpstring("property CreatedBy")] HRESULT CreatedBy([in] BSTR created_by_val);
+	
+	[propget, id(8), helpstring("property ModifiedBy")] HRESULT ModifiedBy([out, retval] BSTR* pVal);
+	[propput, id(8), helpstring("property ModifiedBy")] HRESULT ModifiedBy([in] BSTR modified_by_val);
+	
+	[propget, id(9), helpstring("property DateCreated")] HRESULT DateCreated([out, retval] DATE* pVal);
+	[propput, id(9), helpstring("property DateCreated")] HRESULT DateCreated([in] DATE created_val);
+	
+	[propget, id(10), helpstring("property LastModified")] HRESULT LastModified([out, retval] DATE* pVal);
+	[propput, id(10), helpstring("property LastModified")] HRESULT LastModified([in] DATE modified_val);
+	
+	[propget, id(11), helpstring("property RefCount")] HRESULT RefCount([out, retval] ULONG* pVal);
+	[propput, id(11), helpstring("property RefCount")] HRESULT RefCount([in] ULONG newVal);
+	
+	[propget, id(12), helpstring("property Id")] HRESULT Id([out, retval] ULONG* pVal);
+	[propput, id(12), helpstring("property Id")] HRESULT Id([in] ULONG newVal);
+	
+	// validated
+	[propget, id(13), helpstring("property Validated")] HRESULT Validated([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(13), helpstring("property Validated")] HRESULT Validated([in] VARIANT_BOOL newVal);
+	
+	// reliability
+	[propget, id(14), helpstring("property Reliability")] HRESULT Reliability([out, retval] ULONG* pVal);
+	[propput, id(14), helpstring("property Reliability")] HRESULT Reliability([in] ULONG newVal);
+};
+// SearchResult
+[
+	object,
+	uuid(61647BA5-8AEA-487B-97B6-442CA9D0C433),
+	dual,
+	nonextensible,
+	helpstring("ISearchResult Interface"),
+	pointer_default(unique)
+]
+interface ISearchResult : IDispatch{
+	[propget, id(1), helpstring("property Record")] HRESULT Record([out, retval] IRecord** pVal);
+	[propput, id(1), helpstring("property Record")] HRESULT Record([in] IRecord* newVal);
+	[propget, id(2), helpstring("property Score")] HRESULT Score([out, retval] DOUBLE* pVal);
+	[propget, id(3), helpstring("property MemoryName")] 
+		HRESULT MemoryName([out, retval] BSTR* pVal) ;
+};
+
+// SearchResults
+[
+	object,
+	uuid(654061B0-533B-43C5-A631-3EDAB236238C),
+	dual,
+	nonextensible,
+	helpstring("ISearchResults Interface"),
+	pointer_default(unique)
+]
+interface ISearchResults : IDispatch{
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] ISearchResult **ppSearchResult );
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Records
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(08CCF650-1CC9-47B1-8304-D9863E83C8F5),
+	dual,
+	nonextensible,
+	helpstring("IRecords Interface"),
+	pointer_default(unique)
+]
+interface IRecords : IDispatch{
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] IRecord **ppRecord );
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Memory
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(F17938E6-D888-4760-970C-C1B4707B67A5),
+	dual,
+	nonextensible,
+	helpstring("IMemory Interface"),
+	pointer_default(unique)
+]
+interface IMemory : IDispatch{
+	[propget, id(1), helpstring("property Records")] HRESULT Records([out, retval] IRecords** newVal);
+	
+	// Creator
+	[propget, id(2), helpstring("property Creator")] HRESULT Creator([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property Creator")] HRESULT Creator([in] BSTR newVal);
+	
+	// ModifiedBy
+	[propget, id(3), helpstring("property ModifiedBy")] HRESULT ModifiedBy([out, retval] BSTR* pVal);
+	[propput, id(3), helpstring("property ModifiedBy")] HRESULT ModifiedBy([in] BSTR newVal);
+	
+	// Field
+	[propget, id(4), helpstring("property Field")] HRESULT Field([out, retval] BSTR* pVal);
+	[propput, id(4), helpstring("property Field")] HRESULT Field([in] BSTR newVal);
+	
+	// Client
+	[propget, id(5), helpstring("property Client")] HRESULT Client([out, retval] BSTR* pVal);
+	[propput, id(5), helpstring("property Client")] HRESULT Client([in] BSTR newVal);
+	
+	// SourceLanguage
+	[propget, id(6), helpstring("property SourceLanguage")] HRESULT SourceLanguage([out, retval] BSTR* pVal);
+	[propput, id(6), helpstring("property SourceLanguage")] HRESULT SourceLanguage([in] BSTR newVal);
+	
+	// TargetLanguage
+	[propget, id(7), helpstring("property TargetLanguage")] HRESULT TargetLanguage([out, retval] BSTR* pVal);
+	[propput, id(7), helpstring("property TargetLanguage")] HRESULT TargetLanguage([in] BSTR newVal);
+	
+	// CreatedOn
+	[propget, id(8), helpstring("property CreatedOn")] HRESULT CreatedOn([out, retval] DATE* pVal);
+	[propput, id(8), helpstring("property CreatedOn")] HRESULT CreatedOn([in] DATE newVal);
+	
+	// ModifiedOn
+	[propget, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([out, retval] DATE* pVal);
+	[propput, id(9), helpstring("property ModifiedOn")] HRESULT ModifiedOn([in] DATE newVal);
+	
+	// IsMemory
+	[propget, id(10), helpstring("property IsMemory")] HRESULT IsMemory([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(10), helpstring("property IsMemory")] HRESULT IsMemory([in] VARIANT_BOOL newVal);
+	
+	// IsLocked
+	[propget, id(11), helpstring("property IsLocked")] HRESULT IsLocked([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(11), helpstring("property IsLocked")] HRESULT IsLocked([in] VARIANT_BOOL newVal);
+
+	// AddRecord
+	[id(12), helpstring("method AddRecord")] 
+		HRESULT AddRecord([in] IRecord* newVal) ;
+	// RemoveRecord
+	[id(13), helpstring("method RemoveRecord")] 
+		HRESULT RemoveRecord([in] IRecord* newVal) ;
+	// Size
+	[id(14), helpstring("method GetSize")] 
+		HRESULT GetSize([out, retval] ULONG* memSize) ;
+	// Save
+	[id(15), helpstring("method Save")] 
+		HRESULT Save() ;
+	// SaveAs
+	[id(16), helpstring("method SaveAs")] 
+		HRESULT SaveAs([in] BSTR location) ;
+
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Memories
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(A1E62CF4-8737-414E-B8C6-D4A276F2C121),
+	dual,
+	nonextensible,
+	helpstring("IMemories Interface"),
+	pointer_default(unique)
+]
+interface IMemories : IDispatch{
+	[propget, id(DISPID_NEWENUM)] 
+		HRESULT _NewEnum([out, retval] IUnknown **ppEnum);
+	[propget, id(DISPID_VALUE), helpstring("property Item")] 
+		HRESULT Item([in] long n, [out, retval] IMemory **ppMemory );
+	[propget, id(1), helpstring("property Count")] 
+		HRESULT Count([out, retval] long* pCount) ;
+
+	// Add
+	[id(2), helpstring("method Add")] 
+		HRESULT Add([out, retval] IMemory** newVal) ;
+	// Load
+	[id(3), helpstring("method Load")] 
+		HRESULT Load([in] BSTR location, [out, retval] IMemory** newVal) ;
+	// Clear
+	[id(4), helpstring("method Clear")] 
+		HRESULT Clear() ;
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Windows
+//////////////////////////////////////////////////////////////////////////
+[
+	object,
+	uuid(42569D58-8B46-4A9F-869F-C839C5054ECA),
+	dual,
+	nonextensible,
+	helpstring("IMemoryWindow Interface"),
+	pointer_default(unique)
+]
+interface IMemoryWindow : IDispatch{
+		
+	// Height
+	[propget, id(1), helpstring("property Height")] HRESULT Height([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Height")] HRESULT Height([in] LONG newVal);
+		
+	// Width
+	[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] LONG* pVal);
+	[propput, id(2), helpstring("property Width")] HRESULT Width([in] LONG newVal);
+		
+	// Top
+	[propget, id(3), helpstring("property Top")] HRESULT Top([out, retval] LONG* pVal);
+	[propput, id(3), helpstring("property Top")] HRESULT Top([in] LONG newVal);
+		
+	// Left
+	[propget, id(4), helpstring("property Left")] HRESULT Left([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property Left")] HRESULT Left([in] LONG newVal);
+
+	// Raise
+	[id(5), helpstring("method Raise")] 
+		HRESULT Raise() ;
+};
+[
+	object,
+	uuid(BA98FAC9-3027-46EB-B870-0769A250229C),
+	dual,
+	nonextensible,
+	helpstring("IGlossaryWindow Interface"),
+	pointer_default(unique)
+]
+interface IGlossaryWindow : IDispatch{
+};
+
+// App2
+[
+	object,
+	uuid(CC9981F5-4D27-4F01-A789-40FA4DFE5399),
+	dual,
+	nonextensible,
+	helpstring("IApp2 Interface"),
+	pointer_default(unique)
+]
+interface IApp2 : IDispatch{
+	[propget, id(1), helpstring("property CurrentMatch")] 
+		HRESULT CurrentMatch([out, retval] ISearchResult** pVal);
+	[propput, id(1), helpstring("property CurrentMatch")] 
+		HRESULT CurrentMatch([in] ISearchResult* newVal);
+	[propget, id(3), helpstring("property CurrentMatches")] 
+		HRESULT CurrentMatches([out, retval] ISearchResults** newVal);
+	[propget, id(4), helpstring("property CurrentGlossMatches")] 
+		HRESULT CurrentGlossMatches([out, retval] ISearchResults** newVal);
+	[id(5), helpstring("method ReflectChanges")] 
+		HRESULT ReflectChanges([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
+	[id(6), helpstring("method ReviewTranslation")] 
+		HRESULT ReviewTranslation([in] ULONG RecId, [in] BSTR Source, [in] BSTR Trans) ;
+	[propget, id(7), helpstring("property ActiveMemory")] 
+		HRESULT ActiveMemory([out, retval] IMemory** pVal);
+	[propget, id(8), helpstring("property ActiveGlossary")] 
+		HRESULT ActiveGlossary([out, retval] IMemory** pVal);
+	[propget, id(9), helpstring("property MemoryWindow")] 
+		HRESULT MemoryWindow([out, retval] IMemoryWindow** pVal);
+	[propget, id(10), helpstring("property GlossaryWindow")] 
+		HRESULT GlossaryWindow([out, retval] IMemoryWindow** pVal);
+	[propget, id(11), helpstring("property Memories")] 
+		HRESULT Memories([out, retval] IMemories** pVal);
+	[propget, id(12), helpstring("property Glossaries")] 
+		HRESULT Glossaries([out, retval] IMemories** pVal);
+};
+// App
+[
+	object,
+	uuid(C9063D7F-5F1F-4155-9666-C349030FC4B3),
+	dual,
+	nonextensible,
+	helpstring("IApp Interface"),
+	pointer_default(unique)
+]
+interface IApp : IDispatch{
+	[propget, id(1), helpstring("property Visible")] 
+		HRESULT Visible([out, retval] VARIANT_BOOL* pVal) ;
+	[propput, id(1), helpstring("property Visible")] 
+		HRESULT Visible([in] VARIANT_BOOL newVal) ;
+
+	[id(2), helpstring("method Quit")] 
+		HRESULT Quit(void) ;
+
+	[id(3), helpstring("method Lookup")] 
+		HRESULT Lookup([in] BSTR Query) ;
+
+	[id(4), helpstring("method LookupTrans")] 
+		HRESULT LookupTrans([in] BSTR Trans) ;
+
+	[id(5), helpstring("method Concordance")] 
+		HRESULT Concordance([in] BSTR Query) ;
+
+	[id(6), helpstring("method TransConcordance")] 
+		HRESULT TransConcordance(BSTR Trans) ;
+
+	[propget, id(7), helpstring("property Score")] 
+		HRESULT Score([out, retval] DOUBLE* pVal) ;
+
+	[propget, id(8), helpstring("property Query")] 
+		HRESULT Query([out, retval] BSTR* pVal) ;
+	[propput, id(8), helpstring("property Query")] 
+		HRESULT Query([in] BSTR pVal) ;
+
+	[propget, id(9), helpstring("property Trans")] 
+		HRESULT Trans([out, retval] BSTR* pVal) ;
+	[propput, id(9), helpstring("property Trans")] 
+		HRESULT Trans([in] BSTR pVal) ;
+
+	[id(10), helpstring("method Save")] 
+		HRESULT Save(void) ;
+
+	[id(11), helpstring("method NextTrans")] 
+		HRESULT NextTrans(void) ;
+
+	[id(12), helpstring("method PrevTrans")] 
+		HRESULT PrevTrans(void) ;
+
+	[propget, id(13), helpstring("property GlossMatch")] 
+		HRESULT GlossMatch([in] SHORT Index, [out, retval] BSTR* pVal) ;
+
+	[propget, id(14), helpstring("property NumGlossMatches")] 
+		HRESULT NumGlossMatches([out, retval] SHORT* pVal) ;
+
+	[id(15), helpstring("method LoadMemory")] 
+		HRESULT LoadMemory([in] BSTR MemoryName) ;
+
+	[id(16), helpstring("method LoadGlossary")] 
+		HRESULT LoadGlossary([in] BSTR GlossaryName) ;
+
+	[id(17), helpstring("method ClearMemories")] 
+		HRESULT ClearMemories(void) ;
+
+	[id(18), helpstring("method ClearGlossaries")] 
+		HRESULT ClearGlossaries(void) ;
+
+	[propget, id(19), helpstring("property ShowMarkup")] 
+		HRESULT ShowMarkup([out, retval] VARIANT_BOOL* pVal) ;
+	[propput, id(19), helpstring("property ShowMarkup")] 
+		HRESULT ShowMarkup([in] VARIANT_BOOL newVal) ;
+
+	[id(20), helpstring("method AddMemoryEntry")] 
+		HRESULT AddMemoryEntry([in] BSTR Source, [in] BSTR Trans, [in] BSTR EntryContext) ;
+
+	[id(21), helpstring("method AddGlossaryEntry")] 
+		HRESULT AddGlossaryEntry([in] BSTR Source, [in] BSTR Trans, [in] BSTR EntryContext) ;
+
+	[id(22), helpstring("method DeleteMemEntry")] 
+		HRESULT DeleteMemEntry(void) ;
+
+	[id(23), helpstring("method CorrectTrans")] 
+		HRESULT CorrectTrans([in] BSTR Trans) ;
+
+	[propget, id(24), helpstring("property NumMatches")] 
+		HRESULT NumMatches([out, retval] SHORT* pVal) ;
+		
+	[propget, id(25), helpstring("property App2")] 
+		HRESULT App2([out, retval] IApp2** pVal);
+
+	[id(26), helpstring("method Lookup")] 
+		HRESULT LookupDeferred([in] BSTR Query) ;
+
+	[id(27), helpstring("method LookupTrans")] 
+		HRESULT LookupTransDeferred([in] BSTR Trans) ;
+
+};
+
+[
+	object,
+	uuid(13AA9D46-D1BD-4531-95F7-00357EB31D8D),
+	dual,
+	nonextensible,
+	helpstring("IFelixMemDocUIHandler Interface"),
+	pointer_default(unique)
+]
+interface IFelixMemDocUIHandler : IDocHostUIHandlerDispatch{
+};
+
+//////////////////////////////////////////////////////////////////////////
+// Felix library
+//////////////////////////////////////////////////////////////////////////
+
+[
+	uuid(47D0B52B-7365-4A47-8287-F541C14707A5),
+	version(1.0),
+	helpstring("Felix 1.0 Type Library")
+]
+// library
+library Felix
+{
+	importlib("stdole32.tlb") ;
+	importlib("stdole2.tlb") ;
+
+	[
+		uuid(4948E973-2FE7-4E6B-914E-55417CCFDF22),
+		helpstring("App Class")
+	]
+	coclass App
+	{
+		[default] interface IApp;
+	};
+	[
+		uuid(C75C9294-5D81-43B9-BD63-B89C4CB0F8D9),
+		helpstring("_IApp2Events Interface")
+	]
+	dispinterface _IApp2Events
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(90BB5766-0F79-4E15-8866-D42634EE28E9),
+		helpstring("App2 Class")
+	]
+	coclass App2
+	{
+		[default] interface IApp2;
+		[default, source] dispinterface _IApp2Events;
+	};
+	[
+		uuid(4DB873D3-E714-45D7-A209-2E9389470F51),
+		helpstring("_IRecordEvents Interface")
+	]
+	dispinterface _IRecordEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(FFC55E59-833C-469D-82EB-B1ABF765793D),
+		helpstring("Record Class")
+	]
+	coclass Record
+	{
+		[default] interface IRecord;
+		[default, source] dispinterface _IRecordEvents;
+	};
+	[
+		uuid(BD1341E4-5BDB-4866-875E-5BB208AADEE4),
+		helpstring("SearchResult Class")
+	]
+	coclass SearchResult
+	{
+		[default] interface ISearchResult;
+	};
+	[
+		uuid(022ECF0F-E006-44D7-B9BA-ED4786FBDE76),
+		helpstring("FelixMemDocUIHandler Class")
+	]
+	coclass FelixMemDocUIHandler
+	{
+		[default] interface IFelixMemDocUIHandler;
+	};
+	[
+		uuid(AE39B643-6534-42D9-A4A1-9C5F414BD6D8),
+		helpstring("SearchResults Class")
+	]
+	coclass SearchResults
+	{
+		[default] interface ISearchResults;
+	};
+	[
+		uuid(0CEE03C8-86F5-437C-940E-E30FB40FD3FA),
+		helpstring("ComMemory Class")
+	]
+	coclass ComMemory
+	{
+		[default] interface IMemory;
+	};
+	[
+		uuid(8B991DDC-940F-42B1-A779-81CF64C94B6E),
+		helpstring("ComRecords Class")
+	]
+	coclass ComRecords
+	{
+		[default] interface IRecords;
+	};
+	[
+		uuid(E63B3CE1-D643-4062-9349-8A96A162BE6A),
+		helpstring("MemoryWindow Class")
+	]
+	coclass MemoryWindow
+	{
+		[default] interface IMemoryWindow;
+	};
+	[
+		uuid(182930DF-8DED-4F9C-A330-2C8A39CBE79B),
+		helpstring("GlossaryWindow Class")
+	]
+	coclass GlossaryWindow
+	{
+		[default] interface IGlossaryWindow;
+	};
+	[
+		uuid(27A55855-3A19-4C57-B7CA-F49AC6A8E82C),
+		helpstring("Memories Class")
+	]
+	coclass Memories
+	{
+		[default] interface IMemories;
+	};
+};

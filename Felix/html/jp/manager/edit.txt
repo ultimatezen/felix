@@ -1,0 +1,81 @@
+﻿<p><a href="/start" title="管理ＴＯＰへ">トップ</a>
+	&gt;&gt;
+        {% if memtype == "mem" %}<a href="/memories">TM</a>{% endif %}
+        {% if memtype == "gloss" %}<a href="/glossaries">用語集</a>{% endif %}
+	&gt;&gt;
+	{$name}の編集
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>{$name}の編集</h2>
+
+<form method="post" action="/{$index}/{$memtype}/submit_edit" name="mem_edit_form">
+
+<table width="100%" class="info">
+	<tr>
+		<td bgcolor="#E6FFE6"><b>作成者</b></td>
+		<td bgcolor="#E6FFE6"><input type="text" name="creator" id="creator" value="{$creator}" /></td>
+	</tr>
+	<tr>
+		<td><b>分野</b></td>
+		<td><input type="text" name="field" id="field" value="{$field}" /></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>作成日時</b></td>
+		<td bgcolor="#E6FFE6"><input type="text" name="created_on" id="created_on" value="{$created_on}" /></td>
+	</tr>
+	<tr>
+		<td><b>起点言語</b></td>
+		<td><input type="text" name="source_language" id="source_language" value="{$source_language}" /></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>目的言語</b></td>
+		<td bgcolor="#E6FFE6"><input type="target_language" name="target_language" id="target_language" value="{$target_language}" /></td>
+	</tr>
+	<tr>
+		<td><b>クライアント</b></td>
+		<td><input type="text" name="client" id="client" value="{$client}" /></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b><label for="mem_type_tm">ＴＭ・用語集</label></b></td>
+		<td bgcolor="#E6FFE6">
+			<input type="radio" name="memtype" id="mem_type_tm" value="tm" {% if memtype == "mem" %}checked="checked" {% endif %}/> TM<br />
+			<input type="radio" name="memtype" id="mem_type_gloss" value="gloss" {% if memtype == "gloss" %}checked="checked" {% endif %}/> 用語集
+		</td>
+	</tr>
+	<tr>
+		<td><b>ロック</b></td>
+		<td><input type="checkbox" name="locked" id="locked" value="locked" {% if locked == "true" %}checked="checked" {% endif %}/></td>
+	</tr>
+	<tr>
+		<td bgcolor="#E6FFE6"><b>有効</b></td>
+		<td bgcolor="#E6FFE6"><input type="checkbox" name="is_active" id="is_active" value="is_active" {% if is_active == "true" %}checked="checked" {% endif %}/></td>
+	</tr>
+	<tr>
+		<td><b>既定の文脈</b></td>
+		<td><textarea name="default_context" id="default_context">{$default_context}</textarea></td>
+	</tr>
+</table>
+                    <!-- submit button -->
+                    <p>
+                    <input type="submit" name="submit" value="変更" />
+                    </p>
+
+</form>
+
+<h3>操作</h3>
+
+<ul>
+	<li><a href="/{$index}/{$memtype}/view">{$name}の表示</a></li>
+	<!-- mem-num / page / mem-type -->
+        <li><a href="/{$index}/1/{$memtype}/browse">{$name}の一覧表</a></li>
+	<li><a href="/{$index}/{$memtype}/remove">{$name}の退避</a></li>
+</ul>

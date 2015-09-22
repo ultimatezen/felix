@@ -1,0 +1,14 @@
+<table width="100%" class="info">
+<tr><td bgcolor="#F2F2F2"><b>ファイル名:</b></td><td id="file_name" bgcolor="#F2F2F2">{$file_name}</td></tr>
+<tr><td><b>作成者:</b></td><td id="creator">{$creator}</td></tr>
+<tr><td bgcolor="#F0F0F0"><b>分野:</b></td><td id="field" bgcolor="#F0F0F0"><b>{$field}</b></td></tr>
+<tr><td><b>作成日時:</b></td><td id="created_on">{$created_on}</td></tr>
+<tr><td bgcolor="#F0F0F0"><b>原言語:</b></td><td id="source_language" bgcolor="#F0F0F0"><b>{$source_language}</b></td></tr>
+<tr><td><b>目的言語:</b></td><td id="target_language"><b>{$target_language}</b></td></tr>
+<tr><td bgcolor="#F0F0F0"><b>クライアント:</b></td><td id="client" bgcolor="#F0F0F0"><b>{$client}</b></td></tr>
+<tr><td><b>エントリ数:</b></td><td id="mem_size">{$mem_size}</td></tr>
+<tr><td bgcolor="#F0F0F0"><b>ファイル・サイズ:</b></td><td id="file_size" bgcolor="#F0F0F0">{$file_size}</td></tr>
+<tr><td><b>信頼度:</b></td><td id="reliability">{$reliability}</td></tr>
+<tr><td bgcolor="#F0F0F0"><b>確認済み %</b></td><td id="validated" bgcolor="#F0F0F0">{$validated}</td></tr>
+<tr><td><b>ロック有効:</b></td><td id="locked">{$locked}</td></tr>
+</table><p align=right><b><a href="100:100">詳細設定...</a></b></p>

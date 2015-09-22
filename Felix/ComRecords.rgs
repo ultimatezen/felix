@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.ComRecords.1 = s 'ComRecords Class'
+	{
+		CLSID = s '{8B991DDC-940F-42B1-A779-81CF64C94B6E}'
+	}
+	Felix.ComRecords = s 'ComRecords Class'
+	{
+		CLSID = s '{8B991DDC-940F-42B1-A779-81CF64C94B6E}'
+		CurVer = s 'Felix.ComRecords.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {8B991DDC-940F-42B1-A779-81CF64C94B6E} = s 'ComRecords Class'
+		{
+			ProgID = s 'Felix.ComRecords.1'
+			VersionIndependentProgID = s 'Felix.ComRecords'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

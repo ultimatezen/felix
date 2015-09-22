@@ -1,0 +1,20 @@
+﻿{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2><a href="/memories">TM</a></h2>
+<div id="tms">
+{$memlist}
+</div>
+
+<h2><a href="/glossaries">用語集</a></h2>
+<div id="glossaries">
+{$glosslist}
+</div>
+
+<p><a href="/qc_settings">QCチェックの設定</a></p>

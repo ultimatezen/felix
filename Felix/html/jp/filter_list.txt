@@ -1,0 +1,6 @@
+﻿{% if filters %}
+<h3>フィルタ</h3>
+{% for filter in filters %}
+{$filter} (<a href="/{$loop.index0}/deletefilter" style="font-size:80%">削除</a>)<br />
+{% endfor %}
+{% endif %}

@@ -1,0 +1,48 @@
+<p><a href="/start" title="Go to Manager Home">Home</a>
+	&gt;&gt;
+        QC Settings
+</p>
+
+{% if message %}
+	<div class="ui-widget">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			{$message}</p>
+		</div>
+	</div>
+{% endif %}
+
+<h2>QC Settings</h2>
+
+<form method="post" action="/submit_qc" name="qc_check_form">
+
+<fieldset>
+	<input type="checkbox" name="numbers" id="numbers" value="numbers" {% if numbers %}checked="checked" {% endif %}/>
+	<b>Numbers:</b> Match numbers in source and target
+<br /><br />
+	<input type="checkbox" name="allcaps" id="allcaps" value="allcaps" {% if allcaps %}checked="checked" {% endif %}/>
+	<b>ALL CAPS:</b> Match ALL CAPS words in source and target
+<br /><br />
+	<input type="checkbox" name="gloss" id="gloss" value="gloss" {% if gloss %}checked="checked" {% endif %}/>
+	<b>Glossary:</b> Match glossary terms in source to translations in Target
+		{% if glosses %}
+		<fieldset>
+			<p>Glossaries to use in check</p>
+		{% for mem in glosses %}
+			<input type="checkbox" name="{$mem.id}" id="{$mem.id}" value="{$mem.id}" {% if mem.checked %}checked="checked" {% endif %}/>
+			{$mem.name}
+	    {% endfor %}
+		</fieldset>
+		{% endif %}
+</fieldset>
+
+<div style="margin-top:10px;">
+	<input type="checkbox" name="live" id="live" value="live" {% if live %}checked="checked" {% endif %}/>
+	<b>Live:</b>　Perform live checking
+</div>
+                    <!-- submit button -->
+                    <p>
+                    <input type="submit" name="submit" value="Submit" />
+                    </p>
+
+</form>

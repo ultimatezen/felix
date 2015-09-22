@@ -1,0 +1,47 @@
+﻿<html>
+<head>
+<META Http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<title>
+	Opening Page
+</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table class="base">
+<!-- {% for record in records %} -->
+  <tr id="{$loop.index0}">
+   <td rowspan="4"><strong>{$loop.index}.</strong><br />
+   <a title="エントリの編集" href="142:{$loop.index0}">[E]</a>-<a 
+      title="エントリの削除" href="593:{$loop.index0}">[D]</a>-<a
+      title="用語候補の選択登録" href="127:{$loop.index0}">[R]</a>-<a 
+      title="用語集へコピー" href="129:{$loop.index0}">[G]</a> <br />
+	  [{$record.mem}]</td>
+    <th>照会</th>
+    <td class="match_content" id="query" style="color: {$query_color}">{$record.query}</td></tr>
+  <tr>
+    <th>原文</th>
+    <td class="match_content" id="source" style="color: {$source_color}">{$record.source}</td></tr>
+  <tr>
+    <th>訳文</th>
+    <td class="match_content" id="trans" style="color: {$trans_color}">{$record.trans}</td></tr>
+  <tr>
+    <td colspan="2">
+		<strong>スコア</strong>: {$record.score}&nbsp;&nbsp;
+		<strong>確認済み</strong>: {$record.validated}&nbsp;&nbsp;
+		<strong>信頼度</strong>: {$record.reliability}&nbsp;&nbsp;
+		<strong>採用カウント</strong>: {$record.refcount}
+	</td>
+	</tr>
+<!-- {% endfor %} -->
+</table>
+
+<table class="nav">
+  <tr>
+    <th style="text-align: right">
+		<a href="152:424">戻る</a> | <a href="152:426">次へ</a>
+	</th>
+  </tr>
+</table>
+
+</body>
+</html>

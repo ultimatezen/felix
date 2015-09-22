@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PowerPointAssist", "PowerPointAssist\PowerPointAssist.vcproj", "{57907A8C-C01C-4327-AFED-38A859425977}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release ANSI|Win32 = Release ANSI|Win32
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release|Win32 = Release|Win32
+		Unicode Debug|Win32 = Unicode Debug|Win32
+		Unicode_Debug|Win32 = Unicode_Debug|Win32
+		Unicode_Release|Win32 = Unicode_Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57907A8C-C01C-4327-AFED-38A859425977}.Debug|Win32.ActiveCfg = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Debug|Win32.Build.0 = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release ANSI|Win32.ActiveCfg = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release ANSI|Win32.Build.0 = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release Unicode|Win32.ActiveCfg = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release Unicode|Win32.Build.0 = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release|Win32.ActiveCfg = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Release|Win32.Build.0 = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode Debug|Win32.ActiveCfg = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode Debug|Win32.Build.0 = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode_Debug|Win32.ActiveCfg = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode_Debug|Win32.Build.0 = Debug|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode_Release|Win32.ActiveCfg = Release|Win32
+		{57907A8C-C01C-4327-AFED-38A859425977}.Unicode_Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rules>
+  <rule>
+    <name>ALL CAPS</name>
+    <source>([-_A-Z][-_A-Z]+)</source>
+    <target>\1</target>
+    <sample>Some text ALL-CAPS_BIG-NAME.</sample>
+    <enabled>1</enabled>
+  </rule>
+  <rule>
+    <name>Numbers</name>
+    <source>(\d+(\.\d+)?)</source>
+    <target>\1</target>
+    <sample>My number 123.456</sample>
+    <enabled>0</enabled>
+  </rule>
+</rules>

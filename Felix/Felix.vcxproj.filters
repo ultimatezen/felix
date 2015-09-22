@@ -1,0 +1,1961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{547f546c-621c-421d-bc8f-e282680dc553}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{703c6be5-4934-4745-b479-1e4559c26bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ManagerView">
+      <UniqueIdentifier>{63ad6c79-3f98-438a-8fb0-f7694cbebeac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\view_state">
+      <UniqueIdentifier>{1dc3a817-0277-4982-873f-7a6aaf0f53bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\import_export">
+      <UniqueIdentifier>{ebb83ef0-2b0f-4a72-8157-228c557b93f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\undoable_actions">
+      <UniqueIdentifier>{46391a30-6a4e-4fe0-88d6-626583ea6942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\qcrules">
+      <UniqueIdentifier>{5d0b882d-cf5c-4881-9e81-0fb1b54534d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mem_engine">
+      <UniqueIdentifier>{cb1685bb-731a-4773-80ee-e75bce3bf0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{faf38619-7340-4ba1-8ea7-fc9fc29c642e}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Header Files\fake">
+      <UniqueIdentifier>{93a09c09-be2a-4a7a-bb93-2ebd11f897ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ManagerView">
+      <UniqueIdentifier>{da9d4032-5247-45a8-9661-b91117c361a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\import_export">
+      <UniqueIdentifier>{a03b5614-edf6-47ab-bb47-60294b05c1f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\view_state">
+      <UniqueIdentifier>{6d91edef-68a2-4ff4-90f4-2000cb453646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\undoable_actions">
+      <UniqueIdentifier>{e58f4c8a-5521-4238-b27c-c9d65f8a136e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\qcrules">
+      <UniqueIdentifier>{adfebae3-b8ec-46f1-83ef-a283ce5eef1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mem_engine">
+      <UniqueIdentifier>{b976f4ff-1e08-4bff-b319-34f49e68d6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{feef7741-eea5-4627-8821-81bf69d4544f}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files\placement">
+      <UniqueIdentifier>{d811110d-0e38-4a81-936e-c4d1c6f6a9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\placement">
+      <UniqueIdentifier>{8be7634c-f43d-4f1f-a310-7154b7e49665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\glossrules">
+      <UniqueIdentifier>{101e3cb7-54f1-4896-9f20-bc0547b2c266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lua">
+      <UniqueIdentifier>{b1b60aad-d50d-4241-b8ea-252a43f4882a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lua">
+      <UniqueIdentifier>{5834b75c-6c06-4bd7-b4d5-9380a037c284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dialogs">
+      <UniqueIdentifier>{1b133fea-d0ac-4d76-879d-b522136ba0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\COM Servers">
+      <UniqueIdentifier>{21b7a93b-9040-4f1e-b418-5288e3865866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\COM Servers">
+      <UniqueIdentifier>{3d341d30-f9be-4152-8194-d68a4a3b04a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{0c9ca1d0-8b5c-4c46-881c-0e67628e6423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialogs\test">
+      <UniqueIdentifier>{a2a260cf-7edf-4ef9-9363-418b6d85d2de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="charset_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\ColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonWindowFunctionality.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\distance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="document_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xpmenu\Draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Drop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="element_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraStringsView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Felix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="felix_cl_options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Felix_properties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixMemDocUIHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font_tabulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HrefTags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlDocColorSetter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\HtmlDocument.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\HtmlView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportMultitermFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\input_device_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Library.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="longest_common_substring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="markup_strings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="match_filters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="match_score.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MinViewDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MultiLanguage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NavUrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\numberfmt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pagination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\pugxml\src\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\pugxml\src\pugixpath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryMergeDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegisterGlossDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\RegSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="replacer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResHtmlFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\resource_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\rtf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Scintilla_encodings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\ScintillaEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchResults.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceAndHtmlEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\system_message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedTextImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tag_name_holder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text_templates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\xpmenu\ToolBarXP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="view_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewCollectionWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedMemMgrDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="App2_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="App_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="AppTemplateTests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\array_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="AutomationExceptionHandler_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="charset_info_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorRef_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="com_utilities_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemories_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemory_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonWindowFunctionality_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecord_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecords_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcordanceDialog_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="data_converter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="data_exporter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="data_importer_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="destination_parser_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\distance_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="element_wrapper_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="excelexporter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="export_tabbed_text_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="extrastringsview_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="felix_cl_options_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Felix_properties_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixMemDocUIHandler_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\File_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="FindDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="font_tabulator_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="HrefTags_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlDocColorSetter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="HtmlDocument_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportDialog_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportMultitermFile_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKeyDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSymbolDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="languageholder_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="library_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="logging_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="logical_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="longest_common_substring_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="mainframe_messaging_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="match_filters_matcher_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="match_filters_searcher_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="match_filters_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="match_score_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManagerDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindow_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MinViewDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="miscwrappers_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MultitermConversionDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="NavUrl_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="numberfmt_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="oleautowrapper_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="pagination_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryMergeDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="RegisterGlossDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="replacer_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ResHtmlFile_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="rtf_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ScintillaEdit_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchResult_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchResults_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchWindow_browser_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchWindow_templates_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchWindow_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="segment_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="sourceandhtmledit_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConversions_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="StringEx_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="system_message_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedTextImporter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tag_stripper_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tag_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="text_templates_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\textstream_reader_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxImportLangsDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxSymbolMapper_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXWriter_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="translation_match_query_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="UserStringDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="view_interface_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewCollectionWalker_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="WebPage_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="window_state_tests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsMessage_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="xpmenu_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="zoom_dialog_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="EditFormParser.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerView.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewActions.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewActions_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewBrowse.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewBrowse_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewDetails.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewDetails_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewEdit.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewEdit_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCBrowse.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCBrowse_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCSettings.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewQCSettings_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewStart.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerViewStart_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_concordance.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="data_converter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="data_exporter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="data_importer.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="export_tabbed_text.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXReader.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxSymbolMapper.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXWriter.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_entry.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_matches.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_strip_tags.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_trim_spaces.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\allcaps_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\allcaps_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\gloss_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\gloss_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\number_check.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\number_check_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\qc_checker.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\qcrules\qc_checker_test.cpp">
+      <Filter>Source Files\qcrules</Filter>
+    </ClCompile>
+    <ClCompile Include="match_maker.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_maker_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_tester.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="match_tester_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_header.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_header_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_local.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_local_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_model.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_model_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_remote.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_remote_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="query.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="query_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_local.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_local_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_remote.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_remote_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="record_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="search_match.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="search_match_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationMemory.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TranslationMemory_test.cpp">
+      <Filter>Source Files\mem_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="revertible_action.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="BrowseView.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindow_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOpHandler_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="background_processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\DispatchWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QCFormParser.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="QCFormParser_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="EditFormParser_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerWindow_test.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerWindow.cpp">
+      <Filter>Source Files\ManagerView</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_entry_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_delete_matches_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_strip_tags_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="action_trim_spaces_test.cpp">
+      <Filter>Source Files\undoable_actions</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_concordance_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_initial_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_match_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_new_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="view_state_review_test.cpp">
+      <Filter>Source Files\view_state</Filter>
+    </ClCompile>
+    <ClCompile Include="placement_holes.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="number_placement.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="number_placement_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="placement_holes_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MatchStringPairing.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\MatchStringPairing_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="xml_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rule_placement.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="rule_placement_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_placement.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_placement_test.cpp">
+      <Filter>Source Files\placement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Exceptions_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXImportDlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXReader_test.cpp">
+      <Filter>Source Files\import_export</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsExceptionHandler_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lapi.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lauxlib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lbaselib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lbitlib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lcode.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lcorolib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lctype.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ldblib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ldebug.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ldo.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ldump.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lfunc.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lgc.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\linit.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\liolib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\llex.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lmathlib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lmem.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\loadlib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lobject.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lopcodes.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\loslib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lparser.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lstate.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lstring.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lstrlib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ltable.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ltablib.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\ltm.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lundump.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lvm.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua-5.2.2\src\lzio.c">
+      <Filter>Source Files\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\config_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\FileOpHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\aboutdlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedMemMgrDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="App2.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComMemory.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecord.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComRecords.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcordanceDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectionDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModeFindDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogModal.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogRegGloss.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FindDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSymbolDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKeyDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManagerDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Memories.cpp">
+      <Filter>Source Files\COM Servers</Filter>
+    </ClCompile>
+    <ClCompile Include="MultitermConversionDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="TMXImportDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="zoom_dialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="UserStringDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\menu_helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TmxImportLangsDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="aboutdlg_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialog_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditModeFindDlg_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogModal_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="EditTransRecordDialogRegGloss_test.cpp">
+      <Filter>Source Files\dialogs\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\system_paths.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\system_paths_tests.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindowFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindowFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossaryWindowFrame_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryWindowFrame_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_win_collection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gloss_win_collection_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixModelInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FelixModel_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_fake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesDlg.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpptempl\cpptempl_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="RegSettings_test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="file_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="copydata.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="App.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="App2.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ComMemory.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ComRecords.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DELETE.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Felix.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Felix.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="FelixMemDocUIHandler.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="GlossaryWindow.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="help1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Memories.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MemoryWindow.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Parameters.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Record.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SearchResult.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SearchResults.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Felix.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\atlgdix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\AutomationExceptionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\background_processor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="charset_info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonWindowFunctionality.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpptempl\cpptempl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\CStringInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\CustomTabCtrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dispatchwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\distance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="document_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xpmenu\Draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="element_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\errortranslator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelInterfaceFake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelInterfaceReal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtraStringsView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="felix_cl_options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="felix_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Felix_properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixMemDocUIHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixModelInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixStatusBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="font_tabulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryDlgListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryDlgListenerFake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HrefTags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HtmlDocColorSetter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\HtmlDocument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\HtmlView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportMultitermFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Library.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizedServerAppModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\logical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="longest_common_substring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="match_filters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="match_score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Memories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xpmenu\MenuXP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\messagemapdefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\miscwrappers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MockListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MultiLanguage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPaneContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MyRecentDocumentList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySplitterWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NavInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NavUrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\numberfmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\oleautowrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\output_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pagination.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\pugxml\src\pugiconfig.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\pugxml\src\pugixml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\RegEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\RegistryStuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\RegSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="replacer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResHtmlFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\resource_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\rtf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ScintillaEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="segment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceAndHtmlEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\stringconversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\stringex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\system_message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabbedTextImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\tag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tag_name_holder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\tag_stripper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="text_templates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\textstream_reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xpmenu\ToolBarXP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xpmenu\Tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\UserName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserStringDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewCollectionWalker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\WindowExceptionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zoom_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="document_wrapper_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="element_wrapper_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="fake_undoable_action.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="felix_model_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="frame_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\input_device_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="manager_window_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewFake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactoryFake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="view_interface_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="window_interface_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="window_listener_fake.h">
+      <Filter>Header Files\fake</Filter>
+    </ClInclude>
+    <ClInclude Include="EditFormParser.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerView.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewActions.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewBrowse.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewDetails.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewEdit.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewQCBrowse.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewQCSettings.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerViewStart.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactory.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerWindowFactoryConcrete.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="QCFormParser.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="data_converter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="data_exporter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="data_importer.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelExporter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="export_tabbed_text.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXReader.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TmxSymbolMapper.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXWriter.h">
+      <Filter>Header Files\import_export</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_concordance.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_initial.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_match.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_new.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_review.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="view_state_test_utils.h">
+      <Filter>Header Files\view_state</Filter>
+    </ClInclude>
+    <ClInclude Include="action_delete_entry.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_delete_matches.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_strip_tags.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="action_trim_spaces.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="undoable_action.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\allcaps_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\check_rule.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\gloss_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\number_check.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\qcrules\qc_checker.h">
+      <Filter>Header Files\qcrules</Filter>
+    </ClInclude>
+    <ClInclude Include="markup_strings.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="match_maker.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="match_tester.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_header.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_info.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_local.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_model.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_remote.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="query.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record_local.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="record_remote.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="search_match.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TranslationMemory.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\debugutilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="revertible_action.h">
+      <Filter>Header Files\undoable_actions</Filter>
+    </ClInclude>
+    <ClInclude Include="BrowseView.h">
+      <Filter>Header Files\ManagerView</Filter>
+    </ClInclude>
+    <ClInclude Include="unit_test_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mem_tests.h">
+      <Filter>Header Files\mem_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="number_placement.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="placement_holes.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\MatchStringPairing.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_placement.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="xml_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rule_placement.h">
+      <Filter>Header Files\placement</Filter>
+    </ClInclude>
+    <ClInclude Include="command_edit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\atlscintilla.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\window_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lua.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\dotnettabctrl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ShellCtrls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\config_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\xml_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedMemMgrDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectionDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\aboutdlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MinViewDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcordanceDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditModeFindDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogCommon.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogModal.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="EditTransRecordDialogRegGloss.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="RegisterGlossDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManagerDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MultitermConversionDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryMergeDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSymbolDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="FindDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKeyDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertiesDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="_IApp2Events_CP.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="_IRecordEvents_CP.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="App2.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="com2stl_coll.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComMemory.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComRecord.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="ComRecords.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ComUtilities.h">
+      <Filter>Header Files\COM Servers</Filter>
+    </ClInclude>
+    <ClInclude Include="TmxImportLangsDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="TMXImportDlg.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lapi.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lauxlib.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lcode.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lctype.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\ldebug.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\ldo.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lfunc.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lgc.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\llex.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\llimits.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lmem.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lobject.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lopcodes.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lparser.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lstate.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lstring.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\ltable.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\ltm.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lua.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\luaconf.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lualib.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lundump.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lvm.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua-5.2.2\src\lzio.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\Source\LuaBridge\LuaBridge.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaWrapper\LuaWrapper\LuaState.h">
+      <Filter>Header Files\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\menu_helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tmx_dialogs.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="active_window.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\system_paths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossaryWindowFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryWindowFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gloss_win_collection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FelixModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_fake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpptempl\unit_testing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="string_logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\TabbedFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CredVault.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="res\Felix.exe.manifest">
+      <Filter>Resource Files</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Felix.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{df55e96e-0300-43e7-b866-dc5247c7f3bb}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6eba9722-611d-4272-beb5-a32da7a0d2a4}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e098b719-e369-4401-89c5-94a353a45a4c}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddIn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddIn_i.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipboardBackup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\ColorRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\font_properties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\GetWinVer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hooker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\html_formatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\html_processing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\html_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\logging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\resource_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Word2HtmlParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\word_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="word_writer_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MyLibrary\WordAutomationObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordController_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordControllerHtml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordControllerWord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WordScreenUpdateLock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddIn.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="AddIn.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00001.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00002.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00003.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00004.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00005.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00006.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00007.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bin00008.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp00001.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="correct.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="correct_and_next.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DELETE.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="HELP.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_corr.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_get_.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_glos.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_help.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_look.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_rest.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_save.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_set_.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="idb_swit.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="image1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="image2.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lookup_next_trans.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lookup_trans.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next5.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="next6.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PROP.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="restore.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="restore_and_next.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="save.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="switch_t.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Word2HtmlParser.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="default.doxygen" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="AddIn.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddGlossDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddIn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MyLibrary\Broadcaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MyLibrary\Broker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipboardBackup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\ColorRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\DispatchWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\font_properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\GetWinVer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\html_formatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\html_processing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\html_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputNumDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\logical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\numberfmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\resource_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\resource_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\stringex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\MyLibrary\textstream_reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MyLibrary\TextTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Word2HtmlParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MyLibrary\word_writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordControllerHtml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordControllerWord.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordScreenUpdateLock.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Development\C++\MyLibrary\DumpExceptionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AddIn.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

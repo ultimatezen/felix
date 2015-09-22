@@ -1,0 +1,32 @@
+﻿<div><strong>検索結果:</strong></div>
+<table class="base">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="5"><strong>{$loop.index}.</strong><br />
+     <a title="翻訳対の編集" href="142:{$loop.index0}">[E]</a>-<a 
+      title="翻訳対の削除" href="593:{$loop.index0}">[D]</a>-<a
+      title="用語候補の選択登録" href="127:{$loop.index0}">[R]</a>-<a 
+      title="用語集へコピー" href="129:{$loop.index0}">[G]</a> <br />
+	  [{$record.mem}]
+    </td>
+    <td><strong>原文</strong></td>
+    <td class="match_content" id="source">{$record.source}</td>
+  </tr>
+  <tr>
+    <td><strong>訳文</strong></td>
+    <td class="match_content" id="trans">{$record.trans}</td>
+  </tr>
+  <tr>
+    <td><strong>文脈</strong></td>
+    <td class="match_content" id="context">{$record.context}</td>
+  </tr>
+  <tr>
+    <td><strong>確認済み</strong></td>
+    <td class="match_content" id="validated">{$record.validated}</td>
+  </tr>
+  <tr>
+    <td><strong>信頼度</strong></td>
+    <td class="match_content" id="reliability">{$record.reliability}</td>
+  </tr>
+{% endfor %}
+</table>

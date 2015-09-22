@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e2cce417-d0a5-4da0-81ec-fe49a94bb0c6}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4a36e075-8856-44e1-a1d8-bba04d5d9f8c}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0128391e-9fca-44bf-a615-861cae0bb9a8}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\FelixENG.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Application.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\b3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\bitmap3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\bmp00001.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\close.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Copy.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\copy1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\CRDFLE01.ICO">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\cursor1.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Cut.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Delete.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Felix.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Felix.rgs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Felix_48px.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Felix_800px.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\FILES03A.ICO">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\FillColor.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Font.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Format.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\gloss_to.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Help.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\HLP.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\icon3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\idr_icon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\information.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\logo.jpeg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\LOGO320.GIF">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\LOGO640.GIF">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\logo800.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\logo_l.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\mem_mgr.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\network.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\NewDocument.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Open.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\openprefs.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Paste.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Properties.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\SAVE.BMP">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\SaveAll.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\saveprefs.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\screen2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\Search.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\tmpl1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\view.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\aboutpage.htm" />
+    <None Include="..\res\added_tr.htm" />
+    <None Include="..\res\CrashReportE.htm" />
+    <None Include="..\res\felix_logo.png" />
+    <None Include="..\..\..\Felix 1.5\res\html1.htm" />
+    <None Include="..\res\html1.htm" />
+    <None Include="..\res\html2.htm" />
+    <None Include="..\..\..\Felix 1.5\res\html2.htm" />
+    <None Include="..\res\mtr.htm" />
+    <None Include="..\..\..\Felix 1.5\res\mtr.htm" />
+    <None Include="..\res\nagpage.html" />
+    <None Include="..\..\..\Felix 1.5\res\nagpage.html" />
+    <None Include="..\res\nagsize.html" />
+    <None Include="..\res\OpeningGlossaryPage.html" />
+    <None Include="..\res\openingp.htm" />
+    <None Include="..\res\OpeningPage.html" />
+    <None Include="..\..\..\Felix 1.5\res\OpeningPage.html" />
+    <None Include="..\res\reg_gloss.htm" />
+    <None Include="..\..\..\Felix 1.5\res\reg_gloss.htm" />
+    <None Include="..\res\tmx_head.html" />
+    <None Include="..\..\..\Felix 1.5\res\tmx_head.html" />
+    <None Include="..\res\tmx_tu.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="1.58"/>
+    <errors>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting">
+            <location file="..\common\atlscintilla.h" line="111"/>
+        </error>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting">
+            <location file="..\common\atlscintilla.h" line="124"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &amp;#039;CScintillaIF::m_Pointer&amp;#039; is not initialized in the constructor." verbose="Member variable &amp;#039;CScintillaIF::m_Pointer&amp;#039; is not initialized in the constructor.">
+            <location file="..\common\atlscintilla.h" line="86"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &amp;#039;CScintillaIF::m_numberedBookmarks&amp;#039; is not initialized in the constructor." verbose="Member variable &amp;#039;CScintillaIF::m_numberedBookmarks&amp;#039; is not initialized in the constructor.">
+            <location file="..\common\atlscintilla.h" line="86"/>
+        </error>
+        <error id="catchExceptionByValue" severity="style" msg="Exception should be caught by reference." verbose="The exception is caught by value. It could be caught as a (const) reference which is usually recommended in C++.">
+            <location file="..\common\MiscWrappers.h" line="342"/>
+        </error>
+        <error id="redundantAssignment" severity="performance" msg="Variable &amp;#039;success&amp;#039; is reassigned a value before the old one has been used." verbose="Variable &amp;#039;success&amp;#039; is reassigned a value before the old one has been used.">
+            <location file="..\common\RegistryStuff.h" line="90"/>
+            <location file="..\common\RegistryStuff.h" line="92"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CRegMap&amp;#039; does not have a constructor." verbose="The class &amp;#039;CRegMap&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="..\common\RegistryStuff.h" line="20"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &amp;#039;dwRet&amp;#039; can be reduced." verbose="The scope of the variable &amp;#039;dwRet&amp;#039; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &amp;#039;i&amp;#039; can be reduced:&#10;void f(int x)&#10;{&#10;    int i = 0;&#10;    if (x) {&#10;        // it&amp;#039;s safe to move &amp;#039;int i = 0;&amp;#039; here&#10;        for (int n = 0; n &amp;lt; 10; ++n) {&#10;            // it is possible but not safe to move &amp;#039;int i = 0;&amp;#039; here&#10;            do_something(&amp;amp;i);&#10;        }&#10;    }&#10;}&#10;When you see this message it is always safe to reduce the variable scope 1 level.">
+            <location file="Felix_properties.h" line="515"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CMemoryPage&amp;#039; does not have a constructor." verbose="The class &amp;#039;CMemoryPage&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="PropertiesDlg.h" line="7"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CGeneralPage&amp;#039; does not have a constructor." verbose="The class &amp;#039;CGeneralPage&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="PropertiesDlg.h" line="47"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CAlgorithmPage&amp;#039; does not have a constructor." verbose="The class &amp;#039;CAlgorithmPage&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="PropertiesDlg.h" line="85"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CGlossaryPage&amp;#039; does not have a constructor." verbose="The class &amp;#039;CGlossaryPage&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="PropertiesDlg.h" line="124"/>
+        </error>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;CViewPage&amp;#039; does not have a constructor." verbose="The class &amp;#039;CViewPage&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instanciated. That may cause bugs or undefined behavior.">
+            <location file="PropertiesDlg.h" line="172"/>
+        </error>
+        <error id="incorrectStringBooleanError" severity="warning" msg="Conversion of string literal &amp;quot;size must be &amp;lt;= capacity&amp;quot; to bool always evaluates to true." verbose="Conversion of string literal &amp;quot;size must be &amp;lt;= capacity&amp;quot; to bool always evaluates to true.">
+            <location file="..\common\Array.h" line="189"/>
+        </error>
+        <error id="incorrectStringBooleanError" severity="warning" msg="Conversion of string literal &amp;quot;size must be &amp;lt;= capacity&amp;quot; to bool always evaluates to true." verbose="Conversion of string literal &amp;quot;size must be &amp;lt;= capacity&amp;quot; to bool always evaluates to true.">
+            <location file="..\common\Array.h" line="197"/>
+        </error>
+        <error id="incorrectStringBooleanError" severity="warning" msg="Conversion of string literal &amp;quot;if size = 0 then the Array is null&amp;quot; to bool always evaluates to true." verbose="Conversion of string literal &amp;quot;if size = 0 then the Array is null&amp;quot; to bool always evaluates to true.">
+            <location file="..\common\Array.h" line="198"/>
+        </error>
+        <error id="incorrectStringBooleanError" severity="warning" msg="Conversion of string literal &amp;quot;if the Array is null then size = 0&amp;quot; to bool always evaluates to true." verbose="Conversion of string literal &amp;quot;if the Array is null then size = 0&amp;quot; to bool always evaluates to true.">
+            <location file="..\common\Array.h" line="199"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::x&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::x&amp;#039; is never used.">
+            <location file="Felix_i.c" line="52"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s1&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s1&amp;#039; is never used.">
+            <location file="Felix_i.c" line="53"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s2&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s2&amp;#039; is never used.">
+            <location file="Felix_i.c" line="54"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::c&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::c&amp;#039; is never used.">
+            <location file="Felix_i.c" line="55"/>
+        </error>
+        <error id="redundantAssignment" severity="performance" msg="Variable &amp;#039;result&amp;#039; is reassigned a value before the old one has been used." verbose="Variable &amp;#039;result&amp;#039; is reassigned a value before the old one has been used.">
+            <location file="Felix_properties.cpp" line="738"/>
+            <location file="Felix_properties.cpp" line="740"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &amp;#039;HUNDRED_PERCENT&amp;#039; can be reduced." verbose="The scope of the variable &amp;#039;HUNDRED_PERCENT&amp;#039; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &amp;#039;i&amp;#039; can be reduced:&#10;void f(int x)&#10;{&#10;    int i = 0;&#10;    if (x) {&#10;        // it&amp;#039;s safe to move &amp;#039;int i = 0;&amp;#039; here&#10;        for (int n = 0; n &amp;lt; 10; ++n) {&#10;            // it is possible but not safe to move &amp;#039;int i = 0;&amp;#039; here&#10;            do_something(&amp;amp;i);&#10;        }&#10;    }&#10;}&#10;When you see this message it is always safe to reduce the variable scope 1 level.">
+            <location file="MemoryManagerDlg.cpp" line="282"/>
+        </error>
+        <error id="operatorEq" severity="style" msg="&amp;#039;SimpleString::operator=&amp;#039; should return &amp;#039;SimpleString &amp;amp;&amp;#039;." verbose="&amp;#039;SimpleString::operator=&amp;#039; should return &amp;#039;SimpleString &amp;amp;&amp;#039;.">
+            <location file="..\common\easyunit\simplestring.h" line="49"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &amp;#039;codepage&amp;#039; is assigned a value that is never used." verbose="Variable &amp;#039;codepage&amp;#039; is assigned a value that is never used.">
+            <location file="data_importer.cpp" line="1372"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;lang&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;lang&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="felix_cl_options.cpp" line="101"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;strings&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;strings&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="longest_common_substring.cpp" line="4"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;row&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;row&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="51"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;col&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;col&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="52"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;row&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;row&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="72"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;col&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;col&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="73"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;needle&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;needle&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="824"/>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &amp;#039;haystack&amp;#039; should be passed by reference." verbose="Parameter &amp;#039;haystack&amp;#039; is passed by value. It could be passed as a (const) reference which is usually faster and recommended in C++.">
+            <location file="match_maker.cpp" line="825"/>
+        </error>
+        <error id="variableScope" severity="style" msg="The scope of the variable &amp;#039;NUM_INTERVAL_STEPS&amp;#039; can be reduced." verbose="The scope of the variable &amp;#039;NUM_INTERVAL_STEPS&amp;#039; can be reduced. Warning: Be careful when fixing this message, especially when there are inner loops. Here is an example where cppcheck will write that the scope for &amp;#039;i&amp;#039; can be reduced:&#10;void f(int x)&#10;{&#10;    int i = 0;&#10;    if (x) {&#10;        // it&amp;#039;s safe to move &amp;#039;int i = 0;&amp;#039; here&#10;        for (int n = 0; n &amp;lt; 10; ++n) {&#10;            // it is possible but not safe to move &amp;#039;int i = 0;&amp;#039; here&#10;            do_something(&amp;amp;i);&#10;        }&#10;    }&#10;}&#10;When you see this message it is always safe to reduce the variable scope 1 level.">
+            <location file="memory_local.cpp" line="880"/>
+        </error>
+        <error id="unusedVariable" severity="style" msg="Unused variable: pairvec" verbose="Unused variable: pairvec">
+            <location file="placement_holes.cpp" line="32"/>
+        </error>
+        <error id="stlSize" severity="performance" msg="Possible inefficient checking for &amp;#039;bits&amp;#039; emptiness." verbose="Checking for &amp;#039;bits&amp;#039; emptiness might be inefficient. Using bits.empty() instead of bits.size() can be faster. bits.size() can take linear time but bits.empty() is guaranteed to take constant time.">
+            <location file="replacer.cpp" line="51"/>
+        </error>
+        <error id="stlSize" severity="performance" msg="Possible inefficient checking for &amp;#039;bits&amp;#039; emptiness." verbose="Checking for &amp;#039;bits&amp;#039; emptiness might be inefficient. Using bits.empty() instead of bits.size() can be faster. bits.size() can take linear time but bits.empty() is guaranteed to take constant time.">
+            <location file="replacer.cpp" line="75"/>
+        </error>
+        <error id="unusedVariable" severity="style" msg="Unused variable: marked_for_death" verbose="Unused variable: marked_for_death">
+            <location file="view_interface.cpp" line="603"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::x&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::x&amp;#039; is never used.">
+            <location file="Testing\Felix_i.c" line="52"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s1&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s1&amp;#039; is never used.">
+            <location file="Testing\Felix_i.c" line="53"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s2&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s2&amp;#039; is never used.">
+            <location file="Testing\Felix_i.c" line="54"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::c&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::c&amp;#039; is never used.">
+            <location file="Testing\Felix_i.c" line="55"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::x&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::x&amp;#039; is never used.">
+            <location file="Unicode_Debug\Felix_i.c" line="52"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s1&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s1&amp;#039; is never used.">
+            <location file="Unicode_Debug\Felix_i.c" line="53"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s2&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s2&amp;#039; is never used.">
+            <location file="Unicode_Debug\Felix_i.c" line="54"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::c&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::c&amp;#039; is never used.">
+            <location file="Unicode_Debug\Felix_i.c" line="55"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::x&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::x&amp;#039; is never used.">
+            <location file="Unicode_Release\Felix_i.c" line="52"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s1&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s1&amp;#039; is never used.">
+            <location file="Unicode_Release\Felix_i.c" line="53"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::s2&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::s2&amp;#039; is never used.">
+            <location file="Unicode_Release\Felix_i.c" line="54"/>
+        </error>
+        <error id="unusedStructMember" severity="style" msg="struct or union member &amp;#039;_IID::c&amp;#039; is never used." verbose="struct or union member &amp;#039;_IID::c&amp;#039; is never used.">
+            <location file="Unicode_Release\Felix_i.c" line="55"/>
+        </error>
+    </errors>
+</results>

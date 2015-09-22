@@ -1,0 +1,23 @@
+HKCR
+{
+	Felix.FelixMemDocUIHandler.1 = s 'FelixMemDocUIHandler Class'
+	{
+		CLSID = s '{022ECF0F-E006-44D7-B9BA-ED4786FBDE76}'
+	}
+	Felix.FelixMemDocUIHandler = s 'FelixMemDocUIHandler Class'
+	{
+		CLSID = s '{022ECF0F-E006-44D7-B9BA-ED4786FBDE76}'
+		CurVer = s 'Felix.FelixMemDocUIHandler.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {022ECF0F-E006-44D7-B9BA-ED4786FBDE76} = s 'FelixMemDocUIHandler Class'
+		{
+			ProgID = s 'Felix.FelixMemDocUIHandler.1'
+			VersionIndependentProgID = s 'Felix.FelixMemDocUIHandler'
+			ForceRemove 'Programmable'
+			LocalServer32 = s '%MODULE%'
+			'TypeLib' = s '{47D0B52B-7365-4A47-8287-F541C14707A5}'
+		}
+	}
+}

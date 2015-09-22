@@ -1,0 +1,6 @@
+	<div class="nomatch_query">
+		<span class="match_content" id="query" style="color: {$color}">{$query}</span>
+    </div>
+	<div class="nomatch_box">
+		一致する訳文がありません。
+	</div>

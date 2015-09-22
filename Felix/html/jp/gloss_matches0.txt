@@ -1,0 +1,64 @@
+﻿<table class="base">
+{% for record in records %}
+  <tr id="{$loop.index0}">
+   <td rowspan="2"><strong>{$loop.index0}.</strong>
+   <br />
+
+	<a title="エントリの編集" href="142:{$loop.index0}">[E]</a>-<a
+      title="エントリの削除" href="593:{$loop.index0}">[D]</a>-<a
+	  title="メモリに登録" href="158:{$loop.index0}">[M]</a><br />
+	  [{$record.mem}] <a href="#" id="view_{$loop.index}" onclick="toggleGlossDetails({$loop.index});">[&gt;&gt;]</a></td>
+    <td><strong>原語</strong></td>
+    <td id="source">{$record.source}</td></tr>
+  <tr>
+    <td><strong>訳語</strong></td>
+    <td id="trans">{$record.trans}</td></tr>
+                <tr id="item_{$loop.index}" style="display:none;">
+		<td colspan="2">
+                    <table class="props">
+                        <tr>
+                            <th>原文</th>
+                            <td>{$record.source}</td>
+                        </tr>
+                        <tr>
+                            <th>訳文</th>
+                            <td>{$record.trans}</td>
+                        </tr>
+                        <tr>
+                            <th>コンテキスト（文脈）</th>
+                            <td>{$record.context}</td>
+                        </tr>
+                        <tr>
+                            <th>信頼度</th>
+                            <td>{$record.reliability}</td>
+                        </tr>
+                        <tr>
+                            <th>確定</th>
+                            <td>{$record.validated}</td>
+                        </tr>
+                        <tr>
+                            <th>参照カウント</th>
+                            <td>{$record.ref_count}</td>
+                        </tr>
+                        <tr>
+                            <th>作成日時</th>
+                            <td>{$record.created}</td>
+                        </tr>
+                        <tr>
+                            <th>作成者</th>
+                            <td>{$record.creator}</td>
+                        </tr>
+                        <tr>
+                            <th>更新日時</th>
+                            <td>{$record.modified}</td>
+                        </tr>
+                        <tr>
+                            <th>変更者</th>
+                            <td>{$record.modified_by}</td>
+                        </tr>
+
+                    </table>
+		</td>
+                </tr>
+{% endfor %}
+</table>

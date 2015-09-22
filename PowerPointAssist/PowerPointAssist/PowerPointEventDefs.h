@@ -1,0 +1,121 @@
+#pragma once
+
+#include "PowerPointImports.h"
+
+
+static const GUID DIID__CommandBarButtonEvents = {0x000C0351,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+//static const GUID DIID__CommandBarComboBoxEvents = {0x000C0354,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+
+struct EventInfo 
+{
+	DWORD dwCookie;
+	IConnectionPoint *pCP;
+};
+
+
+extern _ATL_FUNC_INFO OnClickButtonInfo;
+
+class CConnect ;
+
+enum 
+{ 
+	BUTTON_ID_GET = 1, 
+	BUTTON_ID_SET, 
+	BUTTON_ID_GET_AND_NEXT, 
+	BUTTON_ID_SET_AND_NEXT, 
+	BUTTON_ID_LOOKUP, 
+	BUTTON_ID_LOOKUP_NEXT, 
+	BUTTON_ID_GLOSS_N,
+	BUTTON_ID_HELP,
+	// -------------------------
+	MENU_ID_AUTO_TRANS_SEL,
+	MENU_ID_AUTO_TRANS_FUZZY,
+
+	MENU_ID_LOOKUP, 
+	MENU_ID_LOOKUP_NEXT, 
+	MENU_ID_CONCORDANCE,
+
+	MENU_ID_GET, 
+	MENU_ID_GET_AND_NEXT, 
+
+	MENU_ID_SET, 
+	MENU_ID_SET_AND_NEXT, 
+
+	MENU_ID_EXTEND_LOOKUP,
+	MENU_ID_REGISTER_GLOSS,
+
+	MENU_ID_DELETE,
+	MENU_ID_NEXT,
+	MENU_ID_PREV,
+
+	MENU_ID_ENTRY_0,
+	MENU_ID_ENTRY_1,
+	MENU_ID_ENTRY_2,
+	MENU_ID_ENTRY_3,
+	MENU_ID_ENTRY_4,
+	MENU_ID_ENTRY_5,
+	MENU_ID_ENTRY_6,
+	MENU_ID_ENTRY_7,
+	MENU_ID_ENTRY_8,
+	MENU_ID_ENTRY_9,
+	MENU_ID_GLOSS_N,
+
+	MENU_ID_SAVE,
+	MENU_ID_HELP,
+
+	MENU_ID_PREFERENCES,
+
+	MENU_ID_SWITCH,
+
+	MENU_ID_MENU_GUI,
+};
+
+typedef Office::_CommandBarButtonEvents button_events ;
+
+#define DISP_EVENT_IMPL(x) typedef IDispEventSimpleImpl<x, CConnect, &__uuidof(button_events) >
+
+DISP_EVENT_IMPL(BUTTON_ID_GET) ButtonGetEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_SET) ButtonSetEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_GET_AND_NEXT) ButtonGetAndNextEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_SET_AND_NEXT) ButtonSetAndNextEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_LOOKUP) ButtonLookupEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_LOOKUP_NEXT)  ButtonLookupNextEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_GLOSS_N)  ButtonGlossNEventImpl ;
+DISP_EVENT_IMPL(BUTTON_ID_HELP)  ButtonHelpEventImpl ;
+
+// menu items
+
+DISP_EVENT_IMPL(MENU_ID_LOOKUP)  MenuLookupEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_LOOKUP_NEXT)  MenuLookupNextEventImpl ;
+
+DISP_EVENT_IMPL(MENU_ID_GET)  MenuGetEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_SET)  MenuSetEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_GET_AND_NEXT)  MenuGetAndNextEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_SET_AND_NEXT)  MenuSetAndNextEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_GLOSS_N)  MenuGlossNEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_SAVE)  MenuSaveEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_HELP)  MenuHelpEventImpl ;
+
+DISP_EVENT_IMPL(MENU_ID_AUTO_TRANS_SEL)  MenuAutoTransEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_AUTO_TRANS_FUZZY)  MenuAutoTransFuzzyEventImpl ;
+
+DISP_EVENT_IMPL(MENU_ID_CONCORDANCE)  MenuConcordanceEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_EXTEND_LOOKUP)  MenuExtendLookupEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_REGISTER_GLOSS)  MenuRegisterGlossEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_DELETE)  MenuDeleteEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_NEXT)  MenuNextEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_PREV)  MenuPrevEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_0)  MenuEntry0EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_1)  MenuEntry1EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_2)  MenuEntry2EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_3)  MenuEntry3EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_4)  MenuEntry4EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_5)  MenuEntry5EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_6)  MenuEntry6EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_7)  MenuEntry7EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_8)  MenuEntry8EventImpl ;
+DISP_EVENT_IMPL(MENU_ID_ENTRY_9)  MenuEntry9EventImpl ;
+
+DISP_EVENT_IMPL(MENU_ID_MENU_GUI)  MenuGuiEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_PREFERENCES)  MenuPreferencesEventImpl ;
+DISP_EVENT_IMPL(MENU_ID_SWITCH)  MenuSwitchModeEventImpl ;
