@@ -1,7 +1,33 @@
-﻿/*!
-	@brief Precompiled header file for Felix
-	@author Ryan Ginstrom
- */
+﻿/*! @mainpage
+
+@section intro Introduction
+
+Felix is the main program in the Assistant Suite; most of the other programs 
+in the suite use this one as an automation server. Felix appears as a GUI
+window managing/displaying the translation memories and glossaries, performing
+lookup, etc.
+
+Clients, such as the MS Office add-ins, call to Felix as a COM server, sending
+queries, getting translations, etc.
+
+Felix can also support remote TMs by interacting with Memory Serves (via HTTP).
+
+@section details Details
+
+Felix is a translation memory program.
+
+Felix implements an automation server, and interacts with several application
+interfaces and stand-alone applications.
+
+The main GUI window class is MemoryWindowFrame. This implements the Felix window. The GlossaryWindowFrame class 
+implements the glossary windows.
+
+The main COM server class is CApp, which implements the "Felix.App" COM server.
+
+The program's entry point is _tWinMain().
+
+See README for dependencies.
+*/
 
 #pragma once
 

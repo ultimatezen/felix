@@ -47,7 +47,7 @@ bool is_menu_key_pressed() ;
 
 /**
 	@class CCommonWindowFunctionality  
-	@brief Unites functionality common to both CMainFrame and CGlossaryDialog.
+	@brief Unites functionality common to both MemoryWindowFrame and GlossaryWindowFrame.
  */
 class CCommonWindowFunctionality : 
 	public CWindow

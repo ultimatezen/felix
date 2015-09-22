@@ -9,26 +9,6 @@
   
 ****************************************************************/
 
-/*! @mainpage
-
-  @section intro Introduction
-  
-	This is the documentation for the Felix program. Felix is the main program in the
-	Assistant Suite; most of the other programs in the suite use this one as an 
-	automation server.
-
-  @section details Details
-
-	Felix is a translation memory program. 
-
-	Felix implements an automation server, and interacts with several application 
-	interfaces and stand-alone applications.
-
-	Felix depends on the `cpptemplate` library: 
-	https://bitbucket.org/ginstrom/cpptemplate
-
- */
-
 #include "StdAfx.h"
 
 #include "resource.h"
@@ -141,6 +121,9 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 /*!
  * Put main code into a subroutine to allow exceptions to be caught more easily.
+ *
+ * Figures out whether we are registering/unregistering the COM server, running as a GUI,
+ * or running via COM automation.
  * 
  * \returns
  * int - success: EXIT_SUCCESS on success, other value otherwise.
@@ -331,6 +314,9 @@ int do_unit_testing(HINSTANCE hInstance)
  * Our program's entry point.
  * 
  * Main entry point of the program, called by the real main (which lives in crt land).
+ *
+ * If the `UNIT_TEST` macro is defined, performs unit tests and exits. Otherwise,
+ * calls MainSub() and catches any unhandled exceptions that may be thrown.
  */
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int nCmdShow)
 {
@@ -352,9 +338,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	lpstrCmdLine ;
 	nCmdShow ;
 	do_unit_testing(hInstance) ;
-
-
 #else
+
 	// normal program execution (not unit testing)
 
 	// going to a subroutine makes it cleaner to separate app code from error handling
