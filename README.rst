@@ -24,3 +24,15 @@ Building Felix requires the following separate libraries:
 - Lua: http://www.lua.org/
 - LuaBridge: https://github.com/vinniefalco/LuaBridge
 - Python: https://www.python.org/
+
+Documentation
+-------------
+
+The code documentation can be found here (generated using doxygen):
+http://felix-cat.com/media/docs/
+
+The user's manual can be found here:
+http://felix-cat.com/media/manuals/felix/
+
+(Japanese translation)
+http://jp.felix-cat.com/media/manuals/jp/felix/
