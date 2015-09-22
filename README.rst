@@ -25,6 +25,13 @@ Building Felix requires the following separate libraries:
 - LuaBridge: https://github.com/vinniefalco/LuaBridge
 - Python: https://www.python.org/
 
+Felix also links to the following libraries:
+
+- SciLexer.dll, from http://www.scintilla.org/
+- DbgHelp.dll
+
+Distributing Felix requires the VS 2010 and VS 2013 redistributable packages. It also requires the MSVCP90 and MSVCR90 DLLs for the python components.
+
 Documentation
 -------------
 
