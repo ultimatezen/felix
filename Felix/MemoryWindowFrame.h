@@ -1,5 +1,5 @@
 /*!
- * interface of the CMainFrame class.
+ * Implements interface of the frame window class.
  * 
  * Copyright (c) 2005 by <your name/ organization here>
  */
@@ -51,8 +51,13 @@ enum
 	USER_SAVE_MEMORIES
 };
 /**
-	@class CMainFrame 							   
+	@class MemoryWindowFrame 							   
 	@brief The main app window.
+
+	This window holds the translation memories. It displays queries, matches, concordance results, etc.
+
+	It is also the owner of the glossary windows, search window, and manager window, as well as the edit dialogs.
+	It pre-creates these windows and hides them, showing them when they are activated.
  */
 class MemoryWindowFrame : 							   
 		public CFrameWindowImpl< MemoryWindowFrame, CCommonWindowFunctionality >
@@ -497,7 +502,6 @@ public:
 		UPDATE_ELEMENT( ID_EDIT_REPLACE,	UPDUI_MENUPOPUP)
 	END_UPDATE_UI_MAP()
 
-	//BEGIN_MSG_MAP_EX(CMainFrame)
 public: 
 	messageMapType * get_message_map( UINT message );
 	UINT get_message_key( UINT message, WPARAM wParam );

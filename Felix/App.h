@@ -8,6 +8,11 @@
 /**
 	@class CApp
 	@brief COM interface for the application.
+
+	This is the main COM interface that clients use to make queries, get translations, etc. The COM
+	server then forwards these requests to MemoryWindowFrame, which holds the translation memories.
+	It may also forward some requests to GlossaryWindowFrame, one or more glossary windows which
+	hold glossaries.
  */
 class ATL_NO_VTABLE CApp : 
 	public CComObjectRootEx<CComSingleThreadModel>,

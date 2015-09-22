@@ -24,8 +24,8 @@ const static string ACTION_NAME_STRIP = "strip" ;
 typedef CWinTraits<WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 
 		WS_EX_OVERLAPPEDWINDOW> ManagerWindowTraits;
 
-// The new search window
-// Uses hosted IE browser control to show content
+//! The new management window
+//! Uses hosted IE browser control to show content
 class CManagerWindow : 
 	public CWindowImpl<CManagerWindow, CWindow, ManagerWindowTraits>
 	, public html::CHtmlViewListener
@@ -44,13 +44,13 @@ public:
 	model_iface_ptr m_gloss_model ;
 	HWND			m_hWndStatusBar ;
 
-	// location of window settings
+	//! location of window settings
 	CString m_settings_key ;
 
-	// the HTML view
+	//! the HTML view
 	frame_view m_view ;
 
-	// any messages to stick to top of search results
+	//! any messages to stick to top of search results
 	wstring			m_message ;	
 	CAccelerator	m_accelerator ;
 
@@ -69,9 +69,9 @@ public:
 	std::vector<mem_engine::search_match_ptr> m_qc_matches; 
 
 public:
-	// sensing stuff for unit testing
 	DECLARE_WND_CLASS(_T("ManagerWindowClass"))
-	DECLARE_SENSING_VAR ;
+	//! sensing stuff for unit testing
+	DECLARE_SENSING_VAR;
 
 	wstring get_message();
 	std::vector<mem_engine::search_match_ptr> & get_qc_matches()
@@ -111,7 +111,7 @@ public:
 	// URL navigation
 	// ========================
 
-	// return true to cancel!
+	//! return true to cancel!
 	bool OnBeforeNavigate2(_bstr_t url);
 
 	void redo_delete_record();
@@ -126,8 +126,8 @@ public:
 	// CProgressListener
 	// ========================
 	void OnProgressInit( const CString &file_name, size_t min_val, size_t max_val );
-	bool OnProgressLoadUpdate( size_t current_val ) ;// true to continue
-	bool OnProgressWriteUpdate( size_t current_val )  ;// true to continue
+	bool OnProgressLoadUpdate( size_t current_val ) ; //!< true to continue
+	bool OnProgressWriteUpdate( size_t current_val )  ; //!< true to continue
 	void OnProgressDoneWrite( size_t final_val ) ;
 	void OnProgressDoneLoad( size_t final_val ) ;
 
@@ -136,12 +136,12 @@ public:
 	// ========================
 
 	bool nav_empty(const std::vector<string> &tokens);
-	// navigation to various category pages
+	//! navigation to various category pages
 	bool nav_start(const std::vector<string> &tokens) ;
 	bool nav_memories(const std::vector<string> &tokens) ;
 	bool nav_glossaries(const std::vector<string> &tokens) ;
 
-	// moving items in list
+	//! moving items in list
 	bool nav_moveup(const std::vector<string> &tokens) ;
 	bool nav_movedown(const std::vector<string> &tokens) ;
 

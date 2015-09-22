@@ -12,8 +12,7 @@
 
 
 
-// CGlossaryDialog
-
+//! This class will make the GlossaryWindowFrame class automatable via COM
 class ATL_NO_VTABLE CGlossaryWindow :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CGlossaryWindow, &CLSID_GlossaryWindow>,
