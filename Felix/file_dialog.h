@@ -30,7 +30,9 @@ class file_open_dialog
 public:
 	void set_last_save(const wstring last_save)
 	{
-		m_last_save = last_save;
+		file::CPath path(CString(last_save.c_str()));
+		path.RemoveFileSpec();
+		m_last_save = wstring(static_cast<LPCWSTR>(path.Path()));
 	}
 	void set_title(const CString title)
 	{
@@ -144,7 +146,9 @@ public:
 
 	void set_last_save(const wstring last_save)
 	{
-		m_last_save = last_save;
+		file::CPath path(CString(last_save.c_str()));
+		path.RemoveFileSpec();
+		m_last_save = wstring(static_cast<LPCWSTR>(path.Path()));
 	}
 	void set_filename(const CString filename)
 	{
@@ -152,8 +156,6 @@ public:
 		{
 			file::CPath path(filename);
 			m_filename = path.FindFileName();
-			path.RemoveFileSpec();
-			this->set_last_save(wstring(static_cast<LPCWSTR>(path.Path())));
 		}
 		else
 		{
@@ -179,11 +181,11 @@ public:
 
 		m_dialog->SetFileTypes(m_file_filter.size(), &m_file_filter[0]);
 		m_dialog->SetTitle(m_title);
-		if (!m_filename.IsEmpty() && file::CPath(m_filename).FileExists())
+		if (!m_filename.IsEmpty())
 		{
 			m_dialog->SetFileName(m_filename);
 		}
-		else if (!m_last_save.empty() && file::CPath(CString(m_last_save.c_str())).IsDirectory())
+		if (!m_last_save.empty() && file::CPath(CString(m_last_save.c_str())).IsDirectory())
 		{
 			PIDLIST_ABSOLUTE pidl;
 			if (SUCCEEDED(::SHParseDisplayName(m_last_save.c_str(), nullptr, &pidl, SFGAO_FOLDER, 0)))
@@ -238,6 +240,7 @@ inline CString save_file(
 {
 	file_save_dialog dialog; 
 	dialog.set_filename(filename);
+	dialog.set_last_save(static_cast<LPCWSTR>(filename));
 	dialog.set_title(title);
 	dialog.set_file_filter(file_filter);
 	dialog.set_default_ext(default_ext);

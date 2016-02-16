@@ -15,8 +15,8 @@ void InputDeviceFile::ensure_file_exists( const CString file_name )
 		CString msg ;
 #ifdef FELIX_APPLICATION
 		msg.FormatMessage( IDS_MSG_NO_FILE, file_name ) ;
-#else
-		msg = _T("File not found") ;
+#else // IDS_MSG_NO_FILE not defined
+		msg = _T("File not found: ") + file_name ;
 #endif
 		THROW_WIN_EXCEPTION( msg ) ;
 	}

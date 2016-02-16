@@ -531,6 +531,13 @@ size_t GlossaryWindowFrame::num_matches()
 	return m_search_matches.size() ;
 }
 
+
+/** Check for existing memories loaded.
+*
+* Check whether the user wants to merge the glossaries.
+* The only difference between this and the memory frame version is the
+* glossary string ID values.
+*/
 GlossaryWindowFrame::MERGE_CHOICE GlossaryWindowFrame::check_empty_on_load()
 {
 	if ( m_model->empty() ) 
@@ -554,6 +561,9 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 {
 	if ( ! ::PathFileExists( file_name ) ) 
 	{
+		logging::log_warn(
+			string("Glossary file does not exist: ") + 
+			string2string(static_cast<LPCWSTR>(file_name)));
 		return false ;
 	}
 
@@ -561,7 +571,7 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 
 	if (should_merge == MERGE_CHOICE_CANCEL)
 	{
-		return false ;
+		return true ;
 	}
 
 	user_feedback( system_message( IDS_MSG_LOADING, file::name( file_name ).file_name() ) ) ;
@@ -577,12 +587,9 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 		ATLASSERT(should_merge == MERGE_CHOICE_MERGE) ;
 		mem = m_model->get_first_memory() ;
 	}
+
+	mem->set_is_memory(false);
 	mem->set_listener( static_cast< CProgressListener* >( this ) ) ;
-
-	// remember how many records we have now
-	int original_num(0) ;
-	original_num = mem->size() ;
-
 
 	bool success = false ;
 	try
@@ -591,24 +598,24 @@ bool GlossaryWindowFrame::load(const CString file_name, const bool check_empty /
 	}
 	catch ( ... ) 
 	{
-		mem->set_listener(nullptr);
+		logging::log_error("Failed to load glossary");
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
+			mem->set_listener(nullptr);
 			m_model->remove_memory_by_id( mem->get_id() ) ;
 		}
 		throw ;
 	}
 
 	mem->set_listener(nullptr);
-	set_window_title() ;
 
 	if ( success )
 	{ 
-		// success
+		set_window_title() ;
 		mem->set_is_memory(false) ;
-		::PostMessage( m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_DEMO_CHECK_EXCESS, 100 ), 0 ) ;
-		
 		m_mru.AddToList(  file_name ) ;
+		m_props->m_history_props.m_glossary_location = 
+			static_cast<LPCWSTR>(file_name) ;
 	}
 	else
 	{
@@ -800,6 +807,10 @@ bool GlossaryWindowFrame::handle_open()
 	dialog.set_title(R2T(IDS_OPEN_GLOSS_FILE));
 	dialog.set_file_filter(get_gloss_open_filter());
 	dialog.allow_multi_select();
+	if (!m_props->m_history_props.m_glossary_location.empty())
+	{
+		dialog.set_last_save(m_props->m_history_props.m_glossary_location);
+	}
 	user_feedback(IDS_OPEN);
 
 	if ( ! dialog.show( ) ) 
@@ -2177,6 +2188,9 @@ void GlossaryWindowFrame::save_memory_as( memory_pointer mem )
 	}
 
 	save_memory( mem ) ;
+
+	m_props->m_history_props.m_glossary_location = 
+		static_cast<LPCWSTR>(save_as_file_name);
 
 	// the title of the window will change to reflect the new memory name
 	set_window_title() ;
