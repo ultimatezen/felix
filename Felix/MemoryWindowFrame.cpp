@@ -759,6 +759,10 @@ LRESULT MemoryWindowFrame::on_file_open(  WindowsMessage &message )
 	dialog.set_title(R2T(IDS_OPEN));
 	dialog.set_file_filter(get_mem_open_filter());
 	dialog.allow_multi_select();
+	if (!m_props->m_history_props.m_memory_location.empty())
+	{
+		dialog.set_last_save(m_props->m_history_props.m_memory_location);
+	}
 
 	user_feedback( IDS_OPEN ) ;
 
@@ -2513,9 +2517,9 @@ bool MemoryWindowFrame::load(const CString file_name, const bool check_empty )
 	if ( success ) 
 	{
 		set_window_title() ;
-		// success
-		::PostMessage( m_hWnd, WM_COMMAND, MAKEWPARAM( IDC_DEMO_CHECK_EXCESS, 100 ), 0 ) ;
 		m_mru.AddToList( file_name ) ;
+		m_props->m_history_props.m_memory_location = 
+			static_cast<LPCWSTR>(file_name) ;
 		return true ;
 	}
 	else
@@ -3890,7 +3894,7 @@ void MemoryWindowFrame::loading_file_feedback( const CString & file_name )
 */
 bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & file_name )
 {
-	memory_pointer mem = m_model->create_memory() ;
+	memory_pointer mem ;
 	bool make_dirty = false ;
 
 	// merge or add?
@@ -3935,6 +3939,7 @@ bool MemoryWindowFrame::load_felix_memory( bool check_empty, const CString & fil
 		logging::log_error("Failed to load memory") ;
 		if (should_merge == MERGE_CHOICE_SEPARATE)
 		{
+			mem->set_listener(nullptr);
 			m_model->remove_memory_by_id( mem->get_id() ) ;
 		}
 		throw ;
@@ -4870,6 +4875,9 @@ void MemoryWindowFrame::save_memory_as( memory_pointer mem )
 	mem->set_location(save_as_file_name);
 
 	save_memory( mem ) ;
+
+	m_props->m_history_props.m_memory_location = 
+		static_cast<LPCWSTR>(save_as_file_name);
 
 	if (0 != old_location.CompareNoCase(save_as_file_name))
 	{
